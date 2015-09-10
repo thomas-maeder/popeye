@@ -200,6 +200,7 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/exclusive.h"
 #include "output/plaintext/twinning.h"
+#include "output/latex/latex.h"
 #include "output/latex/diagram.h"
 #include "output/latex/twinning.h"
 #include "output/latex/line/line_writer.h"
@@ -342,6 +343,7 @@ void dispatch(slice_index si)
       twin_id_adjuster_solve(si);
       break;
 
+    case STStartOfCurrentProblem:
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
     case STStartOfWriterBuilders:
@@ -397,8 +399,8 @@ void dispatch(slice_index si)
       output_latex_diagram_writer_builder_solve(si);
       break;
 
-    case STStartOfSolvingMachinery:
-      start_of_solving_machinery_solve(si);
+    case STStartOfCurrentTwin:
+      slices_deallocator_solve(si);
       break;
 
     case STDuplexSolver:
@@ -1577,7 +1579,7 @@ void dispatch(slice_index si)
       break;
 
     case STOutputPlainTextEndOfPositionWriters:
-      output_plaintext_end_of_position_writer_writers_solve(si);
+      output_plaintext_end_of_position_writers_solve(si);
       break;
 
     case STOutputEndOfIntro:

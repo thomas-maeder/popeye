@@ -38,4 +38,10 @@ void output_latex_instrument_solving(slice_index si);
  */
 void output_latex_instrument_setup(slice_index si);
 
+
+/* Instrument the solving machinery with slices that write the solution in
+ * LaTeX
+ */
+void output_latex_diagram_writer_builder_solve(slice_index si);
+
 #endif

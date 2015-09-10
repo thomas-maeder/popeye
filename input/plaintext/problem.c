@@ -72,7 +72,11 @@ char *input_plaintext_problem_handle(char *tok)
 
   ply_reset();
 
-  tok = input_plaintext_twins_handle(tok);
+  {
+    slice_index const start_of_current_problem = alloc_pipe(STStartOfCurrentProblem);
+    tok = input_plaintext_twins_handle(tok,start_of_current_problem);
+    dealloc_slices(start_of_current_problem);
+  }
 
   assert_no_leaked_slices();
 

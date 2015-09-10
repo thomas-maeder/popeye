@@ -21,9 +21,10 @@
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
-  ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                       \
+  ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                        \
   ENUMERATOR(STTwinIdAdjuster),                                         \
-  ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STStartOfCurrentProblem),                                  \
+  ENUMERATOR(STStartOfCurrentTwin),                                     \
   ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \
   ENUMERATOR(STCreateBuilderSetupPly),                                  \

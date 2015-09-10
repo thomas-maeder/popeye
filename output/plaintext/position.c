@@ -833,7 +833,7 @@ void output_plaintext_write_atob_intra(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_end_of_position_writer_writers_solve(slice_index si)
+void output_plaintext_end_of_position_writers_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1117,7 +1117,7 @@ void output_plaintext_option_noboard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  while (SLICE_TYPE(SLICE_NEXT1(si))!=STStartOfSolvingMachinery)
+  while (SLICE_TYPE(SLICE_NEXT1(si))!=STStartOfCurrentTwin)
     pipe_remove(SLICE_NEXT1(si));
 
   pipe_solve_delegate(si);

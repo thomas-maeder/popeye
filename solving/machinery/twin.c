@@ -1781,7 +1781,7 @@ slice_index input_find_stipulation(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STStartOfCurrentTwin,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,STStipulationCopier,&get_stipulation_root);
   stip_traverse_structure(si,&st);
 

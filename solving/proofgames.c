@@ -408,7 +408,7 @@ boolean input_is_instrumented_with_proof(slice_index start)
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,STProofSolverBuilder,&report_instrumented);
   stip_structure_traversal_override_single(&st,STAToBSolverBuilder,&report_instrumented);
-  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STStartOfCurrentTwin,&stip_structure_visitor_noop);
   stip_traverse_structure(start,&st);
 
   TraceFunctionExit(__func__);

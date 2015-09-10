@@ -909,7 +909,7 @@ void solving_machinery_intro_builder_solve(slice_index si)
 
 void stipulation_copier_solve(slice_index si)
 {
-  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+  slice_index const start_of_machinery = branch_find_slice(STStartOfCurrentTwin,
                                                            si,
                                                            stip_traversal_context_intro);
   slice_index const stipulation_prototype = SLICE_NEXT2(si);
@@ -930,7 +930,7 @@ void stipulation_copier_solve(slice_index si)
 
 void build_atob_solving_machinery(slice_index si)
 {
-  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+  slice_index const start_of_machinery = branch_find_slice(STStartOfCurrentTwin,
                                                            si,
                                                            stip_traversal_context_intro);
 
@@ -951,7 +951,7 @@ void build_atob_solving_machinery(slice_index si)
 
 void build_proof_solving_machinery(slice_index si)
 {
-  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+  slice_index const start_of_machinery = branch_find_slice(STStartOfCurrentTwin,
                                                            si,
                                                            stip_traversal_context_intro);
 
@@ -970,7 +970,7 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void start_of_solving_machinery_solve(slice_index si)
+void slices_deallocator_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1151,48 +1151,43 @@ static void write_problem_footer(void)
   protocol_fflush(stdout);
 }
 
-char *input_plaintext_twins_handle(char *tok)
+char *input_plaintext_twins_handle(char *tok, slice_index start)
 {
-  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
-  slice_index const completer = alloc_pipe(STStipulationCompleter);
-  slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
-  slice_index const start_of_stip_specific = alloc_pipe(STStartOfStipulationSpecific);
-  slice_index const end_of_stip_specific = alloc_pipe(STEndOfStipulationSpecific);
-  slice_index const intro_builder = alloc_pipe(STSolvingMachineryIntroBuilder);
-  slice_index const start_of_writer_builders = alloc_pipe(STStartOfWriterBuilders);
-  slice_index const writer_builder = alloc_pipe(STOutputPlainTextPositionWriterBuilder);
-  slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  pipe_link(adjuster,completer);
-  pipe_link(completer,end_writer);
-  pipe_link(end_writer,start_of_stip_specific);
-  pipe_link(start_of_stip_specific,end_of_stip_specific);
-  pipe_link(end_of_stip_specific,intro_builder);
-  pipe_link(intro_builder,start_of_writer_builders);
-  pipe_link(start_of_writer_builders,writer_builder);
-  pipe_link(writer_builder,start_of_machinery);
+  pipe_link(start,alloc_pipe(STStartOfCurrentTwin));
 
+  {
+    slice_index const prototypes[] = {
+      alloc_pipe(STTwinIdAdjuster),
+      alloc_pipe(STStipulationCompleter),
 #if defined(DOMEASURE)
-  pipe_append(completer,alloc_pipe(STCountersWriter));
+      alloc_pipe(STCountersWriter),
 #endif
+      alloc_pipe(STOutputPlainTextEndOfTwinWriter),
+      alloc_pipe(STStartOfStipulationSpecific),
+      alloc_pipe(STEndOfStipulationSpecific),
+      alloc_pipe(STSolvingMachineryIntroBuilder),
+      alloc_pipe(STStartOfWriterBuilders),
+      alloc_pipe(STOutputPlainTextPositionWriterBuilder)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(start,prototypes,nr_prototypes);
+  }
 
-  tok = ReadInitialTwin(tok,adjuster);
+  tok = ReadInitialTwin(tok,start);
 
-  if (branch_find_slice(STStipulationCopier,adjuster,stip_traversal_context_intro)==no_slice)
+  if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
   {
     StartTimer();
     initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,adjuster);
+    tok = input_plaintext_twins_iterate(tok,start);
     write_problem_footer();
   }
-
-  dealloc_slices(adjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

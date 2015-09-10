@@ -38,7 +38,7 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-char *input_plaintext_twins_handle(char *tok);
+char *input_plaintext_twins_handle(char *tok, slice_index start);
 
 void stipulation_copier_solve(slice_index si);
 void build_proof_solving_machinery(slice_index si);
@@ -50,6 +50,6 @@ void stipulation_completer_solve(slice_index si);
 
 void twin_id_adjuster_solve(slice_index si);
 
-void start_of_solving_machinery_solve(slice_index si);
+void slices_deallocator_solve(slice_index si);
 
 #endif
