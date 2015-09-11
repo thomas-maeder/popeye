@@ -313,6 +313,7 @@
 #include "solving/pipe.h"
 #include "solving/machinery/solve.h"
 #include "solving/machinery/solvers.h"
+#include "solving/zeroposition.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -1668,8 +1669,12 @@ void dispatch(slice_index si)
       output_plaintext_end_of_position_writers_solve(si);
       break;
 
-    case STOutputEndOfIntro:
-      output_end_of_intro(si);
+    case STZeroPositionInitialiser:
+      zeroposition_initialiser_solve(si);
+      break;
+
+    case STZeropositionSolvingStopper:
+      zeroposition_solving_stopper_solve(si);
       break;
 
     case STIllegalSelfcheckWriter:

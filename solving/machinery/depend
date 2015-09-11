@@ -1138,9 +1138,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/kiss.h solving/goals/notcheck.h solving/goals/proofgame.h \
  solving/goals/steingewinn.h solving/goals/target.h \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
- solving/pipe.h solving/machinery/solvers.h debugging/measure.h \
- output/plaintext/protocol.h debugging/assert.h platform/platform.h \
- platform/maxmem.h platform/timer.h
+ solving/pipe.h solving/machinery/solvers.h solving/zeroposition.h \
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h \
+ platform/platform.h platform/maxmem.h platform/timer.h
 
 solving/machinery/dispatch.h:
 
@@ -1837,6 +1837,8 @@ solving/goals/reached_tester.h:
 solving/pipe.h:
 
 solving/machinery/solvers.h:
+
+solving/zeroposition.h:
 
 debugging/measure.h:
 

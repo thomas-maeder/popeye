@@ -34,6 +34,7 @@
 #include "solving/pipe.h"
 #include "solving/duplex.h"
 #include "solving/proofgames.h"
+#include "solving/zeroposition.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -1109,6 +1110,8 @@ void input_plaintext_twins_handle(slice_index si)
 
   if (endToken==ZeroPosition)
   {
+    problem_instrument_zeroposition(si);
+
     twin_stage = twin_zeroposition;
     pipe_solve_delegate(si);
 

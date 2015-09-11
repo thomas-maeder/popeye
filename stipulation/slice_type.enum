@@ -30,6 +30,8 @@
   ENUMERATOR(STPlatformInitialiser),                                    \
   ENUMERATOR(STHashTableDimensioner),                                   \
   ENUMERATOR(STTimerStarter),                                           \
+  ENUMERATOR(STZeroPositionInitialiser),                                \
+  ENUMERATOR(STZeropositionSolvingStopper),                             \
   ENUMERATOR(STCheckDirInitialiser),                                    \
   ENUMERATOR(STOutputLaTeXCloser),                                      \
   ENUMERATOR(STOutputPlainTextVersionInfoPrinter),                      \
@@ -548,7 +550,6 @@
     ENUMERATOR(STOutputPlainTextQuodlibetWriter),                       \
     ENUMERATOR(STOutputPlainTextGridWriter),                            \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
-    ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STOutputPlainTextEndOfPhaseWriter), /* write the end of a phase */      \

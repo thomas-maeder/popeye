@@ -335,7 +335,7 @@ static slice_type const end_of_branch_slice_types[] =
 
 static slice_type const writer_slice_types[] =
 {
-    STOutputEndOfIntro,
+    STZeropositionSolvingStopper,
     STOutputPlaintextTwinIntroWriter,
     STOutputLaTeXTwinningWriter,
     STIllegalSelfcheckWriter,
