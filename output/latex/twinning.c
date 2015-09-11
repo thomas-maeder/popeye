@@ -418,9 +418,10 @@ void output_latex_write_twinning(slice_index si)
     case twin_regular:
     case twin_last:
       if (twin_duplex_type!=twin_is_duplex)
+      {
         WriteTwinning();
-      if (twin_duplex_type!=twin_is_duplex)
         WriteTwinLetterToSolution(file);
+      }
       pipe_solve_delegate(si);
       break;
 
