@@ -5,10 +5,6 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
-#include "options/maxsolutions/maxsolutions.h"
-#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "pieces/walks/hunters.h"
-#include "position/underworld.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
@@ -75,6 +71,11 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
+        alloc_pipe(STUnderworldResetter),
+        alloc_pipe(STHuntersResetter),
+        alloc_pipe(STStopOnShortSolutionsResetter),
+        alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
+        alloc_pipe(STMaxSolutionsResetter),
         alloc_pipe(STInputPlainTextTwinsHandler)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -85,12 +86,6 @@ void input_plaintext_problem_handle(slice_index si)
     dealloc_slices(SLICE_NEXT1(si));
     SLICE_NEXT1(si) = no_slice;
   }
-
-  reset_max_solutions();
-  reset_was_max_nr_solutions_per_target_position_reached();
-  reset_short_solution_found_in_problem();
-  hunters_reset();
-  underworld_reset();
 
   undo_move_effects();
   finply();

@@ -35,10 +35,13 @@ void reset_nr_solutions_per_target_position(void)
 /* Reset status whether solving the current problem was affected because the limit
  * on the number of solutions per target position was reached.
  */
-void reset_was_max_nr_solutions_per_target_position_reached(void)
+void intelligent_nr_solutions_per_target_position_restter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
 
   was_solving_affected = false;;
 

@@ -18,7 +18,7 @@ void short_solution_found(void);
 /* Reset the internal state to "no short solution found" in the
  * current problem
  */
-void reset_short_solution_found_in_problem(void);
+void stoponshortsolutions_resetter_solve(slice_index si);
 
 /* Has a short solution been found in the current problem?
  */

@@ -1,4 +1,5 @@
 #include "position/underworld.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -38,8 +39,9 @@ underworld_index_type underworld_find_last(square pos)
   return result;
 }
 
-void underworld_reset(void)
+void underworld_resetter_solve(slice_index si)
 {
+  pipe_solve_delegate(si);
   nr_ghosts = 0;
 }
 

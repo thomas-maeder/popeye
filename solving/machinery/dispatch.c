@@ -173,8 +173,10 @@
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
 #include "options/maxflightsquares.h"
+#include "options/maxsolutions/maxsolutions.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
 #include "input/commandline.h"
@@ -220,6 +222,7 @@
 #include "output/latex/tree/threat_writer.h"
 #include "output/latex/tree/try_writer.h"
 #include "output/latex/tree/zugzwang_writer.h"
+#include "position/underworld.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
@@ -234,6 +237,7 @@
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/hunters.h"
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
 #include "solving/machinery/slack_length.h"
@@ -1416,12 +1420,20 @@ void dispatch(slice_index si)
       maxtime_guard_solve(si);
       break;
 
+    case STMaxSolutionsResetter:
+      maxsolutions_resetter_solve(si);
+      break;
+
     case STMaxSolutionsCounter:
       maxsolutions_counter_solve(si);
       break;
 
     case STMaxSolutionsGuard:
       maxsolutions_guard_solve(si);
+      break;
+
+    case STStopOnShortSolutionsResetter:
+      stoponshortsolutions_resetter_solve(si);
       break;
 
     case STStopOnShortSolutionsFilter:
@@ -1507,6 +1519,10 @@ void dispatch(slice_index si)
 
     case STIntelligentSolutionsPerTargetPosCounter:
       intelligent_nr_solutions_per_target_position_counter_solve(si);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosResetter:
+      intelligent_nr_solutions_per_target_position_restter_solve(si);
       break;
 
     case STSetplayFork:
@@ -2289,6 +2305,14 @@ void dispatch(slice_index si)
 
     case STSquareObservationPostMoveIterator:
       square_observation_post_move_iterator_solve(si);
+      break;
+
+    case STHuntersResetter:
+      hunters_resetter_solve(si);
+      break;
+
+    case STUnderworldResetter:
+      underworld_resetter_solve(si);
       break;
 
     default:

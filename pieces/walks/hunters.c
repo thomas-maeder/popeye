@@ -18,8 +18,9 @@ typedef boolean (*direction_validator_type)(numecoup n);
 static direction_validator_type direction_validator[maxply+1];
 
 /* reset the hunters module for solving a new problem */
-void hunters_reset(void)
+void hunters_resetter_solve(slice_index si)
 {
+  pipe_solve_delegate(si);
   nrhuntertypes = 0;
 }
 

@@ -15,7 +15,7 @@ typedef struct
 extern HunterType huntertypes[max_nr_hunter_walks];
 
 /* reset the hunters module for solving a new problem */
-void hunters_reset(void);
+void hunters_resetter_solve(slice_index si);
 
 piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home);
 

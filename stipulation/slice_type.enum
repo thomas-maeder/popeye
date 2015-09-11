@@ -223,6 +223,7 @@
     ENUMERATOR(STIntelligentTargetCounter), /* count target positions */ \
     ENUMERATOR(STMaxTimeSetter), /* start maxtime timer */              \
     ENUMERATOR(STMaxTimeGuard), /* makes sure maxtime is kept*/         \
+    ENUMERATOR(STMaxSolutionsResetter),                                 \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsCounter), /* count solutions for option maxsolutions */  \
@@ -286,6 +287,7 @@
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProof), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProofFairy), /* goal still reachable in intelligent mode? */ \
+    ENUMERATOR(STIntelligentSolutionsPerTargetPosResetter),              \
     ENUMERATOR(STIntelligentSolutionsPerTargetPosCounter), /* count solutions per target position */ \
     ENUMERATOR(STIntelligentLimitNrSolutionsPerTargetPos), /* limit number of solutions per target position */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
@@ -299,6 +301,7 @@
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthStart), /* where should STMaxThreatLength start looking for threats */ \
+    ENUMERATOR(STStopOnShortSolutionsResetter),                         \
     ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
     ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
@@ -614,6 +617,8 @@
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
     ENUMERATOR(STEnforceObserverWalk),                                  \
+    ENUMERATOR(STUnderworldResetter),                                   \
+    ENUMERATOR(STHuntersResetter),                                      \
     ENUMERATOR(STEnforceHunterDirection),                               \
     ENUMERATOR(STBrunnerValidateCheck),                                 \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \

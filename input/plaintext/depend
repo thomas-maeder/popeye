@@ -1529,11 +1529,8 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- options/maxsolutions/maxsolutions.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
- pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- position/underworld.h solving/move_generator.h solving/pipe.h \
- stipulation/pipe.h stipulation/branch.h debugging/assert.h
+ solving/move_generator.h solving/pipe.h stipulation/pipe.h \
+ stipulation/branch.h debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1646,18 +1643,6 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/sentinelles.h:
-
-options/maxsolutions/maxsolutions.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-pieces/walks/hunters.h:
-
-solving/observation.h:
-
-solving/temporary_hacks.h:
-
-position/underworld.h:
 
 solving/move_generator.h:
 

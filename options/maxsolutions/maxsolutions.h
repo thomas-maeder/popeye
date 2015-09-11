@@ -10,7 +10,7 @@
 
 /* Reset the value of the maxsolutions option
  */
-void reset_max_solutions(void);
+void maxsolutions_resetter_solve(slice_index si);
 
 /* Read the value of the maxsolutions option
  * @return true iff the value could be successfully read

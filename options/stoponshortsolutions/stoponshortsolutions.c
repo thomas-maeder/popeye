@@ -26,10 +26,13 @@ void short_solution_found(void)
 
 /* Reset the internal state to "no short solution found"
  */
-void reset_short_solution_found_in_problem(void)
+void stoponshortsolutions_resetter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
 
   short_solution_found_in_problem = false;
   short_solution_found_in_phase = false;

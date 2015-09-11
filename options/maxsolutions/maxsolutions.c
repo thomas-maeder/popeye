@@ -25,10 +25,12 @@ static boolean allowed_nr_solutions_reached;
 
 /* Reset the value of the maxsolutions option
  */
-void reset_max_solutions(void)
+void maxsolutions_resetter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
 
   max_nr_solutions_per_phase = UINT_MAX;
   allowed_nr_solutions_reached = false;

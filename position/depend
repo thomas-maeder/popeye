@@ -80,7 +80,7 @@ position/underworld$(OBJ_SUFFIX): position/underworld.c position/underworld.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 position/underworld.h:
 
@@ -121,6 +121,8 @@ position/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 position/move_diff_code$(OBJ_SUFFIX): position/move_diff_code.c \
