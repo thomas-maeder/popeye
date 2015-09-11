@@ -37,7 +37,6 @@
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
-#include "platform/timer.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -568,7 +567,7 @@ static char *ReadLaTeXToken(void)
     return ReadNextTokStr();
 }
 
-static char *ReadInitialTwin(slice_index start)
+static void ReadInitialTwin(slice_index start)
 {
   char *tok;
   InitialTwinToken result;
@@ -703,9 +702,7 @@ static char *ReadInitialTwin(slice_index start)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return tok;
 }
 
 static char *ReadSubsequentTwin(char *tok, slice_index start)
@@ -1073,23 +1070,42 @@ static char *twins_handle(char *tok, slice_index start)
   return tok;
 }
 
+static void write_problem_footer(void)
+{
+  if (max_solutions_reached()
+      || was_max_nr_solutions_per_target_position_reached()
+      || has_short_solution_been_found_in_problem()
+      || hasMaxtimeElapsed())
+    output_plaintext_message(InterMessage);
+  else
+    output_plaintext_message(FinishProblem);
+
+  output_plaintext_print_time(" ","");
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
+  protocol_fflush(stdout);
+}
+
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-static char *input_plaintext_twins_iterate(char *tok, slice_index si)
+void input_plaintext_twins_handle(slice_index si)
 {
+  char *tok;
   EndTwinToken endToken;
   slice_index const stipulation_root_hook = input_find_stipulation(si);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  initialise_piece_ids();
 
   nextply(no_side);
   assert(nbply==ply_twinning);
 
-  endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
+  endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,TokenLine);
 
   if (endToken==ZeroPosition)
   {
@@ -1128,68 +1144,24 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index si)
   undo_move_effects();
   finply();
 
+  write_problem_footer();
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return tok;
 }
 
-static void write_problem_footer(void)
+void input_plaintext_initial_twin_reader_solve(slice_index si)
 {
-  if (max_solutions_reached()
-      || was_max_nr_solutions_per_target_position_reached()
-      || has_short_solution_been_found_in_problem()
-      || hasMaxtimeElapsed())
-    output_plaintext_message(InterMessage);
-  else
-    output_plaintext_message(FinishProblem);
-
-  output_plaintext_print_time(" ","");
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  protocol_fflush(stdout);
-}
-
-void input_plaintext_twins_handle(slice_index si)
-{
-  char *tok;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prototypes[] = {
-      alloc_pipe(STTwinIdAdjuster),
-      alloc_pipe(STStipulationCompleter),
-#if defined(DOMEASURE)
-      alloc_pipe(STCountersWriter),
-#endif
-      alloc_pipe(STOutputPlainTextEndOfTwinWriter),
-      alloc_pipe(STStartOfStipulationSpecific),
-      alloc_pipe(STEndOfStipulationSpecific),
-      alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
-      alloc_pipe(STSolvingMachineryIntroBuilder),
-      alloc_pipe(STStartOfWriterBuilders),
-      alloc_pipe(STOutputPlainTextPositionWriterBuilder),
-      alloc_pipe(STStartOfCurrentTwin)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
-  tok = ReadInitialTwin(si);
+  ReadInitialTwin(si);
 
   if (branch_find_slice(STStipulationCopier,si,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
-  {
-    StartTimer();
-    initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,si);
-    write_problem_footer();
-  }
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

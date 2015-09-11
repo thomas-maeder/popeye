@@ -75,7 +75,22 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STStopOnShortSolutionsResetter),
         alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
         alloc_pipe(STMaxSolutionsResetter),
-        alloc_pipe(STInputPlainTextTwinsHandler)
+        alloc_pipe(STInputPlainTextInitialTwinReader),
+        alloc_pipe(STTimerStarter),
+        alloc_pipe(STInputPlainTextTwinsHandler),
+        alloc_pipe(STTwinIdAdjuster),
+        alloc_pipe(STStipulationCompleter),
+  #if defined(DOMEASURE)
+        alloc_pipe(STCountersWriter),
+  #endif
+        alloc_pipe(STOutputPlainTextEndOfTwinWriter),
+        alloc_pipe(STStartOfStipulationSpecific),
+        alloc_pipe(STEndOfStipulationSpecific),
+        alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
+        alloc_pipe(STSolvingMachineryIntroBuilder),
+        alloc_pipe(STStartOfWriterBuilders),
+        alloc_pipe(STOutputPlainTextPositionWriterBuilder),
+        alloc_pipe(STStartOfCurrentTwin)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

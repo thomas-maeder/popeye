@@ -37,6 +37,8 @@ typedef enum
  */
 void input_plaintext_twins_handle(slice_index start);
 
+void input_plaintext_initial_twin_reader_solve(slice_index si);
+
 void stipulation_copier_solve(slice_index si);
 void build_proof_solving_machinery(slice_index si);
 void build_atob_solving_machinery(slice_index si);

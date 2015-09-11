@@ -589,6 +589,8 @@ static slice_index const slice_rank_order[] =
   STStopOnShortSolutionsResetter,
   STIntelligentSolutionsPerTargetPosResetter,
   STMaxSolutionsResetter,
+  STInputPlainTextInitialTwinReader,
+  STTimerStarter,
   STInputPlainTextTwinsHandler,
   STTwinIdAdjuster,
   STStipulationCompleter,
