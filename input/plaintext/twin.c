@@ -1150,11 +1150,15 @@ static void write_problem_footer(void)
   protocol_fflush(stdout);
 }
 
-char *input_plaintext_twins_handle(char *tok, slice_index si)
+void input_plaintext_twins_handle(slice_index si)
 {
+  char *tok;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
+
+  tok = ReadNextTokStr();
 
   {
     slice_index const prototypes[] = {
@@ -1188,7 +1192,5 @@ char *input_plaintext_twins_handle(char *tok, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return tok;
 }

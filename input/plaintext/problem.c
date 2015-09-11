@@ -59,15 +59,11 @@ static void InitBoard(void)
  */
 void input_plaintext_problem_handle(slice_index si)
 {
-  char *tok;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
   assert(nbply==ply_diagram_setup);
-
-  tok = ReadNextTokStr();
 
   InitMetaData();
   InitBoard();
@@ -84,7 +80,7 @@ void input_plaintext_problem_handle(slice_index si)
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
 
-    tok = input_plaintext_twins_handle(tok,si);
+    input_plaintext_twins_handle(si);
 
     dealloc_slices(SLICE_NEXT1(si));
     SLICE_NEXT1(si) = no_slice;

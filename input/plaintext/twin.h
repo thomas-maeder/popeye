@@ -36,9 +36,8 @@ typedef enum
 char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
 
 /* Iterate over the twins of a problem
- * @return token that ended the last twin
  */
-char *input_plaintext_twins_handle(char *tok, slice_index start);
+void input_plaintext_twins_handle(slice_index start);
 
 void stipulation_copier_solve(slice_index si);
 void build_proof_solving_machinery(slice_index si);
