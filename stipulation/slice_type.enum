@@ -24,7 +24,7 @@
   ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                        \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STInputPlainTextProblemsIterator),                         \
-  ENUMERATOR(STStartOfCurrentProblem),                                  \
+  ENUMERATOR(STInputPlainTextProblemHandler),                           \
   ENUMERATOR(STStartOfCurrentTwin),                                     \
   ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \

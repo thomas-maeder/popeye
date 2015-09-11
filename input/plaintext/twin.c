@@ -1029,7 +1029,7 @@ static char *twins_handle(char *tok, slice_index start)
   twin_number = twin_a;
   twin_is_continued = false;
 
-  solve(start);
+  pipe_solve_delegate(start);
 
   while (tok)
   {
@@ -1044,14 +1044,14 @@ static char *twins_handle(char *tok, slice_index start)
       else if (endToken==EndTwinTokenCount)
       {
         twin_stage = twin_last;
-        solve(start);
+        pipe_solve_delegate(start);
 
         break;
       }
       else if (endToken==TwinProblem)
       {
         twin_stage = twin_regular;
-        solve(start);
+        pipe_solve_delegate(start);
       }
       else
       {
@@ -1075,14 +1075,14 @@ static char *twins_handle(char *tok, slice_index start)
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-static char *input_plaintext_twins_iterate(char *tok, slice_index start)
+static char *input_plaintext_twins_iterate(char *tok, slice_index si)
 {
   EndTwinToken endToken;
-  slice_index const stipulation_root_hook = input_find_stipulation(start);
+  slice_index const stipulation_root_hook = input_find_stipulation(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
@@ -1093,10 +1093,10 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index start)
   if (endToken==ZeroPosition)
   {
     twin_stage = twin_zeroposition;
-    solve(start);
+    pipe_solve_delegate(si);
 
     tok = ReadNextTokStr();
-    tok = ReadSubsequentTwin(tok,start);
+    tok = ReadSubsequentTwin(tok,si);
 
     endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
@@ -1108,20 +1108,20 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index start)
     {
       twin_stage = twin_regular;
       tok = ReadNextTokStr();
-      tok = twins_handle(tok,start);
+      tok = twins_handle(tok,si);
     }
   }
   else if (endToken==TwinProblem)
   {
     twin_stage = twin_initial;
     tok = ReadNextTokStr();
-    tok = twins_handle(tok,start);
+    tok = twins_handle(tok,si);
   }
   else
   {
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;
-    solve(start);
+    pipe_solve_delegate(si);
   }
 
   undo_move_effects();
@@ -1150,7 +1150,7 @@ static void write_problem_footer(void)
   protocol_fflush(stdout);
 }
 
-char *input_plaintext_twins_handle(char *tok, slice_index start)
+char *input_plaintext_twins_handle(char *tok, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -1172,18 +1172,18 @@ char *input_plaintext_twins_handle(char *tok, slice_index start)
       alloc_pipe(STStartOfCurrentTwin)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(start,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
-  tok = ReadInitialTwin(tok,start);
+  tok = ReadInitialTwin(tok,si);
 
-  if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
+  if (branch_find_slice(STStipulationCopier,si,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
   {
     StartTimer();
     initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,start);
+    tok = input_plaintext_twins_iterate(tok,si);
     write_problem_footer();
   }
 

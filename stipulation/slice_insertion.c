@@ -572,7 +572,7 @@ static slice_index const slice_rank_order[] =
 {
   STProxy,
   STInputPlainTextProblemsIterator,
-  STStartOfCurrentProblem,
+  STInputPlainTextProblemHandler,
   STTwinIdAdjuster,
   STStipulationCompleter,
   STCountersWriter,

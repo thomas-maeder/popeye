@@ -57,7 +57,7 @@ static void InitBoard(void)
 
 /* Handle (read, solve, write) the current problem
  */
-void input_plaintext_problem_handle(slice_index start)
+void input_plaintext_problem_handle(slice_index si)
 {
   char *tok;
 
@@ -79,21 +79,15 @@ void input_plaintext_problem_handle(slice_index start)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STStartOfCurrentProblem),
-        alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
+        alloc_pipe(STOutputLaTeXDiagramWriterBuilder)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(start,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
 
-    tok = input_plaintext_twins_handle(tok,start);
+    tok = input_plaintext_twins_handle(tok,si);
 
-    {
-      slice_index const start_of_current_problem = branch_find_slice(STStartOfCurrentProblem,
-                                                                     start,
-                                                                     stip_traversal_context_intro);
-      dealloc_slices(start_of_current_problem);
-      SLICE_NEXT1(SLICE_PREV(start_of_current_problem)) = no_slice;
-    }
+    dealloc_slices(SLICE_NEXT1(si));
+    SLICE_NEXT1(si) = no_slice;
   }
 
   reset_max_solutions();

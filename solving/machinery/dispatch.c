@@ -176,6 +176,7 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
+#include "input/plaintext/plaintext.h"
 #include "input/plaintext/twin.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
@@ -344,12 +345,18 @@ void dispatch(slice_index si)
       break;
 
     case STInputPlainTextProblemsIterator:
-    case STStartOfCurrentProblem:
+      input_plaintext_iterate_problems(si);
+      break;
+
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
     case STStartOfWriterBuilders:
     case STOutputPlainTextStartOfTargetWriter:
       solve(SLICE_NEXT1(si));
+      break;
+
+    case STInputPlainTextProblemHandler:
+      input_plaintext_problem_handle(si);
       break;
 
     case STSolvingMachineryIntroBuilder:
