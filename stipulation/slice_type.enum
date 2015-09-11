@@ -34,6 +34,7 @@
   ENUMERATOR(STInputPlainTextUserLanguageDetector),                     \
   ENUMERATOR(STInputPlainTextProblemsIterator),                         \
   ENUMERATOR(STInputPlainTextProblemHandler),                           \
+  ENUMERATOR(STInputPlainTextTwinsHandler),                             \
   ENUMERATOR(STStartOfCurrentTwin),                                     \
   ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \

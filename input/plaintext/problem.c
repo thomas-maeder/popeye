@@ -2,7 +2,6 @@
 #include "input/plaintext/token.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
-#include "input/plaintext/twin.h"
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
@@ -11,6 +10,7 @@
 #include "pieces/walks/hunters.h"
 #include "position/underworld.h"
 #include "solving/move_generator.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "debugging/assert.h"
@@ -75,12 +75,12 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STOutputLaTeXDiagramWriterBuilder)
+        alloc_pipe(STInputPlainTextTwinsHandler)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
 
-    input_plaintext_twins_handle(si);
+    pipe_solve_delegate(si);
 
     dealloc_slices(SLICE_NEXT1(si));
     SLICE_NEXT1(si) = no_slice;

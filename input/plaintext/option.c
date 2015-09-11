@@ -108,14 +108,17 @@ static void HandleNoCastlingSquare(square sq, void *dummy)
   }
 }
 
-char *ParseOpt(char *tok, slice_index start)
+char *ParseOpt(slice_index start)
 {
+  char *tok;
   Opt indexx;
   unsigned int OptCnt = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
+
+  tok = ReadNextTokStr();
 
   for (indexx = GetUniqIndex(OptCount,OptTab,tok);
        indexx<OptCount;

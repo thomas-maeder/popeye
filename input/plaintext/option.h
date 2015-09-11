@@ -3,7 +3,7 @@
 
 #include "stipulation/stipulation.h"
 
-char *ParseOpt(char *tok, slice_index root_slice_hook);
+char *ParseOpt(slice_index root_slice_hook);
 
 void InitOpt(void);
 

@@ -462,8 +462,10 @@ static char *ParseForsythPieceAndColor(char *tok,
   return tok;
 }
 
-static char *ParseForsyth(char *tok)
+static void ParseForsyth(void)
 {
+  char *tok = ReadNextTokStr();
+
   square sq = square_a8;
 
   while (sq && *tok)
@@ -479,8 +481,6 @@ static char *ParseForsyth(char *tok)
        tok = ParseForsythPieceAndColor(tok+1,2,&sq);
      else
        tok = ParseForsythPieceAndColor(tok,1,&sq);
-
-  return ReadNextTokStr();
 }
 
 static char *ReadRemark(void)
@@ -562,7 +562,7 @@ static char *ReadLaTeXToken(void)
     LaTeXShutdown();
     LaTeXSetup();
 
-    return ParseLaTeXPieces(ReadNextTokStr());
+    return ParseLaTeXPieces();
   }
   else
     return ReadNextTokStr();
@@ -657,8 +657,7 @@ static char *ReadInitialTwin(slice_index start)
         }
 
         case OptToken:
-          tok = ReadNextTokStr();
-          tok = ParseOpt(tok,start);
+          tok = ParseOpt(start);
           break;
 
         case RemToken:
@@ -670,8 +669,7 @@ static char *ReadInitialTwin(slice_index start)
           break;
 
         case LaTeXPieces:
-          tok = ReadNextTokStr();
-          tok = ParseLaTeXPieces(tok);
+          tok = ParseLaTeXPieces();
           break;
 
         case LaTeXToken:
@@ -683,7 +681,6 @@ static char *ReadInitialTwin(slice_index start)
           break;
 
         case Array:
-          tok = ReadNextTokStr();
           {
             int i;
             for (i = 0; i<nr_squares_on_board; i++)
@@ -691,11 +688,12 @@ static char *ReadInitialTwin(slice_index start)
             being_solved.king_square[White] = square_e1;
             being_solved.king_square[Black] = square_e8;
           }
+          tok = ReadNextTokStr();
           break;
 
         case Forsyth:
+          ParseForsyth();
           tok = ReadNextTokStr();
-          tok = ParseForsyth(tok);
           break;
 
         default:
@@ -1171,6 +1169,7 @@ void input_plaintext_twins_handle(slice_index si)
       alloc_pipe(STOutputPlainTextEndOfTwinWriter),
       alloc_pipe(STStartOfStipulationSpecific),
       alloc_pipe(STEndOfStipulationSpecific),
+      alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
       alloc_pipe(STSolvingMachineryIntroBuilder),
       alloc_pipe(STStartOfWriterBuilders),
       alloc_pipe(STOutputPlainTextPositionWriterBuilder),

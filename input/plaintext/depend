@@ -1508,12 +1508,12 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/condition.h \
- input/plaintext/option.h input/plaintext/twin.h \
- output/plaintext/protocol.h output/plaintext/message.h output/message.h \
+ input/plaintext/option.h output/plaintext/protocol.h \
+ output/plaintext/message.h output/message.h \
  output/plaintext/language_dependant.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
  position/castling_rights.h conditions/conditions.h options/options.h \
- conditions/mummer.h solving/machinery/solve.h \
+ input/plaintext/twin.h conditions/mummer.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1532,8 +1532,8 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  options/maxsolutions/maxsolutions.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- position/underworld.h solving/move_generator.h stipulation/pipe.h \
- stipulation/branch.h debugging/assert.h
+ position/underworld.h solving/move_generator.h solving/pipe.h \
+ stipulation/pipe.h stipulation/branch.h debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1569,8 +1569,6 @@ input/plaintext/condition.h:
 
 input/plaintext/option.h:
 
-input/plaintext/twin.h:
-
 output/plaintext/protocol.h:
 
 output/plaintext/message.h:
@@ -1592,6 +1590,8 @@ position/castling_rights.h:
 conditions/conditions.h:
 
 options/options.h:
+
+input/plaintext/twin.h:
 
 conditions/mummer.h:
 
@@ -1660,6 +1660,8 @@ solving/temporary_hacks.h:
 position/underworld.h:
 
 solving/move_generator.h:
+
+solving/pipe.h:
 
 stipulation/pipe.h:
 

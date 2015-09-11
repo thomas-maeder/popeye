@@ -21,7 +21,7 @@ void LaTeXEndDiagram(FILE *file);
 void LaTexOpenSolution(FILE *file);
 void LaTexCloseSolution(FILE *file);
 
-char *ParseLaTeXPieces(char *tok);
+char *ParseLaTeXPieces(void);
 
 void LaTeXStr(FILE *file, char const *line);
 char *LaTeXWalk(piece_walk_type walk);

@@ -66,8 +66,9 @@ char *LaTeXWalk(piece_walk_type walk)
     return LaTeXStdPie[walk];
 }
 
-char *ParseLaTeXPieces(char *tok)
+char *ParseLaTeXPieces(void)
 {
+  char *tok;
   piece_walk_type walk;
   int i;
 
@@ -86,8 +87,9 @@ char *ParseLaTeXPieces(char *tok)
    }
   */
 
+  tok = ReadNextTokStr();
+
   if (strlen(tok) < 3)
-  {
     while (true)
     {
       walk = GetPieNamIndex(tolower(tok[0]), strlen(tok) == 1 ? ' ' : tolower(tok[1]));
@@ -121,7 +123,6 @@ char *ParseLaTeXPieces(char *tok)
 
       tok = ReadNextTokStr();
     }
-  }
 
   return tok;
 }

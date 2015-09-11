@@ -403,6 +403,10 @@ void dispatch(slice_index si)
       input_plaintext_problem_handle(si);
       break;
 
+    case STInputPlainTextTwinsHandler:
+      input_plaintext_twins_handle(si);
+      break;
+
     case STSolvingMachineryIntroBuilder:
       solving_machinery_intro_builder_solve(si);
       break;
