@@ -568,8 +568,9 @@ static char *ReadLaTeXToken(void)
     return ReadNextTokStr();
 }
 
-char *ReadInitialTwin(char *tok, slice_index start)
+static char *ReadInitialTwin(slice_index start)
 {
+  char *tok;
   InitialTwinToken result;
   boolean more_input = true;
 
@@ -577,6 +578,8 @@ char *ReadInitialTwin(char *tok, slice_index start)
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
+
+  tok = ReadNextTokStr();
 
   while (more_input)
   {
@@ -1158,8 +1161,6 @@ void input_plaintext_twins_handle(slice_index si)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  tok = ReadNextTokStr();
-
   {
     slice_index const prototypes[] = {
       alloc_pipe(STTwinIdAdjuster),
@@ -1179,7 +1180,7 @@ void input_plaintext_twins_handle(slice_index si)
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
-  tok = ReadInitialTwin(tok,si);
+  tok = ReadInitialTwin(si);
 
   if (branch_find_slice(STStipulationCopier,si,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);

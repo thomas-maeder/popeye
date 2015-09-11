@@ -33,8 +33,6 @@ typedef enum
   TwinningMirrorCount
 } TwinningMirrorType;
 
-char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
-
 /* Iterate over the twins of a problem
  */
 void input_plaintext_twins_handle(slice_index start);
