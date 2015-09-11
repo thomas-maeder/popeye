@@ -1079,14 +1079,14 @@ solving/proofgames.h:
 
 debugging/assert.h:
 input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
- input/plaintext/condition.h position/board.h utilities/bitmask.h \
- input/plaintext/pieces.h position/position.h position/side.h \
- position/side.enum.h position/color.h position/color.enum.h \
- pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h input/plaintext/geometry/square.h \
- output/output.h output/mode.h output/mode.enum.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
+ input/plaintext/condition.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ input/plaintext/pieces.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
+ input/plaintext/geometry/square.h output/output.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h solving/machinery/solve.h \
@@ -1122,29 +1122,42 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/protean.h conditions/republican.h conditions/sat.h \
  conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- pieces/walks/pawns/en_passant.h solving/castling.h debugging/assert.h
+ pieces/walks/pawns/en_passant.h solving/castling.h solving/pipe.h \
+ debugging/assert.h
 
 input/plaintext/condition.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-input/plaintext/pieces.h:
+utilities/boolean.h:
 
-position/position.h:
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
 
 position/side.h:
 
 position/side.enum.h:
 
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+input/plaintext/pieces.h:
+
+position/position.h:
+
 position/color.h:
 
 position/color.enum.h:
-
-pieces/pieces.h:
-
-utilities/boolean.h:
 
 pieces/walks/vectors.h:
 
@@ -1153,18 +1166,6 @@ position/castling_rights.h:
 input/plaintext/geometry/square.h:
 
 output/output.h:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
 
 output/plaintext/language_dependant.h:
 
@@ -1312,6 +1313,8 @@ pieces/walks/pawns/en_passant.h:
 
 solving/castling.h:
 
+solving/pipe.h:
+
 debugging/assert.h:
 input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  input/plaintext/option.h stipulation/stipulation.h \
@@ -1349,7 +1352,7 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/move_generator.h solving/castling.h \
  solving/battle_play/try.h utilities/table.h solving/duplex.h \
- stipulation/pipe.h stipulation/branch.h platform/beep.h \
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h platform/beep.h \
  platform/maxtime.h
 
 input/plaintext/option.h:
@@ -1494,6 +1497,8 @@ utilities/table.h:
 
 solving/duplex.h:
 
+solving/pipe.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
@@ -1507,8 +1512,7 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h input/plaintext/token.h \
- input/plaintext/language.h input/plaintext/condition.h \
- input/plaintext/option.h output/plaintext/protocol.h \
+ input/plaintext/language.h output/plaintext/protocol.h \
  output/plaintext/message.h output/message.h \
  output/plaintext/language_dependant.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
@@ -1561,10 +1565,6 @@ output/mode.enum.h:
 input/plaintext/token.h:
 
 input/plaintext/language.h:
-
-input/plaintext/condition.h:
-
-input/plaintext/option.h:
 
 output/plaintext/protocol.h:
 

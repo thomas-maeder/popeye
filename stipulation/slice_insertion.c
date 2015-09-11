@@ -582,6 +582,8 @@ static slice_index const slice_rank_order[] =
   STInputPlainTextUserLanguageDetector,
   STInputPlainTextProblemsIterator,
   STInputPlainTextProblemHandler,
+  STConditionsResetter,
+  STOptionsResetter,
   STUnderworldResetter,
   STHuntersResetter,
   STStopOnShortSolutionsResetter,

@@ -19,6 +19,7 @@
 #include "solving/castling.h"
 #include "solving/battle_play/try.h"
 #include "solving/duplex.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "platform/beep.h"
@@ -365,7 +366,7 @@ char *ParseOpt(slice_index start)
   return tok;
 }
 
-void InitOpt(void)
+void options_resetter_solve(slice_index si)
 {
   {
     Side side;
@@ -393,4 +394,6 @@ void InitOpt(void)
     for (i = 0; i<OptCount; i++)
       OptFlag[i] = false;
   }
+
+  pipe_solve_delegate(si);
 }

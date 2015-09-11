@@ -23,6 +23,8 @@
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
   ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                        \
   ENUMERATOR(STTwinIdAdjuster),                                         \
+  ENUMERATOR(STConditionsResetter),                                     \
+  ENUMERATOR(STOptionsResetter),                                        \
   ENUMERATOR(STCommandLineOptionsParser),                               \
   ENUMERATOR(STInputPlainTextOpener),                                   \
   ENUMERATOR(STPlatformInitialiser),                                    \

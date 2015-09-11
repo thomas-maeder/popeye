@@ -46,6 +46,7 @@
 #include "conditions/woozles.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -1848,3 +1849,10 @@ void InitCond(void)
   kobul_who[White] = false;
   kobul_who[Black] = false;
 } /* InitCond */
+
+void conditions_resetter_solve(slice_index si)
+{
+  InitCond();
+  pipe_solve_delegate(si);
+}
+

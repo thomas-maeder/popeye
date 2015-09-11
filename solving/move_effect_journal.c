@@ -2,6 +2,7 @@
 #include "pieces/pieces.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "conditions/bgl.h"
 #include "conditions/duellists.h"

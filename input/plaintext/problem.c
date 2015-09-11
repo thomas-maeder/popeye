@@ -1,7 +1,5 @@
 #include "input/plaintext/problem.h"
 #include "input/plaintext/token.h"
-#include "input/plaintext/condition.h"
-#include "input/plaintext/option.h"
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
@@ -56,6 +54,7 @@ static void InitBoard(void)
 void input_plaintext_problem_handle(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
@@ -63,14 +62,14 @@ void input_plaintext_problem_handle(slice_index si)
 
   InitMetaData();
   InitBoard();
-  InitCond();
-  InitOpt();
 
   ply_reset();
 
   {
     slice_index const prototypes[] =
     {
+        alloc_pipe(STConditionsResetter),
+        alloc_pipe(STOptionsResetter),
         alloc_pipe(STUnderworldResetter),
         alloc_pipe(STHuntersResetter),
         alloc_pipe(STStopOnShortSolutionsResetter),

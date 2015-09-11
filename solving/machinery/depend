@@ -1068,7 +1068,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  options/stoponshortsolutions/initialiser.h input/commandline.h \
  input/plaintext/plaintext.h input/plaintext/problem.h \
  input/plaintext/twin.h input/plaintext/token.h \
- input/plaintext/language.h output/output.h output/plaintext/plaintext.h \
+ input/plaintext/language.h input/plaintext/option.h \
+ input/plaintext/condition.h output/output.h output/plaintext/plaintext.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/illegal_selfcheck_writer.h \
@@ -1582,6 +1583,10 @@ input/plaintext/twin.h:
 input/plaintext/token.h:
 
 input/plaintext/language.h:
+
+input/plaintext/option.h:
+
+input/plaintext/condition.h:
 
 output/output.h:
 

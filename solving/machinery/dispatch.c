@@ -184,6 +184,8 @@
 #include "input/plaintext/problem.h"
 #include "input/plaintext/twin.h"
 #include "input/plaintext/token.h"
+#include "input/plaintext/option.h"
+#include "input/plaintext/condition.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
@@ -354,6 +356,14 @@ void dispatch(slice_index si)
 
     case STTwinIdAdjuster:
       twin_id_adjuster_solve(si);
+      break;
+
+    case STConditionsResetter:
+      conditions_resetter_solve(si);
+      break;
+
+    case STOptionsResetter:
+      options_resetter_solve(si);
       break;
 
     case STCommandLineOptionsParser:
