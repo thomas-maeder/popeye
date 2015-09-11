@@ -1,21 +1,12 @@
 #include "optimisations/hash.h"
 #include "solving/moves_traversal.h"
-#include "optimisations/orthodox_check_directions.h"
-#include "input/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
-#include "platform/platform.h"
-#include "platform/maxtime.h"
-#include "platform/maxmem.h"
-#include "platform/pytime.h"
 #include "platform/priority.h"
+#include "input/commandline.h"
+#include "input/plaintext/token.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /* assert()s below this line must remain active even in "productive"
  * executables. */
@@ -45,89 +36,8 @@ static void checkGlobalAssumptions(void)
   enforce_piecename_uniqueness();
 }
 
-int parseCommandlineOptions(int argc, char *argv[])
-{
-  int idx = 1;
-
-  while (idx<argc)
-  {
-    if (idx+1<argc && strcmp(argv[idx], "-maxpos")==0)
-    {
-      char *end;
-      idx++;
-      hash_max_number_storable_positions = strtoul(argv[idx], &end, 10);
-      if (argv[idx]==end)
-      {
-        /* conversion failure
-         * -> set to 0 now and to default value later */
-        hash_max_number_storable_positions = 0;
-      }
-      idx++;
-      continue;
-    }
-    else if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
-    {
-      char *end;
-      maxtime_type value;
-      idx++;
-      value = strtoul(argv[idx], &end, 10);
-      if (argv[idx]==end)
-        ; /* conversion failure -> assume no max time */
-      else
-        setCommandlineMaxtime(value);
-
-      idx++;
-      continue;
-    }
-    else if (idx+1<argc && strcmp(argv[idx],"-maxmem")==0)
-    {
-      input_plaintext_read_requested_memory(argv[idx+1]);
-      idx += 2;
-      continue;
-    }
-    else if (strcmp(argv[idx], "-regression")==0)
-    {
-      protocol_overwrite();
-      output_plaintext_suppress_variable();
-      idx++;
-      continue;
-    }
-    else if (strcmp(argv[idx], "-maxtrace")==0)
-    {
-#if defined(DOTRACE)
-      trace_level max_trace_level;
-      char *end;
-
-      idx++;
-      if (idx<argc)
-      {
-        max_trace_level = strtoul(argv[idx], &end, 10);
-        if (*end==0)
-          TraceSetMaxLevel(max_trace_level);
-        else
-        {
-          /* conversion failure  - ignore option */
-        }
-      }
-#else
-      /* ignore the value*/
-      idx++;
-#endif
-
-      idx++;
-      continue;
-    }
-    else
-      break;
-  }
-
-  return idx;
-}
-
 int main(int argc, char *argv[])
 {
-  int idx_end_of_options;
-
   checkGlobalAssumptions();
 
   set_nice_priority();
@@ -136,30 +46,32 @@ int main(int argc, char *argv[])
   init_structure_children_visitors();
   init_moves_children_visitors();
 
-  idx_end_of_options = parseCommandlineOptions(argc,argv);
-
-  if (OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : ""))
   {
-    platform_init();
+    slice_index const parser = alloc_command_line_options_parser(argc,argv);
 
-    if (!dimensionHashtable())
-      fputs("Couldn't allocate the requested amount of memory\n",stdout);
+    slice_index const prototypes[] =
+    {
+      alloc_pipe(STPlatformInitialiser),
+      alloc_pipe(STHashTableDimensioner),
+      alloc_pipe(STOutputLaTeXCloser),
+      /* start timer to be able to display a reasonable time if the user
+       * aborts execution before the timer is started for the first
+       * problem */
+      alloc_pipe(STTimerStarter),
+      alloc_pipe(STCheckDirInitialiser),
+      output_plaintext_alloc_version_info_printer(stdout),
+      alloc_pipe(STInputPlainTextUserLanguageDetector),
+      alloc_pipe(STInputPlainTextProblemsIterator)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(parser,prototypes,nr_prototypes);
 
-    /* start timer to be able to display a reasonable time if the user
-     * aborts execution before the timer is started for the first
-     * problem */
-    StartTimer();
+    solve(parser);
 
-    InitCheckDir();
+    dealloc_slices(parser);
 
-    output_plaintext_print_version_info(stdout);
-
-    input_plaintext_start();
-
-    CloseInput();
+    assert_no_leaked_slices();
   }
-
-  LaTeXShutdown();
 
   return 0;
 }

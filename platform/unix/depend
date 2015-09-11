@@ -92,9 +92,37 @@ output/message.h:
 input/plaintext/language.h:
 
 debugging/assert.h:
-platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
+platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/timer.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h
 
-platform/pytime.h:
+platform/timer.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
 platform/unix/priority$(OBJ_SUFFIX): platform/unix/priority.c platform/priority.h
 
 platform/priority.h:

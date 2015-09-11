@@ -1,4 +1,4 @@
-#include "platform/pytime.h"
+#include "platform/timer.h"
 
 /* Various implementations for DOS compilers */
 

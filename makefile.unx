@@ -243,11 +243,9 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     output/plaintext output/plaintext/tree output/plaintext/line \
     utilities debugging
 
-# TODO avoid mentioniong input/plaintext twice
 NESTEDLIBDIRS = \
-    input/plaintext \
     solving/machinery \
-    input/plaintext input/plaintext/geometry \
+    input input/plaintext input/plaintext/geometry \
     conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \

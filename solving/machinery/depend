@@ -1028,7 +1028,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/madrasi.h conditions/marscirce/plus.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/transmuting_kings/vaulting_kings.h optimisations/hash.h \
+ conditions/transmuting_kings/vaulting_kings.h \
+ optimisations/orthodox_check_directions.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
@@ -1063,7 +1064,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  options/movenumbers/restart_guard_intelligent.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/filter.h \
- options/stoponshortsolutions/initialiser.h input/plaintext/plaintext.h \
+ options/stoponshortsolutions/initialiser.h input/commandline.h \
+ input/plaintext/plaintext.h input/plaintext/problem.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h output/output.h output/plaintext/plaintext.h \
  output/plaintext/end_of_phase_writer.h \
@@ -1083,9 +1085,10 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/exclusive.h stipulation/pipe.h \
- output/plaintext/twinning.h output/latex/latex.h output/latex/diagram.h \
- output/latex/twinning.h output/latex/line/line_writer.h \
- output/latex/goal_writer.h output/latex/tree/end_of_solution_writer.h \
+ output/plaintext/message.h output/message.h output/plaintext/twinning.h \
+ output/latex/latex.h output/latex/diagram.h output/latex/twinning.h \
+ output/latex/line/line_writer.h output/latex/goal_writer.h \
+ output/latex/tree/end_of_solution_writer.h \
  output/latex/tree/check_writer.h output/latex/tree/key_writer.h \
  output/latex/tree/move_writer.h output/latex/tree/refutation_writer.h \
  output/latex/tree/refuting_variation_writer.h \
@@ -1134,7 +1137,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/steingewinn.h solving/goals/target.h \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
  solving/pipe.h solving/machinery/solvers.h debugging/measure.h \
- output/plaintext/protocol.h debugging/assert.h
+ output/plaintext/protocol.h debugging/assert.h platform/platform.h \
+ platform/maxmem.h platform/timer.h
 
 solving/machinery/dispatch.h:
 
@@ -1474,6 +1478,8 @@ conditions/transmuting_kings/reflective_kings.h:
 
 conditions/transmuting_kings/vaulting_kings.h:
 
+optimisations/orthodox_check_directions.h:
+
 optimisations/hash.h:
 
 DHT/dhtbcmem.h:
@@ -1560,7 +1566,11 @@ options/stoponshortsolutions/filter.h:
 
 options/stoponshortsolutions/initialiser.h:
 
+input/commandline.h:
+
 input/plaintext/plaintext.h:
+
+input/plaintext/problem.h:
 
 input/plaintext/twin.h:
 
@@ -1613,6 +1623,10 @@ output/plaintext/tree/zugzwang_writer.h:
 output/plaintext/tree/exclusive.h:
 
 stipulation/pipe.h:
+
+output/plaintext/message.h:
+
+output/message.h:
 
 output/plaintext/twinning.h:
 
@@ -1817,6 +1831,12 @@ debugging/measure.h:
 output/plaintext/protocol.h:
 
 debugging/assert.h:
+
+platform/platform.h:
+
+platform/maxmem.h:
+
+platform/timer.h:
 solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  solving/machinery/slack_length.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

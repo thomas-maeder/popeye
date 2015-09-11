@@ -110,6 +110,17 @@ typedef struct
             Goal goal;
             FILE *file;
         } goal_writer;
+
+        struct
+        {
+            char const *name;
+        } input_opener;
+
+        struct
+        {
+            int argc;
+            char **argv;
+        } command_line_options_parser;
     } u;
 } Slice;
 

@@ -35,7 +35,7 @@ void requestMemory(maxmem_kilos_type requested)
  * @return false iff the user requested for an amount of hash table
  *         memory, but we can't allocated that much
  */
-boolean dimensionHashtable(void)
+static boolean dimensionHashtable(void)
 {
   boolean result = true;
 
@@ -51,6 +51,14 @@ boolean dimensionHashtable(void)
   }
 
   return result;
+}
+
+void hashtable_dimensioner_solve(slice_index si)
+{
+  if (dimensionHashtable())
+    pipe_solve_delegate(si);
+  else
+    fputs("Couldn't allocate the requested amount of memory\n",stdout);
 }
 
 /* Retrieve amount of memory actually allocated

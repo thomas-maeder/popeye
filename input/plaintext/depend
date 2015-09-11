@@ -1,22 +1,23 @@
 input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/token.h \
- input/plaintext/language.h utilities/boolean.h output/output.h \
- output/mode.h output/mode.enum.h stipulation/stipulation.h \
+ input/plaintext/language.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h pieces/pieces.h output/plaintext/message.h \
- output/message.h output/plaintext/protocol.h platform/tmpfile.h
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h output/output.h \
+ output/plaintext/message.h output/message.h output/plaintext/protocol.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ platform/tmpfile.h
 
 input/plaintext/token.h:
 
 input/plaintext/language.h:
-
-utilities/boolean.h:
-
-output/output.h:
-
-output/mode.h:
-
-output/mode.enum.h:
 
 stipulation/stipulation.h:
 
@@ -25,6 +26,8 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+utilities/boolean.h:
 
 stipulation/slice_type.h:
 
@@ -36,11 +39,45 @@ position/side.enum.h:
 
 pieces/pieces.h:
 
+output/mode.h:
+
+output/mode.enum.h:
+
+output/output.h:
+
 output/plaintext/message.h:
 
 output/message.h:
 
 output/plaintext/protocol.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/traversal.h:
 
 platform/tmpfile.h:
 input/plaintext/plaintext$(OBJ_SUFFIX): input/plaintext/plaintext.c \
@@ -386,7 +423,7 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
  stipulation/proxy.h solving/goals/prerequisite_guards.h solving/pipe.h \
  solving/duplex.h solving/proofgames.h utilities/table.h \
- platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ platform/maxmem.h platform/maxtime.h platform/timer.h \
  debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
@@ -561,7 +598,7 @@ platform/maxmem.h:
 
 platform/maxtime.h:
 
-platform/pytime.h:
+platform/timer.h:
 
 debugging/measure.h:
 
@@ -1634,10 +1671,36 @@ input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \
 
 input/plaintext/language.h:
 input/plaintext/memory$(OBJ_SUFFIX): input/plaintext/memory.c \
- input/plaintext/memory.h platform/maxmem.h utilities/boolean.h
+ input/plaintext/memory.h platform/maxmem.h utilities/boolean.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h
 
 input/plaintext/memory.h:
 
 platform/maxmem.h:
 
 utilities/boolean.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:

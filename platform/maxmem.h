@@ -2,20 +2,13 @@
 #define MAXMEM_H
 
 #include "utilities/boolean.h"
+#include "stipulation/stipulation.h"
 
 typedef unsigned long maxmem_kilos_type;
 
 extern maxmem_kilos_type const one_mega;
 extern maxmem_kilos_type const one_giga;
 extern maxmem_kilos_type const nothing_requested;
-
-/* Allocate memory for the hash table, based on the -maxmem command
- * line value (if any) and information retrieved from the operating
- * system.
- * @return false iff the user requested for an amount of hash table
- *         memory, but we can't allocated that much
- */
-boolean dimensionHashtable(void);
 
 /* Make a guess for a reasonable amount of memory for the hashtable.
  * Implemented separately for each platform.
@@ -28,6 +21,8 @@ unsigned long guessReasonableMaxmemory(void);
  * @param requested number of kilo-bytes requested
  */
 void requestMemory(maxmem_kilos_type requested);
+
+void hashtable_dimensioner_solve(slice_index si);
 
 /* Retrieve amount of memory actually allocated
  * @return amount

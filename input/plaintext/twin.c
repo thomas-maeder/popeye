@@ -37,7 +37,7 @@
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
-#include "platform/pytime.h"
+#include "platform/timer.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"

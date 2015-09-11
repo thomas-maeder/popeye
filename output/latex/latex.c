@@ -278,6 +278,13 @@ void LaTeXShutdown(void)
   TraceFunctionResultEnd();
 }
 
+void output_latex_closer_solve(slice_index si)
+{
+  pipe_solve_delegate(si);
+
+  LaTeXShutdown();
+}
+
 void LaTexOpenSolution(FILE *file)
 {
   TraceFunctionEntry(__func__);

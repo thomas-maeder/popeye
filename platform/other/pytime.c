@@ -32,7 +32,7 @@
 
 #if 0
 
-#include "platform/pytime.h"
+#include "platform/timer.h"
 
 #if defined(NOVOID)
 #	define	void	int

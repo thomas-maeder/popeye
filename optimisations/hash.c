@@ -115,7 +115,7 @@
 #include "conditions/conditions.h"
 
 #if defined(HASHRATE)
-#include "platform/pytime.h"
+#include "platform/timer.h"
 #endif
 
 unsigned long hash_max_number_storable_positions = ULONG_MAX;

@@ -1,4 +1,4 @@
-#include "platform/pytime.h"
+#include "platform/timer.h"
 #include <time.h>
 
 /* depending on the platform, clock() may wrap very frequently

@@ -1,22 +1,14 @@
 platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
- utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h pieces/pieces.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h
+ utilities/boolean.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/ply.h
 
 platform/maxmem.h:
 
 utilities/boolean.h:
-
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
-
-pieces/pieces.h:
-
-solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -34,9 +26,17 @@ position/side.h:
 
 position/side.enum.h:
 
+pieces/pieces.h:
+
 output/mode.h:
 
 output/mode.enum.h:
+
+optimisations/hash.h:
+
+DHT/dhtbcmem.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -59,6 +59,83 @@ platform/beep.h:
 utilities/boolean.h:
 
 platform/beep_impl.h:
-platform/platform$(OBJ_SUFFIX): platform/platform.c platform/platform.h
+platform/platform$(OBJ_SUFFIX): platform/platform.c platform/platform.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h
 
 platform/platform.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+platform/timer$(OBJ_SUFFIX): platform/timer.c platform/timer.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h
+
+platform/timer.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:

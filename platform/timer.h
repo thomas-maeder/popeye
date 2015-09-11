@@ -1,5 +1,7 @@
-#if !defined(PYTIME_H)
-#define PYTIME_H
+#if !defined(PLATFORM_TIMER_H)
+#define PLATFORM_TIMER_H
+
+#include "stipulation/stipulation.h"
 
 #include <limits.h>
 
@@ -26,5 +28,7 @@ void StartTimer(void);
  *       support timing more accurately than in seconds
  */
 void StopTimer(unsigned long *seconds, unsigned long *msec);
+
+void timer_starter_solve(slice_index si);
 
 #endif /* PYTIME_H */

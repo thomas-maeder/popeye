@@ -2,6 +2,7 @@
 #define INPUT_PLAINTEXT_TOKEN_H
 
 #include "input/plaintext/language.h"
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
 #include <stdio.h>
@@ -15,8 +16,9 @@ extern char InputLine[LINESIZE];    /* This array contains the input as is */
 
 extern char TokenLine[LINESIZE];
 
-boolean OpenInput(char const *s);
-void CloseInput(void);
+void input_plaintext_opener_solve(slice_index si);
+
+slice_index input_plaintext_alloc_opener(char const *name);
 
 char *ReadNextTokStr(void);
 

@@ -2,9 +2,11 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
-#include "platform/pytime.h"
+#include "platform/timer.h"
 #include "platform/maxmem.h"
 #include "platform/platform.h"
+#include "stipulation/pipe.h"
+#include "solving/pipe.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -202,6 +204,19 @@ void output_plaintext_print_version_info(FILE *file)
     fputc('\n',file);
     fflush(file);
   }
+}
+
+void output_plaintext_version_info_printer_solve(slice_index si)
+{
+  output_plaintext_print_version_info(stdout);
+  pipe_solve_delegate(si);
+}
+
+slice_index output_plaintext_alloc_version_info_printer(FILE *file)
+{
+  slice_index const result = alloc_pipe(STOutputPlainTextVersionInfoPrinter);
+  SLICE_U(result).writer.file = file;
+  return result;
 }
 
 /* Issue a message that the program is being aborted

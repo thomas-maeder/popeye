@@ -70,9 +70,7 @@ void input_plaintext_iterate_problems(slice_index si)
   } while (!halt);
 }
 
-/* Start dealing with plaintext input
- */
-void input_plaintext_start(void)
+void input_plaintext_detect_user_language(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -83,17 +81,11 @@ void input_plaintext_start(void)
     output_plaintext_input_error_message(NoBegOfProblem, 0);
   else
   {
-    slice_index const problems_iterator = alloc_pipe(STInputPlainTextProblemsIterator);
-
     output_plaintext_select_language(UserLanguage);
     output_message_initialise_language(UserLanguage);
 
-    solve(problems_iterator);
-
-    dealloc_slices(problems_iterator);
+    pipe_solve_delegate(si);
   }
-
-  assert_no_leaked_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1,4 +1,5 @@
 #include "platform/platform.h"
+#include "solving/pipe.h"
 
 #include <limits.h>
 
@@ -18,4 +19,10 @@ unsigned int platform_guess_bitness(void)
 #elif defined(_WIN32)
   return 32;
 #endif
+}
+
+void platform_initialiser_solve(slice_index si)
+{
+  platform_init();
+  pipe_solve_delegate(si);
 }

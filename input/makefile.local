@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = 
+SRC_CFILES = commandline.c
 
-INCLUDES = 
+INCLUDES = commandline.h
 
 include makefile.rules $(CURRPWD)depend

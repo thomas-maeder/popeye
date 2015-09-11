@@ -3,6 +3,8 @@
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
 #include "utilities/boolean.h"
+#include "solving/pipe.h"
+#include "stipulation/pipe.h"
 #include "platform/tmpfile.h"
 
 #include <ctype.h>
@@ -40,7 +42,7 @@ char InputLine[LINESIZE];    /* This array contains the input as is */
 
 static char LineSpaceChar[] = " \t;.,";
 
-boolean OpenInput(char const *s)
+static boolean OpenInput(char const *s)
 {
   if (strlen(s)==0)
   {
@@ -71,12 +73,30 @@ boolean OpenInput(char const *s)
   return false;
 }
 
-void CloseInput(void)
+static void CloseInput(void)
 {
   fclose(Input);
 
   if (InputMirror!=0 && InputMirror!=Input)
     fclose(InputMirror);
+}
+
+void input_plaintext_opener_solve(slice_index si)
+{
+  char const *name = SLICE_U(si).input_opener.name;
+
+  if (OpenInput(name))
+  {
+    pipe_solve_delegate(si);
+    CloseInput();
+  }
+}
+
+slice_index input_plaintext_alloc_opener(char const *name)
+{
+  slice_index const result = alloc_pipe(STInputPlainTextOpener);
+  SLICE_U(result).input_opener.name = name;
+  return result;
 }
 
 /* advance LastChar to the next input character */

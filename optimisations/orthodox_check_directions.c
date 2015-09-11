@@ -1,5 +1,6 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "position/position.h"
+#include "solving/pipe.h"
 
 #include "debugging/assert.h"
 
@@ -14,7 +15,7 @@ static numvec const * const check_dir_impl[4] = {
 
 numvec const * const * const CheckDir = check_dir_impl-Queen;
 
-void InitCheckDir(void)
+static void InitCheckDir(void)
 {
   vec_index_type i;
   unsigned int j;
@@ -50,4 +51,10 @@ void InitCheckDir(void)
       ortho_opt[Queen-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
       ortho_opt[Bishop-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
     }
+}
+
+void check_dir_initialiser_solve(slice_index si)
+{
+  InitCheckDir();
+  pipe_solve_delegate(si);
 }

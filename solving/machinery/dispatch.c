@@ -134,6 +134,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -176,8 +177,11 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
+#include "input/commandline.h"
 #include "input/plaintext/plaintext.h"
+#include "input/plaintext/problem.h"
 #include "input/plaintext/twin.h"
+#include "input/plaintext/token.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
@@ -200,6 +204,7 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/exclusive.h"
+#include "output/plaintext/message.h"
 #include "output/plaintext/twinning.h"
 #include "output/latex/latex.h"
 #include "output/latex/diagram.h"
@@ -305,6 +310,9 @@
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
+#include "platform/platform.h"
+#include "platform/maxmem.h"
+#include "platform/timer.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -342,6 +350,42 @@ void dispatch(slice_index si)
 
     case STTwinIdAdjuster:
       twin_id_adjuster_solve(si);
+      break;
+
+    case STCommandLineOptionsParser:
+      command_line_options_parser_solve(si);
+      break;
+
+    case STInputPlainTextOpener:
+      input_plaintext_opener_solve(si);
+      break;
+
+    case STPlatformInitialiser:
+      platform_initialiser_solve(si);
+      break;
+
+    case STOutputLaTeXCloser:
+      output_latex_closer_solve(si);
+      break;
+
+    case STHashTableDimensioner:
+      hashtable_dimensioner_solve(si);
+      break;
+
+    case STTimerStarter:
+      timer_starter_solve(si);
+      break;
+
+    case STCheckDirInitialiser:
+      check_dir_initialiser_solve(si);
+      break;
+
+    case STOutputPlainTextVersionInfoPrinter:
+      output_plaintext_version_info_printer_solve(si);
+      break;
+
+    case STInputPlainTextUserLanguageDetector:
+      input_plaintext_detect_user_language(si);
       break;
 
     case STInputPlainTextProblemsIterator:

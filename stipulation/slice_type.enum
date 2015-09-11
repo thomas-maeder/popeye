@@ -23,6 +23,15 @@
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
   ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                        \
   ENUMERATOR(STTwinIdAdjuster),                                         \
+  ENUMERATOR(STCommandLineOptionsParser),                               \
+  ENUMERATOR(STInputPlainTextOpener),                                   \
+  ENUMERATOR(STPlatformInitialiser),                                    \
+  ENUMERATOR(STHashTableDimensioner),                                   \
+  ENUMERATOR(STTimerStarter),                                           \
+  ENUMERATOR(STCheckDirInitialiser),                                    \
+  ENUMERATOR(STOutputLaTeXCloser),                                      \
+  ENUMERATOR(STOutputPlainTextVersionInfoPrinter),                      \
+  ENUMERATOR(STInputPlainTextUserLanguageDetector),                     \
   ENUMERATOR(STInputPlainTextProblemsIterator),                         \
   ENUMERATOR(STInputPlainTextProblemHandler),                           \
   ENUMERATOR(STStartOfCurrentTwin),                                     \
@@ -613,7 +622,7 @@
     ENUMERATOR(STValidatingObservationGeometry),                        \
     ENUMERATOR(STValidatingObservationGeometryByPlayingMove),           \
     ENUMERATOR(STValidateCheckMoveByPlayingCapture),                    \
-    /* debugging slices */                                             \
+    /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \
     ENUMERATOR(nr_slice_types),                                         \

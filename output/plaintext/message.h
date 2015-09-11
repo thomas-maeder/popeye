@@ -2,6 +2,7 @@
 #define OUTPUT_PLAINTEXT_MESSAGE_H
 
 #include "output/message.h"
+#include "stipulation/stipulation.h"
 
 #include <stdio.h>
 
@@ -52,6 +53,10 @@ void output_plaintext_print_time(char const *header, char const *trail);
 /* Print information about the program version, platform, maximum memory ...
  */
 void output_plaintext_print_version_info(FILE *file);
+
+void output_plaintext_version_info_printer_solve(slice_index si);
+
+slice_index output_plaintext_alloc_version_info_printer(FILE *file);
 
 /* Issue a message that the program is being aborted
  * @param signal identifies the aborting signal
