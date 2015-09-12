@@ -39,9 +39,12 @@ static void write_history_recursive(ply ply)
 
 void move_generator_write_history(void)
 {
-  fputs("\n",stdout);
-  write_history_recursive(nbply-1);
-  fputs("\n",stdout);
+  if (nbply!=ply_nil)
+  {
+    fputs("\n",stdout);
+    write_history_recursive(nbply-1);
+    fputs("\n",stdout);
+  }
 }
 
 static slice_index const slice_rank_order[] =
