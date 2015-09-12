@@ -1111,14 +1111,36 @@ void output_plaintext_separate_grid_writer_builder_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void remove_writer_builder(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void output_plaintext_option_noboard_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  while (SLICE_TYPE(SLICE_NEXT1(si))!=STStartOfCurrentTwin)
-    pipe_remove(SLICE_NEXT1(si));
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_by_function(&st,
+                                                  slice_function_output_plaintext_position_writer_builder,
+                                                  &remove_writer_builder);
+    stip_structure_traversal_override_single(&st,
+                                             STStartOfCurrentTwin,
+                                             &stip_structure_visitor_noop);
+    stip_traverse_structure(si,&st);
+  }
 
   pipe_solve_delegate(si);
 

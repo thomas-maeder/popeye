@@ -6,5 +6,6 @@
   ENUMERATOR(slice_function_move_reordering_optimiser),          \
   ENUMERATOR(slice_function_move_removing_optimiser),            \
   ENUMERATOR(slice_function_writer),                             \
+  ENUMERATOR(slice_function_output_plaintext_position_writer_builder), \
   ENUMERATOR(nr_slice_functional_types)
 

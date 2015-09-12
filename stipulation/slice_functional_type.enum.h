@@ -1,5 +1,5 @@
 typedef enum
 {
- slice_function_unspecified, slice_function_proxy, slice_function_move_generator, slice_function_move_reordering_optimiser, slice_function_move_removing_optimiser, slice_function_writer, nr_slice_functional_types
+ slice_function_unspecified, slice_function_proxy, slice_function_move_generator, slice_function_move_reordering_optimiser, slice_function_move_removing_optimiser, slice_function_writer, slice_function_output_plaintext_position_writer_builder, nr_slice_functional_types
 } slice_functional_type;
 extern char const *slice_functional_type_names[];
