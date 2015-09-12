@@ -73,6 +73,8 @@ static void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   {
     stip_traverse_structure_children_pipe(si,st);
     proxy_slice_resolve(&SLICE_NEXT1(si),st);
+    if (SLICE_NEXT1(si)!=no_slice)
+      SLICE_PREV(SLICE_NEXT1(si)) = si;
   }
 
   if (SLICE_TESTER(si)!=no_slice)
