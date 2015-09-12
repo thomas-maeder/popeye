@@ -12,25 +12,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* Allocate a STOutputLaTeXDiagramStartWriter slice.
- * @return index of allocated slice
- */
-static slice_index alloc_output_latex_diagram_start_writer(FILE *file)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STOutputLaTeXDiagramStartWriter);
-  SLICE_U(result).writer.file = file;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -65,25 +46,6 @@ void output_latex_write_diagram_start(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STOutputLaTeXDiagramStartWriter slice.
- * @return index of allocated slice
- */
-static slice_index alloc_output_latex_position_writer_builder(FILE *file)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STOutputLaTeXDiagramStartWriterBuilder);
-  SLICE_U(result).writer.file = file;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Instrument the solving machinery with slices that write the diagram in
  * LaTeX
  */
@@ -98,7 +60,7 @@ void output_latex_position_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_diagram_start_writer(file)
+        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriter,file)
     };
     enum
     {
@@ -114,25 +76,6 @@ void output_latex_position_writer_builder_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Allocate a STOutputLaTeXDiagramWriter slice.
- * @return index of allocated slice
- */
-slice_index alloc_output_latex_diagram_writer(FILE *file)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STOutputLaTeXDiagramWriter);
-  SLICE_U(result).writer.file = file;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -161,8 +104,8 @@ void output_latex_write_diagram(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_position_writer_builder(file),
-        alloc_pipe(STOutputLaTeXTwinningWriterBuilder)
+        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriterBuilder,file),
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

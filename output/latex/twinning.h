@@ -9,11 +9,6 @@ void LaTeXWriteOptions(void);
 
 void LaTeXFlushTwinning(FILE *file);
 
-/* Allocate a STOutputLaTeXTwinningWriter slice.
- * @return index of allocated slice
- */
-slice_index alloc_output_latex_twinning_writer(FILE *file);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

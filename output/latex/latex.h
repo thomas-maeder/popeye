@@ -54,4 +54,11 @@ void output_latex_twinning_writer_builder_solve(slice_index si);
 
 void output_latex_closer_solve(slice_index si);
 
+/* Allocate a LaTeX writer slice.
+ * @param type slice type
+ * @param file output file
+ * @return index of allocated slice
+ */
+slice_index alloc_output_latex_writer(slice_type type, FILE *file);
+
 #endif

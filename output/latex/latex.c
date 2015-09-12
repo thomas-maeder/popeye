@@ -252,7 +252,8 @@ boolean LaTeXSetup(slice_index start)
   }
   else
   {
-    slice_index const proto = alloc_output_latex_diagram_writer(LaTeXFile);
+    slice_index const proto = alloc_output_latex_writer(STOutputLaTeXDiagramWriter,
+                                                        LaTeXFile);
     slice_insertion_insert(start,&proto,1);
     WriteIntro(LaTeXFile);
     result = true;
@@ -1195,21 +1196,18 @@ void output_latex_instrument_solving(slice_index si)
  */
 void output_latex_twinning_writer_builder_solve(slice_index si)
 {
+  FILE *file = SLICE_U(si).writer.file;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(LaTeXFile!=0);
-
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_twinning_writer(LaTeXFile)
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file)
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
@@ -1217,4 +1215,25 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate a LaTeX writer slice.
+ * @param type slice type
+ * @param file output file
+ * @return index of allocated slice
+ */
+slice_index alloc_output_latex_writer(slice_type type, FILE *file)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(type);
+  SLICE_U(result).writer.file = file;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
