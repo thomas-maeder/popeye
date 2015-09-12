@@ -1,4 +1,4 @@
-#include "output/latex/diagram.h"
+#include "output/latex/problem.h"
 #include "output/latex/latex.h"
 #include "output/latex/twinning.h"
 #include "stipulation/pipe.h"
@@ -93,7 +93,7 @@ void output_latex_problem_intro_writer_builder_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_latex_write_diagram(slice_index si)
+void output_latex_problem_writer_solve(slice_index si)
 {
   FILE *file = SLICE_U(si).writer.file;
 

@@ -1,5 +1,5 @@
 #include "output/latex/latex.h"
-#include "output/latex/diagram.h"
+#include "output/latex/problem.h"
 #include "output/latex/twinning.h"
 #include "output/latex/line/line.h"
 #include "output/latex/tree/tree.h"
@@ -252,7 +252,7 @@ boolean LaTeXSetup(slice_index start)
   }
   else
   {
-    slice_index const proto = alloc_output_latex_writer(STOutputLaTeXDiagramWriter,
+    slice_index const proto = alloc_output_latex_writer(STOutputLaTeXProblemWriter,
                                                         LaTeXFile);
     slice_insertion_insert(start,&proto,1);
     WriteIntro(LaTeXFile);

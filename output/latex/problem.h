@@ -1,5 +1,5 @@
-#if !defined(OUTPUT_LATEX_DIAGRAM_H)
-#define OUTPUT_LATEX_DIAGRAM_H
+#if !defined(OUTPUT_LATEX_PROBLEM_H)
+#define OUTPUT_LATEX_PROBLEM_H
 
 #include "stipulation/stipulation.h"
 
@@ -23,7 +23,7 @@ void output_latex_problem_intro_writer_builder_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_latex_write_diagram(slice_index si);
+void output_latex_problem_writer_solve(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

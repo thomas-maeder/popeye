@@ -590,7 +590,7 @@ static slice_index const slice_rank_order[] =
   STIntelligentSolutionsPerTargetPosResetter,
   STMaxSolutionsResetter,
   STInputPlainTextInitialTwinReader,
-  STOutputLaTeXDiagramWriter,
+  STOutputLaTeXProblemWriter,
   STTimerStarter,
   STInputPlainTextTwinsHandler,
   STTwinIdAdjuster,

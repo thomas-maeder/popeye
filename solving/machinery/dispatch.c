@@ -211,7 +211,7 @@
 #include "output/plaintext/message.h"
 #include "output/plaintext/twinning.h"
 #include "output/latex/latex.h"
-#include "output/latex/diagram.h"
+#include "output/latex/problem.h"
 #include "output/latex/twinning.h"
 #include "output/latex/line/line_writer.h"
 #include "output/latex/goal_writer.h"
@@ -922,8 +922,8 @@ void dispatch(slice_index si)
       output_latex_line_line_writer_solve(si);
       break;
 
-    case STOutputLaTeXDiagramWriter:
-      output_latex_write_diagram(si);
+    case STOutputLaTeXProblemWriter:
+      output_latex_problem_writer_solve(si);
       break;
 
     case STOutputLaTeXProblemIntroWriter:

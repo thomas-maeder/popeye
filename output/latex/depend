@@ -6,7 +6,7 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
  output/mode.enum.h input/plaintext/token.h input/plaintext/language.h \
- output/output.h output/plaintext/plaintext.h output/latex/diagram.h \
+ output/output.h output/plaintext/plaintext.h output/latex/problem.h \
  output/latex/twinning.h output/latex/line/line.h \
  output/latex/tree/tree.h output/plaintext/language_dependant.h \
  conditions/conditions.h options/options.h conditions/mummer.h \
@@ -81,7 +81,7 @@ output/output.h:
 
 output/plaintext/plaintext.h:
 
-output/latex/diagram.h:
+output/latex/problem.h:
 
 output/latex/twinning.h:
 
@@ -186,7 +186,7 @@ conditions/singlebox/type1.h:
 platform/maxtime.h:
 
 debugging/assert.h:
-output/latex/diagram$(OBJ_SUFFIX): output/latex/diagram.c output/latex/diagram.h \
+output/latex/problem$(OBJ_SUFFIX): output/latex/problem.c output/latex/problem.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
@@ -207,7 +207,7 @@ output/latex/diagram$(OBJ_SUFFIX): output/latex/diagram.c output/latex/diagram.h
  solving/move_effect_journal.h solving/ply.h position/pieceid.h \
  stipulation/slice_insertion.h debugging/assert.h
 
-output/latex/diagram.h:
+output/latex/problem.h:
 
 stipulation/stipulation.h:
 

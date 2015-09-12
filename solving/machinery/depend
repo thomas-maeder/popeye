@@ -1088,7 +1088,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/exclusive.h stipulation/pipe.h \
  output/plaintext/message.h output/message.h output/plaintext/twinning.h \
- output/latex/latex.h output/latex/diagram.h output/latex/twinning.h \
+ output/latex/latex.h output/latex/problem.h output/latex/twinning.h \
  output/latex/line/line_writer.h output/latex/goal_writer.h \
  output/latex/tree/end_of_solution_writer.h \
  output/latex/tree/check_writer.h output/latex/tree/key_writer.h \
@@ -1642,7 +1642,7 @@ output/plaintext/twinning.h:
 
 output/latex/latex.h:
 
-output/latex/diagram.h:
+output/latex/problem.h:
 
 output/latex/twinning.h:
 
