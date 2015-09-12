@@ -388,28 +388,15 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (twin_stage)
+  if (twin_duplex_type!=twin_is_duplex)
   {
-    case twin_original_position_no_twins:
-    case twin_zeroposition:
-      pipe_solve_delegate(si);
-      break;
-
-    case twin_initial:
-    case twin_regular:
-    case twin_last:
-      if (twin_duplex_type!=twin_is_duplex)
-      {
-        WriteTwinning();
-        WriteTwinLetterToSolution(file);
-      }
-      pipe_solve_delegate(si);
-      break;
-
-    default:
-      assert(0);
-      break;
+    WriteTwinning();
+    WriteTwinLetterToSolution(file);
   }
+
+  pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
