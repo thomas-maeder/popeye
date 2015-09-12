@@ -389,10 +389,23 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionParamListEnd();
 
   if (twin_duplex_type!=twin_is_duplex)
-  {
-    WriteTwinning();
-    WriteTwinLetterToSolution(file);
-  }
+    switch (twin_stage)
+    {
+      case twin_original_position_no_twins:
+      case twin_zeroposition:
+        break;
+
+      case twin_initial:
+      case twin_regular:
+      case twin_last:
+        WriteTwinning();
+        WriteTwinLetterToSolution(file);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
 
   pipe_solve_delegate(si);
 
