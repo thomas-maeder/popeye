@@ -409,7 +409,6 @@ void dispatch(slice_index si)
 
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
-    case STStartOfWriterBuilders:
     case STOutputPlainTextStartOfTargetWriter:
       solve(SLICE_NEXT1(si));
       break;

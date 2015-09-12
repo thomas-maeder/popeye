@@ -608,7 +608,6 @@ static slice_index const slice_rank_order[] =
   STEndOfStipulationSpecific,
   STZeroPositionInitialiser,
   STSolvingMachineryIntroBuilder,
-  STStartOfWriterBuilders,
   STOutputPlainTextOptionNoboard,
   STOutputPlainTextPositionWriterBuilder,
   STOutputPlainTextAToBStartPositionWriterBuilder,
