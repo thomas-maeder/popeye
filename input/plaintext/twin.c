@@ -10,9 +10,7 @@
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
-#include "output/plaintext/protocol.h"
 #include "output/plaintext/twinning.h"
-#include "output/plaintext/message.h"
 #include "output/latex/latex.h"
 #include "output/latex/twinning.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -1078,7 +1076,7 @@ static char *twins_handle(char *tok, slice_index start)
   return tok;
 }
 
-static void write_problem_footer(void)
+static void write_solving_outcome(void)
 {
   if (max_solutions_reached()
       || was_max_nr_solutions_per_target_position_reached()
@@ -1087,12 +1085,6 @@ static void write_problem_footer(void)
     output_plaintext_message(InterMessage);
   else
     output_plaintext_message(FinishProblem);
-
-  output_plaintext_print_time(" ","");
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  protocol_fflush(stdout);
 }
 
 /* Iterate over the twins of a problem
@@ -1154,7 +1146,7 @@ void input_plaintext_twins_handle(slice_index si)
   undo_move_effects();
   finply();
 
-  write_problem_footer();
+  write_solving_outcome();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
        * problem */
       alloc_pipe(STTimerStarter),
       alloc_pipe(STCheckDirInitialiser),
-      output_plaintext_alloc_version_info_printer(stdout),
+      output_plaintext_alloc_writer(stdout),
       alloc_pipe(STInputPlainTextUserLanguageDetector),
       alloc_pipe(STInputPlainTextProblemsIterator),
       alloc_pipe(STInputPlainTextProblemHandler),

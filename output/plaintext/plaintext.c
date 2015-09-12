@@ -870,3 +870,26 @@ void output_plaintext_instrument_solving(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+void output_plaintext_writer_solve(slice_index si)
+{
+  output_plaintext_print_version_info(stdout);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STOutputPlaintextProblemWriter)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  pipe_solve_delegate(si);
+}
+
+slice_index output_plaintext_alloc_writer(FILE *file)
+{
+  slice_index const result = alloc_pipe(STOutputPlainTextWriter);
+  SLICE_U(result).writer.file = file;
+  return result;
+}

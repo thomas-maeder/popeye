@@ -3,8 +3,6 @@
 
 #include "stipulation/stipulation.h"
 
-#include <stdio.h>
-
 /* Instrument the solving machinery with slices that write the diagram in
  * LaTeX
  */

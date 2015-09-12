@@ -1597,3 +1597,54 @@ output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
 output/plaintext/protocol.h:
 
 output/plaintext/stdio.h:
+output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
+ output/plaintext/problem.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ output/plaintext/protocol.h solving/pipe.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h
+
+output/plaintext/problem.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
+
+output/plaintext/protocol.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:

@@ -395,8 +395,8 @@ void dispatch(slice_index si)
       check_dir_initialiser_solve(si);
       break;
 
-    case STOutputPlainTextVersionInfoPrinter:
-      output_plaintext_version_info_printer_solve(si);
+    case STOutputPlainTextWriter:
+      output_plaintext_writer_solve(si);
       break;
 
     case STInputPlainTextUserLanguageDetector:
@@ -904,6 +904,10 @@ void dispatch(slice_index si)
 
     case STRetractionPrioriser:
       priorise_retraction_solve(si);
+      break;
+
+    case STOutputPlaintextProblemWriter:
+      output_plaintext_problem_writer_solve(si);
       break;
 
     case STOutputPlaintextGoalWriter:
