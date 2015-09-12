@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
       alloc_pipe(STCheckDirInitialiser),
       output_plaintext_alloc_version_info_printer(stdout),
       alloc_pipe(STInputPlainTextUserLanguageDetector),
-      alloc_pipe(STInputPlainTextProblemsIterator)
+      alloc_pipe(STInputPlainTextProblemsIterator),
+      alloc_pipe(STInputPlainTextProblemHandler)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(parser,prototypes,nr_prototypes);

@@ -1,8 +1,5 @@
 #include "input/plaintext/plaintext.h"
-#include "optimisations/orthodox_check_directions.h"
-#include "input/plaintext/problem.h"
 #include "output/plaintext/language_dependant.h"
-#include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -39,15 +36,6 @@ static Language detect_user_language(char *tok)
 void input_plaintext_iterate_problems(slice_index si)
 {
   boolean halt = false;
-
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_pipe(STInputPlainTextProblemHandler)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
 
   do
   {

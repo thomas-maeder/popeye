@@ -86,9 +86,8 @@ input/plaintext/plaintext$(OBJ_SUFFIX): input/plaintext/plaintext.c \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- optimisations/orthodox_check_directions.h pieces/walks/vectors.h \
- input/plaintext/problem.h output/plaintext/language_dependant.h \
- position/position.h position/color.h position/color.enum.h \
+ output/plaintext/language_dependant.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
  position/castling_rights.h conditions/conditions.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h solving/machinery/solve.h \
@@ -107,8 +106,7 @@ input/plaintext/plaintext$(OBJ_SUFFIX): input/plaintext/plaintext.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- output/plaintext/message.h output/message.h stipulation/pipe.h \
- solving/pipe.h
+ output/plaintext/message.h output/message.h solving/pipe.h
 
 input/plaintext/plaintext.h:
 
@@ -136,12 +134,6 @@ output/mode.h:
 
 output/mode.enum.h:
 
-optimisations/orthodox_check_directions.h:
-
-pieces/walks/vectors.h:
-
-input/plaintext/problem.h:
-
 output/plaintext/language_dependant.h:
 
 position/position.h:
@@ -149,6 +141,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
@@ -219,8 +213,6 @@ conditions/sentinelles.h:
 output/plaintext/message.h:
 
 output/message.h:
-
-stipulation/pipe.h:
 
 solving/pipe.h:
 input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
