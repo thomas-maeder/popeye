@@ -10,7 +10,6 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
-#include "solving/duplex.h"
 #include "solving/machinery/twin.h"
 #include "debugging/assert.h"
 
@@ -388,25 +387,25 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (twin_duplex_type!=twin_is_duplex)
-    switch (twin_stage)
-    {
-      case twin_original_position_no_twins:
-      case twin_zeroposition:
-        break;
+  switch (twin_stage)
+  {
+    case twin_original_position_no_twins:
+    case twin_zeroposition:
+      break;
 
-      case twin_regular:
-        WriteTwinning();
-        WriteTwinLetterToSolution(file);
-        break;
+    case twin_regular:
+      WriteTwinning();
+      WriteTwinLetterToSolution(file);
+      break;
 
-      default:
-        assert(0);
-        break;
-    }
+    default:
+      assert(0);
+      break;
+  }
 
   pipe_solve_delegate(si);
 
+  /* only write the twinning once per twin (and not twice in a duplex) */
   pipe_remove(si);
 
   TraceFunctionExit(__func__);

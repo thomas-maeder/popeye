@@ -326,7 +326,7 @@ output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinnin
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/plaintext/condition.h input/plaintext/stipulation.h \
  pieces/attributes/neutral/neutral.h stipulation/pipe.h solving/pipe.h \
- solving/duplex.h debugging/assert.h
+ debugging/assert.h
 
 output/latex/twinning.h:
 
@@ -451,8 +451,6 @@ pieces/attributes/neutral/neutral.h:
 stipulation/pipe.h:
 
 solving/pipe.h:
-
-solving/duplex.h:
 
 debugging/assert.h:
 output/latex/goal_writer$(OBJ_SUFFIX): output/latex/goal_writer.c \
