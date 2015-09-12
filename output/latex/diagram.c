@@ -106,8 +106,8 @@ void output_latex_write_diagram(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file),
-        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriterBuilder,file)
+        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriterBuilder,file),
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
