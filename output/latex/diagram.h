@@ -5,6 +5,11 @@
 
 #include <stdio.h>
 
+/* Instrument the solving machinery with slices that write the diagram in
+ * LaTeX
+ */
+void output_latex_position_writer_builder_solve(slice_index si);
+
 /* Allocate a STOutputLaTeXDiagramWriter slice.
  * @return index of allocated slice
  */
@@ -24,11 +29,6 @@ slice_index alloc_output_latex_diagram_writer(FILE *file);
  *            (with n denominating solve_nr_remaining)
  */
 void output_latex_write_diagram(slice_index si);
-
-/* Allocate a STOutputLaTeXDiagramStartWriter slice.
- * @return index of allocated slice
- */
-slice_index alloc_output_latex_diagram_start_writer(FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

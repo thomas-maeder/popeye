@@ -1190,34 +1190,6 @@ void output_latex_instrument_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with slices that write the diagram in
- * LaTeX
- */
-void output_latex_position_writer_builder_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (LaTeXFile!=0)
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_output_latex_diagram_start_writer(LaTeXFile)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the solving machinery with slices that write the twinning in
  * LaTeX
  */
@@ -1227,7 +1199,8 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (LaTeXFile!=0)
+  assert(LaTeXFile!=0);
+
   {
     slice_index const prototypes[] =
     {

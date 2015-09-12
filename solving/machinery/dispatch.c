@@ -470,7 +470,7 @@ void dispatch(slice_index si)
       output_plaintext_separate_grid_writer_builder_solve(si);
       break;
 
-    case STOutputLaTeXPositionWriterBuilder:
+    case STOutputLaTeXDiagramStartWriterBuilder:
       output_latex_position_writer_builder_solve(si);
       break;
 
