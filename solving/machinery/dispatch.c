@@ -470,8 +470,12 @@ void dispatch(slice_index si)
       output_plaintext_separate_grid_writer_builder_solve(si);
       break;
 
-    case STOutputLaTeXDiagramWriterBuilder:
-      output_latex_diagram_writer_builder_solve(si);
+    case STOutputLaTeXPositionWriterBuilder:
+      output_latex_position_writer_builder_solve(si);
+      break;
+
+    case STOutputLaTeXTwinningWriterBuilder:
+      output_latex_twinning_writer_builder_solve(si);
       break;
 
     case STStartOfCurrentTwin:
@@ -922,12 +926,16 @@ void dispatch(slice_index si)
       output_latex_line_line_writer_solve(si);
       break;
 
-    case STOutputLaTeXDiagramStartWriter:
-      output_latex_write_diagram_start(si);
+    case STOutputLaTeXDiagramWriterBuilder:
+      output_latex_diagram_writer_build(si);
       break;
 
-    case STOutputLaTeXDiagramEndWriter:
-      output_latex_write_diagram_end(si);
+    case STOutputLaTeXDiagramWriter:
+      output_latex_write_diagram(si);
+      break;
+
+    case STOutputLaTeXDiagramStartWriter:
+      output_latex_write_diagram_start(si);
       break;
 
     case STOutputLaTeXTwinningWriter:

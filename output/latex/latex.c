@@ -308,7 +308,7 @@ void LaTexCloseSolution(FILE *file)
   TraceFunctionResultEnd();
 }
 
-void LaTeXEndDiagram(FILE *file)
+void LaTeXCo(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -326,7 +326,26 @@ void LaTeXEndDiagram(FILE *file)
     fputs("\n",file);
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXEndDiagram(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   WriteFixElement(file,"end","diagram",0);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXHfill(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   WriteCommand(file,"hfill");
 
   TraceFunctionExit(__func__);
@@ -1057,17 +1076,66 @@ void LaTeXBeginDiagram(FILE *file)
   TraceFunctionParamListEnd();
 
   WriteFixElement(file,"begin","diagram",0);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXMeta(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   WriteAuthor(file);
   WriteSource(file);
   WriteAward(file);
   WriteDedication(file);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXOptions(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   LaTeXWriteOptions();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXWritePieces(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   WritePieces(file);
   WriteFairyPieces(file);
-  WriteStipulation(file);
-  WriteGrid(file);
-  WriteConditions(LaTeXFile,&WriteCondition);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXStipulation(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  WriteStipulation(file);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXConditions(FILE *file)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  WriteGrid(file);
+  WriteConditions(file,&WriteCondition);
   WriteSquareFrames(file);
 
   TraceFunctionExit(__func__);
@@ -1120,10 +1188,10 @@ void output_latex_instrument_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with slices that write the solution in
+/* Instrument the solving machinery with slices that write the diagram in
  * LaTeX
  */
-void output_latex_diagram_writer_builder_solve(slice_index si)
+void output_latex_position_writer_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1133,8 +1201,34 @@ void output_latex_diagram_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_diagram_start_writer(LaTeXFile),
-        alloc_output_latex_diagram_end_writer(LaTeXFile),
+        alloc_output_latex_diagram_start_writer(LaTeXFile)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with slices that write the twinning in
+ * LaTeX
+ */
+void output_latex_twinning_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (LaTeXFile!=0)
+  {
+    slice_index const prototypes[] =
+    {
         alloc_output_latex_twinning_writer(LaTeXFile)
     };
     enum
@@ -1148,4 +1242,15 @@ void output_latex_diagram_writer_builder_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void output_latex_diagram_writer_build(slice_index si)
+{
+  if (LaTeXFile!=0)
+  {
+    slice_index const proto = alloc_output_latex_diagram_writer(LaTeXFile);
+    slice_insertion_insert(si,&proto,1);
+  }
+
+  pipe_solve_delegate(si);
 }
