@@ -1,3 +1,7 @@
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
 
 fixed promotion in the presence of HurdleColourChanging pieces
 
@@ -25,10 +29,6 @@ fixed promotion in the presence of HurdleColourChanging pieces
     HurdleColourChanging f4 a3 b1
         PromOnly Q S G LI RH
  ChameleonSequence Q->R->B->S->RH->Q
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
 
    1.h7-h8=Q !
 
@@ -232,6 +232,7 @@ Popeye hasn't found the solution since 4.65
 solution finished.
 
 
+LaTeXFile will not compile: undefined fairy piece
 
          Vaclav Kote\vsovec
 4.65-4.69 found a "solution" with swapped kings
@@ -280,7 +281,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1                       1 + 2
-LaTeXFile will not compile: undefined fairy piece
 
   add_to_move_generation_stack:          29
                      play_move:          29
@@ -451,6 +451,7 @@ solution would start with 1.... ... because a second move inversion was detected
 solution finished.
 
 
+LaTeXFile will not compile: undefined fairy piece
 
          Adrian Storisteanu
 some recent versions allowed neutral double-grasshoppers to capture themselves
@@ -475,7 +476,6 @@ some recent versions allowed neutral double-grasshoppers to capture themselves
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                     0 + 1 + 1n
-LaTeXFile will not compile: undefined fairy piece
 
   add_to_move_generation_stack:           0
                      play_move:           0
@@ -619,6 +619,7 @@ until 4.69, Popeye allowed checks to a super-transmuting king to be defended by 
 solution finished.
 
 
+LaTeXFile will not compile: undefined fairy piece
 
            Nicolas Dupont
 minimal example of the same bug - until 4.69, Popeye didn't find the solution
@@ -644,7 +645,6 @@ minimal example of the same bug - until 4.69, Popeye didn't find the solution
 +---a---b---c---d---e---f---g---h---+
   #1                          1 + 3
       BlackSuperTransmutingKing
-LaTeXFile will not compile: undefined fairy piece
 
    1.La7*c5-d4 # !
 
@@ -656,6 +656,10 @@ LaTeXFile will not compile: undefined fairy piece
 solution finished.
 
 
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
 
 In 4.59, we fixed Popeye's behavior regarding empty remark lines
 But the same problem has been there for other line-oriented input elements
@@ -682,10 +686,6 @@ But the same problem has been there for other line-oriented input elements
   s#1                        12 + 6
           AntiCirce Cheylan
          Football Q S R B N
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
-LaTeXFile will not compile: undefined fairy piece
 
    1.Ra8-a1=Q !
       1...Bf6*a1=S[bSa1->b8] #
