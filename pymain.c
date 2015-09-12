@@ -62,7 +62,23 @@ int main(int argc, char *argv[])
       output_plaintext_alloc_version_info_printer(stdout),
       alloc_pipe(STInputPlainTextUserLanguageDetector),
       alloc_pipe(STInputPlainTextProblemsIterator),
-      alloc_pipe(STInputPlainTextProblemHandler)
+      alloc_pipe(STInputPlainTextProblemHandler),
+      alloc_pipe(STConditionsResetter),
+      alloc_pipe(STOptionsResetter),
+      alloc_pipe(STUnderworldResetter),
+      alloc_pipe(STHuntersResetter),
+      alloc_pipe(STStopOnShortSolutionsResetter),
+      alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
+      alloc_pipe(STMaxSolutionsResetter),
+      alloc_pipe(STInputPlainTextInitialTwinReader),
+      alloc_pipe(STTimerStarter),
+      alloc_pipe(STInputPlainTextTwinsHandler),
+      alloc_pipe(STTwinIdAdjuster),
+      alloc_pipe(STStipulationCompleter),
+#if defined(DOMEASURE)
+      alloc_pipe(STCountersWriter),
+#endif
+      alloc_pipe(STOutputPlainTextEndOfTwinWriter)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(parser,prototypes,nr_prototypes);

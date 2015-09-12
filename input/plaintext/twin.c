@@ -555,17 +555,28 @@ static char *ReadTitle(void)
   return ReadNextTokStr();
 }
 
-static char *ReadLaTeXToken(void)
+static char *ReadLaTeXToken(slice_index start)
 {
+  char *result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
   if (ReadToEndOfLine())
   {
     LaTeXShutdown();
-    LaTeXSetup();
+    LaTeXSetup(start);
 
-    return ParseLaTeXPieces();
+    result = ParseLaTeXPieces();
   }
   else
-    return ReadNextTokStr();
+    result = ReadNextTokStr();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void ReadInitialTwin(slice_index start)
@@ -673,7 +684,7 @@ static void ReadInitialTwin(slice_index start)
           break;
 
         case LaTeXToken:
-          tok = ReadLaTeXToken();
+          tok = ReadLaTeXToken(start);
           break;
 
         case SepToken:

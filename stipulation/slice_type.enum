@@ -580,7 +580,6 @@
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounterSetPlay), \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                      \
     ENUMERATOR(STOutputLaTeXDiagramWriter),                             \
     ENUMERATOR(STOutputLaTeXDiagramStartWriter),                        \
     ENUMERATOR(STOutputLaTeXTwinningWriter),                            \

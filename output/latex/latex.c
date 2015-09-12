@@ -237,7 +237,7 @@ static void WriteIntro(FILE *file)
   TraceFunctionResultEnd();
 }
 
-boolean LaTeXSetup(void)
+boolean LaTeXSetup(slice_index start)
 {
   boolean result;
 
@@ -252,6 +252,8 @@ boolean LaTeXSetup(void)
   }
   else
   {
+    slice_index const proto = alloc_output_latex_diagram_writer(LaTeXFile);
+    slice_insertion_insert(start,&proto,1);
     WriteIntro(LaTeXFile);
     result = true;
   }
@@ -1242,15 +1244,4 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-void output_latex_diagram_writer_build(slice_index si)
-{
-  if (LaTeXFile!=0)
-  {
-    slice_index const proto = alloc_output_latex_diagram_writer(LaTeXFile);
-    slice_insertion_insert(si,&proto,1);
-  }
-
-  pipe_solve_delegate(si);
 }

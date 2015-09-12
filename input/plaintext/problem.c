@@ -68,23 +68,6 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STConditionsResetter),
-        alloc_pipe(STOptionsResetter),
-        alloc_pipe(STUnderworldResetter),
-        alloc_pipe(STHuntersResetter),
-        alloc_pipe(STStopOnShortSolutionsResetter),
-        alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
-        alloc_pipe(STMaxSolutionsResetter),
-        alloc_pipe(STInputPlainTextInitialTwinReader),
-        alloc_pipe(STTimerStarter),
-        alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
-        alloc_pipe(STInputPlainTextTwinsHandler),
-        alloc_pipe(STTwinIdAdjuster),
-        alloc_pipe(STStipulationCompleter),
-  #if defined(DOMEASURE)
-        alloc_pipe(STCountersWriter),
-  #endif
-        alloc_pipe(STOutputPlainTextEndOfTwinWriter),
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
         alloc_pipe(STOutputLaTeXPositionWriterBuilder),
@@ -99,8 +82,9 @@ void input_plaintext_problem_handle(slice_index si)
 
     pipe_solve_delegate(si);
 
-    dealloc_slices(SLICE_NEXT1(si));
-    SLICE_NEXT1(si) = no_slice;
+    slice_index const handler = branch_find_slice(STOutputPlainTextEndOfTwinWriter,si,stip_traversal_context_intro);
+    dealloc_slices(SLICE_NEXT1(handler));
+    SLICE_NEXT1(handler) = no_slice;
   }
 
   undo_move_effects();

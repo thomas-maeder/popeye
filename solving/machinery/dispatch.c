@@ -926,10 +926,6 @@ void dispatch(slice_index si)
       output_latex_line_line_writer_solve(si);
       break;
 
-    case STOutputLaTeXDiagramWriterBuilder:
-      output_latex_diagram_writer_build(si);
-      break;
-
     case STOutputLaTeXDiagramWriter:
       output_latex_write_diagram(si);
       break;

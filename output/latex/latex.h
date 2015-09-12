@@ -12,7 +12,7 @@
 extern output_engine_type const output_latex_engine;
 extern output_symbol_table_type const output_latex_symbol_table;
 
-boolean LaTeXSetup(void);
+boolean LaTeXSetup(slice_index start);
 void LaTeXShutdown(void);
 
 void LaTeXBeginDiagram(FILE *file);
@@ -58,7 +58,5 @@ void output_latex_position_writer_builder_solve(slice_index si);
 void output_latex_twinning_writer_builder_solve(slice_index si);
 
 void output_latex_closer_solve(slice_index si);
-
-void output_latex_diagram_writer_build(slice_index si);
 
 #endif
