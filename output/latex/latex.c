@@ -1196,13 +1196,14 @@ void output_latex_instrument_solving(slice_index si)
  */
 void output_latex_twinning_writer_builder_solve(slice_index si)
 {
-  FILE *file = SLICE_U(si).writer.file;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (twin_stage==twin_regular)
   {
+    FILE * const file = SLICE_U(si).writer.file;
+
     slice_index const prototypes[] =
     {
         alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file)

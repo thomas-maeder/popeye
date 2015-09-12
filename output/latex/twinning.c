@@ -387,21 +387,8 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (twin_stage)
-  {
-    case twin_original_position_no_twins:
-    case twin_zeroposition:
-      break;
-
-    case twin_regular:
-      WriteTwinning();
-      WriteTwinLetterToSolution(file);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  WriteTwinning();
+  WriteTwinLetterToSolution(file);
 
   pipe_solve_delegate(si);
 
