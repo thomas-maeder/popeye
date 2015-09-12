@@ -1,6 +1,6 @@
 
             Dieter Werner
-             Testoriginal
+            Testoriginal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          2 + 1
-             GenferSchach
+            GenferSchach
 
    1.Kc1-d2 + !
 
@@ -34,17 +34,17 @@
 
    1.Kc1-d1 + !
 
-
   add_to_move_generation_stack:          16
                      play_move:          20
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          16
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
             Dieter Werner
-             Testoriginal
+            Testoriginal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -70,17 +70,17 @@ Loesung beendet.
 
    1.Dc5-e7 # !
 
-
   add_to_move_generation_stack:          65
                      play_move:          54
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          40
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
             Dieter Werner
-             Testoriginal
+            Testoriginal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -106,11 +106,11 @@ Loesung beendet.
 
    1.Tb2-b1 = !
 
-
   add_to_move_generation_stack:          84
                      play_move:          57
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:          50
-Loesung beendet. 
+
+Loesung beendet.
 
 

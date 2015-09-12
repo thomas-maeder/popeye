@@ -74,11 +74,10 @@ int main(int argc, char *argv[])
       alloc_pipe(STTimerStarter),
       alloc_pipe(STInputPlainTextTwinsHandler),
       alloc_pipe(STTwinIdAdjuster),
-      alloc_pipe(STStipulationCompleter),
 #if defined(DOMEASURE)
       alloc_pipe(STCountersWriter),
 #endif
-      alloc_pipe(STOutputPlainTextEndOfTwinWriter)
+      alloc_pipe(STStipulationCompleter)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(parser,prototypes,nr_prototypes);

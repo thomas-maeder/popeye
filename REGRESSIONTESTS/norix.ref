@@ -25,11 +25,11 @@
 
   1...NOa4-a8 +   2.Ka6-a5 b2-b3   3.a7-a6 b3-b4 #
   1...Kc5-c6   2.Ka6-a5 b2-b4 +   3.Ka5-a6 NOa4-a8 #
-
   add_to_move_generation_stack:        9588
                      play_move:        8950
  is_white_king_square_attacked:        1119
  is_black_king_square_attacked:        8685
+
 solution finished.
 
 

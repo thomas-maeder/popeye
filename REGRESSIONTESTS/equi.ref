@@ -26,19 +26,19 @@
 a) 
 
   1.Bf6-g7 QEa8-c5   2.Re2-e3 Kh5-g5 #
-
   add_to_move_generation_stack:       60090
                      play_move:       51841
  is_white_king_square_attacked:        3788
  is_black_king_square_attacked:       51573
+
 b) bRe2-->e4  
 
   1.e7-e6 QEa8-c6   2.Re4-e2 Kh5-g4 #
-
   add_to_move_generation_stack:       48891
                      play_move:       43294
  is_white_king_square_attacked:        2983
  is_black_king_square_attacked:       43029
+
 solution finished.
 
 

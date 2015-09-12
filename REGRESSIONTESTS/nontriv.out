@@ -150,11 +150,11 @@
                                                                                                                                                                                          24.Tc1-b1 +
                                                                                                                                                                                              24...De1*b1 #
 
-
   add_to_move_generation_stack:    27007731
                      play_move:    19987049
  is_white_king_square_attacked:    17086985
  is_black_king_square_attacked:    14714203
+
 Loesung beendet.
 
 
@@ -282,11 +282,11 @@ Loesung beendet.
  45  (Nd8-e6 )
  46  (Nd8-h6 + )
  47  (Nd8-f7 )
-
   add_to_move_generation_stack:   145502456
                      play_move:   108291748
  is_white_king_square_attacked:    95745542
  is_black_king_square_attacked:    76885299
+
 Loesung beendet.
 
 
@@ -406,11 +406,11 @@ Loesung beendet.
  42  (Nc6-d8 )
  43  (Nc6-b8 )
  44  (Nc6-a7 )
-
   add_to_move_generation_stack:     1271891
                      play_move:     1106249
  is_white_king_square_attacked:      935677
  is_black_king_square_attacked:      758138
+
 Loesung beendet.
 
 
@@ -515,11 +515,11 @@ Loesung beendet.
  30  (Ke8*d8 )
  31  (Lf8*d6 )
  32  (Lf8-e7 )
-
   add_to_move_generation_stack:    15278715
                      play_move:    11506180
  is_white_king_square_attacked:     9273863
  is_black_king_square_attacked:     8379251
+
 Loesung beendet.
 
 
@@ -642,11 +642,11 @@ Loesung beendet.
  45  (Le6-f7 )
  46  (Le6-c8 )
  47  (Le6-d7 )
-
   add_to_move_generation_stack:    11026553
                      play_move:     9850224
  is_white_king_square_attacked:     8076754
  is_black_king_square_attacked:     7143934
+
 Loesung beendet.
 
 
@@ -762,11 +762,11 @@ Loesung beendet.
  42  (Lh6-g5 )
  43  (Lh6-f8 )
  44  (Lh6-g7 )
-
   add_to_move_generation_stack:     3826285
                      play_move:     2668204
  is_white_king_square_attacked:     2321865
  is_black_king_square_attacked:     1858311
+
 Loesung beendet.
 
 
@@ -867,11 +867,11 @@ Loesung beendet.
  26  (Se4*c5 )
  27  (Ld8*c7 + )
  28  (Ld8*e7 )
-
   add_to_move_generation_stack:     5453530
                      play_move:     3904474
  is_white_king_square_attacked:     1442150
  is_black_king_square_attacked:     3033853
+
 Loesung beendet.
 
 

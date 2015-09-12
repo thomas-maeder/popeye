@@ -64,11 +64,11 @@
     Aber
       1...c6*d5 !
 
-
   add_to_move_generation_stack:        4075
                      play_move:        5438
  is_white_king_square_attacked:        2188
  is_black_king_square_attacked:        2906
+
 Loesung beendet.
 
 
@@ -99,11 +99,11 @@ Loesung beendet.
             BrunnerSchach
 
   1.Kh2-h3   2.Kh3-g4   3.Kg4-f5   4.Kf5-e6   5.Ke6-d7   6.Kd7-c8   7.nBf2-f1=nL   8.nLf1-h3   9.Kc8-b8  10.Kb8-a8  11.nLh3-c8 + Ka6-b7 #
-
   add_to_move_generation_stack:      805687
                      play_move:      998191
  is_white_king_square_attacked:      486146
  is_black_king_square_attacked:      770805
+
 Loesung beendet.
 
 
@@ -134,11 +134,11 @@ Loesung beendet.
             BrunnerSchach
 
   1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-g5   5.Kg5-f5   6.Kf5-e5   7.Ke5-d5   8.Sd3-e5   9.Se5-g4  10.Kd5-e5  11.Ke5-f5  12.Kf5-g5  13.Kg5-h4  14.Kh4-h3  15.Kh3-h2  16.Kh2-h1  17.Sg4-h2 Kf2-f1 =
-
   add_to_move_generation_stack:      649236
                      play_move:      374277
  is_white_king_square_attacked:      210032
  is_black_king_square_attacked:      317639
+
 Loesung beendet.
 
 
@@ -169,11 +169,11 @@ Loesung beendet.
             BrunnerSchach
 
   1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-g7   7.Kg7-f6   8.Kf6-e5   9.Ke5-d4  10.Sd3-e5  11.Kd4-e4  12.Ke4-f3 + Dh8-h4 =
-
   add_to_move_generation_stack:       16343
                      play_move:       11734
  is_white_king_square_attacked:        5610
  is_black_king_square_attacked:        7077
+
 Loesung beendet.
 
 
@@ -204,11 +204,11 @@ Loesung beendet.
             BrunnerSchach
 
   1.Kd1-e2   2.Ke2-f3   3.Kf3-g4   4.Kg4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8 Kf6-f7 #
-
   add_to_move_generation_stack:        1954
                      play_move:        2114
  is_white_king_square_attacked:        1275
  is_black_king_square_attacked:        1973
+
 Loesung beendet.
 
 

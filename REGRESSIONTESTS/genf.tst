@@ -24,12 +24,12 @@ Madrasi paralysis even if rebirth square is occupied
                Madrasi
              GenevaChess
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -55,17 +55,17 @@ Patrol support even if rebirth square is occupied
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          2 + 1
-              Patrouille
+             Patrouille
              GenevaChess
 
    1.b3*c4 x !
-
 
   add_to_move_generation_stack:           4
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -90,14 +90,14 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 2
-          GenevaChess Mirror
-
+         GenevaChess Mirror
 
   add_to_move_generation_stack:           2
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -122,7 +122,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 2
-          GenevaChess Mirror
+         GenevaChess Mirror
 
 a) 
 
@@ -130,29 +130,29 @@ a)
 
    1.Rb1-d1 + !
 
-
   add_to_move_generation_stack:          14
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          15
-b) bSh1-->h8
+
+b) bSh1-->h8  
 
    1.Rb1-d1 + !
 
-
   add_to_move_generation_stack:          14
                      play_move:          15
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          15
-c) bSh1-->a8
+
+c) bSh1-->a8  
 
    1.Rb1-b2 + !
 
-
   add_to_move_generation_stack:          14
                      play_move:          15
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          15
-solution finished. 
+
+solution finished.
 
 

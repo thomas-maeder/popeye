@@ -28,11 +28,11 @@
 
   1.d2-d1=D d7-d8=T   2.Dd1-c2 Td8-d1 #
   1.d2-d1=S d7-d8=L   2.Sd1-b2 Ld8-g5 #
-
   add_to_move_generation_stack:       10057
                      play_move:        4093
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4063
+
 Loesung beendet.
 
 
@@ -65,19 +65,19 @@ Loesung beendet.
 a) 
 
   1.a3-a2 c7-c8=L   2.a2-a1=D Lc8-a6   3.Da1*a6=w Da6-g6 =
-
   add_to_move_generation_stack:      319263
                      play_move:      134156
  is_white_king_square_attacked:       61872
  is_black_king_square_attacked:      126787
+
 b) wKd7-->f6  
 
   1.a3-a2 c7-c8=S   2.a2-a1=T Sc8-a7   3.Ta1*a7=w Ta7-g7 =
-
   add_to_move_generation_stack:      208047
                      play_move:      114824
  is_white_king_square_attacked:       47673
  is_black_king_square_attacked:      105296
+
 Loesung beendet.
 
 
@@ -110,19 +110,19 @@ Loesung beendet.
 a) 
 
   1...f7-f8=T   2.b2-b1=D Tf8-f5   3.Db1*f5=w Df5-f7 =
-
   add_to_move_generation_stack:      322631
                      play_move:      145242
  is_white_king_square_attacked:       62679
  is_black_king_square_attacked:      133805
+
 b) wKf4-->f6  
 
   1...f7-f8=S   2.b2-b1=L Sf8-h7   3.Lb1*h7=w Lh7-g6 =
-
   add_to_move_generation_stack:      206313
                      play_move:       99431
  is_white_king_square_attacked:       42045
  is_black_king_square_attacked:       90839
+
 Loesung beendet.
 
 
@@ -154,11 +154,11 @@ Loesung beendet.
 
   1...c7-c8=S   2.g2-g1=L Sc8-b6   3.Lg1*b6=w Kd5-c6 =
   1...c7-c8=T   2.g2-g1=D Tc8-c5   3.Dg1*c5=w Kd5-c6 =
-
   add_to_move_generation_stack:      407920
                      play_move:      162924
  is_white_king_square_attacked:       77275
  is_black_king_square_attacked:      149999
+
 Loesung beendet.
 
 
@@ -193,19 +193,19 @@ Loesung beendet.
 a) 
 
   1.La6*d3=w c2-c3   2.Ta3*c3=w Ld3-f1 #
-
   add_to_move_generation_stack:        9246
                      play_move:        6943
  is_white_king_square_attacked:         820
  is_black_king_square_attacked:        6687
+
 b) sKf3-->f1  
 
   1.Ta3*d3=w c2-c4   2.La6*c4=w Td3-g3 #
-
   add_to_move_generation_stack:        5011
                      play_move:        4972
  is_white_king_square_attacked:         401
  is_black_king_square_attacked:        4764
+
 Loesung beendet.
 
 

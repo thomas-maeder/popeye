@@ -23,11 +23,11 @@
 
    1.CPb6-a6 = !
 
-
   add_to_move_generation_stack:          27
                      play_move:          23
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          22
+
 solution finished.
 
 
@@ -55,11 +55,11 @@ solution finished.
   ser-#2                      2 + 2
 
   1.CPb6-b7   2.CPb7-b8 #
-
   add_to_move_generation_stack:          76
                      play_move:          74
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:          74
+
 solution finished.
 
 
@@ -90,11 +90,11 @@ solution finished.
       1...CPa7-a6
           2.CPb6*a6 =
 
-
   add_to_move_generation_stack:         259
                      play_move:         191
  is_white_king_square_attacked:          75
  is_black_king_square_attacked:         183
+
 solution finished.
 
 

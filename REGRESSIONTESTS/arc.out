@@ -58,11 +58,11 @@
       1...e7-e5
           2.Dg4-e2 #
 
-
   add_to_move_generation_stack:        8249
                      play_move:        4481
  is_white_king_square_attacked:         775
  is_black_king_square_attacked:        4442
+
 Loesung beendet.
 
 
@@ -93,11 +93,11 @@ Loesung beendet.
        ActuatedRevolvingCentre
 
   1.Sf7-e5   2.e7-e5   3.d7-d5   4.d4-d3   5.Se5-c4   6.Kf5-e5 Lg7-e5 #
-
   add_to_move_generation_stack:      970372
                      play_move:      811718
  is_white_king_square_attacked:      110722
  is_black_king_square_attacked:      811718
+
 Loesung beendet.
 
 
@@ -131,11 +131,11 @@ Loesung beendet.
   1...kSa2-c3   2.kSd2-e4 kSc3-e4 =
 
   1.kSd2-b3 kSa2-c3   2.kSb3-a1 kSc3-e4 =
-
   add_to_move_generation_stack:        3206
                      play_move:        1134
  is_white_king_square_attacked:         518
  is_black_king_square_attacked:        1064
+
 Loesung beendet.
 
 

@@ -27,11 +27,11 @@ last 2 moves only < 1 min on Athlon 2400
            AntiCirce Super
 
   1.hnBe4*h7=nh[nhnBh7->b5] Rc3-c1   2.nhnRc6*d6=wh[whnRd6->f7] + Bf1*b5[bBb5->e7] #
-
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
  is_white_king_square_attacked:    16650139
  is_black_king_square_attacked:     8731097
+
 solution finished.
 
 

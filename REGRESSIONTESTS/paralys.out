@@ -104,11 +104,11 @@
       1...Sd7*b8[+wpGb1]
           2.Kd1-e2 #
 
-
   add_to_move_generation_stack:       12306
                      play_move:        4226
  is_white_king_square_attacked:         430
  is_black_king_square_attacked:        4179
+
 Loesung beendet.
 
 
@@ -140,11 +140,11 @@ Loesung beendet.
 
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 #
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 #
-
   add_to_move_generation_stack:       17207
                      play_move:       18125
  is_white_king_square_attacked:        1283
  is_black_king_square_attacked:       17973
+
 Loesung beendet.
 
 
@@ -189,11 +189,11 @@ Loesung beendet.
       1...Kd6-e6
           2.pBe7-e8=pT #
 
-
   add_to_move_generation_stack:        5852
                      play_move:        2098
  is_white_king_square_attacked:         174
  is_black_king_square_attacked:        2101
+
 Loesung beendet.
 
 
@@ -245,11 +245,11 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
     Aber
       1...Dh3*h1 !
 
-
   add_to_move_generation_stack:       13603
                      play_move:        3065
  is_white_king_square_attacked:         194
  is_black_king_square_attacked:        3035
+
 Loesung beendet.
 
 
@@ -293,11 +293,11 @@ a)
       1...Lh6*f8[+wpTa1]
           2.Sb3-d4 #
 
-
   add_to_move_generation_stack:        6575
                      play_move:        2577
  is_white_king_square_attacked:         170
  is_black_king_square_attacked:        2580
+
 b) Circe Platzwechsel  
 
    1.Df6-g5 ! Drohung:
@@ -311,11 +311,11 @@ b) Circe Platzwechsel
       1...Lh6*f8[+wpTh6]
           2.Dg5*g2[+spSg5] #
 
-
   add_to_move_generation_stack:        6327
                      play_move:        2511
  is_white_king_square_attacked:         155
  is_black_king_square_attacked:        2514
+
 Loesung beendet.
 
 
@@ -346,11 +346,11 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 
    1.pKa7-b7 = !
 
-
   add_to_move_generation_stack:          96
                      play_move:          29
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:          29
+
 Loesung beendet.
 
 
@@ -383,11 +383,11 @@ Es fehlt ein weisser oder schwarzer Koenig
 
    1.Kc2-d3 != !
 
-
   add_to_move_generation_stack:         121
                      play_move:          16
  is_white_king_square_attacked:          15
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

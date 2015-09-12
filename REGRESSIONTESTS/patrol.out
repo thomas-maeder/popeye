@@ -1,5 +1,5 @@
 
-             Denys Bonner
+            Denys Bonner
  F1011, The Problemist 12/22, 7/1988
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 9
-           PatrouilleSchach
+          PatrouilleSchach
 
    1.Sh5-f6 ! Drohung:
           2.Sf6-d5 #
@@ -35,16 +35,16 @@
       1...Ke5-d6
           2.Se7-d5 #
 
-
   add_to_move_generation_stack:       21598
                      play_move:       10314
  is_white_king_square_attacked:        1102
  is_black_king_square_attacked:       10317
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-             Denys Bonner
+            Denys Bonner
 F1291, The Problemist 14/1-2, 1-3/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -67,7 +67,7 @@ F1291, The Problemist 14/1-2, 1-3/1992
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        15 + 14
-           PatrouilleSchach
+          PatrouilleSchach
 
    1.a3*b4 ! Zugzwang.
       1...Ta1-a3
@@ -165,12 +165,12 @@ F1291, The Problemist 14/1-2, 1-3/1992
       1...Tf8-e8
           2.Sc4-e3 #
 
-
   add_to_move_generation_stack:       36779
                      play_move:       23553
  is_white_king_square_attacked:        1178
  is_black_king_square_attacked:       23556
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -197,7 +197,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 8
-           PatrouilleSchach
+          PatrouilleSchach
 
    1.Sf3-g5 + !
       1...Ke4*f5
@@ -209,11 +209,11 @@ Loesung beendet.
       1...Ke4*e5
           2.Sg5-e4 #
 
-
   add_to_move_generation_stack:        4818
                      play_move:        2328
  is_white_king_square_attacked:         265
  is_black_king_square_attacked:        2331
-Loesung beendet. 
+
+Loesung beendet.
 
 

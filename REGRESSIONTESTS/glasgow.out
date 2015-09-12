@@ -1,7 +1,7 @@
 
             Torsten Lin"s
      Paisley 29. 3. - 1. 4. 1996
-     Preis, BCPS Weekendgathering
+    Preis, BCPS Weekendgathering
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -38,13 +38,13 @@ a)
       1...c5-c4
           2.CAc2-f3 #
 
-
   add_to_move_generation_stack:        8131
                      play_move:        4693
  is_white_king_square_attacked:         426
  is_black_king_square_attacked:        4696
+
 b) Circe
-   GlasgowSchach
+   GlasgowSchach  
 
    1.Kh8-g8 ! Drohung:
           2.CAc6-d3 #
@@ -57,11 +57,11 @@ b) Circe
       1...c5-c4
           2.CAc2-f3 #
 
-
   add_to_move_generation_stack:        7900
                      play_move:        4696
  is_white_king_square_attacked:         425
  is_black_king_square_attacked:        4699
-Loesung beendet. 
+
+Loesung beendet.
 
 

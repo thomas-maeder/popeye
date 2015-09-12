@@ -45,11 +45,11 @@
  18  (g2-g3 )
  19  (h2-h4 )
  20  (h2-h3 )
-
   add_to_move_generation_stack:    23746357
                      play_move:    30679861
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

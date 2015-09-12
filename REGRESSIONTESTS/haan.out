@@ -27,19 +27,19 @@
 a) 
 
   1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 #
-
   add_to_move_generation_stack:        9975
                      play_move:        8666
  is_white_king_square_attacked:         865
  is_black_king_square_attacked:        8391
+
 b) wLb1  
 
   1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 #
-
   add_to_move_generation_stack:       10070
                      play_move:        7897
  is_white_king_square_attacked:        1238
  is_black_king_square_attacked:        7535
+
 Loesung beendet.
 
 
@@ -73,11 +73,11 @@ Loesung beendet.
   1...  ...  2.Ke5-f6 g2-g3   3.Kf6-g7 g3-g4   4.Kg7-g8 g4-g5   5.Kg8-h8 g5-g6 =
 
   1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S =
-
   add_to_move_generation_stack:       64276
                      play_move:       28814
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       27374
+
 Loesung beendet.
 
 
@@ -110,11 +110,11 @@ Loesung beendet.
 
   1.a7-a5 b6-b7 #
   1.a7-a6 b6-b7 #
-
   add_to_move_generation_stack:          13
                      play_move:          13
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          13
+
 Loesung beendet.
 
 
@@ -150,20 +150,20 @@ Loesung beendet.
 a) 
 
   1.a7-a5 b6-b7 #
-
   add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          14
+
 b) HaanerSchach
    SchwarzerKuerzestzueger  
 
   1.a7-a6 b6-b7 #
-
   add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          14
+
 Loesung beendet.
 
 
@@ -196,11 +196,11 @@ Beispiel fuer Rochadeschach + Haaner Schach
    1.Kh5-h3/wBh2-h4 !
       1...a4-a3 =
 
-
   add_to_move_generation_stack:          41
                      play_move:          21
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -232,11 +232,11 @@ Beispiel fuer Rochade in Haaner Schach
    1.0-0 !
       1...h4-h3 =
 
-
   add_to_move_generation_stack:          44
                      play_move:          24
  is_white_king_square_attacked:          26
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

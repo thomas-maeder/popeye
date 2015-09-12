@@ -41,11 +41,11 @@
       1...Dd7*d6[+sBd7] +
           2.Sf5*d6[+wBf5] #
 
-
   add_to_move_generation_stack:        4375
                      play_move:        2905
  is_white_king_square_attacked:         246
  is_black_king_square_attacked:        2908
+
 Loesung beendet.
 
 
@@ -78,11 +78,11 @@ Loesung beendet.
   1...Lg4-f3[+wBg4]   2.Sb8-a6 Gd1-d5 #
 
   1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 #
-
   add_to_move_generation_stack:       33228
                      play_move:       29025
  is_white_king_square_attacked:        2220
  is_black_king_square_attacked:       28852
+
 Loesung beendet.
 
 
@@ -180,11 +180,11 @@ Andernach TT 2000, 4. ehrende Erwähnung
       1...Sf8*g6
           2.Dd8-d7 #
 
-
   add_to_move_generation_stack:       37774
                      play_move:       27031
  is_white_king_square_attacked:        1324
  is_black_king_square_attacked:       27022
+
 Loesung beendet.
 
 
@@ -227,11 +227,11 @@ a)
 
    1.Sh2-f3[+wBh2] !
 
-
   add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Sentinelles  PionNeutre  
 
    1.nSa2-c1[+nBa2] !
@@ -246,11 +246,11 @@ b) Sentinelles  PionNeutre
 
    1.Sh2-f3[+wBh2] !
 
-
   add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

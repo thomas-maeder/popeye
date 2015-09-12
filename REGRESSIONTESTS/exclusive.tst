@@ -22,16 +22,16 @@
   #1                          4 + 5
                 Circe
        ImmunChess RexInclusive
-            ExclusiveChess
+           ExclusiveChess
 
    1.Qa1-e1 # !
-
 
   add_to_move_generation_stack:        5486
                      play_move:        9978
  is_white_king_square_attacked:        2552
  is_black_king_square_attacked:        3141
-solution finished. 
+
+solution finished.
 
 
 
@@ -58,16 +58,16 @@ solution finished.
   h#0.5                       4 + 5
                 Circe
        ImmunChess RexInclusive
-            ExclusiveChess
+           ExclusiveChess
 
   1...Qa1-d4 Can't decide whether this move is refuted
-
 
   add_to_move_generation_stack:        5070
                      play_move:        8693
  is_white_king_square_attacked:        2596
  is_black_king_square_attacked:        2349
-solution finished. 
+
+solution finished.
 
 
 
@@ -94,14 +94,14 @@ solution finished.
   #1                          4 + 5
                 Circe
        ImmunChess RexInclusive
-            ExclusiveChess
-
+           ExclusiveChess
 
   add_to_move_generation_stack:        5040
                      play_move:        9125
  is_white_king_square_attacked:        1838
  is_black_king_square_attacked:        3331
-solution finished. 
+
+solution finished.
 
 
 
@@ -128,14 +128,14 @@ solution finished.
   h#0.5                       4 + 5
                 Circe
        ImmunChess RexInclusive
-            ExclusiveChess
-
+           ExclusiveChess
 
   add_to_move_generation_stack:        3432
                      play_move:        5822
  is_white_king_square_attacked:        1252
  is_black_king_square_attacked:        2084
-solution finished. 
+
+solution finished.
 
 
 
@@ -162,16 +162,16 @@ solution finished.
   #1                          4 + 5
                 Circe
        ImmunChess RexInclusive
-            ExclusiveChess
+           ExclusiveChess
 
    1.Qb2-d4 Can't decide whether this move is refuted
-
 
 
   add_to_move_generation_stack:        5158
                      play_move:        8785
  is_white_king_square_attacked:        2720
  is_black_king_square_attacked:        2261
-solution finished. 
+
+solution finished.
 
 

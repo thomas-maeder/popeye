@@ -27,11 +27,11 @@ king is transfered when castling, rook isn't
 
    1.0-0[wKg1->h5] !
 
-
   add_to_move_generation_stack:          15
                      play_move:           2
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -86,11 +86,11 @@ pawns are promoted before and after transfer
 
    1.f7-f8=B[wBf8->a4] !
 
-
   add_to_move_generation_stack:           2
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -121,11 +121,11 @@ neutral pawns are not promoted when transfered to the "wrong" promotion row
 
    1.nPd3-d4[nPd4->f1] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -156,11 +156,11 @@ pawns in wormholes on 1st rank can do single step
 
   1.f8-f7 d1-d2 z
   1.f8*e7 d1-d2 z
-
   add_to_move_generation_stack:           5
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -190,11 +190,11 @@ solution finished.
          Wormholes e1 h1 f8
 
   1.Re6-e1[wRe1->h1]   2.Ke7-f8[wKf8->e1]   3.0-0
-
   add_to_move_generation_stack:         477
                      play_move:         492
  is_white_king_square_attacked:         494
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -224,11 +224,11 @@ at least 1 wormhole must be empty for check on a wormhole ...
            Wormholes d4 e7
 
   1.d5-d6   2.d4-d5 +
-
   add_to_move_generation_stack:           5
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
+
 solution finished.
 
 
@@ -260,11 +260,11 @@ unless the checking piece occupies a wormhole itself
 
    1.c6*d7[wPd7->f7][+bPd7] + !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -296,11 +296,11 @@ paralysis on wormhole even if all wormholes are blocked
 
    1.Qf1-a6 # !
 
-
   add_to_move_generation_stack:          36
                      play_move:          35
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          36
+
 solution finished.
 
 
@@ -332,11 +332,11 @@ support on wormhole even if all wormholes are blocked
 
    1.Sd7-b8 # !
 
-
   add_to_move_generation_stack:          41
                      play_move:          37
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          38
+
 solution finished.
 
 
@@ -368,11 +368,11 @@ the length of a move is determined by the wormhole a pices moves on
 
    1.Ba1-h8[wBh8->b1] !
 
-
   add_to_move_generation_stack:           7
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -403,11 +403,11 @@ en passant capture of pawn transfered to wormhole
            Wormholes f3 e5
 
   1.e7-e5[bPe5->f3] d5*e6 ep. +
-
   add_to_move_generation_stack:          14
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          10
+
 solution finished.
 
 
@@ -439,11 +439,11 @@ solution finished.
   1  (e7-e5 )
   1.e7-e5 d5*e6 ep.[wPe6->h4]
   2  (e7-e6[bPe6->h4] )
-
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -478,11 +478,11 @@ solution finished.
 
    1.e2*f3[wPf3->e4] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -519,11 +519,11 @@ promotions are not illegal null moves
 
    1.e7-e8=B[wBe8->e7] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -554,11 +554,11 @@ solution finished.
 
    1.a4-a5[wPa5->e7] z !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

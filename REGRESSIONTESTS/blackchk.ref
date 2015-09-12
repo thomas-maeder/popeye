@@ -104,11 +104,11 @@ takes 13 min on Athlon 2400 / 200MB
     but
       1... !
 
-
   add_to_move_generation_stack:    89505906
                      play_move:    58339784
  is_white_king_square_attacked:    58679000
  is_black_king_square_attacked:    10808101
-solution finished. 
+
+solution finished.
 
 

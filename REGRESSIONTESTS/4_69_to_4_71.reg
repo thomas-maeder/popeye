@@ -48,11 +48,11 @@ LaTeXFile will not compile: undefined fairy piece
 
    1.h7-h8=RH=c=chcc !
 
-
   add_to_move_generation_stack:           1
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -86,7 +86,6 @@ solution finished.
   1...  ...  2.f2-f1=Q Ke1-e1*f1   3.g2-g1=Q Rh1-h1*g1 ==
 
   1...0-0 ==
-
   add_to_move_generation_stack:         793
                      play_move:         240
  is_white_king_square_attacked:         194
@@ -121,11 +120,11 @@ solving interrupted.
                Madrasi
              BackToBack
 
-
   add_to_move_generation_stack:         541
                      play_move:         405
  is_white_king_square_attacked:          28
  is_black_king_square_attacked:         405
+
 solution finished.
 
 
@@ -156,11 +155,11 @@ solution finished.
                Madrasi
              BackToBack
 
-
   add_to_move_generation_stack:          12
                      play_move:          12
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          13
+
 solution finished.
 
 
@@ -191,11 +190,11 @@ Popeye hasn't found the solution since 4.65
                 KoeKo
 
   1.0-0   2.nRf8-f2   3.nPe3-e2   4.nPe2-e1=nQ   5.nQe1-g1   6.nRf2-h2   7.nQg1-a7 nRh2-h8 #
-
   add_to_move_generation_stack:      558560
                      play_move:      643203
  is_white_king_square_attacked:       22728
  is_black_king_square_attacked:      211290
+
 solution finished.
 
 
@@ -225,11 +224,11 @@ Popeye hasn't found the solution since 4.65
                 KoeKo
 
   1...Kc5-d6 +   2.Kd7-c8 nPb6-b7 #
-
   add_to_move_generation_stack:         414
                      play_move:         497
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:         140
+
 solution finished.
 
 
@@ -283,11 +282,11 @@ solution finished.
   a=>b1                       1 + 2
 LaTeXFile will not compile: undefined fairy piece
 
-
   add_to_move_generation_stack:          29
                      play_move:          29
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           5
+
 solution finished.
 
 
@@ -317,11 +316,11 @@ solution finished.
          AntiCirce Symmetry
 
   1.d2-d4 e7-e6   2.d4-d5 Bf8-e7   3.d5-d6 Ke8-f8   4.d6*e7[wPe7->d2] dia
-
   add_to_move_generation_stack:     4706414
                      play_move:     4673193
  is_white_king_square_attacked:      126694
  is_black_king_square_attacked:      177450
+
 solution finished.
 
 
@@ -350,11 +349,11 @@ solution finished.
   h#1.5                       2 + 4
              HalfDuplex
 
-
   add_to_move_generation_stack:         163
                      play_move:         146
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          39
+
 solution finished.
 
 
@@ -409,11 +408,11 @@ solution finished.
            ChameleonChess
 
   1.Sb3-c1=B Qb6-b8=S a=>b
-
   add_to_move_generation_stack:         148
                      play_move:         148
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:           4
+
 solution finished.
 
 
@@ -444,11 +443,11 @@ solution would start with 1.... ... because a second move inversion was detected
   h#2.5                       3 + 3
 
   1...c7-c8=Q   2.Sa8-c7 a7-a8=R   3.Kd6-c6 Ra8-a6 #
-
   add_to_move_generation_stack:       96952
                      play_move:       48624
  is_white_king_square_attacked:       12150
  is_black_king_square_attacked:       47252
+
 solution finished.
 
 
@@ -478,11 +477,11 @@ some recent versions allowed neutral double-grasshoppers to capture themselves
   ~1                     0 + 1 + 1n
 LaTeXFile will not compile: undefined fairy piece
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -537,11 +536,11 @@ so far, we haven't solved this because of some obscure "optimisation"
       BlackSuperTransmutingKing
 
   1.Qb3*f7 + Ke8-c6=Q a=>b
-
   add_to_move_generation_stack:          36
                      play_move:          35
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -574,11 +573,11 @@ solution finished.
 
    1.Kh8*a8 !
 
-
   add_to_move_generation_stack:          16
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -612,11 +611,11 @@ until 4.69, Popeye allowed checks to a super-transmuting king to be defended by 
              Imitator e1
       BlackSuperTransmutingKing
 
-
   add_to_move_generation_stack:         354
                      play_move:          60
  is_white_king_square_attacked:          43
  is_black_king_square_attacked:          22
+
 solution finished.
 
 
@@ -649,11 +648,11 @@ LaTeXFile will not compile: undefined fairy piece
 
    1.La7*c5-d4 # !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -694,11 +693,11 @@ LaTeXFile will not compile: undefined fairy piece
    1.Ra8-a1 !
       1...Bf6*a1=S[bSa1->b8] #
 
-
   add_to_move_generation_stack:        4115
                      play_move:        4342
  is_white_king_square_attacked:        2217
  is_black_king_square_attacked:        1695
+
 solution finished.
 
 
@@ -733,11 +732,11 @@ since 4.65, en passant captures weren't supported in Circe Take&Make any more
 
    1.e5*d6 ep.[+bPd4] !
 
-
   add_to_move_generation_stack:           5
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -776,11 +775,11 @@ since 4.65, there was an obscure en passant bug in Circe Volages
 
    1.f6*e7 ep.=S[+bPe7=w] !
 
-
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -811,11 +810,11 @@ make sure that Volage works during an en passant capture in Circe Parrain
                Volage
 
   1.e5*d6 ep.   2.d6-d7=b[+bPd6=w] z
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -848,11 +847,11 @@ both sides need a king
 
    1.nPd3-d4 !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -883,11 +882,11 @@ because it forgot the rebirth of  the Bf8
   ser-h==1                    2 + 3
          AntiCirce Parachute
 
-
   add_to_move_generation_stack:         771
                      play_move:         414
  is_white_king_square_attacked:         327
  is_black_king_square_attacked:          10
+
 solution finished.
 
 
@@ -926,11 +925,11 @@ recent Popeye versions promoted the neutral pawn on e1 as well
   1.Kh5-g4 Ba4-d7 +
   1.Kh5-g6 Ba4-c2 +
   1.Kh5-g6 Ba4-e8 +
-
   add_to_move_generation_stack:          65
                      play_move:          68
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          68
+
 solution finished.
 
 
@@ -964,20 +963,20 @@ both sides need a king
 a) 
 
   1.e7-e5 d5*e6 ep.[+buPe5]
-
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 both sides need a king
+
 b) HauntedChess  
 
   1.e7-e5 d5*e6 ep.[+bPe5]
-
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1011,21 +1010,21 @@ both sides need a king
 a) 
 
   1.Ba8*b7[+wPb2=b] Rh8-h3=b z
-
   add_to_move_generation_stack:          15
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 both sides need a king
+
 b) Circe Parrain
    Volage  
 
   1.Ba8*b7 Rh8-h3=b[+wPb2=b] z
-
   add_to_move_generation_stack:          15
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1059,11 +1058,11 @@ both sides need a king
    1.c7-c8=S # !
 
   2  (c7*b8 )
-
   add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           9
+
 solution finished.
 
 

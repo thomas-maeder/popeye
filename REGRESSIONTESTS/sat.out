@@ -199,11 +199,11 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                          56.Sb5-d4 +
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
-
   add_to_move_generation_stack:    22695486
                      play_move:     2751014
  is_white_king_square_attacked:    13998689
  is_black_king_square_attacked:     5018878
+
 Loesung beendet.
 
 
@@ -237,11 +237,11 @@ Loesung beendet.
   1.e3-e2 c3-c4   2.Lg1*a7=w c4-c5 #
   1.c6-c5 Sb1-d2   2.Lg2*b7=w Sd2-e4 #
   1.d6-d5 Th6-h7   2.Dh2*b8=w Th7-c7 #
-
   add_to_move_generation_stack:       17567
                      play_move:       14502
  is_white_king_square_attacked:         458
  is_black_king_square_attacked:        2612
+
 Loesung beendet.
 
 
@@ -272,11 +272,11 @@ Loesung beendet.
                  SAT
 
   1.Ld5-h1   2.Kc6-d5   3.Kd5-e4   4.Ke4-f3   5.Kf3-g2   6.Kg2*g1   7.Lh1*b7 #
-
   add_to_move_generation_stack:      192416
                      play_move:       40634
  is_white_king_square_attacked:      150086
  is_black_king_square_attacked:         141
+
 Loesung beendet.
 
 
@@ -333,11 +333,11 @@ C. u. Sachova skladba 2000 (SAT #46)
               2...g7-g6
                   3.Tg2*g6[+sBg7] #
 
-
   add_to_move_generation_stack:       96677
                      play_move:       21375
  is_white_king_square_attacked:        6382
  is_black_king_square_attacked:       38555
+
 Loesung beendet.
 
 
@@ -407,11 +407,11 @@ Loesung beendet.
       1...Sd2-b3
           2.Df2*c2 #
 
-
   add_to_move_generation_stack:       12296
                      play_move:        2430
  is_white_king_square_attacked:         236
  is_black_king_square_attacked:        6205
+
 Loesung beendet.
 
 
@@ -445,11 +445,11 @@ Loesung beendet.
       1...a3-a2
           2.Lb1-h7 #
 
-
   add_to_move_generation_stack:         343
                      play_move:         114
  is_white_king_square_attacked:          37
  is_black_king_square_attacked:         185
+
 Loesung beendet.
 
 
@@ -488,11 +488,11 @@ a)
                   3.Tf4*f2
                       3...g3*f2 #
 
-
   add_to_move_generation_stack:       22455
                      play_move:        3239
  is_white_king_square_attacked:       11468
  is_black_king_square_attacked:        2745
+
 b) wSh4  
 
    1.Sh4-f5 ! Zugzwang.
@@ -505,11 +505,11 @@ b) wSh4
                       3...g2*f1=T #
                       3...g2*f1=L #
 
-
   add_to_move_generation_stack:        4003
                      play_move:         600
  is_white_king_square_attacked:        2432
  is_black_king_square_attacked:         227
+
 Loesung beendet.
 
 
@@ -543,11 +543,11 @@ Loesung beendet.
   1.e4-e3 Th7-h2   2.e6-e5 Th2*b2 #
   1.e6-e5 Tg8-a8   2.La2-g8 + Ta8*g8 #
   1.e6-e5 Tg8-b8   2.e4-e3 Tb8*b2 #
-
   add_to_move_generation_stack:        4361
                      play_move:        1695
  is_white_king_square_attacked:         105
  is_black_king_square_attacked:        1765
+
 Loesung beendet.
 
 
@@ -668,11 +668,11 @@ Loesung beendet.
     Aber
       1...g3-g2 + !
 
-
   add_to_move_generation_stack:       61858
                      play_move:       13129
  is_white_king_square_attacked:       27969
  is_black_king_square_attacked:       18323
+
 Loesung beendet.
 
 

@@ -27,11 +27,11 @@
            BlackMaximummer
                Isardam
 
-
   add_to_move_generation_stack:          72
                      play_move:          86
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:          55
+
 solution finished.
 
 
@@ -66,11 +66,11 @@ solution finished.
 
    1.MAa8-c7 !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -103,11 +103,11 @@ reported P.Raican (orig. M.Caillaud??)
            Circe Assassin
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
-
   add_to_move_generation_stack:      137715
                      play_move:      140512
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -140,11 +140,11 @@ reported P.Raican (orig. M.Caillaud??)
             Circe Parrain
 
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8[+bPd7]   4.Sd5-b6 dia
-
   add_to_move_generation_stack:     5714103
                      play_move:     5715111
  is_white_king_square_attacked:      279187
  is_black_king_square_attacked:      173771
+
 solution finished.
 
 
@@ -177,11 +177,11 @@ solution finished.
        WhiteMaximummer  ultra
 
   1...Bg7-a1 #
-
   add_to_move_generation_stack:          34
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -237,11 +237,11 @@ moves in Maximummer+Imitator problems
                                           6.Sd8-f7[If4]
                                               6...Rc8-c5[If1] #
 
-
   add_to_move_generation_stack:       89389
                      play_move:       36659
  is_white_king_square_attacked:       14411
  is_black_king_square_attacked:       29776
+
 solution finished.
 
 

@@ -26,11 +26,11 @@
 
   1.Ta8-a4=L Kf2-f1   2.La4-c2=S Dg6-d3=T #
   1.Ta8-a6=L Dg6-d6=T +   2.La6-d3=S + Td6*d3=D #
-
   add_to_move_generation_stack:       58302
                      play_move:       49845
  is_white_king_square_attacked:        6268
  is_black_king_square_attacked:       49382
+
 Loesung beendet.
 
 
@@ -69,11 +69,11 @@ Loesung beendet.
       1...Lf4-c1=S
           2.Se2*g3=L #
 
-
   add_to_move_generation_stack:        5299
                      play_move:        2768
  is_white_king_square_attacked:         275
  is_black_king_square_attacked:        2771
+
 Loesung beendet.
 
 
@@ -105,11 +105,11 @@ Loesung beendet.
            EinsteinSchach
 
   1.Df3-b3=T c2*b3=S[+sTa8]   2.Ta8-a1=L Sb3*a1=L[+sLf8]   3.Lf8-g7=S La1*g7=T[+sSb8]   4.Sb8-d7=B Tg7*d7=D #
-
   add_to_move_generation_stack:      128048
                      play_move:      119456
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      113614
+
 Loesung beendet.
 
 
@@ -143,11 +143,11 @@ Loesung beendet.
   1.Ta2-e2=L Td1-d8=L   2.Le2-g4=S 0-0=L #
 
   1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D #
-
   add_to_move_generation_stack:       91296
                      play_move:       70816
  is_white_king_square_attacked:       41035
  is_black_king_square_attacked:       40033
+
 Loesung beendet.
 
 
@@ -183,11 +183,11 @@ Loesung beendet.
               2...Ka1*b1
                   3.Le1-b4=S #
 
-
   add_to_move_generation_stack:       10900
                      play_move:        8957
  is_white_king_square_attacked:        1548
  is_black_king_square_attacked:        7662
+
 Loesung beendet.
 
 
@@ -218,11 +218,11 @@ Loesung beendet.
        ReversesEinsteinSchach
 
   1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T #
-
   add_to_move_generation_stack:         256
                      play_move:         256
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         250
+
 Loesung beendet.
 
 
@@ -259,11 +259,11 @@ Loesung beendet.
       1...c4*d3 ep.=S +
           2.c2*d3=S #
 
-
   add_to_move_generation_stack:        1749
                      play_move:        1062
  is_white_king_square_attacked:         150
  is_black_king_square_attacked:        1065
+
 Loesung beendet.
 
 
@@ -296,11 +296,11 @@ Beispiel fuer Rochade in Einstein-Schach
       1...d3-d2
           2.Lf1-a6=S z
 
-
   add_to_move_generation_stack:         214
                      play_move:          32
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

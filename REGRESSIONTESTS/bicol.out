@@ -28,11 +28,11 @@
   1.Kd3-d2 Kf1-g1   2.Kd2-e1 Lh8-c3 #
 
   1.Lh8-d4 Lf3-g4   2.Ld4-f2 Lg4-h3 #
-
   add_to_move_generation_stack:       32275
                      play_move:       28674
  is_white_king_square_attacked:       16012
  is_black_king_square_attacked:       15008
+
 Loesung beendet.
 
 
@@ -63,11 +63,11 @@ Loesung beendet.
               Bicolores
 
   1.Th1-a1 Le4-b1   2.Ke2-f1 Lb1-d3 #
-
   add_to_move_generation_stack:       43917
                      play_move:       35117
  is_white_king_square_attacked:        4265
  is_black_king_square_attacked:       34824
+
 Loesung beendet.
 
 
@@ -101,11 +101,11 @@ Loesung beendet.
   1.Kg2-h1 Kg4-f3   2.Le5-h2 Sh3-f2 #
 
   1.Kg4-h4 Kg2-f3   2.Sh3-f4 Le5-f6 #
-
   add_to_move_generation_stack:       20906
                      play_move:       18441
  is_white_king_square_attacked:       11032
  is_black_king_square_attacked:        9128
+
 Loesung beendet.
 
 
@@ -139,11 +139,11 @@ Loesung beendet.
   1.Sf5-d4 Kf1-f2   2.Sd4-b3 Sg2-e3 #
 
   1.Sg2-f4 Kd1-d2   2.Sf4-h3 Sf5-e3 #
-
   add_to_move_generation_stack:        8538
                      play_move:        7467
  is_white_king_square_attacked:        4276
  is_black_king_square_attacked:        4058
+
 Loesung beendet.
 
 
@@ -177,11 +177,11 @@ Loesung beendet.
   1.c2-c1=T h7-h8=T   2.Tc1-c3 Th8-h4 #
 
   1.h7-h8=T c2-c1=D   2.Th8-h7 Dc1-h6 #
-
   add_to_move_generation_stack:       21728
                      play_move:       20369
  is_white_king_square_attacked:       11806
  is_black_king_square_attacked:       10826
+
 Loesung beendet.
 
 
@@ -213,11 +213,11 @@ Loesung beendet.
               Bicolores
 
   1.f2-f1=L a7-a8=S   2.d2-d1=T c7-c8=D #
-
   add_to_move_generation_stack:       25963
                      play_move:       18869
  is_white_king_square_attacked:        2769
  is_black_king_square_attacked:       18698
+
 Loesung beendet.
 
 
@@ -250,11 +250,11 @@ Loesung beendet.
   1.Tg8-b8 Se6-d8   2.Ke7-f8 Sd8-c6 #
   1.Lh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Lh8-d4 Se6-g7   2.Tg8-d8 Sg7*f5 #
-
   add_to_move_generation_stack:       76524
                      play_move:       65793
  is_white_king_square_attacked:        2789
  is_black_king_square_attacked:       65436
+
 Loesung beendet.
 
 

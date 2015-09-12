@@ -69,12 +69,12 @@
               2...B/Sc4-e5
                   3.Sd4-c2 #
 
-
   add_to_move_generation_stack:      373250
                      play_move:      190214
  is_white_king_square_attacked:       20752
  is_black_king_square_attacked:      186326
-solution finished. 
+
+solution finished.
 
 
 
@@ -135,11 +135,11 @@ solution finished.
               2...Ke2-e3
                   3.Qg2-e2 #
 
-
   add_to_move_generation_stack:      219550
                      play_move:      117748
  is_white_king_square_attacked:       15902
  is_black_king_square_attacked:      115120
-solution finished. 
+
+solution finished.
 
 

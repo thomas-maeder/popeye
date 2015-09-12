@@ -40,11 +40,11 @@ another Messigny exchange of the same piece was illegal
       1...Bh1-g2
           2.Bh6<->Bg2 #
 
-
   add_to_move_generation_stack:        4590
                      play_move:        3085
  is_white_king_square_attacked:         250
  is_black_king_square_attacked:        3062
+
 solution finished.
 
 
@@ -78,11 +78,11 @@ only the synchronous move h2-h4 was legal
    1.Rd6-d8 ! threat:
           2.Kc8-c7 #
 
-
   add_to_move_generation_stack:         496
                      play_move:         198
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         162
+
 solution finished.
 
 
@@ -116,11 +116,11 @@ only the anti-synchronous move Rd8-d1 was legal
    1.Rd1-d8 ! threat:
           2.Rc8-a8 #
 
-
   add_to_move_generation_stack:         970
                      play_move:         357
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:         308
+
 solution finished.
 
 
@@ -150,11 +150,11 @@ solution finished.
   #1                          2 + 4
            AlphabeticChess
 
-
   add_to_move_generation_stack:          22
                      play_move:          10
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           9
+
 solution finished.
 
 
@@ -186,11 +186,11 @@ solution finished.
               AntiCirce
              HalfDuplex
 
-
   add_to_move_generation_stack:          45
                      play_move:          70
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
+
 solution finished.
 
 
@@ -244,11 +244,11 @@ solution finished.
            Wormholes e5 f8
 
   1.h7-h6 Kg7-f8[wKf8->e5] a=>b
-
   add_to_move_generation_stack:          99
                      play_move:         105
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           5
+
 solution finished.
 
 
@@ -281,11 +281,11 @@ solution finished.
   1.d2-d1=S   2.Sd1-e3   3.Se3-f1 Qf2-g1 #
   1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
   1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
-
   add_to_move_generation_stack:        8042
                      play_move:        7018
  is_white_king_square_attacked:        1203
  is_black_king_square_attacked:        7018
+
 solution finished.
 
 
@@ -316,11 +316,11 @@ Until 4.63, berolina pawns were not allowed in Phantom Chess, ...
 
    1.BPa4-b5 + !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -351,11 +351,11 @@ solution finished.
 
    1.BPd3-e4 + !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -386,11 +386,11 @@ solution finished.
 
    1.BPd3-e4 + !
 
-
   add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -419,11 +419,11 @@ solution finished.
   h=1                         1 + 1
            Wormholes d1 d8
 
-
   add_to_move_generation_stack:          63
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          22
+
 solution finished.
 
 
@@ -452,11 +452,11 @@ solution finished.
   h~1                         1 + 1
               Royal d7
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -489,11 +489,11 @@ solution finished.
   1.rBPd7-b5 BPe5-d6
   1.rBPd7-c6 BPe5-f6
   1.rBPd7-c6 BPe5-d6
-
   add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           8
+
 solution finished.
 
 
@@ -523,11 +523,11 @@ solution finished.
               Royal d7
            Wormholes h3 d5
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -557,11 +557,11 @@ solution finished.
               Royal d2
            Wormholes d4 d6
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -593,11 +593,11 @@ solution finished.
 
    1.c6*d7 ep. !
 
-
   add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -627,11 +627,11 @@ solution finished.
 
    1.BPe5*e6 ep. !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -662,11 +662,11 @@ en passant key after double-step onto wormhole
 
    1.e5*d6 ep. !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -695,11 +695,11 @@ solution finished.
   h~1                         1 + 1
               Royal d7
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -728,11 +728,11 @@ versions up to 4.63 would do 1.e7-e5 in spite of self-check
   h~1                         1 + 1
               Royal e7
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -762,11 +762,11 @@ just to make sure that check by ep capture by ship is enforced
               Royal e7
            Wormholes h3 e5
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -796,11 +796,11 @@ solution finished.
               Royal e7
            Wormholes h3 e5
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -829,11 +829,11 @@ versions up to 4.63 would do 1.rPd7-d5 in spite of the self check
   h~1                         1 + 1
               Royal d7
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -864,18 +864,18 @@ versions up to 4.63 didn't allow hunters to capture or be captured ep
 a) 
 
   1.P/Bd7-d5 P/Be5*d6 ep.
-
   add_to_move_generation_stack:          26
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) brP/Bd7  
 
+b) brP/Bd7  
 
   add_to_move_generation_stack:          11
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
+
 solution finished.
 
 
@@ -905,11 +905,11 @@ solution finished.
                Madrasi
 
   1.d2-d4   2.h3-h4   3.d4-d5 z
-
   add_to_move_generation_stack:          26
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -959,11 +959,11 @@ a)
   1.d7-d6 Oe5-e6
   1.d7-d6 Oe5*f6
   1.d7-d6 Oe5*d6
-
   add_to_move_generation_stack:          27
                      play_move:          26
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) brPd7  
 
   1.MPb6*c5-d4 Oe5-e6 +
@@ -978,11 +978,11 @@ b) brPd7
   1.rPd7-d5 Oc5-c6
   1.rPd7-d5 Oe5-e6
   1.rPd7-d5 Oe5*f6
-
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          18
+
 solution finished.
 
 
@@ -1038,11 +1038,11 @@ a)
   1.e7-e6 GYd5-b7
   1.e7-e6 GYd5-c6
   1.e7-e6 GYd5-d6
-
   add_to_move_generation_stack:          28
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) brPe7  
 
   1.rPe7-e5 GYd5-a2
@@ -1059,11 +1059,11 @@ b) brPe7
   1.rPe7-e5 GYd5-b7
   1.rPe7-e5 GYd5-c6
   1.rPe7-e5 GYd5-d6 +
-
   add_to_move_generation_stack:          16
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          16
+
 solution finished.
 
 
@@ -1091,11 +1091,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                     0 + 0 + 1n
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1136,11 +1136,11 @@ Popeye has always wrongly allowed queen-side castling in Monochrome Chess
 
    1.Ke1-d2 !
 
-
   add_to_move_generation_stack:          16
                      play_move:           6
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1171,11 +1171,11 @@ solution finished.
               MarsCirce
 
   1...Kd8-e1*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8-c1*b2=R =
-
   add_to_move_generation_stack:      204149
                      play_move:       52843
  is_white_king_square_attacked:       29119
  is_black_king_square_attacked:       43596
+
 solution finished.
 
 
@@ -1209,11 +1209,11 @@ solution finished.
     but
       1...h4*g3[+wPg2] !
 
-
   add_to_move_generation_stack:        8022
                      play_move:         952
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1247,11 +1247,11 @@ solution finished.
     but
       1...h4*g3[+wPg2] !
 
-
   add_to_move_generation_stack:        2194
                      play_move:         449
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1288,11 +1288,11 @@ solution finished.
    1.Rh3-f3 ! threat:
           2.Rf3-f2 z
 
-
   add_to_move_generation_stack:         978
                      play_move:          94
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1332,11 +1332,11 @@ both sides need a king
     but
       1...g5*h4[+wBg2] !
 
-
   add_to_move_generation_stack:        5549
                      play_move:         673
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1370,20 +1370,20 @@ a)
 
    1.Sf7*h6 x !
 
-
   add_to_move_generation_stack:          56
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) wSe4  
 
    1.Sf7*h6 x !
-
 
   add_to_move_generation_stack:          37
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1417,20 +1417,20 @@ a)
 
    1.Sh3-b1*c3 x !
 
-
   add_to_move_generation_stack:          20
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) -wBa4  +wSa3  
 
    1.Sh3-b1*c3 x !
-
 
   add_to_move_generation_stack:          12
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1464,20 +1464,20 @@ a)
 
    1.Sh3-b1*c3 x !
 
-
   add_to_move_generation_stack:          20
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) -wBa4  +wSa3  
 
    1.Sh3-b1*c3 x !
-
 
   add_to_move_generation_stack:          12
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1511,20 +1511,20 @@ a)
 
    1.Sf7*h6 x !
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) bSe4  
 
    1.Sf7*h6 x !
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1558,20 +1558,20 @@ a)
 
    1.Sh6-g1*h3 x !
 
-
   add_to_move_generation_stack:           7
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) -bBa3  +bSa2  
 
    1.Sh6-g1*h3 x !
 
-
   add_to_move_generation_stack:           7
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1603,11 +1603,11 @@ solution finished.
 
    1.h2*g3[h8=K] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -1644,11 +1644,11 @@ solution finished.
 
    1.cPb7-b8=cB !
 
-
   add_to_move_generation_stack:           1
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1683,11 +1683,11 @@ both sides need a king
 
    1.Bh1*g2[e4=K] + !
 
-
   add_to_move_generation_stack:           1
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -1719,11 +1719,11 @@ identities (read: rebirth squares) into account.
             Circe Diagram
 
   1.Qc3-d4 e3*d4[+bQc3]   2.Qc3-e3 d2*e3[+bQc3]   3.Qc3-d3 g2*f3 #
-
   add_to_move_generation_stack:     1327768
                      play_move:      732502
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      710606
+
 solution finished.
 
 
@@ -1755,11 +1755,11 @@ the Patrouille supporter doesn't need a Patrouille supporter
 
    1.Sf7*h6 x !
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1806,11 +1806,11 @@ both sides need a king
 
    1.Ke4-c5 !
 
-
   add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1840,11 +1840,11 @@ no longer necessary to disallow Anticirc + Circe rex incl.
          Circe RexInclusive
               AntiCirce
 
-the side to play can capture the king
-  add_to_move_generation_stack:           0
+the side to play can capture the king  add_to_move_generation_stack:           0
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
+
 solution finished.
 
 
@@ -1874,11 +1874,11 @@ solution finished.
          Circe RexInclusive
            Wormholes e6 e8
 
-the side to play can capture the king
-  add_to_move_generation_stack:           0
+the side to play can capture the king  add_to_move_generation_stack:           0
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
+
 solution finished.
 
 
@@ -1908,11 +1908,11 @@ leaf hopper checks have never been detected correctly
 
    1.Sf7-g5 + !
 
-
   add_to_move_generation_stack:          10
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          11
+
 solution finished.
 
 
@@ -1946,11 +1946,11 @@ both sides need a king
 
    1.Qb3*b4[wQb4->d1][+bmQd8][d1=b] x !
 
-
   add_to_move_generation_stack:          19
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1986,22 +1986,22 @@ a)
 
    1.Sh1-f2 !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) -bmPa3  
 
    1.Sh1-g3[g3=b] !
 
    1.Sh1-f2 !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2036,11 +2036,11 @@ so far, f6 would be recolored as part of 1.mDGc1-d2
 
    1.mDGa4-d2[f6=b] z !
 
-
   add_to_move_generation_stack:          16
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2073,29 +2073,29 @@ a)
 
    1.mAMa1-b2 z !
 
-
   add_to_move_generation_stack:          19
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) zd11  
 
    1.mAMa1-d1[d4=w] z !
 
-
   add_to_move_generation_stack:          19
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 c) zb31  
 
    1.mAMa1-b3[d4=w] z !
 
-
   add_to_move_generation_stack:          19
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2125,11 +2125,11 @@ Until 4.63, we produced 1.d3-d4 + !, but no extinction is threatened
                 Circe
            ExtinctionChess
 
-
   add_to_move_generation_stack:           2
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2159,11 +2159,11 @@ Until 4.63, we produced 1.d3-d4 + !, but no extinction is threatened
            AndernachChess
            ExtinctionChess
 
-
   add_to_move_generation_stack:           2
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2195,11 +2195,11 @@ Until 4.63, there was no way to indicate Mirror File Anticirce with
 
    1.Sc3*d5[wSd5->d8] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2245,11 +2245,11 @@ solution finished.
 
    1.b3-b4[wPb4->f8=B=c] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2326,11 +2326,11 @@ HurdleColourChanging b8 f8 h6 h5 a4 g4 h3 f1
 
    1.hccLIf8-a8[b8=b] !
 
-
   add_to_move_generation_stack:          24
                      play_move:          24
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2363,11 +2363,11 @@ Until 4.63, Popeye gave a solution starting with 1.Rh8-h2=w, ignoring
          AntiAndernachChess
              UltraPatrol
 
-
   add_to_move_generation_stack:         125
                      play_move:         125
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         125
+
 solution finished.
 
 
@@ -2398,11 +2398,11 @@ solution finished.
 
    1.d2*e3 # !
 
-
   add_to_move_generation_stack:          81
                      play_move:         129
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          77
+
 solution finished.
 
 
@@ -2442,11 +2442,11 @@ Until 4.63, Popeye didn't allow Imitators in Circe
 
    1.Sd5*e3[Ic5][+bPf1=B] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2526,11 +2526,11 @@ Until 4.63, Popeye didn't allow Imitators in Circe
   1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=S] x
   1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=R] x
   1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=B] x
-
   add_to_move_generation_stack:           6
                      play_move:          52
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2560,11 +2560,11 @@ no rebirth on a square occupied by an Imitator
                 Circe
              Imitator d6
 
-
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2602,11 +2602,11 @@ No rebirth on a square occupied by an Imitator just promoted into
 
    1.f7*g8[Ie7]=B x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2636,11 +2636,11 @@ Until 4.63, Popeye didn't allow Imitators in Anticirce
              Imitator e2
               AntiCirce
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2670,11 +2670,11 @@ No check if capturer would be reborn on a square occupied by an Imitator
              Imitator c3
               AntiCirce
 
-
   add_to_move_generation_stack:           3
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
+
 solution finished.
 
 
@@ -2705,11 +2705,11 @@ solution finished.
 
    1.Qa1-a5[wQa5->e8] z !
 
-
   add_to_move_generation_stack:          21
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2717,11 +2717,11 @@ solution finished.
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b3 =
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b3   4.BWb3-b2   5.BWb2-b3 =
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b1   4.BWb1-b2   5.BWb2-b3 =
-
   add_to_move_generation_stack:         256
                      play_move:         203
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         136
+
 solution finished.
 
 
@@ -2752,20 +2752,20 @@ Until 4.63, we weren't able to solve Mars Circe combined with hoppers
 
 a) 
 
-the side to play can capture the king
-  add_to_move_generation_stack:           0
+the side to play can capture the king  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
+
 b) wGe2-->a4  
 
    1.Ga4-e4 + !
-
 
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -2796,20 +2796,20 @@ Until 4.63, Popeye didn't support Mars Circe combined with Stings
 
 a) 
 
-the side to play can capture the king
-  add_to_move_generation_stack:           0
+the side to play can capture the king  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
+
 b) wSTe2-->a4  
 
    1.STa4-e4 + !
-
 
   add_to_move_generation_stack:           9
                      play_move:           6
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           7
+
 solution finished.
 
 
@@ -2839,11 +2839,11 @@ Until 4.63, we didn't respect Annan in Isardam
                Isardam
              AnnanChess
 
-
   add_to_move_generation_stack:           5
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2873,11 +2873,11 @@ Until 4.63, we didn't respect Annan in Madrasi
                Madrasi
              AnnanChess
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2909,11 +2909,11 @@ Just to make sure - Popeye has always respected Annan in Functionary
 
    1.Sd5*e3 z !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2945,11 +2945,11 @@ Just to make sure - Popeye has always respected Annan in Patrouille
 
    1.Sd5*e3 z !
 
-
   add_to_move_generation_stack:          20
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -2982,26 +2982,26 @@ a)
 
    1.e3-e4 z !
 
-
   add_to_move_generation_stack:           9
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 both sides need a king
-b) -wKb1  
 
+b) -wKb1  
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c) -wBc1  
 
+c) -wBc1  
 
   add_to_move_generation_stack:           5
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3030,11 +3030,11 @@ solution finished.
   ze41                        3 + 0
             CentralChess
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3068,18 +3068,18 @@ a)
 
    1.Sd5*e3 z !
 
-
   add_to_move_generation_stack:          16
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-b) wKb8-->b5  
 
+b) wKb8-->b5  
 
   add_to_move_generation_stack:          15
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3113,18 +3113,18 @@ a)
 
    1.Sd5*e7 x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) -bSe8  
 
+b) -bSe8  
 
   add_to_move_generation_stack:           8
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3156,11 +3156,11 @@ Just to make sure - Popeye has always respected Annan in Shielded Kings
 
    1.Sa6-b4 z !
 
-
   add_to_move_generation_stack:          13
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -3192,11 +3192,11 @@ Just to make sure - Popeye has "always" respected Annan in SuperGuards
 
    1.Sa6-b4 z !
 
-
   add_to_move_generation_stack:          13
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3228,11 +3228,11 @@ Until 4.63, Popeye didn't respect Annan in Eiffel
 
    1.Sb1-c3 z !
 
-
   add_to_move_generation_stack:           9
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3264,11 +3264,11 @@ Just to make sure - Popeye has always respected Annan with paralysing pieces
 
    1.Sb1-c3 z !
 
-
   add_to_move_generation_stack:           9
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3300,11 +3300,11 @@ Until 4.63, Popeye didn't respect Annan in Woozles
 
    1.Bd1-b3 z !
 
-
   add_to_move_generation_stack:          13
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -3341,21 +3341,21 @@ a)
 
    1.Rc6-b6 + !
 
-
   add_to_move_generation_stack:          13
                      play_move:          13
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          14
+
 b) Madrasi
    MarsCirce  
 
    1.Rc6-d6 + !
 
-
   add_to_move_generation_stack:          32
                      play_move:          13
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
+
 solution finished.
 
 
@@ -3397,11 +3397,11 @@ Until 4.63, Popeye didn't respect Annan in Transmuting Kings
 
    1.Kd4*c6 !
 
-
   add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

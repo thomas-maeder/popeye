@@ -1,5 +1,5 @@
 
-              James Quah
+             James Quah
         The Problemist I/2001
 
 +---a---b---c---d---e---f---g---h---+
@@ -132,16 +132,16 @@
     Aber
       1...Dc4*c1 !
 
-
   add_to_move_generation_stack:        5739
                      play_move:        4880
  is_white_king_square_attacked:         308
  is_black_king_square_attacked:        4110
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-              James Quah
+             James Quah
          The Problemist 2001
 
 +---a---b---c---d---e---f---g---h---+
@@ -194,12 +194,12 @@ Loesung beendet.
       1...d5-d4
           2.Sg8-e7 #
 
-
   add_to_move_generation_stack:       27779
                      play_move:       16225
  is_white_king_square_attacked:         650
  is_black_king_square_attacked:       11017
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -229,11 +229,11 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
 
    1.e7-e8=D # !
 
-
   add_to_move_generation_stack:          39
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
-Loesung beendet. 
+
+Loesung beendet.
 
 

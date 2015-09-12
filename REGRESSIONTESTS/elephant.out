@@ -54,11 +54,11 @@
                                                                                  11.kANf7-c3
                                                                                      11...ETb6-h3 #
 
-
   add_to_move_generation_stack:       12292
                      play_move:        5003
  is_white_king_square_attacked:        5288
  is_black_king_square_attacked:        4056
+
 Loesung beendet.
 
 
@@ -131,11 +131,11 @@ Loesung beendet.
                                                                   9.kZd3-g1
                                                                       9...ETa8-h1 #
 
-
   add_to_move_generation_stack:       31981
                      play_move:       14747
  is_white_king_square_attacked:       15184
  is_black_king_square_attacked:       12926
+
 Loesung beendet.
 
 
@@ -245,11 +245,11 @@ Loesung beendet.
                                       5...Kc8-d8
                                           6.ETb6-f8 #
 
-
   add_to_move_generation_stack:    24368959
                      play_move:    19128166
  is_white_king_square_attacked:    15294435
  is_black_king_square_attacked:     4440995
+
 Loesung beendet.
 
 
@@ -299,11 +299,11 @@ Loesung beendet.
                           4.ETf5-g7 #
                           4.ETf5-d6 #
 
-
   add_to_move_generation_stack:     1410435
                      play_move:      887894
  is_white_king_square_attacked:      560189
  is_black_king_square_attacked:      398742
+
 Loesung beendet.
 
 
@@ -439,11 +439,11 @@ Loesung beendet.
               2...Ke7-e8
                   3.ETf5-g7 #
 
-
   add_to_move_generation_stack:      969324
                      play_move:      645485
  is_white_king_square_attacked:      420209
  is_black_king_square_attacked:      272812
+
 Loesung beendet.
 
 
@@ -495,11 +495,11 @@ Loesung beendet.
               2...ETf6*d2
                   3.Sg4-e5 #
 
-
   add_to_move_generation_stack:      278103
                      play_move:      162205
  is_white_king_square_attacked:       70766
  is_black_king_square_attacked:       96720
+
 Loesung beendet.
 
 

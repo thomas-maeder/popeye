@@ -26,11 +26,11 @@
 
   1.rQQe6-f5 rQQe8-d8   2.rQQf5-b1 rQQd8-d3 #
   1.rQQe6-f6 rQQe8-d7   2.rQQf6-b2 rQQd7-d4 #
-
   add_to_move_generation_stack:        2588
                      play_move:        1702
  is_white_king_square_attacked:         278
  is_black_king_square_attacked:        1679
+
 solution finished.
 
 

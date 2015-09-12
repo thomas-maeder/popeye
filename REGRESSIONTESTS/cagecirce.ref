@@ -24,11 +24,11 @@ knights can't be captured - there is no cage
           Circe Cage Strict
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6[+bBd8] +   3.Ke7-d7 Sg6-e7 =
-
   add_to_move_generation_stack:     8218292
                      play_move:     2078557
  is_white_king_square_attacked:     1135804
  is_black_king_square_attacked:     1215722
+
 solution finished.
 
 
@@ -59,11 +59,11 @@ knights can't be captured - g1 is occupied
              ImmunChess
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6[+bBd8] +   3.Ke7-d7 Sg6-e7 =
-
   add_to_move_generation_stack:     6384019
                      play_move:     2244403
  is_white_king_square_attacked:      933930
  is_black_king_square_attacked:     1037937
+
 solution finished.
 
 
@@ -93,11 +93,11 @@ solution finished.
              Circe Cage
              ImmunChess
 
-
   add_to_move_generation_stack:     6944548
                      play_move:     2380842
  is_white_king_square_attacked:     1015349
  is_black_king_square_attacked:     1091873
+
 solution finished.
 
 

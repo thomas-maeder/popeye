@@ -47,11 +47,11 @@
       1...Ld6*f4
           2.Tf2*f4[+wNf6] #
 
-
   add_to_move_generation_stack:       28722
                      play_move:       22893
  is_white_king_square_attacked:        1842
  is_black_king_square_attacked:       22753
+
 Loesung beendet.
 
 
@@ -83,43 +83,43 @@ Probleemblad V-VI 1996, Utrecht-M\"unchen, 6. Platz
 
 NullStellung
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 a) sKd3-->b6  
 
   1.Kb6-c6 c7-c8=T +   2.Kc6-d7 Tc8-d8 #
-
   add_to_move_generation_stack:        1641
                      play_move:         971
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         944
+
 b) SchwarzesKonsequentesZwangsfeld b3  
 
   1.Kd3-d4 c7-c8=L   2.Kd4-c4 Lc8-e6 #
-
   add_to_move_generation_stack:        2283
                      play_move:        1235
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1204
+
 c) SchwarzesKonsequentesZwangsfeld g6  
 
   1.Kd3-e4 c7-c8=S   2.Ke4-f5 Sc8-e7 #
-
   add_to_move_generation_stack:        2763
                      play_move:        1565
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1534
+
 +d) wBc7-->b7  
 
   1.Kd3-e4 b7-b8=D   2.Ke4-f5 Db8-b1 #
-
   add_to_move_generation_stack:        2506
                      play_move:        1464
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1433
+
 Loesung beendet.
 
 
@@ -177,11 +177,11 @@ SchwarzesKonsequentesZwangsfeld e1 c3 b5 e5 h6 f7 h7 f8 g8
                                               6...kLb1-h7
                                                   7.kLe8-f7 ==
 
-
   add_to_move_generation_stack:        4573
                      play_move:         551
  is_white_king_square_attacked:         425
  is_black_king_square_attacked:         163
+
 Loesung beendet.
 
 
@@ -212,11 +212,11 @@ Loesung beendet.
  WeissesKonsequentesZwangsfeld f1 f3
 
   1.Ta4-a2 Tf3-f1   2.Ta2-f2 Kc6-d5   3.Kf4-g3 Kd5-e4   4.Tf2-h2 Tf1-f3   5.Kg3-g2 Tf3-f1   6.Kg2-h1 Ke4-f3 #
-
   add_to_move_generation_stack:    27957871
                      play_move:     7838709
  is_white_king_square_attacked:     1127262
  is_black_king_square_attacked:     6976849
+
 Loesung beendet.
 
 

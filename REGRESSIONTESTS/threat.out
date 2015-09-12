@@ -1,6 +1,6 @@
 
             Torsten Lin"s
-                  ??
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4/1                        4 + 7
-             Gitterschach
+            Gitterschach
 
    1.Tf3-f6 ! Drohung:
           2.Tf6-b6 #
@@ -39,17 +39,17 @@
                       3...c3-c2
                           4.Tf5-f3 #
 
-
   add_to_move_generation_stack:       35327
                      play_move:       20545
  is_white_king_square_attacked:        9353
  is_black_king_square_attacked:       14045
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
     Hans Peter Rehm & Klaus Wenda
-    2. Preis, Vissermann-Memo 1978
+   2. Preis, Vissermann-Memo 1978
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -123,12 +123,12 @@ Loesung beendet.
                                                       7...Ke4-d4
                                                           8.Se5-c6 #
 
-
   add_to_move_generation_stack:       74163
                      play_move:       64372
  is_white_king_square_attacked:       39347
  is_black_king_square_attacked:       29989
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -170,12 +170,12 @@ Loesung beendet.
                       3...nTe3-f3
                           4.Lh1*f3 #
 
-
   add_to_move_generation_stack:      150368
                      play_move:       73839
  is_white_king_square_attacked:       20073
  is_black_king_square_attacked:       71818
-Loesung beendet. 
+
+Loesung beendet.
 
 
 nebenloesig - eigentlich #6
@@ -203,7 +203,7 @@ nebenloesig - eigentlich #6
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #5/1                       5 + 13
-          Circe Platzwechsel
+         Circe Platzwechsel
 
    1.ROd1-f6 ! Drohung:
           2.ROf6*b2[+sSf6] #
@@ -227,11 +227,11 @@ nebenloesig - eigentlich #6
                       3...Se6*g7[+wROe6]
                           4.ROe6*c5[+sBe6] #
 
-
   add_to_move_generation_stack:      245628
                      play_move:      177568
  is_white_king_square_attacked:       71968
  is_black_king_square_attacked:      112048
-Loesung beendet. 
+
+Loesung beendet.
 
 

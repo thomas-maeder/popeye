@@ -30,11 +30,11 @@ a)
       1...Ka8-a7
           2.Qd8-a5 #
 
-
   add_to_move_generation_stack:        1151
                      play_move:         928
  is_white_king_square_attacked:         284
  is_black_king_square_attacked:         930
+
 b) =2  
 
    1.b6*a7[wPa7->b6] = !
@@ -43,11 +43,11 @@ b) =2
       1...Ka8-a7
           2.Qe8-c6 =
 
-
   add_to_move_generation_stack:        3513
                      play_move:        1757
  is_white_king_square_attacked:         841
  is_black_king_square_attacked:        1606
+
 solution finished.
 
 
@@ -79,11 +79,11 @@ solution finished.
              HalfDuplex
 
   1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 #
-
   add_to_move_generation_stack:       17082
                      play_move:       15224
  is_white_king_square_attacked:       14431
  is_black_king_square_attacked:        6750
+
 solution finished.
 
 
@@ -118,11 +118,11 @@ solution finished.
   1...b6*a7[wPa7->a6][+bPa7] =
 
   1.a7*b6[bPb6->a3][+wPb2] b2*a3[wPa3->a6][+bPa7] =
-
   add_to_move_generation_stack:        3456
                      play_move:        2840
  is_white_king_square_attacked:        1162
  is_black_king_square_attacked:        2630
+
 solution finished.
 
 
@@ -156,11 +156,11 @@ solution finished.
   1.Ra5*a8[wRa8->h1]   2.0-0
 
   1.Kb4*a5[bKa5->e8]   2.0-0-0
-
   add_to_move_generation_stack:          84
                      play_move:         223
  is_white_king_square_attacked:         220
  is_black_king_square_attacked:         228
+
 solution finished.
 
 
@@ -367,11 +367,11 @@ a)
 
    1.c6*b7[wPb7->h8=B] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:          88
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) shift a1 ==> a2  
 
    1.c7*b8=Q[wQb8->a1] x !
@@ -886,11 +886,11 @@ b) shift a1 ==> a2
 
    1.c7*b8=B[wBb8->h8] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:         256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -925,20 +925,20 @@ a)
 
    1.Kd6*c6[wKc6->c7] = !
 
-
   add_to_move_generation_stack:         195
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
+
 b) AntiCirce Super Cheylan  
 
    1.Kd6*c6[wKc6->c7] = !
-
 
   add_to_move_generation_stack:         192
                      play_move:         194
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         190
+
 solution finished.
 
 

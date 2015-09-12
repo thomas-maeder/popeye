@@ -24,12 +24,12 @@
 
    1.c6*b7[+sLa7] # !
 
-
   add_to_move_generation_stack:         174
                      play_move:         180
  is_white_king_square_attacked:          61
  is_black_king_square_attacked:         181
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -56,12 +56,12 @@ Loesung beendet.
   #1                          2 + 2
          Circe Super April L
 
-
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           4
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -89,12 +89,12 @@ Loesung beendet.
   #1                          2 + 3
          Circe Super April L
 
-
   add_to_move_generation_stack:         401
                      play_move:         444
  is_white_king_square_attacked:         121
  is_black_king_square_attacked:         445
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -123,12 +123,12 @@ Loesung beendet.
 
    1.c7*b8=D[+sLa6] # !
 
-
   add_to_move_generation_stack:         504
                      play_move:        3379
  is_white_king_square_attacked:         122
  is_black_king_square_attacked:        3380
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -156,11 +156,11 @@ Aprilsteine sind schwierig zu decken!
   #1                          4 + 1
          Circe Super April L
 
-
   add_to_move_generation_stack:          32
                      play_move:          38
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
-Loesung beendet. 
+
+Loesung beendet.
 
 

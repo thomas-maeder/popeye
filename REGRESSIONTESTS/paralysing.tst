@@ -22,13 +22,13 @@ monochrome paralysis in Bichrome Chess
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 2
             Paralysing f8
-             BichromChess
-
+            BichromChess
 
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
-solution finished. 
+
+solution finished.
 
 

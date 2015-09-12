@@ -42,11 +42,11 @@ Rex Multiplex 42-43 (Phénix 22-23), IX 1993, S. 2204-2206
       1...Lc8-d7
           2.Le5-d5*b7 #
 
-
   add_to_move_generation_stack:        8354
                      play_move:        3345
  is_white_king_square_attacked:         447
  is_black_king_square_attacked:        3348
+
 Loesung beendet.
 
 
@@ -77,11 +77,11 @@ Loesung beendet.
              PlusSchach
 
   1.Dc8-c1 Kh5-g6   2.Kh3-g4 Kg6-f7   3.Kg4-f5 Kf7-e8   4.Kf5-e6 d2-d4 #
-
   add_to_move_generation_stack:     1192354
                      play_move:     1064728
  is_white_king_square_attacked:      125228
  is_black_king_square_attacked:      975730
+
 Loesung beendet.
 
 
@@ -113,11 +113,11 @@ Loesung beendet.
 
   1.b4-b3 Ke6-f5   2.Lc5-b4 + Kf5-e4 #
   1.Lc5-b6 Ke6-f6   2.Kc4-c5 Kf6-e5 #
-
   add_to_move_generation_stack:       14430
                      play_move:       11879
  is_white_king_square_attacked:        1062
  is_black_king_square_attacked:       11737
+
 Loesung beendet.
 
 
@@ -148,11 +148,11 @@ Loesung beendet.
              PlusSchach
 
   1.Da8-h1 Dh8*h1   2.La2-b1 Dh1*b1   3.Sd2-e4 Db1*e4 =
-
   add_to_move_generation_stack:    26138368
                      play_move:    12415963
  is_white_king_square_attacked:     6305186
  is_black_king_square_attacked:    10106391
+
 Loesung beendet.
 
 

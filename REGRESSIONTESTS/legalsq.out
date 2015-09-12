@@ -53,11 +53,11 @@
                       3...Kh7*h6
                           4.Tf8-h8 #
 
-
   add_to_move_generation_stack:       13699
                      play_move:        7993
  is_white_king_square_attacked:        5180
  is_black_king_square_attacked:        3432
+
 Loesung beendet.
 
 
@@ -140,11 +140,11 @@ Loesung beendet.
                                               6...La8-h1
                                                   7.Kd4-e5 #
 
-
   add_to_move_generation_stack:      430360
                      play_move:      147041
  is_white_king_square_attacked:      122595
  is_black_king_square_attacked:       24714
+
 Loesung beendet.
 
 
@@ -185,11 +185,11 @@ Loesung beendet.
                               4...Sa3-b1
                                   5.Kd4-e5 #
 
-
   add_to_move_generation_stack:       18295
                      play_move:        7118
  is_white_king_square_attacked:        4593
  is_black_king_square_attacked:        2654
+
 Loesung beendet.
 
 
@@ -230,11 +230,11 @@ Loesung beendet.
                               4...Kb1-c1
                                   5.Ta8-a1 #
 
-
   add_to_move_generation_stack:     1510334
                      play_move:      723185
  is_white_king_square_attacked:      586749
  is_black_king_square_attacked:      162916
+
 Loesung beendet.
 
 
@@ -300,11 +300,11 @@ Loesung beendet.
                               4...Kh7-h6
                                   5.Ta8-h8 #
 
-
   add_to_move_generation_stack:     1243756
                      play_move:      623676
  is_white_king_square_attacked:      507883
  is_black_king_square_attacked:      136664
+
 Loesung beendet.
 
 
@@ -335,11 +335,11 @@ Loesung beendet.
                 KoeKo
 
   1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. #
-
   add_to_move_generation_stack:     1960552
                      play_move:     1993453
  is_white_king_square_attacked:       32035
  is_black_king_square_attacked:      889678
+
 Loesung beendet.
 
 
@@ -371,11 +371,11 @@ Loesung beendet.
                 KoeKo
 
   1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. #
-
   add_to_move_generation_stack:       46333
                      play_move:       50643
  is_white_king_square_attacked:        1097
  is_black_king_square_attacked:       29541
+
 Loesung beendet.
 
 
@@ -407,11 +407,11 @@ Loesung beendet.
               NeuKoeko
 
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 #
-
   add_to_move_generation_stack:        4195
                      play_move:        4555
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        2611
+
 Loesung beendet.
 
 
@@ -446,11 +446,11 @@ Loesung beendet.
       1...Ld7-g4
           2.Lb1-f5 #
 
-
   add_to_move_generation_stack:         476
                      play_move:         627
  is_white_king_square_attacked:          28
  is_black_king_square_attacked:         202
+
 Loesung beendet.
 
 
@@ -481,11 +481,11 @@ Loesung beendet.
                 KoeKo
 
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 #
-
   add_to_move_generation_stack:      241616
                      play_move:      255761
  is_white_king_square_attacked:        9729
  is_black_king_square_attacked:       80764
+
 Loesung beendet.
 
 
@@ -541,11 +541,11 @@ Michael Barth und Sven Trommler gewidmet
                                   5.Ta1-d1
                                       5...Lh6-d2 #
 
-
   add_to_move_generation_stack:     2252809
                      play_move:     1422589
  is_white_king_square_attacked:      455077
  is_black_king_square_attacked:      247104
+
 Loesung beendet.
 
 
@@ -582,11 +582,11 @@ Loesung beendet.
   1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
   1.Kc3-d2 Kg5-f4   2.Kd2-e2 Kf4-e5   3.Ke2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
   1.Kc3-b3 Kg5-f4   2.Kb3-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
-
   add_to_move_generation_stack:      645756
                      play_move:      348460
  is_white_king_square_attacked:      146342
  is_black_king_square_attacked:      203375
+
 Loesung beendet.
 
 
@@ -643,11 +643,11 @@ Loesung beendet.
                                       5...Ge6-e2
                                           6.Se3-d1 =
 
-
   add_to_move_generation_stack:       44130
                      play_move:       17506
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       15355
+
 Loesung beendet.
 
 
@@ -691,11 +691,11 @@ Loesung beendet.
                                           6.Kd2-e1
                                               6...Dh5-a5 #
 
-
   add_to_move_generation_stack:     4116609
                      play_move:     1355488
  is_white_king_square_attacked:      339754
  is_black_king_square_attacked:     1174092
+
 Loesung beendet.
 
 
@@ -727,11 +727,11 @@ Loesung beendet.
             Gitterschach
 
   1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 #
-
   add_to_move_generation_stack:      256166
                      play_move:      156828
  is_white_king_square_attacked:      118256
  is_black_king_square_attacked:      135617
+
 Loesung beendet.
 
 
@@ -764,11 +764,11 @@ Loesung beendet.
 
   1.Ke2-d3 Lb5*c4   2.Le4-b7 Lc4-b5 #
   1.Ke2-e3 Te5*e4   2.Tc4-c7 Te4-e5 #
-
   add_to_move_generation_stack:      101363
                      play_move:       37350
  is_white_king_square_attacked:       11138
  is_black_king_square_attacked:       37025
+
 Loesung beendet.
 
 
@@ -816,11 +816,11 @@ a)
                                                   7.Ld7-c8
                                                       7...Dg5-a5 #
 
-
   add_to_move_generation_stack:      903425
                      play_move:      494256
  is_white_king_square_attacked:       76017
  is_black_king_square_attacked:      258930
+
 b) sBf3-->e4  
 
    1.Ka6-a5 !
@@ -838,11 +838,11 @@ b) sBf3-->e4
                                                   7.Ka2-a3
                                                       7...Df6-a1 #
 
-
   add_to_move_generation_stack:      884151
                      play_move:      469532
  is_white_king_square_attacked:       73190
  is_black_king_square_attacked:      253722
+
 Loesung beendet.
 
 
@@ -873,11 +873,11 @@ Loesung beendet.
               NeuKoeko
 
   1.Ka8*b8   2.Kb8-c8   3.Kc8-d7   4.Kd7-e6   5.Ke6-d5   6.Kd5-c5   7.Kc5-b6   8.Gb7-b5   9.Kb6-b7  10.Kb7-a8 Kd6-c7 =
-
   add_to_move_generation_stack:        9364
                      play_move:        6319
  is_white_king_square_attacked:        1584
  is_black_king_square_attacked:        3058
+
 Loesung beendet.
 
 

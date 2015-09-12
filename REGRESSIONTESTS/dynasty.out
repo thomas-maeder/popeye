@@ -25,11 +25,11 @@ Thomas Maeder, Popeye test problem for promotion into white king
 
    1.b7-b8=K z !
 
-
   add_to_move_generation_stack:           3
                      play_move:           6
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -59,11 +59,11 @@ Thomas Maeder, Popeye test problem for promotion into black king
            KoenigsDynastie
 
   1.b2-b1=K Lh8*a1 z
-
   add_to_move_generation_stack:          22
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
+
 Loesung beendet.
 
 
@@ -93,11 +93,11 @@ Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
            KoenigsDynastie
 
   1.BBa2-b1=K Ta8*a1 + z
-
   add_to_move_generation_stack:          43
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
+
 Loesung beendet.
 
 
@@ -127,11 +127,11 @@ Thomas Maeder, Popeye test problem for correct initialization of castling possib
            KoenigsDynastie
 
   1.Sh2*f1 0-0-0
-
   add_to_move_generation_stack:          19
                      play_move:           4
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -201,11 +201,11 @@ Janez Nastran, 203 Sahovska misel 6/2005
  33  (Ld7-e6 )
  34  (Ld7-e8 )
  35  (Ld7-c8 )
-
   add_to_move_generation_stack:      517186
                      play_move:      382878
  is_white_king_square_attacked:       54381
  is_black_king_square_attacked:      364697
+
 Loesung beendet.
 
 
@@ -277,11 +277,11 @@ Janez Nastran, 204 Sahovska misel 6/2005
  26  (Kf4-f3 )
  27  (Kf4-f5 )
  28  (Kf4-g4 )
-
   add_to_move_generation_stack:      245488
                      play_move:      199261
  is_white_king_square_attacked:        7958
  is_black_king_square_attacked:      156421
+
 Loesung beendet.
 
 
@@ -317,11 +317,11 @@ Janez Nastran, 205 Sahovska misel 6/2005
   4  (Kg8-h7 )
   5  (Kg8-f8 )
   6  (Kg8-h8 )
-
   add_to_move_generation_stack:    11202630
                      play_move:     9959813
  is_white_king_square_attacked:     1511851
  is_black_king_square_attacked:     8728419
+
 Loesung beendet.
 
 
@@ -395,11 +395,11 @@ Marko Klasinc, 206 Sahovska misel 6/2005
  41  (Th8-e8 )
  42  (Th8-f8 )
  43  (Th8-g8 )
-
   add_to_move_generation_stack:      980902
                      play_move:      919300
  is_white_king_square_attacked:       17702
  is_black_king_square_attacked:      101649
+
 Loesung beendet.
 
 
@@ -428,11 +428,11 @@ Loesung beendet.
            KoenigsDynastie
 
   1.b2-b4 g7-g5   2.b4-b5 g5-g4   3.b5-b6 g4-g3   4.b6*c7 g3*f2 +   5.c7*d8=K + dia
-
   add_to_move_generation_stack:    98330240
                      play_move:    98330248
  is_white_king_square_attacked:     2612225
  is_black_king_square_attacked:     5751373
+
 Loesung beendet.
 
 

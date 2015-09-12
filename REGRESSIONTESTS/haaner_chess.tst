@@ -25,12 +25,12 @@
 
    1.0-0-0 !
 
-
   add_to_move_generation_stack:          16
                      play_move:           1
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -58,12 +58,12 @@ no castling with king landing in hole
   001                         2 + 0
              HaanerChess
 
-
   add_to_move_generation_stack:          13
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -91,12 +91,12 @@ no castling with rook landing in hole
   001                         2 + 0
              HaanerChess
 
-
   add_to_move_generation_stack:          13
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -124,12 +124,12 @@ no castling with rook moving over hole
   001                         2 + 0
              HaanerChess
 
-
   add_to_move_generation_stack:          12
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -157,12 +157,12 @@ no castling with king moving over new hole
   h001                        2 + 2
              HaanerChess
 
-
   add_to_move_generation_stack:          44
                      play_move:           3
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -190,12 +190,12 @@ no castling with rook moving over new hole
   h001                        2 + 1
              HaanerChess
 
-
   add_to_move_generation_stack:          34
                      play_move:           3
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
@@ -223,11 +223,11 @@ solution finished.
   hza81                       1 + 2
              HaanerChess
 
-
   add_to_move_generation_stack:          11
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12
-solution finished. 
+
+solution finished.
 
 

@@ -1,7 +1,7 @@
 
-            J"org Kuhlmann
-      6355, feenschach 104, 1992
-               2. Preis
+           J"org Kuhlmann
+     6355, feenschach 104, 1992
+              2. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,15 +23,15 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #8                          2 + 1
-     SchwarzesKoeniglichesFeld e4
+    SchwarzesKoeniglichesFeld e4
 
    1.Th1-a1 !
-
 
   add_to_move_generation_stack:    11732132
                      play_move:    10836061
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1634415
-Loesung beendet. 
+
+Loesung beendet.
 
 

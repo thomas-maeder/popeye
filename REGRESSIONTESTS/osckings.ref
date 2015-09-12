@@ -1,7 +1,7 @@
 
-                A.Bell
-          Variant Chess 1998
-     b) sound; other parts cooked
+               A.Bell
+         Variant Chess 1998
+    b) sound; other parts cooked
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,7 +23,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 6
-    BlackOscillatingKings    TypeB
+   BlackOscillatingKings    TypeB
 
 a) 
 
@@ -43,36 +43,36 @@ a)
       1...g5-g4[Kf5<->Kc5]
           2.Re4-e5 #
 
-
   add_to_move_generation_stack:        2006
                      play_move:         972
  is_white_king_square_attacked:         166
  is_black_king_square_attacked:        1590
-b) WhiteOscillatingKings    TypeB
+
+b) WhiteOscillatingKings    TypeB  
 
    1.Sf2-d1[Kf5<->Kc5] ! zugzwang.
       1...Kc5-d5
           2.Sd1-e3[Kd5<->Kf5] #
 
-
   add_to_move_generation_stack:        3144
                      play_move:        2063
  is_white_king_square_attacked:        1318
  is_black_king_square_attacked:        2066
-c) WhiteOscillatingKings    TypeB
-   BlackOscillatingKings
 
+c) WhiteOscillatingKings    TypeB
+   BlackOscillatingKings  
 
   add_to_move_generation_stack:        5152
                      play_move:        2016
  is_white_king_square_attacked:        1668
  is_black_king_square_attacked:        2017
-solution finished. 
+
+solution finished.
 
 
 
-                A.Bell
-          Variant Chess 1998
+               A.Bell
+         Variant Chess 1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -94,24 +94,24 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         3 + 3
-    BlackOscillatingKings    TypeB
+   BlackOscillatingKings    TypeB
 
    1.Qf2-d4 ! zugzwang.
       1...Bf4-e5[Ka8<->Kh8] +
           2.Qd4-d5
               2...Bf3*d5[Kh8<->Ka8] #
 
-
   add_to_move_generation_stack:        5125
                      play_move:        2046
  is_white_king_square_attacked:        2047
  is_black_king_square_attacked:        3630
-solution finished. 
+
+solution finished.
 
 
 
-              R.Turnbull
-          Variant Chess 1998
+             R.Turnbull
+         Variant Chess 1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -147,11 +147,11 @@ solution finished.
       1...g6-g5[Kf3<->Kh6]
           2.Qc1-c6 #
 
-
   add_to_move_generation_stack:        1640
                      play_move:        1156
  is_white_king_square_attacked:         154
  is_black_king_square_attacked:        1159
-solution finished. 
+
+solution finished.
 
 

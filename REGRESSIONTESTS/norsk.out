@@ -25,11 +25,11 @@
              NorskSjakk
 
   1.Le4-a8=T De1-a5=S   2.0-0-0 Sa5-b7=D #
-
   add_to_move_generation_stack:       65905
                      play_move:       54797
  is_white_king_square_attacked:        5268
  is_black_king_square_attacked:       54413
+
 Loesung beendet.
 
 

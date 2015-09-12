@@ -75,11 +75,11 @@
           2.mPb7-b8=mS #
           2.mPb7-b8=mB #
 
-
   add_to_move_generation_stack:       22232
                      play_move:       14662
  is_white_king_square_attacked:        1182
  is_black_king_square_attacked:       14654
+
 solution finished.
 
 
@@ -373,11 +373,11 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
     but
       1...Bg2-d5 !
 
-
   add_to_move_generation_stack:      108977
                      play_move:       69417
  is_white_king_square_attacked:        2518
  is_black_king_square_attacked:       68936
+
 solution finished.
 
 
@@ -439,11 +439,11 @@ a)
       1...mPg4*f3[c4=w][g6=b]
           2.mPg7-g8=mR[g6=w] #
 
-
   add_to_move_generation_stack:       34934
                      play_move:       24166
  is_white_king_square_attacked:         969
  is_black_king_square_attacked:       24173
+
 b) wPe6  
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -473,11 +473,11 @@ b) wPe6
       1...mPg4*f3[c4=w][g6=b]
           2.mPg7-g8=mQ[e6=w][g6=w] #
 
-
   add_to_move_generation_stack:       35322
                      play_move:       24300
  is_white_king_square_attacked:         966
  is_black_king_square_attacked:       24307
+
 +c) wSg6  
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -507,11 +507,11 @@ b) wPe6
       1...mPg4*f3[c4=w][g6=w]
           2.mPg7-g8=mB[e6=w] #
 
-
   add_to_move_generation_stack:       34931
                      play_move:       24057
  is_white_king_square_attacked:         944
  is_black_king_square_attacked:       24064
+
 +d) bPe6  
 
    1.mQf4-e3[c5=w][e6=w] ! threat:
@@ -541,11 +541,11 @@ b) wPe6
       1...mPg4*f3[c4=w][g6=w]
           2.mPg7-g8=mS[e7=b] #
 
-
   add_to_move_generation_stack:       35062
                      play_move:       24383
  is_white_king_square_attacked:         968
  is_black_king_square_attacked:       24390
+
 solution finished.
 
 
@@ -620,11 +620,11 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
     but
       1...Bh2-d6 !
 
-
   add_to_move_generation_stack:       40975
                      play_move:       30638
  is_white_king_square_attacked:        1387
  is_black_king_square_attacked:       30522
+
 solution finished.
 
 
@@ -664,11 +664,11 @@ a)
 
    1.Ka5-b5[+wPa5] !
 
-
   add_to_move_generation_stack:           5
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
+
 b) wmKa5  
 
    1.mKa5-b4[+wPa5] !
@@ -681,18 +681,17 @@ b) wmKa5
 
    1.mKa5-b5[+wPa5] !
 
-
   add_to_move_generation_stack:           5
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
 too much fairy chess for neutral pieces
 problem ignored
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -722,11 +721,11 @@ an example for castling with a recolored rook
               Magic d1
 
   1.mGd1-d4[a1=w] 0-0-0 +
-
   add_to_move_generation_stack:          37
                      play_move:          20
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          20
+
 solution finished.
 
 
@@ -820,11 +819,11 @@ an example for cross-eyed magic pieces
 
    1.mBTd4-c5 !
 
-
   add_to_move_generation_stack:          47
                      play_move:          32
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -858,11 +857,11 @@ and another one (2 views -> no recoloring, 3 views -> recoloring)
 
    1.mPd7*e8=mRO !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -896,11 +895,11 @@ and another one (2 views -> no recoloring, 1 view -> recoloring)
 
    1.mPd7-d8=mEA !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

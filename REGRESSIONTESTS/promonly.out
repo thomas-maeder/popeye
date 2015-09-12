@@ -25,11 +25,11 @@
            UWnur D S T L G
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=G Kc8-c7 =
-
   add_to_move_generation_stack:        1011
                      play_move:         559
  is_white_king_square_attacked:         241
  is_black_king_square_attacked:         506
+
 Loesung beendet.
 
 
@@ -62,11 +62,11 @@ Loesung beendet.
              HalbDuplex
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 =
-
   add_to_move_generation_stack:        4609
                      play_move:        2821
  is_white_king_square_attacked:        2552
  is_black_king_square_attacked:        1203
+
 Loesung beendet.
 
 
@@ -114,11 +114,11 @@ Loesung beendet.
                                                               8...Ka6*b6
                                                                   9.Kc8-b8
                                                                       9...Da1-h8 #
-
   add_to_move_generation_stack:    14580513
                      play_move:     9416917
  is_white_king_square_attacked:     3995714
  is_black_king_square_attacked:     7712654
+
 Loesung beendet.
 
 

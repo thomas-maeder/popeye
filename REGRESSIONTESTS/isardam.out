@@ -28,11 +28,11 @@
   1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 #
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
-
   add_to_move_generation_stack:      233174
                      play_move:      215680
  is_white_king_square_attacked:       67888
  is_black_king_square_attacked:       82154
+
 Loesung beendet.
 
 
@@ -77,11 +77,11 @@ Loesung beendet.
       1...Ke4-d3
           2.Da7-d7 #
 
-
   add_to_move_generation_stack:        9762
                      play_move:        9881
  is_white_king_square_attacked:         390
  is_black_king_square_attacked:        3793
+
 Loesung beendet.
 
 
@@ -132,11 +132,11 @@ Ausschreibungsoriginal, Kingston 1997
       1...e6-e5
           2.Kc6-d5 #
 
-
   add_to_move_generation_stack:        1851
                      play_move:        2785
  is_white_king_square_attacked:         137
  is_black_king_square_attacked:        1318
+
 Loesung beendet.
 
 
@@ -170,20 +170,20 @@ Loesung beendet.
 a) 
 
   1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 #
-
   add_to_move_generation_stack:       94051
                      play_move:       67556
  is_white_king_square_attacked:        8431
  is_black_king_square_attacked:       67039
+
 b) Circe
    Isardam  
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
-
   add_to_move_generation_stack:       93487
                      play_move:       90572
  is_white_king_square_attacked:        6496
  is_black_king_square_attacked:       53544
+
 Loesung beendet.
 
 
@@ -216,19 +216,19 @@ Loesung beendet.
 a) 
 
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 #
-
   add_to_move_generation_stack:      123758
                      play_move:      185665
  is_white_king_square_attacked:        5696
  is_black_king_square_attacked:       90289
+
 b) sKc6-->b7  
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 #
-
   add_to_move_generation_stack:       35631
                      play_move:       58613
  is_white_king_square_attacked:        1335
  is_black_king_square_attacked:       28130
+
 Loesung beendet.
 
 
@@ -266,11 +266,11 @@ Loesung beendet.
       1...e2-e1=T
           2.h7-h8=D #
 
-
   add_to_move_generation_stack:        1100
                      play_move:        1477
  is_white_king_square_attacked:         110
  is_black_king_square_attacked:         903
+
 Loesung beendet.
 
 
@@ -318,11 +318,11 @@ Loesung beendet.
       1...g2*h1=L
           2.Kh5-g6 #
 
-
   add_to_move_generation_stack:        2042
                      play_move:        2428
  is_white_king_square_attacked:         155
  is_black_king_square_attacked:        1722
+
 Loesung beendet.
 
 
@@ -359,11 +359,11 @@ Loesung beendet.
       1...Lc8-g4 +
           2.Ke4-f5 #
 
-
   add_to_move_generation_stack:        8043
                      play_move:       11620
  is_white_king_square_attacked:         413
  is_black_king_square_attacked:        5234
+
 Loesung beendet.
 
 
@@ -399,11 +399,11 @@ Loesung beendet.
       1...Kb1*b2
           2.Db3-c3 #
 
-
   add_to_move_generation_stack:        2418
                      play_move:        3414
  is_white_king_square_attacked:         193
  is_black_king_square_attacked:        1763
+
 Loesung beendet.
 
 
@@ -453,11 +453,11 @@ Loesung beendet.
           2.Lh7-d3
               2...Td8*d3 #
 
-
   add_to_move_generation_stack:      110886
                      play_move:      235843
  is_white_king_square_attacked:       73426
  is_black_king_square_attacked:        8413
+
 Loesung beendet.
 
 
@@ -504,11 +504,11 @@ Loesung beendet.
       1...Te8*e5
           2.Sd7-f6 #
 
-
   add_to_move_generation_stack:       28769
                      play_move:       38501
  is_white_king_square_attacked:        1515
  is_black_king_square_attacked:       20786
+
 Loesung beendet.
 
 
@@ -547,11 +547,11 @@ Loesung beendet.
       1...Ke5*f6
           2.Dg4-g5 #
 
-
   add_to_move_generation_stack:       21003
                      play_move:       28233
  is_white_king_square_attacked:        1109
  is_black_king_square_attacked:       11694
+
 Loesung beendet.
 
 
@@ -591,11 +591,11 @@ The Problemist ix/1997 (early version)
       1...Lh8-f6
           2.Se8*f6 #
 
-
   add_to_move_generation_stack:       37550
                      play_move:       54446
  is_white_king_square_attacked:        1270
  is_black_king_square_attacked:       20317
+
 Loesung beendet.
 
 
@@ -651,11 +651,11 @@ The Problemist i/1998 (Position Reflected)
       1...Td8-c8
           2.Db7*c8 #
 
-
   add_to_move_generation_stack:        6460
                      play_move:       10972
  is_white_king_square_attacked:         232
  is_black_king_square_attacked:        3872
+
 Loesung beendet.
 
 
@@ -693,11 +693,11 @@ Loesung beendet.
       1...Tb5-d5 +
           2.b7-b8=T #
 
-
   add_to_move_generation_stack:        6073
                      play_move:       10136
  is_white_king_square_attacked:         110
  is_black_king_square_attacked:        3377
+
 Loesung beendet.
 
 
@@ -727,11 +727,11 @@ Loesung beendet.
                Isardam
 
   1...h7-h8=T ##!
-
   add_to_move_generation_stack:         169
                      play_move:         263
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:          38
+
 Loesung beendet.
 
 
@@ -760,11 +760,11 @@ illegale Beobachtung nach Doppelschritt vermeiden
   ~1                          1 + 1
                Isardam
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

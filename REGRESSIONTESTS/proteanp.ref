@@ -25,11 +25,11 @@
             ProteanChess
 
   1.Ka1-b2   2.Kb2*a3=rP   3.rPa3*b4=rS   4.rSb4-a2   5.rSa2-c3   6.rSc3*a4=rPP   7.rPPa4-a3   8.rPPa3-a2   9.rPPa2-a1=rB  10.rBa1-b2  11.rBb2-c1  12.rBc1*f4=rS  13.rSf4-h3  14.rSh3*f2=rP  15.rPf2-f4  16.rPf4*e5=rR  17.rRe5-e3  18.rRe3-h3  19.rRh3*h5=rB  20.rBh5-e2  21.rBe2-f1  22.rBf1-h3  23.rBh3*f5=rPP  24.rPPf5-f4  25.rPPf4-f3  26.rPPf3-f2  27.rPPf2-f1=rS  28.rSf1*h2=rP  29.rPh2-h4  30.rPh4-h5  31.rPh5*g6=rR  32.rRg6*h6=rPP  33.rPPh6-h5  34.rPPh5-h4  35.rPPh4-h3  36.rPPh3-h2  37.rPPh2-h1=rR  38.rRh1-h8  39.rRh8*c8=rB  40.rBc8-a6  41.rBa6-b5  42.rBb5-a4  43.rBa4*c2=rP  44.rPc2-c4  45.rPc4-c5  46.rPc5-c6  47.rPc6*d7=rR  48.rRd7*c7=rPP  49.rPPc7-c5  50.rPPc5-c4  51.rPPc4-c3  52.rPPc3-c2  53.rPPc2-c1=rQ  54.rQc1-c7 =
-
   add_to_move_generation_stack:      839017
                      play_move:      793474
  is_white_king_square_attacked:      762701
  is_black_king_square_attacked:      622010
+
 solution finished.
 
 
@@ -61,19 +61,19 @@ a)
 
   1.PPb2*a1=R   2.0-0-0
   1.Sb3*a1=R   2.0-0-0
-
   add_to_move_generation_stack:          37
                      play_move:          18
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:          15
+
 b) -bRa1  
 
   1.PPa2-a1=R   2.0-0-0
-
   add_to_move_generation_stack:          35
                      play_move:          20
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:          22
+
 solution finished.
 
 

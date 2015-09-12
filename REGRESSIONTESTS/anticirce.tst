@@ -46,11 +46,11 @@ both sides need a king
 
    1.Be5-d6 !
 
-
   add_to_move_generation_stack:         539
                      play_move:          73
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -85,22 +85,22 @@ a)
 
    1.d4*e5-e4 !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) AntiCirce Take&Make  
 
    1.d4-d5 !
 
    1.d4*e5[wPe5->e4] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -134,18 +134,18 @@ a)
 
    1.d3-d4 + !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 b) AntiCirce Take&Make  
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -174,11 +174,11 @@ solution finished.
           AntiCirce Parrain
 
   1.Ba1*b2 Kf7-g6[bBb2->c1] z
-
   add_to_move_generation_stack:           9
                      play_move:           2
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -207,11 +207,11 @@ solution finished.
          AntiCirce Parachute
 
   1.a6*b7[wPb7->b2]   2.b2-b3[+bPb2] z
-
   add_to_move_generation_stack:           7
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -240,11 +240,11 @@ solution finished.
   AntiCirce Equipollents Parachute
 
   1.a6*b7[wPb7->c8=S]   2.Sc8-e7[+bSc8] z
-
   add_to_move_generation_stack:          51
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -277,11 +277,11 @@ solution finished.
   1.a6*b7[wPb7->c8=S->v]   2.Rc8-f8[+wSc8] z
   1.a6*b7[wPb7->c8=R->v]   2.Rc8-f8[+wRc8] z
   1.a6*b7[wPb7->c8=B->v]   2.Rc8-f8[+wBc8] z
-
   add_to_move_generation_stack:          61
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -317,11 +317,11 @@ solution finished.
 
    1.a3*b4[wPb4->b8=B] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -351,11 +351,11 @@ solution finished.
 
    1.Sb1*c3[wSc3->b8] x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -385,11 +385,11 @@ solution finished.
 
    1.Sb1*c3[wSc3->g3] x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -545,11 +545,11 @@ solution finished.
 
    1.Bc1*a3[wBa3->h8] x !
 
-
   add_to_move_generation_stack:          10
                      play_move:          64
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -579,11 +579,11 @@ solution finished.
 
    1.Sb3*c5[wSc5->Bc1] x !
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -616,21 +616,21 @@ a)
 
    1.Bd3*f5[wBf5->Rh1][+bBc8] x !
 
-
   add_to_move_generation_stack:           9
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe Einstein
    AntiCirce ReversalEinstein  
 
    1.Bd3*f5[wBf5->Sb1][+bPf7] x !
 
-
   add_to_move_generation_stack:           9
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -788,11 +788,11 @@ solution finished.
 
    1.Sa1*b3[wSb3->h8] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:          65
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -846,11 +846,11 @@ solution finished.
 
    1.Sf6*d5[bSd5->b5] x !
 
-
   add_to_move_generation_stack:          82
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -880,11 +880,11 @@ solution finished.
 
    1.Sd3*e5[wSe5->g1=b] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -916,11 +916,11 @@ solution finished.
 
    1.c4*d5[wPd5->d2=b][+bQd8=w] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -949,11 +949,11 @@ solution finished.
          AntiCirce Frischauf
 
   1.c7-c8=S   2.fSc8*d6[wfSd6->d8] x
-
   add_to_move_generation_stack:          48
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -989,11 +989,11 @@ solution finished.
 
    1.c7*d8=B[wfBd8->d8] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1023,11 +1023,11 @@ solution finished.
 
    1.Ka1*a2 x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

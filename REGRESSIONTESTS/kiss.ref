@@ -1,6 +1,6 @@
 
-             Linden Lyons
-         www.matplus.net 2014
+            Linden Lyons
+        www.matplus.net 2014
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -77,17 +77,17 @@
     but
       1...Qh1*f3 !
 
-
   add_to_move_generation_stack:       12959
                      play_move:        4251
  is_white_king_square_attacked:         347
  is_black_king_square_attacked:         710
-solution finished. 
+
+solution finished.
 
 
 
-             Kevin Begley
-         www.matplus.net 2014
+            Kevin Begley
+        www.matplus.net 2014
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -111,17 +111,17 @@ solution finished.
   hkh31                       1 + 1
 
   1.h3-h2 Sh1-g3
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
-             Kevin Begley
-         www.matplus.net 2014
+            Kevin Begley
+        www.matplus.net 2014
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -146,17 +146,17 @@ solution finished.
 
   1.b7-b5 Sa8-b6
   1.b7-b6 Sa8-c7
-
   add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 
 
-             Kevin Begley
-         www.matplus.net 2014
+            Kevin Begley
+        www.matplus.net 2014
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -181,11 +181,11 @@ solution finished.
 
   1.a7-a5 Sa4-b6
   1.a7-a6 Sa4-b6
-
   add_to_move_generation_stack:          10
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+
+solution finished.
 
 

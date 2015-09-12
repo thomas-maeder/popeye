@@ -1,6 +1,6 @@
 
            Hans Peter Rehm
-    #32, "harmonie-31", 31.12.1990
+   #32, "harmonie-31", 31.12.1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -60,11 +60,11 @@
                   3.Lb3-d5 #
               2...Nd6*e4
                   3.Nf5*e7 #
-
   add_to_move_generation_stack:       95915
                      play_move:       64960
  is_white_king_square_attacked:        4464
  is_black_king_square_attacked:       64643
-Loesung beendet. 
+
+Loesung beendet.
 
 

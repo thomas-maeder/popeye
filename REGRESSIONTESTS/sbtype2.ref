@@ -45,11 +45,11 @@
 
    1.Se3*g2[h1=B] + !
 
-
   add_to_move_generation_stack:           4
                      play_move:          14
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          15
+
 solution finished.
 
 
@@ -79,11 +79,11 @@ solution finished.
          SingleBox    Type2
 
   1.g5*f4[a8=S] Rg6*g1 +
-
   add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
+
 solution finished.
 
 
@@ -115,11 +115,11 @@ capturing side selects which pawn to promote -> Ra1 can capture
   1.Ra1*a2[h8=R] Bc8-d7 #
   1.Ra1*b1[h8=R] Bc8-d7 #
   1.a4-a3 Bc8-d7 #
-
   add_to_move_generation_stack:          68
                      play_move:          64
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          64
+
 solution finished.
 
 
@@ -152,11 +152,11 @@ don't get confused with >1 latent pawn
       1...Sf1*e3[e8=S]
           2.Se8*c7 #
 
-
   add_to_move_generation_stack:        7737
                      play_move:        5884
  is_white_king_square_attacked:         372
  is_black_king_square_attacked:        5497
+
 solution finished.
 
 
@@ -209,11 +209,11 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7
           2.Qb2-d2 #
 
-
   add_to_move_generation_stack:        6713
                      play_move:        3912
  is_white_king_square_attacked:         718
  is_black_king_square_attacked:        3899
+
 solution finished.
 
 
@@ -283,11 +283,11 @@ solution finished.
               2...e4*f3[f8=S]
                   3.Sf8-d7 #
 
-
   add_to_move_generation_stack:      214894
                      play_move:      156562
  is_white_king_square_attacked:       36733
  is_black_king_square_attacked:      120578
+
 solution finished.
 
 
@@ -324,11 +324,11 @@ solution finished.
       1...e2*d1=R[e8=Q]
           2.Qe8-e5 #
 
-
   add_to_move_generation_stack:        4905
                      play_move:        3537
  is_white_king_square_attacked:         383
  is_black_king_square_attacked:        3097
+
 solution finished.
 
 

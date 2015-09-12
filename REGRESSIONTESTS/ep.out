@@ -97,11 +97,11 @@
     Aber
       1...Tf8*c8 !
 
-
   add_to_move_generation_stack:       19218
                      play_move:       17557
  is_white_king_square_attacked:         715
  is_black_king_square_attacked:       17442
+
 Loesung beendet.
 
 
@@ -182,11 +182,11 @@ Loesung beendet.
                               4...f5*e4
                                   5.De7*e4 #
 
-
   add_to_move_generation_stack:     7092420
                      play_move:     5579505
  is_white_king_square_attacked:     2505689
  is_black_king_square_attacked:     3474403
+
 Loesung beendet.
 
 
@@ -218,11 +218,11 @@ Loesung beendet.
    1.h5*g6 ep. ! Drohung:
           2.Th8*h7 #
 
-
   add_to_move_generation_stack:         139
                      play_move:          98
  is_white_king_square_attacked:          28
  is_black_king_square_attacked:         101
+
 Loesung beendet.
 
 
@@ -253,11 +253,11 @@ Loesung beendet.
 
    1.h5*g6 ep. # !
 
-
   add_to_move_generation_stack:          43
                      play_move:          46
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          47
+
 Loesung beendet.
 
 
@@ -289,11 +289,11 @@ Loesung beendet.
    1.c5*b6 ep. + !
       1...Tb4*b6 #
 
-
   add_to_move_generation_stack:        1199
                      play_move:         486
  is_white_king_square_attacked:         486
  is_black_king_square_attacked:         391
+
 Loesung beendet.
 
 
@@ -381,11 +381,11 @@ a)
     Aber
       1...c7*d6 !
 
-
   add_to_move_generation_stack:        2082
                      play_move:        1757
  is_white_king_square_attacked:         216
  is_black_king_square_attacked:        1725
+
 b) sBc7-->e7  
 
    1.Te1-a1 ? Zugzwang.
@@ -550,11 +550,11 @@ b) sBc7-->e7
     Aber
       1...e7*d6 !
 
-
   add_to_move_generation_stack:        2327
                      play_move:        2060
  is_white_king_square_attacked:         297
  is_black_king_square_attacked:        1982
+
 Loesung beendet.
 
 
@@ -585,11 +585,11 @@ Loesung beendet.
   h#2                        4 + 12
 
   1.e4*d3 ep. Lf3*g4   2.f4-f3 Lg4-e6 #
-
   add_to_move_generation_stack:       51931
                      play_move:       30512
  is_white_king_square_attacked:        9570
  is_black_king_square_attacked:       29871
+
 Loesung beendet.
 
 
@@ -621,11 +621,11 @@ Loesung beendet.
                 KoeKo
 
   1...e5*f6 ep.[+sBf7]   2.Lb4-e7 f6*e7[+sLf8]   3.Ta7-d7 e7*f8=D #
-
   add_to_move_generation_stack:        2842
                      play_move:        4250
  is_white_king_square_attacked:         391
  is_black_king_square_attacked:        1589
+
 Loesung beendet.
 
 
@@ -663,11 +663,11 @@ Loesung beendet.
   6  (Sa7-c8 )
   1.Sa7-c8 b4*c5   2.Ka4-a5 Ka2*a3   3.Ka5*a6 Ka3-b4 #
   7  (Tb7-b6 )
-
   add_to_move_generation_stack:        8851
                      play_move:        8340
  is_white_king_square_attacked:        1844
  is_black_king_square_attacked:        7870
+
 Loesung beendet.
 
 
@@ -735,11 +735,11 @@ N.Y. State Chess Association, 16.8.1894
  28  (Sf8*d7 )
  29  (Sf8*e6 )
  30  (Th8*g8 )
-
   add_to_move_generation_stack:      210748
                      play_move:      147615
  is_white_king_square_attacked:      112348
  is_black_king_square_attacked:       44543
+
 Loesung beendet.
 
 
@@ -832,11 +832,11 @@ Loesung beendet.
  46  (Se8-c7 )
  47  (Se8-d6 )
  48  (Se8-f6 )
-
   add_to_move_generation_stack:    62172673
                      play_move:    35876418
  is_white_king_square_attacked:    35301856
  is_black_king_square_attacked:     7447079
+
 Loesung beendet.
 
 

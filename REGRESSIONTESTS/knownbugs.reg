@@ -32,11 +32,11 @@ But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
          BlackReflectiveKing
 
   1.rBc8-g4   2.rBg4-d1   3.nSPb6-b8=nQ   4.nQb8-e5   5.rBd1-f3 #
-
   add_to_move_generation_stack:       19236
                      play_move:       19480
  is_white_king_square_attacked:        5339
  is_black_king_square_attacked:       16944
+
 solution finished.
 
 
@@ -118,11 +118,11 @@ a)
 
    1.d5-b6 !
 
-
   add_to_move_generation_stack:          45
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) bKg2  
 
    1.Rd1-a1 !
@@ -175,11 +175,11 @@ b) bKg2
 
    1.d5-b6 !
 
-
   add_to_move_generation_stack:          45
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
+
 c) bKe3  
 
    1.Rd1-a1 !
@@ -232,11 +232,11 @@ c) bKe3
 
    1.d5-b6 !
 
-
   add_to_move_generation_stack:          45
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
+
 solution finished.
 
 

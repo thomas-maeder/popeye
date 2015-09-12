@@ -29,20 +29,20 @@ a)
 
   1.kOAd2-f1 jLd4-g1   2.kOAf1-g3 jLd7-h3   3.kOAg3-h1 jLh3-g2 #
   1.kOAd2-a8 jLd4-a7   2.kOAa8-c7 jLd7-c8   3.kOAc7-a8 jLc8-b7 #
-
   add_to_move_generation_stack:       85774
                      play_move:       83540
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       20364
+
 b) skOAd2-->e1  
 
   1.kOAe1-g5 jLd7-f5   2.kOAg5-f7 jLd4-g7   3.kOAf7-h8 jLf5-h7 #
   1.kOAe1-c2 jLd4-b2   2.kOAc2-g4 jLd7-f5   3.kOAg4-a1 jLf5-b1 #
-
   add_to_move_generation_stack:       72047
                      play_move:       69792
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       16531
+
 Loesung beendet.
 
 

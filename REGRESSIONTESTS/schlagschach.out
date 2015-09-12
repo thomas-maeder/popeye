@@ -1,6 +1,6 @@
 
-            Koenigskontakt
-   Schlagzug muss vorgezogen werden
+           Koenigskontakt
+  Schlagzug muss vorgezogen werden
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,16 +22,16 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-             Schlagschach
+            Schlagschach
 
    1.Ka1*a2 !
-
 
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -81,15 +81,15 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                     1 + 0
-             Schlagschach
+            Schlagschach
 
   1.a7-a8=K a=>b
-
   add_to_move_generation_stack:           1
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -139,14 +139,14 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1                     13 + 11
-             Schlagschach
+            Schlagschach
 
   1.Kf1*e1 Kf8*e8 a=>b
-
   add_to_move_generation_stack:          70
                      play_move:          15
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+
+Loesung beendet.
 
 

@@ -25,11 +25,11 @@
            VaultingKings S
 
   1...Bh7-f5 +   2.Kd7-f8 g5-g6   3.Re8-e4 + Kg4-f6   4.Re4-e8 g6-g7 #
-
   add_to_move_generation_stack:    32586823
                      play_move:    24717112
  is_white_king_square_attacked:     1854409
  is_black_king_square_attacked:    24168973
+
 solution finished.
 
 
@@ -60,11 +60,11 @@ solution finished.
           VaultingKings CA
 
   1.Bg2-d5 + Kc4-f5   2.Bd5-g8 Ra2-h2 #
-
   add_to_move_generation_stack:       70748
                      play_move:       47519
  is_white_king_square_attacked:        3896
  is_black_king_square_attacked:       47205
+
 solution finished.
 
 
@@ -95,11 +95,11 @@ solution finished.
            VaultingKings N
 
   1.Bf7-b3 + Kc2-f8   2.g7-g6 Rh7-b7 +   3.Kb5-h8 Rb7-b4   4.Bb3-f7 Rb4-h4 #
-
   add_to_move_generation_stack:   105635825
                      play_move:    63348248
  is_white_king_square_attacked:     7849659
  is_black_king_square_attacked:    60791882
+
 solution finished.
 
 
@@ -130,11 +130,11 @@ solution finished.
           VaultingKings CR
 
   1.Rg7-g2 Rh6-f6 +   2.Kf2-h8 + Kd2-f8   3.Rg2-g5 Rf6-h6 #
-
   add_to_move_generation_stack:    11482339
                      play_move:     7627527
  is_white_king_square_attacked:     1001146
  is_black_king_square_attacked:     7540242
+
 solution finished.
 
 
@@ -165,11 +165,11 @@ solution finished.
            VaultingKings G
 
   1.Ge7-g7 Sf6-d5 +   2.Kc3-h8 Sd5-e7   3.Gd8-f6 Se7-g6 #
-
   add_to_move_generation_stack:      675380
                      play_move:      573472
  is_white_king_square_attacked:       31961
  is_black_king_square_attacked:      560209
+
 solution finished.
 
 
@@ -203,18 +203,17 @@ solution finished.
 a) 
 
   1.Ka1-a2 Rd4-d2 +   2.EQf2-b2 Rd2-d1   3.Ka2-a3 Rd1-a1 #
-
   add_to_move_generation_stack:      709288
                      play_move:      498566
  is_white_king_square_attacked:       46849
  is_black_king_square_attacked:      489674
+
 b) -wEQh7  -bPe6  wPb4  h#4  
 
   1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-d4   3.Kc1-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-e4 +   3.Kc1-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c2 Ke5-d4   3.Kc2-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c2 Ke5-e4   3.Kc2-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 #
-
   add_to_move_generation_stack:     5339242
                      play_move:     3759801
  is_white_king_square_attacked:      377733
@@ -249,11 +248,11 @@ solving interrupted.
             VaultingKings
 
   1.a5-a4 Rd4-d7   2.a4*b3 Ke5-d4   3.b3-b2 Rd7-a7 #
-
   add_to_move_generation_stack:      423862
                      play_move:      308197
  is_white_king_square_attacked:       26170
  is_black_king_square_attacked:      300351
+
 solution finished.
 
 
@@ -286,11 +285,11 @@ solution finished.
 
   1.Kb1-c1 Kd4-d3   2.EQe1-c5 Kd3-c3   3.g4-g3 Re5-e1 #
   1.g4-g3 Kd4-d3   2.EQe1-c5 Kd3-c3   3.Kb1-c1 Re5-e1 #
-
   add_to_move_generation_stack:      758668
                      play_move:      553859
  is_white_king_square_attacked:       60730
  is_black_king_square_attacked:      542796
+
 solution finished.
 
 

@@ -81,7 +81,7 @@ void input_plaintext_problem_handle(slice_index si)
     pipe_solve_delegate(si);
 
     {
-      slice_index const writer = branch_find_slice(STOutputPlainTextEndOfTwinWriter,
+      slice_index const writer = branch_find_slice(STStipulationCompleter,
                                                    si,
                                                    stip_traversal_context_intro);
       dealloc_slices(SLICE_NEXT1(writer));

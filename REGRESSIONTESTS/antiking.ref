@@ -1,6 +1,6 @@
 
-        unknown - S.Emmerson??
-                  ??
+       unknown - S.Emmerson??
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -29,16 +29,16 @@
       1...Ke4-d3
           2.Sc5-d7 #
 
-
   add_to_move_generation_stack:         534
                      play_move:         357
  is_white_king_square_attacked:          72
  is_black_king_square_attacked:         342
-solution finished. 
+
+solution finished.
 
 
 
-        ?.Powell & C.C.L.Sells
+       ?.Powell & C.C.L.Sells
          The Problemist 1974
               3rd Comm.
 
@@ -200,11 +200,11 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
     but
       1...kSh7-g5 !
 
-
   add_to_move_generation_stack:       33408
                      play_move:       27937
  is_white_king_square_attacked:        1009
  is_black_king_square_attacked:       26817
-solution finished. 
+
+solution finished.
 
 

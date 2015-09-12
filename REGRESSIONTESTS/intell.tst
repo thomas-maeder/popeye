@@ -23,11 +23,11 @@
   h#2.5                       3 + 4
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 #
-
   add_to_move_generation_stack:       34585
                      play_move:       35413
  is_white_king_square_attacked:        1367
  is_black_king_square_attacked:        2430
+
 solution finished.
 
 
@@ -56,11 +56,11 @@ solution finished.
   h#1.5                       3 + 6
 
   1...e3*d4   2.Sf7-e5 d4*e5 #
-
   add_to_move_generation_stack:         103
                      play_move:         103
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          33
+
 solution finished.
 
 
@@ -89,11 +89,11 @@ double check by en passant capture from above
   h#1.5                       4 + 4
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. #
-
   add_to_move_generation_stack:         278
                      play_move:         269
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          42
+
 solution finished.
 
 
@@ -122,11 +122,11 @@ double check by en passant capture from below
   h#1.5                       4 + 4
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. #
-
   add_to_move_generation_stack:         720
                      play_move:         647
  is_white_king_square_attacked:          40
  is_black_king_square_attacked:         121
+
 solution finished.
 
 
@@ -155,11 +155,11 @@ interception of a defending pawn by a piece that doesn't guard
   ser-#2                      3 + 4
 
   1.Sc8-b6   2.Bh3-f1 #
-
   add_to_move_generation_stack:         110
                      play_move:          99
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          63
+
 solution finished.
 
 
@@ -188,11 +188,11 @@ guard with check -> selfpin with check -> selfpin with guard by s
   h#0.5                       4 + 3
 
   1...Rh1-h3 #
-
   add_to_move_generation_stack:         133
                      play_move:         117
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:         102
+
 solution finished.
 
 
@@ -221,11 +221,11 @@ guard with check -> selfpin with check -> selfpin with guard by b
   h#0.5                       4 + 3
 
   1...Sh6-g4 #
-
   add_to_move_generation_stack:          25
                      play_move:          23
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          21
+
 solution finished.
 
 
@@ -255,11 +255,11 @@ in mate stipulations, it makes sense to pin a queen or rook by a
   h#0.5                       2 + 4
 
   1...Sc5-d3 #
-
   add_to_move_generation_stack:          24
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          17
+
 solution finished.
 
 

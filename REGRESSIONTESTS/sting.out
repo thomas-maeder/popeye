@@ -30,11 +30,11 @@ a)
                   3.e7-e8=D #
                   3.e7-e8=T #
 
-
   add_to_move_generation_stack:        2698
                      play_move:        1611
  is_white_king_square_attacked:         813
  is_black_king_square_attacked:         985
+
 b) wSTc7  sSTa8  
 
    1.STc7-b6 ! Drohung:
@@ -46,11 +46,11 @@ b) wSTc7  sSTa8
               2...STb8-a8
                   3.La6-b7 #
 
-
   add_to_move_generation_stack:        7278
                      play_move:        5391
  is_white_king_square_attacked:        1292
  is_black_king_square_attacked:        4612
+
 Loesung beendet.
 
 
@@ -100,11 +100,11 @@ Loesung beendet.
  17  (STg7-h7 )
  18  (STg7-g3 )
   1...STg7-g3   2.STe8-e7 Lg4-e2   3.STe7-e1 Le2-f1   4.STe1-g1 Lf1-h3   5.STg1-h1 Lh3-g2 #
-
   add_to_move_generation_stack:     1288032
                      play_move:     1127963
  is_white_king_square_attacked:      250521
  is_black_king_square_attacked:      928010
+
 Loesung beendet.
 
 
@@ -138,11 +138,11 @@ Loesung beendet.
   1.b4*c3 STe1-b4   2.b3-b2 a3-a4   3.b5*a4 STb4*a4 #
   1.b4*c3 a3-a4   2.b3-b2 STe1-b4   3.b5*a4 STb4*a4 #
   1.b4*c3 a3-a4   2.b5*a4 STe1-b4   3.b3-b2 STb4*a4 #
-
   add_to_move_generation_stack:      531459
                      play_move:      507243
  is_white_king_square_attacked:       50652
  is_black_king_square_attacked:      497392
+
 Loesung beendet.
 
 

@@ -596,7 +596,6 @@ static slice_index const slice_rank_order[] =
   STTwinIdAdjuster,
   STStipulationCompleter,
   STCountersWriter,
-  STOutputPlainTextEndOfTwinWriter,
   STDuplexSolver,
   STHalfDuplexSolver,
   STStartOfStipulationSpecific,

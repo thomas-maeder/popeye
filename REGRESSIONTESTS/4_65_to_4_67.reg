@@ -49,11 +49,11 @@ Until 4.65, holes were counted as pieces. Since Popeye can only deal with
               Circe PWC
 
   1.Ra3*a2[+bRa3] Ra3*a2[+wRa3] a=>b
-
   add_to_move_generation_stack:          33
                      play_move:          33
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -97,11 +97,11 @@ solution finished.
 
    1.CGg8-e8 !
 
-
   add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -131,11 +131,11 @@ Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
              KobulKings
 
   1.Sg6-h4   2.Sh4-g2 Kh3*g2[h1=rS] #
-
   add_to_move_generation_stack:        4415
                      play_move:        2380
  is_white_king_square_attacked:        2380
  is_black_king_square_attacked:        1594
+
 solution finished.
 
 
@@ -167,11 +167,11 @@ there may be non-orthodox mating moves in Backhome
   1.Kd6-e5   2.Bh4*f6   3.Ke5-d6   4.Bf6-h4 #
   1.Kd6-e5   2.Bh4*f6   3.Bf6-h4   4.Ke5-d6 #
   1.Kd6-e5   2.Ke5*f6   3.Kf6-e5   4.Ke5-d6 #
-
   add_to_move_generation_stack:        5628
                      play_move:         422
  is_white_king_square_attacked:         171
  is_black_king_square_attacked:         340
+
 solution finished.
 
 
@@ -201,11 +201,11 @@ there may be non-orthodox mating moves in Immune Chess
        ImmunChess RexInclusive
 
   1.Kh7-g6 #
-
   add_to_move_generation_stack:          51
                      play_move:          44
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          32
+
 solution finished.
 
 
@@ -250,11 +250,11 @@ solution finished.
           2.Bg3-f2 +
               2...Bh3-f1 #
 
-
   add_to_move_generation_stack:       27125
                      play_move:        6388
  is_white_king_square_attacked:        8695
  is_black_king_square_attacked:       10639
+
 solution finished.
 
 
@@ -285,11 +285,11 @@ since 4.51, we generated duplicate moves in Echecks Plus
 
    1.Sd4*c6 x !
 
-
   add_to_move_generation_stack:          32
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -321,11 +321,11 @@ solution finished.
 
   1.Ke1-f2   2.Kf2-g2 + f3*g2 #
   1.Ke1-f1   2.Kf1-g2 + f3*g2 #
-
   add_to_move_generation_stack:        2332
                      play_move:        1274
  is_white_king_square_attacked:         103
  is_black_king_square_attacked:         750
+
 solution finished.
 
 
@@ -358,18 +358,18 @@ solution finished.
 a) 
 
   1.Ra7-a1*a5   2.Ra5-a1 z
-
   add_to_move_generation_stack:         281
                      play_move:          14
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:           0
-b) ser-za72  
 
+b) ser-za72  
 
   add_to_move_generation_stack:         281
                      play_move:          13
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -402,11 +402,11 @@ solution finished.
    1.a5-a2*b3 !
       1...Sb8-c6 +
 
-
   add_to_move_generation_stack:          84
                      play_move:          24
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -438,11 +438,11 @@ solution finished.
 
    1.a5-a2*b3=b x !
 
-
   add_to_move_generation_stack:           4
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -473,11 +473,11 @@ just to make sure - returning to a6 would be illegal
             AntiMarsCirce
            Wormholes a3 a6
 
-
   add_to_move_generation_stack:           2
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -509,11 +509,11 @@ Popeye 4.63 and 4.65 only printed the first solution
   1.a2-a1=S Kb2*a1   2.b5-b4 Ka1-b2 =
   1.a2-a1=R Kb2*a1   2.b5-b4 Ka1-b2 =
   1.a2-a1=B + Kb2*a1   2.b5-b4 Ka1-b2 =
-
   add_to_move_generation_stack:         406
                      play_move:         430
  is_white_king_square_attacked:          48
  is_black_king_square_attacked:         230
+
 solution finished.
 
 

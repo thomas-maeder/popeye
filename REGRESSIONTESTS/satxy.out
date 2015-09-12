@@ -25,11 +25,11 @@
                SAT III
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-h6   7.Kh6-h7   8.Kh7-g8   9.Kg8-f8  10.Kf8-e8  11.Ke8-d8  12.Kd8-c8  13.Kc8-b8  14.Kb8-a7  15.Ka7-a6  16.Ka6-a5  17.Ka5-a4  18.Ka4-a3  19.Ka3*a2  20.Ka2-b1  21.Kb1-c1  22.Kc1-d1 #
-
   add_to_move_generation_stack:       23532
                      play_move:        3122
  is_white_king_square_attacked:       19000
  is_black_king_square_attacked:        5593
+
 Loesung beendet.
 
 
@@ -77,11 +77,11 @@ Loesung beendet.
                                       5...g2*h1=L +
                                           6.Kg1*h1 ==
 
-
   add_to_move_generation_stack:      294605
                      play_move:       43010
  is_white_king_square_attacked:      256171
  is_black_king_square_attacked:       10081
+
 Loesung beendet.
 
 
@@ -113,47 +113,47 @@ Loesung beendet.
 
 NullStellung
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 a) +wDg1  
 
    1.Ke1-f2 # !
-
 
   add_to_move_generation_stack:         276
                      play_move:          29
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:         270
+
 b) +wTd1  
 
    1.Ke1-d2 # !
-
 
   add_to_move_generation_stack:         234
                      play_move:          23
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:         216
+
 c) +wLf1  
 
    1.Ke1-e2 # !
-
 
   add_to_move_generation_stack:         186
                      play_move:          19
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:         180
+
 d) +wSf8  
 
    1.Sf8-h7 # !
-
 
   add_to_move_generation_stack:         195
                      play_move:          19
  is_white_king_square_attacked:          12
  is_black_king_square_attacked:         180
+
 Loesung beendet.
 
 
@@ -181,11 +181,11 @@ Loesung beendet.
   h==3                        2 + 3
                SAT III
 
-
   add_to_move_generation_stack:     2530892
                      play_move:      405709
  is_white_king_square_attacked:     1990740
  is_black_king_square_attacked:      239041
+
 Loesung beendet.
 
 

@@ -25,11 +25,11 @@
   1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=S c81
   1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=R c81
   1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=B c81
-
   add_to_move_generation_stack:          99
                      play_move:          94
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -70,11 +70,11 @@ solution finished.
                                       5...a2-a1=R c81
                                       5...a2-a1=B c81
 
-
   add_to_move_generation_stack:          79
                      play_move:         102
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -107,11 +107,11 @@ both sides need a king
   1.Sh5-f6   2.Sf6-g8 h7*g8=S c81
   1.Sh5-f6   2.Sf6-g8 h7*g8=R c81
   1.Sh5-f6   2.Sf6-g8 h7*g8=B c81
-
   add_to_move_generation_stack:          40
                      play_move:          61
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -144,11 +144,11 @@ post-key play
       1...Bh4-f6
           2.Rf1*f6 threat:
                   3.Rf6-f8 c81
-
   add_to_move_generation_stack:         620
                      play_move:         122
  is_white_king_square_attacked:          34
  is_black_king_square_attacked:          54
+
 solution finished.
 
 

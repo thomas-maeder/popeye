@@ -25,11 +25,11 @@ from 4.41 to 4.45, pawns could "make" back to their base line
            Take&MakeChess
 
   1.f2-f1=Q + Ka1-a2   2.Qf1-f7 + g6*f7-e8=Q +   3.Kd8*e8-a8[+wQd1] Qd1-g1   4.h2*g1-b1=R[+wQd1] Qd1*b1-b6 =
-
   add_to_move_generation_stack:    43793686
                      play_move:    15348329
  is_white_king_square_attacked:     7649350
  is_black_king_square_attacked:    13596553
+
 solution finished.
 
 

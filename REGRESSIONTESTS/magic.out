@@ -28,11 +28,11 @@
   1.f2-f1=S   2.Sf1-e3   3.Se3-d5=w Sd5-c3 =
   1.f2-f1=T   2.Tf1-f5   3.Tf5-d5=w Td5-d1 =
   1.f2-f1=L   2.Lf1-c4   3.Lc4-d5=w Ld5-a2 =
-
   add_to_move_generation_stack:       42804
                      play_move:       15412
  is_white_king_square_attacked:        6955
  is_black_king_square_attacked:       13709
+
 Loesung beendet.
 
 
@@ -64,11 +64,11 @@ Loesung beendet.
           MagischeFelder h8
 
   1.Sf7-h8=w Sh8-f7   2.Kh5-h4 Sf7-h8=s   3.Sh8-g6 Kh7-h6   4.Sg6-h8=w Sh8-g6 #
-
   add_to_move_generation_stack:       79821
                      play_move:       69422
  is_white_king_square_attacked:       14921
  is_black_king_square_attacked:       56414
+
 Loesung beendet.
 
 
@@ -109,11 +109,11 @@ Loesung beendet.
               2...Le8*f7=w
                   3.Lf7-c4 #
 
-
   add_to_move_generation_stack:       39950
                      play_move:       18650
  is_white_king_square_attacked:        8115
  is_black_king_square_attacked:       13421
+
 Loesung beendet.
 
 
@@ -159,11 +159,11 @@ Loesung beendet.
                                           6.Lc1-a3=s
                                               6...Df8-f1 =
 
-
   add_to_move_generation_stack:      204779
                      play_move:      123683
  is_white_king_square_attacked:       75717
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -195,11 +195,11 @@ Loesung beendet.
           MagischeFelder a2
 
   1.Sc2-b4 Kb2-c3   2.Sb4-a2=w Sa2-b4   3.Lb3-a2=w La2-b3 +   4.Ka4-a3 Sb4-c2 #
-
   add_to_move_generation_stack:      775412
                      play_move:      633535
  is_white_king_square_attacked:      142933
  is_black_king_square_attacked:      523837
+
 Loesung beendet.
 
 
@@ -240,11 +240,11 @@ Lob, Albert H. Kniest Jubil"aumsturnier
                           4.g6-g7
                               4...Da1*g7 #
 
-
   add_to_move_generation_stack:      969138
                      play_move:      629726
  is_white_king_square_attacked:      255780
  is_black_king_square_attacked:      520952
+
 Loesung beendet.
 
 
@@ -771,11 +771,11 @@ Loesung beendet.
     Aber
       1...Dh3-g4=w !
 
-
   add_to_move_generation_stack:      455079
                      play_move:      412929
  is_white_king_square_attacked:      360801
  is_black_king_square_attacked:       58306
+
 Loesung beendet.
 
 
@@ -819,11 +819,11 @@ Loesung beendet.
                                           6.Lc1-a3=s
                                               6...Df8-f1 =
 
-
   add_to_move_generation_stack:      204779
                      play_move:      123683
  is_white_king_square_attacked:       75717
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -863,11 +863,11 @@ Loesung beendet.
               2...Le8*f7=w
                   3.Lf7-c4 #
 
-
   add_to_move_generation_stack:       39950
                      play_move:       18650
  is_white_king_square_attacked:        8115
  is_black_king_square_attacked:       13421
+
 Loesung beendet.
 
 
@@ -999,11 +999,11 @@ Loesung beendet.
                       3...Ke7-d7
                           4.Tf4-f7 #
 
-
   add_to_move_generation_stack:      253853
                      play_move:      111896
  is_white_king_square_attacked:       70625
  is_black_king_square_attacked:       55135
+
 Loesung beendet.
 
 
@@ -1043,11 +1043,11 @@ Loesung beendet.
           2.Tg8-a8=s
               2...Ta8-h8 #
 
-
   add_to_move_generation_stack:        8703
                      play_move:        4707
  is_white_king_square_attacked:        3926
  is_black_king_square_attacked:        1878
+
 Loesung beendet.
 
 
@@ -1081,11 +1081,11 @@ Loesung beendet.
   1.g2-g1=D=w b7-b8=T=s   2.Tb8-g8 Dg1-h2 #
 
   1.b7-b8=S=s g2-g1=L=w   2.Lg1-b6 Sb8-c6 #
-
   add_to_move_generation_stack:       15423
                      play_move:       15043
  is_white_king_square_attacked:        6183
  is_black_king_square_attacked:       11547
+
 Loesung beendet.
 
 

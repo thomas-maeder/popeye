@@ -1,6 +1,6 @@
 
-                A.Bell
-          Variant Chess 1998
+               A.Bell
+         Variant Chess 1998
        a) cooks b) sound c) NL
 
 +---a---b---c---d---e---f---g---h---+
@@ -23,7 +23,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 4
- SchwarzeOszillierendeKoenige    TypB
+SchwarzeOszillierendeKoenige    TypB
 
 a) 
 
@@ -39,36 +39,36 @@ a)
       1...Kf5*f6[Kf6<->Kc5]
           2.Sf2-e4 #
 
-
   add_to_move_generation_stack:        1885
                      play_move:         851
  is_white_king_square_attacked:         131
  is_black_king_square_attacked:        1527
-b) WeisseOszillierendeKoenige    TypB
+
+b) WeisseOszillierendeKoenige    TypB  
 
    1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
       1...Kc5-d5
           2.Sd1-e3[Kd5<->Kf5] #
 
-
   add_to_move_generation_stack:        2631
                      play_move:        1388
  is_white_king_square_attacked:        1093
  is_black_king_square_attacked:        1391
-c) WeisseOszillierendeKoenige    TypB
-   SchwarzeOszillierendeKoenige
 
+c) WeisseOszillierendeKoenige    TypB
+   SchwarzeOszillierendeKoenige  
 
   add_to_move_generation_stack:        3589
                      play_move:        1077
  is_white_king_square_attacked:        1167
  is_black_king_square_attacked:        1078
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-                A.Bell
-          Variant Chess 1998
+               A.Bell
+         Variant Chess 1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -90,23 +90,23 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         3 + 3
- SchwarzeOszillierendeKoenige    TypB
+SchwarzeOszillierendeKoenige    TypB
 
    1.Df2-d4 ! Zugzwang.
       1...Lf4-e5[Ka8<->Kh8] +
           2.Dd4-d5
               2...Lf3*d5[Kh8<->Ka8] #
 
-
   add_to_move_generation_stack:        5125
                      play_move:        2046
  is_white_king_square_attacked:        2047
  is_black_king_square_attacked:        3630
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-              R.Turnbull
+             R.Turnbull
     Variant Chess 1998 (corr. SE)
 
 +---a---b---c---d---e---f---g---h---+
@@ -129,7 +129,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
-     SchwarzeOszillierendeKoenige
+    SchwarzeOszillierendeKoenige
 
    1.Dg5-c1 ! Zugzwang.
       1...Sg2-f4[Kf3<->Kh6]
@@ -143,11 +143,11 @@ Loesung beendet.
       1...g6-g5[Kf3<->Kh6]
           2.Dc1-c6 #
 
-
   add_to_move_generation_stack:        1640
                      play_move:        1156
  is_white_king_square_attacked:         154
  is_black_king_square_attacked:        1159
-Loesung beendet. 
+
+Loesung beendet.
 
 

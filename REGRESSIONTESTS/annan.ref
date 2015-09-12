@@ -65,11 +65,11 @@ cooked, even with suggestion +WPb6 in Chessics #8
       1...Kb5-b6
           2.Rc3-f6 #
 
-
   add_to_move_generation_stack:        3232
                      play_move:        2416
  is_white_king_square_attacked:         289
  is_black_king_square_attacked:        2429
+
 solution finished.
 
 
@@ -101,11 +101,11 @@ solution finished.
              AnnanChess
 
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
-
   add_to_move_generation_stack:     7230355
                      play_move:     6048084
  is_white_king_square_attacked:      704015
  is_black_king_square_attacked:     5748728
+
 solution finished.
 
 
@@ -140,11 +140,11 @@ solution finished.
           2.Kf1-g1 +
               2...Kh1-g3 #
 
-
   add_to_move_generation_stack:         956
                      play_move:         505
  is_white_king_square_attacked:         506
  is_black_king_square_attacked:         307
+
 solution finished.
 
 
@@ -182,11 +182,11 @@ solution finished.
           2.Kb4-c4 +
               2...Kd4-c6 #
 
-
   add_to_move_generation_stack:       12337
                      play_move:        5234
  is_white_king_square_attacked:        5236
  is_black_king_square_attacked:        3602
+
 solution finished.
 
 
@@ -222,7 +222,6 @@ ddlkl
   1.Kd3-c4 Kb2-c1   2.Kc4-d4 Re6-e4 +   3.Kd4-a1 Re4-a4 #
   1.Kd3-c4 Kb2-c2   2.Kc4-d4 Re6-e3   3.Kd4-a1 Re3-a3 #
   1.Kd3-c4 Kb2-c2   2.Kc4-d4 Re6-e4 +   3.Kd4-a1 Re4-a4 #
-
   add_to_move_generation_stack:      811070
                      play_move:      602719
  is_white_king_square_attacked:       69848
@@ -260,11 +259,11 @@ solving interrupted.
       1...Kh7-h8
           2.Kf5-g5 #
 
-
   add_to_move_generation_stack:         566
                      play_move:         472
  is_white_king_square_attacked:          83
  is_black_king_square_attacked:         475
+
 solution finished.
 
 
@@ -297,19 +296,19 @@ Chessics #4 1977 / The Problemist, may 2007
 a) 
 
   1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 #
-
   add_to_move_generation_stack:      376629
                      play_move:      339920
  is_white_king_square_attacked:       17391
  is_black_king_square_attacked:      331043
+
 b) PolishType  
 
   1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 #
-
   add_to_move_generation_stack:      334970
                      play_move:      301384
  is_white_king_square_attacked:       16483
  is_black_king_square_attacked:      293410
+
 solution finished.
 
 
@@ -340,11 +339,11 @@ solution finished.
              AnnanChess
 
   1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 #
-
   add_to_move_generation_stack:      252499
                      play_move:      218213
  is_white_king_square_attacked:       14519
  is_black_king_square_attacked:      212506
+
 solution finished.
 
 
@@ -376,11 +375,11 @@ solution finished.
              AnnanChess
 
   1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 #
-
   add_to_move_generation_stack:      870337
                      play_move:      844164
  is_white_king_square_attacked:      455306
  is_black_king_square_attacked:      844164
+
 solution finished.
 
 

@@ -23,11 +23,11 @@ latent pawns' side decides which one to promote -> f2*e1 would be self-check
   h#1                        13 + 2
          SingleBox    Type3
 
-
   add_to_move_generation_stack:         151
                      play_move:         151
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:         149
+
 solution finished.
 
 
@@ -56,11 +56,11 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
   #1                         3 + 13
          SingleBox    Type3
 
-
   add_to_move_generation_stack:          21
                      play_move:          23
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          22
+
 solution finished.
 
 
@@ -95,11 +95,11 @@ solution finished.
 
    1.Sh4*f3 + !
 
-
   add_to_move_generation_stack:          15
                      play_move:          15
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          16
+
 solution finished.
 
 
@@ -129,11 +129,11 @@ solution finished.
          SingleBox    Type3
 
   1.g5*f4 [a8=S]Rg6*g1 +
-
   add_to_move_generation_stack:         286
                      play_move:         286
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:         286
+
 solution finished.
 
 
@@ -163,11 +163,11 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
          SingleBox    Type3
 
   1.a4-a3 Bc8-d7 #
-
   add_to_move_generation_stack:          87
                      play_move:          78
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          78
+
 solution finished.
 
 
@@ -200,11 +200,11 @@ solution finished.
 
    1.[e8=S]Qd8-d5 # !
 
-
   add_to_move_generation_stack:         251
                      play_move:         187
  is_white_king_square_attacked:          24
  is_black_king_square_attacked:         188
+
 solution finished.
 
 
@@ -257,11 +257,11 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7
           2.Qb2-d2 #
 
-
   add_to_move_generation_stack:       10319
                      play_move:        7038
  is_white_king_square_attacked:         896
  is_black_king_square_attacked:        6905
+
 solution finished.
 
 
@@ -331,11 +331,11 @@ solution finished.
               2...e4*f3
                   3.[f8=S]Sf8-d7 #
 
-
   add_to_move_generation_stack:      326645
                      play_move:      240258
  is_white_king_square_attacked:       16280
  is_black_king_square_attacked:      222892
+
 solution finished.
 
 

@@ -25,11 +25,11 @@
           Duellantenschach
 
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 #
-
   add_to_move_generation_stack:     1808321
                      play_move:      977459
  is_white_king_square_attacked:      238655
  is_black_king_square_attacked:      815322
+
 Loesung beendet.
 
 
@@ -94,11 +94,11 @@ Loesung beendet.
           2.Dg7*g6 Drohung:
                   3.Dg6-b1 #
 
-
   add_to_move_generation_stack:       77685
                      play_move:       32918
  is_white_king_square_attacked:        7489
  is_black_king_square_attacked:       26528
+
 Loesung beendet.
 
 
@@ -129,11 +129,11 @@ Loesung beendet.
           Duellantenschach
 
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 #
-
   add_to_move_generation_stack:      323133
                      play_move:      253275
  is_white_king_square_attacked:       95917
  is_black_king_square_attacked:      242269
+
 Loesung beendet.
 
 
@@ -173,11 +173,11 @@ a)
                       3...Lg4-e6
                           4.Sc7-e8 #
 
-
   add_to_move_generation_stack:      282029
                      play_move:      147255
  is_white_king_square_attacked:       21090
  is_black_king_square_attacked:      140203
+
 b) -sBh6  
 
    1.Lh5-f7 !
@@ -188,11 +188,11 @@ b) -sBh6
                       3...Lf7-e6
                           4.Sf4-h5 #
 
-
   add_to_move_generation_stack:      248773
                      play_move:      127640
  is_white_king_square_attacked:       18128
  is_black_king_square_attacked:      121655
+
 Loesung beendet.
 
 
@@ -230,11 +230,11 @@ Loesung beendet.
                   3.Lb5-e2
                       3...La6-b5 #
 
-
   add_to_move_generation_stack:      140095
                      play_move:       27940
  is_white_king_square_attacked:       17341
  is_black_king_square_attacked:       18531
+
 Loesung beendet.
 
 
@@ -276,11 +276,11 @@ Loesung beendet.
                                   5.c5-c6
                                       5...Lb6-c5 #
 
-
   add_to_move_generation_stack:     1521953
                      play_move:      358798
  is_white_king_square_attacked:      239595
  is_black_king_square_attacked:      242418
+
 Loesung beendet.
 
 
@@ -333,11 +333,11 @@ Loesung beendet.
                                       5...Sd8-b7
                                           6.Td7-d8 #
 
-
   add_to_move_generation_stack:    14318689
                      play_move:     5181284
  is_white_king_square_attacked:     1071016
  is_black_king_square_attacked:     4288696
+
 Loesung beendet.
 
 

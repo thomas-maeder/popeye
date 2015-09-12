@@ -51,11 +51,11 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
               2...Kd5*c6
                   3.Sf7-d8 #
 
-
   add_to_move_generation_stack:      181828
                      play_move:      116468
  is_white_king_square_attacked:       53777
  is_black_king_square_attacked:       68356
+
 solution finished.
 
 
@@ -90,19 +90,19 @@ Sake, Portoroz 2002, 3eme Recommand\'e
 a) 
 
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 =
-
   add_to_move_generation_stack:     1023364
                      play_move:      390884
  is_white_king_square_attacked:      173569
  is_black_king_square_attacked:      362317
+
 b) wRe3  
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
-
   add_to_move_generation_stack:     1052061
                      play_move:      449754
  is_white_king_square_attacked:      182020
  is_black_king_square_attacked:      420617
+
 solution finished.
 
 
@@ -135,11 +135,11 @@ Sake, Portoroz 2002, 5eme Recommand\'e
 
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 #
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 #
-
   add_to_move_generation_stack:      618803
                      play_move:      220263
  is_white_king_square_attacked:       75396
  is_black_king_square_attacked:      219358
+
 solution finished.
 
 
@@ -188,11 +188,11 @@ solution finished.
               2...Qa4*c4
                   3.Bc5-b4 #
 
-
   add_to_move_generation_stack:      113479
                      play_move:       77401
  is_white_king_square_attacked:       30345
  is_black_king_square_attacked:       51686
+
 solution finished.
 
 
@@ -243,11 +243,11 @@ solution finished.
               2...Bf8*e7
                   3.Qe3-c5 #
 
-
   add_to_move_generation_stack:      254585
                      play_move:      150576
  is_white_king_square_attacked:       62521
  is_black_king_square_attacked:       99757
+
 solution finished.
 
 
@@ -284,11 +284,11 @@ b1 already occupied - old piece goes to the underworld.
 
    1.Sb1-a3[+buRb1] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

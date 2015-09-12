@@ -21,17 +21,17 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 1
-            Kamikaze a8 a7
+           Kamikaze a8 a7
 
    1.kBa7*b8[-wkBb8] !
 
    1.kKa8-b7 !
 
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           0
-Loesung beendet. 
+
+Loesung beendet.
 
 

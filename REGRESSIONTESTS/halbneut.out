@@ -62,11 +62,11 @@
       1...hnLf2-e3=nh +
           2.nhnLe3-d4=wh #
 
-
   add_to_move_generation_stack:        1344
                      play_move:        1059
  is_white_king_square_attacked:          90
  is_black_king_square_attacked:        1062
+
 Loesung beendet.
 
 
@@ -105,11 +105,11 @@ Loesung beendet.
       1...hnBh2-h1=hnL=nh
           2.nhnLh1-g2=wh #
 
-
   add_to_move_generation_stack:        2618
                      play_move:        1627
  is_white_king_square_attacked:         306
  is_black_king_square_attacked:        1629
+
 Loesung beendet.
 
 
@@ -163,11 +163,11 @@ Loesung beendet.
   1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnT=sh   6.hnTd1-b1=nh nhnTb1-b4=wh #
   1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnT=sh   6.hnTd1-d5=nh nhnTd5-a5=wh #
   1.nhnBd7-d6=sh   2.hnBd6-d5=nh   3.nhnBd5-d4=sh   4.hnBd4-d3=nh   5.nhnBd3-d2=sh   6.hnBd2-d1=hnS=nh nhnSd1-c3=wh #
-
   add_to_move_generation_stack:       13327
                      play_move:       11695
  is_white_king_square_attacked:        2404
  is_black_king_square_attacked:       11695
+
 Loesung beendet.
 
 
@@ -198,11 +198,11 @@ Loesung beendet.
         HalbNeutral b7 g7 g2
 
   1.hnBg2-g1=hnL=nh hnBb7-b8=hnT=nh +   2.nhnTb8-g8=sh nhnLg1-d4=wh =
-
   add_to_move_generation_stack:       52100
                      play_move:       42926
  is_white_king_square_attacked:       17270
  is_black_king_square_attacked:       38052
+
 Loesung beendet.
 
 
@@ -256,11 +256,11 @@ Loesung beendet.
       1...hnTc5-d5=nh
           2.nhnTd5-d4=wh #
 
-
   add_to_move_generation_stack:        5751
                      play_move:        3726
  is_white_king_square_attacked:         473
  is_black_king_square_attacked:        3729
+
 Loesung beendet.
 
 
@@ -303,11 +303,11 @@ Loesung beendet.
       1...Sh8*g6 +
           2.Dg7*g6 #
 
-
   add_to_move_generation_stack:       13089
                      play_move:        8608
  is_white_king_square_attacked:         506
  is_black_king_square_attacked:        8611
+
 Loesung beendet.
 
 
@@ -495,11 +495,11 @@ Loesung beendet.
     Aber
       1...Kd5-c5 !
 
-
   add_to_move_generation_stack:       95373
                      play_move:       65868
  is_white_king_square_attacked:        7143
  is_black_king_square_attacked:       64006
+
 Loesung beendet.
 
 
@@ -627,11 +627,11 @@ Loesung beendet.
     Aber
       1...hnTb1-c1=nh !
 
-
   add_to_move_generation_stack:       11262
                      play_move:        7490
  is_white_king_square_attacked:         704
  is_black_king_square_attacked:        7451
+
 Loesung beendet.
 
 
@@ -664,19 +664,19 @@ Loesung beendet.
 a) 
 
   1.hnLf1-d3=nh Ka2-b3   2.hnTd1-d2=nh nhnLd3-c4=wh #
-
   add_to_move_generation_stack:       64453
                      play_move:       53283
  is_white_king_square_attacked:        3617
  is_black_king_square_attacked:       53031
+
 b) sKd5-->a6  
 
   1.hnTd1-d3=nh La3-c5   2.hnLf1-e2=nh nhnTd3-a3=wh #
-
   add_to_move_generation_stack:       74116
                      play_move:       66408
  is_white_king_square_attacked:        3181
  is_black_king_square_attacked:       66058
+
 Loesung beendet.
 
 
@@ -710,19 +710,19 @@ Loesung beendet.
 a) 
 
   1.hnTe8-e7=nh Kd5-d6   2.hnLf8*e7=nh[+nhnTa1] + nhnLe7-f6=wh #
-
   add_to_move_generation_stack:      103010
                      play_move:       89175
  is_white_king_square_attacked:        5423
  is_black_king_square_attacked:       88700
+
 b) sKb2-->c3  
 
   1.hnLf8-e7=nh Kd5-e4   2.hnTe8*e7=nh[+nhnLc1] + nhnTe7-c7=wh #
-
   add_to_move_generation_stack:       80645
                      play_move:       63503
  is_white_king_square_attacked:        8666
  is_black_king_square_attacked:       63108
+
 Loesung beendet.
 
 
@@ -804,11 +804,11 @@ Loesung beendet.
     Aber
       1...hnSb8-c6=nh !
 
-
   add_to_move_generation_stack:        8587
                      play_move:        4747
  is_white_king_square_attacked:         836
  is_black_king_square_attacked:        4695
+
 Loesung beendet.
 
 
@@ -841,11 +841,11 @@ Loesung beendet.
 
   1...Lf1-h3   2.nSe3-g4 0-0=nh #
   1...Lf1-d3   2.nSe3-c4 hnKe1-d1=nh #
-
   add_to_move_generation_stack:        6512
                      play_move:        5042
  is_white_king_square_attacked:         448
  is_black_king_square_attacked:        1575
+
 Loesung beendet.
 
 
@@ -878,11 +878,11 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
            AntiCirce Super
 
   1.hnLe4*h7=nh[nhnLh7->b5] Tc3-c1   2.nhnTc6*d6=wh[whnTd6->f7] + Lf1*b5[sLb5->e7] #
-
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
  is_white_king_square_attacked:    16650139
  is_black_king_square_attacked:     8731097
+
 Loesung beendet.
 
 

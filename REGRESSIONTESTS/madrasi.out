@@ -63,11 +63,11 @@
                               4...Gf7*c7
                                   5.Gg7*c7 #
 
-
   add_to_move_generation_stack:      786710
                      play_move:      708619
  is_white_king_square_attacked:      412562
  is_black_king_square_attacked:      301754
+
 Loesung beendet.
 
 
@@ -100,11 +100,11 @@ Loesung beendet.
 
   1.Lg8-c4 Lg6-f5   2.Lc4-f1 Lf5-g4 #
   1.Lg8-e6 Lg6-d3   2.Le6-h3 Ld3-e2 #
-
   add_to_move_generation_stack:        5184
                      play_move:        3506
  is_white_king_square_attacked:         545
  is_black_king_square_attacked:        3438
+
 Loesung beendet.
 
 
@@ -181,11 +181,11 @@ Loesung beendet.
     Aber
       1...Df3*f8 !
 
-
   add_to_move_generation_stack:       21680
                      play_move:       14068
  is_white_king_square_attacked:         522
  is_black_king_square_attacked:       13894
+
 Loesung beendet.
 
 
@@ -220,11 +220,11 @@ Loesung beendet.
   1.Ld2-c1 Le7*a3[+sTh8]   2.Ke5-d6 g7*h8=S #
   1.Ta3-a2 Td8*d2[+sLf8]   2.Ke5-d6 g7*f8=S #
   1.Ke5-e6 Le7*a3[+sTh8]   2.Ke6-d7 g7*h8=S #
-
   add_to_move_generation_stack:     1310728
                      play_move:     1024275
  is_white_king_square_attacked:       86725
  is_black_king_square_attacked:     1022727
+
 Loesung beendet.
 
 
@@ -320,11 +320,11 @@ Loesung beendet.
           2.Th2-h4 #
           2.Th2-h3 #
 
-
   add_to_move_generation_stack:       12698
                      play_move:        8517
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6464
+
 Loesung beendet.
 
 
@@ -356,11 +356,11 @@ Loesung beendet.
 
    1.Lb6-c7 !
 
-
   add_to_move_generation_stack:      698073
                      play_move:      564943
  is_white_king_square_attacked:      327298
  is_black_king_square_attacked:      246788
+
 Loesung beendet.
 
 
@@ -392,11 +392,11 @@ Loesung beendet.
                Madrasi
 
   1.c7-c8=T   2.f7*g8=L   3.g7*f8=D   4.b7-b8=S #
-
   add_to_move_generation_stack:       24019
                      play_move:       17807
  is_white_king_square_attacked:        3239
  is_black_king_square_attacked:       17460
+
 Loesung beendet.
 
 
@@ -428,11 +428,11 @@ Loesung beendet.
                Madrasi
 
   1.h7-h8=S   2.g7-g8=T   3.d7*c8=D   4.c7*d8=L #
-
   add_to_move_generation_stack:        9249
                      play_move:        7883
  is_white_king_square_attacked:        1904
  is_black_king_square_attacked:        7600
+
 Loesung beendet.
 
 
@@ -463,11 +463,11 @@ Loesung beendet.
                Madrasi
 
   1.b7-b8=T   2.g7*f8=D   3.f7*e8=L   4.d7-d8=S #
-
   add_to_move_generation_stack:       23483
                      play_move:       21482
  is_white_king_square_attacked:        3695
  is_black_king_square_attacked:       21068
+
 Loesung beendet.
 
 
@@ -498,11 +498,11 @@ Loesung beendet.
                Madrasi
 
   1.g7-g8=T   2.a7-a8=D   3.d7-d8=S   4.h7-h8=L #
-
   add_to_move_generation_stack:       25032
                      play_move:       27114
  is_white_king_square_attacked:        4172
  is_black_king_square_attacked:       26679
+
 Loesung beendet.
 
 
@@ -533,11 +533,11 @@ Loesung beendet.
                Madrasi
 
   1.a7-a8=L   2.c7*d8=D   3.d7*e8=T   4.h7-h8=S #
-
   add_to_move_generation_stack:       19980
                      play_move:       18369
  is_white_king_square_attacked:        3204
  is_black_king_square_attacked:       17993
+
 Loesung beendet.
 
 
@@ -568,11 +568,11 @@ Loesung beendet.
                Madrasi
 
   1.g7-g8=D   2.b7*c8=S   3.d7-d8=L   4.a7-a8=T #
-
   add_to_move_generation_stack:       38970
                      play_move:       45616
  is_white_king_square_attacked:        5844
  is_black_king_square_attacked:       45023
+
 Loesung beendet.
 
 
@@ -603,11 +603,11 @@ Loesung beendet.
                Madrasi
 
   1.c7-c8=T   2.h7*g8=L   3.f7-f8=S   4.b7-b8=D #
-
   add_to_move_generation_stack:       57798
                      play_move:       48460
  is_white_king_square_attacked:        7616
  is_black_king_square_attacked:       48003
+
 Loesung beendet.
 
 
@@ -638,11 +638,11 @@ Loesung beendet.
                Madrasi
 
   1.h7-h8=L   2.f7*e8=T   3.d7*c8=S   4.a7-a8=D #
-
   add_to_move_generation_stack:        4764
                      play_move:        5498
  is_white_king_square_attacked:        1245
  is_black_king_square_attacked:        5130
+
 Loesung beendet.
 
 
@@ -673,11 +673,11 @@ Loesung beendet.
                Madrasi
 
   1.b7-b8=T   2.d7*e8=S   3.f7-f8=D   4.a7-a8=L #
-
   add_to_move_generation_stack:       16915
                      play_move:       13548
  is_white_king_square_attacked:        2490
  is_black_king_square_attacked:       13224
+
 Loesung beendet.
 
 
@@ -708,11 +708,11 @@ Loesung beendet.
                Madrasi
 
   1.h7-h8=S   2.c7*d8=L   3.e7-e8=T   4.g7-g8=D #
-
   add_to_move_generation_stack:        5181
                      play_move:        3912
  is_white_king_square_attacked:         918
  is_black_king_square_attacked:        3734
+
 Loesung beendet.
 
 
@@ -743,11 +743,11 @@ Loesung beendet.
                Madrasi
 
   1.a7-a8=L   2.h7-h8=T   3.f7*e8=D   4.c7-c8=S #
-
   add_to_move_generation_stack:       10495
                      play_move:        9384
  is_white_king_square_attacked:        1645
  is_black_king_square_attacked:        9068
+
 Loesung beendet.
 
 
@@ -778,11 +778,11 @@ Loesung beendet.
                Madrasi
 
   1.f7-f8=T   2.d7*c8=S   3.c7*d8=L   4.e7-e8=D #
-
   add_to_move_generation_stack:       29832
                      play_move:       18177
  is_white_king_square_attacked:        4422
  is_black_king_square_attacked:       17682
+
 Loesung beendet.
 
 
@@ -814,11 +814,11 @@ Loesung beendet.
             Gitterschach
 
   1.Kg4-g5   2.Kg5-f6   3.Kf6-e7   4.Ke7-d7   5.Kd7-c6   6.Kc6-b5   7.Kb5-b4   8.Kb4-c3   9.Kc3-d2  10.Dd6-h6  11.Dh6-h1  12.Kd2-d3  13.Kd3-e4  14.Ke4-f5  15.Kf5-g4  16.Kg4-h5 Kf2-g1 #
-
   add_to_move_generation_stack:      107345
                      play_move:       72701
  is_white_king_square_attacked:       25750
  is_black_king_square_attacked:       72701
+
 Loesung beendet.
 
 

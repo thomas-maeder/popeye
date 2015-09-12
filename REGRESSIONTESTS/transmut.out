@@ -33,11 +33,11 @@ a)
       1...Le6*d5
           2.Sd6-f5 #
 
-
   add_to_move_generation_stack:       19699
                      play_move:       11227
  is_white_king_square_attacked:         501
  is_black_king_square_attacked:       11230
+
 b) TransmutierendeKoenige  
 
    1.Ka7-b6 ! Drohung:
@@ -47,11 +47,11 @@ b) TransmutierendeKoenige
       1...Le6*d5
           2.Sd6-b5 #
 
-
   add_to_move_generation_stack:       14656
                      play_move:        7878
  is_white_king_square_attacked:         425
  is_black_king_square_attacked:        7881
+
 Loesung beendet.
 
 
@@ -85,19 +85,19 @@ Loesung beendet.
 a) 
 
   1.a2-a1=S + Kc2-e3   2.Kf5-e5 f2-f4 #
-
   add_to_move_generation_stack:        9121
                      play_move:        9204
  is_white_king_square_attacked:         730
  is_black_king_square_attacked:        9088
+
 b) wKc2-->b2  
 
   1.a2-a1=D + Kb2-e2   2.Kf5-e4 f2-f3 #
-
   add_to_move_generation_stack:        9495
                      play_move:        9536
  is_white_king_square_attacked:         835
  is_black_king_square_attacked:        9405
+
 Loesung beendet.
 
 
@@ -131,27 +131,27 @@ Loesung beendet.
 
 NullStellung
 
-
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 a) sKf8-->a4  
 
   1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=w[+wSb1] Sb1-c3 #
-
   add_to_move_generation_stack:      128815
                      play_move:       72796
  is_white_king_square_attacked:       14186
  is_black_king_square_attacked:       72216
+
 b) wKa2-->f2  
 
   1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=w[+wLc1] Lc1-a3 #
-
   add_to_move_generation_stack:      129776
                      play_move:       73064
  is_white_king_square_attacked:        9873
  is_black_king_square_attacked:       72089
+
 Loesung beendet.
 
 
@@ -298,11 +298,11 @@ Loesung beendet.
               2...Kf2-e2
                   3.e7-e8=H #
 
-
   add_to_move_generation_stack:      406357
                      play_move:      295020
  is_white_king_square_attacked:       89322
  is_black_king_square_attacked:      222247
+
 Loesung beendet.
 
 
@@ -334,11 +334,11 @@ Loesung beendet.
 
   1.Dg1-h2 + Ke5-e4   2.Dh2-g3 f2-f3 #
   1.Kg4-g5 f2-f3   2.Dg1-g4 f3-f4 #
-
   add_to_move_generation_stack:       29624
                      play_move:       28966
  is_white_king_square_attacked:        4412
  is_black_king_square_attacked:       28736
+
 Loesung beendet.
 
 
@@ -369,11 +369,11 @@ R045, Problem Paradise 22, 04-06/2002
        TransmutierendeKoenige
 
   1.f2-f3 c7-c6   2.Ke1-f2 Dd8-b6 +   3.Kf2-g3 Db6-f2 +   4.Kg3-c7 e7-e5   5.d2-d4 Ke8-e7   6.Lc1-g5 + Ke7-b4   7.Dd1-d3 Sb8-a6 +   8.Kc7-e8 Sa6-c5   9.Dd3-a3 + Kb4-e1 dia
-
   add_to_move_generation_stack:      569638
                      play_move:      569638
  is_white_king_square_attacked:       29226
  is_black_king_square_attacked:       19552
+
 Loesung beendet.
 
 

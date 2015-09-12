@@ -1,7 +1,7 @@
 
                M.Brada
 The Problemist 1998 and Sachova skladba 1997
-                 (NL)
+                (NL)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,7 +23,7 @@ The Problemist 1998 and Sachova skladba 1997
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 7
-                 MAFF
+                MAFF
 
       1...De2-f3
           2.La1-e5 #
@@ -60,17 +60,17 @@ The Problemist 1998 and Sachova skladba 1997
       1...Lf7*e6
           2.La1-e5 #
 
-
   add_to_move_generation_stack:        9990
                      play_move:        8260
  is_white_king_square_attacked:         558
  is_black_king_square_attacked:        8245
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
                M.Brada
-         Sachova skladba 1997
+        Sachova skladba 1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -92,7 +92,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 7
-                 MAFF
+                MAFF
 
    1.Ld2-f4 ! Drohung:
           2.Te7-d7 #
@@ -121,12 +121,12 @@ Loesung beendet.
       1...Sd8-e6
           2.Te7-d7 #
 
-
   add_to_move_generation_stack:       13435
                      play_move:       10722
  is_white_king_square_attacked:         690
  is_black_king_square_attacked:       10727
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -153,7 +153,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 13
-                 MAFF
+                MAFF
 
    1.Tb3-b6 ! Drohung:
           2.Sa4-c5 #
@@ -268,16 +268,16 @@ Loesung beendet.
     Aber
       1...Te8-h8 + !
 
-
   add_to_move_generation_stack:       42907
                      play_move:       38735
  is_white_king_square_attacked:        2633
  is_black_king_square_attacked:       38554
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
    K190A, Problemkiste 122, 4/1999
 
 +---a---b---c---d---e---f---g---h---+
@@ -300,7 +300,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
-                 MAFF
+                MAFF
 
    1.BBb6-c7 ! Zugzwang.
       1...a7-a5
@@ -308,17 +308,17 @@ Loesung beendet.
       1...a7-a6
           2.BBc7-b8=T #
 
-
   add_to_move_generation_stack:         141
                      play_move:         133
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:         136
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-            Miroslav Brada
-    4858, Problemkiste 122, 4/1999
+           Miroslav Brada
+   4858, Problemkiste 122, 4/1999
               (UL + NL)
 
 +---a---b---c---d---e---f---g---h---+
@@ -341,7 +341,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 4
-                 MAFF
+                MAFF
 
    1.La3-b2 ? Drohung:
           2.Tf8-e8 #
@@ -560,11 +560,11 @@ Loesung beendet.
       1...Ke7*f6 + !
       1...Ke7*e8 + !
 
-
   add_to_move_generation_stack:       21709
                      play_move:       18767
  is_white_king_square_attacked:        1652
  is_black_king_square_attacked:       18572
-Loesung beendet. 
+
+Loesung beendet.
 
 

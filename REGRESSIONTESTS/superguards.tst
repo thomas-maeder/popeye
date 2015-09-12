@@ -28,11 +28,11 @@ a)
   1  (Ra1-a2 )
   2  (Ra1*c1 )
   3  (Ra1-b1 )
-
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
+
 b) bSc1  
 
   4  (Ra1*a3 + )
@@ -41,11 +41,11 @@ b) bSc1
   5  (Ra1-a2 )
   6  (Ra1*c1 )
   7  (Ra1-b1 )
-
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           9
+
 solution finished.
 
 

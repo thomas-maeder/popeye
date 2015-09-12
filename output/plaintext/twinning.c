@@ -311,14 +311,9 @@ static void WriteIntro(void)
       break;
 
     case twin_initial:
-      output_plaintext_message(NewLine);
-      WriteTwinLetter();
-      WriteTwinning();
-      output_plaintext_message(NewLine);
-      break;
-
     case twin_regular:
     case twin_last:
+      output_plaintext_message(NewLine);
       WriteTwinLetter();
       WriteTwinning();
       output_plaintext_message(NewLine);

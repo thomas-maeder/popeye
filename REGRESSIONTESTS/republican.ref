@@ -26,20 +26,20 @@ Type1: RepublicanChess is suspended when a side inserts the king
 a) 
 
   1.Rg2-h2 Be6-d5[+bKh1] #
-
   add_to_move_generation_stack:       62109
                      play_move:       16679
  is_white_king_square_attacked:        2234
  is_black_king_square_attacked:       44307
+
 b) #1  
 
    1.Ra1-h1[+bKh3] # !
-
 
   add_to_move_generation_stack:        3135
                      play_move:         876
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2351
+
 solution finished.
 
 
@@ -71,19 +71,19 @@ Type2 ist Vorgabe; RepublicanerSchach wird nicht suspendiert
 a) 
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
-
   add_to_move_generation_stack:       82373
                      play_move:       22801
  is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
+
 b) RepublicanChess    Type2  
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
-
   add_to_move_generation_stack:       82373
                      play_move:       22801
  is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
+
 solution finished.
 
 
@@ -147,11 +147,11 @@ solution finished.
       1...b7-b6
           2.Ra7*a6[+bKa5] #
 
-
   add_to_move_generation_stack:       16557
                      play_move:        5646
  is_white_king_square_attacked:        3715
  is_black_king_square_attacked:       15312
+
 solution finished.
 
 
@@ -197,11 +197,11 @@ solution finished.
       1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
-
   add_to_move_generation_stack:       46761
                      play_move:       14000
  is_white_king_square_attacked:        9275
  is_black_king_square_attacked:       33296
+
 solution finished.
 
 
@@ -247,11 +247,11 @@ solution finished.
       1...Bb8-c7
           2.Rf8-a8[+bKb8] #
 
-
   add_to_move_generation_stack:       47810
                      play_move:       11490
  is_white_king_square_attacked:        1760
  is_black_king_square_attacked:       37492
+
 solution finished.
 
 
@@ -285,11 +285,11 @@ solution finished.
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] #
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] #
   1.Rb7-h7 Rd1-d4   2.Rh7-h1[+bKe1] + Rd4-d2[+wKg1] #
-
   add_to_move_generation_stack:     4173128
                      play_move:     1109691
  is_white_king_square_attacked:     3276152
  is_black_king_square_attacked:     2439173
+
 solution finished.
 
 
@@ -331,11 +331,11 @@ solution finished.
       1...Ba8-b7
           2.Sd8-c6[+bKa6] #
 
-
   add_to_move_generation_stack:       35940
                      play_move:        9348
  is_white_king_square_attacked:        4546
  is_black_king_square_attacked:       28392
+
 solution finished.
 
 
@@ -536,11 +536,11 @@ solution finished.
     but
       1...cBd1-b3=cR !
 
-
   add_to_move_generation_stack:     8294104
                      play_move:     2544791
  is_white_king_square_attacked:    10030769
  is_black_king_square_attacked:     3363404
+
 solution finished.
 
 

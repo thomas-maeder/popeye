@@ -26,11 +26,11 @@
               BGL 4.5/4
 
   1.a3-a2 (4.5/3) Kg5-f6 (3.09/3)   2.a2-a1=S (3.09/2) Kf6-e7 (1.68/2) ==
-
   add_to_move_generation_stack:       12483
                      play_move:        3451
  is_white_king_square_attacked:        2996
  is_black_king_square_attacked:         530
+
 Loesung beendet.
 
 
@@ -90,11 +90,11 @@ Loesung beendet.
       1...Sg5-e6 (6/0.76)
           2.Th6-h5 (5/0.76) #
 
-
   add_to_move_generation_stack:        2292
                      play_move:        1057
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:        1060
+
 Loesung beendet.
 
 
@@ -125,11 +125,11 @@ Loesung beendet.
               BGL -/29
 
   1.nBb2-b1=nT (-/28)   2.nTb1-h1 (-/22)   3.nTh1-a1 (-/15)   4.nTa1-a8 (-/8)   5.nTa8-h8 (-/1) nTh8*h6 #
-
   add_to_move_generation_stack:     1275665
                      play_move:     1161090
  is_white_king_square_attacked:       94088
  is_black_king_square_attacked:     1161090
+
 Loesung beendet.
 
 
@@ -160,11 +160,11 @@ Loesung beendet.
               BGL 27.42
 
   1.a2-a1=N (26.42) Te7-c7 (24.42)   2.Na1-g4 (17.71) Tc7-c3 (13.71)   3.Ng4-a7 (7) Tc3-c8 (2) #
-
   add_to_move_generation_stack:     4163273
                      play_move:     3732042
  is_white_king_square_attacked:      279475
  is_black_king_square_attacked:     3691158
+
 Loesung beendet.
 
 
@@ -195,11 +195,11 @@ Loesung beendet.
               BGL 17.65
 
   1.a2-a1=S (16.65)   2.Sa1-b3 (14.41)   3.Sb3-c5 (12.17)   4.g2-g1=L (11.17) Lh5-f3 (8.34) #
-
   add_to_move_generation_stack:      116041
                      play_move:      103470
  is_white_king_square_attacked:        3759
  is_black_king_square_attacked:      103470
+
 Loesung beendet.
 
 
@@ -251,11 +251,11 @@ Loesung beendet.
       1...nSg8-h6 (-/2.21)
           2.nSh6-f7 #
 
-
   add_to_move_generation_stack:        4213
                      play_move:        2781
  is_white_king_square_attacked:         235
  is_black_king_square_attacked:        2784
+
 Loesung beendet.
 
 
@@ -287,11 +287,11 @@ Loesung beendet.
 
   1.Kd1-c2 (7/2.09) nBa7-a8=nT (6/2.09)   2.nTa8-a6 (6/0.09) nTa6-c6 (4/0.09) #
   1.Kd1-d2 (7/2.5) nBa7-a8=nS (6/2.5)   2.nSa8-b6 (6/0.26) nSb6-c4 (3.76/0.26) #
-
   add_to_move_generation_stack:        4215
                      play_move:        4530
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:        4442
+
 Loesung beendet.
 
 
@@ -323,11 +323,11 @@ Loesung beendet.
 
   1.Kd5-e4 (2/4.59)   2.Ke4-f3 (2/3.18)   3.Kf3-g4 (2/1.77)   4.Kg4-h5 (2/0.36) Kh7-h6 (1/0.36) #
   1.Kd5-c6 (2/4.59)   2.Kc6-d7 (2/3.18)   3.Kd7-e8 (2/1.77)   4.Ke8-f7 (2/0.36) Kh7-g7 (1/0.36) #
-
   add_to_move_generation_stack:        5294
                      play_move:        5281
  is_white_king_square_attacked:         612
  is_black_king_square_attacked:        5281
+
 Loesung beendet.
 
 
@@ -358,11 +358,11 @@ Loesung beendet.
             BGL 6.5/34.6
 
   1.Nd2-g8 (6.5/27.89) Kg4-f4 (5.5/27.89)   2.Ng8-a5 (5.5/21.18) Kf4-e4 (4.5/21.18)   3.Na5-g2 (4.5/14.47) Ke4-d4 (3.5/14.47)   4.Ng2-d8 (3.5/7.76) Kd4-c4 (2.5/7.76)   5.Nd8-a2 (2.5/1.05) Kc4-b4 (1.5/1.05) #
-
   add_to_move_generation_stack:    14148928
                      play_move:    12626865
  is_white_king_square_attacked:     1525175
  is_black_king_square_attacked:    11146989
+
 Loesung beendet.
 
 
@@ -393,11 +393,11 @@ Loesung beendet.
               BGL 4/13
 
   1.Sf6-h7 (4/10.76) Ka1-b2 (2.59/10.76)   2.a2-a1=L (2.59/9.76) + Kb2-b3 (1.59/9.76)   3.La1-g7 (1.59/1.27) Kb3-b4 (0.59/1.27) ==
-
   add_to_move_generation_stack:      425524
                      play_move:      107032
  is_white_king_square_attacked:       56081
  is_black_king_square_attacked:       81857
+
 Loesung beendet.
 
 
@@ -434,11 +434,11 @@ Loesung beendet.
                   3.Db1-b6 (1.01/3)
                       3...f3-f2 (1.01/2) #
 
-
   add_to_move_generation_stack:      142905
                      play_move:       72827
  is_white_king_square_attacked:       72690
  is_black_king_square_attacked:       43346
+
 Loesung beendet.
 
 
@@ -498,11 +498,11 @@ Loesung beendet.
       1...Sg5-e6 (6/1.76)
           2.De8-c6 (3.17/1.76) #
 
-
   add_to_move_generation_stack:        7794
                      play_move:        3865
  is_white_king_square_attacked:         434
  is_black_king_square_attacked:        3868
+
 Loesung beendet.
 
 
@@ -538,21 +538,21 @@ a)
       1...Ka8*b7 (2/0.59)
           2.Kd7-c7 (1/0.59) #
 
-
   add_to_move_generation_stack:         670
                      play_move:         358
  is_white_king_square_attacked:          48
  is_black_king_square_attacked:         361
+
 b) BGL 8  
 
    1.Kd7-c7 (7) ! Drohung:
           2.Tb5-a5 (6) #
 
-
   add_to_move_generation_stack:         754
                      play_move:         537
  is_white_king_square_attacked:          71
  is_black_king_square_attacked:         540
+
 Loesung beendet.
 
 
@@ -586,11 +586,11 @@ Loesung beendet.
   1.a7-a5 (2/0.5) Kc8-b8 (1/0.5) #
 
   1.b6*a7 (0.59/2.5) Ka8-b8 (0.59/1.5) #
-
   add_to_move_generation_stack:          69
                      play_move:          52
  is_white_king_square_attacked:          35
  is_black_king_square_attacked:          28
+
 Loesung beendet.
 
 

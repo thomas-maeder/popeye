@@ -34,11 +34,11 @@
       1...MSe8-c7
           2.MSh1-f2 #
 
-
   add_to_move_generation_stack:        6520
                      play_move:        3832
  is_white_king_square_attacked:         321
  is_black_king_square_attacked:        3835
+
 solution finished.
 
 
@@ -110,11 +110,11 @@ solution finished.
       1...MSg8-f6
           2.MSe4*f6-g8 #
 
-
   add_to_move_generation_stack:       10023
                      play_move:        6311
  is_white_king_square_attacked:         613
  is_black_king_square_attacked:        6314
+
 solution finished.
 
 
@@ -170,11 +170,11 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
       1...SIf3-g3
           2.f2-f3 #
 
-
   add_to_move_generation_stack:       18524
                      play_move:       11113
  is_white_king_square_attacked:         497
  is_black_king_square_attacked:       11116
+
 solution finished.
 
 
@@ -227,11 +227,11 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
           2.Ba2-f7 threat:
                   3.Bf7-g6 #
 
-
   add_to_move_generation_stack:      539835
                      play_move:      370411
  is_white_king_square_attacked:       63688
  is_black_king_square_attacked:      320003
+
 solution finished.
 
 
@@ -262,11 +262,11 @@ added white pa2 against many cooks with triton pinning from a1
   h=3                         7 + 3
 
   1.BPe2-d1=MS BPd7-c8=TR   2.MSd1*c3-b5 TRc1*c2-c3   3.MSb5-a7 Kc4-b5 =
-
   add_to_move_generation_stack:    47944896
                      play_move:    31440951
  is_white_king_square_attacked:    13338110
  is_black_king_square_attacked:    28419957
+
 solution finished.
 
 
@@ -298,19 +298,19 @@ solution finished.
 a) 
 
   1.SIf4-d2 Bh1-e4   2.POe5*e4-e3 POd1*d2-d3 #
-
   add_to_move_generation_stack:      502004
                      play_move:      374056
  is_white_king_square_attacked:       25207
  is_black_king_square_attacked:      373084
+
 b) wPOd1-->a4  
 
   1.SIf4-b4 Bh1-d5   2.POe5*d5-c5 POa4*b4-c4 #
-
   add_to_move_generation_stack:      501016
                      play_move:      369250
  is_white_king_square_attacked:       24828
  is_black_king_square_attacked:      368304
+
 solution finished.
 
 
@@ -343,11 +343,11 @@ solution finished.
       1...POg1-f1
           2.Ke3-f2 #
 
-
   add_to_move_generation_stack:         336
                      play_move:         258
  is_white_king_square_attacked:          41
  is_black_king_square_attacked:         261
+
 solution finished.
 
 
@@ -386,11 +386,11 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
           2.Ka8-b7 ==
           2.Ka8-b8 ==
 
-
   add_to_move_generation_stack:          75
                      play_move:          41
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:          33
+
 solution finished.
 
 
@@ -420,11 +420,11 @@ solution finished.
   h#3                         3 + 4
 
   1.MPb4-b3 MPa2*b3-c4   2.MPb2-b1=TR MPc4*b5-a6   3.TRb1-b7 MPa6*b7-c8=SI #
-
   add_to_move_generation_stack:      908790
                      play_move:      877784
  is_white_king_square_attacked:       39355
  is_black_king_square_attacked:      862233
+
 solution finished.
 
 
@@ -455,11 +455,11 @@ solution finished.
         Madrasi RexInclusive
 
   1.MPe2-e1=ND MPf7-f8=ND   2.NDe1-c3 NDf8*c5-b4   3.MPf2-f1=SI MPg7-g8=TR ==
-
   add_to_move_generation_stack:   259892176
                      play_move:    50606596
  is_white_king_square_attacked:    48075030
  is_black_king_square_attacked:     2531850
+
 solution finished.
 
 
@@ -500,11 +500,11 @@ a)
 
    1.d7-d8=B !
 
-
   add_to_move_generation_stack:           1
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) LosingChess
    MarineChess  
 
@@ -518,11 +518,11 @@ b) LosingChess
 
    1.d7-d8=MS !
 
-
   add_to_move_generation_stack:           1
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 c) LosingChess
    UltramarineChess  
 
@@ -536,11 +536,11 @@ c) LosingChess
 
    1.d7-d8=PO !
 
-
   add_to_move_generation_stack:           1
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -575,11 +575,11 @@ a)
 
    1.d4*e5[+bSIe1] !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe
    MarineChess  
 
@@ -587,11 +587,11 @@ b) Circe
 
    1.d4*e5[+bSId8] !
 
-
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -621,11 +621,11 @@ solution finished.
              MarineChess
 
   1.b2-b4 e7-e6   2.NDc1-b2 NDf8*b4-a3 dia
-
   add_to_move_generation_stack:      177670
                      play_move:      177670
  is_white_king_square_attacked:        8928
  is_black_king_square_attacked:         404
+
 solution finished.
 
 
@@ -658,20 +658,20 @@ a)
 
    1.0-0 # !
 
-
   add_to_move_generation_stack:          56
                      play_move:          38
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
+
 b) UltramarineChess  wPOe1  
 
    1.0-0 # !
 
-
   add_to_move_generation_stack:          56
                      play_move:          38
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
+
 solution finished.
 
 
@@ -702,11 +702,11 @@ solution finished.
   1.b7-b5 MPc5*a7 ep.
   1.MPd7-d5 MPc5*e7 ep.
   1.BPf7-h5 MPf5*h7 ep.
-
   add_to_move_generation_stack:          19
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -738,11 +738,11 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
           UltramarineChess
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
-
   add_to_move_generation_stack:    32744616
                      play_move:    32745939
  is_white_king_square_attacked:     2513309
  is_black_king_square_attacked:      168494
+
 solution finished.
 
 
@@ -833,11 +833,11 @@ Michel Caillaud, Henri Nouguier & Uri Avner
                   3.Sf7-e5 +
                       3...f6*e5 #
 
-
   add_to_move_generation_stack:       58844
                      play_move:       26614
  is_white_king_square_attacked:       10534
  is_black_king_square_attacked:       20131
+
 solution finished.
 
 
@@ -869,11 +869,11 @@ solution finished.
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=TR   9.TRd1-d5  10.TRd5*f5-g5  11.TRg5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d6  10.MHd6-e6  11.MHe6*f5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
-
   add_to_move_generation_stack:    29467747
                      play_move:    24006685
  is_white_king_square_attacked:     8105039
  is_black_king_square_attacked:    24006685
+
 solution finished.
 
 

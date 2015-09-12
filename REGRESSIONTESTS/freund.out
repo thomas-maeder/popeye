@@ -1,6 +1,6 @@
 
             Jurai L"orinc
-         1979 Ph'enix 28/1994
+        1979 Ph'enix 28/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#3                         2 + 3
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.Th6-h3 ! Zugzwang.
       1...Na1-g4
@@ -36,11 +36,11 @@
                   3.Tb3-c3 +
                       3...Ng1*c3 #
 
-
   add_to_move_generation_stack:       30942
                      play_move:       16865
  is_white_king_square_attacked:        4760
  is_black_king_square_attacked:       14483
-Loesung beendet. 
+
+Loesung beendet.
 
 

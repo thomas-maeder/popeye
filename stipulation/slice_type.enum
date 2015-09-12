@@ -534,7 +534,6 @@
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
-    ENUMERATOR(STOutputPlainTextEndOfTwinWriter),                       \
     ENUMERATOR(STOutputPlainTextMetaWriter),                            \
     ENUMERATOR(STOutputPlainTextBoardWriter),                           \
     ENUMERATOR(STOutputPlainTextPieceCountsWriter),                     \

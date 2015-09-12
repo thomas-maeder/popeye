@@ -28,11 +28,11 @@
   1.Sg1*h3=T   2.Lf1-a6=T   3.Ta6-d6=D   4.Th3-f3=L #
   1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-d6=D   4.Th3-f3=L #
   1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L #
-
   add_to_move_generation_stack:       21042
                      play_move:       20699
  is_white_king_square_attacked:        3039
  is_black_king_square_attacked:       20585
+
 Loesung beendet.
 
 
@@ -78,11 +78,11 @@ Loesung beendet.
                   3.cDg3-f2=cS +
                       3...cDd4*f2=cS #
 
-
   add_to_move_generation_stack:      590814
                      play_move:      246711
  is_white_king_square_attacked:      245446
  is_black_king_square_attacked:      156812
+
 Loesung beendet.
 
 
@@ -161,11 +161,11 @@ Loesung beendet.
       1...e4-e3
           2.cLd6-f4=cT #
 
-
   add_to_move_generation_stack:       28243
                      play_move:       19157
  is_white_king_square_attacked:        1454
  is_black_king_square_attacked:       19033
+
 Loesung beendet.
 
 
@@ -198,19 +198,19 @@ Loesung beendet.
 a) 
 
   1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL #
-
   add_to_move_generation_stack:      992661
                      play_move:      887088
  is_white_king_square_attacked:       29739
  is_black_king_square_attacked:      885761
+
 b) sDh1-->h3  
 
   1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL #
-
   add_to_move_generation_stack:     1036462
                      play_move:      930538
  is_white_king_square_attacked:       30676
  is_black_king_square_attacked:      929144
+
 Loesung beendet.
 
 
@@ -253,11 +253,11 @@ Loesung beendet.
       1...ncSf4-d5=ncL
           2.cSd6-e4=cL #
 
-
   add_to_move_generation_stack:       10744
                      play_move:        7010
  is_white_king_square_attacked:         529
  is_black_king_square_attacked:        7013
+
 Loesung beendet.
 
 
@@ -307,11 +307,11 @@ Loesung beendet.
       1...ncTe8-h8=ncD
           2.De5-e6 #
 
-
   add_to_move_generation_stack:       17983
                      play_move:       12637
  is_white_king_square_attacked:        1030
  is_black_king_square_attacked:       12639
+
 Loesung beendet.
 
 
@@ -352,11 +352,11 @@ Loesung beendet.
       1...La7-b8
           2.cDc7*c5=cS #
 
-
   add_to_move_generation_stack:       12194
                      play_move:        7244
  is_white_king_square_attacked:         610
  is_black_king_square_attacked:        7247
+
 Loesung beendet.
 
 
@@ -414,11 +414,11 @@ Loesung beendet.
       1...cSd3-b4=cL
           2.d2-d3 #
 
-
   add_to_move_generation_stack:        6690
                      play_move:        4790
  is_white_king_square_attacked:         397
  is_black_king_square_attacked:        4793
+
 Loesung beendet.
 
 
@@ -458,11 +458,11 @@ Loesung beendet.
       1...ncLf8-e7=ncT
           2.Da4-e4 #
 
-
   add_to_move_generation_stack:        3551
                      play_move:        1997
  is_white_king_square_attacked:         246
  is_black_king_square_attacked:        2000
+
 Loesung beendet.
 
 
@@ -521,11 +521,11 @@ Loesung beendet.
               2...Kf5-e6
                   3.Se4-g5 #
 
-
   add_to_move_generation_stack:      124209
                      play_move:       71689
  is_white_king_square_attacked:        7289
  is_black_king_square_attacked:       70040
+
 Loesung beendet.
 
 
@@ -569,11 +569,11 @@ Loesung beendet.
   1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nS=nc #
   1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
   1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
-
   add_to_move_generation_stack:      132630
                      play_move:       99695
  is_white_king_square_attacked:       17306
  is_black_king_square_attacked:       99231
+
 Loesung beendet.
 
 
@@ -619,11 +619,11 @@ Loesung beendet.
       1...cLd7*c8=cT[+wcDd1] +
           2.cDd1*f3=cS[+sBf7] #
 
-
   add_to_move_generation_stack:        6129
                      play_move:        3662
  is_white_king_square_attacked:         313
  is_black_king_square_attacked:        3665
+
 Loesung beendet.
 
 
@@ -656,11 +656,11 @@ Loesung beendet.
 
   1...cDb2*f2=cT   2.cLa5-d2=cS cTf2-f6=cL   3.Tg2-e2 cLf6-b2=cS #
   1...cDc5*f2=cT   2.cTe4-c4=cL cTf2-f8=cL   3.cDg1-e3=cT cLf8-c5=cS #
-
   add_to_move_generation_stack:    16814154
                      play_move:    11415647
  is_white_king_square_attacked:     1418355
  is_black_king_square_attacked:    11377643
+
 Loesung beendet.
 
 
@@ -719,11 +719,11 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
 
    1.cLf1-e2=cT !
 
-
   add_to_move_generation_stack:           7
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -772,11 +772,11 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
 
    1.c6*d7[wBd7->e8=L=c] !
 
-
   add_to_move_generation_stack:           2
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

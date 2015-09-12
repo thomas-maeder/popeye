@@ -29,19 +29,19 @@ Hilmar Ebert, Hans Gruber & Joerg Kuhlmann
 a) 
 
   1.a3-a2=T b2-b4=D #
-
   add_to_move_generation_stack:          62
                      play_move:          65
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:          65
+
 b) h=2  
 
   1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 =
-
   add_to_move_generation_stack:         302
                      play_move:         204
  is_white_king_square_attacked:         175
  is_black_king_square_attacked:         151
+
 Loesung beendet.
 
 
@@ -72,11 +72,11 @@ Loesung beendet.
        UWFeldSchwarz a5 b5 c5
 
   1.a7-a5=D b6-b7 +   2.Ka8-a7 b7-b8=T   3.Da5-c5 + Kc8-b7 ##!
-
   add_to_move_generation_stack:        1501
                      play_move:        1388
  is_white_king_square_attacked:         935
  is_black_king_square_attacked:         714
+
 Loesung beendet.
 
 
@@ -107,11 +107,11 @@ Loesung beendet.
        UWFeldSchwarz a4 b4 c4
 
   1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 #
-
   add_to_move_generation_stack:        2310
                      play_move:        1719
  is_white_king_square_attacked:        1465
  is_black_king_square_attacked:        1103
+
 Loesung beendet.
 
 

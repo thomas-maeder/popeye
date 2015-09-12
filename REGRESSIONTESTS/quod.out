@@ -1,6 +1,6 @@
 
-                N.Hoeg
-        Skakschwadet 1 Pr 1907
+               N.Hoeg
+       Skakschwadet 1 Pr 1907
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -39,16 +39,16 @@
       1...g3-g2
           2.Lf1*e2 #=
 
-
   add_to_move_generation_stack:       10618
                      play_move:        3564
  is_white_king_square_attacked:        2387
  is_black_king_square_attacked:        2204
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-               B.Globel
+              B.Globel
        Aftonschwadet 10.7.1927
 
 +---a---b---c---d---e---f---g---h---+
@@ -92,16 +92,16 @@ Loesung beendet.
               2...Kb8*c7 #=
               2...Kb8-c8 #=
 
-
   add_to_move_generation_stack:        6904
                      play_move:        3393
  is_white_king_square_attacked:        1722
  is_black_king_square_attacked:        2218
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-               H.P.Rehm
+              H.P.Rehm
             Schwalbe 1968
 
 +---a---b---c---d---e---f---g---h---+
@@ -140,16 +140,16 @@ Loesung beendet.
       1...e6-e5
           2.Dh6-d2 #
 
-
   add_to_move_generation_stack:       11523
                      play_move:        5978
  is_white_king_square_attacked:        5695
  is_black_king_square_attacked:        3219
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-               H.P.Rehm
+              H.P.Rehm
             Schwalbe 1968
 
 +---a---b---c---d---e---f---g---h---+
@@ -251,12 +251,12 @@ Loesung beendet.
       1...e2-e1=L
           2.Lf7-h5 #
 
-
   add_to_move_generation_stack:       32981
                      play_move:       19454
  is_white_king_square_attacked:       18984
  is_black_king_square_attacked:        6267
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -292,11 +292,11 @@ Loesung beendet.
           2.Le6-g4
               2...Sg6-f4 #
 
-
   add_to_move_generation_stack:        2420
                      play_move:        1448
  is_white_king_square_attacked:        1180
  is_black_king_square_attacked:        1269
-Loesung beendet. 
+
+Loesung beendet.
 
 

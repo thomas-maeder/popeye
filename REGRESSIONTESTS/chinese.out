@@ -1,5 +1,5 @@
 
-            N. Shankar Ram
+           N. Shankar Ram
        harmonie 23, 31.12.1988
      3. Lob, 1. harmonie-TT 1988
 
@@ -108,17 +108,17 @@
       1...NAh7-d5
           2.Te2-e1 #
 
-
   add_to_move_generation_stack:       31221
                      play_move:       21040
  is_white_king_square_attacked:         655
  is_black_king_square_attacked:       20774
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Reto Aschwanden
-  F138, Probleemblad 57/5, 9-10/1999
+ F138, Probleemblad 57/5, 9-10/1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -218,20 +218,20 @@ Loesung beendet.
     Aber
       1...Te2-e4 !
 
-
   add_to_move_generation_stack:       56983
                      play_move:       30228
  is_white_king_square_attacked:        1844
  is_black_king_square_attacked:       29953
-Loesung beendet. 
+
+Loesung beendet.
 
 
 LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
 
             Janez Nastran
         The Problemist 7/1997
-             3. Ehr. Erw.
-            (Verbesserung)
+            3. Ehr. Erw.
+           (Verbesserung)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -330,16 +330,16 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
     Aber
       1...THd1-d7 !
 
-
   add_to_move_generation_stack:       16007
                      play_move:       11430
  is_white_king_square_attacked:        1002
  is_black_king_square_attacked:       11344
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-    Janez Nastran & Peter Gvozdjak
+   Janez Nastran & Peter Gvozdjak
       Brabec-60 JT C, 26.5.1998
              1.-5. Preis
 
@@ -543,12 +543,12 @@ Loesung beendet.
     Aber
       1...Ke8*f7 !
 
-
   add_to_move_generation_stack:      138381
                      play_move:       83512
  is_white_king_square_attacked:        2842
  is_black_king_square_attacked:       84931
-Loesung beendet. 
+
+Loesung beendet.
 
 
 2+0 Nachtreiter, 0+1 VAo g1, 2+1 PAos, 1+1 RAos, 2+10 dummy Bauern, 0+1 dummy Koenig d6
@@ -689,11 +689,11 @@ Loesung beendet.
     Aber
       1...Lb2-a3 !
 
-
   add_to_move_generation_stack:       47122
                      play_move:       48509
  is_white_king_square_attacked:        1280
  is_black_king_square_attacked:       27217
-Loesung beendet. 
+
+Loesung beendet.
 
 

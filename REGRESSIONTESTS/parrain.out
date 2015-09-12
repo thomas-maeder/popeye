@@ -26,11 +26,11 @@
 
   1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4[+wGf2] #
   1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6[+wGf8] #
-
   add_to_move_generation_stack:        9210
                      play_move:        7469
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        7424
+
 Loesung beendet.
 
 
@@ -61,11 +61,11 @@ Loesung beendet.
             Circe Parrain
 
   1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7[+sBc6] d5*c6 +   4.Kb7-a8[+sBb7] c6*b7 #
-
   add_to_move_generation_stack:     2320928
                      play_move:     1889357
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1816521
+
 Loesung beendet.
 
 
@@ -99,11 +99,11 @@ Loesung beendet.
   1.Lh4*e7 b7-b8=S[+wBe8=S] #
   1.Lh4*e7 b7-b8=L[+wBe8=D] #
   1.Lh4*e7 b7-b8=L[+wBe8=L] #
-
   add_to_move_generation_stack:         442
                      play_move:         384
  is_white_king_square_attacked:          91
  is_black_king_square_attacked:         384
+
 Loesung beendet.
 
 
@@ -167,11 +167,11 @@ Loesung beendet.
       1...Dd7-d5
           2.Lb4-c3 #
 
-
   add_to_move_generation_stack:       14568
                      play_move:        9836
  is_white_king_square_attacked:         715
  is_black_king_square_attacked:        9839
+
 Loesung beendet.
 
 
@@ -217,11 +217,11 @@ Loesung beendet.
       1...Db8*c8
           2.Th8-h3[+wLc3] #
 
-
   add_to_move_generation_stack:        3586
                      play_move:        2689
  is_white_king_square_attacked:         285
  is_black_king_square_attacked:        2692
+
 Loesung beendet.
 
 
@@ -260,11 +260,11 @@ Loesung beendet.
       1...Ta3*d3
           2.Sf4*h5[+wDf4] #
 
-
   add_to_move_generation_stack:        6742
                      play_move:        4634
  is_white_king_square_attacked:         373
  is_black_king_square_attacked:        4637
+
 Loesung beendet.
 
 
@@ -347,11 +347,11 @@ Loesung beendet.
     Aber
       1...Dc1-c6 !
 
-
   add_to_move_generation_stack:       26226
                      play_move:       16791
  is_white_king_square_attacked:         612
  is_black_king_square_attacked:       16677
+
 Loesung beendet.
 
 
@@ -394,11 +394,11 @@ Loesung beendet.
       1...e7*d6
           2.Sg6-e7[+wDb7] #
 
-
   add_to_move_generation_stack:       32467
                      play_move:       20194
  is_white_king_square_attacked:        1088
  is_black_king_square_attacked:       20197
+
 Loesung beendet.
 
 
@@ -459,11 +459,11 @@ Loesung beendet.
     Aber
       1...Sh7*f8 !
 
-
   add_to_move_generation_stack:       22155
                      play_move:       15187
  is_white_king_square_attacked:         956
  is_black_king_square_attacked:       15136
+
 Loesung beendet.
 
 

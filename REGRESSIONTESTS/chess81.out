@@ -105,11 +105,11 @@
               2...Kg5-h5
                   3.Tg2-g8 c81
 
-
   add_to_move_generation_stack:     1783658
                      play_move:     1292313
  is_white_king_square_attacked:     1137269
  is_black_king_square_attacked:      140212
+
 Loesung beendet.
 
 
@@ -144,11 +144,11 @@ Loesung beendet.
           2.Tf1*f6 Drohung:
                   3.Tf6-f8 c81
 
-
   add_to_move_generation_stack:        4279
                      play_move:        1851
  is_white_king_square_attacked:        1209
  is_black_king_square_attacked:         396
+
 Loesung beendet.
 
 
@@ -201,11 +201,11 @@ Loesung beendet.
           2.Th5-a5 Drohung:
                   3.Ta5-a8 c81
 
-
   add_to_move_generation_stack:       35034
                      play_move:        8046
  is_white_king_square_attacked:        3661
  is_black_king_square_attacked:        2175
+
 Loesung beendet.
 
 
@@ -245,11 +245,11 @@ Loesung beendet.
                       3...Ka2-b1 c81
                       3...Ka2-a1 c81
 
-
   add_to_move_generation_stack:       11804
                      play_move:        4188
  is_white_king_square_attacked:        2189
  is_black_king_square_attacked:        2014
+
 Loesung beendet.
 
 
@@ -282,11 +282,11 @@ Loesung beendet.
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=S + c81
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=T c81
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=L c81
-
   add_to_move_generation_stack:        3071
                      play_move:         673
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         611
+
 Loesung beendet.
 
 

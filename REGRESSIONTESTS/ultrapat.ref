@@ -26,11 +26,11 @@
 both sides need a king
 
   1.Sh3-g5   2.Sg5-e6   3.Sf4-g6   4.h4-h5   5.Sg6-f8   6.Se6-g7   7.h5-h6   8.Sg7-f5   9.h6-h7  10.h7-h8=Q  11.Sf8-g6  12.Qh8-g8  13.Sg6-e7 #
-
   add_to_move_generation_stack:        1640
                      play_move:        1652
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1665
+
 solution finished.
 
 

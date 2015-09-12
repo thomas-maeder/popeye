@@ -1,7 +1,7 @@
 
                M.Brada
 The Problemist 1998 and Sachova skladba 1997
-                cooked
+               cooked
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,7 +23,7 @@ The Problemist 1998 and Sachova skladba 1997
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 7
-                 MAFF
+                MAFF
 
       1...Qe2-f3
           2.Ba1-e5 #
@@ -60,17 +60,17 @@ The Problemist 1998 and Sachova skladba 1997
       1...Bf7*e6
           2.Ba1-e5 #
 
-
   add_to_move_generation_stack:        9990
                      play_move:        8260
  is_white_king_square_attacked:         558
  is_black_king_square_attacked:        8245
-solution finished. 
+
+solution finished.
 
 
 
                M.Brada
-         Sachova skladba 1997
+        Sachova skladba 1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -92,7 +92,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 7
-                 MAFF
+                MAFF
 
    1.Bd2-f4 ! threat:
           2.Re7-d7 #
@@ -121,12 +121,12 @@ solution finished.
       1...Sd8-e6
           2.Re7-d7 #
 
-
   add_to_move_generation_stack:       13435
                      play_move:       10722
  is_white_king_square_attacked:         690
  is_black_king_square_attacked:       10727
-solution finished. 
+
+solution finished.
 
 
 
@@ -153,7 +153,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 13
-                 MAFF
+                MAFF
 
    1.Rb3-b6 ! threat:
           2.Sa4-c5 #
@@ -268,11 +268,11 @@ solution finished.
     but
       1...Re8-h8 + !
 
-
   add_to_move_generation_stack:       42907
                      play_move:       38735
  is_white_king_square_attacked:        2633
  is_black_king_square_attacked:       38554
-solution finished. 
+
+solution finished.
 
 

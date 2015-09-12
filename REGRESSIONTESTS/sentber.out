@@ -27,11 +27,11 @@
 
   1.Kc8-d7   2.Kd7-e6[+sBBd7]   3.Ke6-f5[+sBBe6]   4.Kf5-g4[+sBBf5]   5.Kg4-h3[+sBBg4]   6.Kh3-g2[+sBBh3]   7.Kg2-h1[+sBBg2] BBg2-f1=D #
   1.Kc8-c7   2.Kc7-d6[+sBBc7]   3.Kd6-c5[+sBBd6]   4.Kc5-b4[+sBBc5]   5.Kb4-a3[+sBBb4]   6.Ka3-b2[+sBBa3]   7.Kb2-a1[+sBBb2] BBb2-c1=D #
-
   add_to_move_generation_stack:    16427908
                      play_move:    18686181
  is_white_king_square_attacked:    18686181
  is_black_king_square_attacked:     2531157
+
 Loesung beendet.
 
 

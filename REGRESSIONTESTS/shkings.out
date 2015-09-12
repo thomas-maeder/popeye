@@ -75,11 +75,11 @@
     Aber
       1...Ke4-c3 !
 
-
   add_to_move_generation_stack:       22480
                      play_move:       13736
  is_white_king_square_attacked:        1268
  is_black_king_square_attacked:       13343
+
 Loesung beendet.
 
 
@@ -112,19 +112,19 @@ Loesung beendet.
 a) 
 
   1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 #
-
   add_to_move_generation_stack:      248155
                      play_move:      232631
  is_white_king_square_attacked:       14421
  is_black_king_square_attacked:      231707
+
 b) -sBg3  wSg5-->g3  
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 #
-
   add_to_move_generation_stack:      274024
                      play_move:      252489
  is_white_king_square_attacked:       16832
  is_black_king_square_attacked:      251219
+
 Loesung beendet.
 
 
@@ -196,11 +196,11 @@ a)
     Aber
       1...e3-e2 !
 
-
   add_to_move_generation_stack:       13703
                      play_move:        8551
  is_white_king_square_attacked:         926
  is_black_king_square_attacked:        8438
+
 b) s#3  
 
    1.0-0 + !
@@ -222,11 +222,11 @@ b) s#3
     Aber
       1...Lc6*d5 !
 
-
   add_to_move_generation_stack:      709879
                      play_move:      238570
  is_white_king_square_attacked:      241188
  is_black_king_square_attacked:      131052
+
 Loesung beendet.
 
 

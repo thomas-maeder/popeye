@@ -32,38 +32,38 @@ a)
 
    1.Ba1*b2[f8=R] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
+
 b) bPb2  
 
    1.Ba1*b2[h4=K] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 c) bSb2  
 
    1.Ba1*b2 !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 +d) bKh4  
 
    1.Ba1*b2[h4=rS] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -102,38 +102,38 @@ a)
 
    1.Ba1*b2[f8=TR] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
+
 b) bMPb2  
 
    1.Ba1*b2[h4=PO] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 c) bMSb2  
 
    1.Ba1*b2 !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 +d) bPOh4  
 
    1.Ba1*b2[h4=rMS] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
+
 solution finished.
 
 
@@ -167,27 +167,27 @@ solution finished.
 a) 
 
   1.e2-e1=S Sg5*f3[e1=B]   2.Re4*g4[f5=K] Sf3-e5 #
-
   add_to_move_generation_stack:      241903
                      play_move:      232365
  is_white_king_square_attacked:        8448
  is_black_king_square_attacked:      231675
+
 b) wPd4-->a5  
 
   1.e2-e1=B Sg5*e4[e1=R]   2.b6*a5[f5=K] Se4-c5 #
-
   add_to_move_generation_stack:      412473
                      play_move:      390218
  is_white_king_square_attacked:       13446
  is_black_king_square_attacked:      389299
+
 c) wPd4-->e3  
 
   1.e2-e1=R Sg5*h3[e1=Q]   2.Re4*e6[f5=K] Sh3-f4 #
-
   add_to_move_generation_stack:      317585
                      play_move:      302787
  is_white_king_square_attacked:       10584
  is_black_king_square_attacked:      302007
+
 solution finished.
 
 
@@ -220,11 +220,11 @@ solution finished.
   1.Sd6*e4[g6=R] Sc3-e2   2.Se4-g5 Rg6-h6 #
   1.Rc7*c3[a3=rS] + rSa3-b1   2.Rc3-h3 Re4*g4 #
   1.Bh7*g6[c3=B] Re4-e3   2.Bg6-h5 Bc3-f6 #
-
   add_to_move_generation_stack:       82577
                      play_move:       48038
  is_white_king_square_attacked:       12774
  is_black_king_square_attacked:       47343
+
 solution finished.
 
 
@@ -373,11 +373,11 @@ solution finished.
     but
       1...e5-e4 !
 
-
   add_to_move_generation_stack:       13231
                      play_move:        9058
  is_white_king_square_attacked:         749
  is_black_king_square_attacked:        8929
+
 solution finished.
 
 
@@ -492,11 +492,11 @@ solution finished.
     but
       1...Kc6-b7 + !
 
-
   add_to_move_generation_stack:       16408
                      play_move:       12192
  is_white_king_square_attacked:        1030
  is_black_king_square_attacked:       12076
+
 solution finished.
 
 
@@ -577,11 +577,11 @@ solution finished.
       1...Qg1-g5
           2.Bd1-b3 #
 
-
   add_to_move_generation_stack:       12007
                      play_move:       10041
  is_white_king_square_attacked:         596
  is_black_king_square_attacked:        9934
+
 solution finished.
 
 
@@ -614,19 +614,19 @@ solution finished.
 a) 
 
   1...Sh3-f2   2.Rf7-f5 + g6*f5   3.h7-h8=Q + Bb2*c3[h8=S] #
-
   add_to_move_generation_stack:     5921034
                      play_move:     3010485
  is_white_king_square_attacked:     2961706
  is_black_king_square_attacked:     1714229
+
 b) bQh5  
 
   1...Rd8-d2   2.Sb5-d6 c7*d6   3.h7-h8=B + Qg4*g3[h8=R] #
-
   add_to_move_generation_stack:     6053052
                      play_move:     3020590
  is_white_king_square_attacked:     2971367
  is_black_king_square_attacked:     1702752
+
 solution finished.
 
 
@@ -658,11 +658,11 @@ solution finished.
 
   1.Se2*c3[g1=B] f7*e8=S[h7=Q]   2.Qh7-d3 Se8*d6[f8=R] #
   1.Bf8-g7 f7*e8=Q[h7=Q]   2.Bg7*c3[g1=B] Qe8*e2[h7=S] #
-
   add_to_move_generation_stack:      107099
                      play_move:       70367
  is_white_king_square_attacked:       13692
  is_black_king_square_attacked:       69265
+
 solution finished.
 
 
@@ -694,11 +694,11 @@ solution finished.
 
   1.Sb3-d2 Rf1*f4[d1=Q]   2.Qd1-e2 Bf7*g6[d2=B] #
   1.Bg6-e4 Bf7*b3[f4=S]   2.Sf4-e2 Rf1*d1[c3=R] #
-
   add_to_move_generation_stack:      271258
                      play_move:      133273
  is_white_king_square_attacked:       48742
  is_black_king_square_attacked:      132251
+
 solution finished.
 
 
@@ -730,11 +730,11 @@ solution finished.
 
   1.d2-d1=S   2.b2-b1=Q   3.Qb1-a2   4.Sd1-e3   5.Se3-g2   6.Qa2-a8 Kh1*g2[a8=S] =
   1.d2-d1=B   2.b2-b1=R   3.Rb1-b2   4.Rb2-g2   5.Bd1-f3   6.Bf3-c6 Kh1*g2[c6=R] =
-
   add_to_move_generation_stack:     2506765
                      play_move:     1525277
  is_white_king_square_attacked:      403310
  is_black_king_square_attacked:     1420578
+
 solution finished.
 
 
@@ -772,11 +772,11 @@ solution finished.
                       3...Ke6*f7
                           4.g7-g8=Q #
 
-
   add_to_move_generation_stack:     1687800
                      play_move:     1359028
  is_white_king_square_attacked:     1233561
  is_black_king_square_attacked:      164142
+
 solution finished.
 
 

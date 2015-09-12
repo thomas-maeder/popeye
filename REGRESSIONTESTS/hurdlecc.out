@@ -25,11 +25,11 @@
 
   1.sfwGe7-c5[d6=s] sfwGg1-b6[c5=w] +   2.Ke6-f5 sfwGc5-e7[d6=w] #
   1.sfwGe7-g7[f7=s] sfwGg1-g8[g7=w] +   2.Ke6-e5 sfwGg7-e7[f7=w] #
-
   add_to_move_generation_stack:       25527
                      play_move:       17711
  is_white_king_square_attacked:        1636
  is_black_king_square_attacked:       17628
+
 Loesung beendet.
 
 
@@ -76,11 +76,11 @@ Es fehlt ein weisser oder schwarzer Koenig
 
    1.h7-h8=LI=sfw !
 
-
   add_to_move_generation_stack:           2
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

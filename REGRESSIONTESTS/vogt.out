@@ -2,7 +2,7 @@
             Eckart Kummer
             Torsten Lin"s
     351v, harmonie 22, 28.12.1988
-        Korr.: h39, 30.11.1992
+       Korr.: h39, 30.11.1992
             1. Lob (1992)
 
 +---a---b---c---d---e---f---g---h---+
@@ -58,11 +58,11 @@
     Aber
       1...Gh4-e4 !
 
-
   add_to_move_generation_stack:        7019
                      play_move:        5590
  is_white_king_square_attacked:        5415
  is_black_king_square_attacked:         272
-Loesung beendet. 
+
+Loesung beendet.
 
 

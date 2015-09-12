@@ -63,11 +63,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
       1...h7-h5 !
       1...h7-h6 !
 
-
   add_to_move_generation_stack:        3987
                      play_move:        2842
  is_white_king_square_attacked:        1385
  is_black_king_square_attacked:        4565
+
 Loesung beendet.
 
 
@@ -100,11 +100,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
 
   1...Sg2-f4   2.Kf2-e1 Sf4-d3[Ke1<->Kh3]   3.Kh3-h2 Ke1-f1   4.Kh2-h1 Se2-g3[Kh1<->Kf1] #
   1...Kh3-h2   2.Kf2-f1 Sg2-e3[Kf1<->Kh2]   3.Kh2-h1 Se2-g3[Kh1<->Kf1] +   4.Kf1-f2 Se3-g4[Kf2<->Kh1] #
-
   add_to_move_generation_stack:      320127
                      play_move:      299735
  is_white_king_square_attacked:       88344
  is_black_king_square_attacked:      525607
+
 Loesung beendet.
 
 
@@ -147,11 +147,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   9  (Ke1-d1 )
  10  (Ke1-e2 )
  11  (Ke1-f1 )
-
   add_to_move_generation_stack:   120497824
                      play_move:   116198342
  is_white_king_square_attacked:    20505227
  is_black_king_square_attacked:   214354633
+
 Loesung beendet.
 
 
@@ -183,11 +183,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
             TauschKoenige
 
   1.Lb7-c8   2.Sc3-d1[Kh1<->Kf2]   3.Kf2-f1 Sf5-g3[Kf1<->Kh1] #
-
   add_to_move_generation_stack:        9932
                      play_move:        9906
  is_white_king_square_attacked:        3406
  is_black_king_square_attacked:       17676
+
 Loesung beendet.
 
 
@@ -218,11 +218,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   h#2                         4 + 2
             TauschKoenige
 
-
   add_to_move_generation_stack:       21434
                      play_move:       19570
  is_white_king_square_attacked:        2635
  is_black_king_square_attacked:       36971
+
 Loesung beendet.
 
 
@@ -255,11 +255,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
 
   1.b7-b6 Ld1-b3   2.Kb8-b7 c5-c6[Kb7<->Kb5] #
   1.Kb8-a7 Kb5-a5   2.b7-b5 c5*b6 ep.[Ka7<->Ka5] #
-
   add_to_move_generation_stack:       14621
                      play_move:       13793
  is_white_king_square_attacked:        1898
  is_black_king_square_attacked:       26251
+
 Loesung beendet.
 
 
@@ -293,11 +293,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
    1.Dg1-a1 ! Drohung:
           2.Kb2-a3[Kh8<->Ka3] #
 
-
   add_to_move_generation_stack:        2078
                      play_move:        1459
  is_white_king_square_attacked:         314
  is_black_king_square_attacked:        2713
+
 Loesung beendet.
 
 
@@ -342,11 +342,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
               2...Kh4-h3
                   3.Dg6-g2[Kh3<->Kg1] #
 
-
   add_to_move_generation_stack:       30258
                      play_move:       21450
  is_white_king_square_attacked:        7965
  is_black_king_square_attacked:       36359
+
 Loesung beendet.
 
 

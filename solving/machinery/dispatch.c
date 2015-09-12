@@ -574,10 +574,6 @@ void dispatch(slice_index si)
       threat_defeated_tester_solve(si);
       break;
 
-    case STOutputPlainTextEndOfTwinWriter:
-      output_plaintext_end_of_twin_writer_solve(si);
-      break;
-
     case STOutputPlainTextThreatWriter:
       output_plaintext_tree_threat_writer_solve(si);
       break;

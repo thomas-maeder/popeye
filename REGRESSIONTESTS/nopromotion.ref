@@ -30,11 +30,11 @@ both sides need a king
 
    1.b6*a7-c6 !
 
-
   add_to_move_generation_stack:           5
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -68,11 +68,11 @@ solution finished.
 
   1.Ke6*d5 Ke8-e7[+nPd4]   2.nPe5*d4 Ke7-d8[+nPc5]   3.Kd5-c6 nPd4*c5   4.Kc6-b7[+nPb6] nPc5*b6   5.Kb7-a8[+nPa7] Kd8-c7   6.nPa7*b6 Kc7-c8[+nPb7] #
   1.Ke6-f5 nPe5-e6   2.Kf5-f6 nPd5*e6   3.Kf6-g7[+nPf7] nPe6*f7   4.Kg7-h8[+nPg8] Ke8-e7   5.nPg8*f7 Ke7-f6[+nPg6]   6.nPf7*g6 Kf6-f7[+nPg7] #
-
   add_to_move_generation_stack:    16649768
                      play_move:    15731750
  is_white_king_square_attacked:     3019144
  is_black_king_square_attacked:    13191016
+
 solution finished.
 
 

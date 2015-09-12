@@ -25,11 +25,11 @@ short play after key in reflex stipulations was missed
    1.a3-a4 !
       1...c2-c1=Q #
 
-
   add_to_move_generation_stack:          93
                      play_move:          54
  is_white_king_square_attacked:          53
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -59,11 +59,11 @@ losing chess proof games produced error message
              LosingChess
 
   1.a2-a3 dia
-
   add_to_move_generation_stack:          20
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -108,11 +108,11 @@ erroneous maxflight numbers weren't completely ignored
 
    1.Ka8-b8 !
 
-
   add_to_move_generation_stack:       12877
                      play_move:       10410
  is_white_king_square_attacked:        4642
  is_black_king_square_attacked:        4705
+
 solution finished.
 
 
@@ -142,11 +142,11 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
   1.0-0-0 Sa4-b6 #
   1.e4*d3 ep. #
-
   add_to_move_generation_stack:         222
                      play_move:         192
  is_white_king_square_attacked:          96
  is_black_king_square_attacked:         121
+
 solution finished.
 
 
@@ -181,11 +181,11 @@ solution finished.
   1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P[+bPc7=w] #
   1.Ka7-a8 Ka5-a4   2.b7-b5 + Ka4*b5=P[+bPb7=w] #
   1.b7-b6 + Ka5-a6=P   2.Ka7-b8 a6-a7 #
-
   add_to_move_generation_stack:         493
                      play_move:         526
  is_white_king_square_attacked:         139
  is_black_king_square_attacked:         406
+
 solution finished.
 
 
@@ -215,11 +215,11 @@ option WhiteToPlay not applicable in help play
   h+1.5                       2 + 1
 
   1...b4-b5 +
-
   add_to_move_generation_stack:          26
                      play_move:          26
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          27
+
 solution finished.
 
 
@@ -250,11 +250,11 @@ solution finished.
                 KoeKo
 
   1.d7*e6 Ke5*e4[+wPe5] z
-
   add_to_move_generation_stack:          60
                      play_move:          15
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           6
+
 solution finished.
 
 
@@ -284,11 +284,11 @@ solution finished.
                 KoeKo
 
   1.Gh4*d4 Kg3-f3[+bPc4] #
-
   add_to_move_generation_stack:         164
                      play_move:         146
  is_white_king_square_attacked:          56
  is_black_king_square_attacked:          23
+
 solution finished.
 
 
@@ -319,7 +319,6 @@ solution finished.
 
   1.Sa8-b6 Qg8-a2 #
   1.Sa8-c7 Qg8-a2 #
-
   add_to_move_generation_stack:          85
                      play_move:          75
  is_white_king_square_attacked:          17
@@ -357,7 +356,6 @@ solving interrupted.
   1.Sa8-b6 Qg8-a2 #
   1.Sa8-c7 Qg8-a2 #
   1.Ka1-b1 Sg4-e3   2.Kb1-a1 Qg8-a2 #
-
   add_to_move_generation_stack:         800
                      play_move:         513
  is_white_king_square_attacked:         135
@@ -395,11 +393,11 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
 
    1.b6-b7 # !
 
-
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           5
+
 solution finished.
 
 
@@ -427,11 +425,11 @@ solution finished.
   ser-h=2                     1 + 4
 
   1.Bh2-g1   2.h3-h2 Ke2-f1 =
-
   add_to_move_generation_stack:         455
                      play_move:         488
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:         312
+
 solution finished.
 
 
@@ -461,11 +459,11 @@ intelligent mode bug: did not find mates ...
 
   1.Kb7-a8 Sd5-b6 #
   1.Kb7-a8 Sd5-c7 #
-
   add_to_move_generation_stack:          74
                      play_move:          74
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          32
+
 solution finished.
 
 
@@ -495,11 +493,11 @@ option start in intelligent mode
 
   1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 #
 15 potential positions in 1+8
-
   add_to_move_generation_stack:       68306
                      play_move:       68306
  is_white_king_square_attacked:        4111
  is_black_king_square_attacked:        4605
+
 solution finished.
 
 
@@ -530,11 +528,11 @@ bogus solutions.
 +---a---b---c---d---e---f---g---h---+
   dia2.5                    16 + 16
 
-
   add_to_move_generation_stack:         156
                      play_move:         156
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           3
+
 solution finished.
 
 
@@ -591,11 +589,11 @@ duplex didn't work in a=>b or proof games
   1.Ra8*a7[+wRa8] a=>b
 
   1.Ra7*a8[+bRa7] a=>b
-
   add_to_move_generation_stack:          22
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

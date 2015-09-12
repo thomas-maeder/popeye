@@ -27,11 +27,11 @@ also solves as patrol condition
              HalfDuplex
 
   1.pKc8-b7   2.pKb7-a6   3.pKa6-a5   4.pPb6-b7   5.pPb7-b8=pQ   6.pQb8-b6 a7-a6 !=
-
   add_to_move_generation_stack:       60529
                      play_move:       34779
  is_white_king_square_attacked:       25441
  is_black_king_square_attacked:       20349
+
 solution finished.
 
 
@@ -94,11 +94,11 @@ Patrol e7 g7 d6 f6 d4 h4 e3 a2 d2 f1
     but
       1...Bg4*f5 !
 
-
   add_to_move_generation_stack:       51230
                      play_move:       29273
  is_white_king_square_attacked:         976
  is_black_king_square_attacked:       29158
+
 solution finished.
 
 

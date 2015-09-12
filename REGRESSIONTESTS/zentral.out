@@ -27,19 +27,19 @@
 a) 
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-g6   7.h7-h5   8.h5-h4   9.Kg6-h5  10.h4-h3  11.Kh5-h4  12.h3-h2  13.Kh4-h3  14.h2-h1=S  15.Kh3-h2  16.Sh1-f2 Kf3*f2 x
-
   add_to_move_generation_stack:       11041
                      play_move:        8818
  is_white_king_square_attacked:        6319
  is_black_king_square_attacked:        8817
+
 b) ser-hze519  
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-g6   7.h7-h5   8.h5-h4   9.Kg6-h5  10.h4-h3  11.Kh5-h4  12.h3-h2  13.Kh4-h3  14.h2-h1=T  15.Kh3-h2  16.Th1-e1  17.Kh2-g1  18.Kg1-f1  19.Te1-e5 f4*e5 z
-
   add_to_move_generation_stack:       20483
                      play_move:       15687
  is_white_king_square_attacked:       11099
  is_black_king_square_attacked:       15687
+
 Loesung beendet.
 
 
@@ -70,11 +70,11 @@ Loesung beendet.
             ZentralSchach
 
   1.Kh2-g3   2.Kg3-f4   3.Kf4-e5   4.Ke5-d4   5.Kd4-c4   6.Kc4-b3   7.Kb3-b2   8.Kb2-a1 Kd2-c2 =
-
   add_to_move_generation_stack:        6542
                      play_move:        2730
  is_white_king_square_attacked:        1510
  is_black_king_square_attacked:        2716
+
 Loesung beendet.
 
 
@@ -105,11 +105,11 @@ Loesung beendet.
             ZentralSchach
 
   1.Kg3-f4   2.Kf4-e5   3.Ke5-d6   4.Kd6-c7   5.b6-b7   6.b7-b8=D   7.Db8-b6   8.Db6-g1   9.Kc7-d6  10.Kd6-e5  11.Ke5-f4  12.Kf4-g3 Kh1*g1 x
-
   add_to_move_generation_stack:      356187
                      play_move:      179574
  is_white_king_square_attacked:       89290
  is_black_king_square_attacked:      137294
+
 Loesung beendet.
 
 
@@ -140,11 +140,11 @@ Jacques Rotenberg / Christian Poisson
             ZentralSchach
 
   1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e6   5.Ke6-f6   6.Kf6-g7   7.h6-h7   8.Kg7-g8   9.h7-h8=D  10.Dh8-f6  11.Kg8-g7  12.Df6-d8  13.Kg7-f6  14.Kf6-e6  15.Ke6-d5  16.Kd5-c6  17.Kc6-c7 + Sf7*d8 x
-
   add_to_move_generation_stack:      625117
                      play_move:      241278
  is_white_king_square_attacked:      128925
  is_black_king_square_attacked:      171414
+
 Loesung beendet.
 
 
@@ -177,19 +177,19 @@ Loesung beendet.
 a) 
 
   1.Ke5-e6   2.Ke6-f7   3.Kf7-e8   4.Ke8-d8   5.Kd8-c8   6.Kc8-b8   7.Kb8*a8   8.Ka8-a7   9.Ka7-a6  10.Ka6-a5  11.Ka5-a4  12.Ka4-b3  13.a3-a4  14.a4-a5  15.Kb3-a4  16.a5-a6  17.Ka4-a5  18.a6-a7  19.Ka5-a6  20.a7-a8=S  21.Ka6-a7  22.Sa8-b6  23.Sb6*d5 z
-
   add_to_move_generation_stack:       27264
                      play_move:       24482
  is_white_king_square_attacked:       24482
  is_black_king_square_attacked:       18916
+
 b) wBa3-->a5  
 
   1.Ke5-d4   2.Kd4-c4   3.Kc4-b3   4.Kb3-a4   5.a5-a6   6.Ka4-a5   7.a6-a7   8.Ka5-a4   9.Ka4-b3  10.Kb3-c4  11.Kc4-d4  12.Kd4-e5  13.Ke5-e6  14.Ke6-f7  15.Kf7-e8  16.Ke8-d8  17.Kd8-c8  18.Kc8-b8  19.Kb8*a8  20.Ka8-b8  21.a7-a8=S  22.Sa8-c7  23.Sc7*d5 z
-
   add_to_move_generation_stack:       15551
                      play_move:       14113
  is_white_king_square_attacked:       14113
  is_black_king_square_attacked:       10909
+
 Loesung beendet.
 
 

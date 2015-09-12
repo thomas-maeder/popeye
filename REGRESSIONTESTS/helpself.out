@@ -27,11 +27,11 @@
   1.a7-a8=S c2-c1=T   2.Sa8*b6 Tc1-c2   3.Sb6-c4 + Tc2*c4 #
   1.a7-a8=T g2-g1=D   2.Ta8*a5 Dg1-g8   3.Ta5-d5 + e6*d5 #
   1.d7-d8=L g2-g1=S   2.Ld8*f6 Sg1*f3   3.Lf6-g5 + Sf3*g5 #
-
   add_to_move_generation_stack:     8772110
                      play_move:     3481377
  is_white_king_square_attacked:     3353987
  is_black_king_square_attacked:     1807651
+
 Loesung beendet.
 
 

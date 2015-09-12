@@ -48,11 +48,11 @@
   a=>b6                       4 + 3
 
   1.Tb6-h6 La6-f1   2.Te8-e2 Tg3-g6   3.Kb3-c4 Kc7-b6   4.Kc4-d5 Kb6-b5   5.Te2-e5 Tg6-g4   6.Th6-d6 Lf1-c4 + a=>b
-
   add_to_move_generation_stack:      673876
                      play_move:      673876
  is_white_king_square_attacked:       49836
  is_black_king_square_attacked:       60386
+
 Loesung beendet.
 
 
@@ -120,11 +120,11 @@ Loesung beendet.
  13  (g7-g8=T )
  14  (g7-g8=L )
   1.g7-g8=L a2-a1=S   2.Lg8-a2 Sa1-b3   3.La2-b1 a3-a2   4.b6-b7 a2-a1=D   5.b7-b8=T Da1-a3   6.Tb8-h8 Da3-f8   7.e4-e5 a4-a3   8.e5-e6 a3-a2   9.e6-e7 a2-a1=T  10.e7-e8=D Ta1-a4  11.De8-e3 Ta4-e4  12.d3-d4 a5-a4  13.d4-d5 a4-a3  14.d5-d6 a3-a2  15.d6-d7 a2-a1=L  16.d7-d8=S La1-d4 a=>b
-
   add_to_move_generation_stack:      929250
                      play_move:      997128
  is_white_king_square_attacked:       55069
  is_black_king_square_attacked:       38836
+
 Loesung beendet.
 
 
@@ -194,11 +194,11 @@ Loesung beendet.
  14  (Kd7*c7 )
  15  (Kd7-d8 )
  16  (Kd7-e7 )
-
   add_to_move_generation_stack:    11425125
                      play_move:    13185075
  is_white_king_square_attacked:      935675
  is_black_king_square_attacked:      604414
+
 Loesung beendet.
 
 
@@ -253,11 +253,11 @@ Loesung beendet.
              Imitator d4
 
   1.Ka8-b8[Ie4] Ka5-b5[If4]   2.Kb8-c7[Ig3] Kb5-a6[If4]   3.Kc7*c6[If3] a=>b
-
   add_to_move_generation_stack:          90
                      play_move:          94
  is_white_king_square_attacked:          15
  is_black_king_square_attacked:          19
+
 Loesung beendet.
 
 
@@ -316,11 +316,11 @@ Loesung beendet.
   1.f2-f1=L e7-e8=L   2.Lf1-c4 Le8-f7   3.Lc4*a2 Lf7*a2 a=>b
   1.f2-f1=G e7-e8=G   2.Gf1-f6 Ge8-c6   3.Gf6*h6 Gc6*h6 a=>b
   1.f2-f1=N e7-e8=N   2.Nf1-d5 Ne8-c4   3.Nd5*b6 Nc4*b6 a=>b
-
   add_to_move_generation_stack:   175870288
                      play_move:   190183248
  is_white_king_square_attacked:      762718
  is_black_king_square_attacked:     9988201
+
 Loesung beendet.
 
 

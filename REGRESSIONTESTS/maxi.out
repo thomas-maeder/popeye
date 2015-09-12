@@ -47,11 +47,11 @@
                                                                          10.Kd1-e1
                                                                              10...Dh7-b1 #
 
-
   add_to_move_generation_stack:     1341796
                      play_move:      650112
  is_white_king_square_attacked:      141041
  is_black_king_square_attacked:      574791
+
 Loesung beendet.
 
 
@@ -100,11 +100,11 @@ Loesung beendet.
                                                   7.Tb7-b1
                                                       7...Lf8-a3 #
 
-
   add_to_move_generation_stack:     2279365
                      play_move:     1216357
  is_white_king_square_attacked:      395388
  is_black_king_square_attacked:     1024104
+
 Loesung beendet.
 
 
@@ -193,11 +193,11 @@ Loesung beendet.
                                                                                                                                                                                                                  27.Ka2*a3
                                                                                                                                                                                                                      27...Th7-a7 #
 
-
   add_to_move_generation_stack:     3960139
                      play_move:     1364255
  is_white_king_square_attacked:      490248
  is_black_king_square_attacked:     1089653
+
 Loesung beendet.
 
 
@@ -230,19 +230,19 @@ Loesung beendet.
 a) 
 
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 #
-
   add_to_move_generation_stack:     3289316
                      play_move:     1706721
  is_white_king_square_attacked:      239646
  is_black_king_square_attacked:     1555030
+
 b) sKe2-->f2  
 
   1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 #
-
   add_to_move_generation_stack:     2326947
                      play_move:     1210564
  is_white_king_square_attacked:      177695
  is_black_king_square_attacked:     1087745
+
 Loesung beendet.
 
 
@@ -284,11 +284,11 @@ Loesung beendet.
                                   5.Td2-b2
                                       5...Da6-f1 #
 
-
   add_to_move_generation_stack:      399811
                      play_move:      174758
  is_white_king_square_attacked:       43381
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -322,19 +322,19 @@ Loesung beendet.
 a) 
 
   1...c7-c8=L   2.c2-c1=S Lc8-d7 #
-
   add_to_move_generation_stack:        1314
                      play_move:         773
  is_white_king_square_attacked:         418
  is_black_king_square_attacked:         375
+
 b) sBb3-->b5  
 
   1...c7-c8=D   2.c2-c1=T Dc8-c2 #
-
   add_to_move_generation_stack:        1310
                      play_move:         773
  is_white_king_square_attacked:         417
  is_black_king_square_attacked:         375
+
 Loesung beendet.
 
 
@@ -383,11 +383,11 @@ Loesung beendet.
               2...Lf1-h3
                   3.Tf8-f2 #
 
-
   add_to_move_generation_stack:       83028
                      play_move:       58416
  is_white_king_square_attacked:        5355
  is_black_king_square_attacked:       56885
+
 Loesung beendet.
 
 
@@ -420,11 +420,11 @@ Preis, 7. PK-Kompositionsturnier 1991
         WeisserLaengstzueger
 
   1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 #
-
   add_to_move_generation_stack:      135270
                      play_move:       44872
  is_white_king_square_attacked:       19593
  is_black_king_square_attacked:       30192
+
 Loesung beendet.
 
 
@@ -474,11 +474,11 @@ Loesung beendet.
                                                                   9.Sc6*d4
                                                                       9...Lb6*d4 #
 
-
   add_to_move_generation_stack:     2846079
                      play_move:      943408
  is_white_king_square_attacked:      317315
  is_black_king_square_attacked:      769493
+
 Loesung beendet.
 
 
@@ -568,11 +568,11 @@ Loesung beendet.
                                                   7.Tf7-b7
                                                       7...Te1-e8 #
 
-
   add_to_move_generation_stack:    31049545
                      play_move:    16702608
  is_white_king_square_attacked:     9348936
  is_black_king_square_attacked:     9507454
+
 Loesung beendet.
 
 
@@ -617,11 +617,11 @@ Loesung beendet.
                                                   7.Tf7-b7
                                                       7...Te1-e8 #
 
-
   add_to_move_generation_stack:    16512081
                      play_move:     8346150
  is_white_king_square_attacked:     7261802
  is_black_king_square_attacked:     2170335
+
 Loesung beendet.
 
 
@@ -652,11 +652,11 @@ F2676 The Problemist Vol 21 No 12 (Nov 2008)
      WeisserLaengstzueger  Ultra
 
   1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 #
-
   add_to_move_generation_stack:     7083604
                      play_move:     1048988
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1012398
+
 Loesung beendet.
 
 

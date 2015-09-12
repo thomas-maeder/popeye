@@ -40,11 +40,11 @@
                   3.Dh3*d7
                       3...Sg8-e7 #
 
-
   add_to_move_generation_stack:      221316
                      play_move:       96305
  is_white_king_square_attacked:       95905
  is_black_king_square_attacked:       50734
+
 Loesung beendet.
 
 
@@ -204,11 +204,11 @@ Loesung beendet.
           2.f7-f8=T +
               2...La3*f8 #
 
-
   add_to_move_generation_stack:      851266
                      play_move:      626399
  is_white_king_square_attacked:      625772
  is_black_king_square_attacked:      316571
+
 Loesung beendet.
 
 
@@ -368,11 +368,11 @@ Loesung beendet.
           2.Le8-f7
               2...Ta7-b7 #
 
-
   add_to_move_generation_stack:       61952
                      play_move:       52850
  is_white_king_square_attacked:       44370
  is_black_king_square_attacked:        9354
+
 Loesung beendet.
 
 
@@ -473,11 +473,11 @@ Loesung beendet.
                   3.Kg2-h1
                       3...Ld1-f3 #
 
-
   add_to_move_generation_stack:      512667
                      play_move:      272576
  is_white_king_square_attacked:      249633
  is_black_king_square_attacked:       73767
+
 Loesung beendet.
 
 
@@ -529,11 +529,11 @@ Loesung beendet.
                           4.Db4-d6 +
                               4...Sf5*d6 #
 
-
   add_to_move_generation_stack:     9875866
                      play_move:     5640489
  is_white_king_square_attacked:     5614672
  is_black_king_square_attacked:     3404251
+
 Loesung beendet.
 
 

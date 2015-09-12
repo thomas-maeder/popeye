@@ -25,11 +25,11 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
 
    1.Lb8-d6 = !
 
-
   add_to_move_generation_stack:         244
                      play_move:         620
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         213
+
 Loesung beendet.
 
 
@@ -61,11 +61,11 @@ Loesung beendet.
    1.Kb1-a1 !
       1...Lh1-e4 =
 
-
   add_to_move_generation_stack:        2893
                      play_move:        1952
  is_white_king_square_attacked:        1017
  is_black_king_square_attacked:         621
+
 Loesung beendet.
 
 
@@ -96,11 +96,11 @@ Loesung beendet.
 
    1.a7-a8=D # !
 
-
   add_to_move_generation_stack:           4
                      play_move:          11
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           7
+
 Loesung beendet.
 
 
@@ -130,11 +130,11 @@ Loesung beendet.
      NurPartiesatzSteine    Typ1
 
   1.d2-d1=T Sg5-f3 #
-
   add_to_move_generation_stack:         175
                      play_move:         171
  is_white_king_square_attacked:          38
  is_black_king_square_attacked:         109
+
 Loesung beendet.
 
 
@@ -219,11 +219,11 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kg5-f6
                           4.d4*e5 #
 
-
   add_to_move_generation_stack:     1404411
                      play_move:     1025153
  is_white_king_square_attacked:      535862
  is_black_king_square_attacked:      302182
+
 Loesung beendet.
 
 
@@ -327,11 +327,11 @@ Beispiel 1
                                   5.Ka3-b2 Drohung:
                                           6.De5-g5 #
 
-
   add_to_move_generation_stack:    12669667
                      play_move:    13698327
  is_white_king_square_attacked:     9257112
  is_black_king_square_attacked:     1685567
+
 Loesung beendet.
 
 
@@ -387,11 +387,11 @@ Loesung beendet.
               2...Sa6*c7
                   3.e7*f8=L #
 
-
   add_to_move_generation_stack:      502991
                      play_move:      592043
  is_white_king_square_attacked:       68979
  is_black_king_square_attacked:      280121
+
 Loesung beendet.
 
 

@@ -1,6 +1,6 @@
 
-            Pierre Monreal
-            Fernand Calvet
+           Pierre Monreal
+           Fernand Calvet
          The Problemist 1974
 
 +---a---b---c---d---e---f---g---h---+
@@ -45,11 +45,11 @@
       1...BIc6-f4
           2.Td2-d4 #
 
-
   add_to_move_generation_stack:       30158
                      play_move:       18655
  is_white_king_square_attacked:         959
  is_black_king_square_attacked:       18658
-Loesung beendet. 
+
+Loesung beendet.
 
 

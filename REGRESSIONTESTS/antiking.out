@@ -1,7 +1,7 @@
 
-        ?.Powell & C.C.L.Sells
+       ?.Powell & C.C.L.Sells
          The Problemist 1974
-                3. Lob
+               3. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -161,11 +161,11 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
     Aber
       1...kSh7-g5 !
 
-
   add_to_move_generation_stack:       33408
                      play_move:       27937
  is_white_king_square_attacked:        1009
  is_black_king_square_attacked:       26817
-Loesung beendet. 
+
+Loesung beendet.
 
 

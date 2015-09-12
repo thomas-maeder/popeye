@@ -24,11 +24,11 @@
   h#1                         1 + 1
              AnnanChess
 
-
   add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
+
 solution finished.
 
 
@@ -59,11 +59,11 @@ solution finished.
               GridChess
 
   1.Kd2-c3 Bd4-e3 #
-
   add_to_move_generation_stack:         474
                      play_move:         176
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         176
+
 solution finished.
 
 
@@ -94,11 +94,11 @@ solution finished.
             Circe Parrain
                 KoeKo
 
-
   add_to_move_generation_stack:          18
                      play_move:           8
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -134,11 +134,11 @@ solution finished.
   1.Sb8*a6 Ka7*a6[+wPa5]
   1.Sb8*a6 Ka7-a8[+wPa7]
   1.Sb8*a6 Ka7-b7[+wPb6]
-
   add_to_move_generation_stack:           8
                      play_move:          10
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -171,11 +171,11 @@ solution finished.
 
    1.Ba3*b4 x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -200,11 +200,11 @@ solution finished.
     but
       1...Bd1-f3 !
 
-
   add_to_move_generation_stack:        1314
                      play_move:        1676
  is_white_king_square_attacked:         830
  is_black_king_square_attacked:         395
+
 solution finished.
 
 

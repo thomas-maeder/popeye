@@ -26,11 +26,11 @@ option maxsolutions didn't work in "battle play" in 4.57
       1...Kh7-h6
           2.Rf8-h8 #
 
-
   add_to_move_generation_stack:         164
                      play_move:         112
  is_white_king_square_attacked:          26
  is_black_king_square_attacked:         115
+
 solution finished.
 
 
@@ -67,11 +67,11 @@ if no non-space text followed the remark token on its line
    1.Ra8-a1 !
       1...Bf6*a1=S[bSa1->b8] #
 
-
   add_to_move_generation_stack:        4115
                      play_move:        4342
  is_white_king_square_attacked:        2217
  is_black_king_square_attacked:        1693
+
 solution finished.
 
 

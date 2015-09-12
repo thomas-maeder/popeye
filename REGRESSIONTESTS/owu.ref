@@ -71,11 +71,11 @@
     but
       1...Kd1*d2 !
 
-
   add_to_move_generation_stack:        5883
                      play_move:        3361
  is_white_king_square_attacked:         716
  is_black_king_square_attacked:        3149
-solution finished. 
+
+solution finished.
 
 

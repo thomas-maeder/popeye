@@ -26,11 +26,11 @@
             Degradierung
 
   1.La3-b2=B   2.b2-b4   3.b4-b5   4.b5-b6   5.b6-b7   6.b7-b8=S   7.Sb8-c6   8.Sc6-d4   9.Sd4-e2=B  10.e2-e4  11.e4-e5  12.e5-e6  13.e6-e7  14.e7-e8=L  15.Le8*g6[+sSg8]  16.Lg6-c2=B  17.c2-c4  18.c4-c5  19.c5-c6  20.c6-c7  21.c7-c8=T  22.Tc8-c7  23.Tc7-h7 #
-
   add_to_move_generation_stack:       14292
                      play_move:       14462
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       14485
+
 Loesung beendet.
 
 
@@ -61,11 +61,11 @@ Loesung beendet.
             Degradierung
 
   1.La3-b2=B   2.b2-b4   3.b4-b5   4.b5-b6   5.b6-b7   6.b7-b8=S   7.Sb8-c6   8.Sc6-d4   9.Sd4-e2=B  10.e2-e4  11.e4-e5  12.e5-e6  13.e6-e7  14.e7-e8=L  15.Le8*g6  16.Lg6-c2=B  17.c2-c4  18.c4-c5  19.c5-c6  20.c6-c7  21.c7-c8=S  22.Sc8-d6  23.Sd6-e4  24.Se4-f2=B  25.f2-f4  26.f4-f5  27.f5-f6  28.f6-f7  29.f7-f8=D #
-
   add_to_move_generation_stack:       35042
                      play_move:       35639
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       35668
+
 Loesung beendet.
 
 
@@ -97,11 +97,11 @@ Loesung beendet.
             Degradierung
 
   1.h2-h4   2.h4-h5   3.h5-h6   4.h6-h7   5.h7-h8=T   6.Th8-b8   7.Tb8-b2=B   8.b2-b4   9.b4-b5  10.b5-b6  11.b6-b7  12.b7-b8=D  13.Db8-b1 #
-
   add_to_move_generation_stack:        5956
                      play_move:        5801
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5814
+
 Loesung beendet.
 
 
@@ -135,11 +135,11 @@ Loesung beendet.
   1.a2*b1=L   2.Lb1-e4   3.Le4-b7=B c7-c8=S #
 
   1.c7*b8=T   2.Tb8*b4   3.Tb4-b2=B a2*b1=D #
-
   add_to_move_generation_stack:       52559
                      play_move:       51742
  is_white_king_square_attacked:       24577
  is_black_king_square_attacked:       33244
+
 Loesung beendet.
 
 

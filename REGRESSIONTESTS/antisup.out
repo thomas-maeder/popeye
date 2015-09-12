@@ -28,11 +28,11 @@
   1.Ta5*a8[wTa8->h1]   2.0-0
 
   1.Kb4*a5[sKa5->e8]   2.0-0-0
-
   add_to_move_generation_stack:          84
                      play_move:         223
  is_white_king_square_attacked:         220
  is_black_king_square_attacked:         228
+
 Loesung beendet.
 
 
@@ -239,11 +239,11 @@ a)
 
    1.c6*b7[wBb7->h8=L] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:          88
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Verschiebung a1 ==> a2  
 
    1.c7*b8=D[wDb8->a1] x !
@@ -758,11 +758,11 @@ b) Verschiebung a1 ==> a2
 
    1.c7*b8=L[wLb8->h8] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:         256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -797,20 +797,20 @@ a)
 
    1.Kd6*c6[wKc6->c7] = !
 
-
   add_to_move_generation_stack:         195
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
+
 b) AntiCirce Super Cheylan  
 
    1.Kd6*c6[wKc6->c7] = !
-
 
   add_to_move_generation_stack:         192
                      play_move:         194
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         190
+
 Loesung beendet.
 
 

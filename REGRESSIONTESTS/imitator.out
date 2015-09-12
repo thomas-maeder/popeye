@@ -42,11 +42,11 @@
       1...Sc4-a5[Ia6] +
           2.Sf6-h5[Ic5] #
 
-
   add_to_move_generation_stack:         979
                      play_move:         524
  is_white_king_square_attacked:         109
  is_black_king_square_attacked:         527
+
 Loesung beendet.
 
 
@@ -77,11 +77,11 @@ Loesung beendet.
              Imitator a7
 
   1.Kc2-c3[Ia8]   2.g7-g6[Ia7]   3.Kc3-c4[Ia8]   4.g6-g5[Ia7]   5.Kc4-c5[Ia8]   6.g5-g4[Ia7]   7.Kc5-c6[Ia8]   8.g4-g3[Ia7]   9.Kc6-c7[Ia8]  10.g3-g2[Ia7]  11.Kc7-c8[Ia8]  12.g2-g1[Ia7]=T  13.Tg1-g2[Ia8]  14.Kc8-c7[Ia7]  15.Tg2-g3[Ia8]  16.Kc7-c6[Ia7]  17.Tg3-g4[Ia8]  18.Kc6-c5[Ia7]  19.Tg4-g5[Ia8]  20.Kc5-c4[Ia7]  21.Tg5-g6[Ia8]  22.Kc4-c3[Ia7]  23.Tg6-g7[Ia8]  24.Kc3-c2[Ia7]  25.Tg7-g8[Ia8]  26.Kc2-c1[Ia7] Ta6-a1[Ia2] #
-
   add_to_move_generation_stack:        9593
                      play_move:        1192
  is_white_king_square_attacked:         839
  is_black_king_square_attacked:        1192
+
 Loesung beendet.
 
 
@@ -171,11 +171,11 @@ Loesung beendet.
     Aber
       1...Lg1-f2[Ib4] !
 
-
   add_to_move_generation_stack:        2343
                      play_move:        1092
  is_white_king_square_attacked:         136
  is_black_king_square_attacked:        1078
+
 Loesung beendet.
 
 
@@ -225,11 +225,11 @@ Loesung beendet.
                       3...Kh8-g8[Ie1]
                           4.Td6-a6[Ib1] #
 
-
   add_to_move_generation_stack:       69509
                      play_move:       31346
  is_white_king_square_attacked:        9913
  is_black_king_square_attacked:       22996
+
 Loesung beendet.
 
 
@@ -263,35 +263,35 @@ a)
 
   1.Kb6-c7[If6] b7-b8[If7]=I   2.Kc7-c6[If6,b7] Kf5-e6[Ie7,a8] =
   1.Kb6-a7[Id6] b7-b8[Id7]=S   2.Ka7-a8[Id8] Sb8-c6[Ie6] =
-
   add_to_move_generation_stack:       18906
                      play_move:        5898
  is_white_king_square_attacked:        2682
  is_black_king_square_attacked:        5771
+
 b) wKf5-->g5  
 
   1.Kb6-c7[If6] b7-b8[If7]=L +   2.Kc7-c8[If8] Lb8-d6[Ih6] =
-
   add_to_move_generation_stack:       21674
                      play_move:        6531
  is_white_king_square_attacked:        2964
  is_black_king_square_attacked:        6418
+
 c) Imitator c5  
 
   1.Kb6-a6[Ib5] b7-b8[Ib6]=T   2.Ka6-a7[Ib7] Tb8-b2[Ib1] =
-
   add_to_move_generation_stack:       20739
                      play_move:        6165
  is_white_king_square_attacked:        2808
  is_black_king_square_attacked:        6024
+
 d) Imitator a7  
 
   1.Kb6-c5[Ib6] b7-b8[Ib7]=D   2.Kc5-d5[Ic7] Db8-b4[Ic3] =
-
   add_to_move_generation_stack:        7247
                      play_move:        1886
  is_white_king_square_attacked:         880
  is_black_king_square_attacked:        1835
+
 Loesung beendet.
 
 
@@ -324,11 +324,11 @@ Loesung beendet.
 
    1.Tf1*g1[Ib8] + !
 
-
   add_to_move_generation_stack:       16039
                      play_move:        4014
  is_white_king_square_attacked:        1848
  is_black_king_square_attacked:        3215
+
 Loesung beendet.
 
 
@@ -402,11 +402,11 @@ Loesung beendet.
       1...Kc8-d7[Ib3]
           2.Da8-c6[Id1] #
 
-
   add_to_move_generation_stack:      328513
                      play_move:      143481
  is_white_king_square_attacked:       63069
  is_black_king_square_attacked:       87757
+
 Loesung beendet.
 
 
@@ -462,11 +462,11 @@ Loesung beendet.
                   3.Lg8*f7[Ia4]
                       3...Ke1-f2[Ib5] #
 
-
   add_to_move_generation_stack:       22247
                      play_move:        9156
  is_white_king_square_attacked:        8905
  is_black_king_square_attacked:        2248
+
 Loesung beendet.
 
 
@@ -504,11 +504,11 @@ Loesung beendet.
   1.d2*e1[Ib4]=S + g7*f8[Ia5]=S   2.Se1-f3[Ib7] + Sf8-e6[Ia5]   3.Sf3-h2[Ic4] + Se6-c7[Ia5] =
   1.d2*e1[Ib4]=T + g7*f8[Ia5]=T   2.Te1-f1[Ib5] + Tf8*e8[Ia5]   3.Tf1-g1[Ib5] + Te8-d8[Ia5] =
   1.d2*e1[Ib4]=L + g7*f8[Ia5]=L   2.Le1-g3[Ic7] + Lf8-d6[Ia5]   3.Lg3-h2[Ib4] + Ld6-c7[Ia5] =
-
   add_to_move_generation_stack:       11531
                      play_move:        4712
  is_white_king_square_attacked:        3025
  is_black_king_square_attacked:        2384
+
 Loesung beendet.
 
 
@@ -589,11 +589,11 @@ Loesung beendet.
           2.Ta2-a4[Ib7]
               2...b3-b2[Ib6] #
 
-
   add_to_move_generation_stack:      564291
                      play_move:      354474
  is_white_king_square_attacked:      323603
  is_black_king_square_attacked:       39138
+
 Loesung beendet.
 
 
@@ -657,11 +657,11 @@ Loesung beendet.
                                   5.Kc6-b6[Id7]
                                       5...Nd8-a2[Ia1] #
 
-
   add_to_move_generation_stack:      649243
                      play_move:      106689
  is_white_king_square_attacked:       48384
  is_black_king_square_attacked:       80300
+
 Loesung beendet.
 
 
@@ -698,22 +698,22 @@ a)
   1.0-0-0[Ig4] Ka5-b5[Ih4]
   1.0-0-0[Ig4] d6-d7[Ig5] +
   1.0-0-0[Ig4] d6*e7[Ih5]
-
   add_to_move_generation_stack:          18
                      play_move:          11
  is_white_king_square_attacked:          12
  is_black_king_square_attacked:          11
+
 b) SchwarzerLaengstzueger  
 
   1.0-0-0 Ka5-b4
   1.0-0-0 Ka5-a4
   1.0-0-0 d6-d7 +
   1.0-0-0 d6*e7
-
   add_to_move_generation_stack:          17
                      play_move:          10
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          10
+
 Loesung beendet.
 
 
@@ -744,11 +744,11 @@ Loesung beendet.
 
    1.Ga3-a6[If8] !
 
-
   add_to_move_generation_stack:           5
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -781,11 +781,11 @@ Loesung beendet.
 
    1.KHa3-c5[Ih4] !
 
-
   add_to_move_generation_stack:           6
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -816,11 +816,11 @@ Loesung beendet.
 
    1.EQa3-a7[If8] !
 
-
   add_to_move_generation_stack:           5
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -851,11 +851,11 @@ Loesung beendet.
 
    1.NEa3-a7[If8] !
 
-
   add_to_move_generation_stack:           6
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -888,11 +888,11 @@ Loesung beendet.
 
    1.ELb3-d4[Ih5] !
 
-
   add_to_move_generation_stack:           8
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 
@@ -923,11 +923,11 @@ Loesung beendet.
 
    1.MAa3-c2[Ih1] !
 
-
   add_to_move_generation_stack:           4
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 Loesung beendet.
 
 

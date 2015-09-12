@@ -42,11 +42,11 @@ both sides need a king
 
    1.Ba1*b2[+bSa1] !
 
-
   add_to_move_generation_stack:          10
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

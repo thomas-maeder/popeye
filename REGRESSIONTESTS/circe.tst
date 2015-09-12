@@ -27,20 +27,20 @@ a)
 
    1.d4*e5[+bSe8] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe File Mirror  
 
    1.d4*e5[+bSe1] x !
 
-
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -71,11 +71,11 @@ solution finished.
 
    1.Sc3*d5[wSd5->c3] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -106,11 +106,11 @@ solution finished.
 
    1.Sc3*d5[wSd5->g8] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -141,11 +141,11 @@ solution finished.
 
    1.Sc3*d5[wSd5->d1] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -176,11 +176,11 @@ solution finished.
 
    1.Sc3*d5[wSd5->e4] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -211,11 +211,11 @@ only example of Mirror File Anticirce
 
    1.Sc3*d5[wSd5->d8] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -246,11 +246,11 @@ only example of Antipodean Anticirce
 
    1.Sc3*d5[wSd5->h1] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -281,11 +281,11 @@ only example of Equipollents Anticirce
 
    1.Sc3*d5[wSd5->e7] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -316,11 +316,11 @@ only example of Anticirce with Locust
 
    1.Lc2*e4-f5[wLf5->e8] !
 
-
   add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -351,11 +351,11 @@ solution finished.
 
    1.Kc3-b4 # !
 
-
   add_to_move_generation_stack:          24
                      play_move:          56
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -388,11 +388,11 @@ solution finished.
 
    1.Ka1*a2[wKa2->e1] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -423,11 +423,11 @@ solution finished.
 
    1.Ka5-a6 + !
 
-
   add_to_move_generation_stack:           5
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -456,11 +456,11 @@ solution finished.
            Circe Parachute
 
   1.a7*b6[+wSg1] Sg1-h3[+bSg1] z
-
   add_to_move_generation_stack:          39
                      play_move:           7
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -489,11 +489,11 @@ solution finished.
            Circe Volcanic
 
   1.Bh8*g7[+wSg1->v] Sg1-h3[+wSg1] z
-
   add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -527,19 +527,19 @@ a)
   1.Ba8*b7[+wPc8=S->v] Sc8-e7[+wSc8] z
   1.Ba8*b7[+wPc8=R->v] Sc8-e7[+wRc8] z
   1.Ba8*b7[+wPc8=B->v] Sc8-e7[+wBc8] z
-
   add_to_move_generation_stack:          17
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe Couscous Parachute  
 
   1.Ba8*b7[+wPc8=S] Sc8-e7[+wSc8] z
-
   add_to_move_generation_stack:          45
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -574,20 +574,20 @@ a)
   1.Bh8*b2[+bpPc1=pS->v]   2.Rc1-f1[+bpSc1] z
   1.Bh8*b2[+bpPc1=pR->v]   2.Rc1-f1[+bpRc1] z
   1.Bh8*b2[+bpPc1=pB->v]   2.Rc1-f1[+bpBc1] z
-
   add_to_move_generation_stack:         152
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) ser-za12  Circe Couscous Parachute  
 
   1.Bh8*b2[+bpPc1=pS]   2.Bb2-a1 z
   1.Bh8*b2[+bpPc1=pR]   2.Bb2-a1 z
-
   add_to_move_generation_stack:          82
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -616,11 +616,11 @@ solution finished.
          Circe Cage Volcanic
 
   1.Be8*f7[+wBh8->v] Sh8*f7[+bBh8] z
-
   add_to_move_generation_stack:        1122
                      play_move:         134
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -653,22 +653,22 @@ Immune Chess is tested before move execution is started
 
 a) 
 
-
   add_to_move_generation_stack:           8
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe
    ImmunChess
    AntiCirce  
 
    1.Ra8*a7[wRa7->a1] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -706,11 +706,11 @@ a)
 
    1.a2*b3[+bQc8] x !
 
-
   add_to_move_generation_stack:         105
                      play_move:          59
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe Super Strict
    Isardam  
 
@@ -718,11 +718,11 @@ b) Circe Super Strict
 
    1.a2*b3[+bQc8] x !
 
-
   add_to_move_generation_stack:         105
                      play_move:          58
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -755,18 +755,18 @@ a)
 
    1.a2*b3 x !
 
-
   add_to_move_generation_stack:         333
                      play_move:          64
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Circe Cage Strict  
 
+b) Circe Cage Strict  
 
   add_to_move_generation_stack:         333
                      play_move:          63
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -810,11 +810,11 @@ solution finished.
 
    1.Qb2*c2[+bSb8] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           9
+
 solution finished.
 
 
@@ -848,22 +848,22 @@ a)
 
    1.b3*a4[+bSg8] x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe Chameleon Q->R->B->S->Q  
 
    1.b3*c4[+bQd8] x !
 
    1.b3*a4[+bRa8] x !
 
-
   add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -901,11 +901,11 @@ a)
 
    1.Sb1-a3[+bRb1] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe Parachute  
 
    1.Sb1-d2[+bRb1] !
@@ -914,11 +914,11 @@ b) Circe Parachute
 
    1.Sb1-a3[+bRb1] !
 
-
   add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -950,11 +950,11 @@ solution finished.
 
    1.b2*a3[+bSb8] x !
 
-
   add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -985,11 +985,11 @@ solution finished.
 
    1.Sc3*d5[wSd5->Rh1][+bQd8] x !
 
-
   add_to_move_generation_stack:           8
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1021,20 +1021,20 @@ a)
 
    1.Bd3*b5[+bBc8] x !
 
-
   add_to_move_generation_stack:          10
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 b) Circe ReversalEinstein  
 
    1.Bd3*b5[+bQd8] x !
 
-
   add_to_move_generation_stack:          10
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 
@@ -1088,11 +1088,11 @@ solution finished.
 
    1.Sf6*d5[+wRh5] x !
 
-
   add_to_move_generation_stack:          82
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
 solution finished.
 
 

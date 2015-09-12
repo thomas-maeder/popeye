@@ -24,11 +24,11 @@
           Wurmloecher a1 g7
 
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S[sSa1->g7] f7-f8=S #
-
   add_to_move_generation_stack:    12223451
                      play_move:    11962725
  is_white_king_square_attacked:     1411104
  is_black_king_square_attacked:    10921252
+
 Loesung beendet.
 
 
@@ -58,11 +58,11 @@ Loesung beendet.
        Wurmloecher f1 b6 a7 d8
 
   1.f7-f5 d2-d4   2.f5-f4 d4-d5   3.f4-f3 d5-d6   4.f3-f2 d6-d7   5.f2-f1=S[sSf1->a7] d7-d8=S[wSd8->b6] #
-
   add_to_move_generation_stack:      679772
                      play_move:      772120
  is_white_king_square_attacked:      162208
  is_black_king_square_attacked:      635190
+
 Loesung beendet.
 
 
@@ -93,11 +93,11 @@ Wilfried Neef & Hans-Peter Reich & Stefan H\"oning
 
   1.Lc4-b3[sLb3->f6] Sg5-h7   2.Lf6-e5 Sh7-f6[wSf6->b3] #
   1.Se4-f6[sSf6->b3] Lb5-a4   2.Sb3-c5 La4-b3[wLb3->f6] #
-
   add_to_move_generation_stack:       54985
                      play_move:       46031
  is_white_king_square_attacked:        4712
  is_black_king_square_attacked:       45758
+
 Loesung beendet.
 
 
@@ -228,11 +228,11 @@ Loesung beendet.
               2...Kb8-a8
                   3.Sc8-b6 #
 
-
   add_to_move_generation_stack:       35757
                      play_move:       25827
  is_white_king_square_attacked:        7422
  is_black_king_square_attacked:       20540
+
 Loesung beendet.
 
 
@@ -300,11 +300,11 @@ Thomas Maeder & Bruno Stucker & Kjell Widlert
     Aber
       1...Kc4-b4 !
 
-
   add_to_move_generation_stack:       11872
                      play_move:       11058
  is_white_king_square_attacked:        1187
  is_black_king_square_attacked:       11014
+
 Loesung beendet.
 
 
@@ -334,11 +334,11 @@ Loesung beendet.
           Wurmloecher c6 b8
 
   1.d2-d4 Sb8-a6   2.d4-d5 c7-c6[sBc6->b8]   3.d5-d6 Sa6-c7   4.d6*c7 b8*c7 dia
-
   add_to_move_generation_stack:   106250292
                      play_move:   104267526
  is_white_king_square_attacked:     2176443
  is_black_king_square_attacked:     6106060
+
 Loesung beendet.
 
 

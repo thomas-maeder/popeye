@@ -1,5 +1,5 @@
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =2                          2 + 2
-                S-KoeKo
+               S-KoeKo
 
    1.Kc8-c7 ! zugzwang.
       1...a7-a6
@@ -30,11 +30,11 @@
       1...a7*b6
           2.Kc7*b6 =
 
-
   add_to_move_generation_stack:         128
                      play_move:         119
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:          39
-solution finished. 
+
+solution finished.
 
 
