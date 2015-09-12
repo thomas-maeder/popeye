@@ -5,6 +5,7 @@
 #include "solving/pipe.h"
 #include "solving/duplex.h"
 #include "solving/machinery/twin.h"
+#include "stipulation/slice_insertion.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -29,6 +30,7 @@ slice_index alloc_output_latex_diagram_writer(FILE *file)
   TraceFunctionResultEnd();
   return result;
 }
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -51,6 +53,16 @@ void output_latex_write_diagram(slice_index si)
   TraceFunctionParamListEnd();
 
   LaTeXBeginDiagram(file);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STOutputLaTeXPositionWriterBuilder),
+        alloc_pipe(STOutputLaTeXTwinningWriterBuilder)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
 
   pipe_solve_delegate(si);
 

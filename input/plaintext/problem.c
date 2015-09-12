@@ -70,8 +70,6 @@ void input_plaintext_problem_handle(slice_index si)
     {
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
-        alloc_pipe(STOutputLaTeXPositionWriterBuilder),
-        alloc_pipe(STOutputLaTeXTwinningWriterBuilder),
         alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STStartOfWriterBuilders),
         alloc_pipe(STOutputPlainTextPositionWriterBuilder),
@@ -82,9 +80,13 @@ void input_plaintext_problem_handle(slice_index si)
 
     pipe_solve_delegate(si);
 
-    slice_index const handler = branch_find_slice(STOutputPlainTextEndOfTwinWriter,si,stip_traversal_context_intro);
-    dealloc_slices(SLICE_NEXT1(handler));
-    SLICE_NEXT1(handler) = no_slice;
+    {
+      slice_index const writer = branch_find_slice(STOutputPlainTextEndOfTwinWriter,
+                                                   si,
+                                                   stip_traversal_context_intro);
+      dealloc_slices(SLICE_NEXT1(writer));
+      SLICE_NEXT1(writer) = no_slice;
+    }
   }
 
   undo_move_effects();

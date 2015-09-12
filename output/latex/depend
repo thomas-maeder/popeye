@@ -205,7 +205,7 @@ output/latex/diagram$(OBJ_SUFFIX): output/latex/diagram.c output/latex/diagram.h
  solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
  debugging/trace.h solving/duplex.h solving/machinery/twin.h \
  solving/move_effect_journal.h solving/ply.h position/pieceid.h \
- debugging/assert.h
+ stipulation/slice_insertion.h debugging/assert.h
 
 output/latex/diagram.h:
 
@@ -294,6 +294,8 @@ solving/move_effect_journal.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+stipulation/slice_insertion.h:
 
 debugging/assert.h:
 output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinning.h \
