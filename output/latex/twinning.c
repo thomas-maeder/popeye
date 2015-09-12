@@ -395,9 +395,7 @@ void output_latex_write_twinning(slice_index si)
       case twin_zeroposition:
         break;
 
-      case twin_initial:
       case twin_regular:
-      case twin_last:
         WriteTwinning();
         WriteTwinLetterToSolution(file);
         break;

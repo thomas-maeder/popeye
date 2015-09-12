@@ -1051,21 +1051,17 @@ static char *twins_handle(char *tok, slice_index start)
 
       if (endToken>EndTwinTokenCount)
         output_plaintext_input_error_message(ComNotUniq,0);
-      else if (endToken==EndTwinTokenCount)
-      {
-        twin_stage = twin_last;
-        pipe_solve_delegate(start);
-
-        break;
-      }
-      else if (endToken==TwinProblem)
+      else
       {
         twin_stage = twin_regular;
         pipe_solve_delegate(start);
-      }
-      else
-      {
-        assert(0);
+
+        if (endToken==EndTwinTokenCount)
+          break;
+        else
+        {
+          assert(endToken==TwinProblem);
+        }
       }
 
       tok = ReadNextTokStr();
@@ -1144,7 +1140,7 @@ void input_plaintext_twins_handle(slice_index si)
   }
   else if (endToken==TwinProblem)
   {
-    twin_stage = twin_initial;
+    twin_stage = twin_regular;
     tok = ReadNextTokStr();
     tok = twins_handle(tok,si);
   }

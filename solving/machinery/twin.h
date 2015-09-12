@@ -20,9 +20,7 @@ typedef enum
 {
   twin_original_position_no_twins,
   twin_zeroposition,
-  twin_initial,
-  twin_regular,
-  twin_last
+  twin_regular
 } twin_stage_type;
 extern twin_stage_type twin_stage;
 

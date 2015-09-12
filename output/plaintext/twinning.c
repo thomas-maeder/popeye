@@ -310,9 +310,7 @@ static void WriteIntro(void)
       output_plaintext_message(NewLine);
       break;
 
-    case twin_initial:
     case twin_regular:
-    case twin_last:
       output_plaintext_message(NewLine);
       WriteTwinLetter();
       WriteTwinning();
