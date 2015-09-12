@@ -470,8 +470,8 @@ void dispatch(slice_index si)
       output_plaintext_separate_grid_writer_builder_solve(si);
       break;
 
-    case STOutputLaTeXDiagramStartWriterBuilder:
-      output_latex_position_writer_builder_solve(si);
+    case STOutputLaTeXProblemIntroWriterBuilder:
+      output_latex_problem_intro_writer_builder_solve(si);
       break;
 
     case STOutputLaTeXTwinningWriterBuilder:
@@ -926,8 +926,8 @@ void dispatch(slice_index si)
       output_latex_write_diagram(si);
       break;
 
-    case STOutputLaTeXDiagramStartWriter:
-      output_latex_write_diagram_start(si);
+    case STOutputLaTeXProblemIntroWriter:
+      output_latex_problem_intro_writer_solve(si);
       break;
 
     case STOutputLaTeXTwinningWriter:

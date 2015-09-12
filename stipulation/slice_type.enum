@@ -21,7 +21,7 @@
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
-  ENUMERATOR(STOutputLaTeXDiagramStartWriterBuilder),                   \
+  ENUMERATOR(STOutputLaTeXProblemIntroWriterBuilder),                   \
   ENUMERATOR(STOutputLaTeXTwinningWriterBuilder),                       \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STConditionsResetter),                                     \
@@ -580,7 +580,7 @@
     ENUMERATOR(STOutputPlaintextMoveInversionCounterSetPlay), \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(STOutputLaTeXDiagramWriter),                             \
-    ENUMERATOR(STOutputLaTeXDiagramStartWriter),                        \
+    ENUMERATOR(STOutputLaTeXProblemIntroWriter),                        \
     ENUMERATOR(STOutputLaTeXTwinningWriter),                            \
     ENUMERATOR(STOutputLaTeXLineLineWriter), /* LaTeX output, line mode: write a line */  \
     ENUMERATOR(STOutputLaTeXGoalWriter), /* LaTeX output: write the reached goal */  \

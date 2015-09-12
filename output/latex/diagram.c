@@ -25,7 +25,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_latex_write_diagram_start(slice_index si)
+void output_latex_problem_intro_writer_solve(slice_index si)
 {
   FILE *file = SLICE_U(si).writer.file;
 
@@ -51,7 +51,7 @@ void output_latex_write_diagram_start(slice_index si)
 /* Instrument the solving machinery with slices that write the diagram in
  * LaTeX
  */
-void output_latex_position_writer_builder_solve(slice_index si)
+void output_latex_problem_intro_writer_builder_solve(slice_index si)
 {
   FILE *file = SLICE_U(si).writer.file;
 
@@ -62,7 +62,7 @@ void output_latex_position_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriter,file)
+        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
     };
     enum
     {
@@ -106,7 +106,7 @@ void output_latex_write_diagram(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXDiagramStartWriterBuilder,file),
+        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriterBuilder,file),
         alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
