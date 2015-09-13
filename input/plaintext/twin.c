@@ -899,8 +899,7 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STMoveEffectsJournalReset),
         alloc_pipe(STSolversBuilder),
         alloc_pipe(STProxyResolver),
-        alloc_pipe(STSlackLengthAdjuster),
-        alloc_pipe(STStartOfStipulation)
+        alloc_pipe(STSlackLengthAdjuster)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

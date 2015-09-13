@@ -49,6 +49,6 @@ void stipulation_completer_solve(slice_index si);
 
 void twin_id_adjuster_solve(slice_index si);
 
-void slices_deallocator_solve(slice_index si);
+void start_of_current_twin_solve(slice_index si);
 
 #endif
