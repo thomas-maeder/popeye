@@ -685,6 +685,8 @@ b) wmKa5
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
+
+c) nmKa5  
 too much fairy chess for neutral pieces
 problem ignored
   add_to_move_generation_stack:           0

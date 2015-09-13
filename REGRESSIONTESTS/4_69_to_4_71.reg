@@ -958,18 +958,18 @@ solution finished.
   hep1                        1 + 1
             Uncapturable
              GhostChess
-both sides need a king
 
 a) 
+both sides need a king
 
   1.e7-e5 d5*e6 ep.[+buPe5]
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-both sides need a king
 
 b) HauntedChess  
+both sides need a king
 
   1.e7-e5 d5*e6 ep.[+bPe5]
   add_to_move_generation_stack:           4
@@ -1005,19 +1005,19 @@ Circe Parrain + Volage has apparently never worked correctly
   hzh31                       2 + 1
                 Circe
                Volage
-both sides need a king
 
 a) 
+both sides need a king
 
   1.Ba8*b7[+wPb2=b] Rh8-h3=b z
   add_to_move_generation_stack:          15
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-both sides need a king
 
 b) Circe Parrain
    Volage  
+both sides need a king
 
   1.Ba8*b7 Rh8-h3=b[+wPb2=b] z
   add_to_move_generation_stack:          15

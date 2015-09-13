@@ -2986,9 +2986,9 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-both sides need a king
 
 b) -wKb1  
+both sides need a king
 
   add_to_move_generation_stack:           0
                      play_move:           0

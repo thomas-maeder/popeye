@@ -70,8 +70,9 @@ void input_plaintext_problem_handle(slice_index si)
     {
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
-        alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STOutputPlainTextPositionWriterBuilder),
+        alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STStartOfCurrentTwin)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

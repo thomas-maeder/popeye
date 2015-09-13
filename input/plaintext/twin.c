@@ -896,7 +896,6 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STPiecesFlagsInitialiser),
         alloc_pipe(STInputVerification),
         alloc_pipe(STMoveEffectsJournalReset),
-        alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
         alloc_pipe(STSolversBuilder),
         alloc_pipe(STProxyResolver),
         alloc_pipe(STSlackLengthAdjuster)

@@ -126,7 +126,6 @@ recent Popeye versions allowed promotion to grasshopper in b
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-both sides need a king
 
 zeroposition
 
@@ -134,9 +133,9 @@ zeroposition
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-both sides need a king
 
 a) Q ==> G  
+both sides need a king
 
    1.a7-a8=Q !
 
@@ -152,9 +151,9 @@ a) Q ==> G
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-both sides need a king
 
 b) Q ==> CA  
+both sides need a king
 
    1.a7-a8=Q !
 
