@@ -584,7 +584,6 @@ static void ReadInitialTwin(slice_index start)
   boolean more_input = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
