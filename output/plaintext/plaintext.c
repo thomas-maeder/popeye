@@ -22,7 +22,6 @@
 #include "stipulation/slice_insertion.h"
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
-#include "solving/duplex.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -812,19 +811,6 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
     solving_insert_output_plaintext_tree_slices(si,is_setplay);
   }
 
-  if (twin_duplex_type!=twin_is_duplex)
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_pipe(STOutputPlaintextTwinIntroWriter)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
   {
     slice_index const prototypes[] =
     {
@@ -842,7 +828,8 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with slices that write the solution in
+/*
+ *  Instrument the solving machinery with slices that write the solution in
  * plain text
  */
 void output_plaintext_instrument_solving(slice_index si)

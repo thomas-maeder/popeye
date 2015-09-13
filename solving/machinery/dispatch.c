@@ -469,6 +469,10 @@ void dispatch(slice_index si)
       output_plaintext_separate_grid_writer_builder_solve(si);
       break;
 
+    case STOutputPlaintextTwinIntroWriterBuilder:
+      output_plaintext_twin_intro_writer_builder_solve(si);
+      break;
+
     case STOutputLaTeXProblemIntroWriterBuilder:
       output_latex_problem_intro_writer_builder_solve(si);
       break;

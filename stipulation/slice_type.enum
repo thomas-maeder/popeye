@@ -20,6 +20,7 @@
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
+  ENUMERATOR(STOutputPlaintextTwinIntroWriterBuilder),                  \
   ENUMERATOR(STOutputLaTeXProblemIntroWriterBuilder),                   \
   ENUMERATOR(STOutputLaTeXTwinningWriterBuilder),                       \
   ENUMERATOR(STTwinIdAdjuster),                                         \

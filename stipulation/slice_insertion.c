@@ -654,6 +654,7 @@ static slice_index const slice_rank_order[] =
   STPiecesFlagsInitialiser,
   STInputVerification,
   STMoveEffectsJournalReset,
+  STOutputPlaintextTwinIntroWriterBuilder,
   STSolversBuilder,
   STHashOpener,
   STProxyResolver,
