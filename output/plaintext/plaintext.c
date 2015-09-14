@@ -5,7 +5,6 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/line/line.h"
-#include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/language_dependant.h"
 #include "conditions/conditions.h"
@@ -814,7 +813,6 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-        alloc_illegal_selfcheck_writer_slice(),
         alloc_output_plaintext_end_of_phase_writer_slice()
     };
     enum

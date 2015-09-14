@@ -10,6 +10,7 @@
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
+#include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/twinning.h"
 #include "output/latex/latex.h"
 #include "output/latex/twinning.h"
@@ -899,7 +900,8 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STSolversBuilder1),
         alloc_pipe(STSolversBuilder2),
         alloc_pipe(STProxyResolver),
-        alloc_pipe(STSlackLengthAdjuster)
+        alloc_pipe(STSlackLengthAdjuster),
+        alloc_illegal_selfcheck_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
