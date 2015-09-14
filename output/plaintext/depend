@@ -9,9 +9,8 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  pieces/walks/vectors.h position/castling_rights.h \
  output/plaintext/position.h output/plaintext/protocol.h \
  output/plaintext/tree/tree.h output/plaintext/line/line.h \
- output/plaintext/illegal_selfcheck_writer.h solving/machinery/solve.h \
+ output/plaintext/end_of_phase_writer.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
- output/plaintext/end_of_phase_writer.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h \
@@ -86,15 +85,13 @@ output/plaintext/tree/tree.h:
 
 output/plaintext/line/line.h:
 
-output/plaintext/illegal_selfcheck_writer.h:
+output/plaintext/end_of_phase_writer.h:
 
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/language_dependant.h:
 

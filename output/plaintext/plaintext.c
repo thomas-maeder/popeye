@@ -796,7 +796,7 @@ void output_plaintext_write_move(output_engine_type const *engine,
   context_close(&context);
 }
 
-static void select_output_mode(slice_index si, stip_structure_traversal *st)
+static void visit_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -808,18 +808,6 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   {
     boolean const is_setplay = st->level==structure_traversal_level_setplay;
     solving_insert_output_plaintext_tree_slices(si,is_setplay);
-  }
-
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_output_plaintext_end_of_phase_writer_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -843,14 +831,20 @@ void output_plaintext_instrument_solving(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STOutputModeSelector,
-                                           &select_output_mode);
-  stip_structure_traversal_override_by_contextual(&st,
-                                                  slice_contextual_testing_pipe,
-                                                  &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_contextual(&st,
-                                                  slice_contextual_conditional_pipe,
-                                                  &stip_traverse_structure_children_pipe);
+                                           &visit_output_mode_selector);
   stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_output_plaintext_end_of_phase_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
 
   pipe_solve_delegate(si);
 
