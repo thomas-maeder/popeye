@@ -805,10 +805,7 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
   if (SLICE_U(si).output_mode_selector.mode==output_mode_line)
     solving_insert_output_plaintext_line_slices(si);
   else
-  {
-    boolean const is_setplay = st->level==structure_traversal_level_setplay;
-    solving_insert_output_plaintext_tree_slices(si,is_setplay);
-  }
+    solving_insert_output_plaintext_tree_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

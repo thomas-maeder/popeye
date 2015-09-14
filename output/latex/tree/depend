@@ -18,8 +18,7 @@ output/latex/tree/tree$(OBJ_SUFFIX): output/latex/tree/tree.c \
  pieces/walks/vectors.h position/castling_rights.h solving/ply.h \
  solving/trivial_end_filter.h output/latex/latex.h input/plaintext/twin.h \
  input/plaintext/token.h input/plaintext/language.h output/output.h \
- output/plaintext/plaintext.h solving/move_effect_journal.h \
- position/pieceid.h output/latex/goal_writer.h \
+ output/plaintext/plaintext.h output/latex/goal_writer.h \
  output/latex/tree/end_of_solution_writer.h \
  output/latex/tree/check_writer.h output/latex/tree/threat_writer.h \
  output/latex/tree/move_writer.h output/latex/tree/zugzwang_writer.h \
@@ -115,10 +114,6 @@ input/plaintext/language.h:
 output/output.h:
 
 output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 output/latex/goal_writer.h:
 
@@ -421,8 +416,7 @@ output/latex/tree/move_writer$(OBJ_SUFFIX): output/latex/tree/move_writer.c \
  position/castling_rights.h solving/ply.h output/latex/latex.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h output/output.h output/plaintext/plaintext.h \
- solving/move_effect_journal.h position/pieceid.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -487,10 +481,6 @@ input/plaintext/language.h:
 output/output.h:
 
 output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 stipulation/pipe.h:
 

@@ -7,9 +7,8 @@
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.
  * @param si identifies slice where to start
- * @param is_setplay is si part of set play?
  */
-void solving_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay);
+void solving_insert_output_plaintext_tree_slices(slice_index si);
 
 /* Write a possibly pending move decoration
  */

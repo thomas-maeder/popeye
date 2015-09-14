@@ -1156,10 +1156,7 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
   if (SLICE_U(si).output_mode_selector.mode==output_mode_line)
     solving_insert_output_latex_line_slices(si,file);
   else
-  {
-    boolean const is_setplay = st->level==structure_traversal_level_setplay;
-    solving_insert_output_latex_tree_slices(si,is_setplay,file);
-  }
+    solving_insert_output_latex_tree_slices(si,file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

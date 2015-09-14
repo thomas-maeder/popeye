@@ -566,11 +566,8 @@ static void optimise_leaf_slices(slice_index si)
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.
  * @param si identifies slice where to start
- * @param is_setplay is si part of set play?
  */
-void solving_insert_output_latex_tree_slices(slice_index si,
-                                             boolean is_setplay,
-                                             FILE *file)
+void solving_insert_output_latex_tree_slices(slice_index si, FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -580,7 +577,7 @@ void solving_insert_output_latex_tree_slices(slice_index si,
 
   insert_regular_writer_slices(si,file);
   insert_root_writer_slices(si,file);
-  if (!is_setplay && OptFlag[soltout]) /* this includes OptFlag[solessais] */
+  if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     insert_try_writers(si,file);
   optimise_leaf_slices(si);
 
