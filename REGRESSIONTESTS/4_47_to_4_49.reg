@@ -141,6 +141,7 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
   reci-h#1                   9 + 12
 
   1.0-0-0 Sa4-b6 #
+
   1.e4*d3 ep. #
   add_to_move_generation_stack:         222
                      play_move:         192
