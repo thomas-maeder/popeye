@@ -3,9 +3,11 @@
 
 #include "output/mode.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/goals/goals.h"
 #include "utilities/boolean.h"
 
 #include <stdarg.h>
+#include <stdio.h>
 
 typedef struct
 {
@@ -40,11 +42,5 @@ boolean output_goal_preempts_check(goal_type goal);
  * @return identifier of the allocated slice
  */
 slice_index alloc_output_mode_selector(output_mode mode);
-
-/* Instrument the stipulation structure with slices that implement
- * the selected output mode.
- * @param si identifies slice where to start
- */
-void solving_insert_output_slices(slice_index si);
 
 #endif

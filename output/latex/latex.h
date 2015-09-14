@@ -42,6 +42,8 @@ void WriteUserInputElement(FILE *file, char const *name, char const *value);
  */
 void output_latex_instrument_solving(slice_index si);
 
+void output_latex_instrument_solving_builder_solve(slice_index si);
+
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX
  */

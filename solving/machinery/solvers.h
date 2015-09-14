@@ -6,6 +6,7 @@
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */
-void build_solvers(slice_index solving_machinery);
+void build_solvers1(slice_index solving_machinery);
+void build_solvers2(slice_index solving_machinery);
 
 #endif

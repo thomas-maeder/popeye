@@ -19,6 +19,8 @@ void output_plaintext_write_move(output_engine_type const *engine,
  */
 void output_plaintext_instrument_solving(slice_index si);
 
+void output_plaintext_instrument_solving_builder_solve(slice_index si);
+
 void output_plaintext_writer_solve(slice_index si);
 
 slice_index output_plaintext_alloc_writer(FILE *file);

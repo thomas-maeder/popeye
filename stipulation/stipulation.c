@@ -180,7 +180,7 @@ void dealloc_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STSolversBuilder,&dealloc_solvers_builder);
+  stip_structure_traversal_override_single(&st,STSolversBuilder1,&dealloc_solvers_builder);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
@@ -265,7 +265,7 @@ void solving_insert_root_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-  assert(SLICE_TYPE(si)==STSolversBuilder);
+  assert(SLICE_TYPE(si)==STSolversBuilder1);
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);

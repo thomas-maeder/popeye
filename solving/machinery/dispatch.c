@@ -383,6 +383,22 @@ void dispatch(slice_index si)
       output_latex_closer_solve(si);
       break;
 
+    case STOutputPlainTextInstrumentSolversBuilder:
+      output_plaintext_instrument_solving_builder_solve(si);
+      break;
+
+    case STOutputPlainTextInstrumentSolvers:
+      output_plaintext_instrument_solving(si);
+      break;
+
+    case STOutputLaTeXInstrumentSolversBuilder:
+      output_latex_instrument_solving_builder_solve(si);
+      break;
+
+    case STOutputLaTeXInstrumentSolvers:
+      output_latex_instrument_solving(si);
+      break;
+
     case STHashTableDimensioner:
       hashtable_dimensioner_solve(si);
       break;
@@ -545,8 +561,12 @@ void dispatch(slice_index si)
       move_effect_journal_reset(si);
       break;
 
-    case STSolversBuilder:
-      build_solvers(si);
+    case STSolversBuilder1:
+      build_solvers1(si);
+      break;
+
+    case STSolversBuilder2:
+      build_solvers2(si);
       break;
 
     case STProxyResolver:

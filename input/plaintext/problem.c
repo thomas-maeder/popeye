@@ -72,6 +72,8 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STEndOfStipulationSpecific),
         alloc_pipe(STOutputPlainTextPositionWriterBuilder),
         alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        alloc_pipe(STOutputPlainTextInstrumentSolversBuilder),
+        alloc_pipe(STOutputLaTeXInstrumentSolversBuilder),
         alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STStartOfCurrentTwin)
     };

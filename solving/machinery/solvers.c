@@ -10,7 +10,6 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/proxy.h"
 #include "solving/observation.h"
-#include "output/output.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
@@ -190,7 +189,7 @@
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */
-void build_solvers(slice_index si)
+void build_solvers1(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -648,7 +647,20 @@ void build_solvers(slice_index si)
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
 
-  solving_insert_output_slices(si);
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the slices representing the stipulation with solving slices
+ * @param solving_machinery proxy slice into the solving machinery to be built
+ */
+void build_solvers2(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (OptFlag[solmenaces]
       && !solving_insert_maxthreatlength_guards(si))

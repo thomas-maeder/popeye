@@ -23,6 +23,10 @@
   ENUMERATOR(STOutputPlaintextTwinIntroWriterBuilder),                  \
   ENUMERATOR(STOutputLaTeXProblemIntroWriterBuilder),                   \
   ENUMERATOR(STOutputLaTeXTwinningWriterBuilder),                       \
+  ENUMERATOR(STOutputPlainTextInstrumentSolvers),                       \
+  ENUMERATOR(STOutputPlainTextInstrumentSolversBuilder),                \
+  ENUMERATOR(STOutputLaTeXInstrumentSolvers),                           \
+  ENUMERATOR(STOutputLaTeXInstrumentSolversBuilder),                    \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STConditionsResetter),                                     \
   ENUMERATOR(STOptionsResetter),                                        \
@@ -54,7 +58,8 @@
   ENUMERATOR(STAToBInitialiser),                                        \
   ENUMERATOR(STInputVerification),                                      \
   ENUMERATOR(STMoveEffectsJournalReset),                                \
-  ENUMERATOR(STSolversBuilder),                                         \
+  ENUMERATOR(STSolversBuilder1),                                        \
+  ENUMERATOR(STSolversBuilder2),                                        \
   ENUMERATOR(STProxyResolver),                                          \
   ENUMERATOR(STSlackLengthAdjuster),                                    \
   ENUMERATOR(STStartOfStipulation),                                     \

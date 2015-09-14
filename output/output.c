@@ -64,22 +64,3 @@ slice_index alloc_output_mode_selector(output_mode mode)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Instrument the stipulation structure with slices that implement
- * the selected output mode.
- * @param si identifies slice where to start
- */
-void solving_insert_output_slices(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  output_plaintext_instrument_solving(si);
-  output_latex_instrument_solving(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

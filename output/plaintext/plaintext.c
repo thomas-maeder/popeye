@@ -854,6 +854,28 @@ void output_plaintext_instrument_solving(slice_index si)
                                                   &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void output_plaintext_instrument_solving_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STOutputPlainTextInstrumentSolvers)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  pipe_solve_delegate(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
