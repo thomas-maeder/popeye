@@ -947,9 +947,6 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* only build the position writers once per problem */
-  pipe_remove(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -992,9 +989,6 @@ void output_plaintext_atob_start_position_writer_builder_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
-
-  /* only build the position writers once per problem */
-  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1056,9 +1050,6 @@ void output_plaintext_separate_duplex_writer_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* only build the position writers once per problem */
-  pipe_remove(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1078,9 +1069,6 @@ void output_plaintext_separate_halfduplex_writer_builder_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
-
-  /* only build the position writers once per problem */
-  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1102,9 +1090,6 @@ void output_plaintext_separate_quodlibet_writer_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* only build the position writers once per problem */
-  pipe_remove(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1124,9 +1109,6 @@ void output_plaintext_separate_grid_writer_builder_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
-
-  /* only build the position writers once per problem */
-  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

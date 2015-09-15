@@ -68,8 +68,15 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
+        alloc_pipe(STStartOfCurrentProblem),
         alloc_pipe(STOutputPlainTextPositionWriterBuilder),
+        alloc_pipe(STInputPlainTextTwinsHandler),
         alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        alloc_pipe(STTwinIdAdjuster),
+        #if defined(DOMEASURE)
+        alloc_pipe(STCountersWriter),
+        #endif
+        alloc_pipe(STStipulationCompleter),
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
         alloc_pipe(STOutputPlainTextInstrumentSolversBuilder),
@@ -77,17 +84,18 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STStartOfCurrentTwin)
     };
+    slice_type const type_first_proto = SLICE_TYPE(prototypes[0]);
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
 
     pipe_solve_delegate(si);
 
     {
-      slice_index const writer = branch_find_slice(STStipulationCompleter,
-                                                   si,
-                                                   stip_traversal_context_intro);
-      dealloc_slices(SLICE_NEXT1(writer));
-      SLICE_NEXT1(writer) = no_slice;
+      slice_index const first = branch_find_slice(type_first_proto,
+                                                  si,
+                                                  stip_traversal_context_intro);
+      SLICE_NEXT1(SLICE_PREV(first)) = no_slice;
+      dealloc_slices(first);
     }
   }
 

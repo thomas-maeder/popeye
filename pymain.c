@@ -70,14 +70,8 @@ int main(int argc, char *argv[])
       alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
       alloc_pipe(STMaxSolutionsResetter),
       alloc_pipe(STInputPlainTextProblemHandler),
-      alloc_pipe(STInputPlainTextInitialTwinReader),
       alloc_pipe(STTimerStarter),
-      alloc_pipe(STInputPlainTextTwinsHandler),
-      alloc_pipe(STTwinIdAdjuster),
-#if defined(DOMEASURE)
-      alloc_pipe(STCountersWriter),
-#endif
-      alloc_pipe(STStipulationCompleter)
+      alloc_pipe(STInputPlainTextInitialTwinReader),
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(parser,prototypes,nr_prototypes);

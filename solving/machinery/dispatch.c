@@ -424,6 +424,7 @@ void dispatch(slice_index si)
       input_plaintext_iterate_problems(si);
       break;
 
+    case STStartOfCurrentProblem:
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
     case STOutputPlainTextStartOfTargetWriter:
