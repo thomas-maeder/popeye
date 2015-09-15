@@ -919,16 +919,17 @@ void solving_machinery_intro_builder_solve(slice_index si)
 
 void stipulation_copier_solve(slice_index si)
 {
-  slice_index const start_of_machinery = branch_find_slice(STStartOfCurrentTwin,
-                                                           si,
-                                                           stip_traversal_context_intro);
   slice_index const stipulation_prototype = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_link(start_of_machinery,stip_deep_copy(SLICE_NEXT1(stipulation_prototype)));
+  {
+    slice_index const proto = stip_deep_copy(SLICE_NEXT1(stipulation_prototype));
+    slice_insertion_insert(si,&proto,1);
+  }
+
   solving_impose_starter(si,SLICE_STARTER(stipulation_prototype));
   TraceStipulation(si);
 

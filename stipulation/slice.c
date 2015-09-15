@@ -155,7 +155,6 @@ static slice_contextual_type contextual_type[nr_slice_types];
 static slice_type const proxy_slice_types[] =
 {
     STProxy,
-    STStartOfStipulation,
     STReadyForAttack,
     STReadyForDefense,
     STNotEndOfBranchGoal,
