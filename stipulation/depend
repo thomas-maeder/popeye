@@ -59,8 +59,8 @@ stipulation/structure_traversal$(OBJ_SUFFIX): stipulation/structure_traversal.c 
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- stipulation/testing_pipe.h stipulation/pipe.h debugging/trace.h \
- debugging/assert.h
+ output/mode.enum stipulation/testing_pipe.h stipulation/pipe.h \
+ debugging/trace.h debugging/assert.h
 
 stipulation/structure_traversal.h:
 
@@ -114,6 +114,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 stipulation/testing_pipe.h:
 
 stipulation/pipe.h:
@@ -137,8 +139,8 @@ stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- stipulation/proxy.h stipulation/pipe.h debugging/trace.h \
- debugging/assert.h
+ output/mode.enum stipulation/proxy.h stipulation/pipe.h \
+ debugging/trace.h debugging/assert.h
 
 stipulation/branch.h:
 
@@ -194,6 +196,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -217,7 +221,7 @@ stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- stipulation/pipe.h debugging/trace.h debugging/assert.h
+ output/mode.enum stipulation/pipe.h debugging/trace.h debugging/assert.h
 
 stipulation/move_played.h:
 
@@ -273,6 +277,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 stipulation/pipe.h:
 
 debugging/trace.h:
@@ -294,9 +300,9 @@ stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- stipulation/fork.h stipulation/branch.h stipulation/binary.h \
- solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h debugging/assert.h
+ output/mode.enum stipulation/fork.h stipulation/branch.h \
+ stipulation/binary.h solving/pipe.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
 
 stipulation/proxy.h:
 
@@ -354,6 +360,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 stipulation/fork.h:
 
 stipulation/branch.h:
@@ -385,11 +393,11 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/moves_traversal.h stipulation/fork.h stipulation/pipe.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- debugging/assert.h
+ output/mode.enum solving/moves_traversal.h stipulation/fork.h \
+ stipulation/pipe.h stipulation/proxy.h stipulation/conditional_pipe.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
 
 stipulation/constraint.h:
 
@@ -445,6 +453,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 solving/moves_traversal.h:
 
 stipulation/fork.h:
@@ -484,7 +494,8 @@ stipulation/if_then_else$(OBJ_SUFFIX): stipulation/if_then_else.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- stipulation/binary.h debugging/trace.h debugging/assert.h
+ output/mode.enum stipulation/binary.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/if_then_else.h:
 
@@ -539,6 +550,8 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 stipulation/binary.h:
 
