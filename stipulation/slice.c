@@ -356,17 +356,23 @@ static slice_type const writer_slice_types[] =
     STOutputLaTeXGoalWriter
 };
 
-static slice_type const output_plaintext_position_writer_builder_slice_types[] =
+static slice_type const output_plaintext_position_writer_slice_types[] =
 {
-    STOutputPlainTextPositionWriterBuilder,
-    STOutputPlainTextAToBStartPositionWriterBuilder,
-    STOutputPlainTextProofPositionWriterBuilder,
-    STOutputPlainTextConditionsWriterBuilder,
-    STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder,
-    STOutputPlainTextDuplexWriterBuilder,
-    STOutputPlainTextHalfDuplexWriterBuilder,
-    STOutputPlainTextQuodlibetWriterBuilder,
-    STOutputPlainTextSeparateGridWriterBuilder,
+    STOutputPlainTextMetaWriter,
+    STOutputPlainTextBoardWriter,
+    STOutputPlainTextStipulationWriter,
+    STOutputPlainTextStipulationOptionsWriter,
+    STOutputPlainTextPieceCountsWriter,
+    STOutputPlainTextRoyalPiecePositionsWriter,
+    STOutputPlainTextNonRoyalAttributesWriter,
+    STOutputPlainTextEndOfPositionWriters,
+    STOutputPlainTextAToBIntraWriter,
+    STOutputPlainTextConditionsWriter,
+    STOutputPlainTextMutuallyExclusiveCastlingsWriter,
+    STOutputPlainTextDuplexWriter,
+    STOutputPlainTextHalfDuplexWriter,
+    STOutputPlainTextQuodlibetWriter,
+    STOutputPlainTextGridWriter
 };
 
 static void init_one_functional_type(slice_type const slice_types[],
@@ -392,7 +398,7 @@ static void init_functional_type(void)
   init_one_type(move_reordering_optimiser);
   init_one_type(move_removing_optimiser);
   init_one_type(writer);
-  init_one_type(output_plaintext_position_writer_builder);
+  init_one_type(output_plaintext_position_writer);
 #undef init_one_type
 }
 

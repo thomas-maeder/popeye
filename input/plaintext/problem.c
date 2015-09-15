@@ -68,10 +68,10 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STStartOfStipulationSpecific),
-        alloc_pipe(STEndOfStipulationSpecific),
         alloc_pipe(STOutputPlainTextPositionWriterBuilder),
         alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        alloc_pipe(STStartOfStipulationSpecific),
+        alloc_pipe(STEndOfStipulationSpecific),
         alloc_pipe(STOutputPlainTextInstrumentSolversBuilder),
         alloc_pipe(STOutputLaTeXInstrumentSolversBuilder),
         alloc_pipe(STSolvingMachineryIntroBuilder),

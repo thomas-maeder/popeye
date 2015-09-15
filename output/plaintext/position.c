@@ -919,9 +919,6 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* only build the position writers once per problem */
-  pipe_remove(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1019,9 +1016,6 @@ void output_plaintext_conditions_writer_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* only build the position writers once per problem */
-  pipe_remove(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1041,9 +1035,6 @@ void output_plaintext_mutually_exclusive_castlings_writer_builder_solve(slice_in
   }
 
   pipe_solve_delegate(si);
-
-  /* only build the position writers once per problem */
-  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1141,7 +1132,7 @@ void output_plaintext_separate_grid_writer_builder_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void remove_writer_builder(slice_index si, stip_structure_traversal *st)
+static void remove_writer(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1164,10 +1155,10 @@ void output_plaintext_option_noboard_solve(slice_index si)
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_output_plaintext_position_writer_builder,
-                                                  &remove_writer_builder);
+                                                  slice_function_output_plaintext_position_writer,
+                                                  &remove_writer);
     stip_structure_traversal_override_single(&st,
-                                             STStartOfCurrentTwin,
+                                             STPiecesCounter,
                                              &stip_structure_visitor_noop);
     stip_traverse_structure(si,&st);
   }
