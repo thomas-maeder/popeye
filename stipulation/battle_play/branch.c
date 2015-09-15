@@ -164,6 +164,8 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXTryWriter,
   STOutputPlainTextRefutationsIntroWriter,
   STTrue,
+  STOutputPlaintextLineLineWriter,
+  STOutputLaTeXLineLineWriter,
   STPlaySuppressor,
   STGoalConstraintTester,
   STConstraintSolver,

@@ -15,7 +15,7 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/help_play/branch.h debugging/assert.h
+ stipulation/help_play/branch.h solving/pipe.h debugging/assert.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -74,6 +74,8 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/help_play/branch.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \

@@ -1,5 +1,6 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"

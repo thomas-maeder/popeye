@@ -544,6 +544,7 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitor setplay_appliers[] =
 {
+  { STOutputModeSelector,     &pipe_spin_off_copy           },
   { STIllegalSelfcheckWriter, &pipe_spin_off_copy           },
   { STMoveInverter,           &pipe_spin_off_copy           },
   { STMoveInverterSetPlay,    &pipe_spin_off_copy           },

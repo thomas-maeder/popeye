@@ -4,7 +4,7 @@ platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h optimisations/hash.h \
  DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h solving/pipe.h
 
 platform/maxmem.h:
 
@@ -43,6 +43,8 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+solving/pipe.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h
 

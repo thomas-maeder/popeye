@@ -3,6 +3,7 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 

@@ -619,7 +619,8 @@ input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  solving/machinery/dispatch.h debugging/trace.h \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/not.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/branch.h debugging/assert.h
+ stipulation/pipe.h stipulation/branch.h solving/machinery/twin.h \
+ solving/move_effect_journal.h solving/ply.h debugging/assert.h
 
 input/plaintext/stipulation.h:
 
@@ -718,6 +719,12 @@ stipulation/proxy.h:
 stipulation/pipe.h:
 
 stipulation/branch.h:
+
+solving/machinery/twin.h:
+
+solving/move_effect_journal.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \

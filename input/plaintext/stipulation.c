@@ -16,6 +16,7 @@
 #include "stipulation/boolean/not.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "solving/machinery/twin.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 

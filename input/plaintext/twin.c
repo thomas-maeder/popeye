@@ -875,6 +875,8 @@ static void complete_stipulation(slice_index stipulation_root_hook)
     output_plaintext_message(PostKeyPlayNotApplicable);
 
   stip_detect_starter(stipulation_root_hook);
+  solving_impose_starter(stipulation_root_hook,
+                         SLICE_STARTER(stipulation_root_hook));
 
   TraceStipulation(stipulation_root_hook);
 

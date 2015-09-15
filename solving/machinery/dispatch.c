@@ -210,6 +210,7 @@
 #include "output/plaintext/tree/exclusive.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/twinning.h"
+#include "output/plaintext/problem.h"
 #include "output/latex/latex.h"
 #include "output/latex/problem.h"
 #include "output/latex/twinning.h"

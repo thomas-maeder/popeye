@@ -158,6 +158,7 @@ static void insert_move_inversion_counter(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
+  if (st->level!=structure_traversal_level_nested)
   {
     slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounter);
     slice_insertion_insert(si,&prototype,1);
@@ -176,6 +177,7 @@ static void insert_move_inversion_counter_setplay(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
+  if (st->level!=structure_traversal_level_nested)
   {
     slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounterSetPlay);
     slice_insertion_insert(si,&prototype,1);
@@ -208,8 +210,6 @@ static structure_traversers_visitor const regular_writer_inserters[] =
   { STReadyForAttack,      &insert_writer_remember_attack },
   { STDefenseAdapter,      &insert_writer_for_move_in_parent      },
   { STHelpAdapter,         &stip_structure_visitor_noop           },
-  { STMoveInverter,        &insert_move_inversion_counter         },
-  { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
   { STThreatSolver,        &insert_zugzwang_writer                },
   { STPlaySuppressor,      &stip_structure_visitor_noop           },
   { STMove,                &insert_move_writer                    },
@@ -244,6 +244,47 @@ static void insert_regular_writer_slices(slice_index si)
   stip_structure_traversal_override(&st,
                                     regular_writer_inserters,
                                     nr_regular_writer_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor const move_inversion_counter_inserters[] =
+{
+  { STMoveInverter,        &insert_move_inversion_counter         },
+  { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
+  { STPlaySuppressor,      &stip_structure_visitor_noop           },
+};
+
+enum
+{
+  nr_move_inversion_counter_inserters
+  = sizeof move_inversion_counter_inserters / sizeof move_inversion_counter_inserters[0]
+};
+
+/* Instrument the solving machinery with move inversion counter slices
+ * @param si identifies slice where to start
+ */
+void solving_insert_move_inversion_counter_slices(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean attack_played = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&attack_played);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override(&st,
+                                    move_inversion_counter_inserters,
+                                    nr_move_inversion_counter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

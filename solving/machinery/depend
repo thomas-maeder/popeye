@@ -1086,9 +1086,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/exclusive.h stipulation/pipe.h \
  output/plaintext/message.h output/message.h output/plaintext/twinning.h \
- output/latex/latex.h output/latex/problem.h output/latex/twinning.h \
- output/latex/line/line_writer.h output/latex/goal_writer.h \
- output/latex/tree/end_of_solution_writer.h \
+ output/plaintext/problem.h output/latex/latex.h output/latex/problem.h \
+ output/latex/twinning.h output/latex/line/line_writer.h \
+ output/latex/goal_writer.h output/latex/tree/end_of_solution_writer.h \
  output/latex/tree/check_writer.h output/latex/tree/key_writer.h \
  output/latex/tree/move_writer.h output/latex/tree/refutation_writer.h \
  output/latex/tree/refuting_variation_writer.h \
@@ -1638,6 +1638,8 @@ output/message.h:
 
 output/plaintext/twinning.h:
 
+output/plaintext/problem.h:
+
 output/latex/latex.h:
 
 output/latex/problem.h:
@@ -1856,14 +1858,14 @@ solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- debugging/trace.h
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h
 
 solving/machinery/slack_length.h:
 
@@ -1895,6 +1897,14 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
@@ -1912,5 +1922,3 @@ stipulation/slice_contextual_type.h:
 stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
-
-debugging/trace.h:

@@ -1,5 +1,6 @@
 #include "platform/maxmem.h"
 #include "optimisations/hash.h"
+#include "solving/pipe.h"
 
 #include <limits.h>
 

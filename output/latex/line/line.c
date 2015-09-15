@@ -33,7 +33,8 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
   {
     FILE *file = st->param;
     Goal const goal = { no_goal, initsquare };
-    pipe_append(SLICE_PREV(si),alloc_output_latex_line_writer_slice(goal,file));
+    slice_index const proto = alloc_output_latex_line_writer_slice(goal,file);
+    slice_insertion_insert(SLICE_PREV(si),&proto,1);
   }
 
   TraceFunctionExit(__func__);

@@ -35,7 +35,8 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 
   {
     Goal const goal = { no_goal, initsquare };
-    pipe_append(SLICE_PREV(si),alloc_output_plaintext_line_writer_slice(goal));
+    slice_index const proto = alloc_output_plaintext_line_writer_slice(goal);
+    slice_insertion_insert_contextually(SLICE_PREV(si),st->context,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -204,51 +205,11 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_move_inversion_counter(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (st->level!=structure_traversal_level_nested)
-  {
-    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounter);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_move_inversion_counter_setplay(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (st->level!=structure_traversal_level_nested)
-  {
-    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounterSetPlay);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitor regular_inserters[] =
 {
-  { STMoveInverter,        &insert_move_inversion_counter         },
-  { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
-  { STPlaySuppressor,      &instrument_suppressor                 },
-  { STGoalReachedTester,   &instrument_goal_reached_tester        },
-  { STMove,                &instrument_move                       }
+  { STPlaySuppressor,      &instrument_suppressor          },
+  { STGoalReachedTester,   &instrument_goal_reached_tester },
+  { STMove,                &instrument_move                }
 };
 
 enum

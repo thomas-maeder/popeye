@@ -843,6 +843,8 @@ void output_plaintext_instrument_solving(slice_index si)
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
+  solving_insert_move_inversion_counter_slices(si);
+
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
