@@ -22,7 +22,13 @@ $(CURRPWD)%$(OBJ_SUFFIX):	$(CURRPWD)%.c
 
 # produce a typedef declaration
 $(CURRPWD)%.enum.h:	$(CURRPWD)%.enum
-	gcc -E -P -imacros $< -D ENUMERATION_DECLARE utilities/enumeration.h > $@
+	( \
+		gcc -E -P -imacros $< -D ENUMERATION_DECLARE utilities/enumeration.h; \
+		echo "/* include $(notdir $<) to make sure that all the dependencies are generated correctly: */"; \
+		echo "#include \"$(notdir $<)\""; \
+		echo "#undef ENUMERATION_TYPENAME"; \
+		echo "#undef ENUMERATORS"; \
+	) > $@
 
 # produce a library form the object files in the current directory
 $(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS) $(CURRPWD)makefile.local

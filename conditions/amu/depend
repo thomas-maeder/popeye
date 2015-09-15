@@ -2,9 +2,9 @@ conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
  conditions/amu/mate_filter.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
+ output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
  conditions/amu/attack_counter.h solving/ply.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -32,6 +32,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -78,10 +80,11 @@ conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  conditions/amu/attack_counter.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
+ output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -113,6 +116,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 

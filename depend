@@ -1,7 +1,8 @@
 pygmarr$(OBJ_SUFFIX): pygmarr.c position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
- position/color.h position/color.enum.h pieces/pieces.h \
- utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h
+ position/side.enum position/color.h position/color.enum.h \
+ position/color.enum pieces/pieces.h utilities/boolean.h \
+ pieces/walks/vectors.h position/castling_rights.h
 
 position/position.h:
 
@@ -13,9 +14,13 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/pieces.h:
 
@@ -26,8 +31,9 @@ pieces/walks/vectors.h:
 position/castling_rights.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
- position/color.h position/color.enum.h pieces/pieces.h \
- utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h
+ position/side.enum position/color.h position/color.enum.h \
+ position/color.enum pieces/pieces.h utilities/boolean.h \
+ pieces/walks/vectors.h position/castling_rights.h
 
 position/position.h:
 
@@ -39,9 +45,13 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/pieces.h:
 

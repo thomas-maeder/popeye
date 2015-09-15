@@ -2,12 +2,13 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  conditions/marscirce/marscirce.h pieces/pieces.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/move_generator.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/move_generator.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -44,6 +45,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -134,11 +137,11 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  conditions/marscirce/anti.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h conditions/circe/circe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
+ output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -173,6 +176,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -263,13 +268,13 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/marscirce/plus.h pieces/pieces.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -306,6 +311,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -396,12 +403,13 @@ conditions/marscirce/phantom$(OBJ_SUFFIX): conditions/marscirce/phantom.c \
  conditions/marscirce/phantom.h pieces/pieces.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -439,6 +447,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 

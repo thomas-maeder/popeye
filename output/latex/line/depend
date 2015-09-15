@@ -2,10 +2,11 @@ output/latex/line/line$(OBJ_SUFFIX): output/latex/line/line.c \
  output/latex/line/line.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h conditions/conditions.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h position/castling_rights.h stipulation/pipe.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
+ output/mode.enum.h conditions/conditions.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ position/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -16,14 +17,15 @@ output/latex/line/line$(OBJ_SUFFIX): output/latex/line/line.c \
  stipulation/fork.h output/output.h solving/machinery/slack_length.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/trivial_end_filter.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- stipulation/branch.h stipulation/move.h stipulation/help_play/branch.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/branch.h \
+ stipulation/move.h stipulation/help_play/branch.h \
  stipulation/slice_insertion.h output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/end_of_phase_writer.h output/plaintext/line/exclusive.h \
  output/latex/line/line_writer.h output/latex/goal_writer.h \
- output/plaintext/line/end_of_intro_series_marker.h debugging/assert.h
+ output/plaintext/line/end_of_intro_series_marker.h solving/ply.h \
+ debugging/assert.h
 
 output/latex/line/line.h:
 
@@ -40,6 +42,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -101,8 +105,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 stipulation/branch.h:
 
 stipulation/move.h:
@@ -127,20 +129,22 @@ output/latex/goal_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 output/latex/line/line_writer$(OBJ_SUFFIX): output/latex/line/line_writer.c \
  output/latex/line/line_writer.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h output/latex/latex.h \
- input/plaintext/twin.h input/plaintext/token.h \
- input/plaintext/language.h output/output.h output/plaintext/plaintext.h \
- output/plaintext/move_inversion_counter.h \
- output/plaintext/line/end_of_intro_series_marker.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h output/latex/latex.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h position/castling_rights.h input/plaintext/twin.h \
+ input/plaintext/token.h input/plaintext/language.h output/output.h \
+ output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
+ output/plaintext/line/end_of_intro_series_marker.h solving/ply.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -171,6 +175,8 @@ stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
 
+stipulation/slice_type.enum:
+
 position/side.h:
 
 position/side.enum.h:
@@ -185,6 +191,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+output/latex/latex.h:
+
 position/position.h:
 
 position/color.h:
@@ -194,10 +202,6 @@ position/color.enum.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
-
-solving/ply.h:
-
-output/latex/latex.h:
 
 input/plaintext/twin.h:
 
@@ -212,6 +216,8 @@ output/plaintext/plaintext.h:
 output/plaintext/move_inversion_counter.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
+
+solving/ply.h:
 
 solving/has_solution_type.h:
 

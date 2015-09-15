@@ -2,8 +2,8 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/fork.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/fork.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -11,7 +11,8 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
+ solving/has_solution_type.enum stipulation/if_then_else.h \
+ stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/machinery/solve.h \
@@ -36,6 +37,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -67,6 +70,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/if_then_else.h:
 
 stipulation/testing_pipe.h:
@@ -97,13 +102,13 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/castling.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ stipulation/branch.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -142,6 +147,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -165,6 +172,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/walks/vectors.h:
 
@@ -236,7 +245,7 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h options/options.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -271,6 +280,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -328,7 +339,7 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -361,6 +372,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -406,7 +419,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/machinery/slack_length.h solving/binary.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -439,6 +452,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -480,7 +495,7 @@ solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -512,6 +527,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -549,7 +566,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/temporary_hacks.h solving/pipe.h solving/fork.h \
  solving/observation.h pieces/walks/vectors.h \
@@ -568,8 +585,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h output/plaintext/plaintext.h \
  output/output.h output/plaintext/pieces.h position/position.h \
- position/color.h position/color.enum.h debugging/measure.h \
- output/plaintext/protocol.h debugging/assert.h
+ position/color.h position/color.enum.h position/color.enum \
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -592,6 +609,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -675,6 +694,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 debugging/measure.h:
 
 output/plaintext/protocol.h:
@@ -685,7 +706,7 @@ solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -695,8 +716,8 @@ solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/temporary_hacks.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
- solving/pipe.h debugging/assert.h
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h solving/pipe.h debugging/assert.h
 
 solving/king_move_generator.h:
 
@@ -720,6 +741,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -762,6 +785,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
@@ -774,11 +799,12 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/machinery/slack_length.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/has_solution_type.enum stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -786,8 +812,8 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/temporary_hacks.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
- solving/pipe.h debugging/assert.h
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h solving/pipe.h debugging/assert.h
 
 solving/non_king_move_generator.h:
 
@@ -811,6 +837,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -830,6 +858,8 @@ solving/machinery/slack_length.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/pipe.h:
 
@@ -859,6 +889,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
@@ -872,11 +904,12 @@ solving/single_piece_move_generator$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/move_generator.h solving/ply.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h \
+ solving/move_generator.h solving/ply.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -907,6 +940,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -922,6 +957,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/walks/vectors.h:
 
@@ -961,7 +998,7 @@ solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_mov
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -971,10 +1008,11 @@ solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_mov
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h stipulation/branch.h \
- stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/find_move.h \
- solving/move_generator.h solving/ply.h debugging/assert.h
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h stipulation/branch.h stipulation/move.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/find_move.h solving/move_generator.h solving/ply.h \
+ debugging/assert.h
 
 solving/for_each_move.h:
 
@@ -998,6 +1036,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -1033,6 +1073,8 @@ solving/machinery/slack_length.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/pipe.h:
 
@@ -1056,7 +1098,7 @@ solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -1066,7 +1108,8 @@ solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h debugging/assert.h
 
 solving/find_move.h:
 
@@ -1089,6 +1132,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1130,6 +1175,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -1138,7 +1185,7 @@ solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/pipe.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -1170,6 +1217,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1211,7 +1260,7 @@ solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -1244,6 +1293,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1290,15 +1341,16 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h position/side.h position/side.enum.h pieces/pieces.h \
- output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
- debugging/trace.h solving/move_effect_journal.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h pieces/walks/walks.h solving/move_generator.h \
- solving/check.h solving/conditional_pipe.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/boolean.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
+ position/pieceid.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ pieces/walks/walks.h solving/move_generator.h solving/check.h \
+ solving/conditional_pipe.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -1333,6 +1385,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -1357,6 +1411,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 pieces/walks/vectors.h:
 
 pieces/walks/walks.h:
@@ -1370,6 +1426,8 @@ solving/conditional_pipe.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/pipe.h:
 
@@ -1421,11 +1479,11 @@ solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/testing_pipe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/has_solution_type.enum stipulation/testing_pipe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -1458,6 +1516,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -1471,6 +1531,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/testing_pipe.h:
 
@@ -1510,7 +1572,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/binary.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -1520,8 +1582,8 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/proxy.h \
- stipulation/slice_insertion.h stipulation/binary.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ stipulation/proxy.h stipulation/slice_insertion.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/pipe.h debugging/assert.h
 
@@ -1546,6 +1608,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1585,6 +1649,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/proxy.h:
 
 stipulation/slice_insertion.h:
@@ -1603,7 +1669,7 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -1613,8 +1679,8 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/slice_insertion.h stipulation/proxy.h \
- stipulation/boolean/and.h stipulation/boolean/true.h \
+ solving/has_solution_type.enum stipulation/slice_insertion.h \
+ stipulation/proxy.h stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/goals/slice_insertion.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/check.h solving/pipe.h \
@@ -1641,6 +1707,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1676,6 +1744,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/slice_insertion.h:
 
 stipulation/proxy.h:
@@ -1702,7 +1772,7 @@ solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/move_generator.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1736,6 +1806,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1785,7 +1857,7 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/pipe.h solving/machinery/twin.h \
@@ -1819,6 +1891,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -1872,10 +1946,11 @@ solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/has_solution_type.enum stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -1906,6 +1981,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -1919,6 +1996,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/pipe.h:
 
@@ -1949,7 +2028,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h \
  conditions/amu/attack_counter.h solving/machinery/solve.h \
@@ -1970,22 +2049,23 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/imitator.h \
  position/position.h position/color.h position/color.enum.h \
- conditions/lortap.h conditions/mummer.h conditions/patrol.h \
- conditions/provocateurs.h conditions/shielded_kings.h \
- conditions/superguards.h conditions/woozles.h conditions/wormhole.h \
- conditions/madrasi.h conditions/masand.h conditions/eiffel.h \
- conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
- conditions/grid.h conditions/edgemover.h conditions/annan.h \
- conditions/conditions.h conditions/facetoface.h \
- conditions/marscirce/phantom.h conditions/marscirce/plus.h \
- conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ position/color.enum conditions/lortap.h conditions/mummer.h \
+ conditions/patrol.h conditions/provocateurs.h \
+ conditions/shielded_kings.h conditions/superguards.h \
+ conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
+ conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
+ solving/move_generator.h conditions/bichrome.h conditions/grid.h \
+ conditions/edgemover.h conditions/annan.h conditions/conditions.h \
+ conditions/facetoface.h conditions/marscirce/phantom.h \
+ conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
+ conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h \
  optimisations/observation.h pieces/walks/hunters.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/conditional_pipe.h \
+ solving/has_solution_type.enum solving/conditional_pipe.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h solving/fork.h \
  stipulation/binary.h debugging/assert.h
@@ -2009,6 +2089,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -2094,6 +2176,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 conditions/lortap.h:
 
 conditions/mummer.h:
@@ -2158,6 +2242,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/conditional_pipe.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
@@ -2174,17 +2260,19 @@ stipulation/binary.h:
 
 debugging/assert.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
- position/side.h position/side.enum.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h pieces/pieces.h \
- output/mode.h output/mode.enum.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
- conditions/circe/assassin.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h conditions/extinction.h \
- conditions/sat.h solving/move_effect_journal.h solving/ply.h \
- position/pieceid.h conditions/vogtlaender.h conditions/antikings.h \
- solving/observation.h solving/temporary_hacks.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/side.h position/side.enum.h position/side.enum \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h pieces/pieces.h output/mode.h \
+ output/mode.enum.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h conditions/circe/assassin.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ conditions/extinction.h conditions/sat.h solving/move_effect_journal.h \
+ solving/ply.h position/pieceid.h conditions/vogtlaender.h \
+ conditions/antikings.h solving/observation.h solving/temporary_hacks.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -2203,6 +2291,8 @@ utilities/boolean.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 stipulation/stipulation.h:
 
@@ -2227,6 +2317,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/walks/vectors.h:
 
@@ -2306,17 +2398,17 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h pieces/walks/leapers.h \
  position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h pieces/walks/riders.h pieces/walks/lions.h \
- pieces/walks/roses.h pieces/walks/bouncer.h pieces/walks/pawns/pawn.h \
- pieces/walks/pawns/berolina.h pieces/walks/pawns/reverse.h \
- pieces/walks/chinese/riders.h pieces/walks/chinese/mao.h \
- pieces/walks/chinese/pawn.h pieces/walks/locusts.h pieces/walks/marine.h \
- pieces/walks/hoppers.h solving/move_generator.h \
- solving/machinery/solve.h pieces/walks/bouncy.h \
+ position/color.enum position/castling_rights.h pieces/walks/riders.h \
+ pieces/walks/lions.h pieces/walks/roses.h pieces/walks/bouncer.h \
+ pieces/walks/pawns/pawn.h pieces/walks/pawns/berolina.h \
+ pieces/walks/pawns/reverse.h pieces/walks/chinese/riders.h \
+ pieces/walks/chinese/mao.h pieces/walks/chinese/pawn.h \
+ pieces/walks/locusts.h pieces/walks/marine.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/machinery/solve.h pieces/walks/bouncy.h \
  pieces/walks/pawns/super.h pieces/walks/cardinal.h \
  pieces/walks/reflecting_bishop.h pieces/walks/combined.h \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
@@ -2349,6 +2441,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -2372,6 +2466,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 position/castling_rights.h:
 
@@ -2449,7 +2545,7 @@ solving/pipe.h:
 
 debugging/assert.h:
 solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/side.h \
- position/side.enum.h pieces/walks/pawns/en_passant.h \
+ position/side.enum.h position/side.enum pieces/walks/pawns/en_passant.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -2473,6 +2569,8 @@ solving/ply.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -2545,8 +2643,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -2554,12 +2652,13 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/proofgames.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- position/pieceid.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h solving/observation.h \
- solving/temporary_hacks.h platform/maxtime.h pieces/walks/walks.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h position/pieceid.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h solving/observation.h solving/temporary_hacks.h \
+ platform/maxtime.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h \
@@ -2588,6 +2687,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -2623,6 +2724,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
@@ -2642,6 +2745,8 @@ position/pieceid.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/pipe.h:
 
@@ -2699,7 +2804,7 @@ solving/binary$(OBJ_SUFFIX): solving/binary.c solving/binary.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/pipe.h \
  solving/fork.h solving/observation.h pieces/walks/vectors.h \
  solving/ply.h solving/temporary_hacks.h debugging/assert.h
@@ -2725,6 +2830,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -2754,10 +2861,11 @@ solving/constraint$(OBJ_SUFFIX): solving/constraint.c solving/constraint.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/conditional_pipe.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum solving/conditional_pipe.h solving/pipe.h \
+ debugging/assert.h
 
 solving/constraint.h:
 
@@ -2781,6 +2889,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -2795,6 +2905,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/conditional_pipe.h:
 
 solving/pipe.h:
@@ -2805,7 +2917,7 @@ solving/dead_end$(OBJ_SUFFIX): solving/dead_end.c solving/dead_end.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -2816,8 +2928,9 @@ solving/dead_end$(OBJ_SUFFIX): solving/dead_end.c solving/dead_end.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/avoid_unsolvable.h \
- solving/moves_traversal.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/avoid_unsolvable.h solving/moves_traversal.h solving/pipe.h \
+ debugging/assert.h
 
 solving/dead_end.h:
 
@@ -2840,6 +2953,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -2881,6 +2996,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/avoid_unsolvable.h:
 
 solving/moves_traversal.h:
@@ -2893,10 +3010,11 @@ solving/dummy_move$(OBJ_SUFFIX): solving/dummy_move.c solving/dummy_move.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/move_effect_journal.h position/castling_rights.h \
+ solving/has_solution_type.enum solving/pipe.h \
+ solving/move_effect_journal.h position/castling_rights.h \
  position/pieceid.h debugging/assert.h
 
 solving/dummy_move.h:
@@ -2921,6 +3039,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -2937,6 +3057,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/pipe.h:
 
 solving/move_effect_journal.h:
@@ -2951,10 +3073,11 @@ solving/end_of_branch$(OBJ_SUFFIX): solving/end_of_branch.c solving/end_of_branc
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/conditional_pipe.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum solving/conditional_pipe.h solving/pipe.h \
+ debugging/assert.h
 
 solving/end_of_branch.h:
 
@@ -2978,6 +3101,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -2992,6 +3117,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/conditional_pipe.h:
 
 solving/pipe.h:
@@ -3002,12 +3129,12 @@ solving/end_of_branch_goal$(OBJ_SUFFIX): solving/end_of_branch_goal.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- debugging/assert.h
+ solving/has_solution_type.enum solving/pipe.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/ply.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 solving/end_of_branch_goal.h:
 
@@ -3031,6 +3158,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3044,6 +3173,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/pipe.h:
 
@@ -3063,12 +3194,12 @@ solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- debugging/assert.h
+ solving/has_solution_type.enum solving/pipe.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/ply.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 solving/setplay_fork.h:
 
@@ -3092,6 +3223,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3105,6 +3238,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/pipe.h:
 
@@ -3124,10 +3259,10 @@ solving/if_then_else$(OBJ_SUFFIX): solving/if_then_else.c solving/if_then_else.h
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/binary.h debugging/assert.h
+ solving/has_solution_type.enum solving/binary.h debugging/assert.h
 
 solving/if_then_else.h:
 
@@ -3151,6 +3286,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3165,6 +3302,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/binary.h:
 
 debugging/assert.h:
@@ -3173,10 +3312,10 @@ solving/move_inverter$(OBJ_SUFFIX): solving/move_inverter.c solving/move_inverte
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum solving/pipe.h debugging/assert.h
 
 solving/move_inverter.h:
 
@@ -3200,6 +3339,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3214,6 +3355,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -3222,10 +3365,10 @@ solving/move_played$(OBJ_SUFFIX): solving/move_played.c solving/move_played.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum solving/pipe.h debugging/assert.h
 
 solving/move_played.h:
 
@@ -3249,6 +3392,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3263,6 +3408,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -3271,14 +3418,15 @@ solving/move_player$(OBJ_SUFFIX): solving/move_player.c solving/move_player.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  position/position.h position/color.h position/color.enum.h \
- solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
+ position/color.enum solving/move_generator.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h debugging/assert.h
 
 solving/move_player.h:
 
@@ -3301,6 +3449,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -3334,11 +3484,15 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
 solving/move_generator.h:
 
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/pipe.h:
 
@@ -3348,8 +3502,9 @@ solving/moves_traversal$(OBJ_SUFFIX): solving/moves_traversal.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -3377,6 +3532,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -3414,9 +3571,10 @@ solving/temporary_hacks$(OBJ_SUFFIX): solving/temporary_hacks.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h conditions/conditions.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h position/castling_rights.h stipulation/pipe.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/conditions.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -3469,6 +3627,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3482,6 +3642,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
 
 pieces/walks/vectors.h:
 
@@ -3588,12 +3750,12 @@ solving/pipe$(OBJ_SUFFIX): solving/pipe.c solving/pipe.h solving/machinery/solve
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/observation.h pieces/walks/vectors.h solving/ply.h \
- solving/temporary_hacks.h solving/move_generator.h solving/check.h \
- debugging/assert.h
+ solving/has_solution_type.enum solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ solving/move_generator.h solving/check.h debugging/assert.h
 
 solving/pipe.h:
 
@@ -3617,6 +3779,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3630,6 +3794,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/observation.h:
 
@@ -3648,7 +3814,7 @@ solving/fork$(OBJ_SUFFIX): solving/fork.c solving/fork.h solving/machinery/solve
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
  solving/move_generator.h solving/check.h debugging/assert.h
@@ -3674,6 +3840,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -3703,9 +3871,9 @@ solving/end_of_branch_tester$(OBJ_SUFFIX): solving/end_of_branch_tester.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -3734,6 +3902,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -3781,11 +3951,11 @@ solving/conditional_pipe$(OBJ_SUFFIX): solving/conditional_pipe.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/observation.h pieces/walks/vectors.h \
- solving/ply.h solving/temporary_hacks.h
+ solving/has_solution_type.enum solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h
 
 solving/conditional_pipe.h:
 
@@ -3809,6 +3979,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3822,6 +3994,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 solving/fork.h:
 
@@ -3837,11 +4011,11 @@ solving/testing_pipe$(OBJ_SUFFIX): solving/testing_pipe.c solving/testing_pipe.h
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/observation.h pieces/walks/vectors.h \
- solving/ply.h solving/temporary_hacks.h
+ solving/has_solution_type.enum solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h
 
 solving/testing_pipe.h:
 
@@ -3865,6 +4039,8 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
@@ -3879,6 +4055,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 solving/fork.h:
 
 solving/observation.h:
@@ -3892,10 +4070,11 @@ solving/duplex$(OBJ_SUFFIX): solving/duplex.c solving/duplex.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- stipulation/slice_insertion.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h stipulation/slice_insertion.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -3922,6 +4101,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 
@@ -3964,10 +4145,10 @@ solving/zeroposition$(OBJ_SUFFIX): solving/zeroposition.c solving/zeroposition.h
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -3994,6 +4175,8 @@ stipulation/slice_type.enum.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 pieces/pieces.h:
 

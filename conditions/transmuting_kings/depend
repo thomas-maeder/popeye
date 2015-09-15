@@ -4,8 +4,8 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  utilities/boolean.h position/side.h position/side.enum.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
- solving/observation.h solving/machinery/dispatch.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h solving/observation.h solving/machinery/dispatch.h \
  pieces/walks/vectors.h solving/ply.h debugging/trace.h \
  solving/temporary_hacks.h solving/move_generator.h \
  solving/machinery/solve.h \
@@ -43,6 +43,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 output/mode.h:
 
@@ -110,13 +112,13 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  conditions/transmuting_kings/super.h pieces/pieces.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h \
- conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/move_generator.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
+ debugging/trace.h conditions/transmuting_kings/transmuting_kings.h \
+ solving/observation.h pieces/walks/vectors.h solving/ply.h \
+ solving/temporary_hacks.h solving/move_effect_journal.h \
+ position/castling_rights.h position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/check.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -150,6 +152,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -234,10 +238,11 @@ conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  utilities/boolean.h position/side.h position/side.enum.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
- conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
- solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h conditions/transmuting_kings/transmuting_kings.h \
+ solving/observation.h solving/machinery/dispatch.h \
+ pieces/walks/vectors.h solving/ply.h debugging/trace.h \
+ solving/temporary_hacks.h solving/move_generator.h \
  solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -271,6 +276,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 output/mode.h:
 
@@ -337,9 +344,10 @@ conditions/transmuting_kings/vaulting_kings$(OBJ_SUFFIX): \
  utilities/boolean.h position/side.h position/side.enum.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h pieces/walks/vectors.h \
- solving/ply.h debugging/trace.h solving/temporary_hacks.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
+ debugging/trace.h solving/temporary_hacks.h \
  conditions/transmuting_kings/transmuting_kings.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
@@ -369,6 +377,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 output/mode.h:
 
