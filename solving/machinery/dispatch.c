@@ -490,10 +490,6 @@ void dispatch(slice_index si)
       output_plaintext_twin_intro_writer_builder_solve(si);
       break;
 
-    case STOutputLaTeXProblemIntroWriterBuilder:
-      output_latex_problem_intro_writer_builder_solve(si);
-      break;
-
     case STOutputLaTeXTwinningWriterBuilder:
       output_latex_twinning_writer_builder_solve(si);
       break;

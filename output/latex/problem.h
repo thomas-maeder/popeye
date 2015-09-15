@@ -3,11 +3,6 @@
 
 #include "stipulation/stipulation.h"
 
-/* Instrument the solving machinery with slices that write the diagram in
- * LaTeX
- */
-void output_latex_problem_intro_writer_builder_solve(slice_index si);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

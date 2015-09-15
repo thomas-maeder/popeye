@@ -21,7 +21,6 @@
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
   ENUMERATOR(STOutputPlaintextTwinIntroWriterBuilder),                  \
-  ENUMERATOR(STOutputLaTeXProblemIntroWriterBuilder),                   \
   ENUMERATOR(STOutputLaTeXTwinningWriterBuilder),                       \
   ENUMERATOR(STOutputPlainTextInstrumentSolvers),                       \
   ENUMERATOR(STOutputPlainTextInstrumentSolversBuilder),                \

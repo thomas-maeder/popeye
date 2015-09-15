@@ -48,38 +48,6 @@ void output_latex_problem_intro_writer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with slices that write the diagram in
- * LaTeX
- */
-void output_latex_problem_intro_writer_builder_solve(slice_index si)
-{
-  FILE *file = SLICE_U(si).writer.file;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
-  pipe_solve_delegate(si);
-
-  /* only write the diagram start in the initial twin */
-  pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -106,8 +74,8 @@ void output_latex_problem_writer_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriterBuilder,file),
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file)
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file),
+        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
