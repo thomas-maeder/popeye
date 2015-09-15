@@ -462,6 +462,8 @@ void output_plaintext_write_meta(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -490,6 +492,8 @@ void output_plaintext_write_board(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -516,6 +520,8 @@ void output_plaintext_write_piece_counts(slice_index si)
   WritePieceCounts(slices[si].u.position_handler.position,indentation);
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -544,6 +550,8 @@ void output_plaintext_write_royal_piece_positions(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -570,6 +578,8 @@ void output_plaintext_write_stipulation_options(slice_index si)
   indentation += WriteOptions(&being_solved);
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -598,6 +608,8 @@ void output_plaintext_write_stipulation(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -624,6 +636,8 @@ void output_plaintext_write_non_royal_attributes(slice_index si)
   WriteNonRoyalAttributedPieces(slices[si].u.position_handler.position);
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -652,6 +666,8 @@ void output_plaintext_write_conditions(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -678,6 +694,8 @@ void output_plaintext_write_mutually_exclusive_castlings(slice_index si)
   WriteCastlingMutuallyExclusive();
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -706,6 +724,8 @@ void output_plaintext_write_duplex(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -732,6 +752,8 @@ void output_plaintext_write_halfduplex(slice_index si)
   protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -760,6 +782,8 @@ void output_plaintext_write_quodlibet(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -786,6 +810,8 @@ void output_plaintext_write_grid(slice_index si)
   WriteGrid();
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -816,6 +842,8 @@ void output_plaintext_write_atob_intra(slice_index si)
 
   pipe_solve_delegate(si);
 
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -842,6 +870,8 @@ void output_plaintext_end_of_position_writers_solve(slice_index si)
   protocol_fflush(stdout);
 
   pipe_solve_delegate(si);
+
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
