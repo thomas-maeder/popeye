@@ -1822,8 +1822,21 @@ output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
- output/plaintext/protocol.h solving/pipe.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h
+ output/plaintext/protocol.h output/plaintext/position.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum pieces/walks/vectors.h position/castling_rights.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ stipulation/slice_insertion.h
 
 output/plaintext/problem.h:
 
@@ -1865,6 +1878,20 @@ input/plaintext/language.h:
 
 output/plaintext/protocol.h:
 
+output/plaintext/position.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
 solving/pipe.h:
 
 solving/machinery/solve.h:
@@ -1872,3 +1899,31 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
+stipulation/slice_insertion.h:

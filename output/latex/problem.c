@@ -75,6 +75,7 @@ void output_latex_problem_writer_solve(slice_index si)
     slice_index const prototypes[] =
     {
         alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file),
+        alloc_pipe(STOutputLaTeXInstrumentSolversBuilder),
         alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

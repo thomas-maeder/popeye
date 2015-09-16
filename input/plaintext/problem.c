@@ -70,7 +70,6 @@ void input_plaintext_problem_handle(slice_index si)
     {
         alloc_pipe(STStartOfCurrentProblem),
         alloc_pipe(STInputPlainTextTwinsHandler),
-        alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
         alloc_pipe(STTwinIdAdjuster),
         #if defined(DOMEASURE)
         alloc_pipe(STCountersWriter),
@@ -78,16 +77,12 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STStipulationCompleter),
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
-        alloc_pipe(STOutputPlainTextInstrumentSolversBuilder),
-        alloc_pipe(STOutputLaTeXInstrumentSolversBuilder),
         alloc_pipe(STSolvingMachineryIntroBuilder),
         alloc_pipe(STStartOfCurrentTwin)
     };
     slice_type const type_first_proto = SLICE_TYPE(prototypes[0]);
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
-
-    output_plaintext_build_position_writers(si);
 
     pipe_solve_delegate(si);
 

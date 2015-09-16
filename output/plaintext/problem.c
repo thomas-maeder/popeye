@@ -1,7 +1,10 @@
 #include "output/plaintext/problem.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
+#include "output/plaintext/position.h"
 #include "solving/pipe.h"
+#include "stipulation/pipe.h"
+#include "stipulation/slice_insertion.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -21,6 +24,18 @@ void output_plaintext_problem_writer_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  output_plaintext_build_position_writers(si);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        alloc_pipe(STOutputPlainTextInstrumentSolversBuilder)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
 
   pipe_solve_delegate(si);
 
