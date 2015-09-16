@@ -545,6 +545,7 @@
     ENUMERATOR(STOutputPlainTextQuodlibetWriter),                       \
     ENUMERATOR(STOutputPlainTextGridWriter),                            \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
+    ENUMERATOR(STOutputPlaintextZeropositionIntroWriter),               \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STOutputPlainTextEndOfPhaseWriter), /* write the end of a phase */      \

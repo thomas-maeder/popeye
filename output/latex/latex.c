@@ -1217,33 +1217,6 @@ void output_latex_instrument_solving_builder_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with slices that write the twinning in
- * LaTeX
- */
-void output_latex_twinning_writer_builder_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (twin_stage==twin_regular)
-  {
-    slice_index const file_owner = SLICE_NEXT2(si);
-
-    slice_index const prototypes[] =
-    {
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a LaTeX writer slice.
  * @param type slice type
  * @param file_owner identifies the slice that owns the output file

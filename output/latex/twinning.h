@@ -24,4 +24,9 @@ void LaTeXFlushTwinning(FILE *file);
  */
 void output_latex_write_twinning(slice_index si);
 
+/* Instrument the solving machinery with slices that write the twinning in
+ * LaTeX
+ */
+void output_latex_twinning_writer_builder_solve(slice_index si);;
+
 #endif

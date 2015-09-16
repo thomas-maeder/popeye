@@ -399,3 +399,25 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument the solving machinery with slices that write the twinning in
+ * LaTeX
+ */
+void output_latex_twinning_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (twin_stage==twin_regular)
+  {
+    slice_index const file_owner = SLICE_NEXT2(si);
+    slice_index const prototype = alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

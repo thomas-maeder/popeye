@@ -48,11 +48,6 @@ void output_latex_instrument_solving_builder_solve(slice_index si);
  */
 void output_latex_instrument_setup(slice_index si);
 
-/* Instrument the solving machinery with slices that write the twinning in
- * LaTeX
- */
-void output_latex_twinning_writer_builder_solve(slice_index si);
-
 void output_latex_closer_solve(slice_index si);
 
 /* Allocate a LaTeX writer slice.
