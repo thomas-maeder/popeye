@@ -350,6 +350,9 @@ void output_plaintext_write_twin_intro(slice_index si)
 
   pipe_solve_delegate(si);
 
+  /* only write the twinning once per twin (and not twice in a duplex) */
+  pipe_remove(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -373,7 +376,6 @@ void output_plaintext_twin_intro_writer_builder_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (twin_duplex_type!=twin_is_duplex)
   {
     slice_index const prototypes[] =
     {

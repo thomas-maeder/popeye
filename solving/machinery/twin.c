@@ -62,7 +62,6 @@
 twin_id_type twin_id = 1;
 
 twin_stage_type twin_stage;
-twin_duplex_type_type twin_duplex_type;
 unsigned int twin_number;
 boolean twin_is_continued;
 

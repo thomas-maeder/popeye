@@ -75,15 +75,8 @@ void duplex_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  twin_duplex_type = twin_has_duplex;
-
   pipe_solve_delegate(si);
-
-  twin_duplex_type = twin_is_duplex;
-
   half_duplex_solve(si);
-
-  twin_duplex_type = twin_no_duplex;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

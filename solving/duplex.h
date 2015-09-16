@@ -3,14 +3,6 @@
 
 #include "stipulation/stipulation.h"
 
-typedef enum
-{
-  twin_no_duplex,
-  twin_has_duplex,
-  twin_is_duplex
-} twin_duplex_type_type;
-extern twin_duplex_type_type twin_duplex_type;
-
 /* Solve a "half-duplex" problem
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
