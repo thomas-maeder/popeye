@@ -893,7 +893,7 @@ static slice_index alloc_position_handler(slice_type type, position const *pos)
   return result;
 }
 
-void output_plaintext_position_writer_builder_solve(slice_index si)
+void output_plaintext_build_position_writers(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -911,19 +911,18 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
+        alloc_pipe(STOutputPlainTextConditionsWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
-  pipe_solve_delegate(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void output_plaintext_proof_position_writer_builder_solve(slice_index si)
+void output_plaintext_build_proof_position_writers(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -939,13 +938,12 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextConditionsWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
-
-  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -968,13 +966,11 @@ static slice_index alloc_atob_intra_writer(Side starter)
   return result;
 }
 
-void output_plaintext_atob_start_position_writer_builder_solve(slice_index si)
+void output_plaintext_build_atob_start_position_writers(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  assert(find_unique_goal(si).type==goal_atob);
 
   {
     slice_index const prototypes[] = {
@@ -987,8 +983,6 @@ void output_plaintext_atob_start_position_writer_builder_solve(slice_index si)
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
-
-  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1007,7 +1001,7 @@ static void remove_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-void output_plaintext_option_noboard_solve(slice_index si)
+void output_plaintext_remove_position_writers(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1024,6 +1018,18 @@ void output_plaintext_option_noboard_solve(slice_index si)
                                              &stip_structure_visitor_noop);
     stip_traverse_structure(si,&st);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void output_plaintext_option_noboard_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  output_plaintext_remove_position_writers(si);
 
   pipe_solve_delegate(si);
 

@@ -50,10 +50,11 @@ void output_plaintext_write_halfduplex(slice_index si);
 void output_plaintext_write_quodlibet(slice_index si);
 void output_plaintext_write_grid(slice_index si);
 
-void output_plaintext_position_writer_builder_solve(slice_index si);
-void output_plaintext_proof_position_writer_builder_solve(slice_index si);
-void output_plaintext_atob_start_position_writer_builder_solve(slice_index si);
+void output_plaintext_build_position_writers(slice_index si);
+void output_plaintext_build_proof_position_writers(slice_index si);
+void output_plaintext_build_atob_start_position_writers(slice_index si);
 
+void output_plaintext_remove_position_writers(slice_index si);
 void output_plaintext_option_noboard_solve(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.

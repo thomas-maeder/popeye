@@ -451,18 +451,6 @@ void dispatch(slice_index si)
       output_plaintext_option_noboard_solve(si);
       break;
 
-    case STOutputPlainTextPositionWriterBuilder:
-      output_plaintext_position_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextProofPositionWriterBuilder:
-      output_plaintext_proof_position_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextAToBStartPositionWriterBuilder:
-      output_plaintext_atob_start_position_writer_builder_solve(si);
-      break;
-
     case STOutputPlaintextTwinIntroWriterBuilder:
       output_plaintext_twin_intro_writer_builder_solve(si);
       break;

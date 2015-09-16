@@ -215,15 +215,16 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         slice_insertion_insert(start,&prototype,1);
 
         {
-          slice_index const writer = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+          slice_index const writer = branch_find_slice(STOutputPlainTextMetaWriter,
                                                        start,
                                                        stip_traversal_context_intro);
           if (writer!=no_slice)
           {
-            pipe_append(writer,alloc_pipe(STOutputPlainTextProofPositionWriterBuilder));
-            pipe_remove(writer);
+            output_plaintext_remove_position_writers(start);
+            output_plaintext_build_proof_position_writers(start);
           }
         }
+
 
         pipe_link(proxy,alloc_goal_proofgame_reached_tester_system());
         break;
@@ -235,14 +236,14 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         slice_insertion_insert(start,&prototype,1);
 
         {
-          slice_index const writer = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+          slice_index const writer = branch_find_slice(STOutputPlainTextMetaWriter,
                                                        start,
                                                        stip_traversal_context_intro);
           if (writer!=no_slice)
           {
-            pipe_append(writer,alloc_pipe(STOutputPlainTextProofPositionWriterBuilder));
-            pipe_append(writer,alloc_pipe(STOutputPlainTextAToBStartPositionWriterBuilder));
-            pipe_remove(writer);
+            output_plaintext_remove_position_writers(start);
+            output_plaintext_build_proof_position_writers(start);
+            output_plaintext_build_atob_start_position_writers(start);
           }
         }
 

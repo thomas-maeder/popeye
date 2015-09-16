@@ -655,13 +655,6 @@ static void ReadInitialTwin(slice_index start)
           tok = ReadNextTokStr();
           tok = ParseCond(tok);
           move_effect_journal_do_remember_condition(beforeCond);
-          {
-            slice_index const prototypes[] = {
-                alloc_pipe(STOutputPlainTextConditionsWriter)
-            };
-            enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-            slice_insertion_insert(start,prototypes,nr_prototypes);
-          }
           break;
         }
 

@@ -69,7 +69,6 @@ void input_plaintext_problem_handle(slice_index si)
     slice_index const prototypes[] =
     {
         alloc_pipe(STStartOfCurrentProblem),
-        alloc_pipe(STOutputPlainTextPositionWriterBuilder),
         alloc_pipe(STInputPlainTextTwinsHandler),
         alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
         alloc_pipe(STTwinIdAdjuster),
@@ -87,6 +86,8 @@ void input_plaintext_problem_handle(slice_index si)
     slice_type const type_first_proto = SLICE_TYPE(prototypes[0]);
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
+
+    output_plaintext_build_position_writers(si);
 
     pipe_solve_delegate(si);
 
