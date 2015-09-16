@@ -53,7 +53,7 @@ void LaTeXFlushTwinning(FILE *file)
   }
 }
 
-static void BeginTwinning(void)
+static void BeginTwinning(unsigned int twin_number)
 {
   int const len = strlen(twinning);
   if (twin_number-twin_a<='z'-'a')
@@ -263,7 +263,7 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
           LaTeXWalk(entry->u.piece_change.to));
 }
 
-static void WriteTwinLetterToSolution(FILE *file)
+static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
 {
   if (twin_number-twin_a<='z'-'a')
     fprintf(file, "%c)", 'a'+twin_number-twin_a);
@@ -271,7 +271,7 @@ static void WriteTwinLetterToSolution(FILE *file)
     fprintf(file, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
-static void WriteTwinning(void)
+static void WriteTwinning(unsigned int twin_number)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
@@ -285,7 +285,7 @@ static void WriteTwinning(void)
     if (twin_is_continued)
       strcat(twinning, "+");
 
-    BeginTwinning();
+    BeginTwinning(twin_number);
 
     for (curr = base; curr!=top; ++curr)
     {
@@ -383,13 +383,14 @@ void output_latex_write_twinning(slice_index si)
 {
   slice_index const file_owner = SLICE_NEXT2(si);
   FILE * const file = SLICE_U(file_owner).writer.file;
+  unsigned int const twin_number = SLICE_U(si).twinning_handler.twin_number;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteTwinning();
-  WriteTwinLetterToSolution(file);
+  WriteTwinning(twin_number);
+  WriteTwinLetterToSolution(twin_number,file);
 
   pipe_solve_delegate(si);
 
@@ -400,25 +401,26 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void handle_twinning_event(slice_index si, twinning_event_type stage)
+static void handle_twinning_event(slice_index si, twinning_event_type event)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",stage);
+  TraceFunctionParam("%u",event);
   TraceFunctionParamListEnd();
 
-  switch (stage)
+  switch (event)
   {
-    case twin_regular:
+    case twin_zeroposition:
+      break;
+
+    default:
     {
       slice_index const file_owner = SLICE_NEXT2(si);
       slice_index const prototype = alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner);
+      SLICE_U(prototype).twinning_handler.twin_number = event-twin_regular;
       slice_insertion_insert(si,&prototype,1);
       break;
     }
-
-    default:
-      break;
   }
 
   TraceFunctionExit(__func__);

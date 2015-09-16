@@ -216,7 +216,7 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   protocol_fprintf(stdout,"%s","  ");
 }
 
-static void WriteTwinLetter(void)
+static void WriteTwinLetter(unsigned int twin_number)
 {
   if (twin_is_continued)
     protocol_fputc('+',stdout);
@@ -348,12 +348,14 @@ void output_plaintext_write_zeroposition_intro(slice_index si)
  */
 void output_plaintext_write_twin_intro(slice_index si)
 {
+  unsigned int const twin_number = SLICE_U(si).twinning_handler.twin_number;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_plaintext_message(NewLine);
-  WriteTwinLetter();
+  WriteTwinLetter(twin_number);
   WriteTwinning();
   output_plaintext_message(NewLine);
 
@@ -368,14 +370,14 @@ void output_plaintext_write_twin_intro(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void handle_twinning_event(slice_index si, twinning_event_type stage)
+static void handle_twinning_event(slice_index si, twinning_event_type event)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",stage);
+  TraceFunctionParam("%u",event);
   TraceFunctionParamListEnd();
 
-  switch (stage)
+  switch (event)
   {
     case twin_zeroposition:
     {
@@ -384,15 +386,13 @@ static void handle_twinning_event(slice_index si, twinning_event_type stage)
       break;
     }
 
-    case twin_regular:
+    default:
     {
       slice_index const prototype = alloc_pipe(STOutputPlaintextTwinIntroWriter);
+      SLICE_U(prototype).twinning_handler.twin_number = event-twin_regular;
       slice_insertion_insert(si,&prototype,1);
       break;
     }
-
-    default:
-      break;
   }
 
   TraceFunctionExit(__func__);

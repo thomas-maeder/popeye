@@ -22,7 +22,6 @@ enum
   twin_b
   /* etc. */
 };
-extern unsigned int twin_number;
 
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't

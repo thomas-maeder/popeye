@@ -36,7 +36,7 @@ struct position;
 typedef enum
 {
   twin_zeroposition,
-  twin_regular
+  twin_regular /* add 0 for a), 1 for b) etc. */
 } twinning_event_type;
 
 typedef struct
@@ -127,6 +127,11 @@ typedef struct
             int argc;
             char **argv;
         } command_line_options_parser;
+
+        struct
+        {
+            unsigned int twin_number; /* 0==a), 1==b) ... */
+        } twinning_handler;
 
         struct
         {

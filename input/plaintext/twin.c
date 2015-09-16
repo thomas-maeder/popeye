@@ -286,8 +286,6 @@ static char *ParseTwinning(char *tok, slice_index start)
   TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
-  ++twin_number;
-
   if (initial_twinning==TwinningContinued)
   {
     twin_is_continued = true;
@@ -1022,6 +1020,8 @@ void twin_id_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static unsigned int twin_number;
+
 static char *twins_handle(char *tok, slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -1029,15 +1029,15 @@ static char *twins_handle(char *tok, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_notify_twinning(si,twin_regular);
-
-  twin_number = twin_a;
   twin_is_continued = false;
 
   pipe_solve_delegate(si);
 
   while (tok)
   {
+    ++twin_number;
+    output_notify_twinning(si,twin_regular+twin_number);
+
     tok = ReadSubsequentTwin(tok,si);
 
     if (tok)
@@ -1048,7 +1048,6 @@ static char *twins_handle(char *tok, slice_index si)
         output_plaintext_input_error_message(ComNotUniq,0);
       else
       {
-        output_notify_twinning(si,twin_regular);
         pipe_solve_delegate(si);
 
         if (endToken==EndTwinTokenCount)
@@ -1097,6 +1096,8 @@ void input_plaintext_twins_handle(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  twin_number = twin_a;
+
   initialise_piece_ids();
 
   nextply(no_side);
@@ -1110,6 +1111,8 @@ void input_plaintext_twins_handle(slice_index si)
 
     output_notify_twinning(si,twin_zeroposition);
     pipe_solve_delegate(si);
+
+    output_notify_twinning(si,twin_regular+twin_number);
 
     tok = ReadNextTokStr();
     tok = ReadSubsequentTwin(tok,si);
@@ -1129,6 +1132,7 @@ void input_plaintext_twins_handle(slice_index si)
   else if (endToken==TwinProblem)
   {
     tok = ReadNextTokStr();
+    output_notify_twinning(si,twin_regular);
     tok = twins_handle(tok,si);
   }
   else

@@ -61,7 +61,6 @@
  */
 twin_id_type twin_id = 1;
 
-unsigned int twin_number;
 boolean twin_is_continued;
 
 /* Initialise the piece walk caches.
