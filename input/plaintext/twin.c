@@ -1022,21 +1022,23 @@ void twin_id_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static char *twins_handle(char *tok, slice_index start)
+static char *twins_handle(char *tok, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  output_notify_twinning(si,twin_regular);
 
   twin_number = twin_a;
   twin_is_continued = false;
 
-  pipe_solve_delegate(start);
+  pipe_solve_delegate(si);
 
   while (tok)
   {
-    tok = ReadSubsequentTwin(tok,start);
+    tok = ReadSubsequentTwin(tok,si);
 
     if (tok)
     {
@@ -1046,8 +1048,8 @@ static char *twins_handle(char *tok, slice_index start)
         output_plaintext_input_error_message(ComNotUniq,0);
       else
       {
-        twin_stage = twin_regular;
-        pipe_solve_delegate(start);
+        output_notify_twinning(si,twin_regular);
+        pipe_solve_delegate(si);
 
         if (endToken==EndTwinTokenCount)
           break;
@@ -1106,7 +1108,7 @@ void input_plaintext_twins_handle(slice_index si)
   {
     problem_instrument_zeroposition(si);
 
-    twin_stage = twin_zeroposition;
+    output_notify_twinning(si,twin_zeroposition);
     pipe_solve_delegate(si);
 
     tok = ReadNextTokStr();
@@ -1120,21 +1122,18 @@ void input_plaintext_twins_handle(slice_index si)
       output_plaintext_input_error_message(NoStipulation,0);
     else
     {
-      twin_stage = twin_regular;
       tok = ReadNextTokStr();
       tok = twins_handle(tok,si);
     }
   }
   else if (endToken==TwinProblem)
   {
-    twin_stage = twin_regular;
     tok = ReadNextTokStr();
     tok = twins_handle(tok,si);
   }
   else
   {
     twin_is_continued = false;
-    twin_stage = twin_original_position_no_twins;
     pipe_solve_delegate(si);
   }
 

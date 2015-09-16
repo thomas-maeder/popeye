@@ -400,6 +400,31 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void handle_twinning_event(slice_index si, twinning_event_type stage)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",stage);
+  TraceFunctionParamListEnd();
+
+  switch (stage)
+  {
+    case twin_regular:
+    {
+      slice_index const file_owner = SLICE_NEXT2(si);
+      slice_index const prototype = alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner);
+      slice_insertion_insert(si,&prototype,1);
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the solving machinery with slices that write the twinning in
  * LaTeX
  */
@@ -409,15 +434,25 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (twin_stage==twin_regular)
-  {
-    slice_index const file_owner = SLICE_NEXT2(si);
-    slice_index const prototype = alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+slice_index output_latex_alloc_twin_intro_writer_builder(slice_index file_owner)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",file_owner);
+  TraceFunctionParamListEnd();
+
+  result = alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file_owner);
+  SLICE_U(result).twinning_event_handler.handler = &handle_twinning_event;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

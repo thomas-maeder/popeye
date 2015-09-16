@@ -2,6 +2,7 @@
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/position.h"
+#include "output/plaintext/twinning.h"
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -30,7 +31,7 @@ void output_plaintext_problem_writer_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+        output_plaintext_alloc_twin_intro_writer_builder(),
         alloc_pipe(STOutputPlainTextInstrumentSolversBuilder)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

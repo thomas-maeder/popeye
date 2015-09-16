@@ -77,7 +77,7 @@ void output_latex_problem_writer_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file_owner),
+        output_latex_alloc_twin_intro_writer_builder(file_owner),
         alloc_output_latex_writer(STOutputLaTeXInstrumentSolversBuilder,file_owner),
         alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file_owner)
     };

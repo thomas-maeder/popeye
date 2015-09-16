@@ -27,6 +27,8 @@ void output_latex_write_twinning(slice_index si);
 /* Instrument the solving machinery with slices that write the twinning in
  * LaTeX
  */
-void output_latex_twinning_writer_builder_solve(slice_index si);;
+void output_latex_twinning_writer_builder_solve(slice_index si);
+
+slice_index output_latex_alloc_twin_intro_writer_builder(slice_index file_owner);
 
 #endif

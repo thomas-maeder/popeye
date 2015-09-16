@@ -1825,9 +1825,10 @@ output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
  output/plaintext/protocol.h output/plaintext/position.h \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ output/plaintext/twinning.h solving/pipe.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -1891,6 +1892,8 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+output/plaintext/twinning.h:
 
 solving/pipe.h:
 

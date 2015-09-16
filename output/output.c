@@ -64,3 +64,42 @@ slice_index alloc_output_mode_selector(output_mode mode)
   TraceFunctionResultEnd();
   return result;
 }
+
+static void notify_medium(slice_index si, stip_structure_traversal *st)
+{
+  twinning_event_type const * const event = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*SLICE_U(si).twinning_event_handler.handler)(si,*event);
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Notify the output machinery about a twinning event
+ * @param si identifies the slice that detected the twinning (at the same time
+ *           to be used as the starting point of any instrumentation)
+ * @param stage the twinning event
+ */
+void output_notify_twinning(slice_index si, twinning_event_type event)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",event);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&event);
+  stip_structure_traversal_override_single(&st,STOutputPlaintextTwinIntroWriterBuilder,&notify_medium);
+  stip_structure_traversal_override_single(&st,STOutputLaTeXTwinningWriterBuilder,&notify_medium);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

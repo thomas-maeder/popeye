@@ -33,6 +33,12 @@ enum
 struct circe_variant_type;
 struct position;
 
+typedef enum
+{
+  twin_zeroposition,
+  twin_regular
+} twinning_event_type;
+
 typedef struct
 {
     slice_type type;
@@ -121,6 +127,11 @@ typedef struct
             int argc;
             char **argv;
         } command_line_options_parser;
+
+        struct
+        {
+            void (*handler)(slice_index si, twinning_event_type stage);
+        } twinning_event_handler;
     } u;
 } Slice;
 

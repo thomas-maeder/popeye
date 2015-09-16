@@ -48,4 +48,6 @@ void output_plaintext_write_twin_intro(slice_index si);
  */
 void output_plaintext_twin_intro_writer_builder_solve(slice_index si);
 
+slice_index output_plaintext_alloc_twin_intro_writer_builder(void);
+
 #endif

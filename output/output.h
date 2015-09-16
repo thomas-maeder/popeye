@@ -43,4 +43,6 @@ boolean output_goal_preempts_check(goal_type goal);
  */
 slice_index alloc_output_mode_selector(output_mode mode);
 
+void output_notify_twinning(slice_index si, twinning_event_type stage);
+
 #endif

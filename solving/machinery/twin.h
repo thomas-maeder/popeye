@@ -16,14 +16,6 @@ extern twin_id_type twin_id;
 /* is the current twin a continued twin? */
 extern boolean twin_is_continued;
 
-typedef enum
-{
-  twin_original_position_no_twins,
-  twin_zeroposition,
-  twin_regular
-} twin_stage_type;
-extern twin_stage_type twin_stage;
-
 enum
 {
   twin_a,
