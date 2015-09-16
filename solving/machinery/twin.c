@@ -61,8 +61,6 @@
  */
 twin_id_type twin_id = 1;
 
-boolean twin_is_continued;
-
 /* Initialise the piece walk caches.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

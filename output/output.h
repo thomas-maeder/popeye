@@ -43,6 +43,14 @@ boolean output_goal_preempts_check(goal_type goal);
  */
 slice_index alloc_output_mode_selector(output_mode mode);
 
-void output_notify_twinning(slice_index si, twinning_event_type stage);
+/* Notify the output machinery about a twinning event
+ * @param si identifies the slice that detected the twinning (at the same time
+ *           to be used as the starting point of any instrumentation)
+ * @param stage the twinning event
+ * @param continued is the twin continued?
+ */
+void output_notify_twinning(slice_index si,
+                            twinning_event_type event,
+                            boolean continued);
 
 #endif

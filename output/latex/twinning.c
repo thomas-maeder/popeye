@@ -67,10 +67,10 @@ static void EndTwinning(void)
   strcat(twinning,"{\\newline}");
 }
 
-static boolean find_removal(move_effect_journal_index_type top,
+static boolean find_removal(move_effect_journal_index_type base,
+                            move_effect_journal_index_type top,
                             square on)
 {
-  move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
   for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
@@ -110,14 +110,15 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
   }
 }
 
-static void WritePieceCreation(move_effect_journal_index_type curr)
+static void WritePieceCreation(move_effect_journal_index_type base,
+                               move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
   int const len = strlen(twinning);
 
   sprintf(twinning+len,
           "%s\\%c%s %c%c",
-          find_removal(curr,entry->u.piece_addition.added.on) ? "" : "+",
+          find_removal(base,curr,entry->u.piece_addition.added.on) ? "" : "+",
           is_piece_neutral(entry->u.piece_addition.added.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.added.flags, White) ? 'w' : 's'),
           LaTeXWalk(entry->u.piece_addition.added.walk),
           'a'-nr_of_slack_files_left_of_board+entry->u.piece_addition.added.on%onerow,
@@ -271,10 +272,10 @@ static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
     fprintf(file, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
-static void WriteTwinning(unsigned int twin_number)
+static void WriteTwinning(unsigned int twin_number, boolean continued)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
-  move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
+  move_effect_journal_index_type const base = continued ? last_horizon : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
   boolean written_on_last_entry = false;
 
@@ -282,7 +283,7 @@ static void WriteTwinning(unsigned int twin_number)
 
   if (base<top)
   {
-    if (twin_is_continued)
+    if (continued)
       strcat(twinning, "+");
 
     BeginTwinning(twin_number);
@@ -298,7 +299,7 @@ static void WriteTwinning(unsigned int twin_number)
       switch (move_effect_journal[curr].type)
       {
         case move_effect_piece_creation:
-          WritePieceCreation(curr);
+          WritePieceCreation(base,curr);
           written_on_last_entry = true;
           break;
 
@@ -384,12 +385,13 @@ void output_latex_write_twinning(slice_index si)
   slice_index const file_owner = SLICE_NEXT2(si);
   FILE * const file = SLICE_U(file_owner).writer.file;
   unsigned int const twin_number = SLICE_U(si).twinning_handler.twin_number;
+  boolean const continued = SLICE_U(si).twinning_handler.continued;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteTwinning(twin_number);
+  WriteTwinning(twin_number,continued);
   WriteTwinLetterToSolution(twin_number,file);
 
   pipe_solve_delegate(si);
@@ -401,11 +403,14 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void handle_twinning_event(slice_index si, twinning_event_type event)
+static void handle_twinning_event(slice_index si,
+                                  twinning_event_type event,
+                                  boolean continued)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",event);
+  TraceFunctionParam("%u",continued);
   TraceFunctionParamListEnd();
 
   switch (event)
@@ -418,6 +423,7 @@ static void handle_twinning_event(slice_index si, twinning_event_type event)
       slice_index const file_owner = SLICE_NEXT2(si);
       slice_index const prototype = alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner);
       SLICE_U(prototype).twinning_handler.twin_number = event-twin_regular;
+      SLICE_U(prototype).twinning_handler.continued = continued;
       slice_insertion_insert(si,&prototype,1);
       break;
     }

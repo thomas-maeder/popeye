@@ -131,11 +131,14 @@ typedef struct
         struct
         {
             unsigned int twin_number; /* 0==a), 1==b) ... */
+            boolean continued;
         } twinning_handler;
 
         struct
         {
-            void (*handler)(slice_index si, twinning_event_type stage);
+            void (*handler)(slice_index si,
+                            twinning_event_type event,
+                            boolean continued);
         } twinning_event_handler;
     } u;
 } Slice;

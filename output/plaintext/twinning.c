@@ -20,10 +20,10 @@
  */
 static move_effect_journal_index_type water_line;
 
-static boolean find_removal(move_effect_journal_index_type top,
+static boolean find_removal(move_effect_journal_index_type base,
+                            move_effect_journal_index_type top,
                             square on)
 {
-  move_effect_journal_index_type const base = twin_is_continued ? water_line : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
   for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
@@ -62,11 +62,12 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
   }
 }
 
-static void WritePieceCreation(move_effect_journal_index_type curr)
+static void WritePieceCreation(move_effect_journal_index_type base,
+                               move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  if (!find_removal(curr,entry->u.piece_addition.added.on))
+  if (!find_removal(base,curr,entry->u.piece_addition.added.on))
     protocol_fputc('+',stdout);
 
   WriteSpec(&output_plaintext_engine,
@@ -216,9 +217,9 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   protocol_fprintf(stdout,"%s","  ");
 }
 
-static void WriteTwinLetter(unsigned int twin_number)
+static void WriteTwinLetter(unsigned int twin_number, boolean continued)
 {
-  if (twin_is_continued)
+  if (continued)
     protocol_fputc('+',stdout);
 
   if (twin_number-twin_a<='z'-'a')
@@ -227,10 +228,10 @@ static void WriteTwinLetter(unsigned int twin_number)
     protocol_fprintf(stdout,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
-static void WriteTwinning(void)
+static void WriteTwinning(boolean continued)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
-  move_effect_journal_index_type const base = twin_is_continued ? water_line : move_effect_journal_base[ply_twinning];
+  move_effect_journal_index_type const base = continued ? water_line : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
 
   assert(base<=top);
@@ -242,7 +243,7 @@ static void WriteTwinning(void)
     switch (entry->type)
     {
       case move_effect_piece_creation:
-        WritePieceCreation(curr);
+        WritePieceCreation(base,curr);
         break;
 
       case move_effect_piece_removal:
@@ -349,14 +350,15 @@ void output_plaintext_write_zeroposition_intro(slice_index si)
 void output_plaintext_write_twin_intro(slice_index si)
 {
   unsigned int const twin_number = SLICE_U(si).twinning_handler.twin_number;
+  boolean const continued = SLICE_U(si).twinning_handler.continued;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_plaintext_message(NewLine);
-  WriteTwinLetter(twin_number);
-  WriteTwinning();
+  WriteTwinLetter(twin_number,continued);
+  WriteTwinning(continued);
   output_plaintext_message(NewLine);
 
   water_line = move_effect_journal_base[ply_twinning+1];
@@ -370,11 +372,14 @@ void output_plaintext_write_twin_intro(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void handle_twinning_event(slice_index si, twinning_event_type event)
+static void handle_twinning_event(slice_index si,
+                                  twinning_event_type event,
+                                  boolean continued)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",event);
+  TraceFunctionParam("%u",continued);
   TraceFunctionParamListEnd();
 
   switch (event)
@@ -390,6 +395,7 @@ static void handle_twinning_event(slice_index si, twinning_event_type event)
     {
       slice_index const prototype = alloc_pipe(STOutputPlaintextTwinIntroWriter);
       SLICE_U(prototype).twinning_handler.twin_number = event-twin_regular;
+      SLICE_U(prototype).twinning_handler.continued = continued;
       slice_insertion_insert(si,&prototype,1);
       break;
     }

@@ -13,9 +13,6 @@ typedef unsigned long twin_id_type;
  */
 extern twin_id_type twin_id;
 
-/* is the current twin a continued twin? */
-extern boolean twin_is_continued;
-
 enum
 {
   twin_a,
