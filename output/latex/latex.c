@@ -17,6 +17,7 @@
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "solving/pipe.h"
 #include "conditions/bgl.h"
 #include "conditions/grid.h"
@@ -29,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static FILE *LaTeXFile;
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
@@ -237,45 +237,43 @@ static void WriteIntro(FILE *file)
   TraceFunctionResultEnd();
 }
 
-boolean LaTeXSetup(slice_index start)
+void LaTeXSetup(slice_index start)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  LaTeXFile = fopen(InputLine,"w");
-  if (LaTeXFile==NULL)
   {
-    output_plaintext_input_error_message(WrOpenError,0);
-    result = false;
-  }
-  else
-  {
-    slice_index const proto = alloc_output_latex_writer(STOutputLaTeXProblemWriter,
-                                                        LaTeXFile);
-    slice_insertion_insert(start,&proto,1);
-    WriteIntro(LaTeXFile);
-    result = true;
+    slice_index const writer = branch_find_slice(STOutputLaTeXProblemWriter,
+                                                 start,
+                                                 stip_traversal_context_intro);
+    slice_index const file_owner = SLICE_NEXT2(writer);
+
+    assert(writer!=no_slice);
+
+    SLICE_U(file_owner).writer.file = fopen(InputLine,"w");
+    if (SLICE_U(file_owner).writer.file==NULL)
+      output_plaintext_input_error_message(WrOpenError,0);
+    else
+      WriteIntro(SLICE_U(file_owner).writer.file);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-void LaTeXShutdown(void)
+static void LaTeXShutdown(slice_index file_owner)
 {
+  FILE * const file = SLICE_U(file_owner).writer.file;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (LaTeXFile!=0)
+  if (file!=0)
   {
-    WriteCommand(LaTeXFile,"putsol");
-    WriteFixElement(LaTeXFile,"end","document",0);
-    fclose(LaTeXFile);
-    LaTeXFile = NULL;
+    WriteCommand(file,"putsol");
+    WriteFixElement(file,"end","document",0);
+    fclose(file);
+    SLICE_U(file_owner).writer.file = NULL;
   }
 
   TraceFunctionExit(__func__);
@@ -284,9 +282,14 @@ void LaTeXShutdown(void)
 
 void output_latex_closer_solve(slice_index si)
 {
+  slice_index const proto = alloc_output_latex_writer(STOutputLaTeXProblemWriter,
+                                                      si);
+  SLICE_U(proto).writer.file = 0;
+  slice_insertion_insert(si,&proto,1);
+
   pipe_solve_delegate(si);
 
-  LaTeXShutdown();
+  LaTeXShutdown(si);
 }
 
 void LaTexOpenSolution(FILE *file)
@@ -1167,7 +1170,8 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
  */
 void output_latex_instrument_solving(slice_index si)
 {
-  FILE * const file = SLICE_U(si).writer.file;
+  slice_index const file_owner = SLICE_NEXT2(si);
+  FILE * const file = SLICE_U(file_owner).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1193,7 +1197,7 @@ void output_latex_instrument_solving(slice_index si)
 
 void output_latex_instrument_solving_builder_solve(slice_index si)
 {
-  FILE * const file = SLICE_U(si).writer.file;
+  slice_index const file_owner = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1201,7 +1205,7 @@ void output_latex_instrument_solving_builder_solve(slice_index si)
 
   {
     slice_index const prototypes[] = {
-        alloc_output_latex_writer(STOutputLaTeXInstrumentSolvers,file)
+        alloc_output_latex_writer(STOutputLaTeXInstrumentSolvers,file_owner)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -1224,11 +1228,11 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
 
   if (twin_stage==twin_regular)
   {
-    FILE * const file = SLICE_U(si).writer.file;
+    slice_index const file_owner = SLICE_NEXT2(si);
 
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file)
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriter,file_owner)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -1242,10 +1246,10 @@ void output_latex_twinning_writer_builder_solve(slice_index si)
 
 /* Allocate a LaTeX writer slice.
  * @param type slice type
- * @param file output file
+ * @param file_owner identifies the slice that owns the output file
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_writer(slice_type type, FILE *file)
+slice_index alloc_output_latex_writer(slice_type type, slice_index file_owner)
 {
   slice_index result;
 
@@ -1253,7 +1257,7 @@ slice_index alloc_output_latex_writer(slice_type type, FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  SLICE_U(result).writer.file = file;
+  SLICE_NEXT2(result) = file_owner;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

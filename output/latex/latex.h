@@ -12,8 +12,7 @@
 extern output_engine_type const output_latex_engine;
 extern output_symbol_table_type const output_latex_symbol_table;
 
-boolean LaTeXSetup(slice_index start);
-void LaTeXShutdown(void);
+void LaTeXSetup(slice_index start);
 
 void LaTeXBeginDiagram(FILE *file);
 void LaTeXEndDiagram(FILE *file);
@@ -58,9 +57,9 @@ void output_latex_closer_solve(slice_index si);
 
 /* Allocate a LaTeX writer slice.
  * @param type slice type
- * @param file output file
+ * @param file_owner identifies the slice that owns the output file
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_writer(slice_type type, FILE *file);
+slice_index alloc_output_latex_writer(slice_type type, slice_index file_owner);
 
 #endif

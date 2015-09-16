@@ -564,9 +564,7 @@ static char *ReadLaTeXToken(slice_index start)
 
   if (ReadToEndOfLine())
   {
-    LaTeXShutdown();
     LaTeXSetup(start);
-
     result = ParseLaTeXPieces();
   }
   else

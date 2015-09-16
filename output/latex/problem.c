@@ -27,7 +27,8 @@
  */
 void output_latex_problem_intro_writer_solve(slice_index si)
 {
-  FILE * const file = SLICE_U(si).writer.file;
+  slice_index const file_owner = SLICE_NEXT2(si);
+  FILE * const file = SLICE_U(file_owner).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -63,32 +64,34 @@ void output_latex_problem_intro_writer_solve(slice_index si)
  */
 void output_latex_problem_writer_solve(slice_index si)
 {
-  FILE * const file = SLICE_U(si).writer.file;
+  slice_index const file_owner = SLICE_NEXT2(si);
+  FILE * const file = SLICE_U(file_owner).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  LaTeXBeginDiagram(file);
-
+  if (file!=0)
   {
     slice_index const prototypes[] =
     {
-        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file),
-        alloc_output_latex_writer(STOutputLaTeXInstrumentSolversBuilder,file),
-        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
+        alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file_owner),
+        alloc_output_latex_writer(STOutputLaTeXInstrumentSolversBuilder,file_owner),
+        alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file_owner)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
+
+    LaTeXBeginDiagram(file);
+
+    pipe_solve_delegate(si);
+
+    LaTexCloseSolution(file);
+    LaTeXFlushTwinning(file);
+    LaTeXCo(file);
+    LaTeXEndDiagram(file);
+    LaTeXHfill(file);
   }
-
-  pipe_solve_delegate(si);
-
-  LaTexCloseSolution(file);
-  LaTeXFlushTwinning(file);
-  LaTeXCo(file);
-  LaTeXEndDiagram(file);
-  LaTeXHfill(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
