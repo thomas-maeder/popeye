@@ -463,30 +463,6 @@ void dispatch(slice_index si)
       output_plaintext_atob_start_position_writer_builder_solve(si);
       break;
 
-    case STOutputPlainTextConditionsWriterBuilder:
-      output_plaintext_conditions_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder:
-      output_plaintext_mutually_exclusive_castlings_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextDuplexWriterBuilder:
-      output_plaintext_separate_duplex_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextHalfDuplexWriterBuilder:
-      output_plaintext_separate_halfduplex_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextQuodlibetWriterBuilder:
-      output_plaintext_separate_quodlibet_writer_builder_solve(si);
-      break;
-
-    case STOutputPlainTextSeparateGridWriterBuilder:
-      output_plaintext_separate_grid_writer_builder_solve(si);
-      break;
-
     case STOutputPlaintextTwinIntroWriterBuilder:
       output_plaintext_twin_intro_writer_builder_solve(si);
       break;

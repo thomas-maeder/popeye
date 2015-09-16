@@ -657,7 +657,7 @@ static void ReadInitialTwin(slice_index start)
           move_effect_journal_do_remember_condition(beforeCond);
           {
             slice_index const prototypes[] = {
-                alloc_pipe(STOutputPlainTextConditionsWriterBuilder)
+                alloc_pipe(STOutputPlainTextConditionsWriter)
             };
             enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
             slice_insertion_insert(start,prototypes,nr_prototypes);

@@ -14,12 +14,6 @@
   ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
   ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
   ENUMERATOR(STOutputPlainTextAToBStartPositionWriterBuilder),          \
-  ENUMERATOR(STOutputPlainTextConditionsWriterBuilder),                 \
-  ENUMERATOR(STOutputPlainTextQuodlibetWriterBuilder),                  \
-  ENUMERATOR(STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder), \
-  ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
-  ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
-  ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
   ENUMERATOR(STOutputPlaintextTwinIntroWriterBuilder),                  \
   ENUMERATOR(STOutputLaTeXTwinningWriterBuilder),                       \
   ENUMERATOR(STOutputPlainTextInstrumentSolvers),                       \

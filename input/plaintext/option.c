@@ -58,7 +58,7 @@ static void ReadMutuallyExclusiveCastling(slice_index start)
 
     {
       slice_index const prototypes[] = {
-          alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder)
+          alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(start,prototypes,nr_prototypes);
@@ -304,7 +304,7 @@ char *ParseOpt(slice_index start)
         else
         {
           input_instrument_duplex(start,STDuplexSolver);
-          input_instrument_duplex(start,STOutputPlainTextDuplexWriterBuilder);
+          input_instrument_duplex(start,STOutputPlainTextDuplexWriter);
         }
         break;
 
@@ -314,7 +314,7 @@ char *ParseOpt(slice_index start)
         else
         {
           input_instrument_duplex(start,STHalfDuplexSolver);
-          input_instrument_duplex(start,STOutputPlainTextHalfDuplexWriterBuilder);
+          input_instrument_duplex(start,STOutputPlainTextHalfDuplexWriter);
         }
         break;
 
@@ -331,7 +331,7 @@ char *ParseOpt(slice_index start)
       case writegrid:
       {
         slice_index const prototypes[] = {
-            alloc_pipe(STOutputPlainTextSeparateGridWriterBuilder)
+            alloc_pipe(STOutputPlainTextGridWriter)
         };
         enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
         slice_insertion_insert(start,prototypes,nr_prototypes);
@@ -341,7 +341,7 @@ char *ParseOpt(slice_index start)
       case quodlibet:
       {
         slice_index const prototypes[] = {
-            alloc_pipe(STOutputPlainTextQuodlibetWriterBuilder)
+            alloc_pipe(STOutputPlainTextQuodlibetWriter)
         };
         enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
         slice_insertion_insert(start,prototypes,nr_prototypes);
