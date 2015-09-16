@@ -71,7 +71,9 @@ void output_latex_problem_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (file!=0)
+  if (file==0)
+    pipe_solve_delegate(si);
+  else
   {
     slice_index const prototypes[] =
     {
