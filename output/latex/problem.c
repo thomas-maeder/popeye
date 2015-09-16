@@ -27,7 +27,7 @@
  */
 void output_latex_problem_intro_writer_solve(slice_index si)
 {
-  FILE *file = SLICE_U(si).writer.file;
+  FILE * const file = SLICE_U(si).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -63,7 +63,7 @@ void output_latex_problem_intro_writer_solve(slice_index si)
  */
 void output_latex_problem_writer_solve(slice_index si)
 {
-  FILE *file = SLICE_U(si).writer.file;
+  FILE * const file = SLICE_U(si).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -75,7 +75,7 @@ void output_latex_problem_writer_solve(slice_index si)
     slice_index const prototypes[] =
     {
         alloc_output_latex_writer(STOutputLaTeXTwinningWriterBuilder,file),
-        alloc_pipe(STOutputLaTeXInstrumentSolversBuilder),
+        alloc_output_latex_writer(STOutputLaTeXInstrumentSolversBuilder,file),
         alloc_output_latex_writer(STOutputLaTeXProblemIntroWriter,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

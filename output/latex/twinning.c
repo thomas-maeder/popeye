@@ -381,7 +381,7 @@ static void WriteTwinning(void)
  */
 void output_latex_write_twinning(slice_index si)
 {
-  FILE *file = SLICE_U(si).writer.file;
+  FILE * const file = SLICE_U(si).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

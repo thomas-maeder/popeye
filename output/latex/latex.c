@@ -1167,17 +1167,18 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
  */
 void output_latex_instrument_solving(slice_index si)
 {
+  FILE * const file = SLICE_U(si).writer.file;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (LaTeXFile!=0)
   {
     stip_structure_traversal st;
 
     TraceStipulation(si);
 
-    stip_structure_traversal_init(&st,LaTeXFile);
+    stip_structure_traversal_init(&st,file);
     stip_structure_traversal_override_single(&st,
                                              STOutputModeSelector,
                                              &visit_output_mode_selector);
@@ -1192,13 +1193,15 @@ void output_latex_instrument_solving(slice_index si)
 
 void output_latex_instrument_solving_builder_solve(slice_index si)
 {
+  FILE * const file = SLICE_U(si).writer.file;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
     slice_index const prototypes[] = {
-        alloc_pipe(STOutputLaTeXInstrumentSolvers)
+        alloc_output_latex_writer(STOutputLaTeXInstrumentSolvers,file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
