@@ -72,4 +72,6 @@ void output_plaintext_option_noboard_solve(slice_index si);
  */
 void output_plaintext_end_of_position_writers_solve(slice_index si);
 
+boolean output_plaintext_are_there_position_writers(slice_index si);
+
 #endif

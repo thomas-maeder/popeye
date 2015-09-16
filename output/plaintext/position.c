@@ -23,6 +23,7 @@
 #include "solving/proofgames.h"
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -986,6 +987,27 @@ void output_plaintext_build_atob_start_position_writers(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+boolean output_plaintext_are_there_position_writers(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const writer = branch_find_slice(STOutputPlainTextMetaWriter,
+                                                 si,
+                                                 stip_traversal_context_intro);
+    result = writer!=no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void remove_writer(slice_index si, stip_structure_traversal *st)

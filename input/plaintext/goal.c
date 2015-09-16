@@ -2,9 +2,9 @@
 #include "input/plaintext/geometry/square.h"
 #include "input/plaintext/token.h"
 #include "output/output.h"
+#include "output/plaintext/position.h"
 #include "output/plaintext/message.h"
 #include "conditions/imitator.h"
-#include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/goals/target/reached_tester.h"
@@ -214,15 +214,10 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         slice_index const prototype = alloc_pipe(STProofSolverBuilder);
         slice_insertion_insert(start,&prototype,1);
 
+        if (output_plaintext_are_there_position_writers(start))
         {
-          slice_index const writer = branch_find_slice(STOutputPlainTextMetaWriter,
-                                                       start,
-                                                       stip_traversal_context_intro);
-          if (writer!=no_slice)
-          {
-            output_plaintext_remove_position_writers(start);
-            output_plaintext_build_proof_position_writers(start);
-          }
+          output_plaintext_remove_position_writers(start);
+          output_plaintext_build_proof_position_writers(start);
         }
 
 
@@ -235,16 +230,11 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         slice_index const prototype = alloc_pipe(STAToBSolverBuilder);
         slice_insertion_insert(start,&prototype,1);
 
+        if (output_plaintext_are_there_position_writers(start))
         {
-          slice_index const writer = branch_find_slice(STOutputPlainTextMetaWriter,
-                                                       start,
-                                                       stip_traversal_context_intro);
-          if (writer!=no_slice)
-          {
-            output_plaintext_remove_position_writers(start);
-            output_plaintext_build_proof_position_writers(start);
-            output_plaintext_build_atob_start_position_writers(start);
-          }
+          output_plaintext_remove_position_writers(start);
+          output_plaintext_build_proof_position_writers(start);
+          output_plaintext_build_atob_start_position_writers(start);
         }
 
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
