@@ -53,7 +53,7 @@ void stoponshortsolutions_propagator_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (has_short_solution_been_found_in_problem())
-    option_interruption_remember(SLICE_NEXT2(si))
+    option_interruption_remember(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -94,7 +94,7 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
   pipe_solve_delegate(si);
 
   if (was_max_nr_solutions_per_target_position_reached())
-    option_interruption_remember(SLICE_NEXT2(si))
+    option_interruption_remember(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
