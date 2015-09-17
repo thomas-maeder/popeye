@@ -96,6 +96,8 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
   if (was_max_nr_solutions_per_target_position_reached())
     option_interruption_remember(SLICE_NEXT2(si));
 
+  max_nr_solutions_per_target_position = ULONG_MAX;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
