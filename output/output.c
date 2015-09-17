@@ -68,7 +68,7 @@ slice_index alloc_output_mode_selector(output_mode mode)
 typedef struct
 {
     twinning_event_type event;
-    boolean continued
+    boolean continued;
 } notification_struct;
 
 static void notify_medium(slice_index si, stip_structure_traversal *st)

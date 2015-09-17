@@ -8,9 +8,9 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  output/mode.h output/mode.enum.h output/mode.enum \
  options/stoponshortsolutions/initialiser.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
- options/stoponshortsolutions/filter.h stipulation/slice_insertion.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ options/stoponshortsolutions/filter.h options/interruption.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -19,7 +19,8 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/help_play/branch.h solving/pipe.h debugging/assert.h
+ stipulation/pipe.h stipulation/branch.h stipulation/help_play/branch.h \
+ solving/pipe.h debugging/assert.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -63,6 +64,8 @@ debugging/trace.h:
 
 options/stoponshortsolutions/filter.h:
 
+options/interruption.h:
+
 stipulation/slice_insertion.h:
 
 stipulation/structure_traversal.h:
@@ -88,6 +91,10 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/help_play/branch.h:
 

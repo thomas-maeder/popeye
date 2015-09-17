@@ -321,6 +321,7 @@
 #include "debugging/assert.h"
 #include "platform/platform.h"
 #include "platform/maxmem.h"
+#include "platform/maxtime.h"
 #include "platform/timer.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
