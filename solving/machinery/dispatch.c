@@ -444,10 +444,6 @@ void dispatch(slice_index si)
       input_plaintext_initial_twin_reader_solve(si);
       break;
 
-    case STOutputPlainTextSolvingOutcomeWriter:
-      output_plaintext_solving_outcome_writer_solve(si);
-      break;
-
     case STInputPlainTextTwinsHandler:
       input_plaintext_twins_handle(si);
       break;

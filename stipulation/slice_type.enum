@@ -37,7 +37,6 @@
   ENUMERATOR(STInputPlainTextInitialTwinReader),                        \
   ENUMERATOR(STInputPlainTextTwinsHandler),                             \
   ENUMERATOR(STStartOfCurrentProblem),                                  \
-  ENUMERATOR(STOutputPlainTextSolvingOutcomeWriter),                                   \
   ENUMERATOR(STStartOfCurrentTwin),                                     \
   ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \

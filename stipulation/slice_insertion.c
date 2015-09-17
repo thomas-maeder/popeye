@@ -595,7 +595,6 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXProblemWriter,
   STOptionInterruption,
   STStartOfCurrentProblem,
-  STOutputPlainTextSolvingOutcomeWriter,
   STMaxSolutionsPropagator,
   STIntelligentSolutionsPerTargetPosPropagator,
   STStopOnShortSolutionsPropagator,
