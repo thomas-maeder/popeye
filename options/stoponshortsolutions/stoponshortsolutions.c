@@ -42,6 +42,46 @@ void stoponshortsolutions_resetter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
+ */
+void stoponshortsolutions_propagator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  if (has_short_solution_been_found_in_problem())
+    option_interruption_remember(SLICE_NEXT2(si))
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with option stop on short solutions
+ * @param si identifies the slice where to start instrumenting
+ */
+void stoponshortsolutions_instrument_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const interruption = branch_find_slice(STOptionInterruption,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsPropagator);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Has a short solution been found in the current problem?
  */
 boolean has_short_solution_been_found_in_problem(void)

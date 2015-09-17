@@ -11,6 +11,7 @@
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
 #include "pieces/walks/pawns/en_passant.h"
@@ -194,6 +195,10 @@ char *ParseOpt(slice_index start)
             indexx = OptCount;
           }
         }
+        break;
+
+      case stoponshort:
+        stoponshortsolutions_instrument_solving(start);
         break;
 
       case intelligent:

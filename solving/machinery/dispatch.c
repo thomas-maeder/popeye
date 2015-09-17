@@ -1607,6 +1607,10 @@ void dispatch(slice_index si)
       maxsolutions_initialiser_solve(si);
       break;
 
+    case STStopOnShortSolutionsPropagator:
+      stoponshortsolutions_propagator_solve(si);
+      break;
+
     case STStopOnShortSolutionsInitialiser:
       stoponshortsolutions_initialiser_solve(si);
       break;

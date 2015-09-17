@@ -66,7 +66,8 @@ void maxsolutions_propagator_solve(slice_index si)
 void maxsolutions_instrument_solving(slice_index si, unsigned int i)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",interruption);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
   {

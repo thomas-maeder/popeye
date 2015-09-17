@@ -76,7 +76,6 @@ void output_plaintext_problem_writer_solve(slice_index si)
 }
 
 #include "platform/maxtime.h"
-#include "options/stoponshortsolutions/stoponshortsolutions.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -100,7 +99,6 @@ void output_plaintext_solving_outcome_writer_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (option_interruption_is_set(SLICE_NEXT2(si))
-      || has_short_solution_been_found_in_problem()
       || hasMaxtimeElapsed())
     output_plaintext_message(InterMessage);
   else

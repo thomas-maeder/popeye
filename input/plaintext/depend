@@ -1476,6 +1476,7 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  options/degenerate_tree.h options/maxflightsquares.h \
  options/nontrivial.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
+ options/stoponshortsolutions/stoponshortsolutions.h \
  output/plaintext/language_dependant.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  pieces/walks/vectors.h position/castling_rights.h \
@@ -1567,6 +1568,8 @@ options/maxflightsquares.h:
 options/nontrivial.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+options/stoponshortsolutions/stoponshortsolutions.h:
 
 output/plaintext/language_dependant.h:
 

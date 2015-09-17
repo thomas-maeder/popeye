@@ -15,10 +15,20 @@
  */
 void short_solution_found(void);
 
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
+ */
+void stoponshortsolutions_propagator_solve(slice_index si);
+
 /* Reset the internal state to "no short solution found" in the
  * current problem
  */
 void stoponshortsolutions_resetter_solve(slice_index si);
+
+/* Instrument the solving machinery with option stop on short solutions
+ * @param si identifies the slice where to start instrumenting
+ */
+void stoponshortsolutions_instrument_solving(slice_index si);
 
 /* Has a short solution been found in the current problem?
  */

@@ -307,6 +307,7 @@
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthStart), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STStopOnShortSolutionsResetter),                         \
+    ENUMERATOR(STStopOnShortSolutionsPropagator),                       \
     ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
     ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
