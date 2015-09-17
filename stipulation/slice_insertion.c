@@ -599,6 +599,7 @@ static slice_index const slice_rank_order[] =
   STMaxSolutionsPropagator,
   STIntelligentSolutionsPerTargetPosPropagator,
   STStopOnShortSolutionsPropagator,
+  STMaxTimePropagator,
   STInputPlainTextTwinsHandler,
   STOutputLaTeXTwinningWriterBuilder,
   STOutputPlaintextTwinIntroWriterBuilder,

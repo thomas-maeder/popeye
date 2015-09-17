@@ -1,6 +1,7 @@
 #if !defined(MAXTIME_H)
 #define MAXTIME_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
 typedef unsigned int maxtime_type;
@@ -16,10 +17,16 @@ void setCommandlineMaxtime(maxtime_type commandlineValue);
  */
 void resetOptionMaxtime(void);
 
-/* Store the value of the option maxtime.
- * @param optionValue value of the option maxtime
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
  */
-void setOptionMaxtime(maxtime_type optionValue);
+void maxtime_propagator_solve(slice_index si);
+
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param maxtime
+ */
+void maxtime_instrument_solving(slice_index si, maxtime_type maxtime);
 
 boolean isMaxtimeSet(void);
 

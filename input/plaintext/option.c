@@ -161,7 +161,7 @@ char *ParseOpt(slice_index start)
           indexx = OptCount;
         }
         else
-          setOptionMaxtime((maxtime_type)value);
+          maxtime_instrument_solving(start,(maxtime_type)value);
         break;
       }
 

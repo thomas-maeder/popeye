@@ -75,8 +75,6 @@ void output_plaintext_problem_writer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-#include "platform/maxtime.h"
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -98,11 +96,9 @@ void output_plaintext_solving_outcome_writer_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (option_interruption_is_set(SLICE_NEXT2(si))
-      || hasMaxtimeElapsed())
-    output_plaintext_message(InterMessage);
-  else
-    output_plaintext_message(FinishProblem);
+  output_plaintext_message(option_interruption_is_set(SLICE_NEXT2(si))
+                           ? InterMessage
+                           : FinishProblem);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
