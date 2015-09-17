@@ -1,11 +1,13 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "options/interruption.h"
 #include "debugging/trace.h"
-
-#include <stdlib.h>
+#include "debugging/assert.h"
 
 /* maximum number of solutions per target positions set by user
  */
@@ -81,32 +83,47 @@ boolean is_max_nr_solutions_per_target_position_limited(void)
   return result;
 }
 
-/* Attempt to read the maximum number of solutions per target position
- * @param tok next1 input token
- * @return true iff the maximum number could be read from tok
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
  */
-boolean read_max_nr_solutions_per_target_position(char const *tok)
+void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si)
 {
-  boolean result;
-  char *end;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  max_nr_solutions_per_target_position = strtoul(tok,&end,10);
-  if (end==tok)
-  {
-    max_nr_solutions_per_target_position = ULONG_MAX;
-    result = false;
-  }
-  else
-    result = true;
+  pipe_solve_delegate(si);
+
+  if (was_max_nr_solutions_per_target_position_reached())
+    option_interruption_remember(SLICE_NEXT2(si))
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Instrument the solving machinery with option intelligent n
+ * @param si identifies the slice where to start instrumenting
+ * @param max_nr_solutions_per_target_position
+ */
+void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index si,
+                                                                     unsigned long i)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",interruption);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const interruption = branch_find_slice(STOptionInterruption,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    slice_index const prototype = alloc_pipe(STIntelligentSolutionsPerTargetPosPropagator);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+    max_nr_solutions_per_target_position = i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a STIntelligentSolutionsPerTargetPosCounter slice.

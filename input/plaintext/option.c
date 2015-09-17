@@ -198,10 +198,17 @@ char *ParseOpt(slice_index start)
 
       case intelligent:
         tok = ReadNextTokStr();
-        if (read_max_nr_solutions_per_target_position(tok))
-          break;
-        else
-          continue;
+        {
+          char *end;
+          unsigned long const value = strtoul(tok,&end,10);
+          if (end==tok)
+            continue;
+          else
+          {
+            intelligent_nr_solutions_per_target_position_instrument_solving(start,value);
+            break;
+          }
+        }
 
       case restart:
         tok = ReadNextTokStr();

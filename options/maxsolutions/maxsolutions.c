@@ -2,6 +2,8 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "options/maxsolutions/initialiser.h"
@@ -14,7 +16,6 @@
 #include "debugging/assert.h"
 
 #include <limits.h>
-#include <stdlib.h>
 
 /* number of solutions found in the current phase */
 static unsigned int nr_solutions_found_in_phase;

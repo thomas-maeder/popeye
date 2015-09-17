@@ -1534,6 +1534,10 @@ void dispatch(slice_index si)
       intelligent_solution_rememberer_solve(si);
       break;
 
+    case STIntelligentSolutionsPerTargetPosPropagator:
+      intelligent_nr_solutions_per_target_position_propagator_solve(si);
+      break;
+
     case STIntelligentSolutionsPerTargetPosCounter:
       intelligent_nr_solutions_per_target_position_counter_solve(si);
       break;

@@ -22,11 +22,17 @@ void intelligent_nr_solutions_per_target_position_restter_solve(slice_index si);
  */
 boolean was_max_nr_solutions_per_target_position_reached(void);
 
-/* Attempt to read the maximum number of solutions per target position
- * @param tok next input token
- * @return true iff the maximum number could be read from tok
+/* Propagate our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
  */
-boolean read_max_nr_solutions_per_target_position(char const *tok);
+void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si);
+
+/* Instrument the solving machinery with option intelligent n
+ * @param si identifies the slice where to start instrumenting
+ * @param max_nr_solutions_per_target_position
+ */
+void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index si,
+                                                                     unsigned long max_nr_solutions_per_target_position);
 
 /* Determine whether the maximum number of solutions per target position is
  * limited

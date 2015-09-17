@@ -18,9 +18,9 @@ options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolution
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
- options/interruption.h debugging/assert.h
+ stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h options/maxsolutions/initialiser.h \
+ options/maxsolutions/guard.h options/interruption.h debugging/assert.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -93,6 +93,10 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 

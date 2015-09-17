@@ -75,7 +75,6 @@ void output_plaintext_problem_writer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "platform/maxtime.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 
@@ -101,7 +100,6 @@ void output_plaintext_solving_outcome_writer_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (option_interruption_is_set(SLICE_NEXT2(si))
-      || was_max_nr_solutions_per_target_position_reached()
       || has_short_solution_been_found_in_problem()
       || hasMaxtimeElapsed())
     output_plaintext_message(InterMessage);
