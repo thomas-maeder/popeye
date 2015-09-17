@@ -12,10 +12,17 @@
  */
 void maxsolutions_resetter_solve(slice_index si);
 
-/* Read the value of the maxsolutions option
- * @return true iff the value could be successfully read
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
  */
-boolean read_max_solutions(char const *token);
+void maxsolutions_propagator_solve(slice_index si);
+
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param max_nr_solutions_per_phase
+ */
+void maxsolutions_instrument_solving(slice_index si,
+                                     unsigned int max_nr_solutions_per_phase);
 
 /* Have we found the maxmimum allowed number of solutions since the
  * last invokation of reset_max_solutions()/read_max_solutions()?

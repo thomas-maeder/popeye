@@ -100,7 +100,7 @@ void output_notify_twinning(slice_index si,
                             boolean continued)
 {
   stip_structure_traversal st;
-  notification_struct notification = { event, continued };
+  notification_struct e = { event, continued };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -108,7 +108,7 @@ void output_notify_twinning(slice_index si,
   TraceFunctionParam("%u",continued);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&notification);
+  stip_structure_traversal_init(&st,&e);
   stip_structure_traversal_override_single(&st,STOutputPlaintextTwinIntroWriterBuilder,&notify_medium);
   stip_structure_traversal_override_single(&st,STOutputLaTeXTwinningWriterBuilder,&notify_medium);
   stip_traverse_structure(si,&st);

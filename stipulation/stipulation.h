@@ -130,6 +130,11 @@ typedef struct
 
         struct
         {
+            boolean value;
+        } flag_handler;
+
+        struct
+        {
             unsigned int twin_number; /* 0==a), 1==b) ... */
             boolean continued;
         } twinning_handler;

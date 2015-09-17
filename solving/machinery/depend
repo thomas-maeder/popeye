@@ -1130,10 +1130,11 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  optimisations/orthodox_square_observation.h \
  optimisations/ohneschach/non_checking_first.h \
  optimisations/ohneschach/stop_if_check.h optimisations/observation.h \
- options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
- options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h options/maxsolutions/maxsolutions.h \
+ options/interruption.h options/maxsolutions/guard.h \
+ options/maxsolutions/initialiser.h options/maxtime.h \
+ options/movenumbers.h options/degenerate_tree.h options/nontrivial.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/maxsolutions/maxsolutions.h \
  options/movenumbers/restart_guard_intelligent.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -1631,6 +1632,8 @@ optimisations/ohneschach/non_checking_first.h:
 optimisations/ohneschach/stop_if_check.h:
 
 optimisations/observation.h:
+
+options/interruption.h:
 
 options/maxsolutions/guard.h:
 

@@ -1837,7 +1837,10 @@ output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/slice_insertion.h
+ stipulation/branch.h stipulation/slice_insertion.h \
+ options/interruption.h debugging/assert.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ platform/maxtime.h options/stoponshortsolutions/stoponshortsolutions.h
 
 output/plaintext/problem.h:
 
@@ -1929,4 +1932,16 @@ stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
+stipulation/branch.h:
+
 stipulation/slice_insertion.h:
+
+options/interruption.h:
+
+debugging/assert.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+platform/maxtime.h:
+
+options/stoponshortsolutions/stoponshortsolutions.h:

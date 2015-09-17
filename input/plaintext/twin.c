@@ -1072,17 +1072,6 @@ static char *twins_handle(char *tok, slice_index si)
   return tok;
 }
 
-static void write_solving_outcome(void)
-{
-  if (max_solutions_reached()
-      || was_max_nr_solutions_per_target_position_reached()
-      || has_short_solution_been_found_in_problem()
-      || hasMaxtimeElapsed())
-    output_plaintext_message(InterMessage);
-  else
-    output_plaintext_message(FinishProblem);
-}
-
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
@@ -1147,8 +1136,6 @@ void input_plaintext_twins_handle(slice_index si)
 
   undo_move_effects();
   finply();
-
-  write_solving_outcome();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -9,9 +9,10 @@
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/guard.h"
+#include "options/interruption.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <limits.h>
 #include <stdlib.h>
 
@@ -31,40 +32,55 @@ void maxsolutions_resetter_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  pipe_solve_delegate(si);
-
   max_nr_solutions_per_phase = UINT_MAX;
   allowed_nr_solutions_reached = false;
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Read the value of the maxsolutions option
- * @return true iff the value could be successfully read
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
  */
-boolean read_max_solutions(char const *token)
+void maxsolutions_propagator_solve(slice_index si)
 {
-  boolean result;
-  char *end;
-  unsigned long const value = strtoul(token,&end,10);
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",token);
   TraceFunctionParamListEnd();
 
-  if (*end==0 && value<UINT_MAX)
-  {
-    max_nr_solutions_per_phase = (unsigned int)value;
-    result = true;
-  }
-  else
-    result = false;
+  pipe_solve_delegate(si);
+
+  if (max_solutions_reached())
+    option_interruption_remember(SLICE_NEXT2(si))
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param max_nr_solutions_per_phase
+ */
+void maxsolutions_instrument_solving(slice_index si, unsigned int i)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",interruption);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const interruption = branch_find_slice(STOptionInterruption,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    slice_index const prototype = alloc_pipe(STMaxSolutionsPropagator);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+    max_nr_solutions_per_phase = i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Have we found the maxmimum allowed number of solutions since the

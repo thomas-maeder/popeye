@@ -182,11 +182,17 @@ char *ParseOpt(slice_index start)
 
       case maxsols:
         tok = ReadNextTokStr();
-        if (!read_max_solutions(tok))
         {
-          OptFlag[maxsols] = false;
-          output_plaintext_input_error_message(WrongInt,0);
-          indexx = OptCount;
+          char *end;
+          unsigned long const value = strtoul(tok,&end,10);
+          if (*end==0 && value<UINT_MAX)
+            maxsolutions_instrument_solving(start,(unsigned int)value);
+          else
+          {
+            OptFlag[maxsols] = false;
+            output_plaintext_input_error_message(WrongInt,0);
+            indexx = OptCount;
+          }
         }
         break;
 

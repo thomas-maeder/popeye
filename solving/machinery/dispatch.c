@@ -165,6 +165,7 @@
 #include "optimisations/ohneschach/non_checking_first.h"
 #include "optimisations/ohneschach/stop_if_check.h"
 #include "optimisations/observation.h"
+#include "options/interruption.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxtime.h"
@@ -368,6 +369,10 @@ void dispatch(slice_index si)
       options_resetter_solve(si);
       break;
 
+    case STOptionInterruption:
+      option_interruption_solve(si);
+      break;
+
     case STCommandLineOptionsParser:
       command_line_options_parser_solve(si);
       break;
@@ -437,6 +442,10 @@ void dispatch(slice_index si)
 
     case STInputPlainTextInitialTwinReader:
       input_plaintext_initial_twin_reader_solve(si);
+      break;
+
+    case STOutputPlainTextSolvingOutcomeWriter:
+      output_plaintext_solving_outcome_writer_solve(si);
       break;
 
     case STInputPlainTextTwinsHandler:
@@ -1426,6 +1435,10 @@ void dispatch(slice_index si)
 
     case STMaxSolutionsResetter:
       maxsolutions_resetter_solve(si);
+      break;
+
+    case STMaxSolutionsPropagator:
+      maxsolutions_propagator_solve(si);
       break;
 
     case STMaxSolutionsCounter:
