@@ -53,7 +53,7 @@ void maxsolutions_propagator_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (max_solutions_reached())
-    option_interruption_remember(SLICE_NEXT2(si))
+    option_interruption_remember(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
