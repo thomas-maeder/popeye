@@ -571,6 +571,7 @@ void slice_insertion_init_traversal(stip_structure_traversal *st,
 static slice_index const slice_rank_order[] =
 {
   STProxy,
+  /* slices from here on are created once by main() (mostly) */
   STCommandLineOptionsParser,
   STInputPlainTextOpener,
   STPlatformInitialiser,
@@ -594,6 +595,8 @@ static slice_index const slice_rank_order[] =
   STInputPlainTextInitialTwinReader,
   STOutputLaTeXProblemWriter,
   STOptionInterruption,
+  /* slices from here on are created for each problem
+   * mostly by STInputPlainTextProblemHandler */
   STStartOfCurrentProblem,
   STMaxSolutionsPropagator,
   STIntelligentSolutionsPerTargetPosPropagator,
@@ -620,6 +623,8 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXProblemIntroWriter,
   STOutputLaTeXTwinningWriter,
   STStartOfCurrentTwin,
+  /* slices from here on are created for each twin (including the initial one)
+   * mostly by STSolvingMachineryIntroBuilder */
   STCreateBuilderSetupPly,
   STPieceWalkCacheInitialiser,
   STPiecesCounter,
