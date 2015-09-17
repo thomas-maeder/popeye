@@ -17,11 +17,11 @@ void maxsolutions_resetter_solve(slice_index si);
  */
 void maxsolutions_propagator_solve(slice_index si);
 
-/* Instrument the solving machinery with option maxsolutions
+/* Instrument the current problem with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  * @param max_nr_solutions_per_phase
  */
-void maxsolutions_instrument_solving(slice_index si,
+void maxsolutions_instrument_problem(slice_index si,
                                      unsigned int max_nr_solutions_per_phase);
 
 /* Have we found the maxmimum allowed number of solutions since the
@@ -43,10 +43,5 @@ void increase_nr_found_solutions(void);
  * @return true iff the allowed maximum number of solutions have been found
  */
 boolean max_nr_solutions_found_in_phase(void);
-
-/* Instrument a stipulation with STMaxSolutions*Filter slices
- * @param si identifies slice where to start
- */
-void solving_insert_maxsolutions_filters(slice_index si);
 
 #endif

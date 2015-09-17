@@ -174,7 +174,6 @@
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
 #include "options/movenumbers.h"
-#include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
@@ -584,9 +583,6 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[noshort])
     solving_insert_no_short_variations_filters(si);
-
-  if (OptFlag[maxsols])
-    solving_insert_maxsolutions_filters(si);
 
   solving_optimise_dead_end_slices(si);
 

@@ -8,9 +8,6 @@
 #include "stipulation/help_play/branch.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxsolutions/guard.h"
-#include "options/maxsolutions/guard.h"
-#include "options/maxsolutions/guard.h"
-#include "options/maxsolutions/guard.h"
 #include "options/interruption.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -40,113 +37,6 @@ void maxsolutions_resetter_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Propagage our findings to STOptionInterruption
- * @param si identifies the slice where to start instrumenting
- */
-void maxsolutions_propagator_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  if (max_solutions_reached())
-    option_interruption_remember(SLICE_NEXT2(si));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the solving machinery with option maxsolutions
- * @param si identifies the slice where to start instrumenting
- * @param max_nr_solutions_per_phase
- */
-void maxsolutions_instrument_solving(slice_index si, unsigned int i)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",i);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
-                                                       si,
-                                                       stip_traversal_context_intro);
-    slice_index const prototype = alloc_pipe(STMaxSolutionsPropagator);
-    SLICE_NEXT2(prototype) = interruption;
-    assert(interruption!=no_slice);
-    slice_insertion_insert(si,&prototype,1);
-    max_nr_solutions_per_phase = i;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Have we found the maxmimum allowed number of solutions since the
- * last invokation of reset_max_solutions()/read_max_solutions()?
- * @true iff we have found the maxmimum allowed number of solutions
- */
-boolean max_solutions_reached(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",allowed_nr_solutions_reached);
-  TraceFunctionResultEnd();
-  return allowed_nr_solutions_reached;
-}
-
-/* Reset the number of found solutions
- */
-void reset_nr_found_solutions_per_phase(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  nr_solutions_found_in_phase = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Increase the number of found solutions by 1
- */
-void increase_nr_found_solutions(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  ++nr_solutions_found_in_phase;
-  TraceValue("->%u\n",nr_solutions_found_in_phase);
-
-  if (max_nr_solutions_found_in_phase())
-    allowed_nr_solutions_reached = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Have we found the maximum allowed number of solutions since the
- * last invokation of reset_nr_found_solutions()?
- * @return true iff the allowed maximum number of solutions have been found
- */
-boolean max_nr_solutions_found_in_phase(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = nr_solutions_found_in_phase>=max_nr_solutions_per_phase;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_maxsolutions_help_filter(slice_index si,
@@ -272,7 +162,7 @@ enum
 /* Instrument a stipulation with STMaxSolutions*Filter slices
  * @param si identifies slice where to start
  */
-void solving_insert_maxsolutions_filters(slice_index si)
+static void instrument_solvers(slice_index si)
 {
   stip_structure_traversal st;
   boolean inserted = false;
@@ -306,4 +196,113 @@ void solving_insert_maxsolutions_filters(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Propagage our findings to STOptionInterruption
+ * @param si identifies the slice where to start instrumenting
+ */
+void maxsolutions_propagator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  instrument_solvers(si);
+
+  pipe_solve_delegate(si);
+
+  if (max_solutions_reached())
+    option_interruption_remember(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the current problem with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param max_nr_solutions_per_phase
+ */
+void maxsolutions_instrument_problem(slice_index si, unsigned int i)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",i);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const interruption = branch_find_slice(STOptionInterruption,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    slice_index const prototype = alloc_pipe(STMaxSolutionsPropagator);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+    max_nr_solutions_per_phase = i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Have we found the maxmimum allowed number of solutions since the
+ * last invokation of reset_max_solutions()/read_max_solutions()?
+ * @true iff we have found the maxmimum allowed number of solutions
+ */
+boolean max_solutions_reached(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",allowed_nr_solutions_reached);
+  TraceFunctionResultEnd();
+  return allowed_nr_solutions_reached;
+}
+
+/* Reset the number of found solutions
+ */
+void reset_nr_found_solutions_per_phase(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_solutions_found_in_phase = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Increase the number of found solutions by 1
+ */
+void increase_nr_found_solutions(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ++nr_solutions_found_in_phase;
+  TraceValue("->%u\n",nr_solutions_found_in_phase);
+
+  if (max_nr_solutions_found_in_phase())
+    allowed_nr_solutions_reached = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Have we found the maximum allowed number of solutions since the
+ * last invokation of reset_nr_found_solutions()?
+ * @return true iff the allowed maximum number of solutions have been found
+ */
+boolean max_nr_solutions_found_in_phase(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = nr_solutions_found_in_phase>=max_nr_solutions_per_phase;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
