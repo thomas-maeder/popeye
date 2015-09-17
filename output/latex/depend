@@ -32,12 +32,9 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/plaintext/condition.h input/plaintext/problem.h \
  input/plaintext/pieces.h input/plaintext/stipulation.h \
- options/maxsolutions/maxsolutions.h \
- options/stoponshortsolutions/stoponshortsolutions.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
  pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
  stipulation/pipe.h stipulation/branch.h solving/pipe.h conditions/bgl.h \
- conditions/grid.h conditions/singlebox/type1.h platform/maxtime.h \
+ conditions/grid.h conditions/singlebox/type1.h options/interruption.h \
  debugging/assert.h
 
 output/latex/latex.h:
@@ -182,12 +179,6 @@ input/plaintext/pieces.h:
 
 input/plaintext/stipulation.h:
 
-options/maxsolutions/maxsolutions.h:
-
-options/stoponshortsolutions/stoponshortsolutions.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
-
 pieces/walks/classification.h:
 
 pieces/attributes/neutral/neutral.h:
@@ -204,7 +195,7 @@ conditions/grid.h:
 
 conditions/singlebox/type1.h:
 
-platform/maxtime.h:
+options/interruption.h:
 
 debugging/assert.h:
 output/latex/problem$(OBJ_SUFFIX): output/latex/problem.c output/latex/problem.h \

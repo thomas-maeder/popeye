@@ -11,9 +11,6 @@
 #include "input/plaintext/token.h"
 #include "input/plaintext/language.h"
 #include "input/plaintext/stipulation.h"
-#include "options/maxsolutions/maxsolutions.h"
-#include "options/stoponshortsolutions/stoponshortsolutions.h"
-#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
@@ -22,7 +19,7 @@
 #include "conditions/bgl.h"
 #include "conditions/grid.h"
 #include "conditions/singlebox/type1.h"
-#include "platform/maxtime.h"
+#include "options/interruption.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -314,22 +311,26 @@ void LaTexCloseSolution(FILE *file)
   TraceFunctionResultEnd();
 }
 
-void LaTeXCo(FILE *file)
+void LaTeXCo(slice_index si, FILE *file)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!(OptFlag[solmenaces]
-        || OptFlag[solflights]
-        || OptFlag[nontrivial]
-        || max_solutions_reached()
-        || was_max_nr_solutions_per_target_position_reached()
-        || has_short_solution_been_found_in_problem()
-        || hasMaxtimeElapsed()))
   {
-    fputs(" \\Co+%",file);
-    output_plaintext_print_version_info(file);
-    fputs("\n",file);
+    slice_index const interruption = branch_find_slice(STOptionInterruption,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    assert(interruption!=no_slice);
+    if (!(OptFlag[solmenaces]
+          || OptFlag[solflights]
+          || OptFlag[nontrivial]
+          || option_interruption_is_set(interruption)))
+    {
+      fputs(" \\Co+%",file);
+      output_plaintext_print_version_info(file);
+      fputs("\n",file);
+    }
   }
 
   TraceFunctionExit(__func__);

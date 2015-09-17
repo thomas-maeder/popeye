@@ -90,7 +90,7 @@ void output_latex_problem_writer_solve(slice_index si)
 
     LaTexCloseSolution(file);
     LaTeXFlushTwinning(file);
-    LaTeXCo(file);
+    LaTeXCo(si,file);
     LaTeXEndDiagram(file);
     LaTeXHfill(file);
   }

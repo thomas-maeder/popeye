@@ -23,7 +23,7 @@ void LaTeXConditions(FILE *file);
 void LaTeXStipulation(FILE *file);
 void LaTeXWritePieces(FILE *file);
 void LaTeXOptions(void);
-void LaTeXCo(FILE *file);
+void LaTeXCo(slice_index si, FILE *file);
 void LaTeXHfill(FILE *file);
 
 void LaTexOpenSolution(FILE *file);
