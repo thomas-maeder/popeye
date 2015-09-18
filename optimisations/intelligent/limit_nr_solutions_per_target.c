@@ -110,7 +110,8 @@ void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index
                                                                      unsigned long i)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",interruption);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
   {
