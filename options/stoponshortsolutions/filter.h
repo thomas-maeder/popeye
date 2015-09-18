@@ -30,6 +30,6 @@ slice_index alloc_stoponshortsolutions_filter(stip_length_type length,
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void stoponshortsolutions_solve(slice_index si);
+void stoponshortsolutions_filter_solve(slice_index si);
 
 #endif

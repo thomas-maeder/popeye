@@ -41,20 +41,22 @@ slice_index alloc_stoponshortsolutions_filter(stip_length_type length,
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void stoponshortsolutions_solve(slice_index si)
+void stoponshortsolutions_filter_solve(slice_index si)
 {
+  slice_index const initialiser = SLICE_NEXT2(si);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (has_short_solution_been_found_in_phase())
+  if (has_short_solution_been_found_in_phase(initialiser))
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
     pipe_solve_delegate(si);
     if (solve_result<=MOVE_HAS_SOLVED_LENGTH()
         && solve_nr_remaining<SLICE_U(si).branch.length)
-      short_solution_found();
+      short_solution_found(initialiser);
   }
 
   TraceFunctionExit(__func__);

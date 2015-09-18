@@ -1,5 +1,4 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
-#include "options/stoponshortsolutions/initialiser.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/interruption.h"
 #include "stipulation/slice_insertion.h"
@@ -12,67 +11,49 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-static boolean short_solution_found_in_problem;
-static boolean short_solution_found_in_phase;
-
-/* Inform the stoponshortsolutions module that a short solution has
- * been found
+/* remember that a short solution has been found
+ * @param si identifies the slice that remembers
  */
-void short_solution_found(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  short_solution_found_in_problem = true;
-  short_solution_found_in_phase = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Reset the internal state to "no short solution found"
- */
-void stoponshortsolutions_resetter_solve(slice_index si)
+void short_solution_found(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_solve_delegate(si);
+  assert(SLICE_TYPE(si)==STStopOnShortSolutionsWasShortSolutionFound);
 
-  short_solution_found_in_problem = false;
-  short_solution_found_in_phase = false;
+  SLICE_U(si).flag_handler.value = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Propagate our findings to STProblemSolvingInterrupted
+/* Instrument the problem with a STStopOnShortSolutionsSolvingInstrumenter slice
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_propagator_solve(slice_index si)
+void stoponshortsolutions_problem_instrumenter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsInstrumenter);
+    slice_index const interruption = SLICE_NEXT2(si);
+    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsSolvingInstrumenter);
+    assert(interruption!=no_slice);
+    SLICE_NEXT2(prototype) = interruption;
     slice_insertion_insert(si,&prototype,1);
   }
 
   pipe_solve_delegate(si);
 
-  if (has_short_solution_been_found_in_problem())
-    phase_solving_remember_interruption(SLICE_NEXT2(si));
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with option stop on short solutions
+/* Instrument the twin with option stop on short solutions
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_instrument_solving(slice_index si)
+void stoponshortsolutions_instrument_twin(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -82,7 +63,7 @@ void stoponshortsolutions_instrument_solving(slice_index si)
     slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
-    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsPropagator);
+    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsProblemInstrumenter);
     SLICE_NEXT2(prototype) = interruption;
     assert(interruption!=no_slice);
     slice_insertion_insert(si,&prototype,1);
@@ -92,69 +73,89 @@ void stoponshortsolutions_instrument_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Has a short solution been found in the current problem?
- */
-boolean has_short_solution_been_found_in_problem(void)
-{
-  boolean const result = short_solution_found_in_problem;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Reset the internal state to "no short solution found" in the
- * current phase
- */
-void reset_short_solution_found_in_phase(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  short_solution_found_in_phase = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Has a short solution been found in the current phase?
  */
-boolean has_short_solution_been_found_in_phase(void)
+boolean has_short_solution_been_found_in_phase(slice_index si)
 {
-  boolean const result = short_solution_found_in_phase;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void insert_filter(slice_index si, stip_structure_traversal *st)
-{
-  boolean * const inserted = st->param;
+  boolean const result = SLICE_U(si).flag_handler.value;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
+  assert(SLICE_TYPE(si)==STStopOnShortSolutionsWasShortSolutionFound);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Propagate our findings to the phase solving interruption machinery
+ * @param si slice index
+ */
+void stoponshortsolutions_was_short_solution_found_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  SLICE_U(si).flag_handler.value = false;
+
+  pipe_solve_delegate(si);
+
+  if (SLICE_U(si).flag_handler.value)
+    phase_solving_remember_interruption(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+typedef struct
+{
+    boolean inserted;
+    slice_index initialiser;
+} insertion_type;
+
+static void insert_filter(slice_index si, stip_structure_traversal *st)
+{
+  insertion_type * const insertion = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(insertion->initialiser!=no_slice);
 
   {
     stip_length_type const length = SLICE_U(si).branch.length;
     stip_length_type const min_length = SLICE_U(si).branch.min_length;
     slice_index const prototype = alloc_stoponshortsolutions_filter(length,
                                                                     min_length);
+    SLICE_NEXT2(prototype) = insertion->initialiser;
     slice_insertion_insert(si,&prototype,1);
   }
 
-  *inserted = true;
+  insertion->inserted = true;
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_initialiser(slice_index si, stip_structure_traversal *st)
+{
+  insertion_type * const insertion = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insertion->initialiser = si;
+
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -163,31 +164,32 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
 /* Instrument help play
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_instrumenter_solve(slice_index si)
+void stoponshortsolutions_solving_instrumenter_solve(slice_index si)
 {
-  boolean inserted = false;
+  insertion_type insertion = { false, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
+    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsWasShortSolutionFound);
+    SLICE_NEXT2(prototype) = SLICE_NEXT2(si);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  {
     stip_structure_traversal st;
-    stip_structure_traversal_init(&st,&inserted);
+    stip_structure_traversal_init(&st,&insertion);
     stip_structure_traversal_override_by_contextual(&st,
                                                     slice_contextual_conditional_pipe,
                                                     &stip_traverse_structure_children_pipe);
+    stip_structure_traversal_override_single(&st,STStopOnShortSolutionsWasShortSolutionFound,&remember_initialiser);
     stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
     stip_traverse_structure(si,&st);
   }
 
-  if (inserted)
-
-  {
-    slice_index const prototype = alloc_stoponshortsolutions_initialiser_slice();
-    slice_insertion_insert(si,&prototype,1);
-  }
-  else
+  if (!insertion.inserted)
     output_plaintext_message(NoStopOnShortSolutions);
 
   pipe_solve_delegate(si);

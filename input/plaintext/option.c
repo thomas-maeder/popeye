@@ -197,7 +197,7 @@ char *ParseOpt(slice_index start)
         break;
 
       case stoponshort:
-        stoponshortsolutions_instrument_solving(start);
+        stoponshortsolutions_instrument_twin(start);
         break;
 
       case intelligent:

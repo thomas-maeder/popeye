@@ -1,9 +1,9 @@
 # -*- Makefile -*-
 #
 SRC_CFILES = stoponshortsolutions.c \
-	initialiser.c filter.c
+	filter.c
 
 INCLUDES = stoponshortsolutions.h \
-	initialiser.h filter.h
+	filter.h
 
 include makefile.rules $(CURRPWD)depend

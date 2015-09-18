@@ -307,10 +307,9 @@
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthStart), /* where should STMaxThreatLength start looking for threats */ \
-    ENUMERATOR(STStopOnShortSolutionsResetter),                         \
-    ENUMERATOR(STStopOnShortSolutionsPropagator),                       \
-    ENUMERATOR(STStopOnShortSolutionsInstrumenter),                     \
-    ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
+    ENUMERATOR(STStopOnShortSolutionsProblemInstrumenter),             \
+    ENUMERATOR(STStopOnShortSolutionsSolvingInstrumenter),             \
+    ENUMERATOR(STStopOnShortSolutionsWasShortSolutionFound), /* intialise stoponshortsolutions machinery */  \
     ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
     ENUMERATOR(STUltraschachzwangLegalityTester),                      \

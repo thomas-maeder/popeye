@@ -10,42 +10,33 @@
  * time has elapsed
  */
 
-/* Inform the stoponshortsolutions module that a short solution has
- * been found
+/* remember that a short solution has been found
+ * @param si identifies the slice that remembers
  */
-void short_solution_found(void);
+void short_solution_found(slice_index si);
 
-/* Propagate our findings to STProblemSolvingInterrupted
+/* Instrument the problem with a STStopOnShortSolutionsSolvingInstrumenter slice
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_propagator_solve(slice_index si);
+void stoponshortsolutions_problem_instrumenter_solve(slice_index si);
 
-/* Reset the internal state to "no short solution found" in the
- * current problem
- */
-void stoponshortsolutions_resetter_solve(slice_index si);
-
-/* Instrument the solving machinery with option stop on short solutions
+/* Instrument the twin with option stop on short solutions
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_instrument_solving(slice_index si);
-
-/* Has a short solution been found in the current problem?
- */
-boolean has_short_solution_been_found_in_problem(void);
-
-/* Reset the internal state to "no short solution found" in the
- * current phase
- */
-void reset_short_solution_found_in_phase(void);
+void stoponshortsolutions_instrument_twin(slice_index si);
 
 /* Has a short solution been found in the current phase?
  */
-boolean has_short_solution_been_found_in_phase(void);
+boolean has_short_solution_been_found_in_phase(slice_index si);
 
 /* Instrument help play
  * @param si identifies the slice where to start instrumenting
  */
-void stoponshortsolutions_instrumenter_solve(slice_index si);
+void stoponshortsolutions_solving_instrumenter_solve(slice_index si);
+
+/* Propagate our findings to the phase solving interruption machinery
+ * @param si slice index
+ */
+void stoponshortsolutions_was_short_solution_found_solve(slice_index si);
 
 #endif

@@ -179,7 +179,6 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/filter.h"
-#include "options/stoponshortsolutions/initialiser.h"
 #include "input/commandline.h"
 #include "input/plaintext/plaintext.h"
 #include "input/plaintext/problem.h"
@@ -1454,16 +1453,12 @@ void dispatch(slice_index si)
       maxsolutions_guard_solve(si);
       break;
 
-    case STStopOnShortSolutionsResetter:
-      stoponshortsolutions_resetter_solve(si);
-      break;
-
-    case STStopOnShortSolutionsInstrumenter:
-      stoponshortsolutions_instrumenter_solve(si);
+    case STStopOnShortSolutionsSolvingInstrumenter:
+      stoponshortsolutions_solving_instrumenter_solve(si);
       break;
 
     case STStopOnShortSolutionsFilter:
-      stoponshortsolutions_solve(si);
+      stoponshortsolutions_filter_solve(si);
       break;
 
     case STIfThenElse:
@@ -1616,12 +1611,12 @@ void dispatch(slice_index si)
       maxsolutions_initialiser_solve(si);
       break;
 
-    case STStopOnShortSolutionsPropagator:
-      stoponshortsolutions_propagator_solve(si);
+    case STStopOnShortSolutionsProblemInstrumenter:
+      stoponshortsolutions_problem_instrumenter_solve(si);
       break;
 
-    case STStopOnShortSolutionsInitialiser:
-      stoponshortsolutions_initialiser_solve(si);
+    case STStopOnShortSolutionsWasShortSolutionFound:
+      stoponshortsolutions_was_short_solution_found_solve(si);
       break;
 
     case STOutputPlaintextZeropositionIntroWriter:

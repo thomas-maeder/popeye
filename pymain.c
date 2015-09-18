@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
       alloc_pipe(STOptionsResetter),
       alloc_pipe(STUnderworldResetter),
       alloc_pipe(STHuntersResetter),
-      alloc_pipe(STStopOnShortSolutionsResetter),
       alloc_pipe(STIntelligentSolutionsPerTargetPosResetter),
       alloc_pipe(STMaxSolutionsResetter),
       alloc_pipe(STInputPlainTextProblemHandler),

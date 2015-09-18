@@ -1132,8 +1132,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  options/movenumbers/restart_guard_intelligent.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
- options/stoponshortsolutions/filter.h \
- options/stoponshortsolutions/initialiser.h input/commandline.h \
+ options/stoponshortsolutions/filter.h input/commandline.h \
  input/plaintext/plaintext.h input/plaintext/problem.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/option.h \
@@ -1655,8 +1654,6 @@ options/no_short_variations/no_short_variations_attacker_filter.h:
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 options/stoponshortsolutions/filter.h:
-
-options/stoponshortsolutions/initialiser.h:
 
 input/commandline.h:
 
