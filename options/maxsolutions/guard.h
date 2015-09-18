@@ -10,9 +10,10 @@
  */
 
 /* Allocate a STMaxSolutionsCounter slice.
+ * @param interruption identifies interruption slice
  * @return allocated slice
  */
-slice_index alloc_maxsolutions_counter_slice(void);
+slice_index alloc_maxsolutions_counter_slice(slice_index interruption);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

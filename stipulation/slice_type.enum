@@ -227,7 +227,7 @@
     ENUMERATOR(STMaxTimeSetter), /* start maxtime timer */              \
     ENUMERATOR(STMaxTimeGuard), /* makes sure maxtime is kept*/         \
     ENUMERATOR(STMaxSolutionsResetter),                                 \
-    ENUMERATOR(STMaxSolutionsPropagator),                               \
+    ENUMERATOR(STMaxSolutionsSolvingInstrumenter),                      \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsCounter), /* count solutions for option maxsolutions */  \

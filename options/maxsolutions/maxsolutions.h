@@ -12,10 +12,10 @@
  */
 void maxsolutions_resetter_solve(slice_index si);
 
-/* Propagage our findings to STOptionInterruption
+/* Instrument the solving machinery with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  */
-void maxsolutions_propagator_solve(slice_index si);
+void maxsolutions_solving_instrumenter_solve(slice_index si);
 
 /* Instrument the current problem with option maxsolutions
  * @param si identifies the slice where to start instrumenting
@@ -24,19 +24,13 @@ void maxsolutions_propagator_solve(slice_index si);
 void maxsolutions_instrument_problem(slice_index si,
                                      unsigned int max_nr_solutions_per_phase);
 
-/* Have we found the maxmimum allowed number of solutions since the
- * last invokation of reset_max_solutions()/read_max_solutions()?
- * @true iff we have found the maxmimum allowed number of solutions
- */
-boolean max_solutions_reached(void);
-
 /* Reset the number of found solutions
  */
 void reset_nr_found_solutions_per_phase(void);
 
 /* Increase the number of found solutions by 1
  */
-void increase_nr_found_solutions(void);
+void increase_nr_found_solutions(slice_index interruption);
 
 /* Have we found the maximum allowed number of solutions since the
  * last invokation of reset_nr_found_solutions()?

@@ -1438,8 +1438,8 @@ void dispatch(slice_index si)
       maxsolutions_resetter_solve(si);
       break;
 
-    case STMaxSolutionsPropagator:
-      maxsolutions_propagator_solve(si);
+    case STMaxSolutionsSolvingInstrumenter:
+      maxsolutions_solving_instrumenter_solve(si);
       break;
 
     case STMaxSolutionsCounter:

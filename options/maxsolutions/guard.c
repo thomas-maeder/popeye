@@ -7,9 +7,10 @@
 #include "debugging/trace.h"
 
 /* Allocate a STMaxSolutionsCounter slice.
+ * @param interruption identifies interruption slice
  * @return allocated slice
  */
-slice_index alloc_maxsolutions_counter_slice(void)
+slice_index alloc_maxsolutions_counter_slice(slice_index interruption)
 {
   slice_index result;
 
@@ -17,6 +18,7 @@ slice_index alloc_maxsolutions_counter_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STMaxSolutionsCounter);
+  SLICE_NEXT2(result) = interruption;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +48,7 @@ void maxsolutions_counter_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (move_has_solved())
-    increase_nr_found_solutions();
+    increase_nr_found_solutions(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

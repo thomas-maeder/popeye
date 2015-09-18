@@ -20,9 +20,6 @@ static unsigned int nr_solutions_found_in_phase;
 /* maximum number of allowed solutions found in the current phase */
 static unsigned int max_nr_solutions_per_phase = UINT_MAX;
 
-/* has the maximum number of allowed solutions been reached? */
-static boolean allowed_nr_solutions_reached;
-
 /* Reset the value of the maxsolutions option
  */
 void maxsolutions_resetter_solve(slice_index si)
@@ -31,13 +28,18 @@ void maxsolutions_resetter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   max_nr_solutions_per_phase = UINT_MAX;
-  allowed_nr_solutions_reached = false;
 
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+typedef struct
+{
+    boolean inserted;
+    slice_index interruption;
+} insertion_struct;
 
 static void insert_maxsolutions_help_filter(slice_index si,
                                             stip_structure_traversal *st)
@@ -59,6 +61,8 @@ static void insert_maxsolutions_help_filter(slice_index si,
 
 static void insert_guard_and_counter(slice_index si, stip_structure_traversal *st)
 {
+  insertion_struct * const insertion = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -67,7 +71,7 @@ static void insert_guard_and_counter(slice_index si, stip_structure_traversal *s
     slice_index const prototypes[] =
     {
       alloc_maxsolutions_guard_slice(),
-      alloc_maxsolutions_counter_slice()
+      alloc_maxsolutions_counter_slice(insertion->interruption)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -79,7 +83,7 @@ static void insert_guard_and_counter(slice_index si, stip_structure_traversal *s
 
 static void insert_counter(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const inserted = st->param;
+  insertion_struct * const insertion = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -87,11 +91,11 @@ static void insert_counter(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (st->context==stip_traversal_context_help && !*inserted)
+  if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice();
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
     slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
-    *inserted = true;
+    insertion->inserted = true;
   }
 
   TraceFunctionExit(__func__);
@@ -100,7 +104,7 @@ static void insert_counter(slice_index si, stip_structure_traversal *st)
 
 static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const inserted = st->param;
+  insertion_struct * const insertion = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -108,11 +112,11 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (st->context==stip_traversal_context_help && !*inserted)
+  if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice();
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
     help_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
-    *inserted = true;
+    insertion->inserted = true;
   }
 
   TraceFunctionExit(__func__);
@@ -121,7 +125,7 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
 
 static void insert_counter_in_forced_branch(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const inserted = st->param;
+  insertion_struct * const insertion = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -129,11 +133,11 @@ static void insert_counter_in_forced_branch(slice_index si, stip_structure_trave
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->context==stip_traversal_context_help && !*inserted)
+  if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice();
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
     slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
-    *inserted = true;
+    insertion->inserted = true;
   }
 
   TraceFunctionExit(__func__);
@@ -165,7 +169,7 @@ enum
 static void instrument_solvers(slice_index si)
 {
   stip_structure_traversal st;
-  boolean inserted = false;
+  insertion_struct insertion = { false, SLICE_NEXT2(si) };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -185,7 +189,7 @@ static void instrument_solvers(slice_index si)
     slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
-  stip_structure_traversal_init(&st,&inserted);
+  stip_structure_traversal_init(&st,&insertion);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
@@ -198,10 +202,10 @@ static void instrument_solvers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Propagage our findings to STOptionInterruption
+/* Instrument the solving machinery with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  */
-void maxsolutions_propagator_solve(slice_index si)
+void maxsolutions_solving_instrumenter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -209,9 +213,6 @@ void maxsolutions_propagator_solve(slice_index si)
   instrument_solvers(si);
 
   pipe_solve_delegate(si);
-
-  if (max_solutions_reached())
-    option_interruption_remember(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -232,7 +233,7 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
     slice_index const interruption = branch_find_slice(STOptionInterruption,
                                                        si,
                                                        stip_traversal_context_intro);
-    slice_index const prototype = alloc_pipe(STMaxSolutionsPropagator);
+    slice_index const prototype = alloc_pipe(STMaxSolutionsSolvingInstrumenter);
     SLICE_NEXT2(prototype) = interruption;
     assert(interruption!=no_slice);
     slice_insertion_insert(si,&prototype,1);
@@ -241,21 +242,6 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Have we found the maxmimum allowed number of solutions since the
- * last invokation of reset_max_solutions()/read_max_solutions()?
- * @true iff we have found the maxmimum allowed number of solutions
- */
-boolean max_solutions_reached(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",allowed_nr_solutions_reached);
-  TraceFunctionResultEnd();
-  return allowed_nr_solutions_reached;
 }
 
 /* Reset the number of found solutions
@@ -273,7 +259,7 @@ void reset_nr_found_solutions_per_phase(void)
 
 /* Increase the number of found solutions by 1
  */
-void increase_nr_found_solutions(void)
+void increase_nr_found_solutions(slice_index interruption)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -282,7 +268,7 @@ void increase_nr_found_solutions(void)
   TraceValue("->%u\n",nr_solutions_found_in_phase);
 
   if (max_nr_solutions_found_in_phase())
-    allowed_nr_solutions_reached = true;
+    option_interruption_remember(interruption);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
