@@ -1458,7 +1458,7 @@ void dispatch(slice_index si)
       break;
 
     case STStopOnShortSolutionsFilter:
-      stoponshortsolutions_filter_solve(si);
+      stoponshortsolutions_solve(si);
       break;
 
     case STIfThenElse:
