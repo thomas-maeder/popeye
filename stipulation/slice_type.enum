@@ -20,7 +20,7 @@
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STConditionsResetter),                                     \
   ENUMERATOR(STOptionsResetter),                                        \
-  ENUMERATOR(STOptionInterruption),                                     \
+  ENUMERATOR(STProblemSolvingInterrupted),                                     \
   ENUMERATOR(STCommandLineOptionsParser),                               \
   ENUMERATOR(STInputPlainTextOpener),                                   \
   ENUMERATOR(STPlatformInitialiser),                                    \

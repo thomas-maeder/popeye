@@ -370,7 +370,7 @@ void dispatch(slice_index si)
       options_resetter_solve(si);
       break;
 
-    case STOptionInterruption:
+    case STProblemSolvingInterrupted:
       option_interruption_solve(si);
       break;
 

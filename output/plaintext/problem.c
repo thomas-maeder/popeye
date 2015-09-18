@@ -44,7 +44,7 @@ void output_plaintext_problem_writer_solve(slice_index si)
   pipe_solve_delegate(si);
 
   {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
+    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     assert(interruption!=no_slice);

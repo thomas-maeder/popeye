@@ -83,7 +83,7 @@ boolean is_max_nr_solutions_per_target_position_limited(void)
   return result;
 }
 
-/* Propagate our findings to STOptionInterruption
+/* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
 void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si)
@@ -114,7 +114,7 @@ void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
+    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STIntelligentSolutionsPerTargetPosPropagator);

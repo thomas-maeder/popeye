@@ -22,7 +22,7 @@ void intelligent_nr_solutions_per_target_position_restter_solve(slice_index si);
  */
 boolean was_max_nr_solutions_per_target_position_reached(void);
 
-/* Propagate our findings to STOptionInterruption
+/* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
 void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si);

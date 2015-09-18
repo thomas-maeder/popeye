@@ -17,7 +17,7 @@ void setCommandlineMaxtime(maxtime_type commandlineValue);
  */
 void resetOptionMaxtime(void);
 
-/* Propagate our findings to STOptionInterruption
+/* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
 void maxtime_propagator_solve(slice_index si);

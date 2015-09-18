@@ -45,7 +45,7 @@ void stoponshortsolutions_resetter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Propagate our findings to STOptionInterruption
+/* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
 void stoponshortsolutions_propagator_solve(slice_index si)
@@ -72,7 +72,7 @@ void stoponshortsolutions_instrument_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
+    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STStopOnShortSolutionsPropagator);

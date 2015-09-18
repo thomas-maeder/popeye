@@ -230,7 +230,7 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
+    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STMaxSolutionsSolvingInstrumenter);

@@ -41,7 +41,7 @@ boolean isMaxtimeSet(void)
   return maxTimeOption!=no_time_set || maxTimeCommandLine!=no_time_set;
 }
 
-/* Propagate our findings to STOptionInterruption
+/* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
 void maxtime_propagator_solve(slice_index si)
@@ -72,7 +72,7 @@ void maxtime_instrument_solving(slice_index si, maxtime_type maxtime)
   maxTimeOption = maxtime;
 
   {
-    slice_index const interruption = branch_find_slice(STOptionInterruption,
+    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STMaxTimePropagator);
