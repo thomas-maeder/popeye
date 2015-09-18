@@ -43,10 +43,9 @@ void reset_short_solution_found_in_phase(void);
  */
 boolean has_short_solution_been_found_in_phase(void);
 
-/* Instrument a stipulation with STStopOnShortSolutions*Filter slices
- * @param si identifies slice where to start
- * @return true iff the option stoponshort applies
+/* Instrument help play
+ * @param si identifies the slice where to start instrumenting
  */
-boolean solving_insert_stoponshortsolutions_filters(slice_index si);
+void stoponshortsolutions_instrumenter_solve(slice_index si);
 
 #endif

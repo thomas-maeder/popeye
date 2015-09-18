@@ -6,7 +6,9 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -52,6 +54,11 @@ void stoponshortsolutions_propagator_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STStopOnShortSolutionsInstrumenter);
+    slice_insertion_insert(si,&prototype,1);
+  }
 
   pipe_solve_delegate(si);
 
@@ -153,36 +160,38 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation with STStopOnShortSolutions*Filter slices
- * @param si identifies slice where to start
- * @return true iff the option stoponshort applies
+/* Instrument help play
+ * @param si identifies the slice where to start instrumenting
  */
-boolean solving_insert_stoponshortsolutions_filters(slice_index si)
+void stoponshortsolutions_instrumenter_solve(slice_index si)
 {
-  boolean result = false;
-  stip_structure_traversal st;
+  boolean inserted = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&inserted);
+    stip_structure_traversal_override_by_contextual(&st,
+                                                    slice_contextual_conditional_pipe,
+                                                    &stip_traverse_structure_children_pipe);
+    stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
+    stip_traverse_structure(si,&st);
+  }
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_by_contextual(&st,
-                                                  slice_contextual_conditional_pipe,
-                                                  &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
-  stip_traverse_structure(si,&st);
+  if (inserted)
 
-  if (result)
   {
     slice_index const prototype = alloc_stoponshortsolutions_initialiser_slice();
     slice_insertion_insert(si,&prototype,1);
   }
+  else
+    output_plaintext_message(NoStopOnShortSolutions);
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

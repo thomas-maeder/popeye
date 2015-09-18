@@ -70,7 +70,7 @@ slice_index alloc_phase_solving_interrupted(slice_index base)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   {

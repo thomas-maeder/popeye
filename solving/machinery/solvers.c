@@ -174,7 +174,6 @@
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
 #include "options/movenumbers.h"
-#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -585,10 +584,6 @@ void build_solvers1(slice_index si)
     solving_insert_no_short_variations_filters(si);
 
   solving_optimise_dead_end_slices(si);
-
-  if (OptFlag[stoponshort]
-      && !solving_insert_stoponshortsolutions_filters(si))
-    output_plaintext_message(NoStopOnShortSolutions);
 
   solving_remove_irrelevant_constraints(si);
 

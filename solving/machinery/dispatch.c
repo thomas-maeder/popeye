@@ -1458,6 +1458,10 @@ void dispatch(slice_index si)
       stoponshortsolutions_resetter_solve(si);
       break;
 
+    case STStopOnShortSolutionsInstrumenter:
+      stoponshortsolutions_instrumenter_solve(si);
+      break;
+
     case STStopOnShortSolutionsFilter:
       stoponshortsolutions_solve(si);
       break;

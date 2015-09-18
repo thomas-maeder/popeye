@@ -1,6 +1,6 @@
 #include "options/stoponshortsolutions/initialiser.h"
-#include "stipulation/stipulation.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

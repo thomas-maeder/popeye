@@ -20,7 +20,8 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/pipe.h stipulation/branch.h stipulation/help_play/branch.h \
- solving/pipe.h debugging/assert.h
+ solving/pipe.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h debugging/assert.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -99,6 +100,12 @@ stipulation/branch.h:
 stipulation/help_play/branch.h:
 
 solving/pipe.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
 
 debugging/assert.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
