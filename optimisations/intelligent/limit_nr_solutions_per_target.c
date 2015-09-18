@@ -83,7 +83,7 @@ boolean is_max_nr_solutions_per_target_position_limited(void)
   return result;
 }
 
-/* Propagage our findings to STOptionInterruption
+/* Propagate our findings to STOptionInterruption
  * @param si identifies the slice where to start instrumenting
  */
 void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si)

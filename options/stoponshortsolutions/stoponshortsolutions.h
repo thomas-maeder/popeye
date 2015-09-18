@@ -15,7 +15,7 @@
  */
 void short_solution_found(void);
 
-/* Propagage our findings to STOptionInterruption
+/* Propagate our findings to STOptionInterruption
  * @param si identifies the slice where to start instrumenting
  */
 void stoponshortsolutions_propagator_solve(slice_index si);
