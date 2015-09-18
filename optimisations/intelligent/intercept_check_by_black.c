@@ -14,7 +14,9 @@
  * @param where_to_intercept where to intercept
  * @param go_on what to do after each successful interception?
  */
-static void white_piece_on(square where_to_intercept, void (*go_on)(void))
+static void white_piece_on(slice_index si,
+                           square where_to_intercept,
+                           void (*go_on)(slice_index si))
 {
   unsigned int i;
 
@@ -26,7 +28,7 @@ static void white_piece_on(square where_to_intercept, void (*go_on)(void))
     if (white[i].usage==piece_is_unused)
     {
       white[i].usage = piece_intercepts;
-      intelligent_place_white_piece(i,where_to_intercept,go_on);
+      intelligent_place_white_piece(si,i,where_to_intercept,go_on);
       white[i].usage = piece_is_unused;
     }
 
@@ -40,7 +42,7 @@ static void white_piece_on(square where_to_intercept, void (*go_on)(void))
  * @param dir_from_rider direction from rider giving check to white king
  * @param go_on what to do after each successful interception?
  */
-void white_piece(int dir_from_rider, void (*go_on)(void))
+static void white_piece(slice_index si, int dir_from_rider, void (*go_on)(slice_index si))
 {
   square where_to_intercept;
 
@@ -52,7 +54,7 @@ void white_piece(int dir_from_rider, void (*go_on)(void))
        is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
-      white_piece_on(where_to_intercept,go_on);
+      white_piece_on(si,where_to_intercept,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -64,10 +66,11 @@ void white_piece(int dir_from_rider, void (*go_on)(void))
  * @param is_diagonal true iff we are intercepting a check on a diagonal line
  * @param go_on what to do after each successful interception?
  */
-static void promoted_black_pawn(unsigned int intercepter_index,
-                                     square where_to_intercept,
-                                     boolean is_diagonal,
-                                     void (*go_on)(void))
+static void promoted_black_pawn(slice_index si,
+                                unsigned int intercepter_index,
+                                square where_to_intercept,
+                                boolean is_diagonal,
+                                void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",intercepter_index);
@@ -87,7 +90,8 @@ static void promoted_black_pawn(unsigned int intercepter_index,
 
         case Rook:
           if (is_diagonal)
-            intelligent_place_promoted_black_rider(intercepter_index,
+            intelligent_place_promoted_black_rider(si,
+                                                   intercepter_index,
                                                    Rook,
                                                    where_to_intercept,
                                                    go_on);
@@ -95,14 +99,16 @@ static void promoted_black_pawn(unsigned int intercepter_index,
 
         case Bishop:
           if (!is_diagonal)
-            intelligent_place_promoted_black_rider(intercepter_index,
+            intelligent_place_promoted_black_rider(si,
+                                                   intercepter_index,
                                                    Bishop,
                                                    where_to_intercept,
                                                    go_on);
           break;
 
         case Knight:
-          intelligent_place_promoted_black_knight(intercepter_index,
+          intelligent_place_promoted_black_knight(si,
+                                                  intercepter_index,
                                                   where_to_intercept,
                                                   go_on);
           break;
@@ -122,9 +128,10 @@ static void promoted_black_pawn(unsigned int intercepter_index,
  * @param is_diagonal true iff we are intercepting a check on a diagonal line
  * @param go_on what to do after each successful interception?
  */
-static void black_piece_on(square where_to_intercept,
+static void black_piece_on(slice_index si,
+                           square where_to_intercept,
                            boolean is_diagonal,
-                           void (*go_on)(void))
+                           void (*go_on)(slice_index si))
 {
   unsigned int intercepter_index;
 
@@ -141,11 +148,13 @@ static void black_piece_on(square where_to_intercept,
       switch (black[intercepter_index].type)
       {
         case Pawn:
-          promoted_black_pawn(intercepter_index,where_to_intercept,
+          promoted_black_pawn(si,
+                              intercepter_index,where_to_intercept,
                               is_diagonal,
                               go_on);
           if (!TSTFLAGMASK(sq_spec[where_to_intercept],BIT(BlBaseSq)|BIT(BlPromSq)))
-            intelligent_place_unpromoted_black_pawn(intercepter_index,
+            intelligent_place_unpromoted_black_pawn(si,
+                                                    intercepter_index,
                                                     where_to_intercept,
                                                     go_on);
           break;
@@ -155,16 +164,25 @@ static void black_piece_on(square where_to_intercept,
 
         case Rook:
           if (is_diagonal)
-            intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
+            intelligent_place_black_rider(si,
+                                          intercepter_index,
+                                          where_to_intercept,
+                                          go_on);
           break;
 
         case Bishop:
           if (!is_diagonal)
-            intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
+            intelligent_place_black_rider(si,
+                                          intercepter_index,
+                                          where_to_intercept,
+                                          go_on);
           break;
 
         case Knight:
-          intelligent_place_black_knight(intercepter_index,where_to_intercept,go_on);
+          intelligent_place_black_knight(si,
+                                         intercepter_index,
+                                         where_to_intercept,
+                                         go_on);
           break;
 
         default:
@@ -185,7 +203,9 @@ static void black_piece_on(square where_to_intercept,
  * @param dir_from_rider direction from rider giving check to white king
  * @param go_on what to do after each successful interception?
  */
-static void black_piece(int dir_to_rider, void (*go_on)(void))
+static void black_piece(slice_index si,
+                        int dir_to_rider,
+                        void (*go_on)(slice_index si))
 {
   square const start = being_solved.king_square[White]-dir_to_rider;
   boolean const is_diagonal = SquareCol(being_solved.king_square[White])==SquareCol(start);
@@ -200,7 +220,7 @@ static void black_piece(int dir_to_rider, void (*go_on)(void))
        where_to_intercept -= dir_to_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0
         && *where_to_start_placing_black_pieces<=where_to_intercept)
-      black_piece_on(where_to_intercept,is_diagonal,go_on);
+      black_piece_on(si,where_to_intercept,is_diagonal,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -210,7 +230,9 @@ static void black_piece(int dir_to_rider, void (*go_on)(void))
  * @param dir_from_rider direction from rider giving check to white king
  * @param go_on what to do after each successful interception?
  */
-void intelligent_intercept_check_by_black(int dir_from_rider, void (*go_on)(void))
+void intelligent_intercept_check_by_black(slice_index si,
+                                          int dir_from_rider,
+                                          void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir_from_rider);
@@ -218,13 +240,13 @@ void intelligent_intercept_check_by_black(int dir_from_rider, void (*go_on)(void
 
   if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
-    black_piece(dir_from_rider,go_on);
+    black_piece(si,dir_from_rider,go_on);
     intelligent_unreserve();
   }
 
   if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
-    white_piece(dir_from_rider,go_on);
+    white_piece(si,dir_from_rider,go_on);
     intelligent_unreserve();
   }
 

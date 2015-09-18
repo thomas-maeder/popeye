@@ -15,7 +15,7 @@
 /* Place some unused black piece on some square
  * @param where_to_place where to place some piece
  */
-static void place_some_piece_on(square where_to_place)
+static void place_some_piece_on(slice_index si, square where_to_place)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(where_to_place);
@@ -28,7 +28,8 @@ static void place_some_piece_on(square where_to_place)
       if (black[i].usage==piece_is_unused)
       {
         black[i].usage = piece_blocks;
-        intelligent_place_black_piece(i,
+        intelligent_place_black_piece(si,
+                                      i,
                                       where_to_place,
                                       &intelligent_stalemate_test_target_position);
         black[i].usage = piece_is_unused;
@@ -45,7 +46,7 @@ static void place_some_piece_on(square where_to_place)
 
 /* Place some unused black piece
  */
-static void place_some_piece(void)
+static void place_some_piece(slice_index si)
 {
   square const *bnp;
   square const * const save_start = where_to_start_placing_black_pieces;
@@ -57,7 +58,7 @@ static void place_some_piece(void)
     if (is_square_empty(*bnp) && nr_reasons_for_staying_empty[*bnp]==0)
     {
       where_to_start_placing_black_pieces = bnp;
-      place_some_piece_on(*bnp);
+      place_some_piece_on(si,*bnp);
     }
 
   where_to_start_placing_black_pieces = save_start;
@@ -68,14 +69,15 @@ static void place_some_piece(void)
 
 /* fix the white king on its diagram square
  */
-static void fix_white_king_on_diagram_square(void)
+static void fix_white_king_on_diagram_square(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   white[index_of_king].usage = piece_is_fixed_to_diagram_square;
 
-  intelligent_place_white_king(white[index_of_king].diagram_square,
+  intelligent_place_white_king(si,
+                               white[index_of_king].diagram_square,
                                &intelligent_stalemate_test_target_position);
 
   white[index_of_king].usage = piece_is_unused;
@@ -86,7 +88,7 @@ static void fix_white_king_on_diagram_square(void)
 
 /* Deal with unused black pieces
  */
-void intelligent_stalemate_deal_with_unused_pieces(void)
+void intelligent_stalemate_deal_with_unused_pieces(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -99,7 +101,7 @@ void intelligent_stalemate_deal_with_unused_pieces(void)
     {
       if (is_square_empty(white[index_of_king].diagram_square)
           && nr_reasons_for_staying_empty[white[index_of_king].diagram_square]==0)
-        fix_white_king_on_diagram_square();
+        fix_white_king_on_diagram_square(si);
     }
     else
     {
@@ -115,12 +117,12 @@ void intelligent_stalemate_deal_with_unused_pieces(void)
       TraceValue("%u\n",piece_is_unused);
       TraceValue("%u\n",MovesLeft[White]);
       if (unused>0)
-        place_some_piece();
+        place_some_piece(si);
 
       if (unused<=MovesLeft[White])
       {
         CapturesLeft[ply_retro_move] = unused;
-        solve_target_position();
+        solve_target_position(si);
       }
     }
   }

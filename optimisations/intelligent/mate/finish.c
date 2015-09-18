@@ -17,7 +17,7 @@
 /* Place any black piece on some square
  * @param placed_on where to place any black piece
  */
-static void place_any_black_piece_on(square placed_on)
+static void place_any_black_piece_on(slice_index si, square placed_on)
 {
   unsigned int placed_index;
 
@@ -31,7 +31,8 @@ static void place_any_black_piece_on(square placed_on)
       if (black[placed_index].usage==piece_is_unused)
       {
         black[placed_index].usage = piece_intercepts;
-        intelligent_place_black_piece(placed_index,
+        intelligent_place_black_piece(si,
+                                      placed_index,
                                       placed_on,
                                       &intelligent_mate_test_target_position);
         black[placed_index].usage = piece_is_unused;
@@ -49,7 +50,7 @@ static void place_any_black_piece_on(square placed_on)
 /* Is there a redundant white piece in the curren position?
  * @return true iff there is a redundant piece
  */
-static boolean exists_redundant_white_piece(void)
+static boolean exists_redundant_white_piece(slice_index si)
 {
   boolean result = false;
   square const *bnp;
@@ -82,7 +83,7 @@ static boolean exists_redundant_white_piece(void)
         piece_walk_type const p = get_walk_of_piece_on_square(sq);
         Flags const sp = being_solved.spec[sq];
         empty_square(sq);
-        result = conditional_pipe_solve_delegate(current_start_slice)==previous_move_has_solved;
+        result = conditional_pipe_solve_delegate(si)==previous_move_has_solved;
         occupy_square(sq,p,sp);
       }
     }
@@ -134,7 +135,7 @@ static square find_king_flight(void)
 
 /* fix the white king on its diagram square
  */
-static void fix_white_king_on_diagram_square(void)
+static void fix_white_king_on_diagram_square(slice_index si)
 {
   square const king_diagram_square = white[index_of_king].diagram_square;
 
@@ -146,7 +147,8 @@ static void fix_white_king_on_diagram_square(void)
       && intelligent_reserve_masses(White,1,piece_is_king))
   {
     white[index_of_king].usage = piece_is_king;
-    intelligent_place_white_king(king_diagram_square,
+    intelligent_place_white_king(si,
+                                 king_diagram_square,
                                  &intelligent_mate_test_target_position);
     white[index_of_king].usage = piece_is_unused;
 
@@ -160,7 +162,7 @@ static void fix_white_king_on_diagram_square(void)
 /* Test the position created by the taken operations; if the position is a
  * solvable target position: solve it; otherwise: improve it
  */
-void intelligent_mate_test_target_position(void)
+void intelligent_mate_test_target_position(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -177,12 +179,12 @@ void intelligent_mate_test_target_position(void)
       if (white[index_of_king].usage==piece_is_unused
           && white[index_of_king].diagram_square!=square_e1
           && intelligent_get_nr_remaining_moves(White)==0)
-        fix_white_king_on_diagram_square();
-      else if (!exists_redundant_white_piece())
-        solve_target_position();
+        fix_white_king_on_diagram_square(si);
+      else if (!exists_redundant_white_piece(si))
+        solve_target_position(si);
     }
     else if (is_square_empty(flight))
-      place_any_black_piece_on(flight);
+      place_any_black_piece_on(si,flight);
   }
 
   TraceFunctionExit(__func__);

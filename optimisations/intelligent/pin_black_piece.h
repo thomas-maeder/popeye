@@ -17,14 +17,16 @@ int intelligent_is_black_piece_pinnable(square piece_pos);
  * @pre pin_dir!=0
  * @pre the piece at piece_pos is pinnable along pin_dir
  */
-void intelligent_pin_pinnable_black_piece(square piece_pos,
+void intelligent_pin_pinnable_black_piece(slice_index si,
+                                          square piece_pos,
                                           int pin_dir,
-                                          void (*go_on)(void));
+                                          void (*go_on)(slice_index si));
 
 /* Pin a mobile black piece
  * @param dir_to_touble_maker direction from king to piece to be pinned
  */
-void intelligent_pin_black_piece(square position_of_trouble_maker,
-                                 void (*go_on)(void));
+void intelligent_pin_black_piece(slice_index si,
+                                 square position_of_trouble_maker,
+                                 void (*go_on)(slice_index si));
 
 #endif

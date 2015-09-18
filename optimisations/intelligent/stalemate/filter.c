@@ -77,11 +77,9 @@ static boolean Intelligent(slice_index si)
   TraceFunctionParamListEnd();
 
   solutions_found = false;
-  current_start_slice = si;
   intelligent_duplicate_avoider_init();
-  IntelligentRegulargoal_types();
+  IntelligentRegulargoal_types(si);
   intelligent_duplicate_avoider_cleanup();
-  current_start_slice = no_slice;
   result = solutions_found;
 
   TraceFunctionExit(__func__);

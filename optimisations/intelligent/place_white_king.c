@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 static vec_index_type current_direction;
-static void (*go_on_after)(void);
+static void (*go_on_after)(slice_index si);
 
 /* Is the placed white king in check from a particular direction?
  * @param dir direction
@@ -46,7 +46,7 @@ static boolean check_from_direction(int dir)
 
 /* Continue intercepting checks to the placed white king
  */
-static void continue_intercepting_checks(void)
+static void continue_intercepting_checks(slice_index si)
 {
   vec_index_type const save_current_direction = current_direction;
 
@@ -59,10 +59,11 @@ static void continue_intercepting_checks(void)
            && !check_from_direction(vec[current_direction]));
 
   if (current_direction<=vec_queen_end)
-    intelligent_intercept_check_by_black(vec[current_direction],
+    intelligent_intercept_check_by_black(si,
+                                         vec[current_direction],
                                          &continue_intercepting_checks);
   else
-    (*go_on_after)();
+    (*go_on_after)(si);
 
   current_direction = save_current_direction;
 
@@ -89,7 +90,9 @@ static boolean guards_from(square white_king_square)
  * @param place_on where to place the king
  * @param go_on what to do after having placed the king?
  */
-void intelligent_place_white_king(square place_on, void (*go_on)(void))
+void intelligent_place_white_king(slice_index si,
+                                  square place_on,
+                                  void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceSquare(place_on);
@@ -105,7 +108,7 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
 
     current_direction = vec_queen_start-1;
     go_on_after = go_on;
-    continue_intercepting_checks();
+    continue_intercepting_checks(si);
 
     being_solved.king_square[White] = initsquare;
     empty_square(place_on);

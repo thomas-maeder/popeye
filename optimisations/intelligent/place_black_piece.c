@@ -57,10 +57,11 @@ static int find_interceptable_check_dir(piece_walk_type rider_type, square place
   return result;
 }
 
-void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
+void intelligent_place_pinned_promoted_black_rider(slice_index si,
+                                                   unsigned int placed_index,
                                                    piece_walk_type promotee_type,
                                                    square placed_on,
-                                                   void (*go_on)(void))
+                                                   void (*go_on)(slice_index si))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   Flags const placed_flags = black[placed_index].flags;
@@ -80,7 +81,7 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
                                                                  placed_on))
       {
         occupy_square(placed_on,promotee_type,placed_flags);
-        (*go_on)();
+        (*go_on)(si);
         intelligent_unreserve();
       }
     }
@@ -90,7 +91,7 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
                                                                        placed_on))
     {
      occupy_square(placed_on,promotee_type,placed_flags);
-     intelligent_intercept_check_by_black(check_dir,go_on);
+     intelligent_intercept_check_by_black(si,check_dir,go_on);
      intelligent_unreserve();
     }
   }
@@ -102,13 +103,13 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
 typedef struct rider_placement_stack_elmt_type
 {
     square const placed_on;
-    void (* const go_on)(void);
+    void (* const go_on)(slice_index si);
     struct rider_placement_stack_elmt_type const * const next;
 } rider_placement_stack_elmt_type;
 
 static rider_placement_stack_elmt_type const *stack_top = 0;
 
-static void rider_placed(void)
+static void rider_placed(slice_index si)
 {
   rider_placement_stack_elmt_type const * const save_top = stack_top;
 
@@ -119,7 +120,7 @@ static void rider_placed(void)
   stack_top = stack_top->next;
 
   if (being_solved.king_square[White]==initsquare)
-    (*save_top->go_on)();
+    (*save_top->go_on)(si);
   else
   {
     int const check_diff = being_solved.king_square[White]-save_top->placed_on;
@@ -127,9 +128,9 @@ static void rider_placed(void)
     assert(check_dir!=check_diff);
     if (check_dir!=0
         && is_line_empty(save_top->placed_on,being_solved.king_square[White],check_dir))
-      intelligent_intercept_check_by_black(check_dir,save_top->go_on);
+      intelligent_intercept_check_by_black(si,check_dir,save_top->go_on);
     else
-      (*save_top->go_on)();
+      (*save_top->go_on)(si);
   }
 
   assert(stack_top==save_top->next);
@@ -187,7 +188,7 @@ typedef struct rider_interception_stack_elmt_type
 
 static rider_interception_stack_elmt_type *rider_interception_top = 0;
 
-static void next_rider_interception(void)
+static void next_rider_interception(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",rider_interception_top);
@@ -206,9 +207,9 @@ static void next_rider_interception(void)
     ++rider_interception_top->next;
 
     if (dir!=0 && is_line_empty(placed_on,target,dir))
-      intelligent_intercept_black_move(placed_on,target,&next_rider_interception);
+      intelligent_intercept_black_move(si,placed_on,target,&next_rider_interception);
     else
-      next_rider_interception();
+      next_rider_interception(si);
 
     assert(rider_interception_top->next>0);
     --rider_interception_top->next;
@@ -217,7 +218,7 @@ static void next_rider_interception(void)
   {
     rider_interception_stack_elmt_type * const save_top = rider_interception_top;
     rider_interception_top = rider_interception_top->succ;
-    rider_placed();
+    rider_placed(si);
     rider_interception_top = save_top;
   }
 
@@ -225,10 +226,11 @@ static void next_rider_interception(void)
   TraceFunctionResultEnd();
 }
 
-static void place_rider(unsigned int placed_index,
+static void place_rider(slice_index si,
+                        unsigned int placed_index,
                         piece_walk_type placed_type,
                         square placed_on,
-                        void (*go_on)(void))
+                        void (*go_on)(slice_index si))
 {
   rider_placement_stack_elmt_type const elmt = { placed_on, go_on, stack_top };
 
@@ -245,7 +247,7 @@ static void place_rider(unsigned int placed_index,
   switch (how_does_rider_disturb(placed_type,placed_on))
   {
     case rider_doesnt_disturb:
-      rider_placed();
+      rider_placed(si);
       break;
 
     case rider_requires_interception:
@@ -257,16 +259,16 @@ static void place_rider(unsigned int placed_index,
           rider_interception_top
       };
       rider_interception_top = &elmt;
-      next_rider_interception();
+      next_rider_interception(si);
       assert(rider_interception_top==&elmt);
       rider_interception_top = elmt.succ;
 
-      intelligent_pin_black_piece(placed_on,&rider_placed);
+      intelligent_pin_black_piece(si,placed_on,&rider_placed);
       break;
     }
 
     case rider_requires_pin:
-      intelligent_pin_black_piece(placed_on,&rider_placed);
+      intelligent_pin_black_piece(si,placed_on,&rider_placed);
       break;
 
     default:
@@ -281,10 +283,11 @@ static void place_rider(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_black_rider(unsigned int placed_index,
+void intelligent_place_promoted_black_rider(slice_index si,
+                                            unsigned int placed_index,
                                             piece_walk_type promotee_type,
                                             square placed_on,
-                                            void (*go_on)(void))
+                                            void (*go_on)(slice_index si))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = being_solved.king_square[White]-placed_on;
@@ -301,7 +304,7 @@ void intelligent_place_promoted_black_rider(unsigned int placed_index,
                                                                 promotee_type,
                                                                 placed_on))
   {
-    place_rider(placed_index,promotee_type,placed_on,go_on);
+    place_rider(si,placed_index,promotee_type,placed_on,go_on);
     intelligent_unreserve();
   }
 
@@ -309,9 +312,10 @@ void intelligent_place_promoted_black_rider(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
+void intelligent_place_pinned_promoted_black_knight(slice_index si,
+                                                    unsigned int placed_index,
                                                     square placed_on,
-                                                    void (*go_on)(void))
+                                                    void (*go_on)(slice_index si))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   Flags const placed_flags = black[placed_index].flags;
@@ -328,7 +332,7 @@ void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
                                                                 placed_on))
   {
     occupy_square(placed_on,Knight,placed_flags);
-    (*go_on)();
+    (*go_on)(si);
     intelligent_unreserve();
   }
 
@@ -336,9 +340,10 @@ void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_black_knight(unsigned int placed_index,
+void intelligent_place_promoted_black_knight(slice_index si,
+                                             unsigned int placed_index,
                                              square placed_on,
-                                             void (*go_on)(void))
+                                             void (*go_on)(slice_index si))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   Flags const placed_flags = black[placed_index].flags;
@@ -356,9 +361,9 @@ void intelligent_place_promoted_black_knight(unsigned int placed_index,
   {
     occupy_square(placed_on,Knight,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
-      (*go_on)();
+      (*go_on)(si);
     else
-      intelligent_pin_black_piece(placed_on,go_on);
+      intelligent_pin_black_piece(si,placed_on,go_on);
     intelligent_unreserve();
   }
 
@@ -366,9 +371,10 @@ void intelligent_place_promoted_black_knight(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
+void intelligent_place_pinned_promoted_black_pawn(slice_index si,
+                                                  unsigned int placed_index,
                                                   square placed_on,
-                                                  void (*go_on)(void))
+                                                  void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -385,14 +391,18 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
         case Queen:
         case Rook:
         case Bishop:
-          intelligent_place_pinned_promoted_black_rider(placed_index,
+          intelligent_place_pinned_promoted_black_rider(si,
+                                                        placed_index,
                                                         pp,
                                                         placed_on,
                                                         go_on);
           break;
 
         case Knight:
-          intelligent_place_pinned_promoted_black_knight(placed_index,placed_on,go_on);
+          intelligent_place_pinned_promoted_black_knight(si,
+                                                         placed_index,
+                                                         placed_on,
+                                                         go_on);
           break;
 
         default:
@@ -405,9 +415,10 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_black_pawn(unsigned int placed_index,
+void intelligent_place_promoted_black_pawn(slice_index si,
+                                           unsigned int placed_index,
                                            square placed_on,
-                                           void (*go_on)(void))
+                                           void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -424,14 +435,18 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
         case Queen:
         case Rook:
         case Bishop:
-          intelligent_place_promoted_black_rider(placed_index,
+          intelligent_place_promoted_black_rider(si,
+                                                 placed_index,
                                                  pp,
                                                  placed_on,
                                                  go_on);
           break;
 
         case Knight:
-          intelligent_place_promoted_black_knight(placed_index,placed_on,go_on);
+          intelligent_place_promoted_black_knight(si,
+                                                  placed_index,
+                                                  placed_on,
+                                                  go_on);
           break;
 
         default:
@@ -444,9 +459,10 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
+void intelligent_place_pinned_unpromoted_black_pawn(slice_index si,
+                                                    unsigned int placed_index,
                                                     square placed_on,
-                                                    void (*go_on)(void))
+                                                    void (*go_on)(slice_index si))
 {
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
@@ -462,7 +478,7 @@ void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
                                                                    placed_on))
   {
     occupy_square(placed_on,Pawn,placed_flags);
-    (*go_on)();
+    (*go_on)(si);
     intelligent_unreserve();
   }
 
@@ -470,9 +486,10 @@ void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
+void intelligent_place_unpromoted_black_pawn(slice_index si,
+                                             unsigned int placed_index,
                                              square placed_on,
-                                             void (*go_on)(void))
+                                             void (*go_on)(slice_index si))
 {
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
@@ -493,7 +510,7 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
     {
       case disturbance_by_pawn_capture:
       case disturbance_by_pawn_interception_single:
-        intelligent_pin_black_piece(placed_on,go_on);
+        intelligent_pin_black_piece(si,placed_on,go_on);
         break;
 
       case disturbance_by_pawn_interception_double:
@@ -502,16 +519,16 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
         assert(is_square_empty(target));
         if (is_square_empty(placed_on+dir_down))
         {
-          intelligent_intercept_black_move(placed_on,target,go_on);
-          intelligent_pin_black_piece(placed_on,go_on);
+          intelligent_intercept_black_move(si,placed_on,target,go_on);
+          intelligent_pin_black_piece(si,placed_on,go_on);
         }
         else
-          (*go_on)();
+          (*go_on)(si);
         break;
       }
 
       default:
-        (*go_on)();
+        (*go_on)(si);
         break;
     }
 
@@ -522,9 +539,10 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_black_rider(unsigned int placed_index,
+void intelligent_place_pinned_black_rider(slice_index si,
+                                          unsigned int placed_index,
                                           square placed_on,
-                                          void (*go_on)(void))
+                                          void (*go_on)(slice_index si))
 {
   piece_walk_type const intercepter_type = black[placed_index].type;
   Flags const placed_flags = black[placed_index].flags;
@@ -546,7 +564,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                                     placed_on))
       {
         occupy_square(placed_on,intercepter_type,placed_flags);
-        (*go_on)();
+        (*go_on)(si);
         intelligent_unreserve();
       }
     }
@@ -557,7 +575,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                                           placed_on))
     {
       occupy_square(placed_on,intercepter_type,placed_flags);
-      intelligent_intercept_check_by_black(check_dir,go_on);
+      intelligent_intercept_check_by_black(si,check_dir,go_on);
       intelligent_unreserve();
     }
   }
@@ -566,9 +584,10 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_black_rider(unsigned int placed_index,
+void intelligent_place_black_rider(slice_index si,
+                                   unsigned int placed_index,
                                    square placed_on,
-                                   void (*go_on)(void))
+                                   void (*go_on)(slice_index si))
 {
   piece_walk_type const intercepter_type = black[placed_index].type;
   square const placed_comes_from = black[placed_index].diagram_square;
@@ -586,7 +605,7 @@ void intelligent_place_black_rider(unsigned int placed_index,
                                                    intercepter_type,
                                                    placed_on))
   {
-    place_rider(placed_index,intercepter_type,placed_on,go_on);
+    place_rider(si,placed_index,intercepter_type,placed_on,go_on);
     intelligent_unreserve();
   }
 
@@ -594,9 +613,10 @@ void intelligent_place_black_rider(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_black_knight(unsigned int placed_index,
+void intelligent_place_pinned_black_knight(slice_index si,
+                                           unsigned int placed_index,
                                            square placed_on,
-                                           void (*go_on)(void))
+                                           void (*go_on)(slice_index si))
 {
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
@@ -614,7 +634,7 @@ void intelligent_place_pinned_black_knight(unsigned int placed_index,
                                                    placed_on))
   {
     occupy_square(placed_on,Knight,placed_flags);
-    (*go_on)();
+    (*go_on)(si);
     intelligent_unreserve();
   }
 
@@ -622,9 +642,10 @@ void intelligent_place_pinned_black_knight(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_black_knight(unsigned int placed_index,
+void intelligent_place_black_knight(slice_index si,
+                                    unsigned int placed_index,
                                     square placed_on,
-                                    void (*go_on)(void))
+                                    void (*go_on)(slice_index si))
 {
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
@@ -643,9 +664,9 @@ void intelligent_place_black_knight(unsigned int placed_index,
   {
     occupy_square(placed_on,Knight,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
-      (*go_on)();
+      (*go_on)(si);
     else
-      intelligent_pin_black_piece(placed_on,go_on);
+      intelligent_pin_black_piece(si,placed_on,go_on);
     intelligent_unreserve();
   }
 
@@ -659,9 +680,10 @@ void intelligent_place_black_knight(unsigned int placed_index,
  * @param go_on what to do with piece placed_index on square placed_on?
  * @note will leave placed_on occupied by the last piece tried
  */
-void intelligent_place_black_piece(unsigned int placed_index,
+void intelligent_place_black_piece(slice_index si,
+                                   unsigned int placed_index,
                                    square placed_on,
-                                   void (*go_on)(void))
+                                   void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -673,16 +695,16 @@ void intelligent_place_black_piece(unsigned int placed_index,
     case Queen:
     case Rook:
     case Bishop:
-      intelligent_place_black_rider(placed_index,placed_on,go_on);
+      intelligent_place_black_rider(si,placed_index,placed_on,go_on);
       break;
 
     case Knight:
-      intelligent_place_black_knight(placed_index,placed_on,go_on);
+      intelligent_place_black_knight(si,placed_index,placed_on,go_on);
       break;
 
     case Pawn:
-      intelligent_place_promoted_black_pawn(placed_index,placed_on,go_on);
-      intelligent_place_unpromoted_black_pawn(placed_index,placed_on,go_on);
+      intelligent_place_promoted_black_pawn(si,placed_index,placed_on,go_on);
+      intelligent_place_unpromoted_black_pawn(si,placed_index,placed_on,go_on);
       break;
 
     default:
@@ -694,9 +716,10 @@ void intelligent_place_black_piece(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_pinned_black_piece(unsigned int placed_index,
+void intelligent_place_pinned_black_piece(slice_index si,
+                                          unsigned int placed_index,
                                           square placed_on,
-                                          void (*go_on)(void))
+                                          void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -708,16 +731,16 @@ void intelligent_place_pinned_black_piece(unsigned int placed_index,
     case Queen:
     case Rook:
     case Bishop:
-      intelligent_place_pinned_black_rider(placed_index,placed_on,go_on);
+      intelligent_place_pinned_black_rider(si,placed_index,placed_on,go_on);
       break;
 
     case Knight:
-      intelligent_place_pinned_black_knight(placed_index,placed_on,go_on);
+      intelligent_place_pinned_black_knight(si,placed_index,placed_on,go_on);
       break;
 
     case Pawn:
-      intelligent_place_pinned_promoted_black_pawn(placed_index,placed_on,go_on);
-      intelligent_place_pinned_unpromoted_black_pawn(placed_index,placed_on,go_on);
+      intelligent_place_pinned_promoted_black_pawn(si,placed_index,placed_on,go_on);
+      intelligent_place_pinned_unpromoted_black_pawn(si,placed_index,placed_on,go_on);
       break;
 
     default:

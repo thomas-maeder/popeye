@@ -3,6 +3,7 @@
 
 #include "pieces/walks/vectors.h"
 #include "position/board.h"
+#include "stipulation/stipulation.h"
 
 #include <limits.h>
 
@@ -39,9 +40,9 @@ extern guard_dir_struct GuardDir[5][maxsquare+4];
 void init_guard_dirs(square black_king_pos);
 
 /* continue guarding king flights */
-void intelligent_continue_guarding_flights(void);
+void intelligent_continue_guarding_flights(slice_index si);
 
 /* guard king flights */
-void intelligent_guard_flights(void);
+void intelligent_guard_flights(slice_index si);
 
 #endif

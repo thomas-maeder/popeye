@@ -12,7 +12,8 @@
 /* Pin a mobile black piece
  * @param position_of_trouble_maker position of piece to be pinned
  */
-void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker)
+void intelligent_stalemate_pin_black_piece(slice_index si,
+                                           square position_of_trouble_maker)
 {
   int const dir = intelligent_is_black_piece_pinnable(position_of_trouble_maker);
   piece_walk_type const pinned_type = get_walk_of_piece_on_square(position_of_trouble_maker);
@@ -26,7 +27,8 @@ void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker)
       /* bishops can only be pinned on rook lines and vice versa */
       && !(CheckDir[Bishop][dir]!=0 && pinned_type==Bishop)
       && !(CheckDir[Rook][dir]!=0 && pinned_type==Rook))
-    intelligent_pin_pinnable_black_piece(position_of_trouble_maker,
+    intelligent_pin_pinnable_black_piece(si,
+                                         position_of_trouble_maker,
                                          dir,
                                          &intelligent_stalemate_test_target_position);
 

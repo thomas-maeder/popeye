@@ -724,12 +724,13 @@ optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- optimisations/intelligent/intelligent.h position/pieceid.h \
- stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum optimisations/intelligent/intelligent.h \
+ position/pieceid.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -765,15 +766,9 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-optimisations/intelligent/intelligent.h:
-
-position/pieceid.h:
+stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-solving/machinery/solve.h:
-
-stipulation/stipulation.h:
 
 stipulation/slice_type.h:
 
@@ -786,6 +781,12 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/pieceid.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -815,12 +816,13 @@ optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h \
- optimisations/intelligent/intelligent.h position/pieceid.h \
- stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum optimisations/intelligent/intelligent.h \
+ position/pieceid.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -856,15 +858,9 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-optimisations/intelligent/intelligent.h:
-
-position/pieceid.h:
+stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-solving/machinery/solve.h:
-
-stipulation/stipulation.h:
 
 stipulation/slice_type.h:
 
@@ -877,6 +873,12 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/pieceid.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -906,12 +908,13 @@ optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
  position/position.h position/side.h position/side.enum.h \
  position/side.enum position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- optimisations/intelligent/intelligent.h position/pieceid.h \
- stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum optimisations/intelligent/intelligent.h \
+ position/pieceid.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/intercept_check_by_black.h \
@@ -951,15 +954,9 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-optimisations/intelligent/intelligent.h:
-
-position/pieceid.h:
+stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-solving/machinery/solve.h:
-
-stipulation/stipulation.h:
 
 stipulation/slice_type.h:
 
@@ -972,6 +969,12 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/pieceid.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -1004,17 +1007,17 @@ pieces/walks/pawns/promotee_sequence.h:
 debugging/assert.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/block_flights.c \
- optimisations/intelligent/block_flights.h \
- optimisations/intelligent/intelligent.h pieces/pieces.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/side.h position/side.enum.h \
- position/side.enum position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- position/pieceid.h stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/block_flights.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/intercept_check_by_black.h \
@@ -1028,23 +1031,39 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
 
 optimisations/intelligent/block_flights.h:
 
-optimisations/intelligent/intelligent.h:
+stipulation/stipulation.h:
 
-pieces/pieces.h:
-
-utilities/boolean.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/position.h:
 
 position/color.h:
 
@@ -1058,23 +1077,7 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/goals/goals.h:
-
 solving/machinery/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -1108,15 +1111,16 @@ debugging/assert.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.c \
  optimisations/intelligent/guard_flights.h pieces/walks/vectors.h \
- position/board.h utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
+ position/board.h utilities/bitmask.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
  optimisations/intelligent/intelligent.h position/position.h \
- position/side.h position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum position/castling_rights.h \
- position/pieceid.h stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/castling_rights.h position/pieceid.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -1136,19 +1140,35 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-optimisations/intelligent/intelligent.h:
+stipulation/slice_type.h:
 
-position/position.h:
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/position.h:
 
 position/color.h:
 
@@ -1160,23 +1180,7 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/goals/goals.h:
-
 solving/machinery/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -1212,15 +1216,15 @@ debugging/assert.h:
 optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.c \
  optimisations/intelligent/intercept_check_from_guard.h position/board.h \
- utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
+ utilities/bitmask.h stipulation/stipulation.h stipulation/goals/goals.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
  optimisations/intelligent/intelligent.h position/position.h \
- position/side.h position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/castling_rights.h position/pieceid.h stipulation/goals/goals.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -1235,19 +1239,35 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-optimisations/intelligent/intelligent.h:
+stipulation/slice_type.h:
 
-position/position.h:
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/position.h:
 
 position/color.h:
 
@@ -1261,23 +1281,7 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/goals/goals.h:
-
 solving/machinery/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -1302,16 +1306,16 @@ pieces/walks/pawns/promotee_sequence.h:
 debugging/assert.h:
 optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_by_black.c \
- optimisations/intelligent/intercept_check_by_black.h pieces/pieces.h \
- utilities/boolean.h optimisations/intelligent/intelligent.h \
- position/position.h position/board.h utilities/bitmask.h position/side.h \
- position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/castling_rights.h position/pieceid.h stipulation/goals/goals.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ optimisations/intelligent/intercept_check_by_black.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -1323,23 +1327,39 @@ optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
 
 optimisations/intelligent/intercept_check_by_black.h:
 
-pieces/pieces.h:
+stipulation/stipulation.h:
 
-utilities/boolean.h:
-
-optimisations/intelligent/intelligent.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/position.h:
 
 position/color.h:
 
@@ -1353,23 +1373,7 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/goals/goals.h:
-
 solving/machinery/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -1401,12 +1405,13 @@ optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h \
- optimisations/intelligent/intelligent.h position/pieceid.h \
- stipulation/goals/goals.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum optimisations/intelligent/intelligent.h \
+ position/pieceid.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/place_white_piece.h \
@@ -1443,15 +1448,9 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-optimisations/intelligent/intelligent.h:
-
-position/pieceid.h:
+stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-solving/machinery/solve.h:
-
-stipulation/stipulation.h:
 
 stipulation/slice_type.h:
 
@@ -1464,6 +1463,12 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/pieceid.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -1491,15 +1496,15 @@ debugging/assert.h:
 optimisations/intelligent/intercept_black_move$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_black_move.c \
  optimisations/intelligent/intercept_black_move.h position/board.h \
- utilities/bitmask.h optimisations/intelligent/intelligent.h \
- pieces/pieces.h utilities/boolean.h position/position.h position/side.h \
- position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/castling_rights.h position/pieceid.h stipulation/goals/goals.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ utilities/bitmask.h stipulation/stipulation.h stipulation/goals/goals.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -1514,19 +1519,35 @@ position/board.h:
 
 utilities/bitmask.h:
 
-optimisations/intelligent/intelligent.h:
+stipulation/stipulation.h:
 
-pieces/pieces.h:
+stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-position/position.h:
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+optimisations/intelligent/intelligent.h:
+
+position/position.h:
 
 position/color.h:
 
@@ -1540,23 +1561,7 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/goals/goals.h:
-
 solving/machinery/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
 
 solving/machinery/dispatch.h:
 

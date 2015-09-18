@@ -11,7 +11,7 @@
 /* Block a black pawn with a white piece
  * @param to_be_blocked where to block the pawn
  */
-void intelligent_stalemate_white_block(square to_be_blocked)
+void intelligent_stalemate_white_block(slice_index si, square to_be_blocked)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_blocked);
@@ -28,34 +28,40 @@ void intelligent_stalemate_white_block(square to_be_blocked)
         switch (white[blocker_index].type)
         {
           case King:
-            intelligent_place_white_king(to_be_blocked,
+            intelligent_place_white_king(si,
+                                         to_be_blocked,
                                          &intelligent_stalemate_test_target_position);
             break;
 
           case Queen:
-            intelligent_place_white_queen(blocker_index,
+            intelligent_place_white_queen(si,
+                                          blocker_index,
                                           to_be_blocked,
                                           &intelligent_stalemate_test_target_position);
             break;
 
           case Rook:
           case Bishop:
-            intelligent_place_white_rider(blocker_index,
+            intelligent_place_white_rider(si,
+                                          blocker_index,
                                           to_be_blocked,
                                           &intelligent_stalemate_test_target_position);
             break;
 
           case Knight:
-            intelligent_place_white_knight(blocker_index,
+            intelligent_place_white_knight(si,
+                                           blocker_index,
                                            to_be_blocked,
                                            &intelligent_stalemate_test_target_position);
             break;
 
           case Pawn:
-            intelligent_place_promoted_white_pawn(blocker_index,
+            intelligent_place_promoted_white_pawn(si,
+                                                  blocker_index,
                                                   to_be_blocked,
                                                   &intelligent_stalemate_test_target_position);
-            intelligent_place_unpromoted_white_pawn(blocker_index,
+            intelligent_place_unpromoted_white_pawn(si,
+                                                    blocker_index,
                                                     to_be_blocked,
                                                     &intelligent_stalemate_test_target_position);
             break;

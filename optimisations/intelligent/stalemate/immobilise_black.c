@@ -100,25 +100,28 @@ static void next_trouble_maker(void)
     current_state->worst = current_state->current;
 }
 
-static void block_squares(trouble_maker_type const *trouble_maker)
+static void block_squares(slice_index si,
+                          trouble_maker_type const *trouble_maker)
 {
   if (trouble_maker->requirement==block_of_pawn_required)
   {
     assert(trouble_maker->nr_flight_directions==1);
-    intelligent_stalemate_white_block(trouble_maker->closest_flights[0]);
+    intelligent_stalemate_white_block(si,trouble_maker->closest_flights[0]);
 
     if (*where_to_start_placing_black_pieces<=trouble_maker->closest_flights[0])
-      intelligent_stalemate_black_block(trouble_maker->closest_flights,
+      intelligent_stalemate_black_block(si,
+                                        trouble_maker->closest_flights,
                                         trouble_maker->nr_flight_directions);
   }
   else
-    intelligent_stalemate_black_block(trouble_maker->closest_flights,
+    intelligent_stalemate_black_block(si,
+                                      trouble_maker->closest_flights,
                                       trouble_maker->nr_flight_directions);
 }
 
 /* @return true iff >=1 black pieces needed to be immobilised
  */
-boolean intelligent_stalemate_immobilise_black(void)
+boolean intelligent_stalemate_immobilise_black(slice_index si)
 {
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
@@ -136,7 +139,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
 
-  conditional_pipe_solve_delegate(current_start_slice);
+  conditional_pipe_solve_delegate(si);
 
   next_trouble_maker();
   current_state = 0;
@@ -152,11 +155,11 @@ boolean intelligent_stalemate_immobilise_black(void)
 
     if (immobilisation_state.worst.requirement<immobilisation_impossible)
     {
-      intelligent_stalemate_pin_black_piece(immobilisation_state.worst.target_square);
+      intelligent_stalemate_pin_black_piece(si,immobilisation_state.worst.target_square);
 
       if (immobilisation_state.worst.requirement<pin_required
           && can_we_block_all_necessary_squares(&immobilisation_state.worst))
-        block_squares(&immobilisation_state.worst);
+        block_squares(si,&immobilisation_state.worst);
     }
 
     result = true;

@@ -43,7 +43,8 @@ static void remember_to_keep_checking_line_open(square from, square to,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_rider_via(unsigned int index_of_checker,
+static void front_check_by_rider_via(slice_index si,
+                                     unsigned int index_of_checker,
                                      square via)
 {
   piece_walk_type const checker_type = white[index_of_checker].type;
@@ -71,7 +72,7 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
         occupy_square(*bnp,checker_type,checker_flags);
         remember_to_keep_checking_line_open(*bnp,being_solved.king_square[Black],checker_type,+1);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
-        intelligent_guard_flights();
+        intelligent_guard_flights(si);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,-1);
         remember_to_keep_checking_line_open(*bnp,being_solved.king_square[Black],checker_type,-1);
         empty_square(*bnp);
@@ -83,7 +84,8 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_knight_via(unsigned int index_of_checker,
+static void front_check_by_knight_via(slice_index si,
+                                      unsigned int index_of_checker,
                                       square via)
 {
   Flags const checker_flags = white[index_of_checker].flags;
@@ -105,7 +107,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
     {
       TraceSquare(*bnp);TraceWalk(being_solved.board[*bnp]);TraceEOL();
       occupy_square(*bnp,Knight,checker_flags);
-      intelligent_guard_flights();
+      intelligent_guard_flights(si);
       empty_square(*bnp);
       intelligent_unreserve();
     }
@@ -114,7 +116,8 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_promotee_rider(unsigned int index_of_checker,
+static void front_check_by_promotee_rider(slice_index si,
+                                          unsigned int index_of_checker,
                                           piece_walk_type promotee_type,
                                           square via,
                                           vec_index_type vec_start,
@@ -145,7 +148,7 @@ static void front_check_by_promotee_rider(unsigned int index_of_checker,
           occupy_square(to_square,promotee_type,checker_flags);
           remember_to_keep_checking_line_open(to_square,being_solved.king_square[Black],promotee_type,+1);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
-          intelligent_guard_flights();
+          intelligent_guard_flights(si);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,-1);
           remember_to_keep_checking_line_open(to_square,being_solved.king_square[Black],promotee_type,-1);
           empty_square(to_square);
@@ -159,7 +162,8 @@ static void front_check_by_promotee_rider(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_promotee_knight(unsigned int index_of_checker,
+static void front_check_by_promotee_knight(slice_index si,
+                                           unsigned int index_of_checker,
                                            square via)
 {
   Flags const checker_flags = white[index_of_checker].flags;
@@ -178,7 +182,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
     {
       TraceSquare(to_square);TraceWalk(being_solved.board[to_square]);TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
-      intelligent_guard_flights();
+      intelligent_guard_flights(si);
       empty_square(to_square);
     }
   }
@@ -187,7 +191,9 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_promotee(unsigned int index_of_checker, square via)
+static void front_check_by_promotee(slice_index si,
+                                    unsigned int index_of_checker,
+                                    square via)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -205,15 +211,15 @@ static void front_check_by_promotee(unsigned int index_of_checker, square via)
         switch (pp)
         {
           case Rook:
-            front_check_by_promotee_rider(index_of_checker,Rook,via,vec_rook_start,vec_rook_end);
+            front_check_by_promotee_rider(si,index_of_checker,Rook,via,vec_rook_start,vec_rook_end);
             break;
 
           case Bishop:
-            front_check_by_promotee_rider(index_of_checker,Bishop,via,vec_bishop_start,vec_bishop_end);
+            front_check_by_promotee_rider(si,index_of_checker,Bishop,via,vec_bishop_start,vec_bishop_end);
             break;
 
           case Knight:
-            front_check_by_promotee_knight(index_of_checker,via);
+            front_check_by_promotee_knight(si,index_of_checker,via);
             break;
 
           default:
@@ -229,7 +235,8 @@ static void front_check_by_promotee(unsigned int index_of_checker, square via)
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
+static void front_check_by_unpromoted_pawn(slice_index si,
+                                           unsigned int index_of_checker,
                                            square via,
                                            int dir)
 {
@@ -247,7 +254,7 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
                                                               check_square))
   {
     occupy_square(check_square,Pawn,white[index_of_checker].flags);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     empty_square(check_square);
     intelligent_unreserve();
   }
@@ -256,7 +263,8 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_checker,
+static void front_check_by_pawn_promotion_without_capture(slice_index si,
+                                                          unsigned int index_of_checker,
                                                           square via,
                                                           int dir)
 {
@@ -279,7 +287,7 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
       if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
       {
         occupy_square(check_from,pp,white[index_of_checker].flags);
-        intelligent_guard_flights();
+        intelligent_guard_flights(si);
       }
 
     empty_square(check_from);
@@ -290,7 +298,8 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_checker,
+static void front_check_by_pawn_promotion_with_capture(slice_index si,
+                                                       unsigned int index_of_checker,
                                                        square via,
                                                        int dir)
 {
@@ -320,7 +329,7 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
             {
               occupy_square(check_from,pp,white[index_of_checker].flags);
               remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
-              intelligent_guard_flights();
+              intelligent_guard_flights(si);
               remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
             }
             break;
@@ -328,7 +337,7 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
           case Bishop:
           case Knight:
             occupy_square(check_from,pp,white[index_of_checker].flags);
-            intelligent_guard_flights();
+            intelligent_guard_flights(si);
             break;
 
           default:
@@ -345,7 +354,9 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_pawn(unsigned int index_of_checker, square via)
+static void front_check_by_pawn(slice_index si,
+                                unsigned int index_of_checker,
+                                square via)
 {
   Flags const mask = BIT(Black)|BIT(Royal);
 
@@ -356,22 +367,24 @@ static void front_check_by_pawn(unsigned int index_of_checker, square via)
 
   if (TSTFULLFLAGMASK(being_solved.spec[via+2*dir_up],mask))
   {
-    front_check_by_unpromoted_pawn(index_of_checker,via,dir_up+dir_left);
-    front_check_by_unpromoted_pawn(index_of_checker,via,dir_up+dir_right);
+    front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_left);
+    front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_right);
   }
 
   if (TSTFLAG(sq_spec[via+dir_up],WhPromSq))
   {
-    front_check_by_pawn_promotion_without_capture(index_of_checker,via,dir_up);
-    front_check_by_pawn_promotion_with_capture(index_of_checker,via,dir_up+dir_left);
-    front_check_by_pawn_promotion_with_capture(index_of_checker,via,dir_up+dir_right);
+    front_check_by_pawn_promotion_without_capture(si,index_of_checker,via,dir_up);
+    front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_left);
+    front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_right);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void generate_front_check_via(square via, boolean diagonal)
+static void generate_front_check_via(slice_index si,
+                                     square via,
+                                     boolean diagonal)
 {
   unsigned int index;
 
@@ -396,21 +409,21 @@ static void generate_front_check_via(square via, boolean diagonal)
       {
         case Rook:
           if (diagonal)
-            front_check_by_rider_via(index,via);
+            front_check_by_rider_via(si,index,via);
           break;
 
         case Bishop:
           if (!diagonal)
-            front_check_by_rider_via(index,via);
+            front_check_by_rider_via(si,index,via);
           break;
 
         case Knight:
-          front_check_by_knight_via(index,via);
+          front_check_by_knight_via(si,index,via);
           break;
 
         case Pawn:
-          front_check_by_pawn(index,via);
-          front_check_by_promotee(index,via);
+          front_check_by_pawn(si,index,via);
+          front_check_by_promotee(si,index,via);
           break;
 
         default:
@@ -424,7 +437,8 @@ static void generate_front_check_via(square via, boolean diagonal)
   TraceFunctionResultEnd();
 }
 
-static void generate_front_check(square rear_pos)
+static void generate_front_check(slice_index si,
+                                 square rear_pos)
 {
   int const dir = CheckDir[Queen][being_solved.king_square[Black]-rear_pos];
   square const start = rear_pos+dir;
@@ -439,13 +453,14 @@ static void generate_front_check(square rear_pos)
   assert(dir!=0);
 
   for (s = start; !TSTFULLFLAGMASK(being_solved.spec[s],mask); s += dir)
-    generate_front_check_via(s,diagonal);
+    generate_front_check_via(si,s,diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void rear_check_by_promotee(unsigned int index_of_checker,
+static void rear_check_by_promotee(slice_index si,
+                                   unsigned int index_of_checker,
                                    vec_index_type start, vec_index_type end,
                                    piece_walk_type checker_type)
 {
@@ -474,7 +489,7 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
           occupy_square(rear_pos,checker_type,checker_flags);
           TraceSquare(rear_pos);TraceWalk(checker_type);TraceEOL();
           remember_to_keep_rider_line_open(rear_pos,being_solved.king_square[Black],-dir,+1);
-          generate_front_check(rear_pos);
+          generate_front_check(si,rear_pos);
           remember_to_keep_rider_line_open(rear_pos,being_solved.king_square[Black],-dir,-1);
           empty_square(rear_pos);
           intelligent_unreserve();
@@ -486,7 +501,8 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
+static void rear_check_by_promoted_pawn(slice_index si,
+                                        unsigned int index_of_checker)
 {
   piece_walk_type pp;
 
@@ -498,15 +514,15 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
     switch (pp)
     {
       case Queen:
-        rear_check_by_promotee(index_of_checker,vec_queen_start,vec_queen_end,pp);
+        rear_check_by_promotee(si,index_of_checker,vec_queen_start,vec_queen_end,pp);
         break;
 
       case Rook:
-        rear_check_by_promotee(index_of_checker,vec_rook_start,vec_rook_end,pp);
+        rear_check_by_promotee(si,index_of_checker,vec_rook_start,vec_rook_end,pp);
         break;
 
       case Bishop:
-        rear_check_by_promotee(index_of_checker,vec_bishop_start,vec_bishop_end,pp);
+        rear_check_by_promotee(si,index_of_checker,vec_bishop_start,vec_bishop_end,pp);
         break;
 
       default:
@@ -517,7 +533,8 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
   TraceFunctionResultEnd();
 }
 
-static void rear_check_by_rider(unsigned int index_of_checker,
+static void rear_check_by_rider(slice_index si,
+                                unsigned int index_of_checker,
                                 vec_index_type start, vec_index_type end,
                                 piece_walk_type checker_type)
 {
@@ -546,7 +563,7 @@ static void rear_check_by_rider(unsigned int index_of_checker,
           TraceSquare(rear_pos);TraceWalk(being_solved.board[rear_pos]);TraceEOL();
           occupy_square(rear_pos,checker_type,checker_flags);
           remember_to_keep_rider_line_open(rear_pos,being_solved.king_square[Black],-dir,+1);
-          generate_front_check(rear_pos);
+          generate_front_check(si,rear_pos);
           remember_to_keep_rider_line_open(rear_pos,being_solved.king_square[Black],-dir,-1);
           empty_square(rear_pos);
           intelligent_unreserve();
@@ -558,7 +575,7 @@ static void rear_check_by_rider(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void battery(void)
+static void battery(slice_index si)
 {
   unsigned int index;
 
@@ -579,19 +596,19 @@ static void battery(void)
     switch (checker_type)
     {
       case Queen:
-        rear_check_by_rider(index,vec_queen_start,vec_queen_end,checker_type);
+        rear_check_by_rider(si,index,vec_queen_start,vec_queen_end,checker_type);
         break;
 
       case Rook:
-        rear_check_by_rider(index,vec_rook_start,vec_rook_end,checker_type);
+        rear_check_by_rider(si,index,vec_rook_start,vec_rook_end,checker_type);
         break;
 
       case Bishop:
-        rear_check_by_rider(index,vec_bishop_start,vec_bishop_end,checker_type);
+        rear_check_by_rider(si,index,vec_bishop_start,vec_bishop_end,checker_type);
         break;
 
       case Pawn:
-        rear_check_by_promoted_pawn(index);
+        rear_check_by_promoted_pawn(si,index);
         break;
 
       default:
@@ -605,7 +622,8 @@ static void battery(void)
   TraceFunctionResultEnd();
 }
 
-static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
+static void en_passant_orthogonal_check_by_rider(slice_index si,
+                                                 unsigned int checker_index,
                                                  square check_from,
                                                  piece_walk_type rider_type)
 {
@@ -622,7 +640,7 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
     TraceSquare(check_from);TraceWalk(rider_type);TraceEOL();
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     empty_square(check_from);
     intelligent_unreserve();
   }
@@ -631,7 +649,8 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
   TraceFunctionResultEnd();
 }
 
-static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_index,
+static void en_passant_orthogonal_check_by_promoted_pawn(slice_index si,
+                                                         unsigned int checker_index,
                                                          square check_from)
 {
   piece_walk_type pp;
@@ -649,7 +668,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
     {
       occupy_square(check_from,pp,white[checker_index].flags);
       TraceSquare(check_from);TraceWalk(pp);TraceEOL();
-      intelligent_guard_flights();
+      intelligent_guard_flights(si);
       empty_square(check_from);
       intelligent_unreserve();
     }
@@ -658,7 +677,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
   TraceFunctionResultEnd();
 }
 
-static void en_passant_orthogonal_check(int dir_vertical)
+static void en_passant_orthogonal_check(slice_index si, int dir_vertical)
 {
   square const via_capturer = being_solved.king_square[Black]+dir_vertical;
   square check_from;
@@ -686,11 +705,16 @@ static void en_passant_orthogonal_check(int dir_vertical)
         {
           case Queen:
           case Rook:
-            en_passant_orthogonal_check_by_rider(checker_index,check_from,checker_type);
+            en_passant_orthogonal_check_by_rider(si,
+                                                 checker_index,
+                                                 check_from,
+                                                 checker_type);
             break;
 
           case Pawn:
-            en_passant_orthogonal_check_by_promoted_pawn(checker_index,check_from);
+            en_passant_orthogonal_check_by_promoted_pawn(si,
+                                                         checker_index,
+                                                         check_from);
             break;
 
           default:
@@ -710,7 +734,8 @@ static void en_passant_orthogonal_check(int dir_vertical)
   TraceFunctionResultEnd();
 }
 
-static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
+static void en_passant_diagonal_check_by_rider(slice_index si,
+                                               unsigned int checker_index,
                                                square check_from,
                                                piece_walk_type rider_type,
                                                int dir_vertical)
@@ -729,7 +754,7 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
     TraceSquare(check_from);TraceWalk(rider_type);TraceEOL();
-    en_passant_orthogonal_check(dir_vertical);
+    en_passant_orthogonal_check(si,dir_vertical);
     empty_square(check_from);
     intelligent_unreserve();
   }
@@ -738,7 +763,8 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
   TraceFunctionResultEnd();
 }
 
-static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_index,
+static void en_passant_diagonal_check_by_promoted_pawn(slice_index si,
+                                                       unsigned int checker_index,
                                                        square check_from,
                                                        int dir_vertical)
 {
@@ -760,7 +786,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
     {
       occupy_square(check_from,pp,pawn_spec);
       TraceSquare(check_from);TraceWalk(pp);TraceEOL();
-      en_passant_orthogonal_check(dir_vertical);
+      en_passant_orthogonal_check(si,dir_vertical);
       empty_square(check_from);
       intelligent_unreserve();
     }
@@ -769,7 +795,9 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   TraceFunctionResultEnd();
 }
 
-static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
+static void en_passant_diagonal_check(slice_index si,
+                                      square via_capturee,
+                                      int dir_vertical)
 {
   int const dir_diagonal = via_capturee-being_solved.king_square[Black];
   square check_from;
@@ -798,11 +826,18 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
         {
           case Queen:
           case Bishop:
-            en_passant_diagonal_check_by_rider(checker_index,check_from,checker_type,dir_vertical);
+            en_passant_diagonal_check_by_rider(si,
+                                               checker_index,
+                                               check_from,
+                                               checker_type,
+                                               dir_vertical);
             break;
 
           case Pawn:
-            en_passant_diagonal_check_by_promoted_pawn(checker_index,check_from,dir_vertical);
+            en_passant_diagonal_check_by_promoted_pawn(si,
+                                                       checker_index,
+                                                       check_from,
+                                                       dir_vertical);
             break;
 
           default:
@@ -840,7 +875,9 @@ static unsigned int enpassant_find_capturee(square capturee_origin)
   return result;
 }
 
-static void en_passant_select_capturee(square via_capturee, int dir_vertical)
+static void en_passant_select_capturee(slice_index si,
+                                       square via_capturee,
+                                       int dir_vertical)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(via_capturee);
@@ -858,7 +895,7 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
     {
       ++nr_reasons_for_staying_empty[via_capturee];
       black[index_capturee].usage = piece_is_captured;
-      en_passant_diagonal_check(via_capturee,dir_vertical);
+      en_passant_diagonal_check(si,via_capturee,dir_vertical);
       black[index_capturee].usage = piece_is_unused;
       --nr_reasons_for_staying_empty[via_capturee];
     }
@@ -868,7 +905,8 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
   TraceFunctionResultEnd();
 }
 
-static void en_passant(square king_row_start, square king_row_end,
+static void en_passant(slice_index si,
+                       square king_row_start, square king_row_end,
                        int dir_vertical)
 {
   TraceFunctionEntry(__func__);
@@ -893,8 +931,8 @@ static void en_passant(square king_row_start, square king_row_end,
                                                                      via_capturer))
         {
           white[capturer_index].usage = piece_gives_check;
-          en_passant_select_capturee(via_capturer+dir_left,dir_vertical);
-          en_passant_select_capturee(via_capturer+dir_right,dir_vertical);
+          en_passant_select_capturee(si,via_capturer+dir_left,dir_vertical);
+          en_passant_select_capturee(si,via_capturer+dir_right,dir_vertical);
           white[capturer_index].usage = piece_is_unused;
           intelligent_unreserve();
         }
@@ -907,16 +945,16 @@ static void en_passant(square king_row_start, square king_row_end,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_generate_doublechecking_moves(void)
+void intelligent_mate_generate_doublechecking_moves(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_masses(White,2,piece_gives_check))
   {
-    battery();
-    en_passant(square_a4,square_h4,dir_up);
-    en_passant(square_a6,square_h6,dir_down);
+    battery(si);
+    en_passant(si,square_a4,square_h4,dir_up);
+    en_passant(si,square_a6,square_h6,dir_down);
     intelligent_unreserve();
   }
 

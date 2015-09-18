@@ -172,7 +172,8 @@ static void remember_mating_line(piece_walk_type checker_type, square const chec
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_rider(unsigned int index_of_checker,
+static void by_promoted_rider(slice_index si,
+                              unsigned int index_of_checker,
                               piece_walk_type promotee_type,
                               square const check_from)
 {
@@ -192,7 +193,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
   {
     occupy_square(check_from,promotee_type,white[index_of_checker].flags);
     remember_mating_line(promotee_type,check_from,+1);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     remember_mating_line(promotee_type,check_from,-1);
     intelligent_unreserve();
   }
@@ -201,7 +202,9 @@ static void by_promoted_rider(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_knight(unsigned int index_of_checker, square const check_from)
+static void by_promoted_knight(slice_index si,
+                               unsigned int index_of_checker,
+                               square const check_from)
 {
   int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[Knight][diff];
@@ -218,7 +221,7 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     fini_disturb_mate_dir();
     intelligent_unreserve();
   }
@@ -227,7 +230,9 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_pawn(unsigned int index_of_checker, square const check_from)
+static void by_promoted_pawn(slice_index si,
+                             unsigned int index_of_checker,
+                             square const check_from)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -244,11 +249,11 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
         case Queen:
         case Rook:
         case Bishop:
-          by_promoted_rider(index_of_checker,pp,check_from);
+          by_promoted_rider(si,index_of_checker,pp,check_from);
           break;
 
         case Knight:
-          by_promoted_knight(index_of_checker,check_from);
+          by_promoted_knight(si,index_of_checker,check_from);
           break;
 
         default:
@@ -261,7 +266,9 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
   TraceFunctionResultEnd();
 }
 
-static void by_unpromoted_pawn(unsigned int index_of_checker, square const check_from)
+static void by_unpromoted_pawn(slice_index si,
+                               unsigned int index_of_checker,
+                               square const check_from)
 {
   square const checker_from = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
@@ -278,7 +285,7 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
   {
     occupy_square(check_from,Pawn,checker_flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     fini_disturb_mate_dir();
     empty_square(check_from);
     intelligent_unreserve();
@@ -288,7 +295,9 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
   TraceFunctionResultEnd();
 }
 
-static void by_rider(unsigned int index_of_checker, square const check_from)
+static void by_rider(slice_index si,
+                     unsigned int index_of_checker,
+                     square const check_from)
 {
   piece_walk_type const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
@@ -307,7 +316,7 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
   {
     occupy_square(check_from,checker_type,checker_flags);
     remember_mating_line(checker_type,check_from,+1);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     remember_mating_line(checker_type,check_from,-1);
     intelligent_unreserve();
   }
@@ -316,7 +325,9 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
   TraceFunctionResultEnd();
 }
 
-static void by_knight(unsigned int index_of_checker, square const check_from)
+static void by_knight(slice_index si,
+                      unsigned int index_of_checker,
+                      square const check_from)
 {
   int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[Knight][diff];
@@ -333,7 +344,7 @@ static void by_knight(unsigned int index_of_checker, square const check_from)
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights();
+    intelligent_guard_flights(si);
     fini_disturb_mate_dir();
     intelligent_unreserve();
   }
@@ -342,7 +353,7 @@ static void by_knight(unsigned int index_of_checker, square const check_from)
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_generate_checking_moves(void)
+void intelligent_mate_generate_checking_moves(slice_index si)
 {
   unsigned int index;
 
@@ -365,16 +376,16 @@ void intelligent_mate_generate_checking_moves(void)
             case Queen:
             case Rook:
             case Bishop:
-              by_rider(index,*bnp);
+              by_rider(si,index,*bnp);
               break;
 
             case Knight:
-              by_knight(index,*bnp);
+              by_knight(si,index,*bnp);
               break;
 
             case Pawn:
-              by_unpromoted_pawn(index,*bnp);
-              by_promoted_pawn(index,*bnp);
+              by_unpromoted_pawn(si,index,*bnp);
+              by_promoted_pawn(si,index,*bnp);
               break;
 
             default:

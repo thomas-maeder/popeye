@@ -16,10 +16,10 @@
 static unsigned int nr_king_flights_to_be_blocked;
 static square king_flights_to_be_blocked[8];
 
-static void block_planned_flights(void);
+static void block_planned_flights(slice_index si);
 
 /* go on once all king flights have been blocked */
-static void finalise_blocking(void)
+static void finalise_blocking(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -28,12 +28,12 @@ static void finalise_blocking(void)
   if (goal_to_be_reached==goal_stale)
   {
     /*assert(!echecc(Black));*/
-    intelligent_stalemate_test_target_position();
+    intelligent_stalemate_test_target_position(si);
   }
   else
   {
     /*assert(echecc(Black));*/
-    intelligent_mate_test_target_position();
+    intelligent_mate_test_target_position(si);
   }
 
   TraceFunctionExit(__func__);
@@ -41,7 +41,7 @@ static void finalise_blocking(void)
 }
 
 /* block the next king flight */
-static void block_next_flight(void)
+static void block_next_flight(slice_index si)
 {
   unsigned int i;
   unsigned int const current_flight = nr_king_flights_to_be_blocked-1;
@@ -59,7 +59,7 @@ static void block_next_flight(void)
       if (black[i].usage==piece_is_unused)
       {
         black[i].usage = piece_blocks;
-        intelligent_place_black_piece(i,to_be_blocked,&block_planned_flights);
+        intelligent_place_black_piece(si,i,to_be_blocked,&block_planned_flights);
         black[i].usage = piece_is_unused;
       }
 
@@ -73,7 +73,7 @@ static void block_next_flight(void)
 }
 
 /* block the king flights */
-static void block_planned_flights(void)
+static void block_planned_flights(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -83,9 +83,9 @@ static void block_planned_flights(void)
     /* nothing */
   }
   else if (nr_king_flights_to_be_blocked==0)
-    finalise_blocking();
+    finalise_blocking(si);
   else
-    block_next_flight();
+    block_next_flight(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -137,7 +137,7 @@ static void plan_blocks_of_flights(void)
 }
 
 /* Find black king flights and block them */
-void intelligent_find_and_block_flights(void)
+void intelligent_find_and_block_flights(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -146,7 +146,7 @@ void intelligent_find_and_block_flights(void)
 
   plan_blocks_of_flights();
   if (nr_king_flights_to_be_blocked==0)
-    finalise_blocking();
+    finalise_blocking(si);
   else
   {
     if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
@@ -160,7 +160,7 @@ void intelligent_find_and_block_flights(void)
         block_square(king_flights_to_be_blocked[i]);
       }
 
-      block_planned_flights();
+      block_planned_flights(si);
 
       for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
         empty_square(king_flights_to_be_blocked[i]);

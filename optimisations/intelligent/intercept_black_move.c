@@ -12,7 +12,9 @@
  * @param intercept_on where to intercept
  * @param go_on what to do after each successful interception?
  */
-static void white_piece_on(square intercept_on, void (*go_on)(void))
+static void white_piece_on(slice_index si,
+                           square intercept_on,
+                           void (*go_on)(slice_index si))
 {
   unsigned int i;
 
@@ -24,7 +26,7 @@ static void white_piece_on(square intercept_on, void (*go_on)(void))
     if (white[i].usage==piece_is_unused)
     {
       white[i].usage = piece_intercepts;
-      intelligent_place_white_piece(i,intercept_on,go_on);
+      intelligent_place_white_piece(si,i,intercept_on,go_on);
       white[i].usage = piece_is_unused;
     }
 
@@ -38,7 +40,9 @@ static void white_piece_on(square intercept_on, void (*go_on)(void))
  * @param dir_from_rider direction from rider giving check to white king
  * @param go_on what to do after each successful interception?
  */
-static void white_piece(square from, square to, void (*go_on)(void))
+static void white_piece(slice_index si,
+                        square from, square to,
+                        void (*go_on)(slice_index si))
 {
   int const diff = to-from;
   int const dir = CheckDir[Queen][diff];
@@ -55,7 +59,7 @@ static void white_piece(square from, square to, void (*go_on)(void))
   {
     assert(is_square_empty(intercept_on));
     if (nr_reasons_for_staying_empty[intercept_on]==0)
-      white_piece_on(intercept_on,go_on);
+      white_piece_on(si,intercept_on,go_on);
   }
 
   TraceFunctionExit(__func__);
@@ -66,9 +70,10 @@ static void white_piece(square from, square to, void (*go_on)(void))
  * @param intercept_on what square
  * @param go_on what to do after each successful interception?
  */
-static void black_piece_on(square intercept_on,
+static void black_piece_on(slice_index si,
+                           square intercept_on,
                            boolean is_diagonal,
-                           void (*go_on)(void))
+                           void (*go_on)(slice_index si))
 {
   unsigned int intercepter_index;
 
@@ -81,7 +86,7 @@ static void black_piece_on(square intercept_on,
     if (black[intercepter_index].usage==piece_is_unused)
     {
       black[intercepter_index].usage = piece_intercepts;
-      intelligent_place_black_piece(intercepter_index,intercept_on,go_on);
+      intelligent_place_black_piece(si,intercepter_index,intercept_on,go_on);
       black[intercepter_index].usage = piece_is_unused;
     }
 
@@ -96,7 +101,10 @@ static void black_piece_on(square intercept_on,
  * @param to arrival square
  * @param go_on what to do after each successful interception?
  */
-static void black_piece(square from, square to, void (*go_on)(void))
+static void black_piece(slice_index si,
+                        square from,
+                        square to,
+                        void (*go_on)(slice_index si))
 {
   int const diff = to-from;
   int const dir = CheckDir[Queen][diff];
@@ -116,7 +124,7 @@ static void black_piece(square from, square to, void (*go_on)(void))
     assert(is_square_empty(intercept_on));
     if (nr_reasons_for_staying_empty[intercept_on]==0
         && *where_to_start_placing_black_pieces<=intercept_on)
-      black_piece_on(intercept_on,is_diagonal,go_on);
+      black_piece_on(si,intercept_on,is_diagonal,go_on);
   }
 
   TraceFunctionExit(__func__);
@@ -128,8 +136,9 @@ static void black_piece(square from, square to, void (*go_on)(void))
  * @param to arrival square
  * @param go_on what to do after each successful interception?
  */
-void intelligent_intercept_black_move(square from, square to,
-                                      void (*go_on)(void))
+void intelligent_intercept_black_move(slice_index si,
+                                      square from, square to,
+                                      void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceSquare(from);
@@ -138,13 +147,13 @@ void intelligent_intercept_black_move(square from, square to,
 
   if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
-    black_piece(from,to,go_on);
+    black_piece(si,from,to,go_on);
     intelligent_unreserve();
   }
 
   if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
-    white_piece(from,to,go_on);
+    white_piece(si,from,to,go_on);
     intelligent_unreserve();
   }
 

@@ -15,7 +15,8 @@
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_officer(piece_walk_type officer_type,
+static void place_officer(slice_index si,
+                          piece_walk_type officer_type,
                           square to_be_intercepted,
                           unsigned int index_of_intercepting_piece)
 {
@@ -33,7 +34,7 @@ static void place_officer(piece_walk_type officer_type,
         && GuardDir[officer_type-Pawn][to_be_intercepted].dir!=0))
   {
     occupy_square(to_be_intercepted,officer_type,intercepter_flags);
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
     empty_square(to_be_intercepted);
   }
 
@@ -46,7 +47,8 @@ static void place_officer(piece_walk_type officer_type,
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_promotee(piece_walk_type promotee_type,
+static void place_promotee(slice_index si,
+                           piece_walk_type promotee_type,
                            square to_be_intercepted,
                            unsigned int index_of_intercepting_piece)
 {
@@ -62,7 +64,7 @@ static void place_promotee(piece_walk_type promotee_type,
                                                              promotee_type,
                                                              to_be_intercepted))
   {
-    place_officer(promotee_type,to_be_intercepted,index_of_intercepting_piece);
+    place_officer(si,promotee_type,to_be_intercepted,index_of_intercepting_piece);
     intelligent_unreserve();
   }
 
@@ -75,7 +77,8 @@ static void place_promotee(piece_walk_type promotee_type,
  * @param index_of_intercepting_piece identifies the pawn
  * @param is_diagonal true iff the check is on a diagonal
  */
-static void promoted_pawn(square to_be_intercepted,
+static void promoted_pawn(slice_index si,
+                          square to_be_intercepted,
                           unsigned int index_of_intercepting_piece,
                           boolean is_diagonal)
 {
@@ -97,16 +100,16 @@ static void promoted_pawn(square to_be_intercepted,
 
         case Rook:
           if (is_diagonal)
-            place_promotee(Rook,to_be_intercepted,index_of_intercepting_piece);
+            place_promotee(si,Rook,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case Bishop:
           if (!is_diagonal)
-            place_promotee(Bishop,to_be_intercepted,index_of_intercepting_piece);
+            place_promotee(si,Bishop,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case Knight:
-          place_promotee(Knight,to_be_intercepted,index_of_intercepting_piece);
+          place_promotee(si,Knight,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         default:
@@ -123,7 +126,8 @@ static void promoted_pawn(square to_be_intercepted,
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void unpromoted_pawn(square to_be_intercepted,
+static void unpromoted_pawn(slice_index si,
+                            square to_be_intercepted,
                             unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
@@ -144,7 +148,7 @@ static void unpromoted_pawn(square to_be_intercepted,
                                                                    to_be_intercepted))
   {
     occupy_square(to_be_intercepted,Pawn,intercepter_flags);
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
     empty_square(to_be_intercepted);
     intelligent_unreserve();
   }
@@ -157,7 +161,8 @@ static void unpromoted_pawn(square to_be_intercepted,
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the intercepting officer
  */
-static void officer(square to_be_intercepted,
+static void officer(slice_index si,
+                    square to_be_intercepted,
                     unsigned int index_of_intercepting_piece)
 {
   square const officer_diagram_square = white[index_of_intercepting_piece].diagram_square;
@@ -173,7 +178,7 @@ static void officer(square to_be_intercepted,
                                                 officer_type,
                                                 to_be_intercepted))
   {
-    place_officer(officer_type,to_be_intercepted,index_of_intercepting_piece);
+    place_officer(si,officer_type,to_be_intercepted,index_of_intercepting_piece);
     intelligent_unreserve();
   }
 
@@ -185,7 +190,8 @@ static void officer(square to_be_intercepted,
  * @param to_be_intercepted where to intercept
  * @note will leave to_be_intercepted occupied by the last piece tried
  */
-void intercept_check_on_guarded_square(square to_be_intercepted)
+void intercept_check_on_guarded_square(slice_index si,
+                                       square to_be_intercepted)
 {
   unsigned int intercepter_index;
   boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(being_solved.king_square[Black]);
@@ -214,22 +220,22 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
 
           case Rook:
             if (is_diagonal)
-              officer(to_be_intercepted,intercepter_index);
+              officer(si,to_be_intercepted,intercepter_index);
               break;
 
           case Bishop:
             if (!is_diagonal)
-              officer(to_be_intercepted,intercepter_index);
+              officer(si,to_be_intercepted,intercepter_index);
             break;
 
           case Knight:
-            officer(to_be_intercepted,intercepter_index);
+            officer(si,to_be_intercepted,intercepter_index);
             break;
 
           case Pawn:
             if (!TSTFLAGMASK(sq_spec[to_be_intercepted],BIT(WhBaseSq)|BIT(WhPromSq)))
-              unpromoted_pawn(to_be_intercepted,intercepter_index);
-            promoted_pawn(to_be_intercepted,intercepter_index,is_diagonal);
+              unpromoted_pawn(si,to_be_intercepted,intercepter_index);
+            promoted_pawn(si,to_be_intercepted,intercepter_index,is_diagonal);
             break;
 
           default:
@@ -251,7 +257,8 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
 /* Intercept an orthogonal check with a pinned promoted black piece
  * @param placed_on where to place the pinned black piece
  */
-static void place_promoted_black_pawn(square placed_on,
+static void place_promoted_black_pawn(slice_index si,
+                                      square placed_on,
                                       unsigned int placed_index)
 {
   TraceFunctionEntry(__func__);
@@ -269,14 +276,16 @@ static void place_promoted_black_pawn(square placed_on,
         case Queen:
         case Rook:
         case Bishop:
-          intelligent_place_pinned_promoted_black_rider(placed_index,
+          intelligent_place_pinned_promoted_black_rider(si,
+                                                        placed_index,
                                                         Bishop,
                                                         placed_on,
                                                         &intelligent_continue_guarding_flights);
           break;
 
         case Knight:
-          intelligent_place_pinned_promoted_black_knight(placed_index,
+          intelligent_place_pinned_promoted_black_knight(si,
+                                                         placed_index,
                                                          placed_on,
                                                          &intelligent_continue_guarding_flights);
           break;
@@ -295,7 +304,7 @@ static void place_promoted_black_pawn(square placed_on,
  * @param placed_on where to place the pinned black piece
  * @note will leave placed_on occupied by the last piece tried
  */
-void intelligent_intercept_check_by_pin(square placed_on)
+void intelligent_intercept_check_by_pin(slice_index si, square placed_on)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(placed_on);
@@ -314,22 +323,25 @@ void intelligent_intercept_check_by_pin(square placed_on)
           case Queen:
           case Rook:
           case Bishop:
-            intelligent_place_pinned_black_rider(placed_index,
+            intelligent_place_pinned_black_rider(si,
+                                                 placed_index,
                                                  placed_on,
                                                  &intelligent_continue_guarding_flights);
             break;
 
           case Knight:
-            intelligent_place_pinned_black_knight(placed_index,
+            intelligent_place_pinned_black_knight(si,
+                                                  placed_index,
                                                   placed_on,
                                                   &intelligent_continue_guarding_flights);
             break;
 
           case Pawn:
-            intelligent_place_pinned_unpromoted_black_pawn(placed_index,
+            intelligent_place_pinned_unpromoted_black_pawn(si,
+                                                           placed_index,
                                                            placed_on,
                                                            &intelligent_continue_guarding_flights);
-            place_promoted_black_pawn(placed_on,placed_index);
+            place_promoted_black_pawn(si,placed_on,placed_index);
             break;
 
           default:

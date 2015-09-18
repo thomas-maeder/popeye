@@ -6,7 +6,7 @@
 
 /* @return true iff >=1 black pieces needed to be immobilised
  */
-boolean intelligent_stalemate_immobilise_black(void);
+boolean intelligent_stalemate_immobilise_black(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

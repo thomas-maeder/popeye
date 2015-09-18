@@ -57,8 +57,6 @@ unsigned int moves_to_white_prom[nr_squares_on_board];
 
 PIECE target_position[MaxPieceId+1];
 
-slice_index current_start_slice = no_slice;
-
 boolean solutions_found;
 
 boolean testcastling;
@@ -267,7 +265,7 @@ static piece_usage find_piece_usage(PieceIdType id)
 }
 #endif
 
-void solve_target_position(void)
+void solve_target_position(slice_index si)
 {
 #if (defined(_WIN32) && !defined(_MSC_VER))|| defined(__CYGWIN__)
   /* Windows executables generated with gcc (both cross-compiling from Linux and
@@ -329,7 +327,7 @@ void solve_target_position(void)
 
   reset_nr_solutions_per_target_position();
 
-  pipe_solve_delegate(current_start_slice);
+  pipe_solve_delegate(si);
 
   if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
     solutions_found = true;
@@ -371,7 +369,7 @@ void solve_target_position(void)
   TraceFunctionResultEnd();
 }
 
-static void GenerateBlackKing(void)
+static void GenerateBlackKing(slice_index si)
 {
   Flags const king_flags = black[index_of_king].flags;
   square const *bnp;
@@ -408,11 +406,11 @@ static void GenerateBlackKing(void)
 
       if (goal_to_be_reached==goal_mate)
       {
-        intelligent_mate_generate_checking_moves();
-        intelligent_mate_generate_doublechecking_moves();
+        intelligent_mate_generate_checking_moves(si);
+        intelligent_mate_generate_doublechecking_moves(si);
       }
       else
-        intelligent_guard_flights();
+        intelligent_guard_flights(si);
 
       empty_square(*bnp);
 
@@ -423,7 +421,7 @@ static void GenerateBlackKing(void)
   TraceFunctionResultEnd();
 }
 
-void IntelligentRegulargoal_types(void)
+void IntelligentRegulargoal_types(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -513,7 +511,7 @@ void IntelligentRegulargoal_types(void)
     }
 
     /* generate final positions */
-    GenerateBlackKing();
+    GenerateBlackKing(si);
 
     ResetPosition(&initial_position);
   }

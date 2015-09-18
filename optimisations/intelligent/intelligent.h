@@ -36,7 +36,6 @@ extern unsigned int CapturesLeft[maxply+1];
 
 extern boolean solutions_found;
 
-extern slice_index current_start_slice;
 goal_type goal_to_be_reached;
 
 extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
@@ -49,9 +48,9 @@ extern unsigned int MovesRequired[nr_sides][maxply+1];
 
 extern unsigned int PieceId2index[MaxPieceId+1];
 
-void IntelligentRegulargoal_types(void);
+void IntelligentRegulargoal_types(slice_index si);
 
-void solve_target_position(void);
+void solve_target_position(slice_index si);
 
 boolean black_pawn_attacks_king(square from);
 

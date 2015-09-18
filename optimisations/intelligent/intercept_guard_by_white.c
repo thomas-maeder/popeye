@@ -14,7 +14,10 @@
  * @param where_to_intercept where to intercept
  * @param go_on what to do after each successful interception?
  */
-static void black_piece_on(boolean is_check, square where_to_intercept, void (*go_on)(void))
+static void black_piece_on(slice_index si,
+                           boolean is_check,
+                           square where_to_intercept,
+                           void (*go_on)(slice_index si))
 {
   unsigned int i;
 
@@ -28,9 +31,9 @@ static void black_piece_on(boolean is_check, square where_to_intercept, void (*g
     {
       black[i].usage = piece_intercepts;
       if (is_check)
-        intelligent_place_pinned_black_piece(i,where_to_intercept,go_on);
+        intelligent_place_pinned_black_piece(si,i,where_to_intercept,go_on);
       else
-        intelligent_place_black_piece(i,where_to_intercept,go_on);
+        intelligent_place_black_piece(si,i,where_to_intercept,go_on);
       black[i].usage = piece_is_unused;
     }
 
@@ -45,7 +48,10 @@ static void black_piece_on(boolean is_check, square where_to_intercept, void (*g
  * @param dir_from_rider direction from rider giving check to black king
  * @param go_on what to do after each successful interception?
  */
-static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
+static void black_piece(slice_index si,
+                        square target,
+                        int dir_from_rider,
+                        void (*go_on)(slice_index si))
 {
   Flags const mask = BIT(Black)|BIT(Royal);
   boolean const is_check = TSTFULLFLAGMASK(being_solved.spec[target+dir_from_rider],mask);
@@ -62,7 +68,7 @@ static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
     if (nr_reasons_for_staying_empty[where_to_intercept]==0
       /* avoid testing the same position twice */
         && *where_to_start_placing_black_pieces<=where_to_intercept)
-      black_piece_on(is_check,where_to_intercept,go_on);
+      black_piece_on(si,is_check,where_to_intercept,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -74,10 +80,11 @@ static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
  * @param is_diagonal true iff we are intercepting a check on a diagonal line
  * @param go_on what to do after each successful interception?
  */
-static void promoted_white_pawn(unsigned int intercepter_index,
+static void promoted_white_pawn(slice_index si,
+                                unsigned int intercepter_index,
                                 square where_to_intercept,
                                 boolean is_diagonal,
-                                void (*go_on)(void))
+                                void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",intercepter_index);
@@ -97,7 +104,8 @@ static void promoted_white_pawn(unsigned int intercepter_index,
 
         case Rook:
           if (is_diagonal)
-            intelligent_place_promoted_white_rider(Rook,
+            intelligent_place_promoted_white_rider(si,
+                                                   Rook,
                                                    intercepter_index,
                                                    where_to_intercept,
                                                    go_on);
@@ -105,14 +113,16 @@ static void promoted_white_pawn(unsigned int intercepter_index,
 
         case Bishop:
           if (!is_diagonal)
-            intelligent_place_promoted_white_rider(Bishop,
+            intelligent_place_promoted_white_rider(si,
+                                                   Bishop,
                                                    intercepter_index,
                                                    where_to_intercept,
                                                    go_on);
           break;
 
         case Knight:
-          intelligent_place_promoted_white_knight(intercepter_index,
+          intelligent_place_promoted_white_knight(si,
+                                                  intercepter_index,
                                                   where_to_intercept,
                                                   go_on);
           break;
@@ -132,9 +142,10 @@ static void promoted_white_pawn(unsigned int intercepter_index,
  * @param is_diagonal true iff we are intercepting a check on a diagonal line
  * @param go_on what to do after each successful interception?
  */
-static void white_piece_on(square where_to_intercept,
+static void white_piece_on(slice_index si,
+                           square where_to_intercept,
                            boolean is_diagonal,
-                           void (*go_on)(void))
+                           void (*go_on)(slice_index si))
 {
   unsigned int intercepter_index;
 
@@ -151,7 +162,8 @@ static void white_piece_on(square where_to_intercept,
       switch (white[intercepter_index].type)
       {
         case King:
-          intelligent_place_white_king(where_to_intercept,
+          intelligent_place_white_king(si,
+                                       where_to_intercept,
                                        go_on);
           break;
 
@@ -160,27 +172,34 @@ static void white_piece_on(square where_to_intercept,
 
         case Rook:
           if (is_diagonal)
-            intelligent_place_white_rider(intercepter_index,
+            intelligent_place_white_rider(si,
+                                          intercepter_index,
                                           where_to_intercept,
                                           go_on);
           break;
 
         case Bishop:
           if (!is_diagonal)
-            intelligent_place_white_rider(intercepter_index,
+            intelligent_place_white_rider(si,
+                                          intercepter_index,
                                           where_to_intercept,
                                           go_on);
           break;
 
         case Knight:
-          intelligent_place_white_knight(intercepter_index,
+          intelligent_place_white_knight(si,
+                                         intercepter_index,
                                          where_to_intercept,
                                          go_on);
           break;
 
         case Pawn:
-          promoted_white_pawn(intercepter_index,where_to_intercept,is_diagonal,go_on);
-          intelligent_place_unpromoted_white_pawn(intercepter_index,
+          promoted_white_pawn(si,
+                              intercepter_index,
+                              where_to_intercept,
+                              is_diagonal,go_on);
+          intelligent_place_unpromoted_white_pawn(si,
+                                                  intercepter_index,
                                                   where_to_intercept,
                                                   go_on);
           break;
@@ -204,7 +223,10 @@ static void white_piece_on(square where_to_intercept,
  * @param dir_from_rider direction from rider giving check to black king
  * @param go_on what to do after each successful interception?
  */
-static void white_piece(square target, int dir_from_rider, void (*go_on)(void))
+static void white_piece(slice_index si,
+                        square target,
+                        int dir_from_rider,
+                        void (*go_on)(slice_index si))
 {
   square const start = target-dir_from_rider;
   boolean const is_diagonal = SquareCol(start)==SquareCol(target);
@@ -219,7 +241,7 @@ static void white_piece(square target, int dir_from_rider, void (*go_on)(void))
        is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
-      white_piece_on(where_to_intercept,is_diagonal,go_on);
+      white_piece_on(si,where_to_intercept,is_diagonal,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -230,9 +252,10 @@ static void white_piece(square target, int dir_from_rider, void (*go_on)(void))
  * @param dir_from_rider direction from guarding rider
  * @param go_on what to do after each successful interception?
  */
-void intelligent_intercept_guard_by_white(square target,
+void intelligent_intercept_guard_by_white(slice_index si,
+                                          square target,
                                           int dir_from_rider,
-                                          void (*go_on)(void))
+                                          void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir_from_rider);
@@ -240,13 +263,13 @@ void intelligent_intercept_guard_by_white(square target,
 
   if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
-    black_piece(target,dir_from_rider,go_on);
+    black_piece(si,target,dir_from_rider,go_on);
     intelligent_unreserve();
   }
 
   if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
-    white_piece(target,dir_from_rider,go_on);
+    white_piece(si,target,dir_from_rider,go_on);
     intelligent_unreserve();
   }
 

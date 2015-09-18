@@ -12,11 +12,11 @@
 static square const *being_blocked;
 static unsigned int nr_being_blocked;
 
-static void block_first(void);
+static void block_first(slice_index si);
 
 /* Go on once all squares to be blocked have been blocked
  */
-static void finalise_blocking(void)
+static void finalise_blocking(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -24,12 +24,12 @@ static void finalise_blocking(void)
   assert(nr_being_blocked>=1);
 
   if (nr_being_blocked==1)
-    intelligent_stalemate_test_target_position();
+    intelligent_stalemate_test_target_position(si);
   else
   {
     --nr_being_blocked;
     ++being_blocked;
-    block_first();
+    block_first(si);
     --being_blocked;
     ++nr_being_blocked;
   }
@@ -40,7 +40,7 @@ static void finalise_blocking(void)
 
 /* Continue by blocking the first remaining square
  */
-static void block_first(void)
+static void block_first(slice_index si)
 {
   unsigned int i;
   square const to_be_blocked = being_blocked[0];
@@ -54,7 +54,7 @@ static void block_first(void)
     if (black[i].usage==piece_is_unused)
     {
       black[i].usage = piece_blocks;
-      intelligent_place_black_piece(i,to_be_blocked,&finalise_blocking);
+      intelligent_place_black_piece(si,i,to_be_blocked,&finalise_blocking);
       black[i].usage = piece_is_unused;
     }
 
@@ -68,7 +68,8 @@ static void block_first(void)
  * @param to_be_blocked one ore more squares to be blocked
  * @param nr_to_be_blocked number of elements of to_be_blocked
  */
-void intelligent_stalemate_black_block(square const to_be_blocked[8],
+void intelligent_stalemate_black_block(slice_index si,
+                                       square const to_be_blocked[8],
                                        unsigned int nr_to_be_blocked)
 {
   TraceFunctionEntry(__func__);
@@ -89,7 +90,7 @@ void intelligent_stalemate_black_block(square const to_be_blocked[8],
     for (i = 0; i!=nr_to_be_blocked; ++i)
       occupy_square(to_be_blocked[i],Dummy,BIT(Black));
 
-    block_first();
+    block_first(si);
     intelligent_unreserve();
 
     for (i = 0; i!=nr_to_be_blocked; ++i)

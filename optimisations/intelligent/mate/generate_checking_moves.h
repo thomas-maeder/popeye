@@ -2,6 +2,7 @@
 #define OPTIMISATION_INTELLIGENT_MATE_GENERATE_CHECKING_MOVES_H
 
 #include "position/position.h"
+#include "stipulation/stipulation.h"
 
 #include <limits.h>
 
@@ -45,6 +46,6 @@ typedef enum
 extern disturbance_by_pawn_type DisturbMateDirPawn[maxsquare+4];
 
 
-void intelligent_mate_generate_checking_moves(void);
+void intelligent_mate_generate_checking_moves(slice_index si);
 
 #endif

@@ -9,9 +9,10 @@
 
 #include "debugging/assert.h"
 
-void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
+void intelligent_place_unpromoted_white_pawn(slice_index si,
+                                             unsigned int placed_index,
                                              square placed_on,
-                                             void (*go_on)(void))
+                                             void (*go_on)(slice_index si))
 {
   square const placed_comes_from = white[placed_index].diagram_square;
   Flags const placed_flags = white[placed_index].flags;
@@ -27,7 +28,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
                                                                    placed_on))
   {
     occupy_square(placed_on,Pawn,placed_flags);
-    (*go_on)();
+    (*go_on)(si);
     intelligent_unreserve();
   }
 
@@ -35,10 +36,11 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_white_rider(piece_walk_type promotee_type,
+void intelligent_place_promoted_white_rider(slice_index si,
+                                            piece_walk_type promotee_type,
                                             unsigned int placed_index,
                                             square placed_on,
-                                            void (*go_on)(void))
+                                            void (*go_on)(slice_index si))
 {
   square const placed_comes_from = white[placed_index].diagram_square;
   Flags const placed_flags = white[placed_index].flags;
@@ -62,9 +64,9 @@ void intelligent_place_promoted_white_rider(piece_walk_type promotee_type,
     occupy_square(placed_on,promotee_type,placed_flags);
 
     if (dir==0 || TSTFLAG(being_solved.spec[target],Black) || !is_line_empty(placed_on,target,dir))
-      (*go_on)();
+      (*go_on)(si);
     else
-      intelligent_intercept_guard_by_white(target,dir,go_on);
+      intelligent_intercept_guard_by_white(si,target,dir,go_on);
 
     intelligent_unreserve();
   }
@@ -73,9 +75,10 @@ void intelligent_place_promoted_white_rider(piece_walk_type promotee_type,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_white_knight(unsigned int placed_index,
+void intelligent_place_promoted_white_knight(slice_index si,
+                                             unsigned int placed_index,
                                              square placed_on,
-                                             void (*go_on)(void))
+                                             void (*go_on)(slice_index si))
 {
   square const placed_comes_from = white[placed_index].diagram_square;
   Flags const placed_flags = white[placed_index].flags;
@@ -91,7 +94,7 @@ void intelligent_place_promoted_white_knight(unsigned int placed_index,
                                                                 placed_on))
   {
     occupy_square(placed_on,Knight,placed_flags);
-    (*go_on)();
+    (*go_on)(si);
     intelligent_unreserve();
   }
 
@@ -99,9 +102,10 @@ void intelligent_place_promoted_white_knight(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_white_pawn(unsigned int placed_index,
+void intelligent_place_promoted_white_pawn(slice_index si,
+                                           unsigned int placed_index,
                                            square placed_on,
-                                           void (*go_on)(void))
+                                           void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -118,14 +122,16 @@ void intelligent_place_promoted_white_pawn(unsigned int placed_index,
         case Queen:
         case Rook:
         case Bishop:
-          intelligent_place_promoted_white_rider(pp,
+          intelligent_place_promoted_white_rider(si,
+                                                 pp,
                                                  placed_index,
                                                  placed_on,
                                                  go_on);
           break;
 
         case Knight:
-          intelligent_place_promoted_white_knight(placed_index,
+          intelligent_place_promoted_white_knight(si,
+                                                  placed_index,
                                                   placed_on,
                                                   go_on);
           break;
@@ -144,13 +150,13 @@ typedef struct stack_elmt_type
 {
     unsigned int const index_queen;
     square const placed_on;
-    void (*const go_on)(void);
+    void (*const go_on)(slice_index si);
     struct stack_elmt_type const * const next;
 } stack_elmt_type;
 
 static stack_elmt_type const *stack_top = 0;
 
-static void intercept_queen_diag(void)
+static void intercept_queen_diag(slice_index si)
 {
   square const placed_on = stack_top->placed_on;
   int const dir_diag = GuardDir[Bishop-Pawn][placed_on].dir;
@@ -160,17 +166,18 @@ static void intercept_queen_diag(void)
   TraceFunctionParamListEnd();
 
   if (dir_diag==0 || TSTFLAG(being_solved.spec[target_diag],Black) || !is_line_empty(placed_on,target_diag,dir_diag))
-    (*stack_top->go_on)();
+    (*stack_top->go_on)(si);
   else
-    intelligent_intercept_guard_by_white(target_diag,dir_diag,stack_top->go_on);
+    intelligent_intercept_guard_by_white(si,target_diag,dir_diag,stack_top->go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_white_queen(unsigned int placed_index,
+void intelligent_place_white_queen(slice_index si,
+                                   unsigned int placed_index,
                                    square placed_on,
-                                   void (*go_on)(void))
+                                   void (*go_on)(slice_index si))
 {
   piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
@@ -198,9 +205,9 @@ void intelligent_place_white_queen(unsigned int placed_index,
     occupy_square(placed_on,placed_type,placed_flags);
 
     if (dir_ortho==0 || TSTFLAG(being_solved.spec[target_ortho],Black) || !is_line_empty(placed_on,target_ortho,dir_ortho))
-      intercept_queen_diag();
+      intercept_queen_diag(si);
     else
-      intelligent_intercept_guard_by_white(target_ortho,dir_ortho,&intercept_queen_diag);
+      intelligent_intercept_guard_by_white(si,target_ortho,dir_ortho,&intercept_queen_diag);
 
     assert(stack_top==&new_top);
     stack_top = stack_top->next;
@@ -212,9 +219,10 @@ void intelligent_place_white_queen(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_white_rider(unsigned int placed_index,
+void intelligent_place_white_rider(slice_index si,
+                                   unsigned int placed_index,
                                    square placed_on,
-                                   void (*go_on)(void))
+                                   void (*go_on)(slice_index si))
 {
   piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
@@ -245,7 +253,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
                                                        placed_on))
       {
         occupy_square(placed_on,placed_type,placed_flags);
-        (*go_on)();
+        (*go_on)(si);
         intelligent_unreserve();
       }
       break;
@@ -262,9 +270,9 @@ void intelligent_place_white_rider(unsigned int placed_index,
             || dir==0
             || TSTFLAG(being_solved.spec[target],Black)
             || !is_line_empty(placed_on,target,dir))
-          (*go_on)();
+          (*go_on)(si);
         else
-          intelligent_intercept_guard_by_white(target,dir,go_on);
+          intelligent_intercept_guard_by_white(si,target,dir,go_on);
 
         intelligent_unreserve();
       }
@@ -275,9 +283,10 @@ void intelligent_place_white_rider(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_white_knight(unsigned int placed_index,
+void intelligent_place_white_knight(slice_index si,
+                                    unsigned int placed_index,
                                     square placed_on,
-                                    void (*go_on)(void))
+                                    void (*go_on)(slice_index si))
 {
   square const placed_comes_from = white[placed_index].diagram_square;
   Flags const placed_flags = white[placed_index].flags;
@@ -300,7 +309,7 @@ void intelligent_place_white_knight(unsigned int placed_index,
                                                        placed_on))
       {
         occupy_square(placed_on,Knight,placed_flags);
-        (*go_on)();
+        (*go_on)(si);
         intelligent_unreserve();
       }
       break;
@@ -312,7 +321,7 @@ void intelligent_place_white_knight(unsigned int placed_index,
                                                     placed_on))
       {
         occupy_square(placed_on,Knight,placed_flags);
-        (*go_on)();
+        (*go_on)(si);
         intelligent_unreserve();
       }
       break;
@@ -328,9 +337,10 @@ void intelligent_place_white_knight(unsigned int placed_index,
  * @param go_on what to do with piece placed_index on square placed_on?
  * @note will leave placed_on occupied by the last piece tried
  */
-void intelligent_place_white_piece(unsigned int placed_index,
+void intelligent_place_white_piece(slice_index si,
+                                   unsigned int placed_index,
                                    square placed_on,
-                                   void (*go_on)(void))
+                                   void (*go_on)(slice_index si))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -340,21 +350,21 @@ void intelligent_place_white_piece(unsigned int placed_index,
   switch (white[placed_index].type)
   {
     case Queen:
-      intelligent_place_white_queen(placed_index,placed_on,go_on);
+      intelligent_place_white_queen(si,placed_index,placed_on,go_on);
       break;
 
     case Rook:
     case Bishop:
-      intelligent_place_white_rider(placed_index,placed_on,go_on);
+      intelligent_place_white_rider(si,placed_index,placed_on,go_on);
       break;
 
     case Knight:
-      intelligent_place_white_knight(placed_index,placed_on,go_on);
+      intelligent_place_white_knight(si,placed_index,placed_on,go_on);
       break;
 
     case Pawn:
-      intelligent_place_unpromoted_white_pawn(placed_index,placed_on,go_on);
-      intelligent_place_promoted_white_pawn(placed_index,placed_on,go_on);
+      intelligent_place_unpromoted_white_pawn(si,placed_index,placed_on,go_on);
+      intelligent_place_promoted_white_pawn(si,placed_index,placed_on,go_on);
       break;
 
     default:

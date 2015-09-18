@@ -257,7 +257,7 @@ static void remember_to_keep_guard_line_open(square from, square to,
 
 /* fix the white king on its diagram square
  */
-static void fix_white_king_on_diagram_square(void)
+static void fix_white_king_on_diagram_square(slice_index si)
 {
   square const king_diagram_square = white[index_of_king].diagram_square;
 
@@ -268,7 +268,8 @@ static void fix_white_king_on_diagram_square(void)
       && nr_reasons_for_staying_empty[king_diagram_square]==0)
   {
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
-    intelligent_place_white_king(king_diagram_square,
+    intelligent_place_white_king(si,
+                                 king_diagram_square,
                                  &intelligent_find_and_block_flights);
     white[index_of_king].usage = piece_is_unused;
   }
@@ -279,7 +280,7 @@ static void fix_white_king_on_diagram_square(void)
 
 /* continue after guarding
  */
-static void guarding_done(void)
+static void guarding_done(slice_index si)
 {
   unsigned int const save_index_of_guarding_piece = index_of_guarding_piece;
 
@@ -291,9 +292,9 @@ static void guarding_done(void)
   if (white[index_of_king].usage==piece_is_unused
       && white[index_of_king].diagram_square!=square_e1
       && intelligent_get_nr_remaining_moves(White)==0)
-    fix_white_king_on_diagram_square();
+    fix_white_king_on_diagram_square(si);
   else
-    intelligent_find_and_block_flights();
+    intelligent_find_and_block_flights(si);
 
   index_of_guarding_piece = save_index_of_guarding_piece;
 
@@ -304,7 +305,7 @@ static void guarding_done(void)
 /* place a (promoted or original) queen in opposition to the black king
  * @param guard_from from what square should the queen guard
  */
-static void place_queen_opposition(square guard_from)
+static void place_queen_opposition(slice_index si, square guard_from)
 {
   square const to_be_intercepted = (being_solved.king_square[Black]+guard_from)/2;
 
@@ -316,13 +317,13 @@ static void place_queen_opposition(square guard_from)
   if (is_square_empty(to_be_intercepted))
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
-    intercept_check_on_guarded_square(to_be_intercepted);
-    intelligent_intercept_check_by_pin(to_be_intercepted);
+    intercept_check_on_guarded_square(si,to_be_intercepted);
+    intelligent_intercept_check_by_pin(si,to_be_intercepted);
     empty_square(to_be_intercepted);
   }
   else
     /* there is already a guard between queen and king */
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -332,7 +333,9 @@ static void place_queen_opposition(square guard_from)
  * @param rider_type type of rider
  * @param guard_from from what square should the rider guard
  */
-static void place_rider(piece_walk_type rider_type, square guard_from)
+static void place_rider(slice_index si,
+                        piece_walk_type rider_type,
+                        square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceWalk(rider_type);
@@ -366,12 +369,12 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
               && is_square_empty(guarded))
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
-            intercept_check_on_guarded_square(guarded);
-            intelligent_intercept_check_by_pin(guarded);
+            intercept_check_on_guarded_square(si,guarded);
+            intelligent_intercept_check_by_pin(si,guarded);
             empty_square(guarded);
           }
           else
-            intelligent_continue_guarding_flights();
+            intelligent_continue_guarding_flights(si);
         }
         break;
       }
@@ -391,8 +394,8 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
             if (is_square_empty(guarded))
             {
               assert(nr_reasons_for_staying_empty[guarded]==0);
-              intercept_check_on_guarded_square(guarded);
-              intelligent_intercept_check_by_pin(guarded);
+              intercept_check_on_guarded_square(si,guarded);
+              intelligent_intercept_check_by_pin(si,guarded);
               empty_square(guarded);
             }
             else
@@ -401,15 +404,15 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
               if (white[PieceId2index[id]].usage==piece_guards)
               {
                 white[PieceId2index[id]].usage = piece_intercepts_check_from_guard;
-                intelligent_continue_guarding_flights();
+                intelligent_continue_guarding_flights(si);
                 white[PieceId2index[id]].usage = piece_guards;
               }
               else
-                intelligent_continue_guarding_flights();
+                intelligent_continue_guarding_flights(si);
             }
           }
           else
-            intelligent_continue_guarding_flights();
+            intelligent_continue_guarding_flights(si);
           remember_to_keep_guard_line_open(guard_from,guarded,-1);
         }
         break;
@@ -424,7 +427,7 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
 /* place a (promoted or original) knight
  * @param guard_from from what square should the knight guard
  */
-static void place_knight(square guard_from)
+static void place_knight(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -433,7 +436,7 @@ static void place_knight(square guard_from)
   if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
   {
     occupy_square(guard_from,Knight,white[index_of_guarding_piece].flags);
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
   }
 
   TraceFunctionExit(__func__);
@@ -443,7 +446,7 @@ static void place_knight(square guard_from)
 /* guard king flights with an unpromoted pawn
  * @param guard_from from what square should the pawn guard
  */
-static void unpromoted_pawn(square guard_from)
+static void unpromoted_pawn(slice_index si, square guard_from)
 {
   Flags const pawn_flags = white[index_of_guarding_piece].flags;
   square const starts_from = white[index_of_guarding_piece].diagram_square;
@@ -458,7 +461,7 @@ static void unpromoted_pawn(square guard_from)
                                                                    guard_from))
   {
     occupy_square(guard_from,Pawn,pawn_flags);
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
     empty_square(guard_from);
     intelligent_unreserve();
   }
@@ -470,7 +473,7 @@ static void unpromoted_pawn(square guard_from)
 /* guard king flights with a promoted queen
  * @param guard_from from what square should the queen guard
  */
-static void promoted_queen(square guard_from)
+static void promoted_queen(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -488,7 +491,7 @@ static void promoted_queen(square guard_from)
                                                                  Queen,
                                                                  guard_from))
       {
-        place_queen_opposition(guard_from);
+        place_queen_opposition(si,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -500,7 +503,7 @@ static void promoted_queen(square guard_from)
                                                                  guard_from))
       {
         occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
-        intelligent_continue_guarding_flights();
+        intelligent_continue_guarding_flights(si);
         intelligent_unreserve();
       }
       break;
@@ -510,7 +513,7 @@ static void promoted_queen(square guard_from)
                                                                  Queen,
                                                                  guard_from))
       {
-        place_rider(Queen,guard_from);
+        place_rider(si,Queen,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -523,7 +526,7 @@ static void promoted_queen(square guard_from)
 /* guard king flights with a rook
  * @param guard_from from what square should the rook guard
  */
-static void promoted_rook(square guard_from)
+static void promoted_rook(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -541,7 +544,7 @@ static void promoted_rook(square guard_from)
                                                                  guard_from))
       {
         occupy_square(guard_from,Rook,white[index_of_guarding_piece].flags);
-        intelligent_continue_guarding_flights();
+        intelligent_continue_guarding_flights(si);
         intelligent_unreserve();
       }
       break;
@@ -551,7 +554,7 @@ static void promoted_rook(square guard_from)
                                                                  Rook,
                                                                  guard_from))
       {
-        place_rider(Rook,guard_from);
+        place_rider(si,Rook,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -564,7 +567,7 @@ static void promoted_rook(square guard_from)
 /* guard king flights with a promoted bishop
  * @param guard_from from what square should the bishop guard
  */
-static void promoted_bishop(square guard_from)
+static void promoted_bishop(slice_index si, square guard_from)
 {
   move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
 
@@ -583,10 +586,10 @@ static void promoted_bishop(square guard_from)
     if (diff<=4+0)
     {
       occupy_square(guard_from,Bishop,white[index_of_guarding_piece].flags);
-      intelligent_continue_guarding_flights();
+      intelligent_continue_guarding_flights(si);
     }
     else
-      place_rider(Bishop,guard_from);
+      place_rider(si,Bishop,guard_from);
 
     intelligent_unreserve();
   }
@@ -598,7 +601,7 @@ static void promoted_bishop(square guard_from)
 /* guard king flights with a promoted knight
  * @param guard_from from what square should the knight guard
  */
-static void promoted_knight(square guard_from)
+static void promoted_knight(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -609,7 +612,7 @@ static void promoted_knight(square guard_from)
                                                                 Knight,
                                                                 guard_from))
   {
-    place_knight(guard_from);
+    place_knight(si,guard_from);
     intelligent_unreserve();
   }
 
@@ -620,7 +623,7 @@ static void promoted_knight(square guard_from)
 /* guard king flights with a promoted pawn
  * @param guard_from from what square should the promotee guard
  */
-static void promoted_pawn(square guard_from)
+static void promoted_pawn(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -634,19 +637,19 @@ static void promoted_pawn(square guard_from)
       switch (pp)
       {
         case Queen:
-          promoted_queen(guard_from);
+          promoted_queen(si,guard_from);
           break;
 
         case Rook:
-          promoted_rook(guard_from);
+          promoted_rook(si,guard_from);
           break;
 
         case Bishop:
-          promoted_bishop(guard_from);
+          promoted_bishop(si,guard_from);
           break;
 
         case Knight:
-          promoted_knight(guard_from);
+          promoted_knight(si,guard_from);
           break;
 
         default:
@@ -662,7 +665,7 @@ static void promoted_pawn(square guard_from)
 /* guard king flights with a queen
  * @param guard_from from what square should the queen guard
  */
-static void queen(square guard_from)
+static void queen(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -681,7 +684,7 @@ static void queen(square guard_from)
                                                     Queen,
                                                     guard_from))
       {
-        place_queen_opposition(guard_from);
+        place_queen_opposition(si,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -694,7 +697,7 @@ static void queen(square guard_from)
                                                     guard_from))
       {
         occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
-        intelligent_continue_guarding_flights();
+        intelligent_continue_guarding_flights(si);
         intelligent_unreserve();
       }
       break;
@@ -705,7 +708,7 @@ static void queen(square guard_from)
                                                     Queen,
                                                     guard_from))
       {
-        place_rider(Queen,guard_from);
+        place_rider(si,Queen,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -718,7 +721,7 @@ static void queen(square guard_from)
 /* guard king flights with a rook
  * @param guard_from from what square should the rook guard
  */
-static void rook(square guard_from)
+static void rook(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -737,7 +740,7 @@ static void rook(square guard_from)
                                                     guard_from))
       {
         occupy_square(guard_from,Rook,white[index_of_guarding_piece].flags);
-        intelligent_continue_guarding_flights();
+        intelligent_continue_guarding_flights(si);
         intelligent_unreserve();
       }
       break;
@@ -748,7 +751,7 @@ static void rook(square guard_from)
                                                     Rook,
                                                     guard_from))
       {
-        place_rider(Rook,guard_from);
+        place_rider(si,Rook,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -761,7 +764,7 @@ static void rook(square guard_from)
 /* guard king flights with a bishop
  * @param guard_from from what square should the bishop guard
  */
-static void bishop(square guard_from)
+static void bishop(slice_index si, square guard_from)
 {
   move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
 
@@ -781,10 +784,10 @@ static void bishop(square guard_from)
     if (diff<=4+0)
     {
       occupy_square(guard_from,Bishop,white[index_of_guarding_piece].flags);
-      intelligent_continue_guarding_flights();
+      intelligent_continue_guarding_flights(si);
     }
     else
-      place_rider(Bishop,guard_from);
+      place_rider(si,Bishop,guard_from);
 
     intelligent_unreserve();
   }
@@ -796,7 +799,7 @@ static void bishop(square guard_from)
 /* guard king flights with a white knight
  * @param guard_from from what square should the knight guard
  */
-static void knight(square guard_from)
+static void knight(slice_index si, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -808,7 +811,7 @@ static void knight(square guard_from)
                                                    Knight,
                                                    guard_from))
   {
-    place_knight(guard_from);
+    place_knight(si,guard_from);
     intelligent_unreserve();
   }
 
@@ -816,7 +819,7 @@ static void knight(square guard_from)
   TraceFunctionResultEnd();
 }
 
-static void guard_next_flight(void)
+static void guard_next_flight(slice_index si)
 {
   square const *bnp;
 
@@ -829,24 +832,24 @@ static void guard_next_flight(void)
       switch (white[index_of_guarding_piece].type)
       {
         case Queen:
-          queen(*bnp);
+          queen(si,*bnp);
           break;
 
         case Rook:
-          rook(*bnp);
+          rook(si,*bnp);
           break;
 
         case Bishop:
-          bishop(*bnp);
+          bishop(si,*bnp);
           break;
 
         case Knight:
-          knight(*bnp);
+          knight(si,*bnp);
           break;
 
         case Pawn:
-          unpromoted_pawn(*bnp);
-          promoted_pawn(*bnp);
+          unpromoted_pawn(si,*bnp);
+          promoted_pawn(si,*bnp);
           break;
 
         default:
@@ -862,7 +865,7 @@ static void guard_next_flight(void)
 }
 
 /* guard more king flights */
-void intelligent_continue_guarding_flights(void)
+void intelligent_continue_guarding_flights(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -877,7 +880,7 @@ void intelligent_continue_guarding_flights(void)
         if (white[index_of_guarding_piece].usage==piece_is_unused)
         {
           white[index_of_guarding_piece].usage = piece_guards;
-          guard_next_flight();
+          guard_next_flight(si);
           white[index_of_guarding_piece].usage = piece_is_unused;
         }
 
@@ -886,7 +889,7 @@ void intelligent_continue_guarding_flights(void)
       intelligent_unreserve();
     }
 
-    guarding_done();
+    guarding_done(si);
   }
 
   TraceFunctionExit(__func__);
@@ -894,7 +897,7 @@ void intelligent_continue_guarding_flights(void)
 }
 
 /* guard king flights with the white king */
-static void king(void)
+static void king(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -916,7 +919,7 @@ static void king(void)
         {
           being_solved.king_square[White]= *bnp;
           occupy_square(*bnp,King,white[index_of_king].flags);
-          intelligent_continue_guarding_flights();
+          intelligent_continue_guarding_flights(si);
           empty_square(*bnp);
           intelligent_unreserve();
         }
@@ -933,7 +936,7 @@ static void king(void)
 }
 
 /* guard the king flights */
-void intelligent_guard_flights(void)
+void intelligent_guard_flights(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -941,10 +944,10 @@ void intelligent_guard_flights(void)
   if (!max_nr_solutions_found_in_phase()
       && !hasMaxtimeElapsed())
   {
-    king();
+    king(si);
 
     TraceText("try not using white king for guarding\n");
-    intelligent_continue_guarding_flights();
+    intelligent_continue_guarding_flights(si);
   }
 
   TraceFunctionExit(__func__);
