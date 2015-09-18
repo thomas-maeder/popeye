@@ -48,7 +48,7 @@ void output_plaintext_problem_writer_solve(slice_index si)
                                                        si,
                                                        stip_traversal_context_intro);
     assert(interruption!=no_slice);
-    output_plaintext_message(option_interruption_is_set(interruption)
+    output_plaintext_message(problem_solving_is_interrupted(interruption)
                              ? InterMessage
                              : FinishProblem);
   }

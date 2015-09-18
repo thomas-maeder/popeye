@@ -371,7 +371,11 @@ void dispatch(slice_index si)
       break;
 
     case STProblemSolvingInterrupted:
-      option_interruption_solve(si);
+      problem_solving_interrupted_solve(si);
+      break;
+
+    case STPhaseSolvingInterrupted:
+      phase_solving_interrupted_solve(si);
       break;
 
     case STCommandLineOptionsParser:

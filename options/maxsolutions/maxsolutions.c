@@ -230,7 +230,7 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STMaxSolutionsSolvingInstrumenter);
@@ -268,7 +268,7 @@ void increase_nr_found_solutions(slice_index interruption)
   TraceValue("->%u\n",nr_solutions_found_in_phase);
 
   if (max_nr_solutions_found_in_phase())
-    option_interruption_remember(interruption);
+    phase_solving_remember_interruption(interruption);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

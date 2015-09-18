@@ -325,7 +325,7 @@ void LaTeXCo(slice_index si, FILE *file)
     if (!(OptFlag[solmenaces]
           || OptFlag[solflights]
           || OptFlag[nontrivial]
-          || option_interruption_is_set(interruption)))
+          || problem_solving_is_interrupted(interruption)))
     {
       fputs(" \\Co+%",file);
       output_plaintext_print_version_info(file);

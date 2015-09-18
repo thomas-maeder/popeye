@@ -56,7 +56,7 @@ void stoponshortsolutions_propagator_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (has_short_solution_been_found_in_problem())
-    option_interruption_remember(SLICE_NEXT2(si));
+    phase_solving_remember_interruption(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -72,7 +72,7 @@ void stoponshortsolutions_instrument_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STStopOnShortSolutionsPropagator);

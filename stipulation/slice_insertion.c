@@ -611,8 +611,9 @@ static slice_index const slice_rank_order[] =
   STStipulationCompleter,
   STOutputPlainTextOptionNoboard,
   STDuplexSolver,
-  /* enter phase stage */
   STHalfDuplexSolver,
+  /* enter phase stage */
+  STPhaseSolvingInterrupted,
   STStartOfStipulationSpecific,
   STStipulationCopier,
   STProofSolverBuilder,
@@ -626,8 +627,8 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXProblemIntroWriter,
   STOutputLaTeXTwinningWriter,
   STStartOfCurrentTwin,
-  /* slices from here on are created for each twin (including the initial one)
-   * mostly by STSolvingMachineryIntroBuilder */
+  /* slices from here on are created for each phase mostly by
+   * STSolvingMachineryIntroBuilder */
   STCreateBuilderSetupPly,
   STPieceWalkCacheInitialiser,
   STPiecesCounter,
