@@ -678,7 +678,7 @@ static structure_traversers_visitor goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,  &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester, &goalreachable_guards_duplicate_avoider_inserter },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe                    }
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe           }
 };
 
 enum
