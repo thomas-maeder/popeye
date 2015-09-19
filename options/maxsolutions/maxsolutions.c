@@ -20,21 +20,6 @@ static unsigned int nr_solutions_found_in_phase;
 /* maximum number of allowed solutions found in the current phase */
 static unsigned int max_nr_solutions_per_phase = UINT_MAX;
 
-/* Reset the value of the maxsolutions option
- */
-void maxsolutions_resetter_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  max_nr_solutions_per_phase = UINT_MAX;
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 typedef struct
 {
     boolean inserted;

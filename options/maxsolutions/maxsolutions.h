@@ -8,10 +8,6 @@
  * implement the maxsolutions option
  */
 
-/* Reset the value of the maxsolutions option
- */
-void maxsolutions_resetter_solve(slice_index si);
-
 /* Instrument the solving machinery with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  */
