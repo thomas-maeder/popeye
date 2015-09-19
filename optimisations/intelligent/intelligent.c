@@ -752,6 +752,7 @@ typedef struct
 {
     goal_type goal;
     boolean is_maxtime_active;
+    boolean is_maxsolutions_active;
 } insertion_struct_type;
 
 static void remember_maxtime(slice_index si, stip_structure_traversal *st)
@@ -770,6 +771,22 @@ static void remember_maxtime(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void remember_maxsolutions(slice_index si, stip_structure_traversal *st)
+{
+  insertion_struct_type * const insertion = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insertion->is_maxsolutions_active = true;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_maxtime(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -781,6 +798,26 @@ static void insert_maxtime(slice_index si)
         alloc_maxtime_guard(),
         alloc_maxtime_guard(),
         alloc_maxtime_guard()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_maxsolutions(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_maxsolutions_guard_slice(),
+        alloc_maxsolutions_guard_slice(),
+        alloc_maxsolutions_guard_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -813,11 +850,8 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentFilter),
-          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
-          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -825,6 +859,8 @@ static void intelligent_filter_inserter(slice_index si,
 
       if (insertion->is_maxtime_active)
         insert_maxtime(si);
+      if (insertion->is_maxtime_active)
+        insert_maxsolutions(si);
       break;
     }
 
@@ -832,11 +868,8 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentFilter),
-          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
-          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_maxsolutions_guard_slice(),
           alloc_intelligent_stalemate_target_position_tester()
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -844,6 +877,8 @@ static void intelligent_filter_inserter(slice_index si,
 
       if (insertion->is_maxtime_active)
         insert_maxtime(si);
+      if (insertion->is_maxtime_active)
+        insert_maxsolutions(si);
       break;
     }
 
@@ -864,6 +899,7 @@ static void intelligent_filter_inserter(slice_index si,
 static structure_traversers_visitor intelligent_filters_inserters[] =
 {
   { STMaxTimeSetter,     &remember_maxtime                      },
+  { STMaxSolutionsInitialiser, &remember_maxsolutions },
   { STHelpAdapter,       &intelligent_filter_inserter           },
   { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
@@ -880,7 +916,7 @@ enum
 static void stip_insert_intelligent_filters(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
-  insertion_struct_type insertion = { goal, false };
+  insertion_struct_type insertion = { goal, false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
