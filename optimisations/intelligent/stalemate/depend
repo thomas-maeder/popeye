@@ -381,10 +381,10 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- platform/maxtime.h optimisations/intelligent/intelligent.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- position/pieceid.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/intelligent.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/moves_left.h \
@@ -441,8 +441,6 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-platform/maxtime.h:
 
 optimisations/intelligent/intelligent.h:
 

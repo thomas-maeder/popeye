@@ -38,9 +38,9 @@
 #include "options/maxsolutions/guard.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
-#include "platform/maxtime.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "platform/maxtime.h"
 #include "options/options.h"
 
 #include "debugging/assert.h"
@@ -383,7 +383,7 @@ static void GenerateBlackKing(slice_index si)
   intelligent_init_reservations(MovesLeft[White],MovesLeft[Black],
                                 MaxPiece[White],MaxPiece[Black]-1);
 
-  for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
+  for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (is_square_empty(*bnp) /* *bnp isn't a hole*/
         && intelligent_reserve_black_king_moves_from_to(black[index_of_king].diagram_square,
                                                         *bnp))
@@ -770,10 +770,13 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentMateFilter),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
       };
@@ -786,10 +789,13 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentStalemateFilter),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
+          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_stalemate_target_position_tester()
       };

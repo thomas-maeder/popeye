@@ -24,6 +24,11 @@
  */
 void maxtime_guard_solve(slice_index si);
 
+/* Allocate a STMaxTimeGuard slice.
+ * @return allocated slice
+ */
+slice_index alloc_maxtime_guard(void);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

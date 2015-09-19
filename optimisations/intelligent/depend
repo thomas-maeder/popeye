@@ -1125,7 +1125,7 @@ optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.h \
  optimisations/orthodox_check_directions.h \
  pieces/walks/pawns/promotee_sequence.h position/move_diff_code.h \
- solving/pipe.h platform/maxtime.h debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 optimisations/intelligent/guard_flights.h:
 
@@ -1202,8 +1202,6 @@ pieces/walks/pawns/promotee_sequence.h:
 position/move_diff_code.h:
 
 solving/pipe.h:
-
-platform/maxtime.h:
 
 debugging/assert.h:
 optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \

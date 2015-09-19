@@ -8,10 +8,9 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "position/move_diff_code.h"
 #include "solving/pipe.h"
-#include "platform/maxtime.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -867,27 +866,24 @@ void intelligent_continue_guarding_flights(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!hasMaxtimeElapsed())
+  if (intelligent_reserve_masses(White,1,piece_guards))
   {
-    if (intelligent_reserve_masses(White,1,piece_guards))
-    {
-      unsigned int const save_index_guarder = index_of_guarding_piece;
+    unsigned int const save_index_guarder = index_of_guarding_piece;
 
-      for (++index_of_guarding_piece; index_of_guarding_piece<MaxPiece[White]; ++index_of_guarding_piece)
-        if (white[index_of_guarding_piece].usage==piece_is_unused)
-        {
-          white[index_of_guarding_piece].usage = piece_guards;
-          guard_next_flight(si);
-          white[index_of_guarding_piece].usage = piece_is_unused;
-        }
+    for (++index_of_guarding_piece; index_of_guarding_piece<MaxPiece[White]; ++index_of_guarding_piece)
+      if (white[index_of_guarding_piece].usage==piece_is_unused)
+      {
+        white[index_of_guarding_piece].usage = piece_guards;
+        guard_next_flight(si);
+        white[index_of_guarding_piece].usage = piece_is_unused;
+      }
 
-      index_of_guarding_piece = save_index_guarder;
+    index_of_guarding_piece = save_index_guarder;
 
-      intelligent_unreserve();
-    }
-
-    guarding_done(si);
+    intelligent_unreserve();
   }
+
+  guarding_done(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -938,13 +934,10 @@ void intelligent_guard_flights(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!hasMaxtimeElapsed())
-  {
-    king(si);
+  king(si);
 
-    TraceText("try not using white king for guarding\n");
-    intelligent_continue_guarding_flights(si);
-  }
+  TraceText("try not using white king for guarding\n");
+  intelligent_continue_guarding_flights(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

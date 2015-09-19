@@ -12,7 +12,7 @@
 /* Allocate a STMaxTimeGuard slice.
  * @return allocated slice
  */
-static slice_index alloc_maxtime_guard(void)
+slice_index alloc_maxtime_guard(void)
 {
   slice_index result;
 
