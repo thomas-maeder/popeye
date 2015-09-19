@@ -1455,6 +1455,10 @@ void dispatch(slice_index si)
       maxsolutions_resetter_solve(si);
       break;
 
+    case STMaxSolutionsProblemInstrumenter:
+      maxsolutions_problem_instrumenter_solve(si);
+      break;
+
     case STMaxSolutionsSolvingInstrumenter:
       maxsolutions_solving_instrumenter_solve(si);
       break;

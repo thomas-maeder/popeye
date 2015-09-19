@@ -17,6 +17,11 @@ void maxsolutions_resetter_solve(slice_index si);
  */
 void maxsolutions_solving_instrumenter_solve(slice_index si);
 
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ */
+void maxsolutions_problem_instrumenter_solve(slice_index si);
+
 /* Instrument the current problem with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  * @param max_nr_solutions_per_phase

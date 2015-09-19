@@ -218,6 +218,28 @@ void maxsolutions_solving_instrumenter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ */
+void maxsolutions_problem_instrumenter_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const interruption = SLICE_NEXT2(si);
+    slice_index const prototype = alloc_pipe(STMaxSolutionsSolvingInstrumenter);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the current problem with option maxsolutions
  * @param si identifies the slice where to start instrumenting
  * @param max_nr_solutions_per_phase
@@ -233,7 +255,7 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
     slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
-    slice_index const prototype = alloc_pipe(STMaxSolutionsSolvingInstrumenter);
+    slice_index const prototype = alloc_pipe(STMaxSolutionsProblemInstrumenter);
     SLICE_NEXT2(prototype) = interruption;
     assert(interruption!=no_slice);
     slice_insertion_insert(si,&prototype,1);
