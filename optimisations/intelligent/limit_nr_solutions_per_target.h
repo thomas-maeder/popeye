@@ -7,14 +7,10 @@
  * target position if requested by the user
  */
 
-/* Reset the number of solutions per target position
- */
-void reset_nr_solutions_per_target_position(void);
-
 /* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */
-void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index si);
+void intelligent_nr_solutions_per_target_position_solving_instrumenter_solve(slice_index si);
 
 /* Instrument the solving machinery with option intelligent n
  * @param si identifies the slice where to start instrumenting
@@ -22,11 +18,6 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
  */
 void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index si,
                                                                      unsigned long max_nr_solutions_per_target_position);
-
-/* Allocate a STIntelligentSolutionsPerTargetPosCounter slice.
- * @return index of allocated slice
- */
-slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -42,11 +33,6 @@ slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(voi
  *            (with n denominating solve_nr_remaining)
  */
 void intelligent_nr_solutions_per_target_position_counter_solve(slice_index si);
-
-/* Allocate a STIntelligentLimitNrSolutionsPerTargetPos slice.
- * @return index of allocated slice
- */
-slice_index alloc_intelligent_limit_nr_solutions_per_target_position_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

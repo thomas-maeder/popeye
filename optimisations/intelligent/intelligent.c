@@ -326,8 +326,6 @@ void solve_target_position(slice_index si)
   trace_target_position(target_position,CapturesLeft[1]);
 #endif
 
-  reset_nr_solutions_per_target_position();
-
   pipe_solve_delegate(si);
 
   if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
@@ -842,7 +840,8 @@ static void intelligent_filter_inserter(slice_index si,
           alloc_pipe(STIntelligentFlightsBlocker),
           insertion->goal==goal_mate
           ? alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
-          : alloc_intelligent_stalemate_target_position_tester()
+          : alloc_intelligent_stalemate_target_position_tester(),
+          alloc_pipe(STIntelligentTargetPositionFound)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);

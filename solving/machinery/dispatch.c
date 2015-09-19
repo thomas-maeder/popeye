@@ -1411,7 +1411,7 @@ void dispatch(slice_index si)
       intelligent_proof_solve(si);
       break;
 
-    case STIntelligentLimitNrSolutionsPerTargetPos:
+    case STIntelligentLimitNrSolutionsPerTargetPosLimiter:
       intelligent_limit_nr_solutions_per_target_position_solve(si);
       break;
 
@@ -1552,8 +1552,16 @@ void dispatch(slice_index si)
       intelligent_solution_rememberer_solve(si);
       break;
 
-    case STIntelligentSolutionsPerTargetPosPropagator:
-      intelligent_nr_solutions_per_target_position_propagator_solve(si);
+    case STIntelligentSolutionsPerTargetPosProblemInstrumenter:
+      intelligent_nr_solutions_per_target_position_problem_instrumenter_solve(si);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosSolvingInstrumenter:
+      intelligent_nr_solutions_per_target_position_solving_instrumenter_solve(si);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosInitialiser:
+      intelligent_nr_solutions_per_target_position_initialiser_solve(si);
       break;
 
     case STIntelligentSolutionsPerTargetPosCounter:

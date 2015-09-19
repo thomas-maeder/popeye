@@ -290,14 +290,17 @@
     ENUMERATOR(STIntelligentFlightsBlocker),                            \
     ENUMERATOR(STIntelligentMateTargetPositionTester),                  \
     ENUMERATOR(STIntelligentStalemateTargetPositionTester),             \
+    ENUMERATOR(STIntelligentTargetPositionFound),                       \
     ENUMERATOR(STIntelligentProof), /* solve proof games and A=>B in intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilterMate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProof), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProofFairy), /* goal still reachable in intelligent mode? */ \
-    ENUMERATOR(STIntelligentSolutionsPerTargetPosPropagator), /* count solutions per target position */ \
+    ENUMERATOR(STIntelligentSolutionsPerTargetPosProblemInstrumenter),  \
+    ENUMERATOR(STIntelligentSolutionsPerTargetPosSolvingInstrumenter),  \
+    ENUMERATOR(STIntelligentSolutionsPerTargetPosInitialiser),          \
     ENUMERATOR(STIntelligentSolutionsPerTargetPosCounter), /* count solutions per target position */ \
-    ENUMERATOR(STIntelligentLimitNrSolutionsPerTargetPos), /* limit number of solutions per target position */ \
+    ENUMERATOR(STIntelligentLimitNrSolutionsPerTargetPosLimiter), /* limit number of solutions per target position */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STIntelligentSolutionRememberer), /* for detecting double solutions in intelligent mode */ \
     ENUMERATOR(STIntelligentImmobilisationCounter), /* determine how immobile the side to be stalemated is already */ \

@@ -135,6 +135,11 @@ typedef struct
 
         struct
         {
+            unsigned long value;
+        } value_handler;
+
+        struct
+        {
             unsigned int twin_number; /* 0==a), 1==b) ... */
             boolean continued;
         } twinning_handler;

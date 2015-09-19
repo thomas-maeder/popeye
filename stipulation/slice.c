@@ -216,7 +216,8 @@ static slice_type const proxy_slice_types[] =
     STMoveForPieceGeneratorPathsJoint,
     STIsSquareObservedStandardPath,
     STIsSquareObservedAlternativePath,
-    STIsSquareObservedPathsJoint
+    STIsSquareObservedPathsJoint,
+    STIntelligentTargetPositionFound
 };
 
 static slice_type const move_generator_slice_types[] =
