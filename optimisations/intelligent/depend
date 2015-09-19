@@ -1027,8 +1027,8 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/orthodox_square_observation.h \
- options/maxsolutions/maxsolutions.h solving/pipe.h debugging/assert.h
+ optimisations/orthodox_square_observation.h solving/pipe.h \
+ debugging/assert.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -1101,8 +1101,6 @@ optimisations/intelligent/place_black_piece.h:
 optimisations/intelligent/place_white_king.h:
 
 optimisations/orthodox_square_observation.h:
-
-options/maxsolutions/maxsolutions.h:
 
 solving/pipe.h:
 

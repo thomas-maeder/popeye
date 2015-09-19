@@ -770,6 +770,7 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentMateFilter),
+          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
@@ -783,6 +784,7 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentStalemateFilter),
+          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_stalemate_target_position_tester()

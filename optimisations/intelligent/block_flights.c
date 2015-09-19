@@ -5,7 +5,6 @@
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/orthodox_square_observation.h"
-#include "options/maxsolutions/maxsolutions.h"
 #include "solving/pipe.h"
 #include "pieces/pieces.h"
 #include "debugging/trace.h"
@@ -139,38 +138,31 @@ void intelligent_find_and_block_flights(slice_index si)
 
   assert(nr_king_flights_to_be_blocked==0);
 
-  if (max_nr_solutions_found_in_phase())
-  {
-    /* nothing */
-  }
+  plan_blocks_of_flights();
+  if (nr_king_flights_to_be_blocked==0)
+    finalise_blocking(si);
   else
   {
-    plan_blocks_of_flights();
-    if (nr_king_flights_to_be_blocked==0)
-      finalise_blocking(si);
-    else
+    if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
+                                                    nr_king_flights_to_be_blocked))
     {
-      if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
-                                                      nr_king_flights_to_be_blocked))
+      unsigned int i;
+      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
       {
-        unsigned int i;
-        for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
-        {
-          TraceSquare(king_flights_to_be_blocked[i]);
-          TraceEOL();
-          block_square(king_flights_to_be_blocked[i]);
-        }
-
-        block_planned_flights(si);
-
-        for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
-          empty_square(king_flights_to_be_blocked[i]);
-
-        intelligent_unreserve();
+        TraceSquare(king_flights_to_be_blocked[i]);
+        TraceEOL();
+        block_square(king_flights_to_be_blocked[i]);
       }
 
-      nr_king_flights_to_be_blocked = 0;
+      block_planned_flights(si);
+
+      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+        empty_square(king_flights_to_be_blocked[i]);
+
+      intelligent_unreserve();
     }
+
+    nr_king_flights_to_be_blocked = 0;
   }
 
   TraceFunctionExit(__func__);
