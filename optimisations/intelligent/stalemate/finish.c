@@ -5,7 +5,6 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
-#include "options/maxsolutions/maxsolutions.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -25,11 +24,8 @@ void intelligent_stalemate_test_target_position(slice_index si)
 
   /*assert(!echecc(Black));*/
   /*assert(!echecc(White));*/
-  if (!max_nr_solutions_found_in_phase())
-  {
-    if (!intelligent_stalemate_immobilise_black(si))
-      intelligent_stalemate_deal_with_unused_pieces(si);
-  }
+  if (!intelligent_stalemate_immobilise_black(si))
+    intelligent_stalemate_deal_with_unused_pieces(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

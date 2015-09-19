@@ -35,6 +35,7 @@
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "optimisations/intelligent/piece_usage.h"
 #include "optimisations/intelligent/proof.h"
+#include "options/maxsolutions/guard.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
@@ -769,6 +770,7 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentMateFilter),
+          alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -780,6 +782,7 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentStalemateFilter),
+          alloc_maxsolutions_guard_slice(),
           alloc_intelligent_stalemate_target_position_tester()
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

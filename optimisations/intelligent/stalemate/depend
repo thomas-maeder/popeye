@@ -26,9 +26,8 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
- options/maxsolutions/maxsolutions.h stipulation/conditional_pipe.h \
- stipulation/pipe.h stipulation/proxy.h stipulation/branch.h \
- stipulation/help_play/branch.h debugging/assert.h
+ stipulation/conditional_pipe.h stipulation/pipe.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/help_play/branch.h debugging/assert.h
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -123,8 +122,6 @@ optimisations/intelligent/place_white_king.h:
 optimisations/intelligent/stalemate/immobilise_black.h:
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
-
-options/maxsolutions/maxsolutions.h:
 
 stipulation/conditional_pipe.h:
 

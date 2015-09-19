@@ -38,8 +38,9 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
- output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
- platform/maxtime.h options/options.h debugging/assert.h
+ options/maxsolutions/guard.h output/plaintext/plaintext.h \
+ output/output.h output/plaintext/pieces.h platform/maxtime.h \
+ options/options.h debugging/assert.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -172,6 +173,8 @@ optimisations/intelligent/mate/finish.h:
 optimisations/intelligent/mate/generate_checking_moves.h:
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
+
+options/maxsolutions/guard.h:
 
 output/plaintext/plaintext.h:
 
