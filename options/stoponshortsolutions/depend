@@ -7,7 +7,7 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  options/stoponshortsolutions/filter.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h options/interruption.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/incomplete.h \
  stipulation/slice_insertion.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -62,7 +62,7 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-options/interruption.h:
+solving/incomplete.h:
 
 stipulation/slice_insertion.h:
 

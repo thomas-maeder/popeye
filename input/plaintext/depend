@@ -1473,8 +1473,8 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  options/options.h options/maxsolutions/maxsolutions.h \
  options/movenumbers.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h options/maxthreatlength.h \
- options/maxtime.h options/degenerate_tree.h options/maxflightsquares.h \
- options/nontrivial.h \
+ options/maxtime.h platform/maxtime.h options/degenerate_tree.h \
+ options/maxflightsquares.h options/nontrivial.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  output/plaintext/language_dependant.h position/position.h \
@@ -1561,6 +1561,8 @@ debugging/trace.h:
 options/maxthreatlength.h:
 
 options/maxtime.h:
+
+platform/maxtime.h:
 
 options/degenerate_tree.h:
 

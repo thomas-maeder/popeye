@@ -16,7 +16,8 @@ SRC_CFILES =   testers.c move_effect_journal.c \
            end_of_branch.c end_of_branch_goal.c setplay_fork.c if_then_else.c \
            move_inverter.c move_played.c move_player.c moves_traversal.c \
            temporary_hacks.c pipe.c fork.c end_of_branch_tester.c \
-           conditional_pipe.c testing_pipe.c duplex.c zeroposition.c
+           conditional_pipe.c testing_pipe.c duplex.c zeroposition.c \
+           incomplete.c
 INCLUDES = testers.h move_effect_journal.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -34,6 +35,7 @@ INCLUDES = testers.h move_effect_journal.h \
            move_inverter.h move_played.h move_player.h moves_traversal.h \
            temporary_hacks.h has_solution_type.h has_solution_type.enum.h \
            has_solution_type.enum pipe.h fork.h end_of_branch_tester.h \
-           conditional_pipe.h testing_pipe.h duplex.h zeroposition.h
+           conditional_pipe.h testing_pipe.h duplex.h zeroposition.h \
+           incomplete.h
 
 include makefile.rules $(CURRPWD)depend

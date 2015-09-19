@@ -8,7 +8,7 @@
 #include "stipulation/help_play/branch.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxsolutions/guard.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -268,7 +268,8 @@ void increase_nr_found_solutions(slice_index interruption)
   TraceValue("->%u\n",nr_solutions_found_in_phase);
 
   if (max_nr_solutions_found_in_phase())
-    phase_solving_remember_interruption(interruption);
+    phase_solving_remember_incompleteness(interruption,
+                                          solving_interrupted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

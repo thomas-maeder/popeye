@@ -6,7 +6,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -260,7 +260,8 @@ void intelligent_nr_solutions_per_target_position_initialiser_solve(slice_index 
 
   if (SLICE_U(si).value_handler.value
       >=SLICE_U(problem_instrumenter).value_handler.value)
-    phase_solving_remember_interruption(SLICE_NEXT2(problem_instrumenter));
+    phase_solving_remember_incompleteness(SLICE_NEXT2(problem_instrumenter),
+                                          solving_partial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

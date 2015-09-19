@@ -20,7 +20,7 @@ options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolution
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h options/maxsolutions/initialiser.h \
- options/maxsolutions/guard.h options/interruption.h debugging/assert.h
+ options/maxsolutions/guard.h solving/incomplete.h debugging/assert.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -106,7 +106,7 @@ options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
 
-options/interruption.h:
+solving/incomplete.h:
 
 debugging/assert.h:
 options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \

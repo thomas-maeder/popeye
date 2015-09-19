@@ -1,30 +1,32 @@
-#if !defined(OPTIONS_INTERRUPTION_H)
-#define OPTIONS_INTERRUPTION_H
+#if !defined(SOLVING_INCOMPLETE_H)
+#define SOLVING_INCOMPLETE_H
 
 /* This module allows various options to report whether they have caused solving
- * to be interrupted. And to the output modules to report that the written
+ * to be incomplete. And to the output modules to report that the written
  * solution may not be complete for that reason.
- * Solving is interrupted per phase - the information that information was
- * interrupted is automatically propagated to the problem.
+ * Solving is incomplete per phase - the information that information is
+ * incomplete is automatically propagated to the problem.
  */
 
 #include "stipulation/stipulation.h"
 
+typedef enum
+{
+  solving_complete,
+  solving_partial,
+  solving_interrupted
+} solving_completeness_type;
+
 /* Reset our state before delegating, then be ready to report our state
  * @param si identifies the STProblemSolvingInterrupted slice
  */
-void problem_solving_interrupted_solve(slice_index si);
-
-/* Remember that solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
- */
-void problem_solving_remember_interruption(slice_index si);
+void problem_solving_incomplete_solve(slice_index si);
 
 /* Report whether solving has been interrupted
  * @param si identifies the STProblemSolvingInterrupted slice
- * @return true iff solving has been interrupted
+ * @return completeness of solution
  */
-boolean problem_solving_is_interrupted(slice_index si);
+solving_completeness_type problem_solving_completeness(slice_index si);
 
 /* Allocate a STPhaseSolvingInterrupted slice
  * @param base base for searching for the STProblemSolvingInterrupted slice
@@ -32,22 +34,24 @@ boolean problem_solving_is_interrupted(slice_index si);
  *             interruptions to.
  * @return identiifer of the allocates slice
  */
-slice_index alloc_phase_solving_interrupted(slice_index base);
+slice_index alloc_phase_solving_incomplete(slice_index base);
 
 /* Reset our state before delegating, then be ready to report our state
  * @param si identifies the STProblemSolvingInterrupted slice
  */
-void phase_solving_interrupted_solve(slice_index si);
+void phase_solving_incomplete_solve(slice_index si);
 
 /* Remember that solving has been interrupted
  * @param si identifies the STProblemSolvingInterrupted slice
+ * @param c completeness of phase
  */
-void phase_solving_remember_interruption(slice_index si);
+void phase_solving_remember_incompleteness(slice_index si,
+                                           solving_completeness_type c);
 
 /* Report whether solving has been interrupted
  * @param si identifies the STProblemSolvingInterrupted slice
- * @return true iff solving has been interrupted
+ * @return completeness of solution
  */
-boolean phase_solving_is_interrupted(slice_index si);
+solving_completeness_type phase_solving_completeness(slice_index si);
 
 #endif

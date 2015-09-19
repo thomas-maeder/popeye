@@ -168,7 +168,7 @@
 #include "optimisations/ohneschach/non_checking_first.h"
 #include "optimisations/ohneschach/stop_if_check.h"
 #include "optimisations/observation.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxtime.h"
@@ -372,11 +372,11 @@ void dispatch(slice_index si)
       break;
 
     case STProblemSolvingInterrupted:
-      problem_solving_interrupted_solve(si);
+      problem_solving_incomplete_solve(si);
       break;
 
     case STPhaseSolvingInterrupted:
-      phase_solving_interrupted_solve(si);
+      phase_solving_incomplete_solve(si);
       break;
 
     case STCommandLineOptionsParser:

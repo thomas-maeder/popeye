@@ -1837,8 +1837,8 @@ output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/branch.h stipulation/slice_insertion.h \
- options/interruption.h debugging/assert.h
+ stipulation/branch.h stipulation/slice_insertion.h solving/incomplete.h \
+ debugging/assert.h
 
 output/plaintext/problem.h:
 
@@ -1934,6 +1934,6 @@ stipulation/branch.h:
 
 stipulation/slice_insertion.h:
 
-options/interruption.h:
+solving/incomplete.h:
 
 debugging/assert.h:

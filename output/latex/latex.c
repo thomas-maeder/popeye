@@ -19,7 +19,7 @@
 #include "conditions/bgl.h"
 #include "conditions/grid.h"
 #include "conditions/singlebox/type1.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -325,7 +325,7 @@ void LaTeXCo(slice_index si, FILE *file)
     if (!(OptFlag[solmenaces]
           || OptFlag[solflights]
           || OptFlag[nontrivial]
-          || problem_solving_is_interrupted(interruption)))
+          || problem_solving_completeness(interruption)!=solving_complete))
     {
       fputs(" \\Co+%",file);
       output_plaintext_print_version_info(file);

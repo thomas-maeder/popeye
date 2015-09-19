@@ -1,6 +1,6 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/filter.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -105,7 +105,7 @@ void stoponshortsolutions_was_short_solution_found_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (SLICE_U(si).flag_handler.value)
-    phase_solving_remember_interruption(SLICE_NEXT2(si));
+    phase_solving_remember_incompleteness(SLICE_NEXT2(si),solving_interrupted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

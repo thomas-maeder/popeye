@@ -7,7 +7,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "debugging/assert.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -48,9 +48,27 @@ void output_plaintext_problem_writer_solve(slice_index si)
                                                        si,
                                                        stip_traversal_context_intro);
     assert(interruption!=no_slice);
-    output_plaintext_message(problem_solving_is_interrupted(interruption)
-                             ? InterMessage
-                             : FinishProblem);
+
+    {
+      solving_completeness_type completeness = problem_solving_completeness(interruption);
+      message_id_t completeness_msg = MsgCount;
+      switch (completeness)
+      {
+        case solving_complete:
+          completeness_msg = SolvingComplete;
+          break;
+        case solving_partial:
+          completeness_msg = SolvingPartial;
+          break;
+        case solving_interrupted:
+          completeness_msg = SolvingInterrupted;
+          break;
+        default:
+          assert(0);
+          break;
+      }
+      output_plaintext_message(completeness_msg);
+    }
   }
 
   output_plaintext_print_time(" ","");

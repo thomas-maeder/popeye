@@ -6,7 +6,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
-#include "options/interruption.h"
+#include "solving/incomplete.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -180,7 +180,8 @@ void maxtime_propagator_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (hasMaxtimeElapsed())
-    phase_solving_remember_interruption(SLICE_NEXT2(si));
+    phase_solving_remember_incompleteness(SLICE_NEXT2(si),
+                                          solving_interrupted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
