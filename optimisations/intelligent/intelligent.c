@@ -847,30 +847,15 @@ static void intelligent_filter_inserter(slice_index si,
     }
 
     case goal_mate:
-    {
-      slice_index const prototypes[] = {
-          alloc_pipe(STIntelligentFilter),
-          alloc_pipe(STIntelligentFlightsGuarder),
-          alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      slice_insertion_insert(si,prototypes,nr_prototypes);
-
-      if (insertion->is_maxtime_active)
-        insert_maxtime(si);
-      if (insertion->is_maxtime_active)
-        insert_maxsolutions(si);
-      break;
-    }
-
     case goal_stale:
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentFilter),
           alloc_pipe(STIntelligentFlightsGuarder),
           alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_intelligent_stalemate_target_position_tester()
+          insertion->goal==goal_mate
+          ? alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
+          : alloc_intelligent_stalemate_target_position_tester()
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);
