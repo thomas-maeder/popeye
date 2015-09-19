@@ -295,7 +295,6 @@
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProof), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProofFairy), /* goal still reachable in intelligent mode? */ \
-    ENUMERATOR(STIntelligentSolutionsPerTargetPosResetter),              \
     ENUMERATOR(STIntelligentSolutionsPerTargetPosPropagator), /* count solutions per target position */ \
     ENUMERATOR(STIntelligentSolutionsPerTargetPosCounter), /* count solutions per target position */ \
     ENUMERATOR(STIntelligentLimitNrSolutionsPerTargetPos), /* limit number of solutions per target position */ \

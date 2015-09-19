@@ -11,17 +11,6 @@
  */
 void reset_nr_solutions_per_target_position(void);
 
-/* Reset status whether solving the current problem was affected because the limit
- * on the number of solutions per target position was reached.
- */
-void intelligent_nr_solutions_per_target_position_restter_solve(slice_index si);
-
-/* Determine whether solving the current problem was affected because the limit
- * on the number of solutions per target position was reached.
- * @return true iff solving was affected
- */
-boolean was_max_nr_solutions_per_target_position_reached(void);
-
 /* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
  */

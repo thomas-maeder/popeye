@@ -1560,10 +1560,6 @@ void dispatch(slice_index si)
       intelligent_nr_solutions_per_target_position_counter_solve(si);
       break;
 
-    case STIntelligentSolutionsPerTargetPosResetter:
-      intelligent_nr_solutions_per_target_position_restter_solve(si);
-      break;
-
     case STSetplayFork:
       setplay_fork_solve(si);
       break;

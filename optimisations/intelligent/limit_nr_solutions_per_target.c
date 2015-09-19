@@ -34,38 +34,6 @@ void reset_nr_solutions_per_target_position(void)
   TraceFunctionResultEnd();
 }
 
-/* Reset status whether solving the current problem was affected because the limit
- * on the number of solutions per target position was reached.
- */
-void intelligent_nr_solutions_per_target_position_restter_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  was_solving_affected = false;;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether solving the current problem was affected because the limit
- * on the number of solutions per target position was reached.
- * @return true iff solving was affected
- */
-boolean was_max_nr_solutions_per_target_position_reached(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",was_solving_affected);
-  TraceFunctionResultEnd();
-  return was_solving_affected;
-}
-
 /* Determine whether the maximum number of solutions per target position is
  * limited
  * @return true iff the maximum number is limited
@@ -93,8 +61,11 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
 
   pipe_solve_delegate(si);
 
-  if (was_max_nr_solutions_per_target_position_reached())
-    problem_solving_remember_interruption(SLICE_NEXT2(si));
+  if (was_solving_affected)
+  {
+    phase_solving_remember_interruption(SLICE_NEXT2(si));
+    was_solving_affected = false;
+  }
 
   max_nr_solutions_per_target_position = ULONG_MAX;
 
@@ -115,7 +86,7 @@ void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STIntelligentSolutionsPerTargetPosPropagator);
