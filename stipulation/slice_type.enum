@@ -285,8 +285,7 @@
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
     ENUMERATOR(STHelpHashedTester),      /* help play with hash table */      \
     ENUMERATOR(STIntelligentMovesLeftInitialiser), /* count the moves left for both sides */ \
-    ENUMERATOR(STIntelligentMateFilter), /* solve mate problems in intelligent mode */ \
-    ENUMERATOR(STIntelligentStalemateFilter), /* solve stalemate problems in intelligent mode */ \
+    ENUMERATOR(STIntelligentFilter), /* solve (stale)mate problems in intelligent mode */ \
     ENUMERATOR(STIntelligentFlightsGuarder),                            \
     ENUMERATOR(STIntelligentFlightsBlocker),                            \
     ENUMERATOR(STIntelligentMateTargetPositionTester),                  \

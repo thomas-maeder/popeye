@@ -7,6 +7,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/movenumbers.h"
 #include "options/maxthreatlength.h"
+#include "options/maxtime.h"
 #include "options/degenerate_tree.h"
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
@@ -24,7 +25,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "platform/beep.h"
-#include "platform/maxtime.h"
 
 #include <stdlib.h>
 #include <string.h>

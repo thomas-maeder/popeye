@@ -1,10 +1,12 @@
 #include "options/maxtime.h"
 #include "stipulation/pipe.h"
 #include "platform/maxtime.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
+#include "options/interruption.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -148,11 +150,6 @@ void solving_insert_maxtime_guards(slice_index si)
 
   TraceStipulation(si);
 
-  {
-    slice_index const prototype = alloc_pipe(STMaxTimeSetter);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
@@ -161,6 +158,56 @@ void solving_insert_maxtime_guards(slice_index si)
                                     maxtime_guard_inserters,
                                     nr_maxtime_guard_inserters);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+/* Propagate our findings to STProblemSolvingInterrupted
+ * @param si identifies the slice where to start instrumenting
+ */
+void maxtime_propagator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STMaxTimeSetter);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  if (hasMaxtimeElapsed())
+    phase_solving_remember_interruption(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param maxtime
+ */
+void maxtime_instrument_solving(slice_index si, maxtime_type maxtime)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",maxtime);
+  TraceFunctionParamListEnd();
+
+  setOptionMaxtime(maxtime);
+
+  {
+    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
+                                                       si,
+                                                       stip_traversal_context_intro);
+    slice_index const prototype = alloc_pipe(STMaxTimePropagator);
+    SLICE_NEXT2(prototype) = interruption;
+    assert(interruption!=no_slice);
+    slice_insertion_insert(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

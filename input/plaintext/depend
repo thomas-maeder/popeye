@@ -1473,7 +1473,7 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  options/options.h options/maxsolutions/maxsolutions.h \
  options/movenumbers.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h options/maxthreatlength.h \
- options/degenerate_tree.h options/maxflightsquares.h \
+ options/maxtime.h options/degenerate_tree.h options/maxflightsquares.h \
  options/nontrivial.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -1502,8 +1502,7 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/move_generator.h solving/castling.h \
  solving/battle_play/try.h utilities/table.h solving/duplex.h \
- solving/pipe.h stipulation/pipe.h stipulation/branch.h platform/beep.h \
- platform/maxtime.h
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h platform/beep.h
 
 input/plaintext/option.h:
 
@@ -1560,6 +1559,8 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 options/maxthreatlength.h:
+
+options/maxtime.h:
 
 options/degenerate_tree.h:
 
@@ -1670,8 +1671,6 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 platform/beep.h:
-
-platform/maxtime.h:
 input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  input/plaintext/problem.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

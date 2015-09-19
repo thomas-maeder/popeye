@@ -1,17 +1,12 @@
-#if !defined(OPTIMISATIONS_INTELLIGENT_STALEMATE_FILTER_H)
-#define OPTIMISATIONS_INTELLIGENT_STALEMATE_FILTER_H
+#if !defined(OPTIMISATIONS_INTELLIGENT_FILTER_H)
+#define OPTIMISATIONS_INTELLIGENT_FILTER_H
 
 #include "solving/machinery/solve.h"
 
-/* This module provides functionality dealing with STIntelligentStalemateFilter
+/* This module provides functionality dealing with STIntelligentFilter
  * stipulation slice type.
  * Slices of this type make solve help stipulations in intelligent mode
  */
-
-/* Allocate a STIntelligentStalemateFilter slice.
- * @return allocated slice
- */
-slice_index alloc_intelligent_stalemate_filter(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -26,6 +21,6 @@ slice_index alloc_intelligent_stalemate_filter(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void intelligent_stalemate_filter_solve(slice_index si);
+void intelligent_filter_solve(slice_index si);
 
 #endif

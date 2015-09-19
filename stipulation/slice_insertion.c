@@ -599,7 +599,6 @@ static slice_index const slice_rank_order[] =
    * mostly by STInputPlainTextProblemHandler */
   STStartOfCurrentProblem,
   STIntelligentSolutionsPerTargetPosPropagator,
-  STMaxTimePropagator,
   STInputPlainTextTwinsHandler,
   /* enter twin stage */
   STOutputLaTeXTwinningWriterBuilder,
@@ -621,6 +620,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextInstrumentSolversBuilder,
   STOutputLaTeXInstrumentSolversBuilder,
   STSolvingMachineryIntroBuilder,
+  STMaxTimePropagator,
   STMaxSolutionsSolvingInstrumenter,
   STStopOnShortSolutionsProblemInstrumenter,
   STOutputLaTeXProblemIntroWriter,

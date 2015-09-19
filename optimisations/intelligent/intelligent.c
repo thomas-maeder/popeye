@@ -36,6 +36,7 @@
 #include "optimisations/intelligent/piece_usage.h"
 #include "optimisations/intelligent/proof.h"
 #include "options/maxsolutions/guard.h"
+#include "options/maxtime.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "debugging/trace.h"
@@ -747,16 +748,58 @@ static slice_index find_goal_tester_fork(slice_index si)
   return result;
 }
 
-static void intelligent_filter_inserter(slice_index si,
-                                        stip_structure_traversal *st)
+typedef struct
 {
-  goal_type const * const goal = st->param;
+    goal_type goal;
+    boolean is_maxtime_active;
+} insertion_struct_type;
+
+static void remember_maxtime(slice_index si, stip_structure_traversal *st)
+{
+  insertion_struct_type * const insertion = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (*goal)
+  insertion->is_maxtime_active = true;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_maxtime(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_maxtime_guard(),
+        alloc_maxtime_guard(),
+        alloc_maxtime_guard()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intelligent_filter_inserter(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  insertion_struct_type const * const insertion = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  switch (insertion->goal)
   {
     case goal_proofgame:
     case goal_atob:
@@ -769,38 +812,38 @@ static void intelligent_filter_inserter(slice_index si,
     case goal_mate:
     {
       slice_index const prototypes[] = {
-          alloc_pipe(STIntelligentMateFilter),
-          alloc_maxtime_guard(),
+          alloc_pipe(STIntelligentFilter),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
-          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);
+
+      if (insertion->is_maxtime_active)
+        insert_maxtime(si);
       break;
     }
 
     case goal_stale:
     {
       slice_index const prototypes[] = {
-          alloc_pipe(STIntelligentStalemateFilter),
-          alloc_maxtime_guard(),
+          alloc_pipe(STIntelligentFilter),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsGuarder),
-          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
-          alloc_maxtime_guard(),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_stalemate_target_position_tester()
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);
+
+      if (insertion->is_maxtime_active)
+        insert_maxtime(si);
       break;
     }
 
@@ -820,6 +863,7 @@ static void intelligent_filter_inserter(slice_index si,
 
 static structure_traversers_visitor intelligent_filters_inserters[] =
 {
+  { STMaxTimeSetter,     &remember_maxtime                      },
   { STHelpAdapter,       &intelligent_filter_inserter           },
   { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
@@ -836,6 +880,7 @@ enum
 static void stip_insert_intelligent_filters(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
+  insertion_struct_type insertion = { goal, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -844,7 +889,7 @@ static void stip_insert_intelligent_filters(slice_index si, goal_type goal)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&goal);
+  stip_structure_traversal_init(&st,&insertion);
   stip_structure_traversal_override(&st,
                                     intelligent_filters_inserters,
                                     nr_intelligent_filters_inserters);

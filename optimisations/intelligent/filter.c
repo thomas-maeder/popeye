@@ -1,4 +1,4 @@
-#include "optimisations/intelligent/mate/filter.h"
+#include "optimisations/intelligent/filter.h"
 #include "stipulation/stipulation.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
@@ -39,7 +39,7 @@ static boolean Intelligent(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void intelligent_mate_filter_solve(slice_index si)
+void intelligent_filter_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -1,11 +1,4 @@
 #include "maxtime_impl.h"
-#include "solving/pipe.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/slice_insertion.h"
-#include "options/interruption.h"
-#include "debugging/assert.h"
-#include "debugging/trace.h"
 
 #include <limits.h>
 
@@ -36,53 +29,18 @@ void resetOptionMaxtime(void)
   maxTimeOption = no_time_set;
 }
 
+/* Set the value of the maxtime option.
+ * To be called whenever the value set with option maxtime becomes obsolete.
+ * @param m value to be set
+ */
+void setOptionMaxtime(maxtime_type m)
+{
+  maxTimeOption = m;
+}
+
 boolean isMaxtimeSet(void)
 {
   return maxTimeOption!=no_time_set || maxTimeCommandLine!=no_time_set;
-}
-
-/* Propagate our findings to STProblemSolvingInterrupted
- * @param si identifies the slice where to start instrumenting
- */
-void maxtime_propagator_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  if (hasMaxtimeElapsed())
-    phase_solving_remember_interruption(SLICE_NEXT2(si));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the solving machinery with option maxsolutions
- * @param si identifies the slice where to start instrumenting
- * @param maxtime
- */
-void maxtime_instrument_solving(slice_index si, maxtime_type maxtime)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",maxtime);
-  TraceFunctionParamListEnd();
-
-  maxTimeOption = maxtime;
-
-  {
-    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
-                                                       si,
-                                                       stip_traversal_context_intro);
-    slice_index const prototype = alloc_pipe(STMaxTimePropagator);
-    SLICE_NEXT2(prototype) = interruption;
-    assert(interruption!=no_slice);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Set the appropriate maximal solving time based on the command line

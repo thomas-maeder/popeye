@@ -1112,12 +1112,11 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/block_flights.h \
+ optimisations/intelligent/filter.h \
  optimisations/intelligent/mate/finish.h \
- optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/mate/goalreachable_guard.h \
  optimisations/intelligent/moves_left.h optimisations/intelligent/proof.h \
  optimisations/intelligent/stalemate/finish.h \
- optimisations/intelligent/stalemate/filter.h \
  optimisations/intelligent/stalemate/goalreachable_guard.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/killer_move/collector.h \
@@ -1129,7 +1128,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  optimisations/ohneschach/non_checking_first.h \
  optimisations/ohneschach/stop_if_check.h optimisations/observation.h \
  options/interruption.h options/maxsolutions/guard.h \
- options/maxsolutions/initialiser.h options/maxtime.h \
+ options/maxsolutions/initialiser.h options/maxtime.h platform/maxtime.h \
  options/movenumbers.h options/degenerate_tree.h options/nontrivial.h \
  options/maxthreatlength.h options/maxflightsquares.h \
  options/maxsolutions/maxsolutions.h \
@@ -1212,8 +1211,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
  solving/pipe.h solving/machinery/solvers.h solving/zeroposition.h \
  debugging/measure.h output/plaintext/protocol.h debugging/assert.h \
- platform/platform.h platform/maxmem.h platform/maxtime.h \
- platform/timer.h
+ platform/platform.h platform/maxmem.h platform/timer.h
 
 solving/machinery/dispatch.h:
 
@@ -1603,9 +1601,9 @@ optimisations/intelligent/guard_flights.h:
 
 optimisations/intelligent/block_flights.h:
 
-optimisations/intelligent/mate/finish.h:
+optimisations/intelligent/filter.h:
 
-optimisations/intelligent/mate/filter.h:
+optimisations/intelligent/mate/finish.h:
 
 optimisations/intelligent/mate/goalreachable_guard.h:
 
@@ -1614,8 +1612,6 @@ optimisations/intelligent/moves_left.h:
 optimisations/intelligent/proof.h:
 
 optimisations/intelligent/stalemate/finish.h:
-
-optimisations/intelligent/stalemate/filter.h:
 
 optimisations/intelligent/stalemate/goalreachable_guard.h:
 
@@ -1646,6 +1642,8 @@ options/maxsolutions/guard.h:
 options/maxsolutions/initialiser.h:
 
 options/maxtime.h:
+
+platform/maxtime.h:
 
 options/movenumbers.h:
 
@@ -1948,8 +1946,6 @@ debugging/assert.h:
 platform/platform.h:
 
 platform/maxmem.h:
-
-platform/maxtime.h:
 
 platform/timer.h:
 solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \

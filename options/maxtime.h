@@ -8,6 +8,7 @@
  */
 
 #include "solving/machinery/solve.h"
+#include "platform/maxtime.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -48,5 +49,16 @@ void maxtime_set(slice_index si);
  * @param si identifies slice where to start
  */
 void solving_insert_maxtime_guards(slice_index si);
+
+/* Propagate our findings to STProblemSolvingInterrupted
+ * @param si identifies the slice where to start instrumenting
+ */
+void maxtime_propagator_solve(slice_index si);
+
+/* Instrument the solving machinery with option maxsolutions
+ * @param si identifies the slice where to start instrumenting
+ * @param maxtime
+ */
+void maxtime_instrument_solving(slice_index si, maxtime_type maxtime);
 
 #endif

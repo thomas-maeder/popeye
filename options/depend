@@ -5,8 +5,8 @@ options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/machinery/dispatch.h debugging/trace.h platform/maxtime.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -16,10 +16,10 @@ options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- platform/maxtime.h stipulation/battle_play/branch.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/slice_insertion.h \
- solving/pipe.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h
+ solving/pipe.h options/interruption.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h debugging/assert.h
 
 options/maxtime.h:
 
@@ -59,6 +59,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+platform/maxtime.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -85,7 +87,7 @@ stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
-platform/maxtime.h:
+stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
@@ -94,6 +96,8 @@ stipulation/help_play/branch.h:
 stipulation/slice_insertion.h:
 
 solving/pipe.h:
+
+options/interruption.h:
 
 output/plaintext/message.h:
 

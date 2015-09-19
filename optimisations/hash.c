@@ -1681,8 +1681,7 @@ static boolean is_proofgame(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
-  if (SLICE_TYPE(si)==STIntelligentStalemateFilter
-      || SLICE_TYPE(si)==STIntelligentMateFilter)
+  if (SLICE_TYPE(si)==STIntelligentFilter)
     st.context = stip_traversal_context_help;
   stip_structure_traversal_override_single(&st,
                                            STGoalProofgameReachedTester,
@@ -2012,13 +2011,12 @@ static void insert_hash_opener(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const hash_element_inserters[] =
 {
-  { STReadyForAttack,             &insert_hash_element_attack },
-  { STReadyForHelpMove,           &insert_hash_element_help   },
-  { STMove,                       &remember_move              },
-  { STAttackHashed,               &spin_off_tester_attack     },
-  { STHelpHashed,                 &spin_off_tester_help       },
-  { STIntelligentMateFilter,      &insert_hash_opener         },
-  { STIntelligentStalemateFilter, &insert_hash_opener         }
+  { STReadyForAttack,    &insert_hash_element_attack },
+  { STReadyForHelpMove,  &insert_hash_element_help   },
+  { STMove,              &remember_move              },
+  { STAttackHashed,      &spin_off_tester_attack     },
+  { STHelpHashed,        &spin_off_tester_help       },
+  { STIntelligentFilter, &insert_hash_opener         }
 };
 
 enum
