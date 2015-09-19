@@ -842,41 +842,6 @@ static boolean apply_whitetoplay(slice_index proxy)
   return result;
 }
 
-static void complete_stipulation(slice_index stipulation_root_hook)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParamListEnd();
-
-  if (OptFlag[quodlibet] && OptFlag[goal_is_end])
-    output_plaintext_verifie_message(GoalIsEndAndQuodlibetIncompatible);
-  else if (OptFlag[quodlibet])
-  {
-    if (!transform_to_quodlibet(stipulation_root_hook))
-      output_plaintext_message(QuodlibetNotApplicable);
-  }
-  else if (OptFlag[goal_is_end])
-  {
-    if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
-      output_plaintext_message(GoalIsEndNotApplicable);
-  }
-
-  if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
-    output_plaintext_message(WhiteToPlayNotApplicable);
-
-  if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
-    output_plaintext_message(PostKeyPlayNotApplicable);
-
-  stip_detect_starter(stipulation_root_hook);
-  solving_impose_starter(stipulation_root_hook,
-                         SLICE_STARTER(stipulation_root_hook));
-
-  TraceStipulation(stipulation_root_hook);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void solving_machinery_intro_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -999,7 +964,31 @@ void stipulation_completer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (SLICE_STARTER(stipulation_root_hook)==no_side)
-    complete_stipulation(stipulation_root_hook);
+  {
+    if (OptFlag[quodlibet])
+    {
+      if (!transform_to_quodlibet(stipulation_root_hook))
+        output_plaintext_message(QuodlibetNotApplicable);
+    }
+
+    if (OptFlag[goal_is_end])
+    {
+      if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
+        output_plaintext_message(GoalIsEndNotApplicable);
+    }
+
+    if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
+      output_plaintext_message(WhiteToPlayNotApplicable);
+
+    if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
+      output_plaintext_message(PostKeyPlayNotApplicable);
+
+    stip_detect_starter(stipulation_root_hook);
+    solving_impose_starter(stipulation_root_hook,
+                           SLICE_STARTER(stipulation_root_hook));
+
+    TraceStipulation(stipulation_root_hook);
+  }
 
   if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
