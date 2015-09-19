@@ -6,17 +6,29 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- optimisations/intelligent/intelligent.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
- solving/ply.h optimisations/intelligent/piece_usage.h \
+ solving/machinery/slack_length.h optimisations/intelligent/intelligent.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum pieces/walks/vectors.h position/castling_rights.h \
+ position/pieceid.h solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
- options/maxsolutions/maxsolutions.h debugging/assert.h
+ options/maxsolutions/maxsolutions.h stipulation/conditional_pipe.h \
+ stipulation/pipe.h stipulation/proxy.h stipulation/branch.h \
+ stipulation/help_play/branch.h debugging/assert.h
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -50,11 +62,37 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/machinery/slack_length.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -88,13 +126,28 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
 options/maxsolutions/maxsolutions.h:
 
+stipulation/conditional_pipe.h:
+
+stipulation/pipe.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+stipulation/help_play/branch.h:
+
 debugging/assert.h:
 optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/filter.c \
- optimisations/intelligent/stalemate/filter.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- utilities/boolean.h stipulation/slice_type.h \
+ optimisations/intelligent/stalemate/filter.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h solving/pipe.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -104,14 +157,6 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h position/side.h position/side.enum.h \
- position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- output/mode.enum solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h solving/machinery/slack_length.h solving/pipe.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/conditional_pipe.h \
- stipulation/branch.h stipulation/help_play/branch.h \
- stipulation/goals/immobile/reached_tester.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
@@ -122,9 +167,15 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/filter.h:
 
-stipulation/structure_traversal.h:
+solving/machinery/solve.h:
 
-stipulation/slice.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
 
 utilities/boolean.h:
 
@@ -133,6 +184,32 @@ stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
 
 stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/pipe.h:
+
+stipulation/goals/immobile/reached_tester.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
 
 stipulation/slice_structural_type.h:
 
@@ -153,50 +230,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-position/side.h:
-
-position/side.enum.h:
-
-position/side.enum:
-
-pieces/pieces.h:
-
-output/mode.h:
-
-output/mode.enum.h:
-
-output/mode.enum:
-
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-debugging/trace.h:
-
-solving/machinery/slack_length.h:
-
-solving/pipe.h:
-
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
-stipulation/conditional_pipe.h:
-
-stipulation/branch.h:
-
-stipulation/help_play/branch.h:
-
-stipulation/goals/immobile/reached_tester.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -361,7 +394,18 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/stalemate/finish.h debugging/assert.h
+ optimisations/intelligent/stalemate/finish.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
@@ -437,6 +481,30 @@ optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/finish.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 debugging/assert.h:
 optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.c \
@@ -457,7 +525,18 @@ optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/stalemate/finish.h debugging/assert.h
+ optimisations/intelligent/stalemate/finish.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/white_block.h:
 
@@ -529,6 +608,30 @@ optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/finish.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 debugging/assert.h:
 optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/black_block.c \
@@ -549,6 +652,16 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/finish.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  optimisations/intelligent/intercept_check_by_black.h debugging/assert.h
 
 optimisations/intelligent/stalemate/black_block.h:
@@ -619,6 +732,30 @@ optimisations/intelligent/place_black_piece.h:
 
 optimisations/intelligent/stalemate/finish.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 optimisations/intelligent/intercept_check_by_black.h:
 
 debugging/assert.h:
@@ -640,6 +777,16 @@ optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/pin_black_piece.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/finish.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  optimisations/orthodox_check_directions.h debugging/assert.h
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
@@ -709,6 +856,30 @@ optimisations/intelligent/pin_black_piece.h:
 optimisations/intelligent/stalemate/immobilise_black.h:
 
 optimisations/intelligent/stalemate/finish.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
 
 optimisations/orthodox_check_directions.h:
 

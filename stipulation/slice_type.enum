@@ -287,6 +287,8 @@
     ENUMERATOR(STIntelligentMovesLeftInitialiser), /* count the moves left for both sides */ \
     ENUMERATOR(STIntelligentMateFilter), /* solve mate problems in intelligent mode */ \
     ENUMERATOR(STIntelligentStalemateFilter), /* solve stalemate problems in intelligent mode */ \
+    ENUMERATOR(STIntelligentMateTargetPositionTester),                  \
+    ENUMERATOR(STIntelligentStalemateTargetPositionTester),             \
     ENUMERATOR(STIntelligentProof), /* solve proof games and A=>B in intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilterMate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \

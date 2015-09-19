@@ -25,12 +25,12 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
-#include "optimisations/intelligent/stalemate/filter.h"
+#include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/place_black_piece.h"
-#include "optimisations/intelligent/mate/filter.h"
+#include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "optimisations/intelligent/piece_usage.h"
@@ -767,15 +767,23 @@ static void intelligent_filter_inserter(slice_index si,
 
     case goal_mate:
     {
-      slice_index const prototype = alloc_intelligent_mate_filter(find_goal_tester_fork(si));
-      slice_insertion_insert(si,&prototype,1);
+      slice_index const prototypes[] = {
+          alloc_pipe(STIntelligentMateFilter),
+          alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(si,prototypes,nr_prototypes);
       break;
     }
 
     case goal_stale:
     {
-      slice_index const prototype = alloc_intelligent_stalemate_filter();
-      slice_insertion_insert(si,&prototype,1);
+      slice_index const prototypes[] = {
+          alloc_pipe(STIntelligentStalemateFilter),
+          alloc_intelligent_stalemate_target_position_tester()
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(si,prototypes,nr_prototypes);
       break;
     }
 

@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_STALEMATE_FILTER_H)
 #define OPTIMISATIONS_INTELLIGENT_STALEMATE_FILTER_H
 
-#include "stipulation/structure_traversal.h"
 #include "solving/machinery/solve.h"
 
 /* This module provides functionality dealing with STIntelligentStalemateFilter
@@ -13,13 +12,6 @@
  * @return allocated slice
  */
 slice_index alloc_intelligent_stalemate_filter(void);
-
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-void impose_starter_intelligent_stalemate_filter(slice_index si,
-                                                 stip_structure_traversal *st);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

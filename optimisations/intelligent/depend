@@ -30,12 +30,12 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
- optimisations/intelligent/stalemate/filter.h \
+ optimisations/intelligent/stalemate/finish.h \
  optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/place_black_piece.h \
- optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
  output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
@@ -157,7 +157,7 @@ optimisations/intelligent/guard_flights.h:
 
 optimisations/intelligent/moves_left.h:
 
-optimisations/intelligent/stalemate/filter.h:
+optimisations/intelligent/stalemate/finish.h:
 
 optimisations/intelligent/proof.h:
 
@@ -167,7 +167,7 @@ optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 optimisations/intelligent/place_black_piece.h:
 
-optimisations/intelligent/mate/filter.h:
+optimisations/intelligent/mate/finish.h:
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
@@ -1023,11 +1023,9 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
- optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/stalemate/finish.h \
  optimisations/orthodox_square_observation.h \
- options/maxsolutions/maxsolutions.h debugging/assert.h
+ options/maxsolutions/maxsolutions.h solving/pipe.h debugging/assert.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -1097,15 +1095,13 @@ optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/place_black_piece.h:
 
-optimisations/intelligent/mate/finish.h:
-
 optimisations/intelligent/place_white_king.h:
-
-optimisations/intelligent/stalemate/finish.h:
 
 optimisations/orthodox_square_observation.h:
 
 options/maxsolutions/maxsolutions.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \

@@ -19,8 +19,8 @@
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/proxy.h"
 #include "retro/retro.h"
-#include "optimisations/intelligent/mate/filter.h"
-#include "optimisations/intelligent/stalemate/filter.h"
+#include "optimisations/intelligent/mate/finish.h"
+#include "optimisations/intelligent/stalemate/finish.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -832,11 +832,11 @@ static void stip_impose_starter_impl(slice_index si,
                                              starter_inverters[i],
                                              &impose_inverted_starter);
   stip_structure_traversal_override_single(st,
-                                           STIntelligentMateFilter,
-                                           &impose_starter_intelligent_mate_filter);
+                                           STIntelligentMateTargetPositionTester,
+                                           &impose_starter_intelligent_mate_target_position_tester);
   stip_structure_traversal_override_single(st,
-                                           STIntelligentStalemateFilter,
-                                           &impose_starter_intelligent_stalemate_filter);
+                                           STIntelligentStalemateTargetPositionTester,
+                                           &impose_starter_intelligent_stalemate_target_position_tester);
   stip_structure_traversal_override_single(st,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_goal_immobile_tester);

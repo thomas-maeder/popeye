@@ -1393,6 +1393,14 @@ void dispatch(slice_index si)
       intelligent_stalemate_filter_solve(si);
       break;
 
+    case STIntelligentMateTargetPositionTester:
+      intelligent_mate_test_target_position(si);
+      break;
+
+    case STIntelligentStalemateTargetPositionTester:
+      intelligent_stalemate_test_target_position(si);
+      break;
+
     case STIntelligentProof:
       intelligent_proof_solve(si);
       break;

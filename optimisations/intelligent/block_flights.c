@@ -3,13 +3,12 @@
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
-#include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/place_white_king.h"
-#include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "debugging/trace.h"
+#include "solving/pipe.h"
 #include "pieces/pieces.h"
+#include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
@@ -24,17 +23,18 @@ static void finalise_blocking(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /*assert(!echecc(White));*/
+  /*assert(!echecc(White));
   if (goal_to_be_reached==goal_stale)
   {
-    /*assert(!echecc(Black));*/
-    intelligent_stalemate_test_target_position(si);
+    assert(!echecc(Black));
   }
   else
   {
-    /*assert(echecc(Black));*/
-    intelligent_mate_test_target_position(si);
+    assert(echecc(Black));
   }
+  */
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1,5 +1,8 @@
 #include "optimisations/intelligent/mate/finish.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
+#include "stipulation/conditional_pipe.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/castling.h"
@@ -189,4 +192,57 @@ void intelligent_mate_test_target_position(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Impose the starting side on a stipulation.
+ * @param si identifies slice
+ * @param st address of structure that holds the state of the traversal
+ */
+void impose_starter_intelligent_mate_target_position_tester(slice_index si,
+                                                            stip_structure_traversal *st)
+{
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  SLICE_STARTER(si) = *starter;
+  stip_traverse_structure_children_pipe(si,st);
+
+  /* in duplexes, the colors swapped when looking for the "black solutions".
+   * we thus have to make sure that the legal move finder always tests for
+   * Black.
+   */
+  *starter = Black;
+  stip_traverse_structure_conditional_pipe_tester(si,st);
+  *starter = SLICE_STARTER(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Allocate a STIntelligentMateTargetPositionTester slice.
+ * @param goal_tester_fork fork into the goal goal_tester_fork branch
+ * @return allocated slice
+ */
+slice_index alloc_intelligent_mate_target_position_tester(slice_index goal_tester_fork)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal_tester_fork);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    link_to_branch(proxy,stip_deep_copy(goal_tester_fork));
+    result = alloc_conditional_pipe(STIntelligentMateTargetPositionTester,proxy);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
