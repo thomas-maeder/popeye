@@ -411,7 +411,7 @@ static void GenerateBlackKing(slice_index si)
         intelligent_mate_generate_doublechecking_moves(si);
       }
       else
-        intelligent_guard_flights(si);
+        pipe_solve_delegate(si);
 
       empty_square(*bnp);
 
@@ -771,6 +771,8 @@ static void intelligent_filter_inserter(slice_index si,
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentMateFilter),
           alloc_maxsolutions_guard_slice(),
+          alloc_pipe(STIntelligentFlightsGuarder),
+          alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
           alloc_maxsolutions_guard_slice(),
           alloc_intelligent_mate_target_position_tester(find_goal_tester_fork(si))
@@ -784,6 +786,8 @@ static void intelligent_filter_inserter(slice_index si,
     {
       slice_index const prototypes[] = {
           alloc_pipe(STIntelligentStalemateFilter),
+          alloc_maxsolutions_guard_slice(),
+          alloc_pipe(STIntelligentFlightsGuarder),
           alloc_maxsolutions_guard_slice(),
           alloc_pipe(STIntelligentFlightsBlocker),
           alloc_maxsolutions_guard_slice(),

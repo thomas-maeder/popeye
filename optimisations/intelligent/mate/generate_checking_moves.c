@@ -193,7 +193,7 @@ static void by_promoted_rider(slice_index si,
   {
     occupy_square(check_from,promotee_type,white[index_of_checker].flags);
     remember_mating_line(promotee_type,check_from,+1);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     remember_mating_line(promotee_type,check_from,-1);
     intelligent_unreserve();
   }
@@ -221,7 +221,7 @@ static void by_promoted_knight(slice_index si,
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     fini_disturb_mate_dir();
     intelligent_unreserve();
   }
@@ -285,7 +285,7 @@ static void by_unpromoted_pawn(slice_index si,
   {
     occupy_square(check_from,Pawn,checker_flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     fini_disturb_mate_dir();
     empty_square(check_from);
     intelligent_unreserve();
@@ -316,7 +316,7 @@ static void by_rider(slice_index si,
   {
     occupy_square(check_from,checker_type,checker_flags);
     remember_mating_line(checker_type,check_from,+1);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     remember_mating_line(checker_type,check_from,-1);
     intelligent_unreserve();
   }
@@ -344,7 +344,7 @@ static void by_knight(slice_index si,
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     fini_disturb_mate_dir();
     intelligent_unreserve();
   }

@@ -72,7 +72,7 @@ static void front_check_by_rider_via(slice_index si,
         occupy_square(*bnp,checker_type,checker_flags);
         remember_to_keep_checking_line_open(*bnp,being_solved.king_square[Black],checker_type,+1);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
-        intelligent_guard_flights(si);
+        pipe_solve_delegate(si);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,-1);
         remember_to_keep_checking_line_open(*bnp,being_solved.king_square[Black],checker_type,-1);
         empty_square(*bnp);
@@ -107,7 +107,7 @@ static void front_check_by_knight_via(slice_index si,
     {
       TraceSquare(*bnp);TraceWalk(being_solved.board[*bnp]);TraceEOL();
       occupy_square(*bnp,Knight,checker_flags);
-      intelligent_guard_flights(si);
+      pipe_solve_delegate(si);
       empty_square(*bnp);
       intelligent_unreserve();
     }
@@ -148,7 +148,7 @@ static void front_check_by_promotee_rider(slice_index si,
           occupy_square(to_square,promotee_type,checker_flags);
           remember_to_keep_checking_line_open(to_square,being_solved.king_square[Black],promotee_type,+1);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
-          intelligent_guard_flights(si);
+          pipe_solve_delegate(si);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,-1);
           remember_to_keep_checking_line_open(to_square,being_solved.king_square[Black],promotee_type,-1);
           empty_square(to_square);
@@ -182,7 +182,7 @@ static void front_check_by_promotee_knight(slice_index si,
     {
       TraceSquare(to_square);TraceWalk(being_solved.board[to_square]);TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
-      intelligent_guard_flights(si);
+      pipe_solve_delegate(si);
       empty_square(to_square);
     }
   }
@@ -254,7 +254,7 @@ static void front_check_by_unpromoted_pawn(slice_index si,
                                                               check_square))
   {
     occupy_square(check_square,Pawn,white[index_of_checker].flags);
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     empty_square(check_square);
     intelligent_unreserve();
   }
@@ -287,7 +287,7 @@ static void front_check_by_pawn_promotion_without_capture(slice_index si,
       if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
       {
         occupy_square(check_from,pp,white[index_of_checker].flags);
-        intelligent_guard_flights(si);
+        pipe_solve_delegate(si);
       }
 
     empty_square(check_from);
@@ -329,7 +329,7 @@ static void front_check_by_pawn_promotion_with_capture(slice_index si,
             {
               occupy_square(check_from,pp,white[index_of_checker].flags);
               remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
-              intelligent_guard_flights(si);
+              pipe_solve_delegate(si);
               remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
             }
             break;
@@ -337,7 +337,7 @@ static void front_check_by_pawn_promotion_with_capture(slice_index si,
           case Bishop:
           case Knight:
             occupy_square(check_from,pp,white[index_of_checker].flags);
-            intelligent_guard_flights(si);
+            pipe_solve_delegate(si);
             break;
 
           default:
@@ -640,7 +640,7 @@ static void en_passant_orthogonal_check_by_rider(slice_index si,
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
     TraceSquare(check_from);TraceWalk(rider_type);TraceEOL();
-    intelligent_guard_flights(si);
+    pipe_solve_delegate(si);
     empty_square(check_from);
     intelligent_unreserve();
   }
@@ -668,7 +668,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(slice_index si,
     {
       occupy_square(check_from,pp,white[checker_index].flags);
       TraceSquare(check_from);TraceWalk(pp);TraceEOL();
-      intelligent_guard_flights(si);
+      pipe_solve_delegate(si);
       empty_square(check_from);
       intelligent_unreserve();
     }

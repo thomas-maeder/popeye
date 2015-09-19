@@ -4,7 +4,6 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/intercept_check_from_guard.h"
-#include "options/maxsolutions/maxsolutions.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "position/move_diff_code.h"
@@ -868,7 +867,7 @@ void intelligent_continue_guarding_flights(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!max_nr_solutions_found_in_phase() && !hasMaxtimeElapsed())
+  if (!hasMaxtimeElapsed())
   {
     if (intelligent_reserve_masses(White,1,piece_guards))
     {
@@ -939,8 +938,7 @@ void intelligent_guard_flights(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!max_nr_solutions_found_in_phase()
-      && !hasMaxtimeElapsed())
+  if (!hasMaxtimeElapsed())
   {
     king(si);
 

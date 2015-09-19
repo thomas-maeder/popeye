@@ -149,10 +149,14 @@
 #include "optimisations/detect_retraction.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/intelligent/guard_flights.h"
+#include "optimisations/intelligent/block_flights.h"
+#include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/goalreachable_guard.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/proof.h"
+#include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/intelligent/stalemate/filter.h"
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
@@ -1391,6 +1395,10 @@ void dispatch(slice_index si)
 
     case STIntelligentStalemateFilter:
       intelligent_stalemate_filter_solve(si);
+      break;
+
+    case STIntelligentFlightsGuarder:
+      intelligent_guard_flights(si);
       break;
 
     case STIntelligentFlightsBlocker:
