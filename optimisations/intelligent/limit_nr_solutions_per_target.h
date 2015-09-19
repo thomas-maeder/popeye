@@ -23,12 +23,6 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
 void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index si,
                                                                      unsigned long max_nr_solutions_per_target_position);
 
-/* Determine whether the maximum number of solutions per target position is
- * limited
- * @return true iff the maximum number is limited
- */
-boolean is_max_nr_solutions_per_target_position_limited(void);
-
 /* Allocate a STIntelligentSolutionsPerTargetPosCounter slice.
  * @return index of allocated slice
  */

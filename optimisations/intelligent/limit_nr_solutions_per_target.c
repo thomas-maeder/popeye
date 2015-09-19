@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/help_play/branch.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "options/interruption.h"
@@ -34,22 +35,48 @@ void reset_nr_solutions_per_target_position(void)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the maximum number of solutions per target position is
- * limited
- * @return true iff the maximum number is limited
- */
-boolean is_max_nr_solutions_per_target_position_limited(void)
+static void insert_limiter(slice_index si, stip_structure_traversal *st)
 {
-  boolean const result = max_nr_solutions_per_target_position!=ULONG_MAX;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_intelligent_limit_nr_solutions_per_target_position_slice();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
+
+static void insert_counter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_intelligent_nr_solutions_per_target_position_counter_slice();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor inserters[] =
+{
+  { STReadyForHelpMove,  &insert_limiter                        },
+  { STGoalReachedTester, &insert_counter                        },
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
+};
+
+enum { nr_inserters = sizeof inserters / sizeof inserters[0] };
 
 /* Propagate our findings to STProblemSolvingInterrupted
  * @param si identifies the slice where to start instrumenting
@@ -58,6 +85,17 @@ void intelligent_nr_solutions_per_target_position_propagator_solve(slice_index s
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_by_contextual(&st,
+                                                    slice_contextual_conditional_pipe,
+                                                    &stip_traverse_structure_children_pipe);
+    stip_structure_traversal_override(&st,inserters,nr_inserters);
+    stip_traverse_structure(si,&st);
+  }
 
   pipe_solve_delegate(si);
 

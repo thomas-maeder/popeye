@@ -28,7 +28,6 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
-#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
@@ -630,12 +629,6 @@ void goalreachable_guards_inserter_help_move(slice_index si,
     slice_index const prototype = alloc_goalreachable_guard_filter(*goal);
     if (prototype!=no_slice)
       help_branch_insert_slices(si,&prototype,1);
-
-    if (is_max_nr_solutions_per_target_position_limited())
-    {
-      slice_index const prototype = alloc_intelligent_limit_nr_solutions_per_target_position_slice();
-      help_branch_insert_slices(si,&prototype,1);
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -662,12 +655,6 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     help_branch_insert_slices(si,prototypes,nr_prototypes);
-
-    if (is_max_nr_solutions_per_target_position_limited())
-    {
-      slice_index const prototype = alloc_intelligent_nr_solutions_per_target_position_counter_slice();
-      help_branch_insert_slices(si,&prototype,1);
-    }
   }
 
   TraceFunctionExit(__func__);

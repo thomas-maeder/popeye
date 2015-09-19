@@ -33,7 +33,6 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.h \
  optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
@@ -163,8 +162,6 @@ optimisations/intelligent/stalemate/finish.h:
 optimisations/intelligent/proof.h:
 
 optimisations/intelligent/duplicate_avoider.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 optimisations/intelligent/place_black_piece.h:
 
@@ -639,9 +636,9 @@ optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/slice_insertion.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h options/interruption.h \
- debugging/assert.h
+ stipulation/help_play/branch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h options/interruption.h debugging/assert.h
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
@@ -710,6 +707,8 @@ stipulation/traversal.h:
 stipulation/branch.h:
 
 stipulation/slice_insertion.h:
+
+stipulation/help_play/branch.h:
 
 solving/has_solution_type.h:
 
