@@ -2,13 +2,13 @@
 #include "pieces/pieces.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "optimisations/intelligent/block_flights.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/intercept_check_from_guard.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "position/move_diff_code.h"
+#include "solving/pipe.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
 
@@ -268,9 +268,7 @@ static void fix_white_king_on_diagram_square(slice_index si)
       && nr_reasons_for_staying_empty[king_diagram_square]==0)
   {
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
-    intelligent_place_white_king(si,
-                                 king_diagram_square,
-                                 &intelligent_find_and_block_flights);
+    intelligent_place_white_king(si,king_diagram_square,&pipe_solve_delegate);
     white[index_of_king].usage = piece_is_unused;
   }
 
@@ -294,7 +292,7 @@ static void guarding_done(slice_index si)
       && intelligent_get_nr_remaining_moves(White)==0)
     fix_white_king_on_diagram_square(si);
   else
-    intelligent_find_and_block_flights(si);
+    pipe_solve_delegate(si);
 
   index_of_guarding_piece = save_index_of_guarding_piece;
 

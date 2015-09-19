@@ -1393,6 +1393,10 @@ void dispatch(slice_index si)
       intelligent_stalemate_filter_solve(si);
       break;
 
+    case STIntelligentFlightsBlocker:
+      intelligent_find_and_block_flights(si);
+      break;
+
     case STIntelligentMateTargetPositionTester:
       intelligent_mate_test_target_position(si);
       break;

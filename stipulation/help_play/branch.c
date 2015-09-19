@@ -30,6 +30,7 @@ static slice_index const slice_rank_order[] =
   STRestartGuardIntelligent,
   STIntelligentMateFilter,
   STIntelligentStalemateFilter,
+  STIntelligentFlightsBlocker,
   STIntelligentProof,
   STMaxSolutionsGuard,
   STIntelligentMateTargetPositionTester,

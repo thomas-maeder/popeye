@@ -9,7 +9,6 @@
 #include "solving/pipe.h"
 #include "pieces/pieces.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 static unsigned int nr_king_flights_to_be_blocked;
@@ -78,11 +77,7 @@ static void block_planned_flights(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (max_nr_solutions_found_in_phase())
-  {
-    /* nothing */
-  }
-  else if (nr_king_flights_to_be_blocked==0)
+  if (nr_king_flights_to_be_blocked==0)
     finalise_blocking(si);
   else
     block_next_flight(si);
@@ -144,31 +139,38 @@ void intelligent_find_and_block_flights(slice_index si)
 
   assert(nr_king_flights_to_be_blocked==0);
 
-  plan_blocks_of_flights();
-  if (nr_king_flights_to_be_blocked==0)
-    finalise_blocking(si);
+  if (max_nr_solutions_found_in_phase())
+  {
+    /* nothing */
+  }
   else
   {
-    if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
-                                                    nr_king_flights_to_be_blocked))
+    plan_blocks_of_flights();
+    if (nr_king_flights_to_be_blocked==0)
+      finalise_blocking(si);
+    else
     {
-      unsigned int i;
-      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+      if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
+                                                      nr_king_flights_to_be_blocked))
       {
-        TraceSquare(king_flights_to_be_blocked[i]);
-        TraceEOL();
-        block_square(king_flights_to_be_blocked[i]);
+        unsigned int i;
+        for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+        {
+          TraceSquare(king_flights_to_be_blocked[i]);
+          TraceEOL();
+          block_square(king_flights_to_be_blocked[i]);
+        }
+
+        block_planned_flights(si);
+
+        for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+          empty_square(king_flights_to_be_blocked[i]);
+
+        intelligent_unreserve();
       }
 
-      block_planned_flights(si);
-
-      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
-        empty_square(king_flights_to_be_blocked[i]);
-
-      intelligent_unreserve();
+      nr_king_flights_to_be_blocked = 0;
     }
-
-    nr_king_flights_to_be_blocked = 0;
   }
 
   TraceFunctionExit(__func__);

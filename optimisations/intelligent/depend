@@ -1123,13 +1123,12 @@ optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/block_flights.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/intercept_check_from_guard.h \
  options/maxsolutions/maxsolutions.h \
  optimisations/orthodox_check_directions.h \
  pieces/walks/pawns/promotee_sequence.h position/move_diff_code.h \
- platform/maxtime.h debugging/assert.h
+ solving/pipe.h platform/maxtime.h debugging/assert.h
 
 optimisations/intelligent/guard_flights.h:
 
@@ -1195,8 +1194,6 @@ optimisations/intelligent/piece_usage.enum:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
-optimisations/intelligent/block_flights.h:
-
 optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/intercept_check_from_guard.h:
@@ -1208,6 +1205,8 @@ optimisations/orthodox_check_directions.h:
 pieces/walks/pawns/promotee_sequence.h:
 
 position/move_diff_code.h:
+
+solving/pipe.h:
 
 platform/maxtime.h:
 
