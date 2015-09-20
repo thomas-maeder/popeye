@@ -21,6 +21,9 @@ void stipulation_modifier_instrument(slice_index si, slice_type type)
     SLICE_NEXT2(prototype) = no_slice;
     slice_insertion_insert(si,&prototype,1);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void notify_modifier(slice_index si, stip_structure_traversal *st)
