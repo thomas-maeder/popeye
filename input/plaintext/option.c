@@ -24,6 +24,7 @@
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/modifier.h"
 #include "platform/beep.h"
 
 #include <stdlib.h>
@@ -293,8 +294,11 @@ char *ParseOpt(slice_index start)
       }
 
       case postkeyplay:
+      {
+        stipulation_modifier_instrument(start,STPostKeyPlayStipulationModifier);
         OptFlag[solvariantes]= true;
         break;
+      }
 
       case nocastling:
       {
@@ -362,8 +366,17 @@ char *ParseOpt(slice_index start)
         };
         enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
         slice_insertion_insert(start,prototypes,nr_prototypes);
+        stipulation_modifier_instrument(start,STQuodlibetStipulationModifier);
         break;
       }
+
+      case goal_is_end:
+        stipulation_modifier_instrument(start,STGoalIsEndStipulationModifier);
+        break;
+
+      case whitetoplay:
+        stipulation_modifier_instrument(start,STWhiteToPlayStipulationModifier);
+        break;
 
       default:
         /* no extra action required */

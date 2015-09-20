@@ -104,7 +104,7 @@ void trash_for_postkey_play(slice_index si, stip_structure_traversal *st);
  * @return true iff postkey play option is applicable (and has been
  *              applied)
  */
-boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
+void post_key_play_stipulation_modifier_solve(slice_index si);
 
 /* Create the root slices of a battle branch
  * @param adapter identifies the adapter slice at the beginning of the branch

@@ -471,10 +471,11 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move_inverter.h \
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
- stipulation/proxy.h solving/goals/prerequisite_guards.h solving/pipe.h \
- solving/duplex.h solving/proofgames.h solving/zeroposition.h \
- utilities/table.h platform/maxmem.h platform/maxtime.h \
- debugging/measure.h output/plaintext/protocol.h debugging/assert.h
+ stipulation/proxy.h stipulation/modifier.h \
+ solving/goals/prerequisite_guards.h solving/pipe.h solving/duplex.h \
+ solving/proofgames.h solving/zeroposition.h utilities/table.h \
+ platform/maxmem.h platform/maxtime.h debugging/measure.h \
+ output/plaintext/protocol.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -647,6 +648,8 @@ stipulation/help_play/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/modifier.h:
 
 solving/goals/prerequisite_guards.h:
 
@@ -1502,7 +1505,8 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/move_generator.h solving/castling.h \
  solving/battle_play/try.h utilities/table.h solving/duplex.h \
- solving/pipe.h stipulation/pipe.h stipulation/branch.h platform/beep.h
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/modifier.h platform/beep.h
 
 input/plaintext/option.h:
 
@@ -1672,6 +1676,8 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
+stipulation/modifier.h:
+
 platform/beep.h:
 input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  input/plaintext/problem.h stipulation/stipulation.h \
@@ -1705,8 +1711,9 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- solving/move_generator.h solving/pipe.h stipulation/pipe.h \
- stipulation/branch.h debugging/assert.h
+ solving/move_generator.h solving/pipe.h solving/incomplete.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/modifier.h \
+ debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1834,9 +1841,13 @@ solving/move_generator.h:
 
 solving/pipe.h:
 
+solving/incomplete.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
+
+stipulation/modifier.h:
 
 debugging/assert.h:
 input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \

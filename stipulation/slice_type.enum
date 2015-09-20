@@ -2,7 +2,11 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
-  ENUMERATOR(STStipulationCompleter),                                   \
+  ENUMERATOR(STQuodlibetStipulationModifier),                           \
+  ENUMERATOR(STGoalIsEndStipulationModifier),                           \
+  ENUMERATOR(STWhiteToPlayStipulationModifier),                         \
+  ENUMERATOR(STPostKeyPlayStipulationModifier),                         \
+  ENUMERATOR(STStipulationStarterDetector),                                   \
   ENUMERATOR(STCountersWriter),                                         \
   ENUMERATOR(STStartOfStipulationSpecific),                             \
   ENUMERATOR(STStipulationCopier),                                      \

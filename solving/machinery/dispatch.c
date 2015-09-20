@@ -182,6 +182,8 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/filter.h"
+#include "options/quodlibet.h"
+#include "options/goal_is_end.h"
 #include "input/commandline.h"
 #include "input/plaintext/plaintext.h"
 #include "input/plaintext/problem.h"
@@ -343,8 +345,24 @@ void dispatch(slice_index si)
   TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
   switch (SLICE_TYPE(si))
   {
-    case STStipulationCompleter:
-      stipulation_completer_solve(si);
+    case STQuodlibetStipulationModifier:
+      quodlibet_stipulation_modifier_solve(si);
+      break;
+
+    case STGoalIsEndStipulationModifier:
+      goal_is_end_stipulation_modifier_solve(si);
+      break;
+
+    case STWhiteToPlayStipulationModifier:
+      white_to_play_stipulation_modifier_solve(si);
+      break;
+
+    case STPostKeyPlayStipulationModifier:
+      post_key_play_stipulation_modifier_solve(si);
+      break;
+
+    case STStipulationStarterDetector:
+      stipulation_starter_detector_solve(si);
       break;
 
     case STStipulationCopier:

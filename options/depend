@@ -112,9 +112,10 @@ options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/slack_length.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/machinery/slack_length.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -124,8 +125,9 @@ options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/boolean/not.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h stipulation/modifier.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 options/goal_is_end.h:
 
@@ -161,6 +163,14 @@ output/mode.enum:
 
 solving/machinery/slack_length.h:
 
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -195,11 +205,13 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-solving/machinery/solve.h:
+stipulation/modifier.h:
 
-solving/machinery/dispatch.h:
+output/plaintext/message.h:
 
-debugging/trace.h:
+output/message.h:
+
+input/plaintext/language.h:
 
 debugging/assert.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
@@ -779,7 +791,10 @@ options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/structure_traversal.h \
- stipulation/traversal.h debugging/trace.h debugging/assert.h
+ stipulation/traversal.h stipulation/modifier.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 options/quodlibet.h:
 
@@ -841,7 +856,21 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
+stipulation/modifier.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
 
 debugging/assert.h:
 options/options$(OBJ_SUFFIX): options/options.c options/options.h \

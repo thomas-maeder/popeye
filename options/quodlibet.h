@@ -2,12 +2,10 @@
 #define OPTIONS_QUODLIBET_H
 
 #include "stipulation/stipulation.h"
-#include "utilities/boolean.h"
 
 /* Transform a stipulation tree to a quodlibet.
  * @param si identifies slice where to start
- * @return true iff the stipulation could be transformed
  */
-boolean transform_to_quodlibet(slice_index si);
+void quodlibet_stipulation_modifier_solve(slice_index si);
 
 #endif

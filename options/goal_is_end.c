@@ -1,9 +1,12 @@
 #include "options/goal_is_end.h"
 #include "solving/machinery/slack_length.h"
+#include "solving/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/modifier.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -211,7 +214,7 @@ static boolean insert_goal_is_end_testers(slice_index root_slice, slice_index te
  * @param root_slice identifies root slice of stipulation
  * @return true iff option GoalIsEnd is applicable
  */
-boolean stip_insert_goal_is_end_testers(slice_index root_slice)
+static boolean insert_testers(slice_index root_slice)
 {
   goal_is_end_one_search_state_type state = { no_slice, { false }, 0 };
   boolean result;
@@ -235,4 +238,28 @@ boolean stip_insert_goal_is_end_testers(slice_index root_slice)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Instrument a stipulation for option GoalIsEnd
+ * @param root_slice identifies root slice of stipulation
+ */
+void goal_is_end_stipulation_modifier_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const stipulation_root_hook = stipulation_modifier_to_be_modified(si);
+    if (stipulation_root_hook!=no_slice)
+    {
+      if (!insert_testers(stipulation_root_hook))
+        output_plaintext_message(GoalIsEndNotApplicable);
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
 }

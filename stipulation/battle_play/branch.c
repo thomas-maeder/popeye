@@ -13,6 +13,9 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
+#include "stipulation/modifier.h"
+#include "solving/pipe.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -755,7 +758,7 @@ static void move_to_postkey(slice_index si, stip_structure_traversal *st)
  * @return true iff postkey play option is applicable (and has been
  *              applied)
  */
-boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
+static boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 {
   boolean result;
   slice_index postkey_slice = no_slice;
@@ -800,6 +803,27 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
+}
+
+void post_key_play_stipulation_modifier_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const stipulation_root_hook = stipulation_modifier_to_be_modified(si);
+    if (stipulation_root_hook!=no_slice)
+    {
+      if (!battle_branch_apply_postkeyplay(stipulation_root_hook))
+        output_plaintext_message(PostKeyPlayNotApplicable);
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
 }
 
 static void fork_make_root(slice_index si, stip_structure_traversal *st)

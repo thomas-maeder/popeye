@@ -28,6 +28,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/modifier.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
@@ -340,13 +341,19 @@ static char *ParseTwinning(char *tok,
 
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
-          if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
           {
-            output_plaintext_input_error_message(NoStipulation,0);
-            tok = 0;
+            slice_index const stipulation_root_hook = input_find_stipulation(start);
+            if (stipulation_root_hook==no_slice)
+            {
+              output_plaintext_input_error_message(NoStipulation,0);
+              tok = 0;
+            }
+            else
+            {
+              move_effect_journal_do_remember_stipulation(start,beforeStip);
+              stipulation_modifiers_notify(start,stipulation_root_hook);
+            }
           }
-          else
-            move_effect_journal_do_remember_stipulation(start,beforeStip);
           break;
         }
         case TwinningStructStip:
@@ -357,13 +364,19 @@ static char *ParseTwinning(char *tok,
 
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
-          if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
           {
-            output_plaintext_input_error_message(NoStipulation,0);
-            tok = 0;
+            slice_index const stipulation_root_hook = input_find_stipulation(start);
+            if (stipulation_root_hook==no_slice)
+            {
+              output_plaintext_input_error_message(NoStipulation,0);
+              tok = 0;
+            }
+            else
+            {
+              move_effect_journal_do_remember_sstipulation(start,beforeStip);
+              stipulation_modifiers_notify(start,stipulation_root_hook);
+            }
           }
-          else
-            move_effect_journal_do_remember_sstipulation(start,beforeStip);
           break;
         }
         case TwinningAdd:
@@ -842,6 +855,27 @@ static boolean apply_whitetoplay(slice_index proxy)
   return result;
 }
 
+void white_to_play_stipulation_modifier_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const stipulation_root_hook = stipulation_modifier_to_be_modified(si);
+    if (stipulation_root_hook!=no_slice)
+    {
+      if (!apply_whitetoplay(stipulation_root_hook))
+        output_plaintext_message(WhiteToPlayNotApplicable);
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
 void solving_machinery_intro_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -954,46 +988,25 @@ void slices_deallocator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void stipulation_completer_solve(slice_index si)
+void stipulation_starter_detector_solve(slice_index si)
 {
-  slice_index const builder = branch_find_slice(STStipulationCopier,si,stip_traversal_context_intro);
-  slice_index const stipulation_root_hook = SLICE_NEXT2(builder);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (SLICE_STARTER(stipulation_root_hook)==no_side)
   {
-    if (OptFlag[quodlibet])
-    {
-      if (!transform_to_quodlibet(stipulation_root_hook))
-        output_plaintext_message(QuodlibetNotApplicable);
-    }
-
-    if (OptFlag[goal_is_end])
-    {
-      if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
-        output_plaintext_message(GoalIsEndNotApplicable);
-    }
-
-    if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
-      output_plaintext_message(WhiteToPlayNotApplicable);
-
-    if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
-      output_plaintext_message(PostKeyPlayNotApplicable);
+    slice_index const stipulation_root_hook = input_find_stipulation(si);
+    assert(stipulation_root_hook!=no_slice);
 
     stip_detect_starter(stipulation_root_hook);
     solving_impose_starter(stipulation_root_hook,
                            SLICE_STARTER(stipulation_root_hook));
 
-    TraceStipulation(stipulation_root_hook);
+    if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
+      output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
+    else
+      pipe_solve_delegate(si);
   }
-
-  if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
-    output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
-  else
-    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1106,6 +1119,8 @@ void input_plaintext_twins_handle(slice_index si)
   if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
+  {
+    stipulation_modifiers_notify(si,stipulation_root_hook);
     switch (endToken)
     {
       case TwinProblem:
@@ -1122,6 +1137,7 @@ void input_plaintext_twins_handle(slice_index si)
         tok = ReadNextTokStr();
         break;
     }
+  }
 
   undo_move_effects();
   finply();

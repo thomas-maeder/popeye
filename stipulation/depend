@@ -1478,3 +1478,102 @@ pieces/walks/vectors.h:
 solving/temporary_hacks.h:
 
 debugging/assert.h:
+stipulation/modifier$(OBJ_SUFFIX): stipulation/modifier.c stipulation/modifier.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ stipulation/pipe.h stipulation/slice_insertion.h \
+ solving/machinery/twin.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/assert.h
+
+stipulation/modifier.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+stipulation/slice_insertion.h:
+
+solving/machinery/twin.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+debugging/assert.h:

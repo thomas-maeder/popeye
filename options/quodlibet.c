@@ -1,6 +1,9 @@
 #include "options/quodlibet.h"
 #include "solving/machinery/slack_length.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/modifier.h"
+#include "solving/pipe.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -64,24 +67,20 @@ static void insert_direct_guards(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitor to_quodlibet_transformers[] =
+static structure_traversers_visitor transformers[] =
 {
   { STAttackAdapter,   &insert_direct_guards                 },
   { STReadyForDefense, &remember_end_of_attack               },
   { STEndOfBranchGoal, &transform_to_quodlibet_end_of_branch }
 };
 
-enum
-{
-  nr_to_quodlibet_transformers = (sizeof to_quodlibet_transformers
-                                  / sizeof to_quodlibet_transformers[0])
-};
+enum { nr_transformers = sizeof transformers / sizeof transformers[0] };
 
 /* Transform a stipulation tree to a quodlibet.
  * @param si identifies slice where to start
  * @return true iff the stipulation could be transformed
  */
-boolean transform_to_quodlibet(slice_index si)
+static boolean transform(slice_index si)
 {
   stip_structure_traversal st;
   quodlibet_transformation_state state = { no_slice, false };
@@ -94,9 +93,7 @@ boolean transform_to_quodlibet(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override(&st,
-                                    to_quodlibet_transformers,
-                                    nr_to_quodlibet_transformers);
+  stip_structure_traversal_override(&st,transformers,nr_transformers);
   stip_traverse_structure(si,&st);
 
   result = state.to_goal!=no_slice;
@@ -105,4 +102,28 @@ boolean transform_to_quodlibet(slice_index si)
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
+}
+
+/* Transform a stipulation tree to a quodlibet.
+ * @param si identifies slice where to start
+ */
+void quodlibet_stipulation_modifier_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const stipulation_root_hook = stipulation_modifier_to_be_modified(si);
+    if (stipulation_root_hook!=no_slice)
+    {
+      if (!transform(stipulation_root_hook))
+        output_plaintext_message(QuodlibetNotApplicable);
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
 }
