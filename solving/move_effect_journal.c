@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
+#include "stipulation/modifier.h"
 #include "conditions/bgl.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
@@ -1310,12 +1311,22 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
       slice_index const start = stip->u.input_complex.start_index;
 
-      slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-      dealloc_slices(SLICE_NEXT2(builder));
-      pipe_remove(builder);
+      {
+        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(copier!=no_slice);
+        dealloc_slices(SLICE_NEXT2(copier));
+        pipe_remove(copier);
+      }
 
       InputStartReplay(stip->u.input_complex.start);
       ParseStip(ReadNextTokStr(),start);
+
+      {
+        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(copier!=no_slice);
+        stipulation_modifiers_notify(start,SLICE_NEXT2(copier));
+      }
+
       InputEndReplay();
     }
   }
