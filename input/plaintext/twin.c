@@ -622,7 +622,7 @@ static void ReadInitialTwin(slice_index start)
           tok = ParseStip(tok,start);
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
-            if (SLICE_NEXT1(root_slice_hook)==no_slice)
+            if (root_slice_hook==no_slice)
             {
               output_plaintext_input_error_message(UnrecStip,0);
               tok = ReadNextTokStr();
@@ -870,6 +870,28 @@ void slices_deallocator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static boolean detect_and_impose(slice_index stipulation_root_hook)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_detect_starter(stipulation_root_hook);
+  solving_impose_starter(stipulation_root_hook,
+                         SLICE_STARTER(stipulation_root_hook));
+  if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
+    output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void stipulation_starter_detector_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -877,16 +899,9 @@ void stipulation_starter_detector_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const stipulation_root_hook = input_find_stipulation(si);
-    assert(stipulation_root_hook!=no_slice);
-
-    stip_detect_starter(stipulation_root_hook);
-    solving_impose_starter(stipulation_root_hook,
-                           SLICE_STARTER(stipulation_root_hook));
-
-    if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
-      output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
-    else
+    slice_index const stipulation_root_hook = stipulation_modifier_to_be_modified(si);
+    if (stipulation_root_hook==no_slice
+        || detect_and_impose(stipulation_root_hook))
       pipe_solve_delegate(si);
   }
 
@@ -963,7 +978,6 @@ void input_plaintext_twins_handle(slice_index si)
 {
   char *tok;
   EndTwinToken endToken;
-  slice_index const stipulation_root_hook = input_find_stipulation(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -998,27 +1012,21 @@ void input_plaintext_twins_handle(slice_index si)
       break;
   }
 
-  if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
-    output_plaintext_input_error_message(NoStipulation,0);
-  else
+  switch (endToken)
   {
-    stipulation_modifiers_notify(si,stipulation_root_hook);
-    switch (endToken)
-    {
-      case TwinProblem:
-        tok = ReadNextTokStr();
-        tok = twins_handle(tok,si);
-        break;
+    case TwinProblem:
+      tok = ReadNextTokStr();
+      tok = twins_handle(tok,si);
+      break;
 
-      case EndTwinTokenCount:
-        pipe_solve_delegate(si);
-        break;
+    case EndTwinTokenCount:
+      pipe_solve_delegate(si);
+      break;
 
-      default:
-        output_plaintext_input_error_message(ComNotUniq,0);
-        tok = ReadNextTokStr();
-        break;
-    }
+    default:
+      output_plaintext_input_error_message(ComNotUniq,0);
+      tok = ReadNextTokStr();
+      break;
   }
 
   undo_move_effects();
@@ -1036,7 +1044,16 @@ void input_plaintext_initial_twin_reader_solve(slice_index si)
 
   ReadInitialTwin(si);
 
-  pipe_solve_delegate(si);
+  {
+    slice_index const stipulation_root_hook = input_find_stipulation(si);
+    if (stipulation_root_hook==no_slice)
+      output_plaintext_input_error_message(NoStipulation,0);
+    else
+    {
+      stipulation_modifiers_notify(si,stipulation_root_hook);
+      pipe_solve_delegate(si);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

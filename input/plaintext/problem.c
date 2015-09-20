@@ -73,10 +73,9 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STStartOfCurrentProblem),
         alloc_pipe(STInputPlainTextTwinsHandler),
         alloc_pipe(STTwinIdAdjuster),
-        #if defined(DOMEASURE)
+#if defined(DOMEASURE)
         alloc_pipe(STCountersWriter),
-        #endif
-        alloc_pipe(STStipulationStarterDetector),
+#endif
         alloc_phase_solving_incomplete(si),
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),
@@ -86,6 +85,8 @@ void input_plaintext_problem_handle(slice_index si)
     slice_type const type_first_proto = SLICE_TYPE(prototypes[0]);
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
+
+    stipulation_modifier_instrument(si,STStipulationStarterDetector);
 
     pipe_solve_delegate(si);
 

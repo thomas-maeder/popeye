@@ -1780,8 +1780,6 @@ slice_index input_find_stipulation(slice_index si)
   stip_structure_traversal_override_single(&st,STStipulationCopier,&get_stipulation_root);
   stip_traverse_structure(si,&st);
 
-  assert(result!=no_slice);
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

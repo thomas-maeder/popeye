@@ -54,6 +54,9 @@ void stipulation_modifiers_notify(slice_index start,
   stip_structure_traversal_override_single(&st,
                                            STPostKeyPlayStipulationModifier,
                                            &notify_modifier);
+  stip_structure_traversal_override_single(&st,
+                                           STStipulationStarterDetector,
+                                           &notify_modifier);
   stip_traverse_structure(start,&st);
 }
 

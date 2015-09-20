@@ -22,7 +22,6 @@
 #include "input/plaintext/stipulation.h"
 #include "input/plaintext/sstipulation.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
@@ -1372,6 +1371,7 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
       slice_index const start = stip->u.input_complex.start_index;
       slice_index const root = input_find_stipulation(start);
       slice_index const next = SLICE_NEXT1(root);
+      assert(root!=no_slice);
       pipe_unlink(root);
       dealloc_slices(next);
 
