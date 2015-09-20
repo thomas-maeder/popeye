@@ -5,8 +5,10 @@
 #include "output/plaintext/language_dependant.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
+#include "solving/incomplete.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/modifier.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
