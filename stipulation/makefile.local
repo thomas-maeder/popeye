@@ -5,7 +5,7 @@ SRC_CFILES = slice.c structure_traversal.c branch.c move_played.c proxy.c \
          testing_pipe.c conditional_pipe.c \
          move_inverter.c binary.c pipe.c fork.c stipulation.c move.c \
          slice_type.c slice_structural_type.c slice_functional_type.c \
-         slice_contextual_type.c slice_insertion.c modifier.c
+         slice_contextual_type.c slice_insertion.c modifier.c whitetoplay.c
          
 INCLUDES = slice.h traversal.h structure_traversal.h branch.h move_played.h proxy.h \
            constraint.h \
@@ -15,6 +15,6 @@ INCLUDES = slice.h traversal.h structure_traversal.h branch.h move_played.h prox
            slice_structural_type.enum.h slice_structural_type.enum slice_structural_type.h \
            slice_functional_type.enum.h slice_functional_type.enum slice_functional_type.h \
            slice_contextual_type.enum.h slice_contextual_type.enum slice_contextual_type.h \
-           slice_insertion.h modifier.h
+           slice_insertion.h modifier.h whitetoplay.h
 
 include makefile.rules $(CURRPWD)depend

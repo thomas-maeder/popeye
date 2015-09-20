@@ -248,6 +248,7 @@
 #include "pieces/walks/hunters.h"
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
+#include "stipulation/whitetoplay.h"
 #include "solving/machinery/slack_length.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/attack_adapter.h"

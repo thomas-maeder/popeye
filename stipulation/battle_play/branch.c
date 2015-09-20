@@ -805,6 +805,9 @@ static boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   return result;
 }
 
+/* Apply the option postkeyplay to a newly created stipulation
+ * @param si identifies the postkeyplay applier slice
+ */
 void post_key_play_stipulation_modifier_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
