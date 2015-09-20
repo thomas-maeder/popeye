@@ -1004,11 +1004,10 @@ char *ParseStip(char *tok, slice_index start)
         && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
     input_instrument_with_stipulation(start,root_slice_hook);
+    tok = ReadNextTokStr();
   }
   else
     dealloc_slices(root_slice_hook);
-
-  tok = ReadNextTokStr();
 
   /* signal to our caller that the stipulation has changed */
   SLICE_STARTER(root_slice_hook) = no_side;

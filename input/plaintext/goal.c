@@ -102,10 +102,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
   gic = detectGoalType(tok);
   if (gic-goalInputConfig==nr_goals)
-  {
-    output_plaintext_input_error_message(UnrecStip, 0);
     tok = 0;
-  }
   else
   {
     Goal goal = { gic->goal, initsquare };

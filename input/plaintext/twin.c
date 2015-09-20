@@ -623,10 +623,7 @@ static void ReadInitialTwin(slice_index start)
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
-            {
               output_plaintext_input_error_message(UnrecStip,0);
-              tok = ReadNextTokStr();
-            }
             else
               move_effect_journal_do_remember_stipulation(start,beforeStip);
             break;
@@ -875,7 +872,7 @@ static boolean detect_and_impose(slice_index stipulation_root_hook)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
   stip_detect_starter(stipulation_root_hook);

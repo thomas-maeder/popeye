@@ -1479,4 +1479,9 @@ solution finished.
 
 input-error:cannot recognize the stipulation
 offending item: Option
-Y)Y)
+input-error:no stipulation specified
+offending item: end
+
+solution finished.
+
+
