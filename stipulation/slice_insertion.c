@@ -593,7 +593,6 @@ static slice_index const slice_rank_order[] =
   STProblemSolvingInterrupted,
   /* slices from here on are created for each problem
    * mostly by STInputPlainTextProblemHandler */
-  STStartOfCurrentProblem,
   STInputPlainTextTwinsHandler,
   /* enter twin stage */
   STOutputLaTeXTwinningWriterBuilder,

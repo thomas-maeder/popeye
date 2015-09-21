@@ -72,7 +72,6 @@ void input_plaintext_problem_handle(slice_index si)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STStartOfCurrentProblem),
         alloc_pipe(STInputPlainTextTwinsHandler),
         alloc_pipe(STTwinIdAdjuster),
         alloc_phase_solving_incomplete(si),

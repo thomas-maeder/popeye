@@ -453,11 +453,10 @@ void dispatch(slice_index si)
       input_plaintext_iterate_problems(si);
       break;
 
-    case STStartOfCurrentProblem:
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
     case STOutputPlainTextStartOfTargetWriter:
-      solve(SLICE_NEXT1(si));
+      pipe_solve_delegate(si);
       break;
 
     case STInputPlainTextProblemHandler:
