@@ -217,7 +217,6 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
           output_plaintext_build_proof_position_writers(start);
         }
 
-
         pipe_link(proxy,alloc_goal_proofgame_reached_tester_system());
         break;
       }

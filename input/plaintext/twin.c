@@ -823,10 +823,7 @@ void build_atob_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (input_is_instrumented_with_proof(start_of_machinery))
-    output_plaintext_input_error_message(InconsistentProofTarget,0);
-  else
-    input_instrument_proof(start_of_machinery,STAToBInitialiser);
+  input_instrument_proof(start_of_machinery);
 
   pipe_solve_delegate(si);
 
@@ -844,10 +841,12 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (input_is_instrumented_with_proof(start_of_machinery))
-    output_plaintext_input_error_message(InconsistentProofTarget,0);
-  else
-    input_instrument_proof(start_of_machinery,STProofgameInitialiser);
+  input_instrument_proof(start_of_machinery);
+
+  {
+    slice_index const prototype = alloc_pipe(STProofgameStartPositionInitialiser);
+    slice_insertion_insert(start_of_machinery,&prototype,1);
+  }
 
   pipe_solve_delegate(si);
 

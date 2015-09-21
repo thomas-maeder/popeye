@@ -534,12 +534,12 @@ void dispatch(slice_index si)
       proof_verify_unique_goal_solve(si);
       break;
 
-    case STProofgameInitialiser:
-      proof_solve(si);
+    case STProofgameStartPositionInitialiser:
+      proof_initialise_start_position(si);
       break;
 
-    case STAToBInitialiser:
-      atob_solve(si);
+    case STProofSolver:
+      proof_solve(si);
       break;
 
     case STInputVerification:

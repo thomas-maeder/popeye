@@ -51,8 +51,8 @@
   ENUMERATOR(STPiecesFlagsInitialiser),                                 \
   ENUMERATOR(STRoyalsLocator),                                          \
   ENUMERATOR(STProofgameVerifyUniqueGoal),                              \
-  ENUMERATOR(STProofgameInitialiser),                                   \
-  ENUMERATOR(STAToBInitialiser),                                        \
+  ENUMERATOR(STProofgameStartPositionInitialiser),                      \
+  ENUMERATOR(STProofSolver),                                            \
   ENUMERATOR(STInputVerification),                                      \
   ENUMERATOR(STMoveEffectsJournalReset),                                \
   ENUMERATOR(STSolversBuilder1),                                        \
