@@ -21,6 +21,7 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
+#include "position/underworld.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"
@@ -380,7 +381,7 @@ static char *ParseTwinning(char *tok,
         }
         case TwinningAdd:
           tok = ReadNextTokStr();
-          tok = ParsePieces(tok,piece_addition_twinning);
+          tok = ParsePieces(tok);
           break;
         case TwinningCond:
         {
@@ -656,9 +657,19 @@ static void ReadInitialTwin(slice_index start)
           break;
 
         case PieceToken:
+        {
+          unsigned int ghost_idx = nr_ghosts;
+
           tok = ReadNextTokStr();
-          tok = ParsePieces(tok,piece_addition_initial);
+          tok = ParsePieces(tok);
+
+          for (; ghost_idx!=nr_ghosts; ++ghost_idx)
+          {
+            WriteSquare(&output_plaintext_engine,stdout,underworld[ghost_idx].on);
+            output_plaintext_message(OverwritePiece);
+          }
           break;
+        }
 
         case CondToken:
         {

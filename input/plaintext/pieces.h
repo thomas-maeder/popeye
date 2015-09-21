@@ -8,13 +8,7 @@ int GetPieNamIndex(char a, char b);
 
 char *ParseSingleWalk(char *tok, piece_walk_type *result);
 
-typedef enum
-{
-  piece_addition_initial,
-  piece_addition_twinning
-} piece_addition_type;
-
-char *ParsePieces(char *tok, piece_addition_type type);
+char *ParsePieces(char *tok);
 
 Flags ParseColour(char *tok, boolean colour_is_mandatory);
 char *ParsePieceFlags(Flags *flags);

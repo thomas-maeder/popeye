@@ -53,7 +53,6 @@ typedef struct
 {
     piece_walk_type walk;
     Flags spec;
-    piece_addition_type type;
 } piece_addition_settings;
 
 static void HandleAddedPiece(square s, void *param)
@@ -62,12 +61,6 @@ static void HandleAddedPiece(square s, void *param)
 
   if (!is_square_empty(s))
   {
-    if (settings->type==piece_addition_initial)
-    {
-      WriteSquare(&output_plaintext_engine,stdout,s);
-      output_plaintext_message(OverwritePiece);
-    }
-
     move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,s);
     move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
   }
@@ -118,7 +111,7 @@ char *ParsePieceWalk(char *tok, piece_walk_type *name)
   return tok;
 }
 
-static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type type)
+static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
 {
   unsigned int nr_walks_parsed = 0;
 
@@ -135,7 +128,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type
 
     if (walk>=King)
     {
-      piece_addition_settings settings = { walk, Spec, type};
+      piece_addition_settings settings = { walk, Spec };
 
       ++nr_walks_parsed;
 
@@ -232,7 +225,7 @@ char *ParsePieceFlags(Flags *flags)
   return tok;
 }
 
-char *ParsePieces(char *tok, piece_addition_type type)
+char *ParsePieces(char *tok)
 {
   int nr_groups = 0;
   while (true)
@@ -246,7 +239,7 @@ char *ParsePieces(char *tok, piece_addition_type type)
       tok = ParsePieceFlags(&nonCOLOURFLAGS);
       PieSpFlags |= nonCOLOURFLAGS;
 
-      tok = ParsePieceWalkAndSquares(tok,PieSpFlags,type);
+      tok = ParsePieceWalkAndSquares(tok,PieSpFlags);
 
       ++nr_groups;
     }
