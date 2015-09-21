@@ -245,7 +245,6 @@
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
-#include "pieces/walks/hunters.h"
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
 #include "stipulation/whitetoplay.h"
@@ -2379,10 +2378,6 @@ void dispatch(slice_index si)
 
     case STSquareObservationPostMoveIterator:
       square_observation_post_move_iterator_solve(si);
-      break;
-
-    case STHuntersResetter:
-      hunters_resetter_solve(si);
       break;
 
     case STUnderworldResetter:

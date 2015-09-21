@@ -60,6 +60,8 @@ typedef enum
   move_effect_snapshot_proofgame_target_position,
   move_effect_atob_reset_position_for_target,
 
+  move_effect_hunter_type_definition,
+
   nr_move_effect_types
 } move_effect_type;
 
@@ -252,6 +254,11 @@ typedef struct
         {
             PieceIdType currPieceId;
         } reset_position;
+
+        struct
+        {
+            piece_walk_type type;
+        } hunter_type_definition;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

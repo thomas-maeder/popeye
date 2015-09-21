@@ -1,5 +1,6 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
+#include "pieces/walks/hunters.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
@@ -239,7 +240,6 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 
   assert(for_side==no_side || (addedspec&BIT(for_side))!=0);
 
-  entry->reason = reason;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = added;
   entry->u.piece_addition.added.flags = addedspec;
@@ -1813,6 +1813,10 @@ void undo_move_effects(void)
 
       case move_effect_atob_reset_position_for_target:
         move_effect_journal_undo_atob_reset_position_for_target(entry);
+        break;
+
+      case move_effect_hunter_type_definition:
+        move_effect_journal_undo_hunter_type_definition(entry);
         break;
 
       default:

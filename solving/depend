@@ -120,8 +120,9 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/castling.h position/position.h position/color.h \
+ pieces/walks/hunters.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ solving/observation.h solving/temporary_hacks.h solving/castling.h \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -136,8 +137,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  conditions/duellists.h conditions/imitator.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
  position/underworld.h conditions/sat.h conditions/circe/parachute.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
- solving/temporary_hacks.h pieces/attributes/neutral/neutral.h \
+ pieces/walks/pawns/en_passant.h pieces/attributes/neutral/neutral.h \
  pieces/attributes/neutral/half.h solving/pipe.h solving/machinery/twin.h \
  solving/proofgames.h input/plaintext/condition.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/stipulation.h \
@@ -187,7 +187,7 @@ solving/ply.h:
 
 position/pieceid.h:
 
-solving/castling.h:
+pieces/walks/hunters.h:
 
 position/position.h:
 
@@ -198,6 +198,12 @@ position/color.enum.h:
 position/color.enum:
 
 pieces/walks/vectors.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
+solving/castling.h:
 
 stipulation/branch.h:
 
@@ -246,10 +252,6 @@ conditions/sat.h:
 conditions/circe/parachute.h:
 
 pieces/walks/pawns/en_passant.h:
-
-solving/observation.h:
-
-solving/temporary_hacks.h:
 
 pieces/attributes/neutral/neutral.h:
 

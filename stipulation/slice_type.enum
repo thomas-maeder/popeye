@@ -634,7 +634,6 @@
     ENUMERATOR(STValidatingObservation),                                \
     ENUMERATOR(STEnforceObserverWalk),                                  \
     ENUMERATOR(STUnderworldResetter),                                   \
-    ENUMERATOR(STHuntersResetter),                                      \
     ENUMERATOR(STEnforceHunterDirection),                               \
     ENUMERATOR(STBrunnerValidateCheck),                                 \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \

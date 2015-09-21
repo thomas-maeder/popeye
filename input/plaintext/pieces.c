@@ -87,25 +87,30 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
   return tok;
 }
 
-char *ParsePieceWalk(char *tok, piece_walk_type *name)
+char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 {
   size_t len_token;
   char const * const hunterseppos = strchr(tok,'/');
   if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
-    piece_walk_type away, home;
+    piece_walk_type away;
+    piece_walk_type home;
     tok = ParseWalkShortcut((hunterseppos-tok)%2==1,tok,&away);
-    ++tok; /* skip slash */
+    ++tok; /* skip separator */
     len_token = strlen(tok);
     tok = ParseWalkShortcut(len_token%2==1,tok,&home);
-    *name = hunter_make_type(away,home);
-    if (*name==Invalid)
-      output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+    *walk = hunter_find_type(away,home);
+    if (*walk==Invalid)
+    {
+      *walk = hunter_make_type(away,home);
+      if (*walk==Invalid)
+        output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+    }
   }
   else
   {
     len_token = strlen(tok);
-    tok = ParseWalkShortcut(len_token%2==1,tok,name);
+    tok = ParseWalkShortcut(len_token%2==1,tok,walk);
   }
 
   return tok;

@@ -5,6 +5,7 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "solving/observation.h"
+#include "solving/move_effect_journal.h"
 
 typedef struct
 {
@@ -14,10 +15,10 @@ typedef struct
 
 extern HunterType huntertypes[max_nr_hunter_walks];
 
-/* reset the hunters module for solving a new problem */
-void hunters_resetter_solve(slice_index si);
-
+piece_walk_type hunter_find_type(piece_walk_type away, piece_walk_type home);
 piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home);
+
+void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry);
 
 void hunter_generate_moves(void);
 boolean hunter_check(validator_id evaluate);

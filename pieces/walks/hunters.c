@@ -17,31 +17,49 @@ typedef boolean (*direction_validator_type)(numecoup n);
 
 static direction_validator_type direction_validator[maxply+1];
 
-/* reset the hunters module for solving a new problem */
-void hunters_resetter_solve(slice_index si)
-{
-  pipe_solve_delegate(si);
-  nrhuntertypes = 0;
-}
-
-piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
+piece_walk_type hunter_find_type(piece_walk_type away, piece_walk_type home)
 {
   unsigned int i;
   for (i = 0; i!=nrhuntertypes; ++i)
     if (huntertypes[i].away==away && huntertypes[i].home==home)
       return Hunter0+i;
 
+  return Invalid;
+}
+
+piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
+{
   if (nrhuntertypes<max_nr_hunter_walks)
   {
+    move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_hunter_type_definition,
+                                                                                      move_effect_reason_diagram_setup);
     piece_walk_type const result = Hunter0+nrhuntertypes;
+
     HunterType * const huntertype = huntertypes+nrhuntertypes;
     huntertype->away = away;
     huntertype->home = home;
+
+    entry->u.hunter_type_definition.type = result;
+
     ++nrhuntertypes;
+
     return result;
   }
   else
     return Invalid;
+}
+
+void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  --nrhuntertypes;
+
+  assert(entry->u.hunter_type_definition.type==Hunter0+nrhuntertypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean goes_up(numecoup n)
