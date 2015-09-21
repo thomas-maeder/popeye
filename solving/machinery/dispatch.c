@@ -230,7 +230,6 @@
 #include "output/latex/tree/threat_writer.h"
 #include "output/latex/tree/try_writer.h"
 #include "output/latex/tree/zugzwang_writer.h"
-#include "position/underworld.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
@@ -248,6 +247,7 @@
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
 #include "stipulation/whitetoplay.h"
+#include "stipulation/battle_play/branch.h"
 #include "solving/machinery/slack_length.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/attack_adapter.h"
@@ -2378,10 +2378,6 @@ void dispatch(slice_index si)
 
     case STSquareObservationPostMoveIterator:
       square_observation_post_move_iterator_solve(si);
-      break;
-
-    case STUnderworldResetter:
-      underworld_resetter_solve(si);
       break;
 
     default:

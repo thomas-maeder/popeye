@@ -1176,8 +1176,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
  pieces/walks/pawns/promotion.h retro/retro.h stipulation/proxy.h \
- stipulation/whitetoplay.h solving/machinery/slack_length.h \
- solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
+ stipulation/whitetoplay.h stipulation/battle_play/branch.h \
+ solving/machinery/slack_length.h solving/avoid_unsolvable.h \
+ solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -1800,6 +1801,8 @@ retro/retro.h:
 stipulation/proxy.h:
 
 stipulation/whitetoplay.h:
+
+stipulation/battle_play/branch.h:
 
 solving/machinery/slack_length.h:
 

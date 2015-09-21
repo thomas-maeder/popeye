@@ -39,12 +39,6 @@ underworld_index_type underworld_find_last(square pos)
   return result;
 }
 
-void underworld_resetter_solve(slice_index si)
-{
-  pipe_solve_delegate(si);
-  nr_ghosts = 0;
-}
-
 /* Assign the ghosts ids
  * @param id id to be assigned to the first ghost
  * @return next id to be assigned to some piece

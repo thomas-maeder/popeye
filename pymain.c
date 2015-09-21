@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
       alloc_pipe(STInputPlainTextProblemsIterator),
       alloc_pipe(STConditionsResetter),
       alloc_pipe(STOptionsResetter),
-      alloc_pipe(STUnderworldResetter),
       alloc_pipe(STInputPlainTextProblemHandler),
       alloc_pipe(STTimerStarter),
       alloc_pipe(STInputPlainTextInitialTwinReader),

@@ -23,8 +23,6 @@ typedef unsigned int underworld_index_type;
 
 extern underworld_index_type nr_ghosts;
 
-void underworld_resetter_solve(slice_index si);
-
 /* Assign the ghosts ids
  * @param id id to be assigned to the first ghost
  * @return next id to be assigned to some piece
