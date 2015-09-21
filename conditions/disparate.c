@@ -3,9 +3,10 @@
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
+#include "debugging/assert.h"
+#include "debugging/trace.h"
 
 static boolean can_piece_move(numecoup n)
 {
@@ -15,7 +16,7 @@ static boolean can_piece_move(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply>2 && trait[nbply]!=trait[parent])
+  if (parent>ply_retro_move && trait[nbply]!=trait[parent])
   {
     move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
     move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
@@ -26,6 +27,7 @@ static boolean can_piece_move(numecoup n)
     else
     {
       square const sq_departure = move_generation_stack[n].departure;
+      assert(move_effect_journal[parent_movement].type==move_effect_piece_movement);
       piece_walk_type const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
       if (get_walk_of_piece_on_square(sq_departure)==pi_parent_moving)
         result = false;
