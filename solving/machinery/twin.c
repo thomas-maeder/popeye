@@ -257,24 +257,6 @@ static boolean locate_royals(void)
   return result;
 }
 
-void initialise_piece_ids(void)
-{
-  square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (bnp = boardnum; *bnp; ++bnp)
-    if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
-    {
-      assert(being_solved.currPieceId<=MaxPieceId);
-      SetPieceId(being_solved.spec[*bnp],++being_solved.currPieceId);
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise piece flags from conditions, the pieces themselve etc.
  */
 static void initialise_piece_flags(void)

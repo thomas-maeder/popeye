@@ -340,16 +340,9 @@ void proof_solve(slice_index si)
   initialise_start_position();
   being_solved = proofgames_start_position;
 
-  {
-    PieceIdType const save_currPieceId = being_solved.currPieceId;
-    initialise_piece_ids();
+  ProofInitialise();
 
-    ProofInitialise();
-
-    pipe_solve_delegate(si);
-
-    being_solved.currPieceId = save_currPieceId;
-  }
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -378,16 +371,9 @@ void atob_solve(slice_index si)
 
   being_solved = proofgames_start_position;
 
-  {
-    PieceIdType const save_currPieceId = being_solved.currPieceId;
-    initialise_piece_ids();
+  ProofInitialise();
 
-    ProofInitialise();
-
-    pipe_solve_delegate(si);
-
-    being_solved.currPieceId = save_currPieceId;
-  }
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

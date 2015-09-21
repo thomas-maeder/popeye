@@ -55,10 +55,6 @@ void piece_walk_caches_initialiser_solve(slice_index si);
  */
 void create_builder_setup_ply_solve(slice_index si);
 
-/* Assign every piece of the position their id
- */
-void initialise_piece_ids(void);
-
 /* Find the entry slice into the stipulation
  * @param start entry slice into the input branch
  * @return entry slice into the stipulation

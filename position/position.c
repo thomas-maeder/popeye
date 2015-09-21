@@ -67,6 +67,8 @@ void initialise_game_array(position *pos)
     CLEARFL(pos->spec[*bnp]);
   }
 
+  pos->currPieceId = NullPieceId;
+
   for (i = 0; i<nr_squares_on_board; ++i)
   {
     piece_walk_type const p = PAS[i];
@@ -79,6 +81,7 @@ void initialise_game_array(position *pos)
       pos->board[square_i] = p;
       ++pos->number_of_pieces[side][p];
       SETFLAG(pos->spec[square_i],side);
+      SetPieceId(pos->spec[square_i],++pos->currPieceId);
     }
   }
 
