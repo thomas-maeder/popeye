@@ -699,7 +699,6 @@ static slice_index const slice_rank_order[] =
   STMaffImmobilityTesterKing,
   STImmobilityTester,
   STRecursionStopper,
-  STMaxSolutionsCounter,
   STAnd,
   STOr,
   STNot,
