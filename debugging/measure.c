@@ -41,17 +41,29 @@ void solving_insert_move_counters(slice_index si)
   stip_instrument_moves(si,STMoveCounter);
 }
 
+/* Reset the value of a counter defined elsewhere
+ */
+#define RESET_COUNTER(name)                       \
+  {                                               \
+    extern COUNTER_TYPE counter##name;            \
+    counter##name = 0;                            \
+  }
+
 /* Write the value of a counter defined elsewhere
  */
 #define WRITE_COUNTER(name)                       \
   {                                               \
     extern COUNTER_TYPE counter##name;            \
     protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
-    counter##name = 0;                                          \
   }
 
 void counters_writer_solve(slice_index si)
 {
+  RESET_COUNTER(add_to_move_generation_stack);
+  RESET_COUNTER(play_move);
+  RESET_COUNTER(is_white_king_square_attacked);
+  RESET_COUNTER(is_black_king_square_attacked);
+
   pipe_solve_delegate(si);
 
   WRITE_COUNTER(add_to_move_generation_stack);
