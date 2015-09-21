@@ -66,28 +66,16 @@ static void HandleAddedPiece(square s, void *param)
     {
       WriteSquare(&output_plaintext_engine,stdout,s);
       output_plaintext_message(OverwritePiece);
+    }
 
-      underworld_make_space(nr_ghosts);
-      underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(s);
-      underworld[nr_ghosts-1].flags = being_solved.spec[s];
-      underworld[nr_ghosts-1].on = s;
-    }
-    else
-    {
-      move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,
-                                                     s);
-      move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,
-                                           s);
-    }
+    move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,s);
+    move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
   }
 
-  if (settings->type==piece_addition_twinning)
-    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                          s,settings->walk,
-                                          settings->spec,
-                                          no_side);
-  else
-    occupy_square(s,settings->walk,settings->spec);
+  move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                        s,settings->walk,
+                                        settings->spec,
+                                        no_side);
 }
 
 static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pienam)

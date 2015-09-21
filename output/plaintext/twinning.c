@@ -290,6 +290,7 @@ static void WriteTwinning(boolean continued)
         /* Forsberg twinning */
         break;
       case move_effect_snapshot_proofgame_target_position:
+      case move_effect_atob_reset_position_for_target:
         break;
 
       default:

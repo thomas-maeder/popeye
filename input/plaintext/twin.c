@@ -436,7 +436,10 @@ static char *ParseForsythPiece(char *tok,
   piece_walk_type const walk = GetPieNamIndex(char1,char2);
   if (walk>=King)
   {
-    occupy_square(*pos,walk,colour_flags);
+    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                          *pos,walk,
+                                          colour_flags,
+                                          no_side);
     *pos = NextSquare(*pos);
   }
   else
@@ -979,8 +982,6 @@ void input_plaintext_twins_handle(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  initialise_piece_ids();
 
   nextply(no_side);
   assert(nbply==ply_twinning);

@@ -264,15 +264,12 @@ void initialise_piece_ids(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  currPieceId = MinPieceId;
   for (bnp = boardnum; *bnp; ++bnp)
     if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
     {
       assert(currPieceId<=MaxPieceId);
-      SetPieceId(being_solved.spec[*bnp],currPieceId++);
+      SetPieceId(being_solved.spec[*bnp],++currPieceId);
     }
-
-  currPieceId = underworld_set_piece_ids(currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

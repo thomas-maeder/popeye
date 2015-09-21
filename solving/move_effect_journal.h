@@ -58,6 +58,7 @@ typedef enum
   move_effect_twinning_shift,
 
   move_effect_snapshot_proofgame_target_position,
+  move_effect_atob_reset_position_for_target,
 
   nr_move_effect_types
 } move_effect_type;
@@ -246,6 +247,11 @@ typedef struct
             square from;
             square to;
         } twinning_shift;
+
+        struct
+        {
+            PieceIdType currPieceId;
+        } reset_position;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

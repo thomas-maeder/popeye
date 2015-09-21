@@ -16,9 +16,9 @@
 #if defined(__TURBOC__)
 # include <mem.h>
 #endif
+#include "solving/proofgames.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/proofgames.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
@@ -107,6 +107,17 @@ void ProofSaveStartPosition(void)
   TraceFunctionParamListEnd();
 
   proofgames_start_position = being_solved;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void ProofRestoreStartPosition(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  being_solved = proofgames_start_position;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -267,6 +278,44 @@ void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_jou
   TraceFunctionResultEnd();
 }
 
+void move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_type reason)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_atob_reset_position_for_target,reason);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceFunctionParamListEnd();
+
+  ProofSaveStartPosition();
+
+  {
+    int i;
+    for (i = 0; i<nr_squares_on_board; i++)
+      empty_square(boardnum[i]);
+    for (i = 0; i<maxinum; i++)
+      being_solved.isquare[i] = initsquare;
+  }
+
+  entry->u.reset_position.currPieceId = currPieceId;
+  currPieceId = NullPieceId;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_undo_atob_reset_position_for_target(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  currPieceId = entry->u.reset_position.currPieceId;
+
+  ProofRestoreStartPosition();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* solve a proofgame stipulation
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -291,10 +340,16 @@ void proof_solve(slice_index si)
   initialise_start_position();
   being_solved = proofgames_start_position;
 
-  initialise_piece_ids();
-  ProofInitialise();
+  {
+    PieceIdType const save_currPieceId = currPieceId;
+    initialise_piece_ids();
 
-  pipe_solve_delegate(si);
+    ProofInitialise();
+
+    pipe_solve_delegate(si);
+
+    currPieceId = save_currPieceId;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -323,10 +378,16 @@ void atob_solve(slice_index si)
 
   being_solved = proofgames_start_position;
 
-  initialise_piece_ids();
-  ProofInitialise();
+  {
+    PieceIdType const save_currPieceId = currPieceId;
+    initialise_piece_ids();
 
-  pipe_solve_delegate(si);
+    ProofInitialise();
+
+    pipe_solve_delegate(si);
+
+    currPieceId = save_currPieceId;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

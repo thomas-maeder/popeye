@@ -21,6 +21,7 @@ extern position proofgames_target_position;
 /* a=>b: save the current piece places for the start position
  */
 void ProofSaveStartPosition(void);
+void ProofRestoreStartPosition(void);
 
 /* Compare two positions
  * @return true iff the current position is equal to the target
@@ -78,6 +79,9 @@ void proof_verify_unique_goal_solve(slice_index si);
  *              restored snapshot
  */
 void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry);
+
+void move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_type reason);
+void move_effect_journal_undo_atob_reset_position_for_target(move_effect_journal_entry_type const *entry);
 
 /* Instrument the input machinery with a proof games type
  * @param start start slice of input machinery

@@ -18,6 +18,7 @@
 #include "position/pieceid.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
+#include "solving/proofgames.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/stipulation.h"
@@ -330,7 +331,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   if (TSTFLAG(createdspec,Black))
     ++being_solved.number_of_pieces[Black][created];
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],currPieceId++);
+  SetPieceId(being_solved.spec[on],++currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -350,8 +351,8 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   if (TSTFLAG(createdspec,Black))
     --being_solved.number_of_pieces[Black][created];
 
-  --currPieceId;
   assert(GetPieceId(being_solved.spec[on])==currPieceId);
+  --currPieceId;
 
   empty_square(on);
 
@@ -375,7 +376,7 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 
   assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],currPieceId++);
+  SetPieceId(being_solved.spec[on],++currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1808,6 +1809,10 @@ void undo_move_effects(void)
 
       case move_effect_snapshot_proofgame_target_position:
         move_effect_journal_undo_snapshot_proofgame_target_position(entry);
+        break;
+
+      case move_effect_atob_reset_position_for_target:
+        move_effect_journal_undo_atob_reset_position_for_target(entry);
         break;
 
       default:

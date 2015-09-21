@@ -236,16 +236,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 
-        ProofSaveStartPosition();
-
-        {
-          /* used to call InitBoard(), which does much more than the following: */
-          int i;
-          for (i = 0; i<nr_squares_on_board; i++)
-            empty_square(boardnum[i]);
-          for (i = 0; i<maxinum; i++)
-            being_solved.isquare[i] = initsquare;
-        }
+        move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_diagram_setup);
 
         break;
       }

@@ -17,7 +17,7 @@ extern PieceIdType currPieceId;
 
 #define PieceIdOffset       (nr_piece_flags+1)
 #define PieSpMask           ((1<<PieceIdOffset)-1)
-#define PieceIdWidth        6
+#define PieceIdWidth        7
 #define PieceIdMask         (((1<<(PieceIdOffset+PieceIdWidth))-1)^((1<<PieceIdOffset)-1))
 #define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
