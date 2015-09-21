@@ -553,6 +553,10 @@ Loesung beendet.
                                           6.Tb7-b1
                                               6...Th1-h8 #
 
+  add_to_move_generation_stack:    14536421
+                     play_move:     8355865
+ is_white_king_square_attacked:     2086682
+ is_black_king_square_attacked:     7336904
 
    1.Th6-d6 ! Zugzwang.
       1...Td4-h4
@@ -568,10 +572,10 @@ Loesung beendet.
                                                   7.Tf7-b7
                                                       7...Te1-e8 #
 
-  add_to_move_generation_stack:    31049545
-                     play_move:    16702608
- is_white_king_square_attacked:     9348936
- is_black_king_square_attacked:     9507454
+  add_to_move_generation_stack:    16513124
+                     play_move:     8346743
+ is_white_king_square_attacked:     7262254
+ is_black_king_square_attacked:     2170550
 
 Loesung beendet.
 

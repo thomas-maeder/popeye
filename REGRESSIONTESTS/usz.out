@@ -144,12 +144,16 @@ Loesung beendet.
                Duplex
 
   1.Da5-c5 + Kc8-d7   2.Dc5-d4 + Kd7-e6   3.Dd4-e3 + Ke6-f5   4.De3-f2 + Lb6*f2 #
+  add_to_move_generation_stack:      109682
+                     play_move:      109320
+ is_white_king_square_attacked:       54572
+ is_black_king_square_attacked:       65672
 
   1.Lb6-f2 + Kh4-g5   2.Lf2-e3 + Kg5-f6   3.Le3-d4 + Kf6-e7   4.Ld4-c5 + Da5*c5 #
-  add_to_move_generation_stack:      117730
-                     play_move:      117332
- is_white_king_square_attacked:       58727
- is_black_king_square_attacked:       70477
+  add_to_move_generation_stack:        8048
+                     play_move:        8012
+ is_white_king_square_attacked:        4155
+ is_black_king_square_attacked:        4805
 
 Loesung beendet.
 

@@ -2424,12 +2424,16 @@ Loesung beendet.
                Duplex
 
   1.f2-f1=D f7-f8=S   2.Df1-b5 Sf8-e6 #
+  add_to_move_generation_stack:       22686
+                     play_move:       18881
+ is_white_king_square_attacked:        3731
+ is_black_king_square_attacked:       18856
 
   1.f7-f8=T f2-f1=D   2.Tf8-f5 Df1-a1 #
-  add_to_move_generation_stack:       36758
-                     play_move:       28670
- is_white_king_square_attacked:       13449
- is_black_king_square_attacked:       21465
+  add_to_move_generation_stack:       14072
+                     play_move:        9789
+ is_white_king_square_attacked:        9718
+ is_black_king_square_attacked:        2609
 
 Loesung beendet.
 
@@ -4316,12 +4320,16 @@ Loesung beendet.
                Duplex
 
   1.Lf3-a8 Ng2-e1   2.Ka6-b7 Kc5-d5 #
+  add_to_move_generation_stack:       27665
+                     play_move:       22158
+ is_white_king_square_attacked:        4843
+ is_black_king_square_attacked:       22097
 
   1.Kc5-c4 Ka6-a5   2.Ng2-e3 Lf3-e2 #
-  add_to_move_generation_stack:       56036
-                     play_move:       46037
- is_white_king_square_attacked:       28659
- is_black_king_square_attacked:       27214
+  add_to_move_generation_stack:       28371
+                     play_move:       23879
+ is_white_king_square_attacked:       23816
+ is_black_king_square_attacked:        5117
 
 Loesung beendet.
 
@@ -4354,12 +4362,16 @@ Loesung beendet.
                Duplex
 
   1.Nh4-b1 g7-g8=N   2.Ke2-d2 Ke4-f3 #
+  add_to_move_generation_stack:       23107
+                     play_move:       16869
+ is_white_king_square_attacked:        4282
+ is_black_king_square_attacked:       16824
 
   1.g7-g8=N Ke2-d2   2.Ng8-f6 Nh4-d6 #
-  add_to_move_generation_stack:       71161
-                     play_move:       40729
- is_white_king_square_attacked:       28124
- is_black_king_square_attacked:       23264
+  add_to_move_generation_stack:       48054
+                     play_move:       23860
+ is_white_king_square_attacked:       23842
+ is_black_king_square_attacked:        6440
 
 Loesung beendet.
 

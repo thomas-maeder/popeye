@@ -26,12 +26,16 @@
                Duplex
 
   1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 #
+  add_to_move_generation_stack:      133766
+                     play_move:      121951
+ is_white_king_square_attacked:       10336
+ is_black_king_square_attacked:       73933
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
-  add_to_move_generation_stack:      233174
-                     play_move:      215680
- is_white_king_square_attacked:       67888
- is_black_king_square_attacked:       82154
+  add_to_move_generation_stack:       99408
+                     play_move:       93729
+ is_white_king_square_attacked:       57552
+ is_black_king_square_attacked:        8221
 
 Loesung beendet.
 

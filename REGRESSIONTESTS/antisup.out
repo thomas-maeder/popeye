@@ -26,12 +26,16 @@
 
   1.Ta5*a8[wTa8->a1]   2.0-0-0
   1.Ta5*a8[wTa8->h1]   2.0-0
+  add_to_move_generation_stack:          50
+                     play_move:          82
+ is_white_king_square_attacked:          86
+ is_black_king_square_attacked:          85
 
   1.Kb4*a5[sKa5->e8]   2.0-0-0
-  add_to_move_generation_stack:          84
-                     play_move:         223
- is_white_king_square_attacked:         220
- is_black_king_square_attacked:         228
+  add_to_move_generation_stack:          34
+                     play_move:         141
+ is_white_king_square_attacked:         134
+ is_black_king_square_attacked:         143
 
 Loesung beendet.
 

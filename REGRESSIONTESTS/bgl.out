@@ -584,12 +584,16 @@ Loesung beendet.
                Duplex
 
   1.a7-a5 (2/0.5) Kc8-b8 (1/0.5) #
+  add_to_move_generation_stack:          26
+                     play_move:          22
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          22
 
   1.b6*a7 (0.59/2.5) Ka8-b8 (0.59/1.5) #
-  add_to_move_generation_stack:          69
-                     play_move:          52
- is_white_king_square_attacked:          35
- is_black_king_square_attacked:          28
+  add_to_move_generation_stack:          43
+                     play_move:          30
+ is_white_king_square_attacked:          30
+ is_black_king_square_attacked:           6
 
 Loesung beendet.
 

@@ -141,12 +141,16 @@ Loesung beendet.
                Duplex
 
   1.Ta2-e2=L Td1-d8=L   2.Le2-g4=S 0-0=L #
+  add_to_move_generation_stack:       47600
+                     play_move:       36378
+ is_white_king_square_attacked:        5743
+ is_black_king_square_attacked:       36097
 
   1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D #
-  add_to_move_generation_stack:       91296
-                     play_move:       70816
- is_white_king_square_attacked:       41035
- is_black_king_square_attacked:       40033
+  add_to_move_generation_stack:       43696
+                     play_move:       34438
+ is_white_king_square_attacked:       35292
+ is_black_king_square_attacked:        3936
 
 Loesung beendet.
 

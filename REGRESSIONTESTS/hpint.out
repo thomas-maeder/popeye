@@ -146,14 +146,18 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
   1.Lc6-e4 Tg6*g2   2.Le4-b1 Tg2-g1 =
 22 moegliche Stellungen in 2+2
+  add_to_move_generation_stack:        5939
+                     play_move:        5663
+ is_white_king_square_attacked:          55
+ is_black_king_square_attacked:        2327
 
 0 moegliche Stellungen in 1+1
   1.Tg6-g5 g2-g1=D   2.Tg5-c5 Dg1*c5 =
 12 moegliche Stellungen in 2+2
-  add_to_move_generation_stack:       15701
-                     play_move:       15719
- is_white_king_square_attacked:         154
- is_black_king_square_attacked:        4491
+  add_to_move_generation_stack:        9762
+                     play_move:       10056
+ is_white_king_square_attacked:          99
+ is_black_king_square_attacked:        2164
 
 Loesung beendet.
 
@@ -3578,15 +3582,19 @@ Loesung beendet.
 0 moegliche Stellungen in 2+2
   1.b6-b5 Tc4*a4   2.La5-b4 Ta4*b4 +   3.Kb3-a2 d5*c6 =
 185 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:      227862
+                     play_move:      226564
+ is_white_king_square_attacked:        1230
+ is_black_king_square_attacked:      140052
 
 0 moegliche Stellungen in 1+1
 11 moegliche Stellungen in 2+2
   1.Tc4-c3 + Sa4*c3   2.Kd3-d2 Sc3*d5 +   3.Kd2-d1 Tc6*c2 =
 975 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:      853551
-                     play_move:      849037
- is_white_king_square_attacked:        5997
- is_black_king_square_attacked:      438740
+  add_to_move_generation_stack:      625689
+                     play_move:      622473
+ is_white_king_square_attacked:        4767
+ is_black_king_square_attacked:      298688
 
 Loesung beendet.
 
@@ -3751,14 +3759,18 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
   1.Td4-d2 Sb1*d2   2.La8-f3 Sd2*f3 =
 2 moegliche Stellungen in 2+2
+  add_to_move_generation_stack:        2682
+                     play_move:        2682
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2279
 
 0 moegliche Stellungen in 1+1
   1.Sb1-d2 Td4-g4   2.Sd2-f3 La8*f3 =
 2 moegliche Stellungen in 2+2
-  add_to_move_generation_stack:        4029
-                     play_move:        4029
- is_white_king_square_attacked:          24
- is_black_king_square_attacked:        2577
+  add_to_move_generation_stack:        1347
+                     play_move:        1347
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:         298
 
 Loesung beendet.
 
@@ -4571,15 +4583,19 @@ Loesung beendet.
 0 moegliche Stellungen in 2+2
   1.Lg4-h5 f4-f5   2.Lh5-g6 f5*g6   3.Kg7-h8 Ke7*f7 =
 2 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:        3406
+                     play_move:        3406
+ is_white_king_square_attacked:         138
+ is_black_king_square_attacked:        1115
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
   1.Ke7-d6 Lg4-f3   2.Kd6-e5 f7-f6 +   3.Ke5-f5 Kg7-f7 =
 38 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:        4641
-                     play_move:        4641
- is_white_king_square_attacked:         178
- is_black_king_square_attacked:        1556
+  add_to_move_generation_stack:        1235
+                     play_move:        1235
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:         441
 
 Loesung beendet.
 

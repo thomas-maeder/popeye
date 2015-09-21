@@ -599,7 +599,6 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXTwinningWriterBuilder,
   STOutputPlaintextTwinIntroWriterBuilder,
   STTwinIdAdjuster,
-  STCountersWriter,
   STQuodlibetStipulationModifier,
   STGoalIsEndStipulationModifier,
   STWhiteToPlayStipulationModifier,
@@ -661,6 +660,9 @@ static slice_index const slice_rank_order[] =
   STPiecesCounter,
   STRoyalsLocator, /* above for target position, now for starting position */
   STPiecesFlagsInitialiser,
+#if defined(DOMEASURE)
+  STCountersWriter,
+#endif
   STInputVerification,
   STMoveEffectsJournalReset,
   STSolversBuilder1,

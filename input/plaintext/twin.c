@@ -782,6 +782,9 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STPiecesCounter),
         alloc_pipe(STRoyalsLocator),
         alloc_pipe(STPiecesFlagsInitialiser),
+#if defined(DOMEASURE)
+        alloc_pipe(STCountersWriter),
+#endif
         alloc_pipe(STInputVerification),
         alloc_pipe(STMoveEffectsJournalReset),
         alloc_pipe(STSolversBuilder1),

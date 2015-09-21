@@ -75,9 +75,6 @@ void input_plaintext_problem_handle(slice_index si)
         alloc_pipe(STStartOfCurrentProblem),
         alloc_pipe(STInputPlainTextTwinsHandler),
         alloc_pipe(STTwinIdAdjuster),
-#if defined(DOMEASURE)
-        alloc_pipe(STCountersWriter),
-#endif
         alloc_phase_solving_incomplete(si),
         alloc_pipe(STStartOfStipulationSpecific),
         alloc_pipe(STEndOfStipulationSpecific),

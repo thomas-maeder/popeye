@@ -343,12 +343,16 @@ Loesung beendet.
                Duplex
 
   1.Dd7-e6 f5*e6[+sBe7]   2.Tf6*h6[+wTa1] Ta1-a8 #
+  add_to_move_generation_stack:       19479
+                     play_move:       11611
+ is_white_king_square_attacked:        3279
+ is_black_king_square_attacked:       11431
 
   1.Kc1-d2 Dd7*f5[+wDd1]   2.Kd2-e1 Df5-f2 #
-  add_to_move_generation_stack:       39651
-                     play_move:       19265
- is_white_king_square_attacked:       10784
- is_black_king_square_attacked:       14276
+  add_to_move_generation_stack:       20172
+                     play_move:        7654
+ is_white_king_square_attacked:        7505
+ is_black_king_square_attacked:        2845
 
 Loesung beendet.
 

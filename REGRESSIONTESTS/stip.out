@@ -469,10 +469,6 @@ Loesung beendet.
 
 NullStellung
 
-  add_to_move_generation_stack:           0
-                     play_move:           0
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
 
 a) wTh4-->g1  
 
@@ -876,12 +872,16 @@ Loesung beendet.
                Duplex
 
   1.e7-e6   1.h5-h6   2.h6*g7=S   3.Sg7*e6=L   4.Le6*f7=T #
+  add_to_move_generation_stack:      253912
+                     play_move:      178446
+ is_white_king_square_attacked:       58560
+ is_black_king_square_attacked:      174330
 
   1.Te1-e5=L   1.a6*b5=S   2.Sb5*d4=L   3.Ld4*e5=T   4.Te5*h5=D #
-  add_to_move_generation_stack:      428163
-                     play_move:      345576
- is_white_king_square_attacked:      218339
- is_black_king_square_attacked:      220145
+  add_to_move_generation_stack:      174251
+                     play_move:      167130
+ is_white_king_square_attacked:      159779
+ is_black_king_square_attacked:       45815
 
 Loesung beendet.
 
@@ -2966,22 +2966,30 @@ Loesung beendet.
 a) 
 
   1.De4*e5[+wBe4]   2.De5-e8   3.De8*e4[+wBe8=S]   4.De4*e8[+wSe4]   5.De8-e5 Se4-g3 +   6.De5*g3[+wSe5] #
+  add_to_move_generation_stack:     4397965
+                     play_move:     1587841
+ is_white_king_square_attacked:     1509864
+ is_black_king_square_attacked:      917165
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6] Dd6-g3 +   6.Se4*g3[+sDe4] #
-  add_to_move_generation_stack:    10640332
-                     play_move:     4858222
- is_white_king_square_attacked:     3760686
- is_black_king_square_attacked:     4011490
+  add_to_move_generation_stack:     6242367
+                     play_move:     3270381
+ is_white_king_square_attacked:     2250822
+ is_black_king_square_attacked:     3094325
 
 b) ser-s#6  
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6]   6.Se4-g3 + Dd6*g3[+wSd6] #
+  add_to_move_generation_stack:    11525048
+                     play_move:     2520226
+ is_white_king_square_attacked:     2520226
+ is_black_king_square_attacked:     1578517
 
   1.De4*e5[+wBe4]   2.De5-e8   3.De8*e4[+wBe8=S]   4.De4*e8[+wSe4]   5.De8-e5   6.De5-g3 + Se4*g3[+sDe4] #
-  add_to_move_generation_stack:    14843346
-                     play_move:     4120656
- is_white_king_square_attacked:     3586255
- is_black_king_square_attacked:     3178947
+  add_to_move_generation_stack:     3318298
+                     play_move:     1600430
+ is_white_king_square_attacked:     1066029
+ is_black_king_square_attacked:     1600430
 
 Loesung beendet.
 

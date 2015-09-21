@@ -588,10 +588,14 @@ duplex didn't work in a=>b or proof games
                Duplex
 
   1.Ra8*a7[+wRa8] a=>b
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
   1.Ra7*a8[+bRa7] a=>b
-  add_to_move_generation_stack:          22
-                     play_move:          22
+  add_to_move_generation_stack:          14
+                     play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

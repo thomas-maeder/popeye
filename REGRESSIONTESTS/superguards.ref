@@ -117,12 +117,16 @@ solution finished.
                Duplex
 
   1.Ka5-a4 Kc5*b6   2.Ka4*b4 Kb6-c6   3.Kb4-a5 Kc6-b5 #
+  add_to_move_generation_stack:       11255
+                     play_move:       10257
+ is_white_king_square_attacked:         752
+ is_black_king_square_attacked:        9856
 
   1.Kc5-c6 Ka5*b4   2.Kc6*b6 Kb4*c4   3.Kb6-a5 Kc4-b5 #
-  add_to_move_generation_stack:       25931
-                     play_move:       23546
- is_white_king_square_attacked:       13561
- is_black_king_square_attacked:       10849
+  add_to_move_generation_stack:       14676
+                     play_move:       13289
+ is_white_king_square_attacked:       12809
+ is_black_king_square_attacked:         993
 
 solution finished.
 

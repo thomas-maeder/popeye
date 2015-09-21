@@ -213,6 +213,10 @@ solution finished.
 
    1.Bd5-e5 !
 
+  add_to_move_generation_stack:          11
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
    1.Rd4-a1 !
 
@@ -240,8 +244,8 @@ solution finished.
 
    1.Rd4-c5 !
 
-  add_to_move_generation_stack:          24
-                     play_move:          24
+  add_to_move_generation_stack:          13
+                     play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -324,10 +328,14 @@ demonstration of combination of Face to Face and Transmuting Kings
 
    1.Ke3*c4 !
 
-
-the side to play can capture the king  add_to_move_generation_stack:           8
+  add_to_move_generation_stack:           8
                      play_move:           8
- is_white_king_square_attacked:           9
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:           0
+
+the side to play can capture the king  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 
 solution finished.

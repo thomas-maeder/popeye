@@ -26,12 +26,16 @@
                Duplex
 
   1.Kd3-d2 Kf1-g1   2.Kd2-e1 Lh8-c3 #
+  add_to_move_generation_stack:       15611
+                     play_move:       13666
+ is_white_king_square_attacked:        1193
+ is_black_king_square_attacked:       13511
 
   1.Lh8-d4 Lf3-g4   2.Ld4-f2 Lg4-h3 #
-  add_to_move_generation_stack:       32275
-                     play_move:       28674
- is_white_king_square_attacked:       16012
- is_black_king_square_attacked:       15008
+  add_to_move_generation_stack:       16664
+                     play_move:       15008
+ is_white_king_square_attacked:       14819
+ is_black_king_square_attacked:        1497
 
 Loesung beendet.
 
@@ -99,12 +103,16 @@ Loesung beendet.
                Duplex
 
   1.Kg2-h1 Kg4-f3   2.Le5-h2 Sh3-f2 #
+  add_to_move_generation_stack:       10197
+                     play_move:        8431
+ is_white_king_square_attacked:        1145
+ is_black_king_square_attacked:        8267
 
   1.Kg4-h4 Kg2-f3   2.Sh3-f4 Le5-f6 #
-  add_to_move_generation_stack:       20906
-                     play_move:       18441
- is_white_king_square_attacked:       11032
- is_black_king_square_attacked:        9128
+  add_to_move_generation_stack:       10709
+                     play_move:       10010
+ is_white_king_square_attacked:        9887
+ is_black_king_square_attacked:         861
 
 Loesung beendet.
 
@@ -137,12 +145,16 @@ Loesung beendet.
                Duplex
 
   1.Sf5-d4 Kf1-f2   2.Sd4-b3 Sg2-e3 #
+  add_to_move_generation_stack:        4322
+                     play_move:        3650
+ is_white_king_square_attacked:         523
+ is_black_king_square_attacked:        3571
 
   1.Sg2-f4 Kd1-d2   2.Sf4-h3 Sf5-e3 #
-  add_to_move_generation_stack:        8538
-                     play_move:        7467
- is_white_king_square_attacked:        4276
- is_black_king_square_attacked:        4058
+  add_to_move_generation_stack:        4216
+                     play_move:        3817
+ is_white_king_square_attacked:        3753
+ is_black_king_square_attacked:         487
 
 Loesung beendet.
 
@@ -175,12 +187,16 @@ Loesung beendet.
                Duplex
 
   1.c2-c1=T h7-h8=T   2.Tc1-c3 Th8-h4 #
+  add_to_move_generation_stack:       10845
+                     play_move:        9699
+ is_white_king_square_attacked:        1243
+ is_black_king_square_attacked:        9592
 
   1.h7-h8=T c2-c1=D   2.Th8-h7 Dc1-h6 #
-  add_to_move_generation_stack:       21728
-                     play_move:       20369
- is_white_king_square_attacked:       11806
- is_black_king_square_attacked:       10826
+  add_to_move_generation_stack:       10883
+                     play_move:       10670
+ is_white_king_square_attacked:       10563
+ is_black_king_square_attacked:        1234
 
 Loesung beendet.
 

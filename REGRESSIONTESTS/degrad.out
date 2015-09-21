@@ -133,12 +133,16 @@ Loesung beendet.
                Duplex
 
   1.a2*b1=L   2.Lb1-e4   3.Le4-b7=B c7-c8=S #
+  add_to_move_generation_stack:       29211
+                     play_move:       30851
+ is_white_king_square_attacked:        3686
+ is_black_king_square_attacked:       30851
 
   1.c7*b8=T   2.Tb8*b4   3.Tb4-b2=B a2*b1=D #
-  add_to_move_generation_stack:       52559
-                     play_move:       51742
- is_white_king_square_attacked:       24577
- is_black_king_square_attacked:       33244
+  add_to_move_generation_stack:       23348
+                     play_move:       20891
+ is_white_king_square_attacked:       20891
+ is_black_king_square_attacked:        2393
 
 Loesung beendet.
 

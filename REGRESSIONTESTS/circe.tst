@@ -1075,6 +1075,10 @@ solution finished.
 
    1.Rd6*f6[+bSb6] x !
 
+  add_to_move_generation_stack:          41
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
    1.Re3*c3[+wSg3] x !
 
@@ -1088,8 +1092,8 @@ solution finished.
 
    1.Sf6*d5[+wRh5] x !
 
-  add_to_move_generation_stack:          82
-                     play_move:          12
+  add_to_move_generation_stack:          41
+                     play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

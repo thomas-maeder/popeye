@@ -1079,12 +1079,16 @@ Loesung beendet.
                Duplex
 
   1.g2-g1=D=w b7-b8=T=s   2.Tb8-g8 Dg1-h2 #
+  add_to_move_generation_stack:        9472
+                     play_move:       10849
+ is_white_king_square_attacked:        2139
+ is_black_king_square_attacked:       10644
 
   1.b7-b8=S=s g2-g1=L=w   2.Lg1-b6 Sb8-c6 #
-  add_to_move_generation_stack:       15423
-                     play_move:       15043
- is_white_king_square_attacked:        6183
- is_black_king_square_attacked:       11547
+  add_to_move_generation_stack:        5951
+                     play_move:        4194
+ is_white_king_square_attacked:        4044
+ is_black_king_square_attacked:         903
 
 Loesung beendet.
 
