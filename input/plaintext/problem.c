@@ -49,6 +49,8 @@ static void InitBoard(void)
 
   being_solved.king_square[White] = initsquare;
   being_solved.king_square[Black] = initsquare;
+
+  being_solved.currPieceId = NullPieceId;
 }
 
 /* Handle (read, solve, write) the current problem

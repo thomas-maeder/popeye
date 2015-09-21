@@ -331,7 +331,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   if (TSTFLAG(createdspec,Black))
     ++being_solved.number_of_pieces[Black][created];
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],++currPieceId);
+  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -351,8 +351,8 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   if (TSTFLAG(createdspec,Black))
     --being_solved.number_of_pieces[Black][created];
 
-  assert(GetPieceId(being_solved.spec[on])==currPieceId);
-  --currPieceId;
+  assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);
+  --being_solved.currPieceId;
 
   empty_square(on);
 
@@ -376,7 +376,7 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 
   assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],++currPieceId);
+  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

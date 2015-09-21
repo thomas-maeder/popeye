@@ -13,8 +13,6 @@ enum
 
 typedef unsigned int        PieceIdType;
 
-extern PieceIdType currPieceId;
-
 #define PieceIdOffset       (nr_piece_flags+1)
 #define PieSpMask           ((1<<PieceIdOffset)-1)
 #define PieceIdWidth        7

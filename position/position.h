@@ -4,6 +4,7 @@
 #include "position/board.h"
 #include "position/side.h"
 #include "position/color.h"
+#include "position/pieceid.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/vectors.h"
 #include "position/castling_rights.h"
@@ -48,6 +49,7 @@ typedef struct position
     imarr isquare;                       /* placement of iterators */
     unsigned number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
     castling_rights_type castling_rights;
+    PieceIdType currPieceId;
 } position;
 
 extern position being_solved;

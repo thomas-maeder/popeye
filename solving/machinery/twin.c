@@ -267,8 +267,8 @@ void initialise_piece_ids(void)
   for (bnp = boardnum; *bnp; ++bnp)
     if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
     {
-      assert(currPieceId<=MaxPieceId);
-      SetPieceId(being_solved.spec[*bnp],++currPieceId);
+      assert(being_solved.currPieceId<=MaxPieceId);
+      SetPieceId(being_solved.spec[*bnp],++being_solved.currPieceId);
     }
 
   TraceFunctionExit(__func__);

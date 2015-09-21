@@ -296,8 +296,8 @@ void move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_ty
       being_solved.isquare[i] = initsquare;
   }
 
-  entry->u.reset_position.currPieceId = currPieceId;
-  currPieceId = NullPieceId;
+  entry->u.reset_position.currPieceId = being_solved.currPieceId;
+  being_solved.currPieceId = NullPieceId;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -308,7 +308,7 @@ void move_effect_journal_undo_atob_reset_position_for_target(move_effect_journal
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  currPieceId = entry->u.reset_position.currPieceId;
+  being_solved.currPieceId = entry->u.reset_position.currPieceId;
 
   ProofRestoreStartPosition();
 
@@ -341,14 +341,14 @@ void proof_solve(slice_index si)
   being_solved = proofgames_start_position;
 
   {
-    PieceIdType const save_currPieceId = currPieceId;
+    PieceIdType const save_currPieceId = being_solved.currPieceId;
     initialise_piece_ids();
 
     ProofInitialise();
 
     pipe_solve_delegate(si);
 
-    currPieceId = save_currPieceId;
+    being_solved.currPieceId = save_currPieceId;
   }
 
   TraceFunctionExit(__func__);
@@ -379,14 +379,14 @@ void atob_solve(slice_index si)
   being_solved = proofgames_start_position;
 
   {
-    PieceIdType const save_currPieceId = currPieceId;
+    PieceIdType const save_currPieceId = being_solved.currPieceId;
     initialise_piece_ids();
 
     ProofInitialise();
 
     pipe_solve_delegate(si);
 
-    currPieceId = save_currPieceId;
+    being_solved.currPieceId = save_currPieceId;
   }
 
   TraceFunctionExit(__func__);
