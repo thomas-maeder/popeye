@@ -736,8 +736,8 @@ static slice_index find_goal_tester_fork(slice_index si)
 typedef struct
 {
     goal_type goal;
-    boolean is_maxtime_active;
-    boolean is_maxsolutions_active;
+    slice_index is_maxtime_active;
+    slice_index is_maxsolutions_active;
 } insertion_struct_type;
 
 static void remember_maxtime(slice_index si, stip_structure_traversal *st)
@@ -748,7 +748,7 @@ static void remember_maxtime(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insertion->is_maxtime_active = true;
+  insertion->is_maxtime_active = si;
 
   stip_traverse_structure_children(si,st);
 
@@ -764,7 +764,7 @@ static void remember_maxsolutions(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insertion->is_maxsolutions_active = true;
+  insertion->is_maxsolutions_active = si;
 
   stip_traverse_structure_children(si,st);
 
@@ -772,17 +772,20 @@ static void remember_maxsolutions(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_maxtime(slice_index si)
+static void insert_maxtime(slice_index si, slice_index incomplete)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",incomplete);
   TraceFunctionParamListEnd();
+
+  assert(SLICE_TYPE(incomplete)==STPhaseSolvingInterrupted);
 
   {
     slice_index const prototypes[] = {
-        alloc_maxtime_guard(),
-        alloc_maxtime_guard(),
-        alloc_maxtime_guard()
+        alloc_maxtime_guard(incomplete),
+        alloc_maxtime_guard(incomplete),
+        alloc_maxtime_guard(incomplete)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -846,9 +849,9 @@ static void intelligent_filter_inserter(slice_index si,
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);
 
-      if (insertion->is_maxtime_active)
-        insert_maxtime(si);
-      if (insertion->is_maxtime_active)
+      if (insertion->is_maxtime_active!=no_slice)
+        insert_maxtime(si,SLICE_NEXT2(insertion->is_maxtime_active));
+      if (insertion->is_maxsolutions_active!=no_slice)
         insert_maxsolutions(si);
       break;
     }
@@ -869,10 +872,10 @@ static void intelligent_filter_inserter(slice_index si,
 
 static structure_traversers_visitor intelligent_filters_inserters[] =
 {
-  { STMaxTimeSetter,     &remember_maxtime                      },
-  { STMaxSolutionsInitialiser, &remember_maxsolutions },
-  { STHelpAdapter,       &intelligent_filter_inserter           },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
+  { STMaxTimeSetter,           &remember_maxtime                      },
+  { STMaxSolutionsInitialiser, &remember_maxsolutions                 },
+  { STHelpAdapter,             &intelligent_filter_inserter           },
+  { STTemporaryHackFork,       &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -884,10 +887,10 @@ enum
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
-static void stip_insert_intelligent_filters(slice_index si, goal_type goal)
+static void insert_intelligent_filters(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
-  insertion_struct_type insertion = { goal, false, false };
+  insertion_struct_type insertion = { goal, no_slice, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1080,7 +1083,7 @@ boolean init_intelligent_mode(slice_index si)
       if (OptFlag[intelligent])
       {
         goal_to_be_reached = determine_goal_to_be_reached(si);
-        stip_insert_intelligent_filters(si,goal_to_be_reached);
+        insert_intelligent_filters(si,goal_to_be_reached);
         insert_goalreachable_guards(si,goal_to_be_reached);
         check_no_king_is_possible();
       }
@@ -1089,7 +1092,7 @@ boolean init_intelligent_mode(slice_index si)
     case intelligent_active_by_default:
       result = true;
       goal_to_be_reached = determine_goal_to_be_reached(si);
-      stip_insert_intelligent_filters(si,goal_to_be_reached);
+      insert_intelligent_filters(si,goal_to_be_reached);
       insert_goalreachable_guards(si,goal_to_be_reached);
       check_no_king_is_possible();
       break;

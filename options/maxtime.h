@@ -26,9 +26,11 @@
 void maxtime_guard_solve(slice_index si);
 
 /* Allocate a STMaxTimeGuard slice.
+ * @param incomplete identifies the slice to propagage information about
+ *                   interruption to
  * @return allocated slice
  */
-slice_index alloc_maxtime_guard(void);
+slice_index alloc_maxtime_guard(slice_index incomplete);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -45,15 +47,10 @@ slice_index alloc_maxtime_guard(void);
  */
 void maxtime_set(slice_index si);
 
-/* Instrument a stipulation with STMaxTimeGuard slices
- * @param si identifies slice where to start
- */
-void solving_insert_maxtime_guards(slice_index si);
-
-/* Propagate our findings to STProblemSolvingInterrupted
+/* Instrument the solving machinery
  * @param si identifies the slice where to start instrumenting
  */
-void maxtime_propagator_solve(slice_index si);
+void maxtime_problem_instrumenter_solve(slice_index si);
 
 /* Instrument the solving machinery with option maxsolutions
  * @param si identifies the slice where to start instrumenting

@@ -677,8 +677,8 @@ options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
  solving/pipe.h solving/conditional_pipe.h stipulation/conditional_pipe.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h position/castling_rights.h \
- debugging/assert.h
+ position/color.enum position/pieceid.h pieces/walks/vectors.h \
+ position/castling_rights.h debugging/assert.h
 
 options/maxflightsquares.h:
 
@@ -769,6 +769,8 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/pieceid.h:
 
 pieces/walks/vectors.h:
 

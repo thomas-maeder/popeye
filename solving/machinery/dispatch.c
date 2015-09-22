@@ -1456,8 +1456,8 @@ void dispatch(slice_index si)
       restart_guard_nested_solve(si);
       break;
 
-    case STMaxTimePropagator:
-      maxtime_propagator_solve(si);
+    case STMaxTimeProblemInstrumenter:
+      maxtime_problem_instrumenter_solve(si);
       break;
 
     case STMaxTimeSetter:

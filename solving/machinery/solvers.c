@@ -510,9 +510,6 @@ void build_solvers1(slice_index si)
 
   solving_insert_post_move_iteration(si);
 
-  if (isMaxtimeSet())
-    solving_insert_maxtime_guards(si);
-
   if (CondFlag[BGL])
     bgl_initialise_solving(si);
 

@@ -227,7 +227,7 @@
     ENUMERATOR(STRestartGuardNested),                                   \
     ENUMERATOR(STRestartGuardIntelligent), /* filter out too short solutions */ \
     ENUMERATOR(STIntelligentTargetCounter), /* count target positions */ \
-    ENUMERATOR(STMaxTimePropagator),                                    \
+    ENUMERATOR(STMaxTimeProblemInstrumenter),                                    \
     ENUMERATOR(STMaxTimeSetter), /* start maxtime timer */              \
     ENUMERATOR(STMaxTimeGuard), /* makes sure maxtime is kept*/         \
     ENUMERATOR(STMaxSolutionsProblemInstrumenter),                      \
