@@ -1223,7 +1223,7 @@ sttipulations with logically connected goals
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[x&=]              3 + 2
+  Black 4hh[x&=]              3 + 2
 
   1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 x
   1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 =
@@ -1259,7 +1259,7 @@ solution finished.
 1   .   .   .   .   .   .   .  -K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3s[1s[-1s[+]]{x}]     1 + 2
+  Black 3s[1s{x}[- 1s[+]]]    1 + 2
 both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
@@ -1294,7 +1294,7 @@ movenumbers and nested series branches; until 4.61, Popeye produced
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[1s[1s[#]]{+}]     2 + 3
+  Black 4hh[1s{+}[1s[#]]]     2 + 3
 
   1  (h2-h1=Q )
   2  (h2-h1=S )

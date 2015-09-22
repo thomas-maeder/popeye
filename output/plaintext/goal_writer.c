@@ -51,12 +51,15 @@ slice_index alloc_output_plaintext_goal_writer_slice(Goal goal)
 void output_plaintext_goal_writer_solve(slice_index si)
 {
   Goal const goal = SLICE_U(si).goal_handler.goal;
+  char const * const marker = goal_end_marker[goal.type];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  protocol_fprintf(stdout,"%s",goal_end_marker[goal.type]);
+  if (marker[0]!=0)
+    protocol_fprintf(stdout," %s",marker);
+
   protocol_fflush(stdout);
 
   pipe_solve_delegate(si);

@@ -338,7 +338,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
     if (is_forced)
     {
       if (*etype==expression_type_attack)
-      *type = nested_branch_type_forced;
+        *type = nested_branch_type_forced;
       else
         tok = 0;
     }
@@ -621,12 +621,12 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
             help_branch_set_end_goal(branch,proxy_operand,1);
             break;
 
-          case nested_branch_type_defense:
           case nested_branch_type_forced:
             help_branch_set_end_forced(branch,proxy_operand,1);
             break;
 
           case nested_branch_type_attack:
+          case nested_branch_type_defense:
             help_branch_set_end(branch,proxy_operand,1);
             break;
 

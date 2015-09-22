@@ -549,6 +549,7 @@
     ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
     ENUMERATOR(STOutputPlainTextStartOfTargetWriter),                   \
     ENUMERATOR(STOutputPlainTextStipulationWriter),                     \
+    ENUMERATOR(STOutputPlainTextSStipulationWriter),                    \
     ENUMERATOR(STOutputPlainTextStipulationOptionsWriter),              \
     ENUMERATOR(STOutputPlainTextRoyalPiecePositionsWriter),             \
     ENUMERATOR(STOutputPlainTextNonRoyalAttributesWriter),              \

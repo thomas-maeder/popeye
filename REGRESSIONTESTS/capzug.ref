@@ -21,7 +21,7 @@ WCCC 2010, CapZug Tourney, 1st prize
 1   .   .   .   .   .   .   S  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black - 5h[/1d[x]a{!+}]h    9 + 7
+  Black - 5h[/1d[x]a{!+}]h    9 + 7
 
   1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3
   1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2
@@ -58,7 +58,7 @@ WCCC 2010, CapZug Tourney, 1st commendation
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[/1d[x]a{!+}]      3 + 3
+  Black 8hh[/1d[x]a{!+}]      3 + 3
 
   1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5
 
@@ -95,7 +95,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[/1d[+]a{!+}]      2 + 2
+  Black 8hh[/1d[+]a{!+}]      2 + 2
 
   1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8
   add_to_move_generation_stack:    27514642
@@ -129,7 +129,7 @@ solution finished.
 1   .   K   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 10hh[/1d[=]a{!+}]     4 + 5
+  Black 10hh[/1d[=]a{!+}]     4 + 5
 
   1  (d2-d1=Q + )
   2  (d2-d1=S )
@@ -173,7 +173,7 @@ solution finished.
 1   .   .   .   .   .   .   R   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 3a[/1d[+]a{!+}]d      9 + 3
+  White 3a[/1d[+]a{!+}]d      9 + 3
 
    1.Sf2-h1 ! zugzwang.
       1...g2*h1=Q +
@@ -216,7 +216,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8s[1a[/1d[+]a{!+}]d]  2 + 2
+  Black 8s[1a[/1d[+]a{!+}]d]  2 + 2
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7
   add_to_move_generation_stack:      112328
@@ -250,7 +250,7 @@ The Problemist Fairy Chess Supplement 1930 (v)
 1  -K   .   K   .   R   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 5h[/1d[#]a{!+}]h      4 + 6
+  White 5h[/1d[#]a{!+}]h      4 + 6
 
   1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1
   add_to_move_generation_stack:     2721372
@@ -284,7 +284,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 7h[/1d[=]a{!+}]h      2 + 4
+  White 7h[/1d[=]a{!+}]h      2 + 4
 
   1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1
   add_to_move_generation_stack:     1225662

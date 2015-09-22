@@ -21,7 +21,7 @@
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    2 + 6
+  Schwarz 6hh[/2da[#]{!+}]    2 + 6
 
   1...Lb2-c1   2.Sg6-f8 Lc1-h6   3.g7-g5 Ke8-f7
 
@@ -57,7 +57,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    2 + 2
+  Schwarz 6hh[/2da[#]{!+}]    2 + 2
 
   1.Kd5-c4 Kb2-c1   2.Kc4-b3 e7-e8=D   3.Kb3-a2 De8-e3
   add_to_move_generation_stack:     1198976
@@ -91,7 +91,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    2 + 2
+  Schwarz 6hh[/2da[#]{!+}]    2 + 2
 
   1.Kd5-c4 f7-f8=D   2.Kc4-b3 Ke3*d3   3.Kb3-a2 Kd3-c2
   1.Kd5-c6 Ke3-d4   2.Kc6-b7 Kd4-c5   3.Kb7-a8 Kc5-b6
@@ -126,7 +126,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    2 + 2
+  Schwarz 6hh[/2da[#]{!+}]    2 + 2
 
   1...a5-a6   2.Kc6-b6 a6*b7   3.Kb6-a6 b7-b8=D
 
@@ -162,7 +162,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 8hh[/2da[#]{!+}]    2 + 2
+  Schwarz 8hh[/2da[#]{!+}]    2 + 2
 
 a) 
 
@@ -488,7 +488,7 @@ Loesung beendet.
 1   .   .   .   .   K   .   .   T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    5 + 4
+  Schwarz 6hh[/2da[#]{!+}]    5 + 4
 
   1.Kd3-c2 Th1-h5   2.Kc2-b1 Ke1-d2   3.Ta4*a5 Th5*a5
   1.Kd3-c2 Th1-h5   2.Ta4*a5 Th5*a5   3.Kc2-b1 Ke1-d2
@@ -543,7 +543,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[/2da[#]{!+}]    5 + 6
+  Schwarz 2hh[/2da[#]{!+}]    5 + 6
 
 a) 
 
@@ -602,7 +602,7 @@ Loesung beendet.
 1   T   .   .   .   K   .   .   T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 4hh[/2da[#]{!+}]    5 + 9
+  Schwarz 4hh[/2da[#]{!+}]    5 + 9
 
   1...Lg7-f6   2.0-0 Ta1-a2
   1...Lg7-f6   2.0-0 0-0-0
@@ -647,7 +647,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 4hh[/2da[#]{!+}]    4 + 9
+  Schwarz 4hh[/2da[#]{!+}]    4 + 9
 
 a) 
 
@@ -702,7 +702,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 8hh[/2da[#]{!+}]    3 + 5
+  Schwarz 8hh[/2da[#]{!+}]    3 + 5
 
 a) 
 
@@ -907,7 +907,7 @@ Loesung beendet.
 1  -K  -L   L   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    3 + 8
+  Schwarz 6hh[/2da[#]{!+}]    3 + 8
 
   1.c4-c3 Lc1-h6   2.c2-c1=T Ka3-b4   3.c3-c2 Lh6-d2
   1.c4-c3 Lc1-h6   2.c2-c1=T Lh6-d2   3.c3-c2 Ld2-b4

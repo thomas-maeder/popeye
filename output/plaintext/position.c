@@ -239,6 +239,449 @@ static int WriteStipulation(void)
   return protocol_fprintf(stdout,"  %s",StipLower);
 }
 
+typedef enum
+{
+  sstip_write_state_begin,
+  sstip_write_state_branch,
+  sstip_write_state_end
+} sstip_write_state;
+
+typedef struct
+{
+    FILE *file;
+    int nr_chars_written;
+    sstip_write_state state;
+} sstip_write_type;
+
+static void sstip_write_move_inverter(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","-");
+  stip_traverse_structure_children(si,st);
+}
+
+static void sstip_write_attack(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",SLICE_U(si).branch.length);
+    if (SLICE_U(si).branch.min_length>1)
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",SLICE_U(si).branch.min_length+1);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","a");
+  }
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void sstip_write_attack_played(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    sstip_write->state = sstip_write_state_branch;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_begin;
+  }
+  else
+  {
+    assert(sstip_write->state==sstip_write_state_branch);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","a");
+    sstip_write->state = sstip_write_state_end;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_branch;
+  }
+}
+
+static void sstip_write_defense(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    if (branch_find_slice(STPlaySuppressor,si,st->context)!=no_slice)
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","/");
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",SLICE_U(si).branch.length);
+    if (SLICE_U(si).branch.min_length>1)
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",SLICE_U(si).branch.min_length);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","d");
+  }
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void sstip_write_defense_played(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    sstip_write->state = sstip_write_state_branch;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_begin;
+  }
+  else
+  {
+    assert(sstip_write->state==sstip_write_state_branch);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","d");
+    sstip_write->state = sstip_write_state_end;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_branch;
+  }
+}
+
+static void sstip_write_help(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    slice_index const leg2 = branch_find_slice(STReadyForHelpMove,si,st->context);
+    if (leg2==si)
+    {
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",(SLICE_U(si).branch.length+1)/2);
+      if (SLICE_U(si).branch.min_length>1)
+        sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",(SLICE_U(si).branch.min_length+1)/2);
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","s");
+    }
+    else
+    {
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",SLICE_U(si).branch.length);
+      if (SLICE_U(si).branch.min_length>1)
+        sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",SLICE_U(si).branch.min_length);
+      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","h");
+    }
+  }
+  else
+  {
+    assert(sstip_write->state==sstip_write_state_branch);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","h");
+    stip_traverse_structure_children(si,st);
+  }
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void sstip_write_help_played(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    sstip_write->state = sstip_write_state_branch;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_begin;
+  }
+  else
+  {
+    assert(sstip_write->state==sstip_write_state_branch);
+    sstip_write->state = sstip_write_state_end;
+    stip_traverse_structure_children(si,st);
+    sstip_write->state = sstip_write_state_branch;
+  }
+}
+
+static void sstip_write_end_of_branch(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write_state const save_state = sstip_write->state;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    stip_traverse_structure_children_pipe(si,st);
+
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[");
+    sstip_write->state = sstip_write_state_begin;
+    stip_traverse_structure_next_branch(si,st);
+    sstip_write->state = save_state;
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
+  }
+  else
+  {
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[");
+    sstip_write->state = sstip_write_state_begin;
+    stip_traverse_structure_next_branch(si,st);
+    sstip_write->state = save_state;
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
+
+    stip_traverse_structure_children_pipe(si,st);
+  }
+}
+
+static void sstip_write_end_of_branch_forced(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write_state const save_state = sstip_write->state;
+
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[>");
+  sstip_write->state = sstip_write_state_begin;
+  stip_traverse_structure_next_branch(si,st);
+  sstip_write->state = save_state;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
+
+  stip_traverse_structure_children_pipe(si,st);
+}
+
+static void sstip_write_constraint_tester(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write_state const save_state = sstip_write->state;
+
+  if (sstip_write->state==sstip_write_state_begin)
+  {
+    stip_traverse_structure_children_pipe(si,st);
+
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","{");
+    sstip_write->state = sstip_write_state_begin;
+    stip_traverse_structure_next_branch(si,st);
+    sstip_write->state = save_state;
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","}");
+  }
+  else
+  {
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","{");
+    sstip_write->state = sstip_write_state_begin;
+    stip_traverse_structure_next_branch(si,st);
+    sstip_write->state = save_state;
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","}");
+
+    stip_traverse_structure_children_pipe(si,st);
+  }
+}
+
+static void sstip_write_goal_reached_tester(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write_state const save_state = sstip_write->state;
+
+  sstip_write->state = sstip_write_state_begin;
+  stip_traverse_structure_next_branch(si,st);
+  sstip_write->state = save_state;
+}
+
+static void sstip_write_mate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","#");
+}
+
+static void sstip_write_stalemate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","=");
+}
+
+static void sstip_write_doublestalemate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","==");
+}
+
+static void sstip_write_immobile(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","#=");
+}
+
+static void sstip_write_check(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","+");
+}
+
+static void sstip_write_target(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  square const s = SLICE_U(si).goal_handler.goal.target;
+
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","z");
+  /* TODO avoid duplication with WriteSquare() */
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%c",('a' - nr_files_on_board + s%onerow));
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%c",('1' - nr_rows_on_board + s/onerow));
+}
+
+static void sstip_write_capture(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","x");
+}
+
+static void sstip_write_castling(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","00");
+}
+
+static void sstip_write_steingewinn(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","%");
+}
+
+static void sstip_write_enpassant(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","ep");
+}
+
+static void sstip_write_doublemate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","##");
+}
+
+static void sstip_write_countermate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","##!");
+}
+
+static void sstip_write_autostalemate(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","!=");
+}
+
+static void sstip_write_circuit(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","ct");
+}
+
+static void sstip_write_exchange(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","<>");
+}
+
+static void sstip_write_any(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","~");
+}
+
+static void sstip_write_dia(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","dia");
+}
+
+static void sstip_write_atob(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","a=>b");
+}
+
+static void sstip_write_chess81(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","c81");
+}
+
+static void sstip_write_kiss(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","k");
+}
+
+static void sstip_write_not(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","!");
+  stip_traverse_structure_children_pipe(si,st);
+}
+
+static void sstip_write_and(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  stip_traverse_structure_binary_operand1(si,st);
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","&");
+  stip_traverse_structure_binary_operand2(si,st);
+}
+
+static void sstip_write_or(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+
+  stip_traverse_structure_binary_operand1(si,st);
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","|");
+  stip_traverse_structure_binary_operand2(si,st);
+}
+
+structure_traversers_visitor const sstip_visitors[] = {
+    { STMoveInverter,  &sstip_write_move_inverter },
+    { STReadyForAttack,  &sstip_write_attack  },
+    { STAttackPlayed, &sstip_write_attack_played },
+    { STReadyForDefense, &sstip_write_defense },
+    { STDefensePlayed, &sstip_write_defense_played },
+    { STReadyForHelpMove, &sstip_write_help },
+    { STHelpMovePlayed, &sstip_write_help_played },
+    { STEndOfBranch, &sstip_write_end_of_branch },
+    { STEndOfBranchGoal, &sstip_write_end_of_branch },
+    { STEndOfBranchGoalImmobile, &sstip_write_end_of_branch },
+    { STEndOfBranchForced, &sstip_write_end_of_branch_forced },
+    { STConstraintTester, &sstip_write_constraint_tester },
+    { STGoalConstraintTester, &sstip_write_constraint_tester },
+    { STGoalReachedTester, &sstip_write_goal_reached_tester },
+    { STGoalMateReachedTester, &sstip_write_mate },
+    { STGoalStalemateReachedTester, &sstip_write_stalemate },
+    { STGoalDoubleStalemateReachedTester, &sstip_write_doublestalemate },
+    { STGoalImmobileReachedTester, &sstip_write_immobile },
+    { STGoalCheckReachedTester, &sstip_write_check },
+    { STGoalTargetReachedTester, &sstip_write_target },
+    { STGoalCaptureReachedTester, &sstip_write_capture },
+    { STGoalCastlingReachedTester, &sstip_write_castling },
+    { STGoalSteingewinnReachedTester, &sstip_write_steingewinn },
+    { STGoalEnpassantReachedTester, &sstip_write_enpassant },
+    { STGoalDoubleMateReachedTester, &sstip_write_doublemate },
+    { STGoalCounterMateReachedTester, &sstip_write_countermate },
+    { STGoalAutoStalemateReachedTester, &sstip_write_autostalemate },
+    { STGoalCircuitReachedTester, &sstip_write_circuit },
+    { STGoalExchangeReachedTester, &sstip_write_exchange },
+    { STGoalAnyReachedTester, &sstip_write_any },
+    { STGoalProofgameReachedTester, &sstip_write_dia },
+    { STGoalAToBReachedTester, &sstip_write_atob },
+    { STGoalChess81ReachedTester, &sstip_write_chess81 },
+    { STGoalKissReachedTester, &sstip_write_kiss },
+    { STNot, &sstip_write_not },
+    { STAnd, &sstip_write_and },
+    { STOr, &sstip_write_or }
+};
+enum { nr_sstip_visitors = sizeof sstip_visitors / sizeof sstip_visitors[0]};
+
+
+static int WriteSStipulation(slice_index si)
+{
+  slice_index const stipulation = SLICE_NEXT2(si);
+  Side const starter = SLICE_STARTER(stipulation);
+  sstip_write_type sstip_write = { stdout, 0, sstip_write_state_begin };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(stipulation);
+
+  sstip_write.nr_chars_written += protocol_fprintf(stdout,"  %s ",ColourTab[starter]);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&sstip_write);
+    stip_structure_traversal_override(&st,sstip_visitors,nr_sstip_visitors);
+    stip_traverse_structure(stipulation,&st);
+  }
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",sstip_write.nr_chars_written);
+  TraceFunctionResultEnd();
+  return sstip_write.nr_chars_written;
+}
+
 static int WriteOptions(position const *pos)
 {
   int result = 0;
@@ -628,6 +1071,35 @@ void output_plaintext_write_stipulation(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+void output_plaintext_write_sstipulation(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  indentation += WriteSStipulation(si);
+
+  pipe_solve_delegate(si);
+
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
 void output_plaintext_write_non_royal_attributes(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -907,7 +1379,6 @@ void output_plaintext_build_position_writers(slice_index si)
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
-        alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
@@ -934,7 +1405,6 @@ void output_plaintext_build_proof_position_writers(slice_index si)
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_pipe(STOutputPlainTextStartOfTargetWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
-        alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),

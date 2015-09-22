@@ -20,7 +20,7 @@
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 1a[#]d               2 + 16
+  Weiss 1a[#]d               2 + 16
 
    1.h5*g6 ep. # !
 
@@ -55,7 +55,7 @@ Loesung beendet.
 1   T   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss - 6da[#] /1          6 + 10
+  Weiss - 6da[#]/1           6 + 10
 
  Drohung:
           2.Th5-h8 #
@@ -112,7 +112,7 @@ Loesung beendet.
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1d[#]a            13 + 14
+  Schwarz 1d[#]a            13 + 14
  +
    1.Tb4*b6 #
   add_to_move_generation_stack:          75
@@ -146,7 +146,7 @@ Loesung beendet.
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss - 1d[#]a            13 + 14
+  Weiss - 1d[#]a            13 + 14
  +
       1...Tb4*b6 #
   add_to_move_generation_stack:          75
@@ -179,7 +179,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 1a[za7]d              1 + 0
+  Weiss 1a[za7]d              1 + 0
 
    1.a6-a7 z !
 
@@ -214,7 +214,7 @@ Loesung beendet.
 1   L   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[#]d                8 + 4
+  Weiss 3a[#]d                8 + 4
            Take&MakeSchach
 
    1.Dc8-b8 ! Drohung:
@@ -258,7 +258,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[#]              3 + 3
+  Schwarz 2hh[#]              3 + 3
 
   1.Kb7-a8 Sd5-b6 #
   1.Kb7-a8 Sd5-c7 #
@@ -292,7 +292,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[#]                 2 + 2
+  Weiss 2s[#]                 2 + 2
 
   1.b5-b6   2.b6-b7 #
   add_to_move_generation_stack:          15
@@ -328,7 +328,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 4s[#]                 5 + 5
+  Weiss 4s[#]                 5 + 5
                Madrasi
 
   1.c7-c8=T   2.f7*g8=L   3.g7*f8=D   4.b7-b8=S #
@@ -363,7 +363,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1s[1h[#]h]          3 + 3
+  Schwarz 1s[1h[#]h]          3 + 3
 
   1.Kb7-a8 Sd5-c7 #
   1.Kb7-a8 Sd5-b6 #
@@ -401,7 +401,7 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 1a[!#]d              13 + 3
+  Weiss 1a[!#]d              13 + 3
 
    1.Df8-g8 !
 
@@ -436,7 +436,7 @@ Loesung beendet.
 1   .   .   .   S   .   S   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 1a[!#]d              13 + 8
+  Weiss 1a[!#]d              13 + 8
 
    1.Tg6-c6 + !
 
@@ -472,7 +472,7 @@ Weiss zieht und setzt in 2 Z\"ugen nicht matt
 1   .   .   .   .   .   S   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3:3a[!#]d            15 + 9
+  Weiss 3:3a[!#]d            15 + 9
 
    1.Sf1-d2 + ?
     Aber
@@ -525,7 +525,7 @@ Loesung beendet.
 1   .   .   .   .   .  -S   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[#]&1h[#]h      9 + 12
+  Schwarz 2hh[#]&1h[#]h      9 + 12
 
   1.0-0-0 Sa4-b6 #
 
@@ -564,7 +564,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=] 8 + 10
+  Weiss 3a[#]d&- 4hh[#]&4ad[#]&- 4hh[=]8 + 10
 
    1.e7-e8=S ! Drohung:
           2.Se8*c7 #
@@ -611,7 +611,7 @@ eigentlich semi-r#2
 1  -D  -L   .   .   .   D   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d          8 + 7
+  Weiss 3a[>1a[#]d]d          8 + 7
                Isardam
 
    1.Ld4-h8 ! Zugzwang.
@@ -670,7 +670,7 @@ und Einschraenkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d{!1a[#]d} 9 + 8
+  Weiss 3a[>1a[#]d]d{!1a[#]d} 9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.
@@ -726,7 +726,7 @@ UND
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[2hh[#]&1h[#]h] 9 + 12
+  Schwarz 2hh[2hh[#]&1h[#]h] 9 + 12
 
 a) 
 
@@ -779,7 +779,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[1h[#]h&2hh[#]] 9 + 12
+  Schwarz 2hh[1h[#]h&2hh[#]] 9 + 12
 
 a) 
 
@@ -826,7 +826,7 @@ wAngriffszug zum Schlag
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[1a[x]d]h           4 + 3
+  Weiss 3h[1a[x]d]h           4 + 3
 
   1.g3-g4 h5*g4 x
   1.g3-g4 h5*g4   2.g2-g3 f4*g3 x
@@ -866,7 +866,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 4hh[x]              3 + 4
+  Schwarz 4hh[x]              3 + 4
 
   1.g6-g5 h4*g5 x
   1.g6-g5 a3-a4   2.g7-g6 h4*g5 x
@@ -904,7 +904,7 @@ wobei Schwarz nicht schlaegt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 4h{!x}h[x]          3 + 4
+  Schwarz 4h{!x}h[x]          3 + 4
 
   1.g6-g5 h4*g5 x
   1.g6-g5 a3-a4   2.g7-g6 h4*g5 x
@@ -943,7 +943,7 @@ wobei Weiss schlagen muss, wenn er kann
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h          4 + 3
+  Weiss 3h[>1a[x]d]h          4 + 3
 
   1.g3-g4 h5*g4 x
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x
@@ -981,7 +981,7 @@ wobei Weiss schlagen muss, wenn er kann
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3:3h[>1a[x]d]h        4 + 3
+  Weiss 3:3h[>1a[x]d]h        4 + 3
 
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x
   add_to_move_generation_stack:          13
@@ -1019,7 +1019,7 @@ unloesbar, weil Schwarz schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
+  Weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
 
   1.g3*f4 x
   add_to_move_generation_stack:           2
@@ -1054,7 +1054,7 @@ wAngriffszug zum Schlag
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2s[1a[x]d]          4 + 3
+  Schwarz 2s[1a[x]d]          4 + 3
 
   1.g7-g5 h4*g5 x
   1.g7-g5 f5*g6 ep. x
@@ -1092,7 +1092,7 @@ wAngriffszug zum Schlag
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2:2s[1a[x]d]        4 + 3
+  Schwarz 2:2s[1a[x]d]        4 + 3
 
   1.g7-g6   2.g6-g5 h4*g5 x
   add_to_move_generation_stack:          16
@@ -1131,7 +1131,7 @@ Schwarz nicht schlaegt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[1a[x]d]{!1a[x]d}   3 + 3
+  Weiss 2s[1a[x]d]{!1a[x]d}   3 + 3
 
   1.g2-g4 f4*g3 ep. x
   1.g2-g4 h5*g4 x
@@ -1171,7 +1171,7 @@ keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[>1a[x]d]           3 + 3
+  Weiss 2s[>1a[x]d]           3 + 3
 
   1.g2-g4 f4*g3 ep. x
   1.g2-g4 h5*g4 x
@@ -1210,7 +1210,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .  -D   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[3s[1h[#]h]]        2 + 4
+  Weiss 2s[3s[1h[#]h]]        2 + 4
               BiWoozles
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 #
@@ -1248,7 +1248,7 @@ eigentlich: sKg4 s#2 b) g4->e3
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss - 5d[#]a             11 + 7
+  Weiss - 5d[#]a             11 + 7
  +
       1...Kf3-g4
           2.Ld6-h2 Zugzwang.
@@ -1313,7 +1313,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 1a[#]d                7 + 8
+  Weiss 1a[#]d                7 + 8
                 Circe
 
 a) 
@@ -1403,7 +1403,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz - 3:3h[#]h          2 + 4
+  Schwarz - 3:3h[#]h          2 + 4
 
   1...Kg2-f3   2.h6-h5 Kf3-e2 #
   add_to_move_generation_stack:         215
@@ -1437,7 +1437,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 1   T   .   S   .   K   .   .  -L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 10:10s[1h[00]h]     5 + 2
+  Schwarz 10:10s[1h[00]h]     5 + 2
 
   2  (Lh1-b7 )
   1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0
@@ -1500,7 +1500,7 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 1   .   .   .   .   .   .   .       1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h[- 14hh[#]]h      2 + 4
+  Schwarz 1h[- 14hh[#]]h      2 + 4
 
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 #
   add_to_move_generation_stack:      414343
@@ -1535,7 +1535,7 @@ h#8 1.0;1.1;...
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h[- 14hh[#]]h      2 + 5
+  Schwarz 1h[- 14hh[#]]h      2 + 5
 
   1.Df3-f8   1.Tg2-g7 Ld7-a4   2.Kh6-g6 Kh1-g2   3.Kg6-f7 + Kg2-f3   4.b6-b5 Kf3-e4   5.Kf7-e8 Ke4-d5   6.Tg7-f7 Kd5-c6   7.b5-b4 Kc6-c7 #
   add_to_move_generation_stack:     2792745
@@ -1569,7 +1569,7 @@ Ziel nach den weissen Zuegen
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 4h[=]h[#]           2 + 4
+  Schwarz 4h[=]h[#]           2 + 4
 
   1.a2-a1=D Tg7-g1   2.Da1*g1 =
   1.a2-a1=T Tg7-c7   2.Ta1-a3 Tc7-c4 #
@@ -1603,7 +1603,7 @@ Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz - 3h[#]{!x}h        2 + 4
+  Schwarz - 3h[#]{!x}h        2 + 4
 
   1...a7-a8=D   2.Lb8-a7 Da8-h1 #
   add_to_move_generation_stack:         756
@@ -1638,7 +1638,7 @@ Loesung beendet.
 1   .   .   D   .   .   L  -K  -T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 4a[#=]d[#=]           7 + 7
+  Weiss 4a[#=]d[#=]           7 + 7
 
    1.Dc1-e1 ! Zugzwang.
       1...e2*f1=D
@@ -1686,7 +1686,7 @@ Beispiel fuer eine unnegierte Einschraenkung:
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2ad[1a[+]d{+}]        2 + 3
+  Weiss 2ad[1a[+]d{+}]        2 + 3
 
    1.Ta2-h2 + !
       1...Kh7-g6 +
@@ -1729,7 +1729,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 9s [- 1d[x]a]         7 + 5
+  Weiss 9s[- 1d[x]a]          7 + 5
 
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Lb5*a4 x
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.c5*d6 x
@@ -1738,10 +1738,10 @@ Loesung beendet.
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Tc6*b6 x
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Tc6*d6 x
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Sa8*b6 + x
-  add_to_move_generation_stack:   440625415
-                     play_move:   171289682
- is_white_king_square_attacked:   171289682
- is_black_king_square_attacked:   106158539
+  add_to_move_generation_stack:   346621429
+                     play_move:   148934994
+ is_white_king_square_attacked:   148934994
+ is_black_king_square_attacked:    83057454
 
 Loesung beendet.
 
