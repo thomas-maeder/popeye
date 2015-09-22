@@ -1,7 +1,8 @@
 begin
 
-title short play after key in reflex stipulations was missed
 prot 4_47_to_4_49.reg
+
+title short play after key in reflex stipulations was missed
 pieces white ka1 pa2a3 black pc2
 stip r#2
 option vari nobk
