@@ -24,8 +24,8 @@
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STConditionsResetter),                                     \
   ENUMERATOR(STOptionsResetter),                                        \
-  ENUMERATOR(STProblemSolvingInterrupted),                              \
-  ENUMERATOR(STPhaseSolvingInterrupted),                                \
+  ENUMERATOR(STProblemSolvingIncomplete),                              \
+  ENUMERATOR(STPhaseSolvingIncomplete),                                \
   ENUMERATOR(STCommandLineOptionsParser),                               \
   ENUMERATOR(STInputPlainTextOpener),                                   \
   ENUMERATOR(STPlatformInitialiser),                                    \

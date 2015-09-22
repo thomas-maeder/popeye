@@ -60,7 +60,7 @@ void stoponshortsolutions_instrument_twin(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingIncomplete,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STStopOnShortSolutionsProblemInstrumenter);

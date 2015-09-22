@@ -590,7 +590,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextProblemWriter,
   STInputPlainTextInitialTwinReader,
   STOutputLaTeXProblemWriter,
-  STProblemSolvingInterrupted,
+  STProblemSolvingIncomplete,
   /* slices from here on are created for each problem
    * mostly by STInputPlainTextProblemHandler */
   STInputPlainTextTwinsHandler,
@@ -607,7 +607,7 @@ static slice_index const slice_rank_order[] =
   STDuplexSolver,
   STHalfDuplexSolver,
   /* enter phase stage */
-  STPhaseSolvingInterrupted,
+  STPhaseSolvingIncomplete,
   STStartOfStipulationSpecific,
   STStipulationCopier,
   STProofSolverBuilder,

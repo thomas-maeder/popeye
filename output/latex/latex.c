@@ -318,7 +318,7 @@ void LaTeXCo(slice_index si, FILE *file)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STProblemSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STProblemSolvingIncomplete,
                                                        si,
                                                        stip_traversal_context_intro);
     assert(interruption!=no_slice);

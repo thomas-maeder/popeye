@@ -2753,8 +2753,8 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  pieces/walks/skylla_charybdis.h pieces/walks/edgehog.h \
  pieces/walks/kangaroo.h pieces/walks/querquisite.h pieces/walks/ubiubi.h \
  pieces/walks/radial.h pieces/walks/orphan.h pieces/walks/friend.h \
- pieces/walks/hunters.h pieces/walks/sting.h solving/pipe.h \
- debugging/assert.h
+ pieces/walks/hunters.h solving/move_effect_journal.h \
+ pieces/walks/sting.h solving/pipe.h debugging/assert.h
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2881,6 +2881,8 @@ pieces/walks/orphan.h:
 pieces/walks/friend.h:
 
 pieces/walks/hunters.h:
+
+solving/move_effect_journal.h:
 
 pieces/walks/sting.h:
 

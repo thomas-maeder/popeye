@@ -7,7 +7,7 @@
  * target position if requested by the user
  */
 
-/* Propagate our findings to STProblemSolvingInterrupted
+/* Propagate our findings to STProblemSolvingIncomplete
  * @param si identifies the slice where to start instrumenting
  */
 void intelligent_nr_solutions_per_target_position_solving_instrumenter_solve(slice_index si);

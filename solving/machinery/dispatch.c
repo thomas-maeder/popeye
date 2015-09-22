@@ -389,11 +389,11 @@ void dispatch(slice_index si)
       options_resetter_solve(si);
       break;
 
-    case STProblemSolvingInterrupted:
+    case STProblemSolvingIncomplete:
       problem_solving_incomplete_solve(si);
       break;
 
-    case STPhaseSolvingInterrupted:
+    case STPhaseSolvingIncomplete:
       phase_solving_incomplete_solve(si);
       break;
 

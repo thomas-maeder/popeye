@@ -6,7 +6,7 @@
 #include "debugging/trace.h"
 
 /* Reset our state before delegating, then be ready to report our state
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  */
 void problem_solving_incomplete_solve(slice_index si)
 {
@@ -23,7 +23,7 @@ void problem_solving_incomplete_solve(slice_index si)
 }
 
 /* Report whether solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @return completeness of solution
  */
 solving_completeness_type problem_solving_completeness(slice_index si)
@@ -34,7 +34,7 @@ solving_completeness_type problem_solving_completeness(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(SLICE_TYPE(si)==STProblemSolvingInterrupted);
+  assert(SLICE_TYPE(si)==STProblemSolvingIncomplete);
   result = SLICE_U(si).flag_handler.value;
 
   TraceFunctionExit(__func__);
@@ -43,8 +43,8 @@ solving_completeness_type problem_solving_completeness(slice_index si)
   return result;
 }
 
-/* Allocate a STPhaseSolvingInterrupted slice
- * @param base base for searching for the STProblemSolvingInterrupted slice
+/* Allocate a STPhaseSolvingIncomplete slice
+ * @param base base for searching for the STProblemSolvingIncomplete slice
  *             that the result will propagate the information about
  *             interruptions to.
  * @return identiifer of the allocates slice
@@ -58,10 +58,10 @@ slice_index alloc_phase_solving_incomplete(slice_index base)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const problem = branch_find_slice(STProblemSolvingInterrupted,
+    slice_index const problem = branch_find_slice(STProblemSolvingIncomplete,
                                                   base,
                                                   stip_traversal_context_intro);
-    result = alloc_pipe(STPhaseSolvingInterrupted);
+    result = alloc_pipe(STPhaseSolvingIncomplete);
     assert(problem!=no_slice);
     SLICE_NEXT2(result) = problem;
   }
@@ -73,7 +73,7 @@ slice_index alloc_phase_solving_incomplete(slice_index base)
 }
 
 /* Reset our state before delegating, then be ready to report our state
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  */
 void phase_solving_incomplete_solve(slice_index si)
 {
@@ -89,7 +89,7 @@ void phase_solving_incomplete_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 /* Remember that solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @param c completeness of phase
  */
 void phase_solving_remember_incompleteness(slice_index si,
@@ -100,7 +100,7 @@ void phase_solving_remember_incompleteness(slice_index si,
   TraceFunctionParam("%d",c);
   TraceFunctionParamListEnd();
 
-  assert(SLICE_TYPE(si)==STPhaseSolvingInterrupted);
+  assert(SLICE_TYPE(si)==STPhaseSolvingIncomplete);
 
   if (SLICE_U(si).flag_handler.value<c)
     SLICE_U(si).flag_handler.value = c;
@@ -113,7 +113,7 @@ void phase_solving_remember_incompleteness(slice_index si,
 }
 
 /* Report whether solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @return completeness of solution
  */
 solving_completeness_type phase_solving_completeness(slice_index si)
@@ -124,7 +124,7 @@ solving_completeness_type phase_solving_completeness(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(SLICE_TYPE(si)==STPhaseSolvingInterrupted);
+  assert(SLICE_TYPE(si)==STPhaseSolvingIncomplete);
   result = SLICE_U(si).flag_handler.value;
 
   TraceFunctionExit(__func__);

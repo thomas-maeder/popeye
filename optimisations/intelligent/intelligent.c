@@ -779,7 +779,7 @@ static void insert_maxtime(slice_index si, slice_index incomplete)
   TraceFunctionParam("%u",incomplete);
   TraceFunctionParamListEnd();
 
-  assert(SLICE_TYPE(incomplete)==STPhaseSolvingInterrupted);
+  assert(SLICE_TYPE(incomplete)==STPhaseSolvingIncomplete);
 
   {
     slice_index const prototypes[] = {

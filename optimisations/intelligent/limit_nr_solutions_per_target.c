@@ -104,7 +104,7 @@ static structure_traversers_visitor inserters[] =
 
 enum { nr_inserters = sizeof inserters / sizeof inserters[0] };
 
-/* Propagate our findings to STProblemSolvingInterrupted
+/* Propagate our findings to STProblemSolvingIncomplete
  * @param si identifies the slice where to start instrumenting
  */
 void intelligent_nr_solutions_per_target_position_solving_instrumenter_solve(slice_index si)
@@ -159,7 +159,7 @@ void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index
   TraceFunctionParamListEnd();
 
   {
-    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingIncomplete,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STIntelligentSolutionsPerTargetPosProblemInstrumenter);

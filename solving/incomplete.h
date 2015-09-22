@@ -18,18 +18,18 @@ typedef enum
 } solving_completeness_type;
 
 /* Reset our state before delegating, then be ready to report our state
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  */
 void problem_solving_incomplete_solve(slice_index si);
 
 /* Report whether solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @return completeness of solution
  */
 solving_completeness_type problem_solving_completeness(slice_index si);
 
-/* Allocate a STPhaseSolvingInterrupted slice
- * @param base base for searching for the STProblemSolvingInterrupted slice
+/* Allocate a STPhaseSolvingIncomplete slice
+ * @param base base for searching for the STProblemSolvingIncomplete slice
  *             that the result will propagate the information about
  *             interruptions to.
  * @return identiifer of the allocates slice
@@ -37,19 +37,19 @@ solving_completeness_type problem_solving_completeness(slice_index si);
 slice_index alloc_phase_solving_incomplete(slice_index base);
 
 /* Reset our state before delegating, then be ready to report our state
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  */
 void phase_solving_incomplete_solve(slice_index si);
 
 /* Remember that solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @param c completeness of phase
  */
 void phase_solving_remember_incompleteness(slice_index si,
                                            solving_completeness_type c);
 
 /* Report whether solving has been interrupted
- * @param si identifies the STProblemSolvingInterrupted slice
+ * @param si identifies the STProblemSolvingIncomplete slice
  * @return completeness of solution
  */
 solving_completeness_type phase_solving_completeness(slice_index si);

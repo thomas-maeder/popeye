@@ -202,7 +202,7 @@ void maxtime_instrument_solving(slice_index si, maxtime_type maxtime)
   setOptionMaxtime(maxtime);
 
   {
-    slice_index const interruption = branch_find_slice(STPhaseSolvingInterrupted,
+    slice_index const interruption = branch_find_slice(STPhaseSolvingIncomplete,
                                                        si,
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STMaxTimeProblemInstrumenter);
