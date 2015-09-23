@@ -248,11 +248,13 @@ typedef enum
 
 typedef enum
 {
-  sstip_play_unknown,
   sstip_play_attack,
   sstip_play_defense,
   sstip_play_help,
-  sstip_play_series
+  sstip_play_series,
+
+  sstip_nr_plays,
+  sstip_play_unknown = sstip_nr_plays
 } sstip_play_type;
 
 typedef struct
@@ -400,24 +402,12 @@ static void sstip_write_help_played(slice_index si, stip_structure_traversal *st
 static void sstip_write_move(slice_index si, stip_structure_traversal *st)
 {
   sstip_write_type * const sstip_write = st->param;
+  char const play2char[sstip_nr_plays] = { 'a','d','h','s' };
 
-  switch (sstip_write->play)
-  {
-    case sstip_play_attack:
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","a");
-      break;
-    case sstip_play_defense:
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","d");
-      break;
-    case sstip_play_help:
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","h");
-      break;
-    case sstip_play_series:
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","s");
-      break;
-    default:
-      break;
-  }
+  assert(sstip_write->play<sstip_nr_plays);
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,
+                                                    "%c",
+                                                    play2char[sstip_write->play]);
 
   stip_traverse_structure_children(si,st);
 }
