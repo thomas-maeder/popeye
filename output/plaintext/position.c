@@ -246,11 +246,19 @@ typedef enum
   sstip_write_state_end
 } sstip_write_state;
 
+typedef enum
+{
+  sstip_play_unknown,
+  sstip_play_help,
+  sstip_play_series
+} sstip_play_type;
+
 typedef struct
 {
     FILE *file;
     int nr_chars_written;
     sstip_write_state state;
+    sstip_play_type play;
 } sstip_write_type;
 
 static void sstip_write_move_inverter(slice_index si, stip_structure_traversal *st)
@@ -339,30 +347,28 @@ static void sstip_write_help(slice_index si, stip_structure_traversal *st)
 
   if (sstip_write->state==sstip_write_state_begin)
   {
+    sstip_play_type const save_play = sstip_write->play;
     slice_index const leg2 = branch_find_slice(STReadyForHelpMove,si,st->context);
     if (leg2==si)
     {
       sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",(SLICE_U(si).branch.length+1)/2);
       if (SLICE_U(si).branch.min_length>1)
         sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",(SLICE_U(si).branch.min_length+1)/2);
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","s");
+      sstip_write->play = sstip_play_series;
     }
     else
     {
       sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%u",SLICE_U(si).branch.length);
       if (SLICE_U(si).branch.min_length>1)
         sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,":%u",SLICE_U(si).branch.min_length);
-      sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","h");
+      sstip_write->play = sstip_play_help;
     }
+
+    stip_traverse_structure_children(si,st);
+    sstip_write->play = save_play;
   }
   else
-  {
-    assert(sstip_write->state==sstip_write_state_branch);
-    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","h");
     stip_traverse_structure_children(si,st);
-  }
-
-  stip_traverse_structure_children(si,st);
 }
 
 static void sstip_write_help_played(slice_index si, stip_structure_traversal *st)
@@ -371,13 +377,16 @@ static void sstip_write_help_played(slice_index si, stip_structure_traversal *st
 
   if (sstip_write->state==sstip_write_state_begin)
   {
-    sstip_write->state = sstip_write_state_branch;
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s",
+                                                      sstip_write->play==sstip_play_help ? "h" : "s");
+    sstip_write->state = sstip_write->play==sstip_play_help ? sstip_write_state_branch : sstip_write_state_end;
     stip_traverse_structure_children(si,st);
     sstip_write->state = sstip_write_state_begin;
   }
-  else
+  else if (sstip_write->state==sstip_write_state_branch)
   {
-    assert(sstip_write->state==sstip_write_state_branch);
+    sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s",
+                                                      sstip_write->play==sstip_play_help ? "h" : "s");
     sstip_write->state = sstip_write_state_end;
     stip_traverse_structure_children(si,st);
     sstip_write->state = sstip_write_state_branch;
@@ -388,6 +397,7 @@ static void sstip_write_end_of_branch(slice_index si, stip_structure_traversal *
 {
   sstip_write_type * const sstip_write = st->param;
   sstip_write_state const save_state = sstip_write->state;
+  sstip_play_type const save_play = sstip_write->play;
 
   if (sstip_write->state==sstip_write_state_begin)
   {
@@ -395,7 +405,9 @@ static void sstip_write_end_of_branch(slice_index si, stip_structure_traversal *
 
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[");
     sstip_write->state = sstip_write_state_begin;
+    sstip_write->play = sstip_play_unknown;
     stip_traverse_structure_next_branch(si,st);
+    sstip_write->play = save_play;
     sstip_write->state = save_state;
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
   }
@@ -403,7 +415,9 @@ static void sstip_write_end_of_branch(slice_index si, stip_structure_traversal *
   {
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[");
     sstip_write->state = sstip_write_state_begin;
+    sstip_write->play = sstip_play_unknown;
     stip_traverse_structure_next_branch(si,st);
+    sstip_write->play = save_play;
     sstip_write->state = save_state;
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
 
@@ -415,10 +429,13 @@ static void sstip_write_end_of_branch_forced(slice_index si, stip_structure_trav
 {
   sstip_write_type * const sstip_write = st->param;
   sstip_write_state const save_state = sstip_write->state;
+  sstip_play_type const save_play = sstip_write->play;
 
   sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","[>");
   sstip_write->state = sstip_write_state_begin;
+  sstip_write->play = sstip_play_unknown;
   stip_traverse_structure_next_branch(si,st);
+  sstip_write->play = save_play;
   sstip_write->state = save_state;
   sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","]");
 
@@ -429,6 +446,7 @@ static void sstip_write_constraint_tester(slice_index si, stip_structure_travers
 {
   sstip_write_type * const sstip_write = st->param;
   sstip_write_state const save_state = sstip_write->state;
+  sstip_play_type const save_play = sstip_write->play;
 
   if (sstip_write->state==sstip_write_state_begin)
   {
@@ -436,7 +454,9 @@ static void sstip_write_constraint_tester(slice_index si, stip_structure_travers
 
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","{");
     sstip_write->state = sstip_write_state_begin;
+    sstip_write->play = sstip_play_unknown;
     stip_traverse_structure_next_branch(si,st);
+    sstip_write->play = save_play;
     sstip_write->state = save_state;
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","}");
   }
@@ -444,7 +464,9 @@ static void sstip_write_constraint_tester(slice_index si, stip_structure_travers
   {
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","{");
     sstip_write->state = sstip_write_state_begin;
+    sstip_write->play = sstip_play_unknown;
     stip_traverse_structure_next_branch(si,st);
+    sstip_write->play = save_play;
     sstip_write->state = save_state;
     sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","}");
 
@@ -456,9 +478,12 @@ static void sstip_write_goal_reached_tester(slice_index si, stip_structure_trave
 {
   sstip_write_type * const sstip_write = st->param;
   sstip_write_state const save_state = sstip_write->state;
+  sstip_play_type const save_play = sstip_write->play;
 
   sstip_write->state = sstip_write_state_begin;
+  sstip_write->play = sstip_play_unknown;
   stip_traverse_structure_next_branch(si,st);
+  sstip_write->play = save_play;
   sstip_write->state = save_state;
 }
 
@@ -587,6 +612,26 @@ static void sstip_write_kiss(slice_index si, stip_structure_traversal *st)
   sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","k");
 }
 
+static void sstip_write_if_then_else(slice_index si, stip_structure_traversal *st)
+{
+  sstip_write_type * const sstip_write = st->param;
+  sstip_write_state const save_state = sstip_write->state;
+  stip_traversal_context_type const save_context = st->context;
+  sstip_play_type const save_play = sstip_write->play;
+
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","?");
+  sstip_write->state = sstip_write_state_begin;
+  sstip_write->play = sstip_play_unknown;
+  st->context = stip_traversal_context_intro;
+  stip_traverse_structure(SLICE_U(si).if_then_else.condition,st);
+  st->context = save_context;
+  sstip_write->play = save_play;
+  sstip_write->state = save_state;
+  sstip_write->nr_chars_written += protocol_fprintf(sstip_write->file,"%s","?");
+
+  stip_traverse_structure_children_pipe(si,st);
+}
+
 static void sstip_write_not(slice_index si, stip_structure_traversal *st)
 {
   sstip_write_type * const sstip_write = st->param;
@@ -647,6 +692,7 @@ structure_traversers_visitor const sstip_visitors[] = {
     { STGoalAToBReachedTester, &sstip_write_atob },
     { STGoalChess81ReachedTester, &sstip_write_chess81 },
     { STGoalKissReachedTester, &sstip_write_kiss },
+    { STIfThenElse, &sstip_write_if_then_else },
     { STNot, &sstip_write_not },
     { STAnd, &sstip_write_and },
     { STOr, &sstip_write_or }
@@ -658,7 +704,7 @@ static int WriteSStipulation(slice_index si)
 {
   slice_index const stipulation = SLICE_NEXT2(si);
   Side const starter = SLICE_STARTER(stipulation);
-  sstip_write_type sstip_write = { stdout, 0, sstip_write_state_begin };
+  sstip_write_type sstip_write = { stdout, 0, sstip_write_state_begin, sstip_play_unknown };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
