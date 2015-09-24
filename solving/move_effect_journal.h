@@ -246,6 +246,12 @@ typedef struct
         } input_complex;
         struct
         {
+            slice_index start_index;
+            fpos_t start;
+            slice_index stipulation;
+        } input_stipulation;
+        struct
+        {
             square from;
             square to;
         } twinning_shift;
@@ -447,9 +453,12 @@ void move_effect_journal_do_remember_condition(fpos_t start);
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
+ * @param start_pos position in input file where the stipulation starts
+ * @param stipulation identifies the entry slice into the stipulation
  */
-void move_effect_journal_do_remember_stipulation(slice_index start_index,
-                                                 fpos_t start);
+void move_effect_journal_do_remember_stipulation(slice_index start,
+                                                 fpos_t start_pos,
+                                                 slice_index stipulation);
 void move_effect_journal_do_remember_sstipulation(slice_index start_index,
                                                   fpos_t start);
 

@@ -405,13 +405,12 @@ static structure_traversers_visitor const visitors[] = {
 };
 enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
 
-int WriteStipulation(slice_index si)
+int WriteStipulation(slice_index stipulation)
 {
-  slice_index const stipulation = SLICE_NEXT2(si);
   state_type state = { stdout, 0, UINT_MAX, structure_traversal_level_top, { no_goal, initsquare } };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
   TraceStipulation(stipulation);

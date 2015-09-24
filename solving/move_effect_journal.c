@@ -1269,17 +1269,23 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
+ * @param start_pos position in input file where the stipulation starts
+ * @param stipulation identifies the entry slice into the stipulation
  */
 void move_effect_journal_do_remember_stipulation(slice_index start,
-                                                 fpos_t start_pos)
+                                                 fpos_t start_pos,
+                                                 slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
-  entry->u.input_complex.start = start_pos;
-  entry->u.input_complex.start_index = start;
+  entry->u.input_stipulation.start = start_pos;
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.stipulation = stipulation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1310,7 +1316,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
     if (idx_stip!=move_effect_journal_index_null)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const start = stip->u.input_complex.start_index;
+      slice_index const start = stip->u.input_stipulation.start_index;
 
       {
         slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
@@ -1319,7 +1325,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
         pipe_remove(copier);
       }
 
-      InputStartReplay(stip->u.input_complex.start);
+      InputStartReplay(stip->u.input_stipulation.start);
       ParseStip(ReadNextTokStr(),start);
 
       {

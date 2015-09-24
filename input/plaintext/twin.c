@@ -350,7 +350,7 @@ static char *ParseTwinning(char *tok,
             }
             else
             {
-              move_effect_journal_do_remember_stipulation(start,beforeStip);
+              move_effect_journal_do_remember_stipulation(start,beforeStip,stipulation_root_hook);
               stipulation_modifiers_notify(start,stipulation_root_hook);
             }
           }
@@ -635,7 +635,7 @@ static void ReadInitialTwin(slice_index start)
                 SLICE_NEXT2(prototype) = root_slice_hook;
                 slice_insertion_insert(start,&prototype,1);
               }
-              move_effect_journal_do_remember_stipulation(start,beforeStip);
+              move_effect_journal_do_remember_stipulation(start,beforeStip,root_slice_hook);
             }
             break;
           }
@@ -657,7 +657,7 @@ static void ReadInitialTwin(slice_index start)
               SLICE_NEXT2(prototype) = root_slice_hook;
               slice_insertion_insert(start,&prototype,1);
             }
-            move_effect_journal_do_remember_stipulation(start,beforeStip);
+            move_effect_journal_do_remember_sstipulation(start,beforeStip);
           }
           break;
         }

@@ -593,7 +593,7 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  indentation += WriteStipulation(si);
+  indentation += WriteStipulation(SLICE_NEXT2(si));
 
   pipe_solve_delegate(si);
 

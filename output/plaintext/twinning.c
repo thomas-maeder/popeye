@@ -2,6 +2,7 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/condition.h"
+#include "output/plaintext/stipulation.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/plaintext.h"
@@ -195,12 +196,6 @@ static void WriteShift(move_effect_journal_index_type curr)
   protocol_fprintf(stdout,"%s","  ");
 }
 
-static void WriteStipulation(move_effect_journal_index_type curr)
-{
-  protocol_fprintf(stdout,"%s",AlphaStip);
-  protocol_fprintf(stdout,"%s","  ");
-}
-
 static void WritePolish(move_effect_journal_index_type curr)
 {
   protocol_fprintf(stdout,"%s",TwinningTab[TwinningPolish]);
@@ -233,6 +228,10 @@ static void WriteTwinning(boolean continued)
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   move_effect_journal_index_type const base = continued ? water_line : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",continued);
+  TraceFunctionParamListEnd();
 
   assert(base<=top);
 
@@ -272,8 +271,13 @@ static void WriteTwinning(boolean continued)
         break;
 
       case move_effect_input_stipulation:
+        WriteStipulation(entry->u.input_stipulation.stipulation);
+        protocol_fprintf(stdout,"%s","  ");
+        break;
+
       case move_effect_input_sstipulation:
-        WriteStipulation(curr);
+        protocol_fprintf(stdout,"%s",AlphaStip);
+        protocol_fprintf(stdout,"%s","  ");
         break;
 
       case move_effect_twinning_polish:
@@ -298,6 +302,9 @@ static void WriteTwinning(boolean continued)
         break;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
