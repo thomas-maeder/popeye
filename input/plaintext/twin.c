@@ -621,7 +621,6 @@ static void ReadInitialTwin(slice_index start)
         case StipToken:
         {
           fpos_t const beforeStip = InputGetPosition();
-          *AlphaStip='\0';
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
           {
@@ -644,7 +643,6 @@ static void ReadInitialTwin(slice_index start)
         case StructStipToken:
         {
           fpos_t const beforeStip = InputGetPosition();
-          AlphaStip[0] ='\0';
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
           {

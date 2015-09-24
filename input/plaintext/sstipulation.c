@@ -33,8 +33,6 @@ static char *ParseStructuredStip_skip_whitespace(char *tok)
 {
   if (tok[0]==0)
   {
-    strcat(AlphaStip,TokenLine);
-    strcat(AlphaStip," ");
     tok = ReadNextTokStr();
     TraceValue("%s\n",tok);
   }
@@ -1220,14 +1218,10 @@ char *ParseStructuredStip(char *tok, slice_index start)
 
   stipulation_reset();
 
-  AlphaStip[0] = 0;
-
   starter = ParseStructuredStip_starter(tok);
   if (starter!=no_side)
   {
     expression_type type;
-    strcat(AlphaStip,TokenLine);
-    strcat(AlphaStip," ");
     tok = ReadNextTokStr();
     tok = ParseStructuredStip_expression(tok,start,root_slice_hook,&type,0);
     if (tok==0)

@@ -23,8 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-char AlphaStip[200];
-
 static void alloc_reci_end(slice_index proxy_nonreci,
                            slice_index proxy_reci,
                            slice_index proxy_to_nonreci,
@@ -150,11 +148,7 @@ static char *ParseLength(char *tok, stip_length_type *length)
 
   if (tok!=0 && *tok==0)
     /* allow white space before length, e.g. "dia 4" */
-  {
     tok = ReadNextTokStr();
-    if (tok!=0)
-      strcat(AlphaStip,tok); /* append to printed stipulation */
-  }
 
   tmp_length = strtoul(tok,&end,10);
   TraceValue("%ld\n",tmp_length);
@@ -997,12 +991,8 @@ char *ParseStip(char *tok, slice_index start)
 
   stipulation_reset();
 
-  strcpy(AlphaStip,tok);
   if (ParsePlay(tok,start,root_slice_hook,play_length_minimum))
   {
-    if (SLICE_NEXT1(root_slice_hook)!=no_slice
-        && ActStip[0]=='\0')
-      strcpy(ActStip, AlphaStip);
     input_instrument_with_stipulation(start,root_slice_hook);
     tok = ReadNextTokStr();
   }

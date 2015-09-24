@@ -15,7 +15,6 @@ char ActAuthor[256];
 char ActOrigin[256];
 char ActTitle[256];
 char ActAward[256];
-char ActStip[37];
 
 static void InitMetaData(void)
 {
@@ -23,7 +22,6 @@ static void InitMetaData(void)
   ActAuthor[0] = '\0';
   ActOrigin[0] = '\0';
   ActAward[0] = '\0';
-  ActStip[0] = '\0';
 }
 
 static void InitBoard(void)

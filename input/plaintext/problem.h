@@ -7,7 +7,6 @@ extern char ActAuthor[256];
 extern char ActOrigin[256];
 extern char ActTitle[256];
 extern char ActAward[256];
-extern char ActStip[37];
 
 /* Handle (read, solve, write) the current problem
  */
