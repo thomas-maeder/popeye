@@ -1774,7 +1774,7 @@ void input_instrument_with_stipulation(slice_index start,
 
   {
     slice_index const prototype = alloc_pipe(STStipulationCopier);
-    slices[prototype].next2 = stipulation_root_hook;
+    SLICE_NEXT2(prototype) = stipulation_root_hook;
     slice_insertion_insert(start,&prototype,1);
   }
 

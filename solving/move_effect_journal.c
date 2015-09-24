@@ -1391,15 +1391,24 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
     if (idx_stip!=move_effect_journal_index_null)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const start = stip->u.input_complex.start_index;
-      slice_index const root = input_find_stipulation(start);
-      slice_index const next = SLICE_NEXT1(root);
-      assert(root!=no_slice);
-      pipe_unlink(root);
-      dealloc_slices(next);
+      slice_index const start = stip->u.input_stipulation.start_index;
 
-      InputStartReplay(stip->u.input_complex.start);
+      {
+        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(copier!=no_slice);
+        dealloc_slices(SLICE_NEXT2(copier));
+        pipe_remove(copier);
+      }
+
+      InputStartReplay(stip->u.input_stipulation.start);
       ParseStructuredStip(ReadNextTokStr(),start);
+
+      {
+        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(copier!=no_slice);
+        stipulation_modifiers_notify(start,SLICE_NEXT2(copier));
+      }
+
       InputEndReplay();
     }
   }
