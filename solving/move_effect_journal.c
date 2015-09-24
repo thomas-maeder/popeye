@@ -1351,30 +1351,6 @@ void move_effect_journal_do_insert_stipulation(slice_index start,
   TraceFunctionResultEnd();
 }
 
-static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const start = entry->u.input_stipulation.start_index;
-    slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-    if (si!=no_slice)
-    {
-      dealloc_slices(SLICE_NEXT2(si));
-      while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
-      {
-        slice_index const next = SLICE_NEXT1(si);
-        pipe_remove(si);
-        si = next;
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
@@ -1399,22 +1375,23 @@ void move_effect_journal_do_insert_sstipulation(slice_index start,
   TraceFunctionResultEnd();
 }
 
-static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
+static void undo_insert_stipulation(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   {
-    slice_index si = branch_find_slice(STStipulationCopier,entry->u.input_stipulation.start_index,stip_traversal_context_intro);
-    if (si!=no_slice)
+    slice_index const start = entry->u.input_stipulation.start_index;
+    slice_index si = branch_find_slice(STStipulationCopier,
+                                       start,
+                                       stip_traversal_context_intro);
+    assert(si!=no_slice);
+    dealloc_slices(SLICE_NEXT2(si));
+    while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
     {
-      dealloc_slices(SLICE_NEXT2(si));
-      while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
-      {
-        slice_index const next = SLICE_NEXT1(si);
-        pipe_remove(si);
-        si = next;
-      }
+      slice_index const next = SLICE_NEXT1(si);
+      pipe_remove(si);
+      si = next;
     }
   }
 
@@ -1825,11 +1802,8 @@ void undo_move_effects(void)
         break;
 
       case move_effect_input_stipulation:
-        undo_input_stipulation(entry);
-        break;
-
       case move_effect_input_sstipulation:
-        undo_input_sstipulation(entry);
+        undo_insert_stipulation(entry);
         break;
 
       case move_effect_snapshot_proofgame_target_position:

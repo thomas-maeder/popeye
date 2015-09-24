@@ -85,6 +85,8 @@ void input_plaintext_problem_handle(slice_index si)
 
     pipe_solve_delegate(si);
 
+    undo_move_effects();
+
     {
       slice_index const first = branch_find_slice(type_first_proto,
                                                   si,
@@ -94,7 +96,6 @@ void input_plaintext_problem_handle(slice_index si)
     }
   }
 
-  undo_move_effects();
   finply();
 
   TraceFunctionExit(__func__);
