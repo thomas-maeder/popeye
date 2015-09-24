@@ -21,7 +21,7 @@
 1   .   .   .   K   .  -K   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#6                         2 + 2
+  h#5.5                       2 + 2
              OhneSchach
            ExklusivSchach
 
@@ -3963,7 +3963,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#6                         2 + 2
+  h#5.5                       2 + 2
              OhneSchach
            ExklusivSchach
 

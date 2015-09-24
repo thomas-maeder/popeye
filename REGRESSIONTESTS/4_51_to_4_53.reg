@@ -174,7 +174,7 @@ solution finished.
 1   R   S   B   Q   K   B   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  dia1.0                    16 + 16
+  dia1                      16 + 16
              Hypervolage
 
  20  (h2-h3=b )
@@ -2247,7 +2247,7 @@ issue 2886962: 4.51 didn't allow a reborn rook
 1   .   .   .   .   .   R   K   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1.0                     2 + 2
+  a=>b1                       2 + 2
                 Circe
 
   1.Rb8*c8[+wRh1] 0-0 a=>b

@@ -2051,7 +2051,7 @@ Loesung beendet.
 1   .   .   L   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         3 + 4
+  h#2.5                       3 + 4
           AntiCirce Cheylan
 
 a) 
@@ -2260,7 +2260,7 @@ Loesung beendet.
 1   .   .   .   L   .  -K   L   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         3 + 3
+  h#2.5                       3 + 3
           AntiCirce Cheylan
 
 a) 
@@ -3008,7 +3008,7 @@ Loesung beendet.
 1   .   .   .   .   K   .   .   T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#4                         2 + 8
+  h#3.5                       2 + 8
               AntiCirce
 
   1...0-0   2.Dc8-e8 Tf1*f3[wTf3->h1]   3.Ke4-f3 Kg1*g2[wKg2->e1]   4.Kf3-g2 0-0 #

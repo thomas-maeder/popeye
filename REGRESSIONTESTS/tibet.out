@@ -104,7 +104,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h=3                         2 + 2
+  h=2.5                       2 + 2
              TibetSchach
 
 a) 
@@ -149,7 +149,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h=3                         2 + 2
+  h=2.5                       2 + 2
              TibetSchach
 
   1...c7-c8=S   2.g2-g1=L Sc8-b6   3.Lg1*b6=w Kd5-c6 =

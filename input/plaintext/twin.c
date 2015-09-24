@@ -632,6 +632,7 @@ static void ReadInitialTwin(slice_index start)
             {
               {
                 slice_index const prototype = alloc_pipe(STOutputPlainTextStipulationWriter);
+                SLICE_NEXT2(prototype) = root_slice_hook;
                 slice_insertion_insert(start,&prototype,1);
               }
               move_effect_journal_do_remember_stipulation(start,beforeStip);

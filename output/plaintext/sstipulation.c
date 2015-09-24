@@ -427,9 +427,9 @@ static void write_or(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_binary_operand2(si,st);
 }
 
-structure_traversers_visitor const visitors[] = {
-    { STMoveInverter,  &write_move_inverter },
-    { STReadyForAttack,  &write_attack  },
+static structure_traversers_visitor const visitors[] = {
+    { STMoveInverter, &write_move_inverter },
+    { STReadyForAttack, &write_attack },
     { STAttackPlayed, &write_attack_played },
     { STReadyForDefense, &write_defense },
     { STDefensePlayed, &write_defense_played },
@@ -468,7 +468,7 @@ structure_traversers_visitor const visitors[] = {
     { STAnd, &write_and },
     { STOr, &write_or }
 };
-enum { nr_visitors = sizeof visitors / sizeof visitors[0]};
+enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
 
 /* Write a structured stiplation
  * @param si identiifes the entry slice into the stipulation

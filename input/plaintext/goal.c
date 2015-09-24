@@ -42,53 +42,75 @@ typedef struct
 {
     char const *inputText;
     goal_type goal;
- } goalInputConfig_t;
+} goalInputConfig_t;
 
- /* make sure that input strings that are substrings of other strings
-  * appear *after* them! */
- static goalInputConfig_t const goalInputConfig[nr_goals] =
- {
-   {   "##!",  goal_countermate         }
-   , { "##",   goal_doublemate          }
-   , { "#=",   goal_mate_or_stale       }
-   , { "#",    goal_mate                }
-   , { "==",   goal_dblstale            }
-   , { "!=",   goal_autostale           }
-   , { "=",    goal_stale               }
-   , { "z",    goal_target              }
-   , { "+",    goal_check               }
-   , { "x",    goal_capture             }
-   , { "%",    goal_steingewinn         }
-   , { "ep",   goal_ep                  }
-   , { "ctr",  goal_circuit_by_rebirth  }
-   , { "ct",   goal_circuit             }
-   , { "<>r",  goal_exchange_by_rebirth }
-   , { "<>",   goal_exchange            }
-   , { "00",   goal_castling            }
-   , { "~",    goal_any                 }
-   , { "dia",  goal_proofgame           }
-   , { "a=>b", goal_atob                }
-   , { "c81",  goal_chess81             }
+/* make sure that input strings that are substrings of other strings
+ * appear *after* them! */
+static goalInputConfig_t const goalInputConfig[nr_goals] =
+{
+    {   "##!",  goal_countermate         }
+    , { "##",   goal_doublemate          }
+    , { "#=",   goal_mate_or_stale       }
+    , { "#",    goal_mate                }
+    , { "==",   goal_dblstale            }
+    , { "!=",   goal_autostale           }
+    , { "=",    goal_stale               }
+    , { "z",    goal_target              }
+    , { "+",    goal_check               }
+    , { "x",    goal_capture             }
+    , { "%",    goal_steingewinn         }
+    , { "ep",   goal_ep                  }
+    , { "ctr",  goal_circuit_by_rebirth  }
+    , { "ct",   goal_circuit             }
+    , { "<>r",  goal_exchange_by_rebirth }
+    , { "<>",   goal_exchange            }
+    , { "00",   goal_castling            }
+    , { "~",    goal_any                 }
+    , { "dia",  goal_proofgame           }
+    , { "a=>b", goal_atob                }
+    , { "c81",  goal_chess81             }
    , { "k",    goal_kiss                }
- };
+};
 
- static goalInputConfig_t const *detectGoalType(char *tok)
- {
-   goalInputConfig_t const *gic;
+char const *get_goal_symbol(goal_type type)
+{
+  goalInputConfig_t const *gic;
+  char const *result = 0;
 
-   TraceFunctionEntry(__func__);
-   TraceFunctionParam("%s",tok);
-   TraceFunctionParamListEnd();
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
 
-   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
-     if (gic->inputText!=0 && token_starts_with(gic->inputText,tok))
-       break;
+  for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
+    if (gic->goal==type)
+    {
+      result = gic->inputText;
+      break;
+    }
 
-   TraceFunctionExit(__func__);
-   TraceFunctionResult("%u",(gic-goalInputConfig)<nr_goals);
-   TraceFunctionResultEnd();
-   return gic;
- }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static goalInputConfig_t const *detectGoalType(char *tok)
+{
+  goalInputConfig_t const *gic;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
+    if (gic->inputText!=0 && token_starts_with(gic->inputText,tok))
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(gic-goalInputConfig)<nr_goals);
+  TraceFunctionResultEnd();
+  return gic;
+}
 
 char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 {

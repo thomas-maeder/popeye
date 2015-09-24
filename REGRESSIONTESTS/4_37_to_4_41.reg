@@ -172,7 +172,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1                         1 + 1
+  h#0.5                       1 + 1
            MonochromChess
        WhiteMaximummer  ultra
 

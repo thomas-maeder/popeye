@@ -1690,7 +1690,7 @@ solution finished.
 1   K   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  semi-r#1                    1 + 3
+  r#1                         1 + 3
 
       1...b3-b2 #
   add_to_move_generation_stack:           4

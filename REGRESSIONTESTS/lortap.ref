@@ -65,7 +65,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#4                         2 + 2
+  h#3.5                       2 + 2
                Lortap
 
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 #
@@ -98,7 +98,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         5 + 6
+  h#2.5                       5 + 6
                Lortap
 
 a) 
@@ -427,7 +427,7 @@ solution finished.
 1   R   S   B   Q   K   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  dia3.0                    15 + 16
+  dia3                      15 + 16
                Lortap
 
   1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia

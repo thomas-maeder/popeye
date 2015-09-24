@@ -147,7 +147,10 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
       case STAttackAdapter:
       {
         structure_traversal_level_type const save_level = st->level;
-        assert(st->context==stip_traversal_context_intro);
+        /* STAttackAdapter slices are part of the loop in the beginning,
+         * i.e. we may already be in attack context when we arrive here */
+        assert(st->context==stip_traversal_context_intro
+               || st->context==stip_traversal_context_attack);
         st->context = stip_traversal_context_attack;
         st->level = structure_traversal_level_nested;
         stip_traverse_structure(SLICE_NEXT1(pipe),st);

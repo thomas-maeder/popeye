@@ -193,7 +193,7 @@ Loesung beendet.
 1   .   .   .  -S   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         4 + 5
+  h#2.5                       4 + 5
            AndernachSchach
 
   1...  ...  2.Ta4*c4=w Tc4-a4   3.Dd7*a4=w Da4-d4 #
@@ -277,7 +277,7 @@ Loesung beendet.
 1   .   .   K   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h=3                         4 + 3
+  h=2.5                       4 + 3
            AndernachSchach
 
 a) 
@@ -865,7 +865,7 @@ Loesung beendet.
 1   T   S   L   D   K   L   .   T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  dia3.0                    15 + 15
+  dia3                      15 + 15
            AndernachSchach
 
   1.Sg1-f3 Sb8-c6   2.Sf3-e5 Sc6*e5=w   3.Se5*d7=s Sd7-b8 dia

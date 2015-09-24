@@ -451,7 +451,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#4                        3 + 14
+  h#3.5                      3 + 14
 
   1...Th4*d4   2.Db4-c4 Td4-h4   3.Kc5-b4 Lh2-f4   4.Dc4-c5 Lf4-d2 #
   1...Lh2*e5   2.Kc5-c6 Le5-h2   3.Ld6-c5 Th4-f4   4.Kc6-d6 Tf4-f6 #
@@ -1303,7 +1303,7 @@ H2034, The Problemist 15/12, 11/1996
 1   .  -L   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#4                         5 + 2
+  h#3.5                       5 + 2
 
 a) 
 
@@ -1465,7 +1465,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#6                         5 + 6
+  h#5.5                       5 + 6
 
   1...Ld6-b8   2.Kc3-d4 Kb7-c7   3.Kd4-e5 Kc7-d8 +   4.Ke5-e6 Lb8-g3   5.h4-h3 f2-f4   6.Ke6-d6 f4-f5 #
   add_to_move_generation_stack:     5948766
@@ -1501,7 +1501,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#10                        2 + 2
+  h#9.5                       2 + 2
        SchwarzerLaengstzueger
         WeisserLaengstzueger
 
@@ -2334,7 +2334,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         6 + 8
+  h#2.5                       6 + 8
                Duplex
 
   1...Te6-e8   2.Ld6-e7 Sc3*e2   3.Ke3*e4 Te8*e7 #
@@ -2515,7 +2515,7 @@ Loesung beendet.
 1   .   .   .   .   .   L   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         4 + 6
+  h#2.5                       4 + 6
                Duplex
 
   1...Lh4*e7   2.Tf4-f6 Lf1-e2 +   3.Kh5-h4 Le7*f6 #
@@ -2632,7 +2632,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         5 + 7
+  h#2.5                       5 + 7
                Duplex
 
   1...Le5-b8   2.Sg3-f5 Sb5-c7   3.Kg5-f4 Sc7-e6 #
@@ -3509,7 +3509,7 @@ Loesung beendet.
 1   .   .   .   .   .   .   L  -L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#3                         4 + 7
+  h#2.5                       4 + 7
                Duplex
 
   1...La8*h1   2.Sb6-d7 e2-e4   3.Kd6-c6 e4-e5 #

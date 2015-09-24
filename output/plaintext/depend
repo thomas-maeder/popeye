@@ -1113,13 +1113,14 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  output/plaintext/message.h output/message.h output/plaintext/condition.h \
  output/plaintext/pieces.h output/plaintext/sstipulation.h \
  output/plaintext/stdio.h input/plaintext/problem.h \
- input/plaintext/stipulation.h options/maxthreatlength.h \
- options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
- conditions/imitator.h pieces/attributes/neutral/neutral.h \
- pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/castling.h \
- solving/move_generator.h solving/proofgames.h solving/pipe.h \
- stipulation/pipe.h stipulation/branch.h debugging/assert.h
+ input/plaintext/stipulation.h input/plaintext/goal.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/nontrivial.h conditions/grid.h conditions/imitator.h \
+ pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
+ pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
+ solving/castling.h solving/move_generator.h solving/proofgames.h \
+ solving/pipe.h solving/machinery/slack_length.h stipulation/pipe.h \
+ stipulation/branch.h debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1259,6 +1260,8 @@ input/plaintext/problem.h:
 
 input/plaintext/stipulation.h:
 
+input/plaintext/goal.h:
+
 options/maxthreatlength.h:
 
 options/maxflightsquares.h:
@@ -1286,6 +1289,8 @@ solving/move_generator.h:
 solving/proofgames.h:
 
 solving/pipe.h:
+
+solving/machinery/slack_length.h:
 
 stipulation/pipe.h:
 

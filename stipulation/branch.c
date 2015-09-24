@@ -83,8 +83,8 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
       state->result = result1;
     else
     {
-      assert(result1==result2);
-      state->result = result1;
+      if (result1==result2)
+        state->result = result1;
     }
   }
 

@@ -464,7 +464,7 @@ Hilmar Ebert, Hans Gruber & Stefan Hoening
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  exact-=1                    2 + 2
+  =1                          2 + 2
           Koeniglich a8 c8
              HalbDuplex
 
