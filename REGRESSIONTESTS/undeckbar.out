@@ -189,7 +189,7 @@ a)
  is_white_king_square_attacked:     1431653
  is_black_king_square_attacked:     2621909
 
-b) wBh5-->f4  schwarz 10hh[/2da[#]{!+}]   
+b) wBh5-->f4  Schwarz 10hh[/2da[#]{!+}]  
 
   1.d2-d1=D f4-f5   2.Dd1-h5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5
   1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-b2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
@@ -553,7 +553,7 @@ a)
  is_white_king_square_attacked:        2062
  is_black_king_square_attacked:        4587
 
-b) schwarz 4:4hh[/2da[#]{!+}]   
+b) Schwarz 4:4hh[/2da[#]{!+}]  
 
   1.a2-a1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4
   1.a2-a1=L Dd4*a4   2.Kc2-b1 Sb3-d4
@@ -872,7 +872,7 @@ a)
  is_white_king_square_attacked:    14909613
  is_black_king_square_attacked:    29461510
 
-b) -sBf6  schwarz 6hh[/2da[#]{!+}]   
+b) -sBf6  Schwarz 6hh[/2da[#]{!+}]  
 
   1.Tg8-g5 Kh4*g5   2.Ke8-f8 Dh7-d7   3.Th8-h6 Kg5*h6
   1.Tg8-g5 Kh4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f6 Kg5*f6

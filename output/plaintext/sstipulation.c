@@ -485,7 +485,7 @@ int WriteSStipulation(slice_index stipulation)
 
   TraceStipulation(stipulation);
 
-  state.nr_chars_written += protocol_fprintf(stdout,"  %s ",ColourTab[starter]);
+  state.nr_chars_written += protocol_fprintf(stdout,"%s ",ColourTab[starter]);
 
   {
     stip_structure_traversal st;
