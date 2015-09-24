@@ -1266,14 +1266,55 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
+/* Remove the current stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remove_stipulation(slice_index start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remove_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  entry->u.remove_stipulation.start = start;
+  entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+
+  entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
+  while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)
+    entry->u.remove_stipulation.last_removed = SLICE_NEXT1(entry->u.remove_stipulation.last_removed);
+
+  pipe_link(SLICE_PREV(entry->u.remove_stipulation.first_removed),
+            SLICE_NEXT1(entry->u.remove_stipulation.last_removed));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
+                                              entry->u.remove_stipulation.start,
+                                              stip_traversal_context_intro);
+    pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
+    pipe_link(entry->u.remove_stipulation.last_removed,end);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
- * @param start_pos position in input file where the stipulation starts
  * @param stipulation identifies the entry slice into the stipulation
  */
 void move_effect_journal_do_remember_stipulation(slice_index start,
-                                                 fpos_t start_pos,
                                                  slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
@@ -1283,7 +1324,6 @@ void move_effect_journal_do_remember_stipulation(slice_index start,
   TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
-  entry->u.input_stipulation.start = start_pos;
   entry->u.input_stipulation.start_index = start;
   entry->u.input_stipulation.stipulation = stipulation;
 
@@ -1319,22 +1359,16 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
       slice_index const start = stip->u.input_stipulation.start_index;
 
       {
-        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(copier!=no_slice);
-        dealloc_slices(SLICE_NEXT2(copier));
-        pipe_remove(copier);
+        slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(si!=no_slice);
+        dealloc_slices(SLICE_NEXT2(si));
+        while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
+        {
+          slice_index const next = SLICE_NEXT1(si);
+          pipe_remove(si);
+          si = next;
+        }
       }
-
-      InputStartReplay(stip->u.input_stipulation.start);
-      ParseStip(ReadNextTokStr(),start);
-
-      {
-        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(copier!=no_slice);
-        stipulation_modifiers_notify(start,SLICE_NEXT2(copier));
-      }
-
-      InputEndReplay();
     }
   }
 
@@ -1348,7 +1382,6 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
  * @param stipulation identifies the entry slice into the stipulation
  */
 void move_effect_journal_do_remember_sstipulation(slice_index start,
-                                                  fpos_t start_pos,
                                                   slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
@@ -1359,7 +1392,6 @@ void move_effect_journal_do_remember_sstipulation(slice_index start,
   TraceFunctionParamListEnd();
 
   entry->u.input_stipulation.start_index = start;
-  entry->u.input_stipulation.start = start_pos;
   entry->u.input_stipulation.stipulation = stipulation;
 
   TraceFunctionExit(__func__);
@@ -1394,22 +1426,16 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
       slice_index const start = stip->u.input_stipulation.start_index;
 
       {
-        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(copier!=no_slice);
-        dealloc_slices(SLICE_NEXT2(copier));
-        pipe_remove(copier);
+        slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+        assert(si!=no_slice);
+        dealloc_slices(SLICE_NEXT2(si));
+        while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
+        {
+          slice_index const next = SLICE_NEXT1(si);
+          pipe_remove(si);
+          si = next;
+        }
       }
-
-      InputStartReplay(stip->u.input_stipulation.start);
-      ParseStructuredStip(ReadNextTokStr(),start);
-
-      {
-        slice_index const copier = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(copier!=no_slice);
-        stipulation_modifiers_notify(start,SLICE_NEXT2(copier));
-      }
-
-      InputEndReplay();
     }
   }
 
@@ -1837,6 +1863,10 @@ void undo_move_effects(void)
 
       case move_effect_hunter_type_definition:
         move_effect_journal_undo_hunter_type_definition(entry);
+        break;
+
+      case move_effect_remove_stipulation:
+        undo_remove_stipulation(entry);
         break;
 
       default:

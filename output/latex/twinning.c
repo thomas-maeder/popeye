@@ -392,6 +392,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
           /* the search for royals leaves its traces in the twinning ply */
         case move_effect_remember_volcanic:
           /* Forsberg twinning */
+        case move_effect_remove_stipulation:
           break;
 
         default:

@@ -64,6 +64,4 @@ slice_index input_find_stipulation(slice_index start);
 void input_instrument_with_stipulation(slice_index start,
                                        slice_index stipulation_root_hook);
 
-void input_uninstrument_with_stipulation(slice_index start);
-
 #endif

@@ -6,9 +6,8 @@
   ENUMERATOR(STGoalIsEndStipulationModifier),                           \
   ENUMERATOR(STWhiteToPlayStipulationModifier),                         \
   ENUMERATOR(STPostKeyPlayStipulationModifier),                         \
-  ENUMERATOR(STStipulationStarterDetector),                                   \
+  ENUMERATOR(STStipulationStarterDetector),                             \
   ENUMERATOR(STCountersWriter),                                         \
-  ENUMERATOR(STStartOfStipulationSpecific),                             \
   ENUMERATOR(STStipulationCopier),                                      \
   ENUMERATOR(STProofSolverBuilder),                                     \
   ENUMERATOR(STAToBSolverBuilder),                                      \

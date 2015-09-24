@@ -1781,24 +1781,3 @@ void input_instrument_with_stipulation(slice_index start,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-void input_uninstrument_with_stipulation(slice_index start)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",start);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-    dealloc_slices(SLICE_NEXT2(builder));
-  }
-
-  {
-    slice_index const specific = branch_find_slice(STStartOfStipulationSpecific,start,stip_traversal_context_intro);
-    while (SLICE_TYPE(SLICE_NEXT1(specific))!=STEndOfStipulationSpecific)
-      pipe_remove(SLICE_NEXT1(specific));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

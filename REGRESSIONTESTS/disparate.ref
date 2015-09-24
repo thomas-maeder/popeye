@@ -121,10 +121,10 @@ solution finished.
 
   1.Re2-b2 e7*d8=R   2.Bh7-b1 Rd8*d6   3.h2-h1=R Rd6-d1 =
   1.Bh7-b1 e7*f8=B   2.Re2-b2 Bf8*d6   3.h2-h1=B Bd6-e5 =
-  add_to_move_generation_stack:   164155180
-                     play_move:    78379400
+  add_to_move_generation_stack:   164155139
+                     play_move:    78379356
  is_white_king_square_attacked:    40404464
- is_black_king_square_attacked:    70002445
+ is_black_king_square_attacked:    70002401
 
 solution finished.
 

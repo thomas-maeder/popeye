@@ -16,7 +16,6 @@
 #include "pieces/pieces.h"
 
 #include <limits.h>
-#include <stdio.h>
 
 /* types of effects */
 typedef enum
@@ -52,6 +51,7 @@ typedef enum
 
   move_effect_input_condition,
   move_effect_input_stipulation,
+  move_effect_remove_stipulation,
   move_effect_input_sstipulation,
   move_effect_twinning_polish,
   move_effect_twinning_substitute,
@@ -247,9 +247,14 @@ typedef struct
         struct
         {
             slice_index start_index;
-            fpos_t start;
             slice_index stipulation;
         } input_stipulation;
+        struct
+        {
+            slice_index start;
+            slice_index first_removed;
+            slice_index last_removed;
+        } remove_stipulation;
         struct
         {
             square from;
@@ -450,6 +455,12 @@ void move_effect_journal_do_twinning_substitute(piece_walk_type from,
  */
 void move_effect_journal_do_remember_condition(fpos_t start);
 
+/* Remove the current stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remove_stipulation(slice_index start);
+
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
@@ -457,10 +468,8 @@ void move_effect_journal_do_remember_condition(fpos_t start);
  * @param stipulation identifies the entry slice into the stipulation
  */
 void move_effect_journal_do_remember_stipulation(slice_index start,
-                                                 fpos_t start_pos,
                                                  slice_index stipulation);
 void move_effect_journal_do_remember_sstipulation(slice_index start_index,
-                                                  fpos_t start,
                                                   slice_index stipulation);
 
 /* Execute a twinning that shifts the entire position

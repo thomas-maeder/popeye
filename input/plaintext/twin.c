@@ -335,9 +335,7 @@ static char *ParseTwinning(char *tok,
           break;
         case TwinningStip:
         {
-          fpos_t const beforeStip = InputGetPosition();
-
-          input_uninstrument_with_stipulation(start);
+          move_effect_journal_do_remove_stipulation(start);
 
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
@@ -350,7 +348,7 @@ static char *ParseTwinning(char *tok,
             }
             else
             {
-              move_effect_journal_do_remember_stipulation(start,beforeStip,stipulation_root_hook);
+              move_effect_journal_do_remember_stipulation(start,stipulation_root_hook);
               stipulation_modifiers_notify(start,stipulation_root_hook);
             }
           }
@@ -358,9 +356,7 @@ static char *ParseTwinning(char *tok,
         }
         case TwinningStructStip:
         {
-          fpos_t const beforeStip = InputGetPosition();
-
-          input_uninstrument_with_stipulation(start);
+          move_effect_journal_do_remove_stipulation(start);
 
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
@@ -373,7 +369,7 @@ static char *ParseTwinning(char *tok,
             }
             else
             {
-              move_effect_journal_do_remember_sstipulation(start,beforeStip,stipulation_root_hook);
+              move_effect_journal_do_remember_sstipulation(start,stipulation_root_hook);
               stipulation_modifiers_notify(start,stipulation_root_hook);
             }
           }
@@ -620,7 +616,6 @@ static void ReadInitialTwin(slice_index start)
       {
         case StipToken:
         {
-          fpos_t const beforeStip = InputGetPosition();
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
           {
@@ -634,7 +629,7 @@ static void ReadInitialTwin(slice_index start)
                 SLICE_NEXT2(prototype) = root_slice_hook;
                 slice_insertion_insert(start,&prototype,1);
               }
-              move_effect_journal_do_remember_stipulation(start,beforeStip,root_slice_hook);
+              move_effect_journal_do_remember_stipulation(start,root_slice_hook);
             }
             break;
           }
@@ -642,7 +637,6 @@ static void ReadInitialTwin(slice_index start)
 
         case StructStipToken:
         {
-          fpos_t const beforeStip = InputGetPosition();
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
           {
@@ -655,7 +649,7 @@ static void ReadInitialTwin(slice_index start)
               SLICE_NEXT2(prototype) = root_slice_hook;
               slice_insertion_insert(start,&prototype,1);
             }
-            move_effect_journal_do_remember_sstipulation(start,beforeStip,root_slice_hook);
+            move_effect_journal_do_remember_sstipulation(start,root_slice_hook);
           }
           break;
         }

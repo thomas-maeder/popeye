@@ -608,7 +608,6 @@ static slice_index const slice_rank_order[] =
   STHalfDuplexSolver,
   /* enter phase stage */
   STPhaseSolvingIncomplete,
-  STStartOfStipulationSpecific,
   STStipulationCopier,
   STProofSolverBuilder,
   STAToBSolverBuilder,
