@@ -1764,20 +1764,3 @@ slice_index input_find_stipulation(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-void input_instrument_with_stipulation(slice_index start,
-                                       slice_index stipulation_root_hook)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_pipe(STStipulationCopier);
-    SLICE_NEXT2(prototype) = stipulation_root_hook;
-    slice_insertion_insert(start,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

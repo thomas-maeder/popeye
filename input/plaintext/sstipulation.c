@@ -1229,7 +1229,7 @@ char *ParseStructuredStip(char *tok, slice_index start)
     else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
     {
       solving_impose_starter(root_slice_hook,starter);
-      input_instrument_with_stipulation(start,root_slice_hook);
+      move_effect_journal_do_insert_sstipulation(start,root_slice_hook);
     }
   }
 

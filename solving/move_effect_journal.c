@@ -20,6 +20,7 @@
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "solving/proofgames.h"
+#include "stipulation/slice_insertion.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/stipulation.h"
@@ -1309,13 +1310,30 @@ static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
+static void instrument_with_stipulation(slice_index start,
+                                              slice_index stipulation)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STStipulationCopier);
+    SLICE_NEXT2(prototype) = stipulation;
+    slice_insertion_insert(start,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
  * @param stipulation identifies the entry slice into the stipulation
  */
-void move_effect_journal_do_remember_stipulation(slice_index start,
-                                                 slice_index stipulation)
+void move_effect_journal_do_insert_stipulation(slice_index start,
+                                               slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
 
@@ -1324,6 +1342,8 @@ void move_effect_journal_do_remember_stipulation(slice_index start,
   TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
+  instrument_with_stipulation(start,stipulation);
+
   entry->u.input_stipulation.start_index = start;
   entry->u.input_stipulation.stipulation = stipulation;
 
@@ -1331,43 +1351,22 @@ void move_effect_journal_do_remember_stipulation(slice_index start,
   TraceFunctionResultEnd();
 }
 
-static move_effect_journal_index_type find_original_stipulation(void)
-{
-  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
-  move_effect_journal_index_type curr;
-
-  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_input_stipulation)
-      return curr;
-
-  return move_effect_journal_index_null;
-}
-
 static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* restore the original stipulation if we are undoing a stipulation twinning
-   */
-  if (nbply==ply_twinning)
   {
-    move_effect_journal_index_type const idx_stip = find_original_stipulation();
-    if (idx_stip!=move_effect_journal_index_null)
+    slice_index const start = entry->u.input_stipulation.start_index;
+    slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+    if (si!=no_slice)
     {
-      move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const start = stip->u.input_stipulation.start_index;
-
+      dealloc_slices(SLICE_NEXT2(si));
+      while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
       {
-        slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(si!=no_slice);
-        dealloc_slices(SLICE_NEXT2(si));
-        while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
-        {
-          slice_index const next = SLICE_NEXT1(si);
-          pipe_remove(si);
-          si = next;
-        }
+        slice_index const next = SLICE_NEXT1(si);
+        pipe_remove(si);
+        si = next;
       }
     }
   }
@@ -1381,7 +1380,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
  * @param start input position at start of parsing the stipulation
  * @param stipulation identifies the entry slice into the stipulation
  */
-void move_effect_journal_do_remember_sstipulation(slice_index start,
+void move_effect_journal_do_insert_sstipulation(slice_index start,
                                                   slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
@@ -1391,6 +1390,8 @@ void move_effect_journal_do_remember_sstipulation(slice_index start,
   TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
+  instrument_with_stipulation(start,stipulation);
+
   entry->u.input_stipulation.start_index = start;
   entry->u.input_stipulation.stipulation = stipulation;
 
@@ -1398,43 +1399,21 @@ void move_effect_journal_do_remember_sstipulation(slice_index start,
   TraceFunctionResultEnd();
 }
 
-static move_effect_journal_index_type find_original_sstipulation(void)
-{
-  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
-  move_effect_journal_index_type curr;
-
-  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_input_sstipulation)
-      return curr;
-
-  return move_effect_journal_index_null;
-}
-
 static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* restore the original stipulation if we are undoing a stipulation twinning
-   */
-  if (nbply==ply_twinning)
   {
-    move_effect_journal_index_type const idx_stip = find_original_sstipulation();
-    if (idx_stip!=move_effect_journal_index_null)
+    slice_index si = branch_find_slice(STStipulationCopier,entry->u.input_stipulation.start_index,stip_traversal_context_intro);
+    if (si!=no_slice)
     {
-      move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const start = stip->u.input_stipulation.start_index;
-
+      dealloc_slices(SLICE_NEXT2(si));
+      while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
       {
-        slice_index si = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-        assert(si!=no_slice);
-        dealloc_slices(SLICE_NEXT2(si));
-        while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
-        {
-          slice_index const next = SLICE_NEXT1(si);
-          pipe_remove(si);
-          si = next;
-        }
+        slice_index const next = SLICE_NEXT1(si);
+        pipe_remove(si);
+        si = next;
       }
     }
   }

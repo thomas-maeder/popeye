@@ -993,7 +993,7 @@ char *ParseStip(char *tok, slice_index start)
 
   if (ParsePlay(tok,start,root_slice_hook,play_length_minimum))
   {
-    input_instrument_with_stipulation(start,root_slice_hook);
+    move_effect_journal_do_insert_stipulation(start,root_slice_hook);
     tok = ReadNextTokStr();
   }
   else
