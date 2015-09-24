@@ -218,6 +218,14 @@ void LaTeXStr(FILE *file, char const *line)
   }
 }
 
+void LaTeXCopyFile(FILE *src, FILE *dest, int size)
+{
+  char * const buffer = malloc(size+1);
+  if (fgets(buffer,size+1,src))
+    LaTeXStr(dest,buffer);
+  free(buffer);
+}
+
 static void WriteIntro(FILE *file)
 {
   TraceFunctionEntry(__func__);

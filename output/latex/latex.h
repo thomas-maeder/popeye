@@ -32,6 +32,7 @@ void LaTexCloseSolution(FILE *file);
 char *ParseLaTeXPieces(void);
 
 void LaTeXStr(FILE *file, char const *line);
+void LaTeXCopyFile(FILE *src, FILE *dest, int size);
 char *LaTeXWalk(piece_walk_type walk);
 
 void WriteUserInputElement(FILE *file, char const *name, char const *value);
