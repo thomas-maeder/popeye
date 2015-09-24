@@ -359,7 +359,8 @@ output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinnin
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
- output/plaintext/condition.h input/plaintext/stipulation.h \
+ output/plaintext/condition.h output/plaintext/stipulation.h \
+ output/plaintext/sstipulation.h input/plaintext/stipulation.h \
  pieces/attributes/neutral/neutral.h stipulation/pipe.h solving/pipe.h \
  debugging/assert.h
 
@@ -492,6 +493,10 @@ output/message.h:
 output/plaintext/pieces.h:
 
 output/plaintext/condition.h:
+
+output/plaintext/stipulation.h:
+
+output/plaintext/sstipulation.h:
 
 input/plaintext/stipulation.h:
 
