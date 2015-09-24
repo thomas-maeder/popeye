@@ -419,8 +419,6 @@ int WriteStipulation(FILE *file, slice_index stipulation)
 
   TraceStipulation(stipulation);
 
-  state.nr_chars_written += fprintf(state.file,"%s","  ");
-
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,&state);

@@ -593,6 +593,7 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  indentation += protocol_fprintf(stdout,"%s","  ");
   indentation += protocol_write_stipulation(stdout,SLICE_NEXT2(si));
 
   pipe_solve_delegate(si);
