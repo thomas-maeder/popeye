@@ -30,7 +30,8 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
- output/plaintext/condition.h input/plaintext/problem.h \
+ output/plaintext/condition.h output/plaintext/stipulation.h \
+ output/plaintext/sstipulation.h input/plaintext/problem.h \
  input/plaintext/pieces.h input/plaintext/stipulation.h \
  pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
  stipulation/pipe.h stipulation/branch.h solving/pipe.h conditions/bgl.h \
@@ -172,6 +173,10 @@ output/message.h:
 output/plaintext/pieces.h:
 
 output/plaintext/condition.h:
+
+output/plaintext/stipulation.h:
+
+output/plaintext/sstipulation.h:
 
 input/plaintext/problem.h:
 

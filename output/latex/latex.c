@@ -6,6 +6,8 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/condition.h"
+#include "output/plaintext/stipulation.h"
+#include "output/plaintext/sstipulation.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
@@ -221,9 +223,12 @@ void LaTeXStr(FILE *file, char const *line)
 void LaTeXCopyFile(FILE *src, FILE *dest, int size)
 {
   char * const buffer = malloc(size+1);
-  if (fgets(buffer,size+1,src))
-    LaTeXStr(dest,buffer);
-  free(buffer);
+  if (buffer!=0)
+  {
+    if (fgets(buffer,size+1,src))
+      LaTeXStr(dest,buffer);
+    free(buffer);
+  }
 }
 
 static void WriteIntro(FILE *file)
@@ -916,23 +921,6 @@ static void WriteFairyPieces(FILE *file)
   TraceFunctionResultEnd();
 }
 
-static void WriteStipulation(FILE *file)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  OpenGeneratedElementOneLine(file,"stipulation");
-  LaTeXStr(file,ActStip);
-  if (OptFlag[solapparent])
-    fputs("*",file);
-  if (OptFlag[whitetoplay])
-    fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));
-  CloseElement(file);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void WriteGridOrthogonalLines(FILE *file)
 {
   unsigned int i;
@@ -1133,12 +1121,51 @@ void LaTeXWritePieces(FILE *file)
   TraceFunctionResultEnd();
 }
 
-void LaTeXStipulation(FILE *file)
+void LaTeXStipulation(FILE *file, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  WriteStipulation(file);
+  OpenGeneratedElementOneLine(file,"stipulation");
+
+
+  {
+    FILE *tmp = tmpfile();
+    int const length = WriteStipulation(tmp,si);
+    rewind(tmp);
+    LaTeXCopyFile(tmp,file,length);
+    fclose(tmp);
+  }
+
+  if (OptFlag[solapparent])
+    fputs("*",file);
+
+  if (OptFlag[whitetoplay])
+    fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));
+
+  CloseElement(file);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void LaTeXSStipulation(FILE *file, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  OpenGeneratedElementOneLine(file,"stipulation");
+
+
+  {
+    FILE *tmp = tmpfile();
+    int const length = WriteSStipulation(tmp,si);
+    rewind(tmp);
+    LaTeXCopyFile(tmp,file,length);
+    fclose(tmp);
+  }
+
+  CloseElement(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

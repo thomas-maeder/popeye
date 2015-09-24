@@ -37,7 +37,23 @@ void output_latex_problem_intro_writer_solve(slice_index si)
   LaTeXMeta(file);
   LaTeXOptions();
   LaTeXWritePieces(file);
-  LaTeXStipulation(file);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[ply_diagram_setup];
+    move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+    move_effect_journal_index_type i;
+
+    for (i = base; i<top; ++i)
+      if (move_effect_journal[i].type==move_effect_input_stipulation)
+      {
+        LaTeXStipulation(file,move_effect_journal[i].u.input_stipulation.stipulation);
+        break;
+      }
+      else if (move_effect_journal[i].type==move_effect_input_sstipulation)
+      {
+        LaTeXSStipulation(file,move_effect_journal[i].u.input_stipulation.stipulation);
+        break;
+      }
+  }
   LaTeXConditions(file);
   LaTexOpenSolution(file);
 

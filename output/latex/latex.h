@@ -20,7 +20,8 @@ void LaTeXEndDiagram(FILE *file);
 void LaTeXMeta(FILE *file);
 
 void LaTeXConditions(FILE *file);
-void LaTeXStipulation(FILE *file);
+void LaTeXStipulation(FILE *file, slice_index si);
+void LaTeXSStipulation(FILE *file, slice_index si);
 void LaTeXWritePieces(FILE *file);
 void LaTeXOptions(void);
 void LaTeXCo(slice_index si, FILE *file);
