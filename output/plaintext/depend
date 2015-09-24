@@ -1111,16 +1111,15 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/condition.h \
- output/plaintext/pieces.h output/plaintext/sstipulation.h \
- output/plaintext/stdio.h input/plaintext/problem.h \
- input/plaintext/stipulation.h input/plaintext/goal.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/nontrivial.h conditions/grid.h conditions/imitator.h \
- pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
- pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- solving/castling.h solving/move_generator.h solving/proofgames.h \
- solving/pipe.h solving/machinery/slack_length.h stipulation/pipe.h \
- stipulation/branch.h debugging/assert.h
+ output/plaintext/pieces.h output/plaintext/stipulation.h \
+ output/plaintext/sstipulation.h output/plaintext/stdio.h \
+ input/plaintext/problem.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
+ conditions/imitator.h pieces/attributes/neutral/neutral.h \
+ pieces/walks/classification.h pieces/walks/hunters.h \
+ solving/observation.h solving/temporary_hacks.h solving/castling.h \
+ solving/move_generator.h solving/proofgames.h solving/pipe.h \
+ stipulation/pipe.h stipulation/branch.h debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1252,15 +1251,13 @@ output/plaintext/condition.h:
 
 output/plaintext/pieces.h:
 
+output/plaintext/stipulation.h:
+
 output/plaintext/sstipulation.h:
 
 output/plaintext/stdio.h:
 
 input/plaintext/problem.h:
-
-input/plaintext/stipulation.h:
-
-input/plaintext/goal.h:
 
 options/maxthreatlength.h:
 
@@ -1289,8 +1286,6 @@ solving/move_generator.h:
 solving/proofgames.h:
 
 solving/pipe.h:
-
-solving/machinery/slack_length.h:
 
 stipulation/pipe.h:
 
@@ -1944,6 +1939,103 @@ stipulation/branch.h:
 stipulation/slice_insertion.h:
 
 solving/incomplete.h:
+
+debugging/assert.h:
+output/plaintext/stipulation$(OBJ_SUFFIX): output/plaintext/stipulation.c \
+ output/plaintext/stipulation.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ output/plaintext/protocol.h input/plaintext/goal.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/slack_length.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ stipulation/branch.h debugging/assert.h
+
+output/plaintext/stipulation.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+output/plaintext/protocol.h:
+
+input/plaintext/goal.h:
+
+solving/pipe.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/machinery/slack_length.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
+stipulation/branch.h:
 
 debugging/assert.h:
 output/plaintext/sstipulation$(OBJ_SUFFIX): output/plaintext/sstipulation.c \

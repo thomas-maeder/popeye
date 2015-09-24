@@ -5,12 +5,12 @@ SRC_CFILES = plaintext.c end_of_phase_writer.c illegal_selfcheck_writer.c \
              move_inversion_counter.c ohneschach_detect_undecidable_goal.c \
              goal_writer.c language_dependant.c condition.c \
              position.c pieces.c twinning.c message.c stdio.c protocol.c \
-             problem.c sstipulation.c
+             problem.c stipulation.c sstipulation.c
 
 INCLUDES = plaintext.h end_of_phase_writer.h illegal_selfcheck_writer.h \
            move_inversion_counter.h ohneschach_detect_undecidable_goal.h \
            goal_writer.h language_dependant.h condition.h \
            position.h pieces.h twinning.h message.h stdio.h protocol.h \
-           problem.h sstipulation.h
+           problem.h stipulation.h sstipulation.h
 
 include makefile.rules $(CURRPWD)depend
