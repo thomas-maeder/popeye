@@ -1,6 +1,8 @@
 #if !defined(OUTPUT_PLAINTEXT_PROTOCOL_H)
 #define OUTPUT_PLAINTEXT_PROTOCOL_H
 
+#include "stipulation/stipulation.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -51,6 +53,12 @@ int protocol_fprintf_c(FILE *regular, int width, char const *format, ...);
  * If a trace file is active, output goes to the trace file as well
  */
 void protocol_fputs_c_multi(FILE *regular, int width, char const *lines);
+
+/* write a stipulation
+ * If a trace file is active, output goes to the trace file as well
+ */
+int protocol_write_stipulation(FILE *regular, slice_index si);
+int protocol_write_sstipulation(FILE *regular, slice_index si);
 
 /* like fflush().
  * If a trace file is active, output goes to the trace file as well

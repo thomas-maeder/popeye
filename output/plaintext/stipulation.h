@@ -3,6 +3,13 @@
 
 #include "stipulation/stipulation.h"
 
-int WriteStipulation(slice_index si);
+#include <stdio.h>
+
+/* Write a traditional stipulation
+ * @param file where to write to
+ * @param si identiifes the entry slice into the stipulation
+ * @return number of characters written
+ */
+int WriteStipulation(FILE *file, slice_index si);
 
 #endif

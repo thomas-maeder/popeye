@@ -272,12 +272,12 @@ static void WriteTwinning(boolean continued)
         break;
 
       case move_effect_input_stipulation:
-        WriteStipulation(entry->u.input_stipulation.stipulation);
+        protocol_write_stipulation(stdout,entry->u.input_stipulation.stipulation);
         protocol_fprintf(stdout,"%s","  ");
         break;
 
       case move_effect_input_sstipulation:
-        WriteSStipulation(entry->u.input_stipulation.stipulation);
+        protocol_write_sstipulation(stdout,entry->u.input_stipulation.stipulation);
         protocol_fprintf(stdout,"%s","  ");
         break;
 

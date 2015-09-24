@@ -1,5 +1,7 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/stdio.h"
+#include "output/plaintext/stipulation.h"
+#include "output/plaintext/sstipulation.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -148,6 +150,32 @@ void protocol_fputs_c_multi(FILE *regular, int width, char const *lines)
 
   if (TraceFile!=0)
     fputs_c_multi(TraceFile,width,lines);
+}
+
+/* write a stipulation
+ * If a trace file is active, output goes to the trace file as well
+ */
+int protocol_write_stipulation(FILE *regular, slice_index si)
+{
+  int const result = WriteStipulation(regular,si);
+
+  if (TraceFile!=0)
+    WriteStipulation(TraceFile,si);
+
+  return result;
+}
+
+/* write a stipulation
+ * If a trace file is active, output goes to the trace file as well
+ */
+int protocol_write_sstipulation(FILE *regular, slice_index si)
+{
+  int const result = WriteSStipulation(regular,si);
+
+  if (TraceFile!=0)
+    WriteSStipulation(TraceFile,si);
+
+  return result;
 }
 
 /* like fflush().

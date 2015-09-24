@@ -1816,11 +1816,52 @@ output/plaintext/stdio.h:
 
 utilities/boolean.h:
 output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
- output/plaintext/protocol.h output/plaintext/stdio.h
+ output/plaintext/protocol.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ output/plaintext/stdio.h output/plaintext/stipulation.h \
+ output/plaintext/sstipulation.h
 
 output/plaintext/protocol.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
 output/plaintext/stdio.h:
+
+output/plaintext/stipulation.h:
+
+output/plaintext/sstipulation.h:
 output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
  output/plaintext/problem.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1952,10 +1993,9 @@ output/plaintext/stipulation$(OBJ_SUFFIX): output/plaintext/stipulation.c \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- output/plaintext/protocol.h input/plaintext/goal.h solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/machinery/slack_length.h stipulation/pipe.h \
+ output/mode.h output/mode.enum.h output/mode.enum input/plaintext/goal.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/machinery/slack_length.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -1999,8 +2039,6 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
-
-output/plaintext/protocol.h:
 
 input/plaintext/goal.h:
 

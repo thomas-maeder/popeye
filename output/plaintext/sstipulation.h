@@ -5,10 +5,13 @@
 
 #include "stipulation/stipulation.h"
 
-/* Write a structured stiplation
+#include <stdio.h>
+
+/* Write a structured stipulation
+ * @param file where to write to
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-int WriteSStipulation(slice_index si);
+int WriteSStipulation(FILE *file, slice_index si);
 
 #endif
