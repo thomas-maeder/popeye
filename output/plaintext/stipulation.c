@@ -16,7 +16,7 @@ typedef struct
     int nr_chars_written;
     stip_length_type length;
     structure_traversal_level_type branch_level;
-    goal_type reci_goal;
+    Goal reci_goal;
 } state_type;
 
 static boolean is_pser(slice_index si, stip_structure_traversal *st)
@@ -138,7 +138,7 @@ static void write_help(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
 
-  if (state->reci_goal!=no_goal)
+  if (state->reci_goal.type!=no_goal)
     stip_traverse_structure_children(si,st);
   else
   {
@@ -320,27 +320,43 @@ static void write_end_forced(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 }
 
-static void write_goal(slice_index si, stip_structure_traversal *st)
+static int WriteSquare(FILE *file, square s)
+{
+  int result = 0;
+
+  /* TODO avoid duplication with WriteSquare() */
+  result += protocol_fprintf(file,"%c",('a' - nr_files_on_board + s%onerow));
+  result += protocol_fprintf(file,"%c",('1' - nr_rows_on_board + s/onerow));
+
+  return result;
+}
+
+static int WriteGoal(FILE *file, Goal goal)
+{
+  int result = 0;
+
+  result += protocol_fprintf(file,"%s",get_goal_symbol(goal.type));
+  if (goal.type==goal_target || goal.type==goal_kiss)
+    result += WriteSquare(file,goal.target);
+
+  return result;
+}
+
+static void write_goal_reached(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   Goal const goal = SLICE_U(si).goal_handler.goal;
-  char const * const marker = get_goal_symbol(goal.type);
 
-  if (state->reci_goal!=no_goal && state->reci_goal!=goal.type)
+  if (state->reci_goal.type!=no_goal
+      && (state->reci_goal.type!=goal.type
+          || (goal.type==goal_target && state->reci_goal.target!=goal.target)))
   {
     state->nr_chars_written += protocol_fprintf(state->file,"%s","(");
-    state->nr_chars_written += protocol_fprintf(state->file,"%s",get_goal_symbol(state->reci_goal));
+    state->nr_chars_written += WriteGoal(state->file,state->reci_goal);
     state->nr_chars_written += protocol_fprintf(state->file,"%s",")");
   }
 
-  state->nr_chars_written += protocol_fprintf(state->file,"%s",marker);
-  if (goal.type==goal_target || goal.type==goal_kiss)
-  {
-    square const s = SLICE_U(si).goal_handler.goal.target;
-    /* TODO avoid duplication with WriteSquare() */
-    state->nr_chars_written += protocol_fprintf(state->file,"%c",('a' - nr_files_on_board + s%onerow));
-    state->nr_chars_written += protocol_fprintf(state->file,"%c",('1' - nr_rows_on_board + s/onerow));
-  }
+  state->nr_chars_written += WriteGoal(state->file,goal);
 }
 
 static void write_reci_goal(slice_index si, stip_structure_traversal *st)
@@ -356,9 +372,9 @@ static void write_reci_goal(slice_index si, stip_structure_traversal *st)
     slice_index const goal2 = branch_find_slice(STGoalReachedTester,SLICE_NEXT2(end2),stip_traversal_context_help);
     assert(goal2!=no_slice);
 
-    state->reci_goal = SLICE_U(goal2).goal_handler.goal.type;
+    state->reci_goal = SLICE_U(goal2).goal_handler.goal;
     stip_traverse_structure_binary_operand1(si,st);
-    state->reci_goal = no_goal;
+    state->reci_goal.type = no_goal;
   }
 }
 
@@ -383,7 +399,7 @@ static structure_traversers_visitor const visitors[] = {
     { STConstraintTester, &stip_traverse_structure_children_pipe },
     { STEndOfBranchGoal, &write_end_goal },
     { STEndOfBranchForced, &write_end_forced },
-    { STGoalReachedTester, &write_goal },
+    { STGoalReachedTester, &write_goal_reached },
     { STGoalConstraintTester, &stip_traverse_structure_children_pipe },
     { STAnd, &write_and }
 };
@@ -392,7 +408,7 @@ enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
 int WriteStipulation(slice_index si)
 {
   slice_index const stipulation = SLICE_NEXT2(si);
-  state_type state = { stdout, 0, UINT_MAX, structure_traversal_level_top, no_goal };
+  state_type state = { stdout, 0, UINT_MAX, structure_traversal_level_top, { no_goal, initsquare } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
