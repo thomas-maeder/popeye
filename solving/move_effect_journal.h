@@ -460,7 +460,8 @@ void move_effect_journal_do_remember_stipulation(slice_index start,
                                                  fpos_t start_pos,
                                                  slice_index stipulation);
 void move_effect_journal_do_remember_sstipulation(slice_index start_index,
-                                                  fpos_t start);
+                                                  fpos_t start,
+                                                  slice_index stipulation);
 
 /* Execute a twinning that shifts the entire position
  */

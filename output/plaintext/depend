@@ -1558,8 +1558,8 @@ output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h output/output.h output/plaintext/condition.h \
- output/plaintext/stipulation.h output/plaintext/message.h \
- output/message.h input/plaintext/language.h \
+ output/plaintext/stipulation.h output/plaintext/sstipulation.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  conditions/mummer.h solving/machinery/solve.h \
@@ -1638,6 +1638,8 @@ output/output.h:
 output/plaintext/condition.h:
 
 output/plaintext/stipulation.h:
+
+output/plaintext/sstipulation.h:
 
 output/plaintext/message.h:
 

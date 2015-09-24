@@ -3,6 +3,7 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/condition.h"
 #include "output/plaintext/stipulation.h"
+#include "output/plaintext/sstipulation.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/plaintext.h"
@@ -276,7 +277,7 @@ static void WriteTwinning(boolean continued)
         break;
 
       case move_effect_input_sstipulation:
-        protocol_fprintf(stdout,"%s",AlphaStip);
+        WriteSStipulation(entry->u.input_stipulation.stipulation);
         protocol_fprintf(stdout,"%s","  ");
         break;
 

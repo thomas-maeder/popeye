@@ -474,14 +474,13 @@ enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-int WriteSStipulation(slice_index si)
+int WriteSStipulation(slice_index stipulation)
 {
-  slice_index const stipulation = SLICE_NEXT2(si);
   Side const starter = SLICE_STARTER(stipulation);
   state_type state = { stdout, 0, write_state_begin, play_unknown };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
   TraceStipulation(stipulation);

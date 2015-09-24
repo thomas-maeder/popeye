@@ -1345,17 +1345,22 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
 /* Remember the original stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
+ * @param stipulation identifies the entry slice into the stipulation
  */
-void move_effect_journal_do_remember_sstipulation(slice_index start_index,
-                                                  fpos_t start)
+void move_effect_journal_do_remember_sstipulation(slice_index start,
+                                                  fpos_t start_pos,
+                                                  slice_index stipulation)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
   TraceFunctionParamListEnd();
 
-  entry->u.input_complex.start_index = start_index;
-  entry->u.input_complex.start = start;
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.start = start_pos;
+  entry->u.input_stipulation.stipulation = stipulation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
