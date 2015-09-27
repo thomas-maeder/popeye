@@ -1709,10 +1709,6 @@ void dispatch(slice_index si)
       output_plaintext_write_stipulation(si);
       break;
 
-    case STOutputPlainTextStipulationOptionsWriter:
-      output_plaintext_write_stipulation_options(si);
-      break;
-
     case STOutputPlainTextGridWriter:
       output_plaintext_write_grid(si);
       break;

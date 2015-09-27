@@ -558,35 +558,6 @@ void output_plaintext_write_royal_piece_positions(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_stipulation_options(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  indentation += WriteOptions(&being_solved);
-
-  pipe_solve_delegate(si);
-
-  pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
 void output_plaintext_write_stipulation(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -611,6 +582,8 @@ void output_plaintext_write_stipulation(slice_index si)
         break;
       }
   }
+
+  indentation += WriteOptions(&being_solved);
 
   pipe_solve_delegate(si);
 
@@ -913,7 +886,6 @@ void output_plaintext_build_position_writers(slice_index si)
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
         alloc_pipe(STOutputPlainTextStipulationWriter),
-        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
@@ -940,7 +912,6 @@ void output_plaintext_build_proof_position_writers(slice_index si)
         alloc_pipe(STOutputPlainTextStartOfTargetWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
         alloc_pipe(STOutputPlainTextStipulationWriter),
-        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&proofgames_target_position),
