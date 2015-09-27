@@ -594,37 +594,23 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParamListEnd();
 
   indentation += protocol_fprintf(stdout,"%s","  ");
-  indentation += protocol_write_stipulation(stdout,SLICE_NEXT2(si));
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[ply_diagram_setup];
+    move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+    move_effect_journal_index_type i;
 
-  pipe_solve_delegate(si);
-
-  pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void output_plaintext_write_sstipulation(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  indentation += protocol_fprintf(stdout,"%s","  ");
-  indentation += protocol_write_sstipulation(stdout,SLICE_NEXT2(si));
+    for (i = base; i<top; ++i)
+      if (move_effect_journal[i].type==move_effect_input_stipulation)
+      {
+        protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        break;
+      }
+      else if (move_effect_journal[i].type==move_effect_input_sstipulation)
+      {
+        protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        break;
+      }
+  }
 
   pipe_solve_delegate(si);
 
@@ -926,6 +912,7 @@ void output_plaintext_build_position_writers(slice_index si)
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
+        alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
@@ -952,6 +939,7 @@ void output_plaintext_build_proof_position_writers(slice_index si)
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_pipe(STOutputPlainTextStartOfTargetWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),

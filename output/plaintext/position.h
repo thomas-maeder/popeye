@@ -40,7 +40,6 @@ void output_plaintext_write_atob_intra(slice_index si);
  *            (with n denominating solve_nr_remaining)
  */
 void output_plaintext_write_stipulation(slice_index si);
-void output_plaintext_write_sstipulation(slice_index si);
 void output_plaintext_write_stipulation_options(slice_index si);
 void output_plaintext_write_royal_piece_positions(slice_index si);
 void output_plaintext_write_non_royal_attributes(slice_index si);

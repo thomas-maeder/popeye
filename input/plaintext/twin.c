@@ -616,16 +616,8 @@ static void ReadInitialTwin(slice_index start)
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
               output_plaintext_input_error_message(UnrecStip,0);
-            else
-            {
-              {
-                slice_index const prototype = alloc_pipe(STOutputPlainTextStipulationWriter);
-                SLICE_NEXT2(prototype) = root_slice_hook;
-                slice_insertion_insert(start,&prototype,1);
-              }
-            }
-            break;
           }
+          break;
         }
 
         case StructStipToken:
@@ -636,12 +628,6 @@ static void ReadInitialTwin(slice_index start)
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
               output_plaintext_input_error_message(UnrecStip,0);
-            else
-            {
-              slice_index const prototype = alloc_pipe(STOutputPlainTextSStipulationWriter);
-              SLICE_NEXT2(prototype) = root_slice_hook;
-              slice_insertion_insert(start,&prototype,1);
-            }
           }
           break;
         }

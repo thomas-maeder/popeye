@@ -362,7 +362,6 @@ static slice_type const output_plaintext_position_writer_slice_types[] =
     STOutputPlainTextMetaWriter,
     STOutputPlainTextBoardWriter,
     STOutputPlainTextStipulationWriter,
-    STOutputPlainTextSStipulationWriter,
     STOutputPlainTextStipulationOptionsWriter,
     STOutputPlainTextPieceCountsWriter,
     STOutputPlainTextRoyalPiecePositionsWriter,
