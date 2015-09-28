@@ -30,46 +30,54 @@ void LaTeXWriteOptions(void)
   if (twinning==0)
     twinning = tmpfile();
 
-  if (OptFlag[duplex])
+  if (twinning==0)
+    perror("error opening tmpfile for LaTeX twinning by stipulation");
+
+  if (twinning!=0)
   {
-    twinning_pos += fprintf(twinning, "%s", OptTab[duplex]);
-    twinning_pos += fprintf(twinning, "%s", "{\\newline}");
-  }
-  else if (OptFlag[halfduplex])
-  {
-    twinning_pos += fprintf(twinning, "%s", OptTab[halfduplex]);
-    twinning_pos += fprintf(twinning, "%s", "{\\newline}");
-  }
-  if (OptFlag[quodlibet])
-  {
-    twinning_pos += fprintf(twinning, "%s", OptTab[quodlibet]);
-    twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+    if (OptFlag[duplex])
+    {
+      twinning_pos += fprintf(twinning, "%s", OptTab[duplex]);
+      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+    }
+    else if (OptFlag[halfduplex])
+    {
+      twinning_pos += fprintf(twinning, "%s", OptTab[halfduplex]);
+      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+    }
+    if (OptFlag[quodlibet])
+    {
+      twinning_pos += fprintf(twinning, "%s", OptTab[quodlibet]);
+      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+    }
   }
 }
 
 void LaTeXFlushTwinning(FILE *file)
 {
-  if (twinning_pos>=10)
+  if (twinning==0)
+    fprintf(file," \\%s{??}%%\n","twins");
+  else
   {
-    /* remove the last "{\\newline} */
-    twinning_pos -= 10;
+    if (twinning_pos>=10)
+    {
+      /* remove the last "{\\newline} */
+      twinning_pos -= 10;
+
+      rewind(twinning);
+
+      fprintf(file," \\%s{","twins");
+      LaTeXCopyFile(twinning,file,twinning_pos);
+      fputs("}%\n",file);
+    }
 
     rewind(twinning);
-
-    fprintf(file," \\%s{","twins");
-    LaTeXCopyFile(twinning,file,twinning_pos);
-    fputs("}%\n",file);
+    twinning_pos = 0;
   }
-
-  rewind(twinning);
-  twinning_pos = 0;
 }
 
 static void BeginTwinning(unsigned int twin_number)
 {
-  if (twinning==0)
-    twinning = tmpfile();
-
   if (twin_number-twin_a<='z'-'a')
     twinning_pos += fprintf(twinning, "%c) ", 'a'+twin_number-twin_a);
   else
@@ -310,101 +318,104 @@ static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
 
 static void WriteTwinning(unsigned int twin_number, boolean continued)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
-  move_effect_journal_index_type const base = continued ? last_horizon : move_effect_journal_base[ply_twinning];
-  move_effect_journal_index_type curr;
-  boolean written_on_last_entry = false;
-
-  assert(base<=top);
-
-  if (base<top)
+  if (twinning!=0)
   {
-    if (continued)
-      twinning_pos += fprintf(twinning, "%s", "+");
+    move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
+    move_effect_journal_index_type const base = continued ? last_horizon : move_effect_journal_base[ply_twinning];
+    move_effect_journal_index_type curr;
+    boolean written_on_last_entry = false;
 
-    BeginTwinning(twin_number);
+    assert(base<=top);
 
-    for (curr = base; curr!=top; ++curr)
+    if (base<top)
     {
-      if (written_on_last_entry)
-      {
-        twinning_pos += fprintf(twinning, "%s", ", ");
-        written_on_last_entry = false;
-      }
+      if (continued)
+        twinning_pos += fprintf(twinning, "%s", "+");
 
-      switch (move_effect_journal[curr].type)
-      {
-        case move_effect_piece_creation:
-          WritePieceCreation(base,curr);
-          written_on_last_entry = true;
-          break;
+      BeginTwinning(twin_number);
 
-        case move_effect_piece_removal:
-          if (WritePieceRemoval(curr))
+      for (curr = base; curr!=top; ++curr)
+      {
+        if (written_on_last_entry)
+        {
+          twinning_pos += fprintf(twinning, "%s", ", ");
+          written_on_last_entry = false;
+        }
+
+        switch (move_effect_journal[curr].type)
+        {
+          case move_effect_piece_creation:
+            WritePieceCreation(base,curr);
             written_on_last_entry = true;
-          break;
+            break;
 
-        case move_effect_piece_movement:
-          WritePieceMovement(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_removal:
+            if (WritePieceRemoval(curr))
+              written_on_last_entry = true;
+            break;
 
-        case move_effect_piece_exchange:
-          WritePieceExchange(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_movement:
+            WritePieceMovement(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_board_transformation:
-          WriteBoardTransformation(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_exchange:
+            WritePieceExchange(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_shift:
-          WriteShift(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_board_transformation:
+            WriteBoardTransformation(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_input_condition:
-          WriteConditions(0,&WriteCondition);
-          written_on_last_entry = true;
-          break;
+          case move_effect_twinning_shift:
+            WriteShift(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_input_stipulation:
-          WriteStip(curr);
-          written_on_last_entry = true;
-          break;
-        case move_effect_input_sstipulation:
-          WriteSStip(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_input_condition:
+            WriteConditions(0,&WriteCondition);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_polish:
-          WritePolish(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_input_stipulation:
+            WriteStip(curr);
+            written_on_last_entry = true;
+            break;
+          case move_effect_input_sstipulation:
+            WriteSStip(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_substitute:
-          WriteSubstitute(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_twinning_polish:
+            WritePolish(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_king_square_movement:
-          /* the search for royals leaves its traces in the twinning ply */
-        case move_effect_remember_volcanic:
-          /* Forsberg twinning */
-        case move_effect_remove_stipulation:
-          break;
+          case move_effect_twinning_substitute:
+            WriteSubstitute(curr);
+            written_on_last_entry = true;
+            break;
 
-        default:
-          assert(0);
-          break;
+          case move_effect_king_square_movement:
+            /* the search for royals leaves its traces in the twinning ply */
+          case move_effect_remember_volcanic:
+            /* Forsberg twinning */
+          case move_effect_remove_stipulation:
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
       }
+
+      EndTwinning();
     }
 
-    EndTwinning();
+    last_horizon = top;
   }
-
-  last_horizon = top;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

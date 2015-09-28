@@ -1128,13 +1128,20 @@ void LaTeXStipulation(FILE *file, slice_index si)
 
   OpenGeneratedElementOneLine(file,"stipulation");
 
-
   {
     FILE *tmp = tmpfile();
-    int const length = WriteStipulation(tmp,si);
-    rewind(tmp);
-    LaTeXCopyFile(tmp,file,length);
-    fclose(tmp);
+    if (tmp==0)
+    {
+      perror("error opening tmpfile for initial LaTeX stipulation");
+      fprintf(file,"%s","??");
+    }
+    else
+    {
+      int const length = WriteStipulation(tmp,si);
+      rewind(tmp);
+      LaTeXCopyFile(tmp,file,length);
+      fclose(tmp);
+    }
   }
 
   if (OptFlag[solapparent])
