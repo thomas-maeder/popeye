@@ -53,7 +53,7 @@ void maxtime_guard_solve(slice_index si)
   if (hasMaxtimeElapsed())
   {
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-    phase_solving_remember_incompleteness(SLICE_NEXT2(si),solving_interrupted);
+    phase_solving_remember_incompleteness(si,solving_interrupted);
   }
   else
     solve(SLICE_NEXT1(si));

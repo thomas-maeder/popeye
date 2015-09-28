@@ -48,7 +48,7 @@ void maxsolutions_counter_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (move_has_solved())
-    increase_nr_found_solutions(SLICE_NEXT2(si));
+    increase_nr_found_solutions(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

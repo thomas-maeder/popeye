@@ -42,7 +42,7 @@ slice_index alloc_phase_solving_incomplete(slice_index base);
 void phase_solving_incomplete_solve(slice_index si);
 
 /* Remember that solving has been interrupted
- * @param si identifies the STProblemSolvingIncomplete slice
+ * @param si identifies the reporting slice
  * @param c completeness of phase
  */
 void phase_solving_remember_incompleteness(slice_index si,

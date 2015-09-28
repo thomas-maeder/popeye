@@ -23,7 +23,7 @@ static unsigned int max_nr_solutions_per_phase = UINT_MAX;
 typedef struct
 {
     boolean inserted;
-    slice_index interruption;
+    slice_index incomplete;
 } insertion_struct;
 
 static void insert_maxsolutions_help_filter(slice_index si,
@@ -56,7 +56,7 @@ static void insert_guard_and_counter(slice_index si, stip_structure_traversal *s
     slice_index const prototypes[] =
     {
       alloc_maxsolutions_guard_slice(),
-      alloc_maxsolutions_counter_slice(insertion->interruption)
+      alloc_maxsolutions_counter_slice(insertion->incomplete)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -78,7 +78,7 @@ static void insert_counter(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->incomplete);
     slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
     insertion->inserted = true;
   }
@@ -99,7 +99,7 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->incomplete);
     help_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
     insertion->inserted = true;
   }
@@ -120,7 +120,7 @@ static void insert_counter_in_forced_branch(slice_index si, stip_structure_trave
 
   if (st->context==stip_traversal_context_help && !insertion->inserted)
   {
-    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->interruption);
+    slice_index const prototype = alloc_maxsolutions_counter_slice(insertion->incomplete);
     slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
     insertion->inserted = true;
   }
@@ -266,7 +266,7 @@ void reset_nr_found_solutions_per_phase(void)
 
 /* Increase the number of found solutions by 1
  */
-void increase_nr_found_solutions(slice_index interruption)
+void increase_nr_found_solutions(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -275,8 +275,7 @@ void increase_nr_found_solutions(slice_index interruption)
   TraceValue("->%u\n",nr_solutions_found_in_phase);
 
   if (max_nr_solutions_found_in_phase())
-    phase_solving_remember_incompleteness(interruption,
-                                          solving_interrupted);
+    phase_solving_remember_incompleteness(si,solving_interrupted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

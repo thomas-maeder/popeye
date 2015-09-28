@@ -105,7 +105,7 @@ void stoponshortsolutions_was_short_solution_found_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (SLICE_U(si).flag_handler.value)
-    phase_solving_remember_incompleteness(SLICE_NEXT2(si),solving_interrupted);
+    phase_solving_remember_incompleteness(si,solving_interrupted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -89,24 +89,26 @@ void phase_solving_incomplete_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 /* Remember that solving has been interrupted
- * @param si identifies the STProblemSolvingIncomplete slice
+ * @param si identifies the reporting slice
  * @param c completeness of phase
  */
 void phase_solving_remember_incompleteness(slice_index si,
                                            solving_completeness_type c)
 {
+  slice_index incomplete = SLICE_NEXT2(si);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%d",c);
   TraceFunctionParamListEnd();
 
-  assert(SLICE_TYPE(si)==STPhaseSolvingIncomplete);
+  assert(SLICE_TYPE(incomplete)==STPhaseSolvingIncomplete);
 
-  if (SLICE_U(si).flag_handler.value<c)
-    SLICE_U(si).flag_handler.value = c;
+  if (SLICE_U(incomplete).value_handler.value<c)
+    SLICE_U(incomplete).value_handler.value = c;
 
-  if (SLICE_U(SLICE_NEXT2(si)).flag_handler.value<c)
-    SLICE_U(SLICE_NEXT2(si)).flag_handler.value = c;
+  if (SLICE_U(SLICE_NEXT2(incomplete)).value_handler.value<c)
+    SLICE_U(SLICE_NEXT2(incomplete)).value_handler.value = c;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

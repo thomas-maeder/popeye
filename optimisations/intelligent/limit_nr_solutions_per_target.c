@@ -260,8 +260,7 @@ void intelligent_nr_solutions_per_target_position_initialiser_solve(slice_index 
 
   if (SLICE_U(si).value_handler.value
       >=SLICE_U(problem_instrumenter).value_handler.value)
-    phase_solving_remember_incompleteness(SLICE_NEXT2(problem_instrumenter),
-                                          solving_partial);
+    phase_solving_remember_incompleteness(problem_instrumenter,solving_partial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
