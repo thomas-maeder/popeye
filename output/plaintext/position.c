@@ -573,12 +573,12 @@ void output_plaintext_write_stipulation(slice_index si)
     for (i = base; i<top; ++i)
       if (move_effect_journal[i].type==move_effect_input_stipulation)
       {
-        protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
       else if (move_effect_journal[i].type==move_effect_input_sstipulation)
       {
-        protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
   }
