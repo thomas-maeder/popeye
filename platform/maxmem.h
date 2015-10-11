@@ -15,18 +15,18 @@ extern maxmem_kilos_type const nothing_requested;
  * Invoked by maxmem module; don't invoke directly.
  * @return number of kilo-bytes to be used
  */
-unsigned long guessReasonableMaxmemory(void);
+unsigned long platform_guess_reasonable_maxmemory(void);
 
 /* request an amount of memory
  * @param requested number of kilo-bytes requested
  */
-void requestMemory(maxmem_kilos_type requested);
+void platform_request_memory(maxmem_kilos_type requested);
 
 void hashtable_dimensioner_solve(slice_index si);
 
 /* Retrieve amount of memory actually allocated
  * @return amount
  */
-maxmem_kilos_type getAllocatedMemory(void);
+maxmem_kilos_type platform_get_allocated_memory(void);
 
 #endif

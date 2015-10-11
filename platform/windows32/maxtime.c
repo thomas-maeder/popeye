@@ -104,7 +104,7 @@ static boolean setupNewTimer(maxtime_type seconds)
   }
 }
 
-void resetMaxtimeTimer(void)
+void platform_reset_maxtime_timer(void)
 {
   if (current_timer!=no_timer)
   {
@@ -114,7 +114,7 @@ void resetMaxtimeTimer(void)
   }
 }
 
-boolean setMaxtimeTimer(maxtime_type seconds)
+boolean platform_set_maxtime_timer(maxtime_type seconds)
 {
   assert(current_timer==no_timer);
 

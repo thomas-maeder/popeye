@@ -161,7 +161,7 @@ void platform_init(void)
   signal(SIGHUP,  &ReDrawBoard);
 }
 
-boolean setMaxtimeTimer(maxtime_type seconds)
+boolean platform_set_maxtime_timer(maxtime_type seconds)
 {
   periods_counter = 0;
   nr_periods = 1;
@@ -179,14 +179,14 @@ boolean setMaxtimeTimer(maxtime_type seconds)
   return true;
 }
 
-void resetMaxtimeTimer(void)
+void platform_reset_maxtime_timer(void)
 {
   alarm(0);
 }
 
 #else
 
-boolean setMaxtimeTimer(maxtime_type seconds)
+boolean platform_set_maxtime_timer(maxtime_type seconds)
 {
   if (seconds==no_time_set)
   {
@@ -202,7 +202,7 @@ boolean setMaxtimeTimer(maxtime_type seconds)
   }
 }
 
-void resetMaxtimeTimer(void)
+void platform_reset_maxtime_timer(void)
 {
 }
 

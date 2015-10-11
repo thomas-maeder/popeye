@@ -32,7 +32,7 @@ static void write_line_intro(unsigned int *next_move_number,
   TraceFunctionParamListEnd();
 
   if (OptFlag[beep])
-    produce_beep();
+    platform_produce_beep();
 
   output_plaintext_message(NewLine);
 

@@ -2,6 +2,6 @@
 
 #include <stdio.h>
 
-void produce_beep(void)
+void platform_produce_beep(void)
 {
 }

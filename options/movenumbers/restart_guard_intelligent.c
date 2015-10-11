@@ -91,7 +91,7 @@ void restart_guard_intelligent_solve(slice_index si)
     nr_potential_target_positions = 0;
     pipe_solve_delegate(si);
     /* TODO this should depend on the return value of phase_solving_completeness() */
-    if (!hasMaxtimeElapsed())
+    if (!platform_has_maxtime_elapsed())
       print_nr_potential_target_positions();
   }
 

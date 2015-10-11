@@ -25,7 +25,7 @@ static maxmem_kilos_type amountMemoryAllocated;
 /* request an amount of memory
  * @param requested number of kilo-bytes requested
  */
-void requestMemory(maxmem_kilos_type requested)
+void platform_request_memory(maxmem_kilos_type requested)
 {
   amountMemoryRequested = requested;
 }
@@ -42,7 +42,7 @@ static boolean dimensionHashtable(void)
 
   if (amountMemoryRequested==nothing_requested)
   {
-    unsigned int const amountMemoryGuessed = guessReasonableMaxmemory();
+    unsigned int const amountMemoryGuessed = platform_guess_reasonable_maxmemory();
     amountMemoryAllocated = allochash(amountMemoryGuessed);
   }
   else
@@ -65,7 +65,7 @@ void hashtable_dimensioner_solve(slice_index si)
 /* Retrieve amount of memory actually allocated
  * @return amount
  */
-maxmem_kilos_type getAllocatedMemory(void)
+maxmem_kilos_type platform_get_allocated_memory(void)
 {
   return amountMemoryAllocated;
 }

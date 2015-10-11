@@ -112,7 +112,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/detect_retraction.h optimisations/observation.h \
- debugging/assert.h debugging/measure.h output/plaintext/protocol.h
+ debugging/assert.h debugging/measure.h
 
 solving/machinery/solvers.h:
 
@@ -585,8 +585,6 @@ optimisations/observation.h:
 debugging/assert.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -597,7 +595,7 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- debugging/measure.h output/plaintext/protocol.h debugging/assert.h
+ debugging/measure.h debugging/assert.h
 
 solving/machinery/solve.h:
 
@@ -644,8 +642,6 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
@@ -934,7 +930,7 @@ solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/battle_play/attack_adapter.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/battle_play/defense_adapter.h solving/help_play/adapter.h \
- debugging/assert.h debugging/measure.h output/plaintext/protocol.h
+ debugging/assert.h debugging/measure.h
 
 solving/machinery/intro.h:
 
@@ -1009,8 +1005,6 @@ solving/help_play/adapter.h:
 debugging/assert.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/machinery/dispatch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1211,8 +1205,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/steingewinn.h solving/goals/target.h \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
  solving/pipe.h solving/machinery/solvers.h solving/zeroposition.h \
- debugging/measure.h output/plaintext/protocol.h debugging/assert.h \
- platform/platform.h platform/maxmem.h platform/timer.h
+ debugging/measure.h debugging/assert.h platform/platform.h \
+ platform/maxmem.h platform/timer.h
 
 solving/machinery/dispatch.h:
 
@@ -1945,8 +1939,6 @@ solving/machinery/solvers.h:
 solving/zeroposition.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 debugging/assert.h:
 

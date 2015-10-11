@@ -11,6 +11,6 @@ boolean read_nr_beeps(char const *optionValue);
 /* Produce a series of audible beep signals
  * @param nr_beeps number of beep signals to be produced
  */
-void produce_beep(void);
+void platform_produce_beep(void);
 
 #endif

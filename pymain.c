@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 {
   checkGlobalAssumptions();
 
-  set_nice_priority();
+  platform_set_nice_priority();
 
   initialise_slice_properties();
   init_structure_children_visitors();

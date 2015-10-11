@@ -41,7 +41,7 @@ static int parseCommandlineOptions(int argc, char *argv[])
       if (argv[idx]==end)
         ; /* conversion failure -> assume no max time */
       else
-        setCommandlineMaxtime(value);
+        platform_set_commandline_maxtime(value);
 
       idx++;
       continue;

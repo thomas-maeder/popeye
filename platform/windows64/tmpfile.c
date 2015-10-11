@@ -15,7 +15,7 @@ char const * const prefix = "pyinput";
  * termination.
  * @return pointer to the FILE structure; 0 on failure
  */
-FILE *platform_tmpfile(void)
+FILE *platform_open_tmpfile(void)
 {
   char const *mirrorName = tempnam(0,prefix);
   if (mirrorName==0)

@@ -15,7 +15,7 @@ enum dummy
   BELOW_NORMAL_PRIORITY_CLASS = 0x4000
 };
 
-void set_nice_priority()
+void platform_set_nice_priority()
 {
   SetPriorityClass(GetCurrentProcess(),
                    BELOW_NORMAL_PRIORITY_CLASS);

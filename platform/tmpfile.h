@@ -8,6 +8,6 @@
  * termination.
  * @return pointer to the FILE structure; 0 on failure
  */
-FILE *platform_tmpfile(void);
+FILE *platform_open_tmpfile(void);
 
 #endif

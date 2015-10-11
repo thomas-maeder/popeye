@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>	/* declaration of sleep()  */
 
-void produce_beep(void)
+void platform_produce_beep(void)
 {
   while (nr_beeps>0)
   {

@@ -50,7 +50,7 @@ void output_plaintext_tree_key_writer_solve(slice_index si)
   protocol_fprintf(stdout,"%s"," !");
 
   if (OptFlag[beep])
-    produce_beep();
+    platform_produce_beep();
 
   pipe_solve_delegate(si);
 

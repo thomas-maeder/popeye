@@ -48,7 +48,7 @@ static boolean OpenInput(char const *s)
   {
     Input = stdin;
     InputOriginal = Input;
-    InputMirror = platform_tmpfile();
+    InputMirror = platform_open_tmpfile();
     if (InputMirror==0)
       perror("error opening temporary input mirror file");
     else

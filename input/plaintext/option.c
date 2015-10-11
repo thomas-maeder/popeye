@@ -411,7 +411,7 @@ void options_resetter_solve(slice_index si)
   en_passant_forget_multistep();
   en_passant_nr_retro_squares = 0;
 
-  resetOptionMaxtime();
+  platform_reset_option_maxtime();
 
   reset_max_flights();
   set_max_nr_refutations(0);

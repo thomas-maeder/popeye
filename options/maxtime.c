@@ -50,7 +50,7 @@ void maxtime_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (hasMaxtimeElapsed())
+  if (platform_has_maxtime_elapsed())
   {
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
     phase_solving_remember_incompleteness(si,solving_interrupted);
@@ -152,11 +152,11 @@ void maxtime_set(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (dealWithMaxtime())
+  if (platform_deal_with_maxtime())
   {
     insert_guards(si);
     pipe_solve_delegate(si);
-    resetMaxtimeTimer();
+    platform_reset_maxtime_timer();
   }
   else
   {
@@ -199,7 +199,7 @@ void maxtime_instrument_solving(slice_index si, maxtime_type maxtime)
   TraceFunctionParam("%u",maxtime);
   TraceFunctionParamListEnd();
 
-  setOptionMaxtime(maxtime);
+  platform_set_option_maxtime(maxtime);
 
   {
     slice_index const interruption = branch_find_slice(STPhaseSolvingIncomplete,

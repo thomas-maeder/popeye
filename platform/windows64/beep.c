@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-void produce_beep(void)
+void platform_produce_beep(void)
 {
   while (nr_beeps>0)
   {

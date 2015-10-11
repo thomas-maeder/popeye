@@ -2,7 +2,7 @@
 #include "utilities/boolean.h"
 #include <limits.h>
 
-boolean setMaxtimeTimer(maxtime_type seconds)
+boolean platform_set_maxtime_timer(maxtime_type seconds)
 {
   if (seconds==no_time_set)
   {
@@ -18,7 +18,7 @@ boolean setMaxtimeTimer(maxtime_type seconds)
   }
 }
 
-void resetMaxtimeTimer(void)
+void platform_reset_maxtime_timer(void)
 {
 }
 

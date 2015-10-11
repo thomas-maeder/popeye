@@ -16,7 +16,7 @@ sig_atomic_t volatile nr_periods = INT_MAX;
  * line parameter
  * @param commandlineValue value of the -maxtime command line parameter
  */
-void setCommandlineMaxtime(maxtime_type commandlineValue)
+void platform_set_commandline_maxtime(maxtime_type commandlineValue)
 {
   maxTimeCommandLine = commandlineValue;
 }
@@ -24,7 +24,7 @@ void setCommandlineMaxtime(maxtime_type commandlineValue)
 /* Reset the value of the maxtime option.
  * To be called whenever the value set with option maxtime becomes obsolete.
  */
-void resetOptionMaxtime(void)
+void platform_reset_option_maxtime(void)
 {
   maxTimeOption = no_time_set;
 }
@@ -33,12 +33,12 @@ void resetOptionMaxtime(void)
  * To be called whenever the value set with option maxtime becomes obsolete.
  * @param m value to be set
  */
-void setOptionMaxtime(maxtime_type m)
+void platform_set_option_maxtime(maxtime_type m)
 {
   maxTimeOption = m;
 }
 
-boolean isMaxtimeSet(void)
+boolean platform_is_maxtime_set(void)
 {
   return maxTimeOption!=no_time_set || maxTimeCommandLine!=no_time_set;
 }
@@ -47,7 +47,7 @@ boolean isMaxtimeSet(void)
  * paramter and option maxtime value.
  * @return true iff a maximum solving time has been set
  */
-boolean dealWithMaxtime(void)
+boolean platform_deal_with_maxtime(void)
 {
   boolean result;
 
@@ -55,13 +55,13 @@ boolean dealWithMaxtime(void)
    * an option, use the smaller value.
    */
   if (maxTimeCommandLine==no_time_set)
-    result = setMaxtimeTimer(maxTimeOption);
+    result = platform_set_maxtime_timer(maxTimeOption);
   else if (maxTimeOption==no_time_set)
-    result = setMaxtimeTimer(maxTimeCommandLine);
+    result = platform_set_maxtime_timer(maxTimeCommandLine);
   else if (maxTimeCommandLine<maxTimeOption)
-    result = setMaxtimeTimer(maxTimeCommandLine);
+    result = platform_set_maxtime_timer(maxTimeCommandLine);
   else
-    result = setMaxtimeTimer(maxTimeOption);
+    result = platform_set_maxtime_timer(maxTimeOption);
 
   return result;
 }
@@ -69,7 +69,7 @@ boolean dealWithMaxtime(void)
 /* Has the set maximum time elapsed
  * @return truee iff the set maximum time has elapsed
  */
-boolean hasMaxtimeElapsed(void)
+boolean platform_has_maxtime_elapsed(void)
 {
   return periods_counter>=nr_periods;
 }

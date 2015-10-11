@@ -1,7 +1,7 @@
 #include "platform/priority.h"
 #include <windows.h>
 
-void set_nice_priority()
+void platform_set_nice_priority()
 {
   /* BELOW_NORMAL_PRIORITY_CLASS:
    * Process that has priority above * IDLE_PRIORITY_CLASS but below

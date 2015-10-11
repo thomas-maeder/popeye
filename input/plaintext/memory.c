@@ -19,5 +19,5 @@ void input_plaintext_read_requested_memory(char const *commandLineValue)
   else if (*end=='M')
     requested *= one_mega;
 
-  requestMemory(requested);
+  platform_request_memory(requested);
 }
