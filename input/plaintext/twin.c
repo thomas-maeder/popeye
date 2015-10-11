@@ -12,6 +12,7 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/twinning.h"
+#include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
 #include "output/latex/twinning.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
