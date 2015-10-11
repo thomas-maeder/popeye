@@ -13,6 +13,7 @@
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
+#include "platform/tmpfile.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -28,7 +29,7 @@ static move_effect_journal_index_type last_horizon;
 void LaTeXWriteOptions(void)
 {
   if (twinning==0)
-    twinning = tmpfile();
+    twinning = platform_open_tmpfile();
 
   if (twinning==0)
     perror("error opening tmpfile for LaTeX twinning by stipulation");
@@ -73,6 +74,15 @@ void LaTeXFlushTwinning(FILE *file)
 
     rewind(twinning);
     twinning_pos = 0;
+  }
+}
+
+void LaTeXShutdownTwinning(void)
+{
+  if (twinning!=0)
+  {
+    platform_close_tmpfile(twinning);
+    twinning = 0;
   }
 }
 

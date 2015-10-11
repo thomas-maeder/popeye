@@ -9,6 +9,8 @@ void LaTeXWriteOptions(void);
 
 void LaTeXFlushTwinning(FILE *file);
 
+void LaTeXShutdownTwinning(void);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

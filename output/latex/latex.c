@@ -22,6 +22,7 @@
 #include "conditions/grid.h"
 #include "conditions/singlebox/type1.h"
 #include "solving/incomplete.h"
+#include "platform/tmpfile.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -284,6 +285,8 @@ static void LaTeXShutdown(slice_index file_owner)
     WriteFixElement(file,"end","document",0);
     fclose(file);
     SLICE_U(file_owner).writer.file = NULL;
+
+    LaTeXShutdownTwinning();
   }
 
   TraceFunctionExit(__func__);
@@ -1129,7 +1132,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
   OpenGeneratedElementOneLine(file,"stipulation");
 
   {
-    FILE *tmp = tmpfile();
+    FILE *tmp = platform_open_tmpfile();
     if (tmp==0)
     {
       perror("error opening tmpfile for initial LaTeX stipulation");
@@ -1140,7 +1143,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
       int const length = WriteStipulation(tmp,si);
       rewind(tmp);
       LaTeXCopyFile(tmp,file,length);
-      fclose(tmp);
+      platform_close_tmpfile(tmp);
     }
   }
 
@@ -1163,13 +1166,12 @@ void LaTeXSStipulation(FILE *file, slice_index si)
 
   OpenGeneratedElementOneLine(file,"stipulation");
 
-
   {
-    FILE *tmp = tmpfile();
+    FILE *tmp = platform_open_tmpfile();
     int const length = WriteSStipulation(tmp,si);
     rewind(tmp);
     LaTeXCopyFile(tmp,file,length);
-    fclose(tmp);
+    platform_close_tmpfile(tmp);
   }
 
   CloseElement(file);

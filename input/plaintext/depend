@@ -1,7 +1,7 @@
-input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/token.h \
- input/plaintext/language.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
+input/plaintext/token.obj: input/plaintext/token.c \
+ input/plaintext/token.h input/plaintext/language.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum output/output.h \
@@ -96,7 +96,7 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 platform/tmpfile.h:
-input/plaintext/plaintext$(OBJ_SUFFIX): input/plaintext/plaintext.c \
+input/plaintext/plaintext.obj: input/plaintext/plaintext.c \
  input/plaintext/plaintext.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -249,7 +249,7 @@ output/plaintext/message.h:
 output/message.h:
 
 solving/pipe.h:
-input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
+input/plaintext/pieces.obj: input/plaintext/pieces.c \
  input/plaintext/pieces.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum position/color.h position/color.enum.h \
@@ -427,7 +427,7 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 conditions/circe/parachute.h:
-input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h \
+input/plaintext/twin.obj: input/plaintext/twin.c input/plaintext/twin.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
@@ -462,8 +462,8 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/twinning.h \
- output/latex/latex.h output/plaintext/plaintext.h \
- output/latex/twinning.h \
+ output/plaintext/protocol.h output/latex/latex.h \
+ output/plaintext/plaintext.h output/latex/twinning.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/quodlibet.h options/goal_is_end.h \
  options/maxsolutions/maxsolutions.h \
@@ -617,6 +617,8 @@ output/plaintext/illegal_selfcheck_writer.h:
 
 output/plaintext/twinning.h:
 
+output/plaintext/protocol.h:
+
 output/latex/latex.h:
 
 output/plaintext/plaintext.h:
@@ -670,7 +672,7 @@ platform/maxtime.h:
 debugging/measure.h:
 
 debugging/assert.h:
-input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
+input/plaintext/stipulation.obj: input/plaintext/stipulation.c \
  input/plaintext/stipulation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -819,7 +821,7 @@ solving/move_effect_journal.h:
 solving/ply.h:
 
 debugging/assert.h:
-input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
+input/plaintext/sstipulation.obj: input/plaintext/sstipulation.c \
  input/plaintext/sstipulation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -1009,7 +1011,7 @@ stipulation/pipe.h:
 solving/play_suppressor.h:
 
 debugging/assert.h:
-input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h \
+input/plaintext/goal.obj: input/plaintext/goal.c input/plaintext/goal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
@@ -1207,7 +1209,7 @@ stipulation/goals/kiss/reached_tester.h:
 solving/proofgames.h:
 
 debugging/assert.h:
-input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
+input/plaintext/condition.obj: input/plaintext/condition.c \
  input/plaintext/condition.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -1464,7 +1466,7 @@ solving/castling.h:
 solving/pipe.h:
 
 debugging/assert.h:
-input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
+input/plaintext/option.obj: input/plaintext/option.c \
  input/plaintext/option.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -1679,7 +1681,7 @@ stipulation/branch.h:
 stipulation/modifier.h:
 
 platform/beep.h:
-input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
+input/plaintext/problem.obj: input/plaintext/problem.c \
  input/plaintext/problem.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -1850,11 +1852,11 @@ stipulation/branch.h:
 stipulation/modifier.h:
 
 debugging/assert.h:
-input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \
+input/plaintext/language.obj: input/plaintext/language.c \
  input/plaintext/language.h
 
 input/plaintext/language.h:
-input/plaintext/memory$(OBJ_SUFFIX): input/plaintext/memory.c \
+input/plaintext/memory.obj: input/plaintext/memory.c \
  input/plaintext/memory.h platform/maxmem.h utilities/boolean.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \

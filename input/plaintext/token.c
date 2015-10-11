@@ -78,7 +78,7 @@ static void CloseInput(void)
   fclose(Input);
 
   if (InputMirror!=0 && InputMirror!=Input)
-    fclose(InputMirror);
+    platform_close_tmpfile(InputMirror);
 }
 
 void input_plaintext_opener_solve(slice_index si)
