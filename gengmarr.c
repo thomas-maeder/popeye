@@ -166,6 +166,7 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
   dump_nr_piece_initialisers_to_stream(dest,pos);
   fputs(",\n",dest);
   dump_castling_rights_initialiser_to_stream(dest,pos);
+  fputs("  , 0 /* currPieceId */\n",dest);
   fputs("};\n",dest);
 }
 
