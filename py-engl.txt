@@ -901,7 +901,6 @@ sstipulation). A little bit more elaborate is the command
 	35      3,5-leaper
 	36      3,6-leaper
 	37      3,7-leaper
-	ag      Andernach grasshopper
 	al      alfil   
 	am      amazon   
 	an      antelope   

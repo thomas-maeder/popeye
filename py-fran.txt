@@ -919,7 +919,6 @@ suivante est un peu plus compliquee:
 	an      antilope   
 	ao      mao noctambule
 	ar      archeveque   
-	as      sauterelle de Andernach ?????????
 	at      aigle tour
 	b1	bouncer
 	b2	tour bouncer

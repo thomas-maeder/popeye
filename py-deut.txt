@@ -930,7 +930,6 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
-	ag      Andernachgrasshuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
