@@ -1,4 +1,5 @@
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -9,11 +10,18 @@
 static boolean is_not_capture_of_uncapturable(numecoup n)
 {
   boolean result;
+  square sq_capture = move_generation_stack[n].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !TSTFLAG(being_solved.spec[move_generation_stack[n].capture],Uncapturable);
+  if (en_passant_is_ep_capture(sq_capture))
+   sq_capture -= offset_en_passant_capture;
+  TraceSquare(move_generation_stack[n].departure);
+  TraceSquare(move_generation_stack[n].arrival);
+  TraceSquare(sq_capture);
+  TraceEOL();
+  result = !TSTFLAG(being_solved.spec[sq_capture],Uncapturable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

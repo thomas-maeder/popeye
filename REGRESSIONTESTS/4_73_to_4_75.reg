@@ -69,3 +69,37 @@ no checks where detected in anticirce+nocapture since 4.63
 solving interrupted.
 
 
+
+so far, uncapturable pawns could be captured en passant
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -K   .  -P   .   .   .   7
+|                                   |
+6   K   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   S   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 3
+           Uncapturable e7
+
+  1.Kc7-d7 Se4-c5 #
+  add_to_move_generation_stack:          81
+                     play_move:          64
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          64
+
+solution finished.
+
+

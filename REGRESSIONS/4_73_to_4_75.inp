@@ -16,4 +16,11 @@ stipulation ~1
 condition anticirce calvet nocapture
 option maxsol 2 nobk
 
+next
+
+title so far, uncapturable pawns could be captured en passant
+pieces whit Ka6 Bh2 Se4 Pd5 Ra8
+blac Kc7 Pc6
+blac Uncapturable Pe7
+stip h#1
 end
