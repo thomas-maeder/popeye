@@ -32,3 +32,40 @@
 solution finished.
 
 
+
+no checks where detected in anticirce+nocapture since 4.63
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   R   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -R   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+              NoCapture
+              AntiCirce
+
+   1.Ra6-a8 !
+
+   1.Ra6-g6 !
+
+  add_to_move_generation_stack:          19
+                     play_move:          26
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:           0
+solving interrupted.
+
+

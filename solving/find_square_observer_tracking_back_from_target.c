@@ -241,6 +241,7 @@ void determine_observer_walk(slice_index si)
     for (i = 0; i!=nr_ortho_walks; ++i)
     {
       observing_walk[nbply] = ortho_walks[i];
+      TraceWalk(observing_walk[nbply]);TraceEOL();
       pipe_is_square_observed_delegate(si);
       if (observation_result)
         return;
@@ -253,6 +254,7 @@ void determine_observer_walk(slice_index si)
     for (pcheck = checkpieces; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
+      TraceWalk(observing_walk[nbply]);TraceEOL();
       pipe_is_square_observed_delegate(si);
       if (observation_result)
         return;

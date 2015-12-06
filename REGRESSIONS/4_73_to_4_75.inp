@@ -8,4 +8,12 @@ stipulation h#1
 pieces white kd4 Qb6 Rf6 black Kf8 Qg8 bg7
 option intelligent
 
+next
+
+title no checks where detected in anticirce+nocapture since 4.63
+pieces white kg8 ra6 black rg4
+stipulation ~1
+condition anticirce calvet nocapture
+option maxsol 2 nobk
+
 end

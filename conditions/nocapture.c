@@ -82,6 +82,9 @@ void solving_insert_nocapture(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STDoneGeneratingMoves,
                                            &insert_remover);
+  stip_structure_traversal_override_single(&st,
+                                           STExecutingKingCapture,
+                                           &stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
