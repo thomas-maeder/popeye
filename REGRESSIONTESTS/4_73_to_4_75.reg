@@ -103,3 +103,40 @@ so far, uncapturable pawns could be captured en passant
 solution finished.
 
 
+
+both pawns' squares have to become holes in an en passant capture
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -P   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1.5                       2 + 2
+             HaanerChess
+both sides need a king
+
+  1...Be3-f4 +
+  1...f2-f3   2.Kh2-g3 Be3-f4 +
+  1...f2-f3   2.g4*f3 Be3-f4 +
+  add_to_move_generation_stack:          76
+                     play_move:          76
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          79
+
+solution finished.
+
+

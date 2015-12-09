@@ -38,12 +38,24 @@ void haan_chess_hole_inserter_solve(slice_index si)
       PieceIdType const id = GetPieceId(move_effect_journal[curr].u.piece_movement.movingspec);
       if (!piece_visited[id])
       {
-        piece_walk_type const from = move_effect_journal[curr].u.piece_movement.from;
+        square const from = move_effect_journal[curr].u.piece_movement.from;
         if (is_square_empty(from))
           move_effect_journal_do_square_block(move_effect_journal[curr].reason,from);
         piece_visited[id] = true;
       }
-  }
+    }
+    else if (move_effect_journal[curr].type==move_effect_piece_removal
+             && move_effect_journal[curr].reason==move_effect_reason_ep_capture)
+    {
+      PieceIdType const id = GetPieceId(move_effect_journal[curr].u.piece_removal.flags);
+      if (!piece_visited[id])
+      {
+        square const on = move_effect_journal[curr].u.piece_removal.on;
+        assert(is_square_empty(on));
+        move_effect_journal_do_square_block(move_effect_journal[curr].reason,on);
+        piece_visited[id] = true;
+      }
+    }
 
   pipe_solve_delegate(si);
 

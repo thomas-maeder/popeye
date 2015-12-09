@@ -23,4 +23,13 @@ pieces whit Ka6 Bh2 Se4 Pd5 Ra8
 blac Kc7 Pc6
 blac Uncapturable Pe7
 stip h#1
-end
+
+next
+
+title both pawns' squares have to become holes in an en passant capture
+pieces white be3 pf2  black Kh2 pg4
+stipulation h+1.5
+option nobk
+condition HaanerChess
+
+ende 
