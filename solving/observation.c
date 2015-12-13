@@ -63,7 +63,7 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceWalk(walk);TraceEOL();
+  TraceSquare(sq_departure);TraceWalk(walk);TraceEOL();
   if (walk==observing_walk[nbply])
     result = pipe_validate_observation_recursive_delegate(si);
 
