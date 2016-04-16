@@ -140,3 +140,36 @@ both sides need a king
 solution finished.
 
 
+
+don't allow check even if the goal is independent from check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .  -P   .   .   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 2
+           ChecklessChess
+
+  add_to_move_generation_stack:          10
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
+
+solution finished.
+
+

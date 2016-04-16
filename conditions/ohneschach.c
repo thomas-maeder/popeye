@@ -4,6 +4,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/goals/slice_insertion.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/machinery/slack_length.h"
@@ -71,6 +72,80 @@ static void insert_stop_on_check(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void remember_instrumentation_not_necessary_check(slice_index si,
+                                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (SLICE_U(si).goal_filter.applies_to_who==goal_applies_to_starter)
+  {
+    boolean * const result = st->param;
+    *result = false;
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_instrumentation_not_necessary(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean is_instrumentation_needed(slice_index si, stip_structure_traversal *st)
+{
+  boolean result = true;
+  stip_structure_traversal st_nested;
+  stip_structure_traversal_init_nested(&st_nested,st,&result);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STOhneschachStopIfCheckAndNotMate,
+                                           &remember_instrumentation_not_necessary);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STGoalCheckReachedTester,
+                                           &remember_instrumentation_not_necessary_check);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STGoalNotCheckReachedTester,
+                                           &remember_instrumentation_not_necessary);
+  stip_traverse_structure(si,&st_nested);
+  return result;
+}
+
+static void insert_avoid_check_at_goal(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (is_instrumentation_needed(slices[si].next2,st))
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const prototype = alloc_conditional_pipe(STOhneschachStopIfCheckAndNotMate,proxy);
+    slice_index const tester = alloc_immobility_test_branch();
+
+    link_to_branch(proxy,tester);
+    goal_branch_insert_slices(slices[si].next2,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor avoid_temporary_hacks[] =
 {
   { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe },
@@ -101,7 +176,13 @@ void ohneschach_insert_check_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&insert_stop_on_check);
+
+  stip_structure_traversal_override_single(&st,
+                                           STNotEndOfBranchGoal,
+                                           &insert_stop_on_check);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTester,
+                                           &insert_avoid_check_at_goal);
   stip_structure_traversal_override(&st,
                                     avoid_temporary_hacks,
                                     nr_avoid_temporary_hacks);

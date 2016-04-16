@@ -6391,11 +6391,12 @@ conditions/ohneschach$(OBJ_SUFFIX): conditions/ohneschach.c conditions/ohneschac
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
- stipulation/slice_insertion.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/battle_play/branch.h solving/machinery/slack_length.h \
- solving/recursion_stopper.h solving/check.h solving/conditional_pipe.h \
- solving/pipe.h debugging/assert.h
+ stipulation/slice_insertion.h stipulation/goals/slice_insertion.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/battle_play/branch.h \
+ solving/machinery/slack_length.h solving/recursion_stopper.h \
+ solving/check.h solving/conditional_pipe.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/ohneschach.h:
 
@@ -6470,6 +6471,8 @@ stipulation/conditional_pipe.h:
 stipulation/branch.h:
 
 stipulation/slice_insertion.h:
+
+stipulation/goals/slice_insertion.h:
 
 solving/has_solution_type.h:
 

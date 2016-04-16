@@ -32,4 +32,12 @@ stipulation h+1.5
 option nobk
 condition HaanerChess
 
+next
+
+title don't allow check even if the goal is independent from check
+pieces white pb3 black Kd5 pc4
+stipulation x1
+condition ChecklessChess
+option nowk
+
 ende 
