@@ -5,6 +5,7 @@
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"

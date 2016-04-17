@@ -27,8 +27,8 @@ static boolean can_piece_move(numecoup n)
     else
     {
       square const sq_departure = move_generation_stack[n].departure;
-      assert(move_effect_journal[parent_movement].type==move_effect_piece_movement);
       piece_walk_type const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
+      assert(move_effect_journal[parent_movement].type==move_effect_piece_movement);
       if (get_walk_of_piece_on_square(sq_departure)==pi_parent_moving)
         result = false;
     }
