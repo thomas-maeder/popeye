@@ -173,3 +173,62 @@ don't allow check even if the goal is independent from check
 solution finished.
 
 
+
+           Bj\/orn Enemark
+Popeye has never solved this because of too aggressive optimisation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   Q   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -K   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   R   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                              3 + 2
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-a=>b2                   1 + 2
+           Circe Assassin
+
+  1.Rh5*a5[+bPa7]   2.Ra5*a7[+bPa7] a=>b
+  add_to_move_generation_stack:        1048
+                     play_move:        1165
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

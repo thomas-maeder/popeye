@@ -103,8 +103,8 @@ reported P.Raican (orig. M.Caillaud??)
            Circe Assassin
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
-  add_to_move_generation_stack:      137715
-                     play_move:      140512
+  add_to_move_generation_stack:    32984864
+                     play_move:    34592081
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -87,12 +87,15 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[dynasty]
                 || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]);
 
-  /* TODO Masand can't possibly be the only condition that doesn't
+  /* TODO these can't possibly be the only elements that doesn't
    * allow any optimisation at all.
    */
   if (piece_walk_may_exist_fairy
       || (some_pieces_flags&~PieceIdMask&~BIT(Royal))
-      || CondFlag[masand])
+      || CondFlag[masand]
+      || (CondFlag[circe]
+          && circe_variant.on_occupied_rebirth_square
+             ==circe_on_occupied_rebirth_square_assassinate))
     result  = no_slice_type;
   else if (ProofFairy)
     result = STGoalReachableGuardFilterProofFairy;
