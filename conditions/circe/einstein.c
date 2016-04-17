@@ -48,7 +48,7 @@ void circe_einstein_adjust_reborn_walk_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void circe_reversal_einstein_adjust_reborn_walk_solve(slice_index si)
+void circe_reverse_einstein_adjust_reborn_walk_solve(slice_index si)
 {
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 

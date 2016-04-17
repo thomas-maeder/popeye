@@ -35,14 +35,14 @@ static slice_type get_reborn_walk_adapter(circe_variant_type const *variant)
 
     case circe_reborn_walk_adapter_einstein:
        result = (variant->default_relevant_piece==circe_relevant_piece_capturer
-                 ? STCirceReversalEinsteinAdjustRebornWalk
+                 ? STCirceReverseEinsteinAdjustRebornWalk
                  : STCirceEinsteinAdjustRebornWalk);
       break;
 
     case circe_reborn_walk_adapter_reversaleinstein:
       result = (variant->default_relevant_piece==circe_relevant_piece_capturer
                 ? STCirceEinsteinAdjustRebornWalk
-                : STCirceReversalEinsteinAdjustRebornWalk);
+                : STCirceReverseEinsteinAdjustRebornWalk);
       break;
 
     default:

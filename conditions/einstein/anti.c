@@ -36,7 +36,7 @@ static void adjust(void)
           piece_walk_type const substitute = einstein_decrease_walk(substituted);
           if (substituted!=substitute)
             move_effect_journal_do_walk_change(move_effect_reason_einstein_chess,
-                                                to,substitute);
+                                               to,substitute);
         }
     }
   }

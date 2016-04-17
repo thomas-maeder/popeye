@@ -1058,8 +1058,8 @@ void dispatch(slice_index si)
       circe_einstein_adjust_reborn_walk_solve(si);
       break;
 
-    case STCirceReversalEinsteinAdjustRebornWalk:
-      circe_reversal_einstein_adjust_reborn_walk_solve(si);
+    case STCirceReverseEinsteinAdjustRebornWalk:
+      circe_reverse_einstein_adjust_reborn_walk_solve(si);
       break;
 
     case STCirceCouscousMakeCapturerRelevant:

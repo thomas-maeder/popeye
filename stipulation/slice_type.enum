@@ -424,7 +424,7 @@
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornSide),                     \
     ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \
     ENUMERATOR(STCirceEinsteinAdjustRebornWalk),                        \
-    ENUMERATOR(STCirceReversalEinsteinAdjustRebornWalk),                \
+    ENUMERATOR(STCirceReverseEinsteinAdjustRebornWalk),                 \
     ENUMERATOR(STCirceCouscousMakeCapturerRelevant),                    \
     ENUMERATOR(STAnticirceCouscousMakeCaptureeRelevant),                \
     ENUMERATOR(STMirrorCirceOverrideRelevantSide),                      \

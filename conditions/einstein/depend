@@ -4,19 +4,23 @@ conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
- output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
- debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
+ position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/move_effect_journal.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum stipulation/move.h \
+ solving/move_effect_journal.h solving/pipe.h debugging/assert.h
 
 conditions/einstein/einstein.h:
 
@@ -44,13 +48,33 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
 
 stipulation/pipe.h:
 
@@ -62,13 +86,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -76,23 +106,11 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/move.h:
 
 solving/move_effect_journal.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 solving/pipe.h:
 
@@ -102,21 +120,25 @@ conditions/einstein/reverse$(OBJ_SUFFIX): conditions/einstein/reverse.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h position/castling_rights.h \
- conditions/einstein/einstein.h stipulation/pipe.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h conditions/einstein/einstein.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/move_effect_journal.h solving/ply.h \
- position/pieceid.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum stipulation/move.h \
+ solving/move_effect_journal.h solving/pipe.h debugging/assert.h
 
 conditions/einstein/reverse.h:
 
@@ -142,11 +164,15 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -158,9 +184,15 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+solving/ply.h:
 
 conditions/einstein/einstein.h:
 
@@ -174,13 +206,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -188,13 +226,11 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/move.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
-
-position/pieceid.h:
 
 solving/pipe.h:
 
@@ -204,21 +240,25 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h position/castling_rights.h \
- conditions/einstein/einstein.h stipulation/pipe.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h conditions/einstein/einstein.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/move_effect_journal.h solving/ply.h \
- position/pieceid.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum stipulation/move.h \
+ solving/move_effect_journal.h solving/pipe.h debugging/assert.h
 
 conditions/einstein/anti.h:
 
@@ -244,11 +284,15 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -260,9 +304,15 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+solving/ply.h:
 
 conditions/einstein/einstein.h:
 
@@ -276,13 +326,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -290,13 +346,11 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/move.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
-
-position/pieceid.h:
 
 solving/pipe.h:
 
@@ -306,22 +360,27 @@ conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- pieces/walks/classification.h position/position.h position/color.h \
- position/color.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/observation.h \
+ solving/temporary_hacks.h pieces/walks/classification.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum stipulation/move.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/einstein/en_passant.h:
 
@@ -347,39 +406,45 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-pieces/walks/pawns/en_passant.h:
-
-solving/move_effect_journal.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
-
-pieces/walks/classification.h:
 
 position/position.h:
 
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+pieces/walks/pawns/en_passant.h:
+
+solving/move_effect_journal.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/classification.h:
 
 stipulation/pipe.h:
 
@@ -391,19 +456,27 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/move.h:
 

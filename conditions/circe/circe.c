@@ -52,7 +52,7 @@ static slice_type const circe_slice_rank_order[] =
     STAntiCloneCirceDetermineRebornWalk,
     STChameleonCirceAdaptRebornWalk,
     STCirceEinsteinAdjustRebornWalk,
-    STCirceReversalEinsteinAdjustRebornWalk,
+    STCirceReverseEinsteinAdjustRebornWalk,
     STCirceInitialiseRelevantFromReborn,
     STCirceCouscousMakeCapturerRelevant,
     STAnticirceCouscousMakeCaptureeRelevant,
