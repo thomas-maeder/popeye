@@ -6,6 +6,12 @@
 #include "position/board.h"
 #include "solving/observation.h"
 
+/* Determine the vector to the intermediate square given the vector to the
+ * arrival square.
+ */
+numvec mao_intermediate_vector(numvec to_arrival);
+numvec moa_intermediate_vector(numvec to_arrival);
+
 /* Generate moves for a Mao
  */
 void mao_generate_moves(void);

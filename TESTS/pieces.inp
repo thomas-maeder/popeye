@@ -152,4 +152,18 @@ pieces white dsd4
 stip ~1
 option nowk nobk
 
+next
+
+pieces white sea1 white dud4 black kg5 pa4
+stipulation ~1
+option nowk
+twin add white faa1
+twin add white loa1
+
+next
+
+pieces white sae5 black kh4 pf3g4 duf4f5g3
+stip ~1
+option nowk nobk
+
 end

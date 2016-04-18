@@ -273,7 +273,11 @@ static PieTable PieNamString[LanguageCount] =
     /*150*/ {'p','o'},   /* pos\'eidon */
     /*151*/ {'p','m'},   /* pion marin */
     /*152*/ {'b','m'},   /* bateau marin */
-    /*153*/ {'e','p'}    /* epine */
+    /*153*/ {'e','p'},   /* epine */
+    /*154*/ {'d','g'},   /* Senora */
+    /*155*/ {'f','a'},   /* Faro */
+    /*156*/ {'l','o'},   /* Loco */
+    /*157*/ {'s','l'}    /* Saltador */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -428,7 +432,11 @@ static PieTable PieNamString[LanguageCount] =
     /*150*/ {'p','o'},   /* Poseidon */
     /*151*/ {'m','b'},   /* mariner Bauer */
     /*152*/ {'m','c'},   /* marines Schiff */
-    /*153*/ {'s','t'}    /* Stachel */
+    /*153*/ {'s','t'},   /* Stachel */
+    /*154*/ {'s','e'},   /* Senora */
+    /*155*/ {'f','a'},   /* Faro */
+    /*156*/ {'l','o'},   /* Loco */
+    /*157*/ {'s','a'}    /* Saltador */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -583,7 +591,11 @@ static PieTable PieNamString[LanguageCount] =
     /*150*/ {'p','o'},   /* poseidon */
     /*151*/ {'m','p'},   /* marine pawn */
     /*152*/ {'m','h'},   /* marine ship */
-    /*153*/ {'s','t'}    /* sting */
+    /*153*/ {'s','t'},   /* sting */
+    /*154*/ {'s','e'},   /* Senora */
+    /*155*/ {'f','a'},   /* Faro */
+    /*156*/ {'l','o'},   /* Loco */
+    /*157*/ {'s','a'}    /* Saltador */
   }
 };
 

@@ -1556,3 +1556,121 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -K   .   5
+|                                   |
+4  -P   .   .  DU   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  SE   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+
+a) 
+
+   1.SEa1-h8 !
+
+   1.SEa1-g7 + !
+
+   1.SEa1-f6 + !
+
+   1.SEa1-e5 + !
+
+   1.SEa1-a8 !
+
+   1.SEa1-a7 !
+
+   1.SEa1-a6 !
+
+   1.SEa1-a5 + !
+
+   1.SEa1*a4 !
+
+  add_to_move_generation_stack:           9
+                     play_move:           9
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          10
+
+b) wFAa1  
+
+   1.FAa1-a8 !
+
+   1.FAa1-a7 !
+
+   1.FAa1-a6 !
+
+   1.FAa1-a5 + !
+
+   1.FAa1*a4 !
+
+  add_to_move_generation_stack:           5
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           6
+
+c) wLOa1  
+
+   1.LOa1-h8 !
+
+   1.LOa1-g7 !
+
+   1.LOa1-f6 + !
+
+   1.LOa1-e5 !
+
+  add_to_move_generation_stack:           4
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           5
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  SA -DU   .   .   5
+|                                   |
+4   .   .   .   .   . -DU  -P  -K   4
+|                                   |
+3   .   .   .   .   .  -P -DU   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 6
+
+   1.SAe5*f3 !
+
+   1.SAe5-g6 + !
+
+  add_to_move_generation_stack:          16
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
+
+solution finished.
+
+

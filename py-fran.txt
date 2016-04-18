@@ -16,11 +16,10 @@ Popeye doit etre distribue integralement.
 Feed-back:
 
 Pour envoyer des erreurs out des propositions d'extension, veuillez utiliser
-les outils respectifs offerts par sourceforge.net .
+les outils respectifs offerts par github.com .
 
 Ouvrez dans votre browser
-http://sourceforge.net/tracker/?group_id=200122&atid=972237 (erreurs)
-http://sourceforge.net/tracker/?group_id=200122&atid=972240 (propositions)
+https://github.com/thomas-maeder/popeye/issues
 
 Utilisez le lien "Add new" et remplissez l'information que vous
 desirez envoyer dans les champs "Summary" et "Description". Puis
@@ -403,7 +402,7 @@ simples:
 	Auto-blocage de la piece promue:
 		Calvet		(standard)
 		Cheylan
-	Les noms de condition "traditionnels" suivanta peuvent toujours etre
+	Les noms de condition "traditionnels" suivants peuvent toujours etre
 	utilises; ils permettent d'ajouter RexInclusif ou RexExclusif.
 		traditionel:		Indication avec option(s):
 		CirceMalefique		Circe Malefique
@@ -455,8 +454,9 @@ simples:
 	separees par une espace. Les options suivantes seront reconnues:
 
 	Essais          Le jeux d'essais sera affiche
-	Defense         Toutes les defenses contre chaque coup seront
-			affichees
+	Defense         Suivie par un chiffre positif - le nombre maximal de
+			refutations considerees (cas special: defense 1
+			les essais sont ecrits comme d'habitude).
 	Apparent        Le jeux apparent sera affiche
 	ApparentSeul    Les blancs jouent aux mats aides (0.1.1...)
 	Menace          Pour le mode multi-coups: Cette option doit
@@ -945,6 +945,7 @@ suivante est un peu plus compliquee:
 	d       dame
 	da      dabbabba
 	df      double fou-sauterelle 
+	dg	senora				Dame arGentinienne
 	dn      dauphin                         sauterelle + kangourou
 	dr      dragon   
 	ds      double sauterelle 
@@ -959,6 +960,7 @@ suivante est un peu plus compliquee:
 	ep      epine (roi+sauterelle royal)
 	et      elan tour
 	f       fou
+	fa	faro				tour argentinienne
 	fc      fou/tour chasseur
 	fe      fers
 	fl      fou-lion
@@ -980,6 +982,7 @@ suivante est un peu plus compliquee:
 	lf      fou locuste   
 	li      lion
 	ln      noctambule locuste   
+	lo	loco				Fou argentinien
 	lr	rose locuste
 	lt      tour locuste   
 	m       moineaux
@@ -1033,6 +1036,7 @@ suivante est un peu plus compliquee:
 	sg      gnou sauteur
 	si      sirene
 	sk      skylla
+	sl	Saltador			Cavalier argentinien
 	sm	sauteur arbre majeur
 	sn      sauteur noctambule 
 	so      scorpion
@@ -1173,23 +1177,6 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	1) Nombre maximal de plies de calculation:     699 demi-coups.
 	2) Il est toujours possible d'interrompre la verification
 	   avec la cle CTRL-C.
-
-
-MVS, ATARI, macintosh:
-
-	c'est PEUT-ETRE soutenu par:
-
-	MVS:       Harald Denker
-	ATARI:     Harald Denker
-	macintosh: Stefan Brunzen
-
-
-MS-DOS (16 Bit), DR-DOS (16 Bit):
-BS2000:
-OS/2:
-VMS:
-	ne plus soutenu ...
-
 
 
 Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel

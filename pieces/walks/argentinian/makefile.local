@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = riders.c saltador.c
+
+INCLUDES = riders.h saltador.h
+
+include makefile.rules $(CURRPWD)depend

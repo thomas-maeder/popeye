@@ -16,11 +16,10 @@ weitergeben wird.
 Rueckmeldungen:
 
 Fuer Fehlermeldungen und Erweiterungsvorschluege verwenden Sie bitte die
-dafuer vorgesehenen Werkzeuge auf sourceforge.net .
+dafuer vorgesehenen Werkzeuge auf github.com .
 
 Oeffnen Sie in Ihrem Browser
-http://sourceforge.net/tracker/?group_id=200122&atid=972237 (Fehler)
-http://sourceforge.net/tracker/?group_id=200122&atid=972240 (Erweiterungen)
+https://github.com/thomas-maeder/popeye/issues
 
 Verwenden Sie den Link "Add new" und fuellen Sie in die Felder
 "Summary" und "Description" die Informationen ein, welche Sie
@@ -282,7 +281,7 @@ Kommandos:
 	Nach der Bedingung NurPartiesatzsteine kann wahlweise
 	"Typ1", "Typ2" oder "Typ3" angegeben werden.
 
-	Nach der Bedingung Republikanerscahch kann wahlweise
+	Nach der Bedingung RepublikanerSchach kann wahlweise
 	"Typ1" oder "Typ2" angegeben werden. Typ2 ist die Vorgabe.
 
 	Nach der Liste der magischen Felder wahlweise "Typ1" oder
@@ -318,7 +317,7 @@ Kommandos:
 	Zum Beispiel kann das Standardgitter durch jede der folgende
 	Angaben beschrieben werden:
 		bedingung gitterschach
-		bedingung gitterschach bdf246
+		bedingung gitterschach orthogonal bdf246
 		bedingung gitterschach unregelmaessig a8a7b8b7 c8c7d8d7 ...
 	Die Angabe   
 		bedingung gitterschach unregelmaessig
@@ -966,6 +965,7 @@ aufwendiger ist das Kommando
 	er      Erzbischof   
 	et      Elefant				0,1+1,1+1,2 Reiter   
 	f       Freund
+	fa	Faro				Argentinischer Turm
 	fe      Fers                            1,1 Springer
 	fr      Fersreiter                      wie Laeufer, aber anderes Wiedergeburtsfeld
 	g       Grashuepfer                     0,1+1,1 Huepfer
@@ -1004,6 +1004,7 @@ aufwendiger ist das Kommando
 	lj      Laeufer/Turm-Jaeger
 	lk      Kaenguruh-Lion
 	ll      Laeufer-Lion
+	lo	Loco				Argentinischer Laeufer
 	lr	Rosen-Heuschrecke
 	ls      Laeuferspatz                    1,1 135 Grad Huepfer
 	ma      Mao                             (Wie Springer) Gerade-Diagonal
@@ -1048,8 +1049,10 @@ aufwendiger ist das Kommando
         s2      (2,0)-Zigzag Nachtreiter (e.g. a1-b3-c1-d3-e1...)
         s3      (3,3)-Zigzag Nachtreiter (e.g. a1-b3-d4-e6-g7...)
         s4      (4,0)-Zigzag Nachtreiter (e.g. a1-c2-e1-g2...)
-	sc      Schiff
+	sa	Saltador			Argentinischer Springer
 	sb      Superbauer
+	sc      Schiff
+	se	Senora				Argentinische Dame
 	sh      Springerhuepfer
 	si      Sirene
 	sk      Skylla
@@ -1205,24 +1208,6 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	1) Maximale Rechentiefe:                699 Halbzuege
 	2) Die Loesung kann jederzeit durch die CTRL-C Tastenkombination
 	   abgebrochen werden.
-
-
-MVS, ATARI, macintosh:
-
-	wird VIELLEICHT noch unterstuetzt durch:
-
-	MVS:       Harald Denker
-	ATARI:     Harald Denker
-	macintosh: Stefan Brunzen
-
-
-MS-DOS (16 Bit), DR-DOS (16 Bit):
-BS2000:
-OS/2:
-VMS:
-	werden nicht mehr unterstuetzt ...
-
-
 
 
 Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel

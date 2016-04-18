@@ -6,14 +6,14 @@
 #include "solving/fork.h"
 #include "debugging/trace.h"
 
-static square mao_passed(numvec to_arrival)
+numvec mao_intermediate_vector(numvec to_arrival)
 {
   numvec const y = to_arrival/(onerow-2);
   numvec const x = to_arrival - y*onerow;
   return (y/2)*onerow + (x/2);
 }
 
-static square moa_passed(numvec to_arrival)
+numvec moa_intermediate_vector(numvec to_arrival)
 {
   numvec const y = to_arrival/(onerow-2);
   numvec const x = to_arrival - y*onerow;
@@ -44,7 +44,7 @@ void mao_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_generate_move(mao_passed(to_arrival),to_arrival);
+    maooa_generate_move(mao_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -57,7 +57,7 @@ void moa_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_generate_move(moa_passed(to_arrival),to_arrival);
+    maooa_generate_move(moa_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -140,7 +140,7 @@ void maorider_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_rider_generate_moves(mao_passed(to_arrival),to_arrival);
+    maooa_rider_generate_moves(mao_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -153,7 +153,7 @@ void moarider_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_rider_generate_moves(moa_passed(to_arrival),to_arrival);
+    maooa_rider_generate_moves(moa_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -186,7 +186,7 @@ boolean maorider_check(validator_id evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooarider_check(moa_passed(to_departure), /* we are going backward! */
+    if (maooarider_check(moa_intermediate_vector(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
     {
@@ -211,7 +211,7 @@ boolean moarider_check(validator_id evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooarider_check(mao_passed(to_departure), /* we are going backward! */
+    if (maooarider_check(mao_intermediate_vector(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
     {
@@ -270,7 +270,7 @@ void maoriderlion_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_rider_lion_generate_moves(mao_passed(to_arrival),to_arrival);
+    maooa_rider_lion_generate_moves(mao_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -283,7 +283,7 @@ void moariderlion_generate_moves(void)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     numvec const to_arrival = vec[k];
-    maooa_rider_lion_generate_moves(moa_passed(to_arrival),to_arrival);
+    maooa_rider_lion_generate_moves(moa_intermediate_vector(to_arrival),to_arrival);
   }
 }
 
@@ -336,7 +336,7 @@ boolean maoriderlion_check(validator_id evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooariderlion_check(moa_passed(to_departure), /* we are going backward! */
+    if (maooariderlion_check(moa_intermediate_vector(to_departure), /* we are going backward! */
                              to_departure,
                              evaluate))
     {
@@ -361,7 +361,7 @@ boolean moariderlion_check(validator_id evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooariderlion_check(mao_passed(to_departure), /* we are going backward! */
+    if (maooariderlion_check(mao_intermediate_vector(to_departure), /* we are going backward! */
                              to_departure,
                              evaluate))
     {

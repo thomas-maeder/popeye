@@ -164,7 +164,11 @@ typedef enum
   MarinePawn,            /* 151 */
   MarineShip,            /* 152 */
   Sting,                 /* 153 */
-  Hunter0,               /* 154 */
+  Senora,                /* 154 */
+  Faro,                  /* 155 */
+  Loco,                  /* 156 */
+  Saltador,              /* 157 */
+  Hunter0,               /* 158 */
 
   nr_piece_walks = Hunter0+max_nr_hunter_walks
 } piece_walk_type;

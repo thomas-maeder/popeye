@@ -16,11 +16,10 @@ its entirety.
 Providing feedback:
 
 The preferred way of submitting bug reports or feature requests is
-through the tools offered on sourceforge.net .
+through the tools offered on github.com .
 
 Please direct your browser to
-http://sourceforge.net/tracker/?group_id=200122&atid=972237 (bug reports)
-http://sourceforge.net/tracker/?group_id=200122&atid=972240 (feature requests)
+https://github.com/thomas-maeder/popeye/issues
 
 Use the "Add new" link and fill out the "Summary" and "Description"
 with the information you'd like to submit, then use the "Add Artifact"
@@ -101,7 +100,6 @@ commands expect further parameters. Lets start with the simpler commands:
         The following conditions are implemented:
 
 	Circe
-	MirrorCirce
 	Madrasi
 	Volage
 	Hypervolage
@@ -142,7 +140,6 @@ commands expect further parameters. Lets start with the simpler commands:
 	NewKoeko
 	AntiCirce
 	ReversalEinsteinChess
-	SuperCirce
 	RelegationChess
 	NorskSjakk
 	TraitorChess
@@ -947,6 +944,7 @@ sstipulation). A little bit more elaborate is the command
 	eq      equihopper
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend
+	fa	faro				Argentinien Rook
 	fe      fers
 	fr      fersrider           like bishop, but different rebirth square
 	g       grasshopper
@@ -973,6 +971,7 @@ sstipulation). A little bit more elaborate is the command
 	lh      leaf hopper
 	li      lion
 	ln      nightrider locust
+	lo	loco				Argentinian Bishop
 	lr      rook locust
         ls      rose locust
 	m       moose
@@ -1024,6 +1023,8 @@ sstipulation). A little bit more elaborate is the command
         s2      (2,0)-Zigzag Nightrider (e.g. a1-b3-c1-d3-e1...)
         s3      (3,3)-Zigzag Nightrider (e.g. a1-b3-d4-e6-g7...)
         s4      (4,0)-Zigzag Nightrider (e.g. a1-c2-e1-g2...)
+	sa	saltador		Argentinian Knight
+	se	senora			Argentinian Queen
 	sh      ship
 	si      sirene
 	sk      skylla
@@ -1158,22 +1159,6 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 
 	1) Maximum depth of calculation:        699 half-moves.
 	2) Solving can be interrupted anytime with the CTRL-C key.
-
-
-MVS, ATARI, macintosh:
-
-	will EVENTUALLY be supported by:
-
-	MVS:       Harald Denker
-	ATARI:     Harald Denker
-	macintosh: Stefan Brunzen
-
-
-MS-DOS (16 Bit), DR-DOS (16 Bit):
-BS2000:
-OS/2:
-VMS:
-	Not supported any more ...
 
 
 

@@ -132,14 +132,14 @@ static void insert_avoid_check_at_goal(slice_index si, stip_structure_traversal 
 
   stip_traverse_structure_children(si,st);
 
-  if (is_instrumentation_needed(slices[si].next2,st))
+  if (is_instrumentation_needed(SLICE_NEXT2(si),st))
   {
     slice_index const proxy = alloc_proxy_slice();
     slice_index const prototype = alloc_conditional_pipe(STOhneschachStopIfCheckAndNotMate,proxy);
     slice_index const tester = alloc_immobility_test_branch();
 
     link_to_branch(proxy,tester);
-    goal_branch_insert_slices(slices[si].next2,&prototype,1);
+    goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
   }
 
   TraceFunctionExit(__func__);

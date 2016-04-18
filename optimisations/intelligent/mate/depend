@@ -153,13 +153,13 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_checking_moves.h \
  position/position.h position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum pieces/pieces.h \
- utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum optimisations/intelligent/intelligent.h \
- position/pieceid.h solving/machinery/solve.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
@@ -167,7 +167,7 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/orthodox_check_directions.h \
- pieces/walks/pawns/promotee_sequence.h debugging/assert.h
+ pieces/walks/pawns/promotee_sequence.h solving/pipe.h debugging/assert.h
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
@@ -188,6 +188,8 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/pieceid.h:
 
 pieces/pieces.h:
 
@@ -215,8 +217,6 @@ output/mode.enum:
 
 optimisations/intelligent/intelligent.h:
 
-position/pieceid.h:
-
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
@@ -239,6 +239,8 @@ optimisations/orthodox_check_directions.h:
 
 pieces/walks/pawns/promotee_sequence.h:
 
+solving/pipe.h:
+
 debugging/assert.h:
 optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_doublechecking_moves.c \
@@ -250,7 +252,7 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  output/mode.h output/mode.enum.h output/mode.enum \
  optimisations/intelligent/intelligent.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h position/pieceid.h \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
@@ -259,7 +261,7 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/orthodox_check_directions.h \
- pieces/walks/pawns/promotee_sequence.h debugging/assert.h
+ pieces/walks/pawns/promotee_sequence.h solving/pipe.h debugging/assert.h
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
 
@@ -303,11 +305,11 @@ position/color.enum.h:
 
 position/color.enum:
 
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
-
-position/pieceid.h:
 
 solving/machinery/solve.h:
 
@@ -332,6 +334,8 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 optimisations/orthodox_check_directions.h:
 
 pieces/walks/pawns/promotee_sequence.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \

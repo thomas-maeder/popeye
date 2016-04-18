@@ -10,6 +10,8 @@
 #include "pieces/walks/chinese/riders.h"
 #include "pieces/walks/chinese/mao.h"
 #include "pieces/walks/chinese/pawn.h"
+#include "pieces/walks/argentinian/riders.h"
+#include "pieces/walks/argentinian/saltador.h"
 #include "pieces/walks/locusts.h"
 #include "pieces/walks/marine.h"
 #include "pieces/walks/hoppers.h"
@@ -205,16 +207,20 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*151 */  marine_pawn_check,
 /*152 */  marine_ship_check,
 /*153 */  sting_check,
-/*154 */  hunter_check,
-/*155 */  hunter_check,
-/*156 */  hunter_check,
-/*157 */  hunter_check,
+/*154 */  senora_check,
+/*155 */  faro_check,
+/*156 */  loco_check,
+/*157 */  saltador_check,
 /*158 */  hunter_check,
 /*159 */  hunter_check,
 /*160 */  hunter_check,
 /*161 */  hunter_check,
 /*162 */  hunter_check,
-/*163 */  hunter_check
+/*163 */  hunter_check,
+/*164 */  hunter_check,
+/*165 */  hunter_check,
+/*166 */  hunter_check,
+/*167 */  hunter_check
 };
 
 void track_back_from_target_according_to_observer_walk(slice_index si)

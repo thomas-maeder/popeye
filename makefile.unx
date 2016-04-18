@@ -221,7 +221,8 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     solving solving/battle_play solving/help_play solving/boolean solving/machinery solving/goals \
     retro \
     position \
-    pieces pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
+    pieces pieces/walks pieces/walks/pawns pieces/walks/angle \
+    pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
@@ -263,7 +264,8 @@ NESTEDLIBDIRS = \
     retro \
     solving solving/battle_play solving/help_play solving/boolean solving/goals \
     pieces \
-    pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
+    pieces/walks pieces/walks/pawns pieces/walks/angle \
+    pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     DHT \

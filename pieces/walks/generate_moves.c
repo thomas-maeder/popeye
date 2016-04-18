@@ -26,6 +26,8 @@
 #include "pieces/walks/pawns/super.h"
 #include "pieces/walks/pawns/combined.h"
 #include "pieces/walks/chinese/mao.h"
+#include "pieces/walks/argentinian/riders.h"
+#include "pieces/walks/argentinian/saltador.h"
 #include "pieces/walks/cat.h"
 #include "pieces/walks/bouncy.h"
 #include "pieces/walks/cardinal.h"
@@ -663,6 +665,22 @@ void generate_moves_for_piece_based_on_walk(void)
 
     case Sting:
       sting_generate_moves();
+      break;
+
+    case Senora:
+      argentinian_rider_generate_moves(vec_queen_start,vec_queen_end);
+      break;
+
+    case Faro:
+      argentinian_rider_generate_moves(vec_rook_start,vec_rook_end);
+      break;
+
+    case Loco:
+      argentinian_rider_generate_moves(vec_bishop_start,vec_bishop_end);
+      break;
+
+    case Saltador:
+      saltador_generate_moves();
       break;
 
     default:

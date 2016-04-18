@@ -2992,8 +2992,9 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  pieces/walks/roses.h pieces/walks/bouncer.h pieces/walks/pawns/pawn.h \
  pieces/walks/pawns/berolina.h pieces/walks/pawns/reverse.h \
  pieces/walks/chinese/riders.h pieces/walks/chinese/mao.h \
- pieces/walks/chinese/pawn.h pieces/walks/locusts.h pieces/walks/marine.h \
- pieces/walks/hoppers.h solving/move_generator.h \
+ pieces/walks/chinese/pawn.h pieces/walks/argentinian/riders.h \
+ pieces/walks/argentinian/saltador.h pieces/walks/locusts.h \
+ pieces/walks/marine.h pieces/walks/hoppers.h solving/move_generator.h \
  solving/machinery/solve.h pieces/walks/bouncy.h \
  pieces/walks/pawns/super.h pieces/walks/cardinal.h \
  pieces/walks/reflecting_bishop.h pieces/walks/combined.h \
@@ -3082,6 +3083,10 @@ pieces/walks/chinese/riders.h:
 pieces/walks/chinese/mao.h:
 
 pieces/walks/chinese/pawn.h:
+
+pieces/walks/argentinian/riders.h:
+
+pieces/walks/argentinian/saltador.h:
 
 pieces/walks/locusts.h:
 
