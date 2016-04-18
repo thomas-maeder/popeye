@@ -245,6 +245,7 @@ simples:
 	Disparate
 	EchecsSnek
 	EchecsSnekCirculaires
+	EchecksArgentiniens
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

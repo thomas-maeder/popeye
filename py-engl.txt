@@ -243,6 +243,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Disparate
 	SnekChess
 	SnekCircleChess
+	ArgentinianChess
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

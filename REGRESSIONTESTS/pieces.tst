@@ -1674,3 +1674,84 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+          ArgentinianChess
+
+  1.e2-e1=SE e7-e8=SE
+  1.e2-e1=SE e7-e8=FA
+  1.e2-e1=SE e7-e8=LO
+  1.e2-e1=SE e7-e8=SA
+  1.e2-e1=FA e7-e8=SE
+  1.e2-e1=FA e7-e8=FA
+  1.e2-e1=FA e7-e8=LO
+  1.e2-e1=FA e7-e8=SA
+  1.e2-e1=LO e7-e8=SE
+  1.e2-e1=LO e7-e8=FA
+  1.e2-e1=LO e7-e8=LO
+  1.e2-e1=LO e7-e8=SA
+  1.e2-e1=SA e7-e8=SE
+  1.e2-e1=SA e7-e8=FA
+  1.e2-e1=SA e7-e8=LO
+  1.e2-e1=SA e7-e8=SA
+  add_to_move_generation_stack:           5
+                     play_move:          20
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8 -FA -SA -LO   .  -K -LO -SA -FA   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .  LO   6
+|                                   |
+5   .   .   .   .   .   . -SE   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   P   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   P   2
+|                                   |
+1  FA  SA   .  SE   K  LO  SA  FA   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2                      16 + 15
+          ArgentinianChess
+
+  1.d2-d3 h7-h6   2.LOc1*h6 SEd8-g5 dia
+  add_to_move_generation_stack:     2685214
+                     play_move:     2415353
+ is_white_king_square_attacked:       86083
+ is_black_king_square_attacked:        2115
+
+solution finished.
+
+

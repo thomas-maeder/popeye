@@ -53,4 +53,12 @@ void initalise_standard_walks(void)
 
   if (CondFlag[cavaliermajeur])
     standard_walks[Knight] = NightRider;
+
+  if (CondFlag[argentinian])
+  {
+    standard_walks[Queen] = Senora;
+    standard_walks[Rook] = Faro;
+    standard_walks[Bishop] = Loco;
+    standard_walks[Knight] = Saltador;
+  }
 }

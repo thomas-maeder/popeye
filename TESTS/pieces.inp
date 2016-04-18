@@ -166,4 +166,18 @@ pieces white sae5 black kh4 pf3g4 duf4f5g3
 stip ~1
 option nowk nobk
 
+next
+
+pieces white pe7 black pe2
+stip h~1
+condition argentin
+option nowk nobk
+
+next
+
+pieces white ke1 sed1 faa1h1 loh6f1 sab1g1 pa2b2c2d3e2f2g2h2
+       black ke8 seg5 faa8h8 loc8f8 sab8g8 pa7b7c7d7e7f7g7
+stip dia2
+condition argentinian
+
 end
