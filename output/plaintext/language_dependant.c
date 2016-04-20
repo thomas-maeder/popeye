@@ -277,7 +277,9 @@ static PieTable PieNamString[LanguageCount] =
     /*154*/ {'d','g'},   /* Senora */
     /*155*/ {'f','a'},   /* Faro */
     /*156*/ {'l','o'},   /* Loco */
-    /*157*/ {'s','l'}    /* Saltador */
+    /*157*/ {'s','l'},   /* Saltador */
+    /*158*/ {'a','s'},   /* MaoSauteur */
+    /*159*/ {'o','s'}    /* MoaSauteur */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -436,7 +438,9 @@ static PieTable PieNamString[LanguageCount] =
     /*154*/ {'s','e'},   /* Senora */
     /*155*/ {'f','a'},   /* Faro */
     /*156*/ {'l','o'},   /* Loco */
-    /*157*/ {'s','a'}    /* Saltador */
+    /*157*/ {'s','a'},   /* Saltador */
+    /*158*/ {'a','h'},   /* MaoHopper */
+    /*159*/ {'o','h'}    /* MoaHopper */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -595,7 +599,9 @@ static PieTable PieNamString[LanguageCount] =
     /*154*/ {'s','e'},   /* Senora */
     /*155*/ {'f','a'},   /* Faro */
     /*156*/ {'l','o'},   /* Loco */
-    /*157*/ {'s','a'}    /* Saltador */
+    /*157*/ {'s','a'},   /* Saltador */
+    /*158*/ {'a','h'},   /* MaoHopper */
+    /*159*/ {'o','h'}    /* MoaHopper */
   }
 };
 

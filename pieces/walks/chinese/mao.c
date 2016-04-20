@@ -61,9 +61,9 @@ void moa_generate_moves(void)
   }
 }
 
-static boolean maooacheck_onedir(square sq_pass,
-                                 vec_index_type vec_index_angle_departure_pass,
-                                 validator_id evaluate)
+boolean maooacheck_onedir(square sq_pass,
+                          vec_index_type vec_index_angle_departure_pass,
+                          validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
@@ -373,4 +373,76 @@ boolean moariderlion_check(validator_id evaluate)
   --observation_context;
 
   return result;
+}
+
+static void maooahopper_generate_moves(vec_index_type k,
+                                       numvec to_intermediate)
+{
+  numvec const to_arrival = vec[k];
+  square const sq_departure = curr_generation->departure;
+  square const sq_hurdle = sq_departure+to_intermediate;
+
+  if (!is_square_empty(sq_hurdle))
+  {
+    curr_generation->arrival = sq_departure+to_arrival;
+    if (is_square_empty(curr_generation->arrival)
+        || piece_belongs_to_opponent(curr_generation->arrival))
+      hoppers_push_move(k,sq_hurdle);
+  }
+}
+
+void moahopper_generate_moves(void)
+{
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+    maooahopper_generate_moves(k,moa_intermediate_vector(vec[k]));
+}
+
+void maohopper_generate_moves(void)
+{
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+    maooahopper_generate_moves(k,mao_intermediate_vector(vec[k]));
+}
+
+static boolean maooahopper_check(vec_index_type vec_index_pass_target_begin,
+                                 vec_index_type vec_index_pass_target_end,
+                                 validator_id evaluate)
+{
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index1 = vec_index_pass_target_end;
+       interceptable_observation[observation_context].vector_index1>=vec_index_pass_target_begin;
+       --interceptable_observation[observation_context].vector_index1)
+  {
+    numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index1];
+    square const sq_pass = sq_target+vec_pass_target;
+
+    if (!is_square_empty(sq_pass)
+        && (maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index1,evaluate)
+            || maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index1-1,evaluate)))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean maohopper_check(validator_id evaluate)
+{
+  return maooahopper_check(vec_bishop_start,vec_bishop_end,evaluate);
+}
+
+boolean moahopper_check(validator_id evaluate)
+{
+  return maooahopper_check(vec_rook_start,vec_rook_end,evaluate);
 }

@@ -1755,3 +1755,53 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .   .  AH  -P  -P   .   5
+|                                   |
+4   .   .   .   .  -P   .  -P  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          1 + 6
+
+a) 
+
+  1  (AHe5-d3 )
+  2  (AHe5-f3 )
+  3  (AHe5*g4 )
+  4  (AHe5*g6 + )
+   1.AHe5*g6 + !
+
+  add_to_move_generation_stack:           4
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           9
+
+b) wOHe5  bPe4-->f4  
+
+  5  (OHe5-f3 + )
+   1.OHe5-f3 + !
+
+  6  (OHe5*g4 )
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           5
+
+solution finished.
+
+

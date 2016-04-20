@@ -899,6 +899,7 @@ sstipulation). A little bit more elaborate is the command
 	35      3,5-leaper
 	36      3,6-leaper
 	37      3,7-leaper
+	ah	MAoHopper
 	al      alfil   
 	am      amazon   
 	an      antelope   
@@ -992,6 +993,7 @@ sstipulation). A little bit more elaborate is the command
 	nl      nightrider lion
 	o       orphan
 	oa      moarider
+	oh	MOaHopper
 	ok      okapi                           knight + zebra
 	or      Orix                        English equihopper on queen lines
 	p       pawn

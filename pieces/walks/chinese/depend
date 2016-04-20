@@ -153,10 +153,10 @@ pieces/walks/chinese/pawn$(OBJ_SUFFIX): pieces/walks/chinese/pawn.c \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- position/castling_rights.h solving/temporary_hacks.h \
- solving/move_generator.h solving/machinery/solve.h solving/fork.h
+ debugging/trace.h solving/temporary_hacks.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h position/castling_rights.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h
 
 pieces/walks/chinese/pawn.h:
 
@@ -200,6 +200,8 @@ solving/ply.h:
 
 debugging/trace.h:
 
+solving/temporary_hacks.h:
+
 position/position.h:
 
 position/color.h:
@@ -211,8 +213,6 @@ position/color.enum:
 position/pieceid.h:
 
 position/castling_rights.h:
-
-solving/temporary_hacks.h:
 
 solving/move_generator.h:
 
@@ -227,11 +227,11 @@ pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h position/position.h position/color.h \
+ debugging/trace.h solving/temporary_hacks.h pieces/walks/angle/angles.h \
+ pieces/walks/hoppers.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
- position/castling_rights.h solving/temporary_hacks.h \
- pieces/walks/angle/angles.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/machinery/solve.h solving/fork.h
+ position/castling_rights.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h
 
 pieces/walks/chinese/mao.h:
 
@@ -275,6 +275,12 @@ solving/ply.h:
 
 debugging/trace.h:
 
+solving/temporary_hacks.h:
+
+pieces/walks/angle/angles.h:
+
+pieces/walks/hoppers.h:
+
 position/position.h:
 
 position/color.h:
@@ -286,12 +292,6 @@ position/color.enum:
 position/pieceid.h:
 
 position/castling_rights.h:
-
-solving/temporary_hacks.h:
-
-pieces/walks/angle/angles.h:
-
-pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 

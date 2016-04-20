@@ -683,6 +683,14 @@ void generate_moves_for_piece_based_on_walk(void)
       saltador_generate_moves();
       break;
 
+    case MaoHopper:
+      maohopper_generate_moves();
+      break;
+
+    case MoaHopper:
+      moahopper_generate_moves();
+      break;
+
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */

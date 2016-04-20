@@ -919,7 +919,8 @@ suivante est un peu plus compliquee:
 	am      amazone   
 	an      antilope   
 	ao      mao noctambule
-	ar      archeveque   
+	ar      archeveque
+	as	mAo sauteur   
 	at      aigle tour
 	b1	bouncer
 	b2	tour bouncer
@@ -1007,6 +1008,7 @@ suivante est un peu plus compliquee:
 	oa      moa noctambule
 	ok      okapi                           cavalier + zebre
 	or      Orix                            equisateur anglais en lignes de dame
+	os	MOaSauteur
 	p       pion
 	pa      pao
 	pb      pion berolina   

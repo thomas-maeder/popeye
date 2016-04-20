@@ -180,4 +180,11 @@ pieces white ke1 sed1 faa1h1 loh6f1 sab1g1 pa2b2c2d3e2f2g2h2
 stip dia2
 condition argentinian
 
+next
+
+pieces white ahe5 black kh4 pe4f5g4g6g5
+stip +1
+option nowk move
+twin add white ohe5 move e4 f4
+
 end

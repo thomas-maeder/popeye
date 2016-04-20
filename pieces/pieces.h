@@ -61,9 +61,9 @@ typedef enum
   Camelrider,             /* 48 */
   Zebrarider,             /* 49 */
   Gnurider,               /* 50 */
-  CamelRiderHopper,            /* 51 */
-  ZebraRiderHopper,            /* 52 */
-  GnuRiderHopper,              /* 53 */
+  CamelRiderHopper,       /* 51 */
+  ZebraRiderHopper,       /* 52 */
+  GnuRiderHopper,         /* 53 */
   DiagonalSpiralSpringer, /* 54 */
   BouncyKnight,           /* 55 */
   EquiHopper,             /* 56 */
@@ -168,7 +168,9 @@ typedef enum
   Faro,                  /* 155 */
   Loco,                  /* 156 */
   Saltador,              /* 157 */
-  Hunter0,               /* 158 */
+  MaoHopper,             /* 158 */
+  MoaHopper,             /* 159 */
+  Hunter0,               /* 160 */
 
   nr_piece_walks = Hunter0+max_nr_hunter_walks
 } piece_walk_type;
