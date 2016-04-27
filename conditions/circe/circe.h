@@ -23,8 +23,8 @@
 
 typedef enum
 {
-  anticirce_type_cheylan,
   anticirce_type_calvet,
+  anticirce_type_cheylan,
 
   anticirce_type_count
 } anticirce_type_type;

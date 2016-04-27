@@ -195,27 +195,19 @@ circe_variant_type circe_variant;
 circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
 
+static circe_variant_type const circe_variant_default = {
+    .rebirth_reason = move_effect_reason_rebirth_no_choice,
+    .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed,
+    .do_place_reborn = true,
+    .anticirce_type = anticirce_type_count
+};
+
 /* Reset a circe_variant object to the default values
  * @param variant address of the variant object to be reset
  */
 void circe_reset_variant(circe_variant_type *variant)
 {
-  variant->is_promotion_possible = false;
-  variant->rebirth_reason = move_effect_reason_rebirth_no_choice;
-  variant->relevant_side_overrider = circe_relevant_side_overrider_none;
-  variant->rebirth_square_adapter = circe_rebirth_square_adapter_none;
-  variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
-  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed;
-  variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
-  variant->is_turncoat = false;
-  variant->do_place_reborn = true;
-  variant->default_relevant_piece = circe_relevant_piece_capturee;
-  variant->actual_relevant_piece = circe_relevant_piece_capturee;
-  variant->relevant_capture = circe_relevant_capture_thismove;
-  variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
-  variant->anticirce_type = anticirce_type_count;
-  variant->is_rex_inclusive = false;
-  variant->is_restricted_to_walks = false;
+  *variant = circe_variant_default;
 }
 
 /* Find the Circe rebirth effect in the current move

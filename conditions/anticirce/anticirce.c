@@ -13,6 +13,16 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+static circe_variant_type const circe_variant_default = {
+    .is_rex_inclusive = true,
+    .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict,
+    .do_place_reborn = true,
+    .default_relevant_piece = circe_relevant_piece_capturer,
+    .actual_relevant_piece = circe_relevant_piece_capturer,
+    .rebirth_reason = move_effect_reason_rebirth_no_choice,
+    .anticirce_type = anticirce_type_count
+};
+
 circe_variant_type anticirce_variant;
 
 /* Reset a circe_variant object to the default values
@@ -20,22 +30,7 @@ circe_variant_type anticirce_variant;
  */
 void anticirce_reset_variant(circe_variant_type *variant)
 {
-  variant->is_promotion_possible = false;
-  variant->rebirth_reason = move_effect_reason_rebirth_no_choice;
-  variant->relevant_side_overrider = circe_relevant_side_overrider_none;
-  variant->rebirth_square_adapter = circe_rebirth_square_adapter_none;
-  variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
-  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
-  variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
-  variant->is_turncoat = false;
-  variant->do_place_reborn = true;
-  variant->default_relevant_piece = circe_relevant_piece_capturer;
-  variant->actual_relevant_piece = circe_relevant_piece_capturer;
-  variant->relevant_capture = circe_relevant_capture_thismove;
-  variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
-  variant->anticirce_type = anticirce_type_count;
-  variant->is_rex_inclusive = true;
-  variant->is_restricted_to_walks = false;
+  *variant = circe_variant_default;
 }
 
 /* Instrument the solving machinery with AntiCirce

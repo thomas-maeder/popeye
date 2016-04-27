@@ -1479,16 +1479,16 @@ static char const * const AntiCirceVariantTypeString[LanguageCount][anticirce_ty
 {
   {
     /* French */
-     "Cheylan",
-     "Calvet"
+     "Calvet",
+     "Cheylan"
   },{
     /* German */
-     "Cheylan",
-     "Calvet"
+     "Calvet",
+     "Cheylan"
   },{
     /* English */
-     "Cheylan",
-     "Calvet"
+     "Calvet",
+     "Cheylan"
   }
 };
 
