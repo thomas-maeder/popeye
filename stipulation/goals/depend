@@ -4,9 +4,7 @@ stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h debugging/assert.h
+ debugging/assert.h
 
 stipulation/goals/goals.h:
 
@@ -40,22 +38,6 @@ output/mode.enum:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
 debugging/assert.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
@@ -75,10 +57,7 @@ stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/conditional_pipe.h stipulation/boolean/true.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- pieces/walks/vectors.h position/castling_rights.h solving/ply.h \
- debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/goals/reached_tester.h:
 
@@ -146,22 +125,6 @@ stipulation/boolean/true.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
 debugging/assert.h:
 stipulation/goals/slice_insertion$(OBJ_SUFFIX): stipulation/goals/slice_insertion.c \
  stipulation/goals/slice_insertion.h stipulation/stipulation.h \
@@ -180,10 +143,7 @@ stipulation/goals/slice_insertion$(OBJ_SUFFIX): stipulation/goals/slice_insertio
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/ply.h debugging/assert.h
+ stipulation/pipe.h debugging/trace.h debugging/assert.h
 
 stipulation/goals/slice_insertion.h:
 
@@ -246,21 +206,5 @@ stipulation/traversal.h:
 stipulation/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
 
 debugging/assert.h:

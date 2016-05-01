@@ -3,5 +3,4 @@
 
 include makefile.rules
 
-DISTRIBUTEDFILES =	makefile.local make.incl \
-			README-bcc32.exe-OPTIONS README-tlib.exe-OPTIONS
+DISTRIBUTEDFILES =	makefile.local make.incl

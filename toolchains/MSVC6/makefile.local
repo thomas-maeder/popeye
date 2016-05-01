@@ -3,7 +3,4 @@
 
 include makefile.rules
 
-DISTRIBUTEDFILES = 	makefile.local make.incl \
-			README-LIB.EXE-OPTIONS \
-			README-CL.EXE-OPTIONS \
-			README-LINK.EXE-OPTIONS
+DISTRIBUTEDFILES = 	makefile.local make.incl

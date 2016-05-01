@@ -1,20 +1,24 @@
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.c \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- position/side.h position/side.enum.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
+ position/side.h position/side.enum.h position/side.enum \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- pieces/pieces.h output/mode.h output/mode.enum.h conditions/conditions.h \
- position/position.h position/color.h position/color.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+ conditions/conditions.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/proxy.h solving/moves_traversal.h \
  solving/fork_on_remaining.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
@@ -27,6 +31,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 position/side.h:
 
 position/side.enum.h:
+
+position/side.enum:
 
 stipulation/stipulation.h:
 
@@ -50,6 +56,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+output/mode.enum:
+
 conditions/conditions.h:
 
 position/position.h:
@@ -57,6 +65,10 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
 
 pieces/walks/vectors.h:
 
@@ -72,13 +84,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -106,22 +124,26 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- conditions/grid.h pieces/walks/generate_moves.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h pieces/walks/pawns/promotee_sequence.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/ply.h position/pieceid.h solving/observation.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h conditions/grid.h \
+ pieces/walks/generate_moves.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/walks/vectors.h position/castling_rights.h \
+ pieces/walks/pawns/promotee_sequence.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/ply.h solving/observation.h \
  solving/temporary_hacks.h solving/castling.h solving/move_generator.h \
  solving/machinery/slack_length.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  optimisations/orthodox_check_directions.h solving/pipe.h \
  position/move_diff_code.h conditions/conditions.h debugging/assert.h
 
@@ -149,11 +171,15 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -169,6 +195,10 @@ position/color.h:
 
 position/color.enum.h:
 
+position/color.enum:
+
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
@@ -180,8 +210,6 @@ pieces/walks/pawns/en_passant.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
-
-position/pieceid.h:
 
 solving/observation.h:
 
@@ -203,13 +231,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -229,19 +263,25 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/machinery/slack_length.h solving/move_generator.h solving/ply.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/has_solution_type.enum stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
  position/move_diff_code.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/walks/vectors.h position/castling_rights.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/pipe.h debugging/assert.h
 
@@ -269,11 +309,15 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 pieces/pieces.h:
 
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 solving/machinery/dispatch.h:
 
@@ -289,6 +333,8 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
+solving/has_solution_type.enum:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -299,13 +345,19 @@ stipulation/slice_structural_type.h:
 
 stipulation/slice_structural_type.enum.h:
 
+stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
 
 stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
@@ -316,6 +368,10 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
 
 pieces/walks/vectors.h:
 

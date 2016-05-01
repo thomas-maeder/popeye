@@ -108,8 +108,8 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -168,6 +168,8 @@ position/color.enum.h:
 
 position/color.enum:
 
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
@@ -215,9 +217,9 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
  solving/proofgames.h position/position.h position/color.h \
- position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/castling_rights.h solving/move_effect_journal.h \
- position/pieceid.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/walks/vectors.h position/castling_rights.h \
+ solving/move_effect_journal.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h conditions/bgl.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -305,13 +307,13 @@ position/color.enum.h:
 
 position/color.enum:
 
+position/pieceid.h:
+
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
 solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 DHT/dhtvalue.h:
 
@@ -503,9 +505,9 @@ optimisations/orthodox_check_directions$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum pieces/walks/vectors.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum position/castling_rights.h solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- debugging/assert.h
+ position/color.enum position/pieceid.h position/castling_rights.h \
+ solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h debugging/assert.h
 
 optimisations/orthodox_check_directions.h:
 
@@ -548,6 +550,8 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/pieceid.h:
 
 position/castling_rights.h:
 
@@ -677,7 +681,7 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h conditions/conditions.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum position/castling_rights.h \
+ position/color.enum position/pieceid.h position/castling_rights.h \
  conditions/singlebox/type1.h solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h solving/pipe.h stipulation/branch.h \
@@ -746,6 +750,8 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/pieceid.h:
 
 position/castling_rights.h:
 

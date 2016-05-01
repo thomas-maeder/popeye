@@ -1,4 +1,4 @@
-output/latex/latex.obj: output/latex/latex.c output/latex/latex.h \
+output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  position/position.h position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
@@ -206,7 +206,7 @@ solving/incomplete.h:
 platform/tmpfile.h:
 
 debugging/assert.h:
-output/latex/problem.obj: output/latex/problem.c output/latex/problem.h \
+output/latex/problem$(OBJ_SUFFIX): output/latex/problem.c output/latex/problem.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
@@ -337,10 +337,9 @@ solving/ply.h:
 stipulation/slice_insertion.h:
 
 debugging/assert.h:
-output/latex/twinning.obj: output/latex/twinning.c \
- output/latex/twinning.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
+output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinning.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum output/latex/latex.h \
@@ -519,7 +518,7 @@ solving/pipe.h:
 platform/tmpfile.h:
 
 debugging/assert.h:
-output/latex/goal_writer.obj: output/latex/goal_writer.c \
+output/latex/goal_writer$(OBJ_SUFFIX): output/latex/goal_writer.c \
  output/latex/goal_writer.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/slice_type.h \
@@ -608,7 +607,7 @@ output/plaintext/tree/tree.h:
 solving/pipe.h:
 
 debugging/assert.h:
-output/latex/message.obj: output/latex/message.c output/latex/message.h \
+output/latex/message$(OBJ_SUFFIX): output/latex/message.c output/latex/message.h \
  output/message.h input/plaintext/language.h
 
 output/latex/message.h:

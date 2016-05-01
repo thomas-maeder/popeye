@@ -3,5 +3,4 @@
 
 include makefile.rules
 
-DISTRIBUTEDFILES = 	makefile.local make.incl \
-			README
+DISTRIBUTEDFILES = 	makefile.local make.incl

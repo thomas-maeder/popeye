@@ -1,11 +1,44 @@
-platform/windows32/maxmem$(OBJ_SUFFIX): platform/windows32/maxmem.c \
- platform/maxmem.h utilities/boolean.h
+platform/windows32/maxmem.obj: platform/windows32/maxmem.c \
+ platform/maxmem.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum
 
 platform/maxmem.h:
 
 utilities/boolean.h:
-platform/windows32/maxtime$(OBJ_SUFFIX): platform/windows32/maxtime.c \
- platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h windows.h \
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+platform/windows32/maxtime.obj: platform/windows32/maxtime.c \
+ platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h \
  debugging/assert.h
 
 platform/maxtime_impl.h:
@@ -14,18 +47,51 @@ platform/maxtime.h:
 
 utilities/boolean.h:
 
-windows.h:
-
 debugging/assert.h:
-platform/windows32/pytime$(OBJ_SUFFIX): platform/windows32/pytime.c \
- platform/pytime.h
+platform/windows32/pytime.obj: platform/windows32/pytime.c \
+ platform/timer.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum
 
-platform/pytime.h:
-platform/windows32/priority$(OBJ_SUFFIX): platform/windows32/priority.c \
+platform/timer.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+platform/windows32/priority.obj: platform/windows32/priority.c \
  platform/priority.h
 
 platform/priority.h:
-platform/windows32/beep$(OBJ_SUFFIX): platform/windows32/beep.c platform/beep.h \
+platform/windows32/beep.obj: platform/windows32/beep.c platform/beep.h \
  utilities/boolean.h platform/beep_impl.h
 
 platform/beep.h:
@@ -33,8 +99,10 @@ platform/beep.h:
 utilities/boolean.h:
 
 platform/beep_impl.h:
-platform/windows32/snprintf$(OBJ_SUFFIX): platform/windows32/snprintf.c
-platform/windows32/tmpfile$(OBJ_SUFFIX): platform/windows32/tmpfile.c \
- platform/tmpfile.h
+platform/windows32/snprintf.obj: platform/windows32/snprintf.c
+platform/windows32/tmpfile.obj: platform/windows32/tmpfile.c \
+ platform/tmpfile.h debugging/assert.h
 
 platform/tmpfile.h:
+
+debugging/assert.h:
