@@ -232,3 +232,37 @@ Popeye has never solved this because of too aggressive optimisation
 solution finished.
 
 
+
+Popeye >4.61 would get into an eternal loop
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   R   7
+|                                   |
+6   .   .   K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -Q   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=1                         2 + 2
+             BlackChecks
+
+  1.Qb4-b7 + Rh7*b7 =
+  add_to_move_generation_stack:         318
+                     play_move:         303
+ is_white_king_square_attacked:         226
+ is_black_king_square_attacked:         122
+
+solution finished.
+
+

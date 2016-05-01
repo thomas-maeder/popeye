@@ -143,6 +143,7 @@ void blackchecks_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&landing);
+  stip_structure_traversal_override_single(&st,STGoalReachedTester,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_structure_traversal_override_single(&st,STGeneratingMoves,&instrument_move_generator);
   stip_structure_traversal_override_single(&st,
@@ -230,6 +231,8 @@ void black_checks_null_move_generator_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(trait[nbply]==Black);
 
   curr_generation->departure = nullsquare;
   curr_generation->arrival = nullsquare;

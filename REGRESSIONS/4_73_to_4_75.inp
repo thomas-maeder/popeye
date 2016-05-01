@@ -49,4 +49,11 @@ stipulation Ser-a=>b2
 pieces white Ka4 black Kg6 Pa7
 condition circe assassin
 
-ende 
+next
+
+title Popeye >4.61 would get into an eternal loop
+Pieces White Rh7 Kc6 Black Ka8 Qb4
+Stipulation h=1
+Condition blackchecks
+
+EndProblem
