@@ -74,7 +74,7 @@ char const *InitialTwinTokenString[LanguageCount][InitialTwinTokenCount] =
     /*11*/  "LaTeX",
     /*12*/  "PiecesLaTeX",
     /*13*/  "prix",
-    /*14*/  "PositionInitialPartie",
+    /*14*/  "PositionInitialePartie",
     /*15*/  "Forsyth"
   },
   { /* Deutsch */
