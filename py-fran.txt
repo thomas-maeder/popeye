@@ -245,7 +245,7 @@ simples:
 	Disparate
 	EchecsSnek
 	EchecsSnekCirculaires
-	EchecksArgentiniens
+	EchecksArgentins
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -962,7 +962,7 @@ suivante est un peu plus compliquee:
 	ep      epine (roi+sauterelle royal)
 	et      elan tour
 	f       fou
-	fa	faro				tour argentinienne
+	fa	faro				tour argentine
 	fc      fou/tour chasseur
 	fe      fers
 	fl      fou-lion
@@ -984,7 +984,7 @@ suivante est un peu plus compliquee:
 	lf      fou locuste   
 	li      lion
 	ln      noctambule locuste   
-	lo	loco				Fou argentinien
+	lo	loco				Fou argentin
 	lr	rose locuste
 	lt      tour locuste   
 	m       moineaux
@@ -1039,7 +1039,7 @@ suivante est un peu plus compliquee:
 	sg      gnou sauteur
 	si      sirene
 	sk      skylla
-	sl	Saltador			Cavalier argentinien
+	sl	Saltador			Cavalier argentin
 	sm	sauteur arbre majeur
 	sn      sauteur noctambule 
 	so      scorpion
