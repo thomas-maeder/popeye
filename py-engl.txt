@@ -270,9 +270,6 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	After Madrasi, you can enter "RexInclusive".
 
-	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
-	according to the type desired; Calvet is the default.
-
 	After the Isardam condition, "TypeB" and then "RexInclusive" can be
 	specified.
 
