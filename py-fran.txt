@@ -1012,7 +1012,7 @@ suivante est un peu plus compliquee:
 	pc      pion chinois
 	pi      piece impuissant
 	pm      pion marin
-	po      pos\'eidon
+	po      poseidon
 	pv      pion renverse     joue en directions opposees du pion normal; se promeut sur la rangee opposee
 	pr      princesse   
 	qa      equistoppeur
