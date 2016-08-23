@@ -623,6 +623,8 @@ simples:
 	pser-h#6	aide serie avec parades en 6
 	phser-s#6	aide serie avec parades en 6 (parades aident)
 
+	SEMI ne peut etre applique qu'aux enonces reflexe, naturellement.
+
  - senonce: L'enonce peut aussi etre indique sous forme
 	"structuree". Sous cette forme, toutes les enonces peuvent
 	etre indiques qui peuvent etre indiques avec la commande
