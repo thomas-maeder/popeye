@@ -52,7 +52,7 @@ static slice_type get_reborn_walk_adapter(circe_variant_type const *variant)
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -89,7 +89,7 @@ static slice_type get_reborn_initialiser_type(circe_variant_type const *variant)
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }

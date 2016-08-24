@@ -13,7 +13,7 @@
 void stipulation_modifier_instrument(slice_index si, slice_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   {

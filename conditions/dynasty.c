@@ -15,7 +15,7 @@
 static void update_king_square(Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",being_solved.number_of_pieces[side][King]);

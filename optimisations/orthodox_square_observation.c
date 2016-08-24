@@ -88,7 +88,7 @@ static boolean pawn_check_ortho(Side side_checking, square sq_king)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_checking,"");
+  TraceEnumerator(Side,side_checking);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 

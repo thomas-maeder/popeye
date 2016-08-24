@@ -65,7 +65,8 @@ boolean riders_check(vec_index_type kanf, vec_index_type kend,
 
   ++observation_context;
 
-  TraceEnumerator(Side,trait[nbply],"\n");
+  TraceEnumerator(Side,trait[nbply]);
+  TraceEOL();
   for (interceptable_observation[observation_context].vector_index1 = kanf;
        interceptable_observation[observation_context].vector_index1<= kend;
        ++interceptable_observation[observation_context].vector_index1)

@@ -131,7 +131,7 @@ boolean suffocated_by_paralysis(Side side)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   paralysis_suspended = true;

@@ -63,7 +63,8 @@ static boolean apply_whitetoplay(slice_index proxy)
   while (SLICE_TYPE(next)==STProxy || SLICE_TYPE(next)==STOutputModeSelector)
     next = SLICE_NEXT1(next);
 
-  TraceEnumerator(slice_type,SLICE_TYPE(next),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(next));
+  TraceEOL();
   switch (SLICE_TYPE(next))
   {
     case STHelpAdapter:

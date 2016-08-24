@@ -101,7 +101,7 @@ boolean fork_is_in_check_recursive_delegate(slice_index si, Side side_in_check)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_in_check,"");
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
   result = is_in_check_recursive(SLICE_NEXT2(si),side_in_check);

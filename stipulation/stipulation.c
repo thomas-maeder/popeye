@@ -105,7 +105,7 @@ slice_index create_slice(slice_type type)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   result = alloc_slice();
@@ -140,8 +140,9 @@ slice_index copy_slice(slice_index original)
   SLICE(result) = SLICE(original);
   slice_set_predecessor(result,no_slice);
 
-  TraceEnumerator(Side,SLICE_STARTER(original),"");
-  TraceEnumerator(Side,SLICE_STARTER(result),"\n");
+  TraceEnumerator(Side,SLICE_STARTER(original));
+  TraceEnumerator(Side,SLICE_STARTER(result));
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -761,7 +762,7 @@ static void default_impose_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,*starter,"");
+  TraceEnumerator(Side,*starter);
   TraceFunctionParamListEnd();
 
   SLICE_STARTER(si) = *starter;
@@ -821,7 +822,7 @@ static void stip_impose_starter_impl(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,starter,"");
+  TraceEnumerator(Side,starter);
   TraceFunctionParamListEnd();
 
   for (type = 0; type!=nr_slice_types; ++type)
@@ -859,7 +860,7 @@ void solving_impose_starter(slice_index si, Side starter)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,starter,"");
+  TraceEnumerator(Side,starter);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
@@ -885,7 +886,7 @@ void stip_impose_starter_nested(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,starter,"");
+  TraceEnumerator(Side,starter);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);

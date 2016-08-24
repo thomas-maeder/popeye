@@ -70,7 +70,7 @@ boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_attacked,"");
+  TraceEnumerator(Side,side_attacked);
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; ++bnp)
@@ -125,7 +125,8 @@ void extinction_extincted_tester_solve(slice_index si)
     piece_walk_type const capturee = find_capturee();
 
     TraceWalk(capturee);
-    TraceEnumerator(Side,side_in_check,"\n");
+    TraceEnumerator(Side,side_in_check);
+    TraceEOL();
 
     pipe_this_move_doesnt_solve_if(si,
                                    capturee==Empty

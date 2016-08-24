@@ -17,7 +17,7 @@ slice_index alloc_branch(slice_type type,
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
@@ -106,7 +106,7 @@ slice_index branch_find_slice(slice_type type,
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();

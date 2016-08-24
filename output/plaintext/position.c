@@ -932,7 +932,7 @@ static slice_index alloc_atob_intra_writer(Side starter)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,starter,"");
+  TraceEnumerator(Side,starter);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputPlainTextAToBIntraWriter);

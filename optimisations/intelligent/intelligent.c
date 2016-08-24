@@ -232,7 +232,7 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
         TraceSquare(*bnp);
         TraceWalk(target->type);
         TraceSquare(target->square);
-        TraceEnumerator(piece_usage,target->usage,"");
+        TraceEnumerator(piece_usage,target->usage);
         TraceValue("%u",time);
         TraceEOL();
       }

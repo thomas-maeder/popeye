@@ -117,7 +117,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_disable_castling_right,reason);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
@@ -176,7 +176,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_enable_castling_right,reason);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
@@ -228,7 +228,7 @@ static void enable_castling_right(move_effect_reason_type reason,
                                   castling_rights_type right)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceValue("%2x",right);
   TraceFunctionParamListEnd();
 
@@ -288,7 +288,7 @@ static void disable_castling_right(move_effect_reason_type reason,
                                    castling_rights_type right)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceValue("%2x",right);
   TraceFunctionParamListEnd();
 
@@ -336,7 +336,7 @@ static void adjust_castling_rights(Side trait_ply)
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
+  TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal_base[nbply]<=top);
@@ -713,7 +713,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(to);
   TraceFunctionParamListEnd();
 

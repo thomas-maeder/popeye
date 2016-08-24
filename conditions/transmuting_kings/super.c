@@ -210,7 +210,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   solving_impose_starter(si,SLICE_STARTER(si));

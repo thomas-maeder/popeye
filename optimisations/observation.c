@@ -137,7 +137,7 @@ static unsigned int is_ortho_validation_slice_type(slice_type type)
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_ortho_validation_slice_types_non_proxy; ++i)
@@ -220,7 +220,7 @@ static boolean is_ortho_observation_slice_type(slice_type type)
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_ortho_observation_slice_types_non_proxy; ++i)
@@ -316,7 +316,7 @@ static void optimise_side(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (is_observation_trivially_validated(side)
@@ -386,7 +386,7 @@ boolean is_observation_trivially_validated(Side side)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   result = (is_validation_branch_ortho(SLICE_NEXT2(temporary_hack_check_validator[side]))

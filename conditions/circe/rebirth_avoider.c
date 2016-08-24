@@ -124,11 +124,11 @@ void circe_insert_rebirth_avoider(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
-  TraceEnumerator(slice_type,hook_type,"");
-  TraceEnumerator(slice_type,SLICE_TYPE(prototype),"");
-  TraceEnumerator(slice_type,avoided_type,"");
-  TraceEnumerator(slice_type,joint_type,"");
+  TraceEnumerator(slice_type,interval_start);
+  TraceEnumerator(slice_type,hook_type);
+  TraceEnumerator(slice_type,SLICE_TYPE(prototype));
+  TraceEnumerator(slice_type,avoided_type);
+  TraceEnumerator(slice_type,joint_type);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);

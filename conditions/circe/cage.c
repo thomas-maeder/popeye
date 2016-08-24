@@ -65,7 +65,7 @@ void circe_solving_instrument_cage(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   substitute_single_piece_move_generator(White);
@@ -146,7 +146,7 @@ static boolean find_non_capturing_move(move_effect_journal_index_type rebirth,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",rebirth);
-  TraceEnumerator(Side,moving_side,"");
+  TraceEnumerator(Side,moving_side);
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_rebirth);

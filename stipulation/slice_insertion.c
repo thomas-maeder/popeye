@@ -32,7 +32,7 @@ static unsigned int get_slice_rank_recursive(slice_type type,
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",state->base_rank);
@@ -59,7 +59,7 @@ static unsigned int get_slice_rank_nonrecursive(slice_type type,
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",state->base_rank);
@@ -89,7 +89,7 @@ unsigned int get_slice_rank(slice_type type,
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   if (state->type==branch_slice_rank_order_recursive)

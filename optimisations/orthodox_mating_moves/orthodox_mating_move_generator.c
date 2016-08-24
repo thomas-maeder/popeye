@@ -64,7 +64,7 @@ static numvec detect_directed_battery(square sq_king, Side side, piece_walk_type
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceWalk(rider);
   TraceFunctionParamListEnd();
 

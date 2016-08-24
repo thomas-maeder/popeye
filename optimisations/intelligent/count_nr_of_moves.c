@@ -350,7 +350,7 @@ static unsigned int from_to_different(Side side,
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceWalk(from_piece);
   TraceSquare(from_square);
   TraceWalk(to_piece);
@@ -417,7 +417,7 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(Side side,
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceWalk(from_piece);
   TraceSquare(from_square);
   TraceWalk(to_piece);
@@ -575,7 +575,7 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(Side side,
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceWalk(from_piece);
   TraceSquare(from_square);
   TraceWalk(to_piece);
@@ -817,7 +817,7 @@ unsigned int intelligent_get_nr_reservable_masses(Side side)
   unsigned int result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (side!=White)
@@ -840,7 +840,7 @@ unsigned int intelligent_get_nr_remaining_moves(Side side)
   unsigned int const result = reserve[curr_reserve].nr_remaining_moves[side];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
@@ -862,7 +862,7 @@ boolean intelligent_reserve_masses(Side side,
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParam("%u",nr_of_masses);
   TraceFunctionParamListEnd();
 
@@ -1252,7 +1252,7 @@ static boolean reserve_king_moves_from_to(Side side, unsigned int nr_of_moves)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParam("%u",nr_of_moves);
   TraceFunctionParamListEnd();
 
@@ -1261,7 +1261,7 @@ static boolean reserve_king_moves_from_to(Side side, unsigned int nr_of_moves)
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
     reserve[curr_reserve].usage = piece_is_king;
-    TraceEnumerator(Side,side,"");
+    TraceEnumerator(Side,side);
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
     TraceEOL();
     result = true;

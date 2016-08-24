@@ -85,7 +85,8 @@ boolean validate_observation_recursive(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(si));
+  TraceEOL();
 
   switch (SLICE_TYPE(si))
   {
@@ -404,7 +405,7 @@ static void observation_validation_insert_slice(slice_index validating,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",validating);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   insert_slice(validating,
@@ -466,8 +467,8 @@ void stip_instrument_observation_geometry_validation(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(Side,side);
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
@@ -513,8 +514,8 @@ void stip_instrument_observer_validation(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(Side,side);
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
@@ -578,8 +579,8 @@ void stip_instrument_observation_validation(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(Side,side);
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
@@ -606,8 +607,8 @@ void stip_instrument_check_validation(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(Side,side);
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
@@ -835,8 +836,8 @@ void stip_instrument_is_square_observed_testing(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(Side,side);
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);

@@ -54,7 +54,7 @@ static void remove_move_generator(Side side)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);

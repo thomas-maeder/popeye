@@ -86,7 +86,7 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceEnumerator(Side,as_side,"");
+  TraceEnumerator(Side,as_side);
   TraceFunctionParamListEnd();
 
   /* Some fairy chess (e.g. Protean, Kamikaze) prevents promotion by
@@ -144,7 +144,7 @@ boolean is_square_occupied_by_promotable_pawn(square square_reached,
 
   TraceFunctionEntry(__func__);
   TraceSquare(square_reached);
-  TraceEnumerator(Side,as_side,"");
+  TraceEnumerator(Side,as_side);
   TraceFunctionParamListEnd();
 
   assert(as_side!=no_side);

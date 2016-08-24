@@ -1199,7 +1199,7 @@ static Side ParseStructuredStip_starter(char *tok)
     result = ps;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result,"");
+  TraceEnumerator(Side,result);
   TraceFunctionResultEnd();
   return result;
 }

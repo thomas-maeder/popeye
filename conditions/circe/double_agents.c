@@ -20,7 +20,7 @@ void circe_solving_instrument_turncoats(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_instrument_solving(si,

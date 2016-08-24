@@ -18,7 +18,7 @@ static boolean annanises(Side side, square rear, square front)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(rear);
   TraceSquare(front);
   TraceFunctionParamListEnd();

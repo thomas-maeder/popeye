@@ -125,7 +125,7 @@ static boolean woozles_can_observe(Side side_woozle, numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_woozle,"");
+  TraceEnumerator(Side,side_woozle);
   TraceValue("%u",n);
   TraceFunctionParamListEnd();
 
@@ -425,7 +425,7 @@ static boolean heffalumps_can_observe_on_line(Side side_woozle, numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_woozle,"");
+  TraceEnumerator(Side,side_woozle);
   TraceValue("%u",n);
   TraceFunctionParamListEnd();
 

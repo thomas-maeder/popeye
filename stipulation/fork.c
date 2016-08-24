@@ -20,7 +20,7 @@ slice_index alloc_fork_slice(slice_type type, slice_index fork)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 

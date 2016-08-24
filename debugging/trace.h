@@ -121,8 +121,8 @@ void TraceFunctionResultEnd(void);
  * The enumeration type defining type_name must have been generated
  * using utilities/enumeration.h
  */
-#define TraceEnumerator(type_name,name,suffix) \
-  TraceEnumeratorImpl(" " #name ":%s(%u)" suffix, \
+#define TraceEnumerator(type_name,name) \
+  TraceEnumeratorImpl(" " #name ":%s(%u)", \
                       type_name##_names[name], \
                       name)
 
@@ -182,7 +182,7 @@ void solving_insert_move_tracers(slice_index si);
 #define TracePointerFunctionResult(name)
 #define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
-#define TraceEnumerator(type_name,value,suffix)
+#define TraceEnumerator(type_name,value)
 #define TraceStipulation(start_slice)
 #define TraceCallStack(file)
 

@@ -136,7 +136,7 @@ static void init_latent_pawn_selection(Side trait_ply)
   Side const adv = advers(trait_ply);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
+  TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
   singlebox_type2_latent_pawn_promotions[nbply].where = next_latent_pawn(initsquare,adv);
@@ -152,7 +152,7 @@ static void advance_latent_pawn_selection(Side trait_ply)
   Side const adv = advers(trait_ply);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
+  TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
   singlebox_type2_latent_pawn_promotions[nbply].where = next_latent_pawn(singlebox_type2_latent_pawn_promotions[nbply].where,adv);

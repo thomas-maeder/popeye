@@ -31,7 +31,7 @@ void circe_solving_instrument_super(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   if (circe_get_on_occupied_rebirth_square(variant)

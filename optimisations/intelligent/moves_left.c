@@ -150,7 +150,7 @@ static Side goaled_side(slice_index si)
     result = no_side;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result,"");
+  TraceEnumerator(Side,result);
   TraceFunctionResultEnd();
   return result;
 }

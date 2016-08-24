@@ -160,8 +160,8 @@ void goalreachable_guard_stalemate_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   --MovesLeft[just_moved];
-  TraceEnumerator(Side,SLICE_STARTER(si),"");
-  TraceEnumerator(Side,just_moved,"");
+  TraceEnumerator(Side,SLICE_STARTER(si));
+  TraceEnumerator(Side,just_moved);
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u",MovesLeft[just_moved]);
   TraceEOL();

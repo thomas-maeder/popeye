@@ -68,7 +68,7 @@ static unsigned int get_goal_slice_rank(slice_type type)
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_goal_slice_rank_order_elmts; ++i)

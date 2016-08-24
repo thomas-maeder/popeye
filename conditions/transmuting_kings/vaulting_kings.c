@@ -120,7 +120,7 @@ static boolean is_king_vaulter(Side side, piece_walk_type walk)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
@@ -191,7 +191,7 @@ void vaulting_kings_initalise_solving(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (nr_king_vaulters[side]==0)

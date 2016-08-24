@@ -33,7 +33,7 @@ static void no_rebirth_on_occupied_square(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_insert_rebirth_avoider(si,
@@ -56,7 +56,7 @@ static void stop_rebirth_on_occupied_square(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_insert_rebirth_avoider(si,
@@ -87,7 +87,7 @@ void circe_solving_instrument_rebirth_on_occupied_square(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   switch (circe_get_on_occupied_rebirth_square(variant))

@@ -277,7 +277,7 @@ void circe_parachute_initialise_solving(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_insert_rebirth_avoider(si,
@@ -309,7 +309,7 @@ void circe_volcanic_initialise_solving(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_insert_rebirth_avoider(si,

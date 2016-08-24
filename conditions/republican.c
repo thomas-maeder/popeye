@@ -49,7 +49,7 @@ static boolean is_mate_square(Side other_side)
   if (is_square_empty(being_solved.king_square[other_side]))
   {
     TraceFunctionEntry(__func__);
-    TraceEnumerator(Side,other_side,"");
+    TraceEnumerator(Side,other_side);
     TraceFunctionParamListEnd();
 
     TraceSquare(being_solved.king_square[other_side]);
@@ -79,7 +79,7 @@ static void advance_mate_square(Side side)
   Side const other_side = advers(side);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   assert(republican_goal.type==goal_mate);
@@ -159,7 +159,7 @@ static void place_king(Side moving)
   Flags king_flags = all_royals_flags|BIT(Royal)|BIT(other_side);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,moving,"");
+  TraceEnumerator(Side,moving);
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_piece_creation(move_effect_reason_republican_king_insertion,
@@ -256,7 +256,7 @@ void solving_insert_republican_king_placers(slice_index si)
 static void determine_king_placement(Side trait_ply)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
+  TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])

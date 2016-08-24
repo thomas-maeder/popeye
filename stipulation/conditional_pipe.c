@@ -17,7 +17,7 @@ slice_index alloc_conditional_pipe(slice_type type, slice_index condition)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParam("%u",condition);
   TraceFunctionParamListEnd();
 

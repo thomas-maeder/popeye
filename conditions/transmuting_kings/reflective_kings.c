@@ -85,7 +85,7 @@ void reflective_kings_initialise_solving(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-   TraceEnumerator(Side,side,"");
+   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,side,STReflectiveKingsMovesForPieceGenerator);

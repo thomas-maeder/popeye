@@ -166,7 +166,7 @@ static boolean locate_unique_royal(Side side, square *location)
   unsigned int nr_royals = 0;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (royal_square[side]!=initsquare)
@@ -533,7 +533,8 @@ static void find_restricted_side_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,restricted_side,"\n");
+  TraceEnumerator(Side,restricted_side);
+  TraceEOL();
   (*is_restricted)[restricted_side] = true;
 
   TraceFunctionExit(__func__);
@@ -590,7 +591,7 @@ static Side findRestrictedSide(slice_index si)
     result = no_side;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result,"");
+  TraceEnumerator(Side,result);
   TraceFunctionResultEnd();
   return result;
 }

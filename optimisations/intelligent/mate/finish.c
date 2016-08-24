@@ -80,7 +80,8 @@ static boolean exists_redundant_white_piece(slice_index si)
       piece_usage const usage = white[PieceId2index[id]].usage;
       TraceValue("%u",PieceId2index[id]);
       TraceSquare(*bnp);
-      TraceEnumerator(piece_usage,usage,"\n");
+      TraceEnumerator(piece_usage,usage);
+      TraceEOL();
       if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
         piece_walk_type const p = get_walk_of_piece_on_square(sq);

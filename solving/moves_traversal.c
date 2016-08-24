@@ -613,7 +613,8 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
   TraceValue("%u",st->remaining);
   TraceEOL();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(root),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(root));
+  TraceEOL();
   assert(SLICE_TYPE(root)<=nr_slice_types);
 
   if (st->remaining_watermark[root]<=st->remaining)
@@ -649,7 +650,8 @@ void stip_traverse_moves_children(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(si));
+  TraceEOL();
   assert(SLICE_TYPE(si)<=nr_slice_types);
 
   {

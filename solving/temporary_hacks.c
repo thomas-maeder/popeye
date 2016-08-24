@@ -222,7 +222,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (is_countnropponentmoves_defense_move_optimisation_enabled(side))

@@ -18,7 +18,7 @@ static slice_index alloc_keepmating_filter_slice(Side mating)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,mating,"");
+  TraceEnumerator(Side,mating);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingFilter);
@@ -64,7 +64,8 @@ void keepmating_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,mating,"\n");
+  TraceEnumerator(Side,mating);
+  TraceEOL();
 
   pipe_this_move_doesnt_solve_if(si,!is_a_mating_piece_left(mating));
 

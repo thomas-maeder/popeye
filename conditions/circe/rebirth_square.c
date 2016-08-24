@@ -64,7 +64,7 @@ static slice_type get_rebirth_square_determinator(circe_variant_type const *vari
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -104,7 +104,7 @@ static slice_type get_rebirth_square_adaptor(circe_variant_type const *variant)
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }

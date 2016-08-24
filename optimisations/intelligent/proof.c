@@ -106,7 +106,7 @@ slice_type proof_make_goal_reachable_type(void)
   TraceEOL();
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -135,7 +135,7 @@ static int KingMovesNeeded(Side side)
   int   cast;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   TraceSquare(being_solved.king_square[side]);
@@ -442,7 +442,7 @@ static void PieceMovesFromTo(Side side,
   piece_walk_type const pto = proofgames_target_position.board[to];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(from);
   TraceSquare(to);
   TraceFunctionParam("%u",captallowed);
@@ -527,7 +527,7 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",CapturesAllowed);
-  TraceEnumerator(Side,camp,"");
+  TraceEnumerator(Side,camp);
   TraceFunctionParam("%u",CapturesRequired);
   TraceFunctionParamListEnd();
 
@@ -1098,8 +1098,8 @@ void goalreachable_guard_proofgame_solve(slice_index si)
   assert(solve_nr_remaining>=previous_move_has_solved);
 
   --MovesLeft[just_moved];
-  TraceEnumerator(Side,SLICE_STARTER(si),"");
-  TraceEnumerator(Side,just_moved,"");
+  TraceEnumerator(Side,SLICE_STARTER(si));
+  TraceEnumerator(Side,just_moved);
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u",MovesLeft[just_moved]);
   TraceEOL();
@@ -1139,8 +1139,8 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
   assert(solve_nr_remaining>=previous_move_has_solved);
 
   --MovesLeft[just_moved];
-  TraceEnumerator(Side,SLICE_STARTER(si),"");
-  TraceEnumerator(Side,just_moved,"");
+  TraceEnumerator(Side,SLICE_STARTER(si));
+  TraceEnumerator(Side,just_moved);
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u",MovesLeft[just_moved]);
   TraceEOL();
@@ -1172,7 +1172,7 @@ static void InitialiseKingMoves(Side side)
   Cond const vault_king = side==White ? whvault_king : blvault_king;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (proofgames_target_position.king_square[side]==initsquare)
@@ -1280,7 +1280,7 @@ static void InitialiseIntelligentSide(Side side)
   square const square_base = side==White ? square_a1 : square_a8;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   ProofNbrPieces[side] = 0;

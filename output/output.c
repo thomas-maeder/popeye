@@ -53,7 +53,7 @@ slice_index alloc_output_mode_selector(output_mode mode)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(output_mode,mode,"");
+  TraceEnumerator(output_mode,mode);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputModeSelector);

@@ -35,7 +35,7 @@ void reset_killer_move_optimisation(void)
 void disable_killer_move_optimisation(Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   enabled[side] = false;

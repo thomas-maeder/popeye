@@ -239,7 +239,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
   TraceWalk(added);
-  TraceEnumerator(Side,for_side,"");
+  TraceEnumerator(Side,for_side);
   TraceFunctionParamListEnd();
 
   assert(for_side==no_side || (addedspec&BIT(for_side))!=0);
@@ -321,7 +321,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
   TraceWalk(created);
-  TraceEnumerator(Side,for_side,"");
+  TraceEnumerator(Side,for_side);
   TraceFunctionParamListEnd();
 
   entry->u.piece_addition.added.on = on;
@@ -649,7 +649,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
-  TraceEnumerator(Side,to,"");
+  TraceEnumerator(Side,to);
   TraceFunctionParamListEnd();
 
   assert(!is_piece_neutral(being_solved.spec[on]));
@@ -761,7 +761,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
@@ -783,7 +783,7 @@ static void undo_king_square_movement(move_effect_journal_entry_type const *entr
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(from);
   TraceSquare(entry->u.king_square_movement.to);
   TraceEOL();
@@ -804,7 +804,7 @@ static void redo_king_square_movement(move_effect_journal_entry_type const *entr
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(entry->u.king_square_movement.from);
   TraceSquare(to);
   TraceEOL();

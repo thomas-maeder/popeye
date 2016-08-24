@@ -33,7 +33,7 @@ void reset_countnropponentmoves_defense_move_optimisation(void)
 void disable_countnropponentmoves_defense_move_optimisation(Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   enabled[side] = false;

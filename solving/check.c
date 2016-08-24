@@ -70,7 +70,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_in_check,"");
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
   nextply(advers(side_in_check));
@@ -92,7 +92,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
 
    TraceFunctionEntry(__func__);
    TraceFunctionParam("%u",si);
-   TraceEnumerator(Side,side_in_check,"");
+   TraceEnumerator(Side,side_in_check);
    TraceFunctionParamListEnd();
 
    if (being_solved.king_square[side_in_check]==initsquare
@@ -122,7 +122,7 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_king_attacked,"");
+  TraceEnumerator(Side,side_king_attacked);
   TraceFunctionParamListEnd();
 
   if (side_king_attacked==White)
@@ -157,10 +157,11 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_in_check,"");
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(si));
+  TraceEOL();
   switch (SLICE_TYPE(si))
   {
     case STNoCheckConceptCheckTester:
@@ -272,7 +273,7 @@ static void insert_slice(slice_index testing, slice_type type)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   state.base_rank = get_slice_rank(SLICE_TYPE(testing),&state);
@@ -312,7 +313,7 @@ void solving_instrument_check_testing(slice_index si, slice_type type)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&type);

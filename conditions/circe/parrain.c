@@ -91,7 +91,7 @@ void circe_solving_instrument_parrain(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   circe_insert_rebirth_avoider(si,

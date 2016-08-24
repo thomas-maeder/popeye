@@ -115,7 +115,7 @@ void retro_instrument_retractor(slice_index solving_machinery, slice_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",solving_machinery);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   {
@@ -144,7 +144,7 @@ void retro_substitute_last_move_player(slice_index solving_machinery,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",solving_machinery);
-  TraceEnumerator(slice_type,type,"");
+  TraceEnumerator(slice_type,type);
   TraceFunctionParamListEnd();
 
   {

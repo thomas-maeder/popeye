@@ -247,7 +247,7 @@ static square rennormal(piece_walk_type walk_captured,
   TraceFunctionEntry(__func__);
   TraceWalk(walk_captured);
   TraceSquare(sq_capture);
-  TraceEnumerator(Side,capturer,"");
+  TraceEnumerator(Side,capturer);
   TraceFunctionParamListEnd();
 
   if (capturer == Black)
@@ -475,8 +475,8 @@ void circe_initialise_solving(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,what,"");
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,what);
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
   insert_basic_slices(si,variant,what,inserter,interval_start);
@@ -609,7 +609,7 @@ void circe_instrument_solving(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,interval_start,"");
+  TraceEnumerator(slice_type,interval_start);
   TraceFunctionParam("%u",prototype);
   TraceFunctionParamListEnd();
 

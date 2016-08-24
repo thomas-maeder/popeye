@@ -72,7 +72,7 @@ void impose_starter_goal_immobile_tester(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,*starter,"");
+  TraceEnumerator(Side,*starter);
   TraceFunctionParamListEnd();
 
   SLICE_STARTER(si) = *starter;

@@ -64,8 +64,9 @@ static void write_line_intro(unsigned int *next_move_number,
 
   TraceValue("%u",*next_move_number);
   TraceValue("%u",nbply);
-  TraceEnumerator(Side,trait[nbply],"");
-  TraceEnumerator(Side,*numbered_side,"\n");
+  TraceEnumerator(Side,trait[nbply]);
+  TraceEnumerator(Side,*numbered_side);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -76,7 +77,7 @@ static void write_move_number_if_necessary(unsigned int *next_move_number,
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",*next_move_number);
-  TraceEnumerator(Side,*numbered_side,"");
+  TraceEnumerator(Side,*numbered_side);
   TraceFunctionParamListEnd();
 
   if (trait[nbply]==*numbered_side)
@@ -95,7 +96,8 @@ static void write_potential_check(void)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceEnumerator(Side,trait[nbply],"\n");
+  TraceEnumerator(Side,trait[nbply]);
+  TraceEOL();
 
   if (is_in_check(advers(trait[nbply])))
     protocol_fprintf(stdout,"%s"," +");

@@ -826,7 +826,7 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(si)," ");
+  TraceEnumerator(slice_type,SLICE_TYPE(si));
   TraceValue("%u",slice_properties[si].valueOffset);
   TraceEOL();
 

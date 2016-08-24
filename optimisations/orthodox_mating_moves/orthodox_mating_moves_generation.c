@@ -33,7 +33,7 @@ void reset_orthodox_mating_move_optimisation(void)
 void disable_orthodox_mating_move_optimisation(Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if (side==nr_sides)

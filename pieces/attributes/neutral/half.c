@@ -19,7 +19,7 @@ static void do_deneutralisation(square on, Side to)
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
-  TraceEnumerator(Side,to,"");
+  TraceEnumerator(Side,to);
   TraceFunctionParamListEnd();
 
   entry->u.half_neutral_phase_change.on = on;
@@ -81,7 +81,7 @@ static void do_neutralisation(square on)
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
-  TraceEnumerator(Side,from,"");
+  TraceEnumerator(Side,from);
   TraceFunctionParamListEnd();
 
   entry->u.half_neutral_phase_change.on = on;

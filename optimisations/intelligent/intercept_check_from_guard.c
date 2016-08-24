@@ -207,7 +207,8 @@ void intercept_check_on_guarded_square(slice_index si,
          ++intercepter_index)
     {
       TraceValue("%u",intercepter_index);
-      TraceEnumerator(piece_usage,white[intercepter_index].usage,"\n");
+      TraceEnumerator(piece_usage,white[intercepter_index].usage);
+      TraceEOL();
       if (white[intercepter_index].usage==piece_is_unused)
       {
         piece_walk_type const intercepter_type = white[intercepter_index].type;

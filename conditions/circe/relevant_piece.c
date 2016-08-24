@@ -20,7 +20,7 @@ static slice_type get_relevant_piece_determinator(circe_variant_type const *vari
     result = STAnticirceCouscousMakeCaptureeRelevant;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(slice_type,result,"");
+  TraceEnumerator(slice_type,result);
   TraceFunctionResultEnd();
   return result;
 }

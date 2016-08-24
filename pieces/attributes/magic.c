@@ -487,7 +487,7 @@ static mark_type walk_tried[nr_piece_walks] = { 0 };
 static void PushMagicViewsByOneSide(Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   trait[nbply] = side;

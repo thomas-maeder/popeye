@@ -18,7 +18,7 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   SquareFlags const doublestep_square = WhPawnDoublestepSq+side;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 

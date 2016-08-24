@@ -252,7 +252,8 @@ void find_potential_promotion_square(move_effect_journal_index_type base,
   }
 
   TraceSquare(*candidate);
-  TraceEnumerator(Side,*as_side,"\n");
+  TraceEnumerator(Side,*as_side);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

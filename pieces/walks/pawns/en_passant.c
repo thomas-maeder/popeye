@@ -297,11 +297,12 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   ply const ply_parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,trait[ply_parent],"\n");
+  TraceEnumerator(Side,trait[ply_parent]);
+  TraceEOL();
 
   if (trait[ply_parent]!=side)
   {

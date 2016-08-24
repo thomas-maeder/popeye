@@ -34,7 +34,8 @@ void stip_structure_visit_slice(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(si));
+  TraceEOL();
   assert(SLICE_TYPE(si)<=nr_slice_types);
 
   {

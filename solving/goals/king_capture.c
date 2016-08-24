@@ -26,7 +26,8 @@ void goal_king_capture_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,SLICE_STARTER(si),"\n");
+  TraceEnumerator(Side,SLICE_STARTER(si));
+  TraceEOL();
   pipe_this_move_doesnt_solve_if(si,being_solved.king_square[SLICE_STARTER(si)]!=initsquare);
 
   TraceFunctionExit(__func__);

@@ -187,7 +187,7 @@ static void do_strict_sat_adjustment(Side side)
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_strict_sat_adjustment,move_effect_reason_sat_adjustment);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   entry->u.strict_sat_adjustment.side = side;

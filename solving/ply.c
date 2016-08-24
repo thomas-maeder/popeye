@@ -34,7 +34,7 @@ void nextply(Side side)
   ply const parent = nbply;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   assert(ply_watermark<maxply);
