@@ -77,59 +77,16 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
    */
   /* move_generator_invert_move_order(nbply); */
 
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
-
   copyply();
-
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
-
   testing_pipe_solve_delegate(si,slack_length+2);
-
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
-
   finply();
 
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
-
-  TraceText("qsort()");
-  TraceValue("%u",base);
-  TraceValue("%u",nr_moves);
-  TraceEOL();
-
-//  qsort(&move_generation_stack[base],
-//        nr_moves,
-//        sizeof move_generation_stack[0],
-//        &compare_nr_opponent_moves);
-
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
+  qsort(&move_generation_stack[base],
+        nr_moves,
+        sizeof move_generation_stack[0],
+        &compare_nr_opponent_moves);
 
   pipe_solve_delegate(si);
-
-  TraceText(__func__);
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

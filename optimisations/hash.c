@@ -822,7 +822,7 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
   unsigned int const offset = slice_properties[si].valueOffset;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",hue);
+  TraceFunctionParam("%p",hue);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 

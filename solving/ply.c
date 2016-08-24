@@ -115,12 +115,6 @@ void copyply(void)
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",current_move[nbply]);
-  TraceValue("%u",current_move_id[nbply]);
-  TraceValue("%u",ply_watermark);
-  TraceEOL();
-
   parent_ply[nbply] = parent_ply[original];
 
   trait[nbply] = trait[original];
@@ -129,15 +123,7 @@ void copyply(void)
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
-  TraceValue("%u",move_effect_journal_base[nbply+1]);
-  TraceValue("%u",en_passant_top[nbply]);
-  TraceValue("%u",promotion_horizon[nbply]);
-  TraceEOL();
-
   ++post_move_iteration_id[nbply];
-
-  TraceValue("%u",post_move_iteration_id[nbply]);
-  TraceEOL();
 
   {
     unsigned int const nr_moves = CURRMOVE_OF_PLY(original)-MOVEBASE_OF_PLY(original);
@@ -145,18 +131,7 @@ void copyply(void)
            &move_generation_stack[MOVEBASE_OF_PLY(original)+1],
            nr_moves*sizeof move_generation_stack[0]);
     current_move[nbply] += nr_moves;
-    TraceValue("%u",nr_moves);
-    TraceValue("%u",sizeof move_generation_stack[0]);
-    TraceEOL();
-    TraceValue("%u",current_move[nbply]);
-    TraceValue("%u",MOVEBASE_OF_PLY(nbply)+1);
-    TraceValue("%u",MOVEBASE_OF_PLY(original)+1);
-    TraceEOL();
   }
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -172,11 +147,6 @@ void finply()
   --ply_watermark;
 
   nbply = ply_stack[--ply_stack_pointer];
-
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

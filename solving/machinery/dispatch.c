@@ -344,10 +344,7 @@ void dispatch(slice_index si)
 {
   TraceEnumerator(slice_type,SLICE_TYPE(si));
   TraceEOL();
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
+
   switch (SLICE_TYPE(si))
   {
     case STQuodlibetStipulationModifier:
@@ -2383,8 +2380,4 @@ void dispatch(slice_index si)
       assert(0);
       break;
   }
-  TraceSquare(move_generation_stack[15].departure);
-  TraceSquare(move_generation_stack[15].arrival);
-  TraceSquare(move_generation_stack[15].capture);
-  TraceEOL();
 }

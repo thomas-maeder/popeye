@@ -118,7 +118,7 @@ static void **accessAdr(dirTable *dt, uLong x)
   void **result = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",dt);
+  TraceFunctionParam("%p",dt);
   TraceFunctionParam("%lu",x);
   TraceFunctionParamListEnd();
 
@@ -179,8 +179,8 @@ static boolean appendDirTable_recursive(dirTable *dt,
   boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",dt);
-  TraceFunctionParam("%p ",elmt_to_append);
+  TraceFunctionParam("%p",dt);
+  TraceFunctionParam("%p",elmt_to_append);
   TraceFunctionParam("%d",elmt_depth);
   TraceFunctionParamListEnd();
 
@@ -784,8 +784,8 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   InternHsElement **phe;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",ht);
-  TraceFunctionParam("%p ",key);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParam("%p",key);
   TraceFunctionParamListEnd();
 
   h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
@@ -814,8 +814,8 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
   InternHsElement **phe, *he;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",ht);
-  TraceFunctionParam("%p ",key);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParam("%p",key);
   TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht, key);
