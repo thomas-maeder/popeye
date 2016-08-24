@@ -27,7 +27,8 @@ static void write_line_intro(FILE *file,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",output_plaintext_nr_move_inversions);
+  TraceValue("%u",output_plaintext_nr_move_inversions);
+  TraceEOL();
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:

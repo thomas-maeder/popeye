@@ -710,7 +710,8 @@ static char *ParseGridVariant(char *tok)
   do
   {
     GridVariantType const type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
-    TraceValue("%u",type);TraceEOL();
+    TraceValue("%u",type);
+    TraceEOL();
 
     if (type==GridVariantCount)
       break;

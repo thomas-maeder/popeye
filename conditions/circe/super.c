@@ -103,7 +103,8 @@ static boolean advance_rebirth_square(void)
 
   is_rebirth_square_dirty[nbply] = false;
 
-  TraceSquare(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);TraceEOL();
+  TraceSquare(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

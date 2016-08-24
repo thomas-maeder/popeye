@@ -254,7 +254,8 @@ void free_table(table expected_top_table)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",number_of_tables);
+  TraceValue("%u",number_of_tables);
+  TraceEOL();
   assert(number_of_tables>0);
   assert(number_of_tables==expected_top_table);
   --number_of_tables;
@@ -271,7 +272,8 @@ void append_to_table(table t)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",number_of_tables);
+  TraceValue("%u",number_of_tables);
+  TraceEOL();
 
   if (current_position[number_of_tables]>=tables_stack_size)
     output_plaintext_error_message(TooManySol);

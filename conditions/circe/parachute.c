@@ -80,7 +80,8 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
 
   TraceSquare(entry->u.handle_ghost.ghost.on);
   TraceWalk(entry->u.handle_ghost.ghost.walk);
-  TraceValue("%u\n",GetPieceId(entry->u.handle_ghost.ghost.flags));
+  TraceValue("%u",GetPieceId(entry->u.handle_ghost.ghost.flags));
+  TraceEOL();
 
   underworld_make_space(nr_ghosts);
 

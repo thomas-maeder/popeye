@@ -32,7 +32,8 @@ static boolean mate_isGoalReachable(void)
   {
     move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     TraceValue("%u",MovesLeft[White]);
-    TraceValue("%u\n",MovesLeft[Black]);
+    TraceValue("%u",MovesLeft[Black]);
+    TraceEOL();
 
     if (parent_ply[nbply]==ply_retro_move
         || move_effect_journal[top-1].type==move_effect_disable_castling_right)
@@ -192,13 +193,15 @@ void goalreachable_guard_mate_solve(slice_index si)
   TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   pipe_this_move_doesnt_solve_if(si,!mate_isGoalReachable());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

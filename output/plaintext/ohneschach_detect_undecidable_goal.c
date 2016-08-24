@@ -45,7 +45,8 @@ void ohneschach_detect_undecidable_goal_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply+1]);
+  TraceValue("%u",ohneschach_undecidable_goal_detected[nbply+1]);
+  TraceEOL();
   if (ohneschach_undecidable_goal_detected[nbply+1])
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;

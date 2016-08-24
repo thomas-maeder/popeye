@@ -47,7 +47,8 @@ void output_latex_tree_end_of_solution_writer_solve(slice_index si)
 
   TraceValue("%u",slack_length);
   TraceValue("%u",solve_result);
-  TraceValue("%u\n",MOVE_HAS_SOLVED_LENGTH());
+  TraceValue("%u",MOVE_HAS_SOLVED_LENGTH());
+  TraceEOL();
   if (move_has_solved())
   {
     TraceText("has solved\n");

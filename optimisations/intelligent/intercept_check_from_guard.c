@@ -221,7 +221,7 @@ void intercept_check_on_guarded_square(slice_index si,
           case Rook:
             if (is_diagonal)
               officer(si,to_be_intercepted,intercepter_index);
-              break;
+            break;
 
           case Bishop:
             if (!is_diagonal)

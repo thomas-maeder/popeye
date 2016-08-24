@@ -78,7 +78,8 @@ static void spin_off_intro(slice_index adapter, spin_off_state_type *state)
     SLICE_PREV(adapter) = no_slice;
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceValue("%u",state->spun_off[adapter]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

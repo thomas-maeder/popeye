@@ -75,7 +75,8 @@ static void plan_optimisation(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   TraceValue("%u",state->move_to_leaf);
-  TraceValue("%u\n",state->length-slack_length);
+  TraceValue("%u",state->length-slack_length);
+  TraceEOL();
 
   {
     boolean const to_be_optimised = (st->context==stip_traversal_context_help

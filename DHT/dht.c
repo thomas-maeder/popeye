@@ -119,9 +119,11 @@ static void **accessAdr(dirTable *dt, uLong x)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",dt);
-  TraceFunctionParam("%lu\n",x);
+  TraceFunctionParam("%lu",x);
+  TraceFunctionParamListEnd();
 
-  TraceValue("%lu\n",dt->level);
+  TraceValue("%lu",dt->level);
+  TraceEOL();
 
   assert(dt->level<4);
   switch (dt->level)
@@ -134,20 +136,25 @@ static void **accessAdr(dirTable *dt, uLong x)
     */
     case 3:
       dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
-      TraceValue("%p\n",dir);
+      TraceValue("%p",dir);
+      TraceEOL();
     case 2:
       dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
-      TraceValue("%p\n",dir);
+      TraceValue("%p",dir);
+      TraceEOL();
     case 1:
       dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
-      TraceValue("%p\n",dir);
+      TraceValue("%p",dir);
+      TraceEOL();
     case 0:
       result = &(*dir)[DIR_INDEX(0,x)];
-      TraceValue("%p\n",result);
+      TraceValue("%p",result);
+      TraceEOL();
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",result);
+  TraceFunctionResult("%p",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -174,7 +181,8 @@ static boolean appendDirTable_recursive(dirTable *dt,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",dt);
   TraceFunctionParam("%p ",elmt_to_append);
-  TraceFunctionParam("%d\n",elmt_depth);
+  TraceFunctionParam("%d",elmt_depth);
+  TraceFunctionParamListEnd();
 
   if (elmt_depth>dt->level)
   {
@@ -185,7 +193,8 @@ static boolean appendDirTable_recursive(dirTable *dt,
       result = false;
     else
     {
-      TraceValue("%p\n",dt->ld[elmt_depth-1].dir);
+      TraceValue("%p",dt->ld[elmt_depth-1].dir);
+      TraceEOL();
       (*dt->ld[elmt_depth].dir)[0] = dt->ld[elmt_depth-1].dir;
       (*dt->ld[elmt_depth].dir)[1] = elmt_to_append;
       dt->ld[elmt_depth].valid = 2;
@@ -195,9 +204,10 @@ static boolean appendDirTable_recursive(dirTable *dt,
   else
   {
     int const nr_valid = dt->ld[elmt_depth].valid;
-    TraceValue("%p ",dt->ld[elmt_depth].dir);
-    TraceValue("%d ",dt->ld[elmt_depth].valid);
-    TraceValue("%d\n",PTR_PER_DIR);
+    TraceValue("%p",dt->ld[elmt_depth].dir);
+    TraceValue("%d",dt->ld[elmt_depth].valid);
+    TraceValue("%d",PTR_PER_DIR);
+    TraceEOL();
     if (nr_valid<PTR_PER_DIR)
     {
       /* Insert at the first free slot at level dt->level-elmt_depth
@@ -218,7 +228,8 @@ static boolean appendDirTable_recursive(dirTable *dt,
        * 2. fails.
        */
       ht_dir * const subtree_root = New(ht_dir);
-      TraceValue("%p\n",subtree_root);
+      TraceValue("%p",subtree_root);
+      TraceEOL();
       if (subtree_root==Nil(ht_dir))
         result = false;
       else if (appendDirTable_recursive(dt,subtree_root,elmt_depth+1))
@@ -236,7 +247,8 @@ static boolean appendDirTable_recursive(dirTable *dt,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d\n",result);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -319,7 +331,9 @@ static void freeDirTable(dirTable *dt)
     dt->count=  ((dt->count-1) & ~DIR_IDX_MASK) + 1;
     shrinkDirTable(dt);
   }
-  TraceValue("%p being freed\n",dt->ld[0].dir);
+  TraceText("being freed:");
+  TraceValue("%p",dt->ld[0].dir);
+  TraceEOL();
   freeDir(dt->ld[0].dir);
   return;
 }
@@ -331,10 +345,12 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
   InternHsElement *result = &EndOfTable;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p\n",enumeration);
+  TraceFunctionParam("%p",enumeration);
+  TraceFunctionParamListEnd();
 
   TraceValue("%lu ",enumeration->index);
-  TraceValue("%lu\n",enumeration->dt->count);
+  TraceValue("%lu",enumeration->dt->count);
+  TraceEOL();
   TMDBG(printf("stepDirTable - index:%u count:%lu\n",enumeration->index,enumeration->dt->count));
   if (enumeration->index<enumeration->dt->count)
   {
@@ -344,8 +360,9 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
       enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
                                                enumeration->index);
     enumeration->index++;
-    TracePointerValue("%p ",enumeration->current);
-    TracePointerValue("%p\n",*enumeration->current);
+    TracePointerValue(enumeration->current);
+    TracePointerValue(*enumeration->current);
+    TraceEOL();
     result = (*enumeration->current)[di];
   }
   else
@@ -355,7 +372,8 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",result);
+  TraceFunctionResult("%p",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -503,7 +521,8 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",result);
+  TraceFunctionResult("%p",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -586,7 +605,8 @@ dhtElement *dhtGetFirstElement(HashTable *ht)
   dhtElement *result = dhtNilElement;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p\n",ht);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParamListEnd();
 
   if (ht->KeyCount>0)
   {
@@ -605,7 +625,8 @@ dhtElement *dhtGetFirstElement(HashTable *ht)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",result);
+  TraceFunctionResult("%p",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -640,7 +661,8 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%lu ",p);
   TraceFunctionParam("%lu ",maxp);
-  TraceFunctionParam("%08x\n",v);
+  TraceFunctionParam("%08x",v);
+  TraceFunctionParamListEnd();
 
   if (h<p)
     result = v % (maxp<<1);
@@ -648,7 +670,8 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
     result = h;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -661,7 +684,8 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
   dhtStatus result = dhtFailedStatus;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p\n",ht);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParamListEnd();
 
   TMDBG(printf("ExpandHashTable() - ht->DirTab.ld[0].valid:%d\n",
                ht->DirTab.ld[0].valid));
@@ -686,16 +710,19 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
                                                             oldp);
 
       TraceValue("%lu ",oldp);
-      TraceValue("%p\n",old);
+      TraceValue("%p",old);
+      TraceEOL();
       TraceValue("%lu ",newp);
-      TraceValue("%p\n",new);
+      TraceValue("%p",new);
+      TraceEOL();
       while (*old)
       {
         InternHsElement const *oldElmt = *old;
         TraceValue("%p ",*old);
         {
           dhtHashValue const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
-          TraceValue("%lu\n",hashVal);
+          TraceValue("%lu",hashVal);
+          TraceEOL();
           if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
           {
             *new = *old;
@@ -715,7 +742,8 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
     sprintf(dhtError, "%s: no memory\n", myname);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -767,14 +795,15 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
     {
-      TraceText("found");TraceEOL();
+      TraceText("found");
+      TraceEOL();
       break;
     }
     else
       phe= &((*phe)->Next);
 
   TraceFunctionExit(__func__);
-  TracePointerFunctionResult("%p",*phe);
+  TracePointerFunctionResult(*phe);
   TraceFunctionResultEnd();
   return phe;
 }
@@ -835,9 +864,10 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   dhtValue KeyV, DataV;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",ht);
-  TraceFunctionParam("%p ",key);
-  TraceFunctionParam("%p\n",data);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParam("%p",key);
+  TraceFunctionParam("%p",data);
+  TraceFunctionParamListEnd();
 
   assert(key!=0);
   KeyV = (ht->procs.DupKey)(key);
@@ -845,7 +875,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
-    TracePointerFunctionResult("%p\n",dhtNilElement);
+    TracePointerFunctionResult(dhtNilElement);
+    TraceFunctionResultEnd();
     return dhtNilElement;
   }
 
@@ -855,25 +886,29 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
     (ht->procs.FreeKey)(KeyV);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
-    TracePointerFunctionResult("%p\n",dhtNilElement);
+    TracePointerFunctionResult(dhtNilElement);
+    TraceFunctionResultEnd();
     return dhtNilElement;
   }
 
   phe = LookupInternHsElement(ht,key);
-  TraceValue("%p ",phe);
+  TraceValue("%p",phe);
   he = *phe;
-  TraceValue("%p\n",he);
+  TraceValue("%p",he);
+  TraceEOL();
   if (he==0)
   {
     he = NewInternHsElement;
-    TraceValue("%p\n",he);
+    TraceValue("%p",he);
+    TraceEOL();
     if (he==0)
     {
       (ht->procs.FreeKey)(KeyV);
       (ht->procs.FreeData)(DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
-      TracePointerFunctionResult("%p\n",dhtNilElement);
+      TracePointerFunctionResult(dhtNilElement);
+      TraceFunctionResultEnd();
       return dhtNilElement;
     }
     else
@@ -904,7 +939,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
     {
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);
-      TracePointerFunctionResult("%p\n",dhtNilElement);
+      TracePointerFunctionResult(dhtNilElement);
+      TraceFunctionResultEnd();
       return dhtNilElement;
     }
     /*
@@ -914,7 +950,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   }
 
   TraceFunctionExit(__func__);
-  TracePointerFunctionResult("%p\n",&he->HsEl);
+  TracePointerFunctionResult(&he->HsEl);
+  TraceFunctionResultEnd();
   return &he->HsEl;
 }
 
@@ -924,7 +961,8 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
   dhtElement *result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p\n",ht);
+  TraceFunctionParam("%p",ht);
+  TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht,key);
   if (*phe)
@@ -933,7 +971,8 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
     result = dhtNilElement;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p\n",result);
+  TraceFunctionResult("%p",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

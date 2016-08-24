@@ -476,7 +476,7 @@ static void rear_check_by_promotee(slice_index si,
   for (k = start; k<=end; ++k)
   {
     int const dir = vec[k];
-    TraceValue("%u",k);TraceValue("%d\n",dir);
+    TraceValue("%u",k);TraceValue("%d",dir);TraceEOL();
     if (is_square_empty(being_solved.king_square[Black]+dir))
     {
       square rear_pos;
@@ -551,7 +551,7 @@ static void rear_check_by_rider(slice_index si,
   for (k = start; k<=end; ++k)
   {
     int const dir = vec[k];
-    TraceValue("%u",k);TraceValue("%d\n",dir);
+    TraceValue("%u",k);TraceValue("%d",dir);TraceEOL();
     if (is_square_empty(being_solved.king_square[Black]+dir))
     {
       square rear_pos;
@@ -885,7 +885,8 @@ static void en_passant_select_capturee(slice_index si,
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  TraceWalk(being_solved.board[via_capturee]);TraceEOL();
+  TraceWalk(being_solved.board[via_capturee]);
+  TraceEOL();
   if (is_square_empty(via_capturee))
   {
     square const capturee_origin = via_capturee+2*dir_up;

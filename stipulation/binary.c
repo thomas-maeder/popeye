@@ -49,11 +49,13 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_binary_operand1(si,st);
   root_op1 = state->spun_off[SLICE_NEXT1(si)];
-  TraceValue("%u\n",root_op1);
+  TraceValue("%u",root_op1);
+  TraceEOL();
 
   stip_traverse_structure_binary_operand2(si,st);
   root_op2 = state->spun_off[SLICE_NEXT2(si)];
-  TraceValue("%u\n",root_op2);
+  TraceValue("%u",root_op2);
+  TraceEOL();
 
   if (st->context==stip_traversal_context_intro)
   {

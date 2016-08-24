@@ -53,13 +53,15 @@ void goal_prerequisite_optimiser_solve(slice_index si)
   if (goal_preprequisites_met[nbply]==0)
   {
     max_unsolvable = slack_length+1;
-    TraceValue("->%u\n",max_unsolvable);
+    TraceValue("->%u",max_unsolvable);
+    TraceEOL();
   }
 
   pipe_solve_delegate(si);
 
   max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
+  TraceValue("->%u",max_unsolvable);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

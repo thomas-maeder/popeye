@@ -50,7 +50,8 @@ static void block_next_flight(slice_index si)
 
   --nr_king_flights_to_be_blocked;
 
-  TraceSquare(to_be_blocked);TraceEOL();
+  TraceSquare(to_be_blocked);
+  TraceEOL();
   if (nr_reasons_for_staying_empty[to_be_blocked]==0)
   {
     for (i = 1; i<MaxPiece[Black]; i++)

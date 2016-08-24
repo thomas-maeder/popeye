@@ -30,7 +30,8 @@ static boolean singlebox_officer_out_of_box(void)
       TraceValue("%u",being_solved.number_of_pieces[White][standard_walk]);
       TraceValue("%u",game_array.number_of_pieces[White][standard_walk]);
       TraceValue("%u",being_solved.number_of_pieces[Black][standard_walk]);
-      TraceValue("%u\n",game_array.number_of_pieces[Black][standard_walk]);
+      TraceValue("%u",game_array.number_of_pieces[Black][standard_walk]);
+      TraceEOL();
       result = true;
       break;
     }

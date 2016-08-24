@@ -91,7 +91,8 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -117,7 +118,8 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

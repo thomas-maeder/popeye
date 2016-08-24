@@ -116,7 +116,8 @@ void wormhole_transferer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);
-  TraceValue("%u\n",TSTFLAG(sq_spec[sq_arrival],Wormhole));
+  TraceValue("%u",TSTFLAG(sq_spec[sq_arrival],Wormhole));
+  TraceEOL();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {

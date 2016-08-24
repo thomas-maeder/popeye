@@ -58,7 +58,8 @@ void capture_counter_solve(slice_index si)
     ++capture_counter_count;
 
   TraceValue("%u",capture_counter_count);
-  TraceValue("%u\n",capture_counter_interesting);
+  TraceValue("%u",capture_counter_interesting);
+  TraceEOL();
   /* stop the iteration */
   pipe_this_move_doesnt_solve_if(si,capture_counter_count>capture_counter_interesting);
 

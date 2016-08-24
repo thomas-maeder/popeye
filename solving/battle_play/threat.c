@@ -173,7 +173,8 @@ void threat_enforcer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",len_threat);
+  TraceValue("%u",len_threat);
+  TraceEOL();
 
   if (len_threat<=slack_length)
     /* the move has something stronger than threats (typically, it

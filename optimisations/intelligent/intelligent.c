@@ -233,13 +233,15 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
         TraceWalk(target->type);
         TraceSquare(target->square);
         TraceEnumerator(piece_usage,target->usage,"");
-        TraceValue("%u\n",time);
+        TraceValue("%u",time);
+        TraceEOL();
       }
     }
 
   TraceValue("%u",nr_required_captures);
   TraceValue("%u",moves_per_side[Black]);
-  TraceValue("%u\n",moves_per_side[White]);
+  TraceValue("%u",moves_per_side[White]);
+  TraceEOL();
 }
 
 static piece_usage find_piece_usage(PieceIdType id)

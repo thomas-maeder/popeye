@@ -84,6 +84,12 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
+    else if (strcmp(argv[idx], "-notraceptr")==0)
+    {
+      TraceSuppressPointerValues();
+      idx++;
+      continue;
+    }
     else
       break;
   }

@@ -134,7 +134,8 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
     INCREMENT_COUNTER(is_black_king_square_attacked);
   }
 
-  TraceSquare(being_solved.king_square[side_king_attacked]);TraceEOL();
+  TraceSquare(being_solved.king_square[side_king_attacked]);
+  TraceEOL();
   assert(being_solved.king_square[side_king_attacked]!=initsquare);
 
   result = is_square_observed(EVALUATE(check));

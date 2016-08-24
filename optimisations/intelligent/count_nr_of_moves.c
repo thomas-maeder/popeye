@@ -796,7 +796,8 @@ boolean intelligent_reserve_black_masses_for_blocks(square const flights[],
       push_reserve();
       reserve[curr_reserve].nr_unused_masses[Black] -= nr_flights;
       reserve[curr_reserve].usage = piece_blocks;
-      TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
+      TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+      TraceEOL();
       result = true;
     }
   }
@@ -870,7 +871,8 @@ boolean intelligent_reserve_masses(Side side,
     push_reserve();
     reserve[curr_reserve].nr_unused_masses[side] -= nr_of_masses;
     reserve[curr_reserve].usage = usage;
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[side]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[side]);
+    TraceEOL();
     result = true;
   }
   else
@@ -901,7 +903,8 @@ boolean intelligent_reserve_pinner(void)
     push_reserve();
     --reserve[curr_reserve].nr_unused_masses[White];
     reserve[curr_reserve].usage = piece_pins;
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceEOL();
     result = true;
   }
   else
@@ -945,7 +948,8 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
     reserve[curr_reserve].nr_unused_masses[White] -= diffcol;
     reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceEOL();
     result = true;
   }
   else
@@ -985,7 +989,8 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
     reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
     reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+    TraceEOL();
     result = true;
   }
   else
@@ -1028,7 +1033,8 @@ boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_squ
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
     reserve[curr_reserve].usage = piece_gives_check;
-    TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+    TraceEOL();
     result = true;
   }
   else
@@ -1070,7 +1076,8 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
         reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
         reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
-        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+        TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+        TraceEOL();
         result = true;
       }
     }
@@ -1104,7 +1111,8 @@ static boolean reserve_promoting_black_pawn_moves_from_to(unsigned int min_nr_of
     reserve[curr_reserve].nr_unused_masses[White] -= min_diffcol;
     reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[White]);
+    TraceEOL();
     result = true;
   }
   else
@@ -1134,7 +1142,8 @@ static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of
     reserve[curr_reserve].nr_unused_masses[Black] -= min_diffcol;
     reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
+    TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+    TraceEOL();
     result = true;
   }
   else
@@ -1253,7 +1262,8 @@ static boolean reserve_king_moves_from_to(Side side, unsigned int nr_of_moves)
     reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
     reserve[curr_reserve].usage = piece_is_king;
     TraceEnumerator(Side,side,"");
-    TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
+    TraceEOL();
     result = true;
   }
   else
@@ -1344,7 +1354,8 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
       push_reserve();
       reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves+1;
       reserve[curr_reserve].usage = piece_gives_check;
-      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+      TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+      TraceEOL();
       result = true;
     }
   }
@@ -1384,7 +1395,8 @@ boolean intelligent_reserve_officer_moves_from_to(Side side,
       push_reserve();
       reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
       reserve[curr_reserve].usage = reserve[curr_reserve-1].usage;
-      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
+      TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
+      TraceEOL();
       result = true;
     }
     else
@@ -1434,7 +1446,8 @@ boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
         reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
         TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
-        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+        TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+        TraceEOL();
         result = true;
       }
     }
@@ -1475,7 +1488,8 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
       reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
       reserve[curr_reserve].usage = piece_is_captured;
       TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
-      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+      TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+      TraceEOL();
       result = true;
     }
   }
@@ -1566,7 +1580,8 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
         reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
         TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
-        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[Black]);
+        TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
+        TraceEOL();
         result = true;
       }
     }

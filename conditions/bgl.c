@@ -72,7 +72,8 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type cons
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%lu\n",diff);
+  TraceValue("%lu",diff);
+  TraceEOL();
 
   BGL_values[side] += diff;
 
@@ -91,7 +92,8 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_entry_type cons
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%lu\n",diff);
+  TraceValue("%lu",diff);
+  TraceEOL();
 
   BGL_values[side] -= diff;
 

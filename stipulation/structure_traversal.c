@@ -78,7 +78,8 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",st->context);
+  TraceValue("%u",st->context);
+  TraceEOL();
 
   if (root!=no_slice)
     if (st->traversed[root]==slice_not_traversed)
@@ -89,7 +90,8 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
       st->traversed[root] = slice_traversed;
     }
 
-  TraceValue("%u\n",st->context);
+  TraceValue("%u",st->context);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

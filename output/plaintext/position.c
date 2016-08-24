@@ -231,7 +231,8 @@ static int WriteOptions(position const *pos)
 {
   int result = 0;
 
-  TraceValue("%u\n",indentation);
+  TraceValue("%u",indentation);
+  TraceEOL();
 
   if (OptFlag[solmenaces])
   {

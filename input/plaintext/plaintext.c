@@ -18,7 +18,8 @@ static Language detect_user_language(char *tok)
     Language candidate;
     for (candidate = 0; candidate<LanguageCount; ++candidate)
     {
-      TraceValue("%u",candidate);TraceEOL();
+      TraceValue("%u",candidate);
+      TraceEOL();
       if (GetUniqIndex(GlobalTokenCount,GlobalTokenString[candidate],tok)==BeginProblem)
       {
         result = candidate;

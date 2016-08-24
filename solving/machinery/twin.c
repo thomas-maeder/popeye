@@ -421,16 +421,19 @@ static void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
 
   stip_traverse_moves_binary_operand1(si,st);
   result1 = *result;
-  TraceValue("%u\n",result1);
+  TraceValue("%u",result1);
+  TraceEOL();
 
   *result = save_result;
   stip_traverse_moves_binary_operand2(si,st);
   result2 = *result;
-  TraceValue("%u\n",result2);
+  TraceValue("%u",result2);
+  TraceEOL();
 
   if (result1>result2)
     *result = result1;
-  TraceValue("%u\n",*result);
+  TraceValue("%u",*result);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -449,7 +452,8 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   ++*result;
-  TraceValue("%u\n",*result);
+  TraceValue("%u",*result);
+  TraceEOL();
 
   stip_traverse_moves_children(si,st);
 

@@ -25,7 +25,8 @@ underworld_index_type underworld_find_last(square pos)
   {
     --current;
     TraceSquare(underworld[current].on);
-    TraceValue("%u\n",current);
+    TraceValue("%u",current);
+    TraceEOL();
     if (underworld[current].on==pos)
     {
       result = current;

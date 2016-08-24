@@ -581,7 +581,8 @@ void push_move(void)
   move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
-  TraceValue("%u\n",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -606,7 +607,8 @@ void push_move_capture_extra(square sq_capture)
   move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
-  TraceValue("%u\n",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -631,7 +633,8 @@ void push_special_move(square sq_special)
   move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
-  TraceValue("%u\n",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

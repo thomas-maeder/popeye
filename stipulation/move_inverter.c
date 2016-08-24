@@ -63,7 +63,8 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
                             : advers(next_starter));
   }
 
-  TraceValue("->%u\n",SLICE_STARTER(si));
+  TraceValue("->%u",SLICE_STARTER(si));
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -34,7 +34,8 @@ static char *ParseStructuredStip_skip_whitespace(char *tok)
   if (tok[0]==0)
   {
     tok = ReadNextTokStr();
-    TraceValue("%s\n",tok);
+    TraceValue("%s",tok);
+    TraceEOL();
   }
 
   return tok;
@@ -886,7 +887,8 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
     }
     else
       break;
-    TraceValue("%s\n",tok);
+    TraceValue("%s",tok);
+    TraceEOL();
   }
 
   TraceFunctionExit(__func__);

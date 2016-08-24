@@ -102,11 +102,13 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 
 #if defined(DOTRACE)
   result->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",result->id);
+  TraceValue("%lu",result->id);
+  TraceEOL();
 #endif
 
   ++move_effect_journal_base[nbply+1];
-  TraceValue("%u\n",move_effect_journal_base[nbply+1]);
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -166,7 +168,8 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",GetPieceId(being_solved.spec[from]));
+  TraceValue("%u",GetPieceId(being_solved.spec[from]));
+  TraceEOL();
 
   push_movement_elmt(reason,from,to);
   do_movement(from,to);
@@ -447,7 +450,8 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",GetPieceId(being_solved.spec[from]));
+  TraceValue("%u",GetPieceId(being_solved.spec[from]));
+  TraceEOL();
 
   push_removal_elmt(reason,from);
   do_removal(from);
@@ -858,7 +862,8 @@ static void undo_flags_change(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(on);TraceEOL();
+  TraceSquare(on);
+  TraceEOL();
 
   assert(being_solved.spec[on]==entry->u.flags_change.to);
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(from));
@@ -1026,7 +1031,8 @@ void move_effect_journal_do_capture_move(square sq_departure,
   TraceFunctionParam("%u",removal_reason);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",GetPieceId(being_solved.spec[sq_capture]));
+  TraceValue("%u",GetPieceId(being_solved.spec[sq_capture]));
+  TraceEOL();
 
   push_removal_elmt(removal_reason,sq_capture);
   do_removal(sq_capture);
@@ -1424,7 +1430,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
        other<top;
        ++other)
   {
-    TraceValue("%u\n",move_effect_journal[other].type);
+    TraceValue("%u",move_effect_journal[other].type);
+    TraceEOL();
     switch (move_effect_journal[other].type)
     {
       case move_effect_piece_removal:
@@ -1520,8 +1527,10 @@ void redo_move_effects(void)
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
   {
 #if defined(DOTRACE)
-    TraceValue("%u\n",entry->type);
-    TraceValue("%lu\n",entry->id);
+    TraceValue("%u",entry->type);
+    TraceEOL();
+    TraceValue("%lu",entry->id);
+    TraceEOL();
 #endif
 
     switch (entry->type)
@@ -1668,8 +1677,10 @@ void undo_move_effects(void)
   for (entry = &move_effect_journal[top-1]; entry!=parent_top_entry; --entry)
   {
 #if defined(DOTRACE)
-    TraceValue("%u\n",entry->type);
-    TraceValue("%lu\n",entry->id);
+    TraceValue("%u",entry->type);
+    TraceEOL();
+    TraceValue("%lu",entry->id);
+    TraceEOL();
 #endif
 
     switch (entry->type)

@@ -285,14 +285,21 @@ void pawn_promoter_solve(slice_index si)
                                   &sq_potential_promotion,
                                   &as_side);
 
-  assert(stack_pointer<stack_size);
+  TraceSquare(sq_potential_promotion);
+  TraceEOL();
 
+  assert(stack_pointer<stack_size);
   if (sq_potential_promotion==initsquare)
     pipe_solve_delegate(si);
   else
   {
     promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
+    TraceValue("%u",nbply);
+    TraceValue("%u",post_move_iteration_id[nbply]);
+    TraceValue("%u",stack_pointer);
+    TraceValue("%u",prev_post_move_iteration_id[stack_pointer]);
+    TraceEOL();
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
                                            as_side,

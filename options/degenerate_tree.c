@@ -29,7 +29,8 @@ void init_degenerate_tree(stip_length_type max_length_short)
   TraceFunctionParamListEnd();
 
   max_length_short_solutions = 2*max_length_short;
-  TraceValue("%u\n",max_length_short_solutions);
+  TraceValue("%u",max_length_short_solutions);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

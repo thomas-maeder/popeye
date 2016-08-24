@@ -71,7 +71,8 @@ boolean riders_check(vec_index_type kanf, vec_index_type kend,
        ++interceptable_observation[observation_context].vector_index1)
   {
     square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
-    TraceSquare(sq_departure);TraceEOL();
+    TraceSquare(sq_departure);
+    TraceEOL();
     if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
     {
       result = true;

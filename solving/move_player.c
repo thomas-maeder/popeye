@@ -16,6 +16,18 @@ static void play_move(Side side)
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
 
+  TraceSquare(move_generation_stack[15].departure);
+  TraceSquare(move_generation_stack[15].arrival);
+  TraceSquare(move_generation_stack[15].capture);
+  TraceEOL();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",curr);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceEOL();
+
   if (en_passant_is_ep_capture(sq_capture))
     move_effect_journal_do_capture_move(sq_departure,
                                         sq_arrival,

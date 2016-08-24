@@ -43,7 +43,8 @@ boolean read_max_nr_nontrivial(char const *tok)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%s\n",tok);
+  TraceValue("%s",tok);
+  TraceEOL();
 
   if (tok!=end && requested_max_nr_nontrivial<=UINT_MAX)
   {
@@ -74,13 +75,15 @@ boolean read_min_length_nontrivial(char const *tok)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  TraceValue("%s\n",tok);
+  TraceValue("%s",tok);
+  TraceEOL();
 
   if (tok!=end && requested_min_length_nontrivial<=UINT_MAX)
   {
     result = true;
     min_length_nontrivial = 2*(unsigned int)requested_min_length_nontrivial+1;
-    TraceValue("%u\n",min_length_nontrivial);
+    TraceValue("%u",min_length_nontrivial);
+    TraceEOL();
   }
   else
     result = false;

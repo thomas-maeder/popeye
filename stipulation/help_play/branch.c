@@ -771,7 +771,8 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
+  TraceValue("%u",state->spun_off[SLICE_NEXT1(si)]);
+  TraceEOL();
 
   if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
@@ -779,7 +780,8 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -824,7 +826,8 @@ void help_branch_make_root_slices(slice_index adapter,
     stip_traverse_structure(adapter,&st);
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceValue("%u",state->spun_off[adapter]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -898,7 +901,8 @@ void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     }
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceValue("%u",state->spun_off[adapter]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -996,13 +1000,15 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
         ; /* set play not applicable */
       else
         help_branch_make_root_slices(set_adapter,state);
-      TraceValue("%u\n",state->spun_off[set_adapter]);
+      TraceValue("%u",state->spun_off[set_adapter]);
+      TraceEOL();
       state->spun_off[adapter] = state->spun_off[set_adapter];
       pipe_remove(set_adapter);
     }
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceValue("%u",state->spun_off[adapter]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();

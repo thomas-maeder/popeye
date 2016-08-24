@@ -23,6 +23,7 @@ static trace_level level;
 static unsigned long move_counter;
 
 trace_level max_level = ULONG_MAX;
+static boolean pointers_suppressed = false;
 
 enum
 {
@@ -51,6 +52,11 @@ void TraceCallStack(FILE *file)
 void TraceSetMaxLevel(trace_level tl)
 {
   max_level = tl;
+}
+
+void TraceSuppressPointerValues(void)
+{
+  pointers_suppressed = true;
 }
 
 void TraceEOL(void)
@@ -120,11 +126,15 @@ void TraceFunctionExit(char const *name)
   --level;
 }
 
-void TraceFunctionResultImpl(char const *format, size_t value)
+void TraceFunctionResultImpl(char const *prefix, char const *format, size_t value)
 {
   if (level+1<=max_level)
   {
-    fprintf(stdout,format,value);
+    fprintf(stdout,"%s",prefix);
+    if (strcmp(format,"%p")==0 && pointers_suppressed)
+      fprintf(stdout,"...");
+    else
+      fprintf(stdout,format,value);
     fflush(stdout);
   }
 
@@ -151,11 +161,15 @@ void TraceFunctionResultEnd(void)
 #endif
 }
 
-void TraceValueImpl(char const *format, size_t value)
+void TraceValueImpl(char const *prefix, char const *format, size_t value)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,format,value);
+    fprintf(stdout,"%s",prefix);
+    if (strcmp(format,"%p")==0 && pointers_suppressed)
+      fprintf(stdout,"...");
+    else
+      fprintf(stdout,format,value);
     fflush(stdout);
   }
 
@@ -167,11 +181,15 @@ void TraceValueImpl(char const *format, size_t value)
 #endif
 }
 
-void TracePointerValueImpl(char const *format, void const *value)
+void TracePointerValueImpl(char const *prefix, void const *value)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,format,value);
+    fprintf(stdout,"%s",prefix);
+    if (pointers_suppressed)
+      fprintf(stdout,"...");
+    else
+      fprintf(stdout,"%p",value);
     fflush(stdout);
   }
 

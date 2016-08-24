@@ -40,7 +40,8 @@ static void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   st->context = save_context;
   st->full_length = save_full_length;
   st->remaining = save_remaining;
-  TraceFunctionParam("->%u\n",st->remaining);
+  TraceFunctionParam("->%u",st->remaining);
+  TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -58,7 +59,8 @@ static void stip_traverse_moves_attack_adapter(slice_index si,
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = SLICE_U(si).branch.length-slack_length;
-    TraceValue("->%u\n",st->full_length);
+    TraceValue("->%u",st->full_length);
+    TraceEOL();
     st->remaining = st->full_length;
     st->context = stip_traversal_context_attack;
 
@@ -87,7 +89,8 @@ static void stip_traverse_moves_defense_adapter(slice_index si,
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = SLICE_U(si).branch.length-slack_length;
-    TraceValue("->%u\n",st->full_length);
+    TraceValue("->%u",st->full_length);
+    TraceEOL();
     st->remaining = st->full_length;
     st->context = stip_traversal_context_defense;
 
@@ -146,7 +149,8 @@ static void stip_traverse_moves_help_adapter(slice_index si,
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = SLICE_U(si).branch.length-slack_length;
-    TraceValue("->%u\n",st->full_length);
+    TraceValue("->%u",st->full_length);
+    TraceEOL();
     st->remaining = st->full_length;
     st->context = stip_traversal_context_help;
 
@@ -217,7 +221,8 @@ static void stip_traverse_moves_move_played(slice_index si,
 
   st->context = next_context(st->context);
   --st->remaining;
-  TraceValue("->%u\n",st->remaining);
+  TraceValue("->%u",st->remaining);
+  TraceEOL();
   stip_traverse_moves_pipe(si,st);
   ++st->remaining;
   st->context = save_context;
@@ -605,7 +610,8 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",st->remaining);
+  TraceValue("%u",st->remaining);
+  TraceEOL();
 
   TraceEnumerator(slice_type,SLICE_TYPE(root),"\n");
   assert(SLICE_TYPE(root)<=nr_slice_types);

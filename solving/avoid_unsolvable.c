@@ -181,7 +181,8 @@ void avoid_unsolvable_solve(slice_index si)
 
   assert(solve_nr_remaining>=previous_move_has_solved);
 
-  TraceValue("%u\n",max_unsolvable);
+  TraceValue("%u",max_unsolvable);
+  TraceEOL();
   binary_solve_if_then_else(si,max_unsolvable>slack_length);
 
   TraceFunctionExit(__func__);
@@ -228,12 +229,14 @@ void reset_unsolvable_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length;
-  TraceValue("->%u\n",max_unsolvable);
+  TraceValue("->%u",max_unsolvable);
+  TraceEOL();
 
   pipe_solve_delegate(si);
 
   max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
+  TraceValue("->%u",max_unsolvable);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -281,7 +284,8 @@ void learn_unsolvable_solve(slice_index si)
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     max_unsolvable = MOVE_HAS_SOLVED_LENGTH();
-    TraceValue("->%u\n",max_unsolvable);
+    TraceValue("->%u",max_unsolvable);
+    TraceEOL();
   }
 
   TraceFunctionExit(__func__);

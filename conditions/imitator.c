@@ -145,7 +145,8 @@ static boolean is_imitator_line_clear(unsigned int i,
 
   for (sq_curr = being_solved.isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
   {
-    TraceSquare(sq_curr);TraceEOL();
+    TraceSquare(sq_curr);
+    TraceEOL();
     if (!is_square_empty(sq_curr))
     {
       result = false;
@@ -172,7 +173,8 @@ static boolean are_all_imitator_lines_clear(numvec diff_first_necessarily_empty,
   TraceValue("%d",diff_first_not_necessarily_empty);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",being_solved.number_of_imitators);
+  TraceValue("%u",being_solved.number_of_imitators);
+  TraceEOL();
 
   for (i = 0; i!=being_solved.number_of_imitators; ++i)
     if (!is_imitator_line_clear(i,diff_first_necessarily_empty,step,diff_first_not_necessarily_empty))
@@ -386,7 +388,8 @@ static numecoup remove_illegal_moves_by_same_king(numecoup curr, numecoup *new_t
     square const sq_arrival = move_generation_stack[curr].arrival;
     square const sq_capture = move_generation_stack[curr].capture;
 
-    TraceSquare(sq_arrival);TraceEOL();
+    TraceSquare(sq_arrival);
+    TraceEOL();
 
     if (sq_capture==kingside_castling || sq_capture==queenside_castling)
     {
@@ -448,7 +451,8 @@ static numecoup remove_illegal_moves_by_same_piece(numecoup curr, numecoup *new_
   TraceValue("%u",curr);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_departure);TraceEOL();
+  TraceSquare(sq_departure);
+  TraceEOL();
 
   switch (get_walk_of_piece_on_square(sq_departure))
   {
@@ -753,7 +757,8 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceWalk(being_solved.board[sq_observer]);TraceEOL();
+  TraceWalk(being_solved.board[sq_observer]);
+  TraceEOL();
   switch (being_solved.board[sq_observer])
   {
     case King:
@@ -924,7 +929,8 @@ static boolean is_imitator_pos_occupied(void)
   for (i=0; i!=being_solved.number_of_imitators; ++i)
     if (!is_square_empty(being_solved.isquare[i]))
     {
-      TraceSquare(being_solved.isquare[i]);TraceEOL();
+      TraceSquare(being_solved.isquare[i]);
+      TraceEOL();
       result = true;
       break;
     }
@@ -1173,7 +1179,8 @@ void imitator_pawn_promoter_solve(slice_index si)
 
     TraceValue("%u",post_move_iteration_id[nbply]);
     TraceValue("%u",prev_post_move_iteration_id[stack_pointer]);
-    TraceValue("%u\n",promotion_into_imitator[stack_pointer]);
+    TraceValue("%u",promotion_into_imitator[stack_pointer]);
+    TraceEOL();
 
     if (promotion_into_imitator[stack_pointer])
     {
@@ -1192,7 +1199,8 @@ void imitator_pawn_promoter_solve(slice_index si)
 
       promotion_horizon[nbply] = save_horizon;
 
-      TraceValue("%u\n",post_move_iteration_locked[nbply]);
+      TraceValue("%u",post_move_iteration_locked[nbply]);
+      TraceEOL();
       if (!post_move_iteration_locked[nbply])
       {
         promotion_into_imitator[stack_pointer] = false;

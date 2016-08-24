@@ -281,7 +281,8 @@ static void init_slice_properties_pipe(slice_index pipe,
   stip_traverse_structure_children_pipe(pipe,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",pipe);
-  TraceValue("%u\n",slice_properties[pipe].valueOffset);
+  TraceValue("%u",slice_properties[pipe].valueOffset);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -303,7 +304,8 @@ static void slice_property_offset_shifter(slice_index si,
   slice_properties[si].valueOffset -= *delta;
 
   TraceValue("%u",*delta);
-  TraceValue("->%u\n",slice_properties[si].valueOffset);
+  TraceValue("->%u",slice_properties[si].valueOffset);
+  TraceEOL();
 
   stip_traverse_structure_children(si,st);
 
@@ -358,7 +360,8 @@ static void init_slice_properties_binary(slice_index fork,
   TraceValue("%u",op1);
   TraceValue("%u",slice_properties[op1].valueOffset);
   TraceValue("%u",op2);
-  TraceValue("%u\n",slice_properties[op2].valueOffset);
+  TraceValue("%u",slice_properties[op2].valueOffset);
+  TraceEOL();
 
   /* both operand slices must have the same valueOffset, or the
    * shorter one will dominate the longer one */
@@ -398,15 +401,18 @@ static void init_slice_properties_attack_hashed(slice_index si,
 
   TraceValue("%u",length);
   TraceValue("%u",sis->nrBitsLeft);
-  TraceValue("%u\n",sis->valueOffset);
+  TraceValue("%u",sis->valueOffset);
+  TraceEOL();
 
   sis->valueOffset -= size;
   TraceValue("%u",size);
-  TraceValue("->%u\n",sis->valueOffset);
+  TraceValue("->%u",sis->valueOffset);
+  TraceEOL();
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->valueOffset;
-  TraceValue("%u\n",slice_properties[si].valueOffset);
+  TraceValue("%u",slice_properties[si].valueOffset);
+  TraceEOL();
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
@@ -446,7 +452,8 @@ static void init_slice_property_help(slice_index si,
   slice_properties[si].valueOffset = sis->valueOffset;
   TraceValue("%u",size);
   TraceValue("%08x",mask);
-  TraceValue("%u\n",slice_properties[si].valueOffset);
+  TraceValue("%u",slice_properties[si].valueOffset);
+  TraceEOL();
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
@@ -538,7 +545,8 @@ static void minimiseValueOffset(void)
       minimalValueOffset = valueOffset;
   }
 
-  TraceValue("%u\n",minimalValueOffset);
+  TraceValue("%u",minimalValueOffset);
+  TraceEOL();
 
   for (i = 0; i<nr_hash_slices; ++i)
   {
@@ -607,13 +615,15 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TracePointerValue("%p ",&e->data);
+  TracePointerValue(&e->data);
   TraceValue("pre:%08x ",e->data);
-  TraceValue("%08x\n",bits);
+  TraceValue("%08x",bits);
+  TraceEOL();
   assert((bits&mask)==bits);
   e->data &= ~mask;
   e->data |= bits;
-  TraceValue("post:%08x\n",e->data);
+  TraceValue("post:%08x",e->data);
+  TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -635,13 +645,15 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TracePointerValue("%p ",&e->data);
+  TracePointerValue(&e->data);
   TraceValue("pre:%08x ",e->data);
-  TraceValue("%08x\n",bits);
+  TraceValue("%08x",bits);
+  TraceEOL();
   assert((bits&mask)==bits);
   e->data &= ~mask;
   e->data |= bits;
-  TraceValue("post:%08x\n",e->data);
+  TraceValue("post:%08x",e->data);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -664,11 +676,13 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("0x%08x ",mask);
   TraceValue("0x%08x ",&e->data);
   TraceValue("pre:0x%08x ",e->data);
-  TraceValue("0x%08x\n",bits);
+  TraceValue("0x%08x",bits);
+  TraceEOL();
   assert((bits&mask)==bits);
   e->data &= ~mask;
   e->data |= bits;
-  TraceValue("post:0x%08x\n",e->data);
+  TraceValue("post:0x%08x",e->data);
+  TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -683,8 +697,9 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TracePointerValue("%p ",&e->data);
-  TraceValue("%08x\n",e->data);
+  TracePointerValue(&e->data);
+  TraceValue("%08x",e->data);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -702,8 +717,9 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TracePointerValue("%p ",&e->data);
-  TraceValue("%08x\n",e->data);
+  TracePointerValue(&e->data);
+  TraceValue("%08x",e->data);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -723,7 +739,8 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
   TraceValue("0x%08x ",&e->data);
-  TraceValue("0x%08x\n",e->data);
+  TraceValue("0x%08x",e->data);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -810,7 +827,8 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,SLICE_TYPE(si)," ");
-  TraceValue("%u\n",slice_properties[si].valueOffset);
+  TraceValue("%u",slice_properties[si].valueOffset);
+  TraceEOL();
 
   switch (SLICE_TYPE(si))
   {
@@ -882,7 +900,8 @@ static void compresshash (void)
 
   TraceValue("%u",minimalElementValueAfterCompression);
   TraceValue("%lu",dhtKeyCount(pyhash));
-  TraceValue("%lu\n",targetKeyCount);
+  TraceValue("%lu",targetKeyCount);
+  TraceEOL();
 
   while (true)
   {
@@ -2258,7 +2277,8 @@ void attack_hashed_tester_solve(slice_index si)
         if (max_unsolvable<n_nosuccess)
         {
           max_unsolvable = n_nosuccess;
-          TraceValue("->%u\n",max_unsolvable);
+          TraceValue("->%u",max_unsolvable);
+          TraceEOL();
         }
         solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
       }
@@ -2266,7 +2286,8 @@ void attack_hashed_tester_solve(slice_index si)
   }
 
   max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
+  TraceValue("->%u",max_unsolvable);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

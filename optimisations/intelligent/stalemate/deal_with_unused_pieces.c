@@ -111,8 +111,10 @@ void intelligent_stalemate_deal_with_unused_pieces(slice_index si)
           ++unused;
     }
 
-    TraceValue("%u\n",piece_is_unused);
-    TraceValue("%u\n",MovesLeft[White]);
+    TraceValue("%u",piece_is_unused);
+    TraceEOL();
+    TraceValue("%u",MovesLeft[White]);
+    TraceEOL();
     if (unused>0)
       place_some_piece(si);
 

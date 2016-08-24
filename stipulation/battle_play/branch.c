@@ -602,11 +602,13 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
+  TraceValue("%u",state->spun_off[SLICE_NEXT1(si)]);
+  TraceEOL();
 
   state->spun_off[si] = copy_slice(si);
   link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -666,11 +668,13 @@ void battle_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
                                                    &copy_to_setplay);
     stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
     stip_traverse_structure(start,&st);
-    TraceValue("%u\n",state->spun_off[start]);
+    TraceValue("%u",state->spun_off[start]);
+    TraceEOL();
     state->spun_off[adapter] = state->spun_off[start];
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceValue("%u",state->spun_off[adapter]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -838,14 +842,16 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
+  TraceValue("%u",state->spun_off[SLICE_NEXT1(si)]);
+  TraceEOL();
 
   if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

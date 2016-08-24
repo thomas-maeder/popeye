@@ -732,7 +732,8 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
   else
   {
     square const from = curr_generation->departure;
-    TraceSquare(from);TraceEOL();
+    TraceSquare(from);
+    TraceEOL();
 
     occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
     empty_square(from);

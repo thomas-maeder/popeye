@@ -39,7 +39,8 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   ++MovesLeft[SLICE_STARTER(si)];
 
   TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
+  TraceValue("%u",MovesLeft[Black]);
+  TraceEOL();
 
   stip_traverse_moves_children(si,st);
 
@@ -76,7 +77,8 @@ static void init_moves_left(slice_index si,
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
+  TraceValue("%u",MovesLeft[Black]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

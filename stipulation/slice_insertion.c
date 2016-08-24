@@ -36,7 +36,8 @@ static unsigned int get_slice_rank_recursive(slice_type type,
   TraceFunctionParamListEnd();
 
   TraceValue("%u",state->base_rank);
-  TraceValue("%u\n",state->nr_slice_rank_order_elmts);
+  TraceValue("%u",state->nr_slice_rank_order_elmts);
+  TraceEOL();
 
   for (i = 0; i!=state->nr_slice_rank_order_elmts; ++i)
     if (state->slice_rank_order[(i+state->base_rank)%state->nr_slice_rank_order_elmts]==type)
@@ -62,7 +63,8 @@ static unsigned int get_slice_rank_nonrecursive(slice_type type,
   TraceFunctionParamListEnd();
 
   TraceValue("%u",state->base_rank);
-  TraceValue("%u\n",state->nr_slice_rank_order_elmts);
+  TraceValue("%u",state->nr_slice_rank_order_elmts);
+  TraceEOL();
 
   for (i = state->base_rank; i!=state->nr_slice_rank_order_elmts; ++i)
     if (state->slice_rank_order[i]==type)

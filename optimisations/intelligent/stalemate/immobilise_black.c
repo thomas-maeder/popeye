@@ -151,7 +151,8 @@ boolean intelligent_stalemate_immobilise_black(slice_index si)
 
     TraceSquare(immobilisation_state.worst.target_square);
     TraceValue("%u",immobilisation_state.worst.requirement);
-    TraceValue("%u\n",immobilisation_state.worst.nr_flight_directions);
+    TraceValue("%u",immobilisation_state.worst.nr_flight_directions);
+    TraceEOL();
 
     if (immobilisation_state.worst.requirement<immobilisation_impossible)
     {

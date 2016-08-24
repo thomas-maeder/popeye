@@ -26,7 +26,8 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
   if (TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Black))
     --CapturesLeft[nbply];
 
-  TraceValue("%u\n",CapturesLeft[nbply]);
+  TraceValue("%u",CapturesLeft[nbply]);
+  TraceEOL();
   result = MovesLeft[White]>=CapturesLeft[nbply];
 
   TraceFunctionExit(__func__);
@@ -53,7 +54,8 @@ static boolean stalemate_isGoalReachable(void)
   {
     move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     TraceValue("%u",MovesLeft[White]);
-    TraceValue("%u\n",MovesLeft[Black]);
+    TraceValue("%u",MovesLeft[Black]);
+    TraceEOL();
 
     if (parent_ply[nbply]==ply_retro_move
         || move_effect_journal[top-1].type==move_effect_disable_castling_right)
@@ -113,7 +115,8 @@ static boolean stalemate_isGoalReachable(void)
         TraceWalk(target_position[id].type);
         TraceSquare(target_position[id].diagram_square);
         TraceValue("%u",time_before);
-        TraceValue("%u\n",time_now);
+        TraceValue("%u",time_now);
+        TraceEOL();
 
         assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
         MovesRequired[trait[nbply]][nbply] += time_now-time_before;
@@ -121,7 +124,8 @@ static boolean stalemate_isGoalReachable(void)
     }
 
     TraceValue("%u",MovesRequired[White][nbply]);
-    TraceValue("%u\n",MovesRequired[Black][nbply]);
+    TraceValue("%u",MovesRequired[Black][nbply]);
+    TraceEOL();
 
     result = (MovesRequired[White][nbply]<=MovesLeft[White]
               && MovesRequired[Black][nbply]<=MovesLeft[Black]
@@ -159,13 +163,15 @@ void goalreachable_guard_stalemate_solve(slice_index si)
   TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   pipe_this_move_doesnt_solve_if(si,!stalemate_isGoalReachable());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

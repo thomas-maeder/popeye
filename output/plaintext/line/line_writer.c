@@ -36,7 +36,8 @@ static void write_line_intro(unsigned int *next_move_number,
 
   output_plaintext_message(NewLine);
 
-  TraceValue("%u\n",output_plaintext_nr_move_inversions);
+  TraceValue("%u",output_plaintext_nr_move_inversions);
+  TraceEOL();
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:

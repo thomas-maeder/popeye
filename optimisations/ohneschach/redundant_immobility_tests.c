@@ -25,7 +25,8 @@ static void remember_goal_immobile(slice_index si, stip_structure_traversal *st)
     *instrumenting_goal_immobile = (goal==goal_mate
                                     || goal==goal_stale
                                     || goal==goal_mate_or_stale);
-    TraceValue("->%u\n",*instrumenting_goal_immobile);
+    TraceValue("->%u",*instrumenting_goal_immobile);
+    TraceEOL();
     stip_traverse_structure_binary_operand1(si,st);
     *instrumenting_goal_immobile = save_instrumenting_goal_immobile;
   }

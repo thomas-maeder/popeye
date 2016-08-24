@@ -130,7 +130,8 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
     Goal goal = { gic->goal, initsquare };
     tok += strlen(gic->inputText);
     TraceValue("%s",gic->inputText);
-    TraceValue("%s\n",tok);
+    TraceValue("%s",tok);
+    TraceEOL();
 
     switch (gic->goal)
     {

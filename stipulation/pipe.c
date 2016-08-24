@@ -69,10 +69,12 @@ void pipe_spin_off_skip(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
+  TraceValue("%u",state->spun_off[SLICE_NEXT1(si)]);
+  TraceEOL();
 
   state->spun_off[si] = state->spun_off[SLICE_NEXT1(si)];
-  TraceValue("%u\n",state->spun_off[si]);
+  TraceValue("%u",state->spun_off[si]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

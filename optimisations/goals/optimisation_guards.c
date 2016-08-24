@@ -50,7 +50,8 @@ void insert_goal_optimisation_guards_enpassant(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("0x%x\n",state);
+  TraceValue("0x%x",state);
+  TraceEOL();
   stip_traverse_moves_children(si,st);
   state->imminent_goals[goal_ep] = true;
 

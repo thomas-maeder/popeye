@@ -120,7 +120,8 @@ void move_effect_journal_do_remember_ghost(void)
   top_elmt->u.handle_ghost.ghost.on = sq_capture;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
+  TraceValue("%lu",top_elmt->id);
+  TraceEOL();
 #endif
 
   ++move_effect_journal_base[nbply+1];

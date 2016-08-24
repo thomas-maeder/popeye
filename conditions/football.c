@@ -111,7 +111,8 @@ static void init_substitution(void)
 
   bench[nbply] = get_bench();
   current_football_substitution[nbply] = bench[nbply]==0 ? Empty : bench[nbply][Empty];
-  TraceWalk(current_football_substitution[nbply]);TraceEOL();
+  TraceWalk(current_football_substitution[nbply]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -125,7 +126,8 @@ static boolean advance_substitution(void)
   TraceFunctionParamListEnd();
 
   current_football_substitution[nbply] = bench[nbply][current_football_substitution[nbply]];
-  TraceWalk(current_football_substitution[nbply]);TraceEOL();
+  TraceWalk(current_football_substitution[nbply]);
+  TraceEOL();
   result = current_football_substitution[nbply]!=Empty;
 
   TraceFunctionExit(__func__);

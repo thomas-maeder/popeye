@@ -220,7 +220,8 @@ void ohneschach_stop_if_check_and_not_mate_solve(slice_index si)
       case previous_move_is_illegal:
         ohneschach_undecidable_goal_detected[nbply] = recursion_stopped;
         TraceValue("%u",nbply);
-        TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply]);
+        TraceValue("%u",ohneschach_undecidable_goal_detected[nbply]);
+        TraceEOL();
         recursion_stopped = false;
         solve_result = MOVE_HAS_SOLVED_LENGTH();
         break;
@@ -232,7 +233,8 @@ void ohneschach_stop_if_check_and_not_mate_solve(slice_index si)
       case previous_move_has_solved:
         ohneschach_undecidable_goal_detected[nbply] = ohneschach_undecidable_goal_detected[nbply+1];
         TraceValue("%u",nbply);
-        TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply]);
+        TraceValue("%u",ohneschach_undecidable_goal_detected[nbply]);
+        TraceEOL();
         solve_result = MOVE_HAS_SOLVED_LENGTH();
         break;
 

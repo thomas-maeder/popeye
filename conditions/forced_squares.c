@@ -18,7 +18,8 @@ int forced_squares_measure_length(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%x\n",sq_spec[sq_arrival]);
+  TraceValue("%x",sq_spec[sq_arrival]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

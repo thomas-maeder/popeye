@@ -139,7 +139,8 @@ static void reset_accepted_moves(ply ply)
   TraceFunctionParamListEnd();
 
   last_candidate[ply] = CURRMOVE_OF_PLY(ply-1);
-  TraceValue("%u\n",last_candidate[ply]);
+  TraceValue("%u",last_candidate[ply]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -155,7 +156,8 @@ static void accept_move(ply ply, numecoup id)
   TraceFunctionParamListEnd();
 
   ++last_candidate[ply];
-  TraceValue("%u\n",last_candidate[ply]);
+  TraceValue("%u",last_candidate[ply]);
+  TraceEOL();
   move_generation_stack[last_candidate[ply]] = move_generation_stack[id];
 
   TraceFunctionExit(__func__);
@@ -228,7 +230,8 @@ void mummer_bookkeeper_solve(slice_index si)
 
   current_length = (*mummer_measure_length[SLICE_STARTER(si)])();
   TraceValue("%d",current_length);
-  TraceValue("%d\n",mum_length[parent_ply[nbply]]);
+  TraceValue("%d",mum_length[parent_ply[nbply]]);
+  TraceEOL();
 
   if (current_length<mum_length[parent_ply[nbply]])
   {
@@ -245,7 +248,8 @@ void mummer_bookkeeper_solve(slice_index si)
     {
       /* we have a new mum */
       mum_length[parent_ply[nbply]] = current_length;
-      TraceValue("%u\n",mum_length[parent_ply[nbply]]);
+      TraceValue("%u",mum_length[parent_ply[nbply]]);
+      TraceEOL();
 
       reset_accepted_moves(nbply-1);
       accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));

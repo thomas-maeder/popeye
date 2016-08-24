@@ -272,7 +272,8 @@ void increase_nr_found_solutions(slice_index si)
   TraceFunctionParamListEnd();
 
   ++nr_solutions_found_in_phase;
-  TraceValue("->%u\n",nr_solutions_found_in_phase);
+  TraceValue("->%u",nr_solutions_found_in_phase);
+  TraceEOL();
 
   if (max_nr_solutions_found_in_phase())
     phase_solving_remember_incompleteness(si,solving_interrupted);

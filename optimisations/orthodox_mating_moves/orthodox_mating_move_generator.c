@@ -200,7 +200,8 @@ static void king_nonneutral(square sq_king, Side side)
     for (vec_index = vec_queen_start; vec_index<=vec_queen_end; ++vec_index)
     {
       numvec const dir = vec[vec_index];
-      TraceValue("%d\n",dir);
+      TraceValue("%d",dir);
+      TraceEOL();
       if (abs(dir)!=abs_dir_battery)
       {
         curr_generation->arrival = curr_generation->departure+dir;

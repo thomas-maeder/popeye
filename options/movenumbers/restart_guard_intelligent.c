@@ -139,7 +139,8 @@ void intelligent_target_counter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   ++nr_potential_target_positions;
-  TraceValue("%u\n",nr_potential_target_positions);
+  TraceValue("%u",nr_potential_target_positions);
+  TraceEOL();
 
   pipe_solve_delegate(si);
 

@@ -33,7 +33,8 @@ void ohneschach_stop_if_check_plan_to_optimise_away_stop(slice_index stop,
   TraceFunctionParam("%u",to_be_optimised);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",fate[immobility_tester]);
+  TraceValue("%u",fate[immobility_tester]);
+  TraceEOL();
 
   if (to_be_optimised)
   {
@@ -47,7 +48,8 @@ void ohneschach_stop_if_check_plan_to_optimise_away_stop(slice_index stop,
     fate[immobility_tester] = fate_immobility_tester_still_used;
   }
 
-  TraceValue("->%u\n",fate[immobility_tester]);
+  TraceValue("->%u",fate[immobility_tester]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -61,9 +63,11 @@ static void optimise_stop(slice_index stop, stip_structure_traversal *st)
   TraceFunctionParam("%u",stop);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",fate[stop]);
+  TraceValue("%u",fate[stop]);
+  TraceEOL();
   TraceValue("%u",immobility_tester);
-  TraceValue("%u\n",fate[immobility_tester]);
+  TraceValue("%u",fate[immobility_tester]);
+  TraceEOL();
 
   switch (fate[stop])
   {

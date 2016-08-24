@@ -51,17 +51,20 @@ void min_length_optimiser_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",max_unsolvable);
+  TraceValue("%u",max_unsolvable);
+  TraceEOL();
   if (max_unsolvable+length-min_length<solve_nr_remaining)
   {
     max_unsolvable = solve_nr_remaining-1-(length-min_length);
-    TraceValue("->%u\n",max_unsolvable);
+    TraceValue("->%u",max_unsolvable);
+    TraceEOL();
   }
 
   pipe_solve_delegate(si);
 
   max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
+  TraceValue("->%u",max_unsolvable);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -61,7 +61,8 @@ static void PushMagicView(square pos_viewed, square pos_magic, square start, squ
   ++magic_views_top[stack_pointer];
 
   TraceValue("%u",stack_pointer);
-  TraceValue("%u\n",magic_views_top[stack_pointer]);
+  TraceValue("%u",magic_views_top[stack_pointer]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -547,7 +548,8 @@ static void PushMagicViews(void)
   finply();
 
   TraceValue("%u",nbply);
-  TraceValue("%u\n",magic_views_top[nbply]);
+  TraceValue("%u",magic_views_top[nbply]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

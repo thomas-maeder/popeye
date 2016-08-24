@@ -239,7 +239,8 @@ static void remember_to_keep_guard_line_open(square from, square to,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  TraceValue("%d\n",dir);
+  TraceValue("%d",dir);
+  TraceEOL();
 
   /* the guard line only needs to be kept open up to the flight closest to
    * from; e.g. reset to to c1 with from:a1 to:e1 being_solved.king_square[Black]:d2

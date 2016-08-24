@@ -20,7 +20,7 @@ void lock_post_move_iterations(void)
 
   post_move_iteration_locked[nbply] = true;
   ++post_move_iteration_id[nbply];
-  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
+  TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -53,7 +53,7 @@ void move_execution_post_move_iterator_solve(slice_index si)
   {
     pop_move();
     ++post_move_iteration_id[nbply];
-    TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
+    TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
   }
 
   TraceFunctionExit(__func__);

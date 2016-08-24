@@ -102,7 +102,8 @@ slice_type proof_make_goal_reachable_type(void)
   else
     result = STGoalReachableGuardFilterProof;
 
-  TraceValue("%u\n",result);
+  TraceValue("%u",result);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(slice_type,result,"");
@@ -475,7 +476,8 @@ static void PieceMovesFromTo(Side side,
   }
 
   TraceValue("%u",*moves);
-  TraceValue("%u\n",*captures);
+  TraceValue("%u",*captures);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -628,7 +630,8 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
         captures++;
 
       *CapturesRequired= captures;
-      TraceValue("%u\n",*CapturesRequired);
+      TraceValue("%u",*CapturesRequired);
+      TraceEOL();
     }
   }
 
@@ -848,14 +851,16 @@ static boolean Impossible(void)
   if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn])
   {
     TraceValue("%d ",proofgames_target_position.number_of_pieces[White][Pawn]);
-    TraceValue("%d\n",being_solved.number_of_pieces[White][Pawn]);
+    TraceValue("%d",being_solved.number_of_pieces[White][Pawn]);
+    TraceEOL();
     return true;
   }
 
   if (proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn])
   {
     TraceValue("%d ",being_solved.number_of_pieces[Black][Pawn]);
-    TraceValue("%d\n",being_solved.number_of_pieces[Black][Pawn]);
+    TraceValue("%d",being_solved.number_of_pieces[Black][Pawn]);
+    TraceEOL();
     return true;
   }
 
@@ -877,13 +882,15 @@ static boolean Impossible(void)
   if (Nbr[White] < ProofNbrPieces[White])
   {
     TraceValue("%d ",Nbr[White]);
-    TraceValue("%d\n",ProofNbrPieces[White]);
+    TraceValue("%d",ProofNbrPieces[White]);
+    TraceEOL();
     return true;
   }
   if (Nbr[Black] < ProofNbrPieces[Black])
   {
     TraceValue("%d ",Nbr[Black]);
-    TraceValue("%d\n",ProofNbrPieces[Black]);
+    TraceValue("%d",ProofNbrPieces[Black]);
+    TraceEOL();
     return true;
   }
 
@@ -896,7 +903,8 @@ static boolean Impossible(void)
   TraceValue("%d ",to_be_captured[White]);
   TraceValue("%d ",Nbr[White]);
   TraceValue("%d ",ProofNbrPieces[White]);
-  TraceValue("%d\n",moves_left[Black]);
+  TraceValue("%d",moves_left[Black]);
+  TraceEOL();
   if (to_be_captured[White]>moves_left[Black])
     return true;
 
@@ -904,7 +912,8 @@ static boolean Impossible(void)
   TraceValue("%d ",to_be_captured[Black]);
   TraceValue("%d ",Nbr[Black]);
   TraceValue("%d ",ProofNbrPieces[Black]);
-  TraceValue("%d\n",moves_left[White]);
+  TraceValue("%d",moves_left[White]);
+  TraceEOL();
   if (to_be_captured[Black]>moves_left[White])
     return true;
 
@@ -1040,7 +1049,8 @@ static boolean Impossible(void)
 
   if (ArrangePawns(to_be_captured[White],Black,&captures_required[White])>moves_left[Black])
   {
-    TraceValue("%u\n",moves_left[Black]);
+    TraceValue("%u",moves_left[Black]);
+    TraceEOL();
     TraceText("ArrangePawns(WhPieToBeCapt,Black,&WhCapturesRequired)"
               ">black_moves_left\n");
     return true;
@@ -1091,13 +1101,15 @@ void goalreachable_guard_proofgame_solve(slice_index si)
   TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   pipe_this_move_doesnt_solve_if(si,Impossible());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1130,13 +1142,15 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
   TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   pipe_this_move_doesnt_solve_if(si,FairyImpossible());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
+  TraceValue("%u",MovesLeft[just_moved]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

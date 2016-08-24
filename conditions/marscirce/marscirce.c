@@ -342,7 +342,8 @@ void marscirce_is_square_observed(slice_index si)
       TraceSquare(context->rebirth_square);
       TraceWalk(context->reborn_walk);
       TraceValue("%u",TSTFLAG(being_solved.spec[context->rebirth_square],White));
-      TraceValue("%u\n",TSTFLAG(being_solved.spec[context->rebirth_square],Black));
+      TraceValue("%u",TSTFLAG(being_solved.spec[context->rebirth_square],Black));
+      TraceEOL();
       occupy_square(context->rebirth_square,context->reborn_walk,context->reborn_spec);
       pipe_is_square_observed_delegate(si);
       empty_square(context->rebirth_square);

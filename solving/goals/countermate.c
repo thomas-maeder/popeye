@@ -77,7 +77,8 @@ void goal_countermate_reached_tester_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceValue("%u\n",parent_ply[nbply]);
+  TraceValue("%u",parent_ply[nbply]);
+  TraceEOL();
   pipe_this_move_doesnt_solve_if(si,
                                  !TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],
                                           goal_countermate));

@@ -151,7 +151,8 @@ static char *ParseLength(char *tok, stip_length_type *length)
     tok = ReadNextTokStr();
 
   tmp_length = strtoul(tok,&end,10);
-  TraceValue("%ld\n",tmp_length);
+  TraceValue("%ld",tmp_length);
+  TraceEOL();
 
   if (tok==end || tmp_length>UINT_MAX)
   {

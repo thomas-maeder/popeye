@@ -18,7 +18,8 @@ static void update_king_square(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",being_solved.number_of_pieces[side][King]);
+  TraceValue("%u",being_solved.number_of_pieces[side][King]);
+  TraceEOL();
   if (being_solved.number_of_pieces[side][King]==1)
   {
     if (being_solved.king_square[side]==initsquare)

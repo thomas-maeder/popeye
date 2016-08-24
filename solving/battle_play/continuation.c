@@ -48,6 +48,13 @@ void continuation_solver_solve(slice_index si)
 
   fork_solve_delegate(si);
 
+  fprintf(stderr,
+          "solve_result:%u "
+          "MOVE_HAS_SOLVED_LENGTH():%u "
+          "move_has_solved():%u\n",
+          solve_result,
+          MOVE_HAS_SOLVED_LENGTH(),
+          move_has_solved());
   if (move_has_solved())
   {
 #if !defined(NDEBUG)
@@ -60,6 +67,13 @@ void continuation_solver_solve(slice_index si)
     pipe_solve_delegate(si);
     solve_nr_remaining = save_solve_nr_remaining;
 
+    fprintf(stderr,
+            "solve_nr_remaining:%u "
+            "test_result:%u "
+            "solve_result:%u\n",
+            solve_nr_remaining,
+            test_result,
+            solve_result);
     assert(solve_result==test_result);
   }
 

@@ -127,7 +127,8 @@ char *ParseOpt(slice_index start)
        indexx<OptCount;
        indexx = GetUniqIndex(OptCount,OptTab,tok))
   {
-    TraceValue("%u",indexx);TraceEOL();
+    TraceValue("%u",indexx);
+    TraceEOL();
 
     if (indexx>OptCount)
     {

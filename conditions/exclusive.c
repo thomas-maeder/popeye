@@ -352,7 +352,8 @@ static void detect_exclusivity_and_solve_accordingly(slice_index si)
   TraceValue("%u",nbply);
   TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);
   TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[nbply]);
-  TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[nbply]));
+  TraceValue("%u",table_length(exclusive_chess_undecidable_continuations[nbply]));
+  TraceEOL();
 
   ply_horizon = maxply;
 
@@ -399,7 +400,8 @@ static void remember_previous_move_as_undecidable(void)
   append_to_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]);
   TraceValue("%u",nbply);
   TraceValue("%u",parent_ply[nbply]);
-  TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]));
+  TraceValue("%u",table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]));
+  TraceEOL();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -440,7 +442,8 @@ void exclusive_chess_nested_exclusivity_detector_solve(slice_index si)
     TraceValue("%u",nbply);
     TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[nbply]);
     TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);
-    TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[nbply]));
+    TraceValue("%u",table_length(exclusive_chess_undecidable_continuations[nbply]));
+    TraceEOL();
 
     if (nr_decidable_continuations_not_reaching_goal[nbply]==0
         && exclusive_chess_nr_continuations_reaching_goal[nbply]<=1
@@ -487,7 +490,8 @@ void exclusive_chess_goal_reaching_move_counter_solve(slice_index si)
 
       TraceValue("%u",nbply);
       TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]);
+      TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]);
+      TraceEOL();
 
       if (exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]==1)
         /* look for one more */
@@ -499,7 +503,8 @@ void exclusive_chess_goal_reaching_move_counter_solve(slice_index si)
       TraceText("remembering defined continuation");
       TraceValue("%u",nbply);
       TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]]);
+      TraceValue("%u",nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]]);
+      TraceEOL();
     }
   }
   else if (solve_result==MOVE_HAS_SOLVED_LENGTH())

@@ -144,7 +144,8 @@ void restart_guard_solve(slice_index si)
 
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u\n",RestartNbr[nbply]);
+  TraceValue("%u",RestartNbr[nbply]);
+  TraceEOL();
   pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
 
   MoveNbr[nbply+1] = 0;
@@ -177,7 +178,8 @@ void restart_guard_nested_solve(slice_index si)
 
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u\n",RestartNbr[nbply]);
+  TraceValue("%u",RestartNbr[nbply]);
+  TraceEOL();
   pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
 
   MoveNbr[nbply+1] = 0;

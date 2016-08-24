@@ -31,7 +31,8 @@ void dead_end_solve(slice_index si)
 
   assert(solve_nr_remaining>=previous_move_has_solved);
 
-  TraceValue("%u\n",max_unsolvable);
+  TraceValue("%u",max_unsolvable);
+  TraceEOL();
   pipe_this_move_doesnt_solve_if(si,
                                  solve_nr_remaining<=max_unsolvable
                                  || solve_nr_remaining<next_move_has_solution);
@@ -78,7 +79,8 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
 
   TraceValue("%u",state->optimisable_deadend);
   TraceValue("%u",state->end_of_branch_goal);
-  TraceValue("%u\n",st->context);
+  TraceValue("%u",st->context);
+  TraceEOL();
   if (state->optimisable_deadend!=no_slice
       && state->end_of_branch_goal!=no_slice
       && st->context!=stip_traversal_context_attack)
@@ -137,11 +139,14 @@ static void forget_deadend(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",state->optimisable_deadend);
+  TraceValue("%u",state->optimisable_deadend);
+  TraceEOL();
   stip_traverse_moves_children(si,st);
-  TraceValue("%u\n",state->optimisable_deadend);
+  TraceValue("%u",state->optimisable_deadend);
+  TraceEOL();
   state->optimisable_deadend = save_optimisable_deadend;
-  TraceValue("->%u\n",state->optimisable_deadend);
+  TraceValue("->%u",state->optimisable_deadend);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
