@@ -360,8 +360,8 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
       enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
                                                enumeration->index);
     enumeration->index++;
-    TracePointerValue(enumeration->current);
-    TracePointerValue(*enumeration->current);
+    TraceValue("%p",enumeration->current);
+    TraceValue("%p",*enumeration->current);
     TraceEOL();
     result = (*enumeration->current)[di];
   }
@@ -803,7 +803,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
       phe= &((*phe)->Next);
 
   TraceFunctionExit(__func__);
-  TracePointerFunctionResult(*phe);
+  TraceFunctionResult("%p",*phe);
   TraceFunctionResultEnd();
   return phe;
 }
@@ -875,7 +875,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
-    TracePointerFunctionResult(dhtNilElement);
+    TraceFunctionResult("%p",dhtNilElement);
     TraceFunctionResultEnd();
     return dhtNilElement;
   }
@@ -886,7 +886,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
     (ht->procs.FreeKey)(KeyV);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
-    TracePointerFunctionResult(dhtNilElement);
+    TraceFunctionResult("%p",dhtNilElement);
     TraceFunctionResultEnd();
     return dhtNilElement;
   }
@@ -907,7 +907,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
       (ht->procs.FreeData)(DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
-      TracePointerFunctionResult(dhtNilElement);
+      TraceFunctionResult("%p",dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
@@ -939,7 +939,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
     {
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);
-      TracePointerFunctionResult(dhtNilElement);
+      TraceFunctionResult("%p",dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
@@ -950,7 +950,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   }
 
   TraceFunctionExit(__func__);
-  TracePointerFunctionResult(&he->HsEl);
+  TraceFunctionResult("%p",&he->HsEl);
   TraceFunctionResultEnd();
   return &he->HsEl;
 }

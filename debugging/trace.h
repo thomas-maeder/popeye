@@ -70,11 +70,6 @@ void TraceFunctionParamListEnd(void);
 #define TraceValue(format,name) \
   TraceValueImpl(" " #name ":", format, (size_t)name)
 
-/* Trace the value of some expression
- */
-#define TracePointerValue(name) \
-  TracePointerValueImpl(" " #name ":", (void *)name)
-
 /* Trace arbitrary text
  */
 void TraceText(char const *text);
@@ -107,12 +102,6 @@ void TraceCurrentHashBuffer(void);
 #define TraceFunctionResult(format,name) \
   TraceFunctionResultImpl(" <- " #name ":", format, (size_t)name)
 
-/* Trace a function result of pointer type
- * Works best in SESE style functions.
- */
-#define TracePointerFunctionResult(name) \
-  TracePointerValueImpl(" <- " #name ":", (void*)name)
-
 /* Trace end of function return value (if any)
  */
 void TraceFunctionResultEnd(void);
@@ -140,7 +129,6 @@ void TraceCallStack(FILE *file);
  */
 void TraceValueImpl(char const *prefix, char const *format, size_t value);
 void TraceFunctionResultImpl(char const *prefix, char const *format, size_t value);
-void TracePointerValueImpl(char const *prefix, void const *value);
 void TraceEnumeratorImpl(char const *format,
                          char const *enumerator_name,
                          unsigned int value);
@@ -172,14 +160,12 @@ void solving_insert_move_tracers(slice_index si);
 #define TraceFunctionParam(format,name)
 #define TraceFunctionParamListEnd()
 #define TraceValue(format,name)
-#define TracePointerValue(format,name)
 #define TraceText(text)
 #define TraceSquare(name)
 #define TraceWalk(name)
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)
-#define TracePointerFunctionResult(name)
 #define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
 #define TraceEnumerator(type_name,value)
