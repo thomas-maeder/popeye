@@ -181,26 +181,6 @@ void TraceValueImpl(char const *prefix, char const *format, size_t value)
 #endif
 }
 
-void TracePointerValueImpl(char const *prefix, void const *value)
-{
-  if (level<=max_level)
-  {
-    fprintf(stdout,"%s",prefix);
-    if (pointers_suppressed)
-      fprintf(stdout,"...");
-    else
-      fprintf(stdout,"%p",value);
-    fflush(stdout);
-  }
-
-#if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    format,
-                                    value);
-#endif
-}
-
 void TraceText(char const *text)
 {
   if (level<=max_level)
