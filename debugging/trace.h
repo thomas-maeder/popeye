@@ -155,6 +155,7 @@ void solving_insert_move_tracers(slice_index si);
 #else
 
 #define TraceDeactivate()
+#define TraceSuppressPointerValues()
 #define TraceEOL()
 #define TraceFunctionEntry(name)
 #define TraceFunctionParam(format,name)
