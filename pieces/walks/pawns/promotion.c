@@ -14,10 +14,13 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static pieces_pawns_promotion_sequence_type promotion_stack[stack_size];
 static unsigned int stack_pointer;
 
-static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
+static struct
+{
+    pieces_pawns_promotion_sequence_type sequence;
+    post_move_iteration_id_type lock;
+} promotion_stack[stack_size];
 
 move_effect_journal_index_type promotion_horizon[maxply+1];
 
@@ -296,12 +299,12 @@ void pawn_promoter_solve(slice_index si)
   {
     promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
-    if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
+    if (!post_move_am_i_iterating(promotion_stack[stack_pointer].lock))
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
                                            as_side,
-                                           &promotion_stack[stack_pointer]);
+                                           &promotion_stack[stack_pointer].sequence);
 
-    if (promotion_stack[stack_pointer].promotee==Empty)
+    if (promotion_stack[stack_pointer].sequence.promotee==Empty)
     {
       ++stack_pointer;
       pipe_solve_delegate(si);
@@ -311,7 +314,7 @@ void pawn_promoter_solve(slice_index si)
     {
       move_effect_journal_do_walk_change(move_effect_reason_pawn_promotion,
                                          sq_potential_promotion,
-                                         promotion_stack[stack_pointer].promotee);
+                                         promotion_stack[stack_pointer].sequence.promotee);
 
       ++stack_pointer;
       pipe_solve_delegate(si);
@@ -319,12 +322,12 @@ void pawn_promoter_solve(slice_index si)
 
       if (!post_move_iteration_locked[nbply])
       {
-        pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer]);
-        if (promotion_stack[stack_pointer].promotee!=Empty)
+        pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer].sequence);
+        if (promotion_stack[stack_pointer].sequence.promotee!=Empty)
           lock_post_move_iterations();
       }
 
-      prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+      promotion_stack[stack_pointer].lock = post_move_iteration_id[nbply];
     }
 
     promotion_horizon[nbply] = save_horizon;

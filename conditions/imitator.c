@@ -29,10 +29,13 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static boolean promotion_into_imitator[stack_size];
 static unsigned int stack_pointer;
 
-static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
+static struct
+{
+    boolean happening;
+    post_move_iteration_id_type lock;
+} promotion_into_imitator[stack_size];
 
 static numecoup skip_over_remainder_of_line(numecoup i,
                                             square sq_departure,
@@ -1174,15 +1177,15 @@ void imitator_pawn_promoter_solve(slice_index si)
 
     assert(stack_pointer<stack_size);
 
-    if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
-      promotion_into_imitator[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
+    if (!post_move_am_i_iterating(promotion_into_imitator[stack_pointer].lock))
+      promotion_into_imitator[stack_pointer].happening = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 
     TraceValue("%u",post_move_iteration_id[nbply]);
-    TraceValue("%u",prev_post_move_iteration_id[stack_pointer]);
-    TraceValue("%u",promotion_into_imitator[stack_pointer]);
+    TraceValue("%u",promotion_into_imitator[stack_pointer].lock);
+    TraceValue("%u",promotion_into_imitator[stack_pointer].happening);
     TraceEOL();
 
-    if (promotion_into_imitator[stack_pointer])
+    if (promotion_into_imitator[stack_pointer].happening)
     {
       move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
 
@@ -1203,7 +1206,7 @@ void imitator_pawn_promoter_solve(slice_index si)
       TraceEOL();
       if (!post_move_iteration_locked[nbply])
       {
-        promotion_into_imitator[stack_pointer] = false;
+        promotion_into_imitator[stack_pointer].happening = false;
         lock_post_move_iterations();
       }
     }
@@ -1214,7 +1217,7 @@ void imitator_pawn_promoter_solve(slice_index si)
       --stack_pointer;
     }
 
-    prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+    promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);

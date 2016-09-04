@@ -31,8 +31,11 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static boolean next_prom_to_changing[stack_size];
-static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
+static struct
+{
+    boolean happening;
+    post_move_iteration_id_type lock;
+} next_prom_to_changing[stack_size];
 
 static unsigned int stack_pointer;
 
@@ -148,10 +151,10 @@ static void do_change(move_effect_journal_index_type idx_promotion)
 static void promote_to_both_non_changing_and_changing(slice_index si,
                                                       move_effect_journal_index_type idx_promotion)
 {
-  if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
-    next_prom_to_changing[stack_pointer] = false;
+  if (!post_move_am_i_iterating(next_prom_to_changing[stack_pointer].lock))
+    next_prom_to_changing[stack_pointer].happening = false;
 
-  if (next_prom_to_changing[stack_pointer])
+  if (next_prom_to_changing[stack_pointer].happening)
   {
     do_change(idx_promotion);
     solve_nested(si);
@@ -163,11 +166,11 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
     if (!post_move_iteration_locked[nbply])
     {
       lock_post_move_iterations();
-      next_prom_to_changing[stack_pointer] = true;
+      next_prom_to_changing[stack_pointer].happening = true;
     }
   }
 
-  prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+  next_prom_to_changing[stack_pointer].lock = post_move_iteration_id[nbply];
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

@@ -18,10 +18,13 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static square change_into_chameleon[stack_size];
-static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
-
 static unsigned int stack_pointer;
+
+static struct
+{
+    square where;
+    post_move_iteration_id_type lock;
+} change_into_chameleon[stack_size];
 
 static move_effect_journal_index_type horizon;
 
@@ -141,10 +144,10 @@ static square decide_about_change(void)
 
 static void do_change(void)
 {
-  Flags changed = being_solved.spec[change_into_chameleon[stack_pointer]];
+  Flags changed = being_solved.spec[change_into_chameleon[stack_pointer].where];
   SETFLAG(changed,Chameleon);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
-                                      change_into_chameleon[stack_pointer],
+                                      change_into_chameleon[stack_pointer].where,
                                       changed);
 }
 
@@ -167,13 +170,13 @@ void chameleon_change_promotee_into_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
-    change_into_chameleon[stack_pointer] = initsquare;
+  if (!post_move_am_i_iterating(change_into_chameleon[stack_pointer].lock))
+    change_into_chameleon[stack_pointer].where = initsquare;
 
-  if (change_into_chameleon[stack_pointer]==initsquare)
+  if (change_into_chameleon[stack_pointer].where==initsquare)
   {
     solve_nested(si);
-    change_into_chameleon[stack_pointer] = decide_about_change();
+    change_into_chameleon[stack_pointer].where = decide_about_change();
   }
   else
   {
@@ -181,7 +184,7 @@ void chameleon_change_promotee_into_solve(slice_index si)
     solve_nested(si);
   }
 
-  prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+  change_into_chameleon[stack_pointer].lock = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
