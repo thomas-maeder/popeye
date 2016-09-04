@@ -148,8 +148,7 @@ static void do_change(move_effect_journal_index_type idx_promotion)
 static void promote_to_both_non_changing_and_changing(slice_index si,
                                                       move_effect_journal_index_type idx_promotion)
 {
-  assert(prev_post_move_iteration_id[stack_pointer]<=post_move_iteration_id[nbply]);
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
+  if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
     next_prom_to_changing[stack_pointer] = false;
 
   if (next_prom_to_changing[stack_pointer])

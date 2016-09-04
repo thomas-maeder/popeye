@@ -296,8 +296,7 @@ void pawn_promoter_solve(slice_index si)
   {
     promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
-    assert(prev_post_move_iteration_id[stack_pointer]<=post_move_iteration_id[nbply]);
-    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
+    if (!post_move_am_i_iterating(prev_post_move_iteration_id[stack_pointer]))
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
                                            as_side,
                                            &promotion_stack[stack_pointer]);

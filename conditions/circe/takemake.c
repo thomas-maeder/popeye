@@ -124,8 +124,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
+  if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply])
       && !init_rebirth_squares(context))
     solve_result = this_move_is_illegal;
   else

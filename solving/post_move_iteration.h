@@ -24,6 +24,11 @@ extern boolean post_move_iteration_locked[maxply+1];
  */
 void lock_post_move_iterations(void);
 
+/* Is the post move iterator holding an specific id iterating in the current ply?
+ * @return true iff he is
+ */
+boolean post_move_am_i_iterating(post_move_iteration_id_type id);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
