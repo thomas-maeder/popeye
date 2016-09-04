@@ -10,6 +10,7 @@
 
 boolean post_move_iteration_locked[maxply+1];
 unsigned int post_move_iteration_id[maxply+1];
+post_move_iteration_id_type post_move_iteration_id_watermark;
 
 /* Lock post move iterations in the current move retraction
  */
@@ -21,6 +22,10 @@ void lock_post_move_iterations(void)
   post_move_iteration_locked[nbply] = true;
   ++post_move_iteration_id[nbply];
   TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
+  if (post_move_iteration_id[nbply]<post_move_iteration_id_watermark)
+    post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
+    post_move_iteration_id_watermark = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -54,6 +59,10 @@ void move_execution_post_move_iterator_solve(slice_index si)
     pop_move();
     ++post_move_iteration_id[nbply];
     TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
+    if (post_move_iteration_id[nbply]<post_move_iteration_id_watermark)
+      post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+    else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
+      post_move_iteration_id_watermark = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);

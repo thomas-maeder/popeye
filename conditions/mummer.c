@@ -197,6 +197,7 @@ void mummer_orchestrator_solve(slice_index si)
    * e.g. knight promotion if queen promotion was played while measuring lengths
    */
   ++post_move_iteration_id[nbply];
+  post_move_iteration_id[nbply] = post_move_iteration_id_watermark+1;
 
   nbply = save_nbply;
   SET_CURRMOVE(nbply,last_candidate[nbply]);

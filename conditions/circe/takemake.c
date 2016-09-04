@@ -44,8 +44,8 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   take_make_circe_current_rebirth_square_index[stack_pointer] = take_make_circe_current_rebirth_square_index[stack_pointer-1];
 
   occupy_square(context->relevant_square,
-		        context->relevant_walk,
-		        context->reborn_spec);
+                context->relevant_walk,
+                context->reborn_spec);
 
   init_single_piece_move_generator(context->relevant_square);
 
@@ -124,6 +124,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
       && !init_rebirth_squares(context))
     solve_result = this_move_is_illegal;
@@ -137,9 +138,11 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
 
     if (!post_move_iteration_locked[nbply])
     {
+      assert(take_make_circe_current_rebirth_square_index[stack_pointer]>0);
       --take_make_circe_current_rebirth_square_index[stack_pointer];
 
-      if (take_make_circe_current_rebirth_square_index[stack_pointer]>take_make_circe_current_rebirth_square_index[stack_pointer-1])
+      if (take_make_circe_current_rebirth_square_index[stack_pointer]>
+          take_make_circe_current_rebirth_square_index[stack_pointer-1])
         lock_post_move_iterations();
     }
 

@@ -107,6 +107,7 @@ void snek_substitutor_solve(slice_index si)
     }
     else
     {
+      assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
       if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
       {
         assert(*current_snekked_pos[nbply]);
@@ -240,6 +241,7 @@ void snek_circle_substitutor_solve(slice_index si)
       pipe_solve_delegate(si);
     else
     {
+      assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
       if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
       {
         assert(*current_snekked_pos[nbply]);

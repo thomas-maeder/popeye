@@ -182,6 +182,7 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(prev_post_move_iteration_id_selection[nbply]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_selection[nbply])
     init_latent_pawn_selection(SLICE_STARTER(si));
 
@@ -294,6 +295,7 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(prev_post_move_iteration_id_promotion[nbply]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_promotion[nbply])
     init_latent_pawn_promotion();
 

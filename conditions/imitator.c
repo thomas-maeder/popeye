@@ -1174,6 +1174,7 @@ void imitator_pawn_promoter_solve(slice_index si)
 
     assert(stack_pointer<stack_size);
 
+    assert(prev_post_move_iteration_id[stack_pointer]<=post_move_iteration_id[nbply]);
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
       promotion_into_imitator[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 

@@ -119,6 +119,7 @@ void wormhole_transferer_solve(slice_index si)
   TraceValue("%u",TSTFLAG(sq_spec[sq_arrival],Wormhole));
   TraceEOL();
 
+  assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
     if (TSTFLAG(sq_spec[sq_arrival],Wormhole))

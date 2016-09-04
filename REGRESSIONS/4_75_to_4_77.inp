@@ -1,0 +1,10 @@
+BeginProblem
+
+protocol 4_75_to_4_77.reg
+
+title cf. https://sourceforge.net/p/popeye-chess/bugs/181/
+Pieces White Pa7 Ka6 Bh3 Pg2 Black Ka8 Pf5 Pe2
+Stipulation #3
+Option Variation
+
+EndProblem

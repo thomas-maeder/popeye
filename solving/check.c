@@ -13,6 +13,7 @@
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
+#include "solving/post_move_iteration.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
@@ -77,6 +78,8 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
   push_observation_target(being_solved.king_square[side_in_check]);
   result = pipe_is_in_check_recursive_delegate(si,side_in_check);
   finply();
+
+  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

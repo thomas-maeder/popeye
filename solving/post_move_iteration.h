@@ -13,6 +13,7 @@
  */
 typedef unsigned int post_move_iteration_id_type;
 extern post_move_iteration_id_type post_move_iteration_id[maxply+1];
+extern post_move_iteration_id_type post_move_iteration_id_watermark;
 
 /* true iff a component has advanced its iteration; set to prevent outer
  * components from advancing theirs as well

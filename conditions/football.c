@@ -155,6 +155,7 @@ void football_chess_substitutor_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(prev_post_move_iteration_id[nbply]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     init_substitution();
 
@@ -182,9 +183,9 @@ void football_chess_substitutor_solve(slice_index si)
       if (advance_substitution())
         lock_post_move_iterations();
     }
-  }
 
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

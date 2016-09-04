@@ -167,6 +167,7 @@ void chameleon_change_promotee_into_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(prev_post_move_iteration_id[stack_pointer]<=post_move_iteration_id[nbply]);
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
     change_into_chameleon[stack_pointer] = initsquare;
 

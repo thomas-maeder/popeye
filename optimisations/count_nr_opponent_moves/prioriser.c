@@ -5,8 +5,10 @@
 #include "solving/testing_pipe.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "solving/pipe.h"
+#include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <stdlib.h>
 
 /* Allocate a STOpponentMovesFewMovesPrioriser slice.
@@ -32,18 +34,7 @@ static int compare_nr_opponent_moves(void const *a, void const *b)
 {
   move_generation_elmt const * const elmt_a = a;
   move_generation_elmt const * const elmt_b = b;
-  TraceValue("%u",elmt_a->id);
-  TraceValue("%d",opponent_moves_few_moves_prioriser_table[elmt_a->id]);
-  TraceSquare(elmt_a->departure);
-  TraceSquare(elmt_a->arrival);
-  TraceSquare(elmt_a->capture);
-  TraceEOL();
-  TraceValue("%u",elmt_b->id);
-  TraceValue("%d",opponent_moves_few_moves_prioriser_table[elmt_b->id]);
-  TraceSquare(elmt_b->departure);
-  TraceSquare(elmt_b->arrival);
-  TraceSquare(elmt_b->capture);
-  TraceEOL();
+
   return (opponent_moves_few_moves_prioriser_table[elmt_b->id]
           -opponent_moves_few_moves_prioriser_table[elmt_a->id]);
 }
@@ -80,6 +71,8 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
   copyply();
   testing_pipe_solve_delegate(si,slack_length+2);
   finply();
+
+  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
 
   qsort(&move_generation_stack[base],
         nr_moves,
