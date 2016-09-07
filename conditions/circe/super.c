@@ -78,10 +78,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
     if (post_move_iteration_locked[nbply])
       prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
     else
-    {
-      lock_post_move_iterations();
-      prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
-    }
+      lock_post_move_iterations(&prev_post_move_iteration_id_no_rebirth[nbply]);
   }
 
   TraceFunctionExit(__func__);
@@ -154,8 +151,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     else
     {
       is_rebirth_square_dirty[nbply] = true;
-      lock_post_move_iterations();
-      prev_post_move_iteration_id_rebirth[nbply] = post_move_iteration_id[nbply];
+      lock_post_move_iterations(&prev_post_move_iteration_id_rebirth[nbply]);
     }
   }
 

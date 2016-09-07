@@ -122,8 +122,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
                && !cage_found_for_current_capture[nbply])
       {
         no_cage_for_current_capture[nbply] = true;
-        lock_post_move_iterations();
-        prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
+        lock_post_move_iterations(&prev_post_move_iteration_id_no_cage[nbply]);
       }
     }
   }

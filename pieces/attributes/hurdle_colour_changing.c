@@ -168,8 +168,7 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
     else
     {
       next_prom_to_changing[stack_pointer].happening = true;
-      lock_post_move_iterations();
-      next_prom_to_changing[stack_pointer].lock = post_move_iteration_id[nbply];
+      lock_post_move_iterations(&next_prom_to_changing[stack_pointer].lock);
     }
   }
 }

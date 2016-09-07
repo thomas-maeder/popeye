@@ -64,10 +64,7 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
     ++current_snekked_pos[nbply];
     find_next_snekked(walk_captured);
     if (*current_snekked_pos[nbply])
-    {
-      lock_post_move_iterations();
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    }
+      lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
   }
 }
 
@@ -183,10 +180,7 @@ static void do_change_circle(slice_index si,
     ++current_snekked_pos[nbply];
     find_next_snekked_circle(walk_snekked);
     if (*current_snekked_pos[nbply])
-    {
-      lock_post_move_iterations();
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    }
+      lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
   }
 }
 

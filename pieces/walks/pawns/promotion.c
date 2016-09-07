@@ -326,10 +326,7 @@ void pawn_promoter_solve(slice_index si)
       {
         pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer].sequence);
         if (promotion_stack[stack_pointer].sequence.promotee!=Empty)
-        {
-          lock_post_move_iterations();
-          promotion_stack[stack_pointer].lock = post_move_iteration_id[nbply];
-        }
+          lock_post_move_iterations(&promotion_stack[stack_pointer].lock);
       }
     }
 

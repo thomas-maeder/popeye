@@ -14,7 +14,7 @@ post_move_iteration_id_type post_move_iteration_id_watermark;
 
 /* Lock post move iterations in the current move retraction
  */
-void lock_post_move_iterations(void)
+void lock_post_move_iterations(post_move_iteration_id_type *lock)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -26,6 +26,8 @@ void lock_post_move_iterations(void)
     post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
   else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
     post_move_iteration_id_watermark = post_move_iteration_id[nbply];
+
+  *lock = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

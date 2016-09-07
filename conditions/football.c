@@ -179,14 +179,8 @@ void football_chess_substitutor_solve(slice_index si)
 
     if (post_move_iteration_locked[nbply])
       prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    else
-    {
-      if (advance_substitution())
-      {
-        lock_post_move_iterations();
-        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-      }
-    }
+    else if (advance_substitution())
+      lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
   }
 
   TraceFunctionExit(__func__);

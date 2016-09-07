@@ -1209,8 +1209,7 @@ void imitator_pawn_promoter_solve(slice_index si)
       else
       {
         promotion_into_imitator[stack_pointer].happening = false;
-        lock_post_move_iterations();
-        promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
+        lock_post_move_iterations(&promotion_into_imitator[stack_pointer].lock);
       }
     }
     else

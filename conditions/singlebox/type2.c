@@ -196,10 +196,7 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
       advance_latent_pawn_selection(SLICE_STARTER(si));
 
       if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
-      {
-        lock_post_move_iterations();
-        prev_post_move_iteration_id_selection[nbply] = post_move_iteration_id[nbply];
-      }
+        lock_post_move_iterations(&prev_post_move_iteration_id_selection[nbply]);
     }
   }
 
@@ -315,10 +312,7 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
     {
       advance_latent_pawn_promotion();
       if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee!=Empty)
-      {
-        lock_post_move_iterations();
-        prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
-      }
+        lock_post_move_iterations(&prev_post_move_iteration_id_promotion[nbply]);
     }
   }
 

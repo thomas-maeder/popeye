@@ -139,8 +139,7 @@ static square decide_about_change(void)
         && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
     {
       result = sq_promotion;
-      lock_post_move_iterations();
-      change_into_chameleon[stack_pointer].lock = post_move_iteration_id[nbply];
+      lock_post_move_iterations(&change_into_chameleon[stack_pointer].lock);
     }
   }
 

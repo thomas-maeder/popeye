@@ -317,8 +317,7 @@ void republican_king_placer_solve(slice_index si)
       else
       {
         is_mate_square_dirty[nbply] = true;
-        lock_post_move_iterations();
-        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+        lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
       }
     }
   }
