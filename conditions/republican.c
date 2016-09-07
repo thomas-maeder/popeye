@@ -312,14 +312,15 @@ void republican_king_placer_solve(slice_index si)
       place_king(SLICE_STARTER(si));
       pipe_solve_delegate(si);
 
-      if (!post_move_iteration_locked[nbply])
+      if (post_move_iteration_locked[nbply])
+        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      else
       {
         is_mate_square_dirty[nbply] = true;
         lock_post_move_iterations();
+        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
       }
     }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
   else
     pipe_solve_delegate(si);

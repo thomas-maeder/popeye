@@ -189,16 +189,19 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
 
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
   {
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_locked[nbply])
+      prev_post_move_iteration_id_selection[nbply] = post_move_iteration_id[nbply];
+    else
     {
       advance_latent_pawn_selection(SLICE_STARTER(si));
 
       if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
+      {
         lock_post_move_iterations();
+        prev_post_move_iteration_id_selection[nbply] = post_move_iteration_id[nbply];
+      }
     }
   }
-
-  prev_post_move_iteration_id_selection[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -302,19 +305,22 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   else
   {
     move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
-                                        singlebox_type2_latent_pawn_promotions[nbply].where,
-                                        singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
+                                       singlebox_type2_latent_pawn_promotions[nbply].where,
+                                       singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
     pipe_solve_delegate(si);
 
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_locked[nbply])
+      prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
+    else
     {
       advance_latent_pawn_promotion();
       if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee!=Empty)
+      {
         lock_post_move_iterations();
+        prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
+      }
     }
   }
-
-  prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

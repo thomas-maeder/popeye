@@ -135,17 +135,20 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     pipe_dispatch_delegate(si);
     --stack_pointer;
 
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_locked[nbply])
+      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    else
     {
       assert(take_make_circe_current_rebirth_square_index[stack_pointer]>0);
       --take_make_circe_current_rebirth_square_index[stack_pointer];
 
       if (take_make_circe_current_rebirth_square_index[stack_pointer]>
           take_make_circe_current_rebirth_square_index[stack_pointer-1])
+      {
         lock_post_move_iterations();
+        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      }
     }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);

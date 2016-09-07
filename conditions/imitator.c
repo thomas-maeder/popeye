@@ -1204,10 +1204,13 @@ void imitator_pawn_promoter_solve(slice_index si)
 
       TraceValue("%u",post_move_iteration_locked[nbply]);
       TraceEOL();
-      if (!post_move_iteration_locked[nbply])
+      if (post_move_iteration_locked[nbply])
+        promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
+      else
       {
         promotion_into_imitator[stack_pointer].happening = false;
         lock_post_move_iterations();
+        promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
       }
     }
     else
@@ -1215,9 +1218,8 @@ void imitator_pawn_promoter_solve(slice_index si)
       ++stack_pointer;
       pipe_solve_delegate(si);
       --stack_pointer;
+      promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
     }
-
-    promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);

@@ -116,12 +116,14 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     {
       pipe_dispatch_delegate(si);
 
-      if (!post_move_iteration_locked[nbply]
-          && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-          && !cage_found_for_current_capture[nbply])
+      if (post_move_iteration_locked[nbply])
+        prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
+      else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+               && !cage_found_for_current_capture[nbply])
       {
         no_cage_for_current_capture[nbply] = true;
         lock_post_move_iterations();
+        prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
       }
     }
   }
@@ -130,9 +132,8 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
     pipe_dispatch_delegate(si);
+    prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
   }
-
-  prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

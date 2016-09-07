@@ -133,7 +133,10 @@ void wormhole_transferer_solve(slice_index si)
   if (wormhole_next_transfer[nbply]==nr_wormholes+1)
     solve_result = this_move_is_illegal;
   else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
+  {
     pipe_solve_delegate(si);
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+  }
   else
   {
     piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
@@ -148,15 +151,18 @@ void wormhole_transferer_solve(slice_index si)
 
     pipe_solve_delegate(si);
 
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_locked[nbply])
+      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    else
     {
       advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]<=nr_wormholes)
+      {
         lock_post_move_iterations();
+        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      }
     }
   }
-
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

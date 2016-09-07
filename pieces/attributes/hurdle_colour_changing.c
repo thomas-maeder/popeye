@@ -163,14 +163,15 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   {
     solve_nested(si);
 
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_locked[nbply])
+      next_prom_to_changing[stack_pointer].lock = post_move_iteration_id[nbply];
+    else
     {
-      lock_post_move_iterations();
       next_prom_to_changing[stack_pointer].happening = true;
+      lock_post_move_iterations();
+      next_prom_to_changing[stack_pointer].lock = post_move_iteration_id[nbply];
     }
   }
-
-  next_prom_to_changing[stack_pointer].lock = post_move_iteration_id[nbply];
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

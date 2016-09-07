@@ -129,14 +129,19 @@ static square decide_about_change(void)
 {
   square result = initsquare;
 
-  square const sq_promotion = find_promotion(horizon);
-  if (sq_promotion!=initsquare
-      && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
-      && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon)
-      && !post_move_iteration_locked[nbply])
+  if (post_move_iteration_locked[nbply])
+    change_into_chameleon[stack_pointer].lock = post_move_iteration_id[nbply];
+  else
   {
-    result = sq_promotion;
-    lock_post_move_iterations();
+    square const sq_promotion = find_promotion(horizon);
+    if (sq_promotion!=initsquare
+        && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
+        && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
+    {
+      result = sq_promotion;
+      lock_post_move_iterations();
+      change_into_chameleon[stack_pointer].lock = post_move_iteration_id[nbply];
+    }
   }
 
   return result;
@@ -183,8 +188,6 @@ void chameleon_change_promotee_into_solve(slice_index si)
     do_change();
     solve_nested(si);
   }
-
-  change_into_chameleon[stack_pointer].lock = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

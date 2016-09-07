@@ -57,12 +57,17 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
 
   pipe_solve_delegate(si);
 
-  if (!post_move_iteration_locked[nbply])
+  if (post_move_iteration_locked[nbply])
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+  else
   {
     ++current_snekked_pos[nbply];
     find_next_snekked(walk_captured);
     if (*current_snekked_pos[nbply])
+    {
       lock_post_move_iterations();
+      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    }
   }
 }
 
@@ -105,22 +110,17 @@ void snek_substitutor_solve(slice_index si)
 
       pipe_solve_delegate(si);
     }
+    else if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+    {
+      if (find_first_snekked(walk_captured))
+        do_change(si,walk_captured);
+      else
+        pipe_solve_delegate(si);
+    }
     else
     {
-      if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
-      {
-        if (find_first_snekked(walk_captured))
-          do_change(si,walk_captured);
-        else
-          pipe_solve_delegate(si);
-      }
-      else
-      {
-        assert(*current_snekked_pos[nbply]);
-        do_change(si,walk_captured);
-      }
-
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      assert(*current_snekked_pos[nbply]);
+      do_change(si,walk_captured);
     }
   }
   else
@@ -176,12 +176,17 @@ static void do_change_circle(slice_index si,
 
   pipe_solve_delegate(si);
 
-  if (!post_move_iteration_locked[nbply])
+  if (post_move_iteration_locked[nbply])
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+  else
   {
     ++current_snekked_pos[nbply];
     find_next_snekked_circle(walk_snekked);
     if (*current_snekked_pos[nbply])
+    {
       lock_post_move_iterations();
+      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    }
   }
 }
 
@@ -241,22 +246,17 @@ void snek_circle_substitutor_solve(slice_index si)
 
     if (walk_snekked==Invalid)
       pipe_solve_delegate(si);
+    else if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+    {
+      if (find_first_snekked_circle(walk_snekked))
+        do_change_circle(si,walk_captured,walk_snekked);
+      else
+        pipe_solve_delegate(si);
+    }
     else
     {
-      if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
-      {
-        if (find_first_snekked_circle(walk_snekked))
-          do_change_circle(si,walk_captured,walk_snekked);
-        else
-          pipe_solve_delegate(si);
-      }
-      else
-      {
-        assert(*current_snekked_pos[nbply]);
-        do_change_circle(si,walk_captured,walk_snekked);
-      }
-
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      assert(*current_snekked_pos[nbply]);
+      do_change_circle(si,walk_captured,walk_snekked);
     }
   }
   else
