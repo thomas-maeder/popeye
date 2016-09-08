@@ -1204,12 +1204,10 @@ void imitator_pawn_promoter_solve(slice_index si)
 
       TraceValue("%u",post_move_iteration_locked[nbply]);
       TraceEOL();
-      if (post_move_iteration_locked[nbply])
-        promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
-      else
+      if (!post_move_iteration_is_locked(&promotion_into_imitator[stack_pointer].lock))
       {
         promotion_into_imitator[stack_pointer].happening = false;
-        lock_post_move_iterations(&promotion_into_imitator[stack_pointer].lock);
+        post_move_iteration_lock(&promotion_into_imitator[stack_pointer].lock);
       }
     }
     else

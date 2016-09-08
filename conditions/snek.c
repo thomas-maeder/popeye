@@ -57,14 +57,12 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
 
   pipe_solve_delegate(si);
 
-  if (post_move_iteration_locked[nbply])
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-  else
+  if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
   {
     ++current_snekked_pos[nbply];
     find_next_snekked(walk_captured);
     if (*current_snekked_pos[nbply])
-      lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
+      post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
   }
 }
 
@@ -173,14 +171,12 @@ static void do_change_circle(slice_index si,
 
   pipe_solve_delegate(si);
 
-  if (post_move_iteration_locked[nbply])
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-  else
+  if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
   {
     ++current_snekked_pos[nbply];
     find_next_snekked_circle(walk_snekked);
     if (*current_snekked_pos[nbply])
-      lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
+      post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
   }
 }
 

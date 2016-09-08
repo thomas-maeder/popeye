@@ -14,7 +14,7 @@ post_move_iteration_id_type post_move_iteration_id_watermark;
 
 /* Lock post move iterations in the current move retraction
  */
-void lock_post_move_iterations(post_move_iteration_id_type *lock)
+void post_move_iteration_lock(post_move_iteration_id_type *lock)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -31,6 +31,22 @@ void lock_post_move_iterations(post_move_iteration_id_type *lock)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
+{
+  boolean result = post_move_iteration_locked[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (result)
+    *lock = post_move_iteration_id[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Is the post move iterator holding an specific id iterating in the current ply?

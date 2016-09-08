@@ -320,13 +320,11 @@ void pawn_promoter_solve(slice_index si)
       pipe_solve_delegate(si);
       --stack_pointer;
 
-      if (post_move_iteration_locked[nbply])
-        promotion_stack[stack_pointer].lock = post_move_iteration_id[nbply];
-      else
+      if (!post_move_iteration_is_locked(&promotion_stack[stack_pointer].lock))
       {
         pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer].sequence);
         if (promotion_stack[stack_pointer].sequence.promotee!=Empty)
-          lock_post_move_iterations(&promotion_stack[stack_pointer].lock);
+          post_move_iteration_lock(&promotion_stack[stack_pointer].lock);
       }
     }
 

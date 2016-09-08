@@ -75,10 +75,8 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   else
   {
     fork_solve_delegate(si);
-    if (post_move_iteration_locked[nbply])
-      prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
-    else
-      lock_post_move_iterations(&prev_post_move_iteration_id_no_rebirth[nbply]);
+    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_no_rebirth[nbply]))
+      post_move_iteration_lock(&prev_post_move_iteration_id_no_rebirth[nbply]);
   }
 
   TraceFunctionExit(__func__);
@@ -146,12 +144,10 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   {
     pipe_dispatch_delegate(si);
 
-    if (post_move_iteration_locked[nbply])
-      prev_post_move_iteration_id_rebirth[nbply] = post_move_iteration_id[nbply];
-    else
+    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_rebirth[nbply]))
     {
       is_rebirth_square_dirty[nbply] = true;
-      lock_post_move_iterations(&prev_post_move_iteration_id_rebirth[nbply]);
+      post_move_iteration_lock(&prev_post_move_iteration_id_rebirth[nbply]);
     }
   }
 

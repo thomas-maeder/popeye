@@ -151,13 +151,11 @@ void wormhole_transferer_solve(slice_index si)
 
     pipe_solve_delegate(si);
 
-    if (post_move_iteration_locked[nbply])
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    else
+    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
     {
       advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]<=nr_wormholes)
-        lock_post_move_iterations(&prev_post_move_iteration_id[nbply]);
+        post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
     }
   }
 

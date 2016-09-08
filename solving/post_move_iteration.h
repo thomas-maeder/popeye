@@ -23,7 +23,9 @@ extern boolean post_move_iteration_locked[maxply+1];
 /* Lock post move iterations in the current move retraction
  * @param lock address of lock holder
  */
-void lock_post_move_iterations(post_move_iteration_id_type *lock);
+void post_move_iteration_lock(post_move_iteration_id_type *lock);
+
+boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock);
 
 /* Is the post move iterator holding an specific id iterating in the current ply?
  * @return true iff he is
