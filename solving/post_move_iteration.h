@@ -15,16 +15,17 @@ typedef unsigned int post_move_iteration_id_type;
 extern post_move_iteration_id_type post_move_iteration_id[maxply+1];
 extern post_move_iteration_id_type post_move_iteration_id_watermark;
 
-/* true iff a component has advanced its iteration; set to prevent outer
- * components from advancing theirs as well
- */
-extern boolean post_move_iteration_locked[maxply+1];
-
 /* Lock post move iterations in the current move retraction
  * @param lock address of lock holder
  */
 void post_move_iteration_lock(post_move_iteration_id_type *lock);
 
+void post_move_iteration_unlock(void);
+
+/* Is post move iteration locked by an inner iteration?
+ * @param *lock our lock
+ * @return true iff is post move iteration is locked
+ */
 boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock);
 
 /* Is the post move iterator holding an specific id iterating in the current ply?

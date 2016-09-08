@@ -8,9 +8,13 @@
 
 #include "debugging/assert.h"
 
-boolean post_move_iteration_locked[maxply+1];
 unsigned int post_move_iteration_id[maxply+1];
 post_move_iteration_id_type post_move_iteration_id_watermark;
+
+/* true iff a component has advanced its iteration; set to prevent outer
+ * components from advancing theirs as well
+ */
+static boolean post_move_iteration_locked[maxply+1];
 
 /* Lock post move iterations in the current move retraction
  */
@@ -33,6 +37,21 @@ void post_move_iteration_lock(post_move_iteration_id_type *lock)
   TraceFunctionResultEnd();
 }
 
+void post_move_iteration_unlock(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  post_move_iteration_locked[nbply] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Is post move iteration locked by an inner iteration?
+ * @param *lock our lock
+ * @return true iff is post move iteration is locked
+ */
 boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
 {
   boolean result = post_move_iteration_locked[nbply];

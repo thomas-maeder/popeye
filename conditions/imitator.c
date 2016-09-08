@@ -1202,8 +1202,6 @@ void imitator_pawn_promoter_solve(slice_index si)
 
       promotion_horizon[nbply] = save_horizon;
 
-      TraceValue("%u",post_move_iteration_locked[nbply]);
-      TraceEOL();
       if (!post_move_iteration_is_locked(&promotion_into_imitator[stack_pointer].lock))
       {
         promotion_into_imitator[stack_pointer].happening = false;

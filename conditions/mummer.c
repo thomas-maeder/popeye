@@ -256,7 +256,7 @@ void mummer_bookkeeper_solve(slice_index si)
       accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
 
       /* no need to try other flavours of the same move */
-      post_move_iteration_locked[nbply] = false;
+      post_move_iteration_unlock();
     }
   }
 
