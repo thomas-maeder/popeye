@@ -191,13 +191,7 @@ void mummer_orchestrator_solve(slice_index si)
   copyply();
   move_generator_invert_move_order(nbply);
   fork_solve_delegate(si);
-  finply();
-
-  /* in some very obscure situations (cf. bug #142), we would continue with
-   * e.g. knight promotion if queen promotion was played while measuring lengths
-   */
-  ++post_move_iteration_id[nbply];
-  post_move_iteration_id[nbply] = post_move_iteration_id_watermark+1;
+  fincopiedply();
 
   nbply = save_nbply;
   SET_CURRMOVE(nbply,last_candidate[nbply]);
@@ -256,7 +250,7 @@ void mummer_bookkeeper_solve(slice_index si)
       accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
 
       /* no need to try other flavours of the same move */
-      post_move_iteration_unlock();
+      post_move_iteration_cancel();
     }
   }
 

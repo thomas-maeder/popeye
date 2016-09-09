@@ -13,14 +13,18 @@
  */
 typedef unsigned int post_move_iteration_id_type;
 extern post_move_iteration_id_type post_move_iteration_id[maxply+1];
-extern post_move_iteration_id_type post_move_iteration_id_watermark;
+
+void post_move_iteration_init_ply(void);
 
 /* Lock post move iterations in the current move retraction
  * @param lock address of lock holder
  */
 void post_move_iteration_lock(post_move_iteration_id_type *lock);
 
-void post_move_iteration_unlock(void);
+/* Cancel post move iteration while taking back a move.
+ * Useful in rare situations where e.g. promotion to queen is enough.
+ */
+void post_move_iteration_cancel(void);
 
 /* Is post move iteration locked by an inner iteration?
  * @param *lock our lock

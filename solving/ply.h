@@ -63,5 +63,6 @@ void siblingply(Side side);
 
 /* End the current ply, making the previous current ply the current ply again */
 void finply(void);
+void fincopiedply(void);
 
 #endif

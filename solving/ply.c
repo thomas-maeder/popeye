@@ -53,7 +53,7 @@ void nextply(Side side)
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
-  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  post_move_iteration_init_ply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -90,7 +90,7 @@ void siblingply(Side side)
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
-  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  post_move_iteration_init_ply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -123,7 +123,7 @@ void copyply(void)
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
-  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  post_move_iteration_init_ply();
 
   {
     unsigned int const nr_moves = CURRMOVE_OF_PLY(original)-MOVEBASE_OF_PLY(original);
@@ -138,7 +138,7 @@ void copyply(void)
 }
 
 /* End the current ply, making the previous current ply the current ply again */
-void finply()
+void finply(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -150,4 +150,10 @@ void finply()
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void fincopiedply(void)
+{
+  finply();
+  post_move_iteration_init_ply();
 }

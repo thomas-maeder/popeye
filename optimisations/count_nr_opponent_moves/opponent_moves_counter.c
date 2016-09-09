@@ -67,7 +67,7 @@ void opponent_moves_counter_solve(slice_index si)
   legal_move_count_fini();
 
   /* one promotion per pawn move is normally enough */
-  post_move_iteration_unlock();
+  post_move_iteration_cancel();
 
   solve_result = MOVE_HAS_SOLVED_LENGTH();
 

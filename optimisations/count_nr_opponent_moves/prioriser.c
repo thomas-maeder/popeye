@@ -5,7 +5,6 @@
 #include "solving/testing_pipe.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "solving/pipe.h"
-#include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -70,9 +69,7 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
 
   copyply();
   testing_pipe_solve_delegate(si,slack_length+2);
-  finply();
-
-  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  fincopiedply();
 
   qsort(&move_generation_stack[base],
         nr_moves,

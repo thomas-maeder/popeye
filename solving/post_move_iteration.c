@@ -9,12 +9,18 @@
 #include "debugging/assert.h"
 
 unsigned int post_move_iteration_id[maxply+1];
-post_move_iteration_id_type post_move_iteration_id_watermark;
+
+static post_move_iteration_id_type post_move_iteration_id_watermark;
 
 /* true iff a component has advanced its iteration; set to prevent outer
  * components from advancing theirs as well
  */
 static boolean post_move_iteration_locked[maxply+1];
+
+void post_move_iteration_init_ply(void)
+{
+  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+}
 
 /* Lock post move iterations in the current move retraction
  */
@@ -37,7 +43,10 @@ void post_move_iteration_lock(post_move_iteration_id_type *lock)
   TraceFunctionResultEnd();
 }
 
-void post_move_iteration_unlock(void)
+/* Unlock post move iteration while taking back a move.
+ * Useful in rare situations where e.g. promotion to queen is enough.
+ */
+void post_move_iteration_cancel(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
