@@ -151,7 +151,7 @@ static void do_change(move_effect_journal_index_type idx_promotion)
 static void promote_to_both_non_changing_and_changing(slice_index si,
                                                       move_effect_journal_index_type idx_promotion)
 {
-  if (!post_move_am_i_iterating(next_prom_to_changing[stack_pointer].lock))
+  if (!post_move_am_i_iterating(&next_prom_to_changing[stack_pointer].lock))
     next_prom_to_changing[stack_pointer].happening = false;
 
   if (next_prom_to_changing[stack_pointer].happening)

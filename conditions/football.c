@@ -155,7 +155,7 @@ void football_chess_substitutor_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
     init_substitution();
 
   if (current_football_substitution[nbply]==Empty)

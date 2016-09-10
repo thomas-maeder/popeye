@@ -8,6 +8,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/legal_move_counter.h"
+#include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"
 #include "solving/check.h"
@@ -73,6 +74,8 @@ static boolean exists_legal_move_back_home(void)
             == previous_move_has_not_solved);
 
   legal_move_count_fini();
+
+  post_move_iteration_init_ply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

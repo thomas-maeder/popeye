@@ -80,10 +80,25 @@ boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
 /* Is the post move iterator holding an specific id iterating in the current ply?
  * @return true iff he is
  */
-boolean post_move_am_i_iterating(post_move_iteration_id_type id)
+boolean post_move_am_i_iterating(post_move_iteration_id_type *id)
 {
-  assert(id<=post_move_iteration_id[nbply]);
-  return post_move_iteration_id[nbply]==id;
+  boolean const result = post_move_iteration_id[nbply]==*id;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",*id);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_id[nbply]);
+  TraceEOL();
+
+  assert(*id<=post_move_iteration_id[nbply]);
+  *id = post_move_iteration_id[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

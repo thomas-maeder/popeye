@@ -108,7 +108,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating(prev_post_move_iteration_id_no_cage[nbply]))
+  if (post_move_am_i_iterating(&prev_post_move_iteration_id_no_cage[nbply]))
   {
     if (no_cage_for_current_capture[nbply])
       fork_solve_delegate(si);

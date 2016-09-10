@@ -105,7 +105,7 @@ void snek_substitutor_solve(slice_index si)
 
       pipe_solve_delegate(si);
     }
-    else if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+    else if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
     {
       if (find_first_snekked(walk_captured))
         do_change(si,walk_captured);
@@ -236,7 +236,7 @@ void snek_circle_substitutor_solve(slice_index si)
 
     if (walk_snekked==Invalid)
       pipe_solve_delegate(si);
-    else if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+    else if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
     {
       if (find_first_snekked_circle(walk_snekked))
         do_change_circle(si,walk_captured,walk_snekked);

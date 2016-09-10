@@ -172,7 +172,7 @@ void chameleon_change_promotee_into_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(change_into_chameleon[stack_pointer].lock))
+  if (!post_move_am_i_iterating(&change_into_chameleon[stack_pointer].lock))
     change_into_chameleon[stack_pointer].where = initsquare;
 
   if (change_into_chameleon[stack_pointer].where==initsquare)

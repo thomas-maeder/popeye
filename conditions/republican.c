@@ -259,7 +259,7 @@ static void determine_king_placement(Side trait_ply)
   TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(prev_post_move_iteration_id[nbply]))
+  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
   {
     king_placement[nbply] = square_a1-1;
     is_mate_square_dirty[nbply] = true;

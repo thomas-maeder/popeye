@@ -67,7 +67,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating(prev_post_move_iteration_id_no_rebirth[nbply]))
+  if (post_move_am_i_iterating(&prev_post_move_iteration_id_no_rebirth[nbply]))
   {
     pipe_dispatch_delegate(si);
     prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
@@ -132,7 +132,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(prev_post_move_iteration_id_rebirth[nbply]))
+  if (!post_move_am_i_iterating(&prev_post_move_iteration_id_rebirth[nbply]))
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     is_rebirth_square_dirty[nbply] = true;
