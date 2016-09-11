@@ -14,12 +14,28 @@
 typedef unsigned int post_move_iteration_id_type;
 extern post_move_iteration_id_type post_move_iteration_id[maxply+1];
 
+enum
+{
+  max_nr_iterations_per_ply = 4,
+  post_move_iteration_stack_size = max_nr_iterations_per_ply*maxply+1
+};
+
+extern post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
+
+extern unsigned int post_move_iteration_stack_pointer;
+
 void post_move_iteration_init_ply(void);
 
 /* Lock post move iterations in the current move retraction
  * @param lock address of lock holder
  */
-void post_move_iteration_lock(post_move_iteration_id_type *lock);
+void post_move_iteration_lock(void);
+
+/* Solve the next pipe while post move iterating
+ * @param si identifies the iterating slice
+ */
+void post_move_iteration_solve_delegate(slice_index si);
+void post_move_iteration_solve_fork(slice_index si);
 
 /* Cancel post move iteration while taking back a move.
  * Useful in rare situations where e.g. promotion to queen is enough.
@@ -30,12 +46,12 @@ void post_move_iteration_cancel(void);
  * @param *lock our lock
  * @return true iff is post move iteration is locked
  */
-boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock);
+boolean post_move_iteration_is_locked(void);
 
 /* Is the post move iterator holding an specific id iterating in the current ply?
  * @return true iff he is
  */
-boolean post_move_am_i_iterating(post_move_iteration_id_type *id);
+boolean post_move_am_i_iterating(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

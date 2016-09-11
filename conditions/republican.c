@@ -29,8 +29,6 @@ ConditionNumberedVariantType RepublicanType;
 
 static square king_placement[maxply+1];
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
 static boolean is_mate_square_dirty[maxply+1];
 
 enum
@@ -259,7 +257,7 @@ static void determine_king_placement(Side trait_ply)
   TraceEnumerator(Side,trait_ply);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
+  if (!post_move_am_i_iterating())
   {
     king_placement[nbply] = square_a1-1;
     is_mate_square_dirty[nbply] = true;
@@ -304,18 +302,18 @@ void republican_king_placer_solve(slice_index si)
 
     if (king_placement[nbply]==king_not_placed)
     {
-      pipe_solve_delegate(si);
+      post_move_iteration_solve_delegate(si);
       king_placement[nbply] = to_be_initialised;
     }
     else
     {
       place_king(SLICE_STARTER(si));
-      pipe_solve_delegate(si);
+      post_move_iteration_solve_delegate(si);
 
-      if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
+      if (!post_move_iteration_is_locked())
       {
         is_mate_square_dirty[nbply] = true;
-        post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+        post_move_iteration_lock();
       }
     }
   }

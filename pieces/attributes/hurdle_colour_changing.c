@@ -31,11 +31,7 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static struct
-{
-    boolean happening;
-    post_move_iteration_id_type lock;
-} next_prom_to_changing[stack_size];
+static boolean next_prom_to_changing_happening[stack_size];
 
 static unsigned int stack_pointer;
 
@@ -123,9 +119,7 @@ static void solve_nested(slice_index si)
 
   horizon = move_effect_journal_base[nbply+1];
   ++stack_pointer;
-
-  pipe_solve_delegate(si);
-
+  post_move_iteration_solve_delegate(si);
   --stack_pointer;
   horizon = save_horizon;
 }
@@ -151,10 +145,10 @@ static void do_change(move_effect_journal_index_type idx_promotion)
 static void promote_to_both_non_changing_and_changing(slice_index si,
                                                       move_effect_journal_index_type idx_promotion)
 {
-  if (!post_move_am_i_iterating(&next_prom_to_changing[stack_pointer].lock))
-    next_prom_to_changing[stack_pointer].happening = false;
+  if (!post_move_am_i_iterating())
+    next_prom_to_changing_happening[stack_pointer] = false;
 
-  if (next_prom_to_changing[stack_pointer].happening)
+  if (next_prom_to_changing_happening[stack_pointer])
   {
     do_change(idx_promotion);
     solve_nested(si);
@@ -163,10 +157,10 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   {
     solve_nested(si);
 
-    if (!post_move_iteration_is_locked(&next_prom_to_changing[stack_pointer].lock))
+    if (!post_move_iteration_is_locked())
     {
-      next_prom_to_changing[stack_pointer].happening = true;
-      post_move_iteration_lock(&next_prom_to_changing[stack_pointer].lock);
+      next_prom_to_changing_happening[stack_pointer] = true;
+      post_move_iteration_lock();
     }
   }
 }

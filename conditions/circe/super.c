@@ -13,9 +13,6 @@
 
 #include "debugging/assert.h"
 
-static post_move_iteration_id_type prev_post_move_iteration_id_rebirth[maxply+1];
-static post_move_iteration_id_type prev_post_move_iteration_id_no_rebirth[maxply+1];
-
 static boolean is_rebirth_square_dirty[maxply+1];
 
 /* Instrument the solving machinery with Circe Super (apart from the rebirth
@@ -67,16 +64,16 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating(&prev_post_move_iteration_id_no_rebirth[nbply]))
+  if (post_move_am_i_iterating())
   {
-    pipe_dispatch_delegate(si);
-    prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
+    post_move_iteration_solve_delegate(si);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
   }
   else
   {
-    fork_solve_delegate(si);
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_no_rebirth[nbply]))
-      post_move_iteration_lock(&prev_post_move_iteration_id_no_rebirth[nbply]);
+    post_move_iteration_solve_fork(si);
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_lock();
   }
 
   TraceFunctionExit(__func__);
@@ -132,7 +129,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id_rebirth[nbply]))
+  if (!post_move_am_i_iterating())
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     is_rebirth_square_dirty[nbply] = true;
@@ -142,12 +139,12 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else
   {
-    pipe_dispatch_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_rebirth[nbply]))
+    if (!post_move_iteration_is_locked())
     {
       is_rebirth_square_dirty[nbply] = true;
-      post_move_iteration_lock(&prev_post_move_iteration_id_rebirth[nbply]);
+      post_move_iteration_lock();
     }
   }
 

@@ -19,8 +19,6 @@
 
 #include "debugging/assert.h"
 
-static post_move_iteration_id_type prev_post_move_iteration_id_no_cage[maxply+1];
-
 static boolean cage_found_for_current_capture[maxply+1];
 static boolean no_cage_for_current_capture[maxply+1];
 
@@ -108,20 +106,20 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating(&prev_post_move_iteration_id_no_cage[nbply]))
+  if (post_move_am_i_iterating())
   {
     if (no_cage_for_current_capture[nbply])
-      fork_solve_delegate(si);
+      post_move_iteration_solve_fork(si);
     else
     {
-      pipe_dispatch_delegate(si);
+      post_move_iteration_solve_delegate(si);
 
-      if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_no_cage[nbply])
+      if (!post_move_iteration_is_locked()
            && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
            && !cage_found_for_current_capture[nbply])
       {
         no_cage_for_current_capture[nbply] = true;
-        post_move_iteration_lock(&prev_post_move_iteration_id_no_cage[nbply]);
+        post_move_iteration_lock();
       }
     }
   }
@@ -129,8 +127,8 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   {
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
-    pipe_dispatch_delegate(si);
-    prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
+    post_move_iteration_solve_delegate(si);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);

@@ -10,8 +10,6 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
 static square const *current_snekked_pos[maxply+1];
 
 static piece_walk_type const snekked_walk[Bishop+1] =
@@ -55,14 +53,14 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
                                      *current_snekked_pos[nbply],
                                      walk_captured);
 
-  pipe_solve_delegate(si);
+  post_move_iteration_solve_delegate(si);
 
-  if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
+  if (!post_move_iteration_is_locked())
   {
     ++current_snekked_pos[nbply];
     find_next_snekked(walk_captured);
     if (*current_snekked_pos[nbply])
-      post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+      post_move_iteration_lock();
   }
 }
 
@@ -105,12 +103,12 @@ void snek_substitutor_solve(slice_index si)
 
       pipe_solve_delegate(si);
     }
-    else if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
+    else if (!post_move_am_i_iterating())
     {
       if (find_first_snekked(walk_captured))
         do_change(si,walk_captured);
       else
-        pipe_solve_delegate(si);
+        post_move_iteration_solve_delegate(si);
     }
     else
     {
@@ -119,7 +117,7 @@ void snek_substitutor_solve(slice_index si)
     }
   }
   else
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -169,14 +167,14 @@ static void do_change_circle(slice_index si,
                                      *current_snekked_pos[nbply],
                                      walk_captured);
 
-  pipe_solve_delegate(si);
+  post_move_iteration_solve_delegate(si);
 
-  if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
+  if (!post_move_iteration_is_locked())
   {
     ++current_snekked_pos[nbply];
     find_next_snekked_circle(walk_snekked);
     if (*current_snekked_pos[nbply])
-      post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+      post_move_iteration_lock();
   }
 }
 
@@ -236,12 +234,12 @@ void snek_circle_substitutor_solve(slice_index si)
 
     if (walk_snekked==Invalid)
       pipe_solve_delegate(si);
-    else if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
+    else if (!post_move_am_i_iterating())
     {
       if (find_first_snekked_circle(walk_snekked))
         do_change_circle(si,walk_captured,walk_snekked);
       else
-        pipe_solve_delegate(si);
+        post_move_iteration_solve_delegate(si);
     }
     else
     {
@@ -250,7 +248,7 @@ void snek_circle_substitutor_solve(slice_index si)
     }
   }
   else
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

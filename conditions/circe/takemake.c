@@ -17,7 +17,6 @@
 
 #include "debugging/assert.h"
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 static square rebirth_square[toppile+1];
 static numecoup take_make_circe_current_rebirth_square_index[maxply+1];
 static unsigned int stack_pointer = 1;
@@ -124,7 +123,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply])
+  if (!post_move_am_i_iterating()
       && !init_rebirth_squares(context))
     solve_result = this_move_is_illegal;
   else
@@ -132,17 +131,17 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 
     ++stack_pointer;
-    pipe_dispatch_delegate(si);
+    post_move_iteration_solve_delegate(si);
     --stack_pointer;
 
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
+    if (!post_move_iteration_is_locked())
     {
       assert(take_make_circe_current_rebirth_square_index[stack_pointer]>0);
       --take_make_circe_current_rebirth_square_index[stack_pointer];
 
       if (take_make_circe_current_rebirth_square_index[stack_pointer]>
           take_make_circe_current_rebirth_square_index[stack_pointer-1])
-        post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+        post_move_iteration_lock();
     }
   }
 

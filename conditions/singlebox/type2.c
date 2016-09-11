@@ -12,9 +12,6 @@
 
 singlebox_type2_latent_pawn_promotion_type singlebox_type2_latent_pawn_promotions[maxply+1];
 
-static post_move_iteration_id_type prev_post_move_iteration_id_selection[maxply+1];
-static post_move_iteration_id_type prev_post_move_iteration_id_promotion[maxply+1];
-
 square next_latent_pawn(square s, Side c)
 {
   numvec const delta= c==White ?+dir_left :+dir_right;
@@ -182,18 +179,18 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id_selection[nbply]))
+  if (!post_move_am_i_iterating())
     init_latent_pawn_selection(SLICE_STARTER(si));
 
-  pipe_solve_delegate(si);
+  post_move_iteration_solve_delegate(si);
 
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare
-      && !post_move_iteration_is_locked(&prev_post_move_iteration_id_selection[nbply]))
+      && !post_move_iteration_is_locked())
   {
     advance_latent_pawn_selection(SLICE_STARTER(si));
 
     if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
-      post_move_iteration_lock(&prev_post_move_iteration_id_selection[nbply]);
+      post_move_iteration_lock();
   }
 
   TraceFunctionExit(__func__);
@@ -290,23 +287,23 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id_promotion[nbply]))
+  if (!post_move_am_i_iterating())
     init_latent_pawn_promotion();
 
   if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
   else
   {
     move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
                                        singlebox_type2_latent_pawn_promotions[nbply].where,
                                        singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id_promotion[nbply]))
+    if (!post_move_iteration_is_locked())
     {
       advance_latent_pawn_promotion();
       if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee!=Empty)
-        post_move_iteration_lock(&prev_post_move_iteration_id_promotion[nbply]);
+        post_move_iteration_lock();
     }
   }
 

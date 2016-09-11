@@ -20,8 +20,6 @@ static unsigned int nr_wormholes;
 
 unsigned int wormhole_next_transfer[maxply+1];
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
 static void skip_wormhole(void)
 {
   TraceFunctionEntry(__func__);
@@ -119,7 +117,7 @@ void wormhole_transferer_solve(slice_index si)
   TraceValue("%u",TSTFLAG(sq_spec[sq_arrival],Wormhole));
   TraceEOL();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
+  if (!post_move_am_i_iterating())
   {
     if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
     {
@@ -134,8 +132,8 @@ void wormhole_transferer_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
   {
-    pipe_solve_delegate(si);
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    post_move_iteration_solve_delegate(si);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
   }
   else
   {
@@ -149,13 +147,13 @@ void wormhole_transferer_solve(slice_index si)
                                             addedspec,
                                             trait[nbply]);
 
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply]))
+    if (!post_move_iteration_is_locked())
     {
       advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]<=nr_wormholes)
-        post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+        post_move_iteration_lock();
     }
   }
 

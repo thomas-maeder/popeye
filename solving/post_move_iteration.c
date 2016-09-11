@@ -3,12 +3,17 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
 unsigned int post_move_iteration_id[maxply+1];
+
+post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
+
+unsigned int post_move_iteration_stack_pointer;
 
 static post_move_iteration_id_type post_move_iteration_id_watermark;
 
@@ -24,7 +29,7 @@ void post_move_iteration_init_ply(void)
 
 /* Lock post move iterations in the current move retraction
  */
-void post_move_iteration_lock(post_move_iteration_id_type *lock)
+void post_move_iteration_lock(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -37,7 +42,39 @@ void post_move_iteration_lock(post_move_iteration_id_type *lock)
   else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
     post_move_iteration_id_watermark = post_move_iteration_id[nbply];
 
-  *lock = post_move_iteration_id[nbply];
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve the next pipe while post move iterating
+ * @param si identifies the iterating slice
+ */
+void post_move_iteration_solve_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
+  ++post_move_iteration_stack_pointer;
+  pipe_solve_delegate(si);
+  --post_move_iteration_stack_pointer;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+void post_move_iteration_solve_fork(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
+  ++post_move_iteration_stack_pointer;
+  fork_solve_delegate(si);
+  --post_move_iteration_stack_pointer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -61,7 +98,7 @@ void post_move_iteration_cancel(void)
  * @param *lock our lock
  * @return true iff is post move iteration is locked
  */
-boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
+boolean post_move_iteration_is_locked(void)
 {
   boolean result = post_move_iteration_locked[nbply];
 
@@ -69,7 +106,7 @@ boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
   TraceFunctionParamListEnd();
 
   if (result)
-    *lock = post_move_iteration_id[nbply];
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -80,20 +117,21 @@ boolean post_move_iteration_is_locked(post_move_iteration_id_type *lock)
 /* Is the post move iterator holding an specific id iterating in the current ply?
  * @return true iff he is
  */
-boolean post_move_am_i_iterating(post_move_iteration_id_type *id)
+boolean post_move_am_i_iterating(void)
 {
-  boolean const result = post_move_iteration_id[nbply]==*id;
+  boolean const result = post_move_iteration_id[nbply]==post_move_iteration_stack[post_move_iteration_stack_pointer];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*id);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
   TraceValue("%u",nbply);
   TraceValue("%u",post_move_iteration_id[nbply]);
   TraceEOL();
 
-  assert(*id<=post_move_iteration_id[nbply]);
-  *id = post_move_iteration_id[nbply];
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -22,8 +22,6 @@ boolean football_are_substitutes_limited;
 
 static piece_walk_type const *bench[maxply+1];
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
 /* Initialise the substitutes' bench for the current twin
  */
 void init_football_substitutes(void)
@@ -155,11 +153,11 @@ void football_chess_substitutor_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&prev_post_move_iteration_id[nbply]))
+  if (!post_move_am_i_iterating())
     init_substitution();
 
   if (current_football_substitution[nbply]==Empty)
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
   else
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -175,11 +173,11 @@ void football_chess_substitutor_solve(slice_index si)
                                           pos,
                                           current_football_substitution[nbply]);
 
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked(&prev_post_move_iteration_id[nbply])
+    if (!post_move_iteration_is_locked()
         && advance_substitution())
-      post_move_iteration_lock(&prev_post_move_iteration_id[nbply]);
+      post_move_iteration_lock();
   }
 
   TraceFunctionExit(__func__);

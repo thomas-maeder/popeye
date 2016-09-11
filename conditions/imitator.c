@@ -31,11 +31,7 @@ enum
 
 static unsigned int stack_pointer;
 
-static struct
-{
-    boolean happening;
-    post_move_iteration_id_type lock;
-} promotion_into_imitator[stack_size];
+static boolean promotion_into_imitator_happening[stack_size];
 
 static numecoup skip_over_remainder_of_line(numecoup i,
                                             square sq_departure,
@@ -1177,15 +1173,10 @@ void imitator_pawn_promoter_solve(slice_index si)
 
     assert(stack_pointer<stack_size);
 
-    if (!post_move_am_i_iterating(&promotion_into_imitator[stack_pointer].lock))
-      promotion_into_imitator[stack_pointer].happening = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
+    if (!post_move_am_i_iterating())
+      promotion_into_imitator_happening[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 
-    TraceValue("%u",post_move_iteration_id[nbply]);
-    TraceValue("%u",promotion_into_imitator[stack_pointer].lock);
-    TraceValue("%u",promotion_into_imitator[stack_pointer].happening);
-    TraceEOL();
-
-    if (promotion_into_imitator[stack_pointer].happening)
+    if (promotion_into_imitator_happening[stack_pointer])
     {
       move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
 
@@ -1197,23 +1188,23 @@ void imitator_pawn_promoter_solve(slice_index si)
                                                sq_arrival);
 
       ++stack_pointer;
-      fork_solve_delegate(si);
+      post_move_iteration_solve_fork(si);
       --stack_pointer;
 
       promotion_horizon[nbply] = save_horizon;
 
-      if (!post_move_iteration_is_locked(&promotion_into_imitator[stack_pointer].lock))
+      if (!post_move_iteration_is_locked())
       {
-        promotion_into_imitator[stack_pointer].happening = false;
-        post_move_iteration_lock(&promotion_into_imitator[stack_pointer].lock);
+        promotion_into_imitator_happening[stack_pointer] = false;
+        post_move_iteration_lock();
       }
     }
     else
     {
       ++stack_pointer;
-      pipe_solve_delegate(si);
+      post_move_iteration_solve_delegate(si);
       --stack_pointer;
-      promotion_into_imitator[stack_pointer].lock = post_move_iteration_id[nbply];
+      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
     }
   }
 

@@ -20,11 +20,7 @@ enum
 
 static unsigned int stack_pointer;
 
-static struct
-{
-    square where;
-    post_move_iteration_id_type lock;
-} change_into_chameleon[stack_size];
+static square change_into_chameleon_where[stack_size];
 
 static move_effect_journal_index_type horizon;
 
@@ -114,8 +110,7 @@ static void solve_nested(slice_index si)
 
   horizon = move_effect_journal_base[nbply+1];
   ++stack_pointer;
-  pipe_solve_delegate(si);
-
+  post_move_iteration_solve_delegate(si);
   --stack_pointer;
   horizon = save_horizon;
 }
@@ -129,7 +124,7 @@ static square decide_about_change(void)
 {
   square result = initsquare;
 
-  if (!post_move_iteration_is_locked(&change_into_chameleon[stack_pointer].lock))
+  if (!post_move_iteration_is_locked())
   {
     square const sq_promotion = find_promotion(horizon);
     if (sq_promotion!=initsquare
@@ -137,7 +132,7 @@ static square decide_about_change(void)
         && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
     {
       result = sq_promotion;
-      post_move_iteration_lock(&change_into_chameleon[stack_pointer].lock);
+      post_move_iteration_lock();
     }
   }
 
@@ -146,10 +141,10 @@ static square decide_about_change(void)
 
 static void do_change(void)
 {
-  Flags changed = being_solved.spec[change_into_chameleon[stack_pointer].where];
+  Flags changed = being_solved.spec[change_into_chameleon_where[stack_pointer]];
   SETFLAG(changed,Chameleon);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
-                                      change_into_chameleon[stack_pointer].where,
+                                      change_into_chameleon_where[stack_pointer],
                                       changed);
 }
 
@@ -172,13 +167,13 @@ void chameleon_change_promotee_into_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating(&change_into_chameleon[stack_pointer].lock))
-    change_into_chameleon[stack_pointer].where = initsquare;
+  if (!post_move_am_i_iterating())
+    change_into_chameleon_where[stack_pointer] = initsquare;
 
-  if (change_into_chameleon[stack_pointer].where==initsquare)
+  if (change_into_chameleon_where[stack_pointer]==initsquare)
   {
     solve_nested(si);
-    change_into_chameleon[stack_pointer].where = decide_about_change();
+    change_into_chameleon_where[stack_pointer] = decide_about_change();
   }
   else
   {

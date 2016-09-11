@@ -16,11 +16,7 @@ enum
 
 static unsigned int stack_pointer;
 
-static struct
-{
-    pieces_pawns_promotion_sequence_type sequence;
-    post_move_iteration_id_type lock;
-} promotion_stack[stack_size];
+static pieces_pawns_promotion_sequence_type promotion_stack[stack_size];
 
 move_effect_journal_index_type promotion_horizon[maxply+1];
 
@@ -299,36 +295,32 @@ void pawn_promoter_solve(slice_index si)
   {
     promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
-    TraceValue("%u",stack_pointer);
-    TraceValue("%u",promotion_stack[stack_pointer].lock);
-    TraceEOL();
-
-    if (!post_move_am_i_iterating(&promotion_stack[stack_pointer].lock))
+    if (!post_move_am_i_iterating())
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
                                            as_side,
-                                           &promotion_stack[stack_pointer].sequence);
+                                           &promotion_stack[stack_pointer]);
 
-    if (promotion_stack[stack_pointer].sequence.promotee==Empty)
+    if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;
-      pipe_solve_delegate(si);
+      post_move_iteration_solve_delegate(si);
       --stack_pointer;
     }
     else
     {
       move_effect_journal_do_walk_change(move_effect_reason_pawn_promotion,
                                          sq_potential_promotion,
-                                         promotion_stack[stack_pointer].sequence.promotee);
+                                         promotion_stack[stack_pointer].promotee);
 
       ++stack_pointer;
-      pipe_solve_delegate(si);
+      post_move_iteration_solve_delegate(si);
       --stack_pointer;
 
-      if (!post_move_iteration_is_locked(&promotion_stack[stack_pointer].lock))
+      if (!post_move_iteration_is_locked())
       {
-        pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer].sequence);
-        if (promotion_stack[stack_pointer].sequence.promotee!=Empty)
-          post_move_iteration_lock(&promotion_stack[stack_pointer].lock);
+        pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer]);
+        if (promotion_stack[stack_pointer].promotee!=Empty)
+          post_move_iteration_lock();
       }
     }
 
