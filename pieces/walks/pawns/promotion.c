@@ -300,12 +300,19 @@ void pawn_promoter_solve(slice_index si)
                                            as_side,
                                            &promotion_stack[stack_pointer]);
 
+    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
-      post_move_iteration_end();
+      if (!post_move_iteration_is_locked())
+        post_move_iteration_end();
     }
     else
     {

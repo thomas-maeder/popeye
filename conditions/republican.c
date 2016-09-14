@@ -55,9 +55,13 @@ static boolean is_mate_square(Side other_side)
 
     occupy_square(being_solved.king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
+    ++post_move_iteration_stack_pointer;
+
     if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[other_side])
         ==previous_move_has_solved)
       result = true;
+
+    --post_move_iteration_stack_pointer;
 
     empty_square(being_solved.king_square[other_side]);
 
@@ -262,6 +266,12 @@ static void determine_king_placement(Side trait_ply)
     king_placement[nbply] = square_a1-1;
     is_mate_square_dirty[nbply] = true;
   }
+
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
 
   if (is_mate_square_dirty[nbply])
   {

@@ -143,9 +143,9 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/legal_move_counter.h solving/post_move_iteration.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h debugging/assert.h
+ solving/legal_move_counter.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
@@ -231,8 +231,6 @@ stipulation/traversal.h:
 
 solving/legal_move_counter.h:
 
-solving/post_move_iteration.h:
-
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
@@ -267,8 +265,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/testing_pipe.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/move_generator.h solving/pipe.h solving/post_move_iteration.h \
- debugging/assert.h
+ solving/move_generator.h solving/pipe.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -359,7 +356,5 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 solving/move_generator.h:
 
 solving/pipe.h:
-
-solving/post_move_iteration.h:
 
 debugging/assert.h:

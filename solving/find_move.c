@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
+#include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -58,6 +59,9 @@ void find_attack_solve(slice_index si)
 
   solve_result = result_intermediate;
 
+  if (encore())
+    post_move_iteration_cancel();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -110,6 +114,9 @@ void find_defense_solve(slice_index si)
   }
 
   solve_result = result_intermediate;
+
+  if (encore())
+    post_move_iteration_cancel();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

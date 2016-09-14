@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/legal_move_counter.h"
-#include "solving/post_move_iteration.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -65,9 +64,6 @@ void opponent_moves_counter_solve(slice_index si)
     opponent_moves_few_moves_prioriser_table[move_id] = legal_move_counter_count[nbply];
 
   legal_move_count_fini();
-
-  /* one promotion per pawn move is normally enough */
-  post_move_iteration_cancel();
 
   solve_result = MOVE_HAS_SOLVED_LENGTH();
 

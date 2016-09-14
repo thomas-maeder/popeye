@@ -108,6 +108,12 @@ void circe_cage_no_cage_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
+    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+
     /* Initialise for trying the first potential cage. */
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
@@ -115,31 +121,49 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     post_move_iteration_solve_delegate(si);
 
     /* Remember to take another path next time. */
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_lock();
   }
   else if (!no_cage_for_current_capture[nbply])
   {
+    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+
     /* There is still at least 1 potential cages to be tried. */
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked()
-         && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-         && !cage_found_for_current_capture[nbply])
+    if (!post_move_iteration_is_locked())
     {
-      /* No potential cage has materialised. */
-      no_cage_for_current_capture[nbply] = true;
+      if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+          && !cage_found_for_current_capture[nbply])
+      {
+        /* No potential cage has materialised. */
+        no_cage_for_current_capture[nbply] = true;
 
-      /* Try this move again, but take the "no cage path" next time. */
-      post_move_iteration_lock();
+        /* Try this move again, but take the "no cage path" next time. */
+        post_move_iteration_lock();
+      }
+      else
+        post_move_iteration_end();
     }
   }
   else
   {
+    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+
     /* Take "the no cage path", */
     post_move_iteration_solve_fork(si);
 
     /* Terminate this little iteration. */
-    post_move_iteration_end();
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);

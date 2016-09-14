@@ -1176,6 +1176,12 @@ void imitator_pawn_promoter_solve(slice_index si)
     if (!post_move_am_i_iterating())
       promotion_into_imitator_happening[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 
+    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+
     if (promotion_into_imitator_happening[stack_pointer])
     {
       move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];

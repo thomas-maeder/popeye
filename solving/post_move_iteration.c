@@ -13,18 +13,34 @@ unsigned int post_move_iteration_id[maxply+1];
 
 post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
 
-unsigned int post_move_iteration_stack_pointer;
+unsigned int post_move_iteration_stack_pointer = 1;
 
 static post_move_iteration_id_type post_move_iteration_id_watermark;
 
-/* true iff a component has advanced its iteration; set to prevent outer
- * components from advancing theirs as well
- */
-static boolean post_move_iteration_locked[maxply+1];
+static unsigned int post_move_iteration_lock_pointer[maxply+1];
+
+static unsigned int post_move_iteration_highwater[maxply+1];
 
 void post_move_iteration_init_ply(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]==0);
+
   post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Lock post move iterations in the current move retraction
@@ -34,7 +50,7 @@ void post_move_iteration_lock(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  post_move_iteration_locked[nbply] = true;
+  post_move_iteration_lock_pointer[nbply] = post_move_iteration_stack_pointer;
   ++post_move_iteration_id[nbply];
   TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
   if (post_move_iteration_id[nbply]<post_move_iteration_id_watermark)
@@ -43,6 +59,9 @@ void post_move_iteration_lock(void)
     post_move_iteration_id_watermark = post_move_iteration_id[nbply];
 
   post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -53,7 +72,21 @@ void post_move_iteration_end(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+  assert(post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer+1
+         || post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer);
+
+  post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceEOL();
+
   post_move_iteration_stack[post_move_iteration_stack_pointer] = 0;
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -69,9 +102,20 @@ void post_move_iteration_solve_delegate(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
-  ++post_move_iteration_stack_pointer;
+
+  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+
   pipe_solve_delegate(si);
+
   --post_move_iteration_stack_pointer;
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -83,9 +127,20 @@ void post_move_iteration_solve_fork(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
-  ++post_move_iteration_stack_pointer;
+
+  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+
   fork_solve_delegate(si);
+
   --post_move_iteration_stack_pointer;
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -99,7 +154,21 @@ void post_move_iteration_cancel(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  post_move_iteration_locked[nbply] = false;
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_highwater[nbply]]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+
+  while (post_move_iteration_highwater[nbply]>=post_move_iteration_stack_pointer)
+  {
+    post_move_iteration_stack[post_move_iteration_highwater[nbply]--] = 0;
+    TraceValue("%u",post_move_iteration_highwater[nbply]);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_highwater[nbply]]);
+    TraceEOL();
+  }
+
+  post_move_iteration_lock_pointer[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -111,13 +180,18 @@ void post_move_iteration_cancel(void)
  */
 boolean post_move_iteration_is_locked(void)
 {
-  boolean result = post_move_iteration_locked[nbply];
+  boolean result = post_move_iteration_lock_pointer[nbply]!=0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (result)
+  {
     post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+    TraceEOL();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -140,9 +214,6 @@ boolean post_move_am_i_iterating(void)
   TraceValue("%u",nbply);
   TraceValue("%u",post_move_iteration_id[nbply]);
   TraceEOL();
-
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -171,8 +242,8 @@ void move_execution_post_move_iterator_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (post_move_iteration_locked[nbply])
-    post_move_iteration_locked[nbply] = false;
+  if (post_move_iteration_lock_pointer[nbply]!=0)
+    post_move_iteration_lock_pointer[nbply] = 0;
   else
   {
     pop_move();
@@ -200,9 +271,9 @@ void move_generation_post_move_iterator_solve(slice_index si)
 
   do
   {
-    post_move_iteration_locked[nbply] = false;
+    post_move_iteration_lock_pointer[nbply] = 0;
     pipe_move_generation_delegate(si);
-  } while (post_move_iteration_locked[nbply]);
+  } while (post_move_iteration_lock_pointer[nbply]!=0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -220,11 +291,11 @@ void square_observation_post_move_iterator_solve(slice_index si)
 
   do
   {
-    post_move_iteration_locked[nbply] = false;
+    post_move_iteration_lock_pointer[nbply] = 0;
     pipe_is_square_observed_delegate(si);
-  } while (post_move_iteration_locked[nbply] && !observation_result);
+  } while (post_move_iteration_lock_pointer[nbply]!=0 && !observation_result);
 
-  post_move_iteration_locked[nbply] = false;
+  post_move_iteration_lock_pointer[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

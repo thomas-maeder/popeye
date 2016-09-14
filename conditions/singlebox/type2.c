@@ -182,6 +182,12 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_selection(SLICE_STARTER(si));
 
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
   post_move_iteration_solve_delegate(si);
 
   if (!post_move_iteration_is_locked())
@@ -296,8 +302,18 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_promotion();
 
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
   if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
+  {
     post_move_iteration_solve_delegate(si);
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_end();
+  }
   else
   {
     move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
@@ -308,7 +324,9 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
     if (!post_move_iteration_is_locked())
     {
       advance_latent_pawn_promotion();
-      if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee!=Empty)
+      if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
+        post_move_iteration_end();
+      else
         post_move_iteration_lock();
     }
   }

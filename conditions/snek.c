@@ -107,19 +107,35 @@ void snek_substitutor_solve(slice_index si)
     }
     else if (!post_move_am_i_iterating())
     {
+      assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+      TraceValue("%u",post_move_iteration_stack_pointer);
+      TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+      TraceEOL();
+
       if (find_first_snekked(walk_captured))
         do_change(si,walk_captured);
       else
+      {
         post_move_iteration_solve_delegate(si);
+        if (!post_move_iteration_is_locked())
+          post_move_iteration_end();
+      }
     }
     else
     {
+      assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+      TraceValue("%u",post_move_iteration_stack_pointer);
+      TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+      TraceEOL();
+
       assert(*current_snekked_pos[nbply]);
       do_change(si,walk_captured);
     }
   }
   else
-    post_move_iteration_solve_delegate(si);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -240,19 +256,35 @@ void snek_circle_substitutor_solve(slice_index si)
       pipe_solve_delegate(si);
     else if (!post_move_am_i_iterating())
     {
+      assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+      TraceValue("%u",post_move_iteration_stack_pointer);
+      TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+      TraceEOL();
+
       if (find_first_snekked_circle(walk_snekked))
         do_change_circle(si,walk_captured,walk_snekked);
       else
+      {
         post_move_iteration_solve_delegate(si);
+        if (!post_move_iteration_is_locked())
+          post_move_iteration_end();
+      }
     }
     else
     {
+      assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+      TraceValue("%u",post_move_iteration_stack_pointer);
+      TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+      TraceEOL();
+
       assert(*current_snekked_pos[nbply]);
       do_change_circle(si,walk_captured,walk_snekked);
     }
   }
   else
-    post_move_iteration_solve_delegate(si);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

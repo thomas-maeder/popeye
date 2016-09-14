@@ -172,6 +172,12 @@ void chameleon_change_promotee_into_solve(slice_index si)
   if (!post_move_am_i_iterating())
     change_into_chameleon_where[stack_pointer] = initsquare;
 
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
   if (change_into_chameleon_where[stack_pointer]==initsquare)
   {
     solve_nested(si);
@@ -181,6 +187,8 @@ void chameleon_change_promotee_into_solve(slice_index si)
   {
     do_change();
     solve_nested(si);
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);

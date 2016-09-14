@@ -113,13 +113,28 @@ static move_effect_journal_index_type find_promotion(move_effect_journal_index_t
  * this move where prommotions have been considered.
  * @param si identifies the current slice
  */
-static void solve_nested(slice_index si)
+static void solve_nested_iterating(slice_index si)
 {
   move_effect_journal_index_type const save_horizon = horizon;
 
   horizon = move_effect_journal_base[nbply+1];
   ++stack_pointer;
   post_move_iteration_solve_delegate(si);
+  --stack_pointer;
+  horizon = save_horizon;
+}
+
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
+static void solve_nested(slice_index si)
+{
+  move_effect_journal_index_type const save_horizon = horizon;
+
+  horizon = move_effect_journal_base[nbply+1];
+  ++stack_pointer;
+  pipe_solve_delegate(si);
   --stack_pointer;
   horizon = save_horizon;
 }
@@ -148,15 +163,21 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   if (!post_move_am_i_iterating())
     next_prom_to_changing_happening[stack_pointer] = false;
 
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
   if (next_prom_to_changing_happening[stack_pointer])
   {
     do_change(idx_promotion);
-    solve_nested(si);
+    solve_nested_iterating(si);
     post_move_iteration_end();
   }
   else
   {
-    solve_nested(si);
+    solve_nested_iterating(si);
 
     if (!post_move_iteration_is_locked())
     {
