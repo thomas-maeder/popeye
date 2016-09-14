@@ -61,6 +61,8 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
     find_next_snekked(walk_captured);
     if (*current_snekked_pos[nbply])
       post_move_iteration_lock();
+    else
+      post_move_iteration_end();
   }
 }
 
@@ -175,6 +177,8 @@ static void do_change_circle(slice_index si,
     find_next_snekked_circle(walk_snekked);
     if (*current_snekked_pos[nbply])
       post_move_iteration_lock();
+    else
+      post_move_iteration_end();
   }
 }
 

@@ -134,6 +134,8 @@ static square decide_about_change(void)
       result = sq_promotion;
       post_move_iteration_lock();
     }
+    else
+      post_move_iteration_end();
   }
 
   return result;

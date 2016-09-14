@@ -48,6 +48,17 @@ void post_move_iteration_lock(void)
   TraceFunctionResultEnd();
 }
 
+void post_move_iteration_end(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve the next pipe while post move iterating
  * @param si identifies the iterating slice
  */

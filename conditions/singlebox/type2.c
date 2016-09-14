@@ -184,13 +184,19 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
 
   post_move_iteration_solve_delegate(si);
 
-  if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare
-      && !post_move_iteration_is_locked())
+  if (!post_move_iteration_is_locked())
   {
-    advance_latent_pawn_selection(SLICE_STARTER(si));
-
     if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
-      post_move_iteration_lock();
+    {
+      advance_latent_pawn_selection(SLICE_STARTER(si));
+
+      if (singlebox_type2_latent_pawn_promotions[nbply].where==initsquare)
+        post_move_iteration_end();
+      else
+        post_move_iteration_lock();
+    }
+    else
+      post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);

@@ -152,6 +152,7 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   {
     do_change(idx_promotion);
     solve_nested(si);
+    post_move_iteration_end();
   }
   else
   {

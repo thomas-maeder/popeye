@@ -157,7 +157,10 @@ void football_chess_substitutor_solve(slice_index si)
     init_substitution();
 
   if (current_football_substitution[nbply]==Empty)
+  {
     post_move_iteration_solve_delegate(si);
+    post_move_iteration_end();
+  }
   else
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -175,9 +178,13 @@ void football_chess_substitutor_solve(slice_index si)
 
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked()
-        && advance_substitution())
-      post_move_iteration_lock();
+    if (!post_move_iteration_is_locked())
+    {
+      if (advance_substitution())
+        post_move_iteration_lock();
+      else
+        post_move_iteration_end();
+    }
   }
 
   TraceFunctionExit(__func__);

@@ -1204,7 +1204,9 @@ void imitator_pawn_promoter_solve(slice_index si)
       ++stack_pointer;
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
-      post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+
+      if (!post_move_iteration_is_locked())
+        post_move_iteration_end();
     }
   }
 

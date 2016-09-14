@@ -304,6 +304,7 @@ void republican_king_placer_solve(slice_index si)
     {
       post_move_iteration_solve_delegate(si);
       king_placement[nbply] = to_be_initialised;
+      post_move_iteration_end();
     }
     else
     {

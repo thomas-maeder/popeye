@@ -106,29 +106,40 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating())
+  if (!post_move_am_i_iterating())
   {
-    if (no_cage_for_current_capture[nbply])
-      post_move_iteration_solve_fork(si);
-    else
-    {
-      post_move_iteration_solve_delegate(si);
+    /* Initialise for trying the first potential cage. */
+    cage_found_for_current_capture[nbply] = false;
+    no_cage_for_current_capture[nbply] = false;
 
-      if (!post_move_iteration_is_locked()
-           && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-           && !cage_found_for_current_capture[nbply])
-      {
-        no_cage_for_current_capture[nbply] = true;
-        post_move_iteration_lock();
-      }
+    post_move_iteration_solve_delegate(si);
+
+    /* Remember to take another path next time. */
+    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  }
+  else if (!no_cage_for_current_capture[nbply])
+  {
+    /* There is still at least 1 potential cages to be tried. */
+    post_move_iteration_solve_delegate(si);
+
+    if (!post_move_iteration_is_locked()
+         && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+         && !cage_found_for_current_capture[nbply])
+    {
+      /* No potential cage has materialised. */
+      no_cage_for_current_capture[nbply] = true;
+
+      /* Try this move again, but take the "no cage path" next time. */
+      post_move_iteration_lock();
     }
   }
   else
   {
-    cage_found_for_current_capture[nbply] = false;
-    no_cage_for_current_capture[nbply] = false;
-    post_move_iteration_solve_delegate(si);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    /* Take "the no cage path", */
+    post_move_iteration_solve_fork(si);
+
+    /* Terminate this little iteration. */
+    post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);

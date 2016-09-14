@@ -142,6 +142,8 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
       if (take_make_circe_current_rebirth_square_index[stack_pointer]>
           take_make_circe_current_rebirth_square_index[stack_pointer-1])
         post_move_iteration_lock();
+      else
+        post_move_iteration_end();
     }
   }
 

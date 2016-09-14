@@ -31,6 +31,8 @@ void post_move_iteration_init_ply(void);
  */
 void post_move_iteration_lock(void);
 
+void post_move_iteration_end(void);
+
 /* Solve the next pipe while post move iterating
  * @param si identifies the iterating slice
  */

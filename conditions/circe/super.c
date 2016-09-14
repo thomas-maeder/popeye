@@ -64,16 +64,22 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating())
+  if (!post_move_am_i_iterating())
   {
-    post_move_iteration_solve_delegate(si);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    /* Let posteriority iterate over the rebirth square. */
+    post_move_iteration_solve_fork(si);
+
+    if (!post_move_iteration_is_locked())
+      /* Rebirth squares are exhausted. Come again once more ... */
+      post_move_iteration_lock();
   }
   else
   {
-    post_move_iteration_solve_fork(si);
+    /* ... and try no rebirth. */
+    post_move_iteration_solve_delegate(si);
+
     if (!post_move_iteration_is_locked())
-      post_move_iteration_lock();
+      post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);
@@ -136,7 +142,10 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
+  {
     solve_result = this_move_is_illegal;
+    post_move_iteration_end();
+  }
   else
   {
     post_move_iteration_solve_delegate(si);

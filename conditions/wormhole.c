@@ -129,11 +129,15 @@ void wormhole_transferer_solve(slice_index si)
   }
 
   if (wormhole_next_transfer[nbply]==nr_wormholes+1)
+  {
     solve_result = this_move_is_illegal;
+    post_move_iteration_end();
+  }
   else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
   {
     post_move_iteration_solve_delegate(si);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_end();
   }
   else
   {
@@ -154,6 +158,8 @@ void wormhole_transferer_solve(slice_index si)
       advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]<=nr_wormholes)
         post_move_iteration_lock();
+      else
+        post_move_iteration_end();
     }
   }
 
