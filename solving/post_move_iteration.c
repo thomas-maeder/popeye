@@ -15,8 +15,6 @@ post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_
 
 unsigned int post_move_iteration_stack_pointer = 1;
 
-static post_move_iteration_id_type post_move_iteration_id_watermark;
-
 static boolean post_move_iteration_lock_pointer[maxply+1];
 
 static unsigned int post_move_iteration_highwater[maxply+1];
@@ -32,7 +30,7 @@ void post_move_iteration_init_ply(void)
 
   assert(post_move_iteration_stack[post_move_iteration_stack_pointer]==0);
 
-  post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
+  post_move_iteration_id[nbply] = 1;
   post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
 
   TraceValue("%u",nbply);
@@ -53,10 +51,6 @@ void post_move_iteration_lock(void)
   post_move_iteration_lock_pointer[nbply] = true;
   ++post_move_iteration_id[nbply];
   TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
-  if (post_move_iteration_id[nbply]<post_move_iteration_id_watermark)
-    post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
-  else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
-    post_move_iteration_id_watermark = post_move_iteration_id[nbply];
 
   post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
   TraceValue("%u",post_move_iteration_stack_pointer);
@@ -249,10 +243,6 @@ void move_execution_post_move_iterator_solve(slice_index si)
     pop_move();
     ++post_move_iteration_id[nbply];
     TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
-    if (post_move_iteration_id[nbply]<post_move_iteration_id_watermark)
-      post_move_iteration_id[nbply] = ++post_move_iteration_id_watermark;
-    else if (post_move_iteration_id[nbply]>post_move_iteration_id_watermark)
-      post_move_iteration_id_watermark = post_move_iteration_id[nbply];
   }
 
   TraceFunctionExit(__func__);
