@@ -5,7 +5,6 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
-#include "solving/post_move_iteration.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
@@ -385,10 +384,7 @@ void marscirce_iterate_observers(slice_index si)
       context->relevant_side = advers(side_observing);
       context->relevant_square = context->rebirth_from;
 
-      ++post_move_iteration_stack_pointer;
       pipe_is_square_observed_delegate(si);
-      post_move_iteration_stack[post_move_iteration_stack_pointer] = 0;
-      --post_move_iteration_stack_pointer;
 
       if (observation_result)
         break;

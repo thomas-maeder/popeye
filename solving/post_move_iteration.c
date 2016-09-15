@@ -15,7 +15,7 @@ post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_
 
 unsigned int post_move_iteration_stack_pointer = 1;
 
-static boolean post_move_iteration_lock_pointer[maxply+1];
+static boolean post_move_iteration_locked[maxply+1];
 
 static unsigned int post_move_iteration_highwater[maxply+1];
 
@@ -48,7 +48,7 @@ void post_move_iteration_lock(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  post_move_iteration_lock_pointer[nbply] = true;
+  post_move_iteration_locked[nbply] = true;
   ++post_move_iteration_id[nbply];
   TraceValue("%u",nbply);TraceValue("%u",post_move_iteration_id[nbply]);TraceEOL();
 
@@ -162,7 +162,7 @@ void post_move_iteration_cancel(void)
     TraceEOL();
   }
 
-  post_move_iteration_lock_pointer[nbply] = false;
+  post_move_iteration_locked[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -174,7 +174,7 @@ void post_move_iteration_cancel(void)
  */
 boolean post_move_iteration_is_locked(void)
 {
-  boolean result = post_move_iteration_lock_pointer[nbply];
+  boolean result = post_move_iteration_locked[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -236,8 +236,8 @@ void move_execution_post_move_iterator_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (post_move_iteration_lock_pointer[nbply])
-    post_move_iteration_lock_pointer[nbply] = false;
+  if (post_move_iteration_locked[nbply])
+    post_move_iteration_locked[nbply] = false;
   else
   {
     pop_move();
@@ -261,9 +261,9 @@ void move_generation_post_move_iterator_solve(slice_index si)
 
   do
   {
-    post_move_iteration_lock_pointer[nbply] = false;
+    post_move_iteration_locked[nbply] = false;
     pipe_move_generation_delegate(si);
-  } while (post_move_iteration_lock_pointer[nbply]);
+  } while (post_move_iteration_locked[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -279,13 +279,18 @@ void square_observation_post_move_iterator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  ++post_move_iteration_stack_pointer;
+
   do
   {
-    post_move_iteration_lock_pointer[nbply] = false;
+    post_move_iteration_locked[nbply] = false;
     pipe_is_square_observed_delegate(si);
-  } while (post_move_iteration_lock_pointer[nbply] && !observation_result);
+  } while (post_move_iteration_locked[nbply] && !observation_result);
 
-  post_move_iteration_lock_pointer[nbply] = false;
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = 0;
+  --post_move_iteration_stack_pointer;
+
+  post_move_iteration_locked[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
