@@ -279,7 +279,14 @@ void square_observation_post_move_iterator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++post_move_iteration_stack_pointer;
+  assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
+
+  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
 
   do
   {
@@ -287,10 +294,12 @@ void square_observation_post_move_iterator_solve(slice_index si)
     pipe_is_square_observed_delegate(si);
   } while (post_move_iteration_locked[nbply] && !observation_result);
 
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = 0;
-  --post_move_iteration_stack_pointer;
+  post_move_iteration_cancel();
 
-  post_move_iteration_locked[nbply] = false;
+  --post_move_iteration_stack_pointer;
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
