@@ -61,6 +61,21 @@ void post_move_iteration_lock(void)
   TraceFunctionResultEnd();
 }
 
+void post_move_iteration_start(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
+  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void post_move_iteration_end(void)
 {
   TraceFunctionEntry(__func__);

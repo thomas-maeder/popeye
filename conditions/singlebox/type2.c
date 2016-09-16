@@ -182,11 +182,7 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_selection(SLICE_STARTER(si));
 
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-  TraceEOL();
+  post_move_iteration_start();
 
   post_move_iteration_solve_delegate(si);
 
@@ -302,11 +298,7 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_promotion();
 
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-  TraceEOL();
+  post_move_iteration_start();
 
   if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
   {

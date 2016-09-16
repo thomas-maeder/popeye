@@ -267,11 +267,7 @@ static void determine_king_placement(Side trait_ply)
     is_mate_square_dirty[nbply] = true;
   }
 
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-  TraceEOL();
+  post_move_iteration_start();
 
   if (is_mate_square_dirty[nbply])
   {

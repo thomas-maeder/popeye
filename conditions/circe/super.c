@@ -66,11 +66,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     /* Let posteriority iterate over the rebirth square. */
     post_move_iteration_solve_fork(si);
@@ -81,11 +77,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   }
   else
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     /* ... and try no rebirth. */
     post_move_iteration_solve_delegate(si);
@@ -153,11 +145,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     is_rebirth_square_dirty[nbply] = true;
   }
 
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-  TraceEOL();
+  post_move_iteration_start();
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {

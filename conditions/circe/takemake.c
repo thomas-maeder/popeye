@@ -128,11 +128,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 

@@ -300,11 +300,7 @@ void pawn_promoter_solve(slice_index si)
                                            as_side,
                                            &promotion_stack[stack_pointer]);
 
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     if (promotion_stack[stack_pointer].promotee==Empty)
     {

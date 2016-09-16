@@ -108,11 +108,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     /* Initialise for trying the first potential cage. */
     cage_found_for_current_capture[nbply] = false;
@@ -126,11 +122,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   }
   else if (!no_cage_for_current_capture[nbply])
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     /* There is still at least 1 potential cages to be tried. */
     post_move_iteration_solve_delegate(si);
@@ -152,11 +144,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   }
   else
   {
-    assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
+    post_move_iteration_start();
 
     /* Take "the no cage path", */
     post_move_iteration_solve_fork(si);

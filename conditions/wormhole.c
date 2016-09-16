@@ -128,11 +128,7 @@ void wormhole_transferer_solve(slice_index si)
       wormhole_next_transfer[nbply] = nr_wormholes+2;
   }
 
-  assert(post_move_iteration_stack[post_move_iteration_stack_pointer]<=post_move_iteration_id[nbply]);
-  post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-  TraceEOL();
+  post_move_iteration_start();
 
   if (wormhole_next_transfer[nbply]==nr_wormholes+1)
   {
