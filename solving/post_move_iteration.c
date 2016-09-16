@@ -9,11 +9,22 @@
 
 #include "debugging/assert.h"
 
-unsigned int post_move_iteration_id[maxply+1];
+enum
+{
+  max_nr_iterations_per_ply = 4,
+  post_move_iteration_stack_size = max_nr_iterations_per_ply*maxply+1
+};
 
-post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
+/* a unique number for each post move iteration (e.g. promotion,
+ * rebirth square (Super Circe), king position (Republican Chess)
+ */
+typedef unsigned int post_move_iteration_id_type;
 
-unsigned int post_move_iteration_stack_pointer = 1;
+static post_move_iteration_id_type post_move_iteration_id[maxply+1];
+
+static post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
+
+static unsigned int post_move_iteration_stack_pointer = 1;
 
 static boolean post_move_iteration_locked[maxply+1];
 

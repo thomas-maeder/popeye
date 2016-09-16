@@ -8,22 +8,6 @@
  * (i.e. promotions, Supercirce rebirths etc.).
  */
 
-/* a unique number for each post move iteration (e.g. promotion,
- * rebirth square (Super Circe), king position (Republican Chess)
- */
-typedef unsigned int post_move_iteration_id_type;
-extern post_move_iteration_id_type post_move_iteration_id[maxply+1];
-
-enum
-{
-  max_nr_iterations_per_ply = 4,
-  post_move_iteration_stack_size = max_nr_iterations_per_ply*maxply+1
-};
-
-extern post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
-
-extern unsigned int post_move_iteration_stack_pointer;
-
 void post_move_iteration_init_ply(void);
 
 /* Lock post move iterations in the current move retraction

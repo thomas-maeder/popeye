@@ -55,13 +55,19 @@ static boolean is_mate_square(Side other_side)
 
     occupy_square(being_solved.king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
-    ++post_move_iteration_stack_pointer;
+    {
+      stip_length_type const save_solve_nr_remaining = solve_nr_remaining;
+      stip_length_type const save_solve_result = solve_result;
 
-    if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[other_side])
-        ==previous_move_has_solved)
-      result = true;
+      solve_nr_remaining = length_unspecified;
 
-    --post_move_iteration_stack_pointer;
+      post_move_iteration_solve_fork(temporary_hack_mate_tester[other_side]);
+      if (solve_result==previous_move_has_solved)
+        result = true;;
+
+      solve_nr_remaining = save_solve_nr_remaining;
+      solve_result = save_solve_result;
+    }
 
     empty_square(being_solved.king_square[other_side]);
 
