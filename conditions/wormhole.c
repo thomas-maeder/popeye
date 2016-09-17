@@ -123,45 +123,81 @@ void wormhole_transferer_solve(slice_index si)
     {
       wormhole_next_transfer[nbply] = 0;
       advance_wormhole(sq_departure,sq_arrival);
+
+      if (wormhole_next_transfer[nbply]==nr_wormholes+1)
+        solve_result = this_move_is_illegal;
+      else
+      {
+        piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
+        Flags const addedspec = being_solved.spec[sq_arrival];
+        move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
+                                             sq_arrival);
+        move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_choice,
+                                                wormhole_positions[wormhole_next_transfer[nbply]-1],
+                                                added,
+                                                addedspec,
+                                                trait[nbply]);
+
+        post_move_iteration_start();
+
+        post_move_iteration_solve_delegate(si);
+
+        if (!post_move_iteration_is_locked())
+        {
+          advance_wormhole(sq_departure,sq_arrival);
+          if (wormhole_next_transfer[nbply]<=nr_wormholes)
+            post_move_iteration_lock();
+          else
+            post_move_iteration_end();
+        }
+      }
     }
     else
+    {
       wormhole_next_transfer[nbply] = nr_wormholes+2;
-  }
-
-  post_move_iteration_start();
-
-  if (wormhole_next_transfer[nbply]==nr_wormholes+1)
-  {
-    solve_result = this_move_is_illegal;
-    post_move_iteration_end();
-  }
-  else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
-  {
-    post_move_iteration_solve_delegate(si);
-    if (!post_move_iteration_is_locked())
-      post_move_iteration_end();
+      post_move_iteration_start();
+      post_move_iteration_solve_delegate(si);
+      if (!post_move_iteration_is_locked())
+        post_move_iteration_end();
+    }
   }
   else
   {
-    piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
-    Flags const addedspec = being_solved.spec[sq_arrival];
-    move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
-                                         sq_arrival);
-    move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_choice,
-                                            wormhole_positions[wormhole_next_transfer[nbply]-1],
-                                            added,
-                                            addedspec,
-                                            trait[nbply]);
+    post_move_iteration_start();
 
-    post_move_iteration_solve_delegate(si);
-
-    if (!post_move_iteration_is_locked())
+    if (wormhole_next_transfer[nbply]==nr_wormholes+1)
     {
-      advance_wormhole(sq_departure,sq_arrival);
-      if (wormhole_next_transfer[nbply]<=nr_wormholes)
-        post_move_iteration_lock();
-      else
+      solve_result = this_move_is_illegal;
+      post_move_iteration_end();
+    }
+    else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
+    {
+      post_move_iteration_solve_delegate(si);
+      if (!post_move_iteration_is_locked())
         post_move_iteration_end();
+    }
+    else
+    {
+      piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
+      Flags const addedspec = being_solved.spec[sq_arrival];
+      move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
+                                           sq_arrival);
+      move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_choice,
+                                              wormhole_positions[wormhole_next_transfer[nbply]-1],
+                                              added,
+                                              addedspec,
+                                              trait[nbply]);
+
+      post_move_iteration_solve_delegate(si);
+
+      if (!post_move_iteration_is_locked())
+      {
+        advance_wormhole(sq_departure,sq_arrival);
+        if (wormhole_next_transfer[nbply]<=nr_wormholes)
+          post_move_iteration_lock();
+        else
+          post_move_iteration_end();
+      }
     }
   }
 

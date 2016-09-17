@@ -18,6 +18,8 @@ void post_move_iteration_lock(void);
 void post_move_iteration_start(void);
 void post_move_iteration_end(void);
 
+boolean post_move_iteration_ply_was_ended(void);
+
 /* Solve the next pipe while post move iterating
  * @param si identifies the iterating slice
  */

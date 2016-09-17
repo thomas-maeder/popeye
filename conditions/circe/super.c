@@ -142,16 +142,25 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   if (!post_move_am_i_iterating())
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
-    is_rebirth_square_dirty[nbply] = true;
+    if (advance_rebirth_square())
+    {
+      post_move_iteration_start();
+
+      post_move_iteration_solve_delegate(si);
+
+      if (!post_move_iteration_is_locked())
+      {
+        is_rebirth_square_dirty[nbply] = true;
+        post_move_iteration_lock();
+      }
+    }
+    else
+      solve_result = this_move_is_illegal;
   }
-
-  post_move_iteration_start();
-
-  if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
+  else if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {
     solve_result = this_move_is_illegal;
-    if (!post_move_iteration_is_locked())
-      post_move_iteration_end();
+    post_move_iteration_end();
   }
   else
   {

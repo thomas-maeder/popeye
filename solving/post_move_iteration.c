@@ -24,7 +24,7 @@ static post_move_iteration_id_type post_move_iteration_id[maxply+1];
 
 static post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
 
-static unsigned int post_move_iteration_stack_pointer = 1;
+unsigned int post_move_iteration_stack_pointer = 1;
 
 static boolean post_move_iteration_locked[maxply+1];
 
@@ -96,10 +96,10 @@ void post_move_iteration_end(void)
   TraceValue("%u",post_move_iteration_highwater[nbply]);
   TraceValue("%u",post_move_iteration_stack_pointer);
   TraceEOL();
-  assert(post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer+1
-         || post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer);
+  assert(post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer+1);
 
   post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+  TraceValue("%u",nbply);
   TraceValue("%u",post_move_iteration_highwater[nbply]);
   TraceEOL();
 
@@ -110,6 +110,24 @@ void post_move_iteration_end(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+boolean post_move_iteration_ply_was_ended(void)
+{
+  boolean result = post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve the next pipe while post move iterating
@@ -123,12 +141,16 @@ void post_move_iteration_solve_delegate(slice_index si)
 
   assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
 
-  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+  ++post_move_iteration_stack_pointer;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",post_move_iteration_highwater[nbply]);
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceEOL();
+  if (post_move_iteration_stack_pointer>post_move_iteration_highwater[nbply])
+  {
+    post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+    TraceValue("%u",nbply);
+    TraceValue("%u",post_move_iteration_highwater[nbply]);
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceEOL();
+  }
 
   pipe_solve_delegate(si);
 
@@ -148,12 +170,16 @@ void post_move_iteration_solve_fork(slice_index si)
 
   assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
 
-  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+  ++post_move_iteration_stack_pointer;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",post_move_iteration_highwater[nbply]);
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceEOL();
+  if (post_move_iteration_stack_pointer>post_move_iteration_highwater[nbply])
+  {
+    post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+    TraceValue("%u",nbply);
+    TraceValue("%u",post_move_iteration_highwater[nbply]);
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceEOL();
+  }
 
   fork_solve_delegate(si);
 
@@ -180,9 +206,11 @@ void post_move_iteration_cancel(void)
   TraceValue("%u",post_move_iteration_stack_pointer);
   TraceEOL();
 
-  while (post_move_iteration_highwater[nbply]>=post_move_iteration_stack_pointer)
+  while (post_move_iteration_highwater[nbply]>post_move_iteration_stack_pointer)
   {
-    post_move_iteration_stack[post_move_iteration_highwater[nbply]--] = 0;
+    --post_move_iteration_highwater[nbply];
+    post_move_iteration_stack[post_move_iteration_highwater[nbply]] = 0;
+    TraceValue("%u",nbply);
     TraceValue("%u",post_move_iteration_highwater[nbply]);
     TraceValue("%u",post_move_iteration_stack[post_move_iteration_highwater[nbply]]);
     TraceEOL();
@@ -260,7 +288,17 @@ void move_execution_post_move_iterator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
+
   pipe_solve_delegate(si);
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceEOL();
 
   if (post_move_iteration_locked[nbply])
     post_move_iteration_locked[nbply] = false;
@@ -289,6 +327,10 @@ void move_generation_post_move_iterator_solve(slice_index si)
   {
     post_move_iteration_locked[nbply] = false;
     pipe_move_generation_delegate(si);
+    TraceValue("%u",nbply);
+    TraceValue("%u",post_move_iteration_highwater[nbply]);
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceEOL();
   } while (post_move_iteration_locked[nbply]);
 
   TraceFunctionExit(__func__);
@@ -307,12 +349,16 @@ void square_observation_post_move_iterator_solve(slice_index si)
 
   assert(post_move_iteration_stack_pointer<post_move_iteration_stack_size);
 
-  post_move_iteration_highwater[nbply] = ++post_move_iteration_stack_pointer;
+  ++post_move_iteration_stack_pointer;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",post_move_iteration_highwater[nbply]);
-  TraceValue("%u",post_move_iteration_stack_pointer);
-  TraceEOL();
+  if (post_move_iteration_stack_pointer>post_move_iteration_highwater[nbply])
+  {
+    post_move_iteration_highwater[nbply] = post_move_iteration_stack_pointer;
+    TraceValue("%u",nbply);
+    TraceValue("%u",post_move_iteration_highwater[nbply]);
+    TraceValue("%u",post_move_iteration_stack_pointer);
+    TraceEOL();
+  }
 
   do
   {
@@ -320,12 +366,11 @@ void square_observation_post_move_iterator_solve(slice_index si)
     pipe_is_square_observed_delegate(si);
   } while (post_move_iteration_locked[nbply] && !observation_result);
 
-  post_move_iteration_cancel();
-
   --post_move_iteration_stack_pointer;
-  TraceValue("%u",nbply);
   TraceValue("%u",post_move_iteration_stack_pointer);
   TraceEOL();
+
+  post_move_iteration_cancel();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

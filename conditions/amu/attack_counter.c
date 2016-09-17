@@ -56,6 +56,9 @@ boolean amu_count_observation(slice_index si)
 
 static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(!are_we_counting);
 
   are_we_counting = true;
@@ -63,13 +66,19 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
 
+  extern unsigned int post_move_iteration_stack_pointer;
+  ++post_move_iteration_stack_pointer;
   siblingply(advers(trait_ply));
   push_observation_target(sq_departure);
   is_square_observed(EVALUATE(observation));
   finply();
+  --post_move_iteration_stack_pointer;
 
   are_we_counting = false;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",amu_attack_count==1);
+  TraceFunctionResultEnd();
   return amu_attack_count==1;
 }
 

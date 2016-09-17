@@ -90,6 +90,8 @@ void siblingply(Side side)
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
+  post_move_iteration_init_ply();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -141,6 +143,8 @@ void finply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(post_move_iteration_ply_was_ended());
+
   assert(nbply==ply_watermark);
   --ply_watermark;
 
@@ -153,5 +157,4 @@ void finply(void)
 void fincopiedply(void)
 {
   finply();
-  post_move_iteration_init_ply();
 }
