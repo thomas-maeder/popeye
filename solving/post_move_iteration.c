@@ -257,6 +257,27 @@ boolean post_move_am_i_iterating(void)
   return result;
 }
 
+/* Determine whether the current post move iteration participant has the lock
+ * @param true iff it has
+ */
+boolean post_move_have_i_lock(void)
+{
+  boolean const result = post_move_iteration_highwater[nbply]==post_move_iteration_stack_pointer+1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",post_move_iteration_stack_pointer);
+  TraceValue("%u",post_move_iteration_highwater[nbply]);
+  TraceValue("%u",nbply);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -374,7 +395,6 @@ boolean is_square_observed_general_post_move_iterator_solve(Side side,
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   ++post_move_iteration_stack_pointer;

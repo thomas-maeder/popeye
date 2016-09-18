@@ -43,6 +43,11 @@ boolean post_move_iteration_is_locked(void);
  */
 boolean post_move_am_i_iterating(void);
 
+/* Determine whether the current post move iteration participant has the lock
+ * @param true iff it has
+ */
+boolean post_move_have_i_lock(void);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

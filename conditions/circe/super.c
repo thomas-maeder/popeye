@@ -13,8 +13,6 @@
 
 #include "debugging/assert.h"
 
-static boolean is_rebirth_square_dirty[maxply+1];
-
 /* Instrument the solving machinery with Circe Super (apart from the rebirth
  * square determination, whose instrumentation is elsewhere)
  * @param si identifies entry slice into solving machinery
@@ -109,8 +107,6 @@ static boolean advance_rebirth_square(void)
     }
   } while (is_square_blocked(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square));
 
-  is_rebirth_square_dirty[nbply] = false;
-
   TraceSquare(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
   TraceEOL();
 
@@ -118,6 +114,16 @@ static boolean advance_rebirth_square(void)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void solve_nested(slice_index si)
+{
+  post_move_iteration_solve_delegate(si);
+
+  if (post_move_iteration_is_locked())
+    post_move_iteration_continue();
+  else
+    post_move_iteration_lock();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -143,37 +149,17 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     if (advance_rebirth_square())
-    {
-      post_move_iteration_solve_delegate(si);
-
-      if (post_move_iteration_is_locked())
-        post_move_iteration_continue();
-      else
-      {
-        is_rebirth_square_dirty[nbply] = true;
-        post_move_iteration_lock();
-      }
-    }
+      solve_nested(si);
     else
       solve_result = this_move_is_illegal;
   }
-  else if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
+  else if (post_move_have_i_lock() && !advance_rebirth_square())
   {
     solve_result = this_move_is_illegal;
     post_move_iteration_end();
   }
   else
-  {
-    post_move_iteration_solve_delegate(si);
-
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
-    {
-      is_rebirth_square_dirty[nbply] = true;
-      post_move_iteration_lock();
-    }
-  }
+    solve_nested(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
