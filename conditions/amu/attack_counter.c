@@ -66,13 +66,9 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
 
-  extern unsigned int post_move_iteration_stack_pointer;
-  ++post_move_iteration_stack_pointer;
-  siblingply(advers(trait_ply));
-  push_observation_target(sq_departure);
-  is_square_observed(EVALUATE(observation));
-  finply();
-  --post_move_iteration_stack_pointer;
+  is_square_observed_general_post_move_iterator_solve(advers(trait_ply),
+                                                      sq_departure,
+                                                      EVALUATE(observation));
 
   are_we_counting = false;
 

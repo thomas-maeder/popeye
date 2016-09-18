@@ -16,12 +16,7 @@ static boolean is_unobserved_beamter(numecoup n)
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(being_solved.spec[sq_departure],Beamtet))
-  {
-    siblingply(advers(trait[nbply]));
-    push_observation_target(sq_departure);
-    result = !is_square_observed(EVALUATE(observer));
-    finply();
-  }
+    result = !is_square_observed_general(advers(trait[nbply]),sq_departure,EVALUATE(observer));
   else
     result = false;
 

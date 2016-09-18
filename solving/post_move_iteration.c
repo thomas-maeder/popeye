@@ -24,7 +24,7 @@ static post_move_iteration_id_type post_move_iteration_id[maxply+1];
 
 static post_move_iteration_id_type post_move_iteration_stack[post_move_iteration_stack_size];
 
-unsigned int post_move_iteration_stack_pointer = 1;
+static unsigned int post_move_iteration_stack_pointer = 1;
 
 static boolean post_move_iteration_locked[maxply+1];
 
@@ -374,6 +374,32 @@ void square_observation_post_move_iterator_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Determine whether a square is observed by a side
+ * @param side observing side
+ * @param s the square
+ * @param evaluate identifies the set of restrictions imposed on the observation
+ * @return true iff the square is observed
+ */
+boolean is_square_observed_general_post_move_iterator_solve(Side side,
+                                                            square s,
+                                                            validator_id evaluate)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++post_move_iteration_stack_pointer;
+  result = is_square_observed_general(side,s,evaluate);
+  --post_move_iteration_stack_pointer;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Instrument the solving machinery with post move iteration slices

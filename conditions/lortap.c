@@ -13,10 +13,9 @@ static boolean is_mover_unsupported(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  push_observation_target(move_generation_stack[n].departure);
-  result = !is_square_observed(EVALUATE(observer));
-  finply();
+  result = !is_square_observed_general(trait[nbply],
+                        move_generation_stack[n].departure,
+                        EVALUATE(observer));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2,6 +2,7 @@
 #define SOLVING_POST_MOVE_ITERATION_H
 
 #include "solving/machinery/solve.h"
+#include "solving/observation.h"
 #include "solving/ply.h"
 
 /* This module provides functionality for coordinating "post move iterations"
@@ -68,6 +69,16 @@ void move_generation_post_move_iterator_solve(slice_index si);
  * @param si identifies move generator slice
  */
 void square_observation_post_move_iterator_solve(slice_index si);
+
+/* Determine whether a square is observed by a side
+ * @param side observing side
+ * @param s the square
+ * @param evaluate identifies the set of restrictions imposed on the observation
+ * @return true iff the square is observed
+ */
+boolean is_square_observed_general_post_move_iterator_solve(Side side,
+                                                            square s,
+                                                            validator_id evaluate);
 
 /* Instrument the solving machinery with post move iteration slices
  * @param si identifies the root of the solving machinery

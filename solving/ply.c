@@ -153,8 +153,3 @@ void finply(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-void fincopiedply(void)
-{
-  finply();
-}

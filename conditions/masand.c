@@ -37,7 +37,7 @@ static square current_observer_pos[maxply+1];
 boolean masand_enforce_observer(slice_index si)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_observer = current_observer_pos[nbply];
+  square const sq_observer = current_observer_pos[parent_ply[nbply]];
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -61,11 +61,9 @@ static boolean observed(square on_this, square by_that)
   TraceSquare(by_that);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  push_observation_target(on_this);
-  current_observer_pos[nbply] = by_that;
-  result = is_square_observed(EVALUATE(observation));
-  finply();
+  current_observer_pos[parent_ply[nbply]] = by_that;
+
+  result = is_square_observed_general(trait[nbply],on_this,EVALUATE(observation));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

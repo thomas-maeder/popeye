@@ -19,10 +19,9 @@ static boolean is_piece_provoked_on(numecoup n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  siblingply(advers(trait[nbply]));
-  push_observation_target(move_generation_stack[n].departure);
-  result = is_square_observed(EVALUATE(observer));
-  finply();
+  result = is_square_observed_general(advers(trait[nbply]),
+                       move_generation_stack[n].departure,
+                       EVALUATE(observer));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

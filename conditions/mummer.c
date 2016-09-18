@@ -191,7 +191,7 @@ void mummer_orchestrator_solve(slice_index si)
   copyply();
   move_generator_invert_move_order(nbply);
   fork_solve_delegate(si);
-  fincopiedply();
+  finply();
 
   nbply = save_nbply;
   SET_CURRMOVE(nbply,last_candidate[nbply]);

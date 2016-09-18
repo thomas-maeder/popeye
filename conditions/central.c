@@ -11,49 +11,28 @@
 /* avoid stack overflow in case of cycles */
 static boolean is_in_chain[maxsquare];
 
-static boolean is_mover_supported_recursive(void)
-{
-  boolean result;
-  Flags const mask = BIT(trait[nbply])|BIT(Royal);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
-  TraceEOL();
-
-  if (TSTFULLFLAGMASK(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture],mask))
-    result = true;
-  else
-    result = is_square_observed(EVALUATE(observation));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean is_mover_supported(numecoup n)
 {
   square const sq_departure = move_generation_stack[n].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  TraceSquare(sq_departure);
+  TraceEOL();
 
   if (is_in_chain[sq_departure])
     result = false;
+  else if (TSTFULLFLAGMASK(being_solved.spec[sq_departure],
+                           BIT(trait[nbply])|BIT(Royal)))
+    result = true;
   else
   {
     is_in_chain[sq_departure] = true;
-
-    siblingply(trait[nbply]);
-    push_observation_target(sq_departure);
-
-    result = is_mover_supported_recursive();
-
-    finply();
-
+    /* this is an indirectly recursive call: */
+    result = is_square_observed_general(trait[nbply],sq_departure,EVALUATE(observation));
     is_in_chain[sq_departure] = false;
   }
 

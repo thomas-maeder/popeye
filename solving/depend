@@ -1284,7 +1284,9 @@ solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/post_move_iteration.h solving/pipe.h debugging/assert.h
+ solving/post_move_iteration.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h \
+ debugging/assert.h
 
 solving/find_move.h:
 
@@ -1363,6 +1365,12 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 solving/post_move_iteration.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
 
 solving/pipe.h:
 
@@ -2045,7 +2053,8 @@ solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
  solving/move_generator.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -2057,8 +2066,7 @@ solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h debugging/assert.h
+ solving/pipe.h solving/fork.h debugging/assert.h
 
 solving/post_move_iteration.h:
 
@@ -2098,7 +2106,13 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
 solving/ply.h:
+
+solving/temporary_hacks.h:
 
 solving/move_generator.h:
 
@@ -2131,12 +2145,6 @@ stipulation/traversal.h:
 solving/pipe.h:
 
 solving/fork.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
 
 debugging/assert.h:
 solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \

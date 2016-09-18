@@ -639,13 +639,31 @@ void observation_play_move_to_validate(slice_index si, Side side)
 validator_id observation_validator;
 boolean observation_result;
 
-/* Determine whether a square is observed be the side at the move
+/* Determine whether the current target square is observed be the side at the move
  * @return true iff the target square is observed
  */
 boolean is_square_observed(validator_id evaluate)
 {
   return fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed[trait[nbply]],
                                                  evaluate);
+}
+
+/* Determine whether a square is observed by a side
+ * @param side observing side
+ * @param s the square
+ * @param evaluate identifies the set of restrictions imposed on the observation
+ * @return true iff the square is observed
+ */
+boolean is_square_observed_general(Side side, square s, validator_id evaluate)
+{
+  boolean result;
+
+  siblingply(side);
+  push_observation_target(s);
+  result = is_square_observed(evaluate);
+  finply();
+
+  return result;
 }
 
 /* Perform a nested observation validation run from within an observation
