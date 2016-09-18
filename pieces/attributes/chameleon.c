@@ -124,7 +124,9 @@ static square decide_about_change(void)
 {
   square result = initsquare;
 
-  if (!post_move_iteration_is_locked())
+  if (post_move_iteration_is_locked())
+    post_move_iteration_continue();
+  else
   {
     square const sq_promotion = find_promotion(horizon);
     if (sq_promotion!=initsquare
@@ -172,7 +174,7 @@ void chameleon_change_promotee_into_solve(slice_index si)
   if (!post_move_am_i_iterating())
     change_into_chameleon_where[stack_pointer] = initsquare;
 
-  post_move_iteration_start();
+  post_move_iteration_continue();
 
   if (change_into_chameleon_where[stack_pointer]==initsquare)
   {
@@ -183,7 +185,9 @@ void chameleon_change_promotee_into_solve(slice_index si)
   {
     do_change();
     solve_nested(si);
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
       post_move_iteration_end();
   }
 

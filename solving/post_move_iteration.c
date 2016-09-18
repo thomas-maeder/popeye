@@ -69,7 +69,7 @@ void post_move_iteration_lock(void)
   TraceFunctionResultEnd();
 }
 
-void post_move_iteration_start(void)
+void post_move_iteration_continue(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -228,14 +228,6 @@ boolean post_move_iteration_is_locked(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  if (result)
-  {
-    post_move_iteration_stack[post_move_iteration_stack_pointer] = post_move_iteration_id[nbply];
-    TraceValue("%u",post_move_iteration_stack_pointer);
-    TraceValue("%u",post_move_iteration_stack[post_move_iteration_stack_pointer]);
-    TraceEOL();
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

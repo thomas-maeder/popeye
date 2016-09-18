@@ -273,7 +273,7 @@ static void determine_king_placement(Side trait_ply)
     is_mate_square_dirty[nbply] = true;
   }
 
-  post_move_iteration_start();
+  post_move_iteration_continue();
 
   if (is_mate_square_dirty[nbply])
   {
@@ -323,7 +323,9 @@ void republican_king_placer_solve(slice_index si)
       place_king(SLICE_STARTER(si));
       post_move_iteration_solve_delegate(si);
 
-      if (!post_move_iteration_is_locked())
+      if (post_move_iteration_is_locked())
+        post_move_iteration_continue();
+      else
       {
         is_mate_square_dirty[nbply] = true;
         post_move_iteration_lock();

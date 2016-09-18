@@ -128,7 +128,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else
   {
-    post_move_iteration_start();
+    post_move_iteration_continue();
 
     context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 
@@ -136,7 +136,9 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     post_move_iteration_solve_delegate(si);
     --stack_pointer;
 
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
     {
       assert(take_make_circe_current_rebirth_square_index[stack_pointer]>0);
       --take_make_circe_current_rebirth_square_index[stack_pointer];

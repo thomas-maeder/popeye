@@ -300,14 +300,16 @@ void pawn_promoter_solve(slice_index si)
                                            as_side,
                                            &promotion_stack[stack_pointer]);
 
-    post_move_iteration_start();
+    post_move_iteration_continue();
 
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
-      if (!post_move_iteration_is_locked())
+      if (post_move_iteration_is_locked())
+        post_move_iteration_continue();
+      else
         post_move_iteration_end();
     }
     else
@@ -320,7 +322,9 @@ void pawn_promoter_solve(slice_index si)
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
 
-      if (!post_move_iteration_is_locked())
+      if (post_move_iteration_is_locked())
+        post_move_iteration_continue();
+      else
       {
         pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer]);
         if (promotion_stack[stack_pointer].promotee!=Empty)

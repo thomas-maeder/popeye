@@ -182,11 +182,13 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_selection(SLICE_STARTER(si));
 
-  post_move_iteration_start();
+  post_move_iteration_continue();
 
   post_move_iteration_solve_delegate(si);
 
-  if (!post_move_iteration_is_locked())
+  if (post_move_iteration_is_locked())
+    post_move_iteration_continue();
+  else
   {
     if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
     {
@@ -298,12 +300,14 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_latent_pawn_promotion();
 
-  post_move_iteration_start();
+  post_move_iteration_continue();
 
   if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
   {
     post_move_iteration_solve_delegate(si);
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
       post_move_iteration_end();
   }
   else
@@ -313,7 +317,9 @@ void singlebox_type2_latent_pawn_promoter_solve(slice_index si)
                                        singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
     {
       advance_latent_pawn_promotion();
       if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)

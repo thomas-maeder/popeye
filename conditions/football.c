@@ -156,7 +156,7 @@ void football_chess_substitutor_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_substitution();
 
-  post_move_iteration_start();
+  post_move_iteration_continue();
 
   if (current_football_substitution[nbply]==Empty)
   {
@@ -180,13 +180,12 @@ void football_chess_substitutor_solve(slice_index si)
 
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked())
-    {
-      if (advance_substitution())
-        post_move_iteration_lock();
-      else
-        post_move_iteration_end();
-    }
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else if (advance_substitution())
+      post_move_iteration_lock();
+    else
+      post_move_iteration_end();
   }
 
   TraceFunctionExit(__func__);

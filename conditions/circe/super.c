@@ -66,23 +66,27 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
-    post_move_iteration_start();
+    post_move_iteration_continue();
 
     /* Let posteriority iterate over the rebirth square. */
     post_move_iteration_solve_fork(si);
 
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
       /* Rebirth squares are exhausted. Come again once more ... */
       post_move_iteration_lock();
   }
   else
   {
-    post_move_iteration_start();
+    post_move_iteration_continue();
 
     /* ... and try no rebirth. */
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
       post_move_iteration_end();
   }
 
@@ -144,11 +148,13 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     if (advance_rebirth_square())
     {
-      post_move_iteration_start();
+      post_move_iteration_continue();
 
       post_move_iteration_solve_delegate(si);
 
-      if (!post_move_iteration_is_locked())
+      if (post_move_iteration_is_locked())
+        post_move_iteration_continue();
+      else
       {
         is_rebirth_square_dirty[nbply] = true;
         post_move_iteration_lock();
@@ -166,7 +172,9 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   {
     post_move_iteration_solve_delegate(si);
 
-    if (!post_move_iteration_is_locked())
+    if (post_move_iteration_is_locked())
+      post_move_iteration_continue();
+    else
     {
       is_rebirth_square_dirty[nbply] = true;
       post_move_iteration_lock();

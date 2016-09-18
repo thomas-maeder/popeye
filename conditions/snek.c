@@ -55,7 +55,9 @@ static void do_change(slice_index si, piece_walk_type walk_captured)
 
   post_move_iteration_solve_delegate(si);
 
-  if (!post_move_iteration_is_locked())
+  if (post_move_iteration_is_locked())
+    post_move_iteration_continue();
+  else
   {
     ++current_snekked_pos[nbply];
     find_next_snekked(walk_captured);
@@ -107,20 +109,22 @@ void snek_substitutor_solve(slice_index si)
     }
     else if (!post_move_am_i_iterating())
     {
-      post_move_iteration_start();
+      post_move_iteration_continue();
 
       if (find_first_snekked(walk_captured))
         do_change(si,walk_captured);
       else
       {
         post_move_iteration_solve_delegate(si);
-        if (!post_move_iteration_is_locked())
+        if (post_move_iteration_is_locked())
+          post_move_iteration_continue();
+        else
           post_move_iteration_end();
       }
     }
     else
     {
-      post_move_iteration_start();
+      post_move_iteration_continue();
       assert(*current_snekked_pos[nbply]);
       do_change(si,walk_captured);
     }
@@ -178,7 +182,9 @@ static void do_change_circle(slice_index si,
 
   post_move_iteration_solve_delegate(si);
 
-  if (!post_move_iteration_is_locked())
+  if (post_move_iteration_is_locked())
+    post_move_iteration_continue();
+  else
   {
     ++current_snekked_pos[nbply];
     find_next_snekked_circle(walk_snekked);
@@ -247,20 +253,22 @@ void snek_circle_substitutor_solve(slice_index si)
       pipe_solve_delegate(si);
     else if (!post_move_am_i_iterating())
     {
-      post_move_iteration_start();
+      post_move_iteration_continue();
 
       if (find_first_snekked_circle(walk_snekked))
         do_change_circle(si,walk_captured,walk_snekked);
       else
       {
         post_move_iteration_solve_delegate(si);
-        if (!post_move_iteration_is_locked())
+        if (post_move_iteration_is_locked())
+          post_move_iteration_continue();
+        else
           post_move_iteration_end();
       }
     }
     else
     {
-      post_move_iteration_start();
+      post_move_iteration_continue();
       assert(*current_snekked_pos[nbply]);
       do_change_circle(si,walk_captured,walk_snekked);
     }
