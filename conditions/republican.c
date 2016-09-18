@@ -273,8 +273,6 @@ static void determine_king_placement(Side trait_ply)
     is_mate_square_dirty[nbply] = true;
   }
 
-  post_move_iteration_continue();
-
   if (is_mate_square_dirty[nbply])
   {
     advance_mate_square(trait_ply);

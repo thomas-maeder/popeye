@@ -108,8 +108,6 @@ void circe_cage_no_cage_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
-    post_move_iteration_continue();
-
     /* Initialise for trying the first potential cage. */
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
@@ -124,32 +122,25 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   }
   else if (!no_cage_for_current_capture[nbply])
   {
-    post_move_iteration_continue();
-
     /* There is still at least 1 potential cages to be tried. */
     post_move_iteration_solve_delegate(si);
 
     if (post_move_iteration_is_locked())
       post_move_iteration_continue();
-    else
+    else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+             && !cage_found_for_current_capture[nbply])
     {
-      if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-          && !cage_found_for_current_capture[nbply])
-      {
-        /* No potential cage has materialised. */
-        no_cage_for_current_capture[nbply] = true;
+      /* No potential cage has materialised. */
+      no_cage_for_current_capture[nbply] = true;
 
-        /* Try this move again, but take the "no cage path" next time. */
-        post_move_iteration_lock();
-      }
-      else
-        post_move_iteration_end();
+      /* Try this move again, but take the "no cage path" next time. */
+      post_move_iteration_lock();
     }
+    else
+      post_move_iteration_end();
   }
   else
   {
-    post_move_iteration_continue();
-
     /* Take "the no cage path", */
     post_move_iteration_solve_fork(si);
 

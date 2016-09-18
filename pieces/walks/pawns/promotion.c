@@ -300,8 +300,6 @@ void pawn_promoter_solve(slice_index si)
                                            as_side,
                                            &promotion_stack[stack_pointer]);
 
-    post_move_iteration_continue();
-
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;

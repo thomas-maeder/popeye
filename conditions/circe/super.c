@@ -66,8 +66,6 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (!post_move_am_i_iterating())
   {
-    post_move_iteration_continue();
-
     /* Let posteriority iterate over the rebirth square. */
     post_move_iteration_solve_fork(si);
 
@@ -79,8 +77,6 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   }
   else
   {
-    post_move_iteration_continue();
-
     /* ... and try no rebirth. */
     post_move_iteration_solve_delegate(si);
 
@@ -148,8 +144,6 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     if (advance_rebirth_square())
     {
-      post_move_iteration_continue();
-
       post_move_iteration_solve_delegate(si);
 
       if (post_move_iteration_is_locked())

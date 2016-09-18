@@ -174,8 +174,6 @@ void chameleon_change_promotee_into_solve(slice_index si)
   if (!post_move_am_i_iterating())
     change_into_chameleon_where[stack_pointer] = initsquare;
 
-  post_move_iteration_continue();
-
   if (change_into_chameleon_where[stack_pointer]==initsquare)
   {
     solve_nested(si);

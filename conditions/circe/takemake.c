@@ -128,8 +128,6 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else
   {
-    post_move_iteration_continue();
-
     context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 
     ++stack_pointer;

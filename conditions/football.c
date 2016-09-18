@@ -156,13 +156,8 @@ void football_chess_substitutor_solve(slice_index si)
   if (!post_move_am_i_iterating())
     init_substitution();
 
-  post_move_iteration_continue();
-
   if (current_football_substitution[nbply]==Empty)
-  {
-    post_move_iteration_solve_delegate(si);
-    post_move_iteration_end();
-  }
+    pipe_solve_delegate(si);
   else
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];

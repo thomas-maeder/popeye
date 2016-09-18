@@ -163,8 +163,6 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   if (!post_move_am_i_iterating())
     next_prom_to_changing_happening[stack_pointer] = false;
 
-  post_move_iteration_continue();
-
   if (next_prom_to_changing_happening[stack_pointer])
   {
     do_change(idx_promotion);
