@@ -124,18 +124,13 @@ static square decide_about_change(void)
 {
   square result = initsquare;
 
-  if (post_move_iteration_is_locked())
-    post_move_iteration_continue();
-  else
+  if (!post_move_iteration_is_locked())
   {
     square const sq_promotion = find_promotion(horizon);
     if (sq_promotion!=initsquare
         && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
         && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
-    {
       result = sq_promotion;
-      post_move_iteration_lock();
-    }
     else
       post_move_iteration_end();
   }
@@ -183,9 +178,7 @@ void chameleon_change_promotee_into_solve(slice_index si)
   {
     do_change();
     solve_nested(si);
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
+    if (!post_move_iteration_is_locked())
       post_move_iteration_end();
   }
 

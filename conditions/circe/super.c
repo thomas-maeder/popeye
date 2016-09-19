@@ -63,24 +63,14 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!post_move_am_i_iterating())
-  {
     /* Let posteriority iterate over the rebirth square. */
     post_move_iteration_solve_fork(si);
-
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
-      /* Rebirth squares are exhausted. Come again once more ... */
-      post_move_iteration_lock();
-  }
   else
   {
     /* ... and try no rebirth. */
     post_move_iteration_solve_delegate(si);
 
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
+    if (!post_move_iteration_is_locked())
       post_move_iteration_end();
   }
 
@@ -116,16 +106,6 @@ static boolean advance_rebirth_square(void)
   return result;
 }
 
-static void solve_nested(slice_index si)
-{
-  post_move_iteration_solve_delegate(si);
-
-  if (post_move_iteration_is_locked())
-    post_move_iteration_continue();
-  else
-    post_move_iteration_lock();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -149,7 +129,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     if (advance_rebirth_square())
-      solve_nested(si);
+      post_move_iteration_solve_delegate(si);
     else
       solve_result = this_move_is_illegal;
   }
@@ -159,7 +139,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     post_move_iteration_end();
   }
   else
-    solve_nested(si);
+    post_move_iteration_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

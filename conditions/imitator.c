@@ -1193,13 +1193,8 @@ void imitator_pawn_promoter_solve(slice_index si)
 
       promotion_horizon[nbply] = save_horizon;
 
-      if (post_move_iteration_is_locked())
-        post_move_iteration_continue();
-      else
-      {
+      if (!post_move_iteration_is_locked())
         promotion_into_imitator_happening[stack_pointer] = false;
-        post_move_iteration_lock();
-      }
     }
     else
     {
@@ -1207,9 +1202,7 @@ void imitator_pawn_promoter_solve(slice_index si)
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
 
-      if (post_move_iteration_is_locked())
-        post_move_iteration_continue();
-      else
+      if (!post_move_iteration_is_locked())
         post_move_iteration_end();
     }
   }

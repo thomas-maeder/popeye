@@ -10,16 +10,9 @@
  */
 
 void post_move_iteration_init_ply(void);
-
-/* Lock post move iterations in the current move retraction
- * @param lock address of lock holder
- */
-void post_move_iteration_lock(void);
-
-void post_move_iteration_continue(void);
-void post_move_iteration_end(void);
-
 boolean post_move_iteration_ply_was_ended(void);
+
+void post_move_iteration_end(void);
 
 /* Solve the next pipe while post move iterating
  * @param si identifies the iterating slice

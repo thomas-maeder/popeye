@@ -110,14 +110,10 @@ static void transfer_and_solve(slice_index si,
 
   post_move_iteration_solve_delegate(si);
 
-  if (post_move_iteration_is_locked())
-    post_move_iteration_continue();
-  else
+  if (!post_move_iteration_is_locked())
   {
     advance_wormhole(sq_departure,sq_arrival);
-    if (wormhole_next_transfer[nbply]<=nr_wormholes)
-      post_move_iteration_lock();
-    else
+    if (wormhole_next_transfer[nbply]>nr_wormholes)
       post_move_iteration_end();
   }
 

@@ -113,31 +113,21 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     no_cage_for_current_capture[nbply] = false;
 
     post_move_iteration_solve_delegate(si);
-
-    /* Remember to take another path next time. */
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
-      post_move_iteration_lock();
   }
   else if (!no_cage_for_current_capture[nbply])
   {
     /* There is still at least 1 potential cages to be tried. */
     post_move_iteration_solve_delegate(si);
 
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-             && !cage_found_for_current_capture[nbply])
+    if (!post_move_iteration_is_locked())
     {
-      /* No potential cage has materialised. */
-      no_cage_for_current_capture[nbply] = true;
-
-      /* Try this move again, but take the "no cage path" next time. */
-      post_move_iteration_lock();
+      if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+             && !cage_found_for_current_capture[nbply])
+        /* No potential cage has materialised. */
+        no_cage_for_current_capture[nbply] = true;
+      else
+        post_move_iteration_end();
     }
-    else
-      post_move_iteration_end();
   }
   else
   {
@@ -145,9 +135,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     post_move_iteration_solve_fork(si);
 
     /* Terminate this little iteration. */
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
+    if (!post_move_iteration_is_locked())
       post_move_iteration_end();
   }
 

@@ -134,17 +134,13 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     post_move_iteration_solve_delegate(si);
     --stack_pointer;
 
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
+    if (!post_move_iteration_is_locked())
     {
       assert(take_make_circe_current_rebirth_square_index[stack_pointer]>0);
       --take_make_circe_current_rebirth_square_index[stack_pointer];
 
-      if (take_make_circe_current_rebirth_square_index[stack_pointer]>
+      if (take_make_circe_current_rebirth_square_index[stack_pointer]<=
           take_make_circe_current_rebirth_square_index[stack_pointer-1])
-        post_move_iteration_lock();
-      else
         post_move_iteration_end();
     }
   }

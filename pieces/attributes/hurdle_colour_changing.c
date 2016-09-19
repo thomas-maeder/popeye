@@ -173,13 +173,8 @@ static void promote_to_both_non_changing_and_changing(slice_index si,
   {
     solve_nested_iterating(si);
 
-    if (post_move_iteration_is_locked())
-      post_move_iteration_continue();
-    else
-    {
+    if (!post_move_iteration_is_locked())
       next_prom_to_changing_happening[stack_pointer] = true;
-      post_move_iteration_lock();
-    }
   }
 }
 
