@@ -9,8 +9,8 @@
 
 #include "debugging/assert.h"
 
-static unsigned int current_level = 1;
-static unsigned int ply_iteration_level[maxply+1];
+static unsigned int current_level;
+static unsigned int iteration_level;
 
 void post_move_iteration_init_ply(void)
 {
@@ -19,11 +19,9 @@ void post_move_iteration_init_ply(void)
 
   TraceValue("%u",current_level);TraceEOL();
 
-  ply_iteration_level[nbply] = current_level;
+  iteration_level = current_level;
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -31,15 +29,12 @@ void post_move_iteration_init_ply(void)
 
 boolean post_move_iteration_ply_was_ended(void)
 {
-  boolean result = ply_iteration_level[nbply]==current_level;
+  boolean result = iteration_level==current_level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceValue("%u",current_level);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -52,19 +47,12 @@ void post_move_iteration_end(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceValue("%u",current_level);
-  TraceEOL();
-  assert(ply_iteration_level[nbply]==current_level+1);
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
-  --ply_iteration_level[nbply];
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceEOL();
+  assert(iteration_level==current_level+1);
+  --iteration_level;
 
-  TraceValue("%u",current_level);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -82,13 +70,10 @@ void post_move_iteration_solve_delegate(slice_index si)
   ++current_level;
   TraceValue("%u",current_level);TraceEOL();
 
-  if (current_level>ply_iteration_level[nbply])
+  if (current_level>iteration_level)
   {
-    ply_iteration_level[nbply] = current_level;
-    TraceValue("%u",nbply);
-    TraceValue("%u",ply_iteration_level[nbply]);
-    TraceValue("%u",current_level);
-    TraceEOL();
+    iteration_level = current_level;
+    TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
   }
 
   pipe_solve_delegate(si);
@@ -108,13 +93,10 @@ void post_move_iteration_solve_fork(slice_index si)
   ++current_level;
   TraceValue("%u",current_level);TraceEOL();
 
-  if (current_level>ply_iteration_level[nbply])
+  if (current_level>iteration_level)
   {
-    ply_iteration_level[nbply] = current_level;
-    TraceValue("%u",nbply);
-    TraceValue("%u",ply_iteration_level[nbply]);
-    TraceValue("%u",current_level);
-    TraceEOL();
+    iteration_level = current_level;
+    TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
   }
 
   fork_solve_delegate(si);
@@ -134,18 +116,12 @@ void post_move_iteration_cancel(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
+  TraceValue("%u",iteration_level);
   TraceValue("%u",current_level);
   TraceEOL();
 
-  while (ply_iteration_level[nbply]>current_level)
-  {
-    --ply_iteration_level[nbply];
-    TraceValue("%u",nbply);
-    TraceValue("%u",ply_iteration_level[nbply]);
-    TraceEOL();
-  }
+  iteration_level = current_level;
+  TraceValue("%u",iteration_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -157,8 +133,7 @@ void post_move_iteration_cancel(void)
  */
 boolean post_move_iteration_is_locked(void)
 {
-  boolean const result = (ply_iteration_level[nbply]
-                          >current_level+1);
+  boolean const result = iteration_level>current_level+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -174,15 +149,12 @@ boolean post_move_iteration_is_locked(void)
  */
 boolean post_move_am_i_iterating(void)
 {
-  boolean const result = ply_iteration_level[nbply]>current_level;
+  boolean const result = iteration_level>current_level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",current_level);
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -195,15 +167,12 @@ boolean post_move_am_i_iterating(void)
  */
 boolean post_move_have_i_lock(void)
 {
-  boolean const result = ply_iteration_level[nbply]==current_level+1;
+  boolean const result = iteration_level==current_level+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",current_level);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceValue("%u",nbply);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -230,19 +199,13 @@ void move_execution_post_move_iterator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceValue("%u",current_level);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   pipe_solve_delegate(si);
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",ply_iteration_level[nbply]);
-  TraceValue("%u",current_level);
-  TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
-  if (ply_iteration_level[nbply]==current_level)
+  if (iteration_level==current_level)
     pop_move();
 
   TraceFunctionExit(__func__);
@@ -262,11 +225,8 @@ void move_generation_post_move_iterator_solve(slice_index si)
   do
   {
     pipe_move_generation_delegate(si);
-    TraceValue("%u",nbply);
-    TraceValue("%u",ply_iteration_level[nbply]);
-    TraceValue("%u",current_level);
-    TraceEOL();
-  } while (ply_iteration_level[nbply]>current_level);
+    TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
+  } while (iteration_level>current_level);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -285,20 +245,16 @@ void square_observation_post_move_iterator_solve(slice_index si)
   ++current_level;
   TraceValue("%u",current_level);TraceEOL();
 
-  if (current_level>ply_iteration_level[nbply])
+  if (current_level>iteration_level)
   {
-    ply_iteration_level[nbply] = current_level;
-    TraceValue("%u",nbply);
-    TraceValue("%u",ply_iteration_level[nbply]);
-    TraceValue("%u",current_level);
-    TraceEOL();
+    iteration_level = current_level;
+    TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
   }
 
   do
   {
     pipe_is_square_observed_delegate(si);
-  } while (ply_iteration_level[nbply]>current_level
-           && !observation_result);
+  } while (iteration_level>current_level && !observation_result);
 
   --current_level;
   TraceValue("%u",current_level);TraceEOL();
@@ -319,18 +275,20 @@ boolean is_square_observed_general_post_move_iterator_solve(Side side,
                                                             square s,
                                                             validator_id evaluate)
 {
+  unsigned int const save_iteration_level = iteration_level;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   ++current_level;
-  TraceValue("%u",current_level);TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   result = is_square_observed_general(side,s,evaluate);
 
   --current_level;
-  TraceValue("%u",current_level);TraceEOL();
+  iteration_level = save_iteration_level;
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
