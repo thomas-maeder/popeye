@@ -122,7 +122,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
     if (!post_move_iteration_is_locked())
     {
       if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-             && !cage_found_for_current_capture[nbply])
+          && !cage_found_for_current_capture[nbply])
         /* No potential cage has materialised. */
         no_cage_for_current_capture[nbply] = true;
       else
