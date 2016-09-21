@@ -43,6 +43,43 @@ void circe_solving_instrument_super(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Try the current rebirth square
+ * @return true iff there are more rebirth squares to be tried (or the same
+ *              again)
+ */
+static boolean try_rebirth_square(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  post_move_iteration_solve_fork(si);
+  result = post_move_iteration_is_locked();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try the current capture without rebirth
+ */
+static void try_no_rebirth(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  post_move_iteration_solve_delegate(si);
+  if (!post_move_iteration_is_locked())
+    post_move_iteration_end();;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -58,21 +95,16 @@ void circe_solving_instrument_super(slice_index si,
  */
 void supercirce_no_rebirth_fork_solve(slice_index si)
 {
+  static boolean iterating_over_rebirth_squares[maxply+1];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!post_move_am_i_iterating())
-    /* Let posteriority iterate over the rebirth square. */
-    post_move_iteration_solve_fork(si);
+  if (!post_move_am_i_iterating() || iterating_over_rebirth_squares[nbply])
+    iterating_over_rebirth_squares[nbply] = try_rebirth_square(si);
   else
-  {
-    /* ... and try no rebirth. */
-    post_move_iteration_solve_delegate(si);
-
-    if (!post_move_iteration_is_locked())
-      post_move_iteration_end();
-  }
+    try_no_rebirth(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
