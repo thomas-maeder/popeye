@@ -134,6 +134,36 @@ static boolean advance_substitution(void)
   return result;
 }
 
+static void try_current_substitute(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+
+    if (get_walk_of_piece_on_square(pos)!=current_football_substitution[nbply])
+      move_effect_journal_do_walk_change(move_effect_reason_football_chess_substitution,
+                                          pos,
+                                          current_football_substitution[nbply]);
+
+    post_move_iteration_solve_delegate(si);
+
+    if (!post_move_iteration_is_locked() && !advance_substitution())
+      post_move_iteration_end();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -154,30 +184,19 @@ void football_chess_substitutor_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!post_move_am_i_iterating())
-    init_substitution();
-
-  if (current_football_substitution[nbply]==Empty)
-    pipe_solve_delegate(si);
-  else
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-
-    if (get_walk_of_piece_on_square(pos)!=current_football_substitution[nbply])
-      move_effect_journal_do_walk_change(move_effect_reason_football_chess_substitution,
-                                          pos,
-                                          current_football_substitution[nbply]);
-
-    post_move_iteration_solve_delegate(si);
-
-    if (!post_move_iteration_is_locked() && !advance_substitution())
-      post_move_iteration_end();
+    init_substitution();
+    if (current_football_substitution[nbply]==Empty)
+    {
+      post_move_iteration_solve_delegate(si);
+      if (!post_move_iteration_is_locked())
+        post_move_iteration_end();
+    }
+    else
+      try_current_substitute(si);
   }
+  else
+    try_current_substitute(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
