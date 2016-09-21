@@ -29,13 +29,9 @@ ConditionNumberedVariantType RepublicanType;
 
 static square king_placement[maxply+1];
 
-static boolean is_mate_square_dirty[maxply+1];
-
 enum
 {
-  to_be_initialised = initsquare,
-  king_not_placed = square_h8+1,
-  no_place_for_king_left
+  king_not_placed = square_h8+1
 };
 
 static Goal republican_goal = { no_goal, initsquare };
@@ -261,23 +257,55 @@ void solving_insert_republican_king_placers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void determine_king_placement(Side trait_ply)
+static void solve_with_current_king_placement(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  place_king(SLICE_STARTER(si));
+  post_move_iteration_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void solve_with_next_king_placement(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  advance_mate_square(SLICE_STARTER(si));
+
+  if (king_placement[nbply]==king_not_placed)
+  {
+    post_move_iteration_solve_delegate(si);
+    if (!post_move_iteration_is_locked())
+      post_move_iteration_end();
+  }
+  else
+    solve_with_current_king_placement(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void iterate_over_king_placements(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (!post_move_am_i_iterating())
   {
     king_placement[nbply] = square_a1-1;
-    is_mate_square_dirty[nbply] = true;
+    solve_with_next_king_placement(si);
   }
-
-  if (is_mate_square_dirty[nbply])
-  {
-    advance_mate_square(trait_ply);
-    is_mate_square_dirty[nbply] = false;
-  }
+  else if (post_move_have_i_lock())
+    solve_with_next_king_placement(si);
+  else
+    solve_with_current_king_placement(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -307,24 +335,7 @@ void republican_king_placer_solve(slice_index si)
   update_king_squares();
 
   if (being_solved.king_square[advers(SLICE_STARTER(si))]==initsquare)
-  {
-    determine_king_placement(SLICE_STARTER(si));
-
-    if (king_placement[nbply]==king_not_placed)
-    {
-      post_move_iteration_solve_delegate(si);
-      king_placement[nbply] = to_be_initialised;
-      post_move_iteration_end();
-    }
-    else
-    {
-      place_king(SLICE_STARTER(si));
-      post_move_iteration_solve_delegate(si);
-
-      if (!post_move_iteration_is_locked())
-        is_mate_square_dirty[nbply] = true;
-    }
-  }
+    iterate_over_king_placements(si);
   else
     pipe_solve_delegate(si);
 
