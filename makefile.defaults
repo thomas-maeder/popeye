@@ -187,6 +187,11 @@ COMPRESS = echo compress
 #COMPRESS = compress
 
 
+# How shell should execute built files
+# ====================================
+EXECUTE=
+
+
 # include toolchain-specific settings and overriders
 
 TOOLCHAIN=gcc

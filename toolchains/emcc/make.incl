@@ -1,0 +1,22 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Linux using emcc
+
+# Requirements:
+#
+# Emscripten SDK and Java
+#
+
+
+include toolchains/gcc/make.incl
+CCHOST=emcc
+LDHOST=emcc
+CCTARGET=emcc
+LDTARGET=emcc
+EXE_SUFFIX=.js
+STRIPTARGET=@echo "already stripped"
+CCOPTIM=
+LDOPTIM=
+EXECUTE=nodejs
+OSTYPE=asm.js

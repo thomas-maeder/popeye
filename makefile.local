@@ -66,7 +66,7 @@ gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX)
 
 
 pygmarr.c: ./gengmarr$(EXE_SUFFIX)
-	./gengmarr$(EXE_SUFFIX) > $@
+	$(EXECUTE) ./gengmarr$(EXE_SUFFIX) > $@
 
 
 # ===========================================================
