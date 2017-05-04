@@ -7,4 +7,12 @@ Pieces White Pa7 Ka6 Bh3 Pg2 Black Ka8 Pf5 Pe2
 Stipulation #3
 Option Variation
 
-EndProblem
+next
+
+pieces white pf7
+condition chinese
+stipulation ~1
+option nowk nobk
+
+endproblem
+

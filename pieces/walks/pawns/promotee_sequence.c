@@ -43,6 +43,10 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
     for (p = Queen; p<=Bishop; ++p)
       is_promotee[(*standard_walks)[p]] = true;
 
+    if (CondFlag[chinoises])
+      for (p = Leo; p<=Vao; ++p)
+        is_promotee[p] = true;
+
     for (p = King+1; p<nr_piece_walks; ++p)
       if (piece_walk_exists[p] && !is_pawn(p) && !is_king(p))
         is_promotee[p] = true;
