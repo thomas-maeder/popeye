@@ -113,6 +113,7 @@
 #include "conditions/forced_squares.h"
 #include "conditions/synchronous.h"
 #include "conditions/must_capture.h"
+#include "conditions/zeroinchess.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -387,6 +388,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
+
+  if (CondFlag[zeroingin])
+    solving_insert_zeroin(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);

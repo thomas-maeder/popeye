@@ -134,6 +134,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "conditions/zeroinchess.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -1230,6 +1231,10 @@ void dispatch(slice_index si)
 
     case STChameleonPursuitSideChanger:
       chameleon_pursuit_side_changer_solve(si);
+      break;
+
+    case STZeroedInRemover:
+      zeroin_remover_solve(si);
       break;
 
     case STNorskRemoveIllegalCaptures:

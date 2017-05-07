@@ -482,6 +482,7 @@
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
+    ENUMERATOR(STZeroedInRemover),                                      \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \
     ENUMERATOR(STNorskArrivingAdjuster),                                \
     ENUMERATOR(STProteanPawnAdjuster),                                  \
