@@ -1,6 +1,7 @@
 #include "conditions/zeroinchess.h"
 #include "position/position.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"
@@ -26,47 +27,40 @@
 void zeroin_remover_solve(slice_index si)
 {
   Side const side_zeroing_in = SLICE_STARTER(si);
-  Side const side_zeroed_in = advers(side_zeroing_in);
-  square const save_king_square = being_solved.king_square[side_zeroed_in];
+  Side const side_zeroed_in_on = advers(side_zeroing_in);
+  square const save_king_square = being_solved.king_square[side_zeroed_in_on];
   Flags const save_king_flags = being_solved.spec[save_king_square];
-  square zeroed_in_squares[nr_squares_on_board] = { 0 };
+  square squares_zeroed_in_on[nr_squares_on_board] = { 0 };
   unsigned int nr_zeroed_in = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,side_zeroing_in);
-  TraceEnumerator(Side,side_zeroed_in);
-  TraceSquare(save_king_square);
-  TraceEOL();
+  CLRFLAG(being_solved.spec[save_king_square],Royal);
 
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; ++bnp)
-      if (piece_belongs_to_opponent(*bnp)
-          && !TSTFLAG(being_solved.spec[*bnp],Royal))
+      if (piece_belongs_to_opponent(*bnp) && *bnp!=save_king_square)
       {
-        TraceSquare(*bnp);
-        TraceEOL();
-        CLRFLAG(being_solved.spec[save_king_square],Royal);
-        being_solved.king_square[side_zeroed_in] = *bnp;
+        being_solved.king_square[side_zeroed_in_on] = *bnp;
         SETFLAG(being_solved.spec[*bnp],Royal);
-        if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[side_zeroed_in])
+        if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[side_zeroed_in_on])
             ==previous_move_has_solved)
-          zeroed_in_squares[nr_zeroed_in++] = *bnp;
-        TraceEOL();
+          squares_zeroed_in_on[nr_zeroed_in++] = *bnp;
         CLRFLAG(being_solved.spec[*bnp],Royal);
-        being_solved.king_square[side_zeroed_in] = save_king_square;
-        being_solved.spec[save_king_square] = save_king_flags;
       }
   }
 
+  being_solved.spec[save_king_square] = save_king_flags;
+  being_solved.king_square[side_zeroed_in_on] = save_king_square;
+
   {
     unsigned int i;
-    for (i = 0; i!=nr_zeroed_in && zeroed_in_squares[i]!=0; ++i)
+    for (i = 0; i!=nr_zeroed_in; ++i)
       move_effect_journal_do_piece_removal(move_effect_reason_zeroed_in,
-                                           zeroed_in_squares[i]);
+                                           squares_zeroed_in_on[i]);
   }
 
   pipe_solve_delegate(si);

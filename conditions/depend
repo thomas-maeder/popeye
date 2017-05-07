@@ -7934,10 +7934,10 @@ conditions/zeroinchess$(OBJ_SUFFIX): conditions/zeroinchess.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h solving/conditional_pipe.h \
- solving/temporary_hacks.h solving/move_effect_journal.h solving/ply.h \
- debugging/assert.h
+ stipulation/pipe.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h solving/conditional_pipe.h solving/temporary_hacks.h \
+ solving/move_effect_journal.h solving/ply.h debugging/assert.h
 
 conditions/zeroinchess.h:
 
@@ -8016,6 +8016,8 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
 
 solving/has_solution_type.h:
 
