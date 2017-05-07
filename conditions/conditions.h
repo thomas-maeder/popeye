@@ -214,8 +214,9 @@ typedef enum
   snekcirclechess,        /* 193 */
   lastcapture,            /* 194 */
   argentinian,            /* 195 */
+  zeroingin,              /* 196 */
 
-  CondCount               /* 196 */
+  CondCount               /* 197 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

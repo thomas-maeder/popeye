@@ -150,9 +150,9 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  position/castling_rights.h options/options.h input/plaintext/language.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h solving/conditional_pipe.h \
- solving/temporary_hacks.h solving/post_move_iteration.h solving/ply.h \
- solving/move_effect_journal.h output/plaintext/message.h \
- output/message.h \
+ solving/temporary_hacks.h solving/post_move_iteration.h \
+ solving/observation.h solving/ply.h solving/move_effect_journal.h \
+ output/plaintext/message.h output/message.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/detect_retraction.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -247,6 +247,8 @@ solving/conditional_pipe.h:
 solving/temporary_hacks.h:
 
 solving/post_move_iteration.h:
+
+solving/observation.h:
 
 solving/ply.h:
 
@@ -4140,8 +4142,8 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  position/color.enum pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/move.h solving/castling.h solving/move_generator.h \
- solving/post_move_iteration.h solving/check.h solving/pipe.h \
- solving/fork.h solving/observation.h solving/temporary_hacks.h \
+ solving/post_move_iteration.h solving/observation.h \
+ solving/temporary_hacks.h solving/check.h solving/pipe.h solving/fork.h \
  debugging/assert.h
 
 conditions/castling_chess.h:
@@ -4242,15 +4244,15 @@ solving/move_generator.h:
 
 solving/post_move_iteration.h:
 
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
 solving/check.h:
 
 solving/pipe.h:
 
 solving/fork.h:
-
-solving/observation.h:
-
-solving/temporary_hacks.h:
 
 debugging/assert.h:
 conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
@@ -4430,10 +4432,10 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/post_move_iteration.h stipulation/pipe.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/move.h solving/pipe.h \
- debugging/assert.h
+ solving/post_move_iteration.h solving/observation.h \
+ solving/temporary_hacks.h stipulation/pipe.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ stipulation/move.h solving/pipe.h debugging/assert.h
 
 conditions/football.h:
 
@@ -4526,6 +4528,10 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 solving/post_move_iteration.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 stipulation/pipe.h:
 
@@ -7810,7 +7816,8 @@ conditions/snek$(OBJ_SUFFIX): conditions/snek.c conditions/snek.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/pipe.h solving/move_effect_journal.h solving/ply.h \
- solving/post_move_iteration.h debugging/assert.h
+ solving/post_move_iteration.h solving/observation.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 conditions/snek.h:
 
@@ -7901,6 +7908,10 @@ solving/move_effect_journal.h:
 solving/ply.h:
 
 solving/post_move_iteration.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 conditions/conditions$(OBJ_SUFFIX): conditions/conditions.c conditions/conditions.h \
