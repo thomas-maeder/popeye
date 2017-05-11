@@ -246,6 +246,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(si);
 
+  if (CondFlag[zeroingin])
+    solving_insert_zeroin(si);
+
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
    */
@@ -388,9 +391,6 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
-
-  if (CondFlag[zeroingin])
-    solving_insert_zeroin(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);

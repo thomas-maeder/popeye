@@ -450,6 +450,8 @@ void solving_insert_move_generators(slice_index si)
   stip_structure_traversal_override(&st,solver_inserters,nr_solver_inserters);
   stip_traverse_structure(si,&st);
 
+  TraceStipulation(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

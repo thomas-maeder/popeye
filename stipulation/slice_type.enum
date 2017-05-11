@@ -161,6 +161,7 @@
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
     ENUMERATOR(STGoalKingCaptureReachedTester), /* auxiliary slice enforcing that a side's king has been captured */ \
+    ENUMERATOR(STUnsaveableTester), /* tests whether a piece is unsaveable */ \
     /* boolean logic */                                                 \
     ENUMERATOR(STTrue),            /* true leaf slice */                \
     ENUMERATOR(STFalse),           /* false leaf slice */               \

@@ -873,32 +873,6 @@ void solving_impose_starter(slice_index si, Side starter)
   TraceFunctionResultEnd();
 }
 
-/* Set the starting side of the stipulation from within an ongoing iteration
- * @param si identifies slice where to start
- * @param starter starting side at the root of the stipulation
- * @param st address of structure representing ongoing iteration
- */
-void stip_impose_starter_nested(slice_index si,
-                                Side starter,
-                                stip_structure_traversal *st)
-{
-  stip_structure_traversal st_nested;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,starter);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init_nested(&st_nested,st,&starter);
-  stip_impose_starter_impl(si,starter,&st_nested);
-  stip_traverse_structure(si,&st_nested);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Are piece ids required for solving the current stipulation?
  */
 boolean stipulation_are_pieceids_required(void)

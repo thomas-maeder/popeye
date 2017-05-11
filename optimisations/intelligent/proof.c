@@ -85,7 +85,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[kobulkings]
                 || CondFlag[wormholes]
                 || CondFlag[dynasty]
-                || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]);
+                || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
+                || CondFlag[zeroingin]);
 
   /* TODO these can't possibly be the only elements that doesn't
    * allow any optimisation at all.
@@ -648,7 +649,7 @@ static boolean FairyImpossible(void)
   unsigned int   Nbr[nr_sides];
   unsigned int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
 
-  TraceText("ProofFairyImpossible\n");
+  TraceText("FairyImpossible\n");
 
   Nbr[White] = being_solved.number_of_pieces[White][Pawn]
           + being_solved.number_of_pieces[White][Knight]
@@ -705,7 +706,7 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand])
+    if (!CondFlag[masand] && !CondFlag[zeroingin])
     {
       /* not enough time to capture the remaining pieces */
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
@@ -815,6 +816,7 @@ static boolean FairyImpossible(void)
   }
 
   /* find a solution ... */
+  TraceText("testing if there are enough remaining moves");TraceEOL();
   MovesAvailable *= 2;
 
   for (bnp = boardnum; *bnp; bnp++)
@@ -826,13 +828,17 @@ static boolean FairyImpossible(void)
           || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
       {
         if (MovesAvailable==0)
+        {
+          TraceText("available moves exhausted");TraceEOL();
           return true;
+        }
         else
           --MovesAvailable;
       }
     }
   }
 
+  TraceText("FairyImossible returns false");TraceEOL();
   return false;
 }
 

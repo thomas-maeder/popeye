@@ -2,10 +2,12 @@
 #include "position/position.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
+#include "stipulation/goals/mate/reached_tester.h"
+#include "stipulation/conditional_pipe.h"
+#include "stipulation/proxy.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"
-#include "solving/temporary_hacks.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -37,6 +39,8 @@ void zeroin_remover_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  solving_impose_starter(SLICE_NEXT2(si),side_zeroed_in_on);
+
   CLRFLAG(being_solved.spec[save_king_square],Royal);
 
   {
@@ -44,10 +48,10 @@ void zeroin_remover_solve(slice_index si)
     for (bnp = boardnum; *bnp; ++bnp)
       if (piece_belongs_to_opponent(*bnp) && *bnp!=save_king_square)
       {
+        TraceSquare(*bnp);TraceEOL();
         being_solved.king_square[side_zeroed_in_on] = *bnp;
         SETFLAG(being_solved.spec[*bnp],Royal);
-        if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[side_zeroed_in_on])
-            ==previous_move_has_solved)
+        if (conditional_pipe_solve_delegate(si)==previous_move_has_solved)
           squares_zeroed_in_on[nr_zeroed_in++] = *bnp;
         CLRFLAG(being_solved.spec[*bnp],Royal);
       }
@@ -69,7 +73,7 @@ void zeroin_remover_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
+static void instrument_remover(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,10 +82,26 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_type const * const type = st->param;
-    slice_index const prototype = alloc_pipe(*type);
+    slice_index const tester = alloc_goal_mate_reached_tester_system();
+    pipe_link(SLICE_NEXT2(si),tester);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_conditional_pipe(STZeroedInRemover,alloc_proxy_slice());
     move_insert_slices(si,st->context,&prototype,1);
   }
+
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -96,10 +116,10 @@ void solving_insert_zeroin(slice_index si)
 
   {
     stip_structure_traversal st;
-    slice_type type = STZeroedInRemover;
-    stip_structure_traversal_init(&st,&type);
+    stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_structure_visitor_noop);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+    stip_structure_traversal_override_single(&st,STZeroedInRemover,&instrument_remover);
     stip_traverse_structure(si,&st);
   }
 
