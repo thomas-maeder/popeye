@@ -23,7 +23,7 @@ orig SAT #56
 stip #1
 pie wh ke1 blac kc6
 cond sat 8
-zero add wh qg1
+zeroposition add wh qg1
 twin add wh rd1
 twin add wh bf1
 twin add wh sf8

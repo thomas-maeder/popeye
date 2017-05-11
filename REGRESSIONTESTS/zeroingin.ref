@@ -1,4 +1,5 @@
 
+          bernd ellinghoven
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -25,6 +26,163 @@
    1.Rd4-b4[-bPb5] ! threat:
           2.Rb4-b8 #
 
+  add_to_move_generation_stack:         907
+                     play_move:         724
+ is_white_king_square_attacked:         605
+ is_black_king_square_attacked:         312
+
+solution finished.
+
+
+
+           J\"org Kuhlmann
+           Andernach 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -S   .   4
+|                                   |
+3   .   .   .   .   .   .   P   S   3
+|                                   |
+2   P   P   P   P   P   P   B   P   2
+|                                   |
+1   R   S   B   Q   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   P   P   P   P   P   P   .   P   2
+|                                   |
+1   R   S   B   Q   K   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b2                     15 + 15
+           ZeroingInChess
+
+  1  (Sg4-e3 )
+  1.Sg4-e3 Rh1-f1   2.Se3*g2 + Sh3-f4[-bSg2] a=>b
+  1.Sg4-e3 Sh3-f4   2.Se3*g2 + Rh1-f1[-bSg2] a=>b
+  2  (Sg4*f2 )
+  3  (Sg4*h2 )
+  4  (Sg4-h6 )
+  5  (Sg4-f6 )
+  6  (Sg4-e5 )
+  7  (a7-a5[-wPh2] )
+  8  (a7-a6[-wPh2] )
+  9  (b7-b5[-wPh2] )
+ 10  (b7-b6[-wPh2] )
+ 11  (c7-c5[-wPh2] )
+ 12  (c7-c6[-wPh2] )
+ 13  (d7-d5[-wPh2] )
+ 14  (d7-d6[-wPh2] )
+ 15  (e7-e5[-wPh2] )
+ 16  (e7-e6[-wPh2] )
+ 17  (f7-f5[-wPh2] )
+ 18  (f7-f6[-wPh2] )
+ 19  (g7-g5[-wPh2] )
+ 20  (g7-g6[-wPh2] )
+ 21  (h7-h5[-wPh2] )
+ 22  (h7-h6[-wPh2] )
+ 23  (Sb8-a6[-wPh2] )
+ 24  (Sb8-c6[-wPh2] )
+ 25  (Rh8-g8[-wPh2] )
+  add_to_move_generation_stack:       92591
+                     play_move:       73103
+ is_white_king_square_attacked:       51249
+ is_black_king_square_attacked:      167532
+
+solution finished.
+
+
+
+           J\"org Kuhlmann
+           Andernach 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -B  -P   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   B   Q   5
+|                                   |
+4   .   .   .   P   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   .   P   P   P   2
+|                                   |
+1   R   S   .   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.5                    16 + 14
+           ZeroingInChess
+
+  1  (Sb1-c3 )
+  2  (Sb1-a3 )
+  3  (Sg1-h3 )
+  4  (Sg1-f3 )
+  5  (a2-a4 )
+  6  (a2-a3 )
+  7  (b2-b4 )
+  8  (b2-b3 )
+  9  (c2-c4 )
+ 10  (c2-c3 )
+ 11  (d2-d4 )
+  1.d2-d4 d7-d5   2.e2-e4 g7-g5   3.Bc1*g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 d7-d5   2.e2-e4 g7-g5   3.Qd1-h5[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.d2-d4 d7-d5   2.e2-e4 Bc8-d7   3.Qd1-h5 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.Bc1*g5 d7-d5   3.e2-e4 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.e2-e4[-bPg5] d7-d5   3.Bc1-g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.e2-e4[-bPg5] d7-d5   3.Qd1-h5 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+ 12  (d2-d3 )
+ 13  (e2-e4 )
+  1.e2-e4 d7-d5   2.Qd1-h5 g7-g5   3.d2-d4[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.Qd1-h5 Bc8-d7   3.d2-d4 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 g7-g5   3.Bc1*g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 g7-g5   3.Qd1-h5[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 Bc8-d7   3.Qd1-h5 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.Qd1-h5[-bPg5] d7-d5   3.d2-d4 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.d2-d4[-bPg5] d7-d5   3.Bc1-g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.d2-d4[-bPg5] d7-d5   3.Qd1-h5 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+ 14  (e2-e3 )
+ 15  (f2-f4 )
+ 16  (f2-f3 )
+ 17  (g2-g4 )
+ 18  (g2-g3 )
+ 19  (h2-h4 )
+ 20  (h2-h3 )
+  add_to_move_generation_stack:     4280697
+                     play_move:     3573692
+ is_white_king_square_attacked:     4502812
+ is_black_king_square_attacked:     6214828
 
 solution finished.
 
