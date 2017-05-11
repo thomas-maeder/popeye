@@ -126,15 +126,19 @@ static slice_index make_king_capture_legality_tester(Side side)
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
   slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
+  slice_index const skip = alloc_pipe(STSkipMoveGeneration);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_king_capture_reached_tester_system();
   slice_index const executing = alloc_pipe(STExecutingKingCapture);
+
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
+  slice_insertion_insert(help,&skip,1);
   slice_insertion_insert(help,&executing,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STKingCaptureLegalityTester,proxy_branch);
   solving_impose_starter(result,side);
+
   return result;
 }
 

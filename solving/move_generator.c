@@ -445,10 +445,9 @@ static void skip_insertion(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STGeneratingMoves,           &insert_move_generator                 },
-  { STSkipMoveGeneration,        &skip_insertion                        },
-  { STKingCaptureLegalityTester, &stip_traverse_structure_children_pipe },
-  { STMoveLegalityTester,        &stip_traverse_structure_children_pipe }
+  { STGeneratingMoves,    &insert_move_generator                 },
+  { STSkipMoveGeneration, &skip_insertion                        },
+  { STMoveLegalityTester, &stip_traverse_structure_children_pipe }
 };
 
 enum
