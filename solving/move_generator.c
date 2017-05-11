@@ -407,12 +407,17 @@ void move_generator_solve(slice_index si)
 
 static void insert_move_generator(slice_index si, stip_structure_traversal *st)
 {
+  boolean *is_insertion_skipped = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
 
+  if (*is_insertion_skipped)
+    *is_insertion_skipped = false;
+  else
   {
     slice_index const prototype = alloc_move_generator_slice();
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
@@ -422,12 +427,28 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void skip_insertion(slice_index si, stip_structure_traversal *st)
+{
+  boolean *is_insertion_skipped = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  *is_insertion_skipped = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STGeneratingMoves,                        &insert_move_generator                 },
-  { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
-  { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe },
-  { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe }
+  { STGeneratingMoves,           &insert_move_generator                 },
+  { STSkipMoveGeneration,        &skip_insertion                        },
+  { STKingCaptureLegalityTester, &stip_traverse_structure_children_pipe },
+  { STMoveLegalityTester,        &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -441,12 +462,13 @@ enum
 void solving_insert_move_generators(slice_index si)
 {
   stip_structure_traversal st;
+  boolean is_insertion_skipped = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&is_insertion_skipped);
   stip_structure_traversal_override(&st,solver_inserters,nr_solver_inserters);
   stip_traverse_structure(si,&st);
 
