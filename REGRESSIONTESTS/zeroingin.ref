@@ -23,13 +23,31 @@
   #2                          3 + 3
            ZeroingInChess
 
+   1.Rd4-a4 ? threat:
+          2.Ra4-a8 #
+    but
+      1...b5*a4[-wPd7] !
+
    1.Rd4-b4[-bPb5] ! threat:
           2.Rb4-b8 #
 
-  add_to_move_generation_stack:         907
-                     play_move:         724
- is_white_king_square_attacked:         605
- is_black_king_square_attacked:         312
+   1.Rd4*e4 ? threat:
+          2.Re4-e8 #
+    but
+      1...b5-b4[-wPd7] !
+
+   1.Kd6-c6[-bPb5] ? zugzwang.
+    but
+      1...Kd8-e7[-wPd7] !
+
+   1.Kd6-e6 ? zugzwang.
+    but
+      1...Kd8-c7[-wPd7] !
+
+  add_to_move_generation_stack:        2156
+                     play_move:        1826
+ is_white_king_square_attacked:        1686
+ is_black_king_square_attacked:         537
 
 solution finished.
 

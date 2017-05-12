@@ -5,7 +5,7 @@ protocol zeroingin.ref
 author bernd ellinghoven
 pieces white kd6 rd4 pd7 black kd8 pb5e4
 stipulation #2
-option vari
+option vari try
 condition zeroinginchess
 
 next
