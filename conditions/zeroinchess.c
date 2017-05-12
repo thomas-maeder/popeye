@@ -39,8 +39,6 @@ void zeroin_remover_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_impose_starter(SLICE_NEXT2(si),side_zeroed_in_on);
-
   CLRFLAG(being_solved.spec[save_king_square],Royal);
 
   {
