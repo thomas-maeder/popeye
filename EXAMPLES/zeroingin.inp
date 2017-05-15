@@ -30,5 +30,41 @@ stipulation dia3.5
 condition zeroingin
 option movenum
 
+next
+
+title no rebirth of zeroed-in piece
+pieces white pa6 kf4 black pf5
+stip ~1
+condition zeroingin circe
+option start 9
+
+next
+
+title rook is saved by castling
+pieces black rh8 black ke8 white pg6g7h6 
+stipulation ~1
+condition zeroing
+option nowk
+twin add black paralysing ke8
+
+next
+
+pieces white kg2 sf5 pg4g5g7 black rh8 sg8
+stipulation ~1
+condition zeroingin blackmaxi
+option nobk
+twin move g2 g3
+
+next
+
+pieces white pa3b4 black pb5
+option nowk nobk
+stipulation ~1
+condition zeroingin anticirce
+twin add white pb2
+twin add white pb3
+twin add black pa7
+twin cont add white pb2
+
 end
 
