@@ -745,6 +745,9 @@ void verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[zeroingin])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[sting])
   {
     disable_orthodox_mating_move_optimisation(nr_sides);
