@@ -205,3 +205,302 @@ solution finished.
 solution finished.
 
 
+
+    no rebirth of zeroed-in piece
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+                Circe
+           ZeroingInChess
+both sides need a king
+
+  9  (a6-a7[-bPf5] )
+   1.a6-a7[-bPf5] !
+
+  add_to_move_generation_stack:          15
+                     play_move:          15
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          15
+
+solution finished.
+
+
+
+      rook is saved by castling
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   P   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          3 + 2
+           ZeroingInChess
+
+a) 
+
+   1.h6-h7[-bRh8] !
+
+   1.g7-g8=Q + !
+
+   1.g7-g8=S !
+
+   1.g7-g8=R + !
+
+   1.g7-g8=B !
+
+   1.g7*h8=Q + !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R + !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:          17
+                     play_move:          19
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          26
+
+b) bpKe8  
+
+   1.h6-h7 !
+
+   1.g7-g8=Q + !
+
+   1.g7-g8=S !
+
+   1.g7-g8=R + !
+
+   1.g7-g8=B !
+
+   1.g7*h8=Q + !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R + !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:          17
+                     play_move:          16
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          23
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S  -R   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   S   P   .   5
+|                                   |
+4   .   .   .   .   .   .   P   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          5 + 2
+           BlackMaximummer
+           ZeroingInChess
+
+a) 
+
+   1.Kg2-f1 !
+
+   1.Kg2-f3 !
+
+   1.Kg2-g1 !
+
+   1.Kg2-f2 !
+
+   1.Kg2-g3 !
+
+   1.Sf5-d4 !
+
+   1.Sf5-e3 !
+
+   1.Sf5-g3 !
+
+   1.Sf5-h4 !
+
+   1.Sf5-h6 !
+
+   1.Sf5-e7 !
+
+   1.Sf5-d6 !
+
+   1.g5-g6[-bRh8] !
+
+   1.g7*h8=Q[-bSg8] !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R[-bSg8] !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:         133
+                     play_move:          71
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          87
+
+b) wKg2-->g3  
+
+   1.Kg3-f2 !
+
+   1.Kg3-f4 !
+
+   1.Kg3-g2 !
+
+   1.Kg3-f3 !
+
+   1.Sf5-d4 !
+
+   1.Sf5-e3 !
+
+   1.Sf5-h4 !
+
+   1.Sf5-h6 !
+
+   1.Sf5-e7 !
+
+   1.Sf5-d6 !
+
+   1.g5-g6 !
+
+   1.g7*h8=Q[-bSg8] !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R[-bSg8] !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:         111
+                     play_move:          53
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:          67
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+              AntiCirce
+           ZeroingInChess
+
+a) 
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+b) +wPb2  
+
+   1.b2-b3 !
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+c) +wPb3  
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+d) +bPa7  
+
+   1.a3-a4[-bPb5] !
+
+  add_to_move_generation_stack:           6
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           8
+
++e) +wPb2  
+
+   1.b2-b3 !
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
+
+solution finished.
+
+
