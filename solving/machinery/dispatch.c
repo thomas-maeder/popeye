@@ -134,7 +134,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
-#include "conditions/zeroinchess.h"
+#include "conditions/exit.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"

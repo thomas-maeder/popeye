@@ -113,7 +113,7 @@
 #include "conditions/forced_squares.h"
 #include "conditions/synchronous.h"
 #include "conditions/must_capture.h"
-#include "conditions/zeroinchess.h"
+#include "conditions/exit.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -246,7 +246,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(si);
 
-  if (CondFlag[zeroingin])
+  if (CondFlag[exitchess])
     solving_insert_zeroin(si);
 
   /* must come here because in conditions like MAFF, we are going to tamper with

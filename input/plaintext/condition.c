@@ -1741,7 +1741,7 @@ char *ParseCond(char *tok)
           CondFlag[lastcapture] = retro_capture.on!=initsquare;
           break;
 
-        case zeroingin:
+        case exitchess:
           break;
 
         default:

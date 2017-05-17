@@ -1,0 +1,506 @@
+
+          bernd ellinghoven
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   R  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+                Exit
+
+   1.Rd4-a4 ? threat:
+          2.Ra4-a8 #
+    but
+      1...b5*a4[-wPd7] !
+
+   1.Rd4-b4[-bPb5] ! threat:
+          2.Rb4-b8 #
+
+   1.Rd4*e4 ? threat:
+          2.Re4-e8 #
+    but
+      1...b5-b4[-wPd7] !
+
+   1.Kd6-c6[-bPb5] ? zugzwang.
+    but
+      1...Kd8-e7[-wPd7] !
+
+   1.Kd6-e6 ? zugzwang.
+    but
+      1...Kd8-c7[-wPd7] !
+
+  add_to_move_generation_stack:        3097
+                     play_move:        2657
+ is_white_king_square_attacked:        1744
+ is_black_king_square_attacked:        2004
+
+solution finished.
+
+
+
+           J\"org Kuhlmann
+           Andernach 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -S   .   4
+|                                   |
+3   .   .   .   .   .   .   P   S   3
+|                                   |
+2   P   P   P   P   P   P   B   P   2
+|                                   |
+1   R   S   B   Q   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   P   P   P   P   P   P   .   P   2
+|                                   |
+1   R   S   B   Q   K   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b2                     15 + 15
+                Exit
+
+  1  (Sg4-e3 )
+  1.Sg4-e3 Rh1-f1   2.Se3*g2 + Sh3-f4[-bSg2] a=>b
+  1.Sg4-e3 Sh3-f4   2.Se3*g2 + Rh1-f1[-bSg2] a=>b
+  2  (Sg4*f2 )
+  3  (Sg4*h2 )
+  4  (Sg4-h6 )
+  5  (Sg4-f6 )
+  6  (Sg4-e5 )
+  7  (a7-a5[-wPh2] )
+  8  (a7-a6[-wPh2] )
+  9  (b7-b5[-wPh2] )
+ 10  (b7-b6[-wPh2] )
+ 11  (c7-c5[-wPh2] )
+ 12  (c7-c6[-wPh2] )
+ 13  (d7-d5[-wPh2] )
+ 14  (d7-d6[-wPh2] )
+ 15  (e7-e5[-wPh2] )
+ 16  (e7-e6[-wPh2] )
+ 17  (f7-f5[-wPh2] )
+ 18  (f7-f6[-wPh2] )
+ 19  (g7-g5[-wPh2] )
+ 20  (g7-g6[-wPh2] )
+ 21  (h7-h5[-wPh2] )
+ 22  (h7-h6[-wPh2] )
+ 23  (Sb8-a6[-wPh2] )
+ 24  (Sb8-c6[-wPh2] )
+ 25  (Rh8-g8[-wPh2] )
+  add_to_move_generation_stack:       92591
+                     play_move:       73103
+ is_white_king_square_attacked:       51249
+ is_black_king_square_attacked:      167532
+
+solution finished.
+
+
+
+           J\"org Kuhlmann
+           Andernach 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -B  -P   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   B   Q   5
+|                                   |
+4   .   .   .   P   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   .   P   P   P   2
+|                                   |
+1   R   S   .   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.5                    16 + 14
+                Exit
+
+  1  (Sb1-c3 )
+  2  (Sb1-a3 )
+  3  (Sg1-h3 )
+  4  (Sg1-f3 )
+  5  (a2-a4 )
+  6  (a2-a3 )
+  7  (b2-b4 )
+  8  (b2-b3 )
+  9  (c2-c4 )
+ 10  (c2-c3 )
+ 11  (d2-d4 )
+  1.d2-d4 d7-d5   2.e2-e4 g7-g5   3.Bc1*g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 d7-d5   2.e2-e4 g7-g5   3.Qd1-h5[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.d2-d4 d7-d5   2.e2-e4 Bc8-d7   3.Qd1-h5 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.Bc1*g5 d7-d5   3.e2-e4 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.e2-e4[-bPg5] d7-d5   3.Bc1-g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.d2-d4 g7-g5   2.e2-e4[-bPg5] d7-d5   3.Qd1-h5 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+ 12  (d2-d3 )
+ 13  (e2-e4 )
+  1.e2-e4 d7-d5   2.Qd1-h5 g7-g5   3.d2-d4[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.Qd1-h5 Bc8-d7   3.d2-d4 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 g7-g5   3.Bc1*g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 g7-g5   3.Qd1-h5[-bPg5] Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 d7-d5   2.d2-d4 Bc8-d7   3.Qd1-h5 g7-g5   4.Bc1*g5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.Qd1-h5[-bPg5] d7-d5   3.d2-d4 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.d2-d4[-bPg5] d7-d5   3.Bc1-g5 Bc8-d7   4.Qd1-h5[-bPf7] + dia
+  1.e2-e4 g7-g5   2.d2-d4[-bPg5] d7-d5   3.Qd1-h5 Bc8-d7   4.Bc1-g5[-bPf7] + dia
+ 14  (e2-e3 )
+ 15  (f2-f4 )
+ 16  (f2-f3 )
+ 17  (g2-g4 )
+ 18  (g2-g3 )
+ 19  (h2-h4 )
+ 20  (h2-h3 )
+  add_to_move_generation_stack:     4280697
+                     play_move:     3573692
+ is_white_king_square_attacked:     4502812
+ is_black_king_square_attacked:     6214828
+
+solution finished.
+
+
+
+     no rebirth of removed piece
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+                Circe
+                Exit
+both sides need a king
+
+  9  (a6-a7[-bPf5] )
+   1.a6-a7[-bPf5] !
+
+  add_to_move_generation_stack:          15
+                     play_move:          15
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          15
+
+solution finished.
+
+
+
+      rook is saved by castling
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   P   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          3 + 2
+                Exit
+
+a) 
+
+   1.h6-h7[-bRh8] !
+
+   1.g7-g8=Q + !
+
+   1.g7-g8=S !
+
+   1.g7-g8=R + !
+
+   1.g7-g8=B !
+
+   1.g7*h8=Q + !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R + !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:          17
+                     play_move:          19
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          26
+
+b) bpKe8  
+
+   1.h6-h7 !
+
+   1.g7-g8=Q + !
+
+   1.g7-g8=S !
+
+   1.g7-g8=R + !
+
+   1.g7-g8=B !
+
+   1.g7*h8=Q + !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R + !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:          17
+                     play_move:          16
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          23
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S  -R   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   S   P   .   5
+|                                   |
+4   .   .   .   .   .   .   P   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          5 + 2
+           BlackMaximummer
+                Exit
+
+a) 
+
+   1.Kg2-f1 !
+
+   1.Kg2-f3 !
+
+   1.Kg2-g1 !
+
+   1.Kg2-f2 !
+
+   1.Kg2-g3 !
+
+   1.Sf5-d4 !
+
+   1.Sf5-e3 !
+
+   1.Sf5-g3 !
+
+   1.Sf5-h4 !
+
+   1.Sf5-h6 !
+
+   1.Sf5-e7 !
+
+   1.Sf5-d6 !
+
+   1.g5-g6[-bRh8] !
+
+   1.g7*h8=Q[-bSg8] !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R[-bSg8] !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:         133
+                     play_move:          71
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          87
+
+b) wKg2-->g3  
+
+   1.Kg3-f2 !
+
+   1.Kg3-f4 !
+
+   1.Kg3-g2 !
+
+   1.Kg3-f3 !
+
+   1.Sf5-d4 !
+
+   1.Sf5-e3 !
+
+   1.Sf5-h4 !
+
+   1.Sf5-h6 !
+
+   1.Sf5-e7 !
+
+   1.Sf5-d6 !
+
+   1.g5-g6 !
+
+   1.g7*h8=Q[-bSg8] !
+
+   1.g7*h8=S !
+
+   1.g7*h8=R[-bSg8] !
+
+   1.g7*h8=B !
+
+  add_to_move_generation_stack:         111
+                     play_move:          53
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:          67
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+              AntiCirce
+                Exit
+
+a) 
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+b) +wPb2  
+
+   1.b2-b3 !
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+c) +wPb3  
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+d) +bPa7  
+
+   1.a3-a4[-bPb5] !
+
+  add_to_move_generation_stack:           6
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           8
+
++e) +wPb2  
+
+   1.b2-b3 !
+
+   1.a3-a4 !
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
+
+solution finished.
+
+

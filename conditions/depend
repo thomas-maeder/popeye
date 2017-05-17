@@ -7914,11 +7914,10 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 debugging/assert.h:
-conditions/zeroinchess$(OBJ_SUFFIX): conditions/zeroinchess.c \
- conditions/zeroinchess.h position/side.h position/side.enum.h \
- position/side.enum solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
+conditions/exit$(OBJ_SUFFIX): conditions/exit.c conditions/exit.h position/side.h \
+ position/side.enum.h position/side.enum solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
@@ -7940,7 +7939,7 @@ conditions/zeroinchess$(OBJ_SUFFIX): conditions/zeroinchess.c \
  solving/has_solution_type.enum solving/pipe.h solving/conditional_pipe.h \
  solving/move_effect_journal.h solving/ply.h debugging/assert.h
 
-conditions/zeroinchess.h:
+conditions/exit.h:
 
 position/side.h:
 

@@ -214,7 +214,7 @@ typedef enum
   snekcirclechess,        /* 193 */
   lastcapture,            /* 194 */
   argentinian,            /* 195 */
-  zeroingin,              /* 196 */
+  exitchess,              /* 196 */
 
   CondCount               /* 197 */
 } Cond;

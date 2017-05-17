@@ -928,7 +928,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*193*/ "EchecsSnekCirculaires",
     /*194*/ "DernierePrise",
     /*195*/ "EchecsArgentins",
-    /*196*/ "EchecsEntourage"
+    /*196*/ "Exit"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1127,7 +1127,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*193*/ "SnekZirkulaerSchach",
     /*194*/ "LetzterSchlag",
     /*195*/ "ArgentinischesSchach",
-    /*196*/ "EinkreisungsSchach"
+    /*196*/ "Exit"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1326,7 +1326,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*193*/ "SnekCircleChess",
     /*194*/ "LastCapture",
     /*195*/ "ArgentinianChess",
-    /*196*/ "ZeroingInChess"
+    /*196*/ "Exit"
   }
 };
 

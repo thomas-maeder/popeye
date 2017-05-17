@@ -86,7 +86,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[wormholes]
                 || CondFlag[dynasty]
                 || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
-                || CondFlag[zeroingin]);
+                || CondFlag[exitchess]);
 
   /* TODO these can't possibly be the only elements that doesn't
    * allow any optimisation at all.
@@ -706,7 +706,7 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand] && !CondFlag[zeroingin])
+    if (!CondFlag[masand] && !CondFlag[exitchess])
     {
       /* not enough time to capture the remaining pieces */
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
