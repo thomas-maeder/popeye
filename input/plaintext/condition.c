@@ -1754,7 +1754,7 @@ char *ParseCond(char *tok)
   if (CondCnt==0)
     output_plaintext_input_error_message(UnrecCondition,0);
 
-  if (CondFlag[black_oscillatingKs] && OscillatingKings[White]==ConditionTypeC
+  if (CondFlag[black_oscillatingKs] && OscillatingKings[Black]==ConditionTypeC
       && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)
     CondFlag[swappingkings] = true;
 
