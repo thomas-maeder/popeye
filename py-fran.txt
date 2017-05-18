@@ -121,8 +121,12 @@ simples:
 	CavalierMajeur
 	Haan
 	Sentinelles
+        Maximum			(s'applique au camp qui defend - ne pas meler avec Blanc/Noir...)
+        UltraSchachZwang	(dito)
 	NoirMaximum
 	BlancMaximum
+        BlancUltraSchachZwang
+        NoirUltraSchachZwang
 	NoirMinimum
 	BlancMinimum
 	CaseMagique
@@ -185,10 +189,6 @@ simples:
 	SansNoirPromotion
 	EchecsEiffel
 ????    ActuatedRevolvingCentre
-	Maximum
-	UltraSchachZwang
-	BlancUltraSchachZwang
-	NoirUltraSchachZwang
 	ShieldedKings
 	BlancSansPrises
 	NoirSansPrises

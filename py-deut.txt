@@ -124,9 +124,13 @@ Kommandos:
 	CavalierMajeur
 	HaanerSchach
 	Sentinelles
+	Laengstzueger		(betrifft die verteidigende Seite - nicht mischen mit Schwarzer/Weisser...)
+	UltraSchachZwang	(dito)
 	SchwarzerLaengstzueger
-	SchwarzerKuerzestzueger
 	WeisserLaengstzueger
+	WeisserUltraSchachZwang
+	SchwarzerUltraSchachZwang
+	SchwarzerKuerzestzueger
 	WeisserKuerzestzueger
 	MagischeFelder
 	TibetSchach
@@ -188,10 +192,6 @@ Kommandos:
 	OhneSchwarzUW
 	EiffelSchach
 ????    ActuatedRevolvingCentre
-	Laengstzueger
-	UltraSchachZwang
-	WeisserUltraSchachZwang
-	SchwarzerUltraSchachZwang
 	Schutzkoenige
 	WeisserOhneschlag
 	SchwarzerOhneschlag

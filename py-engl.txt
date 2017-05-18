@@ -119,8 +119,12 @@ commands expect further parameters. Lets start with the simpler commands:
 	CavalierMajeur
 	HaanerChess
 	Sentinelles
+	Maximummer		(applies to the defending side - don't mix with Black/White...)
+	UltraSchachZwang	(dito)
 	BlackMaximummer
 	WhiteMaximummer
+        WhiteUltraSchachZwang
+        BlackUltraSchachZwang
 	BlackMinimummer
 	WhiteMinimummer
 	MagicSquares
@@ -183,10 +187,6 @@ commands expect further parameters. Lets start with the simpler commands:
 	NoBlackPromotion
 	EiffelChess
 	ActuatedRevolvingCentre
-	Maximummer
-	UltraSchachZwang
-	WhiteUltraSchachZwang
-	BlackUltraSchachZwang
 	ShieldedKings
 	NoWhiteCapture
 	NoBlackCapture
