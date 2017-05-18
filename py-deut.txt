@@ -249,6 +249,7 @@ Kommandos:
 	SnekSchach
 	SnekZirkulaerSchach
 	ArgentinischesSchach
+	Exit
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
