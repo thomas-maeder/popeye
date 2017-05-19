@@ -14,5 +14,10 @@ condition chinese
 stipulation ~1
 option nowk nobk
 
-endproblem
+next
 
+title Maximummer is incompatible with WhiteMaximummer or BlackMaximummer
+Stipulation #1
+Condition Maximummer WhiteMaximummer
+
+end

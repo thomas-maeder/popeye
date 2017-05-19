@@ -810,17 +810,25 @@ void verify_position(slice_index si)
 
   if (ExtraCondFlag[maxi])
   {
-    Side const restricted_side = findRestrictedSide(si);
-    if (restricted_side==no_side)
+    if (CondFlag[blmax] || CondFlag[whmax])
     {
-      output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
+      output_plaintext_verifie_message(NonsenseCombination);
       return;
     }
     else
     {
-      mummer_strictness[restricted_side] = mummer_strictness_default_side;
-      CondFlag[blmax] = restricted_side==Black;
-      CondFlag[whmax] = restricted_side==White;
+      Side const restricted_side = findRestrictedSide(si);
+      if (restricted_side==no_side)
+      {
+        output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
+        return;
+      }
+      else
+      {
+        mummer_strictness[restricted_side] = mummer_strictness_default_side;
+        CondFlag[blmax] = restricted_side==Black;
+        CondFlag[whmax] = restricted_side==White;
+      }
     }
   }
 
