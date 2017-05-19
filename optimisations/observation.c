@@ -33,9 +33,16 @@ static boolean observation_by_bishop_tested[maxply+1];
  */
 void optimise_away_observations_by_queen_initialise(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   pipe_is_square_observed_delegate(si);
   observation_by_rook_tested[nbply] = false;
   observation_by_bishop_tested[nbply] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to optimise away observations by queen
@@ -43,6 +50,12 @@ void optimise_away_observations_by_queen_initialise(slice_index si)
  */
 void optimise_away_observations_by_queen(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceWalk(observing_walk[nbply]); TraceEOL();
+
   switch (observing_walk[nbply])
   {
     case Rook:
@@ -56,6 +69,9 @@ void optimise_away_observations_by_queen(slice_index si)
       break;
 
     case Queen:
+      TraceValue("%u",observation_by_rook_tested[nbply]);
+      TraceValue("%u",observation_by_bishop_tested[nbply]);
+      TraceEOL();
       if (observation_by_rook_tested[nbply])
       {
         if (observation_by_bishop_tested[nbply])
@@ -84,6 +100,9 @@ void optimise_away_observations_by_queen(slice_index si)
       pipe_is_square_observed_delegate(si);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Restore matters after optimisation observations by queen
@@ -334,7 +353,7 @@ static void optimise_side(slice_index si, Side side)
   }
 
   if (!(CondFlag[madras] || CondFlag[isardam]
-        || CondFlag[side==White ? whtrans_king : bltrans_king]
+        || CondFlag[side==Black ? whtrans_king : bltrans_king]
         || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
         || CondFlag[whrefl_king] || CondFlag[blrefl_king]
         || CondFlag[eiffel]

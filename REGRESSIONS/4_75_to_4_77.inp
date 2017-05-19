@@ -20,4 +20,11 @@ title Maximummer is incompatible with WhiteMaximummer or BlackMaximummer
 Stipulation #1
 Condition Maximummer WhiteMaximummer
 
+next
+
+Stipulation rZe61
+Condition blacktransmut
+Pieces White Ka7 Pb7 Black Kg8
+option vari
+
 end

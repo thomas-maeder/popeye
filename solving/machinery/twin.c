@@ -825,17 +825,12 @@ void verify_position(slice_index si)
       }
       else
       {
+        boolean const length_measurer_set = mummer_set_length_measurer(restricted_side,
+                                                                       &maximummer_measure_length);
+        assert(length_measurer_set);
         mummer_strictness[restricted_side] = mummer_strictness_default_side;
-        CondFlag[blmax] = restricted_side==Black;
-        CondFlag[whmax] = restricted_side==White;
       }
     }
-  }
-
-  if (CondFlag[alphabetic])
-  {
-    CondFlag[blackalphabetic] = true;
-    CondFlag[whitealphabetic] = true;
   }
 
   if (CondFlag[blmax] && !mummer_set_length_measurer(Black,&maximummer_measure_length))
@@ -847,6 +842,12 @@ void verify_position(slice_index si)
   {
     output_plaintext_verifie_message(TwoMummerCond);
     return;
+  }
+
+  if (CondFlag[alphabetic])
+  {
+    CondFlag[blackalphabetic] = true;
+    CondFlag[whitealphabetic] = true;
   }
 
   if (CondFlag[blmin] && !mummer_set_length_measurer(Black,&minimummer_measure_length))
