@@ -429,11 +429,10 @@ void IntelligentRegulargoal_types(slice_index si)
 
   if (being_solved.king_square[Black]!=initsquare)
   {
-    testcastling =
-        TSTCASTLINGFLAGMASK(White,q_castling&castling_flags_no_castling)==q_castling
-        || TSTCASTLINGFLAGMASK(White,k_castling&castling_flags_no_castling)==k_castling
-        || TSTCASTLINGFLAGMASK(Black,q_castling&castling_flags_no_castling)==q_castling
-        || TSTCASTLINGFLAGMASK(Black,k_castling&castling_flags_no_castling)==k_castling;
+    testcastling = (   TSTCASTLINGFLAGMASK(White,q_castling)==q_castling
+                    || TSTCASTLINGFLAGMASK(White,k_castling)==k_castling
+                    || TSTCASTLINGFLAGMASK(Black,q_castling)==q_castling
+                    || TSTCASTLINGFLAGMASK(Black,k_castling)==k_castling);
 
     assert(where_to_start_placing_black_pieces==boardnum);
 

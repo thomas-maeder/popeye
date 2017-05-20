@@ -22,9 +22,24 @@ Condition Maximummer WhiteMaximummer
 
 next
 
+title there was a problem with king transmuting to queen
 Stipulation rZe61
 Condition blacktransmut
 Pieces White Ka7 Pb7 Black Kg8
 option vari
+
+next
+
+title Popeye made a mess with the nocastling option in intelligent mode
+pieces white rd1 black ke8 rh8 pg7
+stipulation ser-h#3
+option intelligent nocastling h1 nowk
+
+next
+
+title Popeye made a mess with the nocastling option in intelligent mode
+pieces white rd1 black ke8 rh8 pg7
+stipulation ser-h#3
+option intelligent nocastling h8 nowk
 
 end
