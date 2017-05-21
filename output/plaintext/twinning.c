@@ -289,6 +289,10 @@ static void WriteTwinning(boolean continued)
         WriteSubstitute(curr);
         break;
 
+      case move_effect_piece_change:
+        /* no need for output - this only occurs as part of move_effect_twinning_substitute */
+        break;
+
       case move_effect_king_square_movement:
         /* the search for royals leaves its traces in the twinning ply */
       case move_effect_remember_volcanic:

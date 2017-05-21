@@ -1122,9 +1122,18 @@ static void undo_twinning_polish(move_effect_journal_entry_type const *entry)
 static void do_substitute_all(piece_walk_type from, piece_walk_type to)
 {
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(from);
+  TraceWalk(to);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; *bnp; bnp++)
     if (get_walk_of_piece_on_square(*bnp)==from)
-      do_walk_change(*bnp,to);
+      move_effect_journal_do_walk_change(move_effect_reason_twinning,*bnp,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Execute a twinning that substitutes a walk for another
@@ -1151,13 +1160,10 @@ void move_effect_journal_do_twinning_substitute(piece_walk_type from,
 
 static void undo_twinning_substitute(move_effect_journal_entry_type const *entry)
 {
-  piece_walk_type const from = entry->u.piece_change.from;
-  piece_walk_type const to = entry->u.piece_change.to;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  do_substitute_all(to,from);
+  /* nothing */
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -345,81 +345,82 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
       BeginTwinning(twin_number);
 
       for (curr = base; curr!=top; ++curr)
-      {
-        if (written_on_last_entry)
+        if (move_effect_journal[curr].type!=move_effect_piece_change)
         {
-          twinning_pos += fprintf(twinning, "%s", ", ");
-          written_on_last_entry = false;
-        }
+          if (written_on_last_entry)
+          {
+            twinning_pos += fprintf(twinning, "%s", ", ");
+            written_on_last_entry = false;
+          }
 
-        switch (move_effect_journal[curr].type)
-        {
-          case move_effect_piece_creation:
-            WritePieceCreation(base,curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_piece_removal:
-            if (WritePieceRemoval(curr))
+          switch (move_effect_journal[curr].type)
+          {
+            case move_effect_piece_creation:
+              WritePieceCreation(base,curr);
               written_on_last_entry = true;
-            break;
+              break;
 
-          case move_effect_piece_movement:
-            WritePieceMovement(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_piece_removal:
+              if (WritePieceRemoval(curr))
+                written_on_last_entry = true;
+              break;
 
-          case move_effect_piece_exchange:
-            WritePieceExchange(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_piece_movement:
+              WritePieceMovement(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_board_transformation:
-            WriteBoardTransformation(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_piece_exchange:
+              WritePieceExchange(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_twinning_shift:
-            WriteShift(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_board_transformation:
+              WriteBoardTransformation(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_input_condition:
-            WriteConditions(0,&WriteCondition);
-            written_on_last_entry = true;
-            break;
+            case move_effect_twinning_shift:
+              WriteShift(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_input_stipulation:
-            WriteStip(curr);
-            written_on_last_entry = true;
-            break;
-          case move_effect_input_sstipulation:
-            WriteSStip(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_input_condition:
+              WriteConditions(0,&WriteCondition);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_twinning_polish:
-            WritePolish(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_input_stipulation:
+              WriteStip(curr);
+              written_on_last_entry = true;
+              break;
+            case move_effect_input_sstipulation:
+              WriteSStip(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_twinning_substitute:
-            WriteSubstitute(curr);
-            written_on_last_entry = true;
-            break;
+            case move_effect_twinning_polish:
+              WritePolish(curr);
+              written_on_last_entry = true;
+              break;
 
-          case move_effect_king_square_movement:
-            /* the search for royals leaves its traces in the twinning ply */
-          case move_effect_remember_volcanic:
-            /* Forsberg twinning */
-          case move_effect_remove_stipulation:
-            break;
+            case move_effect_twinning_substitute:
+              WriteSubstitute(curr);
+              written_on_last_entry = true;
+              break;
 
-          default:
-            assert(0);
-            break;
+            case move_effect_king_square_movement:
+              /* the search for royals leaves its traces in the twinning ply */
+            case move_effect_remember_volcanic:
+              /* Forsberg twinning */
+            case move_effect_remove_stipulation:
+              break;
+
+            default:
+              assert(0);
+              break;
+          }
         }
-      }
 
       EndTwinning();
     }

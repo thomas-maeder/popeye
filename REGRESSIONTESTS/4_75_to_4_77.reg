@@ -246,6 +246,63 @@ both sides need a king
 solution finished.
 
 
+
+Popeye 4.71 to 4.75 didn't correctly take back substitution twinnings
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   P   .   .   Q   .   .   .   .   2
+|                                   |
+1   K   B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          4 + 1
+
+a) 
+both sides need a king
+
+   1.Qd2*c3 !
+
+   1.Qd2-b2 !
+
+  add_to_move_generation_stack:          29
+                     play_move:          29
+ is_white_king_square_attacked:          29
+ is_black_king_square_attacked:           0
+
+b) Q ==> B  
+both sides need a king
+
+   1.Bd2*c3 !
+
+  add_to_move_generation_stack:          16
+                     play_move:          16
+ is_white_king_square_attacked:          16
+ is_black_king_square_attacked:           0
+
+c) Q ==> S  
+both sides need a king
+
+  add_to_move_generation_stack:          14
+                     play_move:          14
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
 input-error:offending item: 
 offending item: Xb1
 

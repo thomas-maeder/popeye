@@ -50,6 +50,14 @@ stipulation #1
 
 next
 
+title Popeye 4.71 to 4.75 didn't correctly take back substitution twinnings
+pieces white ka1 bb1 pa2 qd2 black bc3
+stipulation ~1
+twin substitute q b
+twin substitute q s
+
+next
+
 stipulation #1
 pieces white Ka2 Xb1 black Ke8
 
