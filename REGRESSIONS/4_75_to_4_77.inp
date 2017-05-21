@@ -42,4 +42,10 @@ pieces white rd1 black ke8 rh8 pg7
 stipulation ser-h#3
 option intelligent nocastling h8 nowk
 
+next
+
+stipulation #1
+pieces white Ka2 Xb1 black Ke8
+
 end
+

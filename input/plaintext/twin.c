@@ -605,7 +605,13 @@ static void ReadInitialTwin(slice_index start)
       tok = ReadNextTokStr();
     }
     else if (result==InitialTwinTokenCount)
+    {
+      if (GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok)==ProblemTokenCount
+          && GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok)==EndTwinTokenCount)
+        output_plaintext_input_error_message(OffendingItem,0);
+
       break;
+    }
     else
       switch (result)
       {
