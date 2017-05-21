@@ -46,6 +46,26 @@ static boolean find_promotion(square sq_arrival)
   return result;
 }
 
+static move_effect_journal_index_type find_castling_partner_movement(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (result = top-1; result>base; --result)
+    if (move_effect_journal[result].type==move_effect_piece_movement
+        && move_effect_journal[result].reason==move_effect_reason_castling_partner_movement)
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -83,6 +103,25 @@ void norsk_arriving_adjuster_solve(slice_index si)
       move_effect_journal_do_walk_change(move_effect_reason_norsk_chess,
                                           pos,
                                           norsked_to_walk);
+
+    {
+      move_effect_journal_index_type const partner_movement = find_castling_partner_movement();
+      if (partner_movement!=base)
+      {
+        square const sq_arrival = move_effect_journal[partner_movement].u.piece_movement.to;
+        PieceIdType const moving_id = GetPieceId(move_effect_journal[partner_movement].u.piece_movement.movingspec);
+        square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                  moving_id,
+                                                                                  sq_arrival);
+        piece_walk_type const norsked = get_walk_of_piece_on_square(pos);
+        piece_walk_type const norsked_to_walk = norsk_walk(norsked);
+
+        if (norsked!=norsked_to_walk)
+          move_effect_journal_do_walk_change(move_effect_reason_norsk_chess,
+                                             pos,
+                                             norsked_to_walk);
+      }
+    }
   }
 
   pipe_solve_delegate(si);

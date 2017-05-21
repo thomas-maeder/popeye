@@ -58,6 +58,14 @@ twin substitute q s
 
 next
 
+title castling must adjust the rook
+pieces white kd6 sh5 pe5 black ke8 rh8 sb8c7
+stipulation s#1
+condition norsk blackmaxi
+option postkey
+
+next
+
 stipulation #1
 pieces white Ka2 Xb1 black Ke8
 

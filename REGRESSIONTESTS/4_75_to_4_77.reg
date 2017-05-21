@@ -303,6 +303,41 @@ both sides need a king
 solution finished.
 
 
+
+    castling must adjust the rook
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .  -S   .   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   S   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#1                         3 + 4
+           BlackMaximummer
+             NorskSjakk
+
+      1...0-0=B #
+  add_to_move_generation_stack:          31
+                     play_move:          15
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:           7
+
+solution finished.
+
+
 input-error:offending item: 
 offending item: Xb1
 
