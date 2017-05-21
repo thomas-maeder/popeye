@@ -44,6 +44,12 @@ option intelligent nocastling h8 nowk
 
 next
 
+title Popeye has erroneously stopped accepting capital letters in file indications with v4.71
+pieces white KH1
+stipulation #1
+
+next
+
 stipulation #1
 pieces white Ka2 Xb1 black Ke8
 
