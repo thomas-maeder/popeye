@@ -115,6 +115,51 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_
   TraceFunctionResultEnd();
 }
 
+void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
+                                                square on)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_swap_volcanic,reason);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceFunctionParamListEnd();
+
+  entry->u.handle_ghost.ghost.on = underworld[nr_ghosts-1].on;
+  entry->u.handle_ghost.ghost.walk = underworld[nr_ghosts-1].walk;
+  entry->u.handle_ghost.ghost.flags = underworld[nr_ghosts-1].flags;
+
+  assert(underworld[nr_ghosts-1].on==on);
+
+  underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(on);
+  underworld[nr_ghosts-1].flags = being_solved.spec[on];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  underworld[nr_ghosts-1] = entry->u.handle_ghost.ghost;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(underworld[nr_ghosts-1].on);
+  underworld[nr_ghosts-1].flags = being_solved.spec[underworld[nr_ghosts-1].on];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -207,9 +252,8 @@ void circe_volcanic_swapper_solve(slice_index si)
   {
     piece_type const tmp = underworld[nr_ghosts-1];
 
-    underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(tmp.on);
-    underworld[nr_ghosts-1].flags = being_solved.spec[tmp.on];
-
+    move_effect_journal_do_circe_volcanic_swap(move_effect_reason_volcanic_remember,
+                                               tmp.on);
     move_effect_journal_do_piece_removal(move_effect_reason_volcanic_remember,tmp.on);
     move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_remember,
                                             tmp.on,

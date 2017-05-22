@@ -48,6 +48,7 @@ typedef enum
   move_effect_remember_duellist,
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
+  move_effect_swap_volcanic,
 
   move_effect_input_condition,
   move_effect_input_stipulation,

@@ -1501,6 +1501,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_remember_duellist:
       case move_effect_remember_parachuted:
       case move_effect_remember_volcanic:
+      case move_effect_swap_volcanic:
         /* nothing */
         break;
 
@@ -1652,6 +1653,10 @@ void redo_move_effects(void)
         move_effect_journal_redo_circe_volcanic_remember(entry);
         break;
 
+      case move_effect_swap_volcanic:
+        move_effect_journal_redo_circe_volcanic_swap(entry);
+        break;
+
         /* intentionally not mentioning the twinnings - they are not redone */
         /* intentionally not mentioning move_effect_snapshot_proofgame_target_position - it's not redone */
 
@@ -1800,6 +1805,10 @@ void undo_move_effects(void)
 
       case move_effect_remember_volcanic:
         move_effect_journal_undo_circe_volcanic_remember(entry);
+        break;
+
+      case move_effect_swap_volcanic:
+        move_effect_journal_undo_circe_volcanic_swap(entry);
         break;
 
       case move_effect_twinning_polish:

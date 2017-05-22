@@ -75,6 +75,11 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
 void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry);
 void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry);
 
+void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
+                                                square on);
+void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry);
+void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry);
+
 /* Initialise the solving machinery with Circe Parachute
  * @param si identifies root slice of stipulation
  * @param interval_start start of the slices interval to be initialised
