@@ -1233,8 +1233,8 @@ void dispatch(slice_index si)
       chameleon_pursuit_side_changer_solve(si);
       break;
 
-    case STZeroedInRemover:
-      zeroin_remover_solve(si);
+    case STExitRemover:
+      exit_remover_solve(si);
       break;
 
     case STNorskRemoveIllegalCaptures:

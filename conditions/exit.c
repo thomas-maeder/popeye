@@ -26,7 +26,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void zeroin_remover_solve(slice_index si)
+void exit_remover_solve(slice_index si)
 {
   Side const side_zeroing_in = SLICE_STARTER(si);
   Side const side_zeroed_in_on = advers(side_zeroing_in);
@@ -95,7 +95,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_conditional_pipe(STZeroedInRemover,alloc_proxy_slice());
+    slice_index const prototype = alloc_conditional_pipe(STExitRemover,alloc_proxy_slice());
     move_insert_slices(si,st->context,&prototype,1);
   }
 
@@ -107,7 +107,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
 /* Instrument slices with move tracers
  */
-void solving_insert_zeroin(slice_index si)
+void solving_insert_exit(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -117,7 +117,7 @@ void solving_insert_zeroin(slice_index si)
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_structure_visitor_noop);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-    stip_structure_traversal_override_single(&st,STZeroedInRemover,&instrument_remover);
+    stip_structure_traversal_override_single(&st,STExitRemover,&instrument_remover);
     stip_traverse_structure(si,&st);
   }
 

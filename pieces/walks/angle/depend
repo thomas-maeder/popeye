@@ -13,13 +13,14 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h position/side.h position/side.enum.h \
- position/color.h position/color.enum.h pieces/pieces.h \
+ position/side.enum position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h pieces/pieces.h \
  utilities/boolean.h position/castling_rights.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h solving/ply.h debugging/trace.h \
- solving/temporary_hacks.h pieces/walks/hoppers.h \
+ output/mode.enum solving/machinery/dispatch.h solving/ply.h \
+ debugging/trace.h solving/temporary_hacks.h pieces/walks/hoppers.h \
  solving/move_generator.h solving/machinery/solve.h \
  pieces/walks/hamster.h \
  solving/find_square_observer_tracking_back_from_target.h solving/fork.h \
@@ -41,9 +42,15 @@ position/side.h:
 
 position/side.enum.h:
 
+position/side.enum:
+
 position/color.h:
 
 position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
 
 pieces/pieces.h:
 
@@ -66,6 +73,8 @@ stipulation/slice_type.enum:
 output/mode.h:
 
 output/mode.enum.h:
+
+output/mode.enum:
 
 solving/machinery/dispatch.h:
 

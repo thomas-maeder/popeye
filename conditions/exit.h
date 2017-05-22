@@ -19,10 +19,10 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void zeroin_remover_solve(slice_index si);
+void exit_remover_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void solving_insert_zeroin(slice_index si);
+void solving_insert_exit(slice_index si);
 
 #endif
