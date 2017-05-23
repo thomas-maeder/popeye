@@ -1,5 +1,5 @@
-#if !defined(CONDITIONS_ZEROIN_H)
-#define CONDITIONS_ZEROIN_H
+#if !defined(CONDITIONS_EXIT_H)
+#define CONDITIONS_EXIT_H
 
 #include "position/side.h"
 #include "solving/machinery/solve.h"
