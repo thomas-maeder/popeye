@@ -246,7 +246,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(si);
 
-  if (CondFlag[exitchess])
+  if (CondFlag[lostpieces])
     solving_insert_exit(si);
 
   /* must come here because in conditions like MAFF, we are going to tamper with

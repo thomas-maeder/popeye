@@ -6,7 +6,7 @@ author bernd ellinghoven
 pieces white kd6 rd4 pd7 black kd8 pb5e4
 stipulation #2
 option vari try
-condition exit
+condition lostpieces
 
 next
 
@@ -17,7 +17,7 @@ pieces white ke1 qd1 ra1h1 bc1g2 sb1h3 pa2b2c2d2e2f2g3h2
 stipulation a=>b2
 pieces white ke1 qd1 ra1f1 bc1 sb1f4 pa2b2c2d2e2f2g3h2
        black ke8 qd8 ra8h8 bc8f8 sb8 pa7b7c7d7e7f7g7h7
-condition exit
+condition lostpieces
 option movenum
 
 next
@@ -27,7 +27,7 @@ origin Andernach 2017
 pieces white ke1 qh5 ra1h1 bg5f1 sb1g1 pa2b2c2d4e4f2g2h2
        black ke8 qd8 ra8h8 bd7f8 sb8g8 pa7b7c7d5e7h7
 stipulation dia3.5
-condition exit
+condition lostpieces
 option movenum
 
 next
@@ -35,7 +35,7 @@ next
 title no rebirth of removed piece
 pieces white pa6 kf4 black pf5
 stip ~1
-condition exit circe
+condition lostpieces circe
 option start 9
 
 next
@@ -43,7 +43,7 @@ next
 title rook is saved by castling
 pieces black rh8 black ke8 white pg6g7h6 
 stipulation ~1
-condition exit
+condition lostpieces
 option nowk
 twin add black paralysing ke8
 
@@ -51,7 +51,7 @@ next
 
 pieces white kg2 sf5 pg4g5g7 black rh8 sg8
 stipulation ~1
-condition exit blackmaxi
+condition lostpieces blackmaxi
 option nobk
 twin move g2 g3
 
@@ -60,7 +60,7 @@ next
 pieces white pa3b4 black pb5
 option nowk nobk
 stipulation ~1
-condition exit anticirce
+condition lostpieces anticirce
 twin add white pb2
 twin add white pb3
 twin add black pa7

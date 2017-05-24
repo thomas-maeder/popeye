@@ -745,7 +745,7 @@ void verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[exitchess])
+  if (CondFlag[lostpieces])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[sting])
