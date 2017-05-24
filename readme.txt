@@ -21,25 +21,12 @@ Contents of this distribution:
 	py-????.txt     Documentation written in ????-language.
 	makefile.unx    Makefile for unix compilation.
 	coderule.txt    Some hints on coding style
-	py.h:           Contains constant and type definitions.
-	pydata.h:       Contains all extern declared data.
-	pymsg.h:        Contains constant definitions for POPEYE I/O.
-	pyproc.h:       Contains ANSI-C or K&R-C declarations of all procedures.
-	py[1-6].c:      Contain the C-Source of all procedures.
-	pyhash.c:       Contains the C-Source of POPEYE dynamic hashing.
-	pyio.c:         Contains the C-Source of POPEYE I/O.
-	pytime.c:       Contains the C-Source of POPEYE time-measurement.
-	pysignal.c:     Contains the C-Source of POPEYE signal handling.
-        pydata.c:       Contains only includes and a define to generate the
-			the object file for all global data.
-	pylang.c:	Contains language dependent procedures.
-	pymsg.c:        Contains the Message-file related I/O-procedures.
+	*.h, *.c	C source code
 	py-????.msg:    Message-file for POPEYE I/O in ????-language.
 	pie-????.txt:   File for POPEYE LaTeX output in ????-language.
-	genpystr.c:     C-Source to convert py-????.msg to py-????.str .
-			POPEYE needs py-????.str for language-dependent I/O.
 	BEISPIEL:	Directory containing german testfiles 
 	EXAMPLES:	Directory containing english testfiles 
+	REGRESSIONTESTS	Output when running the examples in BEISPIEL and EXAMPLES
 	DHT:		Directory containing the dynamic hashing support C-Source files.
 	LATEX:		Directory containing files for LaTeX support.
 	scripts:	Some bash scripts useful for developers
