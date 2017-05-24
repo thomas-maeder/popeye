@@ -246,7 +246,7 @@ simples:
 	EchecsSnek
 	EchecsSnekCirculaires
 	EchecksArgentins
-	Exit
+	PiecesPerdues
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
