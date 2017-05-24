@@ -105,7 +105,7 @@ static slice_type const fork_slice_types[] =
     STMoveForPieceGeneratorTwoPaths,
     STIsSquareObservedTwoPaths,
     STOpponentMovesFewMovesPrioriser,
-    STExitRemover
+    STLostPiecesRemover
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -327,7 +327,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STValidatingObservationFork,
     STValidatingObserverFork,
     STValidatingObservationGeometryFork,
-    STExitRemover
+    STLostPiecesRemover
 };
 
 static slice_type const end_of_branch_slice_types[] =

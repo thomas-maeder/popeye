@@ -870,7 +870,7 @@ static void stip_impose_starter_impl(slice_index si,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_goal_immobile_tester);
   stip_structure_traversal_override_single(st,
-                                           STExitRemover,
+                                           STLostPiecesRemover,
                                            &impose_starter_zeroed_in_remover);
 
   stip_traverse_structure(si,st);

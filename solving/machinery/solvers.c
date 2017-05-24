@@ -113,7 +113,7 @@
 #include "conditions/forced_squares.h"
 #include "conditions/synchronous.h"
 #include "conditions/must_capture.h"
-#include "conditions/exit.h"
+#include "conditions/lostpieces.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -247,7 +247,7 @@ void build_solvers1(slice_index si)
     ohneschach_insert_check_guards(si);
 
   if (CondFlag[lostpieces])
-    solving_insert_exit(si);
+    solving_insert_lostpieces(si);
 
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
