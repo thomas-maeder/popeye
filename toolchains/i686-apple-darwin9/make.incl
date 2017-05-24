@@ -84,6 +84,9 @@ OBJFILE=-o
 # Option for defining a C preprocessor macro
 DEFINEMACRO=-D
 
+# you may need to thange this
+INCLUDEPATHS=-I~/IMCROSS/mac/include
+
 
 # Linker options
 # ==============
