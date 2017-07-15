@@ -156,7 +156,7 @@ boolean pipe_validate_observation_recursive_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result =  validate_observation_recursive(SLICE_NEXT1(si));
+  result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

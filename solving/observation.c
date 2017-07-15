@@ -17,6 +17,7 @@
 #include "conditions/woozles.h"
 #include "conditions/wormhole.h"
 #include "conditions/madrasi.h"
+#include "conditions/partial_paralysis.h"
 #include "conditions/masand.h"
 #include "conditions/eiffel.h"
 #include "conditions/monochrome.h"
@@ -230,6 +231,10 @@ boolean validate_observation_recursive(slice_index si)
       result = madrasi_validate_observer(si);
       break;
 
+    case STPartialParalysisMovesForPieceGenerator:
+      result = partial_paralysis_validate_observer(si);
+      break;
+
     case STEiffelMovesForPieceGenerator:
       result = eiffel_validate_observer(si);
       break;
@@ -372,6 +377,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAnnanEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
+    STPartialParalysisMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
     STParalysingObserverValidator,
     STWoozlesRemoveIllegalCaptures,

@@ -53,6 +53,44 @@ boolean madrasi_is_moving_piece_observed(square sq)
   return result;
 }
 
+/* Determine whether a piece is observed by an opponent's piece with a certain
+ * walk.
+ * @param sq_observee position of the potentially observed piece
+ * @param walk we are interested in observations of pieces with this walk
+ * @param observed_side we are interested in observations by the opponent
+ * @return true iff there is >=1 matchin observation
+ */
+boolean madrasi_is_piece_observed_by_walk(square sq_observee,
+                                          piece_walk_type walk,
+                                          Side observed_side)
+{
+  boolean result;
+  Side const observing_side = advers(observed_side);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observee);
+  TraceWalk(walk);
+  TraceEnumerator(Side,observed_side);
+  TraceFunctionParamListEnd();
+
+  if (being_solved.number_of_pieces[observing_side][walk]>0)
+  {
+    siblingply(observing_side);
+    push_observation_target(sq_observee);
+    observing_walk[nbply] = walk;
+    result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[observed_side],
+                                                     EVALUATE(observation_geometry));
+    finply();
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_paralysed(numecoup n)
 {
   square const sq_departure = move_generation_stack[n].departure;
@@ -69,19 +107,7 @@ static boolean is_paralysed(numecoup n)
   else
   {
     piece_walk_type const candidate = get_walk_of_piece_on_square(sq_departure);
-    Side const observing_side = advers(observed_side);
-
-    if (being_solved.number_of_pieces[observing_side][candidate]>0)
-    {
-      siblingply(observing_side);
-      push_observation_target(sq_departure);
-      observing_walk[nbply] = candidate;
-      result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
-                                                       EVALUATE(observation_geometry));
-      finply();
-    }
-    else
-      result = false;
+    result = madrasi_is_piece_observed_by_walk(sq_departure,candidate,observed_side);
   }
 
   TraceFunctionExit(__func__);
@@ -111,7 +137,7 @@ boolean madrasi_validate_observer(slice_index si)
 }
 
 /* Generate moves for a single piece
- * @param identifies generator slice
+ * @param si identifies generator slice
  */
 void madrasi_generate_moves_for_piece(slice_index si)
 {

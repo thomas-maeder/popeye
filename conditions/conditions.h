@@ -215,8 +215,9 @@ typedef enum
   lastcapture,            /* 194 */
   argentinian,            /* 195 */
   lostpieces,             /* 196 */
+  partialparalysis,       /* 197 */
 
-  CondCount               /* 197 */
+  CondCount               /* 198 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

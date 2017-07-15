@@ -1127,7 +1127,7 @@ void verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[isardam]+CondFlag[madras]+CondFlag[eiffel]>1)
+  if (CondFlag[isardam]+CondFlag[madras]+CondFlag[eiffel]+CondFlag[partialparalysis]>1)
   {
     output_plaintext_verifie_message(IsardamAndMadrasi);
     return;
@@ -1174,7 +1174,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
+  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam] || CondFlag[partialparalysis])
   {
     if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
     {
@@ -1342,7 +1342,7 @@ void verify_position(slice_index si)
       || CondFlag[lortap]
       || CondFlag[shieldedkings]
       || TSTFLAG(some_pieces_flags,Paralysing)
-      || CondFlag[madras] || CondFlag[eiffel]
+      || CondFlag[madras] || CondFlag[eiffel] || CondFlag[partialparalysis]
       || CondFlag[brunner]
       || (being_solved.king_square[White]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[White])!=King)
       || (being_solved.king_square[Black]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[Black])!=King)

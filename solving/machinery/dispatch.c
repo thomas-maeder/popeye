@@ -121,6 +121,7 @@
 #include "conditions/eiffel.h"
 #include "conditions/facetoface.h"
 #include "conditions/madrasi.h"
+#include "conditions/partial_paralysis.h"
 #include "conditions/disparate.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/plus.h"
@@ -2189,6 +2190,10 @@ void dispatch(slice_index si)
 
     case STMadrasiMovesForPieceGenerator:
       madrasi_generate_moves_for_piece(si);
+      break;
+
+    case STPartialParalysisMovesForPieceGenerator:
+      partial_paralysis_generate_moves_for_piece(si);
       break;
 
     case STEiffelMovesForPieceGenerator:

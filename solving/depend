@@ -683,7 +683,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/circe/relevant_side.h output/plaintext/plaintext.h \
  output/output.h output/plaintext/pieces.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- debugging/measure.h debugging/assert.h
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -804,6 +804,8 @@ position/color.enum.h:
 position/color.enum:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
@@ -2378,12 +2380,12 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/patrol.h conditions/provocateurs.h \
  conditions/shielded_kings.h conditions/superguards.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
- conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
- solving/move_generator.h conditions/bichrome.h conditions/grid.h \
- conditions/edgemover.h conditions/annan.h conditions/conditions.h \
- conditions/facetoface.h conditions/marscirce/phantom.h \
- conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
- conditions/singlebox/type3.h \
+ conditions/partial_paralysis.h conditions/masand.h conditions/eiffel.h \
+ conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
+ conditions/grid.h conditions/edgemover.h conditions/annan.h \
+ conditions/conditions.h conditions/facetoface.h \
+ conditions/marscirce/phantom.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h \
@@ -2531,6 +2533,8 @@ conditions/wormhole.h:
 
 conditions/madrasi.h:
 
+conditions/partial_paralysis.h:
+
 conditions/masand.h:
 
 conditions/eiffel.h:
@@ -2619,7 +2623,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h solving/pipe.h \
  solving/fork.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/measure.h debugging/assert.h
+ input/plaintext/language.h debugging/measure.h \
+ output/plaintext/protocol.h debugging/assert.h
 
 solving/check.h:
 
@@ -2734,6 +2739,8 @@ output/message.h:
 input/plaintext/language.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \

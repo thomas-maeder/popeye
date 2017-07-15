@@ -10,6 +10,17 @@
 
 extern boolean madrasi_is_rex_inclusive;
 
+/* Determine whether a piece is observed by an opponent's piece with a certain
+ * walk.
+ * @param sq_observee position of the potentially observed piece
+ * @param walk we are interested in observations of pieces with this walk
+ * @param observed_side we are interested in observations by the opponent
+ * @return true iff there is >=1 matchin observation
+ */
+boolean madrasi_is_piece_observed_by_walk(square sq_observee,
+                                          piece_walk_type walk,
+                                          Side observed_side);
+
 /* Validate an observater according to Madrasi
  * @return true iff the observation is valid
  */

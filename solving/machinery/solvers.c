@@ -23,6 +23,7 @@
 #include "conditions/blackchecks.h"
 #include "conditions/extinction.h"
 #include "conditions/madrasi.h"
+#include "conditions/partial_paralysis.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach.h"
@@ -683,6 +684,9 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[madras])
     madrasi_initialise_solving(si);
+
+  if (CondFlag[partialparalysis])
+    partial_paralysis_initialise_solving(si);
 
   solving_initialise_hunters(si);
 
