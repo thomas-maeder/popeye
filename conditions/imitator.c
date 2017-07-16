@@ -832,7 +832,7 @@ boolean imitator_validate_observation(slice_index si)
         result = avoid_observing_if_imitator_blocked_nonstop_equihopper();
       else
         result = avoid_observing_if_imitator_blocked_orix();
-        break;
+      break;
 
     case Grasshopper:
     case NightriderHopper:

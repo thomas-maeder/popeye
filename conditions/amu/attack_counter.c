@@ -4,6 +4,7 @@
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
+#include "solving/post_move_iteration.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "position/position.h"

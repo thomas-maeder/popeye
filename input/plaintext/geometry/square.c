@@ -1,6 +1,8 @@
 #include "input/plaintext/geometry/square.h"
 #include "debugging/trace.h"
 
+#include <ctype.h>
+
   enum
   {
     chars_per_square = 2
