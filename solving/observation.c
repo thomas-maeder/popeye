@@ -664,11 +664,20 @@ boolean is_square_observed_general(Side side, square s, validator_id evaluate)
 {
   boolean result;
 
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
   siblingply(side);
   push_observation_target(s);
   result = is_square_observed(evaluate);
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
