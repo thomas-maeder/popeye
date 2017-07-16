@@ -1,6 +1,13 @@
 input/plaintext/geometry/square$(OBJ_SUFFIX): input/plaintext/geometry/square.c \
  input/plaintext/geometry/square.h position/board.h utilities/bitmask.h \
- debugging/trace.h
+ debugging/trace.h pieces/pieces.h utilities/boolean.h \
+ position/position.h position/side.h position/side.enum.h \
+ position/side.enum position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h pieces/walks/vectors.h \
+ position/castling_rights.h solving/ply.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h output/mode.enum
 
 input/plaintext/geometry/square.h:
 
@@ -9,3 +16,45 @@ position/board.h:
 utilities/bitmask.h:
 
 debugging/trace.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
