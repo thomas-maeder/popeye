@@ -61,7 +61,6 @@ static boolean does_walk_reach_target(piece_walk_type walk_paralysing)
   Flags const paralysed_spec = being_solved.spec[sq_observer];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceWalk(walk_paralysing);
   TraceFunctionParamListEnd();
 
@@ -95,7 +94,6 @@ static boolean is_observation_forbidden_by_partial_paralysis(void)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (!recursion_breaker)
