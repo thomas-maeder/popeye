@@ -115,7 +115,7 @@ void solving_insert_lostpieces(slice_index si)
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_structure_visitor_noop);
+    stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_traverse_structure_children_pipe);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
     stip_structure_traversal_override_single(&st,STLostPiecesRemover,&instrument_remover);
     stip_traverse_structure(si,&st);
