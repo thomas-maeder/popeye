@@ -1,0 +1,11 @@
+beginproblem
+
+protocol 4_77_to_4_79.reg
+
+author francois labelle?
+condition superguards
+pieces white ke1 sb3 black ke8 pa7b7
+stip h%1
+
+endproblem
+

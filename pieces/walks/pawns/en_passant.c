@@ -256,13 +256,17 @@ boolean en_passant_test_check(numvec dir_capture,
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
+  ply const ply_parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (sq_target==en_passant_find_capturee())
+  TraceEnumerator(Side,trait[nbply]);
+  TraceEnumerator(Side,trait[ply_parent]);
+  TraceEOL();
+
+  if (trait[nbply]!=trait[ply_parent] && sq_target==en_passant_find_capturee())
   {
-    ply const ply_parent = parent_ply[nbply];
     unsigned int i;
 
     for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
