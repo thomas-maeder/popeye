@@ -28,41 +28,49 @@
  */
 void lostpieces_remover_solve(slice_index si)
 {
-  Side const side_zeroing_in = SLICE_STARTER(si);
-  Side const side_zeroed_in_on = advers(side_zeroing_in);
-  square const save_king_square = being_solved.king_square[side_zeroed_in_on];
-  Flags const save_king_flags = being_solved.spec[save_king_square];
-  square squares_zeroed_in_on[nr_squares_on_board] = { 0 };
-  unsigned int nr_zeroed_in = 0;
+  Side const side_removing = SLICE_STARTER(si);
+  Side const side_losing = advers(side_removing);
+  square const save_king_square_removing = being_solved.king_square[side_removing];
+  square const save_king_square_losing = being_solved.king_square[side_losing];
+  Flags const save_king_flags_removing = being_solved.spec[save_king_square_removing];
+  Flags const save_king_flags_losing = being_solved.spec[save_king_square_losing];
+  square squares_with_lost[nr_squares_on_board] = { 0 };
+  unsigned int nr_lost = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  CLRFLAG(being_solved.spec[save_king_square],Royal);
+  CLRFLAG(being_solved.spec[save_king_square_removing],Royal);
+  being_solved.king_square[side_removing] = nullsquare;
+
+  CLRFLAG(being_solved.spec[save_king_square_losing],Royal);
 
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; ++bnp)
-      if (piece_belongs_to_opponent(*bnp) && *bnp!=save_king_square)
+      if (piece_belongs_to_opponent(*bnp) && *bnp!=save_king_square_losing)
       {
         TraceSquare(*bnp);TraceEOL();
-        being_solved.king_square[side_zeroed_in_on] = *bnp;
+        being_solved.king_square[side_losing] = *bnp;
         SETFLAG(being_solved.spec[*bnp],Royal);
         if (conditional_pipe_solve_delegate(si)==previous_move_has_solved)
-          squares_zeroed_in_on[nr_zeroed_in++] = *bnp;
+          squares_with_lost[nr_lost++] = *bnp;
         CLRFLAG(being_solved.spec[*bnp],Royal);
       }
   }
 
-  being_solved.spec[save_king_square] = save_king_flags;
-  being_solved.king_square[side_zeroed_in_on] = save_king_square;
+  being_solved.spec[save_king_square_losing] = save_king_flags_losing;
+  being_solved.king_square[side_losing] = save_king_square_losing;
+
+  being_solved.spec[save_king_square_removing] = save_king_flags_removing;
+  being_solved.king_square[side_removing] = save_king_square_removing;
 
   {
     unsigned int i;
-    for (i = 0; i!=nr_zeroed_in; ++i)
+    for (i = 0; i!=nr_lost; ++i)
       move_effect_journal_do_piece_removal(move_effect_reason_zeroed_in,
-                                           squares_zeroed_in_on[i]);
+                                           squares_with_lost[i]);
   }
 
   pipe_solve_delegate(si);
@@ -120,6 +128,8 @@ void solving_insert_lostpieces(slice_index si)
     stip_structure_traversal_override_single(&st,STLostPiecesRemover,&instrument_remover);
     stip_traverse_structure(si,&st);
   }
+
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
