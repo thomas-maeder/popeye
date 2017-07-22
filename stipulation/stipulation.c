@@ -796,32 +796,6 @@ static void impose_inverted_starter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-static void impose_starter_zeroed_in_remover(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  SLICE_STARTER(si) = *starter;
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *starter = advers(*starter);
-  stip_traverse_structure_conditional_pipe_tester(si,st);
-  *starter = SLICE_STARTER(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Slice types that change the starting side
  */
 static slice_type starter_inverters[] =
@@ -869,10 +843,6 @@ static void stip_impose_starter_impl(slice_index si,
   stip_structure_traversal_override_single(st,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_goal_immobile_tester);
-  stip_structure_traversal_override_single(st,
-                                           STLostPiecesRemover,
-                                           &impose_starter_zeroed_in_remover);
-
   stip_traverse_structure(si,st);
 
   TraceFunctionExit(__func__);

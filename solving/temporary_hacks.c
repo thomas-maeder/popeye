@@ -29,6 +29,7 @@
 #include "debugging/assert.h"
 
 slice_index temporary_hack_mate_tester[nr_sides];
+slice_index temporary_hack_lost_piece_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
@@ -60,6 +61,23 @@ static slice_index make_mate_tester_fork(Side side)
     slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
     result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
     dealloc_slice(SLICE_NEXT1(result));
+    solving_impose_starter(result,side);
+  }
+  else
+    result = alloc_proxy_slice();
+
+  return result;
+}
+
+static slice_index make_lost_pieces_tester_fork(Side side)
+{
+  slice_index result;
+
+  if (CondFlag[lostpieces])
+  {
+    slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
+    result = alloc_conditional_pipe(STLostPiecesTester,alloc_proxy_slice());
+    pipe_link(SLICE_NEXT2(result),mate_tester);
     solving_impose_starter(result,side);
   }
   else
@@ -429,6 +447,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_mate_tester[Black] = make_mate_tester_fork(Black);
     temporary_hack_mate_tester[White] = make_mate_tester_fork(White);
 
+    temporary_hack_lost_piece_tester[Black] = make_lost_pieces_tester_fork(Black);
+    temporary_hack_lost_piece_tester[White] = make_lost_pieces_tester_fork(White);
+
     temporary_hack_exclusive_mating_move_counter[Black] = make_exclusive_mating_move_counter_fork(Black);
     temporary_hack_exclusive_mating_move_counter[White] = make_exclusive_mating_move_counter_fork(White);
 
@@ -486,6 +507,8 @@ void insert_temporary_hacks(slice_index root_slice)
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
     pipe_append(temporary_hack_mate_tester[White],
+                temporary_hack_lost_piece_tester[White]);
+    pipe_append(temporary_hack_lost_piece_tester[White],
                 temporary_hack_exclusive_mating_move_counter[White]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[White],
                 temporary_hack_brunner_check_defense_finder[White]);
@@ -526,6 +549,8 @@ void insert_temporary_hacks(slice_index root_slice)
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
     pipe_append(temporary_hack_mate_tester[Black],
+                temporary_hack_lost_piece_tester[Black]);
+    pipe_append(temporary_hack_lost_piece_tester[Black],
                 temporary_hack_exclusive_mating_move_counter[Black]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
                 temporary_hack_brunner_check_defense_finder[Black]);

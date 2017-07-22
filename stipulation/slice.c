@@ -52,6 +52,7 @@ static slice_type const fork_slice_types[] =
     STConstraintTester,
     STGoalConstraintTester,
     STGoalReachedTester,
+    STLostPiecesTester,
     STGoalImmobileReachedTester,
     STCastlingIntermediateMoveLegalityTester,
     STContinuationSolver,
@@ -104,8 +105,7 @@ static slice_type const fork_slice_types[] =
     STValidatingObservationGeometryFork,
     STMoveForPieceGeneratorTwoPaths,
     STIsSquareObservedTwoPaths,
-    STOpponentMovesFewMovesPrioriser,
-    STLostPiecesRemover
+    STOpponentMovesFewMovesPrioriser
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -302,6 +302,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STConstraintTester,
     STGoalConstraintTester,
     STGoalReachedTester,
+    STLostPiecesTester,
     STGoalImmobileReachedTester,
     STCastlingIntermediateMoveLegalityTester,
     STDoubleMateFilter,
@@ -326,8 +327,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STValidatingCheckFork,
     STValidatingObservationFork,
     STValidatingObserverFork,
-    STValidatingObservationGeometryFork,
-    STLostPiecesRemover
+    STValidatingObservationGeometryFork
 };
 
 static slice_type const end_of_branch_slice_types[] =

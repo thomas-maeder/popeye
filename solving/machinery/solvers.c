@@ -247,9 +247,6 @@ void build_solvers1(slice_index si)
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(si);
 
-  if (CondFlag[lostpieces])
-    solving_insert_lostpieces(si);
-
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
    */
@@ -636,6 +633,9 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
     solving_insert_threat_handlers(si);
+
+  if (CondFlag[lostpieces])
+    solving_insert_lostpieces(si);
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);

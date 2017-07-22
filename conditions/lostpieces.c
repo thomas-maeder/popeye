@@ -9,6 +9,7 @@
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"
 #include "solving/move_effect_journal.h"
+#include "solving/temporary_hacks.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -54,7 +55,8 @@ void lostpieces_remover_solve(slice_index si)
         TraceSquare(*bnp);TraceEOL();
         being_solved.king_square[side_losing] = *bnp;
         SETFLAG(being_solved.spec[*bnp],Royal);
-        if (conditional_pipe_solve_delegate(si)==previous_move_has_solved)
+        if (conditional_pipe_solve_delegate(temporary_hack_lost_piece_tester[side_losing])
+            ==previous_move_has_solved)
           squares_with_lost[nr_lost++] = *bnp;
         CLRFLAG(being_solved.spec[*bnp],Royal);
       }
@@ -79,23 +81,6 @@ void lostpieces_remover_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_remover(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const tester = alloc_goal_mate_reached_tester_system();
-    pipe_link(SLICE_NEXT2(si),tester);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -103,7 +88,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_conditional_pipe(STLostPiecesRemover,alloc_proxy_slice());
+    slice_index const prototype = alloc_pipe(STLostPiecesRemover);
     move_insert_slices(si,st->context,&prototype,1);
   }
 
@@ -124,12 +109,10 @@ void solving_insert_lostpieces(slice_index si)
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_traverse_structure_children_pipe);
+    stip_structure_traversal_override_single(&st,STLostPiecesTester,&stip_traverse_structure_children_pipe);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-    stip_structure_traversal_override_single(&st,STLostPiecesRemover,&instrument_remover);
     stip_traverse_structure(si,&st);
   }
-
-  solving_impose_starter(si,SLICE_STARTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
