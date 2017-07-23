@@ -1,0 +1,73 @@
+
+          Tadashi Wakashime
+    WCCC 2017, Sake tourney, Ex 1
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   B   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   B   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .  -Q   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 3
+          PartialParalysis
+
+  1.Kb4-a3 Bh6-c1   2.Qe4-a4 b2-b4 #
+  1.Qe4-a8 Kd6-c5   2.Qa8-a2 Bh6-d2 #
+  1.Qe4-c6 Bg8-d5   2.Kb4-c5 Bh6-e3 #
+  add_to_move_generation_stack:      918939
+                     play_move:      151633
+ is_white_king_square_attacked:        5239
+ is_black_king_square_attacked:      151052
+
+solution finished.
+
+
+
+             Ken Kousaka
+    WCCC 2017, Sake tourney, Ex 2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -Q   8
+|                                   |
+7   .   .   K   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .  -K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   R   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 2
+          PartialParalysis
+
+  1.Qh8-a1 Bb6-d4   2.Kg6-f6 Rc2-f2 #
+  1.Qh8-h1 Rc2-h2   2.Kg6-h6 Bb6-e3 #
+  add_to_move_generation_stack:      395530
+                     play_move:      124935
+ is_white_king_square_attacked:        6652
+ is_black_king_square_attacked:      124303
+
+solution finished.
+
+
