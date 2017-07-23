@@ -166,7 +166,8 @@ static void CloseElementOneLine(FILE *file)
 
 static void CloseElement(FILE *file)
 {
-  fputs(" }%\n",file);
+  /* do *not* add a blank before the } here */
+  fputs("}%\n",file);
 }
 
 static void WriteCommand(FILE *file, char const *name)
