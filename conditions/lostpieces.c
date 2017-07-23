@@ -98,6 +98,52 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void traverse_threat_solver(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const in_threat_branch = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_binary_operand1(si,st);
+
+  *in_threat_branch = true;
+  stip_traverse_structure_binary_operand2(si,st);
+  *in_threat_branch = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_threat_branch(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const in_threat_branch = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*in_threat_branch)
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STMoveEffectJournalUndoer),
+        alloc_pipe(STLostPiecesRemover)
+    };
+    move_insert_slices(si,st->context,prototypes,2);
+
+    *in_threat_branch = false;
+    stip_traverse_structure_children_pipe(si,st);
+    *in_threat_branch = true;
+  }
+  else
+    stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  */
 void solving_insert_lostpieces(slice_index si)
@@ -106,11 +152,14 @@ void solving_insert_lostpieces(slice_index si)
   TraceFunctionParamListEnd();
 
   {
+    boolean in_threat_branch = false;
     stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_init(&st,&in_threat_branch);
     stip_structure_traversal_override_single(&st,STGoalCheckReachedTester,&stip_traverse_structure_children_pipe);
     stip_structure_traversal_override_single(&st,STLostPiecesTester,&stip_traverse_structure_children_pipe);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+    stip_structure_traversal_override_single(&st,STThreatSolver,&traverse_threat_solver);
+    stip_structure_traversal_override_single(&st,STDummyMove,&instrument_threat_branch);
     stip_traverse_structure(si,&st);
   }
 
