@@ -223,7 +223,6 @@
 #include "output/latex/twinning.h"
 #include "output/latex/line/line_writer.h"
 #include "output/latex/goal_writer.h"
-#include "output/latex/tree/end_of_solution_writer.h"
 #include "output/latex/tree/check_writer.h"
 #include "output/latex/tree/key_writer.h"
 #include "output/latex/tree/move_writer.h"
@@ -956,10 +955,6 @@ void dispatch(slice_index si)
 
     case STOutputLaTeXTwinningWriter:
       output_latex_write_twinning(si);
-      break;
-
-    case STOutputLaTeXTreeEndOfSolutionWriter:
-      output_latex_tree_end_of_solution_writer_solve(si);
       break;
 
     case STOutputLaTeXKeyWriter:

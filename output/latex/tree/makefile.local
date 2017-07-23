@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = tree.c end_of_solution_writer.c check_writer.c threat_writer.c move_writer.c zugzwang_writer.c key_writer.c try_writer.c refuting_variation_writer.c refutation_writer.c
+SRC_CFILES = tree.c check_writer.c threat_writer.c move_writer.c zugzwang_writer.c key_writer.c try_writer.c refuting_variation_writer.c refutation_writer.c
 
-INCLUDES = tree.h end_of_solution_writer.h check_writer.h threat_writer.h move_writer.h zugzwang_writer.h key_writer.h try_writer.h refuting_variation_writer.h refutation_writer.h
+INCLUDES = tree.h check_writer.h threat_writer.h move_writer.h zugzwang_writer.h key_writer.h try_writer.h refuting_variation_writer.h refutation_writer.h
 
 include makefile.rules $(CURRPWD)depend

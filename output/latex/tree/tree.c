@@ -8,7 +8,6 @@
 #include "solving/trivial_end_filter.h"
 #include "output/latex/latex.h"
 #include "output/latex/goal_writer.h"
-#include "output/latex/tree/end_of_solution_writer.h"
 #include "output/latex/tree/check_writer.h"
 #include "output/latex/tree/threat_writer.h"
 #include "output/latex/tree/move_writer.h"
@@ -236,26 +235,6 @@ typedef struct
     FILE *file;
 } insertion_state_type;
 
-static void insert_end_of_solution_writer(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (st->level==structure_traversal_level_top)
-  {
-    insertion_state_type *state = st->param;
-    slice_index const prototype = alloc_output_latex_tree_end_of_solution_writer_slice(state->file);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void remember_postkey_play(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
@@ -381,7 +360,6 @@ static structure_traversers_visitor const root_writer_inserters[] =
 {
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
   { STHelpAdapter,        &stip_structure_visitor_noop           },
-  { STAttackAdapter,      &insert_end_of_solution_writer         },
   { STDefenseAdapter,     &remember_postkey_play                 },
   { STEndOfBranchGoal,    &insert_key_writer_goal                },
   { STNotEndOfBranchGoal, &insert_refuting_variation_writer      },
