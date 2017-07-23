@@ -784,7 +784,8 @@ output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ output/plaintext/plaintext.h output/output.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -840,6 +841,10 @@ output/plaintext/message.h:
 output/message.h:
 
 input/plaintext/language.h:
+
+output/plaintext/plaintext.h:
+
+output/output.h:
 
 stipulation/pipe.h:
 
