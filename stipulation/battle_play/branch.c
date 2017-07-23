@@ -230,6 +230,7 @@ static slice_index const slice_rank_order[] =
   STDonePriorisingMoves,
   STMove,
   STDummyMove,
+  STThreatCheckDetector,
   STDefensePlayed,
   STCaptureCounter,
   STResetUnsolvable,
