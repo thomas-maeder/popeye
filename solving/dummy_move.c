@@ -29,7 +29,7 @@ void dummy_move_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   /* insert an empty ply for the dummy defense */
-  nextply(trait[nbply]);
+  nextply(advers(trait[nbply]));
   move_effect_journal_do_null_move();
   pipe_solve_delegate(si);
   finply();
