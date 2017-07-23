@@ -1,5 +1,6 @@
 #include "output/plaintext/tree/threat_writer.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/plaintext.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/threat.h"
@@ -45,7 +46,15 @@ void output_plaintext_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
+  {
+    ply const save_nbply = nbply;
     output_plaintext_message(Threat);
+    nbply = parent_ply[nbply];
+    output_plaintext_write_dummy_move_effects(&output_plaintext_engine,
+                                              stdout,
+                                              &output_plaintext_symbol_table);
+    nbply = save_nbply;
+  }
 
   pipe_solve_delegate(si);
 
