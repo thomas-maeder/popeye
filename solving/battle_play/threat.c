@@ -86,6 +86,22 @@ void threat_defeated_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+void threat_check_detector_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!is_in_check(SLICE_STARTER(si)))
+  {
+    pipe_solve_delegate(si);
+    threat_lengths[parent_ply[nbply]] = solve_result-1;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -135,12 +151,7 @@ void threat_solver_solve(slice_index si)
 
   threats[nbply] = allocate_table();
 
-  if (!is_in_check(SLICE_STARTER(si)))
-  {
-    fork_solve_delegate(si);
-    threat_lengths[nbply] = solve_result-1;
-  }
-
+  fork_solve_delegate(si);
   pipe_solve_delegate(si);
 
   free_table(threats[nbply]);
@@ -372,10 +383,12 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STDummyMove),
+        alloc_pipe(STThreatCheckDetector),
         alloc_defense_played_slice(),
         alloc_pipe(STThreatCollector)
     };
-    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,3,si);
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,nr_prototypes,si);
   }
 
   TraceFunctionExit(__func__);
