@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/move_played.h"
+#include "stipulation/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/check.h"
@@ -151,7 +152,10 @@ void threat_solver_solve(slice_index si)
 
   threats[nbply] = allocate_table();
 
+  /* solve threats, fill threats[nbply] */
   fork_solve_delegate(si);
+
+  /* solve variations, filter out irrelevant ones using threats[nbply] */
   pipe_solve_delegate(si);
 
   free_table(threats[nbply]);
@@ -343,7 +347,7 @@ static void insert_solver(slice_index si, stip_structure_traversal *st)
 
   if (SLICE_U(si).branch.length>slack_length+1)
   {
-    slice_index const prototype = alloc_testing_pipe(STThreatSolver);
+    slice_index const prototype = alloc_binary_slice(STThreatSolver,no_slice,no_slice);
     defense_branch_insert_slices(si,&prototype,1);
 
     stip_traverse_structure_children_pipe(si,st);
