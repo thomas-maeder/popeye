@@ -577,10 +577,6 @@ void dispatch(slice_index si)
       dummy_move_solve(si);
       break;
 
-    case STThreatCheckDetector:
-      threat_check_detector_solve(si);
-      break;
-
     case STThreatCollector:
       threat_collector_solve(si);
       break;

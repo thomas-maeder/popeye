@@ -11,6 +11,7 @@
 #include "solving/fork.h"
 #include "solving/testing_pipe.h"
 #include "solving/pipe.h"
+#include "solving/selfcheck_guard.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -87,22 +88,6 @@ void threat_defeated_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void threat_check_detector_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!is_in_check(SLICE_STARTER(si)))
-  {
-    pipe_solve_delegate(si);
-    threat_lengths[parent_ply[nbply]] = solve_result-1;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -152,8 +137,12 @@ void threat_solver_solve(slice_index si)
 
   threats[nbply] = allocate_table();
 
-  /* solve threats, fill threats[nbply] */
-  fork_solve_delegate(si);
+  if (!is_in_check(SLICE_STARTER(si)))
+  {
+    /* solve threats, fill threats[nbply] */
+    fork_solve_delegate(si);
+    threat_lengths[nbply] = solve_result-1;
+  }
 
   /* solve variations, filter out irrelevant ones using threats[nbply] */
   pipe_solve_delegate(si);
@@ -387,8 +376,8 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STDummyMove),
-        alloc_pipe(STThreatCheckDetector),
         alloc_defense_played_slice(),
+        alloc_selfcheck_guard_slice(),
         alloc_pipe(STThreatCollector)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
