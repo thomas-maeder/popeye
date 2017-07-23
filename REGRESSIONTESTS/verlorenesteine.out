@@ -23,31 +23,30 @@
   #2                          3 + 3
            VerloreneSteine
 
-   1.Td4-a4 ? Drohung:
+   1.Td4-a4 ? Drohung:[-wBd7]
           2.Ta4-a8 #
     Aber
       1...b5*a4[-wBd7] !
 
-   1.Td4-b4[-sBb5] ! Drohung:
+   1.Td4-b4[-sBb5] ! Drohung:[-wBd7]
           2.Tb4-b8 #
 
-   1.Td4*e4 ? Drohung:
-          2.Te4-e8 #
+   1.Td4*e4 ? Zugzwang.
     Aber
       1...b5-b4[-wBd7] !
 
-   1.Kd6-c6[-sBb5] ? Zugzwang.
+   1.Kd6-c6[-sBb5] ?
     Aber
       1...Kd8-e7[-wBd7] !
 
-   1.Kd6-e6 ? Zugzwang.
+   1.Kd6-e6 ?
     Aber
       1...Kd8-c7[-wBd7] !
 
-  add_to_move_generation_stack:        3547
-                     play_move:        2821
- is_white_king_square_attacked:        2054
- is_black_king_square_attacked:        2004
+  add_to_move_generation_stack:        3452
+                     play_move:        2719
+ is_white_king_square_attacked:        2001
+ is_black_king_square_attacked:        1907
 
 Loesung beendet.
 
