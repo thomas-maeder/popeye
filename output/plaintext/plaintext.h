@@ -14,6 +14,13 @@ void output_plaintext_write_move(output_engine_type const *engine,
                                  FILE *file,
                                  output_symbol_table_type const *symbol_table);
 
+/* Write the effects of a dummy move (e.g. if the black "any" move has some
+ * effects such as removal of white lost pieces
+ */
+void output_plaintext_write_dummy_move_effects(output_engine_type const *engine,
+                                               FILE *file,
+                                               output_symbol_table_type const *symbol_table);
+
 /* Instrument the solving machinery with slices that write the solution in
  * plain text
  */

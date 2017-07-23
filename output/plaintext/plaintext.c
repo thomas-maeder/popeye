@@ -711,12 +711,13 @@ static void write_bgl_status(output_plaintext_move_context_type *context,
   }
 }
 
-static void write_other_effects(output_plaintext_move_context_type *context)
+static void write_other_effects(output_plaintext_move_context_type *context,
+                                move_effect_journal_index_type offset)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr = move_effect_journal_base[nbply];
 
-  for (curr += move_effect_journal_index_offset_other_effects; curr!=top; ++curr)
+  for (curr += offset; curr!=top; ++curr)
   {
     switch (move_effect_journal[curr].type)
     {
@@ -793,7 +794,20 @@ void output_plaintext_write_move(output_engine_type const *engine,
 
   context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");
   write_regular_move(&context);
-  write_other_effects(&context);
+  write_other_effects(&context,move_effect_journal_index_offset_other_effects);
+  context_close(&context);
+}
+
+/* Write the effects of a dummy move (e.g. if the black "any" move has some
+ * effects such as removal of white lost pieces
+ */
+void output_plaintext_write_dummy_move_effects(output_engine_type const *engine,
+                                               FILE *file,
+                                               output_symbol_table_type const *symbol_table)
+{
+  output_plaintext_move_context_type context;
+  context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");
+  write_other_effects(&context,0);
   context_close(&context);
 }
 
