@@ -1,4 +1,5 @@
 #include "output/latex/tree/threat_writer.h"
+#include "output/latex/latex.h"
 #include "output/latex/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -46,7 +47,15 @@ void output_latex_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
+  {
+    ply const save_nbply = nbply;
     output_latex_message(SLICE_U(si).writer.file,Threat);
+    nbply = parent_ply[nbply];
+    output_plaintext_write_dummy_move_effects(&output_latex_engine,
+                                              SLICE_U(si).writer.file,
+                                              &output_latex_symbol_table);
+    nbply = save_nbply;
+  }
 
   pipe_solve_delegate(si);
 
