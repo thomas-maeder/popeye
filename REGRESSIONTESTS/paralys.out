@@ -107,7 +107,7 @@
   add_to_move_generation_stack:       12306
                      play_move:        4226
  is_white_king_square_attacked:         430
- is_black_king_square_attacked:        4179
+ is_black_king_square_attacked:        4184
 
 Loesung beendet.
 
@@ -192,7 +192,7 @@ Loesung beendet.
   add_to_move_generation_stack:        5852
                      play_move:        2098
  is_white_king_square_attacked:         174
- is_black_king_square_attacked:        2101
+ is_black_king_square_attacked:        2102
 
 Loesung beendet.
 
@@ -248,7 +248,7 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
   add_to_move_generation_stack:       13603
                      play_move:        3065
  is_white_king_square_attacked:         194
- is_black_king_square_attacked:        3035
+ is_black_king_square_attacked:        3039
 
 Loesung beendet.
 
@@ -296,7 +296,7 @@ a)
   add_to_move_generation_stack:        6575
                      play_move:        2577
  is_white_king_square_attacked:         170
- is_black_king_square_attacked:        2580
+ is_black_king_square_attacked:        2581
 
 b) Circe Platzwechsel  
 
@@ -314,7 +314,7 @@ b) Circe Platzwechsel
   add_to_move_generation_stack:        6327
                      play_move:        2511
  is_white_king_square_attacked:         155
- is_black_king_square_attacked:        2514
+ is_black_king_square_attacked:        2515
 
 Loesung beendet.
 

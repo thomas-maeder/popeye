@@ -2160,7 +2160,7 @@ White would have to deliver mate after the key
   add_to_move_generation_stack:         484
                      play_move:         349
  is_white_king_square_attacked:         329
- is_black_king_square_attacked:          78
+ is_black_king_square_attacked:          79
 
 solution finished.
 

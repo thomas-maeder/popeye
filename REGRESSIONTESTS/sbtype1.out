@@ -222,7 +222,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
   add_to_move_generation_stack:     1404411
                      play_move:     1025153
  is_white_king_square_attacked:      535862
- is_black_king_square_attacked:      302182
+ is_black_king_square_attacked:      302185
 
 Loesung beendet.
 
@@ -330,7 +330,7 @@ Beispiel 1
   add_to_move_generation_stack:    12669667
                      play_move:    13698327
  is_white_king_square_attacked:     9257112
- is_black_king_square_attacked:     1685567
+ is_black_king_square_attacked:     1685579
 
 Loesung beendet.
 
@@ -390,7 +390,7 @@ Loesung beendet.
   add_to_move_generation_stack:      502991
                      play_move:      592043
  is_white_king_square_attacked:       68979
- is_black_king_square_attacked:      280121
+ is_black_king_square_attacked:      280122
 
 Loesung beendet.
 

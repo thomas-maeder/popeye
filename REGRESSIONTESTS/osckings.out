@@ -42,7 +42,7 @@ a)
   add_to_move_generation_stack:        1885
                      play_move:         851
  is_white_king_square_attacked:         131
- is_black_king_square_attacked:        1527
+ is_black_king_square_attacked:        1528
 
 b) WeisseOszillierendeKoenige    TypB  
 
@@ -53,7 +53,7 @@ b) WeisseOszillierendeKoenige    TypB
   add_to_move_generation_stack:        2631
                      play_move:        1388
  is_white_king_square_attacked:        1093
- is_black_king_square_attacked:        1391
+ is_black_king_square_attacked:        1392
 
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige  
@@ -100,7 +100,7 @@ SchwarzeOszillierendeKoenige    TypB
   add_to_move_generation_stack:        5125
                      play_move:        2046
  is_white_king_square_attacked:        2047
- is_black_king_square_attacked:        3630
+ is_black_king_square_attacked:        3631
 
 Loesung beendet.
 
@@ -146,7 +146,7 @@ Loesung beendet.
   add_to_move_generation_stack:        1640
                      play_move:        1156
  is_white_king_square_attacked:         154
- is_black_king_square_attacked:        1159
+ is_black_king_square_attacked:        1160
 
 Loesung beendet.
 

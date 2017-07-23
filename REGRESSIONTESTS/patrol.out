@@ -38,7 +38,7 @@
   add_to_move_generation_stack:       21598
                      play_move:       10314
  is_white_king_square_attacked:        1102
- is_black_king_square_attacked:       10317
+ is_black_king_square_attacked:       10318
 
 Loesung beendet.
 
@@ -168,7 +168,7 @@ F1291, The Problemist 14/1-2, 1-3/1992
   add_to_move_generation_stack:       36779
                      play_move:       23553
  is_white_king_square_attacked:        1178
- is_black_king_square_attacked:       23556
+ is_black_king_square_attacked:       23557
 
 Loesung beendet.
 

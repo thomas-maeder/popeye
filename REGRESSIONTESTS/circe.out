@@ -39,7 +39,7 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
   add_to_move_generation_stack:       15074
                      play_move:        9088
  is_white_king_square_attacked:         436
- is_black_king_square_attacked:        9091
+ is_black_king_square_attacked:        9092
 
 Loesung beendet.
 
@@ -92,7 +92,7 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
   add_to_move_generation_stack:        5342
                      play_move:        5708
  is_white_king_square_attacked:         466
- is_black_king_square_attacked:        5711
+ is_black_king_square_attacked:        5712
 
 Loesung beendet.
 
@@ -191,7 +191,7 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
   add_to_move_generation_stack:       14788
                      play_move:        8772
  is_white_king_square_attacked:         359
- is_black_king_square_attacked:        8732
+ is_black_king_square_attacked:        8736
 
 Loesung beendet.
 
@@ -333,7 +333,7 @@ Loesung beendet.
   add_to_move_generation_stack:      555975
                      play_move:      369115
  is_white_king_square_attacked:      242679
- is_black_king_square_attacked:      145009
+ is_black_king_square_attacked:      145011
 
 Loesung beendet.
 
@@ -446,7 +446,7 @@ Loesung beendet.
   add_to_move_generation_stack:        2294
                      play_move:        3192
  is_white_king_square_attacked:         150
- is_black_king_square_attacked:        1542
+ is_black_king_square_attacked:        1543
 
 Loesung beendet.
 
@@ -686,7 +686,7 @@ Loesung beendet.
   add_to_move_generation_stack:       15808
                      play_move:        9212
  is_white_king_square_attacked:         556
- is_black_king_square_attacked:        9215
+ is_black_king_square_attacked:        9216
 
 Loesung beendet.
 
@@ -790,7 +790,7 @@ Loesung beendet.
   add_to_move_generation_stack:       18210
                      play_move:       10747
  is_white_king_square_attacked:         602
- is_black_king_square_attacked:       10750
+ is_black_king_square_attacked:       10751
 
 Loesung beendet.
 

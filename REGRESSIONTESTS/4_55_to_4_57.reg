@@ -808,7 +808,7 @@ checks weren't indicated on the move reaching a goal
   add_to_move_generation_stack:         101
                      play_move:          37
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          33
+ is_black_king_square_attacked:          34
 
 solution finished.
 

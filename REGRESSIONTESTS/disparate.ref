@@ -33,7 +33,7 @@ a)
   add_to_move_generation_stack:         486
                      play_move:         461
  is_white_king_square_attacked:         125
- is_black_king_square_attacked:         353
+ is_black_king_square_attacked:         355
 
 b) =3  
 
@@ -53,7 +53,7 @@ b) =3
   add_to_move_generation_stack:         821
                      play_move:         802
  is_white_king_square_attacked:         438
- is_black_king_square_attacked:         680
+ is_black_king_square_attacked:         683
 
 solution finished.
 

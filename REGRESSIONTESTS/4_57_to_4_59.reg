@@ -29,7 +29,7 @@ option maxsolutions didn't work in "battle play" in 4.57
   add_to_move_generation_stack:         164
                      play_move:         112
  is_white_king_square_attacked:          26
- is_black_king_square_attacked:         115
+ is_black_king_square_attacked:         116
 
 solution finished.
 

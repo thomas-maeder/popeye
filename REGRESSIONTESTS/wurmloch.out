@@ -231,7 +231,7 @@ Loesung beendet.
   add_to_move_generation_stack:       35757
                      play_move:       25827
  is_white_king_square_attacked:        7422
- is_black_king_square_attacked:       20540
+ is_black_king_square_attacked:       20546
 
 Loesung beendet.
 
@@ -303,7 +303,7 @@ Thomas Maeder & Bruno Stucker & Kjell Widlert
   add_to_move_generation_stack:       11872
                      play_move:       11058
  is_white_king_square_attacked:        1187
- is_black_king_square_attacked:       11014
+ is_black_king_square_attacked:       11017
 
 Loesung beendet.
 

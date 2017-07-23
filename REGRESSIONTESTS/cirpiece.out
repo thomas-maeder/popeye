@@ -42,7 +42,7 @@ a)
   add_to_move_generation_stack:       12017
                      play_move:        9329
  is_white_king_square_attacked:         491
- is_black_king_square_attacked:        9332
+ is_black_king_square_attacked:        9333
 
 b) Circe Chamaeleon D->S->L->T->D  
 
@@ -62,7 +62,7 @@ b) Circe Chamaeleon D->S->L->T->D
   add_to_move_generation_stack:       12273
                      play_move:        9542
  is_white_king_square_attacked:         507
- is_black_king_square_attacked:        9545
+ is_black_king_square_attacked:        9546
 
 c) Circe Clone  
 
@@ -82,7 +82,7 @@ c) Circe Clone
   add_to_move_generation_stack:       11888
                      play_move:        9190
  is_white_king_square_attacked:         484
- is_black_king_square_attacked:        9193
+ is_black_king_square_attacked:        9194
 
 d) Circe Chamaeleon D->T->L->S->D  
 
@@ -102,7 +102,7 @@ d) Circe Chamaeleon D->T->L->S->D
   add_to_move_generation_stack:       12614
                      play_move:        9860
  is_white_king_square_attacked:         514
- is_black_king_square_attacked:        9863
+ is_black_king_square_attacked:        9864
 
 Loesung beendet.
 
@@ -272,7 +272,7 @@ Loesung beendet.
   add_to_move_generation_stack:         716
                      play_move:         333
  is_white_king_square_attacked:         109
- is_black_king_square_attacked:         336
+ is_black_king_square_attacked:         337
 
 Loesung beendet.
 
@@ -436,7 +436,7 @@ Loesung beendet.
   add_to_move_generation_stack:        3724
                      play_move:        1895
  is_white_king_square_attacked:        1896
- is_black_king_square_attacked:        1128
+ is_black_king_square_attacked:        1129
 
 Loesung beendet.
 

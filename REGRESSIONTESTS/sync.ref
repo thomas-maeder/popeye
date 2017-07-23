@@ -39,7 +39,7 @@ a)
   add_to_move_generation_stack:       40934
                      play_move:       17895
  is_white_king_square_attacked:        7130
- is_black_king_square_attacked:       15664
+ is_black_king_square_attacked:       15666
 
 b) Circe
    BlackSynchronMover  =4  
@@ -55,7 +55,7 @@ b) Circe
   add_to_move_generation_stack:       11107
                      play_move:        5026
  is_white_king_square_attacked:        2097
- is_black_king_square_attacked:        4431
+ is_black_king_square_attacked:        4433
 
 c) GlasgowChess
    BlackSynchronMover  =3  
@@ -69,7 +69,7 @@ c) GlasgowChess
   add_to_move_generation_stack:        3708
                      play_move:        2505
  is_white_king_square_attacked:         909
- is_black_king_square_attacked:        2325
+ is_black_king_square_attacked:        2327
 
 d) AntiAndernachChess
    BlackSynchronMover  =2  
@@ -81,7 +81,7 @@ d) AntiAndernachChess
   add_to_move_generation_stack:         225
                      play_move:         165
  is_white_king_square_attacked:          65
- is_black_king_square_attacked:         154
+ is_black_king_square_attacked:         155
 
 solution finished.
 
@@ -139,7 +139,7 @@ a)
   add_to_move_generation_stack:       45193
                      play_move:       32255
  is_white_king_square_attacked:       18992
- is_black_king_square_attacked:       14436
+ is_black_king_square_attacked:       14444
 
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6  
@@ -160,7 +160,7 @@ b) BlackSynchronMover
   add_to_move_generation_stack:        3795
                      play_move:        2095
  is_white_king_square_attacked:        1043
- is_black_king_square_attacked:        1079
+ is_black_king_square_attacked:        1084
 
 solution finished.
 

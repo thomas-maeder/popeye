@@ -97,7 +97,7 @@ Patrol e7 g7 d6 f6 d4 h4 e3 a2 d2 f1
   add_to_move_generation_stack:       51230
                      play_move:       29273
  is_white_king_square_attacked:         976
- is_black_king_square_attacked:       29158
+ is_black_king_square_attacked:       29160
 
 solution finished.
 

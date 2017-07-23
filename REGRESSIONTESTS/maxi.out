@@ -386,7 +386,7 @@ Loesung beendet.
   add_to_move_generation_stack:       83028
                      play_move:       58416
  is_white_king_square_attacked:        5355
- is_black_king_square_attacked:       56885
+ is_black_king_square_attacked:       56889
 
 Loesung beendet.
 
@@ -556,7 +556,7 @@ Loesung beendet.
   add_to_move_generation_stack:    14536421
                      play_move:     8355865
  is_white_king_square_attacked:     2086682
- is_black_king_square_attacked:     7336904
+ is_black_king_square_attacked:     7336920
 
    1.Th6-d6 ! Zugzwang.
       1...Td4-h4
@@ -574,7 +574,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:    16513124
                      play_move:     8346743
- is_white_king_square_attacked:     7262254
+ is_white_king_square_attacked:     7262259
  is_black_king_square_attacked:     2170550
 
 Loesung beendet.
@@ -623,7 +623,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:    16512081
                      play_move:     8346150
- is_white_king_square_attacked:     7261802
+ is_white_king_square_attacked:     7261807
  is_black_king_square_attacked:     2170335
 
 Loesung beendet.

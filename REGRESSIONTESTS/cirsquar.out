@@ -142,7 +142,7 @@ a)
   add_to_move_generation_stack:        8852
                      play_move:        6292
  is_white_king_square_attacked:         690
- is_black_king_square_attacked:        6295
+ is_black_king_square_attacked:        6296
 
 b) Circe File  
 
@@ -169,7 +169,7 @@ b) Circe File
   add_to_move_generation_stack:       10715
                      play_move:        7960
  is_white_king_square_attacked:         810
- is_black_king_square_attacked:        7965
+ is_black_king_square_attacked:        7967
 
 Loesung beendet.
 
@@ -329,7 +329,7 @@ Loesung beendet.
   add_to_move_generation_stack:        4285
                      play_move:        1285
  is_white_king_square_attacked:         220
- is_black_king_square_attacked:        1268
+ is_black_king_square_attacked:        1273
 
 Loesung beendet.
 
@@ -788,7 +788,7 @@ Loesung beendet.
   add_to_move_generation_stack:       78076
                      play_move:       41973
  is_white_king_square_attacked:        1908
- is_black_king_square_attacked:       41976
+ is_black_king_square_attacked:       41977
 
 Loesung beendet.
 
@@ -837,7 +837,7 @@ Loesung beendet.
   add_to_move_generation_stack:       56834
                      play_move:       41177
  is_white_king_square_attacked:       21896
- is_black_king_square_attacked:       21160
+ is_black_king_square_attacked:       21161
 
 Loesung beendet.
 
@@ -886,7 +886,7 @@ Loesung beendet.
   add_to_move_generation_stack:       13838
                      play_move:       11333
  is_white_king_square_attacked:         545
- is_black_king_square_attacked:       11336
+ is_black_king_square_attacked:       11337
 
 Loesung beendet.
 
@@ -933,7 +933,7 @@ Loesung beendet.
   add_to_move_generation_stack:        5098
                      play_move:        3438
  is_white_king_square_attacked:         423
- is_black_king_square_attacked:        3441
+ is_black_king_square_attacked:        3442
 
 Loesung beendet.
 

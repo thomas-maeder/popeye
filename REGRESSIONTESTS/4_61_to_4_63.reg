@@ -365,7 +365,7 @@ a)
   add_to_move_generation_stack:         187
                      play_move:         139
  is_white_king_square_attacked:          25
- is_black_king_square_attacked:         144
+ is_black_king_square_attacked:         146
 Dit is een grote test
 
 b) wuSa3-->g5  
@@ -376,7 +376,7 @@ b) wuSa3-->g5
   add_to_move_generation_stack:         148
                      play_move:          88
  is_white_king_square_attacked:          22
- is_black_king_square_attacked:          91
+ is_black_king_square_attacked:          92
 
 solution finished.
 
@@ -1259,7 +1259,7 @@ solution finished.
 1   .   .   .   .   .   .   .  -K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  Black 3s[1s{x}[- 1s[+]]]    1 + 2
+  Black 3s[1s{x}[-1s[+]]]     1 + 2
 both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +

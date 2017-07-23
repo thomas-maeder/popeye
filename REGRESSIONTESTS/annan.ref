@@ -68,7 +68,7 @@ cooked, even with suggestion +WPb6 in Chessics #8
   add_to_move_generation_stack:        3232
                      play_move:        2416
  is_white_king_square_attacked:         289
- is_black_king_square_attacked:        2429
+ is_black_king_square_attacked:        2432
 
 solution finished.
 
@@ -143,7 +143,7 @@ solution finished.
   add_to_move_generation_stack:         956
                      play_move:         505
  is_white_king_square_attacked:         506
- is_black_king_square_attacked:         307
+ is_black_king_square_attacked:         308
 
 solution finished.
 
@@ -185,7 +185,7 @@ solution finished.
   add_to_move_generation_stack:       12337
                      play_move:        5234
  is_white_king_square_attacked:        5236
- is_black_king_square_attacked:        3602
+ is_black_king_square_attacked:        3603
 
 solution finished.
 
@@ -262,7 +262,7 @@ solving interrupted.
   add_to_move_generation_stack:         566
                      play_move:         472
  is_white_king_square_attacked:          83
- is_black_king_square_attacked:         475
+ is_black_king_square_attacked:         476
 
 solution finished.
 

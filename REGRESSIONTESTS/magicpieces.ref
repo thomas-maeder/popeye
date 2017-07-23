@@ -78,7 +78,7 @@
   add_to_move_generation_stack:       22232
                      play_move:       14662
  is_white_king_square_attacked:        1182
- is_black_king_square_attacked:       14654
+ is_black_king_square_attacked:       14657
 
 solution finished.
 
@@ -376,7 +376,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
   add_to_move_generation_stack:      108977
                      play_move:       69417
  is_white_king_square_attacked:        2518
- is_black_king_square_attacked:       68936
+ is_black_king_square_attacked:       68947
 
 solution finished.
 
@@ -442,7 +442,7 @@ a)
   add_to_move_generation_stack:       34934
                      play_move:       24166
  is_white_king_square_attacked:         969
- is_black_king_square_attacked:       24173
+ is_black_king_square_attacked:       24176
 
 b) wPe6  
 
@@ -476,7 +476,7 @@ b) wPe6
   add_to_move_generation_stack:       35322
                      play_move:       24300
  is_white_king_square_attacked:         966
- is_black_king_square_attacked:       24307
+ is_black_king_square_attacked:       24310
 
 +c) wSg6  
 
@@ -510,7 +510,7 @@ b) wPe6
   add_to_move_generation_stack:       34931
                      play_move:       24057
  is_white_king_square_attacked:         944
- is_black_king_square_attacked:       24064
+ is_black_king_square_attacked:       24067
 
 +d) bPe6  
 
@@ -544,7 +544,7 @@ b) wPe6
   add_to_move_generation_stack:       35062
                      play_move:       24383
  is_white_king_square_attacked:         968
- is_black_king_square_attacked:       24390
+ is_black_king_square_attacked:       24393
 
 solution finished.
 
@@ -623,7 +623,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
   add_to_move_generation_stack:       40975
                      play_move:       30638
  is_white_king_square_attacked:        1387
- is_black_king_square_attacked:       30522
+ is_black_king_square_attacked:       30525
 
 solution finished.
 

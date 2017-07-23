@@ -21,7 +21,7 @@ WCCC 2010, CapZug Tourney, 1st prize
 1   .   .   .   .   .   .   S  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  Black - 5h[/1d[x]a{!+}]h    9 + 7
+  Black -5h[/1d[x]a{!+}]h     9 + 7
 
   1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3
   1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2
@@ -188,7 +188,7 @@ solution finished.
   add_to_move_generation_stack:       15900
                      play_move:        5610
  is_white_king_square_attacked:        5213
- is_black_king_square_attacked:        5380
+ is_black_king_square_attacked:        5381
 
 solution finished.
 

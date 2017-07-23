@@ -36,7 +36,7 @@ a)
   add_to_move_generation_stack:       19699
                      play_move:       11227
  is_white_king_square_attacked:         501
- is_black_king_square_attacked:       11230
+ is_black_king_square_attacked:       11231
 
 b) TransmutierendeKoenige  
 
@@ -50,7 +50,7 @@ b) TransmutierendeKoenige
   add_to_move_generation_stack:       14656
                      play_move:        7878
  is_white_king_square_attacked:         425
- is_black_king_square_attacked:        7881
+ is_black_king_square_attacked:        7882
 
 Loesung beendet.
 
@@ -297,7 +297,7 @@ Loesung beendet.
   add_to_move_generation_stack:      406357
                      play_move:      295020
  is_white_king_square_attacked:       89322
- is_black_king_square_attacked:      222247
+ is_black_king_square_attacked:      222256
 
 Loesung beendet.
 

@@ -238,7 +238,7 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
   add_to_move_generation_stack:       46507
                      play_move:       27393
  is_white_king_square_attacked:        1007
- is_black_king_square_attacked:       27396
+ is_black_king_square_attacked:       27397
 
 Loesung beendet.
 
@@ -352,7 +352,7 @@ Loesung beendet.
   add_to_move_generation_stack:       15367
                      play_move:       11399
  is_white_king_square_attacked:         694
- is_black_king_square_attacked:       11278
+ is_black_king_square_attacked:       11282
 
 Loesung beendet.
 
@@ -616,7 +616,7 @@ Loesung beendet.
   add_to_move_generation_stack:       32018
                      play_move:       21585
  is_white_king_square_attacked:        1230
- is_black_king_square_attacked:       21445
+ is_black_king_square_attacked:       21449
 
 Loesung beendet.
 
@@ -684,7 +684,7 @@ SprungbockFarbeWechselnd a8 g7 a4 g1
   add_to_move_generation_stack:      176638
                      play_move:       35957
  is_white_king_square_attacked:       35843
- is_black_king_square_attacked:       19524
+ is_black_king_square_attacked:       19525
 
 Loesung beendet.
 
@@ -818,7 +818,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
   add_to_move_generation_stack:       71643
                      play_move:       27515
  is_white_king_square_attacked:       27516
- is_black_king_square_attacked:       23642
+ is_black_king_square_attacked:       23643
 
 Loesung beendet.
 
@@ -923,7 +923,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
   add_to_move_generation_stack:         374
                      play_move:         337
  is_white_king_square_attacked:          81
- is_black_king_square_attacked:         337
+ is_black_king_square_attacked:         339
 
 Loesung beendet.
 
@@ -1003,7 +1003,7 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
   add_to_move_generation_stack:       13868
                      play_move:        9279
  is_white_king_square_attacked:        7890
- is_black_king_square_attacked:        1644
+ is_black_king_square_attacked:        1648
 
 Loesung beendet.
 

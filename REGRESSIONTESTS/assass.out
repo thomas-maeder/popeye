@@ -200,7 +200,7 @@ Loesung beendet.
           2.Sb4-a6 #
 
   add_to_move_generation_stack:        9838
-                     play_move:       27471
+                     play_move:       27474
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
