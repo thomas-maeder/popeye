@@ -40,6 +40,7 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
+      alloc_pipe(STOutputPlainTextZugzwangByDummyMoveCheckWriter),
       alloc_output_plaintext_tree_zugzwang_writer_slice(),
       alloc_output_plaintext_tree_threat_writer_slice(),
       alloc_output_plaintext_tree_move_writer_slice()

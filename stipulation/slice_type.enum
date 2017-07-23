@@ -576,6 +576,7 @@
     ENUMERATOR(STOutputLaTeXKeyWriter), /* write battle play keys */               \
     ENUMERATOR(STOutputPlainTextTryWriter), /* write "but" */                          \
     ENUMERATOR(STOutputLaTeXTryWriter), /* write "but" */                          \
+    ENUMERATOR(STOutputPlainTextZugzwangByDummyMoveCheckWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STOutputPlainTextZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STOutputLaTeXZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \

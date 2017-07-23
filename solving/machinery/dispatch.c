@@ -593,6 +593,10 @@ void dispatch(slice_index si)
       output_plaintext_tree_threat_writer_solve(si);
       break;
 
+    case STOutputPlainTextZugzwangByDummyMoveCheckWriter:
+      output_plaintext_tree_zugzwang_by_dummy_move_check_writer_solve(si);
+      break;
+
     case STOutputPlainTextZugzwangWriter:
       output_plaintext_tree_zugzwang_writer_solve(si);
       break;
