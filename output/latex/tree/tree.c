@@ -33,6 +33,7 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
     FILE * const file = st->param;
     slice_index const prototypes[] =
     {
+      alloc_output_latex_tree_zugzwang_by_dummy_move_check_writer_slice(file),
       alloc_output_latex_tree_zugzwang_writer_slice(file),
       alloc_output_latex_tree_threat_writer_slice(file),
       alloc_output_latex_tree_move_writer_slice(file)

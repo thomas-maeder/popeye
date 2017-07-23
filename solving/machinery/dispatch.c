@@ -985,6 +985,10 @@ void dispatch(slice_index si)
       output_latex_tree_try_writer_solve(si);
       break;
 
+    case STOutputLaTeXZugzwangByDummyMoveCheckWriter:
+      output_latex_tree_zugzwang_by_dummy_move_check_writer_solve(si);
+      break;
+
     case STOutputLaTeXZugzwangWriter:
       output_latex_tree_zugzwang_writer_solve(si);
       break;

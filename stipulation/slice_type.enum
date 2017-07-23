@@ -578,6 +578,7 @@
     ENUMERATOR(STOutputLaTeXTryWriter), /* write "but" */                          \
     ENUMERATOR(STOutputPlainTextZugzwangByDummyMoveCheckWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STOutputPlainTextZugzwangWriter), /* writes zugzwang if appropriate */  \
+    ENUMERATOR(STOutputLaTeXZugzwangByDummyMoveCheckWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STOutputLaTeXZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
     ENUMERATOR(STOutputPlaintextTreeRefutingVariationWriter), /* writes refuting variations */ \
