@@ -209,6 +209,7 @@
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s), */ \
     ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
     ENUMERATOR(STThreatEnd), /* proxy slice marking where to end solving threats */ \
+    ENUMERATOR(STThreatCheckDetector), /* detect futile threat test because of check */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STThreatDefeatedTester), /* detect whether threats have been defeated  */ \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
