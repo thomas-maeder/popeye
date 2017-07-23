@@ -20,17 +20,17 @@ static boolean can_piece_move(numecoup n)
   {
     move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
     move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
-    if (parent_movement>=move_effect_journal_base[parent+1])
-    {
-      /* we are solving a threat - no disparate effect there */
-    }
-    else
+    if (parent_movement<move_effect_journal_base[parent+1]
+        && move_effect_journal[parent_movement].type==move_effect_piece_movement)
     {
       square const sq_departure = move_generation_stack[n].departure;
       piece_walk_type const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
-      assert(move_effect_journal[parent_movement].type==move_effect_piece_movement);
       if (get_walk_of_piece_on_square(sq_departure)==pi_parent_moving)
         result = false;
+    }
+    else
+    {
+      /* we are solving a threat - no disparate effect there */
     }
   }
 
