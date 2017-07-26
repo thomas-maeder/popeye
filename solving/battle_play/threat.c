@@ -377,7 +377,6 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] = {
         alloc_pipe(STDummyMove),
         alloc_defense_played_slice(),
-        alloc_selfcheck_guard_slice(),
         alloc_pipe(STThreatCollector)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -498,6 +497,46 @@ void solving_insert_threat_handlers(slice_index si)
   stip_traverse_structure(si,&st);
 
   reset_tables();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_for_dummy_move_effects(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] = {
+      alloc_pipe(STMoveEffectJournalUndoer),
+      alloc_selfcheck_guard_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,nr_prototypes,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void solving_threat_instrument_for_dummy_move_effects(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STThreatSolver,
+                                           &instrument_for_dummy_move_effects);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

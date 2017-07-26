@@ -43,7 +43,7 @@ another Messigny exchange of the same piece was illegal
   add_to_move_generation_stack:        4590
                      play_move:        3085
  is_white_king_square_attacked:         250
- is_black_king_square_attacked:        3063
+ is_black_king_square_attacked:        3062
 
 solution finished.
 
@@ -81,7 +81,7 @@ only the synchronous move h2-h4 was legal
   add_to_move_generation_stack:         496
                      play_move:         198
  is_white_king_square_attacked:          66
- is_black_king_square_attacked:         163
+ is_black_king_square_attacked:         162
 
 solution finished.
 
@@ -119,7 +119,7 @@ only the anti-synchronous move Rd8-d1 was legal
   add_to_move_generation_stack:         970
                      play_move:         357
  is_white_king_square_attacked:         100
- is_black_king_square_attacked:         309
+ is_black_king_square_attacked:         308
 
 solution finished.
 

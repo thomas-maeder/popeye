@@ -250,10 +250,10 @@ solution finished.
           2.Bg3-f2 +
               2...Bh3-f1 #
 
-  add_to_move_generation_stack:       27127
+  add_to_move_generation_stack:       27125
                      play_move:        6388
  is_white_king_square_attacked:        8695
- is_black_king_square_attacked:       10641
+ is_black_king_square_attacked:       10639
 
 solution finished.
 

@@ -447,9 +447,9 @@ Loesung beendet.
           2.Lb1-f5 #
 
   add_to_move_generation_stack:         476
-                     play_move:         628
+                     play_move:         627
  is_white_king_square_attacked:          28
- is_black_king_square_attacked:         203
+ is_black_king_square_attacked:         202
 
 Loesung beendet.
 
@@ -542,9 +542,9 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
   add_to_move_generation_stack:     2252809
-                     play_move:     1422601
+                     play_move:     1422589
  is_white_king_square_attacked:      455077
- is_black_king_square_attacked:      247113
+ is_black_king_square_attacked:      247104
 
 Loesung beendet.
 

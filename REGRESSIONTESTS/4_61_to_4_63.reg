@@ -365,7 +365,7 @@ a)
   add_to_move_generation_stack:         187
                      play_move:         139
  is_white_king_square_attacked:          25
- is_black_king_square_attacked:         146
+ is_black_king_square_attacked:         144
 Dit is een grote test
 
 b) wuSa3-->g5  
@@ -376,7 +376,7 @@ b) wuSa3-->g5
   add_to_move_generation_stack:         148
                      play_move:          88
  is_white_king_square_attacked:          22
- is_black_king_square_attacked:          92
+ is_black_king_square_attacked:          91
 
 solution finished.
 

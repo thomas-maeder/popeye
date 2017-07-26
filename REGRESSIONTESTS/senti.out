@@ -44,7 +44,7 @@
   add_to_move_generation_stack:        4375
                      play_move:        2905
  is_white_king_square_attacked:         246
- is_black_king_square_attacked:        2909
+ is_black_king_square_attacked:        2908
 
 Loesung beendet.
 
@@ -183,7 +183,7 @@ Andernach TT 2000, 4. ehrende Erwähnung
   add_to_move_generation_stack:       37774
                      play_move:       27031
  is_white_king_square_attacked:        1324
- is_black_king_square_attacked:       27023
+ is_black_king_square_attacked:       27022
 
 Loesung beendet.
 

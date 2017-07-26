@@ -84,7 +84,7 @@ Loesung beendet.
   add_to_move_generation_stack:       19409
                      play_move:       15662
  is_white_king_square_attacked:        8665
- is_black_king_square_attacked:        8377
+ is_black_king_square_attacked:        8372
 
 Loesung beendet.
 
@@ -231,7 +231,7 @@ Loesung beendet.
   add_to_move_generation_stack:       17605
                      play_move:        6983
  is_white_king_square_attacked:         785
- is_black_king_square_attacked:        6987
+ is_black_king_square_attacked:        6986
 
 Loesung beendet.
 
@@ -582,7 +582,7 @@ zweimal eine Anzuginversion (-)
   add_to_move_generation_stack:       13049
                      play_move:        8968
  is_white_king_square_attacked:        5251
- is_black_king_square_attacked:        6524
+ is_black_king_square_attacked:        6522
 
 Loesung beendet.
 
@@ -635,9 +635,9 @@ eigentlich semi-r#2
               2...Td8*d3 #
 
   add_to_move_generation_stack:      110886
-                     play_move:      235845
+                     play_move:      235843
  is_white_king_square_attacked:       73426
- is_black_king_square_attacked:        8414
+ is_black_king_square_attacked:        8413
 
 Loesung beendet.
 
@@ -693,7 +693,7 @@ und Einschraenkung kein wAngriff zum Matt
   add_to_move_generation_stack:        8974
                      play_move:        8882
  is_white_king_square_attacked:        6818
- is_black_king_square_attacked:        1046
+ is_black_king_square_attacked:        1045
 
 Loesung beendet.
 
@@ -1285,7 +1285,7 @@ eigentlich: sKg4 s#2 b) g4->e3
   add_to_move_generation_stack:       57299
                      play_move:       31087
  is_white_king_square_attacked:       31098
- is_black_king_square_attacked:       19162
+ is_black_king_square_attacked:       19158
 
 Loesung beendet.
 
@@ -1347,7 +1347,7 @@ c) Weiss 5:5a[#]d
   add_to_move_generation_stack:        3320
                      play_move:        1636
  is_white_king_square_attacked:         720
- is_black_king_square_attacked:        1107
+ is_black_king_square_attacked:        1106
 
 d) Weiss 7:7a[#]d  
 
@@ -1375,7 +1375,7 @@ d) Weiss 7:7a[#]d
   add_to_move_generation_stack:       39280
                      play_move:       23668
  is_white_king_square_attacked:       15208
- is_black_king_square_attacked:        9932
+ is_black_king_square_attacked:        9924
 
 Loesung beendet.
 
@@ -1658,7 +1658,7 @@ Loesung beendet.
   add_to_move_generation_stack:       10618
                      play_move:        3564
  is_white_king_square_attacked:        2387
- is_black_king_square_attacked:        2205
+ is_black_king_square_attacked:        2204
 
 Loesung beendet.
 

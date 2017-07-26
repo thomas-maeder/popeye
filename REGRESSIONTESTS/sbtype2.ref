@@ -212,7 +212,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
   add_to_move_generation_stack:        6713
                      play_move:        3912
  is_white_king_square_attacked:         718
- is_black_king_square_attacked:        3900
+ is_black_king_square_attacked:        3899
 
 solution finished.
 
@@ -286,7 +286,7 @@ solution finished.
   add_to_move_generation_stack:      214894
                      play_move:      156562
  is_white_king_square_attacked:       36733
- is_black_king_square_attacked:      120580
+ is_black_king_square_attacked:      120578
 
 solution finished.
 

@@ -199,7 +199,7 @@ a)
   add_to_move_generation_stack:       13703
                      play_move:        8551
  is_white_king_square_attacked:         926
- is_black_king_square_attacked:        8441
+ is_black_king_square_attacked:        8438
 
 b) s#3  
 

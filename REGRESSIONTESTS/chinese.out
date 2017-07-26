@@ -111,7 +111,7 @@
   add_to_move_generation_stack:       31221
                      play_move:       21040
  is_white_king_square_attacked:         655
- is_black_king_square_attacked:       20778
+ is_black_king_square_attacked:       20774
 
 Loesung beendet.
 
@@ -221,7 +221,7 @@ Loesung beendet.
   add_to_move_generation_stack:       56983
                      play_move:       30228
  is_white_king_square_attacked:        1844
- is_black_king_square_attacked:       29960
+ is_black_king_square_attacked:       29953
 
 Loesung beendet.
 
@@ -333,7 +333,7 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
   add_to_move_generation_stack:       16007
                      play_move:       11430
  is_white_king_square_attacked:        1002
- is_black_king_square_attacked:       11348
+ is_black_king_square_attacked:       11344
 
 Loesung beendet.
 
@@ -546,7 +546,7 @@ Loesung beendet.
   add_to_move_generation_stack:      138381
                      play_move:       83512
  is_white_king_square_attacked:        2842
- is_black_king_square_attacked:       84942
+ is_black_king_square_attacked:       84931
 
 Loesung beendet.
 
@@ -692,7 +692,7 @@ Loesung beendet.
   add_to_move_generation_stack:       47122
                      play_move:       48509
  is_white_king_square_attacked:        1280
- is_black_king_square_attacked:       27223
+ is_black_king_square_attacked:       27217
 
 Loesung beendet.
 

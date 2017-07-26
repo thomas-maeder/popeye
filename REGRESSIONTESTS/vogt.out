@@ -60,7 +60,7 @@
 
   add_to_move_generation_stack:        7019
                      play_move:        5590
- is_white_king_square_attacked:        5418
+ is_white_king_square_attacked:        5415
  is_black_king_square_attacked:         272
 
 Loesung beendet.

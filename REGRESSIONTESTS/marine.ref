@@ -37,7 +37,7 @@
   add_to_move_generation_stack:        6520
                      play_move:        3832
  is_white_king_square_attacked:         321
- is_black_king_square_attacked:        3836
+ is_black_king_square_attacked:        3835
 
 solution finished.
 
@@ -113,7 +113,7 @@ solution finished.
   add_to_move_generation_stack:       10023
                      play_move:        6311
  is_white_king_square_attacked:         613
- is_black_king_square_attacked:        6315
+ is_black_king_square_attacked:        6314
 
 solution finished.
 
@@ -173,7 +173,7 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
   add_to_move_generation_stack:       18524
                      play_move:       11113
  is_white_king_square_attacked:         497
- is_black_king_square_attacked:       11117
+ is_black_king_square_attacked:       11116
 
 solution finished.
 
@@ -230,7 +230,7 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
   add_to_move_generation_stack:      539835
                      play_move:      370411
  is_white_king_square_attacked:       63688
- is_black_king_square_attacked:      320009
+ is_black_king_square_attacked:      320003
 
 solution finished.
 
@@ -346,7 +346,7 @@ solution finished.
   add_to_move_generation_stack:         336
                      play_move:         258
  is_white_king_square_attacked:          41
- is_black_king_square_attacked:         262
+ is_black_king_square_attacked:         261
 
 solution finished.
 
@@ -388,7 +388,7 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
 
   add_to_move_generation_stack:          75
                      play_move:          41
- is_white_king_square_attacked:          21
+ is_white_king_square_attacked:          20
  is_black_king_square_attacked:          33
 
 solution finished.

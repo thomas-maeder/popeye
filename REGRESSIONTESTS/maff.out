@@ -63,7 +63,7 @@ The Problemist 1998 and Sachova skladba 1997
   add_to_move_generation_stack:        9990
                      play_move:        8260
  is_white_king_square_attacked:         558
- is_black_king_square_attacked:        8246
+ is_black_king_square_attacked:        8245
 
 Loesung beendet.
 
@@ -124,7 +124,7 @@ Loesung beendet.
   add_to_move_generation_stack:       13435
                      play_move:       10722
  is_white_king_square_attacked:         690
- is_black_king_square_attacked:       10729
+ is_black_king_square_attacked:       10727
 
 Loesung beendet.
 
@@ -271,7 +271,7 @@ Loesung beendet.
   add_to_move_generation_stack:       42907
                      play_move:       38735
  is_white_king_square_attacked:        2633
- is_black_king_square_attacked:       38558
+ is_black_king_square_attacked:       38554
 
 Loesung beendet.
 
@@ -311,7 +311,7 @@ Loesung beendet.
   add_to_move_generation_stack:         141
                      play_move:         133
  is_white_king_square_attacked:          30
- is_black_king_square_attacked:         137
+ is_black_king_square_attacked:         136
 
 Loesung beendet.
 
@@ -563,7 +563,7 @@ Loesung beendet.
   add_to_move_generation_stack:       21709
                      play_move:       18767
  is_white_king_square_attacked:        1652
- is_black_king_square_attacked:       18577
+ is_black_king_square_attacked:       18572
 
 Loesung beendet.
 

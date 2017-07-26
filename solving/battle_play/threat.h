@@ -77,4 +77,10 @@ void solving_insert_threat_handlers(slice_index si);
  */
 void solving_insert_threat_boundaries(slice_index si);
 
+/* Instrument the solving machinery so that it can cope with conditions that
+ * allow the defending side's dummy move that starts a threat to have effects.
+ * @param si identifies the slice where to start
+ */
+void solving_threat_instrument_for_dummy_move_effects(slice_index si);
+
 #endif

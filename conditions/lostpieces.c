@@ -128,10 +128,9 @@ static void instrument_threat_branch(slice_index si, stip_structure_traversal *s
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STMoveEffectJournalUndoer),
         alloc_pipe(STLostPiecesRemover)
     };
-    move_insert_slices(si,st->context,prototypes,2);
+    move_insert_slices(si,st->context,prototypes,1);
 
     *in_threat_branch = false;
     stip_traverse_structure_children_pipe(si,st);
@@ -162,6 +161,8 @@ void solving_insert_lostpieces(slice_index si)
     stip_structure_traversal_override_single(&st,STDummyMove,&instrument_threat_branch);
     stip_traverse_structure(si,&st);
   }
+
+  solving_threat_instrument_for_dummy_move_effects(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

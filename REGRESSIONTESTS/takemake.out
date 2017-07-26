@@ -848,7 +848,7 @@ Es fehlt ein weisser oder schwarzer Koenig
   add_to_move_generation_stack:      164384
                      play_move:       84544
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       84283
+ is_black_king_square_attacked:       84280
 
 Loesung beendet.
 
@@ -956,7 +956,7 @@ Loesung beendet.
   add_to_move_generation_stack:   151740373
                      play_move:    49681374
  is_white_king_square_attacked:     5749343
- is_black_king_square_attacked:    47947991
+ is_black_king_square_attacked:    47947985
 
 Loesung beendet.
 
@@ -1001,7 +1001,7 @@ Loesung beendet.
   add_to_move_generation_stack:       17605
                      play_move:        6983
  is_white_king_square_attacked:         785
- is_black_king_square_attacked:        6987
+ is_black_king_square_attacked:        6986
 
 Loesung beendet.
 
@@ -1046,7 +1046,7 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
   add_to_move_generation_stack:       11112
                      play_move:        4307
  is_white_king_square_attacked:         480
- is_black_king_square_attacked:        4311
+ is_black_king_square_attacked:        4310
 
 Loesung beendet.
 
@@ -1104,7 +1104,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
   add_to_move_generation_stack:       45537
                      play_move:       23519
  is_white_king_square_attacked:        1613
- is_black_king_square_attacked:       23482
+ is_black_king_square_attacked:       23480
 
 Loesung beendet.
 
@@ -1325,7 +1325,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
   add_to_move_generation_stack:      218169
                      play_move:      135473
  is_white_king_square_attacked:        6654
- is_black_king_square_attacked:      135089
+ is_black_king_square_attacked:      135086
 
 Loesung beendet.
 
@@ -1420,7 +1420,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
   add_to_move_generation_stack:       23409
                      play_move:       10326
  is_white_king_square_attacked:         930
- is_black_king_square_attacked:       10196
+ is_black_king_square_attacked:       10191
 
 Loesung beendet.
 
@@ -1470,7 +1470,7 @@ Loesung beendet.
   add_to_move_generation_stack:        5931
                      play_move:        3100
  is_white_king_square_attacked:         280
- is_black_king_square_attacked:        3107
+ is_black_king_square_attacked:        3105
 
 Loesung beendet.
 
@@ -1512,7 +1512,7 @@ Loesung beendet.
   add_to_move_generation_stack:       33026
                      play_move:       12462
  is_white_king_square_attacked:       12464
- is_black_king_square_attacked:        7535
+ is_black_king_square_attacked:        7534
 
 Loesung beendet.
 

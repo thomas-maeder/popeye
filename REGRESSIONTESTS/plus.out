@@ -45,7 +45,7 @@ Rex Multiplex 42-43 (Phénix 22-23), IX 1993, S. 2204-2206
   add_to_move_generation_stack:        8354
                      play_move:        3345
  is_white_king_square_attacked:         447
- is_black_king_square_attacked:        3349
+ is_black_king_square_attacked:        3348
 
 Loesung beendet.
 

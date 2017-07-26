@@ -77,10 +77,10 @@ Loesung beendet.
                                       5...g2*h1=L +
                                           6.Kg1*h1 ==
 
-  add_to_move_generation_stack:      294620
+  add_to_move_generation_stack:      294605
                      play_move:       43010
  is_white_king_square_attacked:      256171
- is_black_king_square_attacked:       10101
+ is_black_king_square_attacked:       10081
 
 Loesung beendet.
 

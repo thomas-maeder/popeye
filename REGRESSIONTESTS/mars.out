@@ -96,7 +96,7 @@ a)
   add_to_move_generation_stack:        5254
                      play_move:        4218
  is_white_king_square_attacked:         298
- is_black_king_square_attacked:        4222
+ is_black_king_square_attacked:        4221
 
 b) MarsCirce  
 
@@ -121,7 +121,7 @@ b) MarsCirce
   add_to_move_generation_stack:       12897
                      play_move:        3213
  is_white_king_square_attacked:         133
- is_black_king_square_attacked:        3217
+ is_black_king_square_attacked:        3216
 
 Loesung beendet.
 
