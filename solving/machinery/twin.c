@@ -616,7 +616,7 @@ void verify_position(slice_index si)
     circe_variant.is_promotion_possible = true;
 
   /* initialize promotion squares */
-  if (!(CondFlag[einstein] || CondFlag[reveinstein]))
+  if (!(CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein]))
   {
     square i;
     if (!CondFlag[whprom_sq])
@@ -655,7 +655,7 @@ void verify_position(slice_index si)
 
       if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
           || CondFlag[normalp]
-          || CondFlag[einstein]
+          || CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein]
           || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
           || CondFlag[wormholes])
       {
@@ -736,7 +736,7 @@ void verify_position(slice_index si)
           output_plaintext_verifie_message(MagicAndFairyPieces);
           return;
         }
-        if (CondFlag[einstein])
+        if (CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein])
         {
           output_plaintext_verifie_message(EinsteinAndFairyPieces);
           return;
@@ -1306,9 +1306,7 @@ void verify_position(slice_index si)
       || CondFlag[antiandernach]
       || CondFlag[magicsquare]
       || TSTFLAG(some_pieces_flags,Chameleon)
-      || CondFlag[einstein]
-      || CondFlag[reveinstein]
-      || CondFlag[antieinstein]
+      || CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein]
       || CondFlag[volage] || TSTFLAG(some_pieces_flags, Volage)
       || CondFlag[degradierung]
       || CondFlag[norsk]
@@ -1347,9 +1345,7 @@ void verify_position(slice_index si)
       || (being_solved.king_square[White]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[White])!=King)
       || (being_solved.king_square[Black]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[Black])!=King)
       || TSTFLAG(some_pieces_flags, Chameleon)
-      || CondFlag[einstein]
-      || CondFlag[reveinstein]
-      || CondFlag[antieinstein]
+      || CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein]
       || CondFlag[degradierung]
       || CondFlag[norsk]
       || CondFlag[messigny]

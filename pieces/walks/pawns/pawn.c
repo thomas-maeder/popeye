@@ -24,7 +24,7 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
 
   if (TSTFLAG(sq_spec[sq_departure],base_square))
   {
-    if (CondFlag[einstein])
+    if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
       result = 3;
     else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
              || CondFlag[normalp]

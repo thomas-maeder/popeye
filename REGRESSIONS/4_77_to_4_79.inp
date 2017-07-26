@@ -2,10 +2,18 @@ beginproblem
 
 protocol 4_77_to_4_79.reg
 
-author francois labelle?
+author francois labelle
 condition superguards
 pieces white ke1 sb3 black ke8 pa7b7
-stip h%1
+stipulation h%1
 
-endproblem
+next
+
+author francois labelle
+condition antiEinsteinChess
+pieces white pc1 black rb2d2
+stipulation ~1
+option nowk nobk
+twin condition ReversalEinsteinChess
+end
 

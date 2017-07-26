@@ -1,5 +1,5 @@
 
-          francois labelle?
+          francois labelle
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -28,6 +28,68 @@
                      play_move:          10
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          10
+
+solution finished.
+
+
+
+          francois labelle
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -R   .  -R   .   .   .   .   2
+|                                   |
+1   .   .   P   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+          AntiEinsteinChess
+
+a) 
+
+   1.c1-c4 !
+
+   1.c1-c3 !
+
+   1.c1-c2 !
+
+   1.c1*d2 !
+
+   1.c1*b2 !
+
+  add_to_move_generation_stack:           5
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) ReversalEinsteinChess  
+
+   1.c1-c4=S !
+
+   1.c1-c3=S !
+
+   1.c1-c2=S !
+
+   1.c1*d2 !
+
+   1.c1*b2 !
+
+  add_to_move_generation_stack:           5
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
 solution finished.
 
