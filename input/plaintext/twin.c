@@ -707,7 +707,10 @@ static void ReadInitialTwin(slice_index start)
           {
             int i;
             for (i = 0; i<nr_squares_on_board; i++)
-              occupy_square(boardnum[i],PAS[i],BIT(PAS_sides[i]));
+              if (PAS[i]==Empty)
+                empty_square(boardnum[i]);
+              else
+                occupy_square(boardnum[i],PAS[i],BIT(PAS_sides[i]));
             being_solved.king_square[White] = square_e1;
             being_solved.king_square[Black] = square_e8;
           }
