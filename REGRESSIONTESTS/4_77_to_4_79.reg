@@ -94,3 +94,39 @@ b) ReversalEinsteinChess
 solution finished.
 
 
+this wasn't correctly solved since 4.61
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzg21                       1 + 2
+          UltraSchachZwang
+              AntiCirce
+
+  1.c2-c1=Q + Kh1-g2 z
+  1.c2-c1=R + Kh1-g2 z
+  add_to_move_generation_stack:          15
+                     play_move:          18
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:           4
+
+solution finished.
+
+

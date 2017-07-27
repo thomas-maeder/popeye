@@ -36,8 +36,9 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor ultraschachzwang_enforcer_inserters[] =
 {
-  { STGoalMateReachedTester, &stip_structure_visitor_noop           },
-  { STMove,                  &instrument_move                       }
+  { STGoalMateReachedTester,     &stip_structure_visitor_noop           },
+  { STMove,                      &instrument_move                       },
+  { STKingCaptureLegalityTester, &stip_traverse_structure_children_pipe }
 };
 
 enum

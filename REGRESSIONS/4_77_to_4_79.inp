@@ -15,5 +15,13 @@ pieces white pc1 black rb2d2
 stipulation ~1
 option nowk nobk
 twin condition ReversalEinsteinChess
+
+next
+
+remark this wasn't correctly solved since 4.61
+pieces white kh1 black kf5 pc2
+stipulation hzg21
+condition anticirce ultraschachzwang
+
 end
 
