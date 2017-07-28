@@ -23,5 +23,12 @@ pieces white kh1 black kf5 pc2
 stipulation hzg21
 condition anticirce ultraschachzwang
 
-end
+next
+
+author Chris J. Feather
+remark recent versions had got into troubles with this
+stipulation h#1
+pieces white kg8 bf8 fa3 black kc3
+
+endproblem
 

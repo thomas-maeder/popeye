@@ -130,3 +130,36 @@ this wasn't correctly solved since 4.61
 solution finished.
 
 
+recent versions had got into troubles with this
+
+          Chris J. Feather
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   B   K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   F   .  -K   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 1
+
+  add_to_move_generation_stack:         152
+                     play_move:         114
+ is_white_king_square_attacked:           7
+ is_black_king_square_attacked:         114
+
+solution finished.
+
+

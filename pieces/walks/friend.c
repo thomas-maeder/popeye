@@ -12,35 +12,74 @@ void locate_observees(piece_walk_type walk, square pos_observees[])
   unsigned int current = 0;
   square const *bnp;
 
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; current<being_solved.number_of_pieces[trait[nbply]][walk]; ++bnp)
     if (get_walk_of_piece_on_square(*bnp)==walk && TSTFLAG(being_solved.spec[*bnp],trait[nbply]))
     {
+      TraceSquare(*bnp);TraceEOL();
       pos_observees[current] = *bnp;
       ++current;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void isolate_observee(piece_walk_type walk, square const pos_observees[], unsigned int isolated_observee)
 {
   unsigned int orphan_id;
 
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk);
+  TraceFunctionParam("%u",isolated_observee);
+  TraceFunctionParamListEnd();
+
   for (orphan_id = 0; orphan_id<being_solved.number_of_pieces[trait[nbply]][walk]; ++orphan_id)
     if (orphan_id!=isolated_observee)
+    {
+      TraceSquare(pos_observees[orphan_id]);TraceText(" ");
       occupy_square(pos_observees[orphan_id],Dummy,being_solved.spec[pos_observees[orphan_id]]);
+    }
+
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void restore_observees(piece_walk_type walk, square const pos_observees[])
 {
   unsigned int orphan_id;
 
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
   for (orphan_id = 0; orphan_id<being_solved.number_of_pieces[trait[nbply]][walk]; ++orphan_id)
+  {
+    TraceSquare(pos_observees[orphan_id]);TraceText(" ");
     occupy_square(pos_observees[orphan_id],walk,being_solved.spec[pos_observees[orphan_id]]);
+  }
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean find_next_friend_in_chain(square sq_target,
+                                         square sq_friend_target,
                                          piece_walk_type friend_observer)
 {
   boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TraceSquare(sq_friend_target);
+  TraceWalk(friend_observer);
+  TraceFunctionParamListEnd();
 
   replace_observation_target(sq_target);
   observing_walk[nbply] = friend_observer;
@@ -69,7 +108,7 @@ static boolean find_next_friend_in_chain(square sq_target,
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed
-            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer))
+            && find_next_friend_in_chain(pos_remaining_friends[k],sq_target,friend_observer))
         {
           result = true;
           break;
@@ -82,6 +121,11 @@ static boolean find_next_friend_in_chain(square sq_target,
     ++being_solved.number_of_pieces[trait[nbply]][Friend];
   }
 
+  replace_observation_target(sq_friend_target);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -101,6 +145,7 @@ void friend_generate_moves(void)
       siblingply(trait[nbply]);
       push_observation_target(initsquare);
       found_chain = find_next_friend_in_chain(curr_generation->departure,
+                                              initsquare,
                                               *friend_observer);
       finply();
 
@@ -136,6 +181,8 @@ boolean friend_check(validator_id evaluate)
     if (being_solved.number_of_pieces[trait[nbply]][*pfr]>0)
     {
       unsigned int k;
+
+      TraceWalk(*pfr);TraceEOL();
       for (k = 0; k<being_solved.number_of_pieces[trait[nbply]][Friend]; ++k)
       {
         boolean does_friend_observe;
@@ -146,7 +193,7 @@ boolean friend_check(validator_id evaluate)
         restore_observees(Friend,pos_friends);
 
         if (does_friend_observe
-            && find_next_friend_in_chain(pos_friends[k],*pfr))
+            && find_next_friend_in_chain(pos_friends[k],sq_target,*pfr))
         {
           result = true;
           break;
