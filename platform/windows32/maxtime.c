@@ -108,7 +108,10 @@ void platform_reset_maxtime_timer(void)
 {
   if (current_timer!=no_timer)
   {
-    MMRESULT const kill_result = timeKillEvent(current_timer);
+#if !defined(NDEBUG)
+    MMRESULT const kill_result =
+#endif
+        timeKillEvent(current_timer);
     assert(kill_result==TIMERR_NOERROR);
     current_timer = no_timer;
   }

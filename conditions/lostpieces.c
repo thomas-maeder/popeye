@@ -5,6 +5,7 @@
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/proxy.h"
+#include "solving/battle_play/threat.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"

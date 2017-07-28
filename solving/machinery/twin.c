@@ -825,8 +825,10 @@ void verify_position(slice_index si)
       }
       else
       {
-        boolean const length_measurer_set = mummer_set_length_measurer(restricted_side,
-                                                                       &maximummer_measure_length);
+#if !defined(NDEBUG)
+        boolean const length_measurer_set =
+#endif
+            mummer_set_length_measurer(restricted_side,&maximummer_measure_length);
         assert(length_measurer_set);
         mummer_strictness[restricted_side] = mummer_strictness_default_side;
       }
