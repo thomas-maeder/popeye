@@ -85,7 +85,7 @@ OBJFILE=-o
 DEFINEMACRO=-D
 
 # you may need to thange this
-INCLUDEPATHS=-I~/IMCROSS/mac/include
+INCLUDEPATHS=-I/home/maeder/IMCROSS/mac/include
 
 
 # Linker options
