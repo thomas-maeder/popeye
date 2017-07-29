@@ -1,0 +1,19 @@
+begin
+
+prot partialparalysis.ref
+
+author Tadashi Wakashime
+origin WCCC 2017, Sake tourney, Ex 1
+pieces white kd6 bh6g8 pb2 black kb4 qe4 bc2
+stipulation h#2
+condition partialparalysis
+
+next
+
+author Ken Kousaka
+origin WCCC 2017, Sake tourney, Ex 2
+pieces white kc7 rc2 bb6 black kg6 qh8
+stipulation h#2
+condition partialparalysis
+
+end
