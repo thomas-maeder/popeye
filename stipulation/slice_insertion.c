@@ -245,7 +245,15 @@ static void insert_beyond(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
+/* Visist a pipe slice during an insertion traversal
+ * @param si identifies the pipe slice
+ * @param st holds the current state of the insertion traversal
+ * @note this function is typically called automatically by insertion traversal;
+ *       user code make take its address to override behviour of an insertion
+ *       traversal at a specific slice type after having initialised the
+ *       traversal using slice_insertion_init_traversal()
+ */
+void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -70,8 +70,8 @@ void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
  * @param nr_prototypes number of elements of array prototypes
  */
 void slice_insertion_insert(slice_index si,
-                          slice_index const prototypes[],
-                          unsigned int nr_prototypes);
+                            slice_index const prototypes[],
+                            unsigned int nr_prototypes);
 
 /* Type of pointers to contextual slice inserter functions
  */
@@ -111,11 +111,21 @@ void slice_insertion_insert_contextually(slice_index si,
  *                              by st
  */
 void slice_insertion_prepare_factored_order(slice_index si,
-                                                      stip_structure_traversal *st,
-                                                      stip_structure_traversal *st_nested,
-                                                      branch_slice_insertion_state_type *state_nested,
-                                                      slice_index const order[],
-                                                      unsigned int nr_order,
-                                                      unsigned int nr_exit_slice_types);
+                                            stip_structure_traversal *st,
+                                            stip_structure_traversal *st_nested,
+                                            branch_slice_insertion_state_type *state_nested,
+                                            slice_index const order[],
+                                            unsigned int nr_order,
+                                            unsigned int nr_exit_slice_types);
+
+/* Visist a pipe slice during an insertion traversal
+ * @param si identifies the pipe slice
+ * @param st holds the current state of the insertion traversal
+ * @note this function is typically called automatically by insertion traversal;
+ *       user code make take its address to override behviour of an insertion
+ *       traversal at a specific slice type after having initialised the
+ *       traversal using slice_insertion_init_traversal()
+ */
+void insert_visit_pipe(slice_index si, stip_structure_traversal *st);
 
 #endif

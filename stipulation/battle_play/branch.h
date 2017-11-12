@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/slice.h"
 #include "stipulation/structure_traversal.h"
+#include "stipulation/slice_insertion.h"
 
 /* This module provides functionality dealing with battle play
  * branches
@@ -25,17 +26,42 @@ slice_index alloc_defense_branch(stip_length_type length,
 slice_index alloc_battle_branch(stip_length_type length,
                                 stip_length_type min_length);
 
-/* Insert slices into a battle branch, starting between defense and attack move
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by battle_branch_insert_slices().
+/* Prepare the instrumentation of an attack branch with some slices
+ * The inserted slices will be copies of the elements of prototypes.
  * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
+ * @param st traversal to be prepared
+ * @param state insertion state to be prepared (must be zero-initalised by caller)
+ */
+void attack_branch_prepare_slice_insertion(slice_index si,
+                                           slice_index const prototypes[],
+                                           unsigned int nr_prototypes,
+                                           stip_structure_traversal *st,
+                                           branch_slice_insertion_state_type *state);
+
+/* Insert slices into a battle branch, starting between defense and attack move
+ * Combines:
+ * * attack_branch_prepare_slice_insertion()
+ * * the actual insertion
+ * * the deallocation of the prototypes
+ * @param si cf. attack_branch_prepare_slice_insertion
  */
 void attack_branch_insert_slices(slice_index si,
                                  slice_index const prototypes[],
                                  unsigned int nr_prototypes);
+
+/* Like attack_branch_prepare_slice_insertion, but starting at a proxy slice
+ * @param base used instead of proxy for determining the current position in the
+ *             sequence of slices
+ */
+void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
+                                                        slice_index base,
+                                                        slice_index const prototypes[],
+                                                        unsigned int nr_prototypes,
+                                                        stip_structure_traversal *st,
+                                                        branch_slice_insertion_state_type *state);
 
 /* Like attack_branch_insert_slices, but starting at a proxy slice
  * @param base used instead of proxy for determining the current position in the

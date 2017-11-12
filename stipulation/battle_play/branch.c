@@ -303,13 +303,37 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Insert slices into a battle branch, starting between defense and attack move
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by battle_branch_insert_slices().
+/* Prepare the instrumentation of an attack branch with some slices
+ * The inserted slices will be copies of the elements of prototypes.
  * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
+ * @param st traversal to be prepared
+ * @param state inseration state to be initialised
+ */
+void attack_branch_prepare_slice_insertion(slice_index si,
+                                           slice_index const prototypes[],
+                                           unsigned int nr_prototypes,
+                                           stip_structure_traversal *st,
+                                           branch_slice_insertion_state_type *state)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  attack_branch_prepare_slice_insertion_behind_proxy(si,si,prototypes,nr_prototypes,st,state);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a battle branch, starting between defense and attack move
+ * Combines:
+ * * attack_branch_prepare_slice_insertion()
+ * * the actual insertion
+ * * the deallocation of the prototypes
+ * @param si cf. attack_branch_prepare_slice_insertion
  */
 void attack_branch_insert_slices(slice_index si,
                                  slice_index const prototypes[],
@@ -330,6 +354,43 @@ void attack_branch_insert_slices(slice_index si,
  * @param base used instead of proxy for determining the current position in the
  *             sequence of defense branches
  */
+void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
+                                                        slice_index base,
+                                                        slice_index const prototypes[],
+                                                        unsigned int nr_prototypes,
+                                                        stip_structure_traversal *st,
+                                                        branch_slice_insertion_state_type *state)
+{
+  state->prototypes = prototypes;
+  state->nr_prototypes = nr_prototypes;
+  state->slice_rank_order = slice_rank_order;
+  state->nr_slice_rank_order_elmts = nr_slice_rank_order_elmts;
+  state->type = branch_slice_rank_order_recursive;
+  state->prev = proxy;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  assert(SLICE_TYPE(proxy)!=STAttackPlayed);
+
+  state->base_rank = get_slice_rank(STAttackPlayed,state);
+  assert(state->base_rank!=no_slice_rank);
+  ++state->base_rank;
+
+  state->base_rank = get_slice_rank(STDefensePlayed,state);
+  assert(state->base_rank!=no_slice_rank);
+  ++state->base_rank;
+
+  slice_insertion_init_traversal(st,state,stip_traversal_context_attack);
+  move_init_slice_insertion_traversal(st);
+
+  state->base_rank = get_slice_rank(SLICE_TYPE(base),state);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 void attack_branch_insert_slices_behind_proxy(slice_index proxy,
                                               slice_index const prototypes[],
                                               unsigned int nr_prototypes,

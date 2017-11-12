@@ -5,6 +5,7 @@
 #include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/ply.h"
 #include "output/plaintext/plaintext.h"
@@ -80,8 +81,8 @@ static void insert_writer_for_move_in_parent(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void do_insert_move_writer(slice_index si,
-                                  stip_structure_traversal *st)
+static void do_insert_move_writer_attack(slice_index si,
+                                         stip_structure_traversal *st)
 {
   slice_index const prototypes[] =
   {
@@ -89,7 +90,36 @@ static void do_insert_move_writer(slice_index si,
     alloc_output_plaintext_tree_check_writer_slice()
   };
   enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-  slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+  stip_structure_traversal traversal_insertion;
+  branch_slice_insertion_state_type state = { 0 };
+  attack_branch_prepare_slice_insertion(si,
+                                        prototypes,nr_prototypes,
+                                        &traversal_insertion,&state);
+
+  /* prevent 2nd operand from writing the same move again */
+  stip_structure_traversal_override_single(&traversal_insertion,STAnd,&insert_visit_pipe);
+
+  stip_traverse_structure(si,&traversal_insertion);
+
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
+
+  if (CondFlag[exclusive])
+  {
+    slice_index const prototype = alloc_exclusive_chess_undecidable_writer_tree_slice();
+    move_insert_slices(si,st->context,&prototype,1);
+  }
+}
+
+static void do_insert_move_writer_defense(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  slice_index const prototypes[] =
+  {
+    alloc_output_plaintext_tree_move_writer_slice(),
+    alloc_output_plaintext_tree_check_writer_slice()
+  };
+  enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+  defense_branch_insert_slices(si,prototypes,nr_prototypes);
 
   if (CondFlag[exclusive])
   {
@@ -108,7 +138,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_defense && *attack_played)
   {
-    do_insert_move_writer(si,st);
+    do_insert_move_writer_defense(si,st);
 
     *attack_played = false;
     stip_traverse_structure_children_pipe(si,st);
@@ -116,7 +146,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
   }
   else if (st->context==stip_traversal_context_attack)
   {
-    do_insert_move_writer(si,st);
+    do_insert_move_writer_attack(si,st);
     stip_traverse_structure_children_pipe(si,st);
   }
   else

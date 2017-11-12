@@ -14,11 +14,11 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/pipe.h stipulation/move_inverter.h \
- stipulation/conditional_pipe.h stipulation/constraint.h \
- solving/moves_traversal.h stipulation/proxy.h \
- stipulation/slice_insertion.h stipulation/branch.h stipulation/fork.h \
- stipulation/move.h stipulation/move_played.h stipulation/binary.h \
+ stipulation/traversal.h stipulation/slice_insertion.h stipulation/pipe.h \
+ stipulation/move_inverter.h stipulation/conditional_pipe.h \
+ stipulation/constraint.h solving/moves_traversal.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/fork.h stipulation/move.h \
+ stipulation/move_played.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/modifier.h \
  solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
@@ -81,6 +81,8 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
+stipulation/slice_insertion.h:
+
 stipulation/pipe.h:
 
 stipulation/move_inverter.h:
@@ -92,8 +94,6 @@ stipulation/constraint.h:
 solving/moves_traversal.h:
 
 stipulation/proxy.h:
-
-stipulation/slice_insertion.h:
 
 stipulation/branch.h:
 
@@ -239,7 +239,8 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  output/mode.enum stipulation/pipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+ debugging/trace.h debugging/assert.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -302,6 +303,8 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/slice_insertion.h:
 
 debugging/trace.h:
 

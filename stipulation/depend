@@ -396,8 +396,9 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  output/mode.enum solving/moves_traversal.h stipulation/fork.h \
  stipulation/pipe.h stipulation/proxy.h stipulation/conditional_pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
+ stipulation/slice_insertion.h stipulation/help_play/branch.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/constraint.h:
 
@@ -468,6 +469,8 @@ stipulation/conditional_pipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/help_play/branch.h:
 
@@ -1204,12 +1207,13 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  output/mode.enum stipulation/pipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+ stipulation/help_play/branch.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- stipulation/slice_insertion.h conditions/circe/circe.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/circe.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h debugging/assert.h
@@ -1276,6 +1280,8 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
+stipulation/slice_insertion.h:
+
 stipulation/help_play/branch.h:
 
 solving/machinery/solve.h:
@@ -1293,8 +1299,6 @@ position/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
-
-stipulation/slice_insertion.h:
 
 conditions/circe/circe.h:
 
