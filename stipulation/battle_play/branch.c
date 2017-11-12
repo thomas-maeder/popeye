@@ -462,6 +462,48 @@ void defense_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Prepare the instrumentation of an attack branch with some slices
+ * The inserted slices will be copies of the elements of prototypes.
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ * @param st traversal to be prepared
+ * @param state inseration state to be initialised
+ */
+void defense_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
+                                                         slice_index const prototypes[],
+                                                         unsigned int nr_prototypes,
+                                                         slice_index base,
+                                                         branch_slice_insertion_state_type *state,
+                                                         stip_structure_traversal *st)
+{
+  state->prototypes = prototypes;
+  state->nr_prototypes = nr_prototypes;
+  state->slice_rank_order = slice_rank_order;
+  state->nr_slice_rank_order_elmts = nr_slice_rank_order_elmts;
+  state->type = branch_slice_rank_order_recursive;
+  state->prev = proxy;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  state->base_rank = get_slice_rank(STAttackPlayed,state);
+  assert(state->base_rank!=no_slice_rank);
+  ++state->base_rank;
+
+  slice_insertion_init_traversal(st,state,stip_traversal_context_defense);
+  move_init_slice_insertion_traversal(st);
+
+  state->base_rank = get_slice_rank(SLICE_TYPE(base),state);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Like defense_branch_insert_slices, but starting at a proxy slice
  * @param base_rank used instead of proxy for determining the current position in the
  *             sequence of defense branches

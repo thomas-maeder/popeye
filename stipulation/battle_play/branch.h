@@ -84,6 +84,22 @@ void defense_branch_insert_slices(slice_index si,
                                   slice_index const prototypes[],
                                   unsigned int nr_prototypes);
 
+/* Prepare the instrumentation of an attack branch with some slices
+ * The inserted slices will be copies of the elements of prototypes.
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ * @param st traversal to be prepared
+ * @param state inseration state to be initialised
+ */
+void defense_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
+                                                         slice_index const prototypes[],
+                                                         unsigned int nr_prototypes,
+                                                         slice_index base,
+                                                         branch_slice_insertion_state_type *state,
+                                                         stip_structure_traversal *st);
+
 /* Like defense_branch_insert_slices, but starting at a proxy slice
  * @param base used instead of proxy for determining the current position in the
  *             sequence of slices

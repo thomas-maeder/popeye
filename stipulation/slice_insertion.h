@@ -118,7 +118,7 @@ void slice_insertion_prepare_factored_order(slice_index si,
                                             unsigned int nr_order,
                                             unsigned int nr_exit_slice_types);
 
-/* Visist a pipe slice during an insertion traversal
+/* Visit a pipe slice during an insertion traversal
  * @param si identifies the pipe slice
  * @param st holds the current state of the insertion traversal
  * @note this function is typically called automatically by insertion traversal;
@@ -127,5 +127,17 @@ void slice_insertion_prepare_factored_order(slice_index si,
  *       traversal using slice_insertion_init_traversal()
  */
 void insert_visit_pipe(slice_index si, stip_structure_traversal *st);
+
+/* Visit a binary slice during an insertion traversal; don't insert into next1,
+ * but continue into next2 if the slice types to be inserted have higher rank
+ * than the binary slice.
+ * @param si identifies the pipe slice
+ * @param st holds the current state of the insertion traversal
+ * @note this function is typically called automatically by insertion traversal;
+ *       user code make take its address to override behviour of an insertion
+ *       traversal at a specific slice type after having initialised the
+ *       traversal using slice_insertion_init_traversal()
+ */
+void insert_visit_binary_skip_next1(slice_index si, stip_structure_traversal *st);
 
 #endif

@@ -519,10 +519,25 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_defense)
   {
-    slice_index const prototype = alloc_output_plaintext_tree_key_writer();
-    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),
-                                              &prototype,1,
-                                              si);
+    slice_index const prototypes[] = {
+        alloc_output_plaintext_tree_key_writer()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    stip_structure_traversal st_nested;
+    branch_slice_insertion_state_type state = { 0 };
+
+    defense_branch_prepare_slice_insertion_behind_proxy(SLICE_NEXT2(si),
+                                               prototypes,nr_prototypes,
+                                               si,
+                                               &state,
+                                               &st_nested);
+
+    /* prevent 1st operand from writing the key mark; 2nd operand will write it */
+    stip_structure_traversal_override_single(&st_nested,STAnd,&insert_visit_binary_skip_next1);
+
+    stip_traverse_structure(SLICE_NEXT2(si),&st_nested);
+
+    deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
@@ -689,7 +704,7 @@ static void remove_continuation_writer_if_unused(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitor const goal_writer_slice_inserters[] =
+static structure_traversers_visitor const goal_writer_slice_optimisers[] =
 {
   { STGoalReachedTester,              &remember_goal                        },
   { STOutputPlainTextKeyWriter,       &remember_key_writer                  },
@@ -699,8 +714,8 @@ static structure_traversers_visitor const goal_writer_slice_inserters[] =
 
 enum
 {
-  nr_goal_writer_slice_inserters = (sizeof goal_writer_slice_inserters
-                                    / sizeof goal_writer_slice_inserters[0])
+  nr_goal_writer_slice_optimisers = (sizeof goal_writer_slice_optimisers
+                                     / sizeof goal_writer_slice_optimisers[0])
 };
 
 /* Optimise away superfluous slices in leaf branches
@@ -723,8 +738,8 @@ static void optimise_leaf_slices(slice_index si)
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
-                                    goal_writer_slice_inserters,
-                                    nr_goal_writer_slice_inserters);
+                                    goal_writer_slice_optimisers,
+                                    nr_goal_writer_slice_optimisers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

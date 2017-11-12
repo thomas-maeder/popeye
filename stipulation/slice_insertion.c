@@ -279,6 +279,50 @@ void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Visit a binary slice during an insertion traversal; don't insert into next1,
+ * but continue into next2 if the slice types to be inserted have higher rank
+ * than the binary slice.
+ * @param si identifies the pipe slice
+ * @param st holds the current state of the insertion traversal
+ * @note this function is typically called automatically by insertion traversal;
+ *       user code make take its address to override behviour of an insertion
+ *       traversal at a specific slice type after having initialised the
+ *       traversal using slice_insertion_init_traversal()
+ */
+void insert_visit_binary_skip_next1(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    branch_slice_insertion_state_type * const state = st->param;
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
+    if (rank==no_slice_rank)
+    {
+      if (SLICE_NEXT2(si)!=no_slice)
+      {
+        assert(SLICE_TYPE(SLICE_NEXT2(si))==STProxy);
+        insert_beyond(SLICE_NEXT2(si),st);
+      }
+    }
+    else if (insert_before(si,rank,st))
+      ; /* nothing - work is done*/
+    else
+    {
+      state->base_rank = rank+1;
+      if (SLICE_NEXT2(si)!=no_slice)
+      {
+        assert(SLICE_TYPE(SLICE_NEXT2(si))==STProxy);
+        insert_beyond(SLICE_NEXT2(si),st);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_visit_binary_operands(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
