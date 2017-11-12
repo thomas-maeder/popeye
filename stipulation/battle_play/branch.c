@@ -322,7 +322,7 @@ void attack_branch_prepare_slice_insertion(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  attack_branch_prepare_slice_insertion_behind_proxy(si,si,prototypes,nr_prototypes,st,state);
+  attack_branch_prepare_slice_insertion_behind_proxy(si,prototypes,nr_prototypes,si,st,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -350,14 +350,14 @@ void attack_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Like attack_branch_insert_slices, but starting at a proxy slice
+/* Like attack_branch_prepare_slice_insertion, but starting at a proxy slice
  * @param base used instead of proxy for determining the current position in the
  *             sequence of defense branches
  */
 void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
-                                                        slice_index base,
                                                         slice_index const prototypes[],
                                                         unsigned int nr_prototypes,
+                                                        slice_index base,
                                                         stip_structure_traversal *st,
                                                         branch_slice_insertion_state_type *state)
 {
@@ -391,6 +391,11 @@ void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Like attack_branch_insert_slices, but starting at a proxy slice
+ * @param base used instead of proxy for determining the current position in the
+ *             sequence of slices
+ */
 void attack_branch_insert_slices_behind_proxy(slice_index proxy,
                                               slice_index const prototypes[],
                                               unsigned int nr_prototypes,

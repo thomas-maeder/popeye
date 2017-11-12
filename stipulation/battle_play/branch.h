@@ -57,9 +57,9 @@ void attack_branch_insert_slices(slice_index si,
  *             sequence of slices
  */
 void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
-                                                        slice_index base,
                                                         slice_index const prototypes[],
                                                         unsigned int nr_prototypes,
+                                                        slice_index base,
                                                         stip_structure_traversal *st,
                                                         branch_slice_insertion_state_type *state);
 
