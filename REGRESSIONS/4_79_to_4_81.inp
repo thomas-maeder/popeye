@@ -1,0 +1,12 @@
+beginproblem
+
+protocol 4_79_to_4_81.reg
+
+remark issue #228
+author Zoltan Laborczi
+pieces white Kh6 Qb1 black Kh8 Ph7
+sstip white 1a[!x&#]d
+remark #1 without capture
+
+endproblem
+

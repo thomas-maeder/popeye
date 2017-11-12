@@ -618,6 +618,8 @@ typedef struct
 {
   Goal goal;
   boolean branch_has_key_writer;
+  boolean branch_towards_goal;
+  boolean and_goal;
 } leaf_optimisation_state_structure;
 
 /* Remember that we are about to deal with a goal (and which one)
@@ -675,8 +677,11 @@ static void remove_check_handler_if_unused(slice_index si, stip_structure_traver
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->goal.type!=no_goal
-      && output_goal_preempts_check(state->goal.type))
+  /* remove check writer if the check is preempted by the goal (e.g. mate)
+   * or if the other leg of an STAnd is supposed to write the check */
+  if ((state->goal.type!=no_goal
+       && output_goal_preempts_check(state->goal.type))
+      || state->and_goal)
     pipe_remove(si);
 
   TraceFunctionExit(__func__);
@@ -704,12 +709,61 @@ static void remove_continuation_writer_if_unused(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remember_towards_goal(slice_index si, stip_structure_traversal *st)
+{
+  leaf_optimisation_state_structure * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (SLICE_NEXT2(si)!=no_slice)
+  {
+    assert(!state->branch_towards_goal);
+    state->branch_towards_goal = true;
+    stip_traverse_structure_next_branch(si,st);
+    state->branch_towards_goal = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_and_goal(slice_index si, stip_structure_traversal *st)
+{
+  leaf_optimisation_state_structure * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->branch_towards_goal)
+  {
+    boolean const save_and_goal = state->and_goal;
+    state->and_goal = true;
+    stip_traverse_structure_children_pipe(si,st);
+    state->and_goal = save_and_goal;
+  }
+  else
+    stip_traverse_structure_children_pipe(si,st);
+
+  if (SLICE_NEXT2(si)!=no_slice)
+    stip_traverse_structure_next_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const goal_writer_slice_optimisers[] =
 {
   { STGoalReachedTester,              &remember_goal                        },
   { STOutputPlainTextKeyWriter,       &remember_key_writer                  },
   { STOutputPlainTextMoveWriter,      &remove_continuation_writer_if_unused },
-  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
+  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       },
+  { STEndOfBranchGoal,                &remember_towards_goal                },
+  { STAnd,                            &remember_and_goal                    }
 };
 
 enum
@@ -724,7 +778,12 @@ enum
 static void optimise_leaf_slices(slice_index si)
 {
   stip_structure_traversal st;
-  leaf_optimisation_state_structure state = { { no_goal, initsquare }, false };
+  leaf_optimisation_state_structure state = {
+      { no_goal, initsquare },
+      false,
+      false,
+      false
+  };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
