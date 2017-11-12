@@ -1,0 +1,37 @@
+Popeye Linux-4.4.92-18.36-default-x86_64-64Bit v4.80 (1024 MB)
+issue #228
+#1 without capture
+
+           Zoltan Laborczi
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   Q   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  White 1a[!x&#]d             2 + 2
+
+   1.Qb1-b8 # !
+
+  add_to_move_generation_stack:          37
+                     play_move:          37
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          39
+
+solution finished. Time = 0.030 s
+
+
