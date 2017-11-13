@@ -97,7 +97,7 @@ static void do_insert_move_writer_attack(slice_index si,
                                         &traversal_insertion,&state);
 
   /* prevent 2nd operand from writing the same move again */
-  stip_structure_traversal_override_single(&traversal_insertion,STAnd,&insert_visit_pipe);
+  stip_structure_traversal_override_single(&traversal_insertion,STAnd,&slice_insertion_visit_pipe);
 
   stip_traverse_structure(si,&traversal_insertion);
 
@@ -533,7 +533,7 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
                                                &st_nested);
 
     /* prevent 1st operand from writing the key mark; 2nd operand will write it */
-    stip_structure_traversal_override_single(&st_nested,STAnd,&insert_visit_binary_skip_next1);
+    stip_structure_traversal_override_single(&st_nested,STAnd,&slice_insertion_visit_binary_skip_next1);
 
     stip_traverse_structure(SLICE_NEXT2(si),&st_nested);
 

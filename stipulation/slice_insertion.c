@@ -253,7 +253,7 @@ static void insert_beyond(slice_index si, stip_structure_traversal *st)
  *       traversal at a specific slice type after having initialised the
  *       traversal using slice_insertion_init_traversal()
  */
-void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
+void slice_insertion_visit_pipe(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -289,7 +289,8 @@ void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
  *       traversal at a specific slice type after having initialised the
  *       traversal using slice_insertion_init_traversal()
  */
-void insert_visit_binary_skip_next1(slice_index si, stip_structure_traversal *st)
+void slice_insertion_visit_binary_skip_next1(slice_index si,
+                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -517,14 +518,14 @@ static void init_slice_insertion_traversal_common(stip_structure_traversal *st,
                                                  slice_structure_leaf,
                                                  &insert_visit_leaf);
   stip_structure_traversal_override_by_structure(st,
-                                                   slice_structure_pipe,
-                                                   &insert_visit_pipe);
+                                                 slice_structure_pipe,
+                                                 &slice_insertion_visit_pipe);
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_branch,
-                                                 & insert_visit_pipe);
+                                                 &slice_insertion_visit_pipe);
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
-                                                 &insert_visit_pipe);
+                                                 &slice_insertion_visit_pipe);
   stip_structure_traversal_override_by_contextual(st,
                                                   slice_contextual_binary,
                                                   &insert_visit_binary);

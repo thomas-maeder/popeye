@@ -126,7 +126,7 @@ void slice_insertion_prepare_factored_order(slice_index si,
  *       traversal at a specific slice type after having initialised the
  *       traversal using slice_insertion_init_traversal()
  */
-void insert_visit_pipe(slice_index si, stip_structure_traversal *st);
+void slice_insertion_visit_pipe(slice_index si, stip_structure_traversal *st);
 
 /* Visit a binary slice during an insertion traversal; don't insert into next1,
  * but continue into next2 if the slice types to be inserted have higher rank
@@ -138,6 +138,7 @@ void insert_visit_pipe(slice_index si, stip_structure_traversal *st);
  *       traversal at a specific slice type after having initialised the
  *       traversal using slice_insertion_init_traversal()
  */
-void insert_visit_binary_skip_next1(slice_index si, stip_structure_traversal *st);
+void slice_insertion_visit_binary_skip_next1(slice_index si,
+                                             stip_structure_traversal *st);
 
 #endif
