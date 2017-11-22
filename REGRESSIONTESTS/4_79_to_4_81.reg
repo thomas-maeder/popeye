@@ -1,4 +1,3 @@
-Popeye Linux-4.4.92-18.36-default-x86_64-64Bit v4.80 (1024 MB)
 issue #228
 #1 without capture
 
@@ -32,6 +31,6 @@ issue #228
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
 
-solution finished. Time = 0.030 s
+solution finished.
 
 
