@@ -34,3 +34,39 @@ issue #228
 solution finished.
 
 
+
+Popeye 4.65 to 4.79 would only do en passant capture by Black!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hx1                         1 + 2
+both sides need a king
+
+  1...e5*d6 ep. x
+
+  1.c7*d6 ep. e5*d6 x
+  add_to_move_generation_stack:          11
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -8,5 +8,12 @@ pieces white Kh6 Qb1 black Kh8 Ph7
 sstip white 1a[!x&#]d
 remark #1 without capture
 
-endproblem
+next
+
+title Popeye 4.65 to 4.79 would only do en passant capture by Black!
+pieces white pe5 black pc7d5
+option enpassant d7d6d5 set
+stipulation hx1
+
+end
 

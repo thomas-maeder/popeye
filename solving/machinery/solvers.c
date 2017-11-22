@@ -195,19 +195,6 @@ void build_solvers1(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  retro_instrument_solving_default(si);
-
-  if (CondFlag[lastcapture])
-  {
-    retro_instrument_retractor(si,STRetroRetractLastCapture);
-    retro_substitute_last_move_player(si,STRetroRedoLastCapture);
-  }
-  else if (OptFlag[enpassant])
-  {
-    retro_instrument_retractor(si,STRetroUndoLastPawnMultistep);
-    retro_substitute_last_move_player(si,STRetroRedoLastPawnMultistep);
-  }
-
   goal_prerequisite_guards_initialse_solving(si);
 
   insert_temporary_hacks(si);
@@ -235,6 +222,19 @@ void build_solvers1(slice_index si)
   if (OptFlag[solapparent] && !OptFlag[restart]
       && !solving_apply_setplay(si))
     output_plaintext_message(SetPlayNotApplicable);
+
+  retro_instrument_solving_default(si);
+
+  if (CondFlag[lastcapture])
+  {
+    retro_instrument_retractor(si,STRetroRetractLastCapture);
+    retro_substitute_last_move_player(si,STRetroRedoLastCapture);
+  }
+  else if (OptFlag[enpassant])
+  {
+    retro_instrument_retractor(si,STRetroUndoLastPawnMultistep);
+    retro_substitute_last_move_player(si,STRetroRedoLastPawnMultistep);
+  }
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */

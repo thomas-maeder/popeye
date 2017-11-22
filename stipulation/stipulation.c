@@ -18,7 +18,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/proxy.h"
-#include "retro/retro.h"
 #include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "debugging/trace.h"
@@ -595,8 +594,6 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   }
 
   pipe_append(proxy,alloc_move_inverter_setplay_slice());
-
-  retro_instrument_solving_default(SLICE_NEXT1(proxy));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
