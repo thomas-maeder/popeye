@@ -61,9 +61,8 @@ both sides need a king
 
   1...e5*d6 ep. x
 
-  1.c7*d6 ep. e5*d6 x
-  add_to_move_generation_stack:          11
-                     play_move:           7
+  add_to_move_generation_stack:           8
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

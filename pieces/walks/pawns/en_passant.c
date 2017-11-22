@@ -60,9 +60,11 @@ void en_passant_undo_multistep(slice_index si)
 
   assert(en_passant_nr_retro_squares>=en_passant_retro_min_squares);
 
-  move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                        en_passant_retro_squares[en_passant_nr_retro_squares-1],
-                                        en_passant_retro_squares[0]);
+  if ((SLICE_STARTER(si)==White)
+      == (en_passant_retro_squares[en_passant_nr_retro_squares-1]<en_passant_retro_squares[0]))
+      move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
+                                            en_passant_retro_squares[en_passant_nr_retro_squares-1],
+                                            en_passant_retro_squares[0]);
 
   pipe_solve_delegate(si);
 
@@ -93,6 +95,8 @@ void en_passant_redo_multistep(slice_index si)
 
   move_effect_journal_do_no_piece_removal();
 
+  if ((SLICE_STARTER(si)==White)
+      == (en_passant_retro_squares[en_passant_nr_retro_squares-1]<en_passant_retro_squares[0]))
   {
     unsigned int i;
 
