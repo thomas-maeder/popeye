@@ -39,6 +39,16 @@ boolean en_passant_are_retro_squares_consistent(void)
   return true;
 }
 
+/* determine whether a retro doublestep has the relevant direction for the side
+ * to move
+ * @param side side to move
+ * @param diff vector from start to end square of the doublestep
+ **/
+static boolean has_doublestep_right_direction(Side side, numvec diff)
+{
+  return (side==White) == (diff<0);
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -60,8 +70,9 @@ void en_passant_undo_multistep(slice_index si)
 
   assert(en_passant_nr_retro_squares>=en_passant_retro_min_squares);
 
-  if ((SLICE_STARTER(si)==White)
-      == (en_passant_retro_squares[en_passant_nr_retro_squares-1]<en_passant_retro_squares[0]))
+  if (has_doublestep_right_direction(SLICE_STARTER(si),
+                                     en_passant_retro_squares[en_passant_nr_retro_squares-1]
+                                     -en_passant_retro_squares[0]))
       move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
                                             en_passant_retro_squares[en_passant_nr_retro_squares-1],
                                             en_passant_retro_squares[0]);
@@ -95,8 +106,9 @@ void en_passant_redo_multistep(slice_index si)
 
   move_effect_journal_do_no_piece_removal();
 
-  if ((SLICE_STARTER(si)==White)
-      == (en_passant_retro_squares[en_passant_nr_retro_squares-1]<en_passant_retro_squares[0]))
+  if (has_doublestep_right_direction(SLICE_STARTER(si),
+                                     en_passant_retro_squares[en_passant_nr_retro_squares-1]
+                                     -en_passant_retro_squares[0]))
   {
     unsigned int i;
 
