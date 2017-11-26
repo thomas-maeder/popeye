@@ -107,6 +107,16 @@ void swap_sides(void)
         && !is_square_blocked(*bnp))
       piece_change_side(&being_solved.spec[*bnp]);
 
+  {
+    piece_walk_type walk;
+    for (walk = Empty; walk!=nr_piece_walks; ++walk)
+    {
+      unsigned int const save_nr_white = being_solved.number_of_pieces[White][walk];
+      being_solved.number_of_pieces[White][walk] = being_solved.number_of_pieces[Black][walk];
+      being_solved.number_of_pieces[Black][walk] = save_nr_white;
+    }
+  }
+
   areColorsSwapped = !areColorsSwapped;
 }
 
