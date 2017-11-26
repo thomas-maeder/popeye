@@ -47,7 +47,7 @@ typedef struct position
     square king_square[nr_sides];        /* placement of the kings */
     unsigned int number_of_imitators;    /* number of iterators */
     imarr isquare;                       /* placement of iterators */
-    unsigned number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
+    unsigned int number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
     castling_rights_type castling_rights;
     PieceIdType currPieceId;
 } position;
