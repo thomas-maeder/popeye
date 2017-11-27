@@ -15,5 +15,12 @@ pieces white pe5 black pc7d5
 option enpassant d7d6d5 set
 stipulation hx1
 
+next
+
+title duplex intelligent didn't correctly test for an illegal check in the diagram
+pieces white Kd1 pa2 black Kb3
+stipulation h=1
+option set duplex intelligent
+
 end
 
