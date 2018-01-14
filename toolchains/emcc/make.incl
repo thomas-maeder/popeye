@@ -1,0 +1,26 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Linux using emcc
+
+# Requirements:
+#
+# Java and Emscripten SDK (always go for the bleeding edge, 
+# forget 'apt-get install emscripten') 
+#
+
+
+include toolchains/gcc/make.incl
+CCHOST=emcc
+LDHOST=emcc
+CCTARGET=emcc
+LDTARGET=emcc -s EXPORTED_FUNCTIONS="['_main']" --memory-init-file 0 -s TOTAL_MEMORY=33554432 -s ABORTING_MALLOC=0
+EXE_SUFFIX=.js
+ARCHIVER=emar rv
+ARCHIVE_INDEXER=emranlib
+STRIPTARGET=@echo "no need to strip"
+CCOPTIM=-O3
+LDOPTIM=-O3
+EXECUTE=node
+OSTYPE=asm.js
+PLATFORM=unix

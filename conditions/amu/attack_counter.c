@@ -12,6 +12,7 @@
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
+#include "solving/post_move_iteration.h"
 
 boolean amu_attacked_exactly_once[maxply+1];
 
