@@ -26,10 +26,6 @@ issue #228
 
    1.Qb1-b8 # !
 
-  add_to_move_generation_stack:          37
-                     play_move:          37
- is_white_king_square_attacked:           8
- is_black_king_square_attacked:          39
 
 solution finished.
 
@@ -61,10 +57,6 @@ both sides need a king
 
   1...e5*d6 ep. x
 
-  add_to_move_generation_stack:           8
-                     play_move:           5
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
 
 solution finished.
 
@@ -95,16 +87,40 @@ duplex intelligent didn't correctly test for an illegal check in the diagram
                Duplex
 
 the side to play can capture the king
-  add_to_move_generation_stack:           0
-                     play_move:           0
- is_white_king_square_attacked:           1
- is_black_king_square_attacked:           1
 
 
-the side to play can capture the king  add_to_move_generation_stack:           0
-                     play_move:           0
- is_white_king_square_attacked:           1
- is_black_king_square_attacked:           1
+the side to play can capture the king
+solution finished.
+
+
+issue #231
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg11                        2 + 2
+              AntiCirce
+
+   1.Sc6*a7[wSa7->g1] z !
+
 
 solution finished.
 

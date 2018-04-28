@@ -22,5 +22,13 @@ pieces white Kd1 pa2 black Kb3
 stipulation h=1
 option set duplex intelligent
 
+next
+
+author Bernd Schwarzkopf
+remark issue #231
+pieces white Ke1 Sc6  black Ke8 pa7
+condition AntiCirce
+stipulation zg11
+
 end
 

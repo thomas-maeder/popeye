@@ -17,9 +17,12 @@ optimisations/goals/optimisation_guards$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/goals/prerequisite_guards.h solving/ply.h \
+ stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+ stipulation/help_play/branch.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h solving/goals/prerequisite_guards.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h debugging/assert.h
 
@@ -87,6 +90,8 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
+stipulation/slice_insertion.h:
+
 stipulation/help_play/branch.h:
 
 solving/machinery/solve.h:
@@ -95,9 +100,23 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/goals/prerequisite_guards.h:
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
 
 solving/ply.h:
+
+solving/goals/prerequisite_guards.h:
 
 optimisations/goals/enpassant/filter.h:
 
@@ -112,10 +131,10 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h conditions/conditions.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h stipulation/pipe.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h conditions/conditions.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -174,8 +193,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-conditions/conditions.h:
-
 position/position.h:
 
 position/color.h:
@@ -189,6 +206,10 @@ position/pieceid.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+solving/ply.h:
+
+conditions/conditions.h:
 
 stipulation/pipe.h:
 
