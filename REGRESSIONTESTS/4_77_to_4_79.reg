@@ -123,7 +123,7 @@ this wasn't correctly solved since 4.61
   1.c2-c1=Q + Kh1-g2 z
   1.c2-c1=R + Kh1-g2 z
   add_to_move_generation_stack:          15
-                     play_move:          18
+                     play_move:          22
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:           4
 

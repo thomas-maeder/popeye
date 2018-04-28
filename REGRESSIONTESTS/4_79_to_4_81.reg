@@ -26,6 +26,10 @@ issue #228
 
    1.Qb1-b8 # !
 
+  add_to_move_generation_stack:          37
+                     play_move:          37
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          39
 
 solution finished.
 
@@ -57,6 +61,10 @@ both sides need a king
 
   1...e5*d6 ep. x
 
+  add_to_move_generation_stack:           8
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
 solution finished.
 
@@ -87,9 +95,17 @@ duplex intelligent didn't correctly test for an illegal check in the diagram
                Duplex
 
 the side to play can capture the king
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           1
 
 
-the side to play can capture the king
+the side to play can capture the king  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           1
+
 solution finished.
 
 
@@ -121,6 +137,10 @@ issue #231
 
    1.Sc6*a7[wSa7->g1] z !
 
+  add_to_move_generation_stack:          13
+                     play_move:          13
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
 
 solution finished.
 

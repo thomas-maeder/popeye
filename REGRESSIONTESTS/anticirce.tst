@@ -175,7 +175,7 @@ solution finished.
 
   1.Ba1*b2 Kf7-g6[bBb2->c1] z
   add_to_move_generation_stack:           9
-                     play_move:           2
+                     play_move:           9
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
 
@@ -208,7 +208,7 @@ solution finished.
 
   1.a6*b7[wPb7->b2]   2.b2-b3[+bPb2] z
   add_to_move_generation_stack:           7
-                     play_move:           3
+                     play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -241,7 +241,7 @@ solution finished.
 
   1.a6*b7[wPb7->c8=S]   2.Sc8-e7[+bSc8] z
   add_to_move_generation_stack:          51
-                     play_move:           6
+                     play_move:          60
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -278,7 +278,7 @@ solution finished.
   1.a6*b7[wPb7->c8=R->v]   2.Rc8-f8[+wRc8] z
   1.a6*b7[wPb7->c8=B->v]   2.Rc8-f8[+wBc8] z
   add_to_move_generation_stack:          61
-                     play_move:           9
+                     play_move:          70
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

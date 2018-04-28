@@ -1160,7 +1160,7 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-h7 + Kg1-f2 z
   1.Kh8-g8 + Kg1-f2 z
   add_to_move_generation_stack:          30
-                     play_move:          13
+                     play_move:          33
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           9
 

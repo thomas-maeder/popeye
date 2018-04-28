@@ -218,7 +218,7 @@ solution finished.
    1.Kc1-b2 z !
 
   add_to_move_generation_stack:           5
-                     play_move:           1
+                     play_move:           5
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           2
 
