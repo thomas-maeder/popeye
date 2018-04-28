@@ -20,7 +20,7 @@ _cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
 #_cmd="WINEPREFIX=~/.wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
-PMAX=3
+PMAX=6
 
 (for f in *.tst
 do
