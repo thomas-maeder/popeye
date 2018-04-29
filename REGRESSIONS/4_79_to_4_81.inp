@@ -37,4 +37,13 @@ remark issue #232
 pieces white bkg3 black kd2
 stipulation ~1
 
+next
+
+author Bernd Schwarzkopf
+pieces white Ke1 ra1h1 black Ke8
+stipulation 001
+condition Bichrom
+twin condition Monochrom
+
 end
+

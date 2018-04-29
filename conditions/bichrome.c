@@ -1,5 +1,4 @@
 #include "conditions/bichrome.h"
-#include "conditions/monochrome.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/move_generator.h"
@@ -9,7 +8,22 @@
 
 static boolean is_move_bichrome(numecoup n)
 {
-  return !monochrome_is_move_monochrome(n);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  /* this is *not* the contrary of monochrome_is_move_monochrome() because of
+   * queen side castling! */
+
+  result = (SquareCol(move_generation_stack[n].departure)
+            !=SquareCol(move_generation_stack[n].arrival));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Validate the geometry of observation according to Bichrome Chess

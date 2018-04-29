@@ -7,11 +7,6 @@
 
 /* This module implements the condition Monochrome Chess */
 
-/* Determine whether a generated move is monochrome
- * @param n identifies the move in the move generation stack
- */
-boolean monochrome_is_move_monochrome(numecoup n);
-
 /* Validate the geometry of observation according to Monochrome Chess
  * @return true iff the observation is valid
  */

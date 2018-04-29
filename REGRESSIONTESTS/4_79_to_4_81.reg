@@ -179,3 +179,47 @@ the side to play can capture the king  add_to_move_generation_stack:           0
 solution finished.
 
 
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         3 + 1
+            BichromChess
+
+a) 
+
+  add_to_move_generation_stack:          26
+                     play_move:           0
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           1
+
+b) MonochromChess  
+
+   1.0-0 !
+
+  add_to_move_generation_stack:          26
+                     play_move:           1
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+

@@ -5,13 +5,15 @@
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-boolean monochrome_is_move_monochrome(numecoup n)
+static boolean monochrome_is_move_monochrome(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  /* queen side castling is neither monochrome nor bichrome! */
   if (move_generation_stack[n].capture==queenside_castling)
     result = false;
   else
