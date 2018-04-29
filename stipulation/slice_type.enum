@@ -268,8 +268,8 @@
     ENUMERATOR(STBackhomeRemoveIllegalMoves),                           \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STGridRemoveIllegalMoves),                               \
-    ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
-    ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
+    ENUMERATOR(STMonochromeRemoveNonMonochromeMoves),                   \
+    ENUMERATOR(STBichromeRemoveNonBichromeMoves),                       \
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
     ENUMERATOR(STShieldedKingsRemoveIllegalCaptures),                   \
     ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \

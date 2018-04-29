@@ -2122,12 +2122,12 @@ void dispatch(slice_index si)
       jigger_legality_tester_solve(si);
       break;
 
-    case STMonochromeRemoveBichromeMoves:
-      monochrome_remove_bichrome_moves_solve(si);
+    case STMonochromeRemoveNonMonochromeMoves:
+      monochrome_remove_non_monochrome_moves_solve(si);
       break;
 
-    case STBichromeRemoveMonochromeMoves:
-      bichrome_remove_monochrome_moves_solve(si);
+    case STBichromeRemoveNonBichromeMoves:
+      bichrome_remove_non_bichrome_moves_solve(si);
       break;
 
     case STEdgeMoverRemoveIllegalMoves:

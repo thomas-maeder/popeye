@@ -71,7 +71,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STMonochromeRemoveBichromeMoves);
+    slice_index const prototype = alloc_pipe(STMonochromeRemoveNonMonochromeMoves);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -100,7 +100,7 @@ void monochrome_initialise_solving(slice_index si)
 
   stip_instrument_observation_geometry_validation(si,
                                                   nr_sides,
-                                                  STMonochromeRemoveBichromeMoves);
+                                                  STMonochromeRemoveNonMonochromeMoves);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

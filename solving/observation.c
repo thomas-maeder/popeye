@@ -247,11 +247,11 @@ boolean validate_observation_recursive(slice_index si)
       result = paralysing_validate_observation_geometry(si);
       break;
 
-    case STMonochromeRemoveBichromeMoves:
+    case STMonochromeRemoveNonMonochromeMoves:
       result = monochrome_validate_observation_geometry(si);
       break;
 
-    case STBichromeRemoveMonochromeMoves:
+    case STBichromeRemoveNonBichromeMoves:
       result = bichrome_validate_observation_geometry(si);
       break;
 
@@ -391,8 +391,8 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STEnforceHunterDirection,
-    STMonochromeRemoveBichromeMoves,
-    STBichromeRemoveMonochromeMoves,
+    STMonochromeRemoveNonMonochromeMoves,
+    STBichromeRemoveNonBichromeMoves,
     STGridRemoveIllegalMoves,
     STEdgeMoverRemoveIllegalMoves,
     STImitatorRemoveIllegalMoves,
