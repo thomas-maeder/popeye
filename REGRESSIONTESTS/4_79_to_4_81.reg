@@ -145,3 +145,37 @@ issue #231
 solution finished.
 
 
+issue #232
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  BK   .   3
+|                                   |
+2   .   .   .  -K   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+both sides need a king
+
+the side to play can capture the king  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+

@@ -152,27 +152,27 @@ static boolean rrefcech(square i1, int x, validator_id evaluate)
 
   /* ATTENTION:   first call of rrefech: x must be 2 !!   */
 
-  square sq_departure;
-
   if (x)
   {
     for (k= vec_knight_start; k <= vec_knight_end; k++)
-    sq_departure= i1+vec[k];
-    if (is_square_empty(sq_departure))
     {
-      if (!NoEdge(sq_departure)) {
-        if (rrefcech(sq_departure,x-1,evaluate))
-          return true;
+      square const sq_departure= i1+vec[k];
+      if (is_square_empty(sq_departure))
+      {
+        if (!NoEdge(sq_departure)) {
+              if (rrefcech(sq_departure,x-1,evaluate))
+                return true;
+        }
       }
+      else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
+        return true;
     }
-    else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
-      return true;
   }
   else
   {
     for (k= vec_knight_start; k <= vec_knight_end; k++)
     {
-      sq_departure= i1+vec[k];
+      square const sq_departure= i1+vec[k];
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }

@@ -30,5 +30,11 @@ pieces white Ke1 Sc6  black Ke8 pa7
 condition AntiCirce
 stipulation zg11
 
-end
+next
 
+author Bernd Schwarzkopf
+remark issue #232
+pieces white bkg3 black kd2
+stipulation ~1
+
+end
