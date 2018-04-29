@@ -48,7 +48,7 @@ boolean monochrome_validate_observation_geometry(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void monochrome_remove_bichrome_moves_solve(slice_index si)
+void monochrome_remove_non_monochrome_moves_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
