@@ -216,8 +216,9 @@ typedef enum
   argentinian,            /* 195 */
   lostpieces,             /* 196 */
   partialparalysis,       /* 197 */
+  lesemajeste,            /* 198 */
 
-  CondCount               /* 198 */
+  CondCount               /* 199 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

@@ -1322,7 +1322,8 @@ void verify_position(slice_index si)
       || CondFlag[antikings]
       || CondFlag[SAT]
       || CondFlag[strictSAT]
-      || CondFlag[shieldedkings])
+      || CondFlag[shieldedkings]
+      || CondFlag[lesemajeste])
     king_capture_avoiders_avoid_opponent();
 
   if (TSTFLAG(some_pieces_flags, Jigger)

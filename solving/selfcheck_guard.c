@@ -13,6 +13,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
+#include "conditions/conditions.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -503,6 +504,7 @@ static void instrument_move_inverters(slice_index si)
                                     nr_adapters_guards_inserters);
   stip_traverse_structure(si,&st);
 
+  if (!CondFlag[lesemajeste])
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     slice_insertion_insert(si,&prototype,1);

@@ -792,11 +792,16 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STSolversBuilder1),
         alloc_pipe(STSolversBuilder2),
         alloc_pipe(STSlackLengthAdjuster),
-        alloc_pipe(STProxyResolver),
-        alloc_illegal_selfcheck_writer_slice()
+        alloc_pipe(STProxyResolver)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
+
+    if (!CondFlag[lesemajeste])
+    {
+      slice_index const prototype = alloc_illegal_selfcheck_writer_slice();
+      slice_insertion_insert(si,&prototype,1);
+    }
   }
 
   solving_impose_starter(si,SLICE_STARTER(si));
