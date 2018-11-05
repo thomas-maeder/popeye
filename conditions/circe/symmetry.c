@@ -34,3 +34,37 @@ void symmetry_circe_determine_rebirth_square_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+void vertical_symmetry_circe_determine_rebirth_square_solve(slice_index si)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = ((onerow-1)-sq_capture%onerow)+onerow*(sq_capture/onerow);
+  pipe_dispatch_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void horizontal_symmetry_circe_determine_rebirth_square_solve(slice_index si)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture%onerow+onerow*((onerow-1)-sq_capture/onerow);
+  pipe_dispatch_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

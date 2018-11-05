@@ -380,6 +380,20 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
+        case CirceVariantVerticalSymmetry:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
+            variant->is_promotion_possible = true;
+          else
+            output_plaintext_input_error_message(NonsenseCombination,0);
+          break;
+
+        case CirceVariantHorizontalSymmetry:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_horizontal_symmetry))
+            variant->is_promotion_possible = false;
+          else
+            output_plaintext_input_error_message(NonsenseCombination,0);
+          break;
+
         case CirceVariantDiagramm:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
             output_plaintext_input_error_message(NonsenseCombination,0);
@@ -1349,6 +1363,18 @@ char *ParseCond(char *tok)
           circe_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
+        case circeverticalsymmetry:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_vertical_symmetry;
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circehorizontalsymmetry:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= false;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_horizontal_symmetry;
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
         case pwc:
           CondFlag[circe] = true;
           circe_variant.is_promotion_possible= true;
@@ -1492,6 +1518,18 @@ char *ParseCond(char *tok)
           anticirce_variant.is_promotion_possible = true;
           tok = ParseAnticirceVariant(tok,&anticirce_variant.anticirce_type);
           break;
+        case antiverticalsymmetrie:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_vertical_symmetry;
+          anticirce_variant.is_promotion_possible = true;
+          tok = ParseAnticirceVariant(tok,&anticirce_variant.anticirce_type);
+          break;
+        case antihorizontalsymmetrie:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_horizontal_symmetry;
+          anticirce_variant.is_promotion_possible = false;
+          tok = ParseAnticirceVariant(tok,&anticirce_variant.anticirce_type);
+          break;
         case antifile:
           CondFlag[anticirce] = true;
           anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
@@ -1538,6 +1576,14 @@ char *ParseCond(char *tok)
         case immunsymmetry:
           CondFlag[immun] = true;
           immune_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+          break;
+        case immunverticalsymmetry:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_vertical_symmetry;
+          break;
+        case immunhorizontalsymmetry:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_horizontal_symmetry;
           break;
         case immunantipoden:
           CondFlag[immun] = true;

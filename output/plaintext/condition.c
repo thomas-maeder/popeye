@@ -129,6 +129,10 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_symmetry)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_vertical_symmetry)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantVerticalSymmetry]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_horizontal_symmetry)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantHorizontalSymmetry]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_diagram)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_cage)
@@ -281,6 +285,8 @@ static boolean anything_to_write(Cond cond)
     case circerank:
     case circefile:
     case circesymmetry:
+    case circeverticalsymmetry:
+    case circehorizontalsymmetry:
     case circediagramm:
     case pwc:
     case circeantipoden:
@@ -292,6 +298,8 @@ static boolean anything_to_write(Cond cond)
     case antidiagramm:
     case antifile:
     case antisymmetrie:
+    case antiverticalsymmetrie:
+    case antihorizontalsymmetrie:
     case antimirror:
     case antimirrorfile:
     case antiantipoden:
@@ -302,6 +310,8 @@ static boolean anything_to_write(Cond cond)
     case immundiagramm:
     case immunmirrorfile:
     case immunsymmetry:
+    case immunverticalsymmetry:
+    case immunhorizontalsymmetry:
     case immunantipoden:
     case immunequipollents:
     case marsmirror:

@@ -443,6 +443,8 @@ Kommandos:
 		AntiDiagrammCirce	AntiCirce Diagramm
 		AntiFileCirce		AntiCirce File
 		AntiSymmetrieCirce	AntiCirce Symmetrie
+		VertikaleSymmetrieCirce	AntiCirce VertikaleSymmetrie
+		HorizontaleSymmetrieAntiCirce	AntiCirce HorizontaleSymmetrie
 		AntiSpiegelFileCirce	AntiCirce File Spiegel
 		AntiAntipodenCirce	AntiCirce Antipoden 
 		AntiEquipollentsCirce	AntiCirce Equipollents

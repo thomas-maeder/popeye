@@ -929,7 +929,13 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*194*/ "DernierePrise",
     /*195*/ "EchecsArgentins",
     /*196*/ "PiecesPerdues",
-    /*197*/ "ParalysePartielle"
+    /*197*/ "ParalysePartielle",
+    /*198*/ "CirceSymetriqueVerticale",
+    /*199*/ "CirceSymetriqueHorizontale",
+    /*200*/ "AntiCirceSymetriqueVerticale",
+    /*201*/ "AntiCirceSymetriqueHorizontale",
+    /*202*/ "ImmuneSymetriqueVerticale",
+    /*203*/ "ImmuneSymetriqueHorizontale"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1129,7 +1135,13 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*194*/ "LetzterSchlag",
     /*195*/ "ArgentinischesSchach",
     /*196*/ "VerloreneSteine",
-    /*197*/ "PartielleParalyse"
+    /*197*/ "PartielleParalyse",
+    /*198*/ "VertikaleSymmetrieCirce",
+    /*199*/ "HorizontaleSymmetrieCirce",
+    /*200*/ "VertikaleAntiSymmetrieCirce",
+    /*201*/ "HorizontaleAntiSymmetrieCirce",
+    /*202*/ "ImmuneVertikaleSymmetrie",
+    /*203*/ "ImmuneHorizontaleSymmetrie"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1329,7 +1341,13 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*194*/ "LastCapture",
     /*195*/ "ArgentinianChess",
     /*196*/ "LostPieces",
-    /*197*/ "PartialParalysis"
+    /*197*/ "PartialParalysis",
+    /*198*/ "VerticalSymmetryCirce",
+    /*199*/ "HorizontalSymmetryCirce",
+    /*200*/ "VerticalSymmetryAntiCirce",
+    /*201*/ "HorizontalSymmetryAntiCirce",
+    /*202*/ "ImmuneVerticalSymmetry",
+    /*203*/ "ImmuneHorizontalSymmetry"
   }
 };
 
@@ -1626,6 +1644,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Rangee",
     "Colonne",
     "Symetrie",
+    "VerticaleSymetrique",
+    "HorizontaleSymetrique",
     "Diagramme",
     "Echange",
     "Antipodes",
@@ -1661,6 +1681,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Reihe",
     "File",
     "Symmetrie",
+    "VertikaleSymmetrie",
+    "HorizontaleSymmetrie",
     "Diagramm",
     "Platzwechsel",
     "Antipoden",
@@ -1696,6 +1718,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Rank",
     "File",
     "Symmetry",
+    "VerticalSymmetry",
+    "HorizontalSymmetry",
     "Diagram",
     "PWC",
     "Antipodes",

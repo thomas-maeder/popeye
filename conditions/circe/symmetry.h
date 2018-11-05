@@ -19,5 +19,7 @@
  *            (with n denominating solve_nr_remaining)
  */
 void symmetry_circe_determine_rebirth_square_solve(slice_index si);
+void vertical_symmetry_circe_determine_rebirth_square_solve(slice_index si);
+void horizontal_symmetry_circe_determine_rebirth_square_solve(slice_index si);
 
 #endif
