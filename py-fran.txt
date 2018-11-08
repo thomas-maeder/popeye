@@ -866,6 +866,49 @@ simples:
  - forsyth: Cette commande est utiliser pour l'entree de la position en
             notation forsyth.
 
+	Exemples: 
+		tcfdrfct/pppppppp/8/8/8/8/PPPPPPPP/TCFDRFCT (position initiale)
+		tcfdrfctpppppppp32PPPPPPPPTCFDRFCT          (position initiale; alternative)
+		48/5sPp/5R1r                                (V.Onitiu, #6 - sauterelle noire)
+		1.PA6/8/1D2.ma3/8/r1.pa.pa4/8/1P1R          (Z.Mach, #2 - pieces chinoises)
+
+	Les pièces représentées par une lettre dans la commande "pièces" sont entrées avec cette
+	même lettre dans la commande "forsyth". Les cases sont enregistrés de a8 à h8, suivis
+	par a7 à h7, etc. jusqu'à h1. Cases vides consecutivement sont enregistrées par un numéro qui
+	compte le nombre des cases vides, et le caractère "/" sépare chaque range.
+
+	Les lettres minuscules représentent les pièces noires et les lettres majuscules les pièces blanches.
+	Le caractère "/" est optionnel. 10 ou plus cases vides peuvent être entrées. Cases vides suivis le dernier 
+	pièce peuvent être omis (par exemple, l'exemple de Mach ci-dessus, "4/8" a été omis). 
+
+	La notation est développée pour permettre l'entree des pièces feeriques comme suit:
+	
+	- une pièce peut commencer par un caractère de spécification de couleur optionnel (qui remplace l'utilisation des
+	lettres minuscules / majuscules)
+		+ Blanc
+		- Noir
+		= Neutre
+	Exemples:
+		+ s sauterelle blanche (ou +S)
+		= p pion neutre (ou =P)
+
+	- une pièce qui est représentée par deux lettres ou chiffres dans la commande "pièces" peut être entrée
+	avec la commande "forsyth" en commençant par ".". La première des deux lettres suivantes
+	détermine si c'est blanc ou noir, sauf si un spécificateur de couleur est utilisé. Exemples:
+		.PA Pao blanc
+		.ma Mao noir
+		.s2 Sauterelle-2 noire
+		+.15 (1,5)-sauteur blanc
+		-.15 (1,5)-sauteur noir
+		= .li lion neutre
+
+	Notez que seule la casse de la première des deux lettres détermine la couleur.
+	Il est seulement nécessaire d’utiliser un spécificateur de couleur + / - / = pour les pièces neutres, ou pour les pièces dont
+	la représentation est deux chiffres.
+	Notez, autres attributs (paralysant, royal, etc.) ne peuvent pas être entrées avec cette commande. Il
+	est possible d'entrer des pièces supplémentaires avec la commande "pieces", avant ou après le "forsyth"
+	commande (les cases vides de la commande forsyth ne seront pas effacées)
+
 Jusqu'a present, toutes les commandes ont ete assez simples. La commande
 suivante est un peu plus compliquee:
 

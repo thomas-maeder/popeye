@@ -882,6 +882,51 @@ Kommandos:
  - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
 	    angegeben werden.
 
+- forsyth: Mit diesem Befehl können Sie die Position in forsyth-Notation eingeben.
+
+	Beispiele:
+		tsldklst/pppppppp/8/8/8/8/PPPPPPPP/TSLDRLST (Partiestellung)
+		tsldklstpppppppp32PPPPPPPPTSLDRLST 			(Partiestellung; Alternative)
+		8/5gPp/5K1k 								(V.Onitiu, # 6 - Schwarze Grashuepfer)
+		1.PA6/8/1D2.ma/8/k1.pa.pa4/8/1P1K 			(Z.Mach, # 2 - chinesische steinen)
+
+	Stücke, die durch einen Buchstaben in den "steine" kommand dargestellt werden
+	der gleiche Buchstabe im Forsyth-Befehl. Die Felder werden von a8 bis h8 registriert, gefolgt von
+	von a7 bis h7 usw. bis h1. Die Anzahl der leeren Felder wird durch eine Zahl registriert
+	zählt die Anzahl der Leerzeichen, und das "/" - Zeichen trennt jeden Reihe.
+
+	Kleinbuchstaben stehen für schwarze Teile und Großbuchstaben für weiße Teile.
+	Das Zeichen "/" ist optional. Es können Runden von Quadraten von 10 oder mehr eingegeben werden. leer
+	Nachdem das letzte Stück weggelassen werden kann (z. B. wurde Mach 4/8 oben weggelassen).
+
+	Die Notation wird erweitert, um die Eingabe von Märchen wie folgt zu ermöglichen:
+	
+	- Ein steine kann mit einem optionalen Farbspezifikationszeichen beginnen (das die Verwendung von a überschreibt
+	Kleinbuchstaben / Großbuchstaben)
+		+ Weiß
+		- schwarz
+		= Neutral
+	Beispiele:
+		+g Weiße Grashuepfer (oder +G)
+		=p Neutraler Bauer (oder =P)
+
+	- Es kann ein steine eingegeben werden, das im kommand "Teile" durch zwei Buchstaben oder Ziffern dargestellt wird
+	mit dem kommand "forsyth", indem Sie mit einem "." beginnen Der erste der beiden folgenden Buchstaben
+	ob es weiß oder schwarz ist, es sei denn, es wird ein Farbspezifizierer verwendet. Beispiele:
+		.PA  White Pao
+		.ma  Black Mao
+		.g2  Black Grashuepfer-2
+		+.15 Weiß 1,5-Springer
+		-.15 Schwarz 1,5-Springer
+		=.li Neutraler Löwe
+
+	Beachten Sie, dass nur die ersten Buchstaben auf Klein- / Großbuchstaben geprüft werden, um die Farbe zu bestimmen.
+	Es ist nur erforderlich, eine Farbe anzugeben, + / - / = für neutrale Teile oder für Teile mit
+	Darstellung ist zwei Ziffern.
+	Derzeit können Stücke mit anderen Attributen (Paralysierend, Koeniglich usw.) mit diesem kommand nicht eingegeben werden. es
+	Es ist möglich, zusätzliche Teile mit dem kommand "steine" oder vor oder nach dem "forsyth" einzugeben.
+	kommand (leere Felder im Forsyth-kommand werden nicht gelöscht)
+
 Soweit sind alle Kommandos (ausser SForderung) sehr einfach. Etwas
 aufwendiger ist das Kommando
 

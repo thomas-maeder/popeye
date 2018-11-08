@@ -844,12 +844,53 @@ commands expect further parameters. Lets start with the simpler commands:
 	black 15h[1a[#]d]?+?h			(pser-h#8)
 	white 15h[1d[#]a]?+?h			(phser-s#8)
 
-
+All these commands up to now are very easy to use (except maybe
+sstipulation). A little bit more elaborate are the commands
 
  - forsyth: With this command you can enter the position in forsyth notation.
 
-All these commands up to now are very easy to use (except maybe
-sstipulation). A little bit more elaborate is the command
+	Examples: 
+		rsbqkbsr/pppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR (game array)
+		rsbqkbsrpppppppp32PPPPPPPPRSBQKBSR          (game array; alternative)
+		48/5gPp/5K1k                                (V.Onitiu, #6 - black grasshopper)
+		1.PA6/8/1Q2.ma3/8/k1.pa.pa4/8/1P1K          (Z.Mach, #2 - chinese pieces)
+
+	Pieces represented by one letter in the "pieces" command are entered using that	
+	same letter in the forsyth command. The squares are registered from a8 to h8, followed
+	by a7 to h7, etc. down to h1. Runs of blank squares are registered by a number which
+	counts the number of blanks, and the "/" character separates each rank.
+
+	Lowercase letters represent black pieces and uppercase letters represent white pieces.
+	The "/" character is optional. Runs of blanks squares of 10 or more can be entered. Blank
+	squares after the last piece can be omitted (e.g. Mach example above, 4/8 has been omitted). 
+
+	The notation is extended to allow input of fairy pieces as follows:
+ 
+	 - a piece can begin with an optional colour specification character (which overrides use of a 
+	 	lowercase/uppercase letter)
+		+ 	White
+		- 	Black
+		= 	Neutral
+		Examples:
+		+g  White grasshopper (or +G)
+		=p  Neutral pawn (or =P)
+
+	 - a piece which is represented by two letters or digits in the "pieces" command can be entered
+	   with the "forsyth" command by commencing with a ".". The first of the two following letters
+	   determines whether it is white or black, unless a colour specifier is used. Examples:
+	   .PA 	White Pao 
+	   .ma  Black Mao  
+	   .g2  Black Grasshopper-2
+	   +.15 White (1,5)-leaper
+	   -.15 Black (1,5)-leaper
+	   =.li Neutral Lion
+
+	   Note only the first of the two letters is checked for lowercase/uppercase to determine the colour.
+	   It is only necessary to use a colour specifier +/-/= for neutral pieces, or for pieces whose  
+	   representation is two digits. 
+	   At present pieces with other attributes (paralysing, royal etc.) cannot be entered with this command. It
+	   is possible to enter additional pieces with the "pieces" command, either before or after the "forsyth"
+	   command (blank squares in the forsyth command will not be cleared)
 
  - pieces: This command specifies all the pieces belonging to the problem.
 	After this keyword, the color of the following pieces must be given:

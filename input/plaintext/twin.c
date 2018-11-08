@@ -418,53 +418,79 @@ static square NextSquare(square sq)
 }
 
 static char *ParseForsythPiece(char *tok,
-                               unsigned int nr_chars,
-                               Flags colour_flags,
+                               Flags *colour_flags,
                                square *pos)
 {
-  char const char1 = tolower((int)*tok++);
-  char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
+  boolean ok = false;
 
-  piece_walk_type const walk = GetPieNamIndex(char1,char2);
-  if (walk>=King)
+  boolean extended = *tok == '.';
+
+  if (extended) 
   {
-    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                          *pos,walk,
-                                          colour_flags,
-                                          no_side);
-    *pos = NextSquare(*pos);
+    tok++;
   }
-  else
-    ++tok;           /* error */
+
+  if (((*colour_flags)&NeutralMask) == 0 && isalpha((int)*tok))
+  {
+    *colour_flags |= BIT(islower((int)*tok) ? Black : White);
+  }
+
+  if (((*colour_flags)&NeutralMask) != 0)
+  {
+    char const char1 = tolower((int)*tok++);
+    char const char2 = extended ? tolower((int)*tok++) : ' ';
+
+    piece_walk_type const walk = GetPieNamIndex(char1,char2);
+    if (walk>=King)
+    {
+      move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                            *pos,walk,
+                                            *colour_flags,
+                                            no_side);
+      *pos = NextSquare(*pos);
+       ok = true;
+    }
+  }
+
+  if (!ok) {
+    *colour_flags = 0;
+  }
 
   return tok;
 }
 
 static char *ParseForsythColour(char *tok, Flags *colour_flags)
 {
-  if (isalpha((int)*tok))
-    *colour_flags = BIT(islower((int)*tok) ? Black : White);
-  else if (*tok=='=')
+  if (*tok=='=')
   {
     ++tok;
-    *colour_flags = NeutralMask;
+    *colour_flags |= NeutralMask;
   }
-  else
-    *colour_flags = 0;
+  else if (*tok=='+')
+  {
+    ++tok;
+    *colour_flags |= BIT(White);
+  }
+  else if (*tok=='-')
+  {
+    ++tok;
+    *colour_flags |= BIT(Black);
+  }
 
   return tok;
 }
 
 static char *ParseForsythPieceAndColor(char *tok,
-                                       unsigned int nr_chars,
                                        square *pos)
 {
-  Flags colour_flags;
+
+  Flags colour_flags = 0;
+
   tok = ParseForsythColour(tok,&colour_flags);
+  tok = ParseForsythPiece(tok,&colour_flags,pos);
+      
   if (colour_flags==0)
-    ++tok;
-  else
-    tok = ParseForsythPiece(tok,nr_chars,colour_flags,pos);
+      ++tok;  
 
   return tok;
 }
@@ -484,10 +510,8 @@ static void ParseForsyth(void)
        for (; num && sq; num--)
          sq = NextSquare(sq);
      }
-     else if (*tok=='.')
-       tok = ParseForsythPieceAndColor(tok+1,2,&sq);
      else
-       tok = ParseForsythPieceAndColor(tok,1,&sq);
+       tok = ParseForsythPieceAndColor(tok,&sq);
 }
 
 static char *ReadRemark(void)
