@@ -246,6 +246,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	ArgentinianChess
 	LostPieces
 	PartialParalysis
+	LeseMajeste
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
