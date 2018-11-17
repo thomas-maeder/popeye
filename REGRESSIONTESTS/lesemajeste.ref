@@ -1,0 +1,631 @@
+cf. http://pdb.dieschwalbe.de/search.jsp?expression=K%3D%27lese+majeste%27
+PDB P1110080
+
+            Erich Bartel
+          Jugendschach 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .   .   .   .  -P   P   B   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+             LeseMajeste
+
+   1.Bh7-b1 ! threat:
+          2.Bb1-h7 #
+      1...f7-f5
+          2.Bb1-a2 #
+      1...f7-f6
+          2.Bb1-a2 #
+
+  add_to_move_generation_stack:         306
+                     play_move:         167
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         168
+
+solution finished.
+
+
+PDB P1113604
+
+            Erich Bartel
+          Jugendschach 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   P   B  -B  -P   .   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   P   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       6 + 3
+             LeseMajeste
+
+  1...Bc7-b6   2.e7-e5 Bb6-c5 #
+  1...Kb8-a7 +   2.Kd6*c7 b7-b8=Q #
+  1...Kb8-a8 +   2.Kd6*c7 b7-b8=Q #
+  add_to_move_generation_stack:         951
+                     play_move:         594
+ is_white_king_square_attacked:         112
+ is_black_king_square_attacked:         588
+
+solution finished.
+
+
+PDB P1113605
+
+            Erich Bartel
+          Jugendschach 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B  -Q   .   .   8
+|                                   |
+7   .   .   .  -S   .  -K   .   K   7
+|                                   |
+6   .   .   .   P   P  -P   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#2                      4 + 5
+             LeseMajeste
+
+  1.e6*d7   2.d7-d8=S #
+  add_to_move_generation_stack:          51
+                     play_move:          54
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          49
+
+solution finished.
+
+
+PDB P1113606
+
+            Erich Bartel
+          Jugendschach 1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -Q   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-+3                      2 + 2
+             LeseMajeste
+
+  1.g5-g6   2.g6-g7   3.g7-g8=S +
+  add_to_move_generation_stack:          15
+                     play_move:          18
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          21
+
+solution finished.
+
+
+PDB P1305338
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   .   P   B   .   .   7
+|                                   |
+6   .   .   .  -S   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 2
+             LeseMajeste
+
+   1.Bf7-d5 + !
+      1...Kf8-e8
+          2.Bd5-c6 #
+
+  add_to_move_generation_stack:         518
+                     play_move:         299
+ is_white_king_square_attacked:          57
+ is_black_king_square_attacked:         297
+
+solution finished.
+
+
+PDB P1305339
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   Q   .   4
+|                                   |
+3   .  -K   .   .   .   .   K   B   3
+|                                   |
+2   .   .   .   .   .  -Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+             LeseMajeste
+
+  1.Qf2-b2 Bh3-f1   2.Bc5-a3 Qg4-c4 #
+  add_to_move_generation_stack:      230682
+                     play_move:       88314
+ is_white_king_square_attacked:       31968
+ is_black_king_square_attacked:       87468
+
+solution finished.
+
+
+PDB P1305340
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -Q   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3   Q  -B   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+             LeseMajeste
+
+  1.Qb6-g6 Bc3-f6   2.Bb3-e6 Qa3-f3 #
+  add_to_move_generation_stack:      142751
+                     play_move:       50295
+ is_white_king_square_attacked:       16847
+ is_black_king_square_attacked:       49461
+
+solution finished.
+
+
+PDB P1305341
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                       4 + 1
+             LeseMajeste
+
+  1...Kf3-g3   2.Ke4-e3 Sc6-e5   3.Ke3*e2 Se5-f3   4.Ke2-f1 Be6-c4 #
+  add_to_move_generation_stack:      225037
+                     play_move:      109171
+ is_white_king_square_attacked:       31035
+ is_black_king_square_attacked:       98718
+
+solution finished.
+
+
+PDB P1305342
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .  -R   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -R   .   6
+|                                   |
+5   .   .   .   .   Q   .   .   .   5
+|                                   |
+4   .  -Q   .  -K   .   .  -S   .   4
+|                                   |
+3   .   .   Q   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 5
+             LeseMajeste
+
+   1.Qe5-f6 + !
+      1...Kd4-d5
+          2.Qc3-c6 #
+      1...Kd4-e4
+          2.Qc3-f3 #
+
+  add_to_move_generation_stack:        8193
+                     play_move:        3335
+ is_white_king_square_attacked:         604
+ is_black_king_square_attacked:        3335
+
+solution finished.
+
+
+PDB P1305343
+
+           Andrew Buchanan
+           Problemas 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -R  -R   .   .   4
+|                                   |
+3   .   .   P   .  -K   .   .   .   3
+|                                   |
+2   .   .   .   P   P   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4.5                       4 + 3
+             LeseMajeste
+
+  1...c3-c4 +   2.Ke3-d4 Ke1-d1   3.Re4-e5 e2-e3 +   4.Kd4-e4 Kd1-e2   5.Rf4-f5 d2-d3 #
+  add_to_move_generation_stack:     5816676
+                     play_move:     4775585
+ is_white_king_square_attacked:      542494
+ is_black_king_square_attacked:     4423647
+
+solution finished.
+
+
+PDB P1324996
+
+           Andrew Buchanan
+       MatPlus.net Forum 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -R   .   .   .   .   6
+|                                   |
+5   .   .   .   .   R   .   .   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 2
+             LeseMajeste
+
+  1.Rd6-h6 Sf4-h5   2.Rh6-h7 Re5-e8 #
+  add_to_move_generation_stack:       23801
+                     play_move:       12858
+ is_white_king_square_attacked:        4675
+ is_black_king_square_attacked:       12430
+
+solution finished.
+
+
+PDB P1324997
+
+           Andrew Buchanan
+       MatPlus.net Forum 2015
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   R   S   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 2
+             LeseMajeste
+
+  1.c2-c1=B Rb4-b7   2.Bc1-g5 Rb7-f7   3.Bg5-d8 Sc4-d6 #
+  add_to_move_generation_stack:      620719
+                     play_move:      266326
+ is_white_king_square_attacked:       89605
+ is_black_king_square_attacked:      255243
+
+solution finished.
+
+
+PDB P1345829
+
+           Andrew Buchanan
+           Problemas 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S  -K   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                       2 + 2
+             LeseMajeste
+
+  1...Kg6-g5 +   2.Kh8-h7 Kg5-f5   3.Sg8-f6 g7-g8=Q +   4.Kh7-h6 Qg8-g6 #
+  add_to_move_generation_stack:       11339
+                     play_move:        9095
+ is_white_king_square_attacked:        2368
+ is_black_king_square_attacked:        7858
+
+solution finished.
+
+
+PDB P1345831
+
+           Andrew Buchanan
+           Problemas 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -S   B   K   3
+|                                   |
+2   .   .   .   .   .  -K   .   .   2
+|                                   |
+1   .   .   .   .   R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          3 + 2
+             LeseMajeste
+
+   1.Kh3-g4 + !
+      1...Kf2-g2
+          2.Re1-e2 +
+              2...Kg2-f1
+                  3.Kg4*f3 threat:
+                          4.Re2-e1 #
+              2...Kg2-h1
+                  3.Kg4*f3 threat:
+                          4.Re2-e1 #
+              2...Kg2-g1
+                  3.Kg4*f3 threat:
+                          4.Re2-e1 #
+
+  add_to_move_generation_stack:      142585
+                     play_move:      107335
+ is_white_king_square_attacked:       92451
+ is_black_king_square_attacked:       18728
+
+solution finished.
+
+
+PDB P1345832
+
+           Andrew Buchanan
+           Problemas 2017
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   B   .   S   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #9                          3 + 1
+             LeseMajeste
+
+   1.Sc6-a5 + !
+      1...Kc8-b8
+          2.Kd6-c6
+              2...Kb8-a7
+                  3.Kc6-b5
+                      3...Ka7-b8
+                          4.Kb5-b6
+                              4...Kb8-a8
+                                  5.Ba6-b7 +
+                                      5...Ka8-b8
+                                          6.Sa5-c6 #
+                      3...Ka7-a8
+                          4.Kb5-b6
+                              4...Ka8-b8
+                                  5.Sa5-c6 +
+                                      5...Kb8-a8
+                                          6.Ba6-b7 #
+              2...Kb8-a8
+                  3.Kc6-b6
+                      3...Ka8-b8
+                          4.Sa5-c6 +
+                              4...Kb8-a8
+                                  5.Ba6-b7 #
+      1...Kc8-d8
+          2.Ba6-b5
+              2...Kd8-c8
+                  3.Bb5-d7 +
+                      3...Kc8-b8
+                          4.Kd6-c6
+                              4...Kb8-a7
+                                  5.Bd7-c8
+                                      5...Ka7-b8
+                                          6.Kc6-d7
+                                              6...Kb8-a7
+                                                  7.Kd7-c7
+                                                      7...Ka7-a8
+                                                          8.Bc8-b7 +
+                                                              8...Ka8-a7
+                                                                  9.Sa5-c6 #
+                                              6...Kb8-a8
+                                                  7.Kd7-c7
+                                                      7...Ka8-a7
+                                                          8.Sa5-c6 +
+                                                              8...Ka7-a8
+                                                                  9.Bc8-b7 #
+                                      5...Ka7-a8
+                                          6.Kc6-c7
+                                              6...Ka8-a7
+                                                  7.Sa5-c6 +
+                                                      7...Ka7-a8
+                                                          8.Bc8-b7 #
+                              4...Kb8-a8
+                                  5.Kc6-c7
+                                      5...Ka8-a7
+                                          6.Bd7-c8
+                                              6...Ka7-a8
+                                                  7.Bc8-b7 +
+                                                      7...Ka8-a7
+                                                          8.Sa5-c6 #
+                      3...Kc8-d8
+                          4.Sa5-c6 #
+                          4.Sa5-b7 #
+
+  add_to_move_generation_stack:   578578913
+                     play_move:   518088710
+ is_white_king_square_attacked:   461621537
+ is_black_king_square_attacked:    58618331
+
+solution finished.
+
+

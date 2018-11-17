@@ -1,0 +1,145 @@
+begin
+
+protocol lesemajeste.ref
+remark cf. http://pdb.dieschwalbe.de/search.jsp?expression=K%3D%27lese+majeste%27
+
+author Erich Bartel
+origin Jugendschach 1985
+remark PDB P1110080
+pieces white kh6 bh7 pg7 black kg8 pb2f7
+stipulation #2
+condition lesemajeste
+option vari
+
+next
+
+author Erich Bartel
+origin Jugendschach 1985
+remark PDB P1113604
+pieces white kb8 bc7 pb4b7d5e4 black kd6 bd7 pe7
+stipulation h#1.5
+condition lesemajeste
+
+next
+
+author Erich Bartel
+origin Jugendschach 1985
+remark PDB P1113605
+pieces white kh7 pd5d6e6 black kf7 qf8 be8 sd7 pf6
+stipulation ser-#2
+condition lesemajeste
+
+next
+
+author Erich Bartel
+origin Jugendschach 1985
+remark PDB P1113606
+pieces white kh1 pg5 black kh6 qg3
+stipulation ser-+3
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305338
+pieces white kf6 bf7 pe7 black kf8 sd6
+stipulation #2
+condition lesemajeste
+option vari
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305339
+pieces white kg3 qg4 bh3 black kb3 qf2 bc5
+stipulation h#2
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305340
+pieces white kb4 qa3 bc3 black kf5 qb6 bb3
+stipulation h#2
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305341
+pieces white kf3 be6 sc6 pe2 black ke4
+stipulation h#3.5
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305342
+pieces white kh8 qc3e5 black kd4 qb4 rf7g6 sg4
+stipulation #2
+condition lesemajeste
+option vari
+
+next
+
+author Andrew Buchanan
+origin Problemas 2015
+remark PDB P1305343
+pieces white ke1 pc3d2e2 black ke3 re4f4
+stipulation h#4.5
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin MatPlus.net Forum 2015
+remark PDB P1324996
+pieces white kd8 re5 sf4 black kh8 rd6
+stipulation h#2
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin MatPlus.net Forum 2015
+remark PDB P1324997
+pieces white kb1 rb4 sc4 black ke8 pc2
+stipulation h#3
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2017
+remark PDB P1345829
+pieces white kg6 pg7 black kh8 sg8
+stipulation h#3.5
+condition lesemajeste
+
+next
+
+author Andrew Buchanan
+origin Problemas 2017
+remark PDB P1345831
+pieces white kh3 re1 bg3 black kf2 sf3
+stipulation #4
+condition lesemajeste
+option vari
+
+next
+
+author Andrew Buchanan
+origin Problemas 2017
+remark PDB P1345832
+pieces white kd6 ba6 sc6 black kc8
+stipulation #9
+condition lesemajeste
+option vari nothreat
+
+end
+
