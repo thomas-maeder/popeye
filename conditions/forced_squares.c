@@ -13,7 +13,9 @@ int forced_squares_measure_length(void)
 {
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   SquareFlags const flag = trait[nbply]==White ? WhForcedSq : BlForcedSq;
-  int const result = TSTFLAG(sq_spec[sq_arrival],flag);
+
+  /* +1 so that consequent forced squares work correctly */
+  int const result = TSTFLAG(sq_spec[sq_arrival],flag)+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

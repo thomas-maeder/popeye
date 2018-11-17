@@ -12,6 +12,17 @@
 int must_capture_measure_length(void)
 {
   square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  boolean result;
 
-  return !is_square_empty(sq_capture);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_capture);TraceEOL();
+
+  result = !is_square_empty(sq_capture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

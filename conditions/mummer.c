@@ -87,7 +87,7 @@ int maximummer_measure_length(void)
  */
 int minimummer_measure_length(void)
 {
-  return -maximummer_measure_length();
+  return INT_MAX-maximummer_measure_length();
 }
 
 /* Forget previous mummer activations and definition of length measurers */
@@ -185,7 +185,7 @@ void mummer_orchestrator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  mum_length[parent_ply[nbply]] = INT_MIN;
+  mum_length[parent_ply[nbply]] = mummer_strictness[SLICE_STARTER(si)]==mummer_strictness_ultra ? 1 : INT_MIN;
   reset_accepted_moves(nbply);
 
   copyply();
@@ -227,6 +227,8 @@ void mummer_bookkeeper_solve(slice_index si)
   TraceValue("%d",current_length);
   TraceValue("%d",mum_length[parent_ply[nbply]]);
   TraceEOL();
+
+  assert(current_length>=0);
 
   if (current_length<mum_length[parent_ply[nbply]])
   {

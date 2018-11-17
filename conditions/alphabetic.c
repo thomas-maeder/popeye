@@ -11,5 +11,5 @@ int alphabetic_measure_length(void)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
-  return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
+  return INT_MAX - ((sq_departure/onerow) + onerow*(sq_departure%onerow));
 }

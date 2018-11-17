@@ -45,5 +45,13 @@ stipulation 001
 condition Bichrom
 twin condition Monochrom
 
-end
+next
 
+title WhiteMustCapture Ultra seems to have been ignored since 4.37 (or earlier)
+author Gy\"orgy Bakcsi
+origin Gaudium 2018
+pieces white kf3 rd1 sa1h1 pa3a5c2c4c6e7f5g3 black kh3 pb2
+condition BlackMustCapture Ultra WhiteMustCapture Ultra
+stipulation ser-h#10
+
+end

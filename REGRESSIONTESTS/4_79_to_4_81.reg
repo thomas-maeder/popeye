@@ -223,3 +223,40 @@ b) MonochromChess
 solution finished.
 
 
+
+           Gy\"orgy Bakcsi
+            Gaudium 2018
+WhiteMustCapture Ultra seems to have been ignored since 4.37 (or earlier)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   P   .   .   5
+|                                   |
+4   .   .   P   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   K   P  -K   3
+|                                   |
+2   .  -P   P   .   .   .   .   .   2
+|                                   |
+1   S   .   .   R   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#10                   12 + 2
+       BlackMustCapture  ultra
+       WhiteMustCapture  ultra
+
+  1.b2*a1=S   2.Sa1*c2   3.Sc2*a3   4.Sa3*c4   5.Sc4*a5   6.Sa5*c6   7.Sc6*e7   8.Se7*f5   9.Sf5*g3  10.Sg3*h1 Rd1*h1 #
+  add_to_move_generation_stack:        4617
+                     play_move:         232
+ is_white_king_square_attacked:         124
+ is_black_king_square_attacked:         232
+
+solution finished.
+
+
