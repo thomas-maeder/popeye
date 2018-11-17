@@ -19,7 +19,9 @@ extern mummer_strictness_type mummer_strictness[nr_sides];
 
 extern mummer_strictness_type mummer_strictness_default_side;
 
-typedef int (*mummer_length_measurer_type)(void);
+typedef unsigned int mummer_length_type;
+
+typedef mummer_length_type (*mummer_length_measurer_type)(void);
 
 /* Determine the length of a move for the Maximummer condition; the higher the
  * value the more likely the move is going to be played.
@@ -28,7 +30,7 @@ typedef int (*mummer_length_measurer_type)(void);
  * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int maximummer_measure_length(void);
+mummer_length_type maximummer_measure_length(void);
 
 /* Determine the length of a move for the Minimummer condition; the higher the
  * value the more likely the move is going to be played.
@@ -37,7 +39,7 @@ int maximummer_measure_length(void);
  * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int minimummer_measure_length(void);
+mummer_length_type minimummer_measure_length(void);
 
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void);

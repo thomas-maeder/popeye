@@ -612,9 +612,9 @@ until 4.69, Popeye allowed checks to a super-transmuting king to be defended by 
       BlackSuperTransmutingKing
 
   add_to_move_generation_stack:         354
-                     play_move:          60
+                     play_move:          53
  is_white_king_square_attacked:          43
- is_black_king_square_attacked:          22
+ is_black_king_square_attacked:          15
 
 solution finished.
 

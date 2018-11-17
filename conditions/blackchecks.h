@@ -4,12 +4,13 @@
 /* This module implements the fairy condition Black Checks */
 
 #include "solving/machinery/solve.h"
+#include "conditions/mummer.h"
 
 /* Determine the length of a move for the Black Checks condition; the higher the
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int blackchecks_measure_length(void);
+mummer_length_type blackchecks_measure_length(void);
 
 /* Instrument the solving machinery for Black Checks
  * @param si identifies root slice of stipulation

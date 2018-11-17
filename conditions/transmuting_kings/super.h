@@ -3,11 +3,12 @@
 
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
+#include "conditions/mummer.h"
 
 /* This module implements the condition Super-transmuting kings */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
-int len_supertransmuting_kings(void);
+mummer_length_type len_supertransmuting_kings(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

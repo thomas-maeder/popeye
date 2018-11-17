@@ -37,9 +37,9 @@ a)
                                   5.Qb8-b3 =
 
   add_to_move_generation_stack:       40934
-                     play_move:       17895
+                     play_move:       16310
  is_white_king_square_attacked:        7130
- is_black_king_square_attacked:       15664
+ is_black_king_square_attacked:       14079
 
 b) Circe
    BlackSynchronMover  =4  
@@ -53,9 +53,9 @@ b) Circe
                           4.Sb8*a6[+bPa7] =
 
   add_to_move_generation_stack:       11107
-                     play_move:        5026
+                     play_move:        4648
  is_white_king_square_attacked:        2097
- is_black_king_square_attacked:        4431
+ is_black_king_square_attacked:        4053
 
 c) GlasgowChess
    BlackSynchronMover  =3  
@@ -67,9 +67,9 @@ c) GlasgowChess
                   3.b6*a7=Q =
 
   add_to_move_generation_stack:        3708
-                     play_move:        2505
+                     play_move:        2332
  is_white_king_square_attacked:         909
- is_black_king_square_attacked:        2325
+ is_black_king_square_attacked:        2152
 
 d) AntiAndernachChess
    BlackSynchronMover  =2  
@@ -79,9 +79,9 @@ d) AntiAndernachChess
           2.Kc7-c8 =
 
   add_to_move_generation_stack:         225
-                     play_move:         165
+                     play_move:         154
  is_white_king_square_attacked:          65
- is_black_king_square_attacked:         154
+ is_black_king_square_attacked:         143
 
 solution finished.
 
@@ -137,9 +137,9 @@ a)
                                       5...a5-a4 +
 
   add_to_move_generation_stack:       45193
-                     play_move:       32255
- is_white_king_square_attacked:       18992
- is_black_king_square_attacked:       14436
+                     play_move:       26043
+ is_white_king_square_attacked:       20342
+ is_black_king_square_attacked:        7642
 
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6  
@@ -158,9 +158,9 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
   add_to_move_generation_stack:        3795
-                     play_move:        2095
- is_white_king_square_attacked:        1043
- is_black_king_square_attacked:        1079
+                     play_move:        1522
+ is_white_king_square_attacked:         885
+ is_black_king_square_attacked:         681
 
 solution finished.
 

@@ -27,7 +27,7 @@ static boolean exists_transmutation[maxply+1];
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
-int len_supertransmuting_kings(void)
+mummer_length_type len_supertransmuting_kings(void)
 {
   return MAX_OTHER_LEN * (supertransmutation[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id]!=Empty ? 1 : 0);
 }

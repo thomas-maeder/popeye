@@ -1458,7 +1458,7 @@ if wK could castle after having moved, we'd have 8 solutions
  19  (h2-h4 )
  20  (h2-h3 )
   add_to_move_generation_stack:    13430852
-                     play_move:     6180547
+                     play_move:     5658128
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

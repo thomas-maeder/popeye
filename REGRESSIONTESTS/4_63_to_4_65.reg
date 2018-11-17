@@ -79,9 +79,9 @@ only the synchronous move h2-h4 was legal
           2.Kc8-c7 #
 
   add_to_move_generation_stack:         496
-                     play_move:         198
- is_white_king_square_attacked:          66
- is_black_king_square_attacked:         162
+                     play_move:         135
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         117
 
 solution finished.
 
@@ -117,9 +117,9 @@ only the anti-synchronous move Rd8-d1 was legal
           2.Rc8-a8 #
 
   add_to_move_generation_stack:         970
-                     play_move:         357
- is_white_king_square_attacked:         100
- is_black_king_square_attacked:         308
+                     play_move:         229
+ is_white_king_square_attacked:          74
+ is_black_king_square_attacked:         206
 
 solution finished.
 

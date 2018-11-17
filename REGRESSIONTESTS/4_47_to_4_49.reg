@@ -60,7 +60,7 @@ losing chess proof games produced error message
 
   1.a2-a3 dia
   add_to_move_generation_stack:          20
-                     play_move:          21
+                     play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -183,9 +183,9 @@ solution finished.
   1.Ka7-a8 Ka5-a4   2.b7-b5 + Ka4*b5=P[+bPb7=w] #
   1.b7-b6 + Ka5-a6=P   2.Ka7-b8 a6-a7 #
   add_to_move_generation_stack:         493
-                     play_move:         526
- is_white_king_square_attacked:         139
- is_black_king_square_attacked:         406
+                     play_move:         472
+ is_white_king_square_attacked:          63
+ is_black_king_square_attacked:         437
 
 solution finished.
 

@@ -20,7 +20,7 @@
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int blackchecks_measure_length(void)
+mummer_length_type blackchecks_measure_length(void)
 {
    return move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival!=nullsquare;
 }

@@ -132,7 +132,7 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/dispatch.h debugging/trace.h conditions/mummer.h \
  conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
  solving/move_effect_journal.h position/castling_rights.h \
@@ -150,8 +150,8 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/slice_insertion.h solving/pipe.h position/position.h \
+ stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+ stipulation/help_play/branch.h solving/pipe.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  debugging/assert.h
 
@@ -192,6 +192,8 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+conditions/mummer.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -253,9 +255,9 @@ solving/has_solution_type.enum:
 
 stipulation/battle_play/branch.h:
 
-stipulation/help_play/branch.h:
-
 stipulation/slice_insertion.h:
+
+stipulation/help_play/branch.h:
 
 solving/pipe.h:
 

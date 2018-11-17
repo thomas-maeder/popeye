@@ -752,8 +752,8 @@ Loesung beendet.
   1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b7[+wTa1] La3*f8-h6[+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6[+sLf8]   4.Lf8*h6-a6[+wTa1] 0-0-0
   5  (g3*f4-b8=L[+sLf8] )
   add_to_move_generation_stack:       70650
-                     play_move:       35914
- is_white_king_square_attacked:       17125
+                     play_move:       35902
+ is_white_king_square_attacked:       17113
  is_black_king_square_attacked:       20233
 
 Loesung beendet.

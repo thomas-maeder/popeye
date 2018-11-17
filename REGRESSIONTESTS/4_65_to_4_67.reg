@@ -403,7 +403,7 @@ solution finished.
       1...Sb8-c6 +
 
   add_to_move_generation_stack:          84
-                     play_move:          24
+                     play_move:          17
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:           0
 
