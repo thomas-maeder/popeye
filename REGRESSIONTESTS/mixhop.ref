@@ -60,8 +60,6 @@ a)
 
    1.REd7-c8 !
 
-   1.REd7-c8 !
-
    1.REd7-c6 !
 
    1.REf7-d6 !
@@ -69,7 +67,7 @@ a)
    1.REd8-e7 !
 
   add_to_move_generation_stack:          15
-                     play_move:          15
+                     play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -54,4 +54,12 @@ pieces white kf3 rd1 sa1h1 pa3a5c2c4c6e7f5g3 black kh3 pb2
 condition BlackMustCapture Ultra WhiteMustCapture Ultra
 stipulation ser-h#10
 
+next
+
+title Since 4.63, Popeye has generated duplicate moves for rook- and bishop-eagles
+stipulation ~1
+pieces black Pd4e3f7h7
+pieces white red3 beg8
+
 end
+

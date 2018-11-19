@@ -260,3 +260,46 @@ WhiteMustCapture Ultra seems to have been ignored since 4.37 (or earlier)
 solution finished.
 
 
+
+Since 4.63, Popeye has generated duplicate moves for rook- and bishop-eagles
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  BE   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .  RE  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 4
+both sides need a king
+
+   1.REd3-e2 !
+
+   1.REd3-e4 !
+
+   1.REd3-c4 !
+
+   1.BEg8-e8 !
+
+   1.BEg8-g6 !
+
+  add_to_move_generation_stack:           7
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

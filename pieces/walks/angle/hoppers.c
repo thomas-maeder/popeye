@@ -185,7 +185,10 @@ boolean eagle_check(validator_id evaluate)
  */
 void rook_eagle_generate_moves(void)
 {
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
+  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean rookeagle_check(validator_id evaluate)
@@ -197,7 +200,10 @@ boolean rookeagle_check(validator_id evaluate)
  */
 void bishop_eagle_generate_moves(void)
 {
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
+  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean bishopeagle_check(validator_id evaluate)
