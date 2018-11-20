@@ -172,7 +172,7 @@ static slice_type const proxy_slice_types[] =
     STGoalStalemateReachedTester,
     STGoalDoubleStalemateReachedTester,
     STGoalAutoStalemateReachedTester,
-	STGoalAutoMateReachedTester,
+    STGoalAutoMateReachedTester,
     STImmobilityTester,
     STGeneratingMoves,
     STExecutingKingCapture,

@@ -197,7 +197,7 @@ typedef unsigned int data_type;
  */
 typedef struct
 {
-	dhtValue Key;
+    dhtValue Key;
     data_type data;
 } element_t;
 

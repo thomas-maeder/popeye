@@ -462,7 +462,7 @@ static structure_traversers_visitor const visitors[] = {
     { STGoalDoubleMateReachedTester, &write_doublemate },
     { STGoalCounterMateReachedTester, &write_countermate },
     { STGoalAutoStalemateReachedTester, &write_autostalemate },
-	{ STGoalAutoMateReachedTester, &write_automate },
+    { STGoalAutoMateReachedTester, &write_automate },
     { STGoalCircuitReachedTester, &write_circuit },
     { STGoalExchangeReachedTester, &write_exchange },
     { STGoalAnyReachedTester, &write_any },

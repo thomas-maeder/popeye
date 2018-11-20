@@ -449,8 +449,8 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
     /* A rough check whether it is worth thinking about promotions */
     unsigned int moves = pawn_comes_from/onerow - nr_of_slack_rows_below_board;
 
-	  if (TSTFLAG(sq_spec[pawn_comes_from],BlPawnDoublestepSq))
-  	  --moves;
+    if (TSTFLAG(sq_spec[pawn_comes_from],BlPawnDoublestepSq))
+      --moves;
 
     assert(moves<=5);
 
