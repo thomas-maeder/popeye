@@ -207,7 +207,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate stipulation/goals/any \
+    stipulation/goals/autostalemate stipulation/goals/automate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \
@@ -273,7 +273,7 @@ NESTEDLIBDIRS = \
     stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate stipulation/goals/any \
+    stipulation/goals/autostalemate stipulation/goals/automate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \

@@ -148,6 +148,7 @@
     ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
     ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
+    ENUMERATOR(STGoalAutoMateReachedTester), /* tests whether an auto-mate goal has been reached */ \
     ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
     ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
     ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a circuit by rebirth goal has been reached */ \

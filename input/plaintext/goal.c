@@ -21,6 +21,7 @@
 #include "stipulation/goals/countermate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/autostalemate/reached_tester.h"
+#include "stipulation/goals/automate/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
@@ -69,7 +70,8 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
     , { "dia",  goal_proofgame           }
     , { "a=>b", goal_atob                }
     , { "c81",  goal_chess81             }
-   , { "k",    goal_kiss                }
+    , { "k",    goal_kiss                }
+    , { "!#",   goal_automate            }
 };
 
 char const *get_goal_symbol(goal_type type)
@@ -203,6 +205,10 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
       case goal_autostale:
         pipe_link(proxy,alloc_goal_autostalemate_reached_tester_system());
+        break;
+
+      case goal_automate:
+        pipe_link(proxy,alloc_goal_automate_reached_tester_system());
         break;
 
       case goal_circuit:

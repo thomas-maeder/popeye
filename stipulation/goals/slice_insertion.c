@@ -25,6 +25,7 @@ static slice_index const goal_slice_rank_order[] =
   STGoalCounterMateReachedTester,
   STGoalCastlingReachedTester,
   STGoalAutoStalemateReachedTester,
+  STGoalAutoMateReachedTester,
   STGoalCircuitReachedTester,
   STGoalExchangeReachedTester,
   STCirceCircuitSpecial,

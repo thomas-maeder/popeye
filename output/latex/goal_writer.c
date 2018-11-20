@@ -36,6 +36,7 @@ static char const *latex_goal_end_marker[nr_goals] =
   , " \\#="
   , " c81"
   , ""
+  , " !\\#"
   , ""
 };
 

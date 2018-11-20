@@ -545,6 +545,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	
 						{#= }	    {#=  }
 						{!= }	    {!=  }
+						{!# }       {!#  }
 						{00 }	    {00  }
 						{%  }	    {%	 }
 						{~  }	    {~	 }

@@ -339,6 +339,12 @@ static void write_autostalemate(slice_index si, stip_structure_traversal *st)
   state->nr_chars_written += fprintf(state->file,"%s","!=");
 }
 
+static void write_automate(slice_index si, stip_structure_traversal *st)
+{
+  state_type * const state = st->param;
+  state->nr_chars_written += fprintf(state->file,"%s","!#");
+}
+
 static void write_circuit(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
@@ -456,6 +462,7 @@ static structure_traversers_visitor const visitors[] = {
     { STGoalDoubleMateReachedTester, &write_doublemate },
     { STGoalCounterMateReachedTester, &write_countermate },
     { STGoalAutoStalemateReachedTester, &write_autostalemate },
+	{ STGoalAutoMateReachedTester, &write_automate },
     { STGoalCircuitReachedTester, &write_circuit },
     { STGoalExchangeReachedTester, &write_exchange },
     { STGoalAnyReachedTester, &write_any },
