@@ -65,7 +65,7 @@ static void HandleAddedPiece(square s, void *param)
  * @param tok where to start parsing
  * @param pienam where to store the detected walk
  * @return first unparsed character in tok
- * @note assigns 0 to *pienam if tok doesn't start with a recognised piece walk shortcut
+ * @note assigns Empty to *pienam if tok doesn't start with a recognised piece walk shortcut
  */
 static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
 {
@@ -88,7 +88,7 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
  * @param result where to store the detected walk
  * @return start of subsequent token
  * @note assigns nr_piece_walks to *result iff tok has an unexpected length
- *       assigns 0 to *result if tok doesn't start with a recognised piece walk shortcut
+ *       assigns Empty to *result if tok doesn't start with a recognised piece walk shortcut
  */
 char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
 {
@@ -115,6 +115,8 @@ char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
  * @param name where to write the detected walk to
  * @return position immediately behind the walk (no white space needed between
  *         walk and squares in pieces)
+ * @note assigns nr_piece_walks to *walk if tok doesn't contain a
+ *       recognisable piece walk shortcut
  */
 char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 {
@@ -124,8 +126,11 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
   {
     piece_walk_type away;
     tok = ParseWalkShortcut((hunterseppos-tok)%2==1,tok,&away);
+    /* the above checks should make sure that tok has the right length */
+    assert(away!=nr_piece_walks);
+
     if (away==Empty)
-      *walk = Empty;
+      *walk = nr_piece_walks;
     else
     {
       piece_walk_type home;
@@ -136,15 +141,15 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 
       len_token = strlen(tok);
       tok = ParseWalkShortcut(len_token%2==1,tok,&home);
-      if (home==Empty)
-        *walk = Empty;
+      if (home==Empty || home==nr_piece_walks)
+        *walk = nr_piece_walks;
       else
       {
         *walk = hunter_find_type(away,home);
-        if (*walk==Invalid)
+        if (*walk==nr_piece_walks)
         {
           *walk = hunter_make_type(away,home);
-          if (*walk==Invalid)
+          if (*walk==nr_piece_walks)
             output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
         }
       }
@@ -154,6 +159,8 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
   {
     size_t const len_token = strlen(tok);
     tok = ParseWalkShortcut(len_token%2==1,tok,walk);
+    if (*walk<King)
+      *walk = nr_piece_walks;
   }
 
   return tok;
@@ -162,7 +169,7 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 /* Parse a sequence of piece walks and squares and add pieces to the current position
  * @param tok where to start parsing
  * @param Spec flags of the piece(s) to be added
- * @return start of subsequent token
+ * @return start of first token that is not part of the sequence
  */
 static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
 {
@@ -179,7 +186,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
 
     tok = ParsePieceWalk(tok,&walk);
 
-    if (walk>=King)
+    if (walk!=nr_piece_walks)
     {
       piece_addition_settings settings = { walk, Spec };
 
@@ -239,7 +246,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
 /* Try to parse a piece colour
  * @param tok where to start parsing
  * @param colour_is_mandatory is a colour indication mandatory or optional?
- * @return the detected colour (if any)
+ * @return the detected colour, 0 if none is detected
  */
 Flags ParseColour(char *tok, boolean colour_is_mandatory)
 {
