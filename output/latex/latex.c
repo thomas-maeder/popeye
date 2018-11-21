@@ -94,7 +94,7 @@ char *ParseLaTeXPieces(void)
     {
       walk = GetPieNamIndex(tolower(tok[0]), strlen(tok) == 1 ? ' ' : tolower(tok[1]));
 
-      if (walk<King)
+      if (walk==nr_piece_walks)
         return tok;
 
       if (LaTeXPiecesAbbr[walk])

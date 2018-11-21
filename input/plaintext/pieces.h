@@ -8,7 +8,7 @@
  * @param a 1st character
  * @param b 2nd character (pass ' ' for 1 character shortcuts)
  * @return index of the shortcut in the language-dependent table of piece walk shortcuts
- *         0 if a and b don't represent a piece walk in the current language
+ *         nr_piece_walks if a and b don't represent a piece walk in the current language
  * @note the characters are treated independently from their case
  */
 int GetPieNamIndex(char a, char b);
@@ -17,8 +17,7 @@ int GetPieNamIndex(char a, char b);
  * @param tok where to start parsing
  * @param result where to store the detected walk
  * @return start of subsequent token
- * @note assigns nr_piece_walks to *result iff tok has an unexpected length
- *       assigns Empty to *result if tok doesn't start with a recognised piece walk shortcut
+ * @note assigns nr_piece_walks to *result parsing was not successful
  */
 char *ParsePieceWalkToken(char *tok, piece_walk_type *result);
 

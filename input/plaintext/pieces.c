@@ -18,7 +18,7 @@
  * @param a 1st character
  * @param b 2nd character (pass ' ' for 1 character shortcuts)
  * @return index of the shortcut in the language-dependent table of piece walk shortcuts
- *         0 if a and b don't represent a piece walk in the current language
+ *         nr_piece_walks if a and b don't represent a piece walk in the current language
  * @note the characters are treated independently from their case
  */
 int GetPieNamIndex(char a, char b)
@@ -29,9 +29,9 @@ int GetPieNamIndex(char a, char b)
        indexx<nr_piece_walks;
        ++indexx, ch += sizeof(PieceChar))
     if (ch[0]==tolower(a) && ch[1]==tolower(b))
-      return indexx;
+      break;
 
-  return 0;
+  return indexx;
 }
 
 typedef struct
@@ -87,8 +87,7 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
  * @param tok where to start parsing
  * @param result where to store the detected walk
  * @return start of subsequent token
- * @note assigns nr_piece_walks to *result iff tok has an unexpected length
- *       assigns Empty to *result if tok doesn't start with a recognised piece walk shortcut
+ * @note assigns nr_piece_walks to *result parsing was not successful
  */
 char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
 {
@@ -126,10 +125,8 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
   {
     piece_walk_type away;
     tok = ParseWalkShortcut((hunterseppos-tok)%2==1,tok,&away);
-    /* the above checks should make sure that tok has the right length */
-    assert(away!=nr_piece_walks);
 
-    if (away==Empty)
+    if (away==nr_piece_walks)
       *walk = nr_piece_walks;
     else
     {
@@ -141,7 +138,7 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 
       len_token = strlen(tok);
       tok = ParseWalkShortcut(len_token%2==1,tok,&home);
-      if (home==Empty || home==nr_piece_walks)
+      if (home==nr_piece_walks)
         *walk = nr_piece_walks;
       else
       {
@@ -159,8 +156,6 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
   {
     size_t const len_token = strlen(tok);
     tok = ParseWalkShortcut(len_token%2==1,tok,walk);
-    if (*walk<King)
-      *walk = nr_piece_walks;
   }
 
   return tok;
