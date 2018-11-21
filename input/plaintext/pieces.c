@@ -13,11 +13,15 @@
 #include <ctype.h>
 #include <string.h>
 
+/* Identify a piece walk from the characters of its shortcut
+ * @param a 1st character
+ * @param b 2nd character (pass ' ' for 1 character shortcuts)
+ * @return index of the shortcut in the language-dependent table of piece walk shortcuts
+ *         0 if a and b don't represent a piece walk in the current language
+ * @note the characters are treated independently from their case
+ */
 int GetPieNamIndex(char a, char b)
 {
-  /* We search the array PieNam, for an index, where
-     it matches the two characters a and b
-  */
   char const * ch = PieceTab[2];
   int indexx;
   for (indexx = 2;
@@ -29,6 +33,11 @@ int GetPieNamIndex(char a, char b)
   return 0;
 }
 
+/* Parse a "single" piece walk
+ * @param tok where to start parsing
+ * @param result where to store the detected walk
+ * @return start of subsequent token
+ */
 char *ParseSingleWalk(char *tok, piece_walk_type *result)
 {
   switch (strlen(tok))
@@ -55,6 +64,10 @@ typedef struct
     Flags spec;
 } piece_addition_settings;
 
+/* Deal with a parsed piece to be added to the current position
+ * @param s where to add the piece
+ * @param param other aspectes of the piece
+ */
 static void HandleAddedPiece(square s, void *param)
 {
   piece_addition_settings * const settings = param;
@@ -71,6 +84,12 @@ static void HandleAddedPiece(square s, void *param)
                                         no_side);
 }
 
+/* Parse a piece walk from its shortcut
+ * @param onechar are we parsing a 1 character shortcut?
+ * @param tok where to start parsing
+ * @param pienam where to store the detected walk
+ * @return first unparsed character in tok
+ */
 static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
 {
   if (onechar)
@@ -87,6 +106,12 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
   return tok;
 }
 
+/* Parse a piece walk
+ * @param tok where to parse from
+ * @param name where to write the detected walk to
+ * @return position immediately behind the walk (no white space neede between
+ *         walk and squares in pieces)
+ */
 char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 {
   size_t len_token;
@@ -116,6 +141,11 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
   return tok;
 }
 
+/* Parse a sequence of piece walks and squares and add pieces to the current position
+ * @param tok where to start parsing
+ * @param Spec flags of the piece(s) to be added
+ * @return start of subsequent token
+ */
 static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
 {
   unsigned int nr_walks_parsed = 0;
@@ -188,6 +218,11 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
   return tok;
 }
 
+/* Try to parse a piece colour
+ * @param tok where to start parsing
+ * @param colour_is_mandatory is a colour indication mandatory or optional?
+ * @return the detected colour (if any)
+ */
 Flags ParseColour(char *tok, boolean colour_is_mandatory)
 {
   Colour const colour = GetUniqIndex(nr_colours,ColourTab,tok);
@@ -208,6 +243,10 @@ Flags ParseColour(char *tok, boolean colour_is_mandatory)
     return BIT(colour);
 }
 
+/* Advance the input stream to the next token, then parse 0 to n non-colour piece flags.
+ * @param flags where to save the detected flags
+ * @return start of subsequent token
+ */
 char *ParsePieceFlags(Flags *flags)
 {
   char *tok;
@@ -230,6 +269,10 @@ char *ParsePieceFlags(Flags *flags)
   return tok;
 }
 
+/* Parse a sequence of pieces including flags
+ * @param tok where to start parsing
+ * @return start of subsequent token
+ */
 char *ParsePieces(char *tok)
 {
   int nr_groups = 0;
