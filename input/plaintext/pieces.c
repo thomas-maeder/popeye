@@ -10,6 +10,7 @@
 #include "pieces/walks/hunters.h"
 #include "conditions/circe/parachute.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -31,31 +32,6 @@ int GetPieNamIndex(char a, char b)
       return indexx;
 
   return 0;
-}
-
-/* Parse a "single" piece walk
- * @param tok where to start parsing
- * @param result where to store the detected walk
- * @return start of subsequent token
- */
-char *ParseSingleWalk(char *tok, piece_walk_type *result)
-{
-  switch (strlen(tok))
-  {
-    case 1:
-      *result = GetPieNamIndex(tok[0],' ');
-      return ReadNextTokStr();
-      break;
-
-    case 2:
-      *result = GetPieNamIndex(tok[0],tok[1]);
-      return ReadNextTokStr();
-      break;
-
-    default:
-      *result = nr_piece_walks;
-      return tok;
-  }
 }
 
 typedef struct
@@ -89,6 +65,7 @@ static void HandleAddedPiece(square s, void *param)
  * @param tok where to start parsing
  * @param pienam where to store the detected walk
  * @return first unparsed character in tok
+ * @note assigns 0 to *pienam if tok doesn't start with a recognised piece walk shortcut
  */
 static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
 {
@@ -106,35 +83,76 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
   return tok;
 }
 
+/* Parse a "single" piece walk
+ * @param tok where to start parsing
+ * @param result where to store the detected walk
+ * @return start of subsequent token
+ * @note assigns nr_piece_walks to *result of tok is empty
+ *       assigns 0 to *result if tok doesn't start with a recognised piece walk shortcut
+ */
+char *ParseSingleWalk(char *tok, piece_walk_type *result)
+{
+  switch (strlen(tok))
+  {
+    case 1:
+      ParseWalkShortcut(true,tok,result);
+      return ReadNextTokStr();
+      break;
+
+    case 2:
+      ParseWalkShortcut(false,tok,result);
+      return ReadNextTokStr();
+      break;
+
+    default:
+      *result = nr_piece_walks;
+      return tok;
+  }
+}
+
 /* Parse a piece walk
  * @param tok where to parse from
  * @param name where to write the detected walk to
- * @return position immediately behind the walk (no white space neede between
+ * @return position immediately behind the walk (no white space needed between
  *         walk and squares in pieces)
  */
 char *ParsePieceWalk(char *tok, piece_walk_type *walk)
 {
-  size_t len_token;
-  char const * const hunterseppos = strchr(tok,'/');
+  char const hunter_separator = '/';
+  char const * const hunterseppos = strchr(tok,hunter_separator);
   if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
     piece_walk_type away;
-    piece_walk_type home;
     tok = ParseWalkShortcut((hunterseppos-tok)%2==1,tok,&away);
-    ++tok; /* skip separator */
-    len_token = strlen(tok);
-    tok = ParseWalkShortcut(len_token%2==1,tok,&home);
-    *walk = hunter_find_type(away,home);
-    if (*walk==Invalid)
+    if (away==Empty)
+      *walk = Empty;
+    else
     {
-      *walk = hunter_make_type(away,home);
-      if (*walk==Invalid)
-        output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+      piece_walk_type home;
+      size_t len_token;
+
+      assert(tok[0]==hunter_separator);
+      ++tok;
+
+      len_token = strlen(tok);
+      tok = ParseWalkShortcut(len_token%2==1,tok,&home);
+      if (home==Empty)
+        *walk = Empty;
+      else
+      {
+        *walk = hunter_find_type(away,home);
+        if (*walk==Invalid)
+        {
+          *walk = hunter_make_type(away,home);
+          if (*walk==Invalid)
+            output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+        }
+      }
     }
   }
   else
   {
-    len_token = strlen(tok);
+    size_t const len_token = strlen(tok);
     tok = ParseWalkShortcut(len_token%2==1,tok,walk);
   }
 

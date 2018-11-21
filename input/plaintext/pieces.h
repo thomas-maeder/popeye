@@ -17,6 +17,8 @@ int GetPieNamIndex(char a, char b);
  * @param tok where to start parsing
  * @param result where to store the detected wal
  * @return start of subsequent token
+ * @note assigns nr_piece_walks to *result of tok is empty
+ *       assigns 0 to *result if tok doesn't start with a recognised piece walk shortcut
  */
 char *ParseSingleWalk(char *tok, piece_walk_type *result);
 
@@ -42,7 +44,7 @@ char *ParsePieceFlags(Flags *flags);
 /* Parse a piece walk
  * @param tok where to parse from
  * @param name where to write the detected walk to
- * @return position immediately behind the walk (no white space neede between
+ * @return position immediately behind the walk (no white space needed between
  *         walk and squares in pieces)
  */
 char *ParsePieceWalk(char *tok, piece_walk_type *name);
