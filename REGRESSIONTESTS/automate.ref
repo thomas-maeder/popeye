@@ -1,0 +1,80 @@
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -R   .   .   .   .   .   .   .   3
+|                                   |
+2  -R   .   .   .   .   .   P   K   2
+|                                   |
+1  -R   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  !#1                         2 + 3
+
+a) 
+both sides need a king
+
+   1.g2-g4 !# !
+
+  add_to_move_generation_stack:          33
+                     play_move:          22
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:           0
+
+b) bPg2  
+both sides need a king
+
+   1.Kh2*g2 !# !
+
+  add_to_move_generation_stack:          34
+                     play_move:          21
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+             Klaus Funk
+            Gaudium 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   P   .  -K   3
+|                                   |
+2   .   .   .  -S   .   .   .   P   2
+|                                   |
+1   .   .  -S   .   .   .   B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-!#11                    4 + 4
+
+  1.Ka7-a6   2.Bg1-a7   3.Ka6-b6   4.Kb6-c5   5.Kc5-d4   6.Kd4-e3   7.Ke3-f2   8.Kf2-g1   9.Kg1-h1  10.Ba7-g1  11.f3-f4 !#
+  add_to_move_generation_stack:     3913158
+                     play_move:     2963662
+ is_white_king_square_attacked:     4074369
+ is_black_king_square_attacked:     1017617
+
+solution finished.
+
+

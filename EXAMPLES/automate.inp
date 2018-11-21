@@ -1,0 +1,17 @@
+begin
+
+protocol automate.ref
+
+pieces white kh2 pg2 black ra1a2a3
+stipulation !#1
+twin add black pg2
+
+next
+
+author Klaus Funk
+origin Gaudium 2018
+pieces white ka7 bg1 pf3h2 black kh3 bc6 sc1d2
+stipulation ser-!#11
+
+end
+
