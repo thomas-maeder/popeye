@@ -964,7 +964,7 @@ suivante est un peu plus compliquee:
 	et      elan tour
 	f       fou
 	fa	faro				tour argentine
-	fc      fou/tour chasseur
+	fc      fou/tour chasseur		chasseur F/T absolu
 	fe      fers
 	fl      fou-lion
 	fr      fou rebondissant
@@ -1051,7 +1051,7 @@ suivante est un peu plus compliquee:
 	sv      sauteur cavalier
 	sz      zebre sauteur
 	t       tour
-	tc      tour/fou chasseur
+	tc      tour/fou chasseur		chasseur T/F absolu
 	tl      tour-lion
 	tr      triton
 	uu      UbiUbi   

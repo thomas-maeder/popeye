@@ -919,7 +919,7 @@ sstipulation). A little bit more elaborate is the command
         bn      bouncy nightrider (continues ride by bouncing in any direction from board edge)
 	bo	bob
 	bp      berolina pawn   
-	br      bishop/rook hunter
+	br      bishop/rook hunter		absolute B/R hunter
 	bs      berolina superpawn
 	bt      boyscout
 	bu      root-25-leaper (bucephale)   
@@ -1019,7 +1019,7 @@ sstipulation). A little bit more elaborate is the command
 	rn      rose-lion
 	rp      rose-hopper
 	ro      rose   
-	rr      rook/bishop hunter
+	rr      rook/bishop hunter		absolute R/B hunter
 	rt	rabbit
 	rw      rook sparrow
 	s       knight   

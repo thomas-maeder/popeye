@@ -1010,7 +1010,7 @@ aufwendiger ist das Kommando
 	le      Leo                             Zieht wie Dame, schlaegt wie Lion
 	lh      Laeuferhuepfer
 	li      Lion                            0,1+1,1 beliebig weit Huepfer
-	lj      Laeufer/Turm-Jaeger
+	lj      Laeufer/Turm-Jaeger		absoluter L/T-Jaeger
 	lk      Kaenguruh-Lion
 	ll      Laeufer-Lion
 	lo	Loco				Argentinischer Laeufer
@@ -1074,7 +1074,7 @@ aufwendiger ist das Kommando
 	ta      Turmadler                       0,1 90 Grad Huepfer
 	tc      Turmelch                        0,1 45 Grad Huepfer
 	th      Turmhuepfer
-	tj      Turm/Laeufer-Jaeger
+	tj      Turm/Laeufer-Jaeger		absoluter T/L-Jaeger
 	tl      Turm-Lion
 	tr      Triton
 	ts      Turmspatz                       0,1 135 Grad Huepfer
