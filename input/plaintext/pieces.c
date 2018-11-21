@@ -83,14 +83,14 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
   return tok;
 }
 
-/* Parse a "single" piece walk
+/* Parse a piece walk whose shortcut uses up an entire token
  * @param tok where to start parsing
  * @param result where to store the detected walk
  * @return start of subsequent token
- * @note assigns nr_piece_walks to *result of tok is empty
+ * @note assigns nr_piece_walks to *result iff tok has an unexpected length
  *       assigns 0 to *result if tok doesn't start with a recognised piece walk shortcut
  */
-char *ParseSingleWalk(char *tok, piece_walk_type *result)
+char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
 {
   switch (strlen(tok))
   {
@@ -110,7 +110,7 @@ char *ParseSingleWalk(char *tok, piece_walk_type *result)
   }
 }
 
-/* Parse a piece walk
+/* Parse a piece walk whose shortcut is part of a token (e.g. Qa8)
  * @param tok where to parse from
  * @param name where to write the detected walk to
  * @return position immediately behind the walk (no white space needed between

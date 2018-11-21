@@ -180,7 +180,7 @@ static char *ReadWalks(char *tok,
   while (true)
   {
     piece_walk_type walk;
-    tok = ParseSingleWalk(tok,&walk);
+    tok = ParsePieceWalkToken(tok,&walk);
 
     TraceWalk(walk);TraceValue("%s",tok);TraceEOL();
 
@@ -227,7 +227,7 @@ static char *ReadChameleonSequence(char *tok,
   while (true)
   {
     piece_walk_type to;
-    tok = ParseSingleWalk(tok,&to);
+    tok = ParsePieceWalkToken(tok,&to);
 
     if (to==nr_piece_walks)
       break;
@@ -873,7 +873,7 @@ static char *ParseKoekoVariant(char *tok)
   else
   {
     piece_walk_type tmp_piece;
-    tok = ParseSingleWalk(ReadNextTokStr(),&tmp_piece);
+    tok = ParsePieceWalkToken(ReadNextTokStr(),&tmp_piece);
 
     switch (tmp_piece)
     {
@@ -1024,7 +1024,7 @@ static char *ParseVaultingPieces(char *tok, Side side)
   while (true)
   {
     piece_walk_type p;
-    tok = ParseSingleWalk(tok,&p);
+    tok = ParsePieceWalkToken(tok,&p);
 
     if (p==nr_piece_walks)
     {

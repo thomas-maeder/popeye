@@ -261,14 +261,14 @@ static char *ParseTwinningSubstitute(void)
   char *tok = ReadNextTokStr();
 
   piece_walk_type p_old;
-  tok = ParseSingleWalk(tok,&p_old);
+  tok = ParsePieceWalkToken(tok,&p_old);
 
   if (p_old==nr_piece_walks)
     output_plaintext_input_error_message(WrongPieceName,0);
   else
   {
     piece_walk_type p_new;
-    tok = ParseSingleWalk(tok,&p_new);
+    tok = ParsePieceWalkToken(tok,&p_new);
 
     if (p_new==nr_piece_walks)
       output_plaintext_input_error_message(WrongPieceName,0);

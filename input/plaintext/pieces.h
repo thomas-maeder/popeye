@@ -13,14 +13,14 @@
  */
 int GetPieNamIndex(char a, char b);
 
-/* Parse a "single" piece walk
+/* Parse a piece walk whose shortcut uses up an entire token
  * @param tok where to start parsing
- * @param result where to store the detected wal
+ * @param result where to store the detected walk
  * @return start of subsequent token
- * @note assigns nr_piece_walks to *result of tok is empty
+ * @note assigns nr_piece_walks to *result iff tok has an unexpected length
  *       assigns 0 to *result if tok doesn't start with a recognised piece walk shortcut
  */
-char *ParseSingleWalk(char *tok, piece_walk_type *result);
+char *ParsePieceWalkToken(char *tok, piece_walk_type *result);
 
 /* Parse a sequence of pieces including flags
  * @param tok where to start parsing
