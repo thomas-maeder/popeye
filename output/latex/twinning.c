@@ -414,6 +414,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
             case move_effect_remember_volcanic:
               /* Forsberg twinning */
             case move_effect_remove_stipulation:
+            case move_effect_hunter_type_definition:
               break;
 
             default:

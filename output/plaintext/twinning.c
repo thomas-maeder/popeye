@@ -301,6 +301,7 @@ static void WriteTwinning(boolean continued)
       case move_effect_snapshot_proofgame_target_position:
       case move_effect_atob_reset_position_for_target:
       case move_effect_remove_stipulation:
+      case move_effect_hunter_type_definition:
         break;
 
       default:
