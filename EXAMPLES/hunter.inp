@@ -21,6 +21,13 @@ pieces white pe7
 stipulation ~1
 condition promonly rh/r
 option nowk nobk
+twin add white r/ba4
+twin condition ChameleonSequence Q r/b q
+twin condition vaulting r/b                     
+twin substitute p r/b                
+twin condition april r/b            
+twin condition circe super april r/b
+twin condition football r/b         
 
 end
 

@@ -36,6 +36,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -50,10 +51,27 @@ static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigne
   for (i = 0; i!=nr_walks; ++i)
   {
     piece_walk_type const walk = walks[i];
-    if (PieceTab[walk][1]==' ')
-      result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
+
+    if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
+    {
+      if (PieceTab[walk][1]==' ')
+        result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
+      else
+        result += sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
+    }
     else
-      result += sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
+    {
+      unsigned int const i = walk-Hunter0;
+      if (PieceTab[huntertypes[i].away][1]==' ')
+        result += sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].away][0]));
+      else
+        result += sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].away][0]),toupper(PieceTab[huntertypes[i].away][1]));
+      result += sprintf(pos+result,"%s","/");
+      if (PieceTab[huntertypes[i].home][1]==' ')
+        result += sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].home][0]));
+      else
+        result += sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].home][0]),toupper(PieceTab[huntertypes[i].home][1]));
+    }
   }
 
   return result;
@@ -75,10 +93,29 @@ void WriteBGLNumber(char* buf, long int num)
 
 static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
 {
-  int result = append_to_CondLine(line,pos,"%c",(char)toupper(PieceTab[walk][0]));
+  int result = 0;
 
-  if (PieceTab[walk][1]!=' ')
-    result += append_to_CondLine(line,pos+result,"%c",(char)toupper(PieceTab[walk][1]));
+  if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
+  {
+    result = append_to_CondLine(line,pos+result,"%c",(char)toupper(PieceTab[walk][0]));
+
+    if (PieceTab[walk][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",(char)toupper(PieceTab[walk][1]));
+  }
+  else
+  {
+    unsigned int const i = walk-Hunter0;
+
+    result += append_to_CondLine(line,pos+result, " %c",toupper(PieceTab[huntertypes[i].away][0]));
+    if (PieceTab[huntertypes[i].away][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",toupper(PieceTab[huntertypes[i].away][1]));
+
+    result += append_to_CondLine(line,pos+result,"%s","/");
+
+    result += append_to_CondLine(line,pos+result, " %c",toupper(PieceTab[huntertypes[i].home][0]));
+    if (PieceTab[huntertypes[i].home][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",toupper(PieceTab[huntertypes[i].home][1]));
+  }
 
   return result;
 }
