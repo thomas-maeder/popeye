@@ -91,22 +91,64 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
  */
 char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
 {
-  switch (strlen(tok))
+  char * const save_tok;
+  char const hunter_separator = '/';
+  char const * const hunterseppos = strchr(tok,hunter_separator);
+  if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
-    case 1:
-      ParseWalkShortcut(true,tok,result);
-      return ReadNextTokStr();
-      break;
+    piece_walk_type away;
+    tok = ParseWalkShortcut(tok[1]==hunter_separator,tok,&away);
 
-    case 2:
-      ParseWalkShortcut(false,tok,result);
-      return ReadNextTokStr();
-      break;
-
-    default:
+    if (away==nr_piece_walks)
+    {
       *result = nr_piece_walks;
-      return tok;
+      return save_tok;
+    }
+    else
+    {
+      piece_walk_type home;
+
+      assert(tok[0]==hunter_separator);
+      ++tok;
+
+      tok = ParseWalkShortcut(strlen(tok)==1,tok,&home);
+
+      if (tok[0]!=0 || home==nr_piece_walks)
+      {
+        *result = nr_piece_walks;
+        return save_tok;
+      }
+      else
+      {
+        *result = hunter_find_type(away,home);
+        if (*result==nr_piece_walks)
+        {
+          *result = hunter_make_type(away,home);
+          if (*result==nr_piece_walks)
+            output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+        }
+
+        return ReadNextTokStr();
+      }
+    }
   }
+  else
+    switch (strlen(tok))
+    {
+      case 1:
+        ParseWalkShortcut(true,tok,result);
+        return ReadNextTokStr();
+        break;
+
+      case 2:
+        ParseWalkShortcut(false,tok,result);
+        return ReadNextTokStr();
+        break;
+
+      default:
+        *result = nr_piece_walks;
+        return tok;
+    }
 }
 
 /* Parse a piece walk whose shortcut is part of a token (e.g. Qa8)
