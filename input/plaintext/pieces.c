@@ -86,12 +86,12 @@ static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pien
 /* Parse a piece walk whose shortcut uses up an entire token
  * @param tok where to start parsing
  * @param result where to store the detected walk
- * @return start of subsequent token
+ * @return start of subsequent token if parsing was successful, tok otherwise
  * @note assigns nr_piece_walks to *result parsing was not successful
  */
 char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
 {
-  char * const save_tok;
+  char * const save_tok = tok;
   char const hunter_separator = '/';
   char const * const hunterseppos = strchr(tok,hunter_separator);
   if (hunterseppos!=0 && hunterseppos-tok<=2)
@@ -133,22 +133,17 @@ char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
     }
   }
   else
-    switch (strlen(tok))
+  {
+    tok = ParseWalkShortcut(strlen(tok)==1,tok,result);
+
+    if (tok[0]!=0 || *result==nr_piece_walks)
     {
-      case 1:
-        ParseWalkShortcut(true,tok,result);
-        return ReadNextTokStr();
-        break;
-
-      case 2:
-        ParseWalkShortcut(false,tok,result);
-        return ReadNextTokStr();
-        break;
-
-      default:
-        *result = nr_piece_walks;
-        return tok;
+      *result = nr_piece_walks;
+      return save_tok;
     }
+    else
+      return ReadNextTokStr();
+  }
 }
 
 /* Parse a piece walk whose shortcut is part of a token (e.g. Qa8)
