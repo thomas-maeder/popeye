@@ -222,19 +222,46 @@ static char *ReadChameleonSequence(char *tok,
                                    twin_id_type *is_explicit,
                                    chameleon_sequence_type* sequence)
 {
-  piece_walk_type from = Empty;
+  piece_walk_type from;
+  tok = ParsePieceWalkToken(tok,&from);
 
-  while (true)
+  if (from==nr_piece_walks)
   {
-    piece_walk_type to;
-    tok = ParsePieceWalkToken(tok,&to);
+    /* TODO */
+  }
+  else
+  {
+    piece_walk_type const first_from = from;
 
-    if (to==nr_piece_walks)
-      break;
-    else if (handle_chameleon_reborn_piece(is_explicit,sequence,from,to,tok))
-      from = to;
+    if (handle_chameleon_reborn_piece(is_explicit,sequence,Empty,from,tok))
+    {
+      while (true)
+      {
+        piece_walk_type to;
+        tok = ParsePieceWalkToken(tok,&to);
+
+        if (to==nr_piece_walks)
+        {
+          if (from!=first_from)
+          {
+            /* user input forgot to close sequence */
+            if (!handle_chameleon_reborn_piece(is_explicit,sequence,from,first_from,tok))
+            {
+              /* TODO */
+            }
+          }
+          break;
+        }
+        else if (handle_chameleon_reborn_piece(is_explicit,sequence,from,to,tok))
+          from = to;
+        else
+          break;
+      }
+    }
     else
-      break;
+    {
+      /* TODO */
+    }
   }
 
   return tok;
