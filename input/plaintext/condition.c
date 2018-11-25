@@ -196,71 +196,34 @@ static char *ReadWalks(char *tok,
   return tok;
 }
 
-static boolean handle_chameleon_reborn_piece(twin_id_type *is_explicit,
-                                             chameleon_sequence_type* sequence,
-                                             piece_walk_type from, piece_walk_type to,
-                                             char const *tok)
-{
-  boolean result;
-
-  if (to==Empty)
-  {
-    output_plaintext_input_error_message(WrongPieceName,0);
-    result = false;
-  }
-  else
-  {
-    if (from!=Empty)
-      chameleon_set_successor_walk_explicit(is_explicit,sequence,from,to);
-    result = true;
-  }
-
-  return result;
-}
-
 static char *ReadChameleonSequence(char *tok,
                                    twin_id_type *is_explicit,
-                                   chameleon_sequence_type* sequence)
+                                   chameleon_sequence_type *sequence)
 {
-  piece_walk_type from;
-  tok = ParsePieceWalkToken(tok,&from);
+  piece_walk_type first_from;
+  tok = ParsePieceWalkToken(tok,&first_from);
 
-  if (from==nr_piece_walks)
+  if (first_from!=nr_piece_walks)
   {
-    /* TODO */
-  }
-  else
-  {
-    piece_walk_type const first_from = from;
+    piece_walk_type from = first_from;
 
-    if (handle_chameleon_reborn_piece(is_explicit,sequence,Empty,from,tok))
+    while (true)
     {
-      while (true)
+      piece_walk_type to;
+      tok = ParsePieceWalkToken(tok,&to);
+
+      if (to==nr_piece_walks)
       {
-        piece_walk_type to;
-        tok = ParsePieceWalkToken(tok,&to);
-
-        if (to==nr_piece_walks)
-        {
-          if (from!=first_from)
-          {
-            /* user input forgot to close sequence */
-            if (!handle_chameleon_reborn_piece(is_explicit,sequence,from,first_from,tok))
-            {
-              /* TODO */
-            }
-          }
-          break;
-        }
-        else if (handle_chameleon_reborn_piece(is_explicit,sequence,from,to,tok))
-          from = to;
-        else
-          break;
+        if (from!=first_from)
+          /* user input forgot to close sequence */
+          chameleon_set_successor_walk_explicit(is_explicit,sequence,from,first_from);
+        break;
       }
-    }
-    else
-    {
-      /* TODO */
+      else
+      {
+        chameleon_set_successor_walk_explicit(is_explicit,sequence,from,to);
+        from = to;
+      }
     }
   }
 
