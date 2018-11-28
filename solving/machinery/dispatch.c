@@ -1129,6 +1129,14 @@ void dispatch(slice_index si)
       symmetry_circe_determine_rebirth_square_solve(si);
       break;
 
+    case STVerticalSymmetryCirceDetermineRebirthSquare:
+      vertical_symmetry_circe_determine_rebirth_square_solve(si);
+      break;
+
+    case STHorizontalSymmetryCirceDetermineRebirthSquare:
+      horizontal_symmetry_circe_determine_rebirth_square_solve(si);
+      break;
+
     case STPWCDetermineRebirthSquare:
       pwc_determine_rebirth_square_solve(si);
       break;

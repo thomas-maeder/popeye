@@ -419,9 +419,12 @@ static square NextSquare(square sq)
 
 static char *ParseForsythPiece(char *tok,
                                unsigned int nr_chars,
-                               Flags colour_flags,
+                               Flags *colour_flags,
                                square *pos)
 {
+  if (*colour_flags==0)
+    *colour_flags = BIT(islower((int)*tok) ? Black : White);
+
   char const char1 = tolower((int)*tok++);
   char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
 
@@ -430,7 +433,7 @@ static char *ParseForsythPiece(char *tok,
   {
     move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
                                           *pos,walk,
-                                          colour_flags,
+                                          *colour_flags,
                                           no_side);
     *pos = NextSquare(*pos);
   }
@@ -442,29 +445,38 @@ static char *ParseForsythPiece(char *tok,
 
 static char *ParseForsythColour(char *tok, Flags *colour_flags)
 {
-  if (isalpha((int)*tok))
-    *colour_flags = BIT(islower((int)*tok) ? Black : White);
-  else if (*tok=='=')
+  if (*tok=='=')
   {
     ++tok;
-    *colour_flags = NeutralMask;
+    *colour_flags |= NeutralMask;
   }
-  else
-    *colour_flags = 0;
+  else if (*tok=='+')
+  {
+    ++tok;
+    *colour_flags |= BIT(White);
+  }
+  else if (*tok=='-')
+  {
+    ++tok;
+    *colour_flags |= BIT(Black);
+  }
 
   return tok;
 }
 
-static char *ParseForsythPieceAndColor(char *tok,
-                                       unsigned int nr_chars,
-                                       square *pos)
+static char *ParseForsythPieceAndColor(char *tok, square *pos)
 {
-  Flags colour_flags;
+
+  Flags colour_flags = 0;
+
   tok = ParseForsythColour(tok,&colour_flags);
-  if (colour_flags==0)
-    ++tok;
+  if (*tok=='.')
+    tok = ParseForsythPiece(tok+1,2,&colour_flags,pos);
   else
-    tok = ParseForsythPiece(tok,nr_chars,colour_flags,pos);
+    tok = ParseForsythPiece(tok,1,&colour_flags,pos);
+      
+  if (colour_flags==0)
+      ++tok;  
 
   return tok;
 }
@@ -476,18 +488,18 @@ static void ParseForsyth(void)
   square sq = square_a8;
 
   while (sq && *tok)
-     if (isdigit((int)*tok))
-     {
-       int num = *tok++ - '0';
-       if (isdigit((int)*tok))
-         num = 10*num + *tok++ - '0';
-       for (; num && sq; num--)
-         sq = NextSquare(sq);
-     }
-     else if (*tok=='.')
-       tok = ParseForsythPieceAndColor(tok+1,2,&sq);
-     else
-       tok = ParseForsythPieceAndColor(tok,1,&sq);
+    if (isdigit((int)*tok))
+    {
+      int num = *tok++ - '0';
+      if (isdigit((int)*tok))
+        num = 10*num + *tok++ - '0';
+      for (; num && sq; num--)
+        sq = NextSquare(sq);
+    }
+    else if (*tok=='/')
+      ++tok;
+    else
+      tok = ParseForsythPieceAndColor(tok,&sq);
 }
 
 static char *ReadRemark(void)

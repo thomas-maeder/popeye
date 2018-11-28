@@ -216,9 +216,15 @@ typedef enum
   argentinian,            /* 195 */
   lostpieces,             /* 196 */
   partialparalysis,       /* 197 */
-  lesemajeste,            /* 198 */
+  circeverticalsymmetry,  /* 198 */
+  circehorizontalsymmetry,/* 199 */
+  antiverticalsymmetrie,  /* 200 */
+  antihorizontalsymmetrie,/* 201 */
+  immunverticalsymmetry, /* 202 */
+  immunhorizontalsymmetry, /* 203 */
+  lesemajeste,            /* 204 */
 
-  CondCount               /* 199 */
+  CondCount               /* 205 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

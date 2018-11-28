@@ -5,34 +5,34 @@ protocol exclusive.tst
 pieces white ke5 qa1 rf2 pc2
        black ke3 qa7 rf6 pc6g7
 stipulation #1
-condition circe immun rexincl Exclusiv
+condition circe immunchess rexincl Exclusiv
 
 next
 
 pieces white ke5 qa1 rf2 pc2
        black ke3 qd8 rf6 pc6g7
 stipulation h#0.5
-condition circe immun rexincl Exclusiv
+condition circe immunchess rexincl Exclusiv
 
 next
 
 pieces white ke5 qd1 rf2 pc2
        black ke3 qa7 rf6 pc6g7
 stipulation #1
-condition circe immun rexincl Exclusiv
+condition circe immunchess rexincl Exclusiv
 
 next
 
 pieces white ke5 qb2 rf2 pc2
        black ke3 qa7 rf6 pc6g7
 stipulation h#0.5
-condition circe immun rexincl Exclusiv
+condition circe immunchess rexincl Exclusiv
 
 next
 
 pieces white ke5 qb2 rf2 pc2
        black ke3 qd8 rf6 pc6g7
 stipulation #1
-condition circe immun rexincl Exclusiv
+condition circe immunchess rexincl Exclusiv
 
 end

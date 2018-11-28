@@ -51,6 +51,14 @@ static slice_type get_rebirth_square_determinator(circe_variant_type const *vari
       result = STSymmetryCirceDetermineRebirthSquare;
       break;
 
+    case circe_determine_rebirth_square_vertical_symmetry:
+      result = STVerticalSymmetryCirceDetermineRebirthSquare;
+      break;
+
+    case circe_determine_rebirth_square_horizontal_symmetry:
+      result = STHorizontalSymmetryCirceDetermineRebirthSquare;
+      break;
+
     case circe_determine_rebirth_square_equipollents:
       result = (variant->relevant_side_overrider==circe_relevant_side_overrider_mirror
                 ? STCirceContraparrainDetermineRebirth

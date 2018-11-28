@@ -473,7 +473,7 @@ next
 
 title 4.63 also gives 1.d2*c3 # !
 stip #1
-cond immun
+cond immunchess
 forsyth K2.kl1.Kl2/B2.al3.kl/P4p2/rp6/p3p1s1/.Kl1p1.bmPs1/2QPk3/.RN2.Kl1b2/
 
 next

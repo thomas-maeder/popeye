@@ -15,6 +15,8 @@ typedef enum
   circe_determine_rebirth_square_from_pas,
   circe_determine_rebirth_square_frischauf,
   circe_determine_rebirth_square_symmetry,
+  circe_determine_rebirth_square_vertical_symmetry,
+  circe_determine_rebirth_square_horizontal_symmetry,
   circe_determine_rebirth_square_diagram,
   circe_determine_rebirth_square_pwc,
   circe_determine_rebirth_square_rank,
