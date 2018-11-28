@@ -425,20 +425,22 @@ static char *ParseForsythPiece(char *tok,
   if (*colour_flags==0)
     *colour_flags = BIT(islower((int)*tok) ? Black : White);
 
-  char const char1 = tolower((int)*tok++);
-  char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
-
-  piece_walk_type const walk = GetPieNamIndex(char1,char2);
-  if (walk!=nr_piece_walks)
   {
-    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                          *pos,walk,
-                                          *colour_flags,
-                                          no_side);
-    *pos = NextSquare(*pos);
+    char const char1 = tolower((int)*tok++);
+    char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
+
+    piece_walk_type const walk = GetPieNamIndex(char1,char2);
+    if (walk!=nr_piece_walks)
+    {
+      move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                            *pos,walk,
+                                            *colour_flags,
+                                            no_side);
+      *pos = NextSquare(*pos);
+    }
+    else
+      ++tok;           /* error */
   }
-  else
-    ++tok;           /* error */
 
   return tok;
 }
