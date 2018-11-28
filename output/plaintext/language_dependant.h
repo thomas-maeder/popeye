@@ -148,6 +148,8 @@ typedef enum
   CirceVariantRank,
   CirceVariantFile,
   CirceVariantSymmetry,
+  CirceVariantVerticalSymmetry,
+  CirceVariantHorizontalSymmetry,
   CirceVariantDiagramm,
   CirceVariantPWC,
   CirceVariantAntipodes,

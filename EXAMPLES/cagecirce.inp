@@ -14,7 +14,7 @@ title knights can't be captured - g1 is occupied
 pieces white kg1 sa8h8 pe5
        black ke7 pb2
 stipulation h=3
-condition immun cagecirce
+condition immunchess cagecirce
 
 next
 
@@ -22,6 +22,6 @@ title no solution - g1 is free
 pieces white kf1 sa8h8 pe5
        black ke7 pb2
 stipulation h=3
-condition immun cagecirce
+condition immunchess cagecirce
 
 end

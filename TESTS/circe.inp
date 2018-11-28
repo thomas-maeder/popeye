@@ -140,7 +140,7 @@ pieces black ga7 white ra8
 stip x1
 option nowk nobk
 condition anticirce circe strict
-twin condition anticirce circe immun
+twin condition anticirce circe immunchess
 
 next
 

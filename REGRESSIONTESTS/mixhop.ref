@@ -8,242 +8,368 @@ black pieces able to move depend on which is paralysed by w
 |                                   |
 8   .   .   . -RE   .   .   .   .   8
 |                                   |
-7   . -RE -RE -RE   . -RE   .   .   7
+7   . =DU   . -RE =DU   . =DU   .   7
 |                                   |
-6   .   .   .   .   .   .   .   .   6
+6 -RE -RE   . -RE   .   .   .   .   6
 |                                   |
-5   .   .   .   .  RE   .   . -RE   5
+5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   .   .   .   .   .   .   4
+4   .   . =DU   .  RE   . =DU   .   4
 |                                   |
-3   .   .   .   .   .   .   .   .   3
+3 =DU   .   .   .   .   .   .   .   3
 |                                   |
-2   .   .   .   .   .   .   .   .   2
+2   . -RE =DU   . =DU   . =DU   .   2
 |                                   |
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          1 + 6
+  ~1                     1 + 6 + 9n
                Madrasi
                Duplex
 
 a) 
 
-   1.REe5-h6 !
+   1.REe4-g5 !
 
-   1.REe5-h4 !
+   1.REe4-g3 !
 
-  add_to_move_generation_stack:           2
-                     play_move:           2
+   1.REe4-f7 !
+
+   1.REe4*d7 !
+
+   1.REe4-c5 !
+
+   1.REe4-c3 !
+
+   1.REe4-f2 !
+
+   1.REe4-d2 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-   1.REh5-e6 !
+   1.REb2-c3 !
 
-   1.REh5-e4 !
+   1.REb2-c1 !
 
-   1.REb7-c8 !
+   1.REb2-c6 !
 
-   1.REb7-c6 !
+   1.REa6*b7 !
 
-   1.REc7-d6 !
+   1.REa6-b5 !
 
-   1.REc7-b8 !
+   1.REa6-b3 !
 
-   1.REc7-b6 !
+   1.REb6-d5 !
 
-   1.REd7-f8 !
+   1.REb6-c7 !
 
-   1.REd7-f6 !
+   1.REb6-a7 !
 
-   1.REd7-e8 !
+   1.REb6-a5 !
 
-   1.REd7-c8 !
+   1.REb6*c2 !
 
-   1.REd7-c6 !
+   1.REb6-a2 !
 
-   1.REf7-d6 !
+   1.REd6*e7 !
 
-   1.REd8-e7 !
+   1.REd6-c7 !
 
-  add_to_move_generation_stack:          15
-                     play_move:          14
+   1.REd6*b7 !
+
+   1.REd6-b5 !
+
+   1.REd8*e7 !
+
+   1.REd8-c7 !
+
+  add_to_move_generation_stack:          19
+                     play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 b) RE ==> BE  
 
-   1.BEe5*d8 !
+   1.BEe4-c8 !
 
-   1.BEe5-b6 !
+   1.BEe4*a6 !
 
-  add_to_move_generation_stack:           2
-                     play_move:           2
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
+   1.BEe4-h3 !
 
-   1.BEh5-g8 !
+   1.BEe4-f1 !
 
-   1.BEh5-e6 !
+   1.BEe4-b3 !
 
-   1.BEc7-e7 !
-
-   1.BEc7-f6 !
-
-   1.BEc7-d4 !
-
-   1.BEf7-g4 !
+   1.BEe4-d1 !
 
   add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-c) RE ==> RM  
+   1.BEb2-b4 !
 
-  add_to_move_generation_stack:           0
-                     play_move:           0
+   1.BEb2-f8 !
+
+   1.BEb2-h6 !
+
+   1.BEb6*e7 !
+
+   1.BEd6-f6 !
+
+   1.BEd7-h5 !
+
+   1.BEd7-f3 !
+
+   1.BEd8-f8 !
+
+   1.BEd8-a7 !
+
+   1.BEd8-c5 !
+
+  add_to_move_generation_stack:          10
+                     play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-   1.RMh5-d6 !
+c) RE ==> RM  
 
-   1.RMh5-d4 !
+   1.RMe4-h3 !
 
-   1.RMb7-d6 !
+   1.RMe4-h5 !
 
-   1.RMc7-e6 !
+   1.RMe4*d8 !
 
-   1.RMc7-e8 !
+   1.RMe4-f8 !
 
-   1.RMc7-a8 !
+   1.RMe4-b5 !
 
-   1.RMc7-a6 !
+   1.RMe4-b3 !
 
-   1.RMd7-g6 !
+   1.RMe4-f1 !
 
-   1.RMd7-g8 !
+   1.RMe4-d1 !
 
-   1.RMd7-b8 !
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
-   1.RMd7-b6 !
+   1.RMb2-d1 !
 
-   1.RMf7-c8 !
+   1.RMb2-d3 !
 
-   1.RMf7-c6 !
+   1.RMb2-a7 !
 
-   1.RMd8-e6 !
+   1.RMb2-c7 !
 
-   1.RMd8-c6 !
+   1.RMa6-c5 !
 
-  add_to_move_generation_stack:          15
-                     play_move:          15
+   1.RMa6-c7 !
+
+   1.RMb6-e5 !
+
+   1.RMb6*e7 !
+
+   1.RMb6-a8 !
+
+   1.RMb6-c8 !
+
+   1.RMb6-c1 !
+
+   1.RMb6-a1 !
+
+   1.RMd6-c8 !
+
+   1.RMd6-e8 !
+
+   1.RMd6-a7 !
+
+   1.RMd6-a5 !
+
+   1.RMd7-f6 !
+
+   1.RMd7-f8 !
+
+   1.RMd7-a8 !
+
+   1.RMd7-e5 !
+
+   1.RMd7-c5 !
+
+  add_to_move_generation_stack:          21
+                     play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 d) RE ==> BM  
 
-   1.BMe5*b7 !
+   1.BMe4-a7 !
 
-   1.BMe5-c8 !
+   1.BMe4-b8 !
 
-  add_to_move_generation_stack:           2
-                     play_move:           2
+   1.BMe4-h2 !
+
+   1.BMe4-g1 !
+
+   1.BMe4*b2 !
+
+   1.BMe4-c1 !
+
+  add_to_move_generation_stack:           6
+                     play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-   1.BMh5-e7 !
+   1.BMa6-c7 !
 
-   1.BMh5-f8 !
+   1.BMa6-b8 !
 
-   1.BMc7-e8 !
+   1.BMa6-d4 !
 
-   1.BMc7-f5 !
+   1.BMa6-c3 !
 
-   1.BMc7-e4 !
+   1.BMb6-e8 !
 
-   1.BMf7-h4 !
+   1.BMd6-f7 !
 
-   1.BMd8-c6 !
+   1.BMd6-e8 !
 
-  add_to_move_generation_stack:           7
-                     play_move:           7
+   1.BMd6-a2 !
+
+   1.BMd7-h4 !
+
+   1.BMd7-g3 !
+
+   1.BMd8-f7 !
+
+   1.BMd8-e6 !
+
+   1.BMd8-b5 !
+
+  add_to_move_generation_stack:          13
+                     play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 e) RE ==> RW  
 
-   1.RWe5-g6 !
+   1.RWe4-f5 !
 
-   1.RWe5-g4 !
+   1.RWe4-f6 !
 
-  add_to_move_generation_stack:           2
-                     play_move:           2
+   1.RWe4*d6 !
+
+   1.RWe4-d5 !
+
+   1.RWe4-d3 !
+
+   1.RWe4-f3 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-   1.RWh5-f4 !
+   1.RWb2-b3 !
 
-   1.RWh5-f6 !
+   1.RWb2-b1 !
 
-   1.RWb7-b8 !
+   1.RWb2-c5 !
 
-   1.RWb7-b6 !
+   1.RWb2-a5 !
 
-   1.RWc7-c6 !
+   1.RWa6-a7 !
 
-   1.RWc7-c8 !
+   1.RWa6-a5 !
 
-   1.RWd7-e8 !
+   1.RWa6-b4 !
 
-   1.RWd7-e6 !
+   1.RWb6-c7 !
 
-   1.RWd7-e7 !
+   1.RWb6-c5 !
 
-   1.RWd7-d6 !
+   1.RWb6-c6 !
 
-   1.RWf7-e6 !
+   1.RWb6-b5 !
 
-   1.RWf7-e8 !
+   1.RWb6*b7 !
+
+   1.RWb6*a3 !
+
+   1.RWb6-c3 !
+
+   1.RWd7-c6 !
+
+   1.RWd7-c8 !
+
+   1.RWd7-c7 !
+
+   1.RWd7*e7 !
 
    1.RWd8-c8 !
 
    1.RWd8-e8 !
 
-  add_to_move_generation_stack:          16
-                     play_move:          14
+  add_to_move_generation_stack:          22
+                     play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 f) RE ==> BW  
 
-   1.BWe5*d7 !
+   1.BWe4-c7 !
 
-   1.BWe5-c6 !
+   1.BWe4*b6 !
 
-  add_to_move_generation_stack:           2
-                     play_move:           2
+   1.BWe4-f2 !
+
+   1.BWe4-g3 !
+
+   1.BWe4-d2 !
+
+   1.BWe4-c3 !
+
+  add_to_move_generation_stack:           6
+                     play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-   1.BWh5-g7 !
+   1.BWb2-b3 !
 
-   1.BWh5-f6 !
+   1.BWb2-a2 !
 
-   1.BWc7-c8 !
+   1.BWb2-f7 !
 
-   1.BWc7-d5 !
+   1.BWb2-g6 !
 
-   1.BWc7-e6 !
+   1.BWa6-a7 !
 
-   1.BWf7-g5 !
+   1.BWa6-b4 !
 
-   1.BWf7-h6 !
+   1.BWa6-c5 !
 
-   1.BWd8-c8 !
+   1.BWd6-e6 !
 
-  add_to_move_generation_stack:           8
-                     play_move:           8
+   1.BWd6-b3 !
+
+   1.BWd6-a4 !
+
+   1.BWd7-f4 !
+
+   1.BWd7-g5 !
+
+   1.BWd8-e8 !
+
+   1.BWd8-c6 !
+
+   1.BWd8*b7 !
+
+  add_to_move_generation_stack:          15
+                     play_move:          15
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
