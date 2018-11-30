@@ -534,6 +534,7 @@
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \
     ENUMERATOR(STSuperTransmutingKingsMovesForPieceGenerator),          \
+    ENUMERATOR(STRokagogoMovesForPieceGeneratorFilter),                 \
     ENUMERATOR(STCastlingChessMovesForPieceGenerator),                  \
     ENUMERATOR(STPlatzwechselRochadeMovesForPieceGenerator),            \
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \

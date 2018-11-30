@@ -90,14 +90,44 @@ void castlingchess_generate_moves_for_piece(slice_index si)
   }
 }
 
-/* Instrument slices with move tracers
+static boolean castling_only_with_rook(numecoup n)
+{
+  square const special_capture = move_generation_stack[n].capture;
+
+  if (special_capture>offset_platzwechsel_rochade)
+  {
+    square const sq_partner = special_capture-offset_platzwechsel_rochade;
+    return get_walk_of_piece_on_square(sq_partner)==Rook;
+  }
+  else
+    return true;
+}
+
+/* Filter out castlings that are allowed in CastlingChess but not in Rokagogo
+ * @param identifies generator slice
  */
-void solving_insert_castling_chess(slice_index si)
+void rokagogo_filter_moves_for_piece(slice_index si)
+{
+  numecoup const save_numecoup = CURRMOVE_OF_PLY(nbply);
+
+  pipe_move_generation_delegate(si);
+
+  move_generator_filter_moves(save_numecoup,&castling_only_with_rook);
+}
+
+/* Instrument slices with Castling Chess slices
+ * @param is_rokagogo true iff we are instrumenting for Rokagogo
+ */
+void solving_insert_castling_chess(slice_index si, boolean is_rokagogo)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (is_rokagogo)
+    solving_instrument_move_generation(si,nr_sides,STRokagogoMovesForPieceGeneratorFilter);
+
   solving_instrument_move_generation(si,nr_sides,STCastlingChessMovesForPieceGenerator);
+
   insert_alternative_move_players(si,STCastlingChessMovePlayer);
   solving_disable_castling(si);
 

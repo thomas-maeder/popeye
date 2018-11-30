@@ -80,6 +80,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[messigny]
                 || CondFlag[mars]
                 || CondFlag[castlingchess]
+                || CondFlag[rokagogo]
                 || CondFlag[platzwechselrochade]
                 || CondFlag[football]
                 || CondFlag[kobulkings]

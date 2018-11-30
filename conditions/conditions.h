@@ -220,11 +220,12 @@ typedef enum
   circehorizontalsymmetry,/* 199 */
   antiverticalsymmetrie,  /* 200 */
   antihorizontalsymmetrie,/* 201 */
-  immunverticalsymmetry, /* 202 */
+  immunverticalsymmetry,  /* 202 */
   immunhorizontalsymmetry, /* 203 */
   lesemajeste,            /* 204 */
+  rokagogo,               /* 205 */
 
-  CondCount               /* 205 */
+  CondCount               /* 206 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

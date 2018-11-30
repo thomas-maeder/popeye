@@ -1659,7 +1659,8 @@ void verify_position(slice_index si)
   if (CondFlag[takemake])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
+  if (CondFlag[castlingchess] || CondFlag[rokagogo]
+      || CondFlag[platzwechselrochade])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none

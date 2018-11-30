@@ -249,6 +249,7 @@ simples:
 	PiecesPerdues
 	ParalysePartielle
 	LeseMajeste
+	Rokagogo
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

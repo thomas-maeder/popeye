@@ -936,7 +936,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*201*/ "AntiCirceSymetriqueHorizontale",
     /*202*/ "ImmuneSymetriqueVerticale",
     /*203*/ "ImmuneSymetriqueHorizontale",
-    /*204*/ "LeseMajeste"
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1143,7 +1144,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*201*/ "HorizontaleAntiSymmetrieCirce",
     /*202*/ "ImmuneVertikaleSymmetrie",
     /*203*/ "ImmuneHorizontaleSymmetrie",
-    /*204*/ "LeseMajeste"
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1350,7 +1352,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*201*/ "HorizontalSymmetryAntiCirce",
     /*202*/ "ImmuneVerticalSymmetry",
     /*203*/ "ImmuneHorizontalSymmetry",
-    /*204*/ "LeseMajeste"
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo"
   }
 };
 

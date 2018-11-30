@@ -2287,6 +2287,10 @@ void dispatch(slice_index si)
       reflective_kings_generate_moves_for_piece(si);
       break;
 
+    case STRokagogoMovesForPieceGeneratorFilter:
+      rokagogo_filter_moves_for_piece(si);
+      break;
+
     case STCastlingChessMovesForPieceGenerator:
       castlingchess_generate_moves_for_piece(si);
       break;

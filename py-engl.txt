@@ -247,6 +247,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	LostPieces
 	PartialParalysis
 	LeseMajeste
+	Rokagogo
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

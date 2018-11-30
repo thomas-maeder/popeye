@@ -68,6 +68,7 @@ static slice_index const slice_rank_order[] =
     STTransmutingKingsMovesForPieceGenerator,
     STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
+    STRokagogoMovesForPieceGeneratorFilter,
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,

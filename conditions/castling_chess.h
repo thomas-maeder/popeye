@@ -56,8 +56,14 @@ void castling_chess_king_square_adjuster_solve(slice_index si);
  */
 void castlingchess_generate_moves_for_piece(slice_index si);
 
-/* Instrument slices with Castling Chess slices
+/* Filter out castlings that are allowed in CastlingChess but not in Rokagogo
+ * @param identifies generator slice
  */
-void solving_insert_castling_chess(slice_index si);
+void rokagogo_filter_moves_for_piece(slice_index si);
+
+/* Instrument slices with Castling Chess slices
+ * @param is_rokagogo true iff we are instrumenting for Rokagogo
+ */
+void solving_insert_castling_chess(slice_index si, boolean is_rokagogo);
 
 #endif

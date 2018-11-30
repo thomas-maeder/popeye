@@ -171,7 +171,7 @@ static void write_no_capture(output_plaintext_move_context_type *context,
 static void write_castling(output_plaintext_move_context_type *context,
                            move_effect_journal_index_type movement)
 {
-  if (CondFlag[castlingchess])
+  if (CondFlag[castlingchess] || CondFlag[rokagogo])
   {
     WriteWalk(context->engine,context->file,move_effect_journal[movement].u.piece_movement.moving);
     WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
@@ -485,7 +485,7 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       break;
 
     case move_effect_reason_castling_partner_movement:
-      if (CondFlag[castlingchess])
+      if (CondFlag[castlingchess] || CondFlag[rokagogo])
       {
         (*context->engine->fputc)('/',context->file);
         write_complete_piece(context,

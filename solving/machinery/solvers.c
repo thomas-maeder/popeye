@@ -492,8 +492,8 @@ void build_solvers1(slice_index si)
   if (CondFlag[haanerchess])
     solving_insert_haan_chess(si);
 
-  if (CondFlag[castlingchess])
-    solving_insert_castling_chess(si);
+  if (CondFlag[castlingchess] || CondFlag[rokagogo])
+    solving_insert_castling_chess(si,CondFlag[rokagogo]);
 
   if (CondFlag[amu])
     solving_insert_amu_attack_counter(si);
