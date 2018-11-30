@@ -1,0 +1,413 @@
+also correct with CastlingChess
+
+            Peter Fayers
+               ? 2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -R  -K   .   .   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .  -B  -P  -Q   .   S   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   .   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      16 + 15
+              Rokagogo
+
+  1.Sb1-c3 e7-e6   2.Sc3-d5 Qd8-f6   3.Sd5-e7 Ke8-d8   4.Se7*g8 Bf8-d6   5.Sg8-h6 Kd8-f8/bRh8-e8 dia
+  add_to_move_generation_stack:    68947409
+                     play_move:    68560555
+ is_white_king_square_attacked:     4064456
+ is_black_king_square_attacked:     4445082
+
+solution finished.
+
+
+also correct with CastlingChess
+
+           Jerome Auclair
+     Messigny 1999, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K  -R   .  -B  -S  -R   8
+|                                   |
+7  -P  -P   .  -Q  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   P   2
+|                                   |
+1   R   S   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      15 + 14
+              Rokagogo
+
+  1.d2-d3 d7-d5   2.Bc1-f4 Bc8-e6   3.Bf4*c7 Qd8-d7   4.Bc7*b8 Ra8*b8   5.d3-d4 Ke8-c8/bRb8-d8 dia
+  add_to_move_generation_stack:   114628832
+                     play_move:   113873401
+ is_white_king_square_attacked:     5941627
+ is_black_king_square_attacked:     7547785
+
+solution finished.
+
+
+also correct with CastlingChess
+last 4.5 moves of a proof game in 8.0
+
+           Bruno Kampmann
+            Messigny 1999
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -K  -P  -P  -P  -P   7
+|                                   |
+6  -R   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   S   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            15 + 15
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7   .  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P  -R   .   .   S   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   Q   .   .   3
+|                                   |
+2   P   .   .   P   .   P   P   P   2
+|                                   |
+1   R   S   B   R   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b4.5                   13 + 15
+              Rokagogo
+
+  1.Kd7-d6 Ke1-g1/wRh1-f1   2.Kd6-b6/bRa6-c6 Sf3-e5   3.Rc6*c2 Qd1-f3   4.Rc2*b2 Rf1-d1   5.Kb6-b4/bRb2-b5 a=>b
+  add_to_move_generation_stack:    96998150
+                     play_move:    95837767
+ is_white_king_square_attacked:     5281763
+ is_black_king_square_attacked:     7270409
+
+solution finished.
+
+
+also correct with CastlingChess
+last 4.5 moves of a proof game in 12.0
+f6 already occupied - old piece goes to the underworld.
+
+         Thierry le Gleuher
+             Phenix 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q   .  -B  -S   R   8
+|                                   |
+7   .  -P  -P  -P  -R  -P  -P   .   7
+|                                   |
+6  -R   .   .   .  -K  -P  -P   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   .   2
+|                                   |
+1   R   S   B   .   K   .   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            13 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q   .  -B   .   .   8
+|                                   |
+7   .  -P  -P  -P  -R  -P  -P   .   7
+|                                   |
+6   .   .   .   .   .  -P  -P   .   6
+|                                   |
+5  -P   .  -R   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   .   .   S   3
+|                                   |
+2   P   P   .   .   .   P   P   .   2
+|                                   |
+1   R   S   B   .   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b4.5                   11 + 15
+              Rokagogo
+
+  1.Rh8*g8 Ke6-c6/bRa6-d6   2.Rg8-h8 Rd6*d2   3.Rh8-h1 Rd2*c2   4.Sg1-h3 Kc6-c4/bRc2-c5   5.Ke1-g1/wRh1-f1 a=>b
+  add_to_move_generation_stack:    63041167
+                     play_move:    60956119
+ is_white_king_square_attacked:     4790541
+ is_black_king_square_attacked:     6548720
+
+solution finished.
+
+
+also correct with CastlingChess
+last 5 moves of a proof game in 18.5
+
+           Nicolas Dupont
+        Julia's Fairies 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .   .  -R   .   8
+|                                   |
+7   .  -P  -P  -K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P  -S   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .  -P   B  -P   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   S   P   .   P   2
+|                                   |
+1   R   S   B   Q   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            14 + 14
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q   .   .  -R   .   8
+|                                   |
+7   .  -P  -P  -K   .  -S   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   B  -P   .   .   .   .   4
+|                                   |
+3   .   P  -B  -P   .   .   K   .   3
+|                                   |
+2   .   P   P   P   S   P   R   P   2
+|                                   |
+1   .   S   B   Q   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b5                     14 + 13
+               Madrasi
+              Rokagogo
+
+  1.Ra8-a3 Ke1-g1/wRh1-f1   2.Ra3-b3 a2*b3   3.d4-d3 Ra1-a5   4.d5-d4 Ra5-g5   5.Sh6-f7 Kg1-g3/wRg5-g2 a=>b
+  add_to_move_generation_stack:   281243142
+                     play_move:   277414410
+ is_white_king_square_attacked:    15653958
+ is_black_king_square_attacked:    19452368
+
+solution finished.
+
+
+also correct with CastlingChess
+last 5 moves of a proof game in 14.0
+
+           Igor Verescagin
+  Messigny 1999, Honourable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -R  -B   .   R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -K   .   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   S   3
+|                                   |
+2   P   P   P   P   P   P   .   P   2
+|                                   |
+1   R   S   B   Q   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 15
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -Q   .   .  -R  -B   .   .   8
+|                                   |
+7  -P  -P  -P  -S  -P  -P  -K   .   7
+|                                   |
+6   .   .   .  -P   B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P  -P   5
+|                                   |
+4  -B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   K   S   3
+|                                   |
+2   P   P   P   P   P   P   R   P   2
+|                                   |
+1   R   S   B   Q   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b5                     16 + 15
+              Rokagogo
+
+  1.d7-d6 Rh8-h6   2.Bc8-d7 Rh6-f6   3.Bd7-a4 Rf6-f4   4.Sb8-d7 Rf4-g4   5.Qd8-b8 Kg1-g3/wRg4-g2 a=>b
+  add_to_move_generation_stack:    92676973
+                     play_move:    90428999
+ is_white_king_square_attacked:     6392470
+ is_black_king_square_attacked:     6413648
+
+solution finished.
+
+
+also correct with CastlingChess
+last 5 moves of a proof game in 15.0
+
+           Pascal Wassong
+  Messigny 1999, Honourable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .  -S   .   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -B   R   .  -P  -P   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   S   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   P   .   P   .   .   3
+|                                   |
+2   P   P   P   P   .   P   .   P   2
+|                                   |
+1   R   S   B   Q   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            15 + 12
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .  -S   .   .   .   .   .   8
+|                                   |
+7  -P  -P  -P  -B  -B   .  -K  -P   7
+|                                   |
+6   .   .   .   .   .  -S  -R   .   6
+|                                   |
+5   .   S   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   P   .   P   K   .   3
+|                                   |
+2   P   P   P   P   .   P   .   P   2
+|                                   |
+1   R   S   B   .   .   .   Q   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b5                     15 + 11
+              Rokagogo
+
+  1.Re7*g7 Bf8-e7   2.Kg1-g3/wRg7-g2 Kf6-g5   3.Rg2-g1 Sg8-f6   4.Rg1-h1 Rh8-g8   5.Qd1-g1 Kg5-g7/bRg8-g6 + a=>b
+  add_to_move_generation_stack:   278000099
+                     play_move:   269620373
+ is_white_king_square_attacked:    19226591
+ is_black_king_square_attacked:    23661682
+
+solution finished.
+
+
+
+           Nicolas Dupont
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .   .  -P  -P  -P   7
+|                                   |
+6   .   .   .  -P  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .  -B   .   4
+|                                   |
+3   .   .   .   .   P   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.5                    16 + 16
+              Rokagogo
+
+  1.e2-e3 d7-d6   2.Ke1-e2 Bc8-g4 +   3.Ke2-d3 e7-e6   4.Kd3-e4 dia
+  add_to_move_generation_stack:      611932
+                     play_move:      608526
+ is_white_king_square_attacked:       30664
+ is_black_king_square_attacked:       30886
+
+solution finished.
+
+

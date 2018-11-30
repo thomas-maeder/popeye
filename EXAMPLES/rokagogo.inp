@@ -1,0 +1,87 @@
+begin
+
+protocol rokagogo.ref
+
+author Peter Fayers
+origin ? 2009
+remark also correct with CastlingChess
+pieces white ke1 qd1 ra1h1 bc1f1 sg1h6 pa2b2c2d2e2f2g2h2
+       black kf8 qf6 ra8e8 bc8d6 sb8 pa7b7c7d7e6f7g7h7
+stipulation dia5
+condition rokagogo
+
+nextproblem
+
+author Jerome Auclair
+origin Messigny 1999, Commendation
+remark also correct with CastlingChess
+pieces white ke1 qd1 ra1h1 bf1 sb1g1 pa2b2c2d4e2f2g2h2 black kc8 qd7 rd8h8 be6f8 sg8 pa7b7d5e7f7g7h7
+stipulation dia5
+condition rokagogo
+
+nextproblem
+
+author Bruno Kampmann
+origin Messigny 1999
+remark also correct with CastlingChess
+remark last 4.5 moves of a proof game in 8.0
+pieces white ke1 qd1 ra1h1 bc1 sb1f3 pa2b2c2d2e3f2g2h2 black kd7 qd8 ra6h8 bc8f8 sb8g8 pa5b7c7e7f7g7h7
+stipulation a=>b 4.5
+pieces white kg1 qf3 ra1d1 bc1 sb1e5 pa2d2e3f2g2h2 black kb4 qd8 rb5h8 bc8f8 sb8g8 pa5b7c7e7f7g7h7
+condition rokagogo
+
+nextproblem
+
+author Thierry le Gleuher
+origin Phenix 2001
+remark also correct with CastlingChess
+remark last 4.5 moves of a proof game in 12.0
+pieces white ke1 qf6 ra1h8 bc1 sb1g1 pa2b2c2d2e3f2g2 black ke6 qd8 ra6e7 bc8f8 sb8g8 pa5b7c7d7f6f7g7g6
+stipulation a=>b 4.5
+pieces white kg1 ra1f1 bc1 sb1h3 pa2b2e3f2g2 black kc4 qd8 rc5e7 bc8f8 sb8 pa5b7c7d7f6f7g7g6
+condition rokagogo
+option white
+
+nextproblem
+
+author Nicolas Dupont
+origin Julia's Fairies 2018
+remark also correct with CastlingChess
+remark last 5 moves of a proof game in 18.5
+pieces white ke1 qd1 ra1h1 bc1c4 sb1e2 pa2b2c2d2f2h2 black kd7 qd8 ra8g8 bc8c3 sb8h6 pb4b7c7d4d5g6
+stipulation a=>b 5
+pieces white kg3 qd1 rf1g2 bc1c4 sb1e2 pb2b3c2d2f2h2 black kd7 qd8 rg8 bc3c8 sb8f7 pb4b7c7d3d4g6
+condition rokagogo madrasi
+
+nextproblem
+
+author Igor Verescagin
+origin Messigny 1999, Honourable mention
+remark also correct with CastlingChess
+remark last 5 moves of a proof game in 14.0
+pieces white kg1 qd1 ra1f1h8 bc1e6 sb1h3 pa2b2c2d2e2f2h2 black kg7 qd8 ra8e8 bc8f8 sb8 pa7b7c7d7e7f7g5h5
+stipulation a=>b 5
+pieces white kg3 qd1 ra1f1g2 bc1e6 sb1h3 pa2b2c2d2e2f2h2 black kg7 qb8 ra8e8 ba4f8 sd7 pa7b7c7d6e7f7g5h5
+condition rokagogo
+
+nextproblem
+
+author Pascal Wassong
+origin Messigny 1999, Honourable mention
+remark also correct with CastlingChess
+remark last 5 moves of a proof game in 15.0
+pieces white kg1 qd1 ra1e7 bc1 sb1b5 pa2b2c2d2d3f2f3h2 black kf6 ra8h8 bd7f8 sc8g8 pa7b7c7g7h7
+stipulation a=>b 5
+pieces white kg3 qg1 ra1h1 bc1 sb1b5 pa2b2c2d2d3f2f3h2 black kg7 ra8g6 bd7e7 sc8f6 pa7b7c7h7
+condition rokagogo
+option white
+
+nextproblem
+
+author Nicolas Dupont
+stip dia3.5
+forsyth rs1qkbsr/ppp2ppp/3pp3/8/4K1b1/4P3/PPPP1PPP/RSBQ1BSR
+condition rokagogo
+
+end
+
