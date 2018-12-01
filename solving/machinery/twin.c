@@ -596,6 +596,56 @@ static Side findRestrictedSide(slice_index si)
   return result;
 }
 
+static boolean does_condition_allow_intelligent(Cond cond)
+{
+  static Cond const conditions_allowing_intelligent[] = {
+      bichro,
+      monochro,
+      gridchess,
+      blackedge,
+      whiteedge,
+      nocapture,
+      haanerchess,
+      blmax,
+      blmin,
+      whmax,
+      whmin,
+      holes,
+      blcapt,
+      whcapt,
+      blfollow,
+      whfollow,
+      whforsqu,
+      whconforsqu,
+      blforsqu,
+      blconforsqu,
+      promotiononly,
+      whprom_sq,
+      blprom_sq,
+      nowhiteprom,
+      noblackprom,
+      blackultraschachzwang,
+      whiteultraschachzwang,
+      nowhcapture,
+      noblcapture,
+      alphabetic,
+      losingchess,
+      whitealphabetic,
+      blackalphabetic,
+      lastcapture,
+      noiprom
+  };
+  enum { nr_conditions_allowing_intelligent
+        = sizeof conditions_allowing_intelligent / sizeof conditions_allowing_intelligent[0] };
+
+  unsigned int i;
+  for (i = 0; i!=nr_conditions_allowing_intelligent; ++i)
+    if (conditions_allowing_intelligent[i]==cond)
+      return true;
+
+  return false;
+}
+
 /* Verify the user input and our interpretation of it
  * @param si identifies the root slice of the representation of the
  *           stipulation
@@ -1685,6 +1735,17 @@ void verify_position(slice_index si)
       || CondFlag[ohneschach]
       || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
+
+  if (OptFlag[intelligent])
+  {
+    Cond cond;
+    for (cond = 0; cond!=CondCount; ++cond)
+      if (CondFlag[cond] && !does_condition_allow_intelligent(cond))
+      {
+        output_plaintext_message(IntelligentRestricted);
+        return;
+      }
+  }
 
   pipe_solve_delegate(si);
 }
