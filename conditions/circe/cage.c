@@ -19,8 +19,12 @@
 
 #include "debugging/assert.h"
 
-static boolean cage_found_for_current_capture[maxply+1];
-static boolean no_cage_for_current_capture[maxply+1];
+static enum
+{
+  serching_for_cage,
+  cage_found,
+  proved_there_is_no_cage
+} cage_search_status[maxply+1];
 
 static void do_substitute(slice_index si,
                                                    stip_structure_traversal *st)
@@ -109,34 +113,33 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   if (!post_move_am_i_iterating())
   {
     /* Initialise for trying the first potential cage. */
-    cage_found_for_current_capture[nbply] = false;
-    no_cage_for_current_capture[nbply] = false;
+    cage_search_status[nbply] = serching_for_cage;
 
     post_move_iteration_solve_delegate(si);
   }
-  else if (!no_cage_for_current_capture[nbply])
+  else if (cage_search_status[nbply]==proved_there_is_no_cage)
   {
-    /* There is still at least 1 potential cages to be tried. */
-    post_move_iteration_solve_delegate(si);
-
-    if (!post_move_iteration_is_locked())
-    {
-      if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
-          && !cage_found_for_current_capture[nbply])
-        /* No potential cage has materialised. */
-        no_cage_for_current_capture[nbply] = true;
-      else
-        post_move_iteration_end();
-    }
-  }
-  else
-  {
-    /* Take "the no cage path", */
+    /* Take the "no cage path", */
     post_move_iteration_solve_fork(si);
 
     /* Terminate this little iteration. */
     if (!post_move_iteration_is_locked())
       post_move_iteration_end();
+  }
+  else
+  {
+    /* There is still at least 1 potential cage to be tried. */
+    post_move_iteration_solve_delegate(si);
+
+    if (!post_move_iteration_is_locked())
+    {
+      if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
+          && cage_search_status[nbply]!=cage_found)
+        /* No potential cage has materialised. */
+        cage_search_status[nbply] = proved_there_is_no_cage;
+      else
+        post_move_iteration_end();
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -191,7 +194,7 @@ void circe_cage_cage_tester_solve(slice_index si)
       solve_result = this_move_is_illegal;
     else
     {
-      cage_found_for_current_capture[nbply] = true;
+      cage_search_status[nbply] = cage_found;
       pipe_dispatch_delegate(si);
     }
   }
