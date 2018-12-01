@@ -61,5 +61,14 @@ stipulation ~1
 pieces black Pd4e3f7h7
 pieces white red3 beg8
 
+next
+
+title issue #170
+remark this problem should not have a solution
+cond blackmustcapture ultra
+pieces white pa2 black pb6
+stip sx2
+option nowk nobk vari
+
 end
 
