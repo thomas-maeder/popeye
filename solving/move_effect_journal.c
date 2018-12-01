@@ -1258,20 +1258,24 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  InitCond();
+  assert(nbply==ply_twinning || nbply==ply_diagram_setup);
 
   /* restore the original condition (if any) if we are undoing a
    * condition twinning
    */
   if (nbply==ply_twinning)
   {
-    move_effect_journal_index_type const idx_cond = find_original_condition();
-    if (idx_cond!=move_effect_journal_index_null)
+    InitCond();
+
     {
-      move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
-      InputStartReplay(cond->u.input_complex.start);
-      ParseCond(ReadNextTokStr());
-      InputEndReplay();
+      move_effect_journal_index_type const idx_cond = find_original_condition();
+      if (idx_cond!=move_effect_journal_index_null)
+      {
+        move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
+        InputStartReplay(cond->u.input_complex.start);
+        ParseCond(ReadNextTokStr());
+        InputEndReplay();
+      }
     }
   }
 
