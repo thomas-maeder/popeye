@@ -8,7 +8,6 @@
 #include "stipulation/modifier.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
-#include "conditions/haunted_chess.h"
 #include "conditions/sat.h"
 #include "conditions/circe/parachute.h"
 #include "pieces/walks/pawns/en_passant.h"
@@ -1548,8 +1547,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_enable_castling_right].undoer = &move_effect_journal_undo_enabling_castling_right;
   move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
   move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
-  move_effect_doers[move_effect_forget_ghost].redoer = &move_effect_journal_redo_forget_ghost;
-  move_effect_doers[move_effect_forget_ghost].undoer = &move_effect_journal_undo_forget_ghost;
   move_effect_doers[move_effect_half_neutral_deneutralisation].redoer = &redo_half_neutral_deneutralisation;
   move_effect_doers[move_effect_half_neutral_deneutralisation].undoer = &undo_half_neutral_deneutralisation;
   move_effect_doers[move_effect_half_neutral_neutralisation].redoer = &redo_half_neutral_neutralisation;
@@ -1580,8 +1577,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_remember_duellist].undoer = &move_effect_journal_undo_remember_duellist;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
-  move_effect_doers[move_effect_remember_ghost].redoer = &move_effect_journal_redo_remember_ghost;
-  move_effect_doers[move_effect_remember_ghost].undoer = &move_effect_journal_undo_remember_ghost;
   move_effect_doers[move_effect_remember_parachuted].redoer = &move_effect_journal_redo_circe_parachute_remember;
   move_effect_doers[move_effect_remember_parachuted].undoer = &move_effect_journal_undo_circe_parachute_remember;
   move_effect_doers[move_effect_remember_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_remember;
