@@ -156,12 +156,13 @@ position/king_square$(OBJ_SUFFIX): position/king_square.c position/king_square.h
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- conditions/actuated_revolving_centre.h solving/machinery/solve.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
- solving/move_effect_journal.h solving/ply.h solving/pipe.h
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum pieces/walks/vectors.h \
+ conditions/actuated_revolving_centre.h solving/pipe.h debugging/assert.h
 
 position/king_square.h:
 
@@ -195,6 +196,20 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
 position/position.h:
 
 position/color.h:
@@ -203,22 +218,10 @@ position/color.enum.h:
 
 position/color.enum:
 
-position/pieceid.h:
-
 pieces/walks/vectors.h:
-
-position/castling_rights.h:
 
 conditions/actuated_revolving_centre.h:
 
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-debugging/trace.h:
-
-solving/move_effect_journal.h:
-
-solving/ply.h:
-
 solving/pipe.h:
+
+debugging/assert.h:

@@ -1,8 +1,8 @@
 #include "position/king_square.h"
 #include "position/position.h"
 #include "conditions/actuated_revolving_centre.h"
-#include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
+#include "debugging/assert.h"
 
 /* Update the king squares according to the effects since king_square_horizon
  * @note Updates king_square_horizon; solvers invoking this function should
@@ -204,6 +204,91 @@ void king_square_updater_solve(slice_index si)
     pipe_solve_delegate(si);
     king_square_horizon = save_horizon;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Add king square piece_movement to the current move of the current ply
+ * @param reason reason for moving the king square
+ * @param side whose king square to move
+ * @param to where to move the king square
+ */
+void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
+                                                 Side side,
+                                                 square to)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_king_square_movement,reason);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceEnumerator(Side,side);
+  TraceSquare(to);
+  TraceFunctionParamListEnd();
+
+  entry->u.king_square_movement.side = side;
+  entry->u.king_square_movement.from = being_solved.king_square[side];
+  entry->u.king_square_movement.to = to;
+
+  being_solved.king_square[side] = to;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_king_square_movement(move_effect_journal_entry_type const *entry)
+{
+  Side const side = entry->u.king_square_movement.side;
+  square const from = entry->u.king_square_movement.from;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side);
+  TraceSquare(from);
+  TraceSquare(entry->u.king_square_movement.to);
+  TraceEOL();
+
+  assert(being_solved.king_square[side]==entry->u.king_square_movement.to);
+
+  being_solved.king_square[side] = from;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_king_square_movement(move_effect_journal_entry_type const *entry)
+{
+  Side const side = entry->u.king_square_movement.side;
+  square const to = entry->u.king_square_movement.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side);
+  TraceSquare(entry->u.king_square_movement.from);
+  TraceSquare(to);
+  TraceEOL();
+
+  assert(being_solved.king_square[side]==entry->u.king_square_movement.from);
+
+  being_solved.king_square[side] = to;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void king_square_initialise(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  being_solved.king_square[White] = initsquare;
+  being_solved.king_square[Black] = initsquare;
+
+  move_effect_journal_set_effect_doers(move_effect_king_square_movement,
+                                       &undo_king_square_movement,
+                                       &redo_king_square_movement);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -7,6 +7,7 @@
  */
 
 #include "stipulation/stipulation.h"
+#include "solving/move_effect_journal.h"
 
 /* Update the king squares according to the effects since king_square_horizon
  * @note Updates king_square_horizon; solvers invoking this function should
@@ -28,5 +29,16 @@ void update_king_squares(void);
  *            (with n denominating solve_nr_remaining)
  */
 void king_square_updater_solve(slice_index si);
+
+/* Add king square piece_movement to the current move of the current ply
+ * @param reason reason for moving the king square
+ * @param side whose king square to move
+ * @param to where to move the king square
+ */
+void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
+                                                 Side side,
+                                                 square to);
+
+void king_square_initialise(void);
 
 #endif

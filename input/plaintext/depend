@@ -1718,7 +1718,7 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  solving/move_generator.h solving/pipe.h solving/incomplete.h \
  stipulation/pipe.h stipulation/branch.h stipulation/modifier.h \
- debugging/assert.h
+ position/king_square.h debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1853,6 +1853,8 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/modifier.h:
+
+position/king_square.h:
 
 debugging/assert.h:
 input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \
