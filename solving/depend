@@ -139,10 +139,9 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/pipe.h solving/machinery/twin.h \
  solving/proofgames.h stipulation/slice_insertion.h \
- input/plaintext/condition.h input/plaintext/token.h \
- input/plaintext/language.h input/plaintext/stipulation.h \
- input/plaintext/sstipulation.h debugging/assert.h \
- conditions/actuated_revolving_centre.h
+ input/plaintext/token.h input/plaintext/language.h \
+ input/plaintext/stipulation.h input/plaintext/sstipulation.h \
+ debugging/assert.h conditions/actuated_revolving_centre.h
 
 solving/move_effect_journal.h:
 
@@ -243,8 +242,6 @@ solving/machinery/twin.h:
 solving/proofgames.h:
 
 stipulation/slice_insertion.h:
-
-input/plaintext/condition.h:
 
 input/plaintext/token.h:
 

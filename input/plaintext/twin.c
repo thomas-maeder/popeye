@@ -279,6 +279,64 @@ static char *ParseTwinningSubstitute(void)
   return tok;
 }
 
+static move_effect_journal_index_type find_original_condition(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+  move_effect_journal_index_type curr;
+
+  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_input_condition)
+      return curr;
+
+  return move_effect_journal_index_null;
+}
+
+/* Remember the original condition for restoration after the condition has been
+ * modified by a twinning
+ * @param start input position at start of parsing the condition
+ */
+static void move_effect_journal_do_remember_condition(fpos_t start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_condition,
+                                                                                    move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.input_complex.start = start;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_input_condition(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(nbply==ply_twinning || nbply==ply_diagram_setup);
+
+  InitCond();
+
+  /* restore the original condition (if any) if we are undoing a
+   * condition twinning
+   */
+  if (nbply==ply_twinning)
+  {
+    move_effect_journal_index_type const idx_cond = find_original_condition();
+    if (idx_cond!=move_effect_journal_index_null)
+    {
+      move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
+      InputStartReplay(cond->u.input_complex.start);
+      ParseCond(ReadNextTokStr());
+      InputEndReplay();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static char *ParseTwinning(char *tok,
                            slice_index start,
                            unsigned int twin_number)
@@ -380,6 +438,10 @@ static char *ParseTwinning(char *tok,
           InitCond();
           tok = ReadNextTokStr();
           tok = ParseCond(tok);
+          /* we don't redo a condition twinning */
+          move_effect_journal_set_effect_doers(move_effect_input_condition,
+                                               &undo_input_condition,
+                                               0);
           move_effect_journal_do_remember_condition(beforeCond);
           break;
         }

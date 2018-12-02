@@ -451,12 +451,6 @@ void move_effect_journal_do_twinning_polish(void);
 void move_effect_journal_do_twinning_substitute(piece_walk_type from,
                                                 piece_walk_type to);
 
-/* Remember the original condition for restoration after the condition has been
- * modified by a twinning
- * @param start input position at start of parsing the condition
- */
-void move_effect_journal_do_remember_condition(fpos_t start);
-
 /* Remove the current stipulation for restoration after the stipulation has
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
