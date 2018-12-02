@@ -264,6 +264,10 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 
+        /* we don't redo the position reset */
+        move_effect_journal_set_effect_doers(move_effect_atob_reset_position_for_target,
+                                             &move_effect_journal_undo_atob_reset_position_for_target,
+                                             0);
         move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_diagram_setup);
 
         break;

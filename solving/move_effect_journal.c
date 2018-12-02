@@ -5,7 +5,6 @@
 #include "solving/castling.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
-#include "solving/proofgames.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -1136,7 +1135,6 @@ void move_effect_journal_init_move_effect_doers(void)
     move_effect_doers[t].redoer = &move_effect_none_do;
   }
 
-  move_effect_doers[move_effect_atob_reset_position_for_target].undoer = &move_effect_journal_undo_atob_reset_position_for_target;
   move_effect_doers[move_effect_board_transformation].redoer = &redo_board_transformation;
   move_effect_doers[move_effect_board_transformation].undoer = &undo_board_transformation;
   move_effect_doers[move_effect_disable_castling_right].redoer = &move_effect_journal_redo_disabling_castling_right;
