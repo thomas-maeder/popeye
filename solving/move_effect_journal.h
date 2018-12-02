@@ -374,13 +374,6 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
                                          square on,
                                          Flags to);
 
-/* Add transforming the board to the current move of the current ply
- * @param reason reason for moving the king square
- * @param transformation how to transform the board
- */
-void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
-                                                 SquareTransformation transformation);
-
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square
  * @param sq_arrival arrival square

@@ -1,10 +1,12 @@
 # -*- Makefile -*-
 #
 SRC_CFILES = side.c color.c position.c board.c pieceid.c underworld.c \
-        move_diff_code.c king_square.c piece_readdition.c piece_creation.c
+        move_diff_code.c king_square.c piece_readdition.c piece_creation.c \
+        board_transformation.c
 
 INCLUDES = side.h side.enum.h side.enum color.h color.enum.h color.enum \
         position.h board.h pieceid.h underworld.h move_diff_code.h castling_rights.h \
-         king_square.h piece_readdition.h piece_creation.h
+         king_square.h piece_readdition.h piece_creation.h \
+        board_transformation.h
 
 include makefile.rules $(CURRPWD)depend
