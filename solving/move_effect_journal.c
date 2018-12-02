@@ -8,7 +8,6 @@
 #include "stipulation/modifier.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
-#include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/sat.h"
 #include "conditions/circe/parachute.h"
@@ -1412,6 +1411,8 @@ static void undo_insert_stipulation(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
+#include "conditions/actuated_revolving_centre.h"
+
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
  * @param followed_id id of the piece to be followed
@@ -1541,8 +1542,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_atob_reset_position_for_target].undoer = &move_effect_journal_undo_atob_reset_position_for_target;
   move_effect_doers[move_effect_board_transformation].redoer = &redo_board_transformation;
   move_effect_doers[move_effect_board_transformation].undoer = &undo_board_transformation;
-  move_effect_doers[move_effect_centre_revolution].redoer = &redo_centre_revolution;
-  move_effect_doers[move_effect_centre_revolution].undoer = &undo_centre_revolution;
   move_effect_doers[move_effect_disable_castling_right].redoer = &move_effect_journal_redo_disabling_castling_right;
   move_effect_doers[move_effect_disable_castling_right].undoer = &move_effect_journal_undo_disabling_castling_right;
   move_effect_doers[move_effect_enable_castling_right].redoer = &move_effect_journal_redo_enabling_castling_right;
