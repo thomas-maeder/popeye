@@ -685,54 +685,6 @@ static void redo_side_change(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-/* Complete blocking of a square
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_square_block(move_effect_reason_type reason,
-                                         square square)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_square_block,reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(square);
-  TraceFunctionParamListEnd();
-
-  entry->u.square_block.square = square;
-
-  block_square(square);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_square_block(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.square_block.square;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  empty_square(on);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void redo_square_block(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.square_block.square;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  block_square(on);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Add king square piece_movement to the current move of the current ply
  * @param reason reason for moving the king square
  * @param side whose king square to move
@@ -1056,107 +1008,6 @@ void move_effect_journal_do_null_move(void)
   TraceFunctionResultEnd();
 }
 
-static void do_polish(void)
-{
-  {
-    square const king_square_white = being_solved.king_square[White];
-    being_solved.king_square[White] = being_solved.king_square[Black];
-    being_solved.king_square[Black] = king_square_white;
-  }
-
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (!is_square_empty(*bnp))
-      {
-        Side const to = TSTFLAG(being_solved.spec[*bnp],White) ? Black : White;
-        if (!TSTFLAG(being_solved.spec[*bnp],to))
-        {
-          --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(*bnp)];
-          piece_change_side(&being_solved.spec[*bnp]);
-          occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),being_solved.spec[*bnp]);
-          ++being_solved.number_of_pieces[to][get_walk_of_piece_on_square(*bnp)];
-        }
-      }
-  }
-}
-
-/* Execute a Polish type twinning
- */
-void move_effect_journal_do_twinning_polish(void)
-{
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_allocate_entry(move_effect_twinning_polish,move_effect_reason_twinning);
-  do_polish();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_twinning_polish(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  do_polish();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void do_substitute_all(piece_walk_type from, piece_walk_type to)
-{
-  square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(from);
-  TraceWalk(to);
-  TraceFunctionParamListEnd();
-
-  for (bnp = boardnum; *bnp; bnp++)
-    if (get_walk_of_piece_on_square(*bnp)==from)
-      move_effect_journal_do_walk_change(move_effect_reason_twinning,*bnp,to);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Execute a twinning that substitutes a walk for another
- */
-void move_effect_journal_do_twinning_substitute(piece_walk_type from,
-                                                piece_walk_type to)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_twinning_substitute,move_effect_reason_twinning);
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(from);
-  TraceWalk(to);
-  TraceFunctionParamListEnd();
-
-  entry->u.piece_change.from = from;
-  entry->u.piece_change.to = to;
-  entry->u.piece_change.on = initsquare;
-
-  do_substitute_all(from,to);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_twinning_substitute(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  /* nothing */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 #include "conditions/actuated_revolving_centre.h"
 
 /* Follow the captured or a moved piece through the "other" effects of a move
@@ -1313,10 +1164,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
   move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
   move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
-  move_effect_doers[move_effect_square_block].redoer = &redo_square_block;
-  move_effect_doers[move_effect_square_block].undoer = &undo_square_block;
-  move_effect_doers[move_effect_twinning_polish].undoer = &undo_twinning_polish;
-  move_effect_doers[move_effect_twinning_substitute].undoer = &undo_twinning_substitute;
 }
 
 void move_effect_journal_set_effect_doers(move_effect_type type,
