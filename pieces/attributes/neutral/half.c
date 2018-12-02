@@ -39,7 +39,7 @@ static void do_deneutralisation(square on, Side to)
 /* Undo the deneutralisation a half-neutral piece
  * @param curr identifies the deneutralisation effect
  */
-void undo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
+static void undo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.half_neutral_phase_change.on;
   Side const to = entry->u.half_neutral_phase_change.side;
@@ -56,7 +56,7 @@ void undo_half_neutral_deneutralisation(move_effect_journal_entry_type const *en
 
 /* Redo the deneutralisation a half-neutral piece
  */
-void redo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
+static void redo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.half_neutral_phase_change.on;
   Side const to = entry->u.half_neutral_phase_change.side;
@@ -97,7 +97,7 @@ static void do_neutralisation(square on)
 /* Undo the neutralisation a half-neutral piece
  * @param curr identifies the neutralisation effect
  */
-void undo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
+static void undo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.half_neutral_phase_change.on;
   Side const from = entry->u.half_neutral_phase_change.side;
@@ -118,7 +118,7 @@ void undo_half_neutral_neutralisation(move_effect_journal_entry_type const *entr
 
 /* Redo the neutralisation a half-neutral piece
  */
-void redo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
+static void redo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.half_neutral_phase_change.on;
   Side const from = entry->u.half_neutral_phase_change.side;
@@ -187,6 +187,13 @@ void solving_insert_half_neutral_recolorers(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+
+  move_effect_journal_set_effect_doers(move_effect_half_neutral_deneutralisation,
+                                       &undo_half_neutral_deneutralisation,
+                                       &redo_half_neutral_deneutralisation);
+  move_effect_journal_set_effect_doers(move_effect_half_neutral_neutralisation,
+                                       &undo_half_neutral_neutralisation,
+                                       &redo_half_neutral_neutralisation);
 
   stip_instrument_moves(si,STPiecesHalfNeutralRecolorer);
 

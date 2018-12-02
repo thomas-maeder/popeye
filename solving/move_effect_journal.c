@@ -1,6 +1,5 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/hunters.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
@@ -8,7 +7,6 @@
 #include "stipulation/modifier.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
-#include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
@@ -1543,11 +1541,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_enable_castling_right].undoer = &move_effect_journal_undo_enabling_castling_right;
   move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
   move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
-  move_effect_doers[move_effect_half_neutral_deneutralisation].redoer = &redo_half_neutral_deneutralisation;
-  move_effect_doers[move_effect_half_neutral_deneutralisation].undoer = &undo_half_neutral_deneutralisation;
-  move_effect_doers[move_effect_half_neutral_neutralisation].redoer = &redo_half_neutral_neutralisation;
-  move_effect_doers[move_effect_half_neutral_neutralisation].undoer = &undo_half_neutral_neutralisation;
-  move_effect_doers[move_effect_hunter_type_definition].undoer = &move_effect_journal_undo_hunter_type_definition;
   move_effect_doers[move_effect_input_condition].undoer = &undo_input_condition;
   move_effect_doers[move_effect_input_sstipulation].undoer = &undo_insert_stipulation;
   move_effect_doers[move_effect_input_stipulation].undoer = &undo_insert_stipulation;

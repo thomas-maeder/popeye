@@ -6,22 +6,6 @@
 
 /* This module implements half-neutral pieces */
 
-/* Undo the deneutralisation a half-neutral piece
- */
-void undo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry);
-
-/* Redo the deneutralisation a half-neutral piece
- */
-void redo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry);
-
-/* Undo the neutralisation a half-neutral piece
- */
-void undo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry);
-
-/* Redo the neutralisation a half-neutral piece
- */
-void redo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
