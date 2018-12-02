@@ -68,7 +68,7 @@ square actuated_revolving_centre_revolve_square(square s)
  * @param reason reason for moving the king square
  * @param transformation how to transform the board
  */
-static void move_effect_journal_do_centre_revolution(move_effect_reason_type reason)
+static void do_centre_revolution(move_effect_reason_type reason)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -143,7 +143,7 @@ void actuated_revolving_centre_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (does_move_trigger_revolution())
-    move_effect_journal_do_centre_revolution(move_effect_reason_actuate_revolving_centre);
+    do_centre_revolution(move_effect_reason_actuate_revolving_centre);
 
   pipe_solve_delegate(si);
 
