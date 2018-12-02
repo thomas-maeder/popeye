@@ -1,5 +1,6 @@
 #include "conditions/kobul.h"
 #include "pieces/walks/classification.h"
+#include "position/king_square.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/move.h"

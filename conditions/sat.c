@@ -3,6 +3,7 @@
 #include "pieces/walks/vectors.h"
 #include "pieces/walks/generate_moves.h"
 #include "position/position.h"
+#include "position/king_square.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"

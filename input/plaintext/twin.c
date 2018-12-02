@@ -193,6 +193,61 @@ static char *ParseTwinningMirror(void)
   return ReadNextTokStr();
 }
 
+static void do_shift(square from, square to)
+{
+  echiquier board = { 0 };
+  Flags spec[maxsquare+5] = { 0 };
+  int const vector = to-from;
+
+  square const *bnp;
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (!is_square_empty(*bnp))
+    {
+      square const to = *bnp + vector;
+      board[to] = being_solved.board[*bnp];
+      spec[to] = being_solved.spec[*bnp];
+      being_solved.board[*bnp] = Empty;
+      CLEARFL(being_solved.spec[*bnp]);
+    }
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (board[*bnp]!=Empty)
+    {
+      being_solved.board[*bnp] = board[*bnp];
+      being_solved.spec[*bnp] = spec[*bnp];
+    }
+}
+
+/* Execute a twinning that shifts the entire position
+ */
+static void move_effect_journal_do_twinning_shift(square from, square to)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_twinning_shift,move_effect_reason_twinning);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.twinning_shift.from = from;
+  entry->u.twinning_shift.to = to;
+
+  do_shift(from,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  do_shift(entry->u.twinning_shift.to,entry->u.twinning_shift.from);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static char *ParseTwinningShift(void)
 {
   char *tok = ReadNextTokStr();
@@ -218,7 +273,14 @@ static char *ParseTwinningShift(void)
     else
     {
       if (twin_twinning_shift_validate(sq1,sq2))
+      {
+        /* we don't redo shift twinnings */
+        move_effect_journal_set_effect_doers(move_effect_twinning_shift,
+                                             &undo_twinning_shift,
+                                             0);
+
         move_effect_journal_do_twinning_shift(sq1,sq2);
+      }
       else
         output_plaintext_error_message(PieceOutside);
 

@@ -138,8 +138,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/modifier.h input/plaintext/token.h \
- input/plaintext/language.h debugging/assert.h \
+ stipulation/pipe.h stipulation/modifier.h debugging/assert.h \
  conditions/actuated_revolving_centre.h
 
 solving/move_effect_journal.h:
@@ -239,10 +238,6 @@ stipulation/traversal.h:
 stipulation/pipe.h:
 
 stipulation/modifier.h:
-
-input/plaintext/token.h:
-
-input/plaintext/language.h:
 
 debugging/assert.h:
 
