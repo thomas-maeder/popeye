@@ -222,7 +222,7 @@ static void move_effect_journal_do_snapshot_proofgame_target_position(move_effec
  * @param entry address of move effect journal entry that represents taking the
  *              restored snapshot
  */
-void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -338,6 +338,10 @@ void proof_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* we don't redo saving the target position */
+  move_effect_journal_set_effect_doers(move_effect_snapshot_proofgame_target_position,
+                                       &move_effect_journal_undo_snapshot_proofgame_target_position,
+                                       0);
   move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
 
   being_solved = proofgames_start_position;

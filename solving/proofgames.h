@@ -61,12 +61,6 @@ void proof_solve(slice_index si);
  */
 void proof_verify_unique_goal_solve(slice_index si);
 
-/* Restore the current position to the target position of a proofgame or A=>B stipulation
- * @param entry address of move effect journal entry that represents taking the
- *              restored snapshot
- */
-void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry);
-
 void move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_type reason);
 void move_effect_journal_undo_atob_reset_position_for_target(move_effect_journal_entry_type const *entry);
 
