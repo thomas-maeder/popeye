@@ -319,15 +319,6 @@ void move_effect_journal_reset(slice_index si);
 move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_type type,
                                                                    move_effect_reason_type reason);
 
-/* Add moving a piece to the current move of the current ply
- * @param reason reason for moving the piece
- * @param from current position of the piece
- * @param to where to move the piece
- */
-void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
-                                           square from,
-                                           square to);
-
 /* Fill the capture gap at the head of each move by no capture
  */
 void move_effect_journal_do_no_piece_removal(void);

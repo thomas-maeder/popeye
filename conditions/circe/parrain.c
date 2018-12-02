@@ -6,7 +6,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/fork.h"
 #include "solving/binary.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_movement.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "position/piece_creation.h"
