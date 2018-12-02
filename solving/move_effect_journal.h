@@ -451,10 +451,6 @@ void move_effect_journal_do_twinning_polish(void);
 void move_effect_journal_do_twinning_substitute(piece_walk_type from,
                                                 piece_walk_type to);
 
-/* Execute a twinning that shifts the entire position
- */
-void move_effect_journal_do_twinning_shift(square from, square to);
-
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
  * @param followed_id id of the piece to be followed
@@ -497,27 +493,6 @@ void move_effect_journal_set_effect_doers(move_effect_type type,
 
 
 extern move_effect_journal_index_type king_square_horizon;
-
-/* Update the king squares according to the effects since king_square_horizon
- * @note Updates king_square_horizon; solvers invoking this function should
- *       reset king_square_horizon to its previous value before returning
- */
-void update_king_squares(void);
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void king_square_updater_solve(slice_index si);
 
 /* Determine the departure square of a moveplayed
  * Assumes that the move has a single moving piece (i.e. is not a castling).

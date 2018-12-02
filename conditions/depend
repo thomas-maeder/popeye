@@ -147,11 +147,11 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  solving/machinery/dispatch.h debugging/trace.h conditions/conditions.h \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h options/options.h input/plaintext/language.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h solving/conditional_pipe.h \
- solving/temporary_hacks.h solving/post_move_iteration.h \
- solving/observation.h solving/ply.h solving/move_effect_journal.h \
+ position/castling_rights.h position/king_square.h options/options.h \
+ input/plaintext/language.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h solving/conditional_pipe.h solving/temporary_hacks.h \
+ solving/post_move_iteration.h solving/observation.h solving/ply.h \
  output/plaintext/message.h output/message.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/detect_retraction.h stipulation/pipe.h \
@@ -170,7 +170,8 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  output/plaintext/language_dependant.h input/plaintext/twin.h \
  input/plaintext/token.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ solving/move_effect_journal.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -230,6 +231,8 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
+position/king_square.h:
+
 options/options.h:
 
 input/plaintext/language.h:
@@ -251,8 +254,6 @@ solving/post_move_iteration.h:
 solving/observation.h:
 
 solving/ply.h:
-
-solving/move_effect_journal.h:
 
 output/plaintext/message.h:
 
@@ -309,6 +310,8 @@ conditions/mummer.h:
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
 
 solving/machinery/twin.h:
 
@@ -1282,7 +1285,7 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h position/side.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h pieces/walks/vectors.h pieces/walks/generate_moves.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum solving/has_solution_type.h \
+ position/color.enum position/king_square.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1356,6 +1359,8 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/king_square.h:
 
 solving/has_solution_type.h:
 
@@ -1662,9 +1667,9 @@ conditions/oscillating_kings$(OBJ_SUFFIX): conditions/oscillating_kings.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
  output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/king_square.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -1732,6 +1737,8 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/king_square.h:
 
 solving/has_solution_type.h:
 
@@ -2603,7 +2610,7 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \
  solving/machinery/dispatch.h debugging/trace.h \
  pieces/walks/classification.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
- pieces/walks/vectors.h position/castling_rights.h \
+ pieces/walks/vectors.h position/castling_rights.h position/king_square.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -2672,6 +2679,8 @@ position/pieceid.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+position/king_square.h:
 
 solving/has_solution_type.h:
 

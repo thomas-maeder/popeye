@@ -1,5 +1,6 @@
 #include "conditions/oscillating_kings.h"
 #include "conditions/conditions.h"
+#include "position/king_square.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
