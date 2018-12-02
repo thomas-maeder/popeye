@@ -17,26 +17,6 @@ extern castling_rights_type castling_flags_no_castling;
 #define SETCASTLINGFLAGMASK(side,mask) SETFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
 #define CLRCASTLINGFLAGMASK(side,mask) CLRFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
 
-/* Undo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Redo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Undo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Redo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry);
-
 /* Enable castling rights for the piece that just arrived (for whatever reason)
  * on a square
  * @param reason why

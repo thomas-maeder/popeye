@@ -1,8 +1,8 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "position/position.h"
 #include "position/pieceid.h"
-#include "solving/castling.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "stipulation/stipulation.h"
@@ -1137,10 +1137,6 @@ void move_effect_journal_init_move_effect_doers(void)
 
   move_effect_doers[move_effect_board_transformation].redoer = &redo_board_transformation;
   move_effect_doers[move_effect_board_transformation].undoer = &undo_board_transformation;
-  move_effect_doers[move_effect_disable_castling_right].redoer = &move_effect_journal_redo_disabling_castling_right;
-  move_effect_doers[move_effect_disable_castling_right].undoer = &move_effect_journal_undo_disabling_castling_right;
-  move_effect_doers[move_effect_enable_castling_right].redoer = &move_effect_journal_redo_enabling_castling_right;
-  move_effect_doers[move_effect_enable_castling_right].undoer = &move_effect_journal_undo_enabling_castling_right;
   move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
   move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
   move_effect_doers[move_effect_king_square_movement].redoer = &redo_king_square_movement;

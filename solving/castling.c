@@ -133,7 +133,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -150,7 +150,7 @@ void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -192,7 +192,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -209,7 +209,7 @@ void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -521,6 +521,12 @@ void solving_initialise_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_set_effect_doers(move_effect_disable_castling_right,
+                                       &move_effect_journal_undo_disabling_castling_right,
+                                       &move_effect_journal_redo_disabling_castling_right);
+  move_effect_journal_set_effect_doers(move_effect_enable_castling_right,
+                                       &move_effect_journal_undo_enabling_castling_right,
+                                       &move_effect_journal_redo_enabling_castling_right);
   solving_instrument_move_generation(si,nr_sides,STCastlingGenerator);
 
   /* TODO both not necessary behind STCastlingIntermediateMoveLegalityTester */
