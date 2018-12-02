@@ -50,7 +50,8 @@ static void HandleAddedPiece(square s, void *param)
 
   if (!is_square_empty(s))
   {
-    move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,s);
+    if (nbply!=ply_twinning)
+      move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,s);
     move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
   }
 
