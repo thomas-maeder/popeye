@@ -416,13 +416,6 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
 void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
                                                  SquareTransformation transformation);
 
-/* Complete blocking of a square
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_square_block(move_effect_reason_type reason,
-                                         square square);
-
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square
  * @param sq_arrival arrival square
@@ -441,15 +434,6 @@ void move_effect_journal_do_null_effect(void);
 /* Add the effects of a null move to the current move of the current ply
  */
 void move_effect_journal_do_null_move(void);
-
-/* Execute a Polish type twinning
- */
-void move_effect_journal_do_twinning_polish(void);
-
-/* Execute a twinning that substitutes a walk for another
- */
-void move_effect_journal_do_twinning_substitute(piece_walk_type from,
-                                                piece_walk_type to);
 
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
