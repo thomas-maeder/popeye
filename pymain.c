@@ -5,6 +5,7 @@
 #include "platform/priority.h"
 #include "position/piece_creation.h"
 #include "position/piece_readdition.h"
+#include "position/board_transformation.h"
 #include "input/commandline.h"
 #include "input/plaintext/token.h"
 #include "stipulation/pipe.h"
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
 
   position_piece_creation_initialise();
   position_piece_readdition_initialise();
+  position_board_transformation_initialise();
 
   {
     slice_index const parser = alloc_command_line_options_parser(argc,argv);

@@ -24,6 +24,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "position/underworld.h"
 #include "position/piece_creation.h"
+#include "position/board_transformation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"

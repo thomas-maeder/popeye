@@ -2054,8 +2054,9 @@ conditions/actuated_revolving_board$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h solving/pipe.h debugging/assert.h
+ position/board_transformation.h solving/move_effect_journal.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/actuated_revolving_board.h:
 
@@ -2126,6 +2127,8 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+position/board_transformation.h:
 
 solving/move_effect_journal.h:
 
