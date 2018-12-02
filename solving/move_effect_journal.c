@@ -1163,7 +1163,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
   move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
-  move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
 }
 
 void move_effect_journal_set_effect_doers(move_effect_type type,
