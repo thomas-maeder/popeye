@@ -59,7 +59,7 @@ piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
     return nr_piece_walks;
 }
 
-void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -253,6 +253,11 @@ void solving_initialise_hunters(slice_index root)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
+
+  /* we don't redo hunter type defnitions */
+  move_effect_journal_set_effect_doers(move_effect_hunter_type_definition,
+                                       &move_effect_journal_undo_hunter_type_definition,
+                                       0);
 
   if (nrhuntertypes>0 || piece_walk_exists[RookHunter] || piece_walk_exists[BishopHunter])
   {

@@ -29,8 +29,6 @@ piece_walk_type hunter_find_type(piece_walk_type away, piece_walk_type home);
  */
 piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home);
 
-void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry);
-
 void hunter_generate_moves(void);
 boolean hunter_check(validator_id evaluate);
 
