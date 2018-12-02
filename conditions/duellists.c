@@ -42,7 +42,7 @@ static void remember_duellist(Side side, square to)
 
 /* Undo remembering a duellist
  */
-void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.duellist.side;
   square const from = entry->u.duellist.from;
@@ -58,7 +58,7 @@ void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type c
 
 /* Redo remembering a duellist
  */
-void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.duellist.side;
   square const to = entry->u.duellist.to;
@@ -115,6 +115,10 @@ void solving_insert_duellists(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_duellist,
+                                       &move_effect_journal_undo_remember_duellist,
+                                       &move_effect_journal_redo_remember_duellist);
 
   stip_instrument_moves(si,STDuellistsRememberDuellist);
 

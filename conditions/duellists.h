@@ -15,14 +15,6 @@ extern square duellists[nr_sides];
  */
 mummer_length_type duellists_measure_length(void);
 
-/* Undo remembering a duellist
- */
-void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry);
-
-/* Redo remembering a duellist
- */
-void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

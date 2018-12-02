@@ -6,7 +6,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/modifier.h"
-#include "conditions/duellists.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
@@ -1566,8 +1565,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_piece_readdition].undoer = &undo_piece_readdition;
   move_effect_doers[move_effect_piece_removal].redoer = &redo_piece_removal;
   move_effect_doers[move_effect_piece_removal].undoer = &undo_piece_removal;
-  move_effect_doers[move_effect_remember_duellist].redoer = &move_effect_journal_redo_remember_duellist;
-  move_effect_doers[move_effect_remember_duellist].undoer = &move_effect_journal_undo_remember_duellist;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
   move_effect_doers[move_effect_remove_stipulation].undoer = &undo_remove_stipulation;
