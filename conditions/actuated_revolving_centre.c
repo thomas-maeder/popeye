@@ -10,21 +10,6 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void solving_insert_actuated_revolving_centre(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STActuatedRevolvingCentre);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void occupy(square dest, piece_walk_type pi_src, Flags spec_src)
 {
   assert(pi_src!=Invalid);
@@ -95,7 +80,7 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_centre_revolution(move_effect_journal_entry_type const *entry)
+static void undo_centre_revolution(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -106,7 +91,7 @@ void undo_centre_revolution(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void redo_centre_revolution(move_effect_journal_entry_type const *entry)
+static void redo_centre_revolution(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -161,6 +146,25 @@ void actuated_revolving_centre_solve(slice_index si)
     move_effect_journal_do_centre_revolution(move_effect_reason_actuate_revolving_centre);
 
   pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void solving_insert_actuated_revolving_centre(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_centre_revolution,
+                                       &undo_centre_revolution,
+                                       &redo_centre_revolution);
+
+  stip_instrument_moves(si,STActuatedRevolvingCentre);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

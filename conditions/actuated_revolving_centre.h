@@ -26,9 +26,6 @@ void solving_insert_actuated_revolving_centre(slice_index si);
  */
 void actuated_revolving_centre_solve(slice_index si);
 
-void undo_centre_revolution(move_effect_journal_entry_type const *entry);
-void redo_centre_revolution(move_effect_journal_entry_type const *entry);
-
 /* Apply revolution to one square
  * @param s the square
  * @return revolved square
