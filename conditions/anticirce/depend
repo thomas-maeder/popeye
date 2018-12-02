@@ -25,8 +25,8 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  solving/move_generator.h stipulation/pipe.h stipulation/branch.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/move.h solving/pipe.h \
- debugging/assert.h
+ solving/has_solution_type.enum stipulation/move.h \
+ position/piece_removal.h solving/pipe.h debugging/assert.h
 
 conditions/anticirce/anticirce.h:
 
@@ -137,6 +137,8 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 stipulation/move.h:
+
+position/piece_removal.h:
 
 solving/pipe.h:
 

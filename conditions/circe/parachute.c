@@ -1,6 +1,7 @@
 #include "conditions/circe/parachute.h"
 #include "position/position.h"
 #include "position/piece_readdition.h"
+#include "position/piece_removal.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/haunted_chess.h"

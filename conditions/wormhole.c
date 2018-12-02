@@ -10,6 +10,7 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
 #include "position/piece_readdition.h"
+#include "position/piece_removal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 

@@ -220,99 +220,6 @@ void move_effect_journal_do_no_piece_removal(void)
   TraceFunctionResultEnd();
 }
 
-static void push_removal_elmt(move_effect_reason_type reason, square from)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_removal,reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(being_solved.board[from]);TraceEOL();
-
-  entry->u.piece_removal.on = from;
-  entry->u.piece_removal.walk = get_walk_of_piece_on_square(from);
-  entry->u.piece_removal.flags = being_solved.spec[from];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void do_removal(square from)
-{
-  piece_walk_type const removed = get_walk_of_piece_on_square(from);
-  Flags const removedspec = being_solved.spec[from];
-
-  assert(!is_square_empty(from));
-
-  if (TSTFLAG(removedspec,White))
-    --being_solved.number_of_pieces[White][removed];
-  if (TSTFLAG(removedspec,Black))
-    --being_solved.number_of_pieces[Black][removed];
-
-  empty_square(from);
-}
-
-/* Add removing a piece to the current move of the current ply
- * @param reason reason for removing the piece
- * @param from current position of the piece
- * @note use move_effect_journal_do_capture_move(), not
- * move_effect_journal_do_piece_removal() for regular captures
- */
-void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
-                                          square from)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",GetPieceId(being_solved.spec[from]));
-  TraceEOL();
-
-  push_removal_elmt(reason,from);
-  do_removal(from);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_piece_removal(move_effect_journal_entry_type const *entry)
-{
-  square const from = entry->u.piece_removal.on;
-  piece_walk_type const removed = entry->u.piece_removal.walk;
-  Flags const removedspec = entry->u.piece_removal.flags;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  occupy_square(from,removed,removedspec);
-
-  if (TSTFLAG(removedspec,White))
-    ++being_solved.number_of_pieces[White][removed];
-  if (TSTFLAG(removedspec,Black))
-    ++being_solved.number_of_pieces[Black][removed];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void redo_piece_removal(move_effect_journal_entry_type const *entry)
-{
-  square const from = entry->u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(entry->u.piece_removal.walk);TraceEOL();
-
-  do_removal(from);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void do_walk_change(square on, piece_walk_type to)
 {
   if (TSTFLAG(being_solved.spec[on],White))
@@ -612,6 +519,7 @@ static void redo_flags_change(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
+#include "position/piece_removal.h"
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square
  * @param sq_arrival arrival square
@@ -633,8 +541,7 @@ void move_effect_journal_do_capture_move(square sq_departure,
   TraceValue("%u",GetPieceId(being_solved.spec[sq_capture]));
   TraceEOL();
 
-  push_removal_elmt(removal_reason,sq_capture);
-  do_removal(sq_capture);
+  move_effect_journal_do_piece_removal(removal_reason,sq_capture);
 
   push_movement_elmt(move_effect_reason_moving_piece_movement,sq_departure,sq_arrival);
   do_movement(sq_departure,sq_arrival);
@@ -806,8 +713,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_piece_exchange].undoer = &undo_piece_exchange;
   move_effect_doers[move_effect_piece_movement].redoer = &redo_piece_movement;
   move_effect_doers[move_effect_piece_movement].undoer = &undo_piece_movement;
-  move_effect_doers[move_effect_piece_removal].redoer = &redo_piece_removal;
-  move_effect_doers[move_effect_piece_removal].undoer = &undo_piece_removal;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;

@@ -5,6 +5,7 @@
 #include "platform/priority.h"
 #include "position/piece_creation.h"
 #include "position/piece_readdition.h"
+#include "position/piece_removal.h"
 #include "position/board_transformation.h"
 #include "input/commandline.h"
 #include "input/plaintext/token.h"
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
   move_effect_journal_init_move_effect_doers();
 
   position_piece_creation_initialise();
+  position_piece_removal_initialise();
   position_piece_readdition_initialise();
   position_board_transformation_initialise();
 
