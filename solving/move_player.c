@@ -1,7 +1,7 @@
 #include "solving/move_player.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_movement.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"

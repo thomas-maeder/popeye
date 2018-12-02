@@ -25,8 +25,9 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/anticirce/anticirce.h \
- solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- stipulation/move.h stipulation/pipe.h stipulation/branch.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ position/piece_movement.h solving/pipe.h stipulation/move.h \
+ stipulation/pipe.h stipulation/branch.h \
  optimisations/orthodox_check_directions.h debugging/assert.h
 
 conditions/marscirce/marscirce.h:
@@ -136,6 +137,8 @@ conditions/circe/relevant_side.h:
 conditions/anticirce/anticirce.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+position/piece_movement.h:
 
 solving/pipe.h:
 

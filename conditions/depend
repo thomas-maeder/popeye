@@ -4171,8 +4171,8 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/move.h solving/castling.h solving/move_generator.h \
  solving/post_move_iteration.h solving/observation.h \
- solving/temporary_hacks.h solving/check.h solving/pipe.h solving/fork.h \
- debugging/assert.h
+ solving/temporary_hacks.h position/piece_movement.h solving/check.h \
+ solving/pipe.h solving/fork.h debugging/assert.h
 
 conditions/castling_chess.h:
 
@@ -4275,6 +4275,8 @@ solving/post_move_iteration.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+position/piece_movement.h:
 
 solving/check.h:
 

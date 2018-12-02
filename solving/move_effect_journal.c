@@ -3,6 +3,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "position/pieceid.h"
+#include "position/piece_movement.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "stipulation/stipulation.h"
@@ -97,111 +98,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void push_movement_elmt(move_effect_reason_type reason,
-                               square from,
-                               square to)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_movement,reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParamListEnd();
-
-  entry->u.piece_movement.moving = get_walk_of_piece_on_square(from);
-  entry->u.piece_movement.movingspec = being_solved.spec[from];
-  entry->u.piece_movement.from = from;
-  entry->u.piece_movement.to = to;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void do_movement(square from, square to)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParamListEnd();
-
-  if (to!=from)
-  {
-    occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
-    empty_square(from);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Add moving a piece to the current move of the current ply
- * @param reason reason for moving the piece
- * @param from current position of the piece
- * @param to where to move the piece
- */
-void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
-                                           square from,
-                                           square to)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",GetPieceId(being_solved.spec[from]));
-  TraceEOL();
-
-  push_movement_elmt(reason,from,to);
-  do_movement(from,to);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_piece_movement(move_effect_journal_entry_type const *entry)
-{
-  square const from = entry->u.piece_movement.from;
-  square const to = entry->u.piece_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(from);TraceSquare(to);TraceWalk(being_solved.board[to]);TraceEOL();
-
-  if (to!=from)
-  {
-    occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
-    empty_square(to);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void redo_piece_movement(move_effect_journal_entry_type const *entry)
-{
-  square const from = entry->u.piece_movement.from;
-  square const to = entry->u.piece_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceEOL();
-
-  if (to!=from)
-  {
-    occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
-    empty_square(from);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Fill the capture gap at the head of each move by no capture
@@ -542,9 +438,9 @@ void move_effect_journal_do_capture_move(square sq_departure,
   TraceEOL();
 
   move_effect_journal_do_piece_removal(removal_reason,sq_capture);
-
-  push_movement_elmt(move_effect_reason_moving_piece_movement,sq_departure,sq_arrival);
-  do_movement(sq_departure,sq_arrival);
+  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                        sq_departure,
+                                        sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -711,8 +607,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_piece_change].undoer = &undo_piece_change;
   move_effect_doers[move_effect_piece_exchange].redoer = &redo_piece_exchange;
   move_effect_doers[move_effect_piece_exchange].undoer = &undo_piece_exchange;
-  move_effect_doers[move_effect_piece_movement].redoer = &redo_piece_movement;
-  move_effect_doers[move_effect_piece_movement].undoer = &undo_piece_movement;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;

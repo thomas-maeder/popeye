@@ -19,6 +19,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
+#include "position/piece_movement.h"
 #include "conditions/conditions.h"
 
 #include "debugging/assert.h"
