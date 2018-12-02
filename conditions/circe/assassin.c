@@ -4,7 +4,7 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "solving/observation.h"
 #include "solving/check.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_removal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"

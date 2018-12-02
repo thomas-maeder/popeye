@@ -332,15 +332,6 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
  */
 void move_effect_journal_do_no_piece_removal(void);
 
-/* Add removing a piece to the current move of the current ply
- * @param reason reason for removing the piece
- * @param from current position of the piece
- * @note use move_effect_journal_do_capture_move(), not
- * move_effect_journal_do_piece_removal() for regular captures
- */
-void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
-                                          square from);
-
 /* Add changing the walk of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed

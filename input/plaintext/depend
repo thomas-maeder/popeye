@@ -282,7 +282,7 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/output.h output/latex/latex.h output/plaintext/plaintext.h \
- position/underworld.h position/piece_creation.h \
+ position/underworld.h position/piece_creation.h position/piece_removal.h \
  pieces/attributes/neutral/neutral.h pieces/walks/hunters.h \
  solving/observation.h solving/temporary_hacks.h \
  conditions/circe/parachute.h
@@ -421,6 +421,8 @@ position/underworld.h:
 
 position/piece_creation.h:
 
+position/piece_removal.h:
+
 pieces/attributes/neutral/neutral.h:
 
 pieces/walks/hunters.h:
@@ -473,13 +475,13 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  options/stoponshortsolutions/stoponshortsolutions.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
  position/underworld.h position/piece_creation.h \
- position/board_transformation.h stipulation/pipe.h stipulation/branch.h \
- stipulation/help_play/branch.h stipulation/battle_play/branch.h \
- stipulation/proxy.h stipulation/modifier.h \
- solving/goals/prerequisite_guards.h solving/pipe.h solving/duplex.h \
- solving/proofgames.h solving/zeroposition.h utilities/table.h \
- platform/maxmem.h platform/maxtime.h debugging/measure.h \
- debugging/assert.h
+ position/board_transformation.h position/piece_removal.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/help_play/branch.h \
+ stipulation/battle_play/branch.h stipulation/proxy.h \
+ stipulation/modifier.h solving/goals/prerequisite_guards.h \
+ solving/pipe.h solving/duplex.h solving/proofgames.h \
+ solving/zeroposition.h utilities/table.h platform/maxmem.h \
+ platform/maxtime.h debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -648,6 +650,8 @@ position/underworld.h:
 position/piece_creation.h:
 
 position/board_transformation.h:
+
+position/piece_removal.h:
 
 stipulation/pipe.h:
 

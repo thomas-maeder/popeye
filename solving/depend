@@ -138,7 +138,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/pipe.h stipulation/modifier.h debugging/assert.h \
- conditions/actuated_revolving_centre.h
+ position/piece_removal.h conditions/actuated_revolving_centre.h
 
 solving/move_effect_journal.h:
 
@@ -235,6 +235,8 @@ stipulation/pipe.h:
 stipulation/modifier.h:
 
 debugging/assert.h:
+
+position/piece_removal.h:
 
 conditions/actuated_revolving_centre.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \

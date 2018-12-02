@@ -4311,8 +4311,8 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/observation.h solving/temporary_hacks.h solving/move_generator.h \
  pieces/walks/angle/angles.h stipulation/pipe.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/move.h \
- solving/post_move_iteration.h solving/pipe.h solving/fork.h \
- debugging/assert.h
+ solving/post_move_iteration.h position/piece_removal.h solving/pipe.h \
+ solving/fork.h debugging/assert.h
 
 conditions/imitator.h:
 
@@ -4431,6 +4431,8 @@ stipulation/branch.h:
 stipulation/move.h:
 
 solving/post_move_iteration.h:
+
+position/piece_removal.h:
 
 solving/pipe.h:
 
@@ -7001,7 +7003,7 @@ conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
  position/castling_rights.h position/pieceid.h \
  stipulation/slice_insertion.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/piece_readdition.h \
- solving/pipe.h debugging/assert.h
+ position/piece_removal.h solving/pipe.h debugging/assert.h
 
 conditions/wormhole.h:
 
@@ -7108,6 +7110,8 @@ position/color.enum.h:
 position/color.enum:
 
 position/piece_readdition.h:
+
+position/piece_removal.h:
 
 solving/pipe.h:
 
@@ -7977,8 +7981,8 @@ conditions/lostpieces$(OBJ_SUFFIX): conditions/lostpieces.c conditions/lostpiece
  solving/battle_play/threat.h solving/ply.h utilities/table.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h solving/conditional_pipe.h \
- solving/move_effect_journal.h solving/temporary_hacks.h \
- debugging/assert.h
+ position/piece_removal.h solving/move_effect_journal.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 conditions/lostpieces.h:
 
@@ -8081,6 +8085,8 @@ solving/has_solution_type.enum:
 solving/pipe.h:
 
 solving/conditional_pipe.h:
+
+position/piece_removal.h:
 
 solving/move_effect_journal.h:
 

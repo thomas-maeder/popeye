@@ -9,6 +9,7 @@
 #include "stipulation/move.h"
 #include "solving/temporary_hacks.h"
 #include "pieces/pieces.h"
+#include "position/piece_removal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"

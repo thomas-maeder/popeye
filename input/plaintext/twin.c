@@ -25,6 +25,7 @@
 #include "position/underworld.h"
 #include "position/piece_creation.h"
 #include "position/board_transformation.h"
+#include "position/piece_removal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"
