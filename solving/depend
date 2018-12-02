@@ -137,15 +137,14 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/pipe.h stipulation/modifier.h conditions/duellists.h \
- conditions/mummer.h conditions/imitator.h conditions/haunted_chess.h \
- position/underworld.h conditions/sat.h conditions/circe/parachute.h \
- pieces/walks/pawns/en_passant.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h solving/pipe.h solving/machinery/twin.h \
- solving/proofgames.h stipulation/slice_insertion.h \
- input/plaintext/condition.h input/plaintext/token.h \
- input/plaintext/language.h input/plaintext/stipulation.h \
- input/plaintext/sstipulation.h debugging/assert.h \
- conditions/actuated_revolving_centre.h
+ conditions/mummer.h conditions/imitator.h conditions/sat.h \
+ conditions/circe/parachute.h pieces/walks/pawns/en_passant.h \
+ pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
+ solving/pipe.h solving/machinery/twin.h solving/proofgames.h \
+ stipulation/slice_insertion.h input/plaintext/condition.h \
+ input/plaintext/token.h input/plaintext/language.h \
+ input/plaintext/stipulation.h input/plaintext/sstipulation.h \
+ debugging/assert.h conditions/actuated_revolving_centre.h
 
 solving/move_effect_journal.h:
 
@@ -244,10 +243,6 @@ conditions/duellists.h:
 conditions/mummer.h:
 
 conditions/imitator.h:
-
-conditions/haunted_chess.h:
-
-position/underworld.h:
 
 conditions/sat.h:
 

@@ -12,14 +12,17 @@
 /* Remember the ghost from the current capture
  */
 void move_effect_journal_do_remember_ghost(void);
-void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type const *entry);
-void move_effect_journal_redo_remember_ghost(move_effect_journal_entry_type const *entry);
 
 /* Forget a ghost "below" a square (typically because it is on the board now)
  */
 void move_effect_journal_do_forget_ghost(underworld_index_type const summoned);
-void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const *entry);
-void move_effect_journal_redo_forget_ghost(move_effect_journal_entry_type const *entry);
+
+/* Make sure the effects of remembering and forgetting ghosts are properly
+ * undone and redone
+ * @note Must be invoked once during initialisation if
+ *       move_effect_journal_do...() are going to be invoked
+ */
+void haunted_chess_initialise_move_doers(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -53,6 +56,7 @@ void haunted_chess_ghost_rememberer_solve(slice_index si);
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
+ * @note invokes haunted_chess_initialise_move_doers()
  */
 void solving_insert_haunted_chess(slice_index si);
 

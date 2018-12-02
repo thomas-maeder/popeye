@@ -54,6 +54,8 @@ void solving_insert_ghost_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  haunted_chess_initialise_move_doers();
+
   stip_instrument_moves(si,STGhostChessGhostRememberer);
   stip_instrument_moves(si,STHauntedChessGhostSummoner);
 

@@ -324,6 +324,8 @@ void circe_parachute_initialise_solving(slice_index si,
   TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
+  haunted_chess_initialise_move_doers();
+
   circe_insert_rebirth_avoider(si,
                                interval_start,
                                STCirceDeterminedRebirth,
