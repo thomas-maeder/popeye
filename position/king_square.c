@@ -278,6 +278,7 @@ static void redo_king_square_movement(move_effect_journal_entry_type const *entr
   TraceFunctionResultEnd();
 }
 
+/* Initalise the module */
 void king_square_initialise(void)
 {
   TraceFunctionEntry(__func__);

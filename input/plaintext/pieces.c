@@ -6,6 +6,7 @@
 #include "output/output.h"
 #include "output/latex/latex.h"
 #include "position/underworld.h"
+#include "position/piece_creation.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/circe/parachute.h"

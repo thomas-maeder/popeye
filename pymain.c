@@ -3,6 +3,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "platform/priority.h"
+#include "position/piece_creation.h"
 #include "position/piece_readdition.h"
 #include "input/commandline.h"
 #include "input/plaintext/token.h"
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
 
   move_effect_journal_init_move_effect_doers();
 
+  position_piece_creation_initialise();
   position_piece_readdition_initialise();
 
   {

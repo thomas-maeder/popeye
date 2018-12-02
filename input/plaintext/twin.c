@@ -23,6 +23,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
 #include "position/underworld.h"
+#include "position/piece_creation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"

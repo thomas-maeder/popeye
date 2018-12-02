@@ -148,8 +148,8 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h position/king_square.h \
- solving/move_effect_journal.h solving/ply.h options/options.h \
- input/plaintext/language.h solving/has_solution_type.h \
+ solving/move_effect_journal.h solving/ply.h position/piece_creation.h \
+ options/options.h input/plaintext/language.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/pipe.h solving/conditional_pipe.h solving/temporary_hacks.h \
  solving/post_move_iteration.h solving/observation.h \
@@ -236,6 +236,8 @@ position/king_square.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/piece_creation.h:
 
 options/options.h:
 
@@ -2159,8 +2161,8 @@ conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/move_effect_journal.h \
- solving/ply.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum solving/pipe.h position/piece_creation.h \
+ solving/move_effect_journal.h solving/ply.h debugging/assert.h
 
 conditions/sentinelles.h:
 
@@ -2250,11 +2252,13 @@ solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
 
+solving/pipe.h:
+
+position/piece_creation.h:
+
 solving/move_effect_journal.h:
 
 solving/ply.h:
-
-solving/pipe.h:
 
 debugging/assert.h:
 conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h \

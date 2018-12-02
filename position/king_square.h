@@ -39,6 +39,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
                                                  Side side,
                                                  square to);
 
+/* Initalise the module */
 void king_square_initialise(void);
 
 #endif
