@@ -9,7 +9,6 @@
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
 #include "conditions/sat.h"
-#include "conditions/circe/parachute.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
@@ -1577,10 +1576,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_remember_duellist].undoer = &move_effect_journal_undo_remember_duellist;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
-  move_effect_doers[move_effect_remember_parachuted].redoer = &move_effect_journal_redo_circe_parachute_remember;
-  move_effect_doers[move_effect_remember_parachuted].undoer = &move_effect_journal_undo_circe_parachute_remember;
-  move_effect_doers[move_effect_remember_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_remember;
-  move_effect_doers[move_effect_remember_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_remember;
   move_effect_doers[move_effect_remove_stipulation].undoer = &undo_remove_stipulation;
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
   move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
@@ -1589,8 +1584,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_square_block].undoer = &undo_square_block;
   move_effect_doers[move_effect_strict_sat_adjustment].redoer = &move_effect_journal_redo_strict_sat_adjustment;
   move_effect_doers[move_effect_strict_sat_adjustment].undoer = &move_effect_journal_undo_strict_sat_adjustment;
-  move_effect_doers[move_effect_swap_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_swap;
-  move_effect_doers[move_effect_swap_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_swap;
   move_effect_doers[move_effect_twinning_polish].undoer = &undo_twinning_polish;
   move_effect_doers[move_effect_twinning_shift].undoer = &undo_twinning_shift;
   move_effect_doers[move_effect_twinning_substitute].undoer = &undo_twinning_substitute;

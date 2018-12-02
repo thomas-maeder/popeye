@@ -67,18 +67,12 @@ void circe_volcanic_swapper_solve(slice_index si);
  */
 void circe_parachute_uncoverer_solve(slice_index si);
 
-void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry);
-void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry);
-
+/* Remember the piece on a square as volcanic for a reason
+ * @param reason the reason
+ * @param pos the square
+ */
 void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason,
-                                                    square sq_rebirth);
-void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry);
-void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry);
-
-void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
-                                                square on);
-void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry);
-void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry);
+                                                    square pos);
 
 /* Initialise the solving machinery with Circe Parachute
  * @param si identifies root slice of stipulation
