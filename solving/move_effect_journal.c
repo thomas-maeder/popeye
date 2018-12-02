@@ -7,7 +7,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/modifier.h"
 #include "conditions/duellists.h"
-#include "conditions/imitator.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
@@ -1550,10 +1549,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_half_neutral_neutralisation].redoer = &redo_half_neutral_neutralisation;
   move_effect_doers[move_effect_half_neutral_neutralisation].undoer = &undo_half_neutral_neutralisation;
   move_effect_doers[move_effect_hunter_type_definition].undoer = &move_effect_journal_undo_hunter_type_definition;
-  move_effect_doers[move_effect_imitator_addition].redoer = &redo_imitator_addition;
-  move_effect_doers[move_effect_imitator_addition].undoer = &undo_imitator_addition;
-  move_effect_doers[move_effect_imitator_movement].redoer = &redo_imitator_movement;
-  move_effect_doers[move_effect_imitator_movement].undoer = &undo_imitator_movement;
   move_effect_doers[move_effect_input_condition].undoer = &undo_input_condition;
   move_effect_doers[move_effect_input_sstipulation].undoer = &undo_insert_stipulation;
   move_effect_doers[move_effect_input_stipulation].undoer = &undo_insert_stipulation;
