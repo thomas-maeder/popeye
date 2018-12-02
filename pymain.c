@@ -36,6 +36,8 @@ static void checkGlobalAssumptions(void)
   enforce_piecename_uniqueness();
 }
 
+void move_effect_journal_init_move_effect_redoers(void);
+
 int main(int argc, char *argv[])
 {
   checkGlobalAssumptions();
@@ -45,6 +47,8 @@ int main(int argc, char *argv[])
   initialise_slice_properties();
   init_structure_children_visitors();
   init_moves_children_visitors();
+
+  move_effect_journal_init_move_effect_redoers();
 
   {
     slice_index const parser = alloc_command_line_options_parser(argc,argv);
