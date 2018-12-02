@@ -41,7 +41,7 @@ static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_t
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -52,7 +52,7 @@ void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -65,8 +65,12 @@ void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry
   TraceFunctionResultEnd();
 }
 
+/* Remember the piece on a square as volcanic for a reason
+ * @param reason the reason
+ * @param pos the square
+ */
 void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason,
-                                                    square sq_rebirth)
+                                                    square pos)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remember_volcanic,reason);
 
@@ -74,9 +78,9 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
 
-  entry->u.handle_ghost.ghost.on = sq_rebirth;
-  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  entry->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
+  entry->u.handle_ghost.ghost.on = pos;
+  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(pos);
+  entry->u.handle_ghost.ghost.flags = being_solved.spec[pos];
 
   TraceSquare(entry->u.handle_ghost.ghost.on);
   TraceWalk(entry->u.handle_ghost.ghost.walk);
@@ -91,7 +95,7 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -102,7 +106,7 @@ void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -115,8 +119,8 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
-                                                square on)
+static void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
+                                                       square on)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_swap_volcanic,reason);
 
@@ -137,7 +141,7 @@ void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -148,7 +152,7 @@ void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -326,6 +330,16 @@ void circe_parachute_initialise_solving(slice_index si,
 
   haunted_chess_initialise_move_doers();
 
+  move_effect_journal_set_effect_doers(move_effect_remember_parachuted,
+                                       &move_effect_journal_undo_circe_parachute_remember,
+                                       &move_effect_journal_redo_circe_parachute_remember);
+  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_remember,
+                                       &move_effect_journal_redo_circe_volcanic_remember);
+  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_swap,
+                                       &move_effect_journal_redo_circe_volcanic_swap);
+
   circe_insert_rebirth_avoider(si,
                                interval_start,
                                STCirceDeterminedRebirth,
@@ -357,6 +371,13 @@ void circe_volcanic_initialise_solving(slice_index si,
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_remember,
+                                       &move_effect_journal_redo_circe_volcanic_remember);
+  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_swap,
+                                       &move_effect_journal_redo_circe_volcanic_swap);
 
   circe_insert_rebirth_avoider(si,
                                interval_start,

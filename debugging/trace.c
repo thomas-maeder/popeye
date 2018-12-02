@@ -323,6 +323,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
   }
 }
 
+#include "position/underworld.h"
 static void TraceCurrentMove(void)
 {
   if (level<=max_level)
@@ -332,6 +333,7 @@ static void TraceCurrentMove(void)
                                 stdout,
                                 &output_plaintext_symbol_table);
     fprintf(stdout," CURRMOVE_OF_PLY(nbply):%d",CURRMOVE_OF_PLY(nbply));
+    fprintf(stdout," nr_ghosts:%u",nr_ghosts);
     fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
   }
