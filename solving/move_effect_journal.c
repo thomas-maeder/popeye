@@ -684,75 +684,6 @@ static void redo_side_change(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-/* Add king square piece_movement to the current move of the current ply
- * @param reason reason for moving the king square
- * @param side whose king square to move
- * @param to where to move the king square
- */
-void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
-                                                 Side side,
-                                                 square to)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_king_square_movement,reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceEnumerator(Side,side);
-  TraceSquare(to);
-  TraceFunctionParamListEnd();
-
-  entry->u.king_square_movement.side = side;
-  entry->u.king_square_movement.from = being_solved.king_square[side];
-  entry->u.king_square_movement.to = to;
-
-  being_solved.king_square[side] = to;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_king_square_movement(move_effect_journal_entry_type const *entry)
-{
-  Side const side = entry->u.king_square_movement.side;
-  square const from = entry->u.king_square_movement.from;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,side);
-  TraceSquare(from);
-  TraceSquare(entry->u.king_square_movement.to);
-  TraceEOL();
-
-  assert(being_solved.king_square[side]==entry->u.king_square_movement.to);
-
-  being_solved.king_square[side] = from;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void redo_king_square_movement(move_effect_journal_entry_type const *entry)
-{
-  Side const side = entry->u.king_square_movement.side;
-  square const to = entry->u.king_square_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,side);
-  TraceSquare(entry->u.king_square_movement.from);
-  TraceSquare(to);
-  TraceEOL();
-
-  assert(being_solved.king_square[side]==entry->u.king_square_movement.from);
-
-  being_solved.king_square[side] = to;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Add changing the flags of a piece to the current move of the current ply
  * @param reason reason for moving the king square
  * @param on position of pieces whose flags to piece_change
@@ -1139,8 +1070,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_board_transformation].undoer = &undo_board_transformation;
   move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
   move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
-  move_effect_doers[move_effect_king_square_movement].redoer = &redo_king_square_movement;
-  move_effect_doers[move_effect_king_square_movement].undoer = &undo_king_square_movement;
   move_effect_doers[move_effect_piece_change].redoer = &redo_piece_change;
   move_effect_doers[move_effect_piece_change].undoer = &undo_piece_change;
   move_effect_doers[move_effect_piece_creation].redoer = &redo_piece_creation;

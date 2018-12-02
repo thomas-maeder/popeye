@@ -9,6 +9,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/modifier.h"
+#include "position/king_square.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
@@ -45,8 +46,7 @@ static void InitBoard(void)
   for (bnp = boardnum; *bnp; bnp++)
     empty_square(*bnp);
 
-  being_solved.king_square[White] = initsquare;
-  being_solved.king_square[Black] = initsquare;
+  king_square_initialise();
 
   being_solved.currPieceId = NullPieceId;
 }

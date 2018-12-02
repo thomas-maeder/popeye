@@ -8,6 +8,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/orphan.h"
 #include "position/underworld.h"
+#include "position/king_square.h"
 #include "conditions/conditions.h"
 #include "conditions/alphabetic.h"
 #include "conditions/anticirce/anticirce.h"
@@ -257,7 +258,7 @@ static boolean locate_royals(void)
   return result;
 }
 
-/* Initialise piece flags from conditions, the pieces themselve etc.
+/* Initialise piece flags from conditions, the pieces themselves etc.
  */
 static void initialise_piece_flags(void)
 {

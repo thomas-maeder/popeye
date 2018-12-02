@@ -392,15 +392,6 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
 void move_effect_journal_do_side_change(move_effect_reason_type reason,
                                         square on);
 
-/* Add king square piece_movement to the current move of the current ply
- * @param reason reason for moving the king square
- * @param side whose king square to move
- * @param to where to move the king square
- */
-void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
-                                                 Side side,
-                                                 square to);
-
 /* Add changing the flags of a piece to the current move of the current ply
  * @param reason reason for moving the king square
  * @param on position of pieces whose flags to piece_change
