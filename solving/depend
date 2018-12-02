@@ -124,11 +124,11 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h solving/castling.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum solving/pipe.h solving/machinery/twin.h \
- stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ solving/pipe.h solving/machinery/twin.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -191,8 +191,6 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
-
-solving/castling.h:
 
 position/position.h:
 
