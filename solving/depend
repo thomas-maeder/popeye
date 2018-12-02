@@ -136,8 +136,8 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/modifier.h conditions/bgl.h \
- conditions/duellists.h conditions/mummer.h conditions/imitator.h \
+ stipulation/pipe.h stipulation/modifier.h conditions/duellists.h \
+ conditions/mummer.h conditions/imitator.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
  position/underworld.h conditions/sat.h conditions/circe/parachute.h \
  pieces/walks/pawns/en_passant.h pieces/attributes/neutral/neutral.h \
@@ -238,8 +238,6 @@ stipulation/traversal.h:
 stipulation/pipe.h:
 
 stipulation/modifier.h:
-
-conditions/bgl.h:
 
 conditions/duellists.h:
 

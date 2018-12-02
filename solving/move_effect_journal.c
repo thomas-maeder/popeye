@@ -6,7 +6,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/modifier.h"
-#include "conditions/bgl.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
@@ -1519,8 +1518,6 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
   return pos;
 }
 
-typedef void (*move_effect_doer)(move_effect_journal_entry_type const *);
-
 static struct
 {
     move_effect_doer undoer;
@@ -1541,71 +1538,76 @@ void move_effect_journal_init_move_effect_doers(void)
     move_effect_doers[t].redoer = &move_effect_none_do;
   }
 
-  move_effect_doers[move_effect_piece_movement].redoer = &redo_piece_movement;
-  move_effect_doers[move_effect_piece_readdition].redoer = &redo_piece_readdition;
-  move_effect_doers[move_effect_piece_creation].redoer = &redo_piece_creation;
-  move_effect_doers[move_effect_piece_removal].redoer = &redo_piece_removal;
-  move_effect_doers[move_effect_piece_change].redoer = &redo_piece_change;
-  move_effect_doers[move_effect_piece_exchange].redoer = &redo_piece_exchange;
-  move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
-  move_effect_doers[move_effect_king_square_movement].redoer = &redo_king_square_movement;
-  move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
+  move_effect_doers[move_effect_atob_reset_position_for_target].undoer = &move_effect_journal_undo_atob_reset_position_for_target;
   move_effect_doers[move_effect_board_transformation].redoer = &redo_board_transformation;
-  move_effect_doers[move_effect_centre_revolution].redoer = &redo_centre_revolution;
-  move_effect_doers[move_effect_imitator_addition].redoer = &redo_imitator_addition;
-  move_effect_doers[move_effect_imitator_movement].redoer = &redo_imitator_movement;
-  move_effect_doers[move_effect_remember_ghost].redoer = &move_effect_journal_redo_remember_ghost;
-  move_effect_doers[move_effect_forget_ghost].redoer = &move_effect_journal_redo_forget_ghost;
-  move_effect_doers[move_effect_half_neutral_deneutralisation].redoer = &redo_half_neutral_deneutralisation;
-  move_effect_doers[move_effect_half_neutral_neutralisation].redoer = &redo_half_neutral_neutralisation;
-  move_effect_doers[move_effect_square_block].redoer = &redo_square_block;
-  move_effect_doers[move_effect_bgl_adjustment].redoer = &move_effect_journal_redo_bgl_adjustment;
-  move_effect_doers[move_effect_strict_sat_adjustment].redoer = &move_effect_journal_redo_strict_sat_adjustment;
-  move_effect_doers[move_effect_disable_castling_right].redoer = &move_effect_journal_redo_disabling_castling_right;
-  move_effect_doers[move_effect_enable_castling_right].redoer = &move_effect_journal_redo_enabling_castling_right;
-  move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
-  move_effect_doers[move_effect_remember_duellist].redoer = &move_effect_journal_redo_remember_duellist;
-  move_effect_doers[move_effect_remember_parachuted].redoer = &move_effect_journal_redo_circe_parachute_remember;
-  move_effect_doers[move_effect_remember_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_remember;
-  move_effect_doers[move_effect_swap_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_swap;
-
-  move_effect_doers[move_effect_piece_movement].undoer = &undo_piece_movement;
-  move_effect_doers[move_effect_piece_readdition].undoer = &undo_piece_readdition;
-  move_effect_doers[move_effect_piece_creation].undoer = &undo_piece_creation;
-  move_effect_doers[move_effect_piece_removal].undoer = &undo_piece_removal;
-  move_effect_doers[move_effect_piece_change].undoer = &undo_piece_change;
-  move_effect_doers[move_effect_piece_exchange].undoer = &undo_piece_exchange;
-  move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
-  move_effect_doers[move_effect_king_square_movement].undoer = &undo_king_square_movement;
-  move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
   move_effect_doers[move_effect_board_transformation].undoer = &undo_board_transformation;
+  move_effect_doers[move_effect_centre_revolution].redoer = &redo_centre_revolution;
   move_effect_doers[move_effect_centre_revolution].undoer = &undo_centre_revolution;
-  move_effect_doers[move_effect_imitator_addition].undoer = &undo_imitator_addition;
-  move_effect_doers[move_effect_imitator_movement].undoer = &undo_imitator_movement;
-  move_effect_doers[move_effect_remember_ghost].undoer = &move_effect_journal_undo_remember_ghost;
-  move_effect_doers[move_effect_forget_ghost].undoer = &move_effect_journal_undo_forget_ghost;
-  move_effect_doers[move_effect_half_neutral_deneutralisation].undoer = &undo_half_neutral_deneutralisation;
-  move_effect_doers[move_effect_half_neutral_neutralisation].undoer = &undo_half_neutral_neutralisation;
-  move_effect_doers[move_effect_square_block].undoer = &undo_square_block;
-  move_effect_doers[move_effect_bgl_adjustment].undoer = &move_effect_journal_undo_bgl_adjustment;
-  move_effect_doers[move_effect_strict_sat_adjustment].undoer = &move_effect_journal_undo_strict_sat_adjustment;
+  move_effect_doers[move_effect_disable_castling_right].redoer = &move_effect_journal_redo_disabling_castling_right;
   move_effect_doers[move_effect_disable_castling_right].undoer = &move_effect_journal_undo_disabling_castling_right;
+  move_effect_doers[move_effect_enable_castling_right].redoer = &move_effect_journal_redo_enabling_castling_right;
   move_effect_doers[move_effect_enable_castling_right].undoer = &move_effect_journal_undo_enabling_castling_right;
-  move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
-  move_effect_doers[move_effect_remember_duellist].undoer = &move_effect_journal_undo_remember_duellist;
-  move_effect_doers[move_effect_remember_parachuted].undoer = &move_effect_journal_undo_circe_parachute_remember;
-  move_effect_doers[move_effect_remember_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_remember;
-  move_effect_doers[move_effect_swap_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_swap;
-  move_effect_doers[move_effect_twinning_polish].undoer = &undo_twinning_polish;
-  move_effect_doers[move_effect_twinning_substitute].undoer = &undo_twinning_substitute;
-  move_effect_doers[move_effect_twinning_shift].undoer = &undo_twinning_shift;
+  move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
+  move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
+  move_effect_doers[move_effect_forget_ghost].redoer = &move_effect_journal_redo_forget_ghost;
+  move_effect_doers[move_effect_forget_ghost].undoer = &move_effect_journal_undo_forget_ghost;
+  move_effect_doers[move_effect_half_neutral_deneutralisation].redoer = &redo_half_neutral_deneutralisation;
+  move_effect_doers[move_effect_half_neutral_deneutralisation].undoer = &undo_half_neutral_deneutralisation;
+  move_effect_doers[move_effect_half_neutral_neutralisation].redoer = &redo_half_neutral_neutralisation;
+  move_effect_doers[move_effect_half_neutral_neutralisation].undoer = &undo_half_neutral_neutralisation;
+  move_effect_doers[move_effect_hunter_type_definition].undoer = &move_effect_journal_undo_hunter_type_definition;
+  move_effect_doers[move_effect_imitator_addition].redoer = &redo_imitator_addition;
+  move_effect_doers[move_effect_imitator_addition].undoer = &undo_imitator_addition;
+  move_effect_doers[move_effect_imitator_movement].redoer = &redo_imitator_movement;
+  move_effect_doers[move_effect_imitator_movement].undoer = &undo_imitator_movement;
   move_effect_doers[move_effect_input_condition].undoer = &undo_input_condition;
   move_effect_doers[move_effect_input_sstipulation].undoer = &undo_insert_stipulation;
   move_effect_doers[move_effect_input_stipulation].undoer = &undo_insert_stipulation;
-  move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
-  move_effect_doers[move_effect_atob_reset_position_for_target].undoer = &move_effect_journal_undo_atob_reset_position_for_target;
-  move_effect_doers[move_effect_hunter_type_definition].undoer = &move_effect_journal_undo_hunter_type_definition;
+  move_effect_doers[move_effect_king_square_movement].redoer = &redo_king_square_movement;
+  move_effect_doers[move_effect_king_square_movement].undoer = &undo_king_square_movement;
+  move_effect_doers[move_effect_piece_change].redoer = &redo_piece_change;
+  move_effect_doers[move_effect_piece_change].undoer = &undo_piece_change;
+  move_effect_doers[move_effect_piece_creation].redoer = &redo_piece_creation;
+  move_effect_doers[move_effect_piece_creation].undoer = &undo_piece_creation;
+  move_effect_doers[move_effect_piece_exchange].redoer = &redo_piece_exchange;
+  move_effect_doers[move_effect_piece_exchange].undoer = &undo_piece_exchange;
+  move_effect_doers[move_effect_piece_movement].redoer = &redo_piece_movement;
+  move_effect_doers[move_effect_piece_movement].undoer = &undo_piece_movement;
+  move_effect_doers[move_effect_piece_readdition].redoer = &redo_piece_readdition;
+  move_effect_doers[move_effect_piece_readdition].undoer = &undo_piece_readdition;
+  move_effect_doers[move_effect_piece_removal].redoer = &redo_piece_removal;
+  move_effect_doers[move_effect_piece_removal].undoer = &undo_piece_removal;
+  move_effect_doers[move_effect_remember_duellist].redoer = &move_effect_journal_redo_remember_duellist;
+  move_effect_doers[move_effect_remember_duellist].undoer = &move_effect_journal_undo_remember_duellist;
+  move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
+  move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
+  move_effect_doers[move_effect_remember_ghost].redoer = &move_effect_journal_redo_remember_ghost;
+  move_effect_doers[move_effect_remember_ghost].undoer = &move_effect_journal_undo_remember_ghost;
+  move_effect_doers[move_effect_remember_parachuted].redoer = &move_effect_journal_redo_circe_parachute_remember;
+  move_effect_doers[move_effect_remember_parachuted].undoer = &move_effect_journal_undo_circe_parachute_remember;
+  move_effect_doers[move_effect_remember_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_remember;
+  move_effect_doers[move_effect_remember_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_remember;
   move_effect_doers[move_effect_remove_stipulation].undoer = &undo_remove_stipulation;
+  move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
+  move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
+  move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
+  move_effect_doers[move_effect_square_block].redoer = &redo_square_block;
+  move_effect_doers[move_effect_square_block].undoer = &undo_square_block;
+  move_effect_doers[move_effect_strict_sat_adjustment].redoer = &move_effect_journal_redo_strict_sat_adjustment;
+  move_effect_doers[move_effect_strict_sat_adjustment].undoer = &move_effect_journal_undo_strict_sat_adjustment;
+  move_effect_doers[move_effect_swap_volcanic].redoer = &move_effect_journal_redo_circe_volcanic_swap;
+  move_effect_doers[move_effect_swap_volcanic].undoer = &move_effect_journal_undo_circe_volcanic_swap;
+  move_effect_doers[move_effect_twinning_polish].undoer = &undo_twinning_polish;
+  move_effect_doers[move_effect_twinning_shift].undoer = &undo_twinning_shift;
+  move_effect_doers[move_effect_twinning_substitute].undoer = &undo_twinning_substitute;
+}
+
+void move_effect_journal_set_effect_doers(move_effect_type type,
+                                          move_effect_doer undoer,
+                                          move_effect_doer redoer)
+{
+  move_effect_doers[type].undoer = undoer;
+  move_effect_doers[type].redoer = redoer;
 }
 
 /* Redo the effects of the current move in ply nbply

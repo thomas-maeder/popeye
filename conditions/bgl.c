@@ -64,7 +64,7 @@ static void do_bgl_adjustment(Side side, long int diff)
 /* Undo a BGL adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.bgl_adjustment.side;
   long int const diff = entry->u.bgl_adjustment.diff;
@@ -84,7 +84,7 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type cons
 /* Redo a BGL adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_bgl_adjustment(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_bgl_adjustment(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.bgl_adjustment.side;
   long int const diff = entry->u.bgl_adjustment.diff;
@@ -238,6 +238,10 @@ void bgl_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_bgl_adjustment,
+                                       &move_effect_journal_undo_bgl_adjustment,
+                                       &move_effect_journal_redo_bgl_adjustment);
 
   {
     stip_structure_traversal st;
