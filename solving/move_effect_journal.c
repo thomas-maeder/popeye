@@ -8,7 +8,6 @@
 #include "stipulation/modifier.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
-#include "conditions/sat.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
@@ -1582,8 +1581,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
   move_effect_doers[move_effect_square_block].redoer = &redo_square_block;
   move_effect_doers[move_effect_square_block].undoer = &undo_square_block;
-  move_effect_doers[move_effect_strict_sat_adjustment].redoer = &move_effect_journal_redo_strict_sat_adjustment;
-  move_effect_doers[move_effect_strict_sat_adjustment].undoer = &move_effect_journal_undo_strict_sat_adjustment;
   move_effect_doers[move_effect_twinning_polish].undoer = &undo_twinning_polish;
   move_effect_doers[move_effect_twinning_shift].undoer = &undo_twinning_shift;
   move_effect_doers[move_effect_twinning_substitute].undoer = &undo_twinning_substitute;
