@@ -1,19 +1,16 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
+#include "pieces/walks/pawns/en_passant.h"
+#include "position/pieceid.h"
 #include "solving/castling.h"
+#include "solving/pipe.h"
+#include "solving/machinery/twin.h"
+#include "solving/proofgames.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/modifier.h"
-#include "pieces/walks/pawns/en_passant.h"
-#include "position/pieceid.h"
-#include "solving/pipe.h"
-#include "solving/machinery/twin.h"
-#include "solving/proofgames.h"
-#include "stipulation/slice_insertion.h"
 #include "input/plaintext/token.h"
-#include "input/plaintext/stipulation.h"
-#include "input/plaintext/sstipulation.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -1216,138 +1213,6 @@ static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-/* Remove the current stipulation for restoration after the stipulation has
- * been modified by a twinning
- * @param start input position at start of parsing the stipulation
- */
-void move_effect_journal_do_remove_stipulation(slice_index start)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remove_stipulation,move_effect_reason_diagram_setup);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",start);
-  TraceFunctionParamListEnd();
-
-  entry->u.remove_stipulation.start = start;
-  entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
-
-  entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
-  while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)
-    entry->u.remove_stipulation.last_removed = SLICE_NEXT1(entry->u.remove_stipulation.last_removed);
-
-  pipe_link(SLICE_PREV(entry->u.remove_stipulation.first_removed),
-            SLICE_NEXT1(entry->u.remove_stipulation.last_removed));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
-                                              entry->u.remove_stipulation.start,
-                                              stip_traversal_context_intro);
-    pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
-    pipe_link(entry->u.remove_stipulation.last_removed,end);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_with_stipulation(slice_index start,
-                                              slice_index stipulation)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_pipe(STStipulationCopier);
-    SLICE_NEXT2(prototype) = stipulation;
-    slice_insertion_insert(start,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the original stipulation for restoration after the stipulation has
- * been modified by a twinning
- * @param start input position at start of parsing the stipulation
- * @param stipulation identifies the entry slice into the stipulation
- */
-void move_effect_journal_do_insert_stipulation(slice_index start,
-                                               slice_index stipulation)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",start);
-  TraceFunctionParam("%u",stipulation);
-  TraceFunctionParamListEnd();
-
-  instrument_with_stipulation(start,stipulation);
-
-  entry->u.input_stipulation.start_index = start;
-  entry->u.input_stipulation.stipulation = stipulation;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the original stipulation for restoration after the stipulation has
- * been modified by a twinning
- * @param start input position at start of parsing the stipulation
- * @param stipulation identifies the entry slice into the stipulation
- */
-void move_effect_journal_do_insert_sstipulation(slice_index start,
-                                                  slice_index stipulation)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",start);
-  TraceFunctionParam("%u",stipulation);
-  TraceFunctionParamListEnd();
-
-  instrument_with_stipulation(start,stipulation);
-
-  entry->u.input_stipulation.start_index = start;
-  entry->u.input_stipulation.stipulation = stipulation;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_insert_stipulation(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const start = entry->u.input_stipulation.start_index;
-    slice_index si = branch_find_slice(STStipulationCopier,
-                                       start,
-                                       stip_traversal_context_intro);
-    assert(si!=no_slice);
-    dealloc_slices(SLICE_NEXT2(si));
-    while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
-    {
-      slice_index const next = SLICE_NEXT1(si);
-      pipe_remove(si);
-      si = next;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 #include "conditions/actuated_revolving_centre.h"
 
 /* Follow the captured or a moved piece through the "other" effects of a move
@@ -1485,8 +1350,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_enable_castling_right].undoer = &move_effect_journal_undo_enabling_castling_right;
   move_effect_doers[move_effect_flags_change].redoer = &redo_flags_change;
   move_effect_doers[move_effect_flags_change].undoer = &undo_flags_change;
-  move_effect_doers[move_effect_input_sstipulation].undoer = &undo_insert_stipulation;
-  move_effect_doers[move_effect_input_stipulation].undoer = &undo_insert_stipulation;
   move_effect_doers[move_effect_king_square_movement].redoer = &redo_king_square_movement;
   move_effect_doers[move_effect_king_square_movement].undoer = &undo_king_square_movement;
   move_effect_doers[move_effect_piece_change].redoer = &redo_piece_change;
@@ -1503,7 +1366,6 @@ void move_effect_journal_init_move_effect_doers(void)
   move_effect_doers[move_effect_piece_removal].undoer = &undo_piece_removal;
   move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
   move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
-  move_effect_doers[move_effect_remove_stipulation].undoer = &undo_remove_stipulation;
   move_effect_doers[move_effect_side_change].redoer = &redo_side_change;
   move_effect_doers[move_effect_side_change].undoer = &undo_side_change;
   move_effect_doers[move_effect_snapshot_proofgame_target_position].undoer = &move_effect_journal_undo_snapshot_proofgame_target_position;
