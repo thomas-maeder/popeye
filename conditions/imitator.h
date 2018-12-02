@@ -79,10 +79,4 @@ void imitator_pawn_promoter_solve(slice_index si);
  */
 void solving_insert_imitator(slice_index si);
 
-void undo_imitator_movement(move_effect_journal_entry_type const *entry);
-void redo_imitator_movement(move_effect_journal_entry_type const *entry);
-
-void undo_imitator_addition(move_effect_journal_entry_type const *entry);
-void redo_imitator_addition(move_effect_journal_entry_type const *entry);
-
 #endif

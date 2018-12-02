@@ -1008,7 +1008,7 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_movement(move_effect_journal_entry_type const *entry)
+static void undo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
   int const delta = entry->u.imitator_movement.delta;
 
@@ -1021,7 +1021,7 @@ void undo_imitator_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_movement(move_effect_journal_entry_type const *entry)
+static void redo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
   int const delta = entry->u.imitator_movement.delta;
 
@@ -1059,7 +1059,7 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_addition(move_effect_journal_entry_type const *entry)
+static void undo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1071,7 +1071,7 @@ void undo_imitator_addition(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_addition(move_effect_journal_entry_type const *entry)
+static void redo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
   square const to = entry->u.imitator_addition.to;
 
@@ -1304,6 +1304,13 @@ void solving_insert_imitator(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_imitator_addition,
+                                       &undo_imitator_addition,
+                                       &redo_imitator_addition);
+  move_effect_journal_set_effect_doers(move_effect_imitator_movement,
+                                       &undo_imitator_movement,
+                                       &redo_imitator_movement);
 
   {
     stip_structure_traversal st;
