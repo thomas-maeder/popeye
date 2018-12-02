@@ -3,6 +3,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "platform/priority.h"
+#include "position/piece_readdition.h"
 #include "input/commandline.h"
 #include "input/plaintext/token.h"
 #include "stipulation/pipe.h"
@@ -49,6 +50,8 @@ int main(int argc, char *argv[])
   init_moves_children_visitors();
 
   move_effect_journal_init_move_effect_doers();
+
+  position_piece_readdition_initialise();
 
   {
     slice_index const parser = alloc_command_line_options_parser(argc,argv);
