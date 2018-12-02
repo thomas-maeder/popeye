@@ -6,7 +6,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/modifier.h"
 #include "pieces/walks/pawns/en_passant.h"
-#include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
@@ -643,7 +642,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   TraceEnumerator(Side,to);
   TraceFunctionParamListEnd();
 
-  assert(!is_piece_neutral(being_solved.spec[on]));
+  assert(!TSTFLAG(being_solved.spec[on],to));
 
   entry->u.side_change.on = on;
   entry->u.side_change.to = to;
@@ -1073,13 +1072,16 @@ static void do_polish(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
+      if (!is_square_empty(*bnp))
       {
         Side const to = TSTFLAG(being_solved.spec[*bnp],White) ? Black : White;
-        --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(*bnp)];
-        piece_change_side(&being_solved.spec[*bnp]);
-        occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),being_solved.spec[*bnp]);
-        ++being_solved.number_of_pieces[to][get_walk_of_piece_on_square(*bnp)];
+        if (!TSTFLAG(being_solved.spec[*bnp],to))
+        {
+          --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(*bnp)];
+          piece_change_side(&being_solved.spec[*bnp]);
+          occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),being_solved.spec[*bnp]);
+          ++being_solved.number_of_pieces[to][get_walk_of_piece_on_square(*bnp)];
+        }
       }
   }
 }
