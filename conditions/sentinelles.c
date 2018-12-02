@@ -4,10 +4,10 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/has_solution_type.h"
-#include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/piece_creation.h"
 
 #include "debugging/assert.h"
 

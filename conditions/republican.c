@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
 #include "position/king_square.h"
+#include "position/piece_creation.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
 #include "input/plaintext/language.h"
