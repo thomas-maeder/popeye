@@ -4,12 +4,12 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
+#include "position/piece_readdition.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
