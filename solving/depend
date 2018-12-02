@@ -123,10 +123,13 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/castling.h position/position.h position/color.h \
- position/color.enum.h position/color.enum pieces/walks/vectors.h \
- stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/castling.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum solving/pipe.h solving/machinery/twin.h \
+ solving/proofgames.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -135,13 +138,9 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/modifier.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
- solving/temporary_hacks.h solving/pipe.h solving/machinery/twin.h \
- solving/proofgames.h stipulation/slice_insertion.h \
- input/plaintext/token.h input/plaintext/language.h \
- input/plaintext/stipulation.h input/plaintext/sstipulation.h \
- debugging/assert.h conditions/actuated_revolving_centre.h
+ stipulation/pipe.h stipulation/modifier.h input/plaintext/token.h \
+ input/plaintext/language.h debugging/assert.h \
+ conditions/actuated_revolving_centre.h
 
 solving/move_effect_journal.h:
 
@@ -187,6 +186,14 @@ solving/ply.h:
 
 position/pieceid.h:
 
+pieces/walks/pawns/en_passant.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
 solving/castling.h:
 
 position/position.h:
@@ -197,7 +204,11 @@ position/color.enum.h:
 
 position/color.enum:
 
-pieces/walks/vectors.h:
+solving/pipe.h:
+
+solving/machinery/twin.h:
+
+solving/proofgames.h:
 
 stipulation/branch.h:
 
@@ -229,27 +240,9 @@ stipulation/pipe.h:
 
 stipulation/modifier.h:
 
-pieces/walks/pawns/en_passant.h:
-
-solving/observation.h:
-
-solving/temporary_hacks.h:
-
-solving/pipe.h:
-
-solving/machinery/twin.h:
-
-solving/proofgames.h:
-
-stipulation/slice_insertion.h:
-
 input/plaintext/token.h:
 
 input/plaintext/language.h:
-
-input/plaintext/stipulation.h:
-
-input/plaintext/sstipulation.h:
 
 debugging/assert.h:
 

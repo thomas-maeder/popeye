@@ -1243,3 +1243,30 @@ char *ParseStructuredStip(char *tok, slice_index start)
   TraceFunctionResultEnd();
   return tok;
 }
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ * @param stipulation identifies the entry slice into the stipulation
+ */
+void move_effect_journal_do_insert_sstipulation(slice_index start,
+                                                  slice_index stipulation)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_input_sstipulation,
+                                       &move_effect_journal_undo_insert_stipulation,
+                                       0);
+  slice_instrument_with_stipulation(start,stipulation);
+
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.stipulation = stipulation;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

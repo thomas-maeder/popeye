@@ -1008,3 +1008,124 @@ char *ParseStip(char *tok, slice_index start)
   TraceFunctionResultEnd();
   return tok;
 }
+
+/* Instrument a slice sub-tree with a stipulatoin
+ * @param start where to insert
+ * @param stipulation template sub-tree to copy into slice structure at start
+ */
+void slice_instrument_with_stipulation(slice_index start,
+                                       slice_index stipulation)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STStipulationCopier);
+    SLICE_NEXT2(prototype) = stipulation;
+    slice_insertion_insert(start,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Reinstall the orginal stipulation while undoing a twnning */
+void move_effect_journal_undo_insert_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const start = entry->u.input_stipulation.start_index;
+    slice_index si = branch_find_slice(STStipulationCopier,
+                                       start,
+                                       stip_traversal_context_intro);
+    assert(si!=no_slice);
+    dealloc_slices(SLICE_NEXT2(si));
+    while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
+    {
+      slice_index const next = SLICE_NEXT1(si);
+      pipe_remove(si);
+      si = next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ * @param stipulation identifies the entry slice into the stipulation
+ */
+void move_effect_journal_do_insert_stipulation(slice_index start,
+                                               slice_index stipulation)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_input_stipulation,
+                                       &move_effect_journal_undo_insert_stipulation,
+                                       0);
+  slice_instrument_with_stipulation(start,stipulation);
+
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.stipulation = stipulation;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
+                                              entry->u.remove_stipulation.start,
+                                              stip_traversal_context_intro);
+    pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
+    pipe_link(entry->u.remove_stipulation.last_removed,end);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remove the current stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remove_stipulation(slice_index start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remove_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  /* we don't redo stipulation removals */
+  move_effect_journal_set_effect_doers(move_effect_remove_stipulation,
+                                       &undo_remove_stipulation,
+                                       0);
+
+  entry->u.remove_stipulation.start = start;
+  entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+
+  entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
+  while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)
+    entry->u.remove_stipulation.last_removed = SLICE_NEXT1(entry->u.remove_stipulation.last_removed);
+
+  pipe_link(SLICE_PREV(entry->u.remove_stipulation.first_removed),
+            SLICE_NEXT1(entry->u.remove_stipulation.last_removed));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
