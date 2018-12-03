@@ -322,13 +322,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
  */
 void move_effect_journal_do_no_piece_removal(void);
 
-/* Add changing the side of a piece to the current move of the current ply
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_side_change(move_effect_reason_type reason,
-                                        square on);
-
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square
  * @param sq_arrival arrival square

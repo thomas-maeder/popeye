@@ -25,8 +25,8 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/move.h stipulation/pipe.h \
- solving/post_move_iteration.h position/flags_change.h solving/pipe.h \
- debugging/assert.h
+ solving/post_move_iteration.h position/flags_change.h \
+ position/side_change.h solving/pipe.h debugging/assert.h
 
 pieces/attributes/hurdle_colour_changing.h:
 
@@ -136,6 +136,8 @@ solving/post_move_iteration.h:
 
 position/flags_change.h:
 
+position/side_change.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -161,7 +163,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/slice_insertion.h stipulation/move.h \
+ stipulation/slice_insertion.h stipulation/move.h position/side_change.h \
  solving/move_effect_journal.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h solving/pipe.h solving/fork.h \
@@ -259,6 +261,8 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 stipulation/move.h:
+
+position/side_change.h:
 
 solving/move_effect_journal.h:
 
