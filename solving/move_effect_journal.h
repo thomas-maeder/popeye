@@ -323,15 +323,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
  */
 void move_effect_journal_do_no_piece_removal(void);
 
-/* Add exchanging two pieces to the current move of the current ply
- * @param reason reason for exchanging the two pieces
- * @param from position of primary piece
- * @param to position of partner piece
- */
-void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
-                                           square from,
-                                           square to);
-
 /* Add changing the side of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed

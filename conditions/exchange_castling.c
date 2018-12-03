@@ -3,7 +3,7 @@
 #include "pieces/walks/classification.h"
 #include "solving/move_generator.h"
 #include "solving/castling.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_exchange.h"
 #include "stipulation/stipulation.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
