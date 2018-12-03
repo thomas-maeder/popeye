@@ -135,8 +135,7 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h conditions/mummer.h \
  conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/move_generator.h \
+ solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/check.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -153,7 +152,8 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  stipulation/battle_play/branch.h stipulation/slice_insertion.h \
  stipulation/help_play/branch.h solving/pipe.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- debugging/assert.h
+ position/pieceid.h position/castling_rights.h position/walk_change.h \
+ solving/move_effect_journal.h debugging/assert.h
 
 conditions/transmuting_kings/super.h:
 
@@ -204,12 +204,6 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
-
-solving/move_effect_journal.h:
-
-position/castling_rights.h:
-
-position/pieceid.h:
 
 solving/move_generator.h:
 
@@ -268,6 +262,14 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
+
+position/pieceid.h:
+
+position/castling_rights.h:
+
+position/walk_change.h:
+
+solving/move_effect_journal.h:
 
 debugging/assert.h:
 conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \

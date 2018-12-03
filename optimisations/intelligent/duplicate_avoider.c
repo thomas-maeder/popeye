@@ -83,7 +83,7 @@ static piece_walk_type get_promotion_walk(ply ply)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
   move_effect_journal_index_type const promotion = base+move_effect_journal_index_offset_movement+1;
-  if (move_effect_journal[promotion].type==move_effect_piece_change)
+  if (move_effect_journal[promotion].type==move_effect_walk_change)
     return move_effect_journal[promotion].u.piece_change.to;
   else
     return Empty;

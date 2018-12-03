@@ -1,4 +1,4 @@
-utilities/table.obj: utilities/table.c utilities/table.h \
+utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  utilities/boolean.h conditions/conditions.h position/position.h \
  position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/side.enum position/color.h \

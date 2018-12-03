@@ -209,7 +209,7 @@ static void write_singlebox_type3_promotion(output_engine_type const *engine,
                                             output_symbol_table_type const *symbol_table)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const sb3_prom = find_pre_move_effect(move_effect_piece_change,
+  move_effect_journal_index_type const sb3_prom = find_pre_move_effect(move_effect_walk_change,
                                                                        move_effect_reason_singlebox_promotion);
 
   if (sb3_prom!=move_effect_journal_index_null)
@@ -317,7 +317,7 @@ static void write_flags_change(output_plaintext_move_context_type *context,
       break;
 
     case move_effect_reason_kobul_king:
-      if (move_effect_journal[curr-1].type!=move_effect_piece_change
+      if (move_effect_journal[curr-1].type!=move_effect_walk_change
           || move_effect_journal[curr-1].reason!=move_effect_reason_kobul_king)
         /* otherwise the flags are written with the changed piece */
       {
@@ -729,7 +729,7 @@ static void write_other_effects(output_plaintext_move_context_type *context,
         write_side_change(context,curr);
         break;
 
-      case move_effect_piece_change:
+      case move_effect_walk_change:
         write_piece_change(context,curr);
         break;
 

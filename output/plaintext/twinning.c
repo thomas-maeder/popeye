@@ -289,7 +289,7 @@ static void WriteTwinning(boolean continued)
         WriteSubstitute(curr);
         break;
 
-      case move_effect_piece_change:
+      case move_effect_walk_change:
         /* no need for output - this only occurs as part of move_effect_twinning_substitute */
         break;
 

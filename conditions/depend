@@ -2632,7 +2632,7 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/pipe.h debugging/assert.h
+ position/walk_change.h solving/pipe.h debugging/assert.h
 
 conditions/kobul.h:
 
@@ -2725,6 +2725,8 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+position/walk_change.h:
 
 solving/pipe.h:
 
@@ -3075,8 +3077,9 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h pieces/walks/walks.h \
- solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h solving/move_generator.h solving/has_solution_type.h \
+ position/walk_change.h solving/move_effect_journal.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/move_generator.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -3131,6 +3134,8 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 pieces/walks/walks.h:
+
+position/walk_change.h:
 
 solving/move_effect_journal.h:
 
@@ -3212,7 +3217,7 @@ conditions/protean$(OBJ_SUFFIX): conditions/protean.c conditions/protean.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/move.h \
+ solving/has_solution_type.enum stipulation/move.h position/walk_change.h \
  solving/move_effect_journal.h solving/ply.h solving/pipe.h \
  debugging/assert.h
 
@@ -3301,6 +3306,8 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 stipulation/move.h:
+
+position/walk_change.h:
 
 solving/move_effect_journal.h:
 
@@ -3812,8 +3819,8 @@ conditions/degradierung$(OBJ_SUFFIX): conditions/degradierung.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/move.h solving/move_effect_journal.h solving/ply.h \
- solving/pipe.h debugging/assert.h
+ stipulation/move.h position/walk_change.h solving/move_effect_journal.h \
+ solving/ply.h solving/pipe.h debugging/assert.h
 
 conditions/degradierung.h:
 
@@ -3903,6 +3910,8 @@ stipulation/traversal.h:
 
 stipulation/move.h:
 
+position/walk_change.h:
+
 solving/move_effect_journal.h:
 
 solving/ply.h:
@@ -3920,8 +3929,9 @@ conditions/line_chameleon$(OBJ_SUFFIX): conditions/line_chameleon.c \
  solving/machinery/dispatch.h debugging/trace.h pieces/walks/walks.h \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/move_effect_journal.h solving/ply.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/castling_rights.h position/walk_change.h \
+ solving/move_effect_journal.h solving/ply.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -3988,6 +3998,8 @@ position/pieceid.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+position/walk_change.h:
 
 solving/move_effect_journal.h:
 
@@ -4465,9 +4477,10 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/post_move_iteration.h solving/observation.h \
- solving/temporary_hacks.h stipulation/pipe.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/move.h solving/pipe.h debugging/assert.h
+ solving/temporary_hacks.h position/walk_change.h stipulation/pipe.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/move.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/football.h:
 
@@ -4564,6 +4577,8 @@ solving/post_move_iteration.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+position/walk_change.h:
 
 stipulation/pipe.h:
 
@@ -7859,8 +7874,8 @@ conditions/snek$(OBJ_SUFFIX): conditions/snek.c conditions/snek.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/pipe.h solving/move_effect_journal.h solving/ply.h \
- solving/post_move_iteration.h solving/observation.h \
+ solving/pipe.h position/walk_change.h solving/move_effect_journal.h \
+ solving/ply.h solving/post_move_iteration.h solving/observation.h \
  solving/temporary_hacks.h debugging/assert.h
 
 conditions/snek.h:
@@ -7946,6 +7961,8 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 solving/pipe.h:
+
+position/walk_change.h:
 
 solving/move_effect_journal.h:
 

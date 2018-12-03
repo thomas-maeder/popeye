@@ -3,7 +3,7 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/walk_change.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -90,7 +90,7 @@ static square find_promotion(move_effect_journal_index_type base)
   {
     --curr;
 
-    if (move_effect_journal[curr].type==move_effect_piece_change
+    if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
       result = move_effect_journal[curr].u.piece_change.on;

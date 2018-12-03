@@ -60,7 +60,7 @@ static void mark_promotees(void)
   assert(move_effect_journal_base[parent_ply[nbply]+1]<=top);
 
   for (curr = move_effect_journal_base[parent_ply[nbply]+1]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_change
+    if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
       square const on = move_effect_journal[curr].u.piece_change.on;
