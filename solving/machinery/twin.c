@@ -9,6 +9,7 @@
 #include "pieces/walks/orphan.h"
 #include "position/underworld.h"
 #include "position/king_square.h"
+#include "position/flags_change.h"
 #include "conditions/conditions.h"
 #include "conditions/alphabetic.h"
 #include "conditions/anticirce/anticirce.h"

@@ -4,13 +4,13 @@
 #include "position/position.h"
 #include "solving/post_move_iteration.h"
 #include "position/walk_change.h"
+#include "position/flags_change.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 enum

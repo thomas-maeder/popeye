@@ -330,15 +330,6 @@ void move_effect_journal_do_no_piece_removal(void);
 void move_effect_journal_do_side_change(move_effect_reason_type reason,
                                         square on);
 
-/* Add changing the flags of a piece to the current move of the current ply
- * @param reason reason for moving the king square
- * @param on position of pieces whose flags to piece_change
- * @param to changed flags
- */
-void move_effect_journal_do_flags_change(move_effect_reason_type reason,
-                                         square on,
-                                         Flags to);
-
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square
  * @param sq_arrival arrival square
