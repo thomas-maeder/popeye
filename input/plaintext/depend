@@ -476,13 +476,14 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
  position/underworld.h position/piece_creation.h \
  position/board_transformation.h position/piece_removal.h \
- position/piece_movement.h position/walk_change.h stipulation/pipe.h \
- stipulation/branch.h stipulation/help_play/branch.h \
- stipulation/battle_play/branch.h stipulation/proxy.h \
- stipulation/modifier.h solving/goals/prerequisite_guards.h \
- solving/pipe.h solving/duplex.h solving/proofgames.h \
- solving/zeroposition.h utilities/table.h platform/maxmem.h \
- platform/maxtime.h debugging/measure.h debugging/assert.h
+ position/piece_movement.h position/walk_change.h \
+ position/piece_exchange.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/help_play/branch.h stipulation/battle_play/branch.h \
+ stipulation/proxy.h stipulation/modifier.h \
+ solving/goals/prerequisite_guards.h solving/pipe.h solving/duplex.h \
+ solving/proofgames.h solving/zeroposition.h utilities/table.h \
+ platform/maxmem.h platform/maxtime.h debugging/measure.h \
+ debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -657,6 +658,8 @@ position/piece_removal.h:
 position/piece_movement.h:
 
 position/walk_change.h:
+
+position/piece_exchange.h:
 
 stipulation/pipe.h:
 

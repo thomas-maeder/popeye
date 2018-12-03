@@ -1,5 +1,5 @@
 #if !defined(POSITION_PIECE_READDITION_H)
-#define POSITION_KING_SQUARE_H
+#define POSITION_PIECE_READDITION_H
 
 /* This modules deals with re-additions of pieces for various reasons
  */

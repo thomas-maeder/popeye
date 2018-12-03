@@ -1684,7 +1684,8 @@ conditions/oscillating_kings$(OBJ_SUFFIX): conditions/oscillating_kings.c \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h stipulation/battle_play/branch.h \
  stipulation/slice_insertion.h stipulation/help_play/branch.h \
- solving/check.h solving/pipe.h debugging/assert.h
+ position/piece_exchange.h solving/check.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/oscillating_kings.h:
 
@@ -1788,6 +1789,8 @@ stipulation/slice_insertion.h:
 
 stipulation/help_play/branch.h:
 
+position/piece_exchange.h:
+
 solving/check.h:
 
 solving/pipe.h:
@@ -1803,8 +1806,9 @@ conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  debugging/trace.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h solving/castling.h \
- solving/move_effect_journal.h solving/ply.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/move_effect_journal.h solving/ply.h position/piece_exchange.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -1874,6 +1878,8 @@ solving/castling.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/piece_exchange.h:
 
 solving/move_generator.h:
 
@@ -4605,9 +4611,9 @@ conditions/exchange_castling$(OBJ_SUFFIX): conditions/exchange_castling.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h solving/move_generator.h solving/ply.h \
- solving/castling.h solving/move_effect_journal.h solving/pipe.h \
- solving/fork.h solving/observation.h solving/temporary_hacks.h \
- debugging/assert.h
+ solving/castling.h solving/move_effect_journal.h \
+ position/piece_exchange.h solving/pipe.h solving/fork.h \
+ solving/observation.h solving/temporary_hacks.h debugging/assert.h
 
 conditions/exchange_castling.h:
 
@@ -4672,6 +4678,8 @@ solving/ply.h:
 solving/castling.h:
 
 solving/move_effect_journal.h:
+
+position/piece_exchange.h:
 
 solving/pipe.h:
 

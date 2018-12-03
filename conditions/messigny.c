@@ -2,7 +2,7 @@
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "solving/castling.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_exchange.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

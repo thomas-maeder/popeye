@@ -9,7 +9,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_exchange.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

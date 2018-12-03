@@ -28,6 +28,7 @@
 #include "position/piece_removal.h"
 #include "position/piece_movement.h"
 #include "position/walk_change.h"
+#include "position/piece_exchange.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"
