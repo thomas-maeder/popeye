@@ -1,6 +1,6 @@
 #include "conditions/masand.h"
 #include "pieces/attributes/neutral/neutral.h"
-#include "solving/move_effect_journal.h"
+#include "position/side_change.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_generator.h"
@@ -9,8 +9,8 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 /* Instrument a stipulation

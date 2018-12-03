@@ -9,6 +9,7 @@
 #include "position/board_transformation.h"
 #include "position/walk_change.h"
 #include "position/flags_change.h"
+#include "position/side_change.h"
 #include "position/piece_movement.h"
 #include "position/piece_exchange.h"
 #include "input/commandline.h"
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
   position_walk_change_initialise();
   position_piece_exchange_initialise();
   position_flags_change_initialise();
+  position_side_change_initialise();
 
   {
     slice_index const parser = alloc_command_line_options_parser(argc,argv);

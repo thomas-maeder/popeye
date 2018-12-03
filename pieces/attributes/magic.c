@@ -6,17 +6,17 @@
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "position/side_change.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
-#include "debugging/trace.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/pieces.h"
 #include "output/plaintext/message.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 /* magic pieces */
