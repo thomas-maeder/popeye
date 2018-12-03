@@ -345,7 +345,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
       BeginTwinning(twin_number);
 
       for (curr = base; curr!=top; ++curr)
-        if (move_effect_journal[curr].type!=move_effect_piece_change)
+        if (move_effect_journal[curr].type!=move_effect_walk_change)
         {
           if (written_on_last_entry)
           {

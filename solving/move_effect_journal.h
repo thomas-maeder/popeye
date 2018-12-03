@@ -21,7 +21,7 @@
 typedef enum
 {
   move_effect_none,
-  move_effect_piece_change,
+  move_effect_walk_change,
   move_effect_piece_movement,
   move_effect_piece_creation,
   move_effect_no_piece_removal,
@@ -322,15 +322,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 /* Fill the capture gap at the head of each move by no capture
  */
 void move_effect_journal_do_no_piece_removal(void);
-
-/* Add changing the walk of a piece to the current move of the current ply
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- * @param to new nature of piece
- */
-void move_effect_journal_do_walk_change(move_effect_reason_type reason,
-                                        square on,
-                                        piece_walk_type to);
 
 /* Add exchanging two pieces to the current move of the current ply
  * @param reason reason for exchanging the two pieces

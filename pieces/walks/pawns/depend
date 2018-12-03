@@ -319,11 +319,12 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- pieces/walks/pawns/promotee_sequence.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/move.h stipulation/pipe.h solving/post_move_iteration.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/pipe.h debugging/assert.h
+ pieces/walks/pawns/promotee_sequence.h position/walk_change.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/move.h stipulation/pipe.h \
+ solving/post_move_iteration.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h \
+ debugging/assert.h
 
 pieces/walks/pawns/promotion.h:
 
@@ -398,6 +399,8 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 pieces/walks/pawns/promotee_sequence.h:
+
+position/walk_change.h:
 
 solving/has_solution_type.h:
 

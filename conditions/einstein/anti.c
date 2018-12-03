@@ -6,7 +6,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "position/walk_change.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 

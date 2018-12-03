@@ -1,7 +1,6 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/observation.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/check.h"
@@ -13,10 +12,11 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
+#include "position/walk_change.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 
