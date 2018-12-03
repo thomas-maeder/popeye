@@ -15,6 +15,7 @@
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "position/walk_change.h"
+#include "position/flags_change.h"
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"

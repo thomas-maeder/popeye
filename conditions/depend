@@ -1561,7 +1561,8 @@ conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/castling.h solving/move_effect_journal.h solving/ply.h \
- solving/check.h solving/pipe.h debugging/assert.h
+ position/flags_change.h solving/check.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/dynasty.h:
 
@@ -1652,6 +1653,8 @@ solving/castling.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/flags_change.h:
 
 solving/check.h:
 
@@ -2638,7 +2641,8 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- position/walk_change.h solving/pipe.h debugging/assert.h
+ position/walk_change.h position/flags_change.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/kobul.h:
 
@@ -2733,6 +2737,8 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 position/walk_change.h:
+
+position/flags_change.h:
 
 solving/pipe.h:
 
@@ -3450,7 +3456,7 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/dispatch.h debugging/trace.h position/flags_change.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -3505,6 +3511,8 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/flags_change.h:
 
 solving/move_effect_journal.h:
 

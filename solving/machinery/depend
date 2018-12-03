@@ -668,10 +668,11 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  pieces/walks/classification.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h pieces/walks/orphan.h position/underworld.h \
- position/king_square.h conditions/conditions.h conditions/alphabetic.h \
- conditions/mummer.h conditions/anticirce/anticirce.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/king_square.h position/flags_change.h conditions/conditions.h \
+ conditions/alphabetic.h conditions/mummer.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -784,6 +785,8 @@ pieces/walks/orphan.h:
 position/underworld.h:
 
 position/king_square.h:
+
+position/flags_change.h:
 
 conditions/conditions.h:
 

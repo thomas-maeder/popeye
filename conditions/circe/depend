@@ -1289,8 +1289,8 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h solving/move_generator.h solving/pipe.h \
- debugging/assert.h
+ stipulation/pipe.h position/flags_change.h solving/move_generator.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/circe/volage.h:
 
@@ -1400,6 +1400,8 @@ solving/has_solution_type.enum:
 
 stipulation/pipe.h:
 
+position/flags_change.h:
+
 solving/move_generator.h:
 
 solving/pipe.h:
@@ -1433,7 +1435,8 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/move.h solving/pipe.h debugging/assert.h
+ stipulation/move.h position/flags_change.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/circe/frischauf.h:
 
@@ -1542,6 +1545,8 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 stipulation/move.h:
+
+position/flags_change.h:
 
 solving/pipe.h:
 

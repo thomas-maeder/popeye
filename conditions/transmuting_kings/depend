@@ -153,7 +153,7 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  stipulation/help_play/branch.h solving/pipe.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h position/castling_rights.h position/walk_change.h \
- solving/move_effect_journal.h debugging/assert.h
+ solving/move_effect_journal.h position/flags_change.h debugging/assert.h
 
 conditions/transmuting_kings/super.h:
 
@@ -270,6 +270,8 @@ position/castling_rights.h:
 position/walk_change.h:
 
 solving/move_effect_journal.h:
+
+position/flags_change.h:
 
 debugging/assert.h:
 conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \

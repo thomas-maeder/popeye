@@ -1,5 +1,5 @@
 #include "conditions/volage.h"
-#include "solving/move_effect_journal.h"
+#include "position/flags_change.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"

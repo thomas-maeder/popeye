@@ -4,7 +4,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/flags_change.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

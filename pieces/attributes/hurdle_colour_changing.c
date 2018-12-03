@@ -8,7 +8,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/flags_change.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
