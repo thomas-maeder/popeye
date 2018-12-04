@@ -181,7 +181,7 @@ void move_effect_journal_do_remember_ep(square s)
 /* Undo remembering a possible en passant capture
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -194,7 +194,7 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
 
 /* Redo remembering a possible en passant capture
  */
-void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry)
 {
   square const s = entry->u.ep_capture_potential.square;
 
@@ -473,6 +473,10 @@ void en_passant_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_ep_capture_potential,
+                                       &move_effect_journal_undo_remember_ep,
+                                       &move_effect_journal_redo_remember_ep);
 
   stip_instrument_moves(si,STEnPassantAdjuster);
 
