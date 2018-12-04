@@ -1,7 +1,7 @@
 #include "retro/retro.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/null_move.h"
 #include "solving/pipe.h"
 
 #include "debugging/assert.h"

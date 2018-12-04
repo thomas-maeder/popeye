@@ -3,8 +3,6 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "position/pieceid.h"
-#include "position/piece_movement.h"
-#include "position/piece_removal.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "stipulation/stipulation.h"
@@ -99,33 +97,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Add a null effect to the current move of the current ply
- */
-void move_effect_journal_do_null_effect(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_allocate_entry(move_effect_none,move_effect_no_reason);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Add the effects of a null move to the current move of the current ply
- */
-void move_effect_journal_do_null_move(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_no_piece_removal();
-  move_effect_journal_do_null_effect(); /* and no piece movement */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 #include "conditions/actuated_revolving_centre.h"

@@ -262,7 +262,8 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  position/pieceid.h position/castling_rights.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/classification.h position/walk_change.h \
- solving/move_effect_journal.h solving/move_generator.h \
+ solving/move_effect_journal.h position/null_move.h \
+ solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -347,6 +348,8 @@ pieces/walks/classification.h:
 position/walk_change.h:
 
 solving/move_effect_journal.h:
+
+position/null_move.h:
 
 solving/move_generator.h:
 

@@ -567,10 +567,10 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h conditions/mummer.h \
- solving/move_generator.h solving/ply.h solving/move_effect_journal.h \
- position/castling_rights.h position/pieceid.h solving/check.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h \
+ solving/move_generator.h solving/ply.h position/null_move.h \
+ solving/move_effect_journal.h position/castling_rights.h \
+ position/pieceid.h solving/check.h solving/pipe.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -629,6 +629,8 @@ conditions/mummer.h:
 solving/move_generator.h:
 
 solving/ply.h:
+
+position/null_move.h:
 
 solving/move_effect_journal.h:
 
