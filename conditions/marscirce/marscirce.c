@@ -4,6 +4,7 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "position/piece_movement.h"
+#include "position/null_move.h"
 #include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"

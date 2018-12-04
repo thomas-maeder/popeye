@@ -1,6 +1,6 @@
 #include "conditions/blackchecks.h"
 #include "solving/move_generator.h"
-#include "solving/move_effect_journal.h"
+#include "position/null_move.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"

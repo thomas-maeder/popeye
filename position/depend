@@ -852,3 +852,61 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 debugging/assert.h:
+position/null_move$(OBJ_SUFFIX): position/null_move.c position/null_move.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ position/piece_removal.h
+
+position/null_move.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+position/piece_removal.h:

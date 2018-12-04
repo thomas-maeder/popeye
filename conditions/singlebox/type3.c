@@ -5,6 +5,7 @@
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
 #include "position/walk_change.h"
+#include "position/null_move.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
