@@ -140,6 +140,36 @@ square move_effect_journal_get_departure_square(ply ply)
   return result;
 }
 
+/* Follow the captured or a moved piece through the "other" effects of a move
+ * @param followed_id id of the piece to be followed
+ * @param idx index of a piece_movement effect
+ * @param pos position of the piece when effect idx is played
+ * @return the position of the piece with effect idx applied
+ *         initsquare if the piece is not on the board after effect idx
+ */
+square position_piece_movement_follow_piece(PieceIdType followed_id,
+                                            move_effect_journal_index_type idx,
+                                            square pos)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",followed_id);
+  TraceFunctionParam("%u",idx);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[idx].u.piece_movement.from==pos)
+  {
+    assert(GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec)==followed_id);
+    pos = move_effect_journal[idx].u.piece_movement.to;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(pos);
+  TraceFunctionResultEnd();
+
+  return pos;
+}
+
 /* Initalise the module */
 void position_piece_movement_initialise(void)
 {

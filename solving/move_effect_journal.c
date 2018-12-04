@@ -98,6 +98,11 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 }
 
 #include "conditions/actuated_revolving_centre.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_creation.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/piece_exchange.h"
+#include "position/effects/board_transformation.h"
 
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
@@ -129,39 +134,24 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
     switch (move_effect_journal[other].type)
     {
       case move_effect_piece_removal:
-        if (move_effect_journal[other].u.piece_removal.on==pos)
-        {
-          assert(GetPieceId(move_effect_journal[other].u.piece_removal.flags)==followed_id);
-          pos = initsquare;
-        }
+        pos = position_piece_removal_follow_piece(followed_id,other,pos);
         break;
 
       case move_effect_piece_readdition:
       case move_effect_piece_creation:
-        if (GetPieceId(move_effect_journal[other].u.piece_addition.added.flags)==followed_id)
-        {
-          assert(pos==initsquare);
-          pos = move_effect_journal[other].u.piece_addition.added.on;
-        }
+        pos = position_piece_creation_follow_piece(followed_id,other,pos);
         break;
 
       case move_effect_piece_movement:
-        if (move_effect_journal[other].u.piece_movement.from==pos)
-        {
-          assert(GetPieceId(move_effect_journal[other].u.piece_movement.movingspec)==followed_id);
-          pos = move_effect_journal[other].u.piece_movement.to;
-        }
+        pos = position_piece_movement_follow_piece(followed_id,other,pos);
         break;
 
       case move_effect_piece_exchange:
-        if (move_effect_journal[other].u.piece_exchange.from==pos)
-          pos = move_effect_journal[other].u.piece_exchange.to;
-        else if (move_effect_journal[other].u.piece_exchange.to==pos)
-          pos = move_effect_journal[other].u.piece_exchange.from;
+        pos = position_piece_exchange_follow_piece(followed_id,other,pos);
         break;
 
       case move_effect_board_transformation:
-        pos = transformSquare(pos,move_effect_journal[other].u.board_transformation.transformation);
+        pos = position_board_transformation_follow_piece(followed_id,other,pos);
         break;
 
       case move_effect_centre_revolution:
