@@ -2,13 +2,14 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "position/piece_movement.h"
+#include "position/piece_removal.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-static void play_move(Side side)
+static void play_move(void)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
@@ -17,21 +18,17 @@ static void play_move(Side side)
   square const sq_arrival = move_gen_top->arrival;
 
   if (en_passant_is_ep_capture(sq_capture))
-    move_effect_journal_do_capture_move(sq_departure,
-                                        sq_arrival,
-                                        sq_capture-offset_en_passant_capture,
-                                        move_effect_reason_ep_capture);
+    move_effect_journal_do_piece_removal(move_effect_reason_ep_capture,
+                                         sq_capture-offset_en_passant_capture);
   else if (is_square_empty(sq_capture))
-  {
     move_effect_journal_do_no_piece_removal();
-    move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
-                                          sq_departure,sq_arrival);
-  }
   else
-    move_effect_journal_do_capture_move(sq_departure,
-                                        sq_arrival,
-                                        sq_capture,
-                                        move_effect_reason_regular_capture);
+    move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,
+                                         sq_capture);
+
+  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                        sq_departure,
+                                        sq_arrival);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -53,7 +50,7 @@ void move_player_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  play_move(SLICE_STARTER(si));
+  play_move();
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

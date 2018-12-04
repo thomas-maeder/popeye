@@ -116,37 +116,6 @@ void move_effect_journal_do_no_piece_removal(void)
   TraceFunctionResultEnd();
 }
 
-#include "position/piece_removal.h"
-/* Add the effects of a capture move to the current move of the current ply
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture position of the captured piece
- * @param removal_reason reason for the capture (ep or regular?)
- */
-void move_effect_journal_do_capture_move(square sq_departure,
-                                         square sq_arrival,
-                                         square sq_capture,
-                                         move_effect_reason_type removal_reason)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParam("%u",removal_reason);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",GetPieceId(being_solved.spec[sq_capture]));
-  TraceEOL();
-
-  move_effect_journal_do_piece_removal(removal_reason,sq_capture);
-  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
-                                        sq_departure,
-                                        sq_arrival);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Add a null effect to the current move of the current ply
  */
 void move_effect_journal_do_null_effect(void)

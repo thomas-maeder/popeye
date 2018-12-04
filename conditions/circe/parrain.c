@@ -6,6 +6,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/fork.h"
 #include "solving/binary.h"
+#include "position/piece_removal.h"
 #include "position/piece_movement.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
@@ -68,10 +69,11 @@ void circe_parrain_redo_retro_capture(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_capture_move(retro_capture_departure,
-                                      retro_capture.on,
-                                      retro_capture.on,
-                                      move_effect_reason_regular_capture);
+  move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,
+                                       retro_capture.on);
+  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                        retro_capture_departure,
+                                        retro_capture.on);
 
   pipe_solve_delegate(si);
 
