@@ -5,6 +5,7 @@
 #include "solving/post_move_iteration.h"
 #include "position/effects/walk_change.h"
 #include "position/effects/flags_change.h"
+#include "position/effects/utils.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"

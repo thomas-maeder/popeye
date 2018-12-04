@@ -1,7 +1,7 @@
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/circe/circe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

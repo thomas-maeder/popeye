@@ -3,6 +3,7 @@
 #include "pieces/walks/classification.h"
 #include "position/effects/piece_movement.h"
 #include "position/effects/piece_removal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"

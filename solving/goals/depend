@@ -381,7 +381,8 @@ solving/goals/circuit$(OBJ_SUFFIX): solving/goals/circuit.c solving/goals/circui
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/pipe.h debugging/assert.h
+ position/pieceid.h position/effects/utils.h solving/pipe.h \
+ debugging/assert.h
 
 solving/goals/circuit.h:
 
@@ -431,6 +432,8 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
+position/effects/utils.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -444,9 +447,9 @@ solving/goals/kiss$(OBJ_SUFFIX): solving/goals/kiss.c solving/goals/kiss.h \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/move_effect_journal.h solving/ply.h solving/move_generator.h \
- solving/pipe.h stipulation/goals/kiss/reached_tester.h \
- debugging/assert.h
+ solving/move_effect_journal.h solving/ply.h position/effects/utils.h \
+ solving/move_generator.h solving/pipe.h \
+ stipulation/goals/kiss/reached_tester.h debugging/assert.h
 
 solving/goals/kiss.h:
 
@@ -503,6 +506,8 @@ position/castling_rights.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/effects/utils.h:
 
 solving/move_generator.h:
 
@@ -580,7 +585,8 @@ solving/goals/target$(OBJ_SUFFIX): solving/goals/target.c solving/goals/target.h
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/pipe.h debugging/assert.h
+ position/pieceid.h position/effects/utils.h solving/pipe.h \
+ debugging/assert.h
 
 solving/goals/target.h:
 
@@ -629,6 +635,8 @@ solving/move_effect_journal.h:
 position/castling_rights.h:
 
 position/pieceid.h:
+
+position/effects/utils.h:
 
 solving/pipe.h:
 
@@ -801,7 +809,7 @@ solving/goals/exchange$(OBJ_SUFFIX): solving/goals/exchange.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h position/castling_rights.h \
  solving/move_generator.h solving/ply.h solving/move_effect_journal.h \
- solving/pipe.h debugging/assert.h
+ position/effects/utils.h solving/pipe.h debugging/assert.h
 
 solving/goals/exchange.h:
 
@@ -860,6 +868,8 @@ solving/move_generator.h:
 solving/ply.h:
 
 solving/move_effect_journal.h:
+
+position/effects/utils.h:
 
 solving/pipe.h:
 
@@ -1007,8 +1017,8 @@ solving/goals/chess81$(OBJ_SUFFIX): solving/goals/chess81.c solving/goals/chess8
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h solving/move_generator.h solving/pipe.h \
- debugging/assert.h
+ position/pieceid.h position/effects/utils.h solving/move_generator.h \
+ solving/pipe.h debugging/assert.h
 
 solving/goals/chess81.h:
 
@@ -1055,6 +1065,8 @@ position/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+position/effects/utils.h:
 
 solving/move_generator.h:
 
@@ -1381,9 +1393,9 @@ solving/goals/prerequisite_guards$(OBJ_SUFFIX): solving/goals/prerequisite_guard
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/proxy.h solving/dead_end.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- optimisations/goals/optimisation_guards.h solving/moves_traversal.h \
- debugging/assert.h
+ stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+ stipulation/help_play/branch.h optimisations/goals/optimisation_guards.h \
+ solving/moves_traversal.h debugging/assert.h
 
 solving/goals/prerequisite_guards.h:
 
@@ -1466,6 +1478,8 @@ stipulation/proxy.h:
 solving/dead_end.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/help_play/branch.h:
 

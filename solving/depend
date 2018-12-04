@@ -136,11 +136,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/modifier.h debugging/assert.h \
- conditions/actuated_revolving_centre.h position/effects/piece_removal.h \
- position/effects/piece_creation.h position/effects/piece_movement.h \
- position/effects/piece_exchange.h \
- position/effects/board_transformation.h
+ stipulation/pipe.h stipulation/modifier.h debugging/assert.h
 
 solving/move_effect_journal.h:
 
@@ -231,18 +227,6 @@ stipulation/pipe.h:
 stipulation/modifier.h:
 
 debugging/assert.h:
-
-conditions/actuated_revolving_centre.h:
-
-position/effects/piece_removal.h:
-
-position/effects/piece_creation.h:
-
-position/effects/piece_movement.h:
-
-position/effects/piece_exchange.h:
-
-position/effects/board_transformation.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

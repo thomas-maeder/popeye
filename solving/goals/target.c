@@ -1,6 +1,7 @@
 #include "solving/goals/target.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"

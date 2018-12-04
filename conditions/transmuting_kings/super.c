@@ -16,6 +16,7 @@
 #include "position/position.h"
 #include "position/effects/walk_change.h"
 #include "position/effects/flags_change.h"
+#include "position/effects/utils.h"
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"

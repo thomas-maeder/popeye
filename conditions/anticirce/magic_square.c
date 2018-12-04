@@ -1,7 +1,7 @@
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/circe/circe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
