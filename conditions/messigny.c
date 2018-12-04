@@ -3,6 +3,7 @@
 #include "position/position.h"
 #include "solving/castling.h"
 #include "position/piece_exchange.h"
+#include "position/piece_removal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
