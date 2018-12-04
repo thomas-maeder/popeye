@@ -1,6 +1,5 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
@@ -219,15 +218,11 @@ static void move_effect_none_do(move_effect_journal_entry_type const *entry)
 void move_effect_journal_init_move_effect_doers(void)
 {
   move_effect_type t;
-
   for (t = 0; t!=nr_move_effect_types; ++t)
   {
     move_effect_doers[t].undoer = &move_effect_none_do;
     move_effect_doers[t].redoer = &move_effect_none_do;
   }
-
-  move_effect_doers[move_effect_remember_ep_capture_potential].redoer = &move_effect_journal_redo_remember_ep;
-  move_effect_doers[move_effect_remember_ep_capture_potential].undoer = &move_effect_journal_undo_remember_ep;
 }
 
 void move_effect_journal_set_effect_doers(move_effect_type type,
