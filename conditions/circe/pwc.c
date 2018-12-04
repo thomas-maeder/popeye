@@ -1,7 +1,7 @@
 #include "conditions/circe/pwc.h"
 #include "conditions/circe/circe.h"
 #include "solving/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_movement.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 

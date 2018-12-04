@@ -341,7 +341,8 @@ optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c 
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  optimisations/intelligent/moves_left.h output/plaintext/plaintext.h \
- output/output.h output/plaintext/pieces.h debugging/assert.h
+ output/output.h output/plaintext/pieces.h position/piece_movement.h \
+ debugging/assert.h
 
 optimisations/intelligent/proof.h:
 
@@ -484,6 +485,8 @@ output/plaintext/plaintext.h:
 output/output.h:
 
 output/plaintext/pieces.h:
+
+position/piece_movement.h:
 
 debugging/assert.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \

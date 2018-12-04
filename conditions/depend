@@ -2180,7 +2180,8 @@ conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h position/piece_creation.h \
- solving/move_effect_journal.h solving/ply.h debugging/assert.h
+ solving/move_effect_journal.h solving/ply.h position/piece_movement.h \
+ debugging/assert.h
 
 conditions/sentinelles.h:
 
@@ -2277,6 +2278,8 @@ position/piece_creation.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/piece_movement.h:
 
 debugging/assert.h:
 conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h \
@@ -3468,8 +3471,8 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h position/flags_change.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h position/side_change.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h position/side_change.h position/piece_movement.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -3534,6 +3537,8 @@ solving/ply.h:
 position/pieceid.h:
 
 position/side_change.h:
+
+position/piece_movement.h:
 
 stipulation/pipe.h:
 
@@ -7057,7 +7062,8 @@ conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
  position/castling_rights.h position/pieceid.h \
  stipulation/slice_insertion.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/piece_readdition.h \
- position/piece_removal.h solving/pipe.h debugging/assert.h
+ position/piece_removal.h position/piece_movement.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/wormhole.h:
 
@@ -7166,6 +7172,8 @@ position/color.enum:
 position/piece_readdition.h:
 
 position/piece_removal.h:
+
+position/piece_movement.h:
 
 solving/pipe.h:
 
@@ -7641,7 +7649,7 @@ conditions/synchronous$(OBJ_SUFFIX): conditions/synchronous.c \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/dispatch.h debugging/trace.h position/piece_movement.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/move_generator.h pieces/walks/vectors.h \
  debugging/assert.h
@@ -7685,6 +7693,8 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/piece_movement.h:
 
 solving/move_effect_journal.h:
 

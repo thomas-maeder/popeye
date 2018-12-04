@@ -11,6 +11,7 @@
 #include "position/position.h"
 #include "position/piece_readdition.h"
 #include "position/piece_removal.h"
+#include "position/piece_movement.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 

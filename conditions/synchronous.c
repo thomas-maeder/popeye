@@ -1,5 +1,5 @@
 #include "conditions/synchronous.h"
-#include "solving/move_effect_journal.h"
+#include "position/piece_movement.h"
 #include "solving/move_generator.h"
 #include "pieces/walks/vectors.h"
 #include "debugging/trace.h"

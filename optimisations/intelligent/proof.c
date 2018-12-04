@@ -16,6 +16,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
+#include "position/piece_movement.h"
 
 #include "debugging/assert.h"
 #include "debugging/trace.h"

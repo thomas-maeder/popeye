@@ -113,6 +113,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
+#include "position/piece_movement.h"
 
 #if defined(HASHRATE)
 #include "platform/timer.h"
