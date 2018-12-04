@@ -123,20 +123,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h solving/pipe.h \
- solving/machinery/twin.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/modifier.h debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 solving/move_effect_journal.h:
 
@@ -182,49 +169,7 @@ solving/ply.h:
 
 position/pieceid.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-pieces/walks/vectors.h:
-
 solving/pipe.h:
-
-solving/machinery/twin.h:
-
-stipulation/branch.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_structural_type.h:
-
-stipulation/slice_structural_type.enum.h:
-
-stipulation/slice_structural_type.enum:
-
-stipulation/slice_functional_type.h:
-
-stipulation/slice_functional_type.enum.h:
-
-stipulation/slice_functional_type.enum:
-
-stipulation/slice_contextual_type.h:
-
-stipulation/slice_contextual_type.enum.h:
-
-stipulation/slice_contextual_type.enum:
-
-stipulation/traversal.h:
-
-stipulation/pipe.h:
-
-stipulation/modifier.h:
 
 debugging/assert.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \

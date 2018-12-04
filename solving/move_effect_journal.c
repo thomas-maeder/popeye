@@ -1,12 +1,5 @@
 #include "solving/move_effect_journal.h"
-#include "pieces/pieces.h"
-#include "position/position.h"
 #include "solving/pipe.h"
-#include "solving/machinery/twin.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/branch.h"
-#include "stipulation/pipe.h"
-#include "stipulation/modifier.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
