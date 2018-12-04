@@ -141,7 +141,7 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/move.h solving/post_move_iteration.h solving/observation.h \
- solving/temporary_hacks.h position/walk_change.h \
+ solving/temporary_hacks.h position/effects/walk_change.h \
  solving/move_effect_journal.h solving/pipe.h \
  conditions/singlebox/type1.h conditions/conditions.h debugging/assert.h
 
@@ -237,7 +237,7 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
-position/walk_change.h:
+position/effects/walk_change.h:
 
 solving/move_effect_journal.h:
 
@@ -261,8 +261,8 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h position/castling_rights.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
- pieces/walks/classification.h position/walk_change.h \
- solving/move_effect_journal.h position/null_move.h \
+ pieces/walks/classification.h position/effects/walk_change.h \
+ solving/move_effect_journal.h position/effects/null_move.h \
  solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
@@ -345,11 +345,11 @@ pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/classification.h:
 
-position/walk_change.h:
+position/effects/walk_change.h:
 
 solving/move_effect_journal.h:
 
-position/null_move.h:
+position/effects/null_move.h:
 
 solving/move_generator.h:
 

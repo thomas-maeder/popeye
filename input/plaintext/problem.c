@@ -9,7 +9,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/modifier.h"
-#include "position/king_square.h"
+#include "position/effects/king_square.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];

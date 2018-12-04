@@ -2,7 +2,7 @@
 #include "conditions/conditions.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "position/piece_removal.h"
+#include "position/effects/piece_removal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 

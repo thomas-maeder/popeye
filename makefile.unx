@@ -220,7 +220,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/immobile stipulation/goals/notcheck \
     solving solving/battle_play solving/help_play solving/boolean solving/machinery solving/goals \
     retro \
-    position \
+    position position/effects \
     pieces pieces/walks pieces/walks/pawns pieces/walks/angle \
     pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
@@ -293,7 +293,7 @@ NESTEDLIBDIRS = \
     output \
     output/latex output/latex/line output/latex/tree output/latex \
     output/plaintext output/plaintext/tree output/plaintext/line \
-    position \
+    position position/effects \
     platform platform/$(PLATFORM) \
     utilities debugging \
     .

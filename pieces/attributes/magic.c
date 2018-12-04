@@ -6,7 +6,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
-#include "position/side_change.h"
+#include "position/effects/side_change.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"

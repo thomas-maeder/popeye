@@ -13,7 +13,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
-#include "position/piece_removal.h"
+#include "position/effects/piece_removal.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"

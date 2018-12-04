@@ -14,8 +14,8 @@
 #include "solving/pipe.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
-#include "position/walk_change.h"
-#include "position/flags_change.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/flags_change.h"
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"

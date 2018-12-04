@@ -20,7 +20,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- position/piece_removal.h solving/move_effect_journal.h solving/ply.h \
+ position/effects/piece_removal.h solving/move_effect_journal.h solving/ply.h \
  solving/pipe.h debugging/assert.h
 
 pieces/attributes/kamikaze/kamikaze.h:
@@ -103,7 +103,7 @@ stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 solving/move_effect_journal.h:
 

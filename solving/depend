@@ -1546,7 +1546,7 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/help_play/branch.h stipulation/move.h \
  solving/temporary_hacks.h solving/pipe.h solving/fork.h \
  solving/observation.h pieces/walks/classification.h \
- position/piece_movement.h position/piece_removal.h \
+ position/effects/piece_movement.h position/effects/piece_removal.h \
  conditions/conditions.h debugging/assert.h
 
 solving/castling.h:
@@ -1669,9 +1669,9 @@ solving/observation.h:
 
 pieces/walks/classification.h:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 conditions/conditions.h:
 
@@ -3419,7 +3419,7 @@ solving/dummy_move$(OBJ_SUFFIX): solving/dummy_move.c solving/dummy_move.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h position/null_move.h \
+ solving/has_solution_type.enum solving/pipe.h position/effects/null_move.h \
  solving/move_effect_journal.h position/castling_rights.h \
  position/pieceid.h debugging/assert.h
 
@@ -3471,7 +3471,7 @@ solving/has_solution_type.enum:
 
 solving/pipe.h:
 
-position/null_move.h:
+position/effects/null_move.h:
 
 solving/move_effect_journal.h:
 
@@ -3867,7 +3867,7 @@ solving/move_player$(OBJ_SUFFIX): solving/move_player.c solving/move_player.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum position/piece_movement.h position/piece_removal.h \
+ position/color.enum position/effects/piece_movement.h position/effects/piece_removal.h \
  solving/move_generator.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/pipe.h debugging/assert.h
@@ -3934,9 +3934,9 @@ position/color.enum.h:
 
 position/color.enum:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 solving/move_generator.h:
 

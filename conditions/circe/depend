@@ -29,7 +29,7 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  pieces/walks/walks.h pieces/walks/classification.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  pieces/walks/vectors.h pieces/walks/pawns/promotion.h \
- pieces/attributes/chameleon.h position/piece_readdition.h \
+ pieces/attributes/chameleon.h position/effects/piece_readdition.h \
  conditions/conditions.h stipulation/pipe.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/pipe.h debugging/assert.h
@@ -160,7 +160,7 @@ pieces/walks/pawns/promotion.h:
 
 pieces/attributes/chameleon.h:
 
-position/piece_readdition.h:
+position/effects/piece_readdition.h:
 
 conditions/conditions.h:
 
@@ -304,7 +304,7 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/rebirth_avoider.h \
  solving/observation.h solving/temporary_hacks.h solving/check.h \
- position/piece_removal.h solving/move_generator.h \
+ position/effects/piece_removal.h solving/move_generator.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/pipe.h stipulation/fork.h \
  solving/pipe.h debugging/assert.h
@@ -415,7 +415,7 @@ solving/temporary_hacks.h:
 
 solving/check.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 solving/move_generator.h:
 
@@ -1138,9 +1138,9 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/fork.h solving/binary.h \
- position/piece_removal.h position/piece_movement.h \
- solving/move_generator.h solving/pipe.h position/piece_creation.h \
- debugging/assert.h
+ position/effects/piece_removal.h position/effects/piece_movement.h \
+ solving/move_generator.h solving/pipe.h \
+ position/effects/piece_creation.h debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -1254,15 +1254,15 @@ stipulation/fork.h:
 
 solving/binary.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 
 solving/move_generator.h:
 
 solving/pipe.h:
 
-position/piece_creation.h:
+position/effects/piece_creation.h:
 
 debugging/assert.h:
 conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
@@ -1292,8 +1292,9 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h position/flags_change.h position/side_change.h \
- solving/move_generator.h solving/pipe.h debugging/assert.h
+ stipulation/pipe.h position/effects/flags_change.h \
+ position/effects/side_change.h solving/move_generator.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/circe/volage.h:
 
@@ -1403,9 +1404,9 @@ solving/has_solution_type.enum:
 
 stipulation/pipe.h:
 
-position/flags_change.h:
+position/effects/flags_change.h:
 
-position/side_change.h:
+position/effects/side_change.h:
 
 solving/move_generator.h:
 
@@ -1440,7 +1441,7 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/move.h position/flags_change.h solving/pipe.h \
+ stipulation/move.h position/effects/flags_change.h solving/pipe.h \
  debugging/assert.h
 
 conditions/circe/frischauf.h:
@@ -1551,7 +1552,7 @@ solving/has_solution_type.enum:
 
 stipulation/move.h:
 
-position/flags_change.h:
+position/effects/flags_change.h:
 
 solving/pipe.h:
 
@@ -2234,7 +2235,7 @@ conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  pieces/attributes/neutral/neutral.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/side_change.h stipulation/pipe.h solving/pipe.h \
+ position/effects/side_change.h stipulation/pipe.h solving/pipe.h \
  debugging/assert.h
 
 conditions/circe/double_agents.h:
@@ -2343,7 +2344,7 @@ position/color.enum:
 
 pieces/walks/vectors.h:
 
-position/side_change.h:
+position/effects/side_change.h:
 
 stipulation/pipe.h:
 
@@ -3259,7 +3260,7 @@ conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/pipe.h \
- position/piece_movement.h debugging/assert.h
+ position/effects/piece_movement.h debugging/assert.h
 
 conditions/circe/pwc.h:
 
@@ -3351,7 +3352,7 @@ conditions/circe/relevant_side.h:
 
 solving/pipe.h:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 
 debugging/assert.h:
 conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/file.h \
@@ -4113,7 +4114,7 @@ conditions/circe/parachute$(OBJ_SUFFIX): conditions/circe/parachute.c \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
- position/piece_readdition.h position/piece_removal.h \
+ position/effects/piece_readdition.h position/effects/piece_removal.h \
  conditions/circe/circe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -4191,9 +4192,9 @@ position/color.enum:
 
 pieces/walks/vectors.h:
 
-position/piece_readdition.h:
+position/effects/piece_readdition.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 conditions/circe/circe.h:
 
