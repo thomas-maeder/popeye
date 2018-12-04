@@ -71,6 +71,35 @@ static void redo_piece_exchange(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
+/* Follow the captured or a moved piece through the "other" effects of a move
+ * @param followed_id id of the piece to be followed
+ * @param idx index of a piece_exchange effect
+ * @param pos position of the piece when effect idx is played
+ * @return the position of the piece with effect idx applied
+ *         initsquare if the piece is not on the board after effect idx
+ */
+square position_piece_exchange_follow_piece(PieceIdType followed_id,
+                                            move_effect_journal_index_type idx,
+                                            square pos)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",followed_id);
+  TraceFunctionParam("%u",idx);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[idx].u.piece_exchange.from==pos)
+    pos = move_effect_journal[idx].u.piece_exchange.to;
+  else if (move_effect_journal[idx].u.piece_exchange.to==pos)
+    pos = move_effect_journal[idx].u.piece_exchange.from;
+
+  TraceFunctionExit(__func__);
+  TraceSquare(pos);
+  TraceFunctionResultEnd();
+
+  return pos;
+}
+
 /* Initalise the module */
 void position_piece_exchange_initialise(void)
 {
