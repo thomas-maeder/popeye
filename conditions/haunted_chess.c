@@ -1,7 +1,7 @@
 #include "conditions/haunted_chess.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
-#include "position/piece_readdition.h"
+#include "position/effects/piece_readdition.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"

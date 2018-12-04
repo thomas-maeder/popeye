@@ -3,7 +3,7 @@
 #include "solving/ply.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "position/null_move.h"
+#include "position/effects/null_move.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 

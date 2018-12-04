@@ -1,6 +1,6 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
-#include "position/walk_change.h"
+#include "position/effects/walk_change.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"

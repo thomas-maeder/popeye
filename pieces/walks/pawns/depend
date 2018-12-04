@@ -319,7 +319,7 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- pieces/walks/pawns/promotee_sequence.h position/walk_change.h \
+ pieces/walks/pawns/promotee_sequence.h position/effects/walk_change.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/move.h stipulation/pipe.h \
  solving/post_move_iteration.h solving/observation.h \
@@ -400,7 +400,7 @@ stipulation/traversal.h:
 
 pieces/walks/pawns/promotee_sequence.h:
 
-position/walk_change.h:
+position/effects/walk_change.h:
 
 solving/has_solution_type.h:
 
@@ -435,9 +435,9 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  position/pieceid.h solving/observation.h pieces/walks/vectors.h \
  solving/temporary_hacks.h pieces/walks/hunters.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- pieces/walks/classification.h position/piece_movement.h \
- position/piece_removal.h solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/walks/classification.h position/effects/piece_movement.h \
+ position/effects/piece_removal.h solving/move_generator.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -515,9 +515,9 @@ position/color.enum:
 
 pieces/walks/classification.h:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 
-position/piece_removal.h:
+position/effects/piece_removal.h:
 
 solving/move_generator.h:
 

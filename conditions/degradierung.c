@@ -4,7 +4,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "position/walk_change.h"
+#include "position/effects/walk_change.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"

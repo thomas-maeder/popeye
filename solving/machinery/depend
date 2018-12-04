@@ -668,8 +668,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  pieces/walks/classification.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h pieces/walks/orphan.h position/underworld.h \
- position/king_square.h position/flags_change.h conditions/conditions.h \
- conditions/alphabetic.h conditions/mummer.h \
+ position/effects/king_square.h position/effects/flags_change.h \
+ conditions/conditions.h conditions/alphabetic.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -784,9 +784,9 @@ pieces/walks/orphan.h:
 
 position/underworld.h:
 
-position/king_square.h:
+position/effects/king_square.h:
 
-position/flags_change.h:
+position/effects/flags_change.h:
 
 conditions/conditions.h:
 
@@ -1185,8 +1185,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
- pieces/walks/pawns/promotion.h position/king_square.h retro/retro.h \
- stipulation/proxy.h stipulation/whitetoplay.h \
+ pieces/walks/pawns/promotion.h position/effects/king_square.h \
+ retro/retro.h stipulation/proxy.h stipulation/whitetoplay.h \
  stipulation/battle_play/branch.h solving/machinery/slack_length.h \
  solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
@@ -1808,7 +1808,7 @@ pieces/walks/pawns/en_passant.h:
 
 pieces/walks/pawns/promotion.h:
 
-position/king_square.h:
+position/effects/king_square.h:
 
 retro/retro.h:
 

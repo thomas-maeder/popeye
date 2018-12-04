@@ -15,7 +15,7 @@
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/attributes/chameleon.h"
-#include "position/piece_readdition.h"
+#include "position/effects/piece_readdition.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"

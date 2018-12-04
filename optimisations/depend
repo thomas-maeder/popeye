@@ -247,7 +247,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
  platform/maxmem.h solving/pipe.h pieces/attributes/neutral/neutral.h \
- options/options.h conditions/conditions.h position/piece_movement.h
+ options/options.h conditions/conditions.h \
+ position/effects/piece_movement.h
 
 debugging/assert.h:
 
@@ -421,7 +422,7 @@ options/options.h:
 
 conditions/conditions.h:
 
-position/piece_movement.h:
+position/effects/piece_movement.h:
 optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/side.h \

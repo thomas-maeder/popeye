@@ -1,6 +1,6 @@
 #include "conditions/masand.h"
 #include "pieces/attributes/neutral/neutral.h"
-#include "position/side_change.h"
+#include "position/effects/side_change.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_generator.h"

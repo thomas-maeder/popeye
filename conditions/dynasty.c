@@ -5,7 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/castling.h"
-#include "position/flags_change.h"
+#include "position/effects/flags_change.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

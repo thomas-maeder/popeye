@@ -9,9 +9,9 @@
 #include "solving/observation.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
-#include "position/piece_readdition.h"
-#include "position/piece_removal.h"
-#include "position/piece_movement.h"
+#include "position/effects/piece_readdition.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 

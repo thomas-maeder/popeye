@@ -245,7 +245,7 @@
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
-#include "position/king_square.h"
+#include "position/effects/king_square.h"
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
 #include "stipulation/whitetoplay.h"
