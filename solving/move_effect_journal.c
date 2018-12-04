@@ -2,7 +2,6 @@
 #include "pieces/pieces.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
-#include "position/pieceid.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "stipulation/stipulation.h"
@@ -329,36 +328,4 @@ void move_effect_journal_undoer_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Determine the departure square of a moveplayed
- * Assumes that the move has a single moving piece (i.e. is not a castling).
- * @param ply identifies the ply where the move is being or was played
- * @return the departure square; initsquare if the last move didn't have a movement
- */
-square move_effect_journal_get_departure_square(ply ply)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[ply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  PieceIdType const id_moving = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-  move_effect_journal_index_type curr;
-  square result = initsquare;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
-  TraceFunctionParamListEnd();
-
-  /* this works even if there are early piece movements such as in MarsCirce */
-  for (curr = base; curr<movement; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_movement
-        && id_moving==GetPieceId(move_effect_journal[curr].u.piece_movement.movingspec))
-      break;
-
-  if (move_effect_journal[curr].type==move_effect_piece_movement)
-    result = move_effect_journal[curr].u.piece_movement.from;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
 }

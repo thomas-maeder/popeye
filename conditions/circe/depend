@@ -3258,7 +3258,8 @@ conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h solving/pipe.h debugging/assert.h
+ conditions/circe/relevant_side.h solving/pipe.h \
+ position/piece_movement.h debugging/assert.h
 
 conditions/circe/pwc.h:
 
@@ -3349,6 +3350,8 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 solving/pipe.h:
+
+position/piece_movement.h:
 
 debugging/assert.h:
 conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/file.h \

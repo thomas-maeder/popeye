@@ -8,6 +8,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/piece_creation.h"
+#include "position/piece_movement.h"
 
 #include "debugging/assert.h"
 
