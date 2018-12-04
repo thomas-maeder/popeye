@@ -9,6 +9,7 @@
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "position/piece_movement.h"
+#include "position/piece_removal.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"

@@ -4,6 +4,7 @@
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "position/piece_exchange.h"
+#include "position/piece_removal.h"
 #include "stipulation/stipulation.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"

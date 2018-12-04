@@ -4,6 +4,7 @@
 #include "position/position.h"
 #include "position/pieceid.h"
 #include "position/piece_movement.h"
+#include "position/piece_removal.h"
 #include "solving/pipe.h"
 #include "solving/machinery/twin.h"
 #include "stipulation/stipulation.h"
@@ -98,22 +99,6 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Fill the capture gap at the head of each move by no capture
- */
-void move_effect_journal_do_no_piece_removal(void)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_no_piece_removal,move_effect_no_reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  entry->u.piece_removal.walk = Empty;
-  CLEARFL(entry->u.piece_removal.flags);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Add a null effect to the current move of the current ply

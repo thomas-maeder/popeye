@@ -319,10 +319,6 @@ void move_effect_journal_reset(slice_index si);
 move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_type type,
                                                                    move_effect_reason_type reason);
 
-/* Fill the capture gap at the head of each move by no capture
- */
-void move_effect_journal_do_no_piece_removal(void);
-
 /* Add a null effect to the current move of the current ply
  */
 void move_effect_journal_do_null_effect(void);

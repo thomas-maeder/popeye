@@ -15,6 +15,10 @@
 void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
                                           square from);
 
+/* Fill the capture gap at the head of each move by no capture
+ */
+void move_effect_journal_do_no_piece_removal(void);
+
 /* Initalise the module */
 void position_piece_removal_initialise(void);
 
