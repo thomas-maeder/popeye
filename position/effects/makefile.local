@@ -1,0 +1,11 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = board_transformation.c flags_change.c king_square.c null_move.c \
+             piece_creation.c piece_exchange.c piece_movement.c \
+             piece_readdition.c piece_removal.c side_change.c walk_change.c
+
+INCLUDES = board_transformation.h flags_change.h king_square.h null_move.h \
+           piece_creation.h piece_exchange.h piece_movement.h \
+           piece_readdition.h piece_removal.h side_change.h walk_change.h
+
+include makefile.rules $(CURRPWD)depend
