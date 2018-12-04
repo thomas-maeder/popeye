@@ -1,6 +1,7 @@
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/pieces.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "position/effects/utils.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

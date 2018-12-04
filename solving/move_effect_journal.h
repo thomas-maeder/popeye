@@ -319,17 +319,6 @@ void move_effect_journal_reset(slice_index si);
 move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_type type,
                                                                    move_effect_reason_type reason);
 
-/* Follow the captured or a moved piece through the "other" effects of a move
- * @param ply ply in which the move was played
- * @param followed_id id of the piece to be followed
- * @param pos position of the piece after the inital capture removal and piece movement have taken place
- * @return the position of the piece with the "other" effect applied
- *         initsquare if the piece is not on the board after the "other" effects
- */
-square move_effect_journal_follow_piece_through_other_effects(ply ply,
-                                                              PieceIdType followed_id,
-                                                              square pos);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

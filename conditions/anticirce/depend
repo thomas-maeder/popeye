@@ -26,7 +26,8 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  solving/move_generator.h stipulation/pipe.h stipulation/branch.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/move.h \
- position/effects/piece_removal.h solving/pipe.h debugging/assert.h
+ position/effects/piece_removal.h position/effects/utils.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/anticirce/anticirce.h:
 
@@ -140,6 +141,8 @@ stipulation/move.h:
 
 position/effects/piece_removal.h:
 
+position/effects/utils.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -167,8 +170,8 @@ conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h solving/pipe.h stipulation/pipe.h \
- stipulation/move.h debugging/assert.h
+ conditions/circe/relevant_side.h position/effects/utils.h solving/pipe.h \
+ stipulation/pipe.h stipulation/move.h debugging/assert.h
 
 conditions/anticirce/cheylan.h:
 
@@ -260,6 +263,8 @@ conditions/circe/relevant_piece.h:
 
 conditions/circe/relevant_side.h:
 
+position/effects/utils.h:
+
 solving/pipe.h:
 
 stipulation/pipe.h:
@@ -291,9 +296,10 @@ conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_squar
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h stipulation/move.h solving/pipe.h debugging/assert.h
+ conditions/circe/relevant_side.h position/effects/utils.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/pipe.h stipulation/move.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/anticirce/magic_square.h:
 
@@ -384,6 +390,8 @@ conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 
 conditions/circe/relevant_side.h:
+
+position/effects/utils.h:
 
 solving/has_solution_type.h:
 

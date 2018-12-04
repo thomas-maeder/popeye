@@ -4,8 +4,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
+#include "position/effects/utils.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 square duellists[nr_sides];

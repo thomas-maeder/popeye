@@ -763,3 +763,76 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 debugging/assert.h:
+position/effects/utils$(OBJ_SUFFIX): position/effects/utils.c \
+ position/effects/utils.h position/board.h utilities/bitmask.h \
+ position/pieceid.h pieces/pieces.h utilities/boolean.h solving/ply.h \
+ position/side.h position/side.enum.h position/side.enum \
+ conditions/actuated_revolving_centre.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ solving/move_effect_journal.h position/castling_rights.h \
+ position/effects/piece_removal.h position/effects/piece_creation.h \
+ position/effects/piece_movement.h position/effects/piece_exchange.h \
+ position/effects/board_transformation.h debugging/assert.h
+
+position/effects/utils.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/pieceid.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+solving/ply.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+conditions/actuated_revolving_centre.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/move_effect_journal.h:
+
+position/castling_rights.h:
+
+position/effects/piece_removal.h:
+
+position/effects/piece_creation.h:
+
+position/effects/piece_movement.h:
+
+position/effects/piece_exchange.h:
+
+position/effects/board_transformation.h:
+
+debugging/assert.h:

@@ -9,8 +9,8 @@ pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h pieces/attributes/neutral/neutral.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/color.enum pieces/walks/vectors.h position/effects/utils.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -80,6 +80,8 @@ position/color.enum.h:
 position/color.enum:
 
 pieces/walks/vectors.h:
+
+position/effects/utils.h:
 
 stipulation/pipe.h:
 

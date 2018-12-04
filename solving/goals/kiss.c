@@ -1,6 +1,7 @@
 #include "solving/goals/kiss.h"
 #include "position/position.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "stipulation/goals/kiss/reached_tester.h"

@@ -1,5 +1,6 @@
 #include "solving/goals/chess81.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

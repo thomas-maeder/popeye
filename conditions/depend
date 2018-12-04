@@ -1426,11 +1426,11 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
  position/effects/side_change.h solving/move_effect_journal.h \
- solving/ply.h solving/observation.h solving/temporary_hacks.h \
- solving/check.h solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/ply.h position/effects/utils.h solving/observation.h \
+ solving/temporary_hacks.h solving/check.h solving/move_generator.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -1500,6 +1500,8 @@ position/effects/side_change.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/effects/utils.h:
 
 solving/observation.h:
 
@@ -2307,7 +2309,7 @@ conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/pipe.h debugging/assert.h
+ solving/pipe.h position/effects/utils.h debugging/assert.h
 
 conditions/duellists.h:
 
@@ -2392,6 +2394,8 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 solving/pipe.h:
+
+position/effects/utils.h:
 
 debugging/assert.h:
 conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
@@ -2779,9 +2783,9 @@ conditions/andernach$(OBJ_SUFFIX): conditions/andernach.c conditions/andernach.h
  solving/has_solution_type.enum stipulation/move.h \
  position/effects/side_change.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h solving/pipe.h \
- debugging/assert.h
+ position/effects/utils.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/andernach.h:
 
@@ -2864,6 +2868,8 @@ position/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+position/effects/utils.h:
 
 position/position.h:
 
@@ -3108,9 +3114,10 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h \
  solving/machinery/dispatch.h debugging/trace.h pieces/walks/walks.h \
  position/effects/walk_change.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/effects/utils.h solving/move_generator.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -3173,6 +3180,8 @@ position/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+position/effects/utils.h:
 
 solving/move_generator.h:
 
@@ -3357,8 +3366,9 @@ conditions/traitor$(OBJ_SUFFIX): conditions/traitor.c conditions/traitor.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
  position/effects/side_change.h solving/move_effect_journal.h \
- solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/ply.h position/effects/utils.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -3431,6 +3441,8 @@ solving/move_effect_journal.h:
 
 solving/ply.h:
 
+position/effects/utils.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -3479,7 +3491,8 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  position/effects/flags_change.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/effects/side_change.h position/effects/piece_movement.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/effects/utils.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -3546,6 +3559,8 @@ position/pieceid.h:
 position/effects/side_change.h:
 
 position/effects/piece_movement.h:
+
+position/effects/utils.h:
 
 stipulation/pipe.h:
 
@@ -3972,8 +3987,8 @@ conditions/line_chameleon$(OBJ_SUFFIX): conditions/line_chameleon.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h position/effects/walk_change.h \
- solving/move_effect_journal.h solving/ply.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/move_effect_journal.h solving/ply.h position/effects/utils.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -4046,6 +4061,8 @@ position/effects/walk_change.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/effects/utils.h:
 
 stipulation/pipe.h:
 
@@ -4523,7 +4540,7 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/post_move_iteration.h solving/observation.h \
  solving/temporary_hacks.h position/effects/walk_change.h \
- stipulation/pipe.h solving/has_solution_type.h \
+ position/effects/utils.h stipulation/pipe.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/move.h solving/pipe.h debugging/assert.h
 
@@ -4624,6 +4641,8 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 position/effects/walk_change.h:
+
+position/effects/utils.h:
 
 stipulation/pipe.h:
 
@@ -6116,11 +6135,11 @@ conditions/nopromotion$(OBJ_SUFFIX): conditions/nopromotion.c \
  conditions/conditions.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
- pieces/walks/pawns/promotee_sequence.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h solving/pipe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ pieces/walks/pawns/promotee_sequence.h position/effects/utils.h \
+ solving/pipe.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -6178,8 +6197,6 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-pieces/walks/pawns/promotee_sequence.h:
-
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -6189,6 +6206,10 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+pieces/walks/pawns/promotee_sequence.h:
+
+position/effects/utils.h:
 
 solving/pipe.h:
 

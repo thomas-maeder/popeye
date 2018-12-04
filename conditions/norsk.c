@@ -1,6 +1,7 @@
 #include "conditions/norsk.h"
 #include "pieces/walks/walks.h"
 #include "position/effects/walk_change.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"

@@ -1,7 +1,7 @@
 #include "conditions/circe/couscous.h"
 #include "position/position.h"
 #include "conditions/circe/circe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "stipulation/stipulation.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

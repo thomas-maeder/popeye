@@ -436,8 +436,9 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  solving/temporary_hacks.h pieces/walks/hunters.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  pieces/walks/classification.h position/effects/piece_movement.h \
- position/effects/piece_removal.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/effects/piece_removal.h position/effects/utils.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -518,6 +519,8 @@ pieces/walks/classification.h:
 position/effects/piece_movement.h:
 
 position/effects/piece_removal.h:
+
+position/effects/utils.h:
 
 solving/move_generator.h:
 

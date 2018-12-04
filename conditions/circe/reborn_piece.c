@@ -1,6 +1,7 @@
 #include "conditions/circe/reborn_piece.h"
 #include "conditions/circe/circe.h"
 #include "position/position.h"
+#include "position/effects/utils.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

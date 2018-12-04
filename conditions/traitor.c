@@ -1,6 +1,7 @@
 #include "conditions/traitor.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/effects/side_change.h"
+#include "position/effects/utils.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"

@@ -1,6 +1,7 @@
 #include "conditions/koeko/koeko.h"
 #include "position/position.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
 #include "stipulation/move.h"

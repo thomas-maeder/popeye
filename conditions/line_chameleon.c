@@ -2,6 +2,7 @@
 #include "pieces/walks/walks.h"
 #include "position/position.h"
 #include "position/effects/walk_change.h"
+#include "position/effects/utils.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
