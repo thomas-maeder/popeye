@@ -1138,8 +1138,9 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/fork.h solving/binary.h \
- position/piece_movement.h solving/move_generator.h solving/pipe.h \
- position/piece_creation.h debugging/assert.h
+ position/piece_removal.h position/piece_movement.h \
+ solving/move_generator.h solving/pipe.h position/piece_creation.h \
+ debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -1252,6 +1253,8 @@ solving/has_solution_type.enum:
 stipulation/fork.h:
 
 solving/binary.h:
+
+position/piece_removal.h:
 
 position/piece_movement.h:
 
