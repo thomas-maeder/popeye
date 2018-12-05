@@ -510,6 +510,8 @@
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
+    ENUMERATOR(STMakeTakeMoveToIntermediateSquare),                     \
+    ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \

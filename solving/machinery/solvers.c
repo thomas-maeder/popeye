@@ -96,6 +96,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
 #include "conditions/central.h"
 #include "conditions/beamten.h"
@@ -466,6 +467,9 @@ void build_solvers1(slice_index si)
     if (CondFlag[mars])
       solving_initialise_marscirce(si);
   }
+
+  if (CondFlag[maketake])
+    solving_insert_make_and_take(si);
 
   if (CondFlag[linechamchess])
     solving_insert_line_chameleon_chess(si);
