@@ -77,7 +77,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[arc]
                 || CondFlag[annan]
                 || CondFlag[glasgow]
-                || CondFlag[takemake]
+                || CondFlag[takemake] || CondFlag[maketake]
                 || CondFlag[messigny]
                 || CondFlag[mars]
                 || CondFlag[castlingchess]

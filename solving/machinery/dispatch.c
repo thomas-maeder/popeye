@@ -715,10 +715,6 @@ void dispatch(slice_index si)
       pawn_promoter_solve(si);
       break;
 
-    case STMakeTakeMoveToIntermediateSquare:
-      make_and_take_move_to_intermediate_square_solve(si);
-      break;
-
     case STMakeTakeGenerateCapturesWalkByWalk:
       make_and_take_generate_captures_by_walk_solve(si);
       break;

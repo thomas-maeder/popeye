@@ -30,7 +30,6 @@ static slice_type const move_slice_rank_order[] =
     STUltraMummerMeasurerDeadend,
     STBackHomeMovesOnly,
     STMarsCirceMoveToRebirthSquare,
-    STMakeTakeMoveToIntermediateSquare,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,

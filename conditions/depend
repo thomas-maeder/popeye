@@ -8641,8 +8641,9 @@ conditions/make_and_take$(OBJ_SUFFIX): conditions/make_and_take.c \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/ply.h solving/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/ply.h solving/observation.h solving/temporary_hacks.h \
+ solving/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -8708,6 +8709,10 @@ pieces/walks/vectors.h:
 position/castling_rights.h:
 
 solving/ply.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 solving/pipe.h:
 

@@ -1,5 +1,6 @@
 #include "conditions/make_and_take.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "solving/pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
@@ -9,35 +10,6 @@
 #include "debugging/trace.h"
 
 #include <string.h>
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void make_and_take_move_to_intermediate_square_solve(slice_index si)
-{
-//  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-//  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
-//  numecoup const id = move_gen_top->id;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 static boolean is_false(numecoup n)
 {
@@ -80,6 +52,9 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
     {
       numecoup const base_walk_victim = CURRMOVE_OF_PLY(nbply);
 
+      TraceWalk(walk_victim);
+      TraceEOL();
+
       move_generation_current_walk = walk_victim;
       pipe_move_generation_delegate(si);
       move_generation_current_walk = save_regular_walk;
@@ -90,7 +65,7 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
         numecoup const top_walk_victim = CURRMOVE_OF_PLY(nbply);
         numecoup curr_walk_victim;
         for (curr_walk_victim = top_walk_victim;
-             curr_walk_victim>curr;
+             curr_walk_victim>base_walk_victim;
              --curr_walk_victim)
         {
           curr_generation->departure = move_generation_stack[curr_walk_victim].arrival;
@@ -177,7 +152,6 @@ void solving_insert_make_and_take(slice_index si)
   // move_effect_journal_register_pre_capture_effect();
 
   move_generator_instrument_for_alternative_paths(si,nr_sides);
-  stip_instrument_moves(si,STMakeTakeMoveToIntermediateSquare);
 
   {
     stip_structure_traversal st;
@@ -190,6 +164,10 @@ void solving_insert_make_and_take(slice_index si)
                                              &instrument_capture);
     stip_traverse_structure(si,&st);
   }
+
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
