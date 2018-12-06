@@ -16,5 +16,50 @@ condition make&take
 twin add black sd3
 twin add black bd3
 
+next
+
+author Peter Schmidt
+pieces white pe7 black ke5
+stipulation h=2.5
+condition make&take
+option nowk
+twin move e5 h8
+
+next
+
+title author Andreas Thoma
+title pieces white ka1 pd4 black ke8 rh8 qg7 pe4
+title stipulation h=3
+title condition make&take
+title 
+title next
+
+author Volker G\"ulke
+pieces white ka4 pg6 black kd1 ph2
+stipulation h==3
+condition make&take
+
+next
+
+author Hartmut Laue
+pieces white kb4 ra4 bb1 pc5 black ka1 be8 pa2b2f7
+stipulation #2
+option vari
+
+next
+
+author Andreas Thoma
+pieces white kc5 pd5 black kc8 sb8 pa7b5b6d4
+stipulation ser-s#5
+condition make&take
+twin move b8 g5
+
+next
+
+author Hartmut Laue
+pieces white ke1 ra1h1 bc1f1 sb1g1 pa2c2d2e2f2h2 black ke8 qc8 ra8h8 sb8g8 pa7c7d7f7g7h7
+stipulation dia4.5
+condition make&take
+
 end
 

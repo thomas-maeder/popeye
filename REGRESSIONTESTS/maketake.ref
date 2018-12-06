@@ -30,7 +30,7 @@
 
    1.Sc1-b3 !
 
-  add_to_move_generation_stack:          41
+  add_to_move_generation_stack:          40
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -38,3 +38,239 @@
 solution finished.
 
 
+
+            Hartmut Laue
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         2 + 2
+              Make&Take
+
+a) 
+
+  1.d3-d2 Bg6*d2 #
+  add_to_move_generation_stack:       11192
+                     play_move:          70
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bSd3  
+
+  1.Sd3-f2 Bg6*f2 #
+  add_to_move_generation_stack:       52568
+                     play_move:         242
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) bBd3  
+
+  1.Bd3-b5 + Bg6*b5 #
+  add_to_move_generation_stack:       69812
+                     play_move:         288
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Peter Schmidt
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2.5                       1 + 1
+              Make&Take
+
+a) 
+
+  1...e7-e8=S +   2.Ke5-f4 Se8-g7 +   3.Kf4-g3 Sg7-h5 =
+  add_to_move_generation_stack:       92058
+                     play_move:        1588
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bKe5-->h8  
+
+  1...e7-e8=B   2.Kh8-h7 Be8-d7   3.Kh7-h6 Bd7-e6 =
+  add_to_move_generation_stack:       45084
+                     play_move:         681
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+           Volker G\"ulke
+        author Andreas Thoma
+pieces white ka1 pd4 black ke8 rh8 qg7 pe4
+           stipulation h=3
+         condition make&take
+                  
+                next
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==3                        2 + 2
+              Make&Take
+
+  1.h2-h1=B g6-g7   2.Bh1-e4 g7-g8=B   3.Be4-c2 + Bg8-b3 ==
+  add_to_move_generation_stack:    47308341
+                     play_move:      225556
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Hartmut Laue
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   R   K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P  -P   .   .   .   .   .   .   2
+|                                   |
+1  -K   B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 5
+
+  add_to_move_generation_stack:         201
+                     play_move:          63
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:          64
+
+solution finished.
+
+
+
+            Andreas Thoma
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   K   P   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s#5                     2 + 6
+              Make&Take
+
+a) 
+
+  1.d5*b8=S   2.Sb8-a6   3.Sa6-b4   4.Sb4*d4   5.Sd4-e6 + b6*e6 #
+  add_to_move_generation_stack:      119667
+                     play_move:        1075
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bSb8-->g5  
+
+  1.d5*g5   2.g5-g6   3.g6-g7   4.g7-g8=B   5.Bg8-e6 + b5*e6 #
+  add_to_move_generation_stack:       86066
+                     play_move:         729
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Hartmut Laue
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -Q   .  -K   .  -S  -R   8
+|                                   |
+7  -P   .  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   P   P   P   P   .   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4.5                    13 + 12
+              Make&Take

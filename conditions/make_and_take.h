@@ -5,6 +5,9 @@
 
 /* This module implements the condition Make&Take*/
 
+boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
+                                                           Side side_king_attacked);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

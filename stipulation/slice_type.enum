@@ -511,6 +511,7 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
+    ENUMERATOR(STMakeTakeCaptureKingAsTestForCheck),                    \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \

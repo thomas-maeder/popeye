@@ -358,7 +358,7 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static void genmove(void)
+void genmove(void)
 {
   unsigned int i;
   square square_h = square_h8;
