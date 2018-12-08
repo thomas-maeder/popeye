@@ -66,7 +66,7 @@ solution finished.
 a) 
 
   1.d3-d2 Bg6*d2 #
-  add_to_move_generation_stack:       11192
+  add_to_move_generation_stack:        9638
                      play_move:          70
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -74,7 +74,7 @@ a)
 b) bSd3  
 
   1.Sd3-f2 Bg6*f2 #
-  add_to_move_generation_stack:       52568
+  add_to_move_generation_stack:       33547
                      play_move:         242
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -82,7 +82,7 @@ b) bSd3
 c) bBd3  
 
   1.Bd3-b5 + Bg6*b5 #
-  add_to_move_generation_stack:       69812
+  add_to_move_generation_stack:       40498
                      play_move:         288
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -166,7 +166,7 @@ pieces white ka1 pd4 black ke8 rh8 qg7 pe4
               Make&Take
 
   1.h2-h1=B g6-g7   2.Bh1-e4 g7-g8=B   3.Be4-c2 + Bg8-b3 ==
-  add_to_move_generation_stack:    47308341
+  add_to_move_generation_stack:    26959889
                      play_move:      225556
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -234,7 +234,7 @@ solution finished.
 a) 
 
   1.d5*b8=S   2.Sb8-a6   3.Sa6-b4   4.Sb4*d4   5.Sd4-e6 + b6*e6 #
-  add_to_move_generation_stack:      119667
+  add_to_move_generation_stack:       87734
                      play_move:        1075
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -242,7 +242,7 @@ a)
 b) bSb8-->g5  
 
   1.d5*g5   2.g5-g6   3.g6-g7   4.g7-g8=B   5.Bg8-e6 + b5*e6 #
-  add_to_move_generation_stack:       86066
+  add_to_move_generation_stack:       65105
                      play_move:         729
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -274,3 +274,13 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   dia4.5                    13 + 12
               Make&Take
+
+  1.b2-b4 e7-e5   2.b4*f8=B e5*c1=S   3.Qd1*c1 b7*c1=B   4.g2*c8=S Qd8*c8   5.Bf8*c1 dia
+  add_to_move_generation_stack:   130608059
+                     play_move:     3074606
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -9,6 +9,7 @@
 #include "stipulation/move.h"
 #include "position/position.h"
 #include "debugging/trace.h"
+#include "debugging/assert.h"
 
 #include <string.h>
 
@@ -17,7 +18,11 @@ static boolean is_false(numecoup n)
   return false;
 }
 
-#include "solving/fork.h"
+extern void genmove(void);
+extern piece_walk_type observing_walk[maxply+1];
+#include "solving/castling.h"
+
+static piece_walk_type max_victim = nr_piece_walks-1;
 
 boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
                                                            Side side_king_attacked)
@@ -25,14 +30,25 @@ boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
   boolean result = false;
 
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  square const save_king_square = being_solved.king_square[White];
+  square const save_generation_departure = curr_generation->departure;
+  Side const side_delivering_check = advers(side_king_attacked);
+  castling_rights_type const save_castling_rights = being_solved.castling_rights;
+  piece_walk_type const save_max_victim = max_victim;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_king_attacked);
   TraceFunctionParamListEnd();
 
-  TraceSquare(being_solved.king_square[side_king_attacked]);TraceEOL();
-
+  CLRCASTLINGFLAGMASK(side_delivering_check,k_cancastle);
+  max_victim = King;
   genmove();
+  max_victim = save_max_victim;
+  being_solved.castling_rights = save_castling_rights;
+  curr_generation->departure = save_generation_departure;
+
+  assert(save_king_square==being_solved.king_square[White]);
 
   {
     while (CURRMOVE_OF_PLY(nbply)>curr)
@@ -42,7 +58,6 @@ boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
       TraceEOL();
       if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==being_solved.king_square[side_king_attacked])
       {
-        extern piece_walk_type observing_walk[maxply+1];
         observing_walk[nbply] = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
         if (EVALUATE_OBSERVATION(EVALUATE(check),
                                  move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure,
@@ -86,6 +101,8 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   square const save_departure = curr_generation->departure;
   Flags const save_flags = being_solved.spec[save_departure];
 
+  square const save_king_square = being_solved.king_square[White];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -95,7 +112,7 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   TraceEnumerator(Side,side_victim);
   TraceEOL();
 
-  for (walk_victim=King; walk_victim!=nr_piece_walks; ++walk_victim)
+  for (walk_victim=King; walk_victim<=max_victim; ++walk_victim)
     if (being_solved.number_of_pieces[side_victim][walk_victim]>0)
     {
       numecoup const base_walk_victim = CURRMOVE_OF_PLY(nbply);
@@ -103,11 +120,9 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
       TraceWalk(walk_victim);
       TraceEOL();
 
-      move_generation_current_walk = walk_victim;
       trait[nbply] = advers(trait[nbply]);
-      pipe_move_generation_delegate(si);
+      generate_moves_different_walk(SLICE_NEXT1(si),walk_victim);
       trait[nbply] = advers(trait[nbply]);
-      move_generation_current_walk = save_regular_walk;
 
       move_generator_filter_captures(base_walk_victim,&is_false);
 

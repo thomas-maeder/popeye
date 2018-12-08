@@ -25,9 +25,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/observation.h \
- solving/temporary_hacks.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h conditions/annan.h conditions/bgl.h \
- conditions/facetoface.h conditions/koeko/contact_grid.h \
+ solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h conditions/annan.h \
+ conditions/bgl.h conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
  conditions/blackchecks.h conditions/mummer.h conditions/extinction.h \
@@ -224,6 +224,8 @@ stipulation/pipe.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 output/plaintext/message.h:
 
@@ -689,9 +691,10 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  pieces/walks/classification.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- solving/temporary_hacks.h pieces/walks/orphan.h position/underworld.h \
- position/effects/king_square.h position/effects/flags_change.h \
- conditions/conditions.h conditions/alphabetic.h conditions/mummer.h \
+ solving/temporary_hacks.h solving/fork.h pieces/walks/orphan.h \
+ position/underworld.h position/effects/king_square.h \
+ position/effects/flags_change.h conditions/conditions.h \
+ conditions/alphabetic.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -801,6 +804,8 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 pieces/walks/orphan.h:
 
@@ -1114,10 +1119,10 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
- solving/temporary_hacks.h conditions/snek.h conditions/patience.h \
- conditions/isardam.h conditions/sat.h conditions/dynasty.h \
- conditions/masand.h conditions/messigny.h conditions/oscillating_kings.h \
- conditions/actuated_revolving_centre.h \
+ solving/temporary_hacks.h solving/fork.h conditions/snek.h \
+ conditions/patience.h conditions/isardam.h conditions/sat.h \
+ conditions/dynasty.h conditions/masand.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/cage.h \
  conditions/circe/double_agents.h conditions/circe/kamikaze.h \
@@ -1474,6 +1479,8 @@ conditions/singlebox/type3.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 conditions/snek.h:
 
