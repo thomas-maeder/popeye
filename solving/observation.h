@@ -112,6 +112,7 @@ typedef boolean (*validator_id)(void);
 /* version with slice indices */
 #include "solving/temporary_hacks.h"
 typedef slice_index validator_id;
+#include "solving/fork.h"
 #define EVALUATE(key) (temporary_hack_##key##_validator[trait[nbply]])
 #define INVOKE_EVALUATE(validator) (fork_validate_observation_recursive_delegate(validator))
 
