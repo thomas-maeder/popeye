@@ -3215,3 +3215,57 @@ b) wSg8-->c2
 Loesung beendet. 
 
 
+
+            Hartmut Laue
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S   .  -D  -K   .  -S  -T   8
+|                                   |
+7  -B   .  -B  -B   .  -B   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   B   B   B   B   L   B   2
+|                                   |
+1   T   S   L   .   .   .   S   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia6.5                    12 + 11
+              Make&Take
+
+  1  (Sb1-c3 )
+  2  (Sb1-a3 )
+  3  (Sg1-h3 )
+  4  (Sg1-f3 )
+  5  (a2-a4 )
+  6  (a2-a3 )
+  7  (b2-b4 )
+  1.b2-b4 e7-e5   2.b4*f8=L e5*c1=S   3.Dd1*c1 b7*c1=L   4.g2*c8=S g7*h1=S +   5.Ke1*h1 Dd8*c8 +   6.Lf1-g2 Dc8-d8   7.Lf8*c1 dia
+  8  (b2-b3 )
+  9  (c2-c4 )
+ 10  (c2-c3 )
+ 11  (d2-d4 )
+ 12  (d2-d3 )
+ 13  (e2-e4 )
+ 14  (e2-e3 )
+ 15  (f2-f4 )
+ 16  (f2-f3 )
+ 17  (g2-g4 )
+ 18  (g2-g3 )
+ 19  (h2-h4 )
+ 20  (h2-h3 )
+  add_to_move_generation_stack:2815358343570
+                     play_move: 66456276176
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+Loesung beendet.
+
+
