@@ -111,6 +111,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
@@ -713,6 +714,10 @@ void dispatch(slice_index si)
 
     case STPawnPromoter:
       pawn_promoter_solve(si);
+      break;
+
+    case STMakeTakeGenerateCapturesWalkByWalk:
+      make_and_take_generate_captures_by_walk_solve(si);
       break;
 
     case STMarsCirceMoveToRebirthSquare:

@@ -1391,7 +1391,7 @@ stipulation/slice_insertion$(OBJ_SUFFIX): stipulation/slice_insertion.c \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  stipulation/move.h stipulation/pipe.h solving/move_generator.h \
  solving/ply.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h debugging/assert.h
+ solving/temporary_hacks.h solving/fork.h debugging/assert.h
 
 stipulation/slice_insertion.h:
 
@@ -1474,6 +1474,8 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 stipulation/modifier$(OBJ_SUFFIX): stipulation/modifier.c stipulation/modifier.h \

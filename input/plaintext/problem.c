@@ -30,6 +30,9 @@ static void InitBoard(void)
   square i;
   square const *bnp;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (i= maxsquare-1; i>=0; i--)
   {
     empty_square(i);
@@ -49,6 +52,9 @@ static void InitBoard(void)
   king_square_initialise();
 
   being_solved.currPieceId = NullPieceId;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Handle (read, solve, write) the current problem

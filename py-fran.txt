@@ -210,6 +210,7 @@ simples:
 	SAT
 	StrictSAT
 	Take&MakeEchecs
+	Make&TakeEchecs
 	NoirSynchronCoup
 	BlancSynchronCoup
 	NoirAntiSynchronCoup

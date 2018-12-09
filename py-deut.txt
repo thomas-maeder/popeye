@@ -213,6 +213,7 @@ Kommandos:
 	SAT
 	StrictSAT
 	Take&MakeSchach
+	Make&TakeSchach
 	SchwarzerSynchronZueger
 	WeisserSynchronZueger
 	SchwarzerAntiSynchronZueger

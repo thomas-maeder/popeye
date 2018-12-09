@@ -1675,6 +1675,7 @@ void verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
+      || CondFlag[maketake]
       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
@@ -1697,6 +1698,7 @@ void verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
+      || CondFlag[maketake]
       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
@@ -1708,7 +1710,7 @@ void verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(Black);
 
-  if (CondFlag[takemake])
+  if (CondFlag[takemake] || CondFlag[maketake])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[castlingchess] || CondFlag[rokagogo]

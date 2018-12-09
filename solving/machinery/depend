@@ -25,9 +25,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/observation.h \
- solving/temporary_hacks.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h conditions/annan.h conditions/bgl.h \
- conditions/breton.h conditions/facetoface.h \
+ solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h conditions/annan.h \
+ conditions/bgl.h conditions/breton.h conditions/facetoface.h \
  conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
  conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
  utilities/table.h conditions/republican.h conditions/blackchecks.h \
@@ -68,9 +68,10 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
  conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
  conditions/monochrome.h conditions/bichrome.h conditions/edgemover.h \
- conditions/grid.h conditions/take_and_make.h conditions/superguards.h \
- conditions/central.h conditions/beamten.h conditions/brunner.h \
- conditions/wormhole.h conditions/transmuting_kings/transmuting_kings.h \
+ conditions/grid.h conditions/take_and_make.h conditions/make_and_take.h \
+ conditions/superguards.h conditions/central.h conditions/beamten.h \
+ conditions/brunner.h conditions/wormhole.h \
+ conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
  conditions/follow_my_leader.h conditions/alphabetic.h \
@@ -224,6 +225,8 @@ stipulation/pipe.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 output/plaintext/message.h:
 
@@ -420,6 +423,8 @@ conditions/edgemover.h:
 conditions/grid.h:
 
 conditions/take_and_make.h:
+
+conditions/make_and_take.h:
 
 conditions/superguards.h:
 
@@ -666,9 +671,10 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  position/color.enum pieces/walks/vectors.h pieces/walks/walks.h \
  pieces/walks/classification.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- solving/temporary_hacks.h pieces/walks/orphan.h position/underworld.h \
- position/effects/king_square.h position/effects/flags_change.h \
- conditions/conditions.h conditions/alphabetic.h conditions/mummer.h \
+ solving/temporary_hacks.h solving/fork.h pieces/walks/orphan.h \
+ position/underworld.h position/effects/king_square.h \
+ position/effects/flags_change.h conditions/conditions.h \
+ conditions/alphabetic.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -778,6 +784,8 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 pieces/walks/orphan.h:
 
@@ -1071,10 +1079,10 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
- solving/temporary_hacks.h conditions/snek.h conditions/patience.h \
- conditions/isardam.h conditions/sat.h conditions/dynasty.h \
- conditions/masand.h conditions/messigny.h conditions/oscillating_kings.h \
- conditions/actuated_revolving_centre.h \
+ solving/temporary_hacks.h solving/fork.h conditions/snek.h \
+ conditions/patience.h conditions/isardam.h conditions/sat.h \
+ conditions/dynasty.h conditions/masand.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/cage.h \
  conditions/circe/double_agents.h conditions/circe/kamikaze.h \
@@ -1095,11 +1103,12 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/imitator.h conditions/football.h conditions/woozles.h \
  conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
  conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
- conditions/superguards.h conditions/wormhole.h conditions/backhome.h \
- conditions/shielded_kings.h conditions/annan.h conditions/beamten.h \
- conditions/central.h conditions/disparate.h conditions/eiffel.h \
- conditions/facetoface.h conditions/madrasi.h \
- conditions/partial_paralysis.h conditions/marscirce/plus.h \
+ conditions/make_and_take.h conditions/superguards.h \
+ conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
+ conditions/annan.h conditions/beamten.h conditions/central.h \
+ conditions/disparate.h conditions/eiffel.h conditions/facetoface.h \
+ conditions/madrasi.h conditions/partial_paralysis.h \
+ conditions/marscirce/plus.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/lostpieces.h \
@@ -1433,6 +1442,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 conditions/snek.h:
 
 conditions/patience.h:
@@ -1544,6 +1555,8 @@ conditions/edgemover.h:
 conditions/grid.h:
 
 conditions/take_and_make.h:
+
+conditions/make_and_take.h:
 
 conditions/superguards.h:
 

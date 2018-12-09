@@ -76,6 +76,7 @@ static slice_index const slice_rank_order[] =
     STMoveForPieceGeneratorStandardPath,
     STMoveForPieceGeneratorAlternativePath,
     STMarsCirceMoveGeneratorEnforceRexInclusive,
+    STMakeTakeGenerateCapturesWalkByWalk,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,
@@ -357,7 +358,7 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static void genmove(void)
+void genmove(void)
 {
   unsigned int i;
   square square_h = square_h8;

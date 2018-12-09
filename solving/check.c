@@ -204,6 +204,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_is_in_check(si,side_in_check);
       break;
 
+    case STMakeTakeCaptureKingAsTestForCheck:
+      result = make_and_take_capture_king_as_test_for_check_solve(si,side_in_check);
+      break;
+
     case STExtinctionAllPieceObservationTester:
       result = exctinction_all_piece_observation_tester_is_in_check(si,side_in_check);
       break;

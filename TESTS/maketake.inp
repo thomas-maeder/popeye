@@ -1,0 +1,18 @@
+begin
+
+protocol maketake.tst
+
+pieces white sc1 black pa2 rc3
+condition make&take
+stipulation ~1
+option nowk nobk
+
+next
+
+title black is in check from se8!
+pieces black ka7 ra8 white se8
+stipulation zg71
+condition make&take
+option nowk
+
+end

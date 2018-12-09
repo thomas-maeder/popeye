@@ -939,7 +939,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse"
+    /*207*/ "BretonAdverse",
+    /*208*/ "Make&TakeEchecs"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1149,7 +1150,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse"
+    /*207*/ "BretonAdverse",
+    /*208*/ "Make&TakeSchach"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1359,7 +1361,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse"
+    /*207*/ "BretonAdverse",
+    /*208*/ "Make&TakeChess"
   }
 };
 
