@@ -603,6 +603,7 @@ static void write_piece_removal(output_plaintext_move_context_type *context,
 
     case move_effect_reason_kamikaze_capturer:
     case move_effect_reason_zeroed_in:
+    case move_effect_reason_breton:
       next_context(context,curr,"[-","]");
       write_complete_piece(context,
                            move_effect_journal[curr].u.piece_removal.flags,

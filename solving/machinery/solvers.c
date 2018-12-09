@@ -13,6 +13,7 @@
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/breton.h"
 #include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
@@ -389,6 +390,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
+
+  if (CondFlag[breton])
+    solving_insert_breton(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);

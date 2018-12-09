@@ -224,8 +224,9 @@ typedef enum
   immunhorizontalsymmetry, /* 203 */
   lesemajeste,            /* 204 */
   rokagogo,               /* 205 */
+  breton,                 /* 206 */
 
-  CondCount               /* 206 */
+  CondCount               /* 207 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

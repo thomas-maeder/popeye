@@ -7,6 +7,7 @@
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/breton.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
@@ -1019,6 +1020,10 @@ void dispatch(slice_index si)
 
     case STRepublicanType1DeadEnd:
       republican_type1_dead_end_solve(si);
+      break;
+
+    case STBretonRemover:
+      breton_remover_solve(si);
       break;
 
     case STCirceCaptureFork:
