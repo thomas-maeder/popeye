@@ -35,7 +35,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/plaintext/message.h output/message.h conditions/republican.h \
  conditions/bgl.h conditions/kobul.h conditions/imitator.h \
  conditions/singlebox/type1.h pieces/walks/pawns/en_passant.h \
- solving/observation.h solving/temporary_hacks.h \
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
  pieces/walks/classification.h stipulation/pipe.h solving/pipe.h \
  debugging/assert.h
 
@@ -190,6 +190,8 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 pieces/walks/classification.h:
 
@@ -880,7 +882,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/isardam.h conditions/kobul.h conditions/koeko/anti.h \
  conditions/koeko/koeko.h conditions/madrasi.h conditions/magic_square.h \
  conditions/marscirce/marscirce.h solving/observation.h \
- solving/temporary_hacks.h solving/move_generator.h \
+ solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
  conditions/messigny.h conditions/oscillating_kings.h \
  conditions/protean.h conditions/republican.h conditions/sat.h \
@@ -1056,6 +1058,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/move_generator.h:
 
 conditions/marscirce/anti.h:
@@ -1119,9 +1123,10 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
  conditions/imitator.h pieces/attributes/neutral/neutral.h \
  pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/castling.h \
- solving/move_generator.h solving/proofgames.h solving/pipe.h \
- stipulation/pipe.h stipulation/branch.h debugging/assert.h
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ solving/castling.h solving/move_generator.h solving/proofgames.h \
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h \
+ debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1281,6 +1286,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/castling.h:
 
 solving/move_generator.h:
@@ -1327,7 +1334,7 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  output/plaintext/message.h output/message.h output/plaintext/protocol.h \
  pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
  pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- debugging/assert.h
+ solving/fork.h debugging/assert.h
 
 output/plaintext/pieces.h:
 
@@ -1462,6 +1469,8 @@ pieces/walks/hunters.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \

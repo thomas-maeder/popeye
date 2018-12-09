@@ -20,7 +20,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-              Make&Take
+           Make&TakeChess
 
    1.Sc1*c3 !
 
@@ -61,7 +61,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         2 + 2
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -113,7 +113,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2.5                       1 + 1
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -157,7 +157,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         2 + 4
-              Make&Take
+           Make&TakeChess
 
   1.Qg7-g4 d4*e4   2.Qg4-d7 e4*d7   3.Rh8-h1 + Ka1*h1 =
   1.Qg7-g4 d4*e4   2.Qg4-d7 e4*d7   3.Rh8-h2 + Ka1*h2 =
@@ -250,7 +250,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3                        2 + 2
-              Make&Take
+           Make&TakeChess
 
   1.h2-h1=B g6-g7   2.Bh1-e4 g7-g8=B   3.Be4-c2 + Bg8-b3 ==
   add_to_move_generation_stack:    26959889
@@ -284,7 +284,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3.5                      2 + 3
-              Make&Take
+           Make&TakeChess
 
   1...f6-f7   2.c2-c1=B f7-f8=B   3.Bc1-e3 Bf8*h2   4.Be3-b6 + Bh2-c7 ==
   add_to_move_generation_stack:   198249838
@@ -318,7 +318,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 5
-              Make&Take
+           Make&TakeChess
 
    1.Kb4*a2 ! zugzwang.
       1...f7-f5 +
@@ -363,7 +363,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         6 + 10
-              Make&Take
+           Make&TakeChess
 
    1.c2-c3 + !
       1...Rb2*c3
@@ -402,7 +402,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#5                     2 + 6
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -446,7 +446,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#5                     2 + 6
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -490,7 +490,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia4.5                    13 + 12
-              Make&Take
+           Make&TakeChess
 
   1.b2-b4 e7-e5   2.b4*f8=B e5*c1=S   3.Qd1*c1 b7*c1=B   4.g2*c8=S Qd8*c8   5.Bf8*c1 dia
   add_to_move_generation_stack:   130608059
@@ -524,7 +524,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3                        3 + 3
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -568,7 +568,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        5 + 11
-              Make&Take
+           Make&TakeChess
 
 a) 
 
@@ -1366,7 +1366,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 5
-              Make&Take
+           Make&TakeChess
 
 a) 
 

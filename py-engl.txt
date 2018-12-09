@@ -208,6 +208,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	SAT
 	StrictSAT
 	Take&MakeChess
+	Make&TakeChess
 	BlackSynchronMover
 	WhiteSynchronMover
 	BlackAntiSynchronMover
