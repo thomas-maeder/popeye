@@ -11,7 +11,7 @@ static square const *breton_state[maxply+1];
 
 static boolean advance_breton_victim_position(slice_index si,
                                               move_effect_journal_index_type const capture,
-                                              Side side_capturee)
+                                              Side side_bretonnee)
 {
   piece_walk_type const walk_capturee = move_effect_journal[capture].u.piece_removal.walk;
 
@@ -20,12 +20,12 @@ static boolean advance_breton_victim_position(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",capture);
-  TraceEnumerator(Side,side_capturee);
+  TraceEnumerator(Side,side_bretonnee);
   TraceFunctionParamListEnd();
 
   while (*breton_state[nbply]
          && !(get_walk_of_piece_on_square(*breton_state[nbply])==walk_capturee
-              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_capturee)))
+              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_bretonnee)))
     ++breton_state[nbply];
 
   if (*breton_state[nbply]==0)
@@ -35,6 +35,62 @@ static boolean advance_breton_victim_position(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void delegate_with_breton_removal(slice_index si)
+{
+  move_effect_journal_do_piece_removal(move_effect_reason_breton,
+                                       *breton_state[nbply]);
+  post_move_iteration_solve_delegate(si);
+}
+
+static void try_next_breton_removal(slice_index si, Side side_bretonnee)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_bretonnee);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
+  {
+    if (!post_move_am_i_iterating())
+    {
+      /* try to start a new iteration */
+      breton_state[nbply] = boardnum;
+
+      if (advance_breton_victim_position(si,capture,side_bretonnee))
+        /* we got a winner! */
+        delegate_with_breton_removal(si);
+      else
+        /* no Breton removal for this regular removal */
+        pipe_solve_delegate(si);
+    }
+    else if (post_move_have_i_lock())
+    {
+      /* try to advance the current iteration */
+      ++breton_state[nbply];
+      if (advance_breton_victim_position(si,capture,side_bretonnee))
+        /* we got a winner! */
+        delegate_with_breton_removal(si);
+      else
+      {
+        /* end the current iteration */
+        solve_result = this_move_is_illegal;
+        post_move_iteration_end();
+      }
+    }
+    else
+      /* replay the current step of iteration - somebody else is advancing */
+      delegate_with_breton_removal(si);
+  }
+  else
+    pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -52,61 +108,11 @@ static boolean advance_breton_victim_position(slice_index si,
  */
 void breton_remover_solve(slice_index si)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[capture].type==move_effect_piece_removal)
-  {
-    if (!post_move_am_i_iterating())
-    {
-      /* try to start a new iteration */
-      breton_state[nbply] = boardnum;
-
-      if (advance_breton_victim_position(si,capture,SLICE_STARTER(si)))
-      {
-        /* we got a winner! */
-        move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                             *breton_state[nbply]);
-        post_move_iteration_solve_delegate(si);
-      }
-      else
-      {
-        /* no Breton removal for this regular removal */
-        pipe_solve_delegate(si);
-      }
-    }
-    else if (post_move_have_i_lock())
-    {
-      /* try to advance the current iteration */
-      ++breton_state[nbply];
-      if (advance_breton_victim_position(si,capture,SLICE_STARTER(si)))
-      {
-        /* we got a winner! */
-        move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                             *breton_state[nbply]);
-        post_move_iteration_solve_delegate(si);
-      }
-      else
-      {
-        /* end the current iteration */
-        solve_result = this_move_is_illegal;
-        post_move_iteration_end();
-      }
-    }
-    else
-    {
-      /* replay the current step of iteration - somebody else is advancing */
-      move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                           *breton_state[nbply]);
-      post_move_iteration_solve_delegate(si);
-    }
-  }
-  else
-    pipe_solve_delegate(si);
+  try_next_breton_removal(si,SLICE_STARTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -140,61 +146,11 @@ void solving_insert_breton(slice_index si)
  */
 void breton_adverse_remover_solve(slice_index si)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[capture].type==move_effect_piece_removal)
-  {
-    if (!post_move_am_i_iterating())
-    {
-      /* try to start a new iteration */
-      breton_state[nbply] = boardnum;
-
-      if (advance_breton_victim_position(si,capture,advers(SLICE_STARTER(si))))
-      {
-        /* we got a winner! */
-        move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                             *breton_state[nbply]);
-        post_move_iteration_solve_delegate(si);
-      }
-      else
-      {
-        /* no Breton removal for this regular removal */
-        pipe_solve_delegate(si);
-      }
-    }
-    else if (post_move_have_i_lock())
-    {
-      /* try to advance the current iteration */
-      ++breton_state[nbply];
-      if (advance_breton_victim_position(si,capture,advers(SLICE_STARTER(si))))
-      {
-        /* we got a winner! */
-        move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                             *breton_state[nbply]);
-        post_move_iteration_solve_delegate(si);
-      }
-      else
-      {
-        /* end the current iteration */
-        solve_result = this_move_is_illegal;
-        post_move_iteration_end();
-      }
-    }
-    else
-    {
-      /* replay the current step of iteration - somebody else is advancing */
-      move_effect_journal_do_piece_removal(move_effect_reason_breton,
-                                           *breton_state[nbply]);
-      post_move_iteration_solve_delegate(si);
-    }
-  }
-  else
-    pipe_solve_delegate(si);
+  try_next_breton_removal(si,advers(SLICE_STARTER(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
