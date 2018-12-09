@@ -27,12 +27,12 @@ twin move e5 h8
 
 next
 
-title author Andreas Thoma
-title pieces white ka1 pd4 black ke8 rh8 qg7 pe4
-title stipulation h=3
-title condition make&take
-title 
-title next
+author Andreas Thoma
+pieces white ka1 pd4 black ke8 rh8 qg7 pe4
+stipulation h=3
+condition make&take
+
+next
 
 author Volker G\"ulke
 pieces white ka4 pg6 black kd1 ph2
@@ -41,9 +41,24 @@ condition make&take
 
 next
 
+author Volker G\"ulke
+pieces white kd8 pf6 black ka5 bh2 pc2
+stipulation h==3.5
+condition make&take
+
+next
+
 author Hartmut Laue
-pieces white kb4 ra4 bb1 pc5 black ka1 be8 pa2b2f7
+pieces white kb4 ra4 pb2c5 black ka1 rb1 be8 pa2f7
 stipulation #2
+option vari
+
+next
+
+author Hartmut Laue
+pieces white ka8 ra5 bg7 pc2f2f6 black ke5 rb2 bd3e7 pa7b7c4d5g2h4
+stipulation #2
+condition make&take
 option vari
 
 next
@@ -56,10 +71,50 @@ twin move b8 g5
 
 next
 
+author Andreas Thoma
+pieces white kc5 ph2 black kc8 bb8 pa7b5b6d4
+stipulation ser-s#5
+condition make&take
+twin move b8 g6
+
+next
+
 author Hartmut Laue
 pieces white ke1 ra1h1 bc1f1 sb1g1 pa2c2d2e2f2h2 black ke8 qc8 ra8h8 sb8g8 pa7c7d7f7g7h7
 stipulation dia4.5
 condition make&take
+
+next
+
+author Volker G\"ulke
+pieces white kf7 pd6e6 black kc4 sb8 pg2
+stipulation h==3
+condition make&take
+twin move b8 a8
+
+next
+
+author Andreas Thomas & Hartmut Laue
+pieces white ka2 bc1 sd1 pb3g2 black kh6 qg7 ra8h8 pa5b4e3e4e6e7g3
+stipulation h#2
+condition make&take
+twin move h6 a6
+
+next
+
+author Andreas Thoma
+pieces white kd1 pd2f2 black kh6 qd4 ra8h8 pa5
+stipulation h#2
+condition make&take
+twin move h6 a6
+
+next
+
+author Hartmut Laue
+pieces white kh1 ra1 bc1g2 sb1g1 pa2c2d2e2f2h2 black ke8 qd8 ra8h8 sb8g8 pa7c7d7f7h7
+stipulation dia6.5
+condition make&take
+option movenum
 
 end
 
