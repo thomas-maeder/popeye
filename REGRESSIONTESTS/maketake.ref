@@ -318,11 +318,24 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 5
+              Make&Take
 
-  add_to_move_generation_stack:         264
-                     play_move:          59
- is_white_king_square_attacked:          27
- is_black_king_square_attacked:          60
+   1.Kb4*a2 ! zugzwang.
+      1...f7-f5 +
+          2.Ka2*e8 #
+      1...f7-f6 +
+          2.Ka2*e8 #
+      1...Be8-b5 +
+          2.Ka2*b5 #
+      1...Be8-c6 +
+          2.Ka2*c6 #
+      1...Be8-d7 +
+          2.Ka2*d7 #
+
+  add_to_move_generation_stack:      108868
+                     play_move:        1034
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
 solution finished.
 
@@ -505,7 +518,7 @@ solution finished.
 |                                   |
 3   .   .   .   .   .   .   .   .   3
 |                                   |
-2   .   .   .   .   .   .  -P   .   2
+2   .   .  -P   .   .   .   .   .   2
 |                                   |
 1   .   .   .   .   .   .   .   .   1
 |                                   |
@@ -515,18 +528,17 @@ solution finished.
 
 a) 
 
-  1.g2-g1=S e6*b8=S   2.Sg1-e2 Sb8-d7   3.Se2*d6 + Sd7-e5 ==
-  add_to_move_generation_stack:   124181884
-                     play_move:      983319
+  1.c2-c1=S e6*b8=S   2.Sc1-e2 Sb8-d7   3.Se2*d6 + Sd7-e5 ==
+  add_to_move_generation_stack:   238434897
+                     play_move:     1679728
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 b) bSb8-->a8  
 
-  1.g2-g1=B d6*a8=B   2.Bg1-h2 Ba8-h1   3.Bh2*e6 + Bh1-d5 ==
-  1.g2-g1=B d6*a8=B   2.Bg1-d4 Ba8-h1   3.Bd4*e6 + Bh1-d5 ==
-  add_to_move_generation_stack:   171406415
-                     play_move:     1312392
+  1.c2-c1=B d6*a8=B   2.Bc1-f4 Ba8-h1   3.Bf4*e6 + Bh1-d5 ==
+  add_to_move_generation_stack:   325304258
+                     play_move:     2232299
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
