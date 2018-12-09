@@ -48,28 +48,21 @@ boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
   being_solved.castling_rights = save_castling_rights;
   curr_generation->departure = save_generation_departure;
 
-  assert(save_king_square==being_solved.king_square[White]);
-
+  while (CURRMOVE_OF_PLY(nbply)>curr)
   {
-    while (CURRMOVE_OF_PLY(nbply)>curr)
+    if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==being_solved.king_square[side_king_attacked])
     {
-      TraceValue("%u",CURRMOVE_OF_PLY(nbply));
-      TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
-      TraceEOL();
-      if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==being_solved.king_square[side_king_attacked])
+      observing_walk[nbply] = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+      if (EVALUATE_OBSERVATION(EVALUATE(check),
+                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure,
+                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture))
       {
-        observing_walk[nbply] = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-        if (EVALUATE_OBSERVATION(EVALUATE(check),
-                                 move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure,
-                                 move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture))
-        {
-          result = true;
-          break;
-        }
+        result = true;
+        break;
       }
-
-      --CURRMOVE_OF_PLY(nbply);
     }
+
+    --CURRMOVE_OF_PLY(nbply);
   }
 
   TraceFunctionExit(__func__);
