@@ -47,7 +47,7 @@ static boolean advance_breton_victim_position(slice_index si,
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void breton_remover_solve(slice_index si)
+void breton_adverse_remover_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -111,12 +111,12 @@ void breton_remover_solve(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void solving_insert_breton(slice_index si)
+void solving_insert_breton_adverse(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STBretonRemover);
+  stip_instrument_moves(si,STBretonAdverseRemover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

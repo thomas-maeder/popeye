@@ -224,7 +224,7 @@ typedef enum
   immunhorizontalsymmetry, /* 203 */
   lesemajeste,            /* 204 */
   rokagogo,               /* 205 */
-  breton,                 /* 206 */
+  bretonadverse,                 /* 206 */
 
   CondCount               /* 207 */
 } Cond;

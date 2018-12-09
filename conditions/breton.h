@@ -3,7 +3,7 @@
 
 #include "solving/machinery/solve.h"
 
-/* This module implements the condition Breton */
+/* This module implements the conditions Breton and Breton Adverse */
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -18,10 +18,10 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void breton_remover_solve(slice_index si);
+void breton_adverse_remover_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void solving_insert_breton(slice_index si);
+void solving_insert_breton_adverse(slice_index si);
 
 #endif
