@@ -1,0 +1,11 @@
+begin
+
+protocol maketake.tst
+
+pieces white sc1 black pa2 rc3
+condition make&take
+stipulation ~1
+option nowk nobk
+
+end
+

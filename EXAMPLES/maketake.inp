@@ -2,13 +2,6 @@ begin
 
 protocol maketake.ref
 
-pieces white sc1 black pa2 rc3
-condition make&take
-stipulation ~1
-option nowk nobk
-
-next
-
 author Hartmut Laue
 pieces white kd7 bg6 black ke1 pd3
 stipulation h#1
