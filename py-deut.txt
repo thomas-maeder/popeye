@@ -253,6 +253,8 @@ Kommandos:
 	PartielleParalyse
 	LeseMajeste
 	Rokagogo
+	Breton
+	BretonAdverse
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

@@ -250,6 +250,8 @@ simples:
 	ParalysePartielle
 	LeseMajeste
 	Rokagogo
+	Breton
+	BretonAdverse
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
