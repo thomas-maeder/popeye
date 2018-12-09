@@ -487,7 +487,8 @@
     ENUMERATOR(STSnekCircleSubstitutor),                                \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
-    ENUMERATOR(STBretonAdverseRemover),                                    \
+    ENUMERATOR(STBretonRemover),                                        \
+    ENUMERATOR(STBretonAdverseRemover),                                 \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \

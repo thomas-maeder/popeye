@@ -1,4 +1,40 @@
 
+           Pierre Tritten
+FIDE Olympic Tourney 2018 Batumi, 4th Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   R   P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -R  -P   .   B   .   4
+|                                   |
+3   .   .   .  -P  -K  -B   .   R   3
+|                                   |
+2   .  -R   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -B   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 7
+               Breton
+
+  1.Be1-h4 Rh3*h4[-wBg4]   2.Rb2-d2 Rd6*d4[-wRd4] #
+  1.Rb2-b8 Ba7*b8[-wRd6]   2.Be1-d2 Bg4*f3[-wBf3] #
+  add_to_move_generation_stack:      422658
+                     play_move:      346766
+ is_white_king_square_attacked:       49505
+ is_black_king_square_attacked:      345960
+
+solution finished.
+
+
+
  Pierre Tritten & Jacques Rotenberg
    Julia's Fairies 2018 No. 1334.2
 
@@ -27,10 +63,10 @@
   1.Bf1*h3[-wRf6] Ba6*b5[-bRf4]   2.Bh4*e7[-wSh5] Bg3-c7 #
   1.b7*a6[-wBg3] Rh3*e3[-bPf5]   2.Rb5*h5[-wSe7] Rf6-d6 #
   1.g7*f6[-wRh3] Sh5*f6[-bPb7]   2.Bh4*g3[-wBa6] Se7-c6 #
-  add_to_move_generation_stack:      625387
-                     play_move:      374210
- is_white_king_square_attacked:       94469
- is_black_king_square_attacked:      372478
+  add_to_move_generation_stack:     1549066
+                     play_move:     1702519
+ is_white_king_square_attacked:      147796
+ is_black_king_square_attacked:     1700787
 
 solution finished.
 

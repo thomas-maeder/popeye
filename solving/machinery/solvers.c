@@ -391,6 +391,8 @@ void build_solvers1(slice_index si)
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
 
+  if (CondFlag[breton])
+    solving_insert_breton(si);
   if (CondFlag[bretonadverse])
     solving_insert_breton_adverse(si);
 

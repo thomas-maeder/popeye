@@ -1022,6 +1022,10 @@ void dispatch(slice_index si)
       republican_type1_dead_end_solve(si);
       break;
 
+    case STBretonRemover:
+      breton_remover_solve(si);
+      break;
+
     case STBretonAdverseRemover:
       breton_adverse_remover_solve(si);
       break;
