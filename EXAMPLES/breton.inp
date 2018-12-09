@@ -1,0 +1,12 @@
+begin
+
+protocol breton.ref
+
+author Pierre Tritten & Jacques Rotenberg
+origin Julia's Fairies 2018 No. 1334.2
+pieces White Kb8 Rf6 Rh3 Ba6 Bg3 Se7 Sh5 Black Kd8 Rb5 Rf4 Bh4 Bf1 Pb7 Pg7 Pb6 Pf5 Pg4 Pe3
+stipulation h#2
+condition Breton
+
+end
+

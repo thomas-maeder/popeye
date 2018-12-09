@@ -1,0 +1,38 @@
+Popeye Linux-4.15.0-42-generic-x86_64-64Bit v4.80 (1024 MB)
+
+ Pierre Tritten & Jacques Rotenberg
+   Julia's Fairies 2018 No. 1334.2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .  -K   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   S   .  -P   .   7
+|                                   |
+6   B  -P   .   .   .   R   .   .   6
+|                                   |
+5   .  -R   .   .   .  -P   .   S   5
+|                                   |
+4   .   .   .   .   .  -R  -P  -B   4
+|                                   |
+3   .   .   .   .  -P   .   B   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        7 + 11
+               Breton
+
+  1.Bf1*h3[-wRf6] Ba6*b5[-bRf4]   2.Bh4*e7[-wSh5] Bg3-c7 #
+  1.b7*a6[-wBg3] Rh3*e3[-bPf5]   2.Rb5*h5[-wSe7] Rf6-d6 #
+  1.g7*f6[-wRh3] Sh5*f6[-bPb7]   2.Bh4*g3[-wBa6] Se7-c6 #
+  add_to_move_generation_stack:      625387
+                     play_move:      374210
+ is_white_king_square_attacked:       94469
+ is_black_king_square_attacked:      372478
+
+solution finished. Time = 1.153 s
+
+
