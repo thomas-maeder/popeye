@@ -179,8 +179,8 @@ solution finished.
   1.Ke8-f8 Ka1-b1   2.Qg7-h7 d4*e4   3.Kf8-g8 e4*h7 =
   1.Ke8-f8 Ka1-b1   2.Kf8-g8 d4*e4   3.Qg7-h7 e4*h7 =
   1.Rh8-g8 d4*g7 +   2.Ke8-d7 g7*g8=B   3.Kd7-c6 Bg8-d5 =
-  add_to_move_generation_stack:   124494156
-                     play_move:      967460
+  add_to_move_generation_stack:   124477850
+                     play_move:      967187
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -772,6 +772,7 @@ a)
   1.Ra8-f8 Bc1*g7   2.g3*d1=B g2-g4 #
   1.Ra8-f8 Sd1*f8 +   2.Kh6-g6 Bc1*g7 #
   1.Ra8-f8 Sd1*f8 +   2.Kh6-h7 Bc1*g7 #
+  1.Ra8-e8 Bc1*e8   2.g3*d1=B g2-g4 #
   1.Ra8-e8 Bc1*e8   2.Rh8-g8 Sd1*g7 #
   1.Ra8-e8 Bc1*g7 +   2.Rh8-f8 Sd1*e8 #
   1.Ra8-e8 Bc1-d2   2.Rh8-g8 Sd1*g7 #
@@ -1250,8 +1251,8 @@ a)
   1.Rh8-g8 Ka2-a3   2.Rg8-b8 Sd1*g7 #
   1.Rh8-g8 Ka2-a3   2.Rg8-c8 Sd1*g7 #
   1.Rh8-g8 Ka2-a3   2.Rg8-e8 Sd1*g7 #
-  add_to_move_generation_stack:    45150170
-                     play_move:      383708
+  add_to_move_generation_stack:    45156864
+                     play_move:      383696
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -1293,10 +1294,11 @@ b) bKh6-->a6
   1.Rh8-d8 Sd1*g7   2.Rd8-d5 Bc1*d5 #
   1.Rh8-e8 Bc1*g7   2.e6-e5 Bg7*e4 #
   1.Rh8-e8 Bc1-b2   2.e6-e5 Bb2*e4 #
+  1.Rh8-e8 Sd1*e8   2.b4*c1=S b3-b4 #
   1.Rh8-f8 Bc1*g7   2.e6-e5 Bg7*e4 #
   1.Rh8-f8 Bc1-b2   2.e6-e5 Bb2*e4 #
-  add_to_move_generation_stack:    55054994
-                     play_move:      423749
+  add_to_move_generation_stack:    55015589
+                     play_move:      423481
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -1332,9 +1334,9 @@ a)
 
   1.Qd4-e4 + Kd1*e4   2.Kh6-h5 f2-f4 #
   1.Ra8-g8 f2*g8=B +   2.Kh6-h7 Bg8*d4 #
-  1.Ra8-e8 f2*e8=B +   2.Kh6-h7 Be8*d4 #
-  add_to_move_generation_stack:     7488235
-                     play_move:       62651
+  1.Ra8-e8 f2*e8=R   2.Qd4-f4 + d2*f4 #
+  add_to_move_generation_stack:     7512502
+                     play_move:       62649
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -1361,24 +1363,20 @@ b) bKh6-->a6
   1.Ra8-e8 f2*e8=B   2.Qd4-c5 d2*c5 #
   1.Ra8-e8 f2*e8=B   2.a5-a4 Be8*d4 #
   1.Ra8-e8 f2*e8=B   2.Ka6-a7 Be8*d4 #
-  1.Rh8-e8 f2*e8=Q   2.Qd4-c5 d2*c5 #
-  1.Rh8-e8 f2*e8=Q   2.Qd4-b4 + d2*b4 #
-  1.Rh8-e8 f2*e8=Q   2.Qd4-c4 + d2*c4 #
   1.Rh8-e8 f2*e8=S   2.Qd4-c5 d2*c5 #
+  1.Rh8-e8 f2*e8=S   2.Qd4-b4 + d2*b4 #
   1.Rh8-e8 f2*e8=S   2.Ka6-b5 Se8*d4 #
   1.Rh8-e8 f2*e8=S   2.Ra8-a7 Se8*d4 #
   1.Rh8-e8 f2*e8=R   2.Qd4-b4 + d2*b4 #
-  1.Rh8-e8 f2*e8=B   2.Qd4-c5 d2*c5 #
-  1.Rh8-e8 f2*e8=B   2.Qd4-e4 + Be8*e4 #
-  1.Rh8-e8 f2*e8=B   2.Ra8-a7 Be8*d4 #
+  1.Rh8-e8 f2*e8=B +   2.Ra8-a7 Be8*d4 #
   1.Rh8-g8 f2*g8=Q   2.Qd4-b4 + d2*b4 #
   1.Rh8-g8 f2*g8=S   2.Ka6-b5 Sg8*d4 #
   1.Rh8-g8 f2*g8=S   2.Ra8-a7 Sg8*d4 #
   1.Rh8-g8 f2*g8=R   2.Qd4-b4 + d2*b4 #
   1.Rh8-g8 f2*g8=B   2.Qd4-e4 + Bg8*e4 #
   1.Rh8-g8 f2*g8=B   2.Ra8-a7 Bg8*d4 #
-  add_to_move_generation_stack:    11030486
-                     play_move:       88279
+  add_to_move_generation_stack:    11014529
+                     play_move:       88466
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

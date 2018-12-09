@@ -7,6 +7,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
+#include "pieces/walks/classification.h"
 #include "position/position.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -30,7 +31,6 @@ boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
   boolean result = false;
 
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  square const save_king_square = being_solved.king_square[White];
   square const save_generation_departure = curr_generation->departure;
   Side const side_delivering_check = advers(side_king_attacked);
   castling_rights_type const save_castling_rights = being_solved.castling_rights;
@@ -94,8 +94,6 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   square const save_departure = curr_generation->departure;
   Flags const save_flags = being_solved.spec[save_departure];
 
-  square const save_king_square = being_solved.king_square[White];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -115,6 +113,21 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
 
       trait[nbply] = advers(trait[nbply]);
       generate_moves_different_walk(SLICE_NEXT1(si),walk_victim);
+      if (is_king(walk_victim)
+          && is_king(game_array.board[save_departure])
+          && TSTFLAG(game_array.spec[save_departure],side_victim))
+      {
+        castling_rights_type const save_castling_rights = being_solved.castling_rights;
+        Flags const save_spec = being_solved.spec[being_solved.king_square[side_victim]];
+        square const save_king_square = being_solved.king_square[side_victim];
+        SETCASTLINGFLAGMASK(side_victim,k_cancastle);
+        CLRFLAG(being_solved.spec[being_solved.king_square[side_victim]],Royal);
+        being_solved.king_square[side_victim] = initsquare;
+        generate_castling();
+        being_solved.king_square[side_victim] = save_king_square;
+        being_solved.spec[being_solved.king_square[side_victim]] = save_spec;
+        being_solved.castling_rights = save_castling_rights;
+      }
       trait[nbply] = advers(trait[nbply]);
 
       move_generator_filter_captures(base_walk_victim,&is_false);
@@ -233,8 +246,6 @@ void solving_insert_make_and_take(slice_index si)
 
   TraceStipulation(si);
 
-  // move_effect_journal_register_pre_capture_effect();
-
   move_generator_instrument_for_alternative_paths(si,nr_sides);
 
   {
@@ -259,6 +270,8 @@ void solving_insert_make_and_take(slice_index si)
   }
 
   observation_play_move_to_validate(si,nr_sides);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

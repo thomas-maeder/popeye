@@ -38,3 +38,36 @@
 solution finished.
 
 
+
+     black is in check from se8!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   S   .   .   .   8
+|                                   |
+7  -K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg71                        1 + 2
+           Make&TakeChess
+
+the side to play can capture the king  add_to_move_generation_stack:          40
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
