@@ -27,6 +27,13 @@ slice_index alloc_find_attack_slice(void);
  */
 void find_attack_solve(slice_index si);
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean find_attack_is_in_check(slice_index si, Side side_observed);
+
 /* Allocate a STFindDefense slice.
  * @return index of allocated slice
  */

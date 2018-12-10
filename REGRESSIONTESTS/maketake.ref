@@ -331,7 +331,7 @@ solution finished.
       1...Bd3*c3
           2.Bg7*h4 #
 
-  add_to_move_generation_stack:      331809
+  add_to_move_generation_stack:      331807
                      play_move:        3182
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -453,7 +453,7 @@ solution finished.
            Make&TakeChess
 
   1.b2-b4 e7-e5   2.b4*f8=B e5*c1=S   3.Qd1*c1 b7*c1=B   4.g2*c8=S Qd8*c8   5.Bf8*c1 dia
-  add_to_move_generation_stack:   130608059
+  add_to_move_generation_stack:   130606340
                      play_move:     3074606
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1251,7 +1251,7 @@ a)
   1.Rh8-g8 Ka2-a3   2.Rg8-b8 Sd1*g7 #
   1.Rh8-g8 Ka2-a3   2.Rg8-c8 Sd1*g7 #
   1.Rh8-g8 Ka2-a3   2.Rg8-e8 Sd1*g7 #
-  add_to_move_generation_stack:    45156864
+  add_to_move_generation_stack:    45155018
                      play_move:      383696
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1297,7 +1297,7 @@ b) bKh6-->a6
   1.Rh8-e8 Sd1*e8   2.b4*c1=S b3-b4 #
   1.Rh8-f8 Bc1*g7   2.e6-e5 Bg7*e4 #
   1.Rh8-f8 Bc1-b2   2.e6-e5 Bb2*e4 #
-  add_to_move_generation_stack:    55015589
+  add_to_move_generation_stack:    55015581
                      play_move:      423481
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

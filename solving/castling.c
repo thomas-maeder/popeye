@@ -28,6 +28,34 @@
 castling_rights_type castling_mutual_exclusive[nr_sides][2];
 castling_rights_type castling_flags_no_castling;
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean suspend_castling_is_in_check(slice_index si, Side side_observed)
+{
+  boolean result;
+  Side const side_observing = advers(side_observed);
+  castling_rights_type const save_castling_rights = being_solved.castling_rights;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  CLRCASTLINGFLAGMASK(side_observing,k_cancastle);
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
+  being_solved.castling_rights = save_castling_rights;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void castle(square sq_departure, square sq_arrival,
                    square sq_partner_departure, square sq_partner_arrival)
 {

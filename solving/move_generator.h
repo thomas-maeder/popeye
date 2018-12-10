@@ -123,6 +123,14 @@ void generate_moves_for_piece(square sq_departure);
  */
 slice_index alloc_move_generator_slice(void);
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean observing_move_generator_is_in_check(slice_index si,
+                                             Side side_observed);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

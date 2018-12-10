@@ -5,8 +5,14 @@
 
 /* This module implements the condition Make&Take*/
 
-boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
-                                                           Side side_king_attacked);
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean
+make_and_take_limit_move_generation_make_walk_is_in_check(slice_index si,
+                                                          Side side_king_attacked);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

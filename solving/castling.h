@@ -33,6 +33,13 @@ void enable_castling_rights(move_effect_reason_type reason,
 void disable_castling_rights(move_effect_reason_type reason,
                              square sq_departure);
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean suspend_castling_is_in_check(slice_index si, Side side_observed);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

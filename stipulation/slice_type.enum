@@ -398,6 +398,9 @@
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingCapturedObservationGuard),                         \
     ENUMERATOR(STKingSquareObservationTester),                          \
+    ENUMERATOR(STCastlingSuspender),                                    \
+    ENUMERATOR(STObservingMovesGenerator),                              \
+    ENUMERATOR(STAttackTarget),                                         \
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
@@ -513,7 +516,7 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
-    ENUMERATOR(STMakeTakeCaptureKingAsTestForCheck),                    \
+    ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \

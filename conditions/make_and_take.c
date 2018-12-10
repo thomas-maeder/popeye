@@ -3,6 +3,8 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
+#include "solving/check.h"
+#include "solving/castling.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -19,51 +21,30 @@ static boolean is_false(numecoup n)
   return false;
 }
 
-extern void genmove(void);
-extern piece_walk_type observing_walk[maxply+1];
-#include "solving/castling.h"
-
 static piece_walk_type max_victim = nr_piece_walks-1;
 
-boolean make_and_take_capture_king_as_test_for_check_solve(slice_index si,
-                                                           Side side_king_attacked)
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean make_and_take_limit_move_generation_make_walk_is_in_check(slice_index si,
+                                                                  Side side_observed)
 {
-  boolean result = false;
+  boolean result;
 
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  square const save_generation_departure = curr_generation->departure;
-  Side const side_delivering_check = advers(side_king_attacked);
-  castling_rights_type const save_castling_rights = being_solved.castling_rights;
   piece_walk_type const save_max_victim = max_victim;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_king_attacked);
+  TraceEnumerator(Side,side_observed);
   TraceFunctionParamListEnd();
 
-  CLRCASTLINGFLAGMASK(side_delivering_check,k_cancastle);
   max_victim = King;
-  genmove();
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
   max_victim = save_max_victim;
-  being_solved.castling_rights = save_castling_rights;
-  curr_generation->departure = save_generation_departure;
-
-  while (CURRMOVE_OF_PLY(nbply)>curr)
-  {
-    if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==being_solved.king_square[side_king_attacked])
-    {
-      observing_walk[nbply] = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-      if (EVALUATE_OBSERVATION(EVALUATE(check),
-                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure,
-                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture))
-      {
-        result = true;
-        break;
-      }
-    }
-
-    --CURRMOVE_OF_PLY(nbply);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -228,13 +209,6 @@ static void instrument_capture(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* test all attacked pieces, not just the king */
-static void substitute_find_move_capturing_king(slice_index si, stip_structure_traversal*st)
-{
-  stip_traverse_structure_children(si,st);
-  pipe_substitute(si,alloc_pipe(STMakeTakeCaptureKingAsTestForCheck));
-}
-
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
@@ -260,18 +234,14 @@ void solving_insert_make_and_take(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,
-                                             STKingSquareObservationTester,
-                                             &substitute_find_move_capturing_king);
-    stip_traverse_structure(si,&st);
-  }
-
   observation_play_move_to_validate(si,nr_sides);
 
   solving_instrument_check_testing(si,STNoKingCheckTester);
+  solving_instrument_check_testing(si,STMakeTakeLimitMoveGenerationMakeWalk);
+  solving_instrument_check_testing(si,STCastlingSuspender);
+  solving_instrument_check_testing(si,STObservingMovesGenerator);
+  solving_instrument_check_testing(si,STFindAttack);
+  solving_instrument_check_testing(si,STAttackTarget);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

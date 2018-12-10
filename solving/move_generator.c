@@ -358,7 +358,7 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-void genmove(void)
+static void genmove(void)
 {
   unsigned int i;
   square square_h = square_h8;
@@ -378,6 +378,38 @@ void genmove(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean observing_move_generator_is_in_check(slice_index si,
+                                             Side side_observed)
+{
+  boolean result;
+  square const save_generation_departure = curr_generation->departure;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  nextply(trait[nbply]);
+
+  genmove();
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
+  finply();
+
+  curr_generation->departure = save_generation_departure;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

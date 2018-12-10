@@ -5,6 +5,7 @@
 #include "conditions/sat.h"
 #include "conditions/vogtlaender.h"
 #include "conditions/antikings.h"
+#include "conditions/make_and_take.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -13,6 +14,9 @@
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
+#include "solving/find_move.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/castling.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
@@ -146,6 +150,33 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   return result;
 }
 
+static boolean attack_target_is_in_check(slice_index si,
+                                         Side side_observed)
+{
+  boolean result = false;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].capture;
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  square const sq_departure = move_generation_stack[curr].departure;
+  square const sq_capture = move_generation_stack[curr].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  if (sq_capture==sq_target)
+  {
+    observing_walk[nbply] = get_walk_of_piece_on_square(sq_departure);
+    if (EVALUATE_OBSERVATION(EVALUATE(check),sq_departure,sq_target))
+      result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Continue determining whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
@@ -204,8 +235,24 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_is_in_check(si,side_in_check);
       break;
 
-    case STMakeTakeCaptureKingAsTestForCheck:
-      result = make_and_take_capture_king_as_test_for_check_solve(si,side_in_check);
+    case STCastlingSuspender:
+      result = suspend_castling_is_in_check(si,side_in_check);
+      break;
+
+    case STObservingMovesGenerator:
+      result = observing_move_generator_is_in_check(si,side_in_check);
+      break;
+
+    case STFindAttack:
+      result = find_attack_is_in_check(si,side_in_check);
+      break;
+
+    case STAttackTarget:
+      result = attack_target_is_in_check(si,side_in_check);
+      break;
+
+    case STMakeTakeLimitMoveGenerationMakeWalk:
+      result = make_and_take_limit_move_generation_make_walk_is_in_check(si,side_in_check);
       break;
 
     case STExtinctionAllPieceObservationTester:
@@ -250,6 +297,11 @@ static slice_index const slice_rank_order[] =
     STKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
     STKingCapturedObservationGuard,
+    STMakeTakeLimitMoveGenerationMakeWalk,
+    STCastlingSuspender,
+    STObservingMovesGenerator,
+    STFindAttack,
+    STAttackTarget,
     STKingSquareObservationTester,
     STExtinctionAllPieceObservationTester,
     STCirceAssassinAllPieceObservationTester,
