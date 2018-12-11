@@ -38,4 +38,10 @@ void check_even_if_no_king(void);
  */
 void optimise_is_in_check(slice_index si);
 
+/* Instrument the solving machinery so as to test for check playing moves
+ * forward rather than tracking back from the king square
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_test_check_playing_moves(slice_index si);
+
 #endif

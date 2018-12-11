@@ -296,12 +296,9 @@ void solving_insert_make_and_take(slice_index si)
 
   observation_play_move_to_validate(si,nr_sides);
 
+  solving_test_check_playing_moves(si);
   solving_instrument_check_testing(si,STNoKingCheckTester);
   solving_instrument_check_testing(si,STMakeTakeLimitMoveGenerationMakeWalk);
-  solving_instrument_check_testing(si,STCastlingSuspender);
-  solving_instrument_check_testing(si,STObservingMovesGenerator);
-  solving_instrument_check_testing(si,STFindAttack);
-  solving_instrument_check_testing(si,STAttackTarget);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

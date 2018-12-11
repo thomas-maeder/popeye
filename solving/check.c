@@ -381,3 +381,15 @@ void solving_instrument_check_testing(slice_index si, slice_type type)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument the solving machinery so as to test for check playing moves
+ * forward rather than tracking back from the king square
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_test_check_playing_moves(slice_index si)
+{
+  solving_instrument_check_testing(si,STCastlingSuspender);
+  solving_instrument_check_testing(si,STObservingMovesGenerator);
+  solving_instrument_check_testing(si,STFindAttack);
+  solving_instrument_check_testing(si,STAttackTarget);
+}
