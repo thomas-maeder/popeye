@@ -98,14 +98,13 @@ static void generate_make(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void generate_take_candidates(slice_index si,
-                                     numecoup top_walk_victim,
-                                     square sq_make_departure)
+static void generate_take_candidates(slice_index si, square sq_make_departure)
 {
   piece_walk_type const walk = being_solved.board[sq_make_departure];
   Flags const flags = being_solved.spec[sq_make_departure];
-  numecoup const base_make = CURRMOVE_OF_PLY(nbply-1);
-  numecoup curr_walk_victim;
+  numecoup const base_make = CURRMOVE_OF_PLY(nbply-2);
+  numecoup const top_make = CURRMOVE_OF_PLY(nbply-1);
+  numecoup curr_make;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,11 +114,9 @@ static void generate_take_candidates(slice_index si,
 
   empty_square(sq_make_departure);
 
-  for (curr_walk_victim = top_walk_victim;
-       curr_walk_victim>base_make;
-       --curr_walk_victim)
+  for (curr_make = top_make; curr_make>base_make; --curr_make)
   {
-    curr_generation->departure = move_generation_stack[curr_walk_victim].arrival;
+    curr_generation->departure = move_generation_stack[curr_make].arrival;
     occupy_square(curr_generation->departure,walk,flags);
     pipe_move_generation_delegate(si);
     empty_square(curr_generation->departure);
@@ -133,30 +130,26 @@ static void generate_take_candidates(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void restrict_to_walk_victim(numecoup top_walk_victim,
-                                    piece_walk_type walk_victim)
+static void restrict_to_walk_victim(piece_walk_type walk_victim)
 {
   numecoup i;
-  numecoup new_top = top_walk_victim;
+  numecoup const base_take = CURRMOVE_OF_PLY(nbply-1);
+  numecoup top_take = base_take;
   Side const side_victim = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",top_walk_victim);
   TraceWalk(walk_victim);
   TraceFunctionParamListEnd();
 
-  for (i = top_walk_victim+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+  for (i = base_take+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
   {
     square const sq_capture = move_generation_stack[i].capture;
     if (get_walk_of_piece_on_square(sq_capture)==walk_victim
         && TSTFLAG(being_solved.spec[sq_capture],side_victim))
-    {
-      ++new_top;
-      move_generation_stack[new_top] = move_generation_stack[i];
-    }
+      move_generation_stack[++top_take] = move_generation_stack[i];
   }
 
-  SET_CURRMOVE(nbply,new_top);
+  SET_CURRMOVE(nbply,top_take);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -168,6 +161,7 @@ static void add_take(slice_index si,
 {
   numecoup const base_make = CURRMOVE_OF_PLY(nbply-1);
   numecoup const top_make = CURRMOVE_OF_PLY(nbply);
+  numecoup const base_take = top_make;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -175,18 +169,18 @@ static void add_take(slice_index si,
   TraceWalk(walk_victim);
   TraceFunctionParamListEnd();
 
-  trait[nbply] = advers(trait[nbply]);
+  nextply(advers(trait[nbply]));
 
-  generate_take_candidates(si,top_make,sq_make_departure);
-  restrict_to_walk_victim(top_make,walk_victim);
-  remove_duplicate_moves_of_single_piece(top_make);
+  generate_take_candidates(si,sq_make_departure);
+  restrict_to_walk_victim(walk_victim);
+  remove_duplicate_moves_of_single_piece(base_take);
 
   memmove(move_generation_stack+base_make+1,
           move_generation_stack+top_make+1,
-          (CURRMOVE_OF_PLY(nbply)-top_make) * sizeof move_generation_stack[0]);
-  CURRMOVE_OF_PLY(nbply) -= top_make-base_make;
+          (CURRMOVE_OF_PLY(nbply)-base_take) * sizeof move_generation_stack[0]);
+  CURRMOVE_OF_PLY(nbply-1) = CURRMOVE_OF_PLY(nbply) - (top_make-base_make);
 
-  trait[nbply] = advers(trait[nbply]);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
