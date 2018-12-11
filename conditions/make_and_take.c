@@ -86,8 +86,6 @@ static void generate_make(slice_index si,
   TraceSquare(sq_make_departure);
   TraceFunctionParamListEnd();
 
-  trait[nbply] = advers(trait[nbply]);
-
   generate_moves_different_walk(SLICE_NEXT1(si),walk_victim);
   move_generator_filter_captures(base_make,&is_false);
 
@@ -95,8 +93,6 @@ static void generate_make(slice_index si,
       && is_king(game_array.board[sq_make_departure])
       && TSTFLAG(game_array.spec[sq_make_departure],trait[nbply]))
     generate_castling_as_make();
-
-  trait[nbply] = advers(trait[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -181,6 +177,8 @@ static void add_take(slice_index si,
   TraceWalk(walk_victim);
   TraceFunctionParamListEnd();
 
+  trait[nbply] = advers(trait[nbply]);
+
   generate_take_candidates(si,top_walk_victim,base_make,sq_make_departure);
   restrict_to_walk_victim(top_walk_victim,walk_victim);
   remove_duplicate_moves_of_single_piece(top_walk_victim);
@@ -189,6 +187,8 @@ static void add_take(slice_index si,
           move_generation_stack+top_walk_victim+1,
           (CURRMOVE_OF_PLY(nbply)-top_walk_victim) * sizeof move_generation_stack[0]);
   CURRMOVE_OF_PLY(nbply) -= top_walk_victim-base_make;
+
+  trait[nbply] = advers(trait[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -209,7 +209,6 @@ static void add_take(slice_index si,
  */
 void make_and_take_generate_captures_by_walk_solve(slice_index si)
 {
-  numecoup const base_generation = CURRMOVE_OF_PLY(nbply);
   Side const side_victim = advers(trait[nbply]);
   square const sq_make_departure = curr_generation->departure;
   piece_walk_type walk_victim;
@@ -217,6 +216,8 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  nextply(side_victim);
 
   for (walk_victim=King; walk_victim<=max_victim; ++walk_victim)
     if (being_solved.number_of_pieces[side_victim][walk_victim]>0)
@@ -227,11 +228,10 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
       add_take(si,base_make,sq_make_departure,walk_victim);
     }
 
-  {
-    numecoup x;
-    for (x = CURRMOVE_OF_PLY(nbply); x>base_generation; --x)
-      move_generation_stack[x].departure = sq_make_departure;
-  }
+  while (CURRMOVE_OF_PLY(nbply-1)<CURRMOVE_OF_PLY(nbply))
+    move_generation_stack[++CURRMOVE_OF_PLY(nbply-1)].departure = sq_make_departure;
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
