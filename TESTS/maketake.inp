@@ -31,4 +31,14 @@ stipulation ze21
 condition make&take
 option nobk
 
+next
+
+title no make&take of pawn via base line
+pieces white ph3 black pg3
+stipulation x1
+condition make&take
+option nowk nobk
+twin shift a8 a7
+
 end
+
