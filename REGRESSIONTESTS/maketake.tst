@@ -107,3 +107,36 @@ solution finished.
 solution finished.
 
 
+
+Ke2 would be self-check because of castling
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K  -S   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ze21                        1 + 2
+           Make&TakeChess
+
+  add_to_move_generation_stack:         185
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

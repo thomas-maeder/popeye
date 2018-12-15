@@ -23,4 +23,12 @@ stip hx1
 condition make&take blackmaxi
 option nowk nobk
 
+next
+
+title Ke2 would be self-check because of castling
+pieces white kd1 black se1 rh1
+stipulation ze21
+condition make&take
+option nobk
+
 end
