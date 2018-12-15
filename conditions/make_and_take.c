@@ -60,7 +60,6 @@ static void generate_castling_as_make(void)
   square const save_king_square = being_solved.king_square[side_victim];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   SETCASTLINGFLAGMASK(side_victim,k_cancastle);
@@ -108,7 +107,6 @@ static void generate_take_candidates(slice_index si, square sq_make_departure)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",top_walk_victim);
   TraceSquare(sq_make_departure);
   TraceFunctionParamListEnd();
 
