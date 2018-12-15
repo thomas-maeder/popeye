@@ -10,6 +10,7 @@
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "pieces/walks/classification.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -141,7 +142,9 @@ static void restrict_to_walk_victim(piece_walk_type walk_victim)
 
   for (i = base_take+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
   {
-    square const sq_capture = move_generation_stack[i].capture;
+    square sq_capture = move_generation_stack[i].capture;
+    if (en_passant_is_ep_capture(sq_capture))
+      sq_capture -= offset_en_passant_capture;
     if (get_walk_of_piece_on_square(sq_capture)==walk_victim
         && TSTFLAG(being_solved.spec[sq_capture],side_victim))
       move_generation_stack[++top_take] = move_generation_stack[i];
@@ -167,7 +170,7 @@ static void add_take(slice_index si,
   TraceWalk(walk_victim);
   TraceFunctionParamListEnd();
 
-  nextply(advers(trait[nbply]));
+  siblingply(advers(trait[nbply]));
 
   generate_take_candidates(si,sq_make_departure);
   restrict_to_walk_victim(walk_victim);
@@ -207,7 +210,7 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(side_victim);
+  siblingply(side_victim);
 
   for (walk_victim=King; walk_victim<=max_victim; ++walk_victim)
     if (being_solved.number_of_pieces[side_victim][walk_victim]>0)

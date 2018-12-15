@@ -15,4 +15,12 @@ stipulation zg71
 condition make&take
 option nowk
 
+next
+
+title en passant capture
+pieces black pg7 white pf6h7
+stip hx1
+condition make&take blackmaxi
+option nowk nobk
+
 end

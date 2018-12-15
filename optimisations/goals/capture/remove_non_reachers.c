@@ -30,7 +30,13 @@ static boolean is_capture(numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceValue("%u",n);
   TraceFunctionParamListEnd();
+
+  TraceSquare(move_generation_stack[n].departure);
+  TraceSquare(move_generation_stack[n].arrival);
+  TraceSquare(move_generation_stack[n].capture);
+  TraceEOL();
 
   result = !is_square_empty(move_generation_stack[n].capture);
 

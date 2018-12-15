@@ -8832,7 +8832,8 @@ conditions/make_and_take$(OBJ_SUFFIX): conditions/make_and_take.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/pipe.h stipulation/slice_insertion.h stipulation/move.h \
- pieces/walks/classification.h debugging/assert.h
+ pieces/walks/classification.h pieces/walks/pawns/en_passant.h \
+ debugging/assert.h
 
 conditions/make_and_take.h:
 
@@ -8935,5 +8936,7 @@ stipulation/slice_insertion.h:
 stipulation/move.h:
 
 pieces/walks/classification.h:
+
+pieces/walks/pawns/en_passant.h:
 
 debugging/assert.h:

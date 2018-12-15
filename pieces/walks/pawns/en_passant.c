@@ -323,6 +323,7 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",ply_parent);
   TraceEnumerator(Side,trait[ply_parent]);
   TraceEOL();
 

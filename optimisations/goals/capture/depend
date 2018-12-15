@@ -10,8 +10,8 @@ optimisations/goals/capture/remove_non_reachers$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -21,8 +21,7 @@ optimisations/goals/capture/remove_non_reachers$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/move_generator.h solving/ply.h \
- solving/pipe.h
+ solving/has_solution_type.enum solving/move_generator.h solving/pipe.h
 
 optimisations/goals/capture/remove_non_reachers.h:
 
@@ -76,6 +75,8 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -109,7 +110,5 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 
 solving/move_generator.h:
-
-solving/ply.h:
 
 solving/pipe.h:
