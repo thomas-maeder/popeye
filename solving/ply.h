@@ -43,7 +43,7 @@ extern ply parent_ply[maxply+1];
 
 extern Side trait[maxply+1];
 
-/* resset the ply module */
+/* reset the ply module */
 void ply_reset(void);
 
 /* Copy the current ply, making the copy the new current ply */

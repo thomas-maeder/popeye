@@ -19,7 +19,7 @@ static ply ply_watermark;
 static ply ply_stack[maxply+1];
 static ply ply_stack_pointer;
 
-/* resset the ply module */
+/* reset the ply module */
 void ply_reset(void)
 {
   SET_CURRMOVE(nbply,nil_coup);
@@ -44,6 +44,10 @@ void nextply(Side side)
   current_move[nbply] = current_move[ply_watermark];
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
+
+  TraceValue("%u",parent);
+  TraceValue("%u",nbply);
+  TraceEOL();
 
   parent_ply[nbply] = parent;
 
