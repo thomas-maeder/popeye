@@ -2,6 +2,7 @@
 #define CONDITIONS_MAKE_AND_TAKE_H
 
 #include "stipulation/stipulation.h"
+#include "solving/move_generator.h"
 
 /* This module implements the condition Make&Take*/
 
@@ -28,6 +29,10 @@ make_and_take_limit_move_generation_make_walk_is_in_check(slice_index si,
  *            (with n denominating solve_nr_remaining)
  */
 void make_and_take_generate_captures_by_walk_solve(slice_index si);
+
+void make_and_take_move_castling_partner(slice_index si);
+
+square make_and_take_has_move_castling_as_make(ply ply, numecoup move_id);
 
 /* Instrument the solvers with Make&Take
  * @param si identifies the root slice of the stipulation

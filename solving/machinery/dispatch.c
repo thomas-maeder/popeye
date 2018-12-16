@@ -720,6 +720,10 @@ void dispatch(slice_index si)
       make_and_take_generate_captures_by_walk_solve(si);
       break;
 
+    case STMakeTakeMoveCastlingPartner:
+      make_and_take_move_castling_partner(si);
+      break;
+
     case STMarsCirceMoveToRebirthSquare:
       marscirce_move_to_rebirth_square_solve(si);
       break;

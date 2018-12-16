@@ -36,6 +36,7 @@ static slice_type const move_slice_rank_order[] =
     STExchangeCastlingMovePlayer,
     STMovePlayer,
     STLandingAfterMovingPieceMovement,
+    STMakeTakeMoveCastlingPartner,
     STGenevaConsideringRebirth,
     STCirceDoneWithRebirth,
     STImitatorMover,

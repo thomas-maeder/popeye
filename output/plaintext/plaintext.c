@@ -495,6 +495,20 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
         (*context->engine->fputc)('-',context->file);
         WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
       }
+      else if (CondFlag[maketake])
+      {
+        if (move_effect_journal[curr-1].reason!=move_effect_reason_castling_king_movement)
+        {
+          (*context->engine->fputc)('[',context->file);
+          write_complete_piece(context,
+                               move_effect_journal[curr].u.piece_movement.movingspec,
+                               move_effect_journal[curr].u.piece_movement.moving,
+                               move_effect_journal[curr].u.piece_movement.from);
+          (*context->engine->fputc)('-',context->file);
+          WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
+          (*context->engine->fputc)(']',context->file);
+        }
+      }
       else
       {
         /* implicitly written in castling symbols */

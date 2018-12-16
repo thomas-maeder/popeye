@@ -154,6 +154,8 @@ void finply(void)
 
   nbply = ply_stack[--ply_stack_pointer];
 
+  make_and_take_reset();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

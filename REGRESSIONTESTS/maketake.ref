@@ -1375,8 +1375,8 @@ b) bKh6-->a6
   1.Rh8-g8 f2*g8=R   2.Qd4-b4 + d2*b4 #
   1.Rh8-g8 f2*g8=B   2.Qd4-e4 + Bg8*e4 #
   1.Rh8-g8 f2*g8=B   2.Ra8-a7 Bg8*d4 #
-  add_to_move_generation_stack:    11014529
-                     play_move:       88466
+  add_to_move_generation_stack:    11017816
+                     play_move:       88492
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
