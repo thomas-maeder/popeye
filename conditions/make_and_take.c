@@ -38,32 +38,34 @@ static move_ids_with_castling_as_make_type move_ids_with_castling_as_make[maxply
 
 static void remember_move_ids_of_castlings_as_makes(square sq_capture,
                                                     numecoup min_move_id,
-                                                    numecoup max_move_id)
+                                                    numecoup max_move_id,
+                                                    ply generating_for)
 {
-  ply const parent = parent_ply[nbply];
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_capture);
   TraceFunctionParam("%u",min_move_id);
   TraceFunctionParam("%u",max_move_id);
+  TraceFunctionParam("%u",generating_for);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);TraceValue("%u",parent);TraceEOL();
+  TraceValue("%u",nbply);TraceValue("%u",generating_for);TraceEOL();
+
+  assert(generating_for!=ply_nil);
 
   if (sq_capture==kingside_castling)
   {
-//    assert(move_ids_with_castling_as_make[parent].king_side.min_move_id==0);
-//    assert(move_ids_with_castling_as_make[parent].king_side.max_move_id==0);
-    move_ids_with_castling_as_make[parent].king_side.min_move_id = min_move_id;
-    move_ids_with_castling_as_make[parent].king_side.max_move_id = max_move_id;
+    assert(move_ids_with_castling_as_make[generating_for].king_side.min_move_id==0);
+    assert(move_ids_with_castling_as_make[generating_for].king_side.max_move_id==0);
+    move_ids_with_castling_as_make[generating_for].king_side.min_move_id = min_move_id;
+    move_ids_with_castling_as_make[generating_for].king_side.max_move_id = max_move_id;
   }
 
   if (sq_capture==queenside_castling)
   {
-//    assert(move_ids_with_castling_as_make[parent].queen_side.min_move_id==0);
-//    assert(move_ids_with_castling_as_make[parent].queen_side.max_move_id==0);
-    move_ids_with_castling_as_make[parent].queen_side.min_move_id = min_move_id;
-    move_ids_with_castling_as_make[parent].queen_side.max_move_id = max_move_id;
+    assert(move_ids_with_castling_as_make[generating_for].queen_side.min_move_id==0);
+    assert(move_ids_with_castling_as_make[generating_for].queen_side.max_move_id==0);
+    move_ids_with_castling_as_make[generating_for].queen_side.min_move_id = min_move_id;
+    move_ids_with_castling_as_make[generating_for].queen_side.max_move_id = max_move_id;
   }
 
   TraceFunctionExit(__func__);
@@ -144,7 +146,9 @@ static void generate_make(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void generate_take_candidates(slice_index si, square sq_make_departure)
+static void generate_take_candidates(slice_index si,
+                                     square sq_make_departure,
+                                     ply generating_for)
 {
   piece_walk_type const walk = being_solved.board[sq_make_departure];
   Flags const flags = being_solved.spec[sq_make_departure];
@@ -155,6 +159,7 @@ static void generate_take_candidates(slice_index si, square sq_make_departure)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(sq_make_departure);
+  TraceFunctionParam("%u",generating_for);
   TraceFunctionParamListEnd();
 
   empty_square(sq_make_departure);
@@ -167,7 +172,8 @@ static void generate_take_candidates(slice_index si, square sq_make_departure)
     pipe_move_generation_delegate(si);
     empty_square(curr_generation->departure);
     remember_move_ids_of_castlings_as_makes(move_generation_stack[curr_make].capture,
-                                            save_id,current_move_id[nbply]);
+                                            save_id,current_move_id[nbply],
+                                            generating_for);
   }
 
   curr_generation->departure = sq_make_departure;
@@ -205,22 +211,24 @@ static void restrict_to_walk_victim(piece_walk_type walk_victim)
   TraceFunctionResultEnd();
 }
 
-static numecoup moves_with_castling_as_make_first(numecoup base)
+static numecoup moves_with_castling_as_make_first(numecoup base,
+                                                  ply generating_for)
 {
   ply const parent = parent_ply[nbply];
   numecoup curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",generating_for);
   TraceFunctionParamListEnd();
 
   do
     ++base;
   while (base<=CURRMOVE_OF_PLY(nbply)
-         && make_and_take_has_move_castling_as_make(parent,move_generation_stack[base].id)!=initsquare);
+         && make_and_take_has_move_castling_as_make(generating_for,move_generation_stack[base].id)!=initsquare);
 
   for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
-    if (make_and_take_has_move_castling_as_make(parent,move_generation_stack[curr].id)!=initsquare)
+    if (make_and_take_has_move_castling_as_make(generating_for,move_generation_stack[curr].id)!=initsquare)
     {
       move_generation_elmt const tmp = move_generation_stack[curr];
       move_generation_stack[curr] = move_generation_stack[base];
@@ -236,29 +244,34 @@ static numecoup moves_with_castling_as_make_first(numecoup base)
 
 static void add_take(slice_index si,
                      square sq_make_departure,
-                     piece_walk_type walk_victim)
+                     piece_walk_type walk_victim,
+                     ply generating_for)
 {
   numecoup const base_make = CURRMOVE_OF_PLY(nbply-1);
   numecoup const top_make = CURRMOVE_OF_PLY(nbply);
   numecoup const base_take = top_make;
+  ply const elder = nbply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(sq_make_departure);
   TraceWalk(walk_victim);
+  TraceFunctionParam("%u",generating_for);
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
+  current_move_id[nbply] = current_move_id[elder];
 
-  generate_take_candidates(si,sq_make_departure);
+  generate_take_candidates(si,sq_make_departure,generating_for);
   restrict_to_walk_victim(walk_victim);
-  remove_duplicate_moves_of_single_piece(moves_with_castling_as_make_first(base_take));
+  remove_duplicate_moves_of_single_piece(moves_with_castling_as_make_first(base_take,generating_for));
 
   memmove(move_generation_stack+base_make+1,
           move_generation_stack+top_make+1,
           (CURRMOVE_OF_PLY(nbply)-base_take) * sizeof move_generation_stack[0]);
   CURRMOVE_OF_PLY(nbply-1) = CURRMOVE_OF_PLY(nbply) - (top_make-base_make);
 
+  current_move_id[elder] = current_move_id[nbply];
   finply();
 
   TraceFunctionExit(__func__);
@@ -283,24 +296,26 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   Side const side_victim = advers(trait[nbply]);
   square const sq_make_departure = curr_generation->departure;
   piece_walk_type walk_victim;
+  ply const generating_for = nbply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   siblingply(side_victim);
+  current_move_id[nbply] = current_move_id[generating_for];
 
   for (walk_victim=King; walk_victim<=max_victim; ++walk_victim)
     if (being_solved.number_of_pieces[side_victim][walk_victim]>0)
     {
       TraceWalk(walk_victim);TraceEOL();
       generate_make(si,walk_victim,sq_make_departure);
-      add_take(si,sq_make_departure,walk_victim);
+      add_take(si,sq_make_departure,walk_victim,generating_for);
       while (CURRMOVE_OF_PLY(nbply-1)<CURRMOVE_OF_PLY(nbply))
         move_generation_stack[++CURRMOVE_OF_PLY(nbply-1)].departure = sq_make_departure;
     }
 
-
+  current_move_id[generating_for] = current_move_id[nbply];
   finply();
 
   TraceFunctionExit(__func__);
@@ -347,11 +362,19 @@ void make_and_take_move_castling_partner(slice_index si)
 
 void make_and_take_reset(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);TraceEOL();
+
   move_ids_with_castling_as_make[nbply].king_side.min_move_id = 0;
   move_ids_with_castling_as_make[nbply].king_side.max_move_id = 0;
 
   move_ids_with_castling_as_make[nbply].queen_side.min_move_id = 0;
   move_ids_with_castling_as_make[nbply].queen_side.max_move_id = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 square make_and_take_has_move_castling_as_make(ply ply, numecoup move_id)
@@ -363,11 +386,11 @@ square make_and_take_has_move_castling_as_make(ply ply, numecoup move_id)
   TraceFunctionParam("%u",move_id);
   TraceFunctionParamListEnd();
 
-  if (move_ids_with_castling_as_make[ply].king_side.min_move_id<move_id
-      && move_id<=move_ids_with_castling_as_make[ply].king_side.max_move_id)
+  if (move_ids_with_castling_as_make[ply].king_side.min_move_id<=move_id
+      && move_id<move_ids_with_castling_as_make[ply].king_side.max_move_id)
     result = kingside_castling;
-  else if (move_ids_with_castling_as_make[ply].queen_side.min_move_id<move_id
-           && move_id<=move_ids_with_castling_as_make[ply].queen_side.max_move_id)
+  else if (move_ids_with_castling_as_make[ply].queen_side.min_move_id<=move_id
+           && move_id<move_ids_with_castling_as_make[ply].queen_side.max_move_id)
     result = queenside_castling;
   else
     result = initsquare;

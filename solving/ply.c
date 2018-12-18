@@ -82,11 +82,12 @@ void siblingply(Side side)
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
+  parent_ply[nbply] = parent_ply[elder];
+
   TraceValue("%u",elder);
+  TraceValue("%u",parent_ply[nbply]);
   TraceValue("%u",nbply);
   TraceEOL();
-
-  parent_ply[nbply] = parent_ply[elder];
 
   trait[nbply] = side;
 
@@ -152,9 +153,9 @@ void finply(void)
   assert(nbply==ply_watermark);
   --ply_watermark;
 
-  nbply = ply_stack[--ply_stack_pointer];
-
   make_and_take_reset();
+
+  nbply = ply_stack[--ply_stack_pointer];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

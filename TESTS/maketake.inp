@@ -40,5 +40,12 @@ condition make&take
 option nowk nobk
 twin shift a8 a7
 
-end
+next
 
+title castling as make
+pieces white qe8 black ke6 ra8h8
+stipulation ze61
+condition make&take circe rexincl
+option movenum nowk
+
+end

@@ -184,3 +184,46 @@ b) shift a8 ==> a7
 solution finished.
 
 
+
+          castling as make
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   Q   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ze61                        1 + 3
+         Circe RexInclusive
+           Make&TakeChess
+
+  1  (Qe8*e6[+bKe8] + )
+   1.Qe8*e6[+bKe8] + z !
+
+  2  (Qe8*e6[bRh8-f8][+bKe8] + )
+   1.Qe8*e6[bRh8-f8][+bKe8] + z !
+
+  3  (Qe8*e6[bRa8-d8][+bKe8] + )
+   1.Qe8*e6[bRa8-d8][+bKe8] + z !
+
+  add_to_move_generation_stack:        1822
+                     play_move:          25
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
