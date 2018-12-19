@@ -137,37 +137,6 @@ static void write_departure(output_plaintext_move_context_type *context,
   }
 }
 
-static void write_capture(output_plaintext_move_context_type *context,
-                          move_effect_journal_index_type capture,
-                          move_effect_journal_index_type movement)
-{
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  write_departure(context,movement);
-  (*context->engine->fputc)('*',context->file);
-  if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
-    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
-  else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
-  {
-    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
-    (*context->engine->fprintf)(context->file,"%s"," ep.");
-  }
-  else
-  {
-    WriteSquare(context->engine,context->file,sq_capture);
-    (*context->engine->fputc)('-',context->file);
-    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
-  }
-}
-
-static void write_no_capture(output_plaintext_move_context_type *context,
-                             move_effect_journal_index_type movement)
-{
-  write_departure(context,movement);
-  (*context->engine->fputc)('-',context->file);
-  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
-}
-
 static void write_castling(output_plaintext_move_context_type *context,
                            move_effect_journal_index_type movement)
 {
@@ -184,6 +153,51 @@ static void write_castling(output_plaintext_move_context_type *context,
     output_symbol_type const symbol = to==square_g1 || to==square_g8 ? output_symbol_king_side_castling : output_symbol_queen_side_castling;
     (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[symbol]);
   }
+}
+
+static void write_capture(output_plaintext_move_context_type *context,
+                          move_effect_journal_index_type capture,
+                          move_effect_journal_index_type movement)
+{
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
+
+  assert(movement_reason==move_effect_reason_moving_piece_movement
+         || movement_reason==move_effect_reason_castling_king_movement);
+
+  if (movement_reason==move_effect_reason_moving_piece_movement)
+    write_departure(context,movement);
+  else
+    /* e.g. Make&Take */
+    write_castling(context,movement);
+
+  (*context->engine->fputc)('*',context->file);
+
+  if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
+  else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
+  {
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
+    (*context->engine->fprintf)(context->file,"%s"," ep.");
+  }
+  else
+  {
+    WriteSquare(context->engine,context->file,sq_capture);
+
+    if (movement_reason!=move_effect_reason_castling_king_movement)
+    {
+      (*context->engine->fputc)('-',context->file);
+      WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
+    }
+  }
+}
+
+static void write_no_capture(output_plaintext_move_context_type *context,
+                             move_effect_journal_index_type movement)
+{
+  write_departure(context,movement);
+  (*context->engine->fputc)('-',context->file);
+  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
 }
 
 static void write_exchange(output_plaintext_move_context_type *context,
@@ -235,15 +249,8 @@ static void write_regular_move(output_plaintext_move_context_type *context)
 
   if (capture_type==move_effect_piece_removal)
   {
-    move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
-    assert(movement_reason==move_effect_reason_moving_piece_movement
-           || movement_reason==move_effect_reason_castling_king_movement);
-    if (movement_reason==move_effect_reason_moving_piece_movement)
-      write_capture(context,capture,movement);
-    else
-      /* e.g. Make&Take */
-      write_castling(context,movement);
+    write_capture(context,capture,movement);
   }
   else if (capture_type==move_effect_no_piece_removal)
   {
@@ -484,14 +491,6 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       /* write_capture() and write_no_capture() have dealt with this */
       assert(0);
       break;
-
-    case move_effect_reason_castling_king_movement:
-    {
-      /* e.g. Make&Take */
-      (*context->engine->fputc)('*',context->file);
-      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
-      break;
-    }
 
     case move_effect_reason_castling_partner_movement:
       if (CondFlag[castlingchess] || CondFlag[rokagogo])
