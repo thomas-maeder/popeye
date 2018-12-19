@@ -277,6 +277,23 @@ static void add_take(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void reset_move_ids_castling_as_make(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);TraceEOL();
+
+  move_ids_with_castling_as_make[nbply].king_side.min_move_id = 0;
+  move_ids_with_castling_as_make[nbply].king_side.max_move_id = 0;
+
+  move_ids_with_castling_as_make[nbply].queen_side.min_move_id = 0;
+  move_ids_with_castling_as_make[nbply].queen_side.max_move_id = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -296,10 +313,25 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   square const sq_make_departure = curr_generation->departure;
   piece_walk_type walk_victim;
   ply const generating_for = nbply;
+  square const sq_opposite_king_castling_departure = trait[nbply]==White ? square_e8 : square_e1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  if (TSTFLAG(game_array.spec[sq_opposite_king_castling_departure],trait[nbply]))
+  {
+    /* castling as make move-ids will be reset when we generate moves for the
+     * piece on sq_opposite_king_castling_departure.
+     */
+  }
+  else
+  {
+    /* we are doing this too often, but this seems to be the only way to do it
+     * wihtout violating encapsulation.
+     */
+    reset_move_ids_castling_as_make();
+  }
 
   siblingply(side_victim);
   current_move_id[nbply] = current_move_id[generating_for];
@@ -390,23 +422,6 @@ void make_and_take_move_castling_partner(slice_index si)
   }
 
   pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void make_and_take_reset(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);TraceEOL();
-
-  move_ids_with_castling_as_make[nbply].king_side.min_move_id = 0;
-  move_ids_with_castling_as_make[nbply].king_side.max_move_id = 0;
-
-  move_ids_with_castling_as_make[nbply].queen_side.min_move_id = 0;
-  move_ids_with_castling_as_make[nbply].queen_side.max_move_id = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

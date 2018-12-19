@@ -153,8 +153,6 @@ void finply(void)
   assert(nbply==ply_watermark);
   --ply_watermark;
 
-  make_and_take_reset();
-
   nbply = ply_stack[--ply_stack_pointer];
 
   TraceFunctionExit(__func__);
