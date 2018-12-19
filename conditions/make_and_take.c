@@ -214,7 +214,6 @@ static void restrict_to_walk_victim(piece_walk_type walk_victim)
 static numecoup moves_with_castling_as_make_first(numecoup base,
                                                   ply generating_for)
 {
-  ply const parent = parent_ply[nbply];
   numecoup curr;
 
   TraceFunctionEntry(__func__);
@@ -322,6 +321,41 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Offsets from the "king"'s departure square
+ */
+static void flesh_out_castling_as_make(int offset_partner_departure,
+                                       int offset_king_arrival,
+                                       int offset_partner_arrival)
+{
+  move_effect_journal_index_type const idx_prev = move_effect_journal_base[nbply+1]-1;
+
+  square const sq_king_departure = move_effect_journal[idx_prev].u.piece_movement.from;
+  square const sq_king_arrival = move_effect_journal[idx_prev].u.piece_movement.to;
+  square const sq_king_intermediate = sq_king_departure+offset_king_arrival;
+  piece_walk_type walk_king = get_walk_of_piece_on_square(sq_king_arrival);
+  Flags const flags_king = being_solved.spec[sq_king_arrival];
+
+  square const sq_partner_departure = sq_king_departure+offset_partner_departure;
+  square const sq_partner_arrival = sq_king_departure+offset_partner_arrival;
+
+  assert(move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement);
+  assert(is_king(game_array.board[sq_king_departure]));
+  assert(TSTFLAG(game_array.spec[sq_king_departure],advers(trait[nbply])));
+
+  empty_square(sq_king_arrival);
+  occupy_square(sq_king_intermediate,walk_king,flags_king);
+  move_effect_journal[idx_prev].reason = move_effect_reason_castling_king_movement;
+  move_effect_journal[idx_prev].u.piece_movement.to = sq_king_intermediate;
+
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+                                        sq_partner_departure,
+                                        sq_partner_arrival);
+
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
+                                        sq_king_intermediate,
+                                        sq_king_arrival);
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -344,24 +378,12 @@ void make_and_take_move_castling_partner(slice_index si)
   switch (make_and_take_has_move_castling_as_make(nbply,move_generation_stack[CURRMOVE_OF_PLY(nbply)].id))
   {
     case kingside_castling:
-    {
-      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-      square const sq_partner_departure = sq_departure+3*dir_right;
-      square const sq_partner_arrival = sq_departure+dir_right;
-      move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
-                                            sq_partner_departure,sq_partner_arrival);
+      flesh_out_castling_as_make(3*dir_right,2*dir_right,dir_right);
       break;
-    }
 
     case queenside_castling:
-    {
-      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-      square const sq_partner_departure = sq_departure+4*dir_left;
-      square const sq_partner_arrival = sq_departure+dir_left;
-      move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
-                                            sq_partner_departure,sq_partner_arrival);
+      flesh_out_castling_as_make(4*dir_left,2*dir_left,dir_left);
       break;
-    }
 
     default:
       break;

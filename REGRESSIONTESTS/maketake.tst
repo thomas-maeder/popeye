@@ -213,11 +213,11 @@ solution finished.
   1  (Qe8*e6[+bKe8] + )
    1.Qe8*e6[+bKe8] + z !
 
-  2  (Qe8*e6[bRh8-f8][+bKe8] + )
-   1.Qe8*e6[bRh8-f8][+bKe8] + z !
+  2  (0-0*e6[+bKe8] + )
+   1.0-0*e6[+bKe8] + z !
 
-  3  (Qe8*e6[bRa8-d8][+bKe8] + )
-   1.Qe8*e6[bRa8-d8][+bKe8] + z !
+  3  (0-0-0*e6[+bKe8] + )
+   1.0-0-0*e6[+bKe8] + z !
 
   add_to_move_generation_stack:        1822
                      play_move:          25

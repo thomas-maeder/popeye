@@ -235,9 +235,15 @@ static void write_regular_move(output_plaintext_move_context_type *context)
 
   if (capture_type==move_effect_piece_removal)
   {
+    move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
-    assert(move_effect_journal[movement].reason==move_effect_reason_moving_piece_movement);
-    write_capture(context,capture,movement);
+    assert(movement_reason==move_effect_reason_moving_piece_movement
+           || movement_reason==move_effect_reason_castling_king_movement);
+    if (movement_reason==move_effect_reason_moving_piece_movement)
+      write_capture(context,capture,movement);
+    else
+      /* e.g. Make&Take */
+      write_castling(context,movement);
   }
   else if (capture_type==move_effect_no_piece_removal)
   {
@@ -480,9 +486,12 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       break;
 
     case move_effect_reason_castling_king_movement:
-      /* write_castling() has dealt with this */
-      assert(0);
+    {
+      /* e.g. Make&Take */
+      (*context->engine->fputc)('*',context->file);
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
       break;
+    }
 
     case move_effect_reason_castling_partner_movement:
       if (CondFlag[castlingchess] || CondFlag[rokagogo])
@@ -494,20 +503,6 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
                              move_effect_journal[curr].u.piece_movement.from);
         (*context->engine->fputc)('-',context->file);
         WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
-      }
-      else if (CondFlag[maketake])
-      {
-        if (move_effect_journal[curr-1].reason!=move_effect_reason_castling_king_movement)
-        {
-          (*context->engine->fputc)('[',context->file);
-          write_complete_piece(context,
-                               move_effect_journal[curr].u.piece_movement.movingspec,
-                               move_effect_journal[curr].u.piece_movement.moving,
-                               move_effect_journal[curr].u.piece_movement.from);
-          (*context->engine->fputc)('-',context->file);
-          WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
-          (*context->engine->fputc)(']',context->file);
-        }
       }
       else
       {
