@@ -71,3 +71,133 @@ solution finished.
 solution finished.
 
 
+
+          Jean-Marc Loustau
+        Julia's Fairies 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   P   .   .   .   .   7
+|                                   |
+6   .   K   P   .   .  -B   .   .   6
+|                                   |
+5   .   .   S  -K   S   .  -S   .   5
+|                                   |
+4   .   .   R   .  -Q   .   .   .   4
+|                                   |
+3   .   .   .   P   .  -R   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 6
+               Breton
+
+      1...Rf3*d3[-bPh3]
+          2.d7-d8=R #
+      1...Qe4*d3[-bPh3]
+          2.d7-d8=Q #
+      1...Sg5-h7
+          2.d3*e4[-wQd1] #
+      1...Sg5-f7
+          2.d3*e4[-wQd1] #
+      1...Sg5-e6
+          2.d3*e4[-wQd1] #
+      1...Bf6-h8
+          2.d7-d8=Q #
+          2.d7-d8=R #
+      1...Bf6-g7
+          2.d7-d8=Q #
+          2.d7-d8=R #
+
+   1.Qd1-h1 ! threat:
+          2.Qh1*h3[-wPc6] #
+      1...Rf3-f1
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...Rf3-f2
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...Rf3*d3[-bPh3]
+          2.d7-d8=Q #
+      1...Rf3-e3
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...Rf3-f5
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...Rf3-f4
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...Rf3-g3
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+      1...h3-h2
+          2.Qh1*h2[-wPc6] #
+      1...Qe4*d3[-bPh3]
+          2.d7-d8=R #
+      1...Qe4-h7
+          2.Qh1*h3[-wPc6] #
+      1...Qe4-g6
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4-f5
+          2.Qh1*h3[-wPc6] #
+      1...Qe4-e1
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4-e2
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4-e3
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4-d4
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4*e5[-bSg5]
+          2.Qh1*h3[-wPc6] #
+      1...Qe4-h4
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Qe4-g4
+          2.Qh1*h3[-wPc6] #
+      1...Qe4-f4
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=R #
+      1...Sg5-h7
+          2.Qh1*h3[-wPc6] #
+          2.d3*e4[-wQh1] #
+      1...Sg5-f7
+          2.Qh1*h3[-wPc6] #
+          2.d3*e4[-wQh1] #
+      1...Sg5-e6
+          2.Qh1*h3[-wPc6] #
+          2.d3*e4[-wQh1] #
+      1...Bf6*e5[-bSg5]
+          2.Qh1*h3[-wPc6] #
+      1...Bf6-h8
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+          2.d7-d8=R #
+      1...Bf6-g7
+          2.Qh1*h3[-wPc6] #
+          2.d7-d8=Q #
+          2.d7-d8=R #
+      1...Bf6-d8
+          2.Qh1*h3[-wPc6] #
+      1...Bf6-e7
+          2.Qh1*h3[-wPc6] #
+
+  add_to_move_generation_stack:       21415
+                     play_move:       17039
+ is_white_king_square_attacked:         609
+ is_black_king_square_attacked:       17020
+
+solution finished.
+
+
