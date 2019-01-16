@@ -151,4 +151,10 @@
 /*150*/|KR|po|pos\'eidon                          |po|Poseidon                                    |po|poseidon
 /*151*/|BR|pm|pion marin                          |mb|mariner Bauer                               |mp|marine pawn
 /*152*/|TR|bm|bateau marin                        |mc|marines Schiff                              |mh|marine ship
-
+/*153*/|KU|ep|epine                               |st|Stachel                                     |st|Sting
+/*154*/|SL|ah|Mao sauteur                         |ah|Maohuepfer                                  |ah|Mao hopper
+/*155*/|SR|oh|Moa sauteur                         |oh|Moahuepfer                                  |oh|Moa hopper
+/*156*/|DL|se|Senora                              |se|Senora                                      |se|Senora
+/*157*/|TL|fa|Faro                                |fa|Faro                                        |fa|Faro
+/*158*/|LL|lo|Loco                                |lo|Loco                                        |lo|Loco
+/*159*/|SL|sa|Saltador                            |sl|Saltador                                    |sa|Saltador
