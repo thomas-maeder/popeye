@@ -201,3 +201,230 @@ solution finished.
 solution finished.
 
 
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   R   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   S   5
+|                                   |
+4   .   .   .   .   .   .   .  -S   4
+|                                   |
+3   .   .   .   .   .   .   P   B   3
+|                                   |
+2   .   .   .   .   .   .   P  -Q   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         6 + 5
+               Breton
+
+a) 
+
+  1.Sh4*g2[-bPh7] Bh3*g2[-wSh5] #
+  add_to_move_generation_stack:         360
+                     play_move:         372
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:         372
+
+b) bSh4<-->bBh6  
+
+  1.Bh4*g3[-bPh7] Sh5*g3[-wBh3] #
+  add_to_move_generation_stack:         296
+                     play_move:         306
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:         306
+
+solution finished.
+
+
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   R   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3   .  -P   .  -K   .   S   .   .   3
+|                                   |
+2   .   .   .  -P  -P  -P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 6
+               Breton
+
+  1.e2-e1=R Re7-e5   2.Kd3-c3 Sf3*e1[-wRe5] #
+  1.e2-e1=B Bg7-e5   2.Kd3-e3 Sf3*e1[-wBe5] #
+  add_to_move_generation_stack:      300606
+                     play_move:      225273
+ is_white_king_square_attacked:       25578
+ is_black_king_square_attacked:      224768
+
+solution finished.
+
+
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   .   8
+|                                   |
+7   R   .   .   .  -R   .   .   .   7
+|                                   |
+6   .   .  -R   .   .   .   .   .   6
+|                                   |
+5   .  -Q   .  -S   S   .   .   .   5
+|                                   |
+4   .   .   .  -P  -K  -B   B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   P   .  -S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 8
+               Breton
+
+  1.Sd5-e3 Ra7-d7   2.Qb5*e5[-bSf2] d2-d3 #
+  1.Re7*e5[-bSd5] Ra7-f7   2.Sf2-d3 Bg4-f3 #
+  add_to_move_generation_stack:     2206215
+                     play_move:     1854983
+ is_white_king_square_attacked:      149053
+ is_black_king_square_attacked:     1852996
+
+solution finished.
+
+
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S  -S  -B   .   B   K   .   8
+|                                   |
+7   .   P  -P   .   .   P  -S   .   7
+|                                   |
+6   .   .   .   .  -K   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 6
+               Breton
+
+  1.Bg6-f5 e4*f5[-wBf8] +   2.Ke6-e7 f7-f8=Q #
+  1.Sg7-f5 e4*f5[-wSb8] +   2.Ke6-d7 b7-b8=S #
+  add_to_move_generation_stack:      133392
+                     play_move:      115526
+ is_white_king_square_attacked:       11106
+ is_black_king_square_attacked:      115188
+
+solution finished.
+
+
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -R   P  -S   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -S   .   6
+|                                   |
+5   .   .   .   .   R  -R  -P   .   5
+|                                   |
+4   .   .   .   .   P  -K   .   S   4
+|                                   |
+3   .  -B   .   .   .   .  -B   K   3
+|                                   |
+2   .   .   .   .   .   B   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 8
+               Breton
+
+  1.Bb3-d1 b7-b8=S   2.Bd1-f3 Sh4*g6[-wSb8] #
+  1.Ra7-a4 b7-b8=R   2.Ra4*e4[-bPg5] Re5*f5[-wRb8] #
+  1.Sc7-d5 b7-b8=B   2.Sd5-e3 Bf2*g3[-wBb8] #
+  add_to_move_generation_stack:      961156
+                     play_move:      831801
+ is_white_king_square_attacked:      105533
+ is_black_king_square_attacked:      830580
+
+solution finished.
+
+
+
+           Pierre Tritten
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   .   .   .   .   .   8
+|                                   |
+7   .  -S   .  -S   .   .   .   S   7
+|                                   |
+6   .   .   .   .   .  -R   .   .   6
+|                                   |
+5   .   .  -P  -K   .   .  -R   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   P  -B   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   R  -B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 8
+               Breton
+
+  1.Be1-g3 Rd1-e1   2.Bg3-d6 Bc8*b7[-wSh7] #
+  1.Rg5-e5 Sh7-g5   2.Rf6-c6 Rd1*d3[-wBc8] #
+  1.Sd7-e5 Bc8-d7   2.Sb7-d6 Sh7*f6[-wRd1] #
+  add_to_move_generation_stack:      623885
+                     play_move:      436678
+ is_white_king_square_attacked:       56903
+ is_black_king_square_attacked:      435851
+
+solution finished.
+
+

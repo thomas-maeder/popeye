@@ -21,9 +21,58 @@ next
 author Jean-Marc Loustau
 origin Julia's Fairies 2018
 pieces white kb6 qd1 rc4 ba8c7 sc5e5 pc6d3d7 black kd5 qe4 rf3 bf6 sg5 ph3
+stipulation #2
 condition breton
-stip #2
 option set vari
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kf1 rh8 bh3 sh5 pg2g3 black kh1 qh2 bh6 sh4 ph7
+stipulation h#1
+condition breton
+twin exchange h4 h6
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kc5 re7 bg7 sf3 black kd3 pb3d2e2f2f4
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kf8 ra7 bg4 se5 pd2 black ke4 qb5 rc6e7 bf4 sd5f2 pd4
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kg8 bf8 sb8 pb7e4f7 black ke6 bd8g6 sc8g7 pc7
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kh3 re5 bf2 sh4 pb7e4 black kf4 ra7f5 bb3g3 sc7g6 pg5
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kb3 rd1 bc8 sh7 pc3 black kd5 rf6g5 bd3e1 sb7d7 pc5
+stipulation h#2
+condition breton
 
 end
 
