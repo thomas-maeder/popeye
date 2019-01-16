@@ -11,7 +11,6 @@ GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt
-DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
 SPECIALCFILES = pymain.c
 HOSTFILES     = \
@@ -21,7 +20,7 @@ HOSTFILES     = \
 
 include makefile.rules $(CURRPWD)/depend
 
-DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES)
+DISTRIBUTEDFILES += $(SPECIALCFILES) $(DOCFILES)
 
 
 
