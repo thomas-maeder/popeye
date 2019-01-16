@@ -153,3 +153,10 @@ ms SR marine knight
 po KR poseidon
 mp BR marine pawn
 mh TR marine ship
+st KU Sting (King + royal Grasshopper)
+ah SL Maohopper
+oh SR Moahopper
+se DL Senora (argentinian Queen)
+fa TL Faro (argentinian Rook)
+lo LL Loco (argentinian Bishop)
+sa SL Saltador (argentinian Knight)
