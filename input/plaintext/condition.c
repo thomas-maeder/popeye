@@ -651,6 +651,7 @@ static char *ParseBretonVariants(char *tok)
   TraceFunctionParamListEnd();
 
   breton_mode = breton_propre;
+  breton_chromaticity = breton_nonchromatic;
 
   do
   {
@@ -661,6 +662,11 @@ static char *ParseBretonVariants(char *tok)
     else if (type==BretonAdverse)
     {
       breton_mode = breton_adverse;
+      tok = ReadNextTokStr();
+    }
+    else if (type==BretonChromatique)
+    {
+      breton_chromaticity = breton_chromatic;
       tok = ReadNextTokStr();
     }
     else

@@ -428,3 +428,41 @@ solution finished.
 solution finished.
 
 
+
+ Pierre Tritten & Jacques Rotenberg
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   P   .   .  -P   7
+|                                   |
+6   .   .  -P   .   .   .   .  -P   6
+|                                   |
+5   .   .   B   .  -P   .   .  -P   5
+|                                   |
+4   .   .   P   .  -K   .  -P   .   4
+|                                   |
+3   .   .   P   .   .   .   P   .   3
+|                                   |
+2   .   .   .   K   .   .   P  -P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        7 + 10
+          Breton Chromatic
+
+  1.h2-h1=Q e7-e8=Q   2.Qh1-b1 Qe8-g6 #
+  1.h2-h1=S e7-e8=S   2.Sh1-f2 Se8-d6 #
+  1.h2-h1=R e7-e8=R   2.Rh1-e1 Re8*e5[c4=b] #
+  1.h2-h1=B e7-e8=B   2.Bh1*g2[g4=w] Be8*c6[c4=b] #
+  add_to_move_generation_stack:       37579
+                     play_move:       42754
+ is_white_king_square_attacked:        3988
+ is_black_king_square_attacked:       42613
+
+solution finished.
+
+

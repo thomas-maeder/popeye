@@ -1,6 +1,7 @@
 #include "conditions/breton.h"
 #include "position/position.h"
 #include "position/effects/piece_removal.h"
+#include "position/effects/side_change.h"
 #include "solving/ply.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
@@ -12,6 +13,7 @@
 #include "debugging/trace.h"
 
 breton_mode_type breton_mode;
+breton_chromaticity_type breton_chromaticity;
 
 static square const *breton_state[maxply+1];
 
@@ -43,17 +45,23 @@ static boolean advance_breton_victim_position(slice_index si,
   return result;
 }
 
-static void delegate_with_breton_removal(slice_index si)
+static void delegate_with_breton_action(slice_index si)
 {
-  move_effect_journal_do_piece_removal(move_effect_reason_breton,
+  if (breton_chromaticity==breton_nonchromatic)
+    move_effect_journal_do_piece_removal(move_effect_reason_breton,
+                                         *breton_state[nbply]);
+  else
+    move_effect_journal_do_side_change(move_effect_reason_breton,
                                        *breton_state[nbply]);
+
   post_move_iteration_solve_delegate(si);
 }
 
-static void try_next_breton_removal(slice_index si, Side side_bretonnee)
+static void try_next_breton_action(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  Side const side_bretonnee = breton_mode==breton_propre ? SLICE_STARTER(si) : advers(SLICE_STARTER(si));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -69,7 +77,7 @@ static void try_next_breton_removal(slice_index si, Side side_bretonnee)
 
       if (advance_breton_victim_position(si,capture,side_bretonnee))
         /* we got a winner! */
-        delegate_with_breton_removal(si);
+        delegate_with_breton_action(si);
       else
         /* no Breton removal for this regular removal */
         pipe_solve_delegate(si);
@@ -80,7 +88,7 @@ static void try_next_breton_removal(slice_index si, Side side_bretonnee)
       ++breton_state[nbply];
       if (advance_breton_victim_position(si,capture,side_bretonnee))
         /* we got a winner! */
-        delegate_with_breton_removal(si);
+        delegate_with_breton_action(si);
       else
       {
         /* end the current iteration */
@@ -90,7 +98,7 @@ static void try_next_breton_removal(slice_index si, Side side_bretonnee)
     }
     else
       /* replay the current step of iteration - somebody else is advancing */
-      delegate_with_breton_removal(si);
+      delegate_with_breton_action(si);
   }
   else
     pipe_solve_delegate(si);
@@ -118,7 +126,7 @@ void breton_remover_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  try_next_breton_removal(si,SLICE_STARTER(si));
+  try_next_breton_action(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -143,20 +151,7 @@ void breton_adverse_remover_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  try_next_breton_removal(si,advers(SLICE_STARTER(si)));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument slices with move tracers
- */
-void solving_insert_breton_adverse(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STBretonAdverseRemover);
+  try_next_breton_action(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -169,20 +164,7 @@ void solving_insert_breton(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  switch (breton_mode)
-  {
-    case breton_propre:
-      stip_instrument_moves(si,STBretonRemover);
-      break;
-
-    case breton_adverse:
-      stip_instrument_moves(si,STBretonAdverseRemover);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  stip_instrument_moves(si,STBretonRemover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -464,19 +464,10 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           break;
 
         case breton:
-          switch (breton_mode)
-          {
-            case breton_propre:
-              break;
-
-            case breton_adverse:
-              written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonAdverse]);
-              break;
-
-            default:
-              assert(0);
-              break;
-          }
+          if (breton_mode==breton_adverse)
+            written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonAdverse]);
+          if (breton_chromaticity==breton_chromatic)
+            written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonChromatique]);
           break;
 
         case koeko:

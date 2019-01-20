@@ -74,5 +74,13 @@ pieces white kb3 rd1 bc8 sh7 pc3 black kd5 rf6g5 bd3e1 sb7d7 pc5
 stipulation h#2
 condition breton
 
+next
+
+author Pierre Tritten & Jacques Rotenberg
+origin Ph\'enix 2018
+pieces white kd2 bc5 pc3c4e7g2g3 black ke4 ba8 pc6c7e5g4h2h5h6h7
+stipulation h#2
+condition breton chromatic
+
 end
 

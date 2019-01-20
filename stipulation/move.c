@@ -76,7 +76,6 @@ static slice_type const move_slice_rank_order[] =
     STAnticirceConsideringRebirth,
     STCirceDoneWithRebirth,
     STBretonRemover,
-    STBretonAdverseRemover,
     STTibetSideChanger,
     STDoubleTibetSideChanger,
     STAndernachSideChanger,

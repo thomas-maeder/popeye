@@ -179,6 +179,7 @@ extern char const * const *SentinellesVariantTypeTab;
 typedef enum
 {
   BretonAdverse,
+  BretonChromatique,
 
   BretonVariantCount
 } BretonVariantType;

@@ -13,7 +13,14 @@ typedef enum
   nr_breton_modes
 } breton_mode_type;
 
+typedef enum
+{
+  breton_nonchromatic,
+  breton_chromatic
+} breton_chromaticity_type;
+
 extern breton_mode_type breton_mode;
+extern breton_chromaticity_type breton_chromaticity;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

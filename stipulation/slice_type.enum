@@ -491,7 +491,6 @@
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
     ENUMERATOR(STBretonRemover),                                        \
-    ENUMERATOR(STBretonAdverseRemover),                                 \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \

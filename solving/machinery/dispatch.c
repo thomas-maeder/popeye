@@ -1036,10 +1036,6 @@ void dispatch(slice_index si)
       breton_remover_solve(si);
       break;
 
-    case STBretonAdverseRemover:
-      breton_adverse_remover_solve(si);
-      break;
-
     case STCirceCaptureFork:
       circe_capture_fork_solve(si);
       break;

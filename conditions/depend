@@ -8381,8 +8381,9 @@ conditions/breton$(OBJ_SUFFIX): conditions/breton.c conditions/breton.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  position/effects/piece_removal.h solving/move_effect_journal.h \
- solving/ply.h solving/pipe.h solving/post_move_iteration.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ solving/ply.h position/effects/side_change.h solving/pipe.h \
+ solving/post_move_iteration.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -8453,6 +8454,8 @@ position/effects/piece_removal.h:
 solving/move_effect_journal.h:
 
 solving/ply.h:
+
+position/effects/side_change.h:
 
 solving/pipe.h:
 

@@ -1875,13 +1875,16 @@ static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCo
 {
   {
     /* French */
-    "Adverse"
+    "Adverse",
+    "Chromatique"
   },{
     /* German */
-    "Advers"
+    "Advers",
+    "Chromatisch"
   },{
     /* English */
-    "Adverse"
+    "Adverse",
+    "Chromatic"
   }
 };
 

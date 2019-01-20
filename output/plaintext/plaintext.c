@@ -365,6 +365,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_magic_piece:
     case move_effect_reason_masand:
     case move_effect_reason_hurdle_colour_changing:
+    case move_effect_reason_breton:
       next_context(context,curr,"[","]");
       WriteSquare(context->engine,context->file,move_effect_journal[curr].u.side_change.on);
       (*context->engine->fputc)('=',context->file);
