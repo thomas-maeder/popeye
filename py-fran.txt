@@ -252,7 +252,6 @@ simples:
 	LeseMajeste
 	Rokagogo
 	Breton
-	BretonAdverse
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -452,6 +451,8 @@ simples:
 		ImmunSymmetrique	Immun Symetrie
 		ImmunAntipoden		Immun Antipodes
 		ImmunEquipollents	Immun Equipollents
+
+	Apres Breton, Adverse peut etre indique.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
