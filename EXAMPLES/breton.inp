@@ -82,5 +82,44 @@ pieces white kd2 bc5 pc3c4e7g2g3 black ke4 ba8 pc6c7e5g4h2h5h6h7
 stipulation h#2
 condition breton chromatic
 
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white ka2 qf7 rc5f1 bc8h2 sd2e6 pa4d4h3 black kf5 qa7 rf4 bf6 sf2g3 pe5
+stipulation #2
+condition breton
+option try vari
+
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white kd1 rc4e1 bc8f6 sa5b7 pe5 black kd5 rh5 bh2 pc6
+stipulation #2
+condition breton
+option try vari
+
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white kc8 qd1 rb6 bc5g8 sb4b7e2 pd6 ne8 black kc4 qe6 rc3d2 bc2 sb2 pb3d7 nc1
+stipulation #2
+condition breton
+option vari
+
+next
+
+author Michel Caillaud
+origin Ph\'enix 2018
+pieces white ka4 qh3 rf3 be2 sg4h2 pc5g6 rla5f5g8h1 blb1b5d1 black kh5 ra1 pa3f2h4 rlh8 bld8
+stipulation #2
+condition breton
+option vari
+
 end
 

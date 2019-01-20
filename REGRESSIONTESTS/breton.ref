@@ -466,3 +466,310 @@ solution finished.
 solution finished.
 
 
+dedicated to Pierre Tritten
+
+          Jean-Marc Loustau
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   .   .   .   .   .   8
+|                                   |
+7  -Q   .   .   .   .   Q   .   .   7
+|                                   |
+6   .   .   .   .   S  -B   .   .   6
+|                                   |
+5   .   .   R   .  -P  -K   .   .   5
+|                                   |
+4   P   .   .   P   .  -R   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -S   P   3
+|                                   |
+2   K   .   .   S   .  -S   .   B   2
+|                                   |
+1   .   .   .   .   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 7
+               Breton
+
+   1.Rf1*f2[-wSe6] + ?
+      1...Qa7-d7
+          2.d4*e5[-wPe5] #
+          2.Rc5*e5[-wPa4] #
+    but
+      1...Kf5-g5 !
+
+   1.Bh2*g3[-wSe6] + ?
+      1...Qa7-d7
+          2.d4*e5[-wPe5] #
+          2.Rc5*e5[-wPa4] #
+          2.Rc5*e5[-wPd4] #
+    but
+      1...Kf5-g5 !
+
+   1.d4*e5[-wPe5] + ?
+    but
+      1...Qa7*c5[-bRf4] !
+
+   1.Rc5*e5[-wPh3] + ?
+    but
+      1...Kf5-g4 !
+
+   1.Rc5*e5[-wPd4] + ?
+    but
+      1...Kf5*e5[-bRf4] !
+
+   1.Se6*f4[-wRc5] + ?
+      1...Qa7-d7
+          2.Qf7-g6 #
+    but
+      1...Kf5-g5 !
+
+   1.Se6-g7 + ?
+    but
+      1...Kf5-g5 !
+
+   1.Se6-f8 + ?
+      1...Qa7-d7
+          2.d4*e5[-wPe5] #
+          2.Rc5*e5[-wPa4] #
+          2.Qf7-g6 #
+    but
+      1...Kf5-g5 !
+
+   1.Se6-d8 + ?
+      1...Qa7-d7
+          2.d4*e5[-wPe5] #
+          2.Rc5*e5[-wPa4] #
+    but
+      1...Kf5-g5 !
+
+   1.Se6-c7 + ?
+    but
+      1...Kf5-g5 !
+
+   1.Qf7-h5 + ?
+      1...Bf6-g5
+          2.Qh5*g5[-wBh2] #
+    but
+      1...Sg3*h5[-bQa7] !
+
+   1.Qf7-g6 + ?
+    but
+      1...Kf5*g6[-bQa7] !
+
+   1.Qf7*f6[-wBh2] + ?
+    but
+      1...Kf5*f6[-bQa7] !
+
+   1.Qf7*f6[-wBc8] + ?
+    but
+      1...Kf5*f6[-bQa7] !
+
+   1.Qf7-h7 + ?
+    but
+      1...Qa7*h7[-bQh7] !
+
+   1.Bc8-b7 ! threat:
+          2.Bb7-e4 #
+      1...Sf2-e4
+          2.d4*e5[-wPe5] #
+      1...Sg3-e4
+          2.Rc5*e5[-wPd4] #
+
+   1.Bc8-d7 ? threat:
+          2.Qf7-h7 #
+      1...Rf4-g4
+          2.Rc5*e5[-wPh3] #
+    but
+      1...Rf4-h4 !
+
+  add_to_move_generation_stack:       54686
+                     play_move:       38044
+ is_white_king_square_attacked:        2581
+ is_black_king_square_attacked:       37414
+
+solution finished.
+
+
+dedicated to Pierre Tritten
+
+          Jean-Marc Loustau
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   .   .   .   .   .   8
+|                                   |
+7   .   S   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   B   .   .   6
+|                                   |
+5   S   .   .  -K   P   .   .  -R   5
+|                                   |
+4   .   .   R   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -B   2
+|                                   |
+1   .   .   .   K   R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 4
+               Breton
+
+   1.Rc4*c6[-wPe5] ? threat:
+          2.Rc6-c5 #
+          2.Bc8-e6 #
+      1...Bh2-g1
+          2.Rc6-d6 #
+          2.Bc8-e6 #
+      1...Bh2-d6
+          2.Rc6*d6[-wBf6] #
+          2.Rc6*d6[-wBc8] #
+          2.Bc8-e6 #
+      1...Rh5-e5
+          2.Rc6-d6 #
+    but
+      1...Bh2-e5 !
+
+   1.Rc4-c5 + ?
+    but
+      1...Kd5-d4 !
+
+   1.Rc4-d4 + ?
+    but
+      1...Kd5*d4[-bRh5] !
+
+   1.Sa5*c6[-wPe5] ? threat:
+          2.Rc4-c5 #
+          2.Bc8-e6 #
+      1...Bh2-g1
+          2.Bc8-e6 #
+      1...Bh2-d6
+          2.Bc8-e6 #
+      1...Rh5-e5
+          2.Rc4-c5 #
+    but
+      1...Kd5*c4[-bRh5] !
+
+   1.Bc8-e6 + ?
+    but
+      1...Kd5*e6[-bBh2] !
+
+   1.Bc8-d7 ! threat:
+          2.Bd7*c6[-wPe5] #
+      1...Bh2*e5[-bPc6]
+          2.Bd7-e6 #
+      1...Rh5*e5[-bPc6]
+          2.Rc4-d4 #
+      1...c6-c5
+          2.Rc4*c5[-wPe5] #
+
+  add_to_move_generation_stack:       17355
+                     play_move:       11474
+ is_white_king_square_attacked:         633
+ is_black_king_square_attacked:       11382
+
+solution finished.
+
+
+dedicated to Pierre Tritten
+
+          Jean-Marc Loustau
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   N   .   B   .   8
+|                                   |
+7   .   S   .  -P   .   .   .   .   7
+|                                   |
+6   .   R   .   P  -Q   .   .   .   6
+|                                   |
+5   .   .   B   .   .   .   .   .   5
+|                                   |
+4   .   S  -K   .   .   .   .   .   4
+|                                   |
+3   .  -P  -R   .   .   .   .   .   3
+|                                   |
+2   .  -S  -B  -R   S   .   .   .   2
+|                                   |
+1   .   .  -N   Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 9
+               Breton
+
+   1.Bc5-e3 ! threat:
+          2.Sb7-a5 #
+      1...Rd2*d6[-bPb3]
+          2.Qd1-d5 #
+      1...Rd2*d6[-bPd7] +
+          2.Bg8*e6[-wQd1] #
+      1...Rd2-d5
+          2.Qd1-d4 #
+      1...Rd2-d4
+          2.Qd1-d3 #
+      1...Rc3*e3[-bBc2]
+          2.Qd1*b3[-wPd6] #
+
+  add_to_move_generation_stack:       16811
+                     play_move:       10123
+ is_white_king_square_attacked:         514
+ is_black_king_square_attacked:       10126
+
+solution finished.
+
+
+
+           Michel Caillaud
+            Ph\'enix 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   . -BL   .   .  RL -RL   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   P   .   6
+|                                   |
+5  RL  BL   P   .   .  RL   .  -K   5
+|                                   |
+4   K   .   .   .   .   .   S  -P   4
+|                                   |
+3  -P   .   .   .   .   R   .   Q   3
+|                                   |
+2   .   .   .   .   B  -P   .   S   2
+|                                   |
+1  -R  BL   .  BL   .   .   .  RL   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         15 + 7
+               Breton
+
+   1.g6-g7 ! threat:
+          2.RLf5*f2[-wPc5] #
+      1...f2-f1=Q
+          2.Sh2*f1[-wQh3] #
+      1...f2-f1=S
+          2.Qh3*f1[-wSh2] #
+      1...f2-f1=R
+          2.Be2*f1[-wRf3] #
+      1...f2-f1=B
+          2.Rf3*f1[-wBe2] #
+      1...f2-f1=RL
+          2.BLb5*f1[-wRLf5] #
+      1...f2-f1=BL
+          2.RLf5*f1[-wBLb5] #
+
+  add_to_move_generation_stack:        6045
+                     play_move:        4973
+ is_white_king_square_attacked:         587
+ is_black_king_square_attacked:        4976
+
+solution finished.
+
+
