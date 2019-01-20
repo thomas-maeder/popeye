@@ -1,11 +1,17 @@
 #include "conditions/breton.h"
 #include "position/position.h"
+#include "position/effects/piece_removal.h"
 #include "solving/ply.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
 #include "solving/post_move_iteration.h"
 #include "solving/has_solution_type.enum.h"
 #include "stipulation/move.h"
+
+#include "debugging/assert.h"
+#include "debugging/trace.h"
+
+breton_mode_type breton_mode;
 
 static square const *breton_state[maxply+1];
 
@@ -118,19 +124,6 @@ void breton_remover_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument slices with move tracers
- */
-void solving_insert_breton(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STBretonRemover);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -164,6 +157,32 @@ void solving_insert_breton_adverse(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STBretonAdverseRemover);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument slices with move tracers
+ */
+void solving_insert_breton(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  switch (breton_mode)
+  {
+    case breton_propre:
+      stip_instrument_moves(si,STBretonRemover);
+      break;
+
+    case breton_adverse:
+      stip_instrument_moves(si,STBretonAdverseRemover);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

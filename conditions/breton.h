@@ -3,7 +3,17 @@
 
 #include "solving/machinery/solve.h"
 
-/* This module implements the conditions Breton and Breton Adverse */
+/* This module implements the condition Breton including its variants */
+
+typedef enum
+{
+  breton_propre,
+  breton_adverse,
+
+  nr_breton_modes
+} breton_mode_type;
+
+extern breton_mode_type breton_mode;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -19,10 +29,6 @@
  *            (with n denominating solve_nr_remaining)
  */
 void breton_remover_solve(slice_index si);
-
-/* Instrument slices with move tracers
- */
-void solving_insert_breton(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -41,6 +47,6 @@ void breton_adverse_remover_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void solving_insert_breton_adverse(slice_index si);
+void solving_insert_breton(slice_index si);
 
 #endif

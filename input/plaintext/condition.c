@@ -12,6 +12,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/bgl.h"
+#include "conditions/breton.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/reborn_piece.h"
@@ -631,6 +632,35 @@ static char *ParseSentinellesVariants(char *tok)
     else if (type==SentinellesVariantBerolina)
     {
       sentinelle_walk = BerolinaPawn;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseBretonVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  breton_mode = breton_propre;
+
+  do
+  {
+    BretonVariantType const type = GetUniqIndex(BretonVariantCount,BretonVariantTypeTab,tok);
+
+    if (type>BretonVariantCount)
+      output_plaintext_input_error_message(CondNotUniq,0);
+    else if (type==BretonAdverse)
+    {
+      breton_mode = breton_adverse;
       tok = ReadNextTokStr();
     }
     else
@@ -1662,6 +1692,10 @@ char *ParseCond(char *tok)
 
         case sentinelles:
           tok = ParseSentinellesVariants(tok);
+          break;
+
+        case breton:
+          tok = ParseBretonVariants(tok);
           break;
 
         case dynasty:

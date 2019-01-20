@@ -174,6 +174,17 @@ extern char const * const *TwinningTab;
 extern char const * const *TwinningMirrorTab;
 extern char const * const *mummer_strictness_tab;
 
+extern char const * const *SentinellesVariantTypeTab;
+
+typedef enum
+{
+  BretonAdverse,
+
+  BretonVariantCount
+} BretonVariantType;
+
+extern char const * const *BretonVariantTypeTab;
+
 void output_plaintext_select_language(Language lang);
 
 /* Make sure that we don't define ambiguous piece name shortcuts */

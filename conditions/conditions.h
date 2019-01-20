@@ -225,10 +225,9 @@ typedef enum
   lesemajeste,            /* 204 */
   rokagogo,               /* 205 */
   breton,                 /* 206 */
-  bretonadverse,          /* 207 */
-  maketake,               /* 208 */
+  maketake,               /* 207 */
 
-  CondCount               /* 209 */
+  CondCount               /* 208 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

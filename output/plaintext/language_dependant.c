@@ -939,8 +939,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse",
-    /*208*/ "Make&TakeEchecs"
+    /*207*/ "Make&TakeEchecs"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1150,8 +1149,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse",
-    /*208*/ "Make&TakeSchach"
+    /*207*/ "Make&TakeSchach"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1361,8 +1359,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "BretonAdverse",
-    /*208*/ "Make&TakeChess"
+    /*207*/ "Make&TakeChess"
   }
 };
 
@@ -1872,6 +1869,22 @@ static char const * const mummer_strictness_string[LanguageCount][nr_mummer_stri
   }
 };
 
+char const * const *BretonVariantTypeTab;
+
+static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCount] =
+{
+  {
+    /* French */
+    "Adverse"
+  },{
+    /* German */
+    "Advers"
+  },{
+    /* English */
+    "Adverse"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -1892,6 +1905,7 @@ void output_plaintext_select_language(Language lang)
   CirceVariantTypeTab = &CirceVariantTypeString[lang][0];
   ExtraCondTab= &ExtraCondString[lang][0];
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
+  BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];

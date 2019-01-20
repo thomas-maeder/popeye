@@ -1269,13 +1269,13 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  output/plaintext/message.h output/message.h \
  pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
  pieces/attributes/neutral/neutral.h conditions/annan.h \
- conditions/anticirce/cheylan.h conditions/bgl.h conditions/circe/april.h \
- conditions/circe/rex_inclusive.h conditions/circe/chameleon.h \
- conditions/circe/assassin.h conditions/circe/parrain.h \
- conditions/football.h conditions/geneva.h conditions/grid.h \
- conditions/imitator.h conditions/immune.h conditions/isardam.h \
- conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
- conditions/madrasi.h conditions/magic_square.h \
+ conditions/anticirce/cheylan.h conditions/bgl.h conditions/breton.h \
+ conditions/circe/april.h conditions/circe/rex_inclusive.h \
+ conditions/circe/chameleon.h conditions/circe/assassin.h \
+ conditions/circe/parrain.h conditions/football.h conditions/geneva.h \
+ conditions/grid.h conditions/imitator.h conditions/immune.h \
+ conditions/isardam.h conditions/kobul.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/madrasi.h conditions/magic_square.h \
  conditions/marscirce/marscirce.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
@@ -1423,6 +1423,8 @@ conditions/annan.h:
 conditions/anticirce/cheylan.h:
 
 conditions/bgl.h:
+
+conditions/breton.h:
 
 conditions/circe/april.h:
 

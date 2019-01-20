@@ -1717,7 +1717,7 @@ void verify_position(slice_index si)
       || CondFlag[platzwechselrochade])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[breton] || CondFlag[bretonadverse])
+  if (CondFlag[breton])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none

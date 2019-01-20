@@ -8,6 +8,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/breton.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
@@ -460,6 +461,22 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           }
           if (sentinelles_max_nr_pawns_total != 16)
             written += append_to_CondLine(&CondLine,written," //%u", sentinelles_max_nr_pawns_total);
+          break;
+
+        case breton:
+          switch (breton_mode)
+          {
+            case breton_propre:
+              break;
+
+            case breton_adverse:
+              written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonAdverse]);
+              break;
+
+            default:
+              assert(0);
+              break;
+          }
           break;
 
         case koeko:
