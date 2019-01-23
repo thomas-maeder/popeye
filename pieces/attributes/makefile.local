@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = hurdle_colour_changing.c magic.c chameleon.c jigger.c uncapturable.c
+SRC_CFILES = hurdle_colour_changing.c magic.c chameleon.c jigger.c uncapturable.c total_invisible.c
 
-INCLUDES = hurdle_colour_changing.h magic.h chameleon.h jigger.h uncapturable.h
+INCLUDES = hurdle_colour_changing.h magic.h chameleon.h jigger.h uncapturable.h total_invisible.h
 
 include makefile.rules $(CURRPWD)depend

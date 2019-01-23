@@ -7,6 +7,7 @@
 #include "solving/selfcheck_guard.h"
 #include "solving/has_solution_type.h"
 #include "solving/check.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/proxy.h"
 #include "solving/observation.h"
@@ -215,6 +216,9 @@ void build_solvers1(slice_index si)
   if (TSTFLAG(some_pieces_flags,Kamikaze))
     solving_insert_kamikaze(si);
 
+  if (total_invisible_number>0)
+    solving_instrument_total_invisible(si);
+
   /* must come before solving_apply_setplay() */
   solving_insert_root_slices(si);
   solving_insert_intro_slices(si);
@@ -240,8 +244,8 @@ void build_solvers1(slice_index si)
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
-  if (!init_intelligent_mode(si))
-    output_plaintext_message(IntelligentRestricted);
+//  if (!init_intelligent_mode(si))
+//    output_plaintext_message(IntelligentRestricted);
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
@@ -601,9 +605,11 @@ void build_solvers1(slice_index si)
 
   solving_insert_find_shortest_solvers(si);
 
-  solving_optimise_with_orthodox_mating_move_generators(si);
-
-  solving_optimise_with_goal_non_reacher_removers(si);
+  if (total_invisible_number==0)
+  {
+    solving_optimise_with_orthodox_mating_move_generators(si);
+    solving_optimise_with_goal_non_reacher_removers(si);
+  }
 
   if (!OptFlag[solvariantes])
     solving_insert_play_suppressors(si);
@@ -622,8 +628,11 @@ void build_solvers1(slice_index si)
     ohneschach_optimise_immobility_testers(si);
   }
 
-  if (is_hashtable_allocated())
-    solving_insert_hashing(si);
+  if (total_invisible_number==0)
+  {
+    if (is_hashtable_allocated())
+      solving_insert_hashing(si);
+  }
 
   solving_instrument_help_ends_of_branches(si);
 

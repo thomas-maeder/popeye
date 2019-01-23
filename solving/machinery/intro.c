@@ -46,7 +46,8 @@ static structure_traversers_visitor intro_slice_inserters[] =
   { STAttackAdapter,     &attack_adapter_make_intro   },
   { STDefenseAdapter,    &defense_adapter_make_intro  },
   { STHelpAdapter,       &help_adapter_make_intro     },
-  { STTemporaryHackFork, &hack_fork_make_intro        }
+  { STTemporaryHackFork, &hack_fork_make_intro        },
+  { STTotalInvisibleMoveSequenceTester, stip_traverse_structure_children_pipe }
 };
 
 enum

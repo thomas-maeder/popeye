@@ -242,6 +242,7 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/walks/generate_moves.h"
@@ -2063,6 +2064,10 @@ void dispatch(slice_index si)
 
     case STKillerAttackCollector:
       killer_attack_collector_solve(si);
+      break;
+
+    case STTotalInvisibleMoveSequenceTester:
+      total_invisible_move_sequence_tester_solve(si);
       break;
 
     case STMummerOrchestrator:
