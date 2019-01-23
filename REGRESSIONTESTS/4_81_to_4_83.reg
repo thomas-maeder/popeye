@@ -1,0 +1,71 @@
+
+               flab03
+          GitHub issue #240
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .   .  -Q   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   Q   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hze81.5                     2 + 5
+       WhiteMustCapture  ultra
+
+  add_to_move_generation_stack:        2140
+                     play_move:          79
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:          82
+
+solution finished.
+
+
+
+               flab03
+          GitHub issue #240
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B  -S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 3
+       BlackMustCapture  ultra
+
+  1.Ba6*e2 Rh1-h8 #
+  1.Sb6*a4 Rh1-h8 #
+  1.Sb6*a4 Be2-h5 #
+  add_to_move_generation_stack:         170
+                     play_move:          55
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:          55
+
+solution finished.
+
+

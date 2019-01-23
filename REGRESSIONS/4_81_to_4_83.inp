@@ -1,0 +1,20 @@
+begin
+
+protocol 4_81_to_4_83.reg
+
+author flab03
+origin GitHub issue #240
+forsyth r3k2r/4q1b1/5Q2/8/8/8/8/3K4
+stip hze8 1.5
+cond WhiteMustCapture Ultra
+
+next
+
+author flab03
+origin GitHub issue #240
+forsyth 4k3/8/bs6/8/P7/8/4B3/R3K2R
+stip h#1
+cond BlackMustCapture Ultra
+
+end
+
