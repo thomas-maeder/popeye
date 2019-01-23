@@ -785,6 +785,8 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
 
     occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
     empty_square(to);
+
+    curr_generation->departure = from;
   }
 
   TraceFunctionExit(__func__);
@@ -802,7 +804,6 @@ void generate_castling(void)
 
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
-    square const save_departure = curr_generation->departure;
     castling_rights_type allowed_castlings = 0;
 
     square const square_a = side==White ? square_a1 : square_a8;
@@ -828,22 +829,16 @@ void generate_castling(void)
       if ((allowed_castlings&rh_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_f))
       {
-        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
         curr_generation->arrival = square_g;
         push_special_move(kingside_castling);
       }
 
-      curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
-
       if ((allowed_castlings&ra_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_d))
       {
-        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
         curr_generation->arrival = square_c;
         push_special_move(queenside_castling);
       }
-
-      curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
     }
   }
 
