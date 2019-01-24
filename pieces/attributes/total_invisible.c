@@ -1,6 +1,6 @@
 #include "pieces/attributes/total_invisible.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/conditional_pipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
@@ -55,12 +55,12 @@ static void insert_copy(slice_index si,
   else
   {
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const substitute = alloc_conditional_pipe(STTotalInvisibleMoveSequenceTester,
-                                                          proxy);
-    pipe_link(proxy,state->the_copy);
+    slice_index const substitute = alloc_pipe(STTotalInvisibleMoveSequenceTester);
+    pipe_link(proxy,substitute);
+    pipe_link(substitute,state->the_copy);
     state->the_copy = no_slice;
     dealloc_slices(SLICE_NEXT2(si));
-    pipe_substitute(si,substitute);
+    SLICE_NEXT2(si) = proxy;
   }
 
   TraceFunctionExit(__func__);
@@ -121,16 +121,13 @@ void solving_instrument_total_invisible(slice_index si)
 
   // bail out at STAttackAdapter
 
-  // ipnut for total_invisible_number, initialize to 0
+  // input for total_invisible_number, initialize to 0
 
   // what about:
   // - structured stipulations?
   // - goals that don't involve immobility
   // ?
 
-  // solving/machinery/intro.c: git rid of exception for STTotalInvisibleMoveSequenceTester
-  // output/plaintext/line/line.c: ditto
-  // solving/machinery/solvers.c: ditto
   // STIllegalSelfcheckWriter: restore creation for everything except invisible
   // in solving_machinery_intro_builder_solve()
 

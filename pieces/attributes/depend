@@ -676,12 +676,11 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/conditional_pipe.h stipulation/pipe.h stipulation/proxy.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h solving/pipe.h \
- debugging/assert.h
+ stipulation/pipe.h stipulation/proxy.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h solving/pipe.h debugging/assert.h
 
 pieces/attributes/total_invisible.h:
 
@@ -738,8 +737,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
-
-stipulation/conditional_pipe.h:
 
 stipulation/pipe.h:
 

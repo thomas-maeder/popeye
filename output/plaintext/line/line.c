@@ -209,7 +209,6 @@ static structure_traversers_visitor regular_inserters[] =
 {
   { STPlaySuppressor,      &instrument_suppressor          },
   { STGoalReachedTester,   &instrument_goal_reached_tester },
-  { STTotalInvisibleMoveSequenceTester,   &instrument_goal_reached_tester },
   { STMove,                &instrument_move                }
 };
 
