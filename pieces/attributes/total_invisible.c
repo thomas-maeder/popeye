@@ -4,12 +4,15 @@
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/machinery/solve.h"
+#include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
 unsigned int total_invisible_number = 1;
+
+static ply ply_replayed;
 
 static void unwrap_move_effects(ply current_ply, slice_index si)
 {
@@ -24,6 +27,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
 
   if (parent_ply[nbply]==ply_retro_move)
   {
+    ply_replayed = nbply;
     nbply = current_ply;
     pipe_solve_delegate(si);
   }
@@ -79,6 +83,71 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+void total_invisible_move_generator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nextply(SLICE_STARTER(si));
+
+  {
+    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].departure;
+    square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].arrival;
+    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
+    TraceSquare(sq_departure);
+    TraceSquare(sq_arrival);
+    TraceSquare(sq_capture);
+    TraceEOL();
+    assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
+    generate_moves_for_piece(sq_departure);
+
+    {
+      numecoup start = MOVEBASE_OF_PLY(nbply);
+      numecoup i;
+      numecoup new_top = start;
+      for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+      {
+        assert(move_generation_stack[i].departure==sq_departure);
+        if (move_generation_stack[i].arrival==sq_arrival
+            && move_generation_stack[i].capture==sq_capture)
+        {
+          ++new_top;
+          move_generation_stack[new_top] = move_generation_stack[i];
+          break;
+        }
+      }
+
+      SET_CURRMOVE(nbply,new_top);
+    }
+  }
+
+  if (CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply))
+  {
+    ++ply_replayed;
+    pipe_solve_delegate(si);
+    --ply_replayed;
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
 void total_invisible_frontier_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -86,6 +155,47 @@ void total_invisible_frontier_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   solve_result = MOVE_HAS_SOLVED_LENGTH();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void subsitute_generator(slice_index si,
+                                stip_structure_traversal *st)
+{
+  Side const starter = SLICE_STARTER(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  pipe_substitute(si,alloc_pipe(STTotalInvisibleMoveSequenceMoveGenerator));
+  SLICE_STARTER(si) = starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_replay_branch(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st_nested;
+
+    stip_structure_traversal_init_nested(&st_nested,st,0);
+    stip_structure_traversal_override_by_structure(&st_nested,
+                                                   slice_structure_fork,
+                                                   &stip_traverse_structure_children_pipe);
+    stip_structure_traversal_override_single(&st_nested,STMoveGenerator,&subsitute_generator);
+    stip_traverse_structure(si,&st_nested);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -109,6 +219,18 @@ void total_invisible_instrumenter_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STTotalInvisibleMoveSequenceTester,
+                                             &instrument_replay_branch);
+    stip_traverse_structure(si,&st);
+  }
+
+  TraceStipulation(si);
 
   pipe_solve_delegate(si);
 
@@ -144,8 +266,13 @@ static void insert_copy(slice_index si,
     SLICE_NEXT2(si) = proxy;
 
     {
-      slice_index const frontier_proto = alloc_pipe(STTotalInvisibleFrontier);
-      slice_insertion_insert(substitute,&frontier_proto,1);
+      // TODO the STMoveInverter is only needed if the branch has an odd number of half-moves
+      slice_index const prototypes[] = {
+          alloc_pipe(STMoveInverter),
+          alloc_pipe(STTotalInvisibleFrontier)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(substitute,prototypes,nr_prototypes);
     }
   }
 
@@ -184,9 +311,6 @@ static void copy_help_branch(slice_index si,
  */
 void solving_instrument_total_invisible(slice_index si)
 {
-  stip_structure_traversal st;
-  insertion_state_type state = { false, no_slice };
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -223,19 +347,26 @@ void solving_instrument_total_invisible(slice_index si)
   // STIllegalSelfcheckWriter: restore creation for everything except invisible
   // in solving_machinery_intro_builder_solve()
 
+  // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveGenerator
+
   {
     slice_index const prototype = alloc_pipe(STTotalInvisibleInstrumenter);
     slice_insertion_insert(si,&prototype,1);
   }
 
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,
-                                           STHelpAdapter,
-                                           &copy_help_branch);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTester,
-                                           &insert_copy);
-  stip_traverse_structure(si,&st);
+  {
+    stip_structure_traversal st;
+    insertion_state_type state = { false, no_slice };
+
+    stip_structure_traversal_init(&st,&state);
+    stip_structure_traversal_override_single(&st,
+                                             STHelpAdapter,
+                                             &copy_help_branch);
+    stip_structure_traversal_override_single(&st,
+                                             STGoalReachedTester,
+                                             &insert_copy);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceStipulation(si);
 

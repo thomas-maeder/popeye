@@ -680,8 +680,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h solving/pipe.h \
- solving/move_effect_journal.h debugging/assert.h
+ position/castling_rights.h solving/ply.h solving/move_generator.h \
+ solving/pipe.h solving/move_effect_journal.h debugging/assert.h
 
 pieces/attributes/total_invisible.h:
 
@@ -766,6 +766,8 @@ pieces/walks/vectors.h:
 position/castling_rights.h:
 
 solving/ply.h:
+
+solving/move_generator.h:
 
 solving/pipe.h:
 
