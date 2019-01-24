@@ -756,6 +756,7 @@ static slice_index const slice_rank_order[] =
   STNot,
   STOutputModeSelector,
   STOutputPlainTextEndOfPhaseWriter,
+  STTotalInvisibleMoveSequenceTester,
   STAttackAdapter,
   STDefenseAdapter,
   STHelpAdapter

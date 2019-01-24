@@ -28,7 +28,6 @@ static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
   STGoalReachedTester,
-  STTotalInvisibleMoveSequenceTester,
   STMummerDeadend,
   STTrivialEndFilter,
   STOutputPlainTextMoveWriter,
@@ -133,7 +132,6 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoal,
   STExclusiveChessGoalReachingMoveCounter,
   STGoalReachedTester,
-  STTotalInvisibleMoveSequenceTester,
   STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,

@@ -557,6 +557,7 @@
     ENUMERATOR(STImitatorDetectIllegalMoves),                           \
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
     ENUMERATOR(STTotalInvisibleMoveSequenceTester),                     \
+    ENUMERATOR(STTotalInvisibleFrontier),                               \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextMetaWriter),                            \
