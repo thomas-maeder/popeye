@@ -70,6 +70,53 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static boolean is_move_still_playable(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].departure;
+    square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].arrival;
+    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
+
+    TraceSquare(sq_departure);
+    TraceSquare(sq_arrival);
+    TraceSquare(sq_capture);
+    TraceEOL();
+
+    assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
+    generate_moves_for_piece(sq_departure);
+
+    {
+      numecoup start = MOVEBASE_OF_PLY(nbply);
+      numecoup i;
+      numecoup new_top = start;
+      for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+      {
+        assert(move_generation_stack[i].departure==sq_departure);
+        if (move_generation_stack[i].arrival==sq_arrival
+            && move_generation_stack[i].capture==sq_capture)
+        {
+          ++new_top;
+          move_generation_stack[new_top] = move_generation_stack[i];
+          break;
+        }
+      }
+
+      SET_CURRMOVE(nbply,new_top);
+    }
+
+    result = CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -92,38 +139,7 @@ void total_invisible_move_generator_solve(slice_index si)
 
   nextply(SLICE_STARTER(si));
 
-  {
-    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].departure;
-    square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].arrival;
-    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
-    TraceSquare(sq_departure);
-    TraceSquare(sq_arrival);
-    TraceSquare(sq_capture);
-    TraceEOL();
-    assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
-    generate_moves_for_piece(sq_departure);
-
-    {
-      numecoup start = MOVEBASE_OF_PLY(nbply);
-      numecoup i;
-      numecoup new_top = start;
-      for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
-      {
-        assert(move_generation_stack[i].departure==sq_departure);
-        if (move_generation_stack[i].arrival==sq_arrival
-            && move_generation_stack[i].capture==sq_capture)
-        {
-          ++new_top;
-          move_generation_stack[new_top] = move_generation_stack[i];
-          break;
-        }
-      }
-
-      SET_CURRMOVE(nbply,new_top);
-    }
-  }
-
-  if (CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply))
+  if (is_move_still_playable(si))
   {
     ++ply_replayed;
     pipe_solve_delegate(si);
