@@ -162,6 +162,11 @@ void undo_move_effects(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_top);
+  TraceValue("%u",top);
+  TraceEOL();
+
   assert(parent_top>0);
   assert(top>=parent_top);
 

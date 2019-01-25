@@ -2074,8 +2074,8 @@ void dispatch(slice_index si)
       total_invisible_instrumenter_solve(si);
       break;
 
-    case STTotalInvisibleMoveSequenceMoveGenerator:
-      total_invisible_move_generator_solve(si);
+    case STTotalInvisibleMoveSequenceMoveRepeater:
+      total_invisible_move_repeater_solve(si);
       break;
 
     case STTotalInvisibleFrontier:

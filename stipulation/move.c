@@ -20,6 +20,8 @@ static slice_type const move_slice_rank_order[] =
     STForEachDefense,
     STFindDefense,
     STMoveEffectJournalUndoer,
+    STTotalInvisibleMoveSequenceMoveRepeater,
+    STTotalInvisibleFrontier,
     STNewKoekoRememberContact,
     STSingleBoxType3PawnPromoter,
     STAMUAttackCounter,

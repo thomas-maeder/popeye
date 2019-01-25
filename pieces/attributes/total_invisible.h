@@ -63,7 +63,7 @@ void total_invisible_instrumenter_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_move_generator_solve(slice_index si);
+void total_invisible_move_repeater_solve(slice_index si);
 
 /* Instrument the solvers with support for Total Invisible pieces
  * @param si identifies the root slice of the stipulation

@@ -88,6 +88,7 @@ static boolean is_move_still_playable(slice_index si)
     TraceEOL();
 
     assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
+    // TODO optimize with intelligent mode?
     generate_moves_for_piece(sq_departure);
 
     {
@@ -118,6 +119,39 @@ static boolean is_move_still_playable(slice_index si)
   return result;
 }
 
+static void copy_move_effects(void)
+{
+  move_effect_journal_index_type replayed_curr = move_effect_journal_base[ply_replayed];
+  move_effect_journal_index_type const replayed_top = move_effect_journal_base[ply_replayed+1];
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",ply_replayed);
+  TraceValue("%u",move_effect_journal_base[ply_replayed]);
+  TraceValue("%u",move_effect_journal_base[ply_replayed+1]);
+  TraceValue("%u",nbply);
+  TraceEOL();
+
+  // TODO memcpy()?
+  while (replayed_curr!=replayed_top)
+  {
+    move_effect_journal[curr] = move_effect_journal[replayed_curr];
+    ++replayed_curr;
+    ++curr;
+  }
+
+  move_effect_journal_base[nbply+1] = curr;
+
+  TraceValue("%u",move_effect_journal_base[nbply]);
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -131,7 +165,7 @@ static boolean is_move_still_playable(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_move_generator_solve(slice_index si)
+void total_invisible_move_repeater_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -141,9 +175,12 @@ void total_invisible_move_generator_solve(slice_index si)
 
   if (is_move_still_playable(si))
   {
+    copy_move_effects();
+    redo_move_effects();
     ++ply_replayed;
     pipe_solve_delegate(si);
     --ply_replayed;
+    undo_move_effects();
   }
   else
     solve_result = previous_move_is_illegal;
@@ -182,8 +219,6 @@ void total_invisible_frontier_solve(slice_index si)
 static void subsitute_generator(slice_index si,
                                 stip_structure_traversal *st)
 {
-  Side const starter = SLICE_STARTER(si);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%p",st);
@@ -191,8 +226,27 @@ static void subsitute_generator(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  pipe_substitute(si,alloc_pipe(STTotalInvisibleMoveSequenceMoveGenerator));
-  SLICE_STARTER(si) = starter;
+  {
+    slice_index const prototype = alloc_pipe(STTotalInvisibleMoveSequenceMoveRepeater);
+    SLICE_STARTER(prototype) = SLICE_STARTER(si);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remove_the_pipe(slice_index si,
+                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -206,12 +260,31 @@ static void instrument_replay_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   {
+    // TODO the STMoveInverter is only needed if the branch has an odd number of half-moves
+    slice_index const prototypes[] = {
+        alloc_pipe(STTotalInvisibleFrontier)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  {
     stip_structure_traversal st_nested;
 
     stip_structure_traversal_init_nested(&st_nested,st,0);
     stip_structure_traversal_override_by_structure(&st_nested,
                                                    slice_structure_fork,
                                                    &stip_traverse_structure_children_pipe);
+    // TODO prevent instrumentation in the first place?
+    stip_structure_traversal_override_single(&st_nested,
+                                             STFindShortest,
+                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STFindAttack,
+                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STMoveEffectJournalUndoer,
+                                             &remove_the_pipe);
     stip_structure_traversal_override_single(&st_nested,STMoveGenerator,&subsitute_generator);
     stip_traverse_structure(si,&st_nested);
   }
@@ -287,8 +360,7 @@ static void insert_copy(slice_index si,
     {
       // TODO the STMoveInverter is only needed if the branch has an odd number of half-moves
       slice_index const prototypes[] = {
-          alloc_pipe(STMoveInverter),
-          alloc_pipe(STTotalInvisibleFrontier)
+          alloc_pipe(STMoveInverter)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(substitute,prototypes,nr_prototypes);
@@ -366,7 +438,7 @@ void solving_instrument_total_invisible(slice_index si)
   // STIllegalSelfcheckWriter: restore creation for everything except invisible
   // in solving_machinery_intro_builder_solve()
 
-  // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveGenerator
+  // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveRepeater
 
   {
     slice_index const prototype = alloc_pipe(STTotalInvisibleInstrumenter);
