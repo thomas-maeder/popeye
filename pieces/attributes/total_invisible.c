@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
+#include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
@@ -128,6 +129,8 @@ void total_invisible_move_generator_solve(slice_index si)
     pipe_solve_delegate(si);
     --ply_replayed;
   }
+  else
+    solve_result = previous_move_is_illegal;
 
   finply();
 
