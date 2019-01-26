@@ -285,6 +285,19 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STMoveEffectJournalUndoer,
                                              &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STPostMoveIterationInitialiser,
+                                             &remove_the_pipe);
+    // TODO like this, this would cause a slice leak (STCastlingPlayer is a fork type!)
+//    stip_structure_traversal_override_single(&st_nested,
+//                                             STCastlingPlayer,
+//                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STMovePlayer,
+                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STPawnPromoter,
+                                             &remove_the_pipe);
     stip_structure_traversal_override_single(&st_nested,STMoveGenerator,&subsitute_generator);
     stip_traverse_structure(si,&st_nested);
   }
