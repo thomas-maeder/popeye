@@ -411,15 +411,8 @@ void solving_instrument_total_invisible(slice_index si)
   //   - insert revelation logic
   // - in copy
   //   - ensure creation of self check guards
-  //   - move repeaters instead of move generators
-  //     - based on move effects journal (e.g. necessary for pawn promotions)
   //   - logic for iteration over all possibilities of invisibles
   //   - substitute for STFindShortest
-  //   - substitute for STMoveGenerator
-  //     - generate for "current" piece only
-  //     - filter out anything but the current move
-  //     - substitute everything between STPostMoveIterationInitialiser and ST*MovePlayed - redo move effects instead
-  //     -
 
   // bail out at STAttackAdapter
 
