@@ -105,7 +105,6 @@ static slice_type const move_slice_rank_order[] =
     STMoveCounter,
     STKingSquareUpdater,
     STMoveTracer,
-    STTotalInvisibleFrontier,
     STBGLAdjuster,
     STKoekoLegalityTester,
     STGridContactLegalityTester,
