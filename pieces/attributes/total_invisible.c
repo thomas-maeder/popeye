@@ -283,6 +283,23 @@ static void instrument_replay_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remove_self_check_guard(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* This iteration ends at STTotalInvisibleMoveSequenceTester. We can therefore
+   * blindly remove all STSelfCheckGuard slices that we meet.
+   */
+  stip_traverse_structure_children_pipe(si,st);
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -309,6 +326,9 @@ void total_invisible_instrumenter_solve(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              STTotalInvisibleMoveSequenceTester,
                                              &instrument_replay_branch);
+    stip_structure_traversal_override_single(&st,
+                                             STSelfCheckGuard,
+                                             &remove_self_check_guard);
     stip_traverse_structure(si,&st);
   }
 
