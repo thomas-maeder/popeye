@@ -7,6 +7,7 @@
 #include "stipulation/slice_insertion.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
@@ -65,6 +66,14 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply-ply_retro_move);TraceEOL();
+
+  /* make sure that our length corresponds to the length of the tested move sequence
+   * (which may vary if STFindShortest is used)
+   */
+  assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
+  slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
 
   unwrap_move_effects(nbply,si);
 
@@ -335,6 +344,7 @@ static void insert_copy(slice_index si,
     slice_index const substitute = alloc_pipe(STTotalInvisibleMoveSequenceTester);
     pipe_link(proxy,substitute);
     link_to_branch(substitute,state->the_copy);
+    SLICE_NEXT2(substitute) = state->the_copy;
     state->the_copy = no_slice;
     dealloc_slices(SLICE_NEXT2(si));
     SLICE_NEXT2(si) = proxy;

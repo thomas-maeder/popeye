@@ -682,8 +682,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/slice_insertion.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h solving/move_generator.h solving/pipe.h \
- solving/move_effect_journal.h debugging/assert.h
+ solving/ply.h solving/machinery/slack_length.h solving/move_generator.h \
+ solving/pipe.h solving/move_effect_journal.h debugging/assert.h
 
 pieces/attributes/total_invisible.h:
 
@@ -776,6 +776,8 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+solving/machinery/slack_length.h:
 
 solving/move_generator.h:
 
