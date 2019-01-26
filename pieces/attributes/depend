@@ -11,7 +11,7 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h pieces/walks/hoppers.h \
  solving/observation.h solving/ply.h solving/temporary_hacks.h \
- solving/move_generator.h pieces/walks/pawns/promotion.h \
+ solving/fork.h solving/move_generator.h pieces/walks/pawns/promotion.h \
  solving/move_effect_journal.h stipulation/slice_insertion.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -90,6 +90,8 @@ solving/ply.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/move_generator.h:
 
 pieces/walks/pawns/promotion.h:
@@ -152,8 +154,9 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h solving/observation.h solving/ply.h \
- solving/temporary_hacks.h pieces/attributes/neutral/neutral.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/temporary_hacks.h solving/fork.h \
+ pieces/attributes/neutral/neutral.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -166,7 +169,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/slice_insertion.h stipulation/move.h \
  position/effects/side_change.h solving/move_effect_journal.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/move_generator.h solving/pipe.h solving/fork.h \
+ solving/move_generator.h solving/pipe.h \
  optimisations/orthodox_check_directions.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h debugging/assert.h
 
@@ -230,6 +233,8 @@ solving/ply.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 pieces/attributes/neutral/neutral.h:
 
 stipulation/pipe.h:
@@ -272,8 +277,6 @@ solving/move_generator.h:
 
 solving/pipe.h:
 
-solving/fork.h:
-
 optimisations/orthodox_check_directions.h:
 
 output/plaintext/message.h:
@@ -305,7 +308,7 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  position/position.h position/color.h position/color.enum.h \
  position/color.enum pieces/walks/vectors.h solving/post_move_iteration.h \
- solving/observation.h solving/temporary_hacks.h \
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
  position/effects/walk_change.h position/effects/flags_change.h \
  position/effects/utils.h stipulation/pipe.h stipulation/move.h \
  solving/pipe.h debugging/assert.h
@@ -404,6 +407,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 position/effects/walk_change.h:
 
 position/effects/flags_change.h:
@@ -427,9 +432,9 @@ pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  solving/machinery/dispatch.h debugging/trace.h conditions/koeko/koeko.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h position/effects/utils.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/fork.h \
+ solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -495,6 +500,8 @@ pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/pipe.h:
 
 stipulation/move.h:
@@ -533,9 +540,9 @@ pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h position/position.h position/color.h \
- position/color.enum.h position/color.enum stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/temporary_hacks.h solving/fork.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -600,6 +607,8 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 position/position.h:
 

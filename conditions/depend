@@ -1825,12 +1825,13 @@ conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  pieces/pieces.h utilities/boolean.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/castling.h solving/move_effect_journal.h solving/ply.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum output/mode.h \
+ output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/walks/vectors.h position/castling_rights.h solving/castling.h \
+ solving/move_effect_journal.h solving/ply.h \
  position/effects/piece_exchange.h position/effects/piece_removal.h \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1865,6 +1866,8 @@ utilities/bitmask.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
