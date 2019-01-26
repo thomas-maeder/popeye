@@ -16,7 +16,7 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* This module provides the STOutputPlaintextLineLineWriter slice type.
+/* This module provides the STOutputLaTeXLineLineWriter slice type.
  * Slices of this type write lines in line mode.
  */
 
@@ -172,7 +172,7 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STOutputPlaintextLineLineWriter slice.
+/* Allocate a STOutputLaTeXLineLineWriter slice.
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
