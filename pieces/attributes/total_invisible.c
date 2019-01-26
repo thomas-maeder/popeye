@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible.h"
+#include "position/position.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"

@@ -138,7 +138,7 @@ void help_adapter_solve(slice_index si)
   if (solve_result==immobility_on_next_move)
     /* oops - unwanted stalemate or illegal move */;
   else
-    pipe_this_move_solves_exactly_if(solve_result<=full_length);
+    pipe_this_move_solves_exactly_if(solve_result>=previous_move_has_solved && solve_result<=full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
