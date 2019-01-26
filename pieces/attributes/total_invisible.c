@@ -1,6 +1,7 @@
 #include "pieces/attributes/total_invisible.h"
 #include "position/position.h"
 #include "stipulation/structure_traversal.h"
+#include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
@@ -333,7 +334,7 @@ static void insert_copy(slice_index si,
     slice_index const proxy = alloc_proxy_slice();
     slice_index const substitute = alloc_pipe(STTotalInvisibleMoveSequenceTester);
     pipe_link(proxy,substitute);
-    pipe_link(substitute,state->the_copy);
+    link_to_branch(substitute,state->the_copy);
     state->the_copy = no_slice;
     dealloc_slices(SLICE_NEXT2(si));
     SLICE_NEXT2(si) = proxy;

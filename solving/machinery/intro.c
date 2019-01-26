@@ -19,10 +19,17 @@ static void spin_off_state_init(spin_off_state_type *state)
 
 static void link_to_intro(slice_index si, stip_structure_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   stip_traverse_structure_children(si,st);
 
   /* make sure that the entry slices into the intro have a correct .prev value */
   link_to_branch(si,SLICE_NEXT1(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
@@ -43,11 +50,10 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
 
 static structure_traversers_visitor intro_slice_inserters[] =
 {
-  { STAttackAdapter,     &attack_adapter_make_intro   },
-  { STDefenseAdapter,    &defense_adapter_make_intro  },
-  { STHelpAdapter,       &help_adapter_make_intro     },
-  { STTemporaryHackFork, &hack_fork_make_intro        },
-  { STGoalReachedTester, stip_traverse_structure_children_pipe }
+  { STAttackAdapter,     &attack_adapter_make_intro  },
+  { STDefenseAdapter,    &defense_adapter_make_intro },
+  { STHelpAdapter,       &help_adapter_make_intro    },
+  { STTemporaryHackFork, &hack_fork_make_intro       }
 };
 
 enum
