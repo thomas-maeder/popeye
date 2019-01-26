@@ -131,7 +131,6 @@ static slice_index const slice_rank_order[] =
   STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,
-  STTotalInvisibleFrontier,
   STOhneschachStopIfCheck,
   STOhneschachStopIfCheckAndNotMate,
   STMummerDeadend,
