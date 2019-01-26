@@ -172,7 +172,7 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STOutputPlaintextLineLineWriter slice.
+/* Allocate a STOutputLaTeXLineLineWriter slice.
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
