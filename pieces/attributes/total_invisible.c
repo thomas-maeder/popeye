@@ -260,7 +260,6 @@ static void instrument_replay_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    // TODO the STMoveInverter is only needed if the branch has an odd number of half-moves
     slice_index const prototypes[] = {
         alloc_pipe(STTotalInvisibleFrontier)
     };
@@ -347,6 +346,7 @@ typedef struct
 {
     boolean instrumenting;
     slice_index the_copy;
+    stip_length_type length;
 } insertion_state_type;
 
 static void insert_copy(slice_index si,
@@ -370,8 +370,9 @@ static void insert_copy(slice_index si,
     dealloc_slices(SLICE_NEXT2(si));
     SLICE_NEXT2(si) = proxy;
 
+    assert(state->length!=no_stip_length);
+    if (state->length%2!=0)
     {
-      // TODO the STMoveInverter is only needed if the branch has an odd number of half-moves
       slice_index const prototypes[] = {
           alloc_pipe(STMoveInverter)
       };
@@ -395,6 +396,8 @@ static void copy_help_branch(slice_index si,
 
   TraceValue("%u",state->instrumenting);
   TraceEOL();
+
+  state->length = slices[si].u.branch.length;
 
   if (state->instrumenting)
     stip_traverse_structure_children(si,st);
@@ -460,7 +463,7 @@ void solving_instrument_total_invisible(slice_index si)
 
   {
     stip_structure_traversal st;
-    insertion_state_type state = { false, no_slice };
+    insertion_state_type state = { false, no_slice, no_stip_length };
 
     stip_structure_traversal_init(&st,&state);
     stip_structure_traversal_override_single(&st,
