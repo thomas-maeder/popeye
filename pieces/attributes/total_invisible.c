@@ -17,14 +17,14 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-unsigned int total_invisible_number = 1;
+unsigned int total_invisible_number = 2;
 
 static ply ply_replayed;
 
-static void place_invisible(slice_index si)
-{
-  stip_length_type result = previous_move_is_illegal;
+static stip_length_type result;
 
+static void place_invisible(slice_index si, square const *pos_start)
+{
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -34,7 +34,7 @@ static void place_invisible(slice_index si)
     piece_walk_type walk;
     square const *pos;
 
-    for (pos = boardnum; *pos && result!=previous_move_has_not_solved; ++pos)
+    for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
       if (is_square_empty(*pos))
         for (side = White; side!=nr_sides && result!=previous_move_has_not_solved; ++side)
         {
@@ -42,38 +42,50 @@ static void place_invisible(slice_index si)
           SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
 
           for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
-            if (is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq)))
+            if (!(is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
             {
+              TraceValue("%u",total_invisible_number);
               TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
+
               occupy_square(*pos,walk,BIT(side));
-              if (is_in_check(advers(SLICE_STARTER(si))))
+
+              --total_invisible_number;
+
+              if (total_invisible_number==0)
               {
-                // normally ignore
-                // if all addition attempts end up here, the position is illegal
+                if (is_in_check(advers(SLICE_STARTER(si))))
+                {
+                  // normally ignore
+                  // if all addition attempts end up here, the position is illegal
+                }
+                else
+                {
+                  pipe_solve_delegate(si);
+
+                  TraceValue("%u",solve_result);
+                  TraceValue("%u",solve_nr_remaining);
+                  TraceEOL();
+
+                  if (solve_result==previous_move_is_illegal)
+                  {
+                    if (result==previous_move_is_illegal)
+                      result = immobility_on_next_move;
+                  }
+                  else if (solve_result==immobility_on_next_move)
+                  {
+                    if (result==previous_move_is_illegal)
+                      result = immobility_on_next_move;
+                  }
+                  else if (solve_result>solve_nr_remaining)
+                    result = previous_move_has_not_solved;
+                  else
+                    result = previous_move_has_solved;
+                }
               }
               else
-              {
-                pipe_solve_delegate(si);
+                place_invisible(si,pos+1);
 
-                TraceValue("%u",solve_result);
-                TraceValue("%u",solve_nr_remaining);
-                TraceEOL();
-
-                if (solve_result==previous_move_is_illegal)
-                {
-                  if (result==previous_move_is_illegal)
-                    result = immobility_on_next_move;
-                }
-                else if (solve_result==immobility_on_next_move)
-                {
-                  if (result==previous_move_is_illegal)
-                    result = immobility_on_next_move;
-                }
-                else if (solve_result>solve_nr_remaining)
-                  result = previous_move_has_not_solved;
-                else
-                  result = previous_move_has_solved;
-              }
+              ++total_invisible_number;
 
               empty_square(*pos);
             }
@@ -105,7 +117,8 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   {
     ply_replayed = nbply;
     nbply = current_ply;
-    place_invisible(si);
+    result = previous_move_is_illegal;
+    place_invisible(si,boardnum);
   }
   else
   {
