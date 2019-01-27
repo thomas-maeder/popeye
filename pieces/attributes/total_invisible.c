@@ -425,12 +425,9 @@ void solving_instrument_total_invisible(slice_index si)
 
   // later:
   // - in original
-  //   - prevent creation of self check guards
-  //   - prevent king capture?
   //   - generate pawn captures to empty squares (if an invisible piece is left)
   //   - insert revelation logic
   // - in copy
-  //   - ensure creation of self check guards
   //   - logic for iteration over all possibilities of invisibles
   //   - substitute for STFindShortest
 
@@ -442,9 +439,6 @@ void solving_instrument_total_invisible(slice_index si)
   // - structured stipulations?
   // - goals that don't involve immobility
   // ?
-
-  // STIllegalSelfcheckWriter: restore creation for everything except invisible
-  // in solving_machinery_intro_builder_solve()
 
   // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveRepeater
 
