@@ -1,10 +1,12 @@
 #include "pieces/attributes/total_invisible.h"
+#include "pieces/walks/classification.h"
 #include "position/position.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
+#include "solving/check.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/machinery/slack_length.h"
@@ -17,6 +19,75 @@
 unsigned int total_invisible_number = 1;
 
 static ply ply_replayed;
+
+static void place_invisible(slice_index si)
+{
+  stip_length_type result = previous_move_is_illegal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    Side side;
+    piece_walk_type walk;
+    square const *pos;
+
+    for (side = White; side!=nr_sides && result!=previous_move_has_not_solved; ++side)
+    {
+      SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
+      SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
+
+      for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
+        for (pos = boardnum; *pos && result!=previous_move_has_not_solved; ++pos)
+          if (is_square_empty(*pos)
+              && !(is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
+          {
+            TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
+            occupy_square(*pos,walk,BIT(side));
+            if (is_in_check(advers(SLICE_STARTER(si))))
+            {
+              // normally ignore
+              // if all addition attempts end up here, the position is illegal
+            }
+            else
+            {
+              pipe_solve_delegate(si);
+
+              TraceValue("%u",solve_result);
+              TraceValue("%u",solve_nr_remaining);
+              TraceEOL();
+
+              if (solve_result==previous_move_is_illegal)
+              {
+                if (result==previous_move_is_illegal)
+                  result = immobility_on_next_move;
+              }
+              else if (solve_result==immobility_on_next_move)
+              {
+                if (result==previous_move_is_illegal)
+                  result = immobility_on_next_move;
+              }
+              else if (solve_result>solve_nr_remaining)
+                result = previous_move_has_not_solved;
+              else
+                result = previous_move_has_solved;
+            }
+
+            empty_square(*pos);
+          }
+    }
+
+    solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
+
+    TraceValue("%u",solve_result);
+    TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
+    TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void unwrap_move_effects(ply current_ply, slice_index si)
 {
@@ -33,7 +104,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   {
     ply_replayed = nbply;
     nbply = current_ply;
-    pipe_solve_delegate(si);
+    place_invisible(si);
   }
   else
   {
@@ -48,6 +119,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -109,8 +181,7 @@ static boolean is_move_still_playable(slice_index si)
       for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
       {
         assert(move_generation_stack[i].departure==sq_departure);
-        if (move_generation_stack[i].arrival==sq_arrival
-            && move_generation_stack[i].capture==sq_capture)
+        if (move_generation_stack[i].arrival==sq_arrival)
         {
           ++new_top;
           move_generation_stack[new_top] = move_generation_stack[i];
@@ -371,13 +442,7 @@ static void insert_copy(slice_index si,
 
     assert(state->length!=no_stip_length);
     if (state->length%2!=0)
-    {
-      slice_index const prototypes[] = {
-          alloc_pipe(STMoveInverter)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      slice_insertion_insert(substitute,prototypes,nr_prototypes);
-    }
+      pipe_append(proxy,alloc_pipe(STMoveInverter));
   }
 
   TraceFunctionExit(__func__);
@@ -429,6 +494,10 @@ void solving_instrument_total_invisible(slice_index si)
   //   - insert revelation logic
   // - in copy
   //   - logic for iteration over all possibilities of invisibles
+  //     - special case of invisible king
+  //     - special case: position has no legal placement of all invisibles may have to be dealt with:
+  //       - self-check in each attempt
+  //       - not enough empty squares :-)
   //   - substitute for STFindShortest
 
   // bail out at STAttackAdapter
