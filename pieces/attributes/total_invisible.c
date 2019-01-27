@@ -34,50 +34,50 @@ static void place_invisible(slice_index si)
     piece_walk_type walk;
     square const *pos;
 
-    for (side = White; side!=nr_sides && result!=previous_move_has_not_solved; ++side)
-    {
-      SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
-      SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
+    for (pos = boardnum; *pos && result!=previous_move_has_not_solved; ++pos)
+      if (is_square_empty(*pos))
+        for (side = White; side!=nr_sides && result!=previous_move_has_not_solved; ++side)
+        {
+          SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
+          SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
 
-      for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
-        for (pos = boardnum; *pos && result!=previous_move_has_not_solved; ++pos)
-          if (is_square_empty(*pos)
-              && !(is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
-          {
-            TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
-            occupy_square(*pos,walk,BIT(side));
-            if (is_in_check(advers(SLICE_STARTER(si))))
+          for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
+            if (is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq)))
             {
-              // normally ignore
-              // if all addition attempts end up here, the position is illegal
-            }
-            else
-            {
-              pipe_solve_delegate(si);
-
-              TraceValue("%u",solve_result);
-              TraceValue("%u",solve_nr_remaining);
-              TraceEOL();
-
-              if (solve_result==previous_move_is_illegal)
+              TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
+              occupy_square(*pos,walk,BIT(side));
+              if (is_in_check(advers(SLICE_STARTER(si))))
               {
-                if (result==previous_move_is_illegal)
-                  result = immobility_on_next_move;
+                // normally ignore
+                // if all addition attempts end up here, the position is illegal
               }
-              else if (solve_result==immobility_on_next_move)
-              {
-                if (result==previous_move_is_illegal)
-                  result = immobility_on_next_move;
-              }
-              else if (solve_result>solve_nr_remaining)
-                result = previous_move_has_not_solved;
               else
-                result = previous_move_has_solved;
-            }
+              {
+                pipe_solve_delegate(si);
 
-            empty_square(*pos);
-          }
-    }
+                TraceValue("%u",solve_result);
+                TraceValue("%u",solve_nr_remaining);
+                TraceEOL();
+
+                if (solve_result==previous_move_is_illegal)
+                {
+                  if (result==previous_move_is_illegal)
+                    result = immobility_on_next_move;
+                }
+                else if (solve_result==immobility_on_next_move)
+                {
+                  if (result==previous_move_is_illegal)
+                    result = immobility_on_next_move;
+                }
+                else if (solve_result>solve_nr_remaining)
+                  result = previous_move_has_not_solved;
+                else
+                  result = previous_move_has_solved;
+              }
+
+              empty_square(*pos);
+            }
+        }
 
     solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
 
@@ -406,9 +406,9 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   TraceStipulation(si);
 
-  pipe_solve_delegate(si);
-
   output_plaintext_check_indication_disabled = true;
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
