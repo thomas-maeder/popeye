@@ -13,6 +13,7 @@
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
+#include "output/plaintext/plaintext.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -407,6 +408,8 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
+  output_plaintext_check_indication_disabled = true;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -510,6 +513,8 @@ void solving_instrument_total_invisible(slice_index si)
   // ?
 
   // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveRepeater
+
+  // check indication should also be deactivated in tree output
 
   {
     slice_index const prototype = alloc_pipe(STTotalInvisibleInstrumenter);

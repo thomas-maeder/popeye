@@ -7,6 +7,8 @@
 extern output_engine_type const output_plaintext_engine;
 extern output_symbol_table_type const output_plaintext_symbol_table;
 
+extern boolean output_plaintext_check_indication_disabled;
+
 
 /* Write the current move
  */

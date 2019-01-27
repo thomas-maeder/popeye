@@ -43,6 +43,8 @@ output_symbol_table_type const output_plaintext_symbol_table =
     "0-0"
 };
 
+boolean output_plaintext_check_indication_disabled = false;
+
 /* Context are used to visually group the output related to one or more effects,
  * i.e. the flags, walk and rebirth square of a Circe rebirth ("[Sb8]").
  */
@@ -847,6 +849,8 @@ void output_plaintext_instrument_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  output_plaintext_check_indication_disabled = false;
 
   TraceStipulation(si);
 

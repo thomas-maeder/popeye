@@ -135,7 +135,8 @@ static void write_ply_history(unsigned int *next_move_number,
       output_plaintext_write_move(&output_plaintext_engine,
                                   stdout,
                                   &output_plaintext_symbol_table);
-      write_potential_check();
+      if (!output_plaintext_check_indication_disabled)
+        write_potential_check();
       protocol_fputc(' ',stdout);
     }
 
