@@ -49,6 +49,7 @@ static void place_invisible(slice_index si, square const *pos_start)
               TraceValue("%u",total_invisible_number);
               TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
 
+              ++being_solved.number_of_pieces[side][walk];
               occupy_square(*pos,walk,BIT(side));
 
               --total_invisible_number;
@@ -90,6 +91,7 @@ static void place_invisible(slice_index si, square const *pos_start)
               ++total_invisible_number;
 
               empty_square(*pos);
+              --being_solved.number_of_pieces[side][walk];
             }
     }
 
