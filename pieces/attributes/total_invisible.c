@@ -17,7 +17,7 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-unsigned int total_invisible_number = 2;
+unsigned int total_invisible_number = 3;
 
 static ply ply_replayed;
 
@@ -30,18 +30,20 @@ static void place_invisible(slice_index si, square const *pos_start)
   TraceFunctionParamListEnd();
 
   {
-    Side side;
+    Side adversary;
     piece_walk_type walk;
     square const *pos;
 
-    for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
-      if (is_square_empty(*pos))
-        for (side = White; side!=nr_sides && result!=previous_move_has_not_solved; ++side)
-        {
-          SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
-          SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
+    // TODO make this readable
+    for (adversary = White; adversary!=nr_sides && result!=previous_move_has_not_solved; ++adversary)
+    {
+      Side const side = advers(adversary);
+      SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
+      SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
 
-          for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
+      for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
+        for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
+          if (is_square_empty(*pos))
             if (!(is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
             {
               TraceValue("%u",total_invisible_number);
@@ -89,7 +91,7 @@ static void place_invisible(slice_index si, square const *pos_start)
 
               empty_square(*pos);
             }
-        }
+    }
 
     solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
 
@@ -233,7 +235,21 @@ static void copy_move_effects(void)
   // TODO memcpy()?
   while (replayed_curr!=replayed_top)
   {
-    move_effect_journal[curr] = move_effect_journal[replayed_curr];
+    if (move_effect_journal[replayed_curr].type==move_effect_no_piece_removal
+        && move_effect_journal[replayed_curr+1].type==move_effect_piece_movement
+        && move_effect_journal[replayed_curr+1].reason==move_effect_reason_moving_piece_movement
+        && !is_square_empty(move_effect_journal[replayed_curr+1].u.piece_movement.to))
+    {
+      square const from = move_effect_journal[replayed_curr+1].u.piece_movement.to;
+
+      move_effect_journal[curr].type = move_effect_piece_removal;
+      move_effect_journal[curr].reason = move_effect_reason_regular_capture;
+      move_effect_journal[curr].u.piece_removal.on = from;
+      move_effect_journal[curr].u.piece_removal.flags = being_solved.spec[from];
+      move_effect_journal[curr].u.piece_removal.walk =  being_solved.board[from];
+    }
+    else
+      move_effect_journal[curr] = move_effect_journal[replayed_curr];
     ++replayed_curr;
     ++curr;
   }
