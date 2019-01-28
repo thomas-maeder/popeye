@@ -110,7 +110,8 @@ static void WriteMoveNbr(slice_index si)
     output_plaintext_write_move(&output_plaintext_engine,
                                 stdout,
                                 &output_plaintext_symbol_table);
-    if (is_in_check(SLICE_STARTER(si)))
+    if (!output_plaintext_check_indication_disabled
+        && is_in_check(SLICE_STARTER(si)))
       protocol_fprintf(stdout,"%s"," +");
     protocol_fputc(' ',stdout);
     output_plaintext_print_time("   ","");
