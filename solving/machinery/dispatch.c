@@ -2078,6 +2078,10 @@ void dispatch(slice_index si)
       total_invisible_move_repeater_solve(si);
       break;
 
+    case STTotalInvisibleUninterceptableSelfCheckGuard:
+      total_invisible_uninterceptable_selfcheck_guard_solve(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;
