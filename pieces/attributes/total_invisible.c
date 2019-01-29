@@ -22,88 +22,140 @@ unsigned int total_invisible_number = 3;
 
 static ply ply_replayed;
 
-static stip_length_type result;
+stip_length_type result;
 
-static void place_invisible(slice_index si, square const *pos_start, unsigned int nr_remaining)
+static struct
+{
+    Side side;
+    piece_walk_type walk;
+} piece_choice[3];
+
+static void play_with_placed_invisibles(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (is_in_check(advers(SLICE_STARTER(si))))
+  {
+    // normally ignore
+    // if all addition attempts end up here, the position is illegal
+  }
+  else
+  {
+    pipe_solve_delegate(si);
+
+    TraceValue("%u",solve_result);
+    TraceValue("%u",solve_nr_remaining);
+    TraceEOL();
+
+    if (solve_result==previous_move_is_illegal)
+    {
+      if (result==previous_move_is_illegal)
+        result = immobility_on_next_move;
+    }
+    else if (solve_result==immobility_on_next_move)
+    {
+      if (result==previous_move_is_illegal)
+        result = immobility_on_next_move;
+    }
+    else if (solve_result>solve_nr_remaining)
+      result = previous_move_has_not_solved;
+    else
+      result = previous_move_has_solved;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_invisible(slice_index si, unsigned int nr_remaining, square const *pos_start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_remaining);
   TraceSquare(*pos_start);
+  TraceFunctionParamListEnd();
+
+  --nr_remaining;
+
+  {
+    Side const side = piece_choice[nr_remaining].side;
+    piece_walk_type const walk = piece_choice[nr_remaining].walk;
+    SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
+    SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
+    square const *pos;
+
+    for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
+      if (is_square_empty(*pos))
+        if (!(is_pawn(walk)
+            && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
+        {
+          ++being_solved.number_of_pieces[side][walk];
+          occupy_square(*pos,walk,BIT(side));
+
+          if (nr_remaining==0)
+            play_with_placed_invisibles(si);
+          else
+            place_invisible(si,nr_remaining,pos+1);
+
+          empty_square(*pos);
+          --being_solved.number_of_pieces[side][walk];
+        }
+  }
+
+  ++nr_remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void walk_invisible(slice_index si, unsigned int nr_remaining)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_remaining);
   TraceFunctionParamListEnd();
 
+  --nr_remaining;
+
+  for (piece_choice[nr_remaining].walk = Pawn;
+       piece_choice[nr_remaining].walk<=Bishop && result!=previous_move_has_not_solved;
+       ++piece_choice[nr_remaining].walk)
+    if (nr_remaining==0)
+      place_invisible(si,total_invisible_number,boardnum);
+    else
+      walk_invisible(si,nr_remaining);
+
+  ++nr_remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_invisible(slice_index si, unsigned int nr_remaining)
+{
+  Side adversary;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_remaining);
+  TraceFunctionParamListEnd();
+
+  --nr_remaining;
+
+  // TODO make this readable
+  for (adversary = White; adversary!=nr_sides && result!=previous_move_has_not_solved; ++adversary)
   {
-    Side adversary;
-    piece_walk_type walk;
-    square const *pos;
+    piece_choice[nr_remaining].side = advers(adversary);
 
-    // TODO make this readable
-    for (adversary = White; adversary!=nr_sides && result!=previous_move_has_not_solved; ++adversary)
-    {
-      Side const side = advers(adversary);
-      SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
-      SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
-
-      for (walk = Pawn; walk<=Bishop && result!=previous_move_has_not_solved; ++walk)
-        for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
-          if (is_square_empty(*pos))
-            if (!(is_pawn(walk) && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
-            {
-              TraceValue("%u",total_invisible_number);
-              TraceEnumerator(Side,side);TraceWalk(walk);TraceSquare(*pos);TraceEOL();
-
-              ++being_solved.number_of_pieces[side][walk];
-              occupy_square(*pos,walk,BIT(side));
-
-              --nr_remaining;
-
-              if (nr_remaining==0)
-              {
-                if (is_in_check(advers(SLICE_STARTER(si))))
-                {
-                  // normally ignore
-                  // if all addition attempts end up here, the position is illegal
-                }
-                else
-                {
-                  pipe_solve_delegate(si);
-
-                  TraceValue("%u",solve_result);
-                  TraceValue("%u",solve_nr_remaining);
-                  TraceEOL();
-
-                  if (solve_result==previous_move_is_illegal)
-                  {
-                    if (result==previous_move_is_illegal)
-                      result = immobility_on_next_move;
-                  }
-                  else if (solve_result==immobility_on_next_move)
-                  {
-                    if (result==previous_move_is_illegal)
-                      result = immobility_on_next_move;
-                  }
-                  else if (solve_result>solve_nr_remaining)
-                    result = previous_move_has_not_solved;
-                  else
-                    result = previous_move_has_solved;
-                }
-              }
-              else
-                place_invisible(si,pos+1,nr_remaining);
-
-              ++nr_remaining;
-
-              empty_square(*pos);
-              --being_solved.number_of_pieces[side][walk];
-            }
-    }
-
-    solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
-
-    TraceValue("%u",solve_result);
-    TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
-    TraceEOL();
+    if (nr_remaining==0)
+      walk_invisible(si,total_invisible_number);
+    else
+      colour_invisible(si,nr_remaining);
   }
+
+  ++nr_remaining;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -125,7 +177,8 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
     ply_replayed = nbply;
     nbply = current_ply;
     result = previous_move_is_illegal;
-    place_invisible(si,boardnum,total_invisible_number);
+    colour_invisible(si,total_invisible_number);
+    solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
   }
   else
   {
@@ -162,13 +215,19 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
   TraceValue("%u",nbply-ply_retro_move);TraceEOL();
 
-  /* make sure that our length corresponds to the length of the tested move sequence
-   * (which may vary if STFindShortest is used)
-   */
-  assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
-  slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
+  if (is_square_uninterceptably_observed_ortho(Black,
+                                               being_solved.king_square[White]))
+    solve_result = previous_move_is_illegal;
+  else
+  {
+    /* make sure that our length corresponds to the length of the tested move sequence
+     * (which may vary if STFindShortest is used)
+     */
+    assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
+    slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
 
-  unwrap_move_effects(nbply,si);
+    unwrap_move_effects(nbply,si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -326,8 +385,10 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_uninterceptably_observed_ortho(SLICE_STARTER(si),
-                                               being_solved.king_square[advers(SLICE_STARTER(si))]))
+  if (is_square_uninterceptably_observed_ortho(White,
+                                               being_solved.king_square[Black])
+      || is_square_uninterceptably_observed_ortho(Black,
+                                                  being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
   else
     pipe_solve_delegate(si);
