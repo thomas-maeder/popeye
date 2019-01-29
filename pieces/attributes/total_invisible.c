@@ -24,10 +24,12 @@ static ply ply_replayed;
 
 static stip_length_type result;
 
-static void place_invisible(slice_index si, square const *pos_start)
+static void place_invisible(slice_index si, square const *pos_start, unsigned int nr_remaining)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceSquare(*pos_start);
+  TraceFunctionParam("%u",nr_remaining);
   TraceFunctionParamListEnd();
 
   {
@@ -53,9 +55,9 @@ static void place_invisible(slice_index si, square const *pos_start)
               ++being_solved.number_of_pieces[side][walk];
               occupy_square(*pos,walk,BIT(side));
 
-              --total_invisible_number;
+              --nr_remaining;
 
-              if (total_invisible_number==0)
+              if (nr_remaining==0)
               {
                 if (is_in_check(advers(SLICE_STARTER(si))))
                 {
@@ -87,9 +89,9 @@ static void place_invisible(slice_index si, square const *pos_start)
                 }
               }
               else
-                place_invisible(si,pos+1);
+                place_invisible(si,pos+1,nr_remaining);
 
-              ++total_invisible_number;
+              ++nr_remaining;
 
               empty_square(*pos);
               --being_solved.number_of_pieces[side][walk];
@@ -123,7 +125,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
     ply_replayed = nbply;
     nbply = current_ply;
     result = previous_move_is_illegal;
-    place_invisible(si,boardnum);
+    place_invisible(si,boardnum,total_invisible_number);
   }
   else
   {
