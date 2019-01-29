@@ -18,11 +18,16 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 unsigned int total_invisible_number = 3;
 
 static ply ply_replayed;
 
 stip_length_type result;
+
+static square square_order[65];
 
 static struct
 {
@@ -123,7 +128,7 @@ static void walk_invisible(slice_index si, unsigned int nr_remaining)
        piece_choice[nr_remaining].walk<=Bishop && result!=previous_move_has_not_solved;
        ++piece_choice[nr_remaining].walk)
     if (nr_remaining==0)
-      place_invisible(si,total_invisible_number,boardnum);
+      place_invisible(si,total_invisible_number,square_order);
     else
       walk_invisible(si,nr_remaining);
 
@@ -496,6 +501,21 @@ static void remove_self_check_guard(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static int square_compare(void const *v1, void const *v2)
+{
+  square const *s1 = v1;
+  square const *s2 = v2;
+  square const kpos = being_solved.king_square[Black];
+
+  int const dx1 = (kpos-*s1)%onerow;
+  int const dy1 = (kpos-*s1)/onerow;
+
+  int const dx2 = (kpos-*s2)%onerow;
+  int const dy2 = (kpos-*s2)/onerow;
+
+  return (dx1*dx1+dy1*dy1)-(dx2*dx2+dy2*dy2);
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -531,6 +551,9 @@ void total_invisible_instrumenter_solve(slice_index si)
   TraceStipulation(si);
 
   output_plaintext_check_indication_disabled = true;
+
+  memmove(square_order, boardnum, sizeof boardnum);
+  qsort(square_order, 64, sizeof square_order[0], &square_compare);
 
   pipe_solve_delegate(si);
 
