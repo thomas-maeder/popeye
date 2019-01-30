@@ -194,3 +194,48 @@ boolean is_square_uninterceptably_observed_ortho(Side side_checking, square sq_t
 
   return false;
 }
+
+unsigned int count_orthodox_checks(Side side_checking, square sq_target)
+{
+  unsigned int result = 0;
+
+  if (being_solved.number_of_pieces[side_checking][King]>0
+      && king_check_ortho(side_checking,sq_target))
+    ++result;
+
+  if (being_solved.number_of_pieces[side_checking][Pawn]>0
+      && pawn_check_ortho(side_checking,sq_target))
+    ++result;
+
+  if (being_solved.number_of_pieces[side_checking][Knight]>0
+      && knight_check_ortho(side_checking,sq_target))
+    ++result;
+
+  if (being_solved.number_of_pieces[side_checking][Queen]>0
+      || being_solved.number_of_pieces[side_checking][Rook]>0)
+  {
+    vec_index_type k;
+    for (k= vec_rook_end; k>=vec_rook_start; k--)
+    {
+      square const sq_departure = find_end_of_line(sq_target,vec[k]);
+      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
+      if ((p==Rook || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
+        ++result;
+    }
+  }
+
+  if (being_solved.number_of_pieces[side_checking][Queen]>0
+      || being_solved.number_of_pieces[side_checking][Bishop]>0)
+  {
+    vec_index_type k;
+    for (k= vec_bishop_start; k<=vec_bishop_end; k++)
+    {
+      square const sq_departure = find_end_of_line(sq_target,vec[k]);
+      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
+      if ((p==Bishop || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
+        ++result;
+    }
+  }
+
+  return result;
+}

@@ -15,4 +15,6 @@ boolean is_square_observed_ortho(Side side_checking,
 boolean is_square_uninterceptably_observed_ortho(Side side_checking,
                                                  square sq_target);
 
+unsigned int count_orthodox_checks(Side side_checking, square sq_target);
+
 #endif

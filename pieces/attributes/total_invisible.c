@@ -392,6 +392,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   if (is_square_uninterceptably_observed_ortho(Black,
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
+  else if (count_orthodox_checks(White,being_solved.king_square[Black])>total_invisible_number)
+    solve_result = previous_move_is_illegal;
   else
   {
     /* make sure that our length corresponds to the length of the tested move sequence
