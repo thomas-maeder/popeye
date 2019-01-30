@@ -74,7 +74,7 @@ static void play_with_placed_invisibles(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void place_invisible(slice_index si, unsigned int nr_remaining, square const *pos_start)
+static void place_invisible(slice_index si, unsigned int nr_remaining, square *pos_start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -89,22 +89,27 @@ static void place_invisible(slice_index si, unsigned int nr_remaining, square co
     piece_walk_type const walk = piece_choice[nr_remaining].walk;
     SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
     SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
-    square const *pos;
+    square *pos;
 
     for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
       if (is_square_empty(*pos))
         if (!(is_pawn(walk)
             && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
         {
+          square const s = *pos;
           ++being_solved.number_of_pieces[side][walk];
-          occupy_square(*pos,walk,BIT(side));
+          occupy_square(s,walk,BIT(side));
 
           if (nr_remaining==0)
             play_with_placed_invisibles(si);
           else
-            place_invisible(si,nr_remaining,pos+1);
+          {
+            *pos = 0;
+            place_invisible(si,nr_remaining,pos_start-1);
+            *pos = s;
+          }
 
-          empty_square(*pos);
+          empty_square(s);
           --being_solved.number_of_pieces[side][walk];
         }
   }
@@ -128,7 +133,7 @@ static void walk_invisible(slice_index si, unsigned int nr_remaining)
        piece_choice[nr_remaining].walk<=Bishop && result!=previous_move_has_not_solved;
        ++piece_choice[nr_remaining].walk)
     if (nr_remaining==0)
-      place_invisible(si,total_invisible_number,square_order);
+      place_invisible(si,total_invisible_number,square_order+total_invisible_number);
     else
       walk_invisible(si,nr_remaining);
 
