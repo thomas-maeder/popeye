@@ -2082,6 +2082,14 @@ void dispatch(slice_index si)
       total_invisible_uninterceptable_selfcheck_guard_solve(si);
       break;
 
+    case STTotalInvisibleMoveGeneratorInitialiser:
+      total_invisible_move_generator_initialiser_solve(si);
+      break;
+
+    case STTotalInvisibleMoveGeneratorUninitialiser:
+      total_invisible_move_generator_uninitialiser_solve(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;

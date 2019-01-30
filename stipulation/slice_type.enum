@@ -560,6 +560,8 @@
     ENUMERATOR(STTotalInvisibleMoveSequenceMoveRepeater),               \
     ENUMERATOR(STTotalInvisibleInstrumenter),                           \
     ENUMERATOR(STTotalInvisibleUninterceptableSelfCheckGuard),          \
+    ENUMERATOR(STTotalInvisibleMoveGeneratorInitialiser),               \
+    ENUMERATOR(STTotalInvisibleMoveGeneratorUninitialiser),             \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextMetaWriter),                            \
