@@ -195,21 +195,14 @@ boolean is_square_uninterceptably_observed_ortho(Side side_checking, square sq_t
   return false;
 }
 
-unsigned int count_orthodox_checks(Side side_checking, square sq_target)
+unsigned int count_interceptable_orthodox_checks(Side side_checking, square sq_target)
 {
   unsigned int result = 0;
 
-  if (being_solved.number_of_pieces[side_checking][King]>0
-      && king_check_ortho(side_checking,sq_target))
-    ++result;
-
-  if (being_solved.number_of_pieces[side_checking][Pawn]>0
-      && pawn_check_ortho(side_checking,sq_target))
-    ++result;
-
-  if (being_solved.number_of_pieces[side_checking][Knight]>0
-      && knight_check_ortho(side_checking,sq_target))
-    ++result;
+  /* for simplicity's sake, we also count checks from adjacent squares even if
+   * these aren't interceptable; we trust in the caller to first invoke
+   * is_square_uninterceptably_observed_ortho() so that this doesn't matter.
+   */
 
   if (being_solved.number_of_pieces[side_checking][Queen]>0
       || being_solved.number_of_pieces[side_checking][Rook]>0)

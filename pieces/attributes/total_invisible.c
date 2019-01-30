@@ -53,33 +53,24 @@ static void play_with_placed_invisibles(slice_index si)
   TracePosition(being_solved.board,being_solved.spec);
 
   if (is_in_check(advers(SLICE_STARTER(si))))
-  {
-    // normally ignore
-    // if all addition attempts end up here, the position is illegal
-  }
+    solve_result = previous_move_is_illegal;
   else
-  {
     pipe_solve_delegate(si);
 
-    TraceValue("%u",solve_result);
-    TraceValue("%u",solve_nr_remaining);
-    TraceEOL();
-
-    if (solve_result==previous_move_is_illegal)
-    {
-      if (result==previous_move_is_illegal)
-        result = immobility_on_next_move;
-    }
-    else if (solve_result==immobility_on_next_move)
-    {
-      if (result==previous_move_is_illegal)
-        result = immobility_on_next_move;
-    }
-    else if (solve_result>solve_nr_remaining)
-      result = previous_move_has_not_solved;
-    else
-      result = previous_move_has_solved;
+  if (solve_result==previous_move_is_illegal)
+  {
+    if (result==previous_move_is_illegal)
+      result = immobility_on_next_move;
   }
+  else if (solve_result==immobility_on_next_move)
+  {
+    if (result==previous_move_is_illegal)
+      result = immobility_on_next_move;
+  }
+  else if (solve_result>solve_nr_remaining)
+    result = previous_move_has_not_solved;
+  else
+    result = previous_move_has_solved;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -392,7 +383,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   if (is_square_uninterceptably_observed_ortho(Black,
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
-  else if (count_orthodox_checks(White,being_solved.king_square[Black])>total_invisible_number)
+  else if (count_interceptable_orthodox_checks(White,being_solved.king_square[Black])>total_invisible_number
+           || count_interceptable_orthodox_checks(Black,being_solved.king_square[White])>total_invisible_number)
     solve_result = previous_move_is_illegal;
   else
   {
@@ -402,16 +394,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
     slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
 
-    if (is_square_uninterceptably_observed_ortho(White,
-                                                 being_solved.king_square[Black]))
-    {
-      placement_strategy_type save_strategy = invisibles_placement_strategy;
-      invisibles_placement_strategy = invisibles_placement_depth_first;
-      unwrap_move_effects(nbply,si);
-      invisibles_placement_strategy = save_strategy;
-    }
-    else
-      unwrap_move_effects(nbply,si);
+    unwrap_move_effects(nbply,si);
   }
 
   TraceFunctionExit(__func__);
@@ -576,7 +559,22 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
                                                   being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
   else
-    pipe_solve_delegate(si);
+  {
+    unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
+    unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
+    if (count_white_checks>total_invisible_number
+        || count_black_checks>total_invisible_number)
+       solve_result = previous_move_is_illegal;
+     else if (count_white_checks>0 || count_black_checks>0)
+     {
+       placement_strategy_type save_strategy = invisibles_placement_strategy;
+       invisibles_placement_strategy = invisibles_placement_depth_first;
+       pipe_solve_delegate(si);
+       invisibles_placement_strategy = save_strategy;
+     }
+     else
+       pipe_solve_delegate(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
