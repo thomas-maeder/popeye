@@ -267,12 +267,8 @@ static void try_square_combination(slice_index si)
 
     {
       stip_length_type const save_solve_result = solve_result;
-
       play_with_placed_invisibles(si);
-      TraceValue("%u",solve_result);TraceEOL();
-
-      success = solve_result>previous_move_is_illegal;
-
+      success = solve_result>immobility_on_next_move;
       solve_result = save_solve_result;
     }
 
