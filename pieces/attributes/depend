@@ -659,8 +659,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  pieces/walks/classification.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/move_diff_code.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -726,6 +726,8 @@ position/pieceid.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+position/move_diff_code.h:
 
 stipulation/structure_traversal.h:
 

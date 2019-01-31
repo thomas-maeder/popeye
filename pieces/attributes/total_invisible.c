@@ -1,6 +1,7 @@
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "position/position.h"
+#include "position/move_diff_code.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -776,13 +777,7 @@ static int square_compare(void const *v1, void const *v2)
   square const *s2 = v2;
   square const kpos = being_solved.king_square[Black];
 
-  int const dx1 = (kpos-*s1)%onerow;
-  int const dy1 = (kpos-*s1)/onerow;
-
-  int const dx2 = (kpos-*s2)%onerow;
-  int const dy2 = (kpos-*s2)/onerow;
-
-  return (dx1*dx1+dy1*dy1)-(dx2*dx2+dy2*dy2);
+  return move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
