@@ -23,6 +23,8 @@
 
 unsigned int total_invisible_number = 3;
 
+static unsigned int bound_invisible_number = 0;
+
 static ply ply_replayed;
 
 stip_length_type result;
@@ -383,18 +385,38 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   if (is_square_uninterceptably_observed_ortho(Black,
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
-  else if (count_interceptable_orthodox_checks(White,being_solved.king_square[Black])>total_invisible_number
-           || count_interceptable_orthodox_checks(Black,being_solved.king_square[White])>total_invisible_number)
-    solve_result = previous_move_is_illegal;
   else
   {
+    unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
+    unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
+    unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
+
     /* make sure that our length corresponds to the length of the tested move sequence
      * (which may vary if STFindShortest is used)
      */
     assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
     slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
 
-    unwrap_move_effects(nbply,si);
+    if (count_max>total_invisible_number)
+      solve_result = previous_move_is_illegal;
+    else
+    {
+      unsigned int const save_bound = bound_invisible_number;
+      if (count_max>bound_invisible_number)
+        bound_invisible_number = count_max;
+
+      if (bound_invisible_number>0)
+      {
+        placement_strategy_type save_strategy = invisibles_placement_strategy;
+        invisibles_placement_strategy = invisibles_placement_depth_first;
+        unwrap_move_effects(nbply,si);
+        invisibles_placement_strategy = save_strategy;
+      }
+      else
+        unwrap_move_effects(nbply,si);
+
+      bound_invisible_number = save_bound;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -562,18 +584,19 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   {
     unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
     unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
-    if (count_white_checks>total_invisible_number
-        || count_black_checks>total_invisible_number)
+    unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
+    if (count_max>total_invisible_number)
        solve_result = previous_move_is_illegal;
-     else if (count_white_checks>0 || count_black_checks>0)
-     {
-       placement_strategy_type save_strategy = invisibles_placement_strategy;
-       invisibles_placement_strategy = invisibles_placement_depth_first;
-       pipe_solve_delegate(si);
-       invisibles_placement_strategy = save_strategy;
-     }
-     else
-       pipe_solve_delegate(si);
+    else
+    {
+      unsigned int const save_bound = bound_invisible_number;
+      if (count_max>bound_invisible_number)
+        bound_invisible_number = count_max;
+
+      pipe_solve_delegate(si);
+
+      bound_invisible_number = save_bound;
+    }
   }
 
   TraceFunctionExit(__func__);
