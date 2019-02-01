@@ -264,9 +264,9 @@ static void try_square_combination(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void place_invisible_depth_first(slice_index si, unsigned int nr_remaining)
+static void place_invisible_depth_first(slice_index si, unsigned int nr_remaining, square const *pos_start)
 {
-  square *pos;
+  square const *pos;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -275,20 +275,17 @@ static void place_invisible_depth_first(slice_index si, unsigned int nr_remainin
 
   --nr_remaining;
 
-  for (pos = square_order+nr_remaining; *pos && combined_result!=previous_move_has_not_solved; ++pos)
+  for (pos = pos_start; *pos && combined_result!=previous_move_has_not_solved; ++pos)
     if (is_square_empty(*pos))
     {
       piece_choice[nr_remaining].pos = *pos;
-      *pos = 0;
 
       TraceSquare(piece_choice[nr_remaining].pos);TraceEOL();
 
       if (nr_remaining==0)
         try_square_combination(si);
       else
-        place_invisible_depth_first(si,nr_remaining);
-
-      *pos = piece_choice[nr_remaining].pos;
+        place_invisible_depth_first(si,nr_remaining,pos+1);
     }
 
   ++nr_remaining;
@@ -307,7 +304,7 @@ static void distribute_invisibles(slice_index si)
   if (bound_invisible_number==0)
     colour_invisible_breadth_first(si,total_invisible_number);
   else
-    place_invisible_depth_first(si,total_invisible_number);
+    place_invisible_depth_first(si,total_invisible_number,square_order);
   solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
   TraceFunctionExit(__func__);
