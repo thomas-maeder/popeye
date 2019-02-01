@@ -28,17 +28,9 @@ static unsigned int bound_invisible_number = 0;
 
 static ply ply_replayed;
 
-stip_length_type result;
+stip_length_type combined_result;
 
 static square square_order[65];
-
-typedef enum
-{
-  invisibles_placement_breadth_first,
-  invisibles_placement_depth_first
-} placement_strategy_type;
-
-static placement_strategy_type invisibles_placement_strategy = invisibles_placement_breadth_first;
 
 static struct
 {
@@ -60,20 +52,8 @@ static void play_with_placed_invisibles(slice_index si)
   else
     pipe_solve_delegate(si);
 
-  if (solve_result==previous_move_is_illegal)
-  {
-    if (result==previous_move_is_illegal)
-      result = immobility_on_next_move;
-  }
-  else if (solve_result==immobility_on_next_move)
-  {
-    if (result==previous_move_is_illegal)
-      result = immobility_on_next_move;
-  }
-  else if (solve_result>solve_nr_remaining)
-    result = previous_move_has_not_solved;
-  else
-    result = previous_move_has_solved;
+  if (solve_result>combined_result)
+    combined_result = solve_result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -96,7 +76,7 @@ static void place_invisible_breadth_first(slice_index si, unsigned int nr_remain
     SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
     square *pos;
 
-    for (pos = pos_start; *pos && result!=previous_move_has_not_solved; ++pos)
+    for (pos = pos_start; *pos && combined_result!=previous_move_has_not_solved; ++pos)
       if (is_square_empty(*pos))
         if (!(is_pawn(walk)
             && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
@@ -135,7 +115,7 @@ static void walk_invisible_breadth_first(slice_index si, unsigned int nr_remaini
   --nr_remaining;
 
   for (piece_choice[nr_remaining].walk = Pawn;
-       piece_choice[nr_remaining].walk<=Bishop && result!=previous_move_has_not_solved;
+       piece_choice[nr_remaining].walk<=Bishop && combined_result!=previous_move_has_not_solved;
        ++piece_choice[nr_remaining].walk)
     if (nr_remaining==0)
       place_invisible_breadth_first(si,total_invisible_number,square_order+total_invisible_number);
@@ -160,7 +140,7 @@ static void colour_invisible_breadth_first(slice_index si, unsigned int nr_remai
   --nr_remaining;
 
   // TODO make this readable
-  for (adversary = White; adversary!=nr_sides && result!=previous_move_has_not_solved; ++adversary)
+  for (adversary = White; adversary!=nr_sides && combined_result!=previous_move_has_not_solved; ++adversary)
   {
     piece_choice[nr_remaining].side = advers(adversary);
 
@@ -187,7 +167,7 @@ static void walk_invisible_depth_first(slice_index si, unsigned int nr_remaining
   TraceFunctionParamListEnd();
 
   for (piece_choice[nr_remaining].walk = Pawn;
-       piece_choice[nr_remaining].walk<=Bishop && result!=previous_move_has_not_solved;
+       piece_choice[nr_remaining].walk<=Bishop && combined_result!=previous_move_has_not_solved;
        ++piece_choice[nr_remaining].walk)
   {
     Side const side = piece_choice[nr_remaining].side;
@@ -230,7 +210,7 @@ static void colour_invisble_depth_first(slice_index si, unsigned int nr_remainin
   --nr_remaining;
 
   // TODO make this readable
-  for (adversary = White; adversary!=nr_sides && result!=previous_move_has_not_solved; ++adversary)
+  for (adversary = White; adversary!=nr_sides && combined_result!=previous_move_has_not_solved; ++adversary)
   {
     piece_choice[nr_remaining].side = advers(adversary);
     TraceEnumerator(Side,piece_choice[nr_remaining].side);TraceEOL();
@@ -259,9 +239,12 @@ static void try_square_combination(slice_index si)
       occupy_square(piece_choice[i].pos,Dummy,BIT(White)|BIT(Black));
     }
 
+    if (is_in_check(advers(SLICE_STARTER(si))))
+      success = false;
+    else
     {
       stip_length_type const save_solve_result = solve_result;
-      play_with_placed_invisibles(si);
+      pipe_solve_delegate(si);
       success = solve_result>immobility_on_next_move;
       solve_result = save_solve_result;
     }
@@ -292,7 +275,7 @@ static void place_invisible_depth_first(slice_index si, unsigned int nr_remainin
 
   --nr_remaining;
 
-  for (pos = square_order+nr_remaining; *pos && result!=previous_move_has_not_solved; ++pos)
+  for (pos = square_order+nr_remaining; *pos && combined_result!=previous_move_has_not_solved; ++pos)
     if (is_square_empty(*pos))
     {
       piece_choice[nr_remaining].pos = *pos;
@@ -320,12 +303,12 @@ static void distribute_invisibles(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = previous_move_is_illegal;
-  if (invisibles_placement_strategy==invisibles_placement_breadth_first)
+  combined_result = previous_move_is_illegal;
+  if (bound_invisible_number==0)
     colour_invisible_breadth_first(si,total_invisible_number);
   else
     place_invisible_depth_first(si,total_invisible_number);
-  solve_result = result==immobility_on_next_move ? previous_move_has_not_solved : result;
+  solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -406,15 +389,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
       if (count_max>bound_invisible_number)
         bound_invisible_number = count_max;
 
-      if (bound_invisible_number>0)
-      {
-        placement_strategy_type save_strategy = invisibles_placement_strategy;
-        invisibles_placement_strategy = invisibles_placement_depth_first;
-        unwrap_move_effects(nbply,si);
-        invisibles_placement_strategy = save_strategy;
-      }
-      else
-        unwrap_move_effects(nbply,si);
+      unwrap_move_effects(nbply,si);
 
       bound_invisible_number = save_bound;
     }
@@ -466,7 +441,7 @@ static boolean is_move_still_playable(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",combined_result);
   TraceFunctionResultEnd();
   return result;
 }
