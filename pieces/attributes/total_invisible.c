@@ -62,12 +62,17 @@ static void play_with_placed_invisibles(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void place_invisible_breadth_first(slice_index si, unsigned int idx, unsigned int nr_remaining)
+static void place_invisible_breadth_first(slice_index si,
+                                          square *pos_start,
+                                          unsigned int idx,
+                                          unsigned int base,
+                                          unsigned int top)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",nr_remaining);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   {
@@ -77,7 +82,9 @@ static void place_invisible_breadth_first(slice_index si, unsigned int idx, unsi
     SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
     square *pos;
 
-    for (pos = square_order+nr_remaining-1-idx; *pos && combined_result!=previous_move_has_not_solved; ++pos)
+    for (pos = pos_start;
+         *pos && combined_result!=previous_move_has_not_solved;
+         ++pos)
       if (is_square_empty(*pos))
         if (!(is_pawn(walk)
             && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
@@ -86,12 +93,12 @@ static void place_invisible_breadth_first(slice_index si, unsigned int idx, unsi
           ++being_solved.number_of_pieces[side][walk];
           occupy_square(s,walk,BIT(side));
 
-          if (idx+1==nr_remaining)
+          if (idx+1==top)
             play_with_placed_invisibles(si);
           else
           {
             *pos = 0;
-            place_invisible_breadth_first(si,idx+1,nr_remaining);
+            place_invisible_breadth_first(si,pos_start-1,idx+1,base,top);
             *pos = s;
           }
 
@@ -104,34 +111,42 @@ static void place_invisible_breadth_first(slice_index si, unsigned int idx, unsi
   TraceFunctionResultEnd();
 }
 
-static void walk_invisible_breadth_first(slice_index si, unsigned int idx, unsigned int nr_remaining)
+static void walk_invisible_breadth_first(slice_index si,
+                                         unsigned int idx,
+                                         unsigned int base,
+                                         unsigned int top)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",nr_remaining);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   for (piece_choice[idx].walk = Pawn;
        piece_choice[idx].walk<=Bishop && combined_result!=previous_move_has_not_solved;
        ++piece_choice[idx].walk)
-    if (idx+1==nr_remaining)
-      place_invisible_breadth_first(si,0,nr_remaining);
+    if (idx+1==top)
+      place_invisible_breadth_first(si,square_order+top-base-1,base,base,top);
     else
-      walk_invisible_breadth_first(si,idx+1,nr_remaining);
+      walk_invisible_breadth_first(si,idx+1,base,top);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void colour_invisible_breadth_first(slice_index si, unsigned int idx, unsigned int nr_remaining)
+static void colour_invisible_breadth_first(slice_index si,
+                                           unsigned int idx,
+                                           unsigned int base,
+                                           unsigned int top)
 {
   Side adversary;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",nr_remaining);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   // TODO make this readable
@@ -139,22 +154,26 @@ static void colour_invisible_breadth_first(slice_index si, unsigned int idx, uns
   {
     piece_choice[idx].side = advers(adversary);
 
-    if (idx+1==nr_remaining)
-      walk_invisible_breadth_first(si,0,nr_remaining);
+    if (idx+1==top)
+      walk_invisible_breadth_first(si,base,base,top);
     else
-      colour_invisible_breadth_first(si,idx+1,nr_remaining);
+      colour_invisible_breadth_first(si,idx+1,base,top);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void walk_invisible_depth_first(slice_index si, unsigned int idx, unsigned int to_be_bound)
+static void walk_invisible_depth_first(slice_index si,
+                                       unsigned int idx,
+                                       unsigned int base,
+                                       unsigned int top)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",to_be_bound);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   for (piece_choice[idx].walk = Pawn;
@@ -175,15 +194,19 @@ static void walk_invisible_depth_first(slice_index si, unsigned int idx, unsigne
       ++being_solved.number_of_pieces[side][walk];
       occupy_square(s,walk,BIT(side));
 
-      if (idx+1==total_invisible_number)
+      if (idx+1==top)
       {
-        if (to_be_bound==total_invisible_number)
+        if ((top-base)==total_invisible_number)
           play_with_placed_invisibles(si);
         else
-          colour_invisible_breadth_first(si,0,total_invisible_number-to_be_bound);
+        {
+          unsigned int base_breadth_first = top;
+          unsigned int top_breadth_first = base_breadth_first+total_invisible_number-(top-base);
+          colour_invisible_breadth_first(si,base_breadth_first,base_breadth_first,top_breadth_first);
+        }
       }
       else
-        walk_invisible_depth_first(si,idx+1,to_be_bound);
+        walk_invisible_depth_first(si,idx+1,base,top);
 
       --being_solved.number_of_pieces[side][walk];
     }
@@ -193,14 +216,18 @@ static void walk_invisible_depth_first(slice_index si, unsigned int idx, unsigne
   TraceFunctionResultEnd();
 }
 
-static void colour_invisble_depth_first(slice_index si, unsigned int idx, unsigned int to_be_bound)
+static void colour_invisble_depth_first(slice_index si,
+                                        unsigned int idx,
+                                        unsigned int base,
+                                        unsigned int top)
 {
   Side adversary;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",to_be_bound);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   // TODO make this readable
@@ -208,36 +235,40 @@ static void colour_invisble_depth_first(slice_index si, unsigned int idx, unsign
   {
     piece_choice[idx].side = advers(adversary);
     TraceEnumerator(Side,piece_choice[idx].side);TraceEOL();
-    if (idx+1==total_invisible_number)
-      walk_invisible_depth_first(si,total_invisible_number-to_be_bound,to_be_bound);
+    if (idx+1==top)
+      walk_invisible_depth_first(si,base,base,top);
     else
-      colour_invisble_depth_first(si,idx+1,to_be_bound);
+      colour_invisble_depth_first(si,idx+1,base,top);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_invisible_depth_first(slice_index si, unsigned int bound, unsigned int to_be_bound, square const *pos_start)
+static void place_invisible_depth_first(slice_index si,
+                                        square const *pos_start,
+                                        unsigned int idx,
+                                        unsigned int base,
+                                        unsigned int top)
 {
   square const *pos;
-  unsigned int const idx = total_invisible_number-to_be_bound+bound;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",bound);
-  TraceFunctionParam("%u",to_be_bound);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
   for (pos = pos_start; *pos && combined_result!=previous_move_has_not_solved; ++pos)
     if (is_square_empty(*pos))
     {
       piece_choice[idx].pos = *pos;
-      occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black));
+      occupy_square(*pos,Dummy,BIT(White)|BIT(Black));
 
       TraceSquare(piece_choice[idx].pos);TraceEOL();
 
-      if (bound+1==to_be_bound)
+      if (idx+1==top)
       {
         if (!is_in_check(advers(SLICE_STARTER(si))))
         {
@@ -253,20 +284,22 @@ static void place_invisible_depth_first(slice_index si, unsigned int bound, unsi
             TracePosition(being_solved.board,being_solved.spec);
             {
               unsigned int i;
-              for (i = 0; i!=to_be_bound; ++i)
-                empty_square(piece_choice[total_invisible_number-to_be_bound+i].pos);
+              for (i = base; i!=top; ++i)
+                empty_square(piece_choice[i].pos);
             }
-            colour_invisble_depth_first(si,total_invisible_number-to_be_bound,to_be_bound);
+
+            colour_invisble_depth_first(si,base,base,top);
+
             {
               unsigned int i;
-              for (i = 0; i!=to_be_bound; ++i)
-                occupy_square(piece_choice[total_invisible_number-to_be_bound+i].pos,Dummy,BIT(White)|BIT(Black));;
+              for (i = base; i!=top; ++i)
+                occupy_square(piece_choice[i].pos,Dummy,BIT(White)|BIT(Black));;
             }
           }
         }
       }
       else
-        place_invisible_depth_first(si,bound+1,to_be_bound,pos+1);
+        place_invisible_depth_first(si,pos+1,idx+1,base,top);
 
       empty_square(*pos);
     }
@@ -275,22 +308,29 @@ static void place_invisible_depth_first(slice_index si, unsigned int bound, unsi
   TraceFunctionResultEnd();
 }
 
-static void distribute_invisibles(slice_index si)
+static void distribute_invisibles(slice_index si, unsigned int base)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  combined_result = previous_move_is_illegal;
   if (bound_invisible_number==0)
-    colour_invisible_breadth_first(si,0,total_invisible_number);
-  else
+  {
+    unsigned int top = base+total_invisible_number;
+    colour_invisible_breadth_first(si,base,base,top);
+  }
+  else if (base+bound_invisible_number<=total_invisible_number)
   {
     unsigned int i;
-    for (i = bound_invisible_number; i<=total_invisible_number && combined_result!=previous_move_has_not_solved; ++i)
-      place_invisible_depth_first(si,0,i,square_order);
+    for (i = bound_invisible_number;
+         i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
+         ++i)
+    {
+      unsigned int top = base+i;
+      place_invisible_depth_first(si,square_order,base,base,top);
+    }
   }
-  solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -311,7 +351,9 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   {
     ply_replayed = nbply;
     nbply = current_ply;
-    distribute_invisibles(si);
+    combined_result = previous_move_is_illegal;
+    distribute_invisibles(si,0);
+    solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
   else
   {
