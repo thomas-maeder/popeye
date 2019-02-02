@@ -149,9 +149,6 @@ static void colour_invisible_breadth_first(slice_index si, unsigned int idx, uns
   TraceFunctionResultEnd();
 }
 
-
-static void colour_invisble_depth_first(slice_index si, unsigned int idx, unsigned int to_be_bound);
-
 static void walk_invisible_depth_first(slice_index si, unsigned int idx, unsigned int to_be_bound)
 {
   TraceFunctionEntry(__func__);
@@ -186,7 +183,7 @@ static void walk_invisible_depth_first(slice_index si, unsigned int idx, unsigne
           colour_invisible_breadth_first(si,0,total_invisible_number-to_be_bound);
       }
       else
-        colour_invisble_depth_first(si,idx+1,to_be_bound);
+        walk_invisible_depth_first(si,idx+1,to_be_bound);
 
       --being_solved.number_of_pieces[side][walk];
     }
@@ -211,7 +208,10 @@ static void colour_invisble_depth_first(slice_index si, unsigned int idx, unsign
   {
     piece_choice[idx].side = advers(adversary);
     TraceEnumerator(Side,piece_choice[idx].side);TraceEOL();
-    walk_invisible_depth_first(si,idx,to_be_bound);
+    if (idx+1==total_invisible_number)
+      walk_invisible_depth_first(si,total_invisible_number-to_be_bound,to_be_bound);
+    else
+      colour_invisble_depth_first(si,idx+1,to_be_bound);
   }
 
   TraceFunctionExit(__func__);
