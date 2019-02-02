@@ -7,6 +7,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/goals/slice_insertion.h"
 #include "solving/check.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
@@ -38,6 +39,8 @@ static struct
     piece_walk_type walk;
     square pos;
 } piece_choice[3];
+
+static boolean detecting_placement_legality;
 
 static void play_with_placed_invisibles(slice_index si)
 {
@@ -240,10 +243,9 @@ static void place_invisible_depth_first(slice_index si, unsigned int bound, unsi
         {
           boolean success;
           stip_length_type const save_solve_result = solve_result;
-          extern boolean xyz;
-          xyz = true;
+          detecting_placement_legality = true;
           pipe_solve_delegate(si);
-          xyz = false;
+          detecting_placement_legality = false;
           success = solve_result>immobility_on_next_move;
           solve_result = save_solve_result;
           if (success)
@@ -558,7 +560,33 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_goal_guard_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
+  if (detecting_placement_legality && is_in_check(advers(SLICE_STARTER(si))))
+    solve_result = previous_move_is_illegal;
+  else
+    pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -663,6 +691,55 @@ static void remove_the_pipe(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remember_self_check_guard(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  slice_index * const remembered = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  *remembered = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void subsitute_goal_guard(slice_index si,
+                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index remembered = no_slice;
+
+    stip_structure_traversal st_nested;
+    stip_structure_traversal_init_nested(&st_nested,st,&remembered);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STSelfCheckGuard,
+                                             &remember_self_check_guard);
+    stip_traverse_structure(SLICE_NEXT2(si),&st_nested);
+
+    if (remembered!=no_slice)
+    {
+      slice_index prototype = alloc_pipe(STTotalInvisibleGoalGuard);
+      SLICE_STARTER(prototype) = SLICE_STARTER(remembered);
+      goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
+      pipe_remove(remembered);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_replay_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -674,9 +751,6 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal st_nested;
 
     stip_structure_traversal_init_nested(&st_nested,st,0);
-    stip_structure_traversal_override_by_structure(&st_nested,
-                                                   slice_structure_fork,
-                                                   &stip_traverse_structure_children_pipe);
     // TODO prevent instrumentation in the first place?
     stip_structure_traversal_override_single(&st_nested,
                                              STFindShortest,
@@ -700,7 +774,12 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STPawnPromoter,
                                              &remove_the_pipe);
-    stip_structure_traversal_override_single(&st_nested,STMoveGenerator,&subsitute_generator);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STMoveGenerator,
+                                             &subsitute_generator);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachedTester,
+                                             &subsitute_goal_guard);
     stip_traverse_structure(si,&st_nested);
   }
 
@@ -900,7 +979,9 @@ void solving_instrument_total_invisible(slice_index si)
   // - goals that don't involve immobility
   // ?
 
-  // we shouldn't need to set the starter of STTotalInvisibleMoveSequenceMoveRepeater
+  // we shouldn't need to set the starter of
+  // - STTotalInvisibleMoveSequenceMoveRepeater
+  // - STTotalInvisibleGoalGuard
 
   // check indication should also be deactivated in tree output
 

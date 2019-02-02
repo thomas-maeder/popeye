@@ -2090,6 +2090,10 @@ void dispatch(slice_index si)
       total_invisible_move_generator_uninitialiser_solve(si);
       break;
 
+    case STTotalInvisibleGoalGuard:
+      total_invisible_goal_guard_solve(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;

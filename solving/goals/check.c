@@ -21,8 +21,6 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-#include "solving/has_solution_type.h"
-boolean xyz = false;
 void goal_check_reached_tester_solve(slice_index si)
 {
   Side const in_check = (SLICE_U(si).goal_filter.applies_to_who
@@ -34,10 +32,7 @@ void goal_check_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (xyz && is_in_check(advers(in_check)))
-    solve_result = previous_move_is_illegal;
-  else
-    pipe_this_move_doesnt_solve_if(si,!is_in_check(in_check));
+  pipe_this_move_doesnt_solve_if(si,!is_in_check(in_check));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
