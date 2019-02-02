@@ -807,11 +807,20 @@ static void remove_self_check_guard(slice_index si,
 
 static int square_compare(void const *v1, void const *v2)
 {
+  int result;
   square const *s1 = v1;
   square const *s2 = v2;
   square const kpos = being_solved.king_square[Black];
 
-  return move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
+  result = move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
+
+  if (being_solved.king_square[White]!=initsquare)
+  {
+    square const kpos = being_solved.king_square[White];
+    result += move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
+  }
+
+  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
