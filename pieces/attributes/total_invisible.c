@@ -601,14 +601,14 @@ void total_invisible_move_repeater_solve(slice_index si)
  */
 void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 {
+  Side const side_moving = SLICE_STARTER(si);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_uninterceptably_observed_ortho(White,
-                                               being_solved.king_square[Black])
-      || is_square_uninterceptably_observed_ortho(Black,
-                                                  being_solved.king_square[White]))
+  if (is_square_uninterceptably_observed_ortho(side_moving,
+                                               being_solved.king_square[advers(side_moving)]))
     solve_result = previous_move_is_illegal;
   else
   {
@@ -903,7 +903,10 @@ static void remove_self_check_guard(slice_index si,
    */
   stip_traverse_structure_children_pipe(si,st);
 
-  SLICE_TYPE(si) = STTotalInvisibleUninterceptableSelfCheckGuard;
+  if (st->context==stip_traversal_context_intro)
+    pipe_remove(si);
+  else
+    SLICE_TYPE(si) = STTotalInvisibleUninterceptableSelfCheckGuard;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
