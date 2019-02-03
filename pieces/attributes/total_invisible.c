@@ -511,12 +511,12 @@ static void copy_move_effects(void)
   // TODO memcpy()?
   while (replayed_curr!=replayed_top)
   {
-    if (move_effect_journal[replayed_curr].type==move_effect_no_piece_removal
-        && move_effect_journal[replayed_curr+1].type==move_effect_piece_movement
-        && move_effect_journal[replayed_curr+1].reason==move_effect_reason_moving_piece_movement
-        && !is_square_empty(move_effect_journal[replayed_curr+1].u.piece_movement.to))
+    if (move_effect_journal[replayed_curr+move_effect_journal_index_offset_capture].type==move_effect_no_piece_removal
+        && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].type==move_effect_piece_movement
+        && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].reason==move_effect_reason_moving_piece_movement
+        && !is_square_empty(move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].u.piece_movement.to))
     {
-      square const from = move_effect_journal[replayed_curr+1].u.piece_movement.to;
+      square const from = move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].u.piece_movement.to;
 
       move_effect_journal[curr].type = move_effect_piece_removal;
       move_effect_journal[curr].reason = move_effect_reason_regular_capture;
