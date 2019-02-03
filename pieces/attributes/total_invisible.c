@@ -717,15 +717,16 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
     if (sq_capture==capture_of_invisible)
     {
-      /* inject the creation of a dummy piece into the previous ply - very dirty... */
-      --nbply;
+      /* sneak the creation of a dummy piece into the previous ply - very dirty...,
+       * but this prevents the dummy from being un-created when we undo this move's
+       * effects
+       */
       move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
                                             sq_arrival,
                                             Dummy,
                                             BIT(side_victim),
                                             side_victim);
-      ++nbply;
-      ++move_effect_journal_base[nbply+1];
+      ++move_effect_journal_base[nbply];
 
       // TODO this doesn't work once we add Locusts and the like
       move_gen_top->capture = sq_arrival;
@@ -1045,13 +1046,11 @@ void solving_instrument_total_invisible(slice_index si)
 
   // later:
   // - in original
-  //   - generate pawn captures to empty squares (if an invisible piece is left)
   //   - insert revelation logic
   // - in copy
   //   - logic for iteration over all possibilities of invisibles
   //     - special case of invisible king
   //     - special case: position has no legal placement of all invisibles may have to be dealt with:
-  //       - self-check in each attempt
   //       - not enough empty squares :-)
   //   - substitute for STFindShortest
 
