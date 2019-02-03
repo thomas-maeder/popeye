@@ -2,6 +2,8 @@
 #include "pieces/walks/classification.h"
 #include "position/position.h"
 #include "position/move_diff_code.h"
+#include "position/effects/piece_creation.h"
+#include "position/effects/null_move.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -27,6 +29,8 @@ unsigned int total_invisible_number = 3;
 
 static unsigned int bound_invisible_number = 0;
 
+static unsigned int pawn_victims_number = 0;
+
 static ply ply_replayed;
 
 stip_length_type combined_result;
@@ -40,7 +44,11 @@ static struct
     square pos;
 } piece_choice[3];
 
-static boolean detecting_placement_legality;
+static enum
+{
+  regular_play,
+  replaying_moves
+} play_phase = regular_play;
 
 static void play_with_placed_invisibles(slice_index si)
 {
@@ -60,6 +68,16 @@ static void play_with_placed_invisibles(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static boolean is_square_used(square s, unsigned int base)
+{
+  unsigned int i;
+  for (i = 0; i!=base; ++i)
+    if (s==piece_choice[i].pos)
+      return true;
+
+  return false;
 }
 
 static void place_invisible_breadth_first(slice_index si,
@@ -85,7 +103,7 @@ static void place_invisible_breadth_first(slice_index si,
     for (pos = pos_start;
          *pos && combined_result!=previous_move_has_not_solved;
          ++pos)
-      if (is_square_empty(*pos))
+      if (is_square_empty(*pos) && !is_square_used(*pos,base))
         if (!(is_pawn(walk)
             && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
         {
@@ -261,7 +279,7 @@ static void place_invisible_depth_first(slice_index si,
   TraceFunctionParamListEnd();
 
   for (pos = pos_start; *pos && combined_result!=previous_move_has_not_solved; ++pos)
-    if (is_square_empty(*pos))
+    if (is_square_empty(*pos) && !is_square_used(*pos,base))
     {
       piece_choice[idx].pos = *pos;
       occupy_square(*pos,Dummy,BIT(White)|BIT(Black));
@@ -274,9 +292,7 @@ static void place_invisible_depth_first(slice_index si,
         {
           boolean success;
           stip_length_type const save_solve_result = solve_result;
-          detecting_placement_legality = true;
           pipe_solve_delegate(si);
-          detecting_placement_legality = false;
           success = solve_result>immobility_on_next_move;
           solve_result = save_solve_result;
           if (success)
@@ -352,7 +368,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
     ply_replayed = nbply;
     nbply = current_ply;
     combined_result = previous_move_is_illegal;
-    distribute_invisibles(si,0);
+    distribute_invisibles(si,pawn_victims_number);
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
   else
@@ -413,7 +429,14 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
       if (count_max>bound_invisible_number)
         bound_invisible_number = count_max;
 
-      unwrap_move_effects(nbply,si);
+      play_phase = replaying_moves;
+
+      if (pawn_victims_number+bound_invisible_number>total_invisible_number)
+        solve_result = previous_move_is_illegal;
+      else
+        unwrap_move_effects(nbply,si);
+
+      play_phase = regular_play;
 
       bound_invisible_number = save_bound;
     }
@@ -621,7 +644,8 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (detecting_placement_legality && is_in_check(advers(SLICE_STARTER(si))))
+  // TODO remove self check guard
+  if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
     pipe_solve_delegate(si);
@@ -629,41 +653,38 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
  */
-void total_invisible_move_generator_initialiser_solve(slice_index si)
+void total_invisible_pawn_generate_pawn_captures(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* this relies on the undocumented way we use to generate moves for pawns */
+  pipe_move_generation_delegate(si);
 
-//  {
-//    Side const adv = advers(SLICE_STARTER(si));
-//    square const *s;
-//    for (s = boardnum; *s; ++s)
-//      if (is_square_empty(*s))
-//        SETFLAG(being_solved.spec[*s],adv);
-//  }
+  {
+    square const sq_departure = curr_generation->departure ;
+    Side const side = trait[nbply];
+    if (TSTFLAG(being_solved.spec[sq_departure],side) && being_solved.board[sq_departure]==Pawn)
+    {
+      int const dir_vertical = trait[nbply]==White ? dir_up : dir_down;
 
-  pipe_solve_delegate(si);
+      curr_generation->arrival = curr_generation->departure+dir_vertical+dir_left;
+      if (is_square_empty(curr_generation->arrival))
+        push_special_move(capture_of_invisible);
+
+      curr_generation->arrival = curr_generation->departure+dir_vertical+dir_right;
+      if (is_square_empty(curr_generation->arrival))
+        push_special_move(capture_of_invisible);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -677,21 +698,49 @@ void total_invisible_move_generator_initialiser_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_move_generator_uninitialiser_solve(slice_index si)
+void total_invisible_special_moves_player_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-//  {
-//    Side const adv = advers(SLICE_STARTER(si));
-//    square const *s;
-//    for (s = boardnum; *s; ++s)
-//      if (is_square_empty(*s))
-//        CLRFLAG(being_solved.spec[*s],adv);
-//  }
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+    square const sq_arrival = move_gen_top->arrival;
+    square const sq_capture = move_gen_top->capture;
+    Side const side_victim = advers(SLICE_STARTER(si));
 
-  pipe_solve_delegate(si);
+    TraceValue("%u",sq_capture);
+    TraceValue("%u",capture_of_invisible);
+    TraceEOL();
+
+    if (sq_capture==capture_of_invisible)
+    {
+      /* inject the creation of a dummy piece into the previous ply - very dirty... */
+      --nbply;
+      move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
+                                            sq_arrival,
+                                            Dummy,
+                                            BIT(side_victim),
+                                            side_victim);
+      ++nbply;
+      ++move_effect_journal_base[nbply+1];
+
+      // TODO this doesn't work once we add Locusts and the like
+      move_gen_top->capture = sq_arrival;
+
+      piece_choice[pawn_victims_number].pos = sq_arrival;
+
+      ++pawn_victims_number;
+      pipe_solve_delegate(si);
+      --pawn_victims_number;
+
+      --move_effect_journal_base[nbply];
+    }
+    else
+      pipe_solve_delegate(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -904,6 +953,8 @@ void total_invisible_instrumenter_solve(slice_index si)
   memmove(square_order, boardnum, sizeof boardnum);
   qsort(square_order, 64, sizeof square_order[0], &square_compare);
 
+  solving_instrument_move_generation(si,nr_sides,STTotalInvisiblePawnCaptureGenerator);
+
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -970,28 +1021,11 @@ static void copy_help_branch(slice_index si,
     state->the_copy = stip_deep_copy(si);
     stip_traverse_structure_children(si,st);
     assert(state->the_copy==no_slice);
-  }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_play_branch_move_generator(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STTotalInvisibleMoveGeneratorInitialiser),
-        alloc_pipe(STTotalInvisibleMoveGeneratorUninitialiser),
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+    {
+      slice_index const prototype = alloc_pipe(STTotalInvisibleSpecialMovesPlayer);
+      slice_insertion_insert(si,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1049,9 +1083,6 @@ void solving_instrument_total_invisible(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              STHelpAdapter,
                                              &copy_help_branch);
-    stip_structure_traversal_override_single(&st,
-                                             STGeneratingMoves,
-                                             &instrument_play_branch_move_generator);
     stip_structure_traversal_override_single(&st,
                                              STGoalReachedTester,
                                              &insert_copy);

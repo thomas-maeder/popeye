@@ -659,7 +659,10 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  pieces/walks/classification.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
- position/move_diff_code.h stipulation/structure_traversal.h \
+ position/move_diff_code.h position/effects/piece_creation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ position/effects/null_move.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -673,9 +676,7 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/slice_insertion.h stipulation/goals/slice_insertion.h \
  solving/check.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/machinery/slack_length.h solving/move_generator.h solving/ply.h \
- solving/pipe.h solving/move_effect_journal.h \
+ solving/machinery/slack_length.h solving/move_generator.h solving/pipe.h \
  output/plaintext/plaintext.h output/output.h \
  optimisations/orthodox_square_observation.h debugging/assert.h
 
@@ -729,6 +730,20 @@ position/castling_rights.h:
 
 position/move_diff_code.h:
 
+position/effects/piece_creation.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/ply.h:
+
+position/effects/null_move.h:
+
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
@@ -771,21 +786,11 @@ solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
 
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-debugging/trace.h:
-
 solving/machinery/slack_length.h:
 
 solving/move_generator.h:
 
-solving/ply.h:
-
 solving/pipe.h:
-
-solving/move_effect_journal.h:
 
 output/plaintext/plaintext.h:
 

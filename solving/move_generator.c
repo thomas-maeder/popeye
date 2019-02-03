@@ -89,6 +89,7 @@ static slice_index const slice_rank_order[] =
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
     STMoveForPieceGeneratorPathsJoint,
+    STTotalInvisiblePawnCaptureGenerator,
     STMovesForPieceBasedOnWalkGenerator,
     STGeneratedMovesForPiece
 };

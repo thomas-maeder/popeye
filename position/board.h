@@ -207,7 +207,9 @@ enum
   max_castling = queenside_castling,
 
   retro_capture_departure = maxsquare+4,
-  pawn_multistep = maxsquare  /* must refer to a square that is always empty */
+  pawn_multistep = maxsquare,  /* must refer to a square that is always empty */
+
+  capture_of_invisible = maxsquare+5
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];

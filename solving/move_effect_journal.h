@@ -122,6 +122,7 @@ typedef enum
   move_effect_reason_zeroed_in,
   move_effect_reason_snek,
   move_effect_reason_breton,
+  move_effect_reason_removal_of_invisible,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning

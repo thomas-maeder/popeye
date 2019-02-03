@@ -2082,16 +2082,16 @@ void dispatch(slice_index si)
       total_invisible_uninterceptable_selfcheck_guard_solve(si);
       break;
 
-    case STTotalInvisibleMoveGeneratorInitialiser:
-      total_invisible_move_generator_initialiser_solve(si);
-      break;
-
-    case STTotalInvisibleMoveGeneratorUninitialiser:
-      total_invisible_move_generator_uninitialiser_solve(si);
-      break;
-
     case STTotalInvisibleGoalGuard:
       total_invisible_goal_guard_solve(si);
+      break;
+
+    case STTotalInvisiblePawnCaptureGenerator:
+      total_invisible_pawn_generate_pawn_captures(si);
+      break;
+
+    case STTotalInvisibleSpecialMovesPlayer:
+      total_invisible_special_moves_player_solve(si);
       break;
 
     case STMummerOrchestrator:

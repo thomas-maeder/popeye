@@ -74,6 +74,8 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceWalk(created);TraceSquare(on);TraceEOL();
+
   if (TSTFLAG(createdspec,White))
     ++being_solved.number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
