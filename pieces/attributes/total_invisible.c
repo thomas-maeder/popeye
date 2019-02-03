@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned int total_invisible_number = 3;
+unsigned int total_invisible_number = 2;
 
 static unsigned int bound_invisible_number = 0;
 
@@ -333,8 +333,11 @@ static void distribute_invisibles(slice_index si, unsigned int base)
 
   if (bound_invisible_number==0)
   {
-    unsigned int top = base+total_invisible_number;
-    colour_invisible_breadth_first(si,base,base,top);
+    unsigned int top = total_invisible_number;
+    if (base==top)
+      play_with_placed_invisibles(si);
+    else
+      colour_invisible_breadth_first(si,base,base,top);
   }
   else if (base+bound_invisible_number<=total_invisible_number)
   {
@@ -368,7 +371,41 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
     ply_replayed = nbply;
     nbply = current_ply;
     combined_result = previous_move_is_illegal;
-    distribute_invisibles(si,pawn_victims_number);
+
+    {
+      unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
+      unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
+      unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
+
+      /* make sure that our length corresponds to the length of the tested move sequence
+       * (which may vary if STFindShortest is used)
+       */
+      assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
+      slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
+
+      TraceValue("%u",count_white_checks);TraceValue("%u",count_black_checks);TraceValue("%u",count_max);TraceEOL();
+
+      if (count_max>total_invisible_number)
+        solve_result = previous_move_is_illegal;
+      else
+      {
+        unsigned int const save_bound = bound_invisible_number;
+        if (count_max>bound_invisible_number)
+          bound_invisible_number = count_max;
+
+        play_phase = replaying_moves;
+
+        if (pawn_victims_number+bound_invisible_number>total_invisible_number)
+          solve_result = previous_move_is_illegal;
+        else
+          distribute_invisibles(si,pawn_victims_number);
+
+        play_phase = regular_play;
+
+        bound_invisible_number = save_bound;
+      }
+    }
+
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
   else
@@ -410,37 +447,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
   else
-  {
-    unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
-    unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
-    unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
-
-    /* make sure that our length corresponds to the length of the tested move sequence
-     * (which may vary if STFindShortest is used)
-     */
-    assert(slices[SLICE_NEXT2(si)].type==STHelpAdapter);
-    slices[SLICE_NEXT2(si)].u.branch.length = slack_length+(nbply-ply_retro_move);
-
-    if (count_max>total_invisible_number)
-      solve_result = previous_move_is_illegal;
-    else
-    {
-      unsigned int const save_bound = bound_invisible_number;
-      if (count_max>bound_invisible_number)
-        bound_invisible_number = count_max;
-
-      play_phase = replaying_moves;
-
-      if (pawn_victims_number+bound_invisible_number>total_invisible_number)
-        solve_result = previous_move_is_illegal;
-      else
-        unwrap_move_effects(nbply,si);
-
-      play_phase = regular_play;
-
-      bound_invisible_number = save_bound;
-    }
-  }
+    unwrap_move_effects(nbply,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -648,7 +655,11 @@ void total_invisible_goal_guard_solve(slice_index si)
   if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
+  {
+    /* make sure that we don't generate pawn captures total invisible */
+    assert(play_phase==replaying_moves);
     pipe_solve_delegate(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -665,6 +676,7 @@ void total_invisible_pawn_generate_pawn_captures(slice_index si)
 
   pipe_move_generation_delegate(si);
 
+  if (play_phase==regular_play)
   {
     square const sq_departure = curr_generation->departure ;
     Side const side = trait[nbply];
