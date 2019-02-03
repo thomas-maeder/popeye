@@ -508,9 +508,9 @@ static void copy_move_effects(void)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  // TODO memcpy()?
   while (replayed_curr!=replayed_top)
   {
+    /* accidental capture of a placed total invisible? */
     if (move_effect_journal[replayed_curr+move_effect_journal_index_offset_capture].type==move_effect_no_piece_removal
         && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].type==move_effect_piece_movement
         && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].reason==move_effect_reason_moving_piece_movement
