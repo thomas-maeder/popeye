@@ -33,7 +33,7 @@ static unsigned int pawn_victims_number = 0;
 
 static ply ply_replayed;
 
-stip_length_type combined_result;
+static stip_length_type combined_result;
 
 static square square_order[65];
 
