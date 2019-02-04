@@ -244,8 +244,8 @@ void build_solvers1(slice_index si)
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
-//  if (!init_intelligent_mode(si))
-//    output_plaintext_message(IntelligentRestricted);
+  if (!init_intelligent_mode(si))
+    output_plaintext_message(IntelligentRestricted);
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
