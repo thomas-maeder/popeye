@@ -187,6 +187,8 @@ static void walk_invisible_depth_first(slice_index si,
                                        unsigned int base,
                                        unsigned int top)
 {
+  piece_walk_type walk;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",idx);
@@ -194,15 +196,15 @@ static void walk_invisible_depth_first(slice_index si,
   TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
-  for (piece_choice[idx].walk = Pawn;
-       piece_choice[idx].walk<=Bishop && combined_result!=previous_move_has_not_solved;
-       ++piece_choice[idx].walk)
+  for (walk = Pawn;
+       walk<=Bishop && combined_result!=previous_move_has_not_solved;
+       ++walk)
   {
     Side const side = piece_choice[idx].side;
-    piece_walk_type const walk = piece_choice[idx].walk;
     SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
     SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
     square const s = piece_choice[idx].pos;
+    piece_choice[idx].walk = walk;
 
     TraceWalk(walk);TraceEOL();
 
@@ -644,7 +646,6 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  // TODO remove self check guard
   if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
