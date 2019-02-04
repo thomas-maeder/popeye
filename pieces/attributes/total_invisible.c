@@ -214,14 +214,10 @@ static void walk_invisible_depth_first(slice_index si,
 
       if (idx+1==top)
       {
-        if ((top-base)==total_invisible_number)
+        if (top==total_invisible_number)
           play_with_placed_invisibles(si);
         else
-        {
-          unsigned int base_breadth_first = top;
-          unsigned int top_breadth_first = base_breadth_first+total_invisible_number-(top-base);
-          colour_invisible_breadth_first(si,base_breadth_first,base_breadth_first,top_breadth_first);
-        }
+          colour_invisible_breadth_first(si,top,top,total_invisible_number);
       }
       else
         walk_invisible_depth_first(si,idx+1,base,top);
@@ -343,12 +339,9 @@ static void distribute_invisibles(slice_index si, unsigned int base)
   {
     unsigned int i;
     for (i = bound_invisible_number;
-         i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
+         base+i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
          ++i)
-    {
-      unsigned int top = base+i;
-      place_invisible_depth_first(si,square_order,base,base,top);
-    }
+      place_invisible_depth_first(si,square_order,base,base,base+i);
   }
 
   TraceFunctionExit(__func__);
