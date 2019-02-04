@@ -9,11 +9,13 @@
 #include "position/effects/piece_creation.h"
 #include "position/effects/piece_removal.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/circe/parachute.h"
 
 #include <assert.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* Identify a piece walk from the characters of its shortcut
@@ -338,18 +340,28 @@ char *ParsePieces(char *tok)
   int nr_groups = 0;
   while (true)
   {
-    Flags PieSpFlags = ParseColour(tok,nr_groups==0);
-    if (PieSpFlags==0)
-      break;
+    char *end;
+    unsigned long const value = strtoul(tok,&end,10);
+    if (end==tok)
+    {
+      Flags PieSpFlags = ParseColour(tok,nr_groups==0);
+      if (PieSpFlags==0)
+          break;
+      else
+      {
+        Flags nonCOLOURFLAGS = 0;
+        tok = ParsePieceFlags(&nonCOLOURFLAGS);
+        PieSpFlags |= nonCOLOURFLAGS;
+
+        tok = ParsePieceWalkAndSquares(tok,PieSpFlags);
+
+        ++nr_groups;
+      }
+    }
     else
     {
-      Flags nonCOLOURFLAGS = 0;
-      tok = ParsePieceFlags(&nonCOLOURFLAGS);
-      PieSpFlags |= nonCOLOURFLAGS;
-
-      tok = ParsePieceWalkAndSquares(tok,PieSpFlags);
-
-      ++nr_groups;
+      total_invisible_number = value;
+      tok = ReadNextTokStr();
     }
   }
 

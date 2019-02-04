@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned int total_invisible_number = 2;
+unsigned int total_invisible_number;
 
 static unsigned int bound_invisible_number = 0;
 
@@ -42,7 +42,7 @@ static struct
     Side side;
     piece_walk_type walk;
     square pos;
-} piece_choice[3];
+} piece_choice[nr_squares_on_board];
 
 static enum
 {
