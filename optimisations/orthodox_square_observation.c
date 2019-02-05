@@ -172,6 +172,10 @@ boolean is_square_observed_ortho(Side side_checking,
 
 boolean is_square_uninterceptably_observed_ortho(Side side_checking, square sq_target)
 {
+  if (being_solved.number_of_pieces[side_checking][King]>0
+      && king_check_ortho(side_checking,sq_target))
+    return true;
+
   if (being_solved.number_of_pieces[side_checking][Pawn]>0
       && pawn_check_ortho(side_checking,sq_target))
     return true;
