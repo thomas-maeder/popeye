@@ -16,7 +16,7 @@ mummer_length_type must_capture_measure_length(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_capture);TraceEOL();
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);TraceEOL();
 
   result = !is_no_capture(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
 
