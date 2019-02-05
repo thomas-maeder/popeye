@@ -198,7 +198,9 @@ typedef enum
 enum
 {
   /* the following values are used instead of capture square
-   * to indicate special moves */
+   * to indicate non-capturing moves */
+  pawn_multistep = maxsquare,
+
   messigny_exchange = maxsquare+1,
 
   min_castling = maxsquare+2,
@@ -207,7 +209,6 @@ enum
   max_castling = queenside_castling,
 
   retro_capture_departure = maxsquare+4,
-  pawn_multistep = maxsquare,  /* must refer to a square that is always empty */
 
   no_capture = maxsquare+5
 };
@@ -223,11 +224,7 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define GridNum(s)      (sq_spec[(s)] >> Grid)
 #define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
 
-#define is_no_capture(sq) ((sq)==no_capture \
-                           || (sq)==pawn_multistep \
-                           || (sq)==kingside_castling \
-                           || (sq)==queenside_castling \
-                           || (sq)==messigny_exchange)
+#define is_no_capture(sq) ((sq)>=pawn_multistep)
 
 #define is_on_board(sq) \
    (left_file<=(sq)%onerow && (sq)%onerow<=right_file \
