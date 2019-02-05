@@ -236,7 +236,7 @@ void black_checks_null_move_generator_solve(slice_index si)
 
   curr_generation->departure = nullsquare;
   curr_generation->arrival = nullsquare;
-  push_move();
+  push_move_no_capture();
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

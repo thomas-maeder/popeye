@@ -20,9 +20,10 @@ void kangaroo_generate_moves(void)
       if (!is_square_blocked(sq_hurdle2))
       {
         curr_generation->arrival = sq_hurdle2+vec[k];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
-          push_move();
+        if (is_square_empty(curr_generation->arrival))
+          push_move_no_capture();
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          push_move_regular_capture();
       }
     }
   }
@@ -77,11 +78,11 @@ void kangaroo_lion_generate_moves(void)
         curr_generation->arrival = sq_hurdle2+vec[k];
         while (is_square_empty(curr_generation->arrival))
         {
-          push_move();
+          push_move_no_capture();
           curr_generation->arrival += vec[k];
         }
         if (piece_belongs_to_opponent(curr_generation->arrival))
-          push_move();
+          push_move_regular_capture();
       }
     }
   }

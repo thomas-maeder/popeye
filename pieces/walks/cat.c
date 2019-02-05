@@ -15,17 +15,17 @@ void cat_generate_moves(void)
   {
     curr_generation->arrival = curr_generation->departure+vec[k];
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
     else
     {
       while (is_square_empty(curr_generation->arrival))
       {
-        push_move();
+        push_move_no_capture();
         curr_generation->arrival += cat_vectors[k];
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        push_move();
+        push_move_regular_capture();
     }
   }
 }

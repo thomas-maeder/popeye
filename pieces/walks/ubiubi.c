@@ -7,7 +7,7 @@
 typedef enum
 {
   ubiubi_empty,
-  ubiubi_opposibe,
+  ubiubi_opposite,
   ubiubi_taboo
 } ubiubi_square_state_type;
 
@@ -25,13 +25,13 @@ static void utiubi_generate_moves_recursive(square step_departure,
       switch (traversal_state[curr_generation->arrival])
       {
         case ubiubi_empty:
-          push_move();
+          push_move_no_capture();
           traversal_state[curr_generation->arrival] = ubiubi_taboo;
           utiubi_generate_moves_recursive(curr_generation->arrival,traversal_state);
           break;
 
-        case ubiubi_opposibe:
-          push_move();
+        case ubiubi_opposite:
+          push_move_regular_capture();
           traversal_state[curr_generation->arrival] = ubiubi_taboo;
           break;
 
@@ -51,7 +51,7 @@ void ubiubi_generate_moves(void)
     if (is_square_empty(*bnp))
       board_state[*bnp] = ubiubi_empty;
     else if (TSTFLAG(being_solved.spec[*bnp],opposite))
-      board_state[*bnp] = ubiubi_opposibe;
+      board_state[*bnp] = ubiubi_opposite;
     else
       board_state[*bnp] = ubiubi_taboo;
 

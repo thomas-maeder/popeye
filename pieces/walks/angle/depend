@@ -20,10 +20,10 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
  output/mode.enum solving/machinery/dispatch.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/machinery/solve.h \
- pieces/walks/hamster.h \
- solving/find_square_observer_tracking_back_from_target.h solving/fork.h \
+ debugging/trace.h solving/temporary_hacks.h solving/fork.h \
+ solving/machinery/solve.h pieces/walks/hoppers.h \
+ solving/move_generator.h pieces/walks/hamster.h \
+ solving/find_square_observer_tracking_back_from_target.h \
  debugging/assert.h
 
 pieces/walks/angle/hoppers.h:
@@ -84,16 +84,16 @@ debugging/trace.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
+solving/machinery/solve.h:
+
 pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 
-solving/machinery/solve.h:
-
 pieces/walks/hamster.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
-
-solving/fork.h:
 
 debugging/assert.h:

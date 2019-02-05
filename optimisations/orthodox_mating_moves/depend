@@ -132,9 +132,9 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  pieces/walks/vectors.h position/castling_rights.h \
  pieces/walks/pawns/promotee_sequence.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/ply.h solving/observation.h \
- solving/temporary_hacks.h solving/castling.h solving/move_generator.h \
- solving/machinery/slack_length.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/temporary_hacks.h solving/fork.h solving/castling.h \
+ solving/move_generator.h solving/machinery/slack_length.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -214,6 +214,8 @@ solving/ply.h:
 solving/observation.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 solving/castling.h:
 

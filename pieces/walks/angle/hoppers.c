@@ -34,16 +34,18 @@ static void angle_hoppers_generate_moves(vec_index_type kanf, vec_index_type ken
 
       {
         curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
+        if (is_square_empty(curr_generation->arrival))
           hoppers_push_move(k,sq_hurdle);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          hoppers_push_capture(k,sq_hurdle);
       }
 
       {
         curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1-1];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
+        if (is_square_empty(curr_generation->arrival))
           hoppers_push_move(k,sq_hurdle);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          hoppers_push_capture(k,sq_hurdle);
       }
     }
   }

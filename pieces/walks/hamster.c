@@ -17,7 +17,7 @@ void hamster_generate_moves(void)
     {
       curr_generation->arrival = sq_hurdle-vec[k];
       if (curr_generation->arrival!=sq_departure)
-        push_move();
+        push_move_no_capture();
     }
   }
 }

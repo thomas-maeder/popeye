@@ -15,7 +15,7 @@ static void generate_one_move(numvec dir_arrival, numvec dir_capture)
     if (is_square_empty(sq_capture))
     {
       curr_generation->arrival = sq_arrival;
-      push_move();
+      push_move_no_capture();
     }
     else
       generate_locust_capture(sq_capture,dir_arrival);

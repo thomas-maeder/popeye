@@ -621,7 +621,33 @@ void pop_move(void)
 
 DEFINE_COUNTER(add_to_move_generation_stack)
 
-void push_move(void)
+void push_move_no_capture(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
+  assert(current_move[nbply]<toppile);
+
+  TraceSquare(curr_generation->departure);
+  TraceSquare(curr_generation->arrival);
+  TraceEOL();
+
+  curr_generation->capture = curr_generation->arrival;
+  ++current_move[nbply];
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
+  ++current_move_id[nbply];
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void push_move_regular_capture(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

@@ -25,7 +25,7 @@ void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
     {
       curr_generation->arrival = find_end_of_line(sq_hurdle,vec[k]);
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        hoppers_push_move(k,sq_hurdle);
+        hoppers_push_capture(k,sq_hurdle);
     }
   }
 }

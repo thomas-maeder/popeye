@@ -197,11 +197,12 @@ extern move_generation_elmt *curr_generation;
 void pop_move(void);
 
 /* Push the move described in *curr_generation onto the stack */
-void push_move(void);
+void push_move_no_capture(void);
+void push_move_regular_capture(void);
 
 /* Push the capture move described in *curr_generation onto the stack.
  * @param sq_capture place of capture
- * @note use push_move() if sq_capture is equal to the arrival square
+ * @note use push_move_regular_capture() if sq_capture is equal to the arrival square
  */
 void push_move_capture_extra(square sq_capture);
 

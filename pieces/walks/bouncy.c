@@ -17,12 +17,12 @@ static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
     curr_generation->arrival = step_departure+vec[k];
     if (is_square_empty(curr_generation->arrival))
     {
-      push_move();
+      push_move_no_capture();
       if (x>0 && !NoEdge(curr_generation->arrival))
         bouncy_knight_generate_moves_recursive(curr_generation->arrival,x-1);
     }
     else if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -120,7 +120,7 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
 
     while (is_square_empty(curr_generation->arrival))
     {
-      push_move();
+      push_move_no_capture();
       if (!NoEdge(curr_generation->arrival) && !traversed(curr_generation->arrival))
       {
         bouncy_nightrider_generate_moves_recursive(curr_generation->arrival);
@@ -131,7 +131,7 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
     }
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 

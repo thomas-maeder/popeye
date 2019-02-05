@@ -12,7 +12,7 @@ static void superpawn_generate_noncaptures(numvec dir)
   for (curr_generation->arrival = curr_generation->departure+dir;
        is_square_empty(curr_generation->arrival);
        curr_generation->arrival += dir)
-    push_move();
+    push_move_no_capture();
 }
 
 static void superpawn_generate_captures(numvec dir)
@@ -21,7 +21,7 @@ static void superpawn_generate_captures(numvec dir)
 
   /* it can move from first rank */
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
 }
 
 /* Generate moves for a Super Pawn
