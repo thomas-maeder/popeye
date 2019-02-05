@@ -286,6 +286,23 @@ static void rider_try_moving_to(square sq_king, numvec dir_to_king)
 
   sq_target = find_end_of_line(curr_generation->arrival,dir_to_king);
   if (sq_target==sq_king)
+    push_move_no_capture();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void rider_try_capturing_on(square sq_king, numvec dir_to_king)
+{
+  square sq_target;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TraceValue("%d",dir_to_king);
+  TraceFunctionParamListEnd();
+
+  sq_target = find_end_of_line(curr_generation->arrival,dir_to_king);
+  if (sq_target==sq_king)
     push_move_regular_capture();
 
   TraceFunctionExit(__func__);
@@ -302,6 +319,21 @@ static void queen_try_moving_to(square sq_king)
 
   if (dir_to_king!=0)
     rider_try_moving_to(sq_king,dir_to_king);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void queen_try_capturing_on(square sq_king)
+{
+  numvec const dir_to_king = CheckDir[Queen][sq_king-curr_generation->arrival];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TraceFunctionParamListEnd();
+
+  if (dir_to_king!=0)
+    rider_try_capturing_on(sq_king,dir_to_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -325,7 +357,7 @@ static void queen(square sq_king, Side side)
       queen_try_moving_to(sq_king);
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      queen_try_moving_to(sq_king);
+      queen_try_capturing_on(sq_king);
   }
 
   TraceFunctionExit(__func__);
@@ -357,7 +389,7 @@ static void simple_rider_directly_approach_king(square sq_king,
 {
   curr_generation->arrival = find_end_of_line(curr_generation->departure,dir_to_king);
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    rider_try_moving_to(sq_king,dir_to_king);
+    rider_try_capturing_on(sq_king,dir_to_king);
 }
 
 static void simple_rider_indirectly_approach_king(square sq_king,
@@ -385,10 +417,13 @@ static void simple_rider_indirectly_approach_king(square sq_king,
       }
 
       /* We are at the end of the line or in checking distance */
-      if (dir_to_king!=0
-          && (is_square_empty(curr_generation->arrival)
-              || piece_belongs_to_opponent(curr_generation->arrival)))
-        rider_try_moving_to(sq_king,dir_to_king);
+      if (dir_to_king!=0)
+      {
+        if (is_square_empty(curr_generation->arrival))
+          rider_try_moving_to(sq_king,dir_to_king);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          rider_try_capturing_on(sq_king,dir_to_king);
+      }
     }
   }
 }

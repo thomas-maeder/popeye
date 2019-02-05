@@ -20,7 +20,7 @@ static void play_move(void)
   if (en_passant_is_ep_capture(sq_capture))
     move_effect_journal_do_piece_removal(move_effect_reason_ep_capture,
                                          sq_capture-offset_en_passant_capture);
-  else if (is_square_empty(sq_capture))
+  else if (is_no_capture(sq_capture))
     move_effect_journal_do_no_piece_removal();
   else
     move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,

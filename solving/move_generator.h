@@ -211,6 +211,8 @@ void push_move_capture_extra(square sq_capture);
  */
 void push_special_move(square sq_special);
 
+void push_null_move(void);
+
 /* Push the copy of a move from a different move generation
  * @param original identifies the original of which to push a copy
  */

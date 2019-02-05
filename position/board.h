@@ -209,7 +209,9 @@ enum
   retro_capture_departure = maxsquare+4,
   pawn_multistep = maxsquare,  /* must refer to a square that is always empty */
 
-  capture_of_invisible = maxsquare+5
+  capture_of_invisible = maxsquare+5,
+
+  no_capture = maxsquare+6
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
@@ -222,6 +224,12 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
 #define GridNum(s)      (sq_spec[(s)] >> Grid)
 #define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
+
+#define is_no_capture(sq) ((sq)==no_capture \
+                           || (sq)==pawn_multistep \
+                           || (sq)==kingside_castling \
+                           || (sq)==queenside_castling \
+                           || (sq)==messigny_exchange)
 
 #define is_on_board(sq) \
    (left_file<=(sq)%onerow && (sq)%onerow<=right_file \

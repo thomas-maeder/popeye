@@ -11,7 +11,6 @@
  */
 mummer_length_type must_capture_measure_length(void)
 {
-  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -19,7 +18,7 @@ mummer_length_type must_capture_measure_length(void)
 
   TraceSquare(sq_capture);TraceEOL();
 
-  result = !is_square_empty(sq_capture);
+  result = !is_no_capture(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
