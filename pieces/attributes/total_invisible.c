@@ -680,11 +680,11 @@ void total_invisible_pawn_generate_pawn_captures(slice_index si)
 
       curr_generation->arrival = curr_generation->departure+dir_vertical+dir_left;
       if (is_square_empty(curr_generation->arrival))
-        push_special_move(capture_of_invisible);
+        push_move_capture_extra(curr_generation->arrival);
 
       curr_generation->arrival = curr_generation->departure+dir_vertical+dir_right;
       if (is_square_empty(curr_generation->arrival))
-        push_special_move(capture_of_invisible);
+        push_move_capture_extra(curr_generation->arrival);
     }
   }
 
@@ -713,31 +713,23 @@ void total_invisible_special_moves_player_solve(slice_index si)
   {
     numecoup const curr = CURRMOVE_OF_PLY(nbply);
     move_generation_elmt * const move_gen_top = move_generation_stack+curr;
-    square const sq_arrival = move_gen_top->arrival;
     square const sq_capture = move_gen_top->capture;
     Side const side_victim = advers(SLICE_STARTER(si));
 
-    TraceValue("%u",sq_capture);
-    TraceValue("%u",capture_of_invisible);
-    TraceEOL();
-
-    if (sq_capture==capture_of_invisible)
+    if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
     {
       /* sneak the creation of a dummy piece into the previous ply - very dirty...,
        * but this prevents the dummy from being un-created when we undo this move's
        * effects
        */
       move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
-                                            sq_arrival,
+                                            sq_capture,
                                             Dummy,
                                             BIT(side_victim),
                                             side_victim);
       ++move_effect_journal_base[nbply];
 
-      // TODO this doesn't work once we add Locusts and the like
-      move_gen_top->capture = sq_arrival;
-
-      piece_choice[pawn_victims_number].pos = sq_arrival;
+      piece_choice[pawn_victims_number].pos = sq_capture;
 
       ++pawn_victims_number;
       pipe_solve_delegate(si);
@@ -1033,8 +1025,12 @@ static void copy_help_branch(slice_index si,
     assert(state->the_copy==no_slice);
 
     {
-      slice_index const prototype = alloc_pipe(STTotalInvisibleSpecialMovesPlayer);
-      slice_insertion_insert(si,&prototype,1);
+      slice_index const prototypes[] = {
+          alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleSpecialMovesPlayer)
+      };
+      enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(si,prototypes,nr_protypes);
     }
   }
 
