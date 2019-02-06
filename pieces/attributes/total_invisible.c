@@ -329,13 +329,17 @@ static void distribute_invisibles(slice_index si, unsigned int base)
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  if (bound_invisible_number==0)
+  play_phase = replaying_moves;
+
+  if (base==total_invisible_number)
+    play_with_placed_invisibles(si);
+  else if (bound_invisible_number==0)
   {
-    unsigned int top = total_invisible_number;
-    if (base==top)
-      play_with_placed_invisibles(si);
-    else
-      colour_invisible_breadth_first(si,base,base,top);
+    unsigned int i;
+    for (i = base+1;
+         i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
+         ++i)
+      colour_invisible_breadth_first(si,base,base,i);
   }
   else if (base+bound_invisible_number<=total_invisible_number)
   {
@@ -345,6 +349,8 @@ static void distribute_invisibles(slice_index si, unsigned int base)
          ++i)
       place_invisible_depth_first(si,square_order,base,base,base+i);
   }
+
+  play_phase = regular_play;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -388,14 +394,10 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
         if (count_max>bound_invisible_number)
           bound_invisible_number = count_max;
 
-        play_phase = replaying_moves;
-
         if (pawn_victims_number+bound_invisible_number>total_invisible_number)
           solve_result = previous_move_is_illegal;
         else
           distribute_invisibles(si,pawn_victims_number);
-
-        play_phase = regular_play;
 
         bound_invisible_number = save_bound;
       }
