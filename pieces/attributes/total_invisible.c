@@ -37,6 +37,9 @@ static stip_length_type combined_result;
 
 static square square_order[65];
 
+static unsigned long nr_tries_with_pieces;
+static unsigned long nr_tries_with_dummies;
+
 static struct
 {
     Side side;
@@ -61,7 +64,10 @@ static void play_with_placed_invisibles(slice_index si)
   if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
+  {
+    ++nr_tries_with_pieces;
     pipe_solve_delegate(si);
+  }
 
   if (solve_result>combined_result)
     combined_result = solve_result;
@@ -219,7 +225,13 @@ static void walk_invisible_depth_first(slice_index si,
         if (top==total_invisible_number)
           play_with_placed_invisibles(si);
         else
-          colour_invisible_breadth_first(si,top,top,total_invisible_number);
+        {
+          unsigned int i;
+          for (i = top+1;
+               i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
+               ++i)
+          colour_invisible_breadth_first(si,top,top,i);
+        }
       }
       else
         walk_invisible_depth_first(si,idx+1,base,top);
@@ -290,6 +302,7 @@ static void place_invisible_depth_first(slice_index si,
         {
           boolean success;
           stip_length_type const save_solve_result = solve_result;
+          ++nr_tries_with_dummies;
           pipe_solve_delegate(si);
           success = solve_result>immobility_on_next_move;
           solve_result = save_solve_result;
@@ -444,7 +457,14 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
   else
+  {
     unwrap_move_effects(nbply,si);
+//    move_generator_write_history();
+//    printf(" dum:%lu",nr_tries_with_dummies);
+//    printf(" pie:%lu\n",nr_tries_with_pieces);
+//    nr_tries_with_dummies = 0;
+//    nr_tries_with_pieces = 0;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
