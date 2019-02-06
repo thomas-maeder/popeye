@@ -19,6 +19,7 @@
 #include "solving/move_effect_journal.h"
 #include "output/plaintext/plaintext.h"
 #include "optimisations/orthodox_square_observation.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -28,14 +29,15 @@
 unsigned int total_invisible_number;
 
 static unsigned int bound_invisible_number = 0;
+static square bound_around;
 
-static unsigned int pawn_victims_number = 0;
+static unsigned int victims_number = 0;
 
 static ply ply_replayed;
 
 static stip_length_type combined_result;
 
-static square square_order[65];
+static square square_order_unbound[65];
 
 static unsigned long nr_tries_with_pieces;
 static unsigned long nr_tries_with_dummies;
@@ -63,11 +65,10 @@ static void play_with_placed_invisibles(slice_index si)
 
   if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
+  else if (++nr_tries_with_pieces > (1<<(total_invisible_number*5)))
+    solve_result = previous_move_has_not_solved;
   else
-  {
-    ++nr_tries_with_pieces;
     pipe_solve_delegate(si);
-  }
 
   if (solve_result>combined_result)
     combined_result = solve_result;
@@ -151,7 +152,7 @@ static void walk_invisible_breadth_first(slice_index si,
        piece_choice[idx].walk<=Bishop && combined_result!=previous_move_has_not_solved;
        ++piece_choice[idx].walk)
     if (idx+1==top)
-      place_invisible_breadth_first(si,square_order+top-base-1,base,base,top);
+      place_invisible_breadth_first(si,square_order_unbound+top-base-1,base,base,top);
     else
       walk_invisible_breadth_first(si,idx+1,base,top);
 
@@ -302,25 +303,29 @@ static void place_invisible_depth_first(slice_index si,
         {
           boolean success;
           stip_length_type const save_solve_result = solve_result;
-          ++nr_tries_with_dummies;
-          pipe_solve_delegate(si);
-          success = solve_result>immobility_on_next_move;
-          solve_result = save_solve_result;
-          if (success)
+          if (++nr_tries_with_dummies > (1<<(total_invisible_number*5)))
+            solve_result = previous_move_has_not_solved;
+          else
           {
-            TracePosition(being_solved.board,being_solved.spec);
+            pipe_solve_delegate(si);
+            success = solve_result>immobility_on_next_move;
+            solve_result = save_solve_result;
+            if (success)
             {
-              unsigned int i;
-              for (i = base; i!=top; ++i)
-                empty_square(piece_choice[i].pos);
-            }
+              TracePosition(being_solved.board,being_solved.spec);
+              {
+                unsigned int i;
+                for (i = base; i!=top; ++i)
+                  empty_square(piece_choice[i].pos);
+              }
 
-            colour_invisble_depth_first(si,base,base,top);
+              colour_invisble_depth_first(si,base,base,top);
 
-            {
-              unsigned int i;
-              for (i = base; i!=top; ++i)
-                occupy_square(piece_choice[i].pos,Dummy,BIT(White)|BIT(Black));;
+              {
+                unsigned int i;
+                for (i = base; i!=top; ++i)
+                  occupy_square(piece_choice[i].pos,Dummy,BIT(White)|BIT(Black));;
+              }
             }
           }
         }
@@ -333,6 +338,14 @@ static void place_invisible_depth_first(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static int square_compare_around_specific_square(void const *v1, void const *v2)
+{
+  square const *s1 = v1;
+  square const *s2 = v2;
+
+  return move_diff_code[abs(bound_around-*s1)]-move_diff_code[abs(bound_around-*s2)];
 }
 
 static void distribute_invisibles(slice_index si, unsigned int base)
@@ -356,14 +369,31 @@ static void distribute_invisibles(slice_index si, unsigned int base)
   }
   else if (base+bound_invisible_number<=total_invisible_number)
   {
+    square square_order_bound[65];
+    memmove(square_order_bound, boardnum, sizeof boardnum);
+    qsort(square_order_bound, 64, sizeof square_order_bound[0], &square_compare_around_specific_square);
+
     unsigned int i;
     for (i = bound_invisible_number;
          base+i<=total_invisible_number && combined_result!=previous_move_has_not_solved;
          ++i)
-      place_invisible_depth_first(si,square_order,base,base,base+i);
+      place_invisible_depth_first(si,square_order_bound,base,base,base+i);
   }
 
   play_phase = regular_play;
+
+  if (nr_tries_with_dummies>10000 || nr_tries_with_pieces>1000)
+  {
+    printf("\n");
+    move_generator_write_history();
+    printf(" vic:%u",base);
+    printf(" bou:%u",bound_invisible_number);
+    printf(" aro:");WriteSquare(&output_plaintext_engine,stdout,bound_around);
+    printf(" dum:%lu",nr_tries_with_dummies);
+    printf(" pie:%lu ",nr_tries_with_pieces);
+  }
+  nr_tries_with_dummies = 0;
+  nr_tries_with_pieces = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -405,12 +435,15 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
       {
         unsigned int const save_bound = bound_invisible_number;
         if (count_max>bound_invisible_number)
+        {
           bound_invisible_number = count_max;
+          bound_around = being_solved.king_square[count_white_checks>count_black_checks ? Black : White];
+        }
 
-        if (pawn_victims_number+bound_invisible_number>total_invisible_number)
+        if (victims_number+bound_invisible_number>total_invisible_number)
           solve_result = previous_move_is_illegal;
         else
-          distribute_invisibles(si,pawn_victims_number);
+          distribute_invisibles(si,victims_number);
 
         bound_invisible_number = save_bound;
       }
@@ -457,14 +490,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
                                                being_solved.king_square[White]))
     solve_result = previous_move_is_illegal;
   else
-  {
     unwrap_move_effects(nbply,si);
-//    move_generator_write_history();
-//    printf(" dum:%lu",nr_tries_with_dummies);
-//    printf(" pie:%lu\n",nr_tries_with_pieces);
-//    nr_tries_with_dummies = 0;
-//    nr_tries_with_pieces = 0;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -634,16 +660,16 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
     unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
     if (count_max>total_invisible_number)
        solve_result = previous_move_is_illegal;
-    else
+    else if (count_max>bound_invisible_number)
     {
       unsigned int const save_bound = bound_invisible_number;
-      if (count_max>bound_invisible_number)
-        bound_invisible_number = count_max;
-
+      bound_invisible_number = count_max;
+      bound_around = being_solved.king_square[count_white_checks>count_black_checks ? Black : White];
       pipe_solve_delegate(si);
-
       bound_invisible_number = save_bound;
     }
+    else
+      pipe_solve_delegate(si);
   }
 
   TraceFunctionExit(__func__);
@@ -751,11 +777,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                             side_victim);
       ++move_effect_journal_base[nbply];
 
-      piece_choice[pawn_victims_number].pos = sq_capture;
+      piece_choice[victims_number].pos = sq_capture;
 
-      ++pawn_victims_number;
+      ++victims_number;
       pipe_solve_delegate(si);
-      --pawn_victims_number;
+      --victims_number;
 
       --move_effect_journal_base[nbply];
     }
@@ -920,7 +946,7 @@ static void remove_self_check_guard(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static int square_compare(void const *v1, void const *v2)
+static int square_compare_around_both_kings(void const *v1, void const *v2)
 {
   int result;
   square const *s1 = v1;
@@ -974,8 +1000,8 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   output_plaintext_check_indication_disabled = true;
 
-  memmove(square_order, boardnum, sizeof boardnum);
-  qsort(square_order, 64, sizeof square_order[0], &square_compare);
+  memmove(square_order_unbound, boardnum, sizeof boardnum);
+  qsort(square_order_unbound, 64, sizeof square_order_unbound[0], &square_compare_around_both_kings);
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisiblePawnCaptureGenerator);
 
