@@ -540,15 +540,61 @@ static square rider_to_distance_2(slice_index si)
       square const sq_intermediate = sq_arrival+dir_arrival;
       TraceEnumerator(Side,side_in_check);
       TraceSquare(king_pos);
-      TraceValue("%d",diff_departure);
       TraceValue("%d",diff_arrival);
-      TraceValue("%d",dir_departure);
       TraceValue("%d",dir_arrival);
       TraceEOL();
 
       if (dir_departure==dir_arrival && 2*dir_arrival==diff_arrival
           && is_square_empty(sq_intermediate))
         result = sq_intermediate;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square rider_to_distance_1(slice_index si)
+{
+  square result = nullsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+    square const sq_departure = move_gen_top->departure;
+    square const sq_arrival = move_gen_top->arrival;
+    piece_walk_type const walk_moving = being_solved.board[sq_arrival];
+
+    TraceSquare(sq_departure);
+    TraceSquare(sq_arrival);
+    TraceWalk(walk_moving);
+    TraceEOL();
+
+    if (is_rider(walk_moving))
+    {
+      Side const side_in_check = advers(trait[nbply]);
+      square const king_pos = being_solved.king_square[side_in_check];
+      int const diff_departure = king_pos-sq_departure;
+      int const diff_arrival = king_pos-sq_arrival;
+      int const dir_departure = CheckDir[walk_moving][diff_departure];
+      int const dir_arrival = CheckDir[walk_moving][diff_arrival];
+      TraceEnumerator(Side,side_in_check);
+      TraceSquare(king_pos);
+      TraceValue("%d",diff_departure);
+      TraceValue("%d",diff_arrival);
+      TraceValue("%d",dir_departure);
+      TraceValue("%d",dir_arrival);
+      TraceEOL();
+
+      if (dir_departure==dir_arrival && dir_arrival==diff_arrival
+          && is_square_empty(sq_arrival))
+        result = sq_arrival;
     }
   }
 
@@ -679,6 +725,9 @@ static square find_interception_placement(slice_index si)
   TraceFunctionParamListEnd();
 
   result = rider_to_distance_2(si);
+
+  if (result==nullsquare)
+    result = rider_to_distance_1(si);
 
   if (result==nullsquare)
     result = king_to_distance_2(si);
