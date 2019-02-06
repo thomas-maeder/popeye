@@ -592,8 +592,7 @@ static square rider_to_distance_1(slice_index si)
       TraceValue("%d",dir_arrival);
       TraceEOL();
 
-      if (dir_departure==dir_arrival && dir_arrival==diff_arrival
-          && is_square_empty(sq_arrival))
+      if (dir_departure==dir_arrival && dir_arrival==diff_arrival)
         result = sq_arrival;
     }
   }
