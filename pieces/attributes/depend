@@ -677,8 +677,9 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  solving/check.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/machinery/slack_length.h solving/move_generator.h solving/pipe.h \
- output/plaintext/plaintext.h output/output.h \
- optimisations/orthodox_square_observation.h debugging/assert.h
+ output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
+ optimisations/orthodox_square_observation.h \
+ optimisations/orthodox_check_directions.h debugging/assert.h
 
 pieces/attributes/total_invisible.h:
 
@@ -796,6 +797,10 @@ output/plaintext/plaintext.h:
 
 output/output.h:
 
+output/plaintext/pieces.h:
+
 optimisations/orthodox_square_observation.h:
+
+optimisations/orthodox_check_directions.h:
 
 debugging/assert.h:

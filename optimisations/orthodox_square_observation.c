@@ -22,12 +22,12 @@ static boolean leapers_check_ortho(Side side_checking,
   return false;
 }
 
-static boolean king_check_ortho(Side side_checking, square sq_king)
+boolean king_check_ortho(Side side_checking, square sq_king)
 {
   return leapers_check_ortho(side_checking,sq_king, vec_queen_start,vec_queen_end, King);
 }
 
-static boolean knight_check_ortho(Side side_checking, square sq_king)
+boolean knight_check_ortho(Side side_checking, square sq_king)
 {
   return leapers_check_ortho(side_checking,sq_king, vec_knight_start,vec_knight_end, Knight);
 }
@@ -82,7 +82,7 @@ static boolean en_passant_test_check_ortho(Side side_checking,
   return result;
 }
 
-static boolean pawn_check_ortho(Side side_checking, square sq_king)
+boolean pawn_check_ortho(Side side_checking, square sq_king)
 {
   SquareFlags const capturable = side_checking==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
   boolean result = false;

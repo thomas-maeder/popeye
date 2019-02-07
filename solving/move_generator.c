@@ -41,9 +41,9 @@ void move_generator_write_history(void)
 {
   if (nbply!=ply_nil)
   {
-    fputs("\n",stdout);
-    write_history_recursive(nbply-1);
-    fputs("\n",stdout);
+//    fputs("\n",stdout);
+    write_history_recursive(nbply);
+//    fputs("\n",stdout);
   }
 }
 
