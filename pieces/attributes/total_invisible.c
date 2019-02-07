@@ -29,18 +29,14 @@
 
 unsigned int total_invisible_number;
 
-static unsigned int nr_bound_invisible = 0;
-static square bound_around;
-
 static unsigned int nr_placed_victims = 0;
-
 static unsigned int nr_placed_interceptors = 0;
 
 static ply ply_replayed;
 
 static stip_length_type combined_result;
 
-static square square_order_unbound[65];
+static square square_order_for_non_interceptors[65];
 
 static unsigned int taboo[nr_sides][maxsquare];
 
@@ -174,22 +170,11 @@ static boolean is_check_uninterceptable(Side side_in_check)
   return result;
 }
 
-// TOOD still necessary?
-static boolean is_square_used(square s, unsigned int base)
-{
-  unsigned int i;
-  for (i = 0; i!=base; ++i)
-    if (s==piece_choice[i].pos)
-      return true;
-
-  return false;
-}
-
-static void place_invisible_breadth_first(slice_index si,
-                                          square *pos_start,
-                                          unsigned int idx,
-                                          unsigned int base,
-                                          unsigned int top)
+static void place_invisible_non_interceptor(slice_index si,
+                                            square *pos_start,
+                                            unsigned int idx,
+                                            unsigned int base,
+                                            unsigned int top)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -211,7 +196,7 @@ static void place_invisible_breadth_first(slice_index si,
     for (pos = pos_start;
          *pos && combined_result!=previous_move_has_not_solved;
          ++pos)
-      if (is_square_empty(*pos) && !is_square_used(*pos,base))
+      if (is_square_empty(*pos))
         if (taboo[side][*pos]==0
             && !(is_pawn(walk)
                  && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
@@ -225,7 +210,7 @@ static void place_invisible_breadth_first(slice_index si,
             piece_choice[idx].pos = s;
 
             *pos = 0;
-            place_invisible_breadth_first(si,pos_start-1,idx+1,base,top);
+            place_invisible_non_interceptor(si,pos_start-1,idx+1,base,top);
             *pos = s;
           }
 
@@ -238,31 +223,7 @@ static void place_invisible_breadth_first(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void walk_invisible_breadth_first(slice_index si,
-                                         unsigned int idx,
-                                         unsigned int base,
-                                         unsigned int top)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",base);
-  TraceFunctionParam("%u",top);
-  TraceFunctionParamListEnd();
-
-  if (idx==top)
-    place_invisible_breadth_first(si,square_order_unbound+top-base-1,base,base,top);
-  else
-    for (piece_choice[idx].walk = Pawn;
-         piece_choice[idx].walk<=Bishop && combined_result!=previous_move_has_not_solved;
-         ++piece_choice[idx].walk)
-        walk_invisible_breadth_first(si,idx+1,base,top);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void colour_invisible_breadth_first(slice_index si,
+static void walk_invisible_non_interceptor(slice_index si,
                                            unsigned int idx,
                                            unsigned int base,
                                            unsigned int top)
@@ -275,7 +236,31 @@ static void colour_invisible_breadth_first(slice_index si,
   TraceFunctionParamListEnd();
 
   if (idx==top)
-    walk_invisible_breadth_first(si,base,base,top);
+    place_invisible_non_interceptor(si,square_order_for_non_interceptors+top-base-1,base,base,top);
+  else
+    for (piece_choice[idx].walk = Pawn;
+         piece_choice[idx].walk<=Bishop && combined_result!=previous_move_has_not_solved;
+         ++piece_choice[idx].walk)
+        walk_invisible_non_interceptor(si,idx+1,base,top);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_invisible_non_interceptor(slice_index si,
+                                             unsigned int idx,
+                                             unsigned int base,
+                                             unsigned int top)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
+  TraceFunctionParamListEnd();
+
+  if (idx==top)
+    walk_invisible_non_interceptor(si,base,base,top);
   else
   {
     // TODO make this readable
@@ -283,7 +268,7 @@ static void colour_invisible_breadth_first(slice_index si,
     for (adversary = White; adversary!=nr_sides && combined_result!=previous_move_has_not_solved; ++adversary)
     {
       piece_choice[idx].side = advers(adversary);
-      colour_invisible_breadth_first(si,idx+1,base,top);
+      colour_invisible_non_interceptor(si,idx+1,base,top);
     }
   }
 
@@ -304,7 +289,7 @@ static void walk_interceptor(slice_index si,
   TraceFunctionParamListEnd();
 
   if (idx==top)
-    colour_invisible_breadth_first(si,top,top,total_invisible_number);
+    colour_invisible_non_interceptor(si,top,top,total_invisible_number);
   else
   {
     square const place = piece_choice[idx].pos;
@@ -640,6 +625,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
   update_taboo(+1);
 
+  /* necessary for detecting checks by pawns and leapers */
   if (is_check_uninterceptable(trait[nbply]))
     solve_result = previous_move_is_illegal;
   else
@@ -663,7 +649,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     {
       printf("\n");
       move_generator_write_history();
-      printf(" aro:");WriteSquare(&output_plaintext_engine,stdout,bound_around);
       printf(" tri:%lu",nr_tries);
     }
     nr_tries = 0;
@@ -693,7 +678,6 @@ static boolean is_move_still_playable(slice_index si)
     TraceEOL();
 
     assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
-    // TODO optimize with intelligent mode?
     generate_moves_for_piece(sq_departure);
 
     {
@@ -738,24 +722,10 @@ static void copy_move_effects(void)
   TraceValue("%u",nbply);
   TraceEOL();
 
+  // TODO use memmove()?
   while (replayed_curr!=replayed_top)
   {
-    /* accidental capture of a placed total invisible? */
-    if (move_effect_journal[replayed_curr+move_effect_journal_index_offset_capture].type==move_effect_no_piece_removal
-        && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].type==move_effect_piece_movement
-        && move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].reason==move_effect_reason_moving_piece_movement
-        && !is_square_empty(move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].u.piece_movement.to))
-    {
-      square const from = move_effect_journal[replayed_curr+move_effect_journal_index_offset_movement].u.piece_movement.to;
-
-      move_effect_journal[curr].type = move_effect_piece_removal;
-      move_effect_journal[curr].reason = move_effect_reason_regular_capture;
-      move_effect_journal[curr].u.piece_removal.on = from;
-      move_effect_journal[curr].u.piece_removal.flags = being_solved.spec[from];
-      move_effect_journal[curr].u.piece_removal.walk =  being_solved.board[from];
-    }
-    else
-      move_effect_journal[curr] = move_effect_journal[replayed_curr];
+    move_effect_journal[curr] = move_effect_journal[replayed_curr];
     ++replayed_curr;
     ++curr;
   }
@@ -791,7 +761,11 @@ void total_invisible_move_repeater_solve(slice_index si)
 
   nextply(SLICE_STARTER(si));
 
-  if (is_move_still_playable(si))
+  assert(is_move_still_playable(si));
+
+  /* With the current placement algorithm, the move is always playable */
+
+  /*if (is_move_still_playable(si))*/
   {
     copy_move_effects();
     redo_move_effects();
@@ -800,8 +774,8 @@ void total_invisible_move_repeater_solve(slice_index si)
     --ply_replayed;
     undo_move_effects();
   }
-  else
-    solve_result = previous_move_is_illegal;
+  /*else
+    solve_result = previous_move_is_illegal;*/
 
   finply();
 
@@ -833,23 +807,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   if (is_check_uninterceptable(trait[nbply]))
     solve_result = previous_move_is_illegal;
   else
-  {
-    unsigned int count_white_checks = count_interceptable_orthodox_checks(White,being_solved.king_square[Black]);
-    unsigned int count_black_checks = count_interceptable_orthodox_checks(Black,being_solved.king_square[White]);
-    unsigned int const count_max = count_white_checks>count_black_checks ? count_white_checks : count_black_checks;
-    if (count_max>total_invisible_number)
-       solve_result = previous_move_is_illegal;
-    else if (count_max>nr_bound_invisible)
-    {
-      unsigned int const save_bound = nr_bound_invisible;
-      nr_bound_invisible = count_max;
-      bound_around = being_solved.king_square[count_white_checks>count_black_checks ? Black : White];
-      pipe_solve_delegate(si);
-      nr_bound_invisible = save_bound;
-    }
-    else
-      pipe_solve_delegate(si);
-  }
+    pipe_solve_delegate(si);
 
   update_taboo(-1);
 
@@ -1049,9 +1007,10 @@ static void subsitute_goal_guard(slice_index si,
 
     if (remembered!=no_slice)
     {
+      /* self check is impossible with the current optimisations for orthodox pieces
       slice_index prototype = alloc_pipe(STTotalInvisibleGoalGuard);
       SLICE_STARTER(prototype) = SLICE_STARTER(remembered);
-      goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
+      goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1); */
       pipe_remove(remembered);
     }
   }
@@ -1100,6 +1059,10 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachedTester,
                                              &subsitute_goal_guard);
+    /* self check is impossible with the current optimisations for orthodox pieces */
+    stip_structure_traversal_override_single(&st_nested,
+                                             STSelfCheckGuard,
+                                             &remove_the_pipe);
     stip_traverse_structure(si,&st_nested);
   }
 
@@ -1182,8 +1145,8 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   output_plaintext_check_indication_disabled = true;
 
-  memmove(square_order_unbound, boardnum, sizeof boardnum);
-  qsort(square_order_unbound, 64, sizeof square_order_unbound[0], &square_compare_around_both_kings);
+  memmove(square_order_for_non_interceptors, boardnum, sizeof boardnum);
+  qsort(square_order_for_non_interceptors, 64, sizeof square_order_for_non_interceptors[0], &square_compare_around_both_kings);
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisiblePawnCaptureGenerator);
 
