@@ -263,11 +263,12 @@ static void colour_invisible_non_interceptor(slice_index si,
     walk_invisible_non_interceptor(si,base,base,top);
   else
   {
-    // TODO make this readable
-    Side adversary;
-    for (adversary = White; adversary!=nr_sides && combined_result!=previous_move_has_not_solved; ++adversary)
+    piece_choice[idx].side = Black;
+    colour_invisible_non_interceptor(si,idx+1,base,top);
+
+    if (combined_result!=previous_move_has_not_solved)
     {
-      piece_choice[idx].side = advers(adversary);
+      piece_choice[idx].side = White;
       colour_invisible_non_interceptor(si,idx+1,base,top);
     }
   }
@@ -420,7 +421,9 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
       if (base+nr_placed_interceptors<total_invisible_number)
       {
         square s;
-        for (s = king_pos+vec[kcurr]; is_square_empty(s); s += vec[kcurr])
+        for (s = king_pos+vec[kcurr];
+             is_square_empty(s) && combined_result!=previous_move_has_not_solved;
+             s += vec[kcurr])
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
@@ -443,9 +446,9 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     }
     else
       deal_with_check_to_be_intercepted_diagonal(current_ply,
-                                               si,
-                                               base,
-                                               kanf,kcurr+1,kend);
+                                                 si,
+                                                 base,
+                                                 kanf,kcurr+1,kend);
   }
 
   TraceFunctionExit(__func__);
@@ -468,9 +471,9 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
 
   if (kcurr>kend)
     deal_with_check_to_be_intercepted_diagonal(current_ply,
-                                             si,
-                                             base,
-                                             vec_bishop_start,vec_bishop_start,vec_bishop_end);
+                                               si,
+                                               base,
+                                               vec_bishop_start,vec_bishop_start,vec_bishop_end);
   else
   {
     Side const side_in_check = trait[nbply];
@@ -492,7 +495,9 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
       if (base+nr_placed_interceptors<total_invisible_number)
       {
         square s;
-        for (s = king_pos+vec[kcurr]; is_square_empty(s); s += vec[kcurr])
+        for (s = king_pos+vec[kcurr];
+             is_square_empty(s) && combined_result!=previous_move_has_not_solved;
+             s += vec[kcurr])
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
@@ -515,9 +520,9 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
     }
     else
       deal_with_check_to_be_intercepted_orthogonal(current_ply,
-                                             si,
-                                             base,
-                                             kanf,kcurr+1,kend);
+                                                   si,
+                                                   base,
+                                                   kanf,kcurr+1,kend);
   }
 
   TraceFunctionExit(__func__);
@@ -535,9 +540,9 @@ static void deal_with_check_to_be_intercepted(ply current_ply,
   TraceFunctionParamListEnd();
 
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
-                                         si,
-                                         base,
-                                         vec_rook_start,vec_rook_start,vec_rook_end);
+                                               si,
+                                               base,
+                                               vec_rook_start,vec_rook_start,vec_rook_end);
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
