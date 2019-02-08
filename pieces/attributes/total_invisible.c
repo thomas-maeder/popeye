@@ -97,8 +97,11 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
     while (is_square_empty(s) && taboo[White][s]>0 && taboo[Black][s]>0)
       s += vec[k];
 
-    result = (get_walk_of_piece_on_square(s)==rider_walk
-              && TSTFLAG(being_solved.spec[s],side_checking));
+    {
+      piece_walk_type const walk = get_walk_of_piece_on_square(s);
+      result = ((walk==rider_walk || walk==Queen)
+                && TSTFLAG(being_solved.spec[s],side_checking));
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -160,9 +163,6 @@ static boolean is_check_uninterceptable(Side side_in_check)
 
   result = result || (being_solved.number_of_pieces[side_checking][Bishop]>0
                       && is_rider_check_uninterceptable(side_checking,sq_king, vec_bishop_start,vec_bishop_end, Bishop));
-
-  result = result || (being_solved.number_of_pieces[side_checking][Queen]>0
-                      && is_rider_check_uninterceptable(side_checking,sq_king, vec_queen_start,vec_queen_end, Queen));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
