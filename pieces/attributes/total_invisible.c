@@ -54,6 +54,9 @@ static enum
 } play_phase = regular_play;
 
 static unsigned long nr_tries = 0;
+static unsigned long threshold_expensive;
+
+static boolean only_intercepting_guards;
 
 static void play_with_placed_invisibles(slice_index si)
 {
@@ -170,6 +173,104 @@ static boolean is_check_uninterceptable(Side side_in_check)
   return result;
 }
 
+static boolean is_check_still_uninterceptable(Side side_in_check, square sq_intercepted)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceSquare(sq_intercepted);
+  TraceFunctionParamListEnd();
+
+  if (is_square_empty(sq_intercepted))
+  {
+    occupy_square(sq_intercepted,Dummy,BIT(White)|BIT(Black));
+    result = is_check_uninterceptable(side_in_check);
+    empty_square(sq_intercepted);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_double_check_uninterceptable(Side side_in_check)
+{
+  boolean result = false;
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  {
+    vec_index_type k;
+    for (k = vec_rook_start; !result && k<=vec_rook_end; k++)
+      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,Rook))
+        result = is_check_still_uninterceptable(side_in_check,king_pos+vec[k]);
+
+    for (k = vec_bishop_start; !result && k<=vec_bishop_end; k++)
+      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,Bishop))
+        result = is_check_still_uninterceptable(side_in_check,king_pos+vec[k]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void place_invisible_non_interceptor_dummies(slice_index si,
+                                                    square *pos_start,
+                                                    unsigned int idx,
+                                                    unsigned int base,
+                                                    unsigned int top)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(*pos_start);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
+  TraceFunctionParamListEnd();
+
+  if (idx==top)
+    play_with_placed_invisibles(si);
+  else
+  {
+    square *pos;
+    for (pos = pos_start;
+         *pos && combined_result!=previous_move_has_not_solved;
+         ++pos)
+    {
+      square const s = *pos;
+      TraceSquare(s);
+      TraceValue("%u",is_square_empty(s));
+      TraceValue("%u",taboo[White][s]);
+      TraceValue("%u",taboo[Black][s]);
+      TraceEOL();
+
+      if (is_square_empty(s) && (taboo[White][s]==0 || taboo[Black][s]==0))
+      {
+        occupy_square(s,Dummy,BIT(White)|BIT(Black));
+
+        piece_choice[idx].pos = s;
+
+        *pos = 0;
+        place_invisible_non_interceptor_dummies(si,pos_start-1,idx+1,base,top);
+        *pos = s;
+
+        empty_square(s);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_invisible_non_interceptor(slice_index si,
                                             square *pos_start,
                                             unsigned int idx,
@@ -193,15 +294,20 @@ static void place_invisible_non_interceptor(slice_index si,
     SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
     square *pos;
 
+    TraceEnumerator(Side,side);
+    TraceWalk(walk);
+    TraceEOL();
+
     for (pos = pos_start;
          *pos && combined_result!=previous_move_has_not_solved;
          ++pos)
-      if (is_square_empty(*pos))
-        if (taboo[side][*pos]==0
+    {
+      square const s = *pos;
+      if (is_square_empty(s))
+        if (taboo[side][s]==0
             && !(is_pawn(walk)
-                 && (TSTFLAG(sq_spec[*pos],PromSq) || TSTFLAG(sq_spec[*pos],BaseSq))))
+                 && (TSTFLAG(sq_spec[s],PromSq) || TSTFLAG(sq_spec[s],BaseSq))))
         {
-          square const s = *pos;
           ++being_solved.number_of_pieces[side][walk];
           occupy_square(s,walk,BIT(side));
 
@@ -217,6 +323,7 @@ static void place_invisible_non_interceptor(slice_index si,
           empty_square(s);
           --being_solved.number_of_pieces[side][walk];
         }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -290,7 +397,27 @@ static void walk_interceptor(slice_index si,
   TraceFunctionParamListEnd();
 
   if (idx==top)
-    colour_invisible_non_interceptor(si,top,top,total_invisible_number);
+  {
+    unsigned int i;
+
+    threshold_expensive = 1;
+
+    for (i = base; i!=top; ++i)
+      threshold_expensive *= 5*2*5;
+
+    if (only_intercepting_guards)
+    {
+      for (; i!=total_invisible_number; ++i)
+        threshold_expensive *= 20;
+      place_invisible_non_interceptor_dummies(si,square_order_for_non_interceptors+total_invisible_number-top-1,top,top,total_invisible_number);
+    }
+    else
+    {
+      for (; i!=total_invisible_number; ++i)
+        threshold_expensive *= 20*2*5;
+      colour_invisible_non_interceptor(si,top,top,total_invisible_number);
+    }
+  }
   else
   {
     square const place = piece_choice[idx].pos;
@@ -645,14 +772,16 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
     TraceEOL();
 
+    only_intercepting_guards = is_double_check_uninterceptable(advers(trait[nbply]));
+
     combined_result = previous_move_is_illegal;
     deal_with_check_to_be_intercepted(nbply,si,nr_placed_victims);
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
     if ((combined_result==previous_move_is_illegal && nr_tries>0)
-        || nr_tries>10000)
+        || nr_tries>threshold_expensive)
     {
-      printf("\n");
+      printf("\nexpensive final position: ");
       move_generator_write_history();
       printf(" tri:%lu",nr_tries);
     }
