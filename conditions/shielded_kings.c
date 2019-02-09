@@ -9,8 +9,8 @@
 
 static boolean is_not_king_captures_guarded_king(numecoup n)
 {
-  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  square const sq_observer = move_generation_stack[n].departure;
+  square const sq_observee = move_generation_stack[n].capture;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -19,8 +19,8 @@ static boolean is_not_king_captures_guarded_king(numecoup n)
 
   if (TSTFLAG(being_solved.spec[sq_observer],Royal) && TSTFLAG(being_solved.spec[sq_observee],Royal))
     result = !is_square_observed_general(advers(trait[nbply]),
-                          move_generation_stack[n].capture,
-                          EVALUATE(observer));
+                                         move_generation_stack[n].capture,
+                                         EVALUATE(observer));
   else
     result = true;
 
