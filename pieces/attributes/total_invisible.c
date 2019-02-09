@@ -158,10 +158,10 @@ static boolean is_check_uninterceptable(Side side_in_check)
   result = result || (being_solved.number_of_pieces[side_checking][Knight]>0
                       && knight_check_ortho(side_checking,sq_king));
 
-  result = result || (being_solved.number_of_pieces[side_checking][Rook]>0
+  result = result || (being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0
                       && is_rider_check_uninterceptable(side_checking,sq_king, vec_rook_start,vec_rook_end, Rook));
 
-  result = result || (being_solved.number_of_pieces[side_checking][Bishop]>0
+  result = result || (being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0
                       && is_rider_check_uninterceptable(side_checking,sq_king, vec_bishop_start,vec_bishop_end, Bishop));
 
   TraceFunctionExit(__func__);
