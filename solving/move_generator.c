@@ -59,6 +59,7 @@ static slice_index const slice_rank_order[] =
     STUltraPatrolMovesForPieceGenerator,
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
+    STTotalInvisibleSpecialMoveGenerator,
     STCastlingGenerator,
     STAnnanMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
@@ -89,7 +90,6 @@ static slice_index const slice_rank_order[] =
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
     STMoveForPieceGeneratorPathsJoint,
-    STTotalInvisibleSpecialMoveGenerator,
     STMovesForPieceBasedOnWalkGenerator,
     STGeneratedMovesForPiece
 };

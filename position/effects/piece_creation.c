@@ -3,7 +3,7 @@
 #include "debugging/assert.h"
 
 
-/* Add an newly created piece to the current move of the current ply
+/* Add a newly created piece to the current move of the current ply
  * @param reason reason for creating the piece
  * @param on where to insert the piece
  * @param created nature of created piece
@@ -57,6 +57,7 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
     --being_solved.number_of_pieces[Black][created];
 
   assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);
+  ClearPieceId(being_solved.spec[on]);
   --being_solved.currPieceId;
 
   empty_square(on);

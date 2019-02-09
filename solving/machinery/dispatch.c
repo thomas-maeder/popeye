@@ -2087,7 +2087,7 @@ void dispatch(slice_index si)
       break;
 
     case STTotalInvisibleSpecialMoveGenerator:
-      total_invisible_pawn_generate_special_moves(si);
+      total_invisible_generate_special_moves(si);
       break;
 
     case STTotalInvisibleSpecialMovesPlayer:

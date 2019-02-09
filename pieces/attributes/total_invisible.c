@@ -17,6 +17,7 @@
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/move_effect_journal.h"
+#include "solving/castling.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "optimisations/orthodox_square_observation.h"
@@ -28,6 +29,8 @@
 #include <string.h>
 
 unsigned int total_invisible_number;
+
+static unsigned int nr_total_invisibles_left;
 
 static unsigned int nr_placed_victims = 0;
 static unsigned int nr_placed_interceptors = 0;
@@ -407,15 +410,15 @@ static void walk_interceptor(slice_index si,
 
     if (only_intercepting_guards)
     {
-      for (; i!=total_invisible_number; ++i)
+      for (; i!=nr_total_invisibles_left; ++i)
         threshold_expensive *= 20;
-      place_invisible_non_interceptor_dummies(si,square_order_for_non_interceptors+total_invisible_number-top-1,top,top,total_invisible_number);
+      place_invisible_non_interceptor_dummies(si,square_order_for_non_interceptors+nr_total_invisibles_left-top-1,top,top,nr_total_invisibles_left);
     }
     else
     {
-      for (; i!=total_invisible_number; ++i)
+      for (; i!=nr_total_invisibles_left; ++i)
         threshold_expensive *= 20*2*5;
-      colour_invisible_non_interceptor(si,top,top,total_invisible_number);
+      colour_invisible_non_interceptor(si,top,top,nr_total_invisibles_left);
     }
   }
   else
@@ -430,7 +433,7 @@ static void walk_interceptor(slice_index si,
       {
         ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
         occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
-        if (idx+1==total_invisible_number || !is_check_uninterceptable(advers(piece_choice[idx].side)))
+        if (idx+1==nr_total_invisibles_left || !is_check_uninterceptable(advers(piece_choice[idx].side)))
           walk_interceptor(si,idx+1,base,top);
         empty_square(place);
         --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
@@ -539,18 +542,34 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     Side const side_in_check = trait[nbply];
     Side const side_checking = advers(side_in_check);
     square const king_pos = being_solved.king_square[side_in_check];
-
     square const sq_end = find_end_of_line(king_pos,vec[kcurr]);
     piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+    TraceEnumerator(Side,side_in_check);
+    TraceEnumerator(Side,side_checking);
+    TraceSquare(king_pos);
+    TraceSquare(sq_end);
+    TraceWalk(walk_at_end);
+    TraceEOL();
+
     if ((walk_at_end==Bishop || walk_at_end==Queen)
         && TSTFLAG(being_solved.spec[sq_end],side_checking))
     {
-      if (base+nr_placed_interceptors<total_invisible_number)
+      TraceValue("%u",base);
+      TraceValue("%u",nr_placed_interceptors);
+      TraceValue("%u",nr_total_invisibles_left);
+      TraceEOL();
+      if (base+nr_placed_interceptors<nr_total_invisibles_left)
       {
         square s;
         for (s = king_pos+vec[kcurr];
              is_square_empty(s) && combined_result!=previous_move_has_not_solved;
              s += vec[kcurr])
+        {
+          TraceSquare(s);
+          TraceValue("%u",taboo[White][s]);
+          TraceValue("%u",taboo[Black][s]);
+          TraceEOL();
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
@@ -565,6 +584,7 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
             --nr_placed_interceptors;
             empty_square(s);
           }
+        }
       }
       else
       {
@@ -619,12 +639,21 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
     if ((walk_at_end==Rook || walk_at_end==Queen)
         && TSTFLAG(being_solved.spec[sq_end],side_checking))
     {
-      if (base+nr_placed_interceptors<total_invisible_number)
+      TraceValue("%u",base);
+      TraceValue("%u",nr_placed_interceptors);
+      TraceValue("%u",nr_total_invisibles_left);
+      TraceEOL();
+      if (base+nr_placed_interceptors<nr_total_invisibles_left)
       {
         square s;
         for (s = king_pos+vec[kcurr];
              is_square_empty(s) && combined_result!=previous_move_has_not_solved;
              s += vec[kcurr])
+        {
+          TraceSquare(s);
+          TraceValue("%u",taboo[White][s]);
+          TraceValue("%u",taboo[Black][s]);
+          TraceEOL();
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
@@ -639,6 +668,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
             --nr_placed_interceptors;
             empty_square(s);
           }
+        }
       }
       else
       {
@@ -690,19 +720,35 @@ static void update_taboo(int delta)
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  taboo[White][sq_departure] += delta;
-  taboo[Black][sq_departure] += delta;
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceEOL();
 
   taboo[trait[nbply]][sq_arrival] += delta;
 
-  /* en passant etc. */
-  if (!is_no_capture(sq_capture))
+  switch (sq_capture)
   {
-    taboo[White][sq_capture] += delta;
-    taboo[Black][sq_capture] += delta;
-  }
+    case kingside_castling :
+    case queenside_castling:
+    case pawn_multistep:
+    {
+      square const sq_intermediate = (sq_departure+sq_arrival)/2;
+      taboo[White][sq_intermediate] += delta;
+      taboo[Black][sq_intermediate] += delta;
+      break;
+    }
 
-  // TODO: castling
+    case messigny_exchange:
+    case retro_capture_departure:
+    case no_capture:
+      break;
+
+    default:
+      taboo[White][sq_capture] += delta;
+      taboo[Black][sq_capture] += delta;
+      break;
+  }
 
   if (is_rider(walk))
   {
@@ -719,15 +765,9 @@ static void update_taboo(int delta)
   }
   else if (is_pawn(walk))
   {
+    /* arrival square must not be blocked */
     taboo[White][sq_arrival] += delta;
     taboo[Black][sq_arrival] += delta;
-
-    if (sq_capture==pawn_multistep)
-    {
-      /* outside the board if no double step */
-      taboo[White][(sq_departure+sq_arrival)/2] += delta;
-      taboo[Black][(sq_departure+sq_arrival)/2] += delta;
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -779,7 +819,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
     if ((combined_result==previous_move_is_illegal && nr_tries>0)
-        || nr_tries>threshold_expensive)
+        || (nr_tries>threshold_expensive && threshold_expensive>1000))
     {
       printf("\nexpensive final position: ");
       move_generator_write_history();
@@ -802,8 +842,10 @@ static boolean is_move_still_playable(slice_index si)
   TraceFunctionParamListEnd();
 
   {
+    Side const side = SLICE_STARTER(si);
     square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].departure;
     square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].arrival;
+    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
 
     TraceValue("%u",ply_replayed);
     TraceSquare(sq_departure);
@@ -811,8 +853,24 @@ static boolean is_move_still_playable(slice_index si)
     TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture);
     TraceEOL();
 
-    assert(TSTFLAG(being_solved.spec[sq_departure],SLICE_STARTER(si)));
+    // TODO redo (and undo) the pre-capture effect?
+
+    if (sq_capture==queenside_castling)
+      SETCASTLINGFLAGMASK(side,ra_cancastle);
+    else if (sq_capture==kingside_castling)
+      SETCASTLINGFLAGMASK(side,rh_cancastle);
+    else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
+      occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black));
+
+    assert(TSTFLAG(being_solved.spec[sq_departure],side));
     generate_moves_for_piece(sq_departure);
+
+    if (sq_capture==queenside_castling)
+      CLRCASTLINGFLAGMASK(side,ra_cancastle);
+    else if (sq_capture==kingside_castling)
+      CLRCASTLINGFLAGMASK(side,rh_cancastle);
+    else if (!is_no_capture(sq_capture) && being_solved.board[sq_capture]==Dummy)
+      empty_square(sq_capture);
 
     {
       numecoup start = MOVEBASE_OF_PLY(nbply);
@@ -889,17 +947,33 @@ static void copy_move_effects(void)
  */
 void total_invisible_move_repeater_solve(slice_index si)
 {
+  boolean playable;
+  numecoup const curr = CURRMOVE_OF_PLY(ply_replayed);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_capture = move_gen_top->capture;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
 
-  assert(is_move_still_playable(si));
+  /* With the current placement algorithm, the move is always playable unless it is a castling */
 
-  /* With the current placement algorithm, the move is always playable */
+  switch (sq_capture)
+  {
+    case queenside_castling:
+    case kingside_castling:
+      playable = is_move_still_playable(si);
+      break;
 
-  /*if (is_move_still_playable(si))*/
+    default:
+      assert(is_move_still_playable(si));
+      playable = true;
+      break;
+  }
+
+  if (playable)
   {
     copy_move_effects();
     redo_move_effects();
@@ -908,8 +982,8 @@ void total_invisible_move_repeater_solve(slice_index si)
     --ply_replayed;
     undo_move_effects();
   }
-  /*else
-    solve_result = previous_move_is_illegal;*/
+  else
+    solve_result = previous_move_is_illegal;
 
   finply();
 
@@ -1023,10 +1097,63 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionResultEnd();
 }
 
+static void prepare_king_side_castling_generation(slice_index si)
+{
+  Side const side = trait[nbply];
+  square const square_a = side==White ? square_a1 : square_a8;
+  square const square_h = square_a+file_h;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (nr_total_invisibles_left>0 && is_square_empty(square_h))
+  {
+    ++being_solved.number_of_pieces[side][Rook];
+    occupy_square(square_h,Rook,BIT(side));
+    SETCASTLINGFLAGMASK(side,rh_cancastle);
+    pipe_move_generation_delegate(si);
+    CLRCASTLINGFLAGMASK(side,rh_cancastle);
+    empty_square(square_h);
+    --being_solved.number_of_pieces[side][Rook];
+  }
+  else
+    pipe_move_generation_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void prepare_queen_side_castling_generation(slice_index si)
+{
+  Side const side = trait[nbply];
+  square const square_a = side==White ? square_a1 : square_a8;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (nr_total_invisibles_left>0 && is_square_empty(square_a))
+  {
+    ++being_solved.number_of_pieces[side][Rook];
+    occupy_square(square_a,Rook,BIT(side));
+    SETCASTLINGFLAGMASK(side,ra_cancastle);
+    prepare_king_side_castling_generation(si);
+    CLRCASTLINGFLAGMASK(side,ra_cancastle);
+    empty_square(square_a);
+    --being_solved.number_of_pieces[side][Rook];
+  }
+  else
+    prepare_king_side_castling_generation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Generate moves for a single piece
  * @param identifies generator slice
  */
-void total_invisible_pawn_generate_special_moves(slice_index si)
+void total_invisible_generate_special_moves(slice_index si)
 {
   square const sq_departure = curr_generation->departure ;
 
@@ -1042,6 +1169,13 @@ void total_invisible_pawn_generate_special_moves(slice_index si)
         generate_pawn_capture_left(si,trait[nbply]==White ? dir_up : dir_down);
         break;
 
+      case King:
+        if (TSTCASTLINGFLAGMASK(trait[nbply],castlings)>=k_cancastle)
+          prepare_queen_side_castling_generation(si);
+        else
+          pipe_move_generation_delegate(si);
+        break;
+
       default:
         pipe_move_generation_delegate(si);
         break;
@@ -1053,6 +1187,7 @@ void total_invisible_pawn_generate_special_moves(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1076,27 +1211,81 @@ void total_invisible_special_moves_player_solve(slice_index si)
     numecoup const curr = CURRMOVE_OF_PLY(nbply);
     move_generation_elmt * const move_gen_top = move_generation_stack+curr;
     square const sq_capture = move_gen_top->capture;
-    Side const side_victim = advers(SLICE_STARTER(si));
 
     switch (sq_capture)
     {
       case pawn_multistep:
+        move_effect_journal_do_null_effect();
         pipe_solve_delegate(si);
         break;
 
       case messigny_exchange:
+        move_effect_journal_do_null_effect();
         pipe_solve_delegate(si);
         break;
 
       case kingside_castling:
-        pipe_solve_delegate(si);
+      {
+        Side const side = trait[nbply];
+        square const square_a = side==White ? square_a1 : square_a8;
+        square const square_h = square_a+file_h;
+
+        TraceText("kingside_castling\n");
+
+        assert(nr_total_invisibles_left>0);
+        if (is_square_empty(square_h))
+        {
+          move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
+                                                square_h,
+                                                Rook,
+                                                BIT(side),
+                                                side);
+
+          piece_choice[nr_placed_victims].pos = square_h;
+
+          ++nr_placed_victims;
+          pipe_solve_delegate(si);
+          --nr_placed_victims;
+        }
+        else
+        {
+          move_effect_journal_do_null_effect();
+          pipe_solve_delegate(si);
+        }
         break;
+      }
 
       case queenside_castling:
-        pipe_solve_delegate(si);
+      {
+        Side const side = trait[nbply];
+        square const square_a = side==White ? square_a1 : square_a8;
+
+        TraceText("queenside_castling\n");
+
+        if (is_square_empty(square_a))
+        {
+          move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
+                                                square_a,
+                                                Rook,
+                                                BIT(side),
+                                                side);
+
+          piece_choice[nr_placed_victims].pos = square_a;
+
+          ++nr_placed_victims;
+          pipe_solve_delegate(si);
+          --nr_placed_victims;
+        }
+        else
+        {
+          move_effect_journal_do_null_effect();
+          pipe_solve_delegate(si);
+        }
         break;
+      }
 
       case no_capture:
+        move_effect_journal_do_null_effect();
         pipe_solve_delegate(si);
         break;
 
@@ -1104,27 +1293,24 @@ void total_invisible_special_moves_player_solve(slice_index si)
         /* pawn captures total invisible? */
         if (is_square_empty(sq_capture))
         {
-          /* sneak the creation of a dummy piece into the previous ply - very dirty...,
-           * but this prevents the dummy from being un-created when we undo this move's
-           * effects
-           */
+          Side const side_victim = advers(SLICE_STARTER(si));
           move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
                                                 sq_capture,
                                                 Dummy,
                                                 BIT(side_victim),
                                                 side_victim);
-          ++move_effect_journal_base[nbply];
 
           piece_choice[nr_placed_victims].pos = sq_capture;
 
           ++nr_placed_victims;
           pipe_solve_delegate(si);
           --nr_placed_victims;
-
-          --move_effect_journal_base[nbply];
         }
         else
+        {
+          move_effect_journal_do_null_effect();
           pipe_solve_delegate(si);
+        }
         break;
     }
   }
@@ -1163,6 +1349,21 @@ static void remove_the_pipe(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remove_castling_player(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  dealloc_slice(SLICE_NEXT2(si));
   pipe_remove(si);
 
   TraceFunctionExit(__func__);
@@ -1243,10 +1444,9 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STPostMoveIterationInitialiser,
                                              &remove_the_pipe);
-    // TODO like this, this would cause a slice leak (STCastlingPlayer is a fork type!)
-//    stip_structure_traversal_override_single(&st_nested,
-//                                             STCastlingPlayer,
-//                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STCastlingPlayer,
+                                             &remove_castling_player);
     stip_structure_traversal_override_single(&st_nested,
                                              STMovePlayer,
                                              &remove_the_pipe);
@@ -1350,7 +1550,27 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
+  {
+    square const *s;
+    for (s = boardnum; *s; ++s)
+      if (!is_square_empty(*s))
+      {
+        taboo[White][*s] = 1;
+        taboo[Black][*s] = 1;
+      }
+  }
+
   pipe_solve_delegate(si);
+
+  {
+    square const *s;
+    for (s = boardnum; *s; ++s)
+      if (!is_square_empty(*s))
+      {
+        taboo[White][*s] = 0;
+        taboo[Black][*s] = 0;
+      }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1454,7 +1674,7 @@ void solving_instrument_total_invisible(slice_index si)
 
   // bail out at STAttackAdapter
 
-  // input for total_invisible_number, initialize to 0
+  // input for nr_total_invisibles_left, initialize to 0
 
   // what about:
   // - structured stipulations?
@@ -1487,6 +1707,10 @@ void solving_instrument_total_invisible(slice_index si)
   }
 
   TraceStipulation(si);
+
+  nr_total_invisibles_left = total_invisible_number;
+
+  move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
