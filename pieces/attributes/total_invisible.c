@@ -58,31 +58,6 @@ static unsigned long threshold_expensive;
 
 static boolean only_intercepting_guards;
 
-static void play_with_placed_invisibles(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  if (is_in_check(advers(SLICE_STARTER(si))))
-    solve_result = previous_move_is_illegal;
-  else
-  {
-    play_phase = replaying_moves;
-    ++nr_tries;
-    pipe_solve_delegate(si);
-    play_phase = regular_play;
-  }
-
-  if (solve_result>combined_result)
-    combined_result = solve_result;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -220,6 +195,31 @@ static boolean is_double_check_uninterceptable(Side side_in_check)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void play_with_placed_invisibles(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  if (is_in_check(advers(SLICE_STARTER(si))))
+    solve_result = previous_move_is_illegal;
+  else
+  {
+    play_phase = replaying_moves;
+    ++nr_tries;
+    pipe_solve_delegate(si);
+    play_phase = regular_play;
+  }
+
+  if (solve_result>combined_result)
+    combined_result = solve_result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void place_invisible_non_interceptor_dummies(slice_index si,

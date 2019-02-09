@@ -17,4 +17,8 @@ boolean is_square_uninterceptably_observed_ortho(Side side_checking,
 
 unsigned int count_interceptable_orthodox_checks(Side side_checking, square sq_target);
 
+boolean king_check_ortho(Side side_checking, square sq_king);
+boolean knight_check_ortho(Side side_checking, square sq_king);
+boolean pawn_check_ortho(Side side_checking, square sq_king);
+
 #endif
