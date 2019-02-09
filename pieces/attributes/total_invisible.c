@@ -981,34 +981,74 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Generate moves for a single piece
- * @param identifies generator slice
- */
-void total_invisible_pawn_generate_pawn_captures(slice_index si)
+static void generate_pawn_capture_right(slice_index si, int dir_vertical)
 {
+  square const s = curr_generation->departure+dir_vertical+dir_right;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_move_generation_delegate(si);
+  if (is_square_empty(s))
+  {
+    occupy_square(s,Dummy,BIT(White)|BIT(Black));
+    pipe_move_generation_delegate(si);
+    empty_square(s);
+  }
+  else
+    pipe_move_generation_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_pawn_capture_left(slice_index si, int dir_vertical)
+{
+  square const s = curr_generation->departure+dir_vertical+dir_left;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (is_square_empty(s))
+  {
+    occupy_square(s,Dummy,BIT(White)|BIT(Black));
+    generate_pawn_capture_right(si,dir_vertical);
+    empty_square(s);
+  }
+  else
+    generate_pawn_capture_right(si,dir_vertical);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void total_invisible_pawn_generate_special_moves(slice_index si)
+{
+  square const sq_departure = curr_generation->departure ;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (play_phase==regular_play)
   {
-    square const sq_departure = curr_generation->departure ;
-    Side const side = trait[nbply];
-    if (TSTFLAG(being_solved.spec[sq_departure],side) && being_solved.board[sq_departure]==Pawn)
+    switch (being_solved.board[sq_departure])
     {
-      int const dir_vertical = trait[nbply]==White ? dir_up : dir_down;
+      case Pawn:
+        generate_pawn_capture_left(si,trait[nbply]==White ? dir_up : dir_down);
+        break;
 
-      curr_generation->arrival = curr_generation->departure+dir_vertical+dir_left;
-      if (is_square_empty(curr_generation->arrival))
-        push_move_capture_extra(curr_generation->arrival);
-
-      curr_generation->arrival = curr_generation->departure+dir_vertical+dir_right;
-      if (is_square_empty(curr_generation->arrival))
-        push_move_capture_extra(curr_generation->arrival);
+      default:
+        pipe_move_generation_delegate(si);
+        break;
     }
   }
+  else
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1038,29 +1078,55 @@ void total_invisible_special_moves_player_solve(slice_index si)
     square const sq_capture = move_gen_top->capture;
     Side const side_victim = advers(SLICE_STARTER(si));
 
-    if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
+    switch (sq_capture)
     {
-      /* sneak the creation of a dummy piece into the previous ply - very dirty...,
-       * but this prevents the dummy from being un-created when we undo this move's
-       * effects
-       */
-      move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
-                                            sq_capture,
-                                            Dummy,
-                                            BIT(side_victim),
-                                            side_victim);
-      ++move_effect_journal_base[nbply];
+      case pawn_multistep:
+        pipe_solve_delegate(si);
+        break;
 
-      piece_choice[nr_placed_victims].pos = sq_capture;
+      case messigny_exchange:
+        pipe_solve_delegate(si);
+        break;
 
-      ++nr_placed_victims;
-      pipe_solve_delegate(si);
-      --nr_placed_victims;
+      case kingside_castling:
+        pipe_solve_delegate(si);
+        break;
 
-      --move_effect_journal_base[nbply];
+      case queenside_castling:
+        pipe_solve_delegate(si);
+        break;
+
+      case no_capture:
+        pipe_solve_delegate(si);
+        break;
+
+      default:
+        /* pawn captures total invisible? */
+        if (is_square_empty(sq_capture))
+        {
+          /* sneak the creation of a dummy piece into the previous ply - very dirty...,
+           * but this prevents the dummy from being un-created when we undo this move's
+           * effects
+           */
+          move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
+                                                sq_capture,
+                                                Dummy,
+                                                BIT(side_victim),
+                                                side_victim);
+          ++move_effect_journal_base[nbply];
+
+          piece_choice[nr_placed_victims].pos = sq_capture;
+
+          ++nr_placed_victims;
+          pipe_solve_delegate(si);
+          --nr_placed_victims;
+
+          --move_effect_journal_base[nbply];
+        }
+        else
+          pipe_solve_delegate(si);
+        break;
     }
-    else
-      pipe_solve_delegate(si);
   }
 
   TraceFunctionExit(__func__);
@@ -1282,7 +1348,7 @@ void total_invisible_instrumenter_solve(slice_index si)
   memmove(square_order_for_non_interceptors, boardnum, sizeof boardnum);
   qsort(square_order_for_non_interceptors, 64, sizeof square_order_for_non_interceptors[0], &square_compare_around_both_kings);
 
-  solving_instrument_move_generation(si,nr_sides,STTotalInvisiblePawnCaptureGenerator);
+  solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
   pipe_solve_delegate(si);
 

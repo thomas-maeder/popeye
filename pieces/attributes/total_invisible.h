@@ -113,7 +113,7 @@ void total_invisible_special_moves_player_solve(slice_index si);
 /* Generate moves for a single piece
  * @param identifies generator slice
  */
-void total_invisible_pawn_generate_pawn_captures(slice_index si);
+void total_invisible_pawn_generate_special_moves(slice_index si);
 
 /* Instrument the solvers with support for Total Invisible pieces
  * @param si identifies the root slice of the stipulation

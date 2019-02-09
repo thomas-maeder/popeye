@@ -2086,8 +2086,8 @@ void dispatch(slice_index si)
       total_invisible_goal_guard_solve(si);
       break;
 
-    case STTotalInvisiblePawnCaptureGenerator:
-      total_invisible_pawn_generate_pawn_captures(si);
+    case STTotalInvisibleSpecialMoveGenerator:
+      total_invisible_pawn_generate_special_moves(si);
       break;
 
     case STTotalInvisibleSpecialMovesPlayer:

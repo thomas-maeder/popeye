@@ -561,7 +561,7 @@
     ENUMERATOR(STTotalInvisibleInstrumenter),                           \
     ENUMERATOR(STTotalInvisibleUninterceptableSelfCheckGuard),          \
     ENUMERATOR(STTotalInvisibleGoalGuard),                              \
-    ENUMERATOR(STTotalInvisiblePawnCaptureGenerator),                   \
+    ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
     ENUMERATOR(STTotalInvisibleSpecialMovesPlayer),                     \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
