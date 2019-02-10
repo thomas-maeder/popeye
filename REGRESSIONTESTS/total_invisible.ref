@@ -1,0 +1,314 @@
+
+            Kjell Widlert
+       Sake tourney 2018, Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   Q   3
+|                                   |
+2   .   .   K   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 3
+
+a) 
+
+  1  (e3*f2 )
+  1.e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
+  1.e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  2  (e3*d2 )
+  1.e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  3  (Ke4-d3 )
+  4  (Ke4-f3 )
+  1.Ke4-f3 Kc2-d3   2.e3*f2 Bb5-c6 #
+  1.Ke4-f3 Qh3-e6   2.Kf3-e4 Bb5-c6 #
+  1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
+  5  (Ke4-f5 )
+  6  (Ke4-d5 )
+  1.Ke4-d5 Bb5-c6   2.Kd5-e4 Qh3-e6 #
+  7  (Ke4-d4 )
+  8  (Ke4-e5 )
+  9  (Ke4-f4 )
+ 10  (Sh5-f4 )
+ 11  (Sh5-g3 )
+ 12  (Sh5-g7 )
+ 13  (Sh5-f6 )
+  add_to_move_generation_stack:     4831052
+                     play_move:      918962
+ is_white_king_square_attacked:      288781
+ is_black_king_square_attacked:      343141
+
+b) wKc2-->g6  
+
+ 14  (e3*f2 )
+  1.e3*f2 Qh3-c3   2.f2*g1=S Bb5-c6 #
+  1.e3*f2 Qh3-c3   2.f2*g1=B Bb5-c6 #
+  1.e3*f2 Qh3-c3   2.f2*e1=Q Bb5-c6 #
+  1.e3*f2 Qh3-c3   2.f2*e1=S Bb5-c6 #
+  1.e3*f2 Qh3-c3   2.f2*e1=R Bb5-c6 #
+  1.e3*f2 Qh3-c3   2.f2*e1=B Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*g1=Q Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*g1=S Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*g1=R Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*g1=B Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*e1=Q Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*e1=S Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*e1=R Bb5-c6 #
+  1.e3*f2 Qh3-g3   2.f2*e1=B Bb5-c6 #
+ 15  (e3*d2 )
+  1.e3*d2 Qh3-c3   2.d2*e1=Q Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*e1=S Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*e1=R Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*e1=B Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*c1=Q Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*c1=S Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*c1=R Bb5-c6 #
+  1.e3*d2 Qh3-c3   2.d2*c1=B Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*e1=Q Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*e1=S Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*e1=R Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*e1=B Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*c1=S Bb5-c6 #
+  1.e3*d2 Qh3-g3   2.d2*c1=B Bb5-c6 #
+  1.e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+ 16  (Ke4-d3 )
+  1.Ke4-d3 Bb5-c6   2.Kd3-e4 Qh3-f5 #
+ 17  (Ke4-f3 )
+ 18  (Ke4-f5 )
+ 19  (Ke4-d5 )
+  1.Ke4-d5 Bb5-c6   2.Kd5-e4 Qh3-f5 #
+ 20  (Ke4-d4 )
+ 21  (Ke4-e5 )
+ 22  (Ke4-f4 )
+ 23  (Sh5-f4 )
+ 24  (Sh5-g3 )
+ 25  (Sh5-g7 )
+ 26  (Sh5-f6 )
+  add_to_move_generation_stack:     3684732
+                     play_move:      761315
+ is_white_king_square_attacked:      115512
+ is_black_king_square_attacked:      281793
+
+solution finished.
+
+
+
+Michel Caillaud & Igor Ver\vs\vcagin
+       Sake tourney 2018, Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7  -R  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   Q   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+
+  1  (Ra7-a1 )
+  2  (Ra7-a2 )
+  3  (Ra7-a3 )
+  4  (Ra7-a4 )
+  5  (Ra7-a5 )
+  6  (Ra7-a6 )
+  7  (Ra7-a8 )
+  8  (b7-b5 )
+  9  (b7-b6 )
+ 10  (b7*c6 )
+ 11  (b7*a6 )
+ 12  (0-0-0 )
+  1.0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
+ 13  (0-0 )
+ 14  (Ke8-d7 )
+ 15  (Ke8-f7 )
+ 16  (Ke8-e7 )
+ 17  (Ke8-d8 )
+ 18  (Ke8-f8 )
+  add_to_move_generation_stack:     9403762
+                     play_move:     1049914
+ is_white_king_square_attacked:      194208
+ is_black_king_square_attacked:      320356
+
+solution finished.
+
+
+
+            Kjell Widlert
+       Sake tourney 2018, 4HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   B  -K   .   .   S   .   5
+|                                   |
+4   .   .   .   .   .   P   .   .   4
+|                                   |
+3   .   .   .   .   .  -Q   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 2
+
+  1  (Qf3-d1 )
+  2  (Qf3-e2 )
+  3  (Qf3-h1 )
+  4  (Qf3-g2 )
+  5  (Qf3-h5 )
+  1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
+  6  (Qf3-g4 )
+  7  (Qf3-e4 )
+  8  (Qf3-f1 )
+  9  (Qf3-f2 )
+ 10  (Qf3-a3 )
+ 11  (Qf3-b3 )
+ 12  (Qf3-c3 )
+ 13  (Qf3-d3 )
+ 14  (Qf3-e3 )
+ 15  (Qf3*f4 )
+ 16  (Qf3-h3 )
+  1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
+ 17  (Qf3-g3 )
+ 18  (Kd5-c4 )
+ 19  (Kd5-e4 )
+ 20  (Kd5-e6 )
+ 21  (Kd5-c6 )
+ 22  (Kd5-d4 )
+ 23  (Kd5*c5 )
+ 24  (Kd5-d6 )
+ 25  (Kd5-e5 )
+  add_to_move_generation_stack:    47334851
+                     play_move:     8089171
+ is_white_king_square_attacked:      856779
+ is_black_king_square_attacked:     4771437
+
+solution finished.
+
+
+
+            Kjell Widlert
+      Sake tourney 2018, 5th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .  -K   .   B   .   Q   5
+|                                   |
+4   .   .   .   .  -Q   .   .   .   4
+|                                   |
+3   .   P   .   S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 2
+
+a) 
+
+  1  (Qe4*d3 )
+  2  (Qe4-h1 )
+  3  (Qe4-g2 )
+  4  (Qe4-f3 )
+  5  (Qe4*f5 )
+  6  (Qe4-e1 )
+  7  (Qe4-e2 )
+  8  (Qe4-e3 )
+  9  (Qe4-a4 )
+ 10  (Qe4-b4 )
+ 11  (Qe4-c4 )
+ 12  (Qe4-d4 )
+ 13  (Qe4-e8 )
+ 14  (Qe4-e7 )e4e7d3c5e7h4f5e4
+  1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
+ 15  (Qe4-e6 )
+ 16  (Qe4-e5 )
+ 17  (Qe4-h4 )
+ 18  (Qe4-g4 )
+ 19  (Qe4-f4 )
+ 20  (Kd5-c4 )
+ 21  (Kd5-e6 )
+ 22  (Kd5-c6 )
+ 23  (Kd5-d4 )
+ 24  (Kd5-c5 )
+ 25  (Kd5-d6 )
+ 26  (Kd5-e5 )
+  add_to_move_generation_stack:  2881976345
+                     play_move:  1039824318
+ is_white_king_square_attacked:    34146487
+ is_black_king_square_attacked:   937239146
+
+b) wSb5-->d7  
+
+ 27  (Qe4*d3 )
+ 28  (Qe4-h1 )
+ 29  (Qe4-g2 )
+ 30  (Qe4-f3 )
+ 31  (Qe4*f5 )
+ 32  (Qe4-e1 )
+ 33  (Qe4-e2 )
+ 34  (Qe4-e3 )
+ 35  (Qe4-a4 )
+ 36  (Qe4-b4 )e4b4h5d1b4e1d3b4
+  1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
+ 37  (Qe4-c4 )
+ 38  (Qe4-d4 )
+ 39  (Qe4-e8 )
+ 40  (Qe4-e7 )
+ 41  (Qe4-e6 )
+ 42  (Qe4-e5 )
+ 43  (Qe4-h4 )
+ 44  (Qe4-g4 )
+ 45  (Qe4-f4 )
+ 46  (Kd5-c4 )
+ 47  (Kd5-e6 )
+ 48  (Kd5-c6 )
+ 49  (Kd5-d4 )
+ 50  (Kd5-c5 )
+ 51  (Kd5-d6 )
+ 52  (Kd5-e5 )
+  add_to_move_generation_stack:   214348985
+                     play_move:    71470486
+ is_white_king_square_attacked:     2818432
+ is_black_king_square_attacked:    62363729
+
+solution finished.
+
+

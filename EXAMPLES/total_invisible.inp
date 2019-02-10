@@ -1,0 +1,38 @@
+begin
+
+protocol total_invisible.ref
+
+author Kjell Widlert
+origin Sake tourney 2018, Comm
+pieces 2 white kc2 qh3 bb5 se2 black ke4 sh5 pe3
+stipulation h#2
+option movenum
+twin move c2 g6
+
+next
+
+author Michel Caillaud & Igor Ver\vs\vcagin
+origin Sake tourney 2018, Comm
+pieces 2 white kh1 qh3 black ke8 ra7 pb7
+stipulation h#2
+option movenum
+
+next
+
+author Kjell Widlert
+origin Sake tourney 2018, 4HM
+pieces 3 white kh7 rc8c1 bc5 sg5 pf4 black kd5 qf3
+stipulation h#2 
+option movenum
+
+next
+
+author Kjell Widlert
+origin Sake tourney 2018, 5th HM
+pieces 4 white kh8 qh5 bf5 sb5d3 pb3 black kd5 qe4
+stipulation h#2
+option movenum
+twin move b5 d7
+
+end
+
