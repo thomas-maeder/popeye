@@ -13,8 +13,8 @@
 boolean is_square_observed_ortho(Side side_checking,
                                  square sq_target);
 
-boolean is_square_uninterceptably_observed_ortho(Side side_checking,
-                                                 square sq_target);
+vec_index_type is_square_uninterceptably_observed_ortho(Side side_checking,
+                                                        square sq_target);
 
 unsigned int count_interceptable_orthodox_checks(Side side_checking, square sq_target);
 

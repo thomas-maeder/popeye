@@ -20,7 +20,7 @@ option movenum
 next
 
 author Kjell Widlert
-origin Sake tourney 2018, 4HM
+origin Sake tourney 2018, 4th HM
 pieces 3 white kh7 rc8c1 bc5 sg5 pf4 black kd5 qf3
 stipulation h#2 
 option movenum
@@ -33,6 +33,15 @@ pieces 4 white kh8 qh5 bf5 sb5d3 pb3 black kd5 qe4
 stipulation h#2
 option movenum
 twin move b5 d7
+
+next
+
+author Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+origin Sake tourney 2018, 6th HM
+pieces 5 white kh1 rh6 bb7g5 sg3 pe2f2f4 black kg4 rd1e1 bb3g1 pe3e5
+stipulation h#2
+option movenum
+twin move e5 h3
 
 end
 
