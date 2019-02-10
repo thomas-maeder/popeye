@@ -91,10 +91,10 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
   return result;
 }
 
-static boolean is_rider_check_uninterceptable(Side side_checking, square king_pos,
-                                              vec_index_type kanf, vec_index_type kend, piece_walk_type rider_walk)
+static vec_index_type is_rider_check_uninterceptable(Side side_checking, square king_pos,
+                                                     vec_index_type kanf, vec_index_type kend, piece_walk_type rider_walk)
 {
-  boolean result = false;
+  vec_index_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_checking);
@@ -109,7 +109,7 @@ static boolean is_rider_check_uninterceptable(Side side_checking, square king_po
     for (k = kanf; !result && k<=kend; k++)
       if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,rider_walk))
       {
-        result = true;
+        result = k;
         break;
       }
   }
@@ -120,9 +120,9 @@ static boolean is_rider_check_uninterceptable(Side side_checking, square king_po
   return result;
 }
 
-static boolean is_check_uninterceptable(Side side_in_check)
+static vec_index_type is_check_uninterceptable(Side side_in_check)
 {
-  boolean result = false;
+  vec_index_type result = 0;
   Side const side_checking = advers(side_in_check);
   square const sq_king = being_solved.king_square[side_in_check];
 
@@ -151,9 +151,9 @@ static boolean is_check_uninterceptable(Side side_in_check)
   return result;
 }
 
-static boolean is_check_still_uninterceptable(Side side_in_check, square sq_intercepted)
+static vec_index_type is_check_still_uninterceptable(Side side_in_check, square sq_intercepted)
 {
-  boolean result = false;
+  vec_index_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -173,9 +173,9 @@ static boolean is_check_still_uninterceptable(Side side_in_check, square sq_inte
   return result;
 }
 
-static boolean is_double_check_uninterceptable(Side side_in_check)
+static vec_index_type is_double_check_uninterceptable(Side side_in_check)
 {
-  boolean result = false;
+  vec_index_type result = 0;
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
 
@@ -184,14 +184,15 @@ static boolean is_double_check_uninterceptable(Side side_in_check)
   TraceFunctionParamListEnd();
 
   {
-    vec_index_type k;
-    for (k = vec_rook_start; !result && k<=vec_rook_end; k++)
-      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,Rook))
-        result = is_check_still_uninterceptable(side_in_check,king_pos+vec[k]);
-
-    for (k = vec_bishop_start; !result && k<=vec_bishop_end; k++)
-      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,Bishop))
-        result = is_check_still_uninterceptable(side_in_check,king_pos+vec[k]);
+    vec_index_type k = is_rider_check_uninterceptable(side_checking,king_pos,vec_rook_start,vec_rook_end,Rook);
+    if (k!=0 && is_check_still_uninterceptable(side_in_check,king_pos+vec[k]))
+      result = k;
+    else
+    {
+      k = is_rider_check_uninterceptable(side_checking,king_pos,vec_bishop_start,vec_bishop_end,Bishop);
+      if (k!=0 && is_check_still_uninterceptable(side_in_check,king_pos+vec[k]))
+        result = k;
+    }
   }
 
   TraceFunctionExit(__func__);

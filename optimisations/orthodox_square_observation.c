@@ -5,10 +5,10 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-static boolean leapers_check_ortho(Side side_checking,
-                                   square sq_king,
-                                   vec_index_type kanf, vec_index_type kend,
-                                   piece_walk_type p)
+static vec_index_type leapers_check_ortho(Side side_checking,
+                                          square sq_king,
+                                          vec_index_type kanf, vec_index_type kend,
+                                          piece_walk_type p)
 {
   vec_index_type k;
   for (k = kanf; k<=kend; k++)
@@ -16,18 +16,18 @@ static boolean leapers_check_ortho(Side side_checking,
     square const sq_departure = sq_king+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(being_solved.spec[sq_departure],side_checking))
-      return true;
+      return k;
   }
 
-  return false;
+  return 0;
 }
 
-boolean king_check_ortho(Side side_checking, square sq_king)
+vec_index_type king_check_ortho(Side side_checking, square sq_king)
 {
   return leapers_check_ortho(side_checking,sq_king, vec_queen_start,vec_queen_end, King);
 }
 
-boolean knight_check_ortho(Side side_checking, square sq_king)
+vec_index_type knight_check_ortho(Side side_checking, square sq_king)
 {
   return leapers_check_ortho(side_checking,sq_king, vec_knight_start,vec_knight_end, Knight);
 }
@@ -82,10 +82,10 @@ static boolean en_passant_test_check_ortho(Side side_checking,
   return result;
 }
 
-boolean pawn_check_ortho(Side side_checking, square sq_king)
+vec_index_type pawn_check_ortho(Side side_checking, square sq_king)
 {
   SquareFlags const capturable = side_checking==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
-  boolean result = false;
+  vec_index_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_checking);
@@ -97,15 +97,18 @@ boolean pawn_check_ortho(Side side_checking, square sq_king)
     numvec const dir_forward = side_checking==White ? dir_up : dir_down;
     numvec const dir_forward_right = dir_forward+dir_right;
     numvec const dir_forward_left = dir_forward+dir_left;
+    numvec const dir_back = side_checking==White ? dir_down : dir_up;
+    numvec const dir_back_right = dir_back+dir_right;
+    numvec const dir_back_left = dir_back+dir_right;
 
     if (pawn_test_check_ortho(side_checking,sq_king-dir_forward_right))
-      result = true;
+      result = dir_back_left;
     else if (pawn_test_check_ortho(side_checking,sq_king-dir_forward_left))
-      result = true;
+      result = dir_back_right;
     else if (en_passant_test_check_ortho(side_checking,sq_king,dir_forward_right))
-      result = true;
+      result = dir_back_left;
     else if (en_passant_test_check_ortho(side_checking,sq_king,dir_forward_left))
-      result = true;
+      result = dir_back_right;
   }
 
   TraceFunctionExit(__func__);
