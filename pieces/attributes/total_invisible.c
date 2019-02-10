@@ -491,6 +491,9 @@ static void unwrap_move_effects(ply current_ply,
                                 unsigned int base)
 {
   ply const save_nbply = nbply;
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_departure = move_gen_top->departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -501,9 +504,18 @@ static void unwrap_move_effects(ply current_ply,
 
   undo_move_effects();
 
+  /* it is ok to place a total invisible on sq_departure if we have moved to this square during the play */
+  assert(taboo[White][sq_departure]>0);
+  assert(taboo[Black][sq_departure]>0);
+  --taboo[White][sq_departure];
+  --taboo[Black][sq_departure];
+
   nbply = parent_ply[nbply];
   deal_with_check_to_be_intercepted(current_ply,si,base);
   nbply = save_nbply;
+
+  ++taboo[White][sq_departure];
+  ++taboo[Black][sq_departure];
 
   redo_move_effects();
 
@@ -727,6 +739,9 @@ static void update_taboo(int delta)
 
   taboo[trait[nbply]][sq_arrival] += delta;
 
+  taboo[White][sq_departure] += delta;
+  taboo[Black][sq_departure] += delta;
+
   switch (sq_capture)
   {
     case kingside_castling :
@@ -901,9 +916,10 @@ static boolean is_move_still_playable(slice_index si)
 
 static void copy_move_effects(void)
 {
-  move_effect_journal_index_type replayed_curr = move_effect_journal_base[ply_replayed];
+  move_effect_journal_index_type const replayed_base = move_effect_journal_base[ply_replayed];
   move_effect_journal_index_type const replayed_top = move_effect_journal_base[ply_replayed+1];
-  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type replayed_curr;
+  move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -914,15 +930,35 @@ static void copy_move_effects(void)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  // TODO use memmove()?
-  while (replayed_curr!=replayed_top)
+  move_effect_journal_base[nbply+1] += (replayed_top-replayed_base);
+  curr = move_effect_journal_base[nbply+1];
+  replayed_curr = replayed_top;
+
+  while (replayed_curr>replayed_base+move_effect_journal_index_offset_movement)
+    move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
+
+  /* do we have to invent a removal effect for an inserted total invisible? */
   {
-    move_effect_journal[curr] = move_effect_journal[replayed_curr];
-    ++replayed_curr;
-    ++curr;
+    square const to = move_effect_journal[replayed_curr].u.piece_movement.to;
+    assert(move_effect_journal[replayed_curr].type==move_effect_piece_movement);
+    if (is_square_empty(to))
+      move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
+    else
+    {
+      --curr;
+      --replayed_curr;
+      move_effect_journal[curr].type = move_effect_piece_removal;
+      move_effect_journal[curr].u.piece_removal.on = to;
+      move_effect_journal[curr].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+      move_effect_journal[curr].u.piece_removal.flags = being_solved.spec[to];
+    }
   }
 
-  move_effect_journal_base[nbply+1] = curr;
+  /* finally, copy our pre-capture effect */
+  move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
+
+  assert(curr==move_effect_journal_base[nbply]);
+  assert(replayed_curr==replayed_base);
 
   TraceValue("%u",move_effect_journal_base[nbply]);
   TraceValue("%u",move_effect_journal_base[nbply+1]);
@@ -1550,27 +1586,7 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
-  {
-    square const *s;
-    for (s = boardnum; *s; ++s)
-      if (!is_square_empty(*s))
-      {
-        taboo[White][*s] = 1;
-        taboo[Black][*s] = 1;
-      }
-  }
-
   pipe_solve_delegate(si);
-
-  {
-    square const *s;
-    for (s = boardnum; *s; ++s)
-      if (!is_square_empty(*s))
-      {
-        taboo[White][*s] = 0;
-        taboo[Black][*s] = 0;
-      }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
