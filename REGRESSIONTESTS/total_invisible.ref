@@ -44,10 +44,10 @@ a)
  11  (Sh5-g3 )
  12  (Sh5-g7 )
  13  (Sh5-f6 )
-  add_to_move_generation_stack:     4915895
-                     play_move:      865265
- is_white_king_square_attacked:      147219
- is_black_king_square_attacked:      268494
+  add_to_move_generation_stack:     4573165
+                     play_move:      813493
+ is_white_king_square_attacked:      134040
+ is_black_king_square_attacked:      255585
 
 b) wKc2-->g6  
 
@@ -94,10 +94,10 @@ b) wKc2-->g6
  24  (Sh5-g3 )
  25  (Sh5-g7 )
  26  (Sh5-f6 )
-  add_to_move_generation_stack:     3904025
-                     play_move:      713356
- is_white_king_square_attacked:      120658
- is_black_king_square_attacked:      219940
+  add_to_move_generation_stack:     3742429
+                     play_move:      682700
+ is_white_king_square_attacked:      110389
+ is_black_king_square_attacked:      217383
 
 solution finished.
 
@@ -146,10 +146,10 @@ Michel Caillaud & Igor Ver\vs\vcagin
  16  (Ke8-e7 )
  17  (Ke8-d8 )
  18  (Ke8-f8 )
-  add_to_move_generation_stack:     9973072
-                     play_move:     1090385
- is_white_king_square_attacked:      205809
- is_black_king_square_attacked:      335606
+  add_to_move_generation_stack:     9974996
+                     play_move:     1048993
+ is_white_king_square_attacked:      193971
+ is_black_king_square_attacked:      320233
 
 solution finished.
 
@@ -206,10 +206,10 @@ solution finished.
  23  (Kd5*c5 )
  24  (Kd5-d6 )
  25  (Kd5-e5 )
-  add_to_move_generation_stack:    35259139
-                     play_move:     3812769
- is_white_king_square_attacked:      702445
- is_black_king_square_attacked:      956096
+  add_to_move_generation_stack:    39953638
+                     play_move:     5283303
+ is_white_king_square_attacked:      759115
+ is_black_king_square_attacked:     2269754
 
 solution finished.
 
@@ -254,7 +254,7 @@ a)
  11  (Qe4-c4 )
  12  (Qe4-d4 )
  13  (Qe4-e8 )
- 14  (Qe4-e7 )e4e7d3c5e7h4f5e4
+ 14  (Qe4-e7 )
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
  15  (Qe4-e6 )
  16  (Qe4-e5 )
@@ -268,10 +268,10 @@ a)
  24  (Kd5-c5 )
  25  (Kd5-d6 )
  26  (Kd5-e5 )
-  add_to_move_generation_stack:    50716094
-                     play_move:    10379995
- is_white_king_square_attacked:      829087
- is_black_king_square_attacked:     7295793
+  add_to_move_generation_stack:    43795658
+                     play_move:     7601652
+ is_white_king_square_attacked:      701372
+ is_black_king_square_attacked:     4934359
 
 b) wSb5-->d7  
 
@@ -284,7 +284,7 @@ b) wSb5-->d7
  33  (Qe4-e2 )
  34  (Qe4-e3 )
  35  (Qe4-a4 )
- 36  (Qe4-b4 )e4b4h5d1b4e1d3b4
+ 36  (Qe4-b4 )
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
  37  (Qe4-c4 )
  38  (Qe4-d4 )
@@ -302,10 +302,10 @@ b) wSb5-->d7
  50  (Kd5-c5 )
  51  (Kd5-d6 )
  52  (Kd5-e5 )
-  add_to_move_generation_stack:    72051012
-                     play_move:    18423913
- is_white_king_square_attacked:     1102227
- is_black_king_square_attacked:    14457014
+  add_to_move_generation_stack:    35851808
+                     play_move:     4434010
+ is_white_king_square_attacked:      647303
+ is_black_king_square_attacked:     1839149
 
 solution finished.
 
@@ -373,10 +373,10 @@ a)
  33  (e5-e4 )
  34  (e5*f4 )
  35  (e5*d4 )
-  add_to_move_generation_stack:  1385326212
-                     play_move:  1002266053
- is_white_king_square_attacked:    25141487
- is_black_king_square_attacked:   926128231
+  add_to_move_generation_stack:    75261270
+                     play_move:    34231243
+ is_white_king_square_attacked:     1675566
+ is_black_king_square_attacked:    28398176
 
 b) bPe5-->h3  
 
@@ -414,10 +414,10 @@ b) bPe5-->h3
  66  (Kg4*f4 )
  67  (Kg4*g5 )
  68  (Kg4-h4 )
-  add_to_move_generation_stack:   130782743
-                     play_move:    84797381
- is_white_king_square_attacked:     2824085
- is_black_king_square_attacked:    75519484
+  add_to_move_generation_stack:    85051056
+                     play_move:    42964477
+ is_white_king_square_attacked:     1604023
+ is_black_king_square_attacked:    37414837
 
 solution finished.
 
