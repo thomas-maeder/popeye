@@ -34,6 +34,8 @@ static unsigned int nr_total_invisibles_left;
 
 static unsigned int nr_placed_victims = 0;
 static unsigned int nr_placed_interceptors = 0;
+static unsigned int nr_disturbers_to_be_placed = 0;
+static unsigned int nr_available_disturbers;
 
 static ply ply_replayed;
 
@@ -275,145 +277,145 @@ static void place_invisible_non_interceptor_dummies(slice_index si,
   TraceFunctionResultEnd();
 }
 
-//static void place_invisible_non_interceptor(slice_index si,
-//                                            square *pos_start,
-//                                            unsigned int idx,
-//                                            unsigned int base,
-//                                            unsigned int top)
-//{
-//  TraceFunctionEntry(__func__);
-//  TraceFunctionParam("%u",si);
-//  TraceFunctionParam("%u",idx);
-//  TraceFunctionParam("%u",base);
-//  TraceFunctionParam("%u",top);
-//  TraceFunctionParamListEnd();
-//
-//  if (idx==top)
-//    play_with_placed_invisibles(si);
-//  else
-//  {
-//    Side const side = piece_choice[idx].side;
-//    piece_walk_type const walk = piece_choice[idx].walk;
-//    SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
-//    SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
-//    square *pos;
-//
-//    TraceEnumerator(Side,side);
-//    TraceWalk(walk);
-//    TraceEOL();
-//
-//    for (pos = pos_start;
-//         *pos && combined_result<previous_move_has_not_solved;
-//         ++pos)
-//    {
-//      square const s = *pos;
-//      TraceSquare(s);
-//      TraceValue("%u",is_square_empty(s));
-//      TraceValue("%u",taboo[side][s]);
-//      TraceValue("%u",combined_result);
-//      TraceValue("%u",previous_move_has_not_solved);
-//      TraceEOL();
-//      if (is_square_empty(s))
-//        if (taboo[side][s]==0
-//            && !(is_pawn(walk)
-//                 && (TSTFLAG(sq_spec[s],PromSq) || TSTFLAG(sq_spec[s],BaseSq))))
-//        {
-//          ++being_solved.number_of_pieces[side][walk];
-//          occupy_square(s,walk,BIT(side));
-//
-//          if (!is_check_uninterceptable(advers(side)))
-//          {
-//            piece_choice[idx].pos = s;
-//
-//            *pos = 0;
-//            place_invisible_non_interceptor(si,pos_start-1,idx+1,base,top);
-//            *pos = s;
-//          }
-//
-//          empty_square(s);
-//          --being_solved.number_of_pieces[side][walk];
-//        }
-//    }
-//    TraceSquare(*pos);
-//    TraceEOL();
-//  }
-//
-//  TraceFunctionExit(__func__);
-//  TraceFunctionResultEnd();
-//}
+static void place_invisible_non_interceptor(slice_index si,
+                                            square *pos_start,
+                                            unsigned int idx,
+                                            unsigned int base,
+                                            unsigned int top)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
+  TraceFunctionParamListEnd();
 
-//static void walk_invisible_non_interceptor(slice_index si,
-//                                           unsigned int idx,
-//                                           unsigned int base,
-//                                           unsigned int top)
-//{
-//  TraceFunctionEntry(__func__);
-//  TraceFunctionParam("%u",si);
-//  TraceFunctionParam("%u",idx);
-//  TraceFunctionParam("%u",base);
-//  TraceFunctionParam("%u",top);
-//  TraceFunctionParamListEnd();
-//
-//  TraceValue("%u",combined_result);
-//  TraceValue("%u",previous_move_has_not_solved);
-//  TraceEOL();
-//
-//  if (idx==top)
-//    place_invisible_non_interceptor(si,square_order_for_non_interceptors+top-base-1,base,base,top);
-//  else if (idx+1==top)
-//  {
-//    piece_choice[idx].walk = Dummy;
-//    walk_invisible_non_interceptor(si,idx+1,base,top);
-//  }
-//  else
-//    for (piece_choice[idx].walk = Pawn;
-//         piece_choice[idx].walk<=Bishop && combined_result<previous_move_has_not_solved;
-//         ++piece_choice[idx].walk)
-//        walk_invisible_non_interceptor(si,idx+1,base,top);
-//
-//  TraceFunctionExit(__func__);
-//  TraceFunctionResultEnd();
-//}
+  if (idx==top)
+    play_with_placed_invisibles(si);
+  else
+  {
+    Side const side = piece_choice[idx].side;
+    piece_walk_type const walk = piece_choice[idx].walk;
+    SquareFlags PromSq = side==White ? WhPromSq : BlPromSq;
+    SquareFlags BaseSq = side==White ? WhBaseSq : BlBaseSq;
+    square *pos;
 
-//static void colour_invisible_non_interceptor(slice_index si,
-//                                             unsigned int idx,
-//                                             unsigned int base,
-//                                             unsigned int top)
-//{
-//  TraceFunctionEntry(__func__);
-//  TraceFunctionParam("%u",si);
-//  TraceFunctionParam("%u",idx);
-//  TraceFunctionParam("%u",base);
-//  TraceFunctionParam("%u",top);
-//  TraceFunctionParamListEnd();
-//
-//  if (idx==top)
-//    walk_invisible_non_interceptor(si,base,base,top);
-//  else
-//  {
-//    piece_choice[idx].side = Black;
-//    colour_invisible_non_interceptor(si,idx+1,base,top);
-//
-//    TraceValue("%u",combined_result);
-//    TraceValue("%u",previous_move_has_not_solved);
-//    TraceEOL();
-//
-//    if (idx+1==top && combined_result<previous_move_has_not_solved)
-//    {
-//      piece_choice[idx].side = White;
-//      colour_invisible_non_interceptor(si,idx+1,base,top);
-//    }
-//  }
-//
-//  TraceFunctionExit(__func__);
-//  TraceFunctionResultEnd();
-//}
+    TraceEnumerator(Side,side);
+    TraceWalk(walk);
+    TraceEOL();
+
+    for (pos = pos_start;
+         *pos && combined_result<previous_move_has_not_solved;
+         ++pos)
+    {
+      square const s = *pos;
+      TraceSquare(s);
+      TraceValue("%u",is_square_empty(s));
+      TraceValue("%u",taboo[side][s]);
+      TraceValue("%u",combined_result);
+      TraceValue("%u",previous_move_has_not_solved);
+      TraceEOL();
+      if (is_square_empty(s))
+        if (taboo[side][s]==0
+            && !(is_pawn(walk)
+                 && (TSTFLAG(sq_spec[s],PromSq) || TSTFLAG(sq_spec[s],BaseSq))))
+        {
+          ++being_solved.number_of_pieces[side][walk];
+          occupy_square(s,walk,BIT(side));
+
+          if (!is_check_uninterceptable(advers(side)))
+          {
+            piece_choice[idx].pos = s;
+
+            *pos = 0;
+            place_invisible_non_interceptor(si,pos_start-1,idx+1,base,top);
+            *pos = s;
+          }
+
+          empty_square(s);
+          --being_solved.number_of_pieces[side][walk];
+        }
+    }
+    TraceSquare(*pos);
+    TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void walk_invisible_non_interceptor(slice_index si,
+                                           unsigned int idx,
+                                           unsigned int base,
+                                           unsigned int top)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",combined_result);
+  TraceValue("%u",previous_move_has_not_solved);
+  TraceEOL();
+
+  if (idx==top)
+    place_invisible_non_interceptor(si,square_order_for_non_interceptors+top-base-1,base,base,top);
+  else if (idx>base && idx+1==top)
+  {
+    piece_choice[idx].walk = Dummy;
+    walk_invisible_non_interceptor(si,idx+1,base,top);
+  }
+  else
+    for (piece_choice[idx].walk = Pawn;
+         piece_choice[idx].walk<=Bishop && combined_result<previous_move_has_not_solved;
+         ++piece_choice[idx].walk)
+        walk_invisible_non_interceptor(si,idx+1,base,top);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_invisible_non_interceptor(slice_index si,
+                                             unsigned int idx,
+                                             unsigned int base,
+                                             unsigned int top)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",top);
+  TraceFunctionParamListEnd();
+
+  if (idx==top)
+    walk_invisible_non_interceptor(si,base,base,top);
+  else
+  {
+    piece_choice[idx].side = Black;
+    colour_invisible_non_interceptor(si,idx+1,base,top);
+
+    TraceValue("%u",combined_result);
+    TraceValue("%u",previous_move_has_not_solved);
+    TraceEOL();
+
+    if (idx+1==top && combined_result<previous_move_has_not_solved)
+    {
+      piece_choice[idx].side = White;
+      colour_invisible_non_interceptor(si,idx+1,base,top);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void done_intercepting_checks(slice_index si,
                                      unsigned int base,
                                      unsigned int top)
 {
-  unsigned int i;
+//  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -421,17 +423,17 @@ static void done_intercepting_checks(slice_index si,
   TraceFunctionParam("%u",top);
   TraceFunctionParamListEnd();
 
-  threshold_expensive = 1;
+  threshold_expensive = ULONG_MAX;
 
-  for (i = base; i!=top; ++i)
-    threshold_expensive *= 5*2*5;
+//  for (i = base; i!=top; ++i)
+//    threshold_expensive *= 5*2*5;
 
 //  if (only_intercepting_guards)
-  {
-    for (; i!=nr_total_invisibles_left; ++i)
-      threshold_expensive *= 20;
-    place_invisible_non_interceptor_dummies(si,square_order_for_non_interceptors+nr_total_invisibles_left-top-1,top,top,nr_total_invisibles_left);
-  }
+//  {
+//    for (; i!=nr_total_invisibles_left; ++i)
+//      threshold_expensive *= 20;
+//    place_invisible_non_interceptor_dummies(si,square_order_for_non_interceptors+nr_total_invisibles_left-top-1,top,top,nr_total_invisibles_left);
+//  }
 //  else
 //  {
 //    for (; i!=nr_total_invisibles_left; ++i)
@@ -439,6 +441,28 @@ static void done_intercepting_checks(slice_index si,
 //
 //    colour_invisible_non_interceptor(si,top,top,nr_total_invisibles_left);
 //  }
+
+  TraceValue("%u",nr_disturbers_to_be_placed);
+  TraceEOL();
+
+  if (nr_disturbers_to_be_placed==0)
+  {
+    unsigned int nr_left = nr_total_invisibles_left-nr_placed_victims-nr_placed_interceptors;
+    assert(nr_total_invisibles_left>=nr_placed_victims+nr_placed_interceptors);
+    if (nr_left>nr_available_disturbers)
+      nr_available_disturbers = nr_left;
+
+    TraceValue("%u",nr_left);
+    TraceValue("%u",nr_available_disturbers);
+    TraceEOL();
+
+    play_with_placed_invisibles(si);
+  }
+  else
+  {
+    assert(top+nr_disturbers_to_be_placed<=nr_total_invisibles_left);
+    colour_invisible_non_interceptor(si,top,top,top+nr_disturbers_to_be_placed);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -984,6 +1008,50 @@ static void attack_mating_pieces(slice_index si, unsigned int base)
   TraceFunctionResultEnd();
 }
 
+static void attack_mate(slice_index si, unsigned int base)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  nr_disturbers_to_be_placed = 0;
+  nr_available_disturbers = 0;
+
+  TraceValue("%u",nr_disturbers_to_be_placed);
+  TraceValue("%u",nr_available_disturbers);
+  TraceEOL();
+
+  deal_with_check_to_be_intercepted(nbply,si,base);
+
+  if (combined_result==immobility_on_next_move)
+    combined_result = previous_move_has_not_solved;
+  else if (combined_result==previous_move_has_solved)
+  {
+    unsigned int max_nr_disturbers = nr_available_disturbers;
+
+    if (max_nr_disturbers>2)
+      max_nr_disturbers = 2;
+
+    TraceValue("%u",max_nr_disturbers);
+    TraceEOL();
+
+    for (nr_disturbers_to_be_placed = 1;
+         nr_disturbers_to_be_placed<=max_nr_disturbers;
+         ++nr_disturbers_to_be_placed)
+    {
+      deal_with_check_to_be_intercepted(nbply,si,base);
+      if (combined_result==immobility_on_next_move)
+        combined_result = previous_move_has_not_solved;
+      if (combined_result==previous_move_has_not_solved)
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1027,10 +1095,11 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     only_intercepting_guards = is_double_check_uninterceptable(advers(trait[nbply]));
 
     combined_result = previous_move_is_illegal;
-    if (only_intercepting_guards)
-      deal_with_check_to_be_intercepted(nbply,si,nr_placed_victims);
-    else
-      attack_mating_pieces(si,nr_placed_victims);
+//    if (only_intercepting_guards)
+//      deal_with_check_to_be_intercepted(nbply,si,nr_placed_victims);
+//    else
+//      attack_mating_pieces(si,nr_placed_victims);
+    attack_mate(si,nr_placed_victims);
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
 
     if ((combined_result==previous_move_is_illegal && nr_tries>0)
