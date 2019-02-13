@@ -33,6 +33,7 @@ unsigned int total_invisible_number;
 static unsigned int nr_total_invisibles_left;
 
 static unsigned int idx_next_placed_victim = 0;
+static unsigned int idx_next_placed_mating_piece_attacker = 0;
 static unsigned int idx_next_placed_interceptor = 0;
 static unsigned int nr_disturbers_to_be_placed = 0;
 static unsigned int nr_available_disturbers;
@@ -42,6 +43,8 @@ static ply ply_replayed;
 static stip_length_type combined_result;
 
 static square square_order_for_non_interceptors[65];
+
+static square sq_mating_piece_to_be_attacked = initsquare;
 
 static unsigned int taboo[nr_sides][maxsquare];
 
@@ -507,7 +510,10 @@ static void done_intercepting_checks(slice_index si)
 //  else
 //  {
 //    assert(top+nr_disturbers_to_be_placed<=nr_total_invisibles_left);
-  colour_interceptor(si,idx_next_placed_victim,idx_next_placed_victim);
+  if (sq_mating_piece_to_be_attacked==initsquare)
+    play_with_placed_invisibles(si);
+  else
+    colour_interceptor(si,idx_next_placed_mating_piece_attacker,idx_next_placed_mating_piece_attacker);
 //  }
 
   TraceFunctionExit(__func__);
@@ -522,6 +528,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_departure = move_gen_top->departure;
+  square const sq_arrival = move_gen_top->arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -533,17 +540,21 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   undo_move_effects();
 
   /* it is ok to place a total invisible on sq_departure if we have moved to this square during the play */
-  assert(taboo[White][sq_departure]>0);
-  assert(taboo[Black][sq_departure]>0);
-  --taboo[White][sq_departure];
-  --taboo[Black][sq_departure];
+//  assert(taboo[White][sq_departure]>0);
+//  assert(taboo[Black][sq_departure]>0);
+//  --taboo[White][sq_departure];
+//  --taboo[Black][sq_departure];
+
+  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
+  --taboo[advers(trait[nbply])][sq_arrival];
 
   nbply = parent_ply[nbply];
   deal_with_check_to_be_intercepted(current_ply,si);
   nbply = save_nbply;
 
-  ++taboo[White][sq_departure];
-  ++taboo[Black][sq_departure];
+  ++taboo[advers(trait[nbply])][sq_arrival];
+//  ++taboo[White][sq_departure];
+//  ++taboo[Black][sq_departure];
 
   redo_move_effects();
 
@@ -752,10 +763,8 @@ static void update_taboo(int delta)
   TraceSquare(sq_capture);
   TraceEOL();
 
-  taboo[trait[nbply]][sq_arrival] += delta;
-
-  taboo[White][sq_departure] += delta;
-  taboo[Black][sq_departure] += delta;
+  taboo[White][sq_arrival] += delta;
+  taboo[Black][sq_arrival] += delta;
 
   switch (sq_capture)
   {
@@ -804,110 +813,127 @@ static void update_taboo(int delta)
   TraceFunctionResultEnd();
 }
 
-static boolean attack_mating_piece(Side side_attacking, square sq_mating_piece)
+static void attack_mating_piece(slice_index si,
+                                Side side_attacking,
+                                square sq_mating_piece)
 {
-  boolean result = false;
   Side const side_mating = advers(side_attacking);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceEnumerator(Side,side_attacking);
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
+
+  combined_result = previous_move_has_solved;
 
   {
     vec_index_type k;
 
     for (k = vec_bishop_start;
-        k<=vec_bishop_end && !result;
+        k<=vec_bishop_end && combined_result<previous_move_has_not_solved;
         ++k)
     {
       square s;
       for (s = sq_mating_piece+vec[k];
-           is_square_empty(s) && !result;
+           is_square_empty(s) && combined_result<previous_move_has_not_solved;
            s += vec[k])
       {
-        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceEOL();
-        if (taboo[Black][s]==0)
+        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceValue("%u",taboo[White][s]);TraceEOL();
+        if (taboo[Black][s]+taboo[White][s]==0)
         {
+          ++idx_next_placed_mating_piece_attacker;
           ++being_solved.number_of_pieces[side_attacking][Bishop];
           occupy_square(s,Bishop,BIT(side_attacking));
-          result = !is_in_check(side_mating);
+          idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+          deal_with_check_to_be_intercepted(nbply,si);
           empty_square(s);
           --being_solved.number_of_pieces[side_attacking][Bishop];
+          --idx_next_placed_mating_piece_attacker;
         }
       }
 
       for (k = vec_rook_start;
-           k<=vec_rook_end && !result;
+           k<=vec_rook_end && combined_result<previous_move_has_not_solved;
            ++k)
       {
         square s;
         for (s = sq_mating_piece+vec[k];
-             is_square_empty(s) && !result;
+             is_square_empty(s) && combined_result<previous_move_has_not_solved;
              s += vec[k])
         {
-          TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceEOL();
-          if (taboo[Black][s]==0)
+          TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceValue("%u",taboo[White][s]);TraceEOL();
+          if (taboo[Black][s]+taboo[White][s]==0)
           {
+            ++idx_next_placed_mating_piece_attacker;
             ++being_solved.number_of_pieces[side_attacking][Rook];
             occupy_square(s,Rook,BIT(side_attacking));
-            result = !is_in_check(side_mating);
+            idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+            deal_with_check_to_be_intercepted(nbply,si);
             empty_square(s);
             --being_solved.number_of_pieces[side_attacking][Rook];
+            --idx_next_placed_mating_piece_attacker;
           }
         }
       }
 
       for (k = vec_knight_start;
-           k<=vec_knight_end && !result;
+           k<=vec_knight_end && combined_result<previous_move_has_not_solved;
            ++k)
       {
         square const s = sq_mating_piece+vec[k];
-        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceEOL();
-        if (is_square_empty(s) && taboo[Black][s]==0)
+        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceValue("%u",taboo[White][s]);TraceEOL();
+        if (is_square_empty(s) && taboo[Black][s]+taboo[White][s]==0)
         {
+          ++idx_next_placed_mating_piece_attacker;
           ++being_solved.number_of_pieces[side_attacking][Knight];
           occupy_square(s,Knight,BIT(side_attacking));
-          result = !is_in_check(side_mating);
+          idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+          deal_with_check_to_be_intercepted(nbply,si);
           empty_square(s);
           --being_solved.number_of_pieces[side_attacking][Knight];
+          --idx_next_placed_mating_piece_attacker;
         }
       }
 
-      if (!result)
+      if (combined_result<previous_move_has_not_solved)
       {
         square s = sq_mating_piece+dir_up+dir_left;
-        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceEOL();
-        if (is_square_empty(s) && taboo[Black][s]==0)
+        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceValue("%u",taboo[White][s]);TraceEOL();
+        if (is_square_empty(s) && taboo[Black][s]+taboo[White][s]==0)
         {
+          ++idx_next_placed_mating_piece_attacker;
           ++being_solved.number_of_pieces[side_attacking][Pawn];
           occupy_square(s,Pawn,BIT(side_attacking));
-          result = !is_in_check(side_mating);
+          idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+          deal_with_check_to_be_intercepted(nbply,si);
           empty_square(s);
           --being_solved.number_of_pieces[side_attacking][Pawn];
+          --idx_next_placed_mating_piece_attacker;
         }
       }
 
-      if (!result)
+      if (combined_result<previous_move_has_not_solved)
       {
         s = sq_mating_piece+dir_up+dir_right;
-        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceEOL();
-        if (is_square_empty(s) && taboo[Black][s]==0)
+        TraceSquare(s);TraceValue("%u",taboo[Black][s]);TraceValue("%u",taboo[White][s]);TraceEOL();
+        if (is_square_empty(s) && taboo[Black][s]+taboo[White][s]==0)
         {
+          ++idx_next_placed_mating_piece_attacker;
           ++being_solved.number_of_pieces[side_attacking][Pawn];
           occupy_square(s,Pawn,BIT(side_attacking));
-          result = !is_in_check(side_mating);
+          idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+          deal_with_check_to_be_intercepted(nbply,si);
           empty_square(s);
           --being_solved.number_of_pieces[side_attacking][Pawn];
+          --idx_next_placed_mating_piece_attacker;
         }
       }
     }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -953,9 +979,28 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 //    only_intercepting_guards = is_double_check_uninterceptable(advers(trait[nbply]));
 
     combined_result = previous_move_is_illegal;
-    idx_next_placed_interceptor = idx_next_placed_victim;
-    TraceValue("%u",idx_next_placed_interceptor);TraceEOL();
+    idx_next_placed_mating_piece_attacker = idx_next_placed_victim;
+    idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+    sq_mating_piece_to_be_attacked = initsquare;
     deal_with_check_to_be_intercepted(nbply,si);
+    TraceSquare(sq_mating_piece_to_be_attacked);
+    TraceValue("%u",sq_mating_piece_to_be_attacked);
+    TraceValue("%u",solve_result);
+    TraceEOL();
+    combined_result = previous_move_is_illegal;
+    if (sq_mating_piece_to_be_attacked==nullsquare)
+      /* no mate - king has flights or single check can be intercepted */
+      assert(solve_result==previous_move_has_not_solved);
+    else if (sq_mating_piece_to_be_attacked==initsquare)
+    {
+      /* unattackable mate */
+      sq_mating_piece_to_be_attacked = nullsquare;
+      deal_with_check_to_be_intercepted(nbply,si);
+    }
+    else
+      /* attackable mate */
+      attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
+    sq_mating_piece_to_be_attacked = initsquare;
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
@@ -1291,10 +1336,8 @@ static boolean make_a_flight(void)
   return result;
 }
 
-static boolean attack_checks(void)
+static void attack_checks(void)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -1304,7 +1347,13 @@ static boolean attack_checks(void)
     square const king_pos = being_solved.king_square[side_in_check];
     vec_index_type const k = is_square_uninterceptably_attacked(side_in_check,king_pos);
     if (k==0)
-      result = make_flight(side_in_check,king_pos);
+    {
+      if (make_flight(side_in_check,king_pos))
+      {
+        sq_mating_piece_to_be_attacked = nullsquare;
+        solve_result = previous_move_has_not_solved;
+      }
+    }
     else if (idx_next_placed_interceptor<nr_total_invisibles_left)
     {
       square const sq_attacker = find_end_of_line(king_pos,vec[k]);
@@ -1314,23 +1363,25 @@ static boolean attack_checks(void)
       CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
       double_uninterceptable_check = is_square_uninterceptably_attacked(side_in_check,king_pos);
       TraceValue("%u",double_uninterceptable_check);TraceEOL();
-      if (!double_uninterceptable_check && attack_mating_piece(side_in_check,sq_attacker))
+      if (!double_uninterceptable_check)
       {
-        ++idx_next_placed_interceptor;
-        if (is_in_check(side_in_check))
-          result = make_flight(side_in_check,king_pos);
-        else
-          result = true;
-        --idx_next_placed_interceptor;
+        sq_mating_piece_to_be_attacked = sq_attacker;
+//        if ( attack_mating_piece(side_in_check,sq_attacker))
+//        {
+//          ++idx_next_placed_interceptor;
+//          if (is_in_check(side_in_check))
+//            result = make_flight(side_in_check,king_pos);
+//          else
+//            result = true;
+//          --idx_next_placed_interceptor;
+//        }
       }
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -1360,11 +1411,22 @@ void total_invisible_goal_guard_solve(slice_index si)
     assert(play_phase==replaying_moves);
     pipe_solve_delegate(si);
 
-    TraceValue("%u",idx_next_placed_interceptor);
-    TraceEOL();
+    if (sq_mating_piece_to_be_attacked==initsquare)
+    {
+      TraceValue("%u",idx_next_placed_interceptor);
+      TraceEOL();
 
-    if (make_a_flight() || attack_checks())
+      if (solve_result==previous_move_has_not_solved)
+        sq_mating_piece_to_be_attacked = nullsquare;
+      else if (make_a_flight())
+        sq_mating_piece_to_be_attacked = nullsquare;
+      else
+        attack_checks();
+
+      /* this prevents iterations while intercepting checks if we want to
+       * attack the mating piece */
       solve_result = previous_move_has_not_solved;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1866,7 +1928,27 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
+  {
+    square const *s;
+    for (s = boardnum; *s; ++s)
+      if (!is_square_empty(*s))
+      {
+        ++taboo[White][*s];
+        ++taboo[Black][*s];
+      }
+  }
+
   pipe_solve_delegate(si);
+
+  {
+    square const *s;
+    for (s = boardnum; *s; ++s)
+      if (!is_square_empty(*s))
+      {
+        --taboo[White][*s];
+        --taboo[Black][*s];
+      }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

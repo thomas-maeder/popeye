@@ -44,10 +44,10 @@ a)
  11  (Sh5-g3 )
  12  (Sh5-g7 )
  13  (Sh5-f6 )
-  add_to_move_generation_stack:     4573165
-                     play_move:      813493
- is_white_king_square_attacked:      134040
- is_black_king_square_attacked:      255585
+  add_to_move_generation_stack:     4543725
+                     play_move:      790218
+ is_white_king_square_attacked:      132657
+ is_black_king_square_attacked:      236455
 
 b) wKc2-->g6  
 
@@ -94,10 +94,10 @@ b) wKc2-->g6
  24  (Sh5-g3 )
  25  (Sh5-g7 )
  26  (Sh5-f6 )
-  add_to_move_generation_stack:     3742429
-                     play_move:      682700
- is_white_king_square_attacked:      110389
- is_black_king_square_attacked:      217383
+  add_to_move_generation_stack:     3706319
+                     play_move:      659897
+ is_white_king_square_attacked:      108977
+ is_black_king_square_attacked:      198643
 
 solution finished.
 
@@ -146,10 +146,10 @@ Michel Caillaud & Igor Ver\vs\vcagin
  16  (Ke8-e7 )
  17  (Ke8-d8 )
  18  (Ke8-f8 )
-  add_to_move_generation_stack:     9974996
-                     play_move:     1048993
- is_white_king_square_attacked:      193971
- is_black_king_square_attacked:      320233
+  add_to_move_generation_stack:    10012406
+                     play_move:     1048662
+ is_white_king_square_attacked:      192426
+ is_black_king_square_attacked:      318375
 
 solution finished.
 
@@ -206,10 +206,10 @@ solution finished.
  23  (Kd5*c5 )
  24  (Kd5-d6 )
  25  (Kd5-e5 )
-  add_to_move_generation_stack:    39953638
-                     play_move:     5283303
- is_white_king_square_attacked:      759115
- is_black_king_square_attacked:     2269754
+  add_to_move_generation_stack:    36293722
+                     play_move:     3883351
+ is_white_king_square_attacked:      704721
+ is_black_king_square_attacked:     1019376
 
 solution finished.
 
@@ -268,10 +268,10 @@ a)
  24  (Kd5-c5 )
  25  (Kd5-d6 )
  26  (Kd5-e5 )
-  add_to_move_generation_stack:    43795658
-                     play_move:     7601652
- is_white_king_square_attacked:      701372
- is_black_king_square_attacked:     4934359
+  add_to_move_generation_stack:    32185546
+                     play_move:     3636272
+ is_white_king_square_attacked:      556697
+ is_black_king_square_attacked:     1369244
 
 b) wSb5-->d7  
 
@@ -302,10 +302,10 @@ b) wSb5-->d7
  50  (Kd5-c5 )
  51  (Kd5-d6 )
  52  (Kd5-e5 )
-  add_to_move_generation_stack:    35851808
-                     play_move:     4434010
- is_white_king_square_attacked:      647303
- is_black_king_square_attacked:     1839149
+  add_to_move_generation_stack:    33817351
+                     play_move:     3626344
+ is_white_king_square_attacked:      618637
+ is_black_king_square_attacked:     1110215
 
 solution finished.
 
@@ -373,10 +373,10 @@ a)
  33  (e5-e4 )
  34  (e5*f4 )
  35  (e5*d4 )
-  add_to_move_generation_stack:    75261270
-                     play_move:    34231243
- is_white_king_square_attacked:     1675566
- is_black_king_square_attacked:    28398176
+  add_to_move_generation_stack:    30299602
+                     play_move:     6827845
+ is_white_king_square_attacked:      945788
+ is_black_king_square_attacked:     2983156
 
 b) bPe5-->h3  
 
@@ -414,10 +414,10 @@ b) bPe5-->h3
  66  (Kg4*f4 )
  67  (Kg4*g5 )
  68  (Kg4-h4 )
-  add_to_move_generation_stack:    85051056
-                     play_move:    42964477
- is_white_king_square_attacked:     1604023
- is_black_king_square_attacked:    37414837
+  add_to_move_generation_stack:    22977503
+                     play_move:     5228140
+ is_white_king_square_attacked:      711231
+ is_black_king_square_attacked:     2288849
 
 solution finished.
 
