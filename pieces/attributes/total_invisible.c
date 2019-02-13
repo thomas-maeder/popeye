@@ -60,6 +60,15 @@ static enum
   replaying_moves
 } play_phase = regular_play;
 
+static enum
+{
+  mate_unvalidated,
+  no_mate,
+  mate_attackable,
+  mate_with_2_uninterceptable_doublechecks,
+  mate_defendable_by_interceptors
+} mate_validation_result;
+
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -738,6 +747,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
     TraceEOL();
 
+    mate_validation_result = mate_unvalidated;
+
     combined_result = previous_move_is_illegal;
     idx_next_placed_mating_piece_attacker = idx_next_placed_victim;
     idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
@@ -751,20 +762,36 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     play_phase = replaying_moves;
     combined_result = previous_move_is_illegal;
-    if (sq_mating_piece_to_be_attacked==nullsquare)
-      /* no mate - king has flights or single check can be intercepted */
-      assert(solve_result==previous_move_has_not_solved);
-    else if (sq_mating_piece_to_be_attacked==initsquare)
+
+    switch (mate_validation_result)
     {
-      /* unattackable mate */
-      sq_mating_piece_to_be_attacked = nullsquare;
-      deal_with_check_to_be_intercepted(nbply,si);
+      case no_mate:
+        assert(solve_result==previous_move_has_not_solved);
+        break;
+
+      case mate_unvalidated:
+        // TODO we don't reach mate validation */
+        deal_with_check_to_be_intercepted(nbply,si);
+        break;
+
+      case mate_attackable:
+        attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
+        break;
+
+      case mate_defendable_by_interceptors:
+        deal_with_check_to_be_intercepted(nbply,si);
+        break;
+
+      case mate_with_2_uninterceptable_doublechecks:
+        combined_result = previous_move_has_solved;
+        break;
+
+      default:
+        assert(0);
+        break;
     }
-    else
-      /* attackable mate */
-      attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
+
     play_phase = regular_play;
-    sq_mating_piece_to_be_attacked = initsquare;
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
@@ -1113,22 +1140,25 @@ static void attack_checks(void)
     if (k==0)
     {
       if (make_flight(side_in_check,king_pos))
-      {
-        sq_mating_piece_to_be_attacked = nullsquare;
-        solve_result = previous_move_has_not_solved;
-      }
+        /* the king square can be made a "flight" */
+        mate_validation_result = no_mate;
+      else
+        mate_validation_result = mate_defendable_by_interceptors;
     }
     else if (idx_next_placed_interceptor<nr_total_invisibles_left)
     {
       square const sq_attacker = find_end_of_line(king_pos,vec[k]);
-      boolean double_uninterceptable_check;
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
       assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
       CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
-      double_uninterceptable_check = is_square_uninterceptably_attacked(side_in_check,king_pos);
-      TraceValue("%u",double_uninterceptable_check);TraceEOL();
-      if (!double_uninterceptable_check)
+      if (is_square_uninterceptably_attacked(side_in_check,king_pos))
+        mate_validation_result = mate_with_2_uninterceptable_doublechecks;
+      else
+      {
+        mate_validation_result = mate_attackable;
         sq_mating_piece_to_be_attacked = sq_attacker;
+      }
+      TraceValue("%u",double_uninterceptable_check);TraceEOL();
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     }
   }
@@ -1167,9 +1197,9 @@ void total_invisible_goal_guard_solve(slice_index si)
     TraceEOL();
 
     if (solve_result==previous_move_has_not_solved)
-      sq_mating_piece_to_be_attacked = nullsquare;
+      mate_validation_result = no_mate;
     else if (make_a_flight())
-      sq_mating_piece_to_be_attacked = nullsquare;
+      mate_validation_result = no_mate;
     else
       attack_checks();
 

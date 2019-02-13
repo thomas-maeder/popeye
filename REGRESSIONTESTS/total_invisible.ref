@@ -268,10 +268,10 @@ a)
  24  (Kd5-c5 )
  25  (Kd5-d6 )
  26  (Kd5-e5 )
-  add_to_move_generation_stack:    32174294
-                     play_move:     3634232
- is_white_king_square_attacked:      556697
- is_black_king_square_attacked:     1367204
+  add_to_move_generation_stack:    32174213
+                     play_move:     3634206
+ is_white_king_square_attacked:      556696
+ is_black_king_square_attacked:     1367181
 
 b) wSb5-->d7  
 
@@ -302,10 +302,10 @@ b) wSb5-->d7
  50  (Kd5-c5 )
  51  (Kd5-d6 )
  52  (Kd5-e5 )
-  add_to_move_generation_stack:    33817266
-                     play_move:     3626355
- is_white_king_square_attacked:      618637
- is_black_king_square_attacked:     1110226
+  add_to_move_generation_stack:    33817179
+                     play_move:     3626326
+ is_white_king_square_attacked:      618636
+ is_black_king_square_attacked:     1110200
 
 solution finished.
 
