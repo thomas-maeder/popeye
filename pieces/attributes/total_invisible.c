@@ -301,12 +301,11 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
 
 static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
                                                        slice_index si,
-                                                       vec_index_type kanf, vec_index_type kcurr, vec_index_type kend)
+                                                       vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",kanf);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
@@ -365,7 +364,7 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
             /* occupy the square to avoid intercepting it again "2 half moves ago" */
             occupy_square(s,Dummy,BIT(White)|BIT(Black));
             ++idx_next_placed_interceptor;
-            deal_with_check_to_be_intercepted_diagonal(current_ply,si,kanf,kcurr+1,kend);
+            deal_with_check_to_be_intercepted_diagonal(current_ply,si,kcurr+1,kend);
             --idx_next_placed_interceptor;
             empty_square(s);
           }
@@ -379,7 +378,7 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     else
       deal_with_check_to_be_intercepted_diagonal(current_ply,
                                                  si,
-                                                 kanf,kcurr+1,kend);
+                                                 kcurr+1,kend);
   }
 
   TraceFunctionExit(__func__);
@@ -388,12 +387,11 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
 
 static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
                                                          slice_index si,
-                                                         vec_index_type kanf, vec_index_type kcurr, vec_index_type kend)
+                                                         vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",kanf);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
@@ -401,7 +399,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
   if (kcurr>kend)
     deal_with_check_to_be_intercepted_diagonal(current_ply,
                                                si,
-                                               vec_bishop_start,vec_bishop_start,vec_bishop_end);
+                                               vec_bishop_start,vec_bishop_end);
   else
   {
     Side const side_in_check = trait[nbply];
@@ -444,7 +442,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
             /* occupy the square to avoid intercepting it again "2 half moves ago" */
             occupy_square(s,Dummy,BIT(White)|BIT(Black));
             ++idx_next_placed_interceptor;
-            deal_with_check_to_be_intercepted_orthogonal(current_ply,si,kanf,kcurr+1,kend);
+            deal_with_check_to_be_intercepted_orthogonal(current_ply,si,kcurr+1,kend);
             --idx_next_placed_interceptor;
             empty_square(s);
           }
@@ -458,7 +456,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
     else
       deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                    si,
-                                                   kanf,kcurr+1,kend);
+                                                   kcurr+1,kend);
   }
 
   TraceFunctionExit(__func__);
@@ -474,7 +472,7 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
 
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                si,
-                                               vec_rook_start,vec_rook_start,vec_rook_end);
+                                               vec_rook_start,vec_rook_end);
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
