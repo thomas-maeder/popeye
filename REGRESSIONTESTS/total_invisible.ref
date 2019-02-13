@@ -44,10 +44,10 @@ a)
  11  (Sh5-g3 )
  12  (Sh5-g7 )
  13  (Sh5-f6 )
-  add_to_move_generation_stack:     4543725
-                     play_move:      790218
+  add_to_move_generation_stack:     4543701
+                     play_move:      790201
  is_white_king_square_attacked:      132657
- is_black_king_square_attacked:      236455
+ is_black_king_square_attacked:      236438
 
 b) wKc2-->g6  
 
@@ -94,10 +94,10 @@ b) wKc2-->g6
  24  (Sh5-g3 )
  25  (Sh5-g7 )
  26  (Sh5-f6 )
-  add_to_move_generation_stack:     3706319
-                     play_move:      659897
+  add_to_move_generation_stack:     3706290
+                     play_move:      659895
  is_white_king_square_attacked:      108977
- is_black_king_square_attacked:      198643
+ is_black_king_square_attacked:      198641
 
 solution finished.
 
@@ -268,10 +268,10 @@ a)
  24  (Kd5-c5 )
  25  (Kd5-d6 )
  26  (Kd5-e5 )
-  add_to_move_generation_stack:    32185546
-                     play_move:     3636272
+  add_to_move_generation_stack:    32174294
+                     play_move:     3634232
  is_white_king_square_attacked:      556697
- is_black_king_square_attacked:     1369244
+ is_black_king_square_attacked:     1367204
 
 b) wSb5-->d7  
 
@@ -302,10 +302,10 @@ b) wSb5-->d7
  50  (Kd5-c5 )
  51  (Kd5-d6 )
  52  (Kd5-e5 )
-  add_to_move_generation_stack:    33817351
-                     play_move:     3626344
+  add_to_move_generation_stack:    33817266
+                     play_move:     3626355
  is_white_king_square_attacked:      618637
- is_black_king_square_attacked:     1110215
+ is_black_king_square_attacked:     1110226
 
 solution finished.
 
@@ -373,10 +373,10 @@ a)
  33  (e5-e4 )
  34  (e5*f4 )
  35  (e5*d4 )
-  add_to_move_generation_stack:    30299602
-                     play_move:     6827845
+  add_to_move_generation_stack:    30296971
+                     play_move:     6827558
  is_white_king_square_attacked:      945788
- is_black_king_square_attacked:     2983156
+ is_black_king_square_attacked:     2982869
 
 b) bPe5-->h3  
 
@@ -414,10 +414,10 @@ b) bPe5-->h3
  66  (Kg4*f4 )
  67  (Kg4*g5 )
  68  (Kg4-h4 )
-  add_to_move_generation_stack:    22977503
-                     play_move:     5228140
+  add_to_move_generation_stack:    22975729
+                     play_move:     5228173
  is_white_king_square_attacked:      711231
- is_black_king_square_attacked:     2288849
+ is_black_king_square_attacked:     2288882
 
 solution finished.
 
