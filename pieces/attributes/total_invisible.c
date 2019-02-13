@@ -56,6 +56,7 @@ static struct
 static enum
 {
   regular_play,
+  validating_mate,
   replaying_moves
 } play_phase = regular_play;
 
@@ -165,11 +166,7 @@ static void play_with_placed_invisibles(slice_index si)
   if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
-  {
-    play_phase = replaying_moves;
     pipe_solve_delegate(si);
-    play_phase = regular_play;
-  }
 
   if (solve_result>combined_result)
     combined_result = solve_result;
@@ -254,7 +251,7 @@ static void done_intercepting_checks(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_mating_piece_to_be_attacked==initsquare)
+  if (play_phase==validating_mate)
     play_with_placed_invisibles(si);
   else
     colour_interceptor(si,idx_next_placed_mating_piece_attacker,idx_next_placed_mating_piece_attacker);
@@ -473,6 +470,7 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                si,
                                                vec_rook_start,vec_rook_end);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -743,7 +741,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     combined_result = previous_move_is_illegal;
     idx_next_placed_mating_piece_attacker = idx_next_placed_victim;
     idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
-    sq_mating_piece_to_be_attacked = initsquare;
+    play_phase = validating_mate;
     deal_with_check_to_be_intercepted(nbply,si);
 
     TraceSquare(sq_mating_piece_to_be_attacked);
@@ -751,6 +749,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     TraceValue("%u",solve_result);
     TraceEOL();
 
+    play_phase = replaying_moves;
     combined_result = previous_move_is_illegal;
     if (sq_mating_piece_to_be_attacked==nullsquare)
       /* no mate - king has flights or single check can be intercepted */
@@ -764,6 +763,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     else
       /* attackable mate */
       attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
+    play_phase = regular_play;
     sq_mating_piece_to_be_attacked = initsquare;
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
@@ -1157,10 +1157,11 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   /* make sure that we don't generate pawn captures total invisible */
-  assert(play_phase==replaying_moves);
+  assert(play_phase!=regular_play);
+
   pipe_solve_delegate(si);
 
-  if (sq_mating_piece_to_be_attacked==initsquare)
+  if (play_phase==validating_mate)
   {
     TraceValue("%u",idx_next_placed_interceptor);
     TraceEOL();
