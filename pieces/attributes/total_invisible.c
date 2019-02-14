@@ -622,7 +622,7 @@ static void place_mating_piece_attacking_leaper(slice_index si,
    TraceFunctionParam("%u",si);
    TraceSquare(sq_mating_piece);
    TraceEnumerator(Side,side_attacking);
-   TraceWalk(walk_rider);
+   TraceWalk(walk_leaper);
    TraceFunctionParam("%u",kcurr);
    TraceFunctionParam("%u",kend);
    TraceFunctionParamListEnd();
@@ -755,26 +755,21 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = validating_mate;
     deal_with_check_to_be_intercepted(nbply,si);
 
-    TraceSquare(sq_mating_piece_to_be_attacked);
-    TraceValue("%u",sq_mating_piece_to_be_attacked);
-    TraceValue("%u",solve_result);
-    TraceEOL();
-
     play_phase = replaying_moves;
     combined_result = previous_move_is_illegal;
 
     switch (mate_validation_result)
     {
+      case mate_unvalidated:
+        assert(combined_result==previous_move_is_illegal);
+        break;
+
       case no_mate:
         assert(solve_result==previous_move_has_not_solved);
         break;
 
-      case mate_unvalidated:
-        // TODO we don't reach mate validation */
-        deal_with_check_to_be_intercepted(nbply,si);
-        break;
-
       case mate_attackable:
+        TraceSquare(sq_mating_piece_to_be_attacked);TraceEOL();
         attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
         break;
 
@@ -1158,9 +1153,10 @@ static void attack_checks(void)
         mate_validation_result = mate_attackable;
         sq_mating_piece_to_be_attacked = sq_attacker;
       }
-      TraceValue("%u",double_uninterceptable_check);TraceEOL();
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     }
+    else
+      mate_validation_result = mate_defendable_by_interceptors;
   }
 
   TraceFunctionExit(__func__);
