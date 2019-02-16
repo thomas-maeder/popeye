@@ -25,9 +25,6 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 unsigned int total_invisible_number;
 
 static unsigned int nr_total_invisibles_left;
@@ -39,10 +36,6 @@ static unsigned int idx_next_placed_interceptor = 0;
 static ply ply_replayed;
 
 static stip_length_type combined_result;
-
-static square square_order_for_non_interceptors[65];
-
-static square sq_mating_piece_to_be_attacked = initsquare;
 
 static unsigned int taboo[nr_sides][maxsquare];
 
@@ -68,6 +61,8 @@ static enum
   mate_with_2_uninterceptable_doublechecks,
   mate_defendable_by_interceptors
 } mate_validation_result;
+
+static square sq_mating_piece_to_be_attacked = initsquare;
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
@@ -1644,24 +1639,6 @@ static void remove_self_check_guard(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static int square_compare_around_both_kings(void const *v1, void const *v2)
-{
-  int result;
-  square const *s1 = v1;
-  square const *s2 = v2;
-  square const kpos = being_solved.king_square[Black];
-
-  result = move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
-
-  if (being_solved.king_square[White]!=initsquare)
-  {
-    square const kpos = being_solved.king_square[White];
-    result += move_diff_code[abs(kpos-*s1)]-move_diff_code[abs(kpos-*s2)];
-  }
-
-  return result;
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1697,9 +1674,6 @@ void total_invisible_instrumenter_solve(slice_index si)
   TraceStipulation(si);
 
   output_plaintext_check_indication_disabled = true;
-
-  memmove(square_order_for_non_interceptors, boardnum, sizeof boardnum);
-  qsort(square_order_for_non_interceptors, 64, sizeof square_order_for_non_interceptors[0], &square_compare_around_both_kings);
 
   solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
