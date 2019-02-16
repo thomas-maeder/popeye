@@ -268,7 +268,9 @@ static void done_intercepting_checks(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si);
+static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
+                                                         slice_index si,
+                                                         vec_index_type kcurr, vec_index_type kend);
 
 static void unwrap_move_effects(ply current_ply, slice_index si)
 {
@@ -293,7 +295,9 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   --taboo[advers(trait[nbply])][sq_arrival];
 
   nbply = parent_ply[nbply];
-  deal_with_check_to_be_intercepted(current_ply,si);
+  deal_with_check_to_be_intercepted_orthogonal(current_ply,
+                                               si,
+                                               vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -475,6 +479,7 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  idx_next_placed_interceptor = idx_next_placed_invisible;
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                si,
                                                vec_rook_start,vec_rook_end);
@@ -569,7 +574,6 @@ static void place_mating_piece_attacker(slice_index si,
   ++idx_next_placed_invisible;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking));
-  idx_next_placed_interceptor = idx_next_placed_invisible;
   deal_with_check_to_be_intercepted(nbply,si);
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
@@ -749,7 +753,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     mate_validation_result = mate_unvalidated;
 
     combined_result = previous_move_is_illegal;
-    idx_next_placed_interceptor = idx_next_placed_invisible;
     play_phase = validating_mate;
     end_of_iteration = false;
     deal_with_check_to_be_intercepted(nbply,si);
