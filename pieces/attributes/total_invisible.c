@@ -182,9 +182,7 @@ static void play_with_placed_invisibles(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(slice_index si,
-                             unsigned int base,
-                             unsigned int idx)
+static void walk_interceptor(slice_index si, unsigned int base, unsigned int idx)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -660,8 +658,8 @@ static void place_mating_piece_attacking_leaper(slice_index si,
 }
 
 static void place_mating_piece_attacking_pawn(slice_index si,
-                                                Side side_attacking,
-                                                square sq_mating_piece)
+                                              Side side_attacking,
+                                              square sq_mating_piece)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
