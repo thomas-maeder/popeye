@@ -29,8 +29,7 @@ unsigned int total_invisible_number;
 
 static unsigned int nr_total_invisibles_left;
 
-static unsigned int idx_next_placed_victim = 0;
-static unsigned int idx_next_placed_mating_piece_attacker = 0;
+static unsigned int idx_next_placed_invisible = 0;
 static unsigned int idx_next_placed_interceptor = 0;
 
 static ply ply_replayed;
@@ -263,7 +262,7 @@ static void done_intercepting_checks(slice_index si)
   if (play_phase==validating_mate)
     play_with_placed_invisibles(si);
   else
-    colour_interceptor(si,idx_next_placed_mating_piece_attacker,idx_next_placed_mating_piece_attacker);
+    colour_interceptor(si,idx_next_placed_invisible,idx_next_placed_invisible);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -567,14 +566,14 @@ static void place_mating_piece_attacker(slice_index si,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  ++idx_next_placed_mating_piece_attacker;
+  ++idx_next_placed_invisible;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking));
-  idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+  idx_next_placed_interceptor = idx_next_placed_invisible;
   deal_with_check_to_be_intercepted(nbply,si);
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
-  --idx_next_placed_mating_piece_attacker;
+  --idx_next_placed_invisible;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -750,8 +749,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     mate_validation_result = mate_unvalidated;
 
     combined_result = previous_move_is_illegal;
-    idx_next_placed_mating_piece_attacker = idx_next_placed_victim;
-    idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
+    idx_next_placed_interceptor = idx_next_placed_invisible;
     play_phase = validating_mate;
     end_of_iteration = false;
     deal_with_check_to_be_intercepted(nbply,si);
@@ -1340,7 +1338,7 @@ void total_invisible_generate_special_moves(slice_index si)
     switch (being_solved.board[sq_departure])
     {
       case Pawn:
-        if (idx_next_placed_victim<nr_total_invisibles_left)
+        if (idx_next_placed_invisible<nr_total_invisibles_left)
           generate_pawn_capture_left(si,trait[nbply]==White ? dir_up : dir_down);
         break;
 
@@ -1416,11 +1414,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                 BIT(side),
                                                 side);
 
-          piece_choice[idx_next_placed_victim].pos = square_h;
+          piece_choice[idx_next_placed_invisible].pos = square_h;
 
-          ++idx_next_placed_victim;
+          ++idx_next_placed_invisible;
           pipe_solve_delegate(si);
-          --idx_next_placed_victim;
+          --idx_next_placed_invisible;
         }
         else
         {
@@ -1445,11 +1443,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                 BIT(side),
                                                 side);
 
-          piece_choice[idx_next_placed_victim].pos = square_a;
+          piece_choice[idx_next_placed_invisible].pos = square_a;
 
-          ++idx_next_placed_victim;
+          ++idx_next_placed_invisible;
           pipe_solve_delegate(si);
-          --idx_next_placed_victim;
+          --idx_next_placed_invisible;
         }
         else
         {
@@ -1475,11 +1473,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                 BIT(side_victim),
                                                 side_victim);
 
-          piece_choice[idx_next_placed_victim].pos = sq_capture;
+          piece_choice[idx_next_placed_invisible].pos = sq_capture;
 
-          ++idx_next_placed_victim;
+          ++idx_next_placed_invisible;
           pipe_solve_delegate(si);
-          --idx_next_placed_victim;
+          --idx_next_placed_invisible;
         }
         else
         {
