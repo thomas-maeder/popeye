@@ -1058,23 +1058,40 @@ static boolean make_flight_ortho(Side side_in_check,
   return result;
 }
 
-static boolean make_flight(Side side_in_check, square s)
+static boolean find_interceptable_guard(Side side_in_check, square s)
 {
   boolean result = false;
   Side const side_checking = advers(side_in_check);
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(side,side_in_check);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  if (!is_square_uninterceptably_attacked(side_in_check,s))
-  {
-    if ((being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0
-         && make_flight_ortho(side_in_check,s,vec_rook_start,vec_rook_end,Rook))
-        || (being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0
-            && make_flight_ortho(side_in_check,s,vec_bishop_start,vec_bishop_end,Bishop)))
-      result = true;
-  }
+  if ((being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0
+       && make_flight_ortho(side_in_check,s,vec_rook_start,vec_rook_end,Rook))
+      || (being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0
+          && make_flight_ortho(side_in_check,s,vec_bishop_start,vec_bishop_end,Bishop)))
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean make_flight(Side side_in_check, square s)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(side,side_in_check);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  if (!is_square_uninterceptably_attacked(side_in_check,s)
+      && find_interceptable_guard(side_in_check,s))
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1136,7 +1153,7 @@ static void attack_checks(void)
     vec_index_type const k = is_square_uninterceptably_attacked(side_in_check,king_pos);
     if (k==0)
     {
-      if (make_flight(side_in_check,king_pos))
+      if (find_interceptable_guard(side_in_check,king_pos))
       {
         /* the king square can be made a "flight" */
         mate_validation_result = no_mate;
