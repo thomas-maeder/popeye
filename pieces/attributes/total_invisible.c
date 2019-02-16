@@ -268,10 +268,12 @@ static void done_intercepting_checks(slice_index si, unsigned int base)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
-                                                         slice_index si,
-                                                         unsigned int base,
-                                                         vec_index_type kcurr, vec_index_type kend);
+typedef void intercept_checks_fct(ply current_ply,
+                                  slice_index si,
+                                  unsigned int base,
+                                  vec_index_type kcurr, vec_index_type kend);
+
+static intercept_checks_fct intercept_checks_orthogonal;
 
 static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int base)
 {
@@ -297,10 +299,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
   --taboo[advers(trait[nbply])][sq_arrival];
 
   nbply = parent_ply[nbply];
-  deal_with_check_to_be_intercepted_orthogonal(current_ply,
-                                               si,
-                                               base,
-                                               vec_rook_start,vec_rook_end);
+  intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -311,10 +310,135 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
-                                                       slice_index si,
-                                                       unsigned int base,
-                                                       vec_index_type kcurr, vec_index_type kend)
+static void place_interceptor_dummy_on_square(ply current_ply,
+                                              slice_index si,
+                                              unsigned int base,
+                                              vec_index_type kcurr, vec_index_type kend,
+                                              square s,
+                                              piece_walk_type const walk_at_end,
+                                              intercept_checks_fct *recurse)
+{
+  Side const side_in_check = trait[nbply];
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceSquare(s);
+  TraceWalk(walk_at_end);
+  TraceFunctionParamListEnd();
+
+  assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
+  piece_choice[idx_next_placed_invisible].pos = s;
+  piece_choice[idx_next_placed_invisible].side = side_in_check;
+  TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
+
+  /* occupy the square to avoid intercepting it again "2 half moves ago" */
+  occupy_square(s,Dummy,BIT(White)|BIT(Black));
+  ++idx_next_placed_invisible;
+  (*recurse)(current_ply,si,base,kcurr+1,kend);
+  --idx_next_placed_invisible;
+  empty_square(s);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_interceptor_dummy_on_line(ply current_ply,
+                                            slice_index si,
+                                            unsigned int base,
+                                            vec_index_type kcurr, vec_index_type kend,
+                                            piece_walk_type const walk_at_end,
+                                            intercept_checks_fct *recurse)
+{
+  Side const side_in_check = trait[nbply];
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceWalk(walk_at_end);
+  TraceFunctionParamListEnd();
+
+  {
+    square s;
+    for (s = king_pos+vec[kcurr];
+         is_square_empty(s) && !end_of_iteration;
+         s += vec[kcurr])
+    {
+      TraceSquare(s);
+      TraceValue("%u",taboo[White][s]);
+      TraceValue("%u",taboo[Black][s]);
+      TraceEOL();
+      if (taboo[White][s]==0 || taboo[Black][s]==0)
+        place_interceptor_dummy_on_square(nbply,si,base,kcurr,kend,s,walk_at_end,recurse);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intercept_line_if_check(ply current_ply,
+                                    slice_index si,
+                                    unsigned int base,
+                                    vec_index_type kcurr, vec_index_type kend,
+                                    piece_walk_type walk_rider,
+                                    intercept_checks_fct *recurse)
+{
+  Side const side_in_check = trait[nbply];
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+  square const sq_end = find_end_of_line(king_pos,vec[kcurr]);
+  piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceWalk(walk_rider);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side_in_check);
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(king_pos);
+  TraceSquare(sq_end);
+  TraceWalk(walk_at_end);
+  TraceEOL();
+
+  if ((walk_at_end==walk_rider || walk_at_end==Queen)
+      && TSTFLAG(being_solved.spec[sq_end],side_checking))
+  {
+    TraceValue("%u",idx_next_placed_invisible);
+    TraceValue("%u",nr_total_invisibles_left);
+    TraceEOL();
+    if (idx_next_placed_invisible<nr_total_invisibles_left)
+      place_interceptor_dummy_on_line(current_ply,si,base,kcurr,kend,walk_at_end,recurse);
+    else
+    {
+      /* there are not enough total invisibles to intercept all checks */
+    }
+  }
+  else
+    (*recurse)(current_ply,si,base,kcurr+1,kend);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intercept_checks_diagonal(ply current_ply,
+                                      slice_index si,
+                                      unsigned int base,
+                                      vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -337,73 +461,16 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
       unwrap_move_effects(current_ply,si,base);
   }
   else
-  {
-    Side const side_in_check = trait[nbply];
-    Side const side_checking = advers(side_in_check);
-    square const king_pos = being_solved.king_square[side_in_check];
-    square const sq_end = find_end_of_line(king_pos,vec[kcurr]);
-    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-    TraceEnumerator(Side,side_in_check);
-    TraceEnumerator(Side,side_checking);
-    TraceSquare(king_pos);
-    TraceSquare(sq_end);
-    TraceWalk(walk_at_end);
-    TraceEOL();
-
-    if ((walk_at_end==Bishop || walk_at_end==Queen)
-        && TSTFLAG(being_solved.spec[sq_end],side_checking))
-    {
-      TraceValue("%u",idx_next_placed_invisible);
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
-      if (idx_next_placed_invisible<nr_total_invisibles_left)
-      {
-        square s;
-        for (s = king_pos+vec[kcurr];
-             is_square_empty(s) && !end_of_iteration;
-             s += vec[kcurr])
-        {
-          TraceSquare(s);
-          TraceValue("%u",taboo[White][s]);
-          TraceValue("%u",taboo[Black][s]);
-          TraceEOL();
-          if (taboo[White][s]==0 || taboo[Black][s]==0)
-          {
-            assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-            piece_choice[idx_next_placed_invisible].pos = s;
-            piece_choice[idx_next_placed_invisible].side = side_in_check;
-            TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
-            /* occupy the square to avoid intercepting it again "2 half moves ago" */
-            occupy_square(s,Dummy,BIT(White)|BIT(Black));
-            ++idx_next_placed_invisible;
-            deal_with_check_to_be_intercepted_diagonal(current_ply,si,base,kcurr+1,kend);
-            --idx_next_placed_invisible;
-            empty_square(s);
-          }
-        }
-      }
-      else
-      {
-        /* there are not enough total invisibles to intercept all checks */
-      }
-    }
-    else
-      deal_with_check_to_be_intercepted_diagonal(current_ply,
-                                                 si,
-                                                 base,
-                                                 kcurr+1,kend);
-  }
+    intercept_line_if_check(current_ply,si,base,kcurr,kend,Bishop,&intercept_checks_diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
-                                                         slice_index si,
-                                                         unsigned int base,
-                                                         vec_index_type kcurr, vec_index_type kend)
+static void intercept_checks_orthogonal(ply current_ply,
+                                        slice_index si,
+                                        unsigned int base,
+                                        vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -414,69 +481,9 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
   TraceFunctionParamListEnd();
 
   if (kcurr>kend)
-    deal_with_check_to_be_intercepted_diagonal(current_ply,
-                                               si,
-                                               base,
-                                               vec_bishop_start,vec_bishop_end);
+    intercept_checks_diagonal(current_ply,si,base,vec_bishop_start,vec_bishop_end);
   else
-  {
-    Side const side_in_check = trait[nbply];
-    Side const side_checking = advers(side_in_check);
-    square const king_pos = being_solved.king_square[side_in_check];
-    square const sq_end = find_end_of_line(king_pos,vec[kcurr]);
-    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-    TraceEnumerator(Side,side_in_check);
-    TraceEnumerator(Side,side_checking);
-    TraceSquare(king_pos);
-    TraceSquare(sq_end);
-    TraceWalk(walk_at_end);
-    TraceEOL();
-
-    if ((walk_at_end==Rook || walk_at_end==Queen)
-        && TSTFLAG(being_solved.spec[sq_end],side_checking))
-    {
-      TraceValue("%u",idx_next_placed_invisible);
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
-      if (idx_next_placed_invisible<nr_total_invisibles_left)
-      {
-        square s;
-        for (s = king_pos+vec[kcurr];
-             is_square_empty(s) && !end_of_iteration;
-             s += vec[kcurr])
-        {
-          TraceSquare(s);
-          TraceValue("%u",taboo[White][s]);
-          TraceValue("%u",taboo[Black][s]);
-          TraceEOL();
-          if (taboo[White][s]==0 || taboo[Black][s]==0)
-          {
-            assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-            piece_choice[idx_next_placed_invisible].pos = s;
-            piece_choice[idx_next_placed_invisible].side = side_in_check;
-            TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
-            /* occupy the square to avoid intercepting it again "2 half moves ago" */
-            occupy_square(s,Dummy,BIT(White)|BIT(Black));
-            ++idx_next_placed_invisible;
-            deal_with_check_to_be_intercepted_orthogonal(current_ply,si,base,kcurr+1,kend);
-            --idx_next_placed_invisible;
-            empty_square(s);
-          }
-        }
-      }
-      else
-      {
-        /* there are not enough total invisibles to intercept all checks */
-      }
-    }
-    else
-      deal_with_check_to_be_intercepted_orthogonal(current_ply,
-                                                   si,
-                                                   base,
-                                                   kcurr+1,kend);
-  }
+    intercept_line_if_check(current_ply,si,base,kcurr,kend,Rook,&intercept_checks_orthogonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -489,10 +496,10 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  deal_with_check_to_be_intercepted_orthogonal(current_ply,
-                                               si,
-                                               idx_next_placed_invisible,
-                                               vec_rook_start,vec_rook_end);
+  intercept_checks_orthogonal(current_ply,
+                              si,
+                              idx_next_placed_invisible,
+                              vec_rook_start,vec_rook_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
