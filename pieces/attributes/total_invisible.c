@@ -1080,7 +1080,7 @@ static boolean find_interceptable_guard(Side side_in_check, square s)
   Side const side_checking = advers(side_in_check);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(side,side_in_check);
+  TraceEnumerator(Side,side_in_check);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
@@ -1101,7 +1101,7 @@ static boolean make_flight(Side side_in_check, square s)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(side,side_in_check);
+  TraceEnumerator(Side,side_in_check);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
