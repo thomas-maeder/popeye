@@ -37,6 +37,8 @@ static ply ply_replayed;
 
 static stip_length_type combined_result;
 
+static boolean end_of_iteration;
+
 static unsigned int taboo[nr_sides][maxsquare];
 
 static struct
@@ -175,6 +177,9 @@ static void play_with_placed_invisibles(slice_index si)
   if (solve_result>combined_result)
     combined_result = solve_result;
 
+  if (combined_result==previous_move_has_not_solved || play_phase==validating_mate)
+    end_of_iteration = true;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -199,7 +204,7 @@ static void walk_interceptor(slice_index si,
     assert(is_square_empty(place));
 
     for (piece_choice[idx].walk = Pawn;
-         piece_choice[idx].walk<=Bishop && combined_result<previous_move_has_not_solved;
+         piece_choice[idx].walk<=Bishop && !end_of_iteration;
          ++piece_choice[idx].walk)
     {
       ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
@@ -234,7 +239,7 @@ static void colour_interceptor(slice_index si, unsigned int base, unsigned int i
     if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
       colour_interceptor(si,base,idx+1);
 
-    if (combined_result<previous_move_has_not_solved)
+    if (!end_of_iteration)
     {
       piece_choice[idx].side = advers(piece_choice[idx].side);
       if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
@@ -348,7 +353,7 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
       {
         square s;
         for (s = king_pos+vec[kcurr];
-             is_square_empty(s) && combined_result<previous_move_has_not_solved;
+             is_square_empty(s) && !end_of_iteration;
              s += vec[kcurr])
         {
           TraceSquare(s);
@@ -426,7 +431,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
       {
         square s;
         for (s = king_pos+vec[kcurr];
-             is_square_empty(s) && combined_result<previous_move_has_not_solved;
+             is_square_empty(s) && !end_of_iteration;
              s += vec[kcurr])
         {
           TraceSquare(s);
@@ -594,7 +599,7 @@ static void place_mating_piece_attacking_rider(slice_index si,
   {
     square s;
     for (s = sq_mating_piece+vec[kcurr];
-         is_square_empty(s) && combined_result<previous_move_has_not_solved;
+         is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
     {
       TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
@@ -622,7 +627,7 @@ static void place_mating_piece_attacking_leaper(slice_index si,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && combined_result<previous_move_has_not_solved; ++kcurr)
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square const s = sq_mating_piece+vec[kcurr];
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
@@ -644,7 +649,7 @@ static void place_mating_piece_attacking_pawn(slice_index si,
   TraceEnumerator(Side,side_attacking);
   TraceFunctionParamListEnd();
 
-  if (combined_result<previous_move_has_not_solved)
+  if (!end_of_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_left;
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
@@ -652,7 +657,7 @@ static void place_mating_piece_attacking_pawn(slice_index si,
       place_mating_piece_attacker(si,side_attacking,s,Pawn);
   }
 
-  if (combined_result<previous_move_has_not_solved)
+  if (!end_of_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_right;
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
@@ -748,10 +753,11 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     idx_next_placed_mating_piece_attacker = idx_next_placed_victim;
     idx_next_placed_interceptor = idx_next_placed_mating_piece_attacker;
     play_phase = validating_mate;
+    end_of_iteration = false;
     deal_with_check_to_be_intercepted(nbply,si);
 
     play_phase = replaying_moves;
-    combined_result = previous_move_is_illegal;
+    end_of_iteration = false;
 
     switch (mate_validation_result)
     {
@@ -760,15 +766,16 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
         break;
 
       case no_mate:
-        assert(solve_result==previous_move_has_not_solved);
+        assert(combined_result==previous_move_has_not_solved);
         break;
 
       case mate_attackable:
-        TraceSquare(sq_mating_piece_to_be_attacked);TraceEOL();
+        combined_result = previous_move_is_illegal;
         attack_mating_piece(si,advers(trait[nbply]),sq_mating_piece_to_be_attacked);
         break;
 
       case mate_defendable_by_interceptors:
+        combined_result = previous_move_is_illegal;
         deal_with_check_to_be_intercepted(nbply,si);
         break;
 
@@ -1130,8 +1137,11 @@ static void attack_checks(void)
     if (k==0)
     {
       if (make_flight(side_in_check,king_pos))
+      {
         /* the king square can be made a "flight" */
         mate_validation_result = no_mate;
+        solve_result = previous_move_has_not_solved;
+      }
       else
         mate_validation_result = mate_defendable_by_interceptors;
     }
@@ -1190,13 +1200,12 @@ void total_invisible_goal_guard_solve(slice_index si)
     if (solve_result==previous_move_has_not_solved)
       mate_validation_result = no_mate;
     else if (make_a_flight())
+    {
+      solve_result = previous_move_has_not_solved;
       mate_validation_result = no_mate;
+    }
     else
       attack_checks();
-
-    /* this prevents iterations while intercepting checks if we want to
-     * attack the mating piece */
-    solve_result = previous_move_has_not_solved;
   }
 
   TraceFunctionExit(__func__);
