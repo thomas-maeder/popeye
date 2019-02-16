@@ -30,7 +30,6 @@ unsigned int total_invisible_number;
 static unsigned int nr_total_invisibles_left;
 
 static unsigned int idx_next_placed_invisible = 0;
-static unsigned int idx_next_placed_interceptor = 0;
 
 static ply ply_replayed;
 
@@ -193,7 +192,7 @@ static void walk_interceptor(slice_index si,
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  if (idx==idx_next_placed_interceptor)
+  if (idx==idx_next_placed_invisible)
     play_with_placed_invisibles(si);
   else
   {
@@ -228,7 +227,7 @@ static void colour_interceptor(slice_index si, unsigned int base, unsigned int i
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  if (idx==idx_next_placed_interceptor)
+  if (idx==idx_next_placed_invisible)
     walk_interceptor(si,base,base);
   else
   {
@@ -253,16 +252,17 @@ static void colour_interceptor(slice_index si, unsigned int base, unsigned int i
   TraceFunctionResultEnd();
 }
 
-static void done_intercepting_checks(slice_index si)
+static void done_intercepting_checks(slice_index si, unsigned int base)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   if (play_phase==validating_mate)
     play_with_placed_invisibles(si);
   else
-    colour_interceptor(si,idx_next_placed_invisible,idx_next_placed_invisible);
+    colour_interceptor(si,base,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -270,9 +270,10 @@ static void done_intercepting_checks(slice_index si)
 
 static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
                                                          slice_index si,
+                                                         unsigned int base,
                                                          vec_index_type kcurr, vec_index_type kend);
 
-static void unwrap_move_effects(ply current_ply, slice_index si)
+static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int base)
 {
   ply const save_nbply = nbply;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -282,6 +283,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   ply_replayed = nbply;
@@ -297,6 +299,7 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
   nbply = parent_ply[nbply];
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                si,
+                                               base,
                                                vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
@@ -310,11 +313,13 @@ static void unwrap_move_effects(ply current_ply, slice_index si)
 
 static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
                                                        slice_index si,
+                                                       unsigned int base,
                                                        vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
@@ -325,11 +330,11 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     {
       ply const save_nbply = nbply;
       nbply = current_ply;
-      done_intercepting_checks(si);
+      done_intercepting_checks(si,base);
       nbply = save_nbply;
     }
     else
-      unwrap_move_effects(current_ply,si);
+      unwrap_move_effects(current_ply,si,base);
   }
   else
   {
@@ -349,10 +354,10 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     if ((walk_at_end==Bishop || walk_at_end==Queen)
         && TSTFLAG(being_solved.spec[sq_end],side_checking))
     {
-      TraceValue("%u",idx_next_placed_interceptor);
+      TraceValue("%u",idx_next_placed_invisible);
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
-      if (idx_next_placed_interceptor<nr_total_invisibles_left)
+      if (idx_next_placed_invisible<nr_total_invisibles_left)
       {
         square s;
         for (s = king_pos+vec[kcurr];
@@ -366,15 +371,15 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-            piece_choice[idx_next_placed_interceptor].pos = s;
-            piece_choice[idx_next_placed_interceptor].side = side_in_check;
+            piece_choice[idx_next_placed_invisible].pos = s;
+            piece_choice[idx_next_placed_invisible].side = side_in_check;
             TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
             /* occupy the square to avoid intercepting it again "2 half moves ago" */
             occupy_square(s,Dummy,BIT(White)|BIT(Black));
-            ++idx_next_placed_interceptor;
-            deal_with_check_to_be_intercepted_diagonal(current_ply,si,kcurr+1,kend);
-            --idx_next_placed_interceptor;
+            ++idx_next_placed_invisible;
+            deal_with_check_to_be_intercepted_diagonal(current_ply,si,base,kcurr+1,kend);
+            --idx_next_placed_invisible;
             empty_square(s);
           }
         }
@@ -387,6 +392,7 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
     else
       deal_with_check_to_be_intercepted_diagonal(current_ply,
                                                  si,
+                                                 base,
                                                  kcurr+1,kend);
   }
 
@@ -396,11 +402,13 @@ static void deal_with_check_to_be_intercepted_diagonal(ply current_ply,
 
 static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
                                                          slice_index si,
+                                                         unsigned int base,
                                                          vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
@@ -408,6 +416,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
   if (kcurr>kend)
     deal_with_check_to_be_intercepted_diagonal(current_ply,
                                                si,
+                                               base,
                                                vec_bishop_start,vec_bishop_end);
   else
   {
@@ -427,10 +436,10 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
     if ((walk_at_end==Rook || walk_at_end==Queen)
         && TSTFLAG(being_solved.spec[sq_end],side_checking))
     {
-      TraceValue("%u",idx_next_placed_interceptor);
+      TraceValue("%u",idx_next_placed_invisible);
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
-      if (idx_next_placed_interceptor<nr_total_invisibles_left)
+      if (idx_next_placed_invisible<nr_total_invisibles_left)
       {
         square s;
         for (s = king_pos+vec[kcurr];
@@ -444,15 +453,15 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
           if (taboo[White][s]==0 || taboo[Black][s]==0)
           {
             assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-            piece_choice[idx_next_placed_interceptor].pos = s;
-            piece_choice[idx_next_placed_interceptor].side = side_in_check;
+            piece_choice[idx_next_placed_invisible].pos = s;
+            piece_choice[idx_next_placed_invisible].side = side_in_check;
             TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
             /* occupy the square to avoid intercepting it again "2 half moves ago" */
             occupy_square(s,Dummy,BIT(White)|BIT(Black));
-            ++idx_next_placed_interceptor;
-            deal_with_check_to_be_intercepted_orthogonal(current_ply,si,kcurr+1,kend);
-            --idx_next_placed_interceptor;
+            ++idx_next_placed_invisible;
+            deal_with_check_to_be_intercepted_orthogonal(current_ply,si,base,kcurr+1,kend);
+            --idx_next_placed_invisible;
             empty_square(s);
           }
         }
@@ -465,6 +474,7 @@ static void deal_with_check_to_be_intercepted_orthogonal(ply current_ply,
     else
       deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                    si,
+                                                   base,
                                                    kcurr+1,kend);
   }
 
@@ -479,9 +489,9 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  idx_next_placed_interceptor = idx_next_placed_invisible;
   deal_with_check_to_be_intercepted_orthogonal(current_ply,
                                                si,
+                                               idx_next_placed_invisible,
                                                vec_rook_start,vec_rook_end);
 
   TraceFunctionExit(__func__);
@@ -1033,10 +1043,10 @@ static boolean make_flight_ortho(Side side_in_check,
     TraceSquare(end);TraceWalk(walk);TraceEOL();
     if ((walk==Queen || walk==walk_rider) && TSTFLAG(being_solved.spec[end],side_checking))
     {
-      TraceValue("%u",idx_next_placed_interceptor);
+      TraceValue("%u",idx_next_placed_invisible);
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
-      if (idx_next_placed_interceptor<nr_total_invisibles_left)
+      if (idx_next_placed_invisible<nr_total_invisibles_left)
       {
         square s;
         for (s = flight+vec[k]; s!=end; s += vec[k])
@@ -1163,7 +1173,7 @@ static void attack_checks(void)
       else
         mate_validation_result = mate_defendable_by_interceptors;
     }
-    else if (idx_next_placed_interceptor<nr_total_invisibles_left)
+    else if (idx_next_placed_invisible<nr_total_invisibles_left)
     {
       square const sq_attacker = find_end_of_line(king_pos,vec[k]);
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
@@ -1212,7 +1222,7 @@ void total_invisible_goal_guard_solve(slice_index si)
 
   if (play_phase==validating_mate)
   {
-    TraceValue("%u",idx_next_placed_interceptor);
+    TraceValue("%u",idx_next_placed_invisible);
     TraceEOL();
 
     if (solve_result==previous_move_has_not_solved)
