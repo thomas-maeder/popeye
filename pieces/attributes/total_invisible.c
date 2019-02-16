@@ -617,27 +617,27 @@ static void place_mating_piece_attacking_leaper(slice_index si,
                                                 square sq_mating_piece,
                                                 piece_walk_type walk_leaper,
                                                 vec_index_type kcurr, vec_index_type kend)
- {
-   TraceFunctionEntry(__func__);
-   TraceFunctionParam("%u",si);
-   TraceSquare(sq_mating_piece);
-   TraceEnumerator(Side,side_attacking);
-   TraceWalk(walk_leaper);
-   TraceFunctionParam("%u",kcurr);
-   TraceFunctionParam("%u",kend);
-   TraceFunctionParamListEnd();
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_mating_piece);
+  TraceEnumerator(Side,side_attacking);
+  TraceWalk(walk_leaper);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
 
-   for (; kcurr<=kend && combined_result<previous_move_has_not_solved; ++kcurr)
-   {
-     square const s = sq_mating_piece+vec[kcurr];
-     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-     if (is_square_empty(s) && taboo[side_attacking][s]==0)
-       place_mating_piece_attacker(si,side_attacking,s,walk_leaper);
-   }
+  for (; kcurr<=kend && combined_result<previous_move_has_not_solved; ++kcurr)
+  {
+    square const s = sq_mating_piece+vec[kcurr];
+    TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
+    if (is_square_empty(s) && taboo[side_attacking][s]==0)
+      place_mating_piece_attacker(si,side_attacking,s,walk_leaper);
+  }
 
-   TraceFunctionExit(__func__);
-   TraceFunctionResultEnd();
- }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void place_mating_piece_attacking_pawn(slice_index si,
                                                 Side side_attacking,
