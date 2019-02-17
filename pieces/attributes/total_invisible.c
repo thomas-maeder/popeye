@@ -53,14 +53,16 @@ static enum
   replaying_moves
 } play_phase = regular_play;
 
-static enum
+typedef enum
 {
-  mate_unvalidated,
   no_mate,
   mate_attackable,
+  mate_defendable_by_interceptors,
   mate_with_2_uninterceptable_doublechecks,
-  mate_defendable_by_interceptors
-} mate_validation_result;
+  mate_unvalidated
+} mate_validation_type;
+
+static mate_validation_type mate_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
@@ -178,6 +180,8 @@ static void play_with_placed_invisibles(slice_index si)
   if (combined_result==previous_move_has_not_solved || play_phase==validating_mate)
     end_of_iteration = true;
 
+  TraceValue("%u",end_of_iteration);TraceEOL();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -277,7 +281,8 @@ static void flesh_out_capture_by_invisible(ply current_ply,
                                            slice_index si,
                                            unsigned int base,
                                            piece_walk_type walk_capturing,
-                                           square from)
+                                           square from,
+                                           mate_validation_type *combined_validation)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
@@ -300,11 +305,13 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     assert(move_effect_journal[precapture].type==move_effect_piece_creation);
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-    /* adjust the creation and movement effect - redo_move_effects() will then take
-     * care of doing the real work
+    /* insert the capturer here to make sure that checks delivered by it will be
+     * intercepted
      */
-    move_effect_journal[precapture].u.piece_addition.added.on = from;
-    move_effect_journal[precapture].u.piece_addition.added.walk = walk_capturing;
+    move_effect_journal[precapture].type = move_effect_none;
+
+    ++being_solved.number_of_pieces[side_playing][walk_capturing];
+    occupy_square(from,walk_capturing,BIT(side_playing));
 
     move_effect_journal[movement].u.piece_movement.from = from;
     move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -317,7 +324,24 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     {
       ply const save_nbply = nbply;
       nbply = parent_ply[nbply];
-      intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+
+      if (play_phase==validating_mate)
+      {
+        mate_validation_result = mate_unvalidated;
+        end_of_iteration = false;
+
+        intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+
+        TraceValue("%u",combined_result);
+        TraceValue("%u",mate_validation_result);
+        TraceValue("%u",*combined_validation);
+        TraceEOL();
+        if (mate_validation_result<*combined_validation)
+          *combined_validation = mate_validation_result;
+      }
+      else
+        intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+
       nbply = save_nbply;
     }
 
@@ -329,8 +353,10 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
     move_effect_journal[movement].u.piece_movement.moving = Dummy;
 
-    move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
-    move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+    empty_square(from);
+    --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+    move_effect_journal[precapture].type = move_effect_piece_creation;
   }
 
   TraceFunctionExit(__func__);
@@ -341,7 +367,8 @@ static void flesh_out_captures_by_invisible_rider(ply current_ply,
                                                   slice_index si,
                                                   unsigned int base,
                                                   piece_walk_type walk_rider,
-                                                  vec_index_type kcurr, vec_index_type kend)
+                                                  vec_index_type kcurr, vec_index_type kend,
+                                                  mate_validation_type *combined_validation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -360,13 +387,13 @@ static void flesh_out_captures_by_invisible_rider(ply current_ply,
 
   TraceSquare(sq_capture);TraceEOL();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && *combined_validation>no_mate; ++kcurr)
   {
     square s;
     for (s = sq_capture+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
+         is_square_empty(s) && *combined_validation>no_mate;
          s += vec[kcurr])
-      flesh_out_capture_by_invisible(current_ply,si,base,walk_rider,s);
+      flesh_out_capture_by_invisible(current_ply,si,base,walk_rider,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
@@ -377,7 +404,8 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
                                                    slice_index si,
                                                    unsigned int base,
                                                    piece_walk_type walk_leaper,
-                                                   vec_index_type kcurr, vec_index_type kend)
+                                                   vec_index_type kcurr, vec_index_type kend,
+                                                   mate_validation_type *combined_validation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -392,11 +420,11 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && *combined_validation>no_mate; ++kcurr)
   {
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
-      flesh_out_capture_by_invisible(current_ply,si,base,walk_leaper,s);
+      flesh_out_capture_by_invisible(current_ply,si,base,walk_leaper,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
@@ -405,11 +433,15 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
 
 static void flesh_out_captures_by_invisible_pawn(ply current_ply,
                                                  slice_index si,
-                                                 unsigned int base)
+                                                 unsigned int base,
+                                                 mate_validation_type *combined_validation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
+  SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",current_ply);
@@ -417,18 +449,18 @@ static void flesh_out_captures_by_invisible_pawn(ply current_ply,
   TraceValue("%u",base);
   TraceFunctionParamListEnd();
 
-  if (!end_of_iteration)
+  if (*combined_validation>no_mate)
   {
-    square s = sq_capture+dir_up+dir_left;
-    if (is_square_empty(s))
-      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s);
+    square s = sq_capture+dir_vert+dir_left;
+    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s,combined_validation);
   }
 
-  if (!end_of_iteration)
+  if (*combined_validation>no_mate)
   {
-    square s = sq_capture+dir_up+dir_right;
-    if (is_square_empty(s))
-      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s);
+    square s = sq_capture+dir_vert+dir_right;
+    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
@@ -443,20 +475,44 @@ static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, uns
   TraceValue("%u",base);
   TraceFunctionParamListEnd();
 
-  if (!end_of_iteration)
-    flesh_out_captures_by_invisible_pawn(current_ply,si,base);
+  if (play_phase==validating_mate)
+  {
+    mate_validation_type combined_validation = mate_validation_result;
+    flesh_out_captures_by_invisible_pawn(current_ply,si,base,&combined_validation);
+    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&combined_validation);
 
-  if (!end_of_iteration)
-    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end);
+    end_of_iteration = combined_result==previous_move_has_not_solved;
 
-  if (!end_of_iteration)
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end);
+    if (combined_validation<mate_validation_result)
+      mate_validation_result = combined_validation;
 
-  if (!end_of_iteration)
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end);
+    TraceValue("%u",combined_result);
+    TraceValue("%u",mate_validation_result);
+    TraceValue("%u",end_of_iteration);
+    TraceEOL();
+  }
+  else
+  {
+    mate_validation_type dont_care = mate_unvalidated;
 
-  if (!end_of_iteration)
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end);
+    if (!end_of_iteration)
+      flesh_out_captures_by_invisible_pawn(current_ply,si,base,&dont_care);
+
+    if (!end_of_iteration)
+      flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&dont_care);
+
+    if (!end_of_iteration)
+      flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
+
+    if (!end_of_iteration)
+      flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&dont_care);
+
+    if (!end_of_iteration)
+      flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&dont_care);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -577,6 +633,9 @@ static void place_interceptor_dummy_on_line(ply current_ply,
       if (taboo[White][s]==0 || taboo[Black][s]==0)
         place_interceptor_dummy_on_square(nbply,si,base,kcurr,kend,s,walk_at_end,recurse);
     }
+    TraceSquare(s);
+    TraceValue("%u",end_of_iteration);
+    TraceEOL();
   }
 
   TraceFunctionExit(__func__);
@@ -729,7 +788,27 @@ static void update_taboo(int delta)
   switch (sq_capture)
   {
     case kingside_castling :
+    {
+      square s;
+      for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+      {
+        taboo[White][s] += delta;
+        taboo[Black][s] += delta;
+      }
+      break;
+    }
+
     case queenside_castling:
+    {
+      square s;
+      for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
+      {
+        taboo[White][s] += delta;
+        taboo[Black][s] += delta;
+      }
+      break;
+    }
+
     case pawn_multistep:
     {
       square const sq_intermediate = (sq_departure+sq_arrival)/2;
@@ -974,7 +1053,9 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = replaying_moves;
     end_of_iteration = false;
 
-    TraceValue("%u",mate_validation_result);TraceEOL();
+    TraceValue("%u",combined_result);
+    TraceValue("%u",mate_validation_result);
+    TraceEOL();
     switch (mate_validation_result)
     {
       case mate_unvalidated:
@@ -1308,7 +1389,9 @@ static boolean make_flight(Side side_in_check, square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  if (!is_square_uninterceptably_attacked(side_in_check,s)
+  if ((is_square_empty(s)
+      || TSTFLAG(being_solved.spec[s],advers(side_in_check)))
+      && !is_square_uninterceptably_attacked(side_in_check,s)
       && find_interceptable_guard(side_in_check,s))
     result = true;
 
@@ -1374,12 +1457,16 @@ static void attack_checks(void)
     {
       if (find_interceptable_guard(side_in_check,king_pos))
       {
+        TraceText("interceptable check\n");
         /* the king square can be made a "flight" */
         mate_validation_result = no_mate;
         solve_result = previous_move_has_not_solved;
       }
       else
+      {
+        TraceText("mate can be refuted by interceptors or free TIs (if any)\n");
         mate_validation_result = mate_defendable_by_interceptors;
+      }
     }
     else if (idx_next_placed_invisible<nr_total_invisibles_left)
     {
@@ -1388,16 +1475,23 @@ static void attack_checks(void)
       assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
       CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
       if (is_square_uninterceptably_attacked(side_in_check,king_pos))
+      {
+        TraceText("mate can not be defended\n");
         mate_validation_result = mate_with_2_uninterceptable_doublechecks;
+      }
       else
       {
+        TraceText("mate can be refuted by free TIs\n");
         mate_validation_result = mate_attackable;
         sq_mating_piece_to_be_attacked = sq_attacker;
       }
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     }
     else
+    {
+      TraceText("mate can be refuted by interceptors - no free TI avaliable\n");
       mate_validation_result = mate_defendable_by_interceptors;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1645,11 +1739,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
     numecoup const curr = CURRMOVE_OF_PLY(nbply);
     move_generation_elmt * const move_gen_top = move_generation_stack+curr;
     square const sq_departure = move_gen_top->departure;
-    square const sq_arrival = move_gen_top->arrival;
     square const sq_capture = move_gen_top->capture;
 
     TraceSquare(sq_departure);
-    TraceSquare(sq_arrival);
+    TraceSquare(move_gen_top->arrival);
     TraceSquare(sq_capture);
     TraceEOL();
 
