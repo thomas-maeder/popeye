@@ -277,6 +277,46 @@ typedef void intercept_checks_fct(ply current_ply,
 
 static intercept_checks_fct intercept_checks_orthogonal;
 
+static void recurse_into_parent_ply(ply current_ply,
+                                    slice_index si,
+                                    unsigned int base)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_arrival = move_gen_top->arrival;
+  ply const save_nbply = nbply;
+
+  undo_move_effects();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  /* before we arrived on this square, it is not taboo for a total invisible
+   * to have occupied it, provided it could be captured */
+  // TODO sq_arrival or sq_capture?
+  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
+  --taboo[advers(trait[nbply])][sq_arrival];
+
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceEOL();
+
+  nbply = parent_ply[nbply];
+  intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+  nbply = save_nbply;
+
+  ++taboo[advers(trait[nbply])][sq_arrival];
+
+  redo_move_effects();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_capture_by_invisible(ply current_ply,
                                            slice_index si,
                                            unsigned int base,
@@ -311,7 +351,7 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     move_effect_journal[precapture].type = move_effect_none;
 
     ++being_solved.number_of_pieces[side_playing][walk_capturing];
-    occupy_square(from,walk_capturing,BIT(side_playing));
+    being_solved.board[move_effect_journal[movement].u.piece_movement.to] = walk_capturing;
 
     move_effect_journal[movement].u.piece_movement.from = from;
     move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -321,29 +361,22 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     ++taboo[White][from];
     ++taboo[Black][from];
 
+    if (play_phase==validating_mate)
     {
-      ply const save_nbply = nbply;
-      nbply = parent_ply[nbply];
+      mate_validation_result = mate_unvalidated;
+      end_of_iteration = false;
 
-      if (play_phase==validating_mate)
-      {
-        mate_validation_result = mate_unvalidated;
-        end_of_iteration = false;
+      recurse_into_parent_ply(current_ply,si,base);
 
-        intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
-
-        TraceValue("%u",combined_result);
-        TraceValue("%u",mate_validation_result);
-        TraceValue("%u",*combined_validation);
-        TraceEOL();
-        if (mate_validation_result<*combined_validation)
-          *combined_validation = mate_validation_result;
-      }
-      else
-        intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
-
-      nbply = save_nbply;
+      TraceValue("%u",combined_result);
+      TraceValue("%u",mate_validation_result);
+      TraceValue("%u",*combined_validation);
+      TraceEOL();
+      if (mate_validation_result<*combined_validation)
+        *combined_validation = mate_validation_result;
     }
+    else
+      recurse_into_parent_ply(current_ply,si,base);
 
     --taboo[White][from];
     --taboo[Black][from];
@@ -353,7 +386,7 @@ static void flesh_out_capture_by_invisible(ply current_ply,
     move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
     move_effect_journal[movement].u.piece_movement.moving = Dummy;
 
-    empty_square(from);
+    being_solved.board[move_effect_journal[movement].u.piece_movement.to] = Dummy;
     --being_solved.number_of_pieces[side_playing][walk_capturing];
 
     move_effect_journal[precapture].type = move_effect_piece_creation;
@@ -522,7 +555,6 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_arrival = move_gen_top->arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -532,32 +564,10 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
 
   ply_replayed = nbply;
 
-  undo_move_effects();
-
-  /* before we arrived on this square, it is not taboo for a total invisible
-   * to have occupied it, provided it could be captured */
-  // TODO sq_arrival or sq_capture?
-  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
-  --taboo[advers(trait[nbply])][sq_arrival];
-
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceEOL();
-
   if (move_gen_top->departure==capture_by_invisible)
     flesh_out_captures_by_invisible(current_ply,si,base);
   else
-  {
-    ply const save_nbply = nbply;
-    nbply = parent_ply[nbply];
-    intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
-    nbply = save_nbply;
-  }
-
-  ++taboo[advers(trait[nbply])][sq_arrival];
-
-  redo_move_effects();
+    recurse_into_parent_ply(current_ply,si,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2021,10 +2031,12 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachedTester,
                                              &subsitute_goal_guard);
-    /* self check is impossible with the current optimisations for orthodox pieces */
+    /* self check is impossible with the current optimisations for orthodox pieces ...
+     * unless 1 half-move after captures by TIs!
     stip_structure_traversal_override_single(&st_nested,
                                              STSelfCheckGuard,
                                              &remove_the_pipe);
+     */
     stip_traverse_structure(si,&st_nested);
   }
 
@@ -2032,8 +2044,8 @@ static void instrument_replay_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remove_self_check_guard(slice_index si,
-                                    stip_structure_traversal *st)
+static void replace_self_check_guard(slice_index si,
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2081,7 +2093,7 @@ void total_invisible_instrumenter_solve(slice_index si)
                                              &instrument_replay_branch);
     stip_structure_traversal_override_single(&st,
                                              STSelfCheckGuard,
-                                             &remove_self_check_guard);
+                                             &replace_self_check_guard);
     stip_traverse_structure(si,&st);
   }
 

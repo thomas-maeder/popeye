@@ -56,7 +56,8 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   if (TSTFLAG(createdspec,Black))
     --being_solved.number_of_pieces[Black][created];
 
-  assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);
+  /* this no longer holds since the introduction of captures by total invisibles:
+   * assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);*/
   ClearPieceId(being_solved.spec[on]);
   --being_solved.currPieceId;
 
