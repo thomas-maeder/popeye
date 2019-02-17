@@ -51,5 +51,29 @@ pieces 3 white ka3 qc8 black kh6 qb7 rd6 be3 pa5g7h5h7
 stipulation h#2
 option movenum
 
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, a) corrected
+pieces 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+stipulation h#2
+option movenum
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, b) corrected
+pieces 3 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+stipulation h#2
+option movenum
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, b) cooked
+pieces 3 white kd1 qb2 black kf4 rh1 be1 pe4f5h2
+stipulation h#2
+option movenum
+
 end
 
