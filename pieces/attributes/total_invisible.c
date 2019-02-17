@@ -273,9 +273,197 @@ typedef void intercept_checks_fct(ply current_ply,
 
 static intercept_checks_fct intercept_checks_orthogonal;
 
+static void flesh_out_capture_by_invisible(ply current_ply,
+                                           slice_index si,
+                                           unsigned int base,
+                                           piece_walk_type walk_capturing,
+                                           square from)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+  Side const side_playing = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",current_ply);
+  TraceValue("%u",si);
+  TraceValue("%u",base);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  if (taboo[side_playing][from]==0)
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const precapture = effects_base;
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+    assert(move_effect_journal[precapture].type==move_effect_piece_creation);
+    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+    /* adjust the creation and movement effect - redo_move_effects() will then take
+     * care of doing the real work
+     */
+    move_effect_journal[precapture].u.piece_addition.added.on = from;
+    move_effect_journal[precapture].u.piece_addition.added.walk = walk_capturing;
+
+    move_effect_journal[movement].u.piece_movement.from = from;
+    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+    move_gen_top->departure = from;
+
+    ++taboo[White][from];
+    ++taboo[Black][from];
+
+    {
+      ply const save_nbply = nbply;
+      nbply = parent_ply[nbply];
+      intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+      nbply = save_nbply;
+    }
+
+    --taboo[White][from];
+    --taboo[Black][from];
+
+    move_gen_top->departure = capture_by_invisible;
+
+    move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+    move_effect_journal[movement].u.piece_movement.moving = Dummy;
+
+    move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
+    move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_rider(ply current_ply,
+                                                  slice_index si,
+                                                  unsigned int base,
+                                                  piece_walk_type walk_rider,
+                                                  vec_index_type kcurr, vec_index_type kend)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",current_ply);
+  TraceValue("%u",si);
+  TraceValue("%u",base);
+  TraceWalk(walk_rider);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+  TraceSquare(sq_capture);TraceEOL();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square s;
+    for (s = sq_capture+vec[kcurr];
+         is_square_empty(s) && !end_of_iteration;
+         s += vec[kcurr])
+      flesh_out_capture_by_invisible(current_ply,si,base,walk_rider,s);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_leaper(ply current_ply,
+                                                   slice_index si,
+                                                   unsigned int base,
+                                                   piece_walk_type walk_leaper,
+                                                   vec_index_type kcurr, vec_index_type kend)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",current_ply);
+  TraceValue("%u",si);
+  TraceValue("%u",base);
+  TraceWalk(walk_leaper);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square const s = sq_capture+vec[kcurr];
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(current_ply,si,base,walk_leaper,s);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_pawn(ply current_ply,
+                                                 slice_index si,
+                                                 unsigned int base)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",current_ply);
+  TraceValue("%u",si);
+  TraceValue("%u",base);
+  TraceFunctionParamListEnd();
+
+  if (!end_of_iteration)
+  {
+    square s = sq_capture+dir_up+dir_left;
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s);
+  }
+
+  if (!end_of_iteration)
+  {
+    square s = sq_capture+dir_up+dir_right;
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, unsigned int base)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",current_ply);
+  TraceValue("%u",si);
+  TraceValue("%u",base);
+  TraceFunctionParamListEnd();
+
+  if (!end_of_iteration)
+    flesh_out_captures_by_invisible_pawn(current_ply,si,base);
+
+  if (!end_of_iteration)
+    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end);
+
+  if (!end_of_iteration)
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end);
+
+  if (!end_of_iteration)
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end);
+
+  if (!end_of_iteration)
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int base)
 {
-  ply const save_nbply = nbply;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_arrival = move_gen_top->arrival;
@@ -296,9 +484,20 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
   assert(taboo[advers(trait[nbply])][sq_arrival]>0);
   --taboo[advers(trait[nbply])][sq_arrival];
 
-  nbply = parent_ply[nbply];
-  intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
-  nbply = save_nbply;
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceEOL();
+
+  if (move_gen_top->departure==capture_by_invisible)
+    flesh_out_captures_by_invisible(current_ply,si,base);
+  else
+  {
+    ply const save_nbply = nbply;
+    nbply = parent_ply[nbply];
+    intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+    nbply = save_nbply;
+  }
 
   ++taboo[advers(trait[nbply])][sq_arrival];
 
@@ -934,187 +1133,6 @@ static void copy_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible(slice_index si,
-                                           piece_walk_type walk_capturing,
-                                           square from,
-                                           stip_length_type *combined_result)
-{
-  Side const side_playing = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceWalk(walk_capturing);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  if (taboo[side_playing][from]==0)
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = base;
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-
-    assert(move_effect_journal[precapture].type==move_effect_piece_creation);
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-    /* adjust the creation and movement effect - redo_move_effects() will then take
-     * care of doing the real work
-     */
-    move_effect_journal[precapture].u.piece_addition.added.on = from;
-    move_effect_journal[precapture].u.piece_addition.added.walk = walk_capturing;
-
-    move_effect_journal[movement].u.piece_movement.from = from;
-    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
-    ++taboo[White][from];
-    ++taboo[Black][from];
-
-    redo_move_effects();
-
-    ++ply_replayed;
-
-    pipe_solve_delegate(si);
-
-    if (solve_result>*combined_result)
-      *combined_result = solve_result;
-
-    --ply_replayed;
-
-    undo_move_effects();
-
-    --taboo[White][from];
-    --taboo[Black][from];
-
-    move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-    move_effect_journal[movement].u.piece_movement.moving = Dummy;
-
-    move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
-    move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_rider(slice_index si,
-                                                  piece_walk_type walk_rider,
-                                                  vec_index_type kcurr, vec_index_type kend,
-                                                  stip_length_type *combined_result)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceWalk(walk_rider);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
-  TraceSquare(sq_capture);TraceEOL();
-
-  for (; kcurr<=kend && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH(); ++kcurr)
-  {
-    square s;
-    for (s = sq_capture+vec[kcurr];
-         is_square_empty(s) && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH();
-         s += vec[kcurr])
-      flesh_out_capture_by_invisible(si,walk_rider,s,combined_result);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_leaper(slice_index si,
-                                                   piece_walk_type walk_leaper,
-                                                   vec_index_type kcurr, vec_index_type kend,
-                                                   stip_length_type *combined_result)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceWalk(walk_leaper);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  for (; kcurr<=kend && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH(); ++kcurr)
-  {
-    square const s = sq_capture+vec[kcurr];
-    if (is_square_empty(s))
-      flesh_out_capture_by_invisible(si,walk_leaper,s,combined_result);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_pawn(slice_index si,
-                                                 stip_length_type *combined_result)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-  {
-    square s = sq_capture+dir_up+dir_left;
-    if (is_square_empty(s))
-      flesh_out_capture_by_invisible(si,Pawn,s,combined_result);
-  }
-
-  if (*combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-  {
-    square s = sq_capture+dir_up+dir_right;
-    if (is_square_empty(s))
-      flesh_out_capture_by_invisible(si,Pawn,s,combined_result);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible(slice_index si)
-{
-  stip_length_type combined_result = previous_move_is_illegal;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceFunctionParamListEnd();
-
-  copy_move_effects();
-
-  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-    flesh_out_captures_by_invisible_rider(si,Queen,vec_queen_start,vec_queen_end,&combined_result);
-
-  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-    flesh_out_captures_by_invisible_rider(si,Rook,vec_rook_start,vec_rook_end,&combined_result);
-
-  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-    flesh_out_captures_by_invisible_rider(si,Bishop,vec_bishop_start,vec_bishop_end,&combined_result);
-
-  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-    flesh_out_captures_by_invisible_leaper(si,Knight,vec_knight_start,vec_knight_end,&combined_result);
-
-  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
-    flesh_out_captures_by_invisible_pawn(si,&combined_result);
-
-  solve_result = combined_result;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1142,14 +1160,6 @@ void total_invisible_move_repeater_solve(slice_index si)
 
   /* With the current placement algorithm, the move is always playable unless it is a castling */
 
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceEOL();
-
-  if (move_gen_top->departure==capture_by_invisible)
-    flesh_out_captures_by_invisible(si);
-  else
   {
     boolean playable;
 
@@ -1161,7 +1171,7 @@ void total_invisible_move_repeater_solve(slice_index si)
         break;
 
       default:
-        assert(is_move_still_playable(si));
+//        assert(is_move_still_playable(si));
         playable = true;
         break;
     }
