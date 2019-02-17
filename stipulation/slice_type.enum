@@ -562,6 +562,7 @@
     ENUMERATOR(STTotalInvisibleUninterceptableSelfCheckGuard),          \
     ENUMERATOR(STTotalInvisibleGoalGuard),                              \
     ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
+    ENUMERATOR(STTotalInvisibleMovesByInvisibleGenerator),              \
     ENUMERATOR(STTotalInvisibleSpecialMovesPlayer),                     \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

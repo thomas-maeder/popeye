@@ -43,5 +43,13 @@ stipulation h#2
 option movenum
 twin move e5 h3
 
+next
+
+author Michael Caillaud (after Ken Kousaka)
+origin Sake tourney 2018, Comm
+pieces 3 white ka3 qc8 black kh6 qb7 rd6 be3 pa5g7h5h7
+stipulation h#2
+option movenum
+
 end
 

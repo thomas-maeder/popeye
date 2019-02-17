@@ -63,7 +63,9 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
 
 void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 {
-  if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
+  if (p==Dummy)
+     (*engine->fprintf)(file,"%s","TI");
+  else if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
     (*engine->fputc)(toupper(PieceTab[p][0]),file);
@@ -81,11 +83,16 @@ void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 
 void WriteSquare(output_engine_type const * engine, FILE *file, square i)
 {
-  (*engine->fputc)('a' - nr_files_on_board + i%onerow,file);
-  if (isBoardReflected)
-    (*engine->fputc)('8' + nr_rows_on_board - i/onerow,file);
+  if (i==capture_by_invisible)
+    (*engine->fputc)('~',file);
   else
-    (*engine->fputc)('1' - nr_rows_on_board + i/onerow,file);
+  {
+    (*engine->fputc)('a' - nr_files_on_board + i%onerow,file);
+    if (isBoardReflected)
+      (*engine->fputc)('8' + nr_rows_on_board - i/onerow,file);
+    else
+      (*engine->fputc)('1' - nr_rows_on_board + i/onerow,file);
+  }
 }
 
 void AppendSquare(char *List, square s)

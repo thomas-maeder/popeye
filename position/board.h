@@ -197,20 +197,23 @@ typedef enum
 
 enum
 {
-  /* the following values are used instead of capture square
-   * to indicate non-capturing moves */
-  pawn_multistep = maxsquare,
+  /* the following values are used instead of departure or capture square
+   * to indicate special moves */
 
-  messigny_exchange = maxsquare+1,
+  capture_by_invisible = maxsquare,
 
-  min_castling = maxsquare+2,
+  retro_capture_departure = maxsquare+1,
+
+  pawn_multistep = maxsquare+2,
+
+  messigny_exchange = maxsquare+3,
+
+  min_castling = maxsquare+4,
   kingside_castling = min_castling,
-  queenside_castling = maxsquare+3,
+  queenside_castling = maxsquare+5,
   max_castling = queenside_castling,
 
-  retro_capture_departure = maxsquare+4,
-
-  no_capture = maxsquare+5
+  no_capture = maxsquare+6
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];

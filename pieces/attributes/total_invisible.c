@@ -613,7 +613,7 @@ static void place_mating_piece_attacking_rider(slice_index si,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && combined_result<previous_move_has_not_solved; ++kcurr)
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square s;
     for (s = sq_mating_piece+vec[kcurr];
@@ -775,6 +775,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = replaying_moves;
     end_of_iteration = false;
 
+    TraceValue("%u",mate_validation_result);TraceEOL();
     switch (mate_validation_result)
     {
       case mate_unvalidated:
@@ -933,6 +934,187 @@ static void copy_move_effects(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_capture_by_invisible(slice_index si,
+                                           piece_walk_type walk_capturing,
+                                           square from,
+                                           stip_length_type *combined_result)
+{
+  Side const side_playing = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  if (taboo[side_playing][from]==0)
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const precapture = base;
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+    assert(move_effect_journal[precapture].type==move_effect_piece_creation);
+    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+    /* adjust the creation and movement effect - redo_move_effects() will then take
+     * care of doing the real work
+     */
+    move_effect_journal[precapture].u.piece_addition.added.on = from;
+    move_effect_journal[precapture].u.piece_addition.added.walk = walk_capturing;
+
+    move_effect_journal[movement].u.piece_movement.from = from;
+    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+    ++taboo[White][from];
+    ++taboo[Black][from];
+
+    redo_move_effects();
+
+    ++ply_replayed;
+
+    pipe_solve_delegate(si);
+
+    if (solve_result>*combined_result)
+      *combined_result = solve_result;
+
+    --ply_replayed;
+
+    undo_move_effects();
+
+    --taboo[White][from];
+    --taboo[Black][from];
+
+    move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+    move_effect_journal[movement].u.piece_movement.moving = Dummy;
+
+    move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
+    move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_rider(slice_index si,
+                                                  piece_walk_type walk_rider,
+                                                  vec_index_type kcurr, vec_index_type kend,
+                                                  stip_length_type *combined_result)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceWalk(walk_rider);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+  TraceSquare(sq_capture);TraceEOL();
+
+  for (; kcurr<=kend && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH(); ++kcurr)
+  {
+    square s;
+    for (s = sq_capture+vec[kcurr];
+         is_square_empty(s) && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH();
+         s += vec[kcurr])
+      flesh_out_capture_by_invisible(si,walk_rider,s,combined_result);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_leaper(slice_index si,
+                                                   piece_walk_type walk_leaper,
+                                                   vec_index_type kcurr, vec_index_type kend,
+                                                   stip_length_type *combined_result)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceWalk(walk_leaper);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  for (; kcurr<=kend && *combined_result<MOVE_HAS_NOT_SOLVED_LENGTH(); ++kcurr)
+  {
+    square const s = sq_capture+vec[kcurr];
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(si,walk_leaper,s,combined_result);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_pawn(slice_index si,
+                                                 stip_length_type *combined_result)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+  {
+    square s = sq_capture+dir_up+dir_left;
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(si,Pawn,s,combined_result);
+  }
+
+  if (*combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+  {
+    square s = sq_capture+dir_up+dir_right;
+    if (is_square_empty(s))
+      flesh_out_capture_by_invisible(si,Pawn,s,combined_result);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible(slice_index si)
+{
+  stip_length_type combined_result = previous_move_is_illegal;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  copy_move_effects();
+
+  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+    flesh_out_captures_by_invisible_rider(si,Queen,vec_queen_start,vec_queen_end,&combined_result);
+
+  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+    flesh_out_captures_by_invisible_rider(si,Rook,vec_rook_start,vec_rook_end,&combined_result);
+
+  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+    flesh_out_captures_by_invisible_rider(si,Bishop,vec_bishop_start,vec_bishop_end,&combined_result);
+
+  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+    flesh_out_captures_by_invisible_leaper(si,Knight,vec_knight_start,vec_knight_end,&combined_result);
+
+  if (combined_result<MOVE_HAS_NOT_SOLVED_LENGTH())
+    flesh_out_captures_by_invisible_pawn(si,&combined_result);
+
+  solve_result = combined_result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -948,7 +1130,6 @@ static void copy_move_effects(void)
  */
 void total_invisible_move_repeater_solve(slice_index si)
 {
-  boolean playable;
   numecoup const curr = CURRMOVE_OF_PLY(ply_replayed);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
@@ -961,30 +1142,42 @@ void total_invisible_move_repeater_solve(slice_index si)
 
   /* With the current placement algorithm, the move is always playable unless it is a castling */
 
-  switch (sq_capture)
-  {
-    case queenside_castling:
-    case kingside_castling:
-      playable = is_move_still_playable(si);
-      break;
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceEOL();
 
-    default:
-      assert(is_move_still_playable(si));
-      playable = true;
-      break;
-  }
-
-  if (playable)
-  {
-    copy_move_effects();
-    redo_move_effects();
-    ++ply_replayed;
-    pipe_solve_delegate(si);
-    --ply_replayed;
-    undo_move_effects();
-  }
+  if (move_gen_top->departure==capture_by_invisible)
+    flesh_out_captures_by_invisible(si);
   else
-    solve_result = previous_move_is_illegal;
+  {
+    boolean playable;
+
+    switch (sq_capture)
+    {
+      case queenside_castling:
+      case kingside_castling:
+        playable = is_move_still_playable(si);
+        break;
+
+      default:
+        assert(is_move_still_playable(si));
+        playable = true;
+        break;
+    }
+
+    if (playable)
+    {
+      copy_move_effects();
+      redo_move_effects();
+      ++ply_replayed;
+      pipe_solve_delegate(si);
+      --ply_replayed;
+      undo_move_effects();
+    }
+    else
+      solve_result = previous_move_is_illegal;
+  }
 
   finply();
 
@@ -1245,6 +1438,46 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_generate_moves_by_invisible(slice_index si)
+{
+  Side const side_moving = trait[nbply];
+  Side const side_capturee = advers(side_moving);
+  square const *s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  curr_generation->departure = capture_by_invisible;
+
+  for (s = boardnum; *s; ++s)
+    if (TSTFLAG(being_solved.spec[*s],side_capturee)
+        && get_walk_of_piece_on_square(*s)!=Dummy
+        && !TSTFLAG(being_solved.spec[*s],Royal))
+    {
+      curr_generation->arrival = *s;
+      push_move_regular_capture();
+    }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void generate_pawn_capture_right(slice_index si, int dir_vertical)
 {
   square const s = curr_generation->departure+dir_vertical+dir_right;
@@ -1401,109 +1634,145 @@ void total_invisible_special_moves_player_solve(slice_index si)
   {
     numecoup const curr = CURRMOVE_OF_PLY(nbply);
     move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+    square const sq_departure = move_gen_top->departure;
+    square const sq_arrival = move_gen_top->arrival;
     square const sq_capture = move_gen_top->capture;
 
-    switch (sq_capture)
+    TraceSquare(sq_departure);
+    TraceSquare(sq_arrival);
+    TraceSquare(sq_capture);
+    TraceEOL();
+
+    if (sq_departure==capture_by_invisible)
     {
-      case pawn_multistep:
-        move_effect_journal_do_null_effect();
-        pipe_solve_delegate(si);
-        break;
+      TraceValue("%u",idx_next_placed_invisible);
+      TraceValue("%u",nr_total_invisibles_left);
+      TraceEOL();
 
-      case messigny_exchange:
-        move_effect_journal_do_null_effect();
-        pipe_solve_delegate(si);
-        break;
-
-      case kingside_castling:
+      if (idx_next_placed_invisible<nr_total_invisibles_left)
       {
         Side const side = trait[nbply];
-        square const square_a = side==White ? square_a1 : square_a8;
-        square const square_h = square_a+file_h;
 
-        TraceText("kingside_castling\n");
+        move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
+                                              capture_by_invisible,
+                                              Dummy,
+                                              BIT(side),
+                                              side);
 
-        assert(nr_total_invisibles_left>0);
-        if (is_square_empty(square_h))
-        {
-          move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
-                                                square_h,
-                                                Rook,
-                                                BIT(side),
-                                                side);
+        piece_choice[idx_next_placed_invisible].pos = capture_by_invisible;
 
-          piece_choice[idx_next_placed_invisible].pos = square_h;
-
-          ++idx_next_placed_invisible;
-          pipe_solve_delegate(si);
-          --idx_next_placed_invisible;
-        }
-        else
-        {
-          move_effect_journal_do_null_effect();
-          pipe_solve_delegate(si);
-        }
-        break;
-      }
-
-      case queenside_castling:
-      {
-        Side const side = trait[nbply];
-        square const square_a = side==White ? square_a1 : square_a8;
-
-        TraceText("queenside_castling\n");
-
-        if (is_square_empty(square_a))
-        {
-          move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
-                                                square_a,
-                                                Rook,
-                                                BIT(side),
-                                                side);
-
-          piece_choice[idx_next_placed_invisible].pos = square_a;
-
-          ++idx_next_placed_invisible;
-          pipe_solve_delegate(si);
-          --idx_next_placed_invisible;
-        }
-        else
-        {
-          move_effect_journal_do_null_effect();
-          pipe_solve_delegate(si);
-        }
-        break;
-      }
-
-      case no_capture:
-        move_effect_journal_do_null_effect();
+        ++idx_next_placed_invisible;
         pipe_solve_delegate(si);
-        break;
-
-      default:
-        /* pawn captures total invisible? */
-        if (is_square_empty(sq_capture))
-        {
-          Side const side_victim = advers(SLICE_STARTER(si));
-          move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
-                                                sq_capture,
-                                                Dummy,
-                                                BIT(side_victim),
-                                                side_victim);
-
-          piece_choice[idx_next_placed_invisible].pos = sq_capture;
-
-          ++idx_next_placed_invisible;
-          pipe_solve_delegate(si);
-          --idx_next_placed_invisible;
-        }
-        else
-        {
-          move_effect_journal_do_null_effect();
-          pipe_solve_delegate(si);
-        }
-        break;
+        --idx_next_placed_invisible;
+      }
+      else
+      {
+        pop_move();
+        solve_result = previous_move_is_illegal;
+      }
     }
+    else
+      switch (sq_capture)
+      {
+        case pawn_multistep:
+          move_effect_journal_do_null_effect();
+          pipe_solve_delegate(si);
+          break;
+
+        case messigny_exchange:
+          move_effect_journal_do_null_effect();
+          pipe_solve_delegate(si);
+          break;
+
+        case kingside_castling:
+        {
+          Side const side = trait[nbply];
+          square const square_a = side==White ? square_a1 : square_a8;
+          square const square_h = square_a+file_h;
+
+          TraceText("kingside_castling\n");
+
+          assert(nr_total_invisibles_left>0);
+          if (is_square_empty(square_h))
+          {
+            move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
+                                                  square_h,
+                                                  Rook,
+                                                  BIT(side),
+                                                  side);
+
+            piece_choice[idx_next_placed_invisible].pos = square_h;
+
+            ++idx_next_placed_invisible;
+            pipe_solve_delegate(si);
+            --idx_next_placed_invisible;
+          }
+          else
+          {
+            move_effect_journal_do_null_effect();
+            pipe_solve_delegate(si);
+          }
+          break;
+        }
+
+        case queenside_castling:
+        {
+          Side const side = trait[nbply];
+          square const square_a = side==White ? square_a1 : square_a8;
+
+          TraceText("queenside_castling\n");
+
+          if (is_square_empty(square_a))
+          {
+            move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
+                                                  square_a,
+                                                  Rook,
+                                                  BIT(side),
+                                                  side);
+
+            piece_choice[idx_next_placed_invisible].pos = square_a;
+
+            ++idx_next_placed_invisible;
+            pipe_solve_delegate(si);
+            --idx_next_placed_invisible;
+          }
+          else
+          {
+            move_effect_journal_do_null_effect();
+            pipe_solve_delegate(si);
+          }
+          break;
+        }
+
+        case no_capture:
+          move_effect_journal_do_null_effect();
+          pipe_solve_delegate(si);
+          break;
+
+        default:
+          /* pawn captures total invisible? */
+          if (is_square_empty(sq_capture))
+          {
+            Side const side_victim = advers(SLICE_STARTER(si));
+            move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
+                                                  sq_capture,
+                                                  Dummy,
+                                                  BIT(side_victim),
+                                                  side_victim);
+
+            piece_choice[idx_next_placed_invisible].pos = sq_capture;
+
+            ++idx_next_placed_invisible;
+            pipe_solve_delegate(si);
+            --idx_next_placed_invisible;
+          }
+          else
+          {
+            move_effect_journal_do_null_effect();
+            pipe_solve_delegate(si);
+          }
+          break;
+      }
   }
 
   TraceFunctionExit(__func__);
@@ -1808,7 +2077,9 @@ static void copy_help_branch(slice_index si,
 
     {
       slice_index const prototypes[] = {
+          alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer)
       };
       enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };

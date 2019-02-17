@@ -2094,6 +2094,10 @@ void dispatch(slice_index si)
       total_invisible_special_moves_player_solve(si);
       break;
 
+    case STTotalInvisibleMovesByInvisibleGenerator:
+      total_invisible_generate_moves_by_invisible(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;
