@@ -175,10 +175,10 @@ Michel Caillaud & Igor Ver\vs\vcagin
  17  (Ke8-e7 )
  18  (Ke8-d8 )
  19  (Ke8-f8 )
-  add_to_move_generation_stack:      806698
-                     play_move:     1213783
- is_white_king_square_attacked:      469435
- is_black_king_square_attacked:      842120
+  add_to_move_generation_stack:      804392
+                     play_move:     1211027
+ is_white_king_square_attacked:      467284
+ is_black_king_square_attacked:      839889
 
 solution finished.
 
