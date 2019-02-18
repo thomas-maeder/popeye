@@ -199,6 +199,8 @@ static void walk_interceptor(slice_index si, unsigned int base, unsigned int idx
   else
   {
     square const place = piece_choice[idx].pos;
+    SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
+    SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
 
     TraceSquare(place);TraceEOL();
     assert(is_square_empty(place));
@@ -206,15 +208,17 @@ static void walk_interceptor(slice_index si, unsigned int base, unsigned int idx
     for (piece_choice[idx].walk = Pawn;
          piece_choice[idx].walk<=Bishop && !end_of_iteration;
          ++piece_choice[idx].walk)
-    {
-      ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
-      if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
-                                              being_solved.king_square[advers(piece_choice[idx].side)]))
-        walk_interceptor(si,base,idx+1);
-      empty_square(place);
-      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-    }
+      if (!(is_pawn(piece_choice[idx].walk)
+            && TSTFLAG(sq_spec[place],basesq) && TSTFLAG(sq_spec[place],promsq)))
+      {
+        ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+        occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
+        if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
+                                                being_solved.king_square[advers(piece_choice[idx].side)]))
+          walk_interceptor(si,base,idx+1);
+        empty_square(place);
+        --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+      }
   }
 
   TraceFunctionExit(__func__);
