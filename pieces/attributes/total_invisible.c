@@ -29,7 +29,7 @@ unsigned int total_invisible_number;
 
 static unsigned int nr_total_invisibles_left;
 
-static unsigned int idx_next_placed_invisible = 0;
+static unsigned int nr_placed_interceptors = 0;
 
 static ply ply_replayed;
 
@@ -194,7 +194,7 @@ static void walk_interceptor(slice_index si, unsigned int base, unsigned int idx
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  if (idx==idx_next_placed_invisible)
+  if (idx==nr_placed_interceptors)
     play_with_placed_invisibles(si);
   else
   {
@@ -233,7 +233,7 @@ static void colour_interceptor(slice_index si, unsigned int base, unsigned int i
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  if (idx==idx_next_placed_invisible)
+  if (idx==nr_placed_interceptors)
     walk_interceptor(si,base,base);
   else
   {
@@ -600,15 +600,15 @@ static void place_interceptor_dummy_on_square(ply current_ply,
   TraceFunctionParamListEnd();
 
   assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-  piece_choice[idx_next_placed_invisible].pos = s;
-  piece_choice[idx_next_placed_invisible].side = side_in_check;
+  piece_choice[nr_placed_interceptors].pos = s;
+  piece_choice[nr_placed_interceptors].side = side_in_check;
   TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
   /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black));
-  ++idx_next_placed_invisible;
+  ++nr_placed_interceptors;
   (*recurse)(current_ply,si,base,kcurr+1,kend);
-  --idx_next_placed_invisible;
+  --nr_placed_interceptors;
   empty_square(s);
 
   TraceFunctionExit(__func__);
@@ -688,10 +688,10 @@ static void intercept_line_if_check(ply current_ply,
   if ((walk_at_end==walk_rider || walk_at_end==Queen)
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
-    TraceValue("%u",idx_next_placed_invisible);
+    TraceValue("%u",nr_placed_interceptors);
     TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
-    if (idx_next_placed_invisible<nr_total_invisibles_left)
+    if (nr_placed_interceptors<nr_total_invisibles_left)
       place_interceptor_dummy_on_line(current_ply,si,base,kcurr,kend,walk_at_end,recurse);
     else
     {
@@ -768,7 +768,7 @@ static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
 
   intercept_checks_orthogonal(current_ply,
                               si,
-                              idx_next_placed_invisible,
+                              nr_placed_interceptors,
                               vec_rook_start,vec_rook_end);
 
   TraceFunctionExit(__func__);
@@ -878,13 +878,13 @@ static void place_mating_piece_attacker(slice_index si,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  ++idx_next_placed_invisible;
+  --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking));
   deal_with_check_to_be_intercepted(nbply,si);
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
-  --idx_next_placed_invisible;
+  ++nr_total_invisibles_left;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1346,10 +1346,10 @@ static boolean make_flight_ortho(Side side_in_check,
     TraceSquare(end);TraceWalk(walk);TraceEOL();
     if ((walk==Queen || walk==walk_rider) && TSTFLAG(being_solved.spec[end],side_checking))
     {
-      TraceValue("%u",idx_next_placed_invisible);
+      TraceValue("%u",nr_placed_interceptors);
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
-      if (idx_next_placed_invisible<nr_total_invisibles_left)
+      if (nr_placed_interceptors<nr_total_invisibles_left)
       {
         square s;
         for (s = flight+vec[k]; s!=end; s += vec[k])
@@ -1482,7 +1482,7 @@ static void attack_checks(void)
         mate_validation_result = mate_defendable_by_interceptors;
       }
     }
-    else if (idx_next_placed_invisible<nr_total_invisibles_left)
+    else if (nr_placed_interceptors<nr_total_invisibles_left)
     {
       square const sq_attacker = find_end_of_line(king_pos,vec[k]);
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
@@ -1538,7 +1538,7 @@ void total_invisible_goal_guard_solve(slice_index si)
 
   if (play_phase==validating_mate)
   {
-    TraceValue("%u",idx_next_placed_invisible);
+    TraceValue("%u",nr_placed_interceptors);
     TraceEOL();
 
     if (solve_result==previous_move_has_not_solved)
@@ -1707,7 +1707,7 @@ void total_invisible_generate_special_moves(slice_index si)
     switch (being_solved.board[sq_departure])
     {
       case Pawn:
-        if (idx_next_placed_invisible<nr_total_invisibles_left)
+        if (nr_placed_interceptors<nr_total_invisibles_left)
           generate_pawn_capture_left(si,trait[nbply]==White ? dir_up : dir_down);
         break;
 
@@ -1762,11 +1762,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
     if (sq_departure==capture_by_invisible)
     {
-      TraceValue("%u",idx_next_placed_invisible);
+      TraceValue("%u",nr_placed_interceptors);
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
 
-      if (idx_next_placed_invisible<nr_total_invisibles_left)
+      if (nr_placed_interceptors<nr_total_invisibles_left)
       {
         Side const side = trait[nbply];
 
@@ -1776,11 +1776,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side),
                                               side);
 
-        piece_choice[idx_next_placed_invisible].pos = capture_by_invisible;
+        piece_choice[nr_placed_interceptors].pos = capture_by_invisible;
 
-        ++idx_next_placed_invisible;
+        --nr_total_invisibles_left;
         pipe_solve_delegate(si);
-        --idx_next_placed_invisible;
+        ++nr_total_invisibles_left;
       }
       else
       {
@@ -1818,11 +1818,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            piece_choice[idx_next_placed_invisible].pos = square_h;
+            piece_choice[nr_placed_interceptors].pos = square_h;
 
-            ++idx_next_placed_invisible;
+            --nr_total_invisibles_left;
             pipe_solve_delegate(si);
-            --idx_next_placed_invisible;
+            ++nr_total_invisibles_left;
           }
           else
           {
@@ -1847,11 +1847,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            piece_choice[idx_next_placed_invisible].pos = square_a;
+            piece_choice[nr_placed_interceptors].pos = square_a;
 
-            ++idx_next_placed_invisible;
+            --nr_total_invisibles_left;
             pipe_solve_delegate(si);
-            --idx_next_placed_invisible;
+            ++nr_total_invisibles_left;
           }
           else
           {
@@ -1877,11 +1877,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side_victim),
                                                   side_victim);
 
-            piece_choice[idx_next_placed_invisible].pos = sq_capture;
+            piece_choice[nr_placed_interceptors].pos = sq_capture;
 
-            ++idx_next_placed_invisible;
+            --nr_total_invisibles_left;
             pipe_solve_delegate(si);
-            --idx_next_placed_invisible;
+            ++nr_total_invisibles_left;
           }
           else
           {
