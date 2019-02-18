@@ -1258,7 +1258,8 @@ void total_invisible_move_repeater_solve(slice_index si)
         break;
 
       default:
-//        assert(is_move_still_playable(si));
+        /* no longer true with captures by invisibles
+         * assert(is_move_still_playable(si));*/
         playable = true;
         break;
     }
