@@ -378,6 +378,8 @@ static void flesh_out_capture_by_invisible(ply current_ply,
       TraceEOL();
       if (mate_validation_result<*combined_validation)
         *combined_validation = mate_validation_result;
+
+      end_of_iteration = *combined_validation==no_mate;
     }
     else
       recurse_into_parent_ply(current_ply,si,base);
@@ -424,11 +426,11 @@ static void flesh_out_captures_by_invisible_rider(ply current_ply,
 
   TraceSquare(sq_capture);TraceEOL();
 
-  for (; kcurr<=kend && *combined_validation>no_mate; ++kcurr)
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square s;
     for (s = sq_capture+vec[kcurr];
-         is_square_empty(s) && *combined_validation>no_mate;
+         is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
       flesh_out_capture_by_invisible(current_ply,si,base,walk_rider,s,combined_validation);
   }
@@ -457,7 +459,7 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && *combined_validation>no_mate; ++kcurr)
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
@@ -486,14 +488,14 @@ static void flesh_out_captures_by_invisible_pawn(ply current_ply,
   TraceValue("%u",base);
   TraceFunctionParamListEnd();
 
-  if (*combined_validation>no_mate)
+  if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_left;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
       flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s,combined_validation);
   }
 
-  if (*combined_validation>no_mate)
+  if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_right;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
@@ -534,21 +536,11 @@ static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, uns
   else
   {
     mate_validation_type dont_care = mate_unvalidated;
-
-    if (!end_of_iteration)
-      flesh_out_captures_by_invisible_pawn(current_ply,si,base,&dont_care);
-
-    if (!end_of_iteration)
-      flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&dont_care);
-
-    if (!end_of_iteration)
-      flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
-
-    if (!end_of_iteration)
-      flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&dont_care);
-
-    if (!end_of_iteration)
-      flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&dont_care);
+    flesh_out_captures_by_invisible_pawn(current_ply,si,base,&dont_care);
+    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&dont_care);
   }
 
   TraceFunctionExit(__func__);
