@@ -256,7 +256,7 @@ static void colour_interceptor(unsigned int idx)
   TraceFunctionResultEnd();
 }
 
-static void done_intercepting_checks(void)
+static void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",base);
@@ -273,7 +273,7 @@ static void done_intercepting_checks(void)
 
 typedef void intercept_checks_fct(vec_index_type kcurr, vec_index_type kend);
 
-static intercept_checks_fct intercept_checks_orthogonal;
+static intercept_checks_fct intercept_illegal_checks_orthogonal;
 
 static void recurse_into_parent_ply(void)
 {
@@ -299,7 +299,7 @@ static void recurse_into_parent_ply(void)
   TraceEOL();
 
   nbply = parent_ply[nbply];
-  intercept_checks_orthogonal(vec_rook_start,vec_rook_end);
+  intercept_illegal_checks_orthogonal(vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -638,7 +638,7 @@ static void intercept_line_if_check(vec_index_type kcurr, vec_index_type kend,
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_diagonal(vec_index_type kcurr, vec_index_type kend)
+static void intercept_illegal_checks_diagonal(vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
@@ -651,20 +651,20 @@ static void intercept_checks_diagonal(vec_index_type kcurr, vec_index_type kend)
     {
       ply const save_nbply = nbply;
       nbply = mating_move_ply;
-      done_intercepting_checks();
+      done_intercepting_illegal_checks();
       nbply = save_nbply;
     }
     else
       unwrap_move_effects();
   }
   else
-    intercept_line_if_check(kcurr,kend,Bishop,&intercept_checks_diagonal);
+    intercept_line_if_check(kcurr,kend,Bishop,&intercept_illegal_checks_diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_orthogonal(vec_index_type kcurr, vec_index_type kend)
+static void intercept_illegal_checks_orthogonal(vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
@@ -672,20 +672,20 @@ static void intercept_checks_orthogonal(vec_index_type kcurr, vec_index_type ken
   TraceFunctionParamListEnd();
 
   if (kcurr>kend)
-    intercept_checks_diagonal(vec_bishop_start,vec_bishop_end);
+    intercept_illegal_checks_diagonal(vec_bishop_start,vec_bishop_end);
   else
-    intercept_line_if_check(kcurr,kend,Rook,&intercept_checks_orthogonal);
+    intercept_line_if_check(kcurr,kend,Rook,&intercept_illegal_checks_orthogonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted(void)
+static void intercept_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  intercept_checks_orthogonal(vec_rook_start,vec_rook_end);
+  intercept_illegal_checks_orthogonal(vec_rook_start,vec_rook_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -795,7 +795,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking));
-  deal_with_check_to_be_intercepted();
+  intercept_illegal_checks();
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
@@ -966,7 +966,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     combined_result = previous_move_is_illegal;
     play_phase = validating_mate;
     end_of_iteration = false;
-    deal_with_check_to_be_intercepted();
+    intercept_illegal_checks();
 
     play_phase = replaying_moves;
     end_of_iteration = false;
@@ -991,7 +991,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
       case mate_defendable_by_interceptors:
         combined_result = previous_move_is_illegal;
-        deal_with_check_to_be_intercepted();
+        intercept_illegal_checks();
         break;
 
       case mate_with_2_uninterceptable_doublechecks:
