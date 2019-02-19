@@ -120,10 +120,10 @@ b) wKc2-->g6
  30  (Sh5-g3 )
  31  (Sh5-g7 )
  32  (Sh5-f6 )
-  add_to_move_generation_stack:      525307
-                     play_move:      992916
- is_white_king_square_attacked:      335013
- is_black_king_square_attacked:      632100
+  add_to_move_generation_stack:      525273
+                     play_move:      992878
+ is_white_king_square_attacked:      335009
+ is_black_king_square_attacked:      632064
 
 solution finished.
 
@@ -307,10 +307,10 @@ a)
  29  (Kd5-c5 )
  30  (Kd5-d6 )
  31  (Kd5-e5 )
-  add_to_move_generation_stack:     3149143
-                     play_move:     5437961
- is_white_king_square_attacked:     1742221
- is_black_king_square_attacked:     3719768
+  add_to_move_generation_stack:     3146651
+                     play_move:     5435329
+ is_white_king_square_attacked:     1742079
+ is_black_king_square_attacked:     3717207
 
 b) wSb5-->d7  
 
@@ -346,10 +346,10 @@ b) wSb5-->d7
  60  (Kd5-c5 )
  61  (Kd5-d6 )
  62  (Kd5-e5 )
-  add_to_move_generation_stack:     2643824
-                     play_move:     5265597
- is_white_king_square_attacked:     1867029
- is_black_king_square_attacked:     3420472
+  add_to_move_generation_stack:     2643764
+                     play_move:     5265537
+ is_white_king_square_attacked:     1867021
+ is_black_king_square_attacked:     3420416
 
 solution finished.
 
@@ -424,10 +424,10 @@ a)
  40  (e5-e4 )
  41  (e5*f4 )
  42  (e5*d4 )
-  add_to_move_generation_stack:    21246227
-                     play_move:    30948804
- is_white_king_square_attacked:     5760255
- is_black_king_square_attacked:    26043468
+  add_to_move_generation_stack:    20974891
+                     play_move:    30703497
+ is_white_king_square_attacked:     5747401
+ is_black_king_square_attacked:    25804568
 
 b) bPe5-->h3  
 
@@ -472,10 +472,10 @@ b) bPe5-->h3
  80  (Kg4*f4 )
  81  (Kg4*g5 )
  82  (Kg4-h4 )
-  add_to_move_generation_stack:    37438557
-                     play_move:    48601781
- is_white_king_square_attacked:     6537409
- is_black_king_square_attacked:    43600474
+  add_to_move_generation_stack:    37218714
+                     play_move:    48397400
+ is_white_king_square_attacked:     6525785
+ is_black_king_square_attacked:    43401885
 
 solution finished.
 
@@ -565,10 +565,10 @@ Michael Caillaud (after Ken Kousaka)
  54  (g7*f6 )
  55  (h7*g6 )
   1.h7*g6 Qc8-h3   2.h5*g4 Qh3-h4 #
-  add_to_move_generation_stack:     3088424
-                     play_move:    10867053
- is_white_king_square_attacked:     4068052
- is_black_king_square_attacked:     6566832
+  add_to_move_generation_stack:     3088204
+                     play_move:    10866574
+ is_white_king_square_attacked:     4068299
+ is_black_king_square_attacked:     6566424
 
 solution finished.
 
