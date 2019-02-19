@@ -188,10 +188,9 @@ static void play_with_placed_invisibles(void)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(unsigned int base, unsigned int idx)
+static void walk_interceptor(unsigned int idx)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
@@ -216,7 +215,7 @@ static void walk_interceptor(unsigned int base, unsigned int idx)
         occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
         if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
                                                 being_solved.king_square[advers(piece_choice[idx].side)]))
-          walk_interceptor(base,idx+1);
+          walk_interceptor(idx+1);
         empty_square(place);
         --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
       }
@@ -226,28 +225,27 @@ static void walk_interceptor(unsigned int base, unsigned int idx)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(unsigned int base, unsigned int idx)
+static void colour_interceptor(unsigned int idx)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
   if (idx==nr_placed_interceptors)
-    walk_interceptor(base,base);
+    walk_interceptor(0);
   else
   {
     /* remove the dummy */
     empty_square(piece_choice[idx].pos);
 
     if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
-      colour_interceptor(base,idx+1);
+      colour_interceptor(idx+1);
 
     if (!end_of_iteration)
     {
       piece_choice[idx].side = advers(piece_choice[idx].side);
       if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
-        colour_interceptor(base,idx+1);
+        colour_interceptor(idx+1);
     }
 
     /* re-place the dummy */
@@ -258,7 +256,7 @@ static void colour_interceptor(unsigned int base, unsigned int idx)
   TraceFunctionResultEnd();
 }
 
-static void done_intercepting_checks(unsigned int base)
+static void done_intercepting_checks(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",base);
@@ -267,18 +265,17 @@ static void done_intercepting_checks(unsigned int base)
   if (play_phase==validating_mate)
     play_with_placed_invisibles();
   else
-    colour_interceptor(base,base);
+    colour_interceptor(0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(unsigned int base,
-                                  vec_index_type kcurr, vec_index_type kend);
+typedef void intercept_checks_fct(vec_index_type kcurr, vec_index_type kend);
 
 static intercept_checks_fct intercept_checks_orthogonal;
 
-static void recurse_into_parent_ply(unsigned int base)
+static void recurse_into_parent_ply(void)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
@@ -288,7 +285,6 @@ static void recurse_into_parent_ply(unsigned int base)
   undo_move_effects();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   /* before we arrived on this square, it is not taboo for a total invisible
@@ -303,7 +299,7 @@ static void recurse_into_parent_ply(unsigned int base)
   TraceEOL();
 
   nbply = parent_ply[nbply];
-  intercept_checks_orthogonal(base,vec_rook_start,vec_rook_end);
+  intercept_checks_orthogonal(vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -314,8 +310,7 @@ static void recurse_into_parent_ply(unsigned int base)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible(unsigned int base,
-                                           piece_walk_type walk_capturing,
+static void flesh_out_capture_by_invisible(piece_walk_type walk_capturing,
                                            square from,
                                            mate_validation_type *combined_validation)
 {
@@ -324,7 +319,6 @@ static void flesh_out_capture_by_invisible(unsigned int base,
   Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",base);
   TraceWalk(walk_capturing);
   TraceSquare(from);
   TraceFunctionParamListEnd();
@@ -359,7 +353,7 @@ static void flesh_out_capture_by_invisible(unsigned int base,
       mate_validation_result = mate_unvalidated;
       end_of_iteration = false;
 
-      recurse_into_parent_ply(base);
+      recurse_into_parent_ply();
 
       TraceValue("%u",combined_result);
       TraceValue("%u",mate_validation_result);
@@ -371,7 +365,7 @@ static void flesh_out_capture_by_invisible(unsigned int base,
       end_of_iteration = *combined_validation==no_mate;
     }
     else
-      recurse_into_parent_ply(base);
+      recurse_into_parent_ply();
 
     --taboo[White][from];
     --taboo[Black][from];
@@ -391,8 +385,7 @@ static void flesh_out_capture_by_invisible(unsigned int base,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_rider(unsigned int base,
-                                                  piece_walk_type walk_rider,
+static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
                                                   vec_index_type kcurr, vec_index_type kend,
                                                   mate_validation_type *combined_validation)
 {
@@ -401,7 +394,6 @@ static void flesh_out_captures_by_invisible_rider(unsigned int base,
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",base);
   TraceWalk(walk_rider);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
@@ -417,15 +409,14 @@ static void flesh_out_captures_by_invisible_rider(unsigned int base,
     for (s = sq_capture+vec[kcurr];
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
-      flesh_out_capture_by_invisible(base,walk_rider,s,combined_validation);
+      flesh_out_capture_by_invisible(walk_rider,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_leaper(unsigned int base,
-                                                   piece_walk_type walk_leaper,
+static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
                                                    vec_index_type kcurr, vec_index_type kend,
                                                    mate_validation_type *combined_validation)
 {
@@ -434,7 +425,6 @@ static void flesh_out_captures_by_invisible_leaper(unsigned int base,
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",base);
   TraceWalk(walk_leaper);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
@@ -444,15 +434,14 @@ static void flesh_out_captures_by_invisible_leaper(unsigned int base,
   {
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
-      flesh_out_capture_by_invisible(base,walk_leaper,s,combined_validation);
+      flesh_out_capture_by_invisible(walk_leaper,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_pawn(unsigned int base,
-                                                 mate_validation_type *combined_validation)
+static void flesh_out_captures_by_invisible_pawn(mate_validation_type *combined_validation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -462,41 +451,39 @@ static void flesh_out_captures_by_invisible_pawn(unsigned int base,
   SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",base);
   TraceFunctionParamListEnd();
 
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_left;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(base,Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(Pawn,s,combined_validation);
   }
 
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_right;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(base,Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(Pawn,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible(unsigned int base)
+static void flesh_out_captures_by_invisible(void)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",base);
   TraceFunctionParamListEnd();
 
   if (play_phase==validating_mate)
   {
     mate_validation_type combined_validation = mate_validation_result;
-    flesh_out_captures_by_invisible_pawn(base,&combined_validation);
-    flesh_out_captures_by_invisible_leaper(base,Knight,vec_knight_start,vec_knight_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(base,Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(base,Rook,vec_rook_start,vec_rook_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(base,Queen,vec_queen_start,vec_queen_end,&combined_validation);
+    flesh_out_captures_by_invisible_pawn(&combined_validation);
+    flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,&combined_validation);
 
     end_of_iteration = combined_result==previous_move_has_not_solved;
 
@@ -511,39 +498,37 @@ static void flesh_out_captures_by_invisible(unsigned int base)
   else
   {
     mate_validation_type dont_care = mate_unvalidated;
-    flesh_out_captures_by_invisible_pawn(base,&dont_care);
-    flesh_out_captures_by_invisible_leaper(base,Knight,vec_knight_start,vec_knight_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(base,Rook,vec_rook_start,vec_rook_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(base,Queen,vec_queen_start,vec_queen_end,&dont_care);
+    flesh_out_captures_by_invisible_pawn(&dont_care);
+    flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,&dont_care);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void unwrap_move_effects(unsigned int base)
+static void unwrap_move_effects(void)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   ply_replayed = nbply;
 
   if (move_gen_top->departure==capture_by_invisible)
-    flesh_out_captures_by_invisible(base);
+    flesh_out_captures_by_invisible();
   else
-    recurse_into_parent_ply(base);
+    recurse_into_parent_ply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_square(unsigned int base,
-                                              vec_index_type kcurr, vec_index_type kend,
+static void place_interceptor_dummy_on_square(vec_index_type kcurr, vec_index_type kend,
                                               square s,
                                               piece_walk_type const walk_at_end,
                                               intercept_checks_fct *recurse)
@@ -553,7 +538,6 @@ static void place_interceptor_dummy_on_square(unsigned int base,
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceSquare(s);
@@ -568,7 +552,7 @@ static void place_interceptor_dummy_on_square(unsigned int base,
   /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black));
   ++nr_placed_interceptors;
-  (*recurse)(base,kcurr+1,kend);
+  (*recurse)(kcurr+1,kend);
   --nr_placed_interceptors;
   empty_square(s);
 
@@ -576,8 +560,7 @@ static void place_interceptor_dummy_on_square(unsigned int base,
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_line(unsigned int base,
-                                            vec_index_type kcurr, vec_index_type kend,
+static void place_interceptor_dummy_on_line(vec_index_type kcurr, vec_index_type kend,
                                             piece_walk_type const walk_at_end,
                                             intercept_checks_fct *recurse)
 {
@@ -585,7 +568,6 @@ static void place_interceptor_dummy_on_line(unsigned int base,
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceWalk(walk_at_end);
@@ -602,7 +584,7 @@ static void place_interceptor_dummy_on_line(unsigned int base,
       TraceValue("%u",taboo[Black][s]);
       TraceEOL();
       if (taboo[White][s]==0 || taboo[Black][s]==0)
-        place_interceptor_dummy_on_square(base,kcurr,kend,s,walk_at_end,recurse);
+        place_interceptor_dummy_on_square(kcurr,kend,s,walk_at_end,recurse);
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
@@ -613,8 +595,7 @@ static void place_interceptor_dummy_on_line(unsigned int base,
   TraceFunctionResultEnd();
 }
 
-static void intercept_line_if_check(unsigned int base,
-                                    vec_index_type kcurr, vec_index_type kend,
+static void intercept_line_if_check(vec_index_type kcurr, vec_index_type kend,
                                     piece_walk_type walk_rider,
                                     intercept_checks_fct *recurse)
 {
@@ -625,7 +606,6 @@ static void intercept_line_if_check(unsigned int base,
   piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceWalk(walk_rider);
@@ -645,24 +625,22 @@ static void intercept_line_if_check(unsigned int base,
     TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
     if (nr_placed_interceptors<nr_total_invisibles_left)
-      place_interceptor_dummy_on_line(base,kcurr,kend,walk_at_end,recurse);
+      place_interceptor_dummy_on_line(kcurr,kend,walk_at_end,recurse);
     else
     {
       /* there are not enough total invisibles to intercept all checks */
     }
   }
   else
-    (*recurse)(base,kcurr+1,kend);
+    (*recurse)(kcurr+1,kend);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_diagonal(unsigned int base,
-                                      vec_index_type kcurr, vec_index_type kend)
+static void intercept_checks_diagonal(vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
@@ -673,32 +651,30 @@ static void intercept_checks_diagonal(unsigned int base,
     {
       ply const save_nbply = nbply;
       nbply = mating_move_ply;
-      done_intercepting_checks(base);
+      done_intercepting_checks();
       nbply = save_nbply;
     }
     else
-      unwrap_move_effects(base);
+      unwrap_move_effects();
   }
   else
-    intercept_line_if_check(base,kcurr,kend,Bishop,&intercept_checks_diagonal);
+    intercept_line_if_check(kcurr,kend,Bishop,&intercept_checks_diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_orthogonal(unsigned int base,
-                                        vec_index_type kcurr, vec_index_type kend)
+static void intercept_checks_orthogonal(vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
   if (kcurr>kend)
-    intercept_checks_diagonal(base,vec_bishop_start,vec_bishop_end);
+    intercept_checks_diagonal(vec_bishop_start,vec_bishop_end);
   else
-    intercept_line_if_check(base,kcurr,kend,Rook,&intercept_checks_orthogonal);
+    intercept_line_if_check(kcurr,kend,Rook,&intercept_checks_orthogonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -709,8 +685,7 @@ static void deal_with_check_to_be_intercepted(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  intercept_checks_orthogonal(nr_placed_interceptors,
-                              vec_rook_start,vec_rook_end);
+  intercept_checks_orthogonal(vec_rook_start,vec_rook_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
