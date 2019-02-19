@@ -268,7 +268,7 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(vec_index_type kcurr, vec_index_type kend);
+typedef void intercept_checks_fct(vec_index_type kcurr);
 
 static intercept_checks_fct intercept_illegal_checks_orthogonal;
 
@@ -296,7 +296,7 @@ static void recurse_into_parent_ply(void)
   TraceEOL();
 
   nbply = parent_ply[nbply];
-  intercept_illegal_checks_orthogonal(vec_rook_start,vec_rook_end);
+  intercept_illegal_checks_orthogonal(vec_rook_start);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -525,7 +525,7 @@ static void unwrap_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_square(vec_index_type kcurr, vec_index_type kend,
+static void place_interceptor_dummy_on_square(vec_index_type kcurr,
                                               square s,
                                               piece_walk_type const walk_at_end,
                                               intercept_checks_fct *recurse)
@@ -536,7 +536,6 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr, vec_index_ty
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
   TraceSquare(s);
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
@@ -549,7 +548,7 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr, vec_index_ty
   /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black));
   ++nr_placed_interceptors;
-  (*recurse)(kcurr+1,kend);
+  (*recurse)(kcurr+1);
   --nr_placed_interceptors;
   empty_square(s);
 
@@ -557,7 +556,7 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr, vec_index_ty
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_line(vec_index_type kcurr, vec_index_type kend,
+static void place_interceptor_dummy_on_line(vec_index_type kcurr,
                                             piece_walk_type const walk_at_end,
                                             intercept_checks_fct *recurse)
 {
@@ -566,7 +565,6 @@ static void place_interceptor_dummy_on_line(vec_index_type kcurr, vec_index_type
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
@@ -581,7 +579,7 @@ static void place_interceptor_dummy_on_line(vec_index_type kcurr, vec_index_type
       TraceValue("%u",taboo[Black][s]);
       TraceEOL();
       if (taboo[White][s]==0 || taboo[Black][s]==0)
-        place_interceptor_dummy_on_square(kcurr,kend,s,walk_at_end,recurse);
+        place_interceptor_dummy_on_square(kcurr,s,walk_at_end,recurse);
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
@@ -592,7 +590,7 @@ static void place_interceptor_dummy_on_line(vec_index_type kcurr, vec_index_type
   TraceFunctionResultEnd();
 }
 
-static void intercept_line_if_check(vec_index_type kcurr, vec_index_type kend,
+static void intercept_line_if_check(vec_index_type kcurr,
                                     piece_walk_type walk_rider,
                                     intercept_checks_fct *recurse)
 {
@@ -604,7 +602,6 @@ static void intercept_line_if_check(vec_index_type kcurr, vec_index_type kend,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
   TraceWalk(walk_rider);
   TraceFunctionParamListEnd();
 
@@ -622,27 +619,26 @@ static void intercept_line_if_check(vec_index_type kcurr, vec_index_type kend,
     TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
     if (nr_placed_interceptors<nr_total_invisibles_left)
-      place_interceptor_dummy_on_line(kcurr,kend,walk_at_end,recurse);
+      place_interceptor_dummy_on_line(kcurr,walk_at_end,recurse);
     else
     {
       /* there are not enough total invisibles to intercept all checks */
     }
   }
   else
-    (*recurse)(kcurr+1,kend);
+    (*recurse)(kcurr+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_illegal_checks_diagonal(vec_index_type kcurr, vec_index_type kend)
+static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  if (kcurr>kend)
+  if (kcurr>vec_bishop_end)
   {
     if (nbply==ply_retro_move)
     {
@@ -655,23 +651,22 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr, vec_index_ty
       unwrap_move_effects();
   }
   else
-    intercept_line_if_check(kcurr,kend,Bishop,&intercept_illegal_checks_diagonal);
+    intercept_line_if_check(kcurr,Bishop,&intercept_illegal_checks_diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_illegal_checks_orthogonal(vec_index_type kcurr, vec_index_type kend)
+static void intercept_illegal_checks_orthogonal(vec_index_type kcurr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  if (kcurr>kend)
-    intercept_illegal_checks_diagonal(vec_bishop_start,vec_bishop_end);
+  if (kcurr>vec_rook_end)
+    intercept_illegal_checks_diagonal(vec_bishop_start);
   else
-    intercept_line_if_check(kcurr,kend,Rook,&intercept_illegal_checks_orthogonal);
+    intercept_line_if_check(kcurr,Rook,&intercept_illegal_checks_orthogonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -682,7 +677,7 @@ static void intercept_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  intercept_illegal_checks_orthogonal(vec_rook_start,vec_rook_end);
+  intercept_illegal_checks_orthogonal(vec_rook_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
