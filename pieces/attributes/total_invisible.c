@@ -31,6 +31,8 @@ static unsigned int nr_total_invisibles_left;
 
 static unsigned int nr_placed_interceptors = 0;
 
+static ply mating_move_ply;
+
 static ply ply_replayed;
 
 static stip_length_type combined_result;
@@ -274,15 +276,13 @@ static void done_intercepting_checks(slice_index si, unsigned int base)
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(ply current_ply,
-                                  slice_index si,
+typedef void intercept_checks_fct(slice_index si,
                                   unsigned int base,
                                   vec_index_type kcurr, vec_index_type kend);
 
 static intercept_checks_fct intercept_checks_orthogonal;
 
-static void recurse_into_parent_ply(ply current_ply,
-                                    slice_index si,
+static void recurse_into_parent_ply(slice_index si,
                                     unsigned int base)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -293,7 +293,6 @@ static void recurse_into_parent_ply(ply current_ply,
   undo_move_effects();
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
@@ -310,7 +309,7 @@ static void recurse_into_parent_ply(ply current_ply,
   TraceEOL();
 
   nbply = parent_ply[nbply];
-  intercept_checks_orthogonal(current_ply,si,base,vec_rook_start,vec_rook_end);
+  intercept_checks_orthogonal(si,base,vec_rook_start,vec_rook_end);
   nbply = save_nbply;
 
   ++taboo[advers(trait[nbply])][sq_arrival];
@@ -321,8 +320,7 @@ static void recurse_into_parent_ply(ply current_ply,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible(ply current_ply,
-                                           slice_index si,
+static void flesh_out_capture_by_invisible(slice_index si,
                                            unsigned int base,
                                            piece_walk_type walk_capturing,
                                            square from,
@@ -333,7 +331,6 @@ static void flesh_out_capture_by_invisible(ply current_ply,
   Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",current_ply);
   TraceValue("%u",si);
   TraceValue("%u",base);
   TraceWalk(walk_capturing);
@@ -370,7 +367,7 @@ static void flesh_out_capture_by_invisible(ply current_ply,
       mate_validation_result = mate_unvalidated;
       end_of_iteration = false;
 
-      recurse_into_parent_ply(current_ply,si,base);
+      recurse_into_parent_ply(si,base);
 
       TraceValue("%u",combined_result);
       TraceValue("%u",mate_validation_result);
@@ -382,7 +379,7 @@ static void flesh_out_capture_by_invisible(ply current_ply,
       end_of_iteration = *combined_validation==no_mate;
     }
     else
-      recurse_into_parent_ply(current_ply,si,base);
+      recurse_into_parent_ply(si,base);
 
     --taboo[White][from];
     --taboo[Black][from];
@@ -402,8 +399,7 @@ static void flesh_out_capture_by_invisible(ply current_ply,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_rider(ply current_ply,
-                                                  slice_index si,
+static void flesh_out_captures_by_invisible_rider(slice_index si,
                                                   unsigned int base,
                                                   piece_walk_type walk_rider,
                                                   vec_index_type kcurr, vec_index_type kend,
@@ -414,7 +410,6 @@ static void flesh_out_captures_by_invisible_rider(ply current_ply,
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",current_ply);
   TraceValue("%u",si);
   TraceValue("%u",base);
   TraceWalk(walk_rider);
@@ -432,15 +427,14 @@ static void flesh_out_captures_by_invisible_rider(ply current_ply,
     for (s = sq_capture+vec[kcurr];
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
-      flesh_out_capture_by_invisible(current_ply,si,base,walk_rider,s,combined_validation);
+      flesh_out_capture_by_invisible(si,base,walk_rider,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_leaper(ply current_ply,
-                                                   slice_index si,
+static void flesh_out_captures_by_invisible_leaper(slice_index si,
                                                    unsigned int base,
                                                    piece_walk_type walk_leaper,
                                                    vec_index_type kcurr, vec_index_type kend,
@@ -451,7 +445,6 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",current_ply);
   TraceValue("%u",si);
   TraceValue("%u",base);
   TraceWalk(walk_leaper);
@@ -463,15 +456,14 @@ static void flesh_out_captures_by_invisible_leaper(ply current_ply,
   {
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
-      flesh_out_capture_by_invisible(current_ply,si,base,walk_leaper,s,combined_validation);
+      flesh_out_capture_by_invisible(si,base,walk_leaper,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_pawn(ply current_ply,
-                                                 slice_index si,
+static void flesh_out_captures_by_invisible_pawn(slice_index si,
                                                  unsigned int base,
                                                  mate_validation_type *combined_validation)
 {
@@ -483,7 +475,6 @@ static void flesh_out_captures_by_invisible_pawn(ply current_ply,
   SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",current_ply);
   TraceValue("%u",si);
   TraceValue("%u",base);
   TraceFunctionParamListEnd();
@@ -492,24 +483,23 @@ static void flesh_out_captures_by_invisible_pawn(ply current_ply,
   {
     square s = sq_capture+dir_vert+dir_left;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(si,base,Pawn,s,combined_validation);
   }
 
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_right;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(current_ply,si,base,Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(si,base,Pawn,s,combined_validation);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, unsigned int base)
+static void flesh_out_captures_by_invisible(slice_index si, unsigned int base)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",current_ply);
   TraceValue("%u",si);
   TraceValue("%u",base);
   TraceFunctionParamListEnd();
@@ -517,11 +507,11 @@ static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, uns
   if (play_phase==validating_mate)
   {
     mate_validation_type combined_validation = mate_validation_result;
-    flesh_out_captures_by_invisible_pawn(current_ply,si,base,&combined_validation);
-    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&combined_validation);
+    flesh_out_captures_by_invisible_pawn(si,base,&combined_validation);
+    flesh_out_captures_by_invisible_leaper(si,base,Knight,vec_knight_start,vec_knight_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(si,base,Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(si,base,Rook,vec_rook_start,vec_rook_end,&combined_validation);
+    flesh_out_captures_by_invisible_rider(si,base,Queen,vec_queen_start,vec_queen_end,&combined_validation);
 
     end_of_iteration = combined_result==previous_move_has_not_solved;
 
@@ -536,24 +526,23 @@ static void flesh_out_captures_by_invisible(ply current_ply, slice_index si, uns
   else
   {
     mate_validation_type dont_care = mate_unvalidated;
-    flesh_out_captures_by_invisible_pawn(current_ply,si,base,&dont_care);
-    flesh_out_captures_by_invisible_leaper(current_ply,si,base,Knight,vec_knight_start,vec_knight_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Rook,vec_rook_start,vec_rook_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(current_ply,si,base,Queen,vec_queen_start,vec_queen_end,&dont_care);
+    flesh_out_captures_by_invisible_pawn(si,base,&dont_care);
+    flesh_out_captures_by_invisible_leaper(si,base,Knight,vec_knight_start,vec_knight_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(si,base,Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(si,base,Rook,vec_rook_start,vec_rook_end,&dont_care);
+    flesh_out_captures_by_invisible_rider(si,base,Queen,vec_queen_start,vec_queen_end,&dont_care);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int base)
+static void unwrap_move_effects(slice_index si, unsigned int base)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
@@ -561,16 +550,15 @@ static void unwrap_move_effects(ply current_ply, slice_index si, unsigned int ba
   ply_replayed = nbply;
 
   if (move_gen_top->departure==capture_by_invisible)
-    flesh_out_captures_by_invisible(current_ply,si,base);
+    flesh_out_captures_by_invisible(si,base);
   else
-    recurse_into_parent_ply(current_ply,si,base);
+    recurse_into_parent_ply(si,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_square(ply current_ply,
-                                              slice_index si,
+static void place_interceptor_dummy_on_square(slice_index si,
                                               unsigned int base,
                                               vec_index_type kcurr, vec_index_type kend,
                                               square s,
@@ -582,7 +570,6 @@ static void place_interceptor_dummy_on_square(ply current_ply,
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
@@ -599,7 +586,7 @@ static void place_interceptor_dummy_on_square(ply current_ply,
   /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black));
   ++nr_placed_interceptors;
-  (*recurse)(current_ply,si,base,kcurr+1,kend);
+  (*recurse)(si,base,kcurr+1,kend);
   --nr_placed_interceptors;
   empty_square(s);
 
@@ -607,8 +594,7 @@ static void place_interceptor_dummy_on_square(ply current_ply,
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_line(ply current_ply,
-                                            slice_index si,
+static void place_interceptor_dummy_on_line(slice_index si,
                                             unsigned int base,
                                             vec_index_type kcurr, vec_index_type kend,
                                             piece_walk_type const walk_at_end,
@@ -618,7 +604,6 @@ static void place_interceptor_dummy_on_line(ply current_ply,
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
@@ -637,7 +622,7 @@ static void place_interceptor_dummy_on_line(ply current_ply,
       TraceValue("%u",taboo[Black][s]);
       TraceEOL();
       if (taboo[White][s]==0 || taboo[Black][s]==0)
-        place_interceptor_dummy_on_square(nbply,si,base,kcurr,kend,s,walk_at_end,recurse);
+        place_interceptor_dummy_on_square(si,base,kcurr,kend,s,walk_at_end,recurse);
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
@@ -648,8 +633,7 @@ static void place_interceptor_dummy_on_line(ply current_ply,
   TraceFunctionResultEnd();
 }
 
-static void intercept_line_if_check(ply current_ply,
-                                    slice_index si,
+static void intercept_line_if_check(slice_index si,
                                     unsigned int base,
                                     vec_index_type kcurr, vec_index_type kend,
                                     piece_walk_type walk_rider,
@@ -662,7 +646,6 @@ static void intercept_line_if_check(ply current_ply,
   piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
@@ -684,26 +667,24 @@ static void intercept_line_if_check(ply current_ply,
     TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
     if (nr_placed_interceptors<nr_total_invisibles_left)
-      place_interceptor_dummy_on_line(current_ply,si,base,kcurr,kend,walk_at_end,recurse);
+      place_interceptor_dummy_on_line(si,base,kcurr,kend,walk_at_end,recurse);
     else
     {
       /* there are not enough total invisibles to intercept all checks */
     }
   }
   else
-    (*recurse)(current_ply,si,base,kcurr+1,kend);
+    (*recurse)(si,base,kcurr+1,kend);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_diagonal(ply current_ply,
-                                      slice_index si,
+static void intercept_checks_diagonal(slice_index si,
                                       unsigned int base,
                                       vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
@@ -715,27 +696,25 @@ static void intercept_checks_diagonal(ply current_ply,
     if (nbply==ply_retro_move)
     {
       ply const save_nbply = nbply;
-      nbply = current_ply;
+      nbply = mating_move_ply;
       done_intercepting_checks(si,base);
       nbply = save_nbply;
     }
     else
-      unwrap_move_effects(current_ply,si,base);
+      unwrap_move_effects(si,base);
   }
   else
-    intercept_line_if_check(current_ply,si,base,kcurr,kend,Bishop,&intercept_checks_diagonal);
+    intercept_line_if_check(si,base,kcurr,kend,Bishop,&intercept_checks_diagonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intercept_checks_orthogonal(ply current_ply,
-                                        slice_index si,
+static void intercept_checks_orthogonal(slice_index si,
                                         unsigned int base,
                                         vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",base);
   TraceFunctionParam("%u",kcurr);
@@ -743,23 +722,21 @@ static void intercept_checks_orthogonal(ply current_ply,
   TraceFunctionParamListEnd();
 
   if (kcurr>kend)
-    intercept_checks_diagonal(current_ply,si,base,vec_bishop_start,vec_bishop_end);
+    intercept_checks_diagonal(si,base,vec_bishop_start,vec_bishop_end);
   else
-    intercept_line_if_check(current_ply,si,base,kcurr,kend,Rook,&intercept_checks_orthogonal);
+    intercept_line_if_check(si,base,kcurr,kend,Rook,&intercept_checks_orthogonal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void deal_with_check_to_be_intercepted(ply current_ply, slice_index si)
+static void deal_with_check_to_be_intercepted(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  intercept_checks_orthogonal(current_ply,
-                              si,
+  intercept_checks_orthogonal(si,
                               nr_placed_interceptors,
                               vec_rook_start,vec_rook_end);
 
@@ -873,7 +850,7 @@ static void place_mating_piece_attacker(slice_index si,
   --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking));
-  deal_with_check_to_be_intercepted(nbply,si);
+  deal_with_check_to_be_intercepted(si);
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
@@ -1049,12 +1026,14 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
     TraceEOL();
 
+    mating_move_ply = nbply;
+
     mate_validation_result = mate_unvalidated;
 
     combined_result = previous_move_is_illegal;
     play_phase = validating_mate;
     end_of_iteration = false;
-    deal_with_check_to_be_intercepted(nbply,si);
+    deal_with_check_to_be_intercepted(si);
 
     play_phase = replaying_moves;
     end_of_iteration = false;
@@ -1079,7 +1058,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
       case mate_defendable_by_interceptors:
         combined_result = previous_move_is_illegal;
-        deal_with_check_to_be_intercepted(nbply,si);
+        deal_with_check_to_be_intercepted(si);
         break;
 
       case mate_with_2_uninterceptable_doublechecks:
