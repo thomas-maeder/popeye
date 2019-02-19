@@ -288,11 +288,6 @@ static void recurse_into_parent_ply(void)
   assert(taboo[advers(trait[nbply])][sq_arrival]>0);
   --taboo[advers(trait[nbply])][sq_arrival];
 
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceEOL();
-
   nbply = parent_ply[nbply];
   flesh_out_captures_by_invisible();
   nbply = save_nbply;
@@ -499,53 +494,61 @@ static void flesh_out_capture_by_invisible(piece_walk_type walk_capturing,
     assert(move_effect_journal[precapture].type==move_effect_piece_creation);
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-    /* insert the capturer here to make sure that checks delivered by it will be
-     * intercepted
-     */
-    move_effect_journal[precapture].type = move_effect_none;
-
-    ++being_solved.number_of_pieces[side_playing][walk_capturing];
-    being_solved.board[move_effect_journal[movement].u.piece_movement.to] = walk_capturing;
-
-    move_effect_journal[movement].u.piece_movement.from = from;
-    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
-    move_gen_top->departure = from;
-
-    ++taboo[White][from];
-    ++taboo[Black][from];
-
-    if (play_phase==validating_mate)
+    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+    if (nr_total_invisibles_left>nr_placed_interceptors)
     {
-      mate_validation_result = mate_unvalidated;
-      end_of_iteration = false;
+      --nr_total_invisibles_left;
 
-      intercept_illegal_checks();
+      /* insert the capturer here to make sure that checks delivered by it will be
+       * intercepted
+       */
+      move_effect_journal[precapture].type = move_effect_none;
 
-      TraceValue("%u",combined_result);
-      TraceValue("%u",mate_validation_result);
-      TraceValue("%u",combined_validation_result);
-      TraceEOL();
-      if (mate_validation_result<combined_validation_result)
-        combined_validation_result = mate_validation_result;
+      ++being_solved.number_of_pieces[side_playing][walk_capturing];
+      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = walk_capturing;
 
-      end_of_iteration = combined_validation_result==no_mate;
+      move_effect_journal[movement].u.piece_movement.from = from;
+      move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+      move_gen_top->departure = from;
+
+      ++taboo[White][from];
+      ++taboo[Black][from];
+
+      if (play_phase==validating_mate)
+      {
+        mate_validation_result = mate_unvalidated;
+        end_of_iteration = false;
+
+        intercept_illegal_checks();
+
+        TraceValue("%u",combined_result);
+        TraceValue("%u",mate_validation_result);
+        TraceValue("%u",combined_validation_result);
+        TraceEOL();
+        if (mate_validation_result<combined_validation_result)
+          combined_validation_result = mate_validation_result;
+
+        end_of_iteration = combined_validation_result==no_mate;
+      }
+      else
+        intercept_illegal_checks();
+
+      --taboo[White][from];
+      --taboo[Black][from];
+
+      move_gen_top->departure = capture_by_invisible;
+
+      move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+      move_effect_journal[movement].u.piece_movement.moving = Dummy;
+
+      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = Dummy;
+      --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+      move_effect_journal[precapture].type = move_effect_piece_creation;
+
+      ++nr_total_invisibles_left;
     }
-    else
-      intercept_illegal_checks();
-
-    --taboo[White][from];
-    --taboo[Black][from];
-
-    move_gen_top->departure = capture_by_invisible;
-
-    move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-    move_effect_journal[movement].u.piece_movement.moving = Dummy;
-
-    being_solved.board[move_effect_journal[movement].u.piece_movement.to] = Dummy;
-    --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-    move_effect_journal[precapture].type = move_effect_piece_creation;
   }
 
   TraceFunctionExit(__func__);
@@ -658,6 +661,11 @@ static void flesh_out_captures_by_invisible(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceEOL();
 
   if (move_gen_top->departure==capture_by_invisible)
   {
@@ -1683,9 +1691,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
         piece_choice[nr_placed_interceptors].pos = capture_by_invisible;
 
-        --nr_total_invisibles_left;
         pipe_solve_delegate(si);
-        ++nr_total_invisibles_left;
       }
       else
       {
