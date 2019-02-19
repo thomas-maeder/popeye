@@ -240,10 +240,10 @@ solution finished.
  28  (Kd5*c5 )
  29  (Kd5-d6 )
  30  (Kd5-e5 )
-  add_to_move_generation_stack:     1948521
-                     play_move:     5626315
- is_white_king_square_attacked:     2112872
- is_black_king_square_attacked:     3506934
+  add_to_move_generation_stack:     1948863
+                     play_move:     5626505
+ is_white_king_square_attacked:     2112768
+ is_black_king_square_attacked:     3507148
 
 solution finished.
 
@@ -425,9 +425,9 @@ a)
  41  (e5*f4 )
  42  (e5*d4 )
   add_to_move_generation_stack:    20974891
-                     play_move:    30703497
- is_white_king_square_attacked:     5747401
- is_black_king_square_attacked:    25804568
+                     play_move:    30703695
+ is_white_king_square_attacked:     5747575
+ is_black_king_square_attacked:    25804718
 
 b) bPe5-->h3  
 

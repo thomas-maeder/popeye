@@ -188,38 +188,35 @@ static void play_with_placed_invisibles(void)
   TraceFunctionResultEnd();
 }
 
+static void colour_interceptor(unsigned int idx);
+
 static void walk_interceptor(unsigned int idx)
 {
+  square const place = piece_choice[idx].pos;
+  SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  if (idx==nr_placed_interceptors)
-    play_with_placed_invisibles();
-  else
-  {
-    square const place = piece_choice[idx].pos;
-    SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
-    SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
+  TraceSquare(place);TraceEOL();
+  assert(is_square_empty(place));
 
-    TraceSquare(place);TraceEOL();
-    assert(is_square_empty(place));
-
-    for (piece_choice[idx].walk = Pawn;
-         piece_choice[idx].walk<=Bishop && !end_of_iteration;
-         ++piece_choice[idx].walk)
-      if (!(is_pawn(piece_choice[idx].walk)
-            && TSTFLAG(sq_spec[place],basesq) && TSTFLAG(sq_spec[place],promsq)))
-      {
-        ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-        occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
-        if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
-                                                being_solved.king_square[advers(piece_choice[idx].side)]))
-          walk_interceptor(idx+1);
-        empty_square(place);
-        --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      }
-  }
+  for (piece_choice[idx].walk = Pawn;
+       piece_choice[idx].walk<=Bishop && !end_of_iteration;
+       ++piece_choice[idx].walk)
+    if (!(is_pawn(piece_choice[idx].walk)
+          && TSTFLAG(sq_spec[place],basesq) && TSTFLAG(sq_spec[place],promsq)))
+    {
+      ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+      occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side));
+      if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
+                                              being_solved.king_square[advers(piece_choice[idx].side)]))
+        colour_interceptor(idx+1);
+      empty_square(place);
+      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -232,20 +229,20 @@ static void colour_interceptor(unsigned int idx)
   TraceFunctionParamListEnd();
 
   if (idx==nr_placed_interceptors)
-    walk_interceptor(0);
+    play_with_placed_invisibles();
   else
   {
     /* remove the dummy */
     empty_square(piece_choice[idx].pos);
 
     if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
-      colour_interceptor(idx+1);
+      walk_interceptor(idx);
 
     if (!end_of_iteration)
     {
       piece_choice[idx].side = advers(piece_choice[idx].side);
       if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
-        colour_interceptor(idx+1);
+        walk_interceptor(idx);
     }
 
     /* re-place the dummy */
