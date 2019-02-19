@@ -66,6 +66,7 @@ typedef enum
 } mate_validation_type;
 
 static mate_validation_type mate_validation_result;
+static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
@@ -308,8 +309,7 @@ static void recurse_into_parent_ply(void)
 }
 
 static void flesh_out_capture_by_invisible(piece_walk_type walk_capturing,
-                                           square from,
-                                           mate_validation_type *combined_validation)
+                                           square from)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
@@ -354,12 +354,12 @@ static void flesh_out_capture_by_invisible(piece_walk_type walk_capturing,
 
       TraceValue("%u",combined_result);
       TraceValue("%u",mate_validation_result);
-      TraceValue("%u",*combined_validation);
+      TraceValue("%u",combined_validation_result);
       TraceEOL();
-      if (mate_validation_result<*combined_validation)
-        *combined_validation = mate_validation_result;
+      if (mate_validation_result<combined_validation_result)
+        combined_validation_result = mate_validation_result;
 
-      end_of_iteration = *combined_validation==no_mate;
+      end_of_iteration = combined_validation_result==no_mate;
     }
     else
       recurse_into_parent_ply();
@@ -383,8 +383,7 @@ static void flesh_out_capture_by_invisible(piece_walk_type walk_capturing,
 }
 
 static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
-                                                  vec_index_type kcurr, vec_index_type kend,
-                                                  mate_validation_type *combined_validation)
+                                                  vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -406,7 +405,7 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
     for (s = sq_capture+vec[kcurr];
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
-      flesh_out_capture_by_invisible(walk_rider,s,combined_validation);
+      flesh_out_capture_by_invisible(walk_rider,s);
   }
 
   TraceFunctionExit(__func__);
@@ -414,8 +413,7 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
 }
 
 static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
-                                                   vec_index_type kcurr, vec_index_type kend,
-                                                   mate_validation_type *combined_validation)
+                                                   vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -431,14 +429,14 @@ static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
   {
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
-      flesh_out_capture_by_invisible(walk_leaper,s,combined_validation);
+      flesh_out_capture_by_invisible(walk_leaper,s);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_pawn(mate_validation_type *combined_validation)
+static void flesh_out_captures_by_invisible_pawn(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -454,15 +452,30 @@ static void flesh_out_captures_by_invisible_pawn(mate_validation_type *combined_
   {
     square s = sq_capture+dir_vert+dir_left;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(Pawn,s);
   }
 
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_right;
     if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_invisible(Pawn,s,combined_validation);
+      flesh_out_capture_by_invisible(Pawn,s);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_walk_by_walk(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  flesh_out_captures_by_invisible_pawn();
+  flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
+  flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
+  flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
+  flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -475,17 +488,18 @@ static void flesh_out_captures_by_invisible(void)
 
   if (play_phase==validating_mate)
   {
-    mate_validation_type combined_validation = mate_validation_result;
-    flesh_out_captures_by_invisible_pawn(&combined_validation);
-    flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,&combined_validation);
-    flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,&combined_validation);
+    mate_validation_type const save_combined_validation_result = combined_validation_result;
+
+    combined_validation_result = mate_validation_result;
+
+    flesh_out_captures_by_invisible_walk_by_walk();
 
     end_of_iteration = combined_result==previous_move_has_not_solved;
 
-    if (combined_validation<mate_validation_result)
-      mate_validation_result = combined_validation;
+    if (combined_validation_result<mate_validation_result)
+      mate_validation_result = combined_validation_result;
+
+    combined_validation_result = save_combined_validation_result;
 
     TraceValue("%u",combined_result);
     TraceValue("%u",mate_validation_result);
@@ -493,14 +507,7 @@ static void flesh_out_captures_by_invisible(void)
     TraceEOL();
   }
   else
-  {
-    mate_validation_type dont_care = mate_unvalidated;
-    flesh_out_captures_by_invisible_pawn(&dont_care);
-    flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,&dont_care);
-    flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,&dont_care);
-  }
+    flesh_out_captures_by_invisible_walk_by_walk();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
