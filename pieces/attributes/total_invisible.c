@@ -178,7 +178,7 @@ static void play_with_placed_invisibles(void)
     combined_result = solve_result;
 
   if (combined_result==previous_move_has_not_solved
-      || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
+      || (play_phase==validating_mate && mate_validation_result<=mate_attackable))
     end_of_iteration = true;
 
   TraceValue("%u",end_of_iteration);TraceEOL();
@@ -426,7 +426,6 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
   colour_interceptor(nr_placed_interceptors-1,recurse,kcurr+1);
-  (*recurse)(kcurr+1);
   --nr_placed_interceptors;
   empty_square(s);
 
