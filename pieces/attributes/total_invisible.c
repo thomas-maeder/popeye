@@ -310,9 +310,15 @@ static void flesh_out_captures_by_invisible(void);
 static void recurse_into_child_ply(void)
 {
   ply const save_nbply = nbply;
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_departure = move_gen_top->departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  ++taboo[White][sq_departure];
+  ++taboo[Black][sq_departure];
 
   redo_move_effects();
 
@@ -322,6 +328,9 @@ static void recurse_into_child_ply(void)
   nbply = save_nbply;
 
   undo_move_effects();
+
+  --taboo[White][sq_departure];
+  --taboo[Black][sq_departure];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1195,6 +1204,13 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     while (nbply!=ply_retro_move)
     {
+      numecoup const curr = CURRMOVE_OF_PLY(nbply);
+      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+      square const sq_departure = move_gen_top->departure;
+
+      --taboo[White][sq_departure];
+      --taboo[Black][sq_departure];
+
       undo_move_effects();
       --nbply;
     }
@@ -1211,6 +1227,15 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     {
       ++nbply;
       redo_move_effects();
+
+      {
+        numecoup const curr = CURRMOVE_OF_PLY(nbply);
+        move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+        square const sq_departure = move_gen_top->departure;
+
+        ++taboo[White][sq_departure];
+        ++taboo[Black][sq_departure];
+      }
     }
 
     play_phase = regular_play;
