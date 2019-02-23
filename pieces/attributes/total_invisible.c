@@ -215,8 +215,6 @@ static void play_with_placed_invisibles(void)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(unsigned int idx);
-
 static void walk_interceptor(unsigned int idx)
 {
   square const place = piece_choice[idx].pos;
@@ -308,9 +306,6 @@ static void flesh_out_captures_by_invisible(void);
 
 static void recurse_into_child_ply(void)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_arrival = move_gen_top->arrival;
   ply const save_nbply = nbply;
 
   TraceFunctionEntry(__func__);
@@ -343,18 +338,10 @@ static void recurse_into_child_ply(void)
 
         redo_move_effects();
 
-        /* before we arrived on this square, it is not taboo for a total invisible
-         * to have occupied it, provided it could be captured */
-        // TODO sq_arrival or sq_capture?
-      //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
-      //  --taboo[advers(trait[nbply])][sq_arrival];
-
         ++nbply;
         TraceValue("%u",nbply);TraceEOL();
         flesh_out_captures_by_invisible();
         nbply = save_nbply;
-
-      //  ++taboo[advers(trait[nbply])][sq_arrival];
 
         undo_move_effects();
 
@@ -372,18 +359,10 @@ static void recurse_into_child_ply(void)
 
         redo_move_effects();
 
-        /* before we arrived on this square, it is not taboo for a total invisible
-         * to have occupied it, provided it could be captured */
-        // TODO sq_arrival or sq_capture?
-      //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
-      //  --taboo[advers(trait[nbply])][sq_arrival];
-
         ++nbply;
         TraceValue("%u",nbply);TraceEOL();
         flesh_out_captures_by_invisible();
         nbply = save_nbply;
-
-      //  ++taboo[advers(trait[nbply])][sq_arrival];
 
         undo_move_effects();
 
@@ -396,18 +375,10 @@ static void recurse_into_child_ply(void)
       redo_move_effects();
       TracePosition(being_solved.board,being_solved.spec);
 
-      /* before we arrived on this square, it is not taboo for a total invisible
-       * to have occupied it, provided it could be captured */
-      // TODO sq_arrival or sq_capture?
-    //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
-    //  --taboo[advers(trait[nbply])][sq_arrival];
-
       ++nbply;
       TraceValue("%u",nbply);TraceEOL();
       flesh_out_captures_by_invisible();
       nbply = save_nbply;
-
-    //  ++taboo[advers(trait[nbply])][sq_arrival];
 
       undo_move_effects();
     }
