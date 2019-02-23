@@ -58,9 +58,9 @@ a)
  15  (Sh5-g7 )
  16  (Sh5-f6 )
   add_to_move_generation_stack:      677614
-                     play_move:     1411014
- is_white_king_square_attacked:      778549
- is_black_king_square_attacked:      923827
+                     play_move:     1410977
+ is_white_king_square_attacked:      778506
+ is_black_king_square_attacked:      923797
 
 b) wKc2-->g6  
 
@@ -121,9 +121,9 @@ b) wKc2-->g6
  31  (Sh5-g7 )
  32  (Sh5-f6 )
   add_to_move_generation_stack:      576522
-                     play_move:     1153518
- is_white_king_square_attacked:      608738
- is_black_king_square_attacked:      752109
+                     play_move:     1153500
+ is_white_king_square_attacked:      608722
+ is_black_king_square_attacked:      752093
 
 solution finished.
 
@@ -240,9 +240,9 @@ solution finished.
  29  (Kd5-d6 )
  30  (Kd5-e5 )
   add_to_move_generation_stack:     2368826
-                     play_move:     7700435
- is_white_king_square_attacked:     4594115
- is_black_king_square_attacked:     5102590
+                     play_move:     7699507
+ is_white_king_square_attacked:     4593311
+ is_black_king_square_attacked:     5101840
 
 solution finished.
 
@@ -307,9 +307,9 @@ a)
  30  (Kd5-d6 )
  31  (Kd5-e5 )
   add_to_move_generation_stack:     5772995
-                     play_move:     9189219
- is_white_king_square_attacked:     3756663
- is_black_king_square_attacked:     7078135
+                     play_move:     9188137
+ is_white_king_square_attacked:     3755587
+ is_black_king_square_attacked:     7077341
 
 b) wSb5-->d7  
 
@@ -346,9 +346,9 @@ b) wSb5-->d7
  61  (Kd5-d6 )
  62  (Kd5-e5 )
   add_to_move_generation_stack:     3243460
-                     play_move:     6734841
- is_white_king_square_attacked:     3689779
- is_black_king_square_attacked:     4580457
+                     play_move:     6733207
+ is_white_king_square_attacked:     3688047
+ is_black_king_square_attacked:     4579259
 
 solution finished.
 
@@ -423,10 +423,10 @@ a)
  40  (e5-e4 )
  41  (e5*f4 )
  42  (e5*d4 )
-  add_to_move_generation_stack:    51028676
-                     play_move:    82914928
- is_white_king_square_attacked:    67012038
- is_black_king_square_attacked:    70864256
+  add_to_move_generation_stack:    50083125
+                     play_move:    80828428
+ is_white_king_square_attacked:    61752360
+ is_black_king_square_attacked:    69246977
 
 b) bPe5-->h3  
 
@@ -471,10 +471,10 @@ b) bPe5-->h3
  80  (Kg4*f4 )
  81  (Kg4*g5 )
  82  (Kg4-h4 )
-  add_to_move_generation_stack:    41897179
-                     play_move:    73631932
- is_white_king_square_attacked:    38105383
- is_black_king_square_attacked:    62624861
+  add_to_move_generation_stack:    41303123
+                     play_move:    71101397
+ is_white_king_square_attacked:    35371026
+ is_black_king_square_attacked:    60735922
 
 solution finished.
 
@@ -564,10 +564,10 @@ Michael Caillaud (after Ken Kousaka)
  54  (g7*f6 )
  55  (h7*g6 )
   1.h7*g6 Qc8-h3   2.h5*g4 Qh3-h4 #
-  add_to_move_generation_stack:     3314987
-                     play_move:    13067382
- is_white_king_square_attacked:     7569099
- is_black_king_square_attacked:     8240597
+  add_to_move_generation_stack:     3306358
+                     play_move:    13052975
+ is_white_king_square_attacked:     7564951
+ is_black_king_square_attacked:     8227894
 
 solution finished.
 
@@ -621,10 +621,10 @@ Sake tourney 2018, 1st prize, a) corrected
  21  (Kf4-f3 )
  22  (Kf4-g4 )
  23  (f5*g4 )
-  add_to_move_generation_stack:     1078422
-                     play_move:     2794923
- is_white_king_square_attacked:     1663996
- is_black_king_square_attacked:     1808459
+  add_to_move_generation_stack:     1078267
+                     play_move:     2794529
+ is_white_king_square_attacked:     1663195
+ is_black_king_square_attacked:     1808130
 
 solution finished.
 
@@ -678,10 +678,10 @@ Sake tourney 2018, 1st prize, b) corrected
  21  (Kf4-f3 )
  22  (Kf4-g4 )
  23  (f5*g4 )
-  add_to_move_generation_stack:     1113623
-                     play_move:     3305237
- is_white_king_square_attacked:     2129612
- is_black_king_square_attacked:     2189329
+  add_to_move_generation_stack:     1113483
+                     play_move:     3298950
+ is_white_king_square_attacked:     2122075
+ is_black_king_square_attacked:     2184569
 
 solution finished.
 
@@ -740,10 +740,10 @@ Sake tourney 2018, 1st prize, b) cooked
  22  (Kf4-f3 )
  23  (Kf4-g4 )
  24  (f5*g4 )
-  add_to_move_generation_stack:     1271336
-                     play_move:     3791801
- is_white_king_square_attacked:     2416698
- is_black_king_square_attacked:     2510449
+  add_to_move_generation_stack:     1271269
+                     play_move:     3784770
+ is_white_king_square_attacked:     2409846
+ is_black_king_square_attacked:     2505413
 
 solution finished.
 

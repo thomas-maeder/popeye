@@ -170,6 +170,8 @@ static void play_with_placed_invisibles(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TracePosition(being_solved.board,being_solved.spec);
+
   pipe_solve_delegate(tester_slice);
 
   if (solve_result>combined_result)
@@ -683,13 +685,23 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
     for (s = sq_capture+vec[kcurr];
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
+    {
       flesh_out_capture_by_inserted_invisible(walk_rider,s);
+      ++taboo[White][s];
+      ++taboo[Black][s];
+    }
 
     if (!end_of_iteration
         && get_walk_of_piece_on_square(s)==Dummy
         && TSTFLAG(being_solved.spec[s],Chameleon)
         && TSTFLAG(being_solved.spec[s],trait[nbply]))
       flesh_out_capture_by_existing_invisible(walk_rider,s);
+
+    for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
+    {
+      --taboo[White][s];
+      --taboo[Black][s];
+    }
   }
 
   TraceFunctionExit(__func__);
