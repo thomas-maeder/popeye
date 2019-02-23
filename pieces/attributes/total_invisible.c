@@ -165,26 +165,51 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
   return result;
 }
 
+static void colour_interceptor(unsigned int idx);
+
 static void play_with_placed_invisibles(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TracePosition(being_solved.board,being_solved.spec);
-
-  if (is_in_check(advers(SLICE_STARTER(tester_slice))))
+  if (is_in_check(trait[nbply-1]))
     solve_result = previous_move_is_illegal;
   else
-    pipe_solve_delegate(tester_slice);
+  {
+    do
+    {
+      --nbply;
+      undo_move_effects();
+    }
+    while (nbply-1!=ply_retro_move);
 
-  if (solve_result>combined_result)
-    combined_result = solve_result;
+    ply_replayed = nbply;
+    nbply = mating_move_ply;
 
-  if (combined_result==previous_move_has_not_solved
-      || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
-    end_of_iteration = true;
+    if (play_phase==validating_mate)
+    {
+      pipe_solve_delegate(tester_slice);
 
-  TraceValue("%u",end_of_iteration);TraceEOL();
+      if (solve_result>combined_result)
+        combined_result = solve_result;
+
+      if (combined_result==previous_move_has_not_solved
+          || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
+        end_of_iteration = true;
+
+      TraceValue("%u",end_of_iteration);TraceEOL();
+    }
+    else
+      colour_interceptor(0);
+
+    nbply = ply_replayed;
+
+    while (nbply<=mating_move_ply)
+    {
+      redo_move_effects();
+      ++nbply;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -216,9 +241,16 @@ static void walk_interceptor(unsigned int idx)
       if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
                                               being_solved.king_square[advers(piece_choice[idx].side)]))
         colour_interceptor(idx+1);
+      TraceSquare(place);
+      TraceWalk(get_walk_of_piece_on_square(place));
+      TraceWalk(piece_choice[idx].walk);
+      TraceEOL();
+      // TODO why is get_walk... different from piece_choice..walk??
+      --being_solved.number_of_pieces[piece_choice[idx].side][get_walk_of_piece_on_square(place)];
       empty_square(place);
-      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
     }
+
+  TracePosition(being_solved.board,being_solved.spec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -231,24 +263,154 @@ static void colour_interceptor(unsigned int idx)
   TraceFunctionParamListEnd();
 
   if (idx==nr_placed_interceptors)
-    play_with_placed_invisibles();
-  else
+  {
+    TracePosition(being_solved.board,being_solved.spec);
+    pipe_solve_delegate(tester_slice);
+
+    if (solve_result>combined_result)
+      combined_result = solve_result;
+
+    if (combined_result==previous_move_has_not_solved
+        || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
+      end_of_iteration = true;
+
+    TraceValue("%u",end_of_iteration);TraceEOL();
+  }
+  else if (get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy)
   {
     /* remove the dummy */
     empty_square(piece_choice[idx].pos);
 
-    if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
+    /* taboo equal to 1 is ok: this is "my" taboo! */
+    if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
       walk_interceptor(idx);
 
     if (!end_of_iteration)
     {
       piece_choice[idx].side = advers(piece_choice[idx].side);
-      if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==0)
+      if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
         walk_interceptor(idx);
     }
 
     /* re-place the dummy */
     occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+  }
+  else
+    colour_interceptor(idx+1);
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible(void);
+
+static void recurse_into_child_ply(void)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_arrival = move_gen_top->arrival;
+  ply const save_nbply = nbply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* do we have to invent a removal effect for an inserted total invisible? */
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const to = move_effect_journal[movement].u.piece_movement.to;
+
+    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+    if (!is_square_empty(to))
+    {
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+      {
+        TraceText("inventing capture. ");
+        TraceValue("%u",nbply);
+        TraceValue("%u",base);
+        TraceValue("%u",capture);
+        TraceEOL();
+        assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
+
+        move_effect_journal[capture].type = move_effect_piece_removal;
+        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+        move_effect_journal[capture].u.piece_removal.on = to;
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+        redo_move_effects();
+
+        /* before we arrived on this square, it is not taboo for a total invisible
+         * to have occupied it, provided it could be captured */
+        // TODO sq_arrival or sq_capture?
+      //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
+      //  --taboo[advers(trait[nbply])][sq_arrival];
+
+        ++nbply;
+        TraceValue("%u",nbply);TraceEOL();
+        flesh_out_captures_by_invisible();
+        nbply = save_nbply;
+
+      //  ++taboo[advers(trait[nbply])][sq_arrival];
+
+        undo_move_effects();
+
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
+      }
+      else
+      {
+        piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
+        Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
+
+        assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+        redo_move_effects();
+
+        /* before we arrived on this square, it is not taboo for a total invisible
+         * to have occupied it, provided it could be captured */
+        // TODO sq_arrival or sq_capture?
+      //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
+      //  --taboo[advers(trait[nbply])][sq_arrival];
+
+        ++nbply;
+        TraceValue("%u",nbply);TraceEOL();
+        flesh_out_captures_by_invisible();
+        nbply = save_nbply;
+
+      //  ++taboo[advers(trait[nbply])][sq_arrival];
+
+        undo_move_effects();
+
+        move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
+        move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
+      }
+    }
+    else
+    {
+      redo_move_effects();
+      TracePosition(being_solved.board,being_solved.spec);
+
+      /* before we arrived on this square, it is not taboo for a total invisible
+       * to have occupied it, provided it could be captured */
+      // TODO sq_arrival or sq_capture?
+    //  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
+    //  --taboo[advers(trait[nbply])][sq_arrival];
+
+      ++nbply;
+      TraceValue("%u",nbply);TraceEOL();
+      flesh_out_captures_by_invisible();
+      nbply = save_nbply;
+
+    //  ++taboo[advers(trait[nbply])][sq_arrival];
+
+      undo_move_effects();
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -260,55 +422,7 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (play_phase==validating_mate)
-    play_with_placed_invisibles();
-  else
-    colour_interceptor(0);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible(void);
-
-static void recurse_into_parent_ply(void)
-{
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_arrival = move_gen_top->arrival;
-  ply const save_nbply = nbply;
-
-  undo_move_effects();
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  /* before we arrived on this square, it is not taboo for a total invisible
-   * to have occupied it, provided it could be captured */
-  // TODO sq_arrival or sq_capture?
-  assert(taboo[advers(trait[nbply])][sq_arrival]>0);
-  --taboo[advers(trait[nbply])][sq_arrival];
-
-  nbply = parent_ply[nbply];
-  flesh_out_captures_by_invisible();
-  nbply = save_nbply;
-
-  ++taboo[advers(trait[nbply])][sq_arrival];
-
-  redo_move_effects();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void unwrap_move_effects(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  ply_replayed = nbply;
-
-  recurse_into_parent_ply();
+  play_with_placed_invisibles();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -321,7 +435,7 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
                                               piece_walk_type const walk_at_end,
                                               intercept_checks_fct *recurse)
 {
-  Side const side_in_check = trait[nbply];
+  Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
 
@@ -336,12 +450,18 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   piece_choice[nr_placed_interceptors].side = side_in_check;
   TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
+  ++taboo[White][s];
+  ++taboo[Black][s];
+
   /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
   (*recurse)(kcurr+1);
   --nr_placed_interceptors;
   empty_square(s);
+
+  --taboo[White][s];
+  --taboo[Black][s];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -351,7 +471,7 @@ static void place_interceptor_dummy_on_line(vec_index_type kcurr,
                                             piece_walk_type const walk_at_end,
                                             intercept_checks_fct *recurse)
 {
-  Side const side_in_check = trait[nbply];
+  Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
@@ -385,10 +505,11 @@ static void intercept_line_if_check(vec_index_type kcurr,
                                     piece_walk_type walk_rider,
                                     intercept_checks_fct *recurse)
 {
-  Side const side_in_check = trait[nbply];
+  Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
-  square const sq_end = find_end_of_line(king_pos,vec[kcurr]);
+  int const dir = vec[kcurr];
+  square const sq_end = find_end_of_line(king_pos,dir);
   piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
 
   TraceFunctionEntry(__func__);
@@ -396,6 +517,7 @@ static void intercept_line_if_check(vec_index_type kcurr,
   TraceWalk(walk_rider);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
   TraceEnumerator(Side,side_in_check);
   TraceEnumerator(Side,side_checking);
   TraceSquare(king_pos);
@@ -403,7 +525,8 @@ static void intercept_line_if_check(vec_index_type kcurr,
   TraceWalk(walk_at_end);
   TraceEOL();
 
-  if ((walk_at_end==walk_rider || walk_at_end==Queen)
+  if (sq_end!=king_pos+dir
+      && (walk_at_end==walk_rider || walk_at_end==Queen)
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
     TraceValue("%u",nr_placed_interceptors);
@@ -431,15 +554,10 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
 
   if (kcurr>vec_bishop_end)
   {
-    if (nbply==ply_retro_move)
-    {
-      ply const save_nbply = nbply;
-      nbply = mating_move_ply;
+    if (nbply>mating_move_ply)
       done_intercepting_illegal_checks();
-      nbply = save_nbply;
-    }
     else
-      unwrap_move_effects();
+      recurse_into_child_ply();
   }
   else
     intercept_line_if_check(kcurr,Bishop,&intercept_illegal_checks_diagonal);
@@ -495,7 +613,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     assert(move_effect_journal[precapture].type==move_effect_piece_creation);
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+    TraceValue("%u",nr_total_invisibles_left);
+    TraceValue("%u",nr_placed_interceptors);
+    TraceEOL();
     if (nr_total_invisibles_left>nr_placed_interceptors)
     {
       --nr_total_invisibles_left;
@@ -506,7 +626,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       move_effect_journal[precapture].type = move_effect_none;
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
-      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = walk_capturing;
+      occupy_square(from,walk_capturing,BIT(side_playing)|BIT(Chameleon));
 
       move_effect_journal[movement].u.piece_movement.from = from;
       move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -543,7 +663,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
       move_effect_journal[movement].u.piece_movement.moving = Dummy;
 
-      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = Dummy;
+      empty_square(from);
       --being_solved.number_of_pieces[side_playing][walk_capturing];
 
       move_effect_journal[precapture].type = move_effect_piece_creation;
@@ -582,8 +702,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
        */
       move_effect_journal[precapture].type = move_effect_none;
 
-      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = walk_capturing;
-      empty_square(from);
+      ++being_solved.number_of_pieces[side_playing][walk_capturing];
+      being_solved.board[from] = walk_capturing;
+      being_solved.spec[from] = BIT(side_playing)|BIT(Chameleon);
 
       move_effect_journal[movement].u.piece_movement.from = from;
       move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -614,10 +735,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
       move_effect_journal[movement].u.piece_movement.moving = Dummy;
 
-      occupy_square(from,
-                    Dummy,
-                    move_effect_journal[movement].u.piece_movement.movingspec);
-      being_solved.board[move_effect_journal[movement].u.piece_movement.to] = Dummy;
+      being_solved.spec[from] = BIT(White)|BIT(Black);
+      being_solved.board[from] = Dummy;
+      --being_solved.number_of_pieces[side_playing][walk_capturing];
 
       move_effect_journal[precapture].type = move_effect_piece_creation;
     }
@@ -652,11 +772,11 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
          s += vec[kcurr])
       flesh_out_capture_by_inserted_invisible(walk_rider,s);
 
-//    if (!end_of_iteration
-//        && get_walk_of_piece_on_square(s)==Dummy
-//        && TSTFLAG(being_solved.spec[s],Chameleon)
-//        && TSTFLAG(being_solved.spec[s],trait[nbply]))
-//      flesh_out_capture_by_existing_invisible(walk_rider,s);
+    if (!end_of_iteration
+        && get_walk_of_piece_on_square(s)==Dummy
+        && TSTFLAG(being_solved.spec[s],Chameleon)
+        && TSTFLAG(being_solved.spec[s],trait[nbply]))
+      flesh_out_capture_by_existing_invisible(walk_rider,s);
   }
 
   TraceFunctionExit(__func__);
@@ -681,6 +801,10 @@ static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
     square const s = sq_capture+vec[kcurr];
     if (is_square_empty(s))
       flesh_out_capture_by_inserted_invisible(walk_leaper,s);
+    else if (get_walk_of_piece_on_square(s)==Dummy
+             && TSTFLAG(being_solved.spec[s],Chameleon)
+             && TSTFLAG(being_solved.spec[s],trait[nbply]))
+      flesh_out_capture_by_existing_invisible(walk_leaper,s);
   }
 
   TraceFunctionExit(__func__);
@@ -740,12 +864,14 @@ static void flesh_out_captures_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",mating_move_ply);
   TraceSquare(move_gen_top->departure);
   TraceValue("%u",move_gen_top->departure);
   TraceValue("%u",capture_by_invisible);
   TraceEOL();
 
-  if (move_gen_top->departure==capture_by_invisible)
+  if (nbply<=mating_move_ply && move_gen_top->departure==capture_by_invisible)
   {
     if (play_phase==validating_mate)
     {
@@ -798,8 +924,10 @@ static void update_taboo(int delta)
   TraceSquare(sq_capture);
   TraceEOL();
 
-  taboo[White][sq_arrival] += delta;
-  taboo[Black][sq_arrival] += delta;
+  taboo[White][sq_departure] += delta;
+  taboo[Black][sq_departure] += delta;
+
+  taboo[trait[nbply]][sq_arrival] += delta;
 
   switch (sq_capture)
   {
@@ -907,13 +1035,14 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   {
     square s;
     for (s = sq_mating_piece+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
+         !is_square_blocked(s) && !end_of_iteration;
          s += vec[kcurr])
-    {
-      TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-      if (taboo[side_attacking][s]==0)
-        place_mating_piece_attacker(side_attacking,s,walk_rider);
-    }
+      if (is_square_empty(s))
+      {
+        TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
+        if (taboo[side_attacking][s]==0)
+          place_mating_piece_attacker(side_attacking,s,walk_rider);
+      }
   }
 
   TraceFunctionExit(__func__);
@@ -1006,6 +1135,68 @@ static void attack_mating_piece(Side side_attacking,
   TraceFunctionResultEnd();
 }
 
+static void validate_mate(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  mate_validation_result = mate_unvalidated;
+
+  combined_result = previous_move_is_illegal;
+  play_phase = validating_mate;
+  end_of_iteration = false;
+  flesh_out_captures_by_invisible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void test_mate(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",combined_result);
+  TraceValue("%u",mate_validation_result);
+  TraceEOL();
+
+  switch (mate_validation_result)
+  {
+    case mate_unvalidated:
+      assert(combined_result==previous_move_is_illegal);
+      break;
+
+    case no_mate:
+      assert(combined_result==previous_move_has_not_solved);
+      break;
+
+    case mate_attackable:
+      play_phase = replaying_moves;
+      end_of_iteration = false;
+      combined_result = previous_move_is_illegal;
+      attack_mating_piece(advers(trait[mating_move_ply]),sq_mating_piece_to_be_attacked);
+      break;
+
+    case mate_defendable_by_interceptors:
+      play_phase = replaying_moves;
+      end_of_iteration = false;
+      combined_result = previous_move_is_illegal;
+      flesh_out_captures_by_invisible();
+      break;
+
+    case mate_with_2_uninterceptable_doublechecks:
+      combined_result = previous_move_has_solved;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1047,46 +1238,24 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     mating_move_ply = nbply;
     tester_slice = si;
 
-    mate_validation_result = mate_unvalidated;
-
-    combined_result = previous_move_is_illegal;
-    play_phase = validating_mate;
-    end_of_iteration = false;
-    flesh_out_captures_by_invisible();
-
-    play_phase = replaying_moves;
-    end_of_iteration = false;
-
-    TraceValue("%u",combined_result);
-    TraceValue("%u",mate_validation_result);
-    TraceEOL();
-    switch (mate_validation_result)
+    while (nbply!=ply_retro_move)
     {
-      case mate_unvalidated:
-        assert(combined_result==previous_move_is_illegal);
-        break;
+      undo_move_effects();
+      --nbply;
+    }
 
-      case no_mate:
-        assert(combined_result==previous_move_has_not_solved);
-        break;
+    ++nbply;
 
-      case mate_attackable:
-        combined_result = previous_move_is_illegal;
-        attack_mating_piece(advers(trait[nbply]),sq_mating_piece_to_be_attacked);
-        break;
+    validate_mate();
 
-      case mate_defendable_by_interceptors:
-        combined_result = previous_move_is_illegal;
-        flesh_out_captures_by_invisible();
-        break;
+    test_mate();
 
-      case mate_with_2_uninterceptable_doublechecks:
-        combined_result = previous_move_has_solved;
-        break;
+    --nbply;
 
-      default:
-        assert(0);
-        break;
+    while (nbply!=mating_move_ply)
+    {
+      ++nbply;
+      redo_move_effects();
     }
 
     play_phase = regular_play;
@@ -1184,31 +1353,10 @@ static void copy_move_effects(void)
   curr = move_effect_journal_base[nbply+1];
   replayed_curr = replayed_top;
 
-  while (replayed_curr>replayed_base+move_effect_journal_index_offset_movement)
+  while (replayed_curr>replayed_base)
     move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
 
-  /* do we have to invent a removal effect for an inserted total invisible? */
-  {
-    square const to = move_effect_journal[replayed_curr].u.piece_movement.to;
-    assert(move_effect_journal[replayed_curr].type==move_effect_piece_movement);
-    if (is_square_empty(to))
-      move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
-    else
-    {
-      --curr;
-      --replayed_curr;
-      move_effect_journal[curr].type = move_effect_piece_removal;
-      move_effect_journal[curr].u.piece_removal.on = to;
-      move_effect_journal[curr].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[curr].u.piece_removal.flags = being_solved.spec[to];
-    }
-  }
-
-  /* finally, copy our pre-capture effect */
-  move_effect_journal[--curr] = move_effect_journal[--replayed_curr];
-
   assert(curr==move_effect_journal_base[nbply]);
-  assert(replayed_curr==replayed_base);
 
   TraceValue("%u",move_effect_journal_base[nbply]);
   TraceValue("%u",move_effect_journal_base[nbply+1]);

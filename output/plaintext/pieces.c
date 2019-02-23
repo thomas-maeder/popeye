@@ -38,6 +38,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
     }
   }
 
+  if (!(TSTFLAG(sp,Chameleon)))
   {
     piece_flag_type spname;
     for (spname = nr_sides; spname<nr_piece_flags; ++spname)
