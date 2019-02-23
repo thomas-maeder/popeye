@@ -69,6 +69,8 @@ static void undo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(removed);TraceEOL();
+
   occupy_square(from,removed,removedspec);
 
   if (TSTFLAG(removedspec,White))
