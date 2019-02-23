@@ -417,7 +417,6 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   ++taboo[White][s];
   ++taboo[Black][s];
 
-  /* occupy the square to avoid intercepting it again "2 half moves ago" */
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
   (*recurse)(kcurr+1);
