@@ -165,8 +165,6 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
   return result;
 }
 
-static void colour_interceptor(unsigned int idx);
-
 static void play_with_placed_invisibles(void)
 {
   TraceFunctionEntry(__func__);
@@ -206,10 +204,7 @@ static void done_fleshing_out_moves(void)
     ply_replayed = nbply;
     nbply = mating_move_ply;
 
-    if (play_phase==validating_mate)
-      play_with_placed_invisibles();
-    else
-      colour_interceptor(0);
+    play_with_placed_invisibles();
 
     nbply = ply_replayed;
 
@@ -224,7 +219,11 @@ static void done_fleshing_out_moves(void)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(unsigned int idx)
+typedef void intercept_checks_fct(vec_index_type kcurr);
+
+static void walk_interceptor(unsigned int idx,
+                             intercept_checks_fct *recurse,
+                             vec_index_type kcurr)
 {
   square const place = piece_choice[idx].pos;
   SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
@@ -232,6 +231,7 @@ static void walk_interceptor(unsigned int idx)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",kcurr);
   TraceFunctionParamListEnd();
 
   TraceSquare(place);TraceEOL();
@@ -247,14 +247,9 @@ static void walk_interceptor(unsigned int idx)
       occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
       if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
                                               being_solved.king_square[advers(piece_choice[idx].side)]))
-        colour_interceptor(idx+1);
-      TraceSquare(place);
-      TraceWalk(get_walk_of_piece_on_square(place));
-      TraceWalk(piece_choice[idx].walk);
-      TraceEOL();
-//      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
-      // TODO why is get_walk... different from piece_choice..walk??
-      --being_solved.number_of_pieces[piece_choice[idx].side][get_walk_of_piece_on_square(place)];
+        (*recurse)(kcurr);
+      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
+      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
       empty_square(place);
     }
 
@@ -264,35 +259,38 @@ static void walk_interceptor(unsigned int idx)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(unsigned int idx)
+static void colour_interceptor(unsigned int idx,
+                               intercept_checks_fct *recurse,
+                               vec_index_type kcurr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",kcurr);
   TraceFunctionParamListEnd();
 
-  if (idx==nr_placed_interceptors)
-    play_with_placed_invisibles();
-  else if (get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy)
+  assert(get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy);
+
+  if (play_phase==validating_mate)
+    (*recurse)(kcurr);
+  else
   {
     /* remove the dummy */
     empty_square(piece_choice[idx].pos);
 
     /* taboo equal to 1 is ok: this is "my" taboo! */
     if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-      walk_interceptor(idx);
+      walk_interceptor(idx,recurse,kcurr);
 
     if (!end_of_iteration)
     {
       piece_choice[idx].side = advers(piece_choice[idx].side);
       if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-        walk_interceptor(idx);
+        walk_interceptor(idx,recurse,kcurr);
     }
 
     /* re-place the dummy */
     occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   }
-  else
-    colour_interceptor(idx+1);
 
   TracePosition(being_solved.board,being_solved.spec);
 
@@ -379,8 +377,6 @@ static void redo_adapted_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(vec_index_type kcurr);
-
 static void place_interceptor_dummy_on_square(vec_index_type kcurr,
                                               square s,
                                               piece_walk_type const walk_at_end,
@@ -406,6 +402,7 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
 
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
+  colour_interceptor(nr_placed_interceptors-1,recurse,kcurr+1);
   (*recurse)(kcurr+1);
   --nr_placed_interceptors;
   empty_square(s);
