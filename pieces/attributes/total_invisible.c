@@ -245,11 +245,16 @@ static void walk_interceptor(unsigned int idx,
     if (!(is_pawn(piece_choice[idx].walk)
           && (TSTFLAG(sq_spec[place],basesq) || TSTFLAG(sq_spec[place],promsq))))
     {
+      TraceWalk(piece_choice[idx].walk);TraceEOL();
       ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
       occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
       if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
                                               being_solved.king_square[advers(piece_choice[idx].side)]))
         (*recurse)(kcurr);
+      TraceSquare(place);
+      TraceWalk(get_walk_of_piece_on_square(place));
+      TraceWalk(piece_choice[idx].walk);
+      TraceEOL();
       assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
       --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
       empty_square(place);
@@ -336,42 +341,58 @@ static void redo_adapted_move_effects(void)
 
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
     if (is_square_empty(to))
-      /* no need for adaptation */
-      recurse_into_child_ply();
-    else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
     {
-      TraceText("capture of a total invisible that landed on the arrival square");
-      TraceEOL();
-
-      assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
-
-      move_effect_journal[capture].type = move_effect_piece_removal;
-      move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-      move_effect_journal[capture].u.piece_removal.on = to;
-      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
-      recurse_into_child_ply();
-
-      move_effect_journal[capture].type = move_effect_no_piece_removal;
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+        /* no need for adaptation */
+        recurse_into_child_ply();
+      else
+      {
+        /* this was supposed to be capture, but the capturee has already been
+         * captured by a TI which has in turn left the arrival square
+         */
+        assert(move_effect_journal[capture].type==move_effect_piece_removal);
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
+        recurse_into_child_ply();
+        move_effect_journal[capture].type = move_effect_piece_removal;
+      }
     }
     else
     {
-      piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
-      Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+      {
+        TraceText("capture of a total invisible that landed on the arrival square");
+        TraceEOL();
 
-      TraceText("adjusting capture of what was a total invisible");
-      TraceEOL();
+        assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
 
-      assert(move_effect_journal[capture].type==move_effect_piece_removal);
+        move_effect_journal[capture].type = move_effect_piece_removal;
+        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+        move_effect_journal[capture].u.piece_removal.on = to;
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+        recurse_into_child_ply();
 
-      recurse_into_child_ply();
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
+      }
+      else
+      {
+        piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
+        Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
 
-      move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
-      move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
+        TraceText("adjusting capture of what was a total invisible");
+        TraceEOL();
+
+        assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+        recurse_into_child_ply();
+
+        move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
+        move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
+      }
     }
   }
 
@@ -541,10 +562,10 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_specific_invisible(Side side_playing,
-                                                    piece_walk_type walk_capturing,
+static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
                                                     square from)
 {
+  Side const side_playing = trait[nbply];
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -625,7 +646,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       ++taboo[White][from];
       ++taboo[Black][from];
 
-      flesh_out_capture_by_specific_invisible(side_playing,walk_capturing,from);
+      flesh_out_capture_by_existing_invisible(walk_capturing,from);
 
       --taboo[White][from];
       --taboo[Black][from];
@@ -635,28 +656,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       ++nr_total_invisibles_left;
     }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
-                                                    square from)
-{
-  Side const side_playing = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  being_solved.board[from] = walk_capturing;
-  being_solved.spec[from] = BIT(side_playing)|BIT(Chameleon);
-
-  flesh_out_capture_by_specific_invisible(side_playing,walk_capturing,from);
-
-  being_solved.spec[from] = BIT(White)|BIT(Black);
-  being_solved.board[from] = Dummy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -692,7 +691,7 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
     }
 
     if (!end_of_iteration
-        && get_walk_of_piece_on_square(s)==Dummy
+        && get_walk_of_piece_on_square(s)==walk_rider
         && TSTFLAG(being_solved.spec[s],Chameleon)
         && TSTFLAG(being_solved.spec[s],trait[nbply]))
       flesh_out_capture_by_existing_invisible(walk_rider,s);
