@@ -555,11 +555,69 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
+static void flesh_out_capture_by_specific_invisible(Side side_playing,
+                                                    piece_walk_type walk_capturing,
                                                     square from)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_playing);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[precapture].type==move_effect_piece_creation);
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+  ++being_solved.number_of_pieces[side_playing][walk_capturing];
+
+  move_effect_journal[precapture].type = move_effect_none;
+
+  move_effect_journal[movement].u.piece_movement.from = from;
+  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+  move_gen_top->departure = from;
+
+  if (play_phase==validating_mate)
+  {
+    mate_validation_result = mate_unvalidated;
+    end_of_iteration = false;
+
+    intercept_illegal_checks();
+
+    TraceValue("%u",combined_result);
+    TraceValue("%u",mate_validation_result);
+    TraceValue("%u",combined_validation_result);
+    TraceEOL();
+    if (mate_validation_result<combined_validation_result)
+      combined_validation_result = mate_validation_result;
+
+    end_of_iteration = combined_validation_result==no_mate;
+  }
+  else
+    intercept_illegal_checks();
+
+  move_gen_top->departure = capture_by_invisible;
+
+  move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+
+  move_effect_journal[precapture].type = move_effect_piece_creation;
+
+  --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
+                                                    square from)
+{
   Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
@@ -569,13 +627,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   if (taboo[side_playing][from]==0)
   {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-    assert(move_effect_journal[precapture].type==move_effect_piece_creation);
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
     TraceValue("%u",nr_total_invisibles_left);
     TraceValue("%u",nr_placed_interceptors);
     TraceEOL();
@@ -583,53 +634,17 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     {
       --nr_total_invisibles_left;
 
-      /* insert the capturer here to make sure that checks delivered by it will be
-       * intercepted
-       */
-      move_effect_journal[precapture].type = move_effect_none;
-
-      ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(from,walk_capturing,BIT(side_playing)|BIT(Chameleon));
-
-      move_effect_journal[movement].u.piece_movement.from = from;
-      move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
-      move_gen_top->departure = from;
 
       ++taboo[White][from];
       ++taboo[Black][from];
 
-      if (play_phase==validating_mate)
-      {
-        mate_validation_result = mate_unvalidated;
-        end_of_iteration = false;
-
-        intercept_illegal_checks();
-
-        TraceValue("%u",combined_result);
-        TraceValue("%u",mate_validation_result);
-        TraceValue("%u",combined_validation_result);
-        TraceEOL();
-        if (mate_validation_result<combined_validation_result)
-          combined_validation_result = mate_validation_result;
-
-        end_of_iteration = combined_validation_result==no_mate;
-      }
-      else
-        intercept_illegal_checks();
+      flesh_out_capture_by_specific_invisible(side_playing,walk_capturing,from);
 
       --taboo[White][from];
       --taboo[Black][from];
 
-      move_gen_top->departure = capture_by_invisible;
-
-      move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-      move_effect_journal[movement].u.piece_movement.moving = Dummy;
-
       empty_square(from);
-      --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      move_effect_journal[precapture].type = move_effect_piece_creation;
 
       ++nr_total_invisibles_left;
     }
@@ -642,8 +657,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
                                                     square from)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
@@ -651,60 +664,13 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  being_solved.board[from] = walk_capturing;
+  being_solved.spec[from] = BIT(side_playing)|BIT(Chameleon);
 
-    assert(move_effect_journal[precapture].type==move_effect_piece_creation);
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  flesh_out_capture_by_specific_invisible(side_playing,walk_capturing,from);
 
-    {
-      /* insert the capturer here to make sure that checks delivered by it will be
-       * intercepted
-       */
-      move_effect_journal[precapture].type = move_effect_none;
-
-      ++being_solved.number_of_pieces[side_playing][walk_capturing];
-      being_solved.board[from] = walk_capturing;
-      being_solved.spec[from] = BIT(side_playing)|BIT(Chameleon);
-
-      move_effect_journal[movement].u.piece_movement.from = from;
-      move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
-      move_gen_top->departure = from;
-
-      if (play_phase==validating_mate)
-      {
-        mate_validation_result = mate_unvalidated;
-        end_of_iteration = false;
-
-        intercept_illegal_checks();
-
-        TraceValue("%u",combined_result);
-        TraceValue("%u",mate_validation_result);
-        TraceValue("%u",combined_validation_result);
-        TraceEOL();
-        if (mate_validation_result<combined_validation_result)
-          combined_validation_result = mate_validation_result;
-
-        end_of_iteration = combined_validation_result==no_mate;
-      }
-      else
-        intercept_illegal_checks();
-
-      move_gen_top->departure = capture_by_invisible;
-
-      move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-      move_effect_journal[movement].u.piece_movement.moving = Dummy;
-
-      being_solved.spec[from] = BIT(White)|BIT(Black);
-      being_solved.board[from] = Dummy;
-      --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      move_effect_journal[precapture].type = move_effect_piece_creation;
-    }
-  }
+  being_solved.spec[from] = BIT(White)|BIT(Black);
+  being_solved.board[from] = Dummy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
