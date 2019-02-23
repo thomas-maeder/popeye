@@ -311,6 +311,24 @@ static void recurse_into_child_ply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  redo_move_effects();
+
+  ++nbply;
+  TraceValue("%u",nbply);TraceEOL();
+  flesh_out_captures_by_invisible();
+  nbply = save_nbply;
+
+  undo_move_effects();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_adapted_move_effects(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   /* do we have to invent a removal effect for an inserted total invisible? */
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -319,68 +337,43 @@ static void recurse_into_child_ply(void)
     square const to = move_effect_journal[movement].u.piece_movement.to;
 
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
-    if (!is_square_empty(to))
+    if (is_square_empty(to))
+      /* no need for adaptation */
+      recurse_into_child_ply();
+    else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
     {
-      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-      {
-        TraceText("inventing capture. ");
-        TraceValue("%u",nbply);
-        TraceValue("%u",base);
-        TraceValue("%u",capture);
-        TraceEOL();
-        assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
+      TraceText("capture of a total invisible that landed on the arrival square");
+      TraceEOL();
 
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-        move_effect_journal[capture].u.piece_removal.on = to;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+      assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
 
-        redo_move_effects();
+      move_effect_journal[capture].type = move_effect_piece_removal;
+      move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+      move_effect_journal[capture].u.piece_removal.on = to;
+      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-        ++nbply;
-        TraceValue("%u",nbply);TraceEOL();
-        flesh_out_captures_by_invisible();
-        nbply = save_nbply;
+      recurse_into_child_ply();
 
-        undo_move_effects();
-
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-      }
-      else
-      {
-        piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
-        Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
-
-        assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
-        redo_move_effects();
-
-        ++nbply;
-        TraceValue("%u",nbply);TraceEOL();
-        flesh_out_captures_by_invisible();
-        nbply = save_nbply;
-
-        undo_move_effects();
-
-        move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
-        move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
-      }
+      move_effect_journal[capture].type = move_effect_no_piece_removal;
     }
     else
     {
-      redo_move_effects();
-      TracePosition(being_solved.board,being_solved.spec);
+      piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
 
-      ++nbply;
-      TraceValue("%u",nbply);TraceEOL();
-      flesh_out_captures_by_invisible();
-      nbply = save_nbply;
+      TraceText("adjusting capture of what was a total invisible");
+      TraceEOL();
 
-      undo_move_effects();
+      assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+      recurse_into_child_ply();
+
+      move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
+      move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
     }
   }
 
@@ -528,7 +521,7 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
     if (nbply>mating_move_ply)
       done_intercepting_illegal_checks();
     else
-      recurse_into_child_ply();
+      redo_adapted_move_effects();
   }
   else
     intercept_line_if_check(kcurr,Bishop,&intercept_illegal_checks_diagonal);
