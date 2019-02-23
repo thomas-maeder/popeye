@@ -232,7 +232,7 @@ static void walk_interceptor(unsigned int idx)
        piece_choice[idx].walk<=Bishop && !end_of_iteration;
        ++piece_choice[idx].walk)
     if (!(is_pawn(piece_choice[idx].walk)
-          && TSTFLAG(sq_spec[place],basesq) && TSTFLAG(sq_spec[place],promsq)))
+          && (TSTFLAG(sq_spec[place],basesq) || TSTFLAG(sq_spec[place],promsq))))
     {
       ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
       occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
