@@ -930,6 +930,9 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
+  ++taboo[White][s];
+  ++taboo[Black][s];
+
   --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
@@ -937,6 +940,9 @@ static void place_mating_piece_attacker(Side side_attacking,
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
+
+  --taboo[White][s];
+  --taboo[Black][s];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
