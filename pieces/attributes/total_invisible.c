@@ -172,6 +172,26 @@ static void play_with_placed_invisibles(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  pipe_solve_delegate(tester_slice);
+
+  if (solve_result>combined_result)
+    combined_result = solve_result;
+
+  if (combined_result==previous_move_has_not_solved
+      || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
+    end_of_iteration = true;
+
+  TraceValue("%u",end_of_iteration);TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void done_fleshing_out_moves(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (is_in_check(trait[nbply-1]))
     solve_result = previous_move_is_illegal;
   else
@@ -187,18 +207,7 @@ static void play_with_placed_invisibles(void)
     nbply = mating_move_ply;
 
     if (play_phase==validating_mate)
-    {
-      pipe_solve_delegate(tester_slice);
-
-      if (solve_result>combined_result)
-        combined_result = solve_result;
-
-      if (combined_result==previous_move_has_not_solved
-          || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
-        end_of_iteration = true;
-
-      TraceValue("%u",end_of_iteration);TraceEOL();
-    }
+      play_with_placed_invisibles();
     else
       colour_interceptor(0);
 
@@ -243,6 +252,7 @@ static void walk_interceptor(unsigned int idx)
       TraceWalk(get_walk_of_piece_on_square(place));
       TraceWalk(piece_choice[idx].walk);
       TraceEOL();
+//      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
       // TODO why is get_walk... different from piece_choice..walk??
       --being_solved.number_of_pieces[piece_choice[idx].side][get_walk_of_piece_on_square(place)];
       empty_square(place);
@@ -261,19 +271,7 @@ static void colour_interceptor(unsigned int idx)
   TraceFunctionParamListEnd();
 
   if (idx==nr_placed_interceptors)
-  {
-    TracePosition(being_solved.board,being_solved.spec);
-    pipe_solve_delegate(tester_slice);
-
-    if (solve_result>combined_result)
-      combined_result = solve_result;
-
-    if (combined_result==previous_move_has_not_solved
-        || (play_phase==validating_mate && combined_result>previous_move_is_illegal))
-      end_of_iteration = true;
-
-    TraceValue("%u",end_of_iteration);TraceEOL();
-  }
+    play_with_placed_invisibles();
   else if (get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy)
   {
     /* remove the dummy */
@@ -376,17 +374,6 @@ static void redo_adapted_move_effects(void)
       move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
     }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void done_intercepting_illegal_checks(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  play_with_placed_invisibles();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -518,7 +505,7 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
   if (kcurr>vec_bishop_end)
   {
     if (nbply>mating_move_ply)
-      done_intercepting_illegal_checks();
+      done_fleshing_out_moves();
     else
       redo_adapted_move_effects();
   }
