@@ -216,6 +216,54 @@ static void done_fleshing_out_moves(void)
 
 static void flesh_out_captures_by_invisible(void);
 
+static void restart_from_scratch(void)
+{
+  ply const save_nbply = nbply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  while (nbply!=ply_retro_move)
+  {
+    --nbply;
+
+    {
+      numecoup const curr = CURRMOVE_OF_PLY(nbply);
+      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+      square const sq_departure = move_gen_top->departure;
+
+      --taboo[White][sq_departure];
+      --taboo[Black][sq_departure];
+    }
+
+    undo_move_effects();
+  }
+
+  ++nbply;
+
+  TraceValue("%u",nbply);TraceEOL();
+  flesh_out_captures_by_invisible();
+
+  --nbply;
+
+  while (nbply!=save_nbply)
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+    square const sq_departure = move_gen_top->departure;
+
+    redo_move_effects();
+
+    ++taboo[White][sq_departure];
+    ++taboo[Black][sq_departure];
+
+    ++nbply;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void recurse_into_child_ply(void)
 {
   ply const save_nbply = nbply;
@@ -321,7 +369,6 @@ static void redo_adapted_move_effects(void)
 typedef void intercept_checks_fct(vec_index_type kcurr);
 
 static void walk_interceptor(unsigned int idx,
-                             intercept_checks_fct *recurse,
                              vec_index_type kcurr,
                              Side side,
                              square pos)
@@ -349,7 +396,7 @@ static void walk_interceptor(unsigned int idx,
       occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
       if (!is_square_uninterceptably_attacked(advers(side),
                                               being_solved.king_square[advers(side)]))
-        (*recurse)(kcurr+1);
+        restart_from_scratch();
       TraceSquare(pos);
       TraceWalk(get_walk_of_piece_on_square(pos));
       TraceWalk(walk);
@@ -366,7 +413,6 @@ static void walk_interceptor(unsigned int idx,
 }
 
 static void colour_interceptor(unsigned int idx,
-                               intercept_checks_fct *recurse,
                                vec_index_type kcurr,
                                Side preferred_side,
                                square pos)
@@ -380,12 +426,12 @@ static void colour_interceptor(unsigned int idx,
 
   /* taboo equal to 1 is ok: this is "my" taboo! */
   if (taboo[preferred_side][pos]==1)
-    walk_interceptor(idx,recurse,kcurr,preferred_side,pos);
+    walk_interceptor(idx,kcurr,preferred_side,pos);
 
   if (!end_of_iteration)
   {
     if (taboo[advers(preferred_side)][pos]==1)
-      walk_interceptor(idx,recurse,kcurr,advers(preferred_side),pos);
+      walk_interceptor(idx,kcurr,advers(preferred_side),pos);
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -424,7 +470,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     empty_square(s);
   }
   else
-    colour_interceptor(nr_placed_interceptors-1,recurse,kcurr,side_in_check,s);
+    colour_interceptor(nr_placed_interceptors-1,kcurr,side_in_check,s);
 
   --nr_placed_interceptors;
 
