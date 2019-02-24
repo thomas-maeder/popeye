@@ -1972,9 +1972,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
           TraceText("kingside_castling\n");
 
-          assert(nr_total_invisibles_left>0);
           if (is_square_empty(square_h))
           {
+            assert(nr_total_invisibles_left>0);
             move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
                                                   square_h,
                                                   Rook,
@@ -2002,6 +2002,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
           if (is_square_empty(square_a))
           {
+            assert(nr_total_invisibles_left>0);
             move_effect_journal_do_piece_creation(move_effect_reason_revelation_of_invisible,
                                                   square_a,
                                                   Rook,
