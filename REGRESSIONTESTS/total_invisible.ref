@@ -754,3 +754,188 @@ Sake tourney 2018, 1st prize, b) cooked
 solution finished.
 
 
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   K   .   3
+|                                   |
+2   .   .   P   P   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         8 + 3
+
+a) 
+
+  1.TI~*g6 h5-h6   2.TI~*h6 TI~*d7 #
+  1.TI~*h5 Kg3-f3   2.TI~*g6 TI~*d7 #
+  add_to_move_generation_stack:     3413756
+                     play_move:      945666
+ is_white_king_square_attacked:      176439
+ is_black_king_square_attacked:      194039
+
+b) wPg6-->d4  
+
+  1.TI~*d4 Kg3-h4   2.TI~*d2 TI~*d7 #
+  1.TI~*d4 Kg3-f4   2.TI~*d2 TI~*c3 #
+  add_to_move_generation_stack:     2966519
+                     play_move:      860778
+ is_white_king_square_attacked:      159952
+ is_black_king_square_attacked:      175757
+
+solution finished.
+
+
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, correction
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   .   .   3
+|                                   |
+2   .   .   P   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 3
+
+a) 
+
+  1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7 #
+  add_to_move_generation_stack:     2597310
+                     play_move:      679628
+ is_white_king_square_attacked:      126437
+ is_black_king_square_attacked:      139558
+
+b) wPg6-->d4  
+
+  1.TI~*d2 Kf1-f2   2.TI~*d4 TI~*c3 #
+  add_to_move_generation_stack:     2210810
+                     play_move:      609773
+ is_white_king_square_attacked:      112964
+ is_black_king_square_attacked:      124453
+
+solution finished.
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 2nd HM, cooked (but 1.Qf3 is printed due to a Popeye bug)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   S   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   P   P   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   R   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 2
+
+  1.Qh1-a8 TI~*a8   2.Ka4-a5 Rd3-a3 #
+  1.Qh1-a8 f2*g3   2.Qa8-e4 TI~*e4 #
+  1.Qh1-e4 Kf6-e6   2.TI~*g5 TI~*e4 #
+  1.Qh1-f3 f5*g6   2.Qf3-e4 TI~*e4 #
+  1.Qh1-f3 f5*e6   2.Qf3-e4 TI~*e4 #
+  1.Qh1-a1 f2*g3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 f2*e3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 f5*g6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 f5*e6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 g5*h6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-b1 f2*e3   2.Qb1-d1 TI~*d1 #
+  add_to_move_generation_stack:    39397968
+                     play_move:     4897461
+ is_white_king_square_attacked:      926000
+ is_black_king_square_attacked:     1040181
+
+solution finished.
+
+
+
+      Vlaicu Crisan, Eric Huber
+Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   Q   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   K   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 1
+
+a) 
+
+  1.Kg1-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1 0-0-0 #
+  1.Kg1-g2 0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1 0-0-0 #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1 0-0-0 #
+  add_to_move_generation_stack:      907855
+                     play_move:      101484
+ is_white_king_square_attacked:       30162
+ is_black_king_square_attacked:       23553
+
+b) bKg1-->g2  
+
+  1.Kg2-h3 0-0-0   2.Kh3-g2 Qd3-g3 #
+  1.Kg2-h3 0-0-0   2.Kh3-h2 Qd3-g3 #
+  1.Kg2-g1 Qd3-h3   2.Kg1-h1 0-0-0 #
+  1.Kg2-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+  add_to_move_generation_stack:     1381679
+                     play_move:      147767
+ is_white_king_square_attacked:       40261
+ is_black_king_square_attacked:       34677
+
+solution finished.
+
+
