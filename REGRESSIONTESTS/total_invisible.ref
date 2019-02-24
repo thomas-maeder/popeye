@@ -549,6 +549,42 @@ solution finished.
 
 
 
+  Ricardo Vieira / Menachem Witztum
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .  -B   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5  -P   P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 5
+
+  1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4 #
+  1.Bf8-c5 TI~*c5   2.e3*f2 TI~*a4 #
+  1.Bf8-h6 TI~*h6   2.a4*b3 TI~*e3 #
+  add_to_move_generation_stack:      650016
+                     play_move:      209730
+ is_white_king_square_attacked:       34803
+ is_black_king_square_attacked:       49121
+
+solution finished.
+
+
+
             Kjell Widlert
    Sake tourney 2018, Comm, cooked
 
