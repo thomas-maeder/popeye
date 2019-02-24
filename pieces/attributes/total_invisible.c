@@ -678,21 +678,22 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  if (get_walk_of_piece_on_square(from)==walk_capturing
-      && TSTFLAG(being_solved.spec[from],Chameleon)
+  if (TSTFLAG(being_solved.spec[from],Chameleon)
       && TSTFLAG(being_solved.spec[from],trait[nbply]))
-    flesh_out_capture_by_specific_invisible(walk_capturing,from);
-  else if (get_walk_of_piece_on_square(from)==Dummy
-           && TSTFLAG(being_solved.spec[from],Chameleon)
-           && TSTFLAG(being_solved.spec[from],trait[nbply]))
   {
-    ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-    being_solved.board[from] = walk_capturing;
-    being_solved.spec[from] = BIT(trait[nbply])|BIT(Chameleon);
-    flesh_out_capture_by_specific_invisible(walk_capturing,from);
-    being_solved.spec[from] = BIT(White)|BIT(Black)|BIT(Chameleon);
-    being_solved.board[from] = Dummy;
-    --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+    if (get_walk_of_piece_on_square(from)==walk_capturing)
+      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+    else if (get_walk_of_piece_on_square(from)==Dummy)
+    {
+      assert(being_solved.spec[from]==(BIT(White)|BIT(Black)|BIT(Chameleon)));
+      ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+      being_solved.board[from] = walk_capturing;
+      being_solved.spec[from] = BIT(trait[nbply])|BIT(Chameleon);
+      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+      being_solved.spec[from] = BIT(White)|BIT(Black)|BIT(Chameleon);
+      being_solved.board[from] = Dummy;
+      --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+    }
   }
 
   TraceFunctionExit(__func__);
