@@ -378,25 +378,14 @@ static void colour_interceptor(unsigned int idx,
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  if (play_phase==validating_mate)
-    (*recurse)(kcurr+1);
-  else
+  /* taboo equal to 1 is ok: this is "my" taboo! */
+  if (taboo[preferred_side][pos]==1)
+    walk_interceptor(idx,recurse,kcurr,preferred_side,pos);
+
+  if (!end_of_iteration)
   {
-    /* remove the dummy */
-    empty_square(pos);
-
-    /* taboo equal to 1 is ok: this is "my" taboo! */
-    if (taboo[preferred_side][pos]==1)
-      walk_interceptor(idx,recurse,kcurr,preferred_side,pos);
-
-    if (!end_of_iteration)
-    {
-      if (taboo[advers(preferred_side)][pos]==1)
-        walk_interceptor(idx,recurse,kcurr,advers(preferred_side),pos);
-    }
-
-    /* re-place the dummy */
-    occupy_square(pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    if (taboo[advers(preferred_side)][pos]==1)
+      walk_interceptor(idx,recurse,kcurr,advers(preferred_side),pos);
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -405,10 +394,10 @@ static void colour_interceptor(unsigned int idx,
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_square(vec_index_type kcurr,
-                                              square s,
-                                              piece_walk_type const walk_at_end,
-                                              intercept_checks_fct *recurse)
+static void place_interceptor_on_square(vec_index_type kcurr,
+                                        square s,
+                                        piece_walk_type const walk_at_end,
+                                        intercept_checks_fct *recurse)
 {
   Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
@@ -426,11 +415,18 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   ++taboo[White][s];
   ++taboo[Black][s];
 
-  occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
-  colour_interceptor(nr_placed_interceptors-1,recurse,kcurr,side_in_check,s);
+
+  if (play_phase==validating_mate)
+  {
+    occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    (*recurse)(kcurr+1);
+    empty_square(s);
+  }
+  else
+    colour_interceptor(nr_placed_interceptors-1,recurse,kcurr,side_in_check,s);
+
   --nr_placed_interceptors;
-  empty_square(s);
 
   --taboo[White][s];
   --taboo[Black][s];
@@ -439,9 +435,9 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   TraceFunctionResultEnd();
 }
 
-static void place_interceptor_dummy_on_line(vec_index_type kcurr,
-                                            piece_walk_type const walk_at_end,
-                                            intercept_checks_fct *recurse)
+static void place_interceptor_on_line(vec_index_type kcurr,
+                                      piece_walk_type const walk_at_end,
+                                      intercept_checks_fct *recurse)
 {
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
@@ -462,7 +458,7 @@ static void place_interceptor_dummy_on_line(vec_index_type kcurr,
       TraceValue("%u",taboo[Black][s]);
       TraceEOL();
       if (taboo[White][s]==0 || taboo[Black][s]==0)
-        place_interceptor_dummy_on_square(kcurr,s,walk_at_end,recurse);
+        place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
@@ -508,7 +504,7 @@ static void intercept_line_if_check(vec_index_type kcurr,
     else if (sq_end==king_pos+dir)
       /* there is no square where to intercept the check */;
     else
-      place_interceptor_dummy_on_line(kcurr,walk_at_end,recurse);
+      place_interceptor_on_line(kcurr,walk_at_end,recurse);
   }
   else
     (*recurse)(kcurr+1);
