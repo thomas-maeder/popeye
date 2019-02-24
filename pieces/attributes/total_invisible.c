@@ -337,7 +337,7 @@ static void walk_interceptor(unsigned int idx,
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  TraceSquare(place);TraceEOL();
+  TraceSquare(pos);TraceEOL();
   assert(is_square_empty(pos));
 
   for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
@@ -350,8 +350,8 @@ static void walk_interceptor(unsigned int idx,
       if (!is_square_uninterceptably_attacked(advers(side),
                                               being_solved.king_square[advers(side)]))
         (*recurse)(kcurr+1);
-      TraceSquare(place);
-      TraceWalk(get_walk_of_piece_on_square(place));
+      TraceSquare(pos);
+      TraceWalk(get_walk_of_piece_on_square(pos));
       TraceWalk(walk);
       TraceEOL();
       assert(get_walk_of_piece_on_square(pos)==walk);
@@ -554,10 +554,14 @@ static void intercept_illegal_checks_orthogonal(vec_index_type kcurr)
 
 static void intercept_illegal_checks(void)
 {
+  Side const side_in_check = trait[nbply-1];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  intercept_illegal_checks_orthogonal(vec_rook_start);
+  if (!is_square_uninterceptably_attacked(side_in_check,
+                                          being_solved.king_square[side_in_check]))
+    intercept_illegal_checks_orthogonal(vec_rook_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1646,27 +1650,22 @@ void total_invisible_goal_guard_solve(slice_index si)
   /* make sure that we don't generate pawn captures total invisible */
   assert(play_phase!=regular_play);
 
-  if (is_in_check(trait[nbply]))
-    solve_result = previous_move_is_illegal;
-  else
+  pipe_solve_delegate(si);
+
+  if (play_phase==validating_mate)
   {
-    pipe_solve_delegate(si);
+    TraceValue("%u",nr_placed_interceptors);
+    TraceEOL();
 
-    if (play_phase==validating_mate)
+    if (solve_result==previous_move_has_not_solved)
+      mate_validation_result = no_mate;
+    else if (make_a_flight())
     {
-      TraceValue("%u",nr_placed_interceptors);
-      TraceEOL();
-
-      if (solve_result==previous_move_has_not_solved)
-        mate_validation_result = no_mate;
-      else if (make_a_flight())
-      {
-        solve_result = previous_move_has_not_solved;
-        mate_validation_result = no_mate;
-      }
-      else
-        attack_checks();
+      solve_result = previous_move_has_not_solved;
+      mate_validation_result = no_mate;
     }
+    else
+      attack_checks();
   }
 
   TraceFunctionExit(__func__);
@@ -2152,12 +2151,10 @@ static void instrument_replay_branch(slice_index si,
                                              STGoalReachedTester,
                                              &subsitute_goal_guard);
     /* self check is impossible with the current optimisations for orthodox pieces ...
-     * unless 1 half-move after captures by TIs!
-     * For the same reason, goal guards have ot test for self-check
+     */
     stip_structure_traversal_override_single(&st_nested,
                                              STSelfCheckGuard,
                                              &remove_the_pipe);
-     */
     stip_traverse_structure(si,&st_nested);
   }
 
