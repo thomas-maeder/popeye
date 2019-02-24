@@ -622,10 +622,10 @@ Sake tourney 2018, 1st prize, a) corrected
  21  (Kf4-f3 )
  22  (Kf4-g4 )
  23  (f5*g4 )
-  add_to_move_generation_stack:    16289123
-                     play_move:     2091632
- is_white_king_square_attacked:     1155749
- is_black_king_square_attacked:     1266296
+  add_to_move_generation_stack:    16288964
+                     play_move:     2091615
+ is_white_king_square_attacked:     1155736
+ is_black_king_square_attacked:     1266283
 
 solution finished.
 
@@ -679,10 +679,10 @@ Sake tourney 2018, 1st prize, b) corrected
  21  (Kf4-f3 )
  22  (Kf4-g4 )
  23  (f5*g4 )
-  add_to_move_generation_stack:    18264871
-                     play_move:     2396762
- is_white_king_square_attacked:     1406138
- is_black_king_square_attacked:     1491352
+  add_to_move_generation_stack:    18264666
+                     play_move:     2396739
+ is_white_king_square_attacked:     1406120
+ is_black_king_square_attacked:     1491334
 
 solution finished.
 
@@ -741,10 +741,10 @@ Sake tourney 2018, 1st prize, b) cooked
  22  (Kf4-f3 )
  23  (Kf4-g4 )
  24  (f5*g4 )
-  add_to_move_generation_stack:    21307343
-                     play_move:     2792391
- is_white_king_square_attacked:     1635289
- is_black_king_square_attacked:     1744565
+  add_to_move_generation_stack:    21306597
+                     play_move:     2792306
+ is_white_king_square_attacked:     1635220
+ is_black_king_square_attacked:     1744496
 
 solution finished.
 

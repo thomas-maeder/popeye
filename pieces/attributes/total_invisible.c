@@ -699,22 +699,24 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
       ++taboo[Black][s];
     }
 
-    if (!end_of_iteration
-        && get_walk_of_piece_on_square(s)==walk_rider
-        && TSTFLAG(being_solved.spec[s],Chameleon)
-        && TSTFLAG(being_solved.spec[s],trait[nbply]))
-      flesh_out_capture_by_existing_invisible(walk_rider,s);
-    else if (get_walk_of_piece_on_square(s)==Dummy
-             && TSTFLAG(being_solved.spec[s],Chameleon)
-             && TSTFLAG(being_solved.spec[s],trait[nbply]))
+    if (!end_of_iteration)
     {
-      ++being_solved.number_of_pieces[trait[nbply]][walk_rider];
-      being_solved.board[s] = walk_rider;
-      being_solved.spec[s] = BIT(trait[nbply])|BIT(Chameleon);
-      flesh_out_capture_by_existing_invisible(walk_rider,s);
-      being_solved.spec[s] = BIT(White)|BIT(Black)|BIT(Chameleon);
-      being_solved.board[s] = Dummy;
-      --being_solved.number_of_pieces[trait[nbply]][walk_rider];
+      if (get_walk_of_piece_on_square(s)==walk_rider
+          && TSTFLAG(being_solved.spec[s],Chameleon)
+          && TSTFLAG(being_solved.spec[s],trait[nbply]))
+        flesh_out_capture_by_existing_invisible(walk_rider,s);
+      else if (get_walk_of_piece_on_square(s)==Dummy
+               && TSTFLAG(being_solved.spec[s],Chameleon)
+               && TSTFLAG(being_solved.spec[s],trait[nbply]))
+      {
+        ++being_solved.number_of_pieces[trait[nbply]][walk_rider];
+        being_solved.board[s] = walk_rider;
+        being_solved.spec[s] = BIT(trait[nbply])|BIT(Chameleon);
+        flesh_out_capture_by_existing_invisible(walk_rider,s);
+        being_solved.spec[s] = BIT(White)|BIT(Black)|BIT(Chameleon);
+        being_solved.board[s] = Dummy;
+        --being_solved.number_of_pieces[trait[nbply]][walk_rider];
+      }
     }
 
     for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
