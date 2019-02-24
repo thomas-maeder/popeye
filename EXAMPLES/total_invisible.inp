@@ -2,6 +2,33 @@ begin
 
 protocol total_invisible.ref
 
+origin Sake tourney 2018, announcement
+pieces 1 white kf6 qd5 black kh6 ph7
+stipulation h#1
+
+next
+
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces 1 white kc2 qa3 pa2 black ka1 pb2
+stipulation h#1
+
+next
+
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces 1 white kb8 qh1 black ka1 sb1e7
+stipulation h#2
+
+next
+
+author Shinichi Soma
+origin Sake tourney 2018, announcement (solution that relies on retro not shown)
+pieces 1 white ke1 rh1 pg2 black kg3 ba1 sg4 pf4
+stipulation h#2
+
+next
+
 author Kjell Widlert
 origin Sake tourney 2018, Comm
 pieces 2 white kc2 qh3 bb5 se2 black ke4 sh5 pe3
