@@ -503,19 +503,18 @@ static void intercept_line_if_check(vec_index_type kcurr,
   TraceWalk(walk_at_end);
   TraceEOL();
 
-  if (sq_end!=king_pos+dir
-      && (walk_at_end==walk_rider || walk_at_end==Queen)
+  if ((walk_at_end==walk_rider || walk_at_end==Queen)
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
     TraceValue("%u",nr_placed_interceptors);
     TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
-    if (nr_placed_interceptors<nr_total_invisibles_left)
-      place_interceptor_dummy_on_line(kcurr,walk_at_end,recurse);
+    if (nr_placed_interceptors==nr_total_invisibles_left)
+      /* there are not enough total invisibles to intercept all checks */;
+    else if (sq_end==king_pos+dir)
+      /* there is no square where to intercept the check */;
     else
-    {
-      /* there are not enough total invisibles to intercept all checks */
-    }
+      place_interceptor_dummy_on_line(kcurr,walk_at_end,recurse);
   }
   else
     (*recurse)(kcurr+1);
