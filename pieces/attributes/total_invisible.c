@@ -221,90 +221,6 @@ static void done_fleshing_out_moves(void)
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(vec_index_type kcurr);
-
-static void walk_interceptor(unsigned int idx,
-                             intercept_checks_fct *recurse,
-                             vec_index_type kcurr)
-{
-  square const place = piece_choice[idx].pos;
-  SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(place);TraceEOL();
-  assert(is_square_empty(place));
-
-  for (piece_choice[idx].walk = Pawn;
-       piece_choice[idx].walk<=Bishop && !end_of_iteration;
-       ++piece_choice[idx].walk)
-    if (!(is_pawn(piece_choice[idx].walk)
-          && (TSTFLAG(sq_spec[place],basesq) || TSTFLAG(sq_spec[place],promsq))))
-    {
-      TraceWalk(piece_choice[idx].walk);TraceEOL();
-      ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
-      if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
-                                              being_solved.king_square[advers(piece_choice[idx].side)]))
-        (*recurse)(kcurr);
-      TraceSquare(place);
-      TraceWalk(get_walk_of_piece_on_square(place));
-      TraceWalk(piece_choice[idx].walk);
-      TraceEOL();
-      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
-      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      empty_square(place);
-    }
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void colour_interceptor(unsigned int idx,
-                               intercept_checks_fct *recurse,
-                               vec_index_type kcurr)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParamListEnd();
-
-  assert(get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy);
-
-  if (play_phase==validating_mate)
-    (*recurse)(kcurr);
-  else
-  {
-    /* remove the dummy */
-    empty_square(piece_choice[idx].pos);
-
-    /* taboo equal to 1 is ok: this is "my" taboo! */
-    if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-      walk_interceptor(idx,recurse,kcurr);
-
-    if (!end_of_iteration)
-    {
-      piece_choice[idx].side = advers(piece_choice[idx].side);
-      if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-        walk_interceptor(idx,recurse,kcurr);
-    }
-
-    /* re-place the dummy */
-    occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
-  }
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_captures_by_invisible(void);
 
 static void recurse_into_child_ply(void)
@@ -404,6 +320,90 @@ static void redo_adapted_move_effects(void)
       }
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef void intercept_checks_fct(vec_index_type kcurr);
+
+static void walk_interceptor(unsigned int idx,
+                             intercept_checks_fct *recurse,
+                             vec_index_type kcurr)
+{
+  square const place = piece_choice[idx].pos;
+  SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(place);TraceEOL();
+  assert(is_square_empty(place));
+
+  for (piece_choice[idx].walk = Pawn;
+       piece_choice[idx].walk<=Bishop && !end_of_iteration;
+       ++piece_choice[idx].walk)
+    if (!(is_pawn(piece_choice[idx].walk)
+          && (TSTFLAG(sq_spec[place],basesq) || TSTFLAG(sq_spec[place],promsq))))
+    {
+      TraceWalk(piece_choice[idx].walk);TraceEOL();
+      ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+      occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
+      if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
+                                              being_solved.king_square[advers(piece_choice[idx].side)]))
+        (*recurse)(kcurr);
+      TraceSquare(place);
+      TraceWalk(get_walk_of_piece_on_square(place));
+      TraceWalk(piece_choice[idx].walk);
+      TraceEOL();
+      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
+      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
+      empty_square(place);
+    }
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_interceptor(unsigned int idx,
+                               intercept_checks_fct *recurse,
+                               vec_index_type kcurr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParamListEnd();
+
+  assert(get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy);
+
+  if (play_phase==validating_mate)
+    (*recurse)(kcurr);
+  else
+  {
+    /* remove the dummy */
+    empty_square(piece_choice[idx].pos);
+
+    /* taboo equal to 1 is ok: this is "my" taboo! */
+    if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
+      walk_interceptor(idx,recurse,kcurr);
+
+    if (!end_of_iteration)
+    {
+      piece_choice[idx].side = advers(piece_choice[idx].side);
+      if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
+        walk_interceptor(idx,recurse,kcurr);
+    }
+
+    /* re-place the dummy */
+    occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+  }
+
+  TracePosition(being_solved.board,being_solved.spec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
