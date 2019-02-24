@@ -42,13 +42,6 @@ static boolean end_of_iteration;
 
 static unsigned int taboo[nr_sides][maxsquare];
 
-static struct
-{
-    Side side;
-    piece_walk_type walk;
-    square pos;
-} piece_choice[nr_squares_on_board];
-
 static enum
 {
   regular_play,
@@ -329,39 +322,41 @@ typedef void intercept_checks_fct(vec_index_type kcurr);
 
 static void walk_interceptor(unsigned int idx,
                              intercept_checks_fct *recurse,
-                             vec_index_type kcurr)
+                             vec_index_type kcurr,
+                             Side side,
+                             square pos)
 {
-  square const place = piece_choice[idx].pos;
-  SquareFlags const promsq = piece_choice[idx].side==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = piece_choice[idx].side==White ? WhBaseSq : BlBaseSq;
+  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
+  piece_walk_type walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
   TraceFunctionParam("%u",kcurr);
+  TraceEnumerator(Side,side);
+  TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   TraceSquare(place);TraceEOL();
-  assert(is_square_empty(place));
+  assert(is_square_empty(pos));
 
-  for (piece_choice[idx].walk = Pawn;
-       piece_choice[idx].walk<=Bishop && !end_of_iteration;
-       ++piece_choice[idx].walk)
-    if (!(is_pawn(piece_choice[idx].walk)
-          && (TSTFLAG(sq_spec[place],basesq) || TSTFLAG(sq_spec[place],promsq))))
+  for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
+    if (!(is_pawn(walk)
+          && (TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq))))
     {
-      TraceWalk(piece_choice[idx].walk);TraceEOL();
-      ++being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      occupy_square(place,piece_choice[idx].walk,BIT(piece_choice[idx].side)|BIT(Chameleon));
-      if (!is_square_uninterceptably_attacked(advers(piece_choice[idx].side),
-                                              being_solved.king_square[advers(piece_choice[idx].side)]))
-        (*recurse)(kcurr);
+      TraceWalk(walk);TraceEOL();
+      ++being_solved.number_of_pieces[side][walk];
+      occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
+      if (!is_square_uninterceptably_attacked(advers(side),
+                                              being_solved.king_square[advers(side)]))
+        (*recurse)(kcurr+1);
       TraceSquare(place);
       TraceWalk(get_walk_of_piece_on_square(place));
-      TraceWalk(piece_choice[idx].walk);
+      TraceWalk(walk);
       TraceEOL();
-      assert(get_walk_of_piece_on_square(place)==piece_choice[idx].walk);
-      --being_solved.number_of_pieces[piece_choice[idx].side][piece_choice[idx].walk];
-      empty_square(place);
+      assert(get_walk_of_piece_on_square(pos)==walk);
+      --being_solved.number_of_pieces[side][walk];
+      empty_square(pos);
     }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -372,35 +367,36 @@ static void walk_interceptor(unsigned int idx,
 
 static void colour_interceptor(unsigned int idx,
                                intercept_checks_fct *recurse,
-                               vec_index_type kcurr)
+                               vec_index_type kcurr,
+                               Side preferred_side,
+                               square pos)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
   TraceFunctionParam("%u",kcurr);
+  TraceEnumerator(Side,preferred_side);
+  TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  assert(get_walk_of_piece_on_square(piece_choice[idx].pos)==Dummy);
-
   if (play_phase==validating_mate)
-    (*recurse)(kcurr);
+    (*recurse)(kcurr+1);
   else
   {
     /* remove the dummy */
-    empty_square(piece_choice[idx].pos);
+    empty_square(pos);
 
     /* taboo equal to 1 is ok: this is "my" taboo! */
-    if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-      walk_interceptor(idx,recurse,kcurr);
+    if (taboo[preferred_side][pos]==1)
+      walk_interceptor(idx,recurse,kcurr,preferred_side,pos);
 
     if (!end_of_iteration)
     {
-      piece_choice[idx].side = advers(piece_choice[idx].side);
-      if (taboo[piece_choice[idx].side][piece_choice[idx].pos]==1)
-        walk_interceptor(idx,recurse,kcurr);
+      if (taboo[advers(preferred_side)][pos]==1)
+        walk_interceptor(idx,recurse,kcurr,advers(preferred_side),pos);
     }
 
     /* re-place the dummy */
-    occupy_square(piece_choice[idx].pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    occupy_square(pos,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -425,8 +421,6 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
   TraceFunctionParamListEnd();
 
   assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-  piece_choice[nr_placed_interceptors].pos = s;
-  piece_choice[nr_placed_interceptors].side = side_in_check;
   TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
   ++taboo[White][s];
@@ -434,7 +428,7 @@ static void place_interceptor_dummy_on_square(vec_index_type kcurr,
 
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   ++nr_placed_interceptors;
-  colour_interceptor(nr_placed_interceptors-1,recurse,kcurr+1);
+  colour_interceptor(nr_placed_interceptors-1,recurse,kcurr,side_in_check,s);
   --nr_placed_interceptors;
   empty_square(s);
 
@@ -1908,8 +1902,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side)|BIT(Chameleon),
                                               side);
 
-        piece_choice[nr_placed_interceptors].pos = capture_by_invisible;
-
         pipe_solve_delegate(si);
       }
       else
@@ -1948,8 +1940,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            piece_choice[nr_placed_interceptors].pos = square_h;
-
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
@@ -1976,8 +1966,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   Rook,
                                                   BIT(side),
                                                   side);
-
-            piece_choice[nr_placed_interceptors].pos = square_a;
 
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
@@ -2006,8 +1994,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   Dummy,
                                                   BIT(side_victim)|BIT(Chameleon),
                                                   side_victim);
-
-            piece_choice[nr_placed_interceptors].pos = sq_capture;
 
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
