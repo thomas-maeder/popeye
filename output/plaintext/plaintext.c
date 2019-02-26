@@ -212,31 +212,6 @@ static void write_exchange(output_plaintext_move_context_type *context,
   WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_exchange.from);
 }
 
-static void write_singlebox_promotion(output_plaintext_move_context_type *context,
-                                      move_effect_journal_index_type curr)
-{
-  WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
-  (*context->engine->fputc)('=',context->file);
-  WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
-}
-
-static void write_singlebox_type3_promotion(output_engine_type const *engine,
-                                            FILE *file,
-                                            output_symbol_table_type const *symbol_table)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const sb3_prom = find_pre_move_effect(move_effect_walk_change,
-                                                                       move_effect_reason_singlebox_promotion);
-
-  if (sb3_prom!=move_effect_journal_index_null)
-  {
-    output_plaintext_move_context_type context;
-    context_open(&context,engine,file,symbol_table,base,"[","]");
-    write_singlebox_promotion(&context,sb3_prom);
-    context_close(&context);
-  }
-}
-
 static void write_regular_move(output_plaintext_move_context_type *context)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -406,6 +381,14 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
 
   assert(0);
   return 0;
+}
+
+static void write_singlebox_promotion(output_plaintext_move_context_type *context,
+                                      move_effect_journal_index_type curr)
+{
+  WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
+  (*context->engine->fputc)('=',context->file);
+  WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
 }
 
 static void write_piece_change(output_plaintext_move_context_type *context,
@@ -791,6 +774,37 @@ static void write_other_effects(output_plaintext_move_context_type *context,
   }
 }
 
+static void write_pre_capture_effect(output_engine_type const *engine,
+                                     FILE *file,
+                                     output_symbol_table_type const *symbol_table)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  switch (move_effect_journal[base].type)
+  {
+    case move_effect_walk_change:
+    {
+      output_plaintext_move_context_type context;
+      context_open(&context,engine,file,symbol_table,base,"[","]");
+      write_singlebox_promotion(&context,base);
+      context_close(&context);
+      break;
+    }
+
+    case move_effect_piece_creation:
+      if (move_effect_journal[base].u.piece_addition.added.on!=capture_by_invisible)
+      {
+        output_plaintext_move_context_type context;
+        context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");
+        write_piece_creation(&context,base);
+        context_close(&context);
+      }
+      break;
+
+    default:
+      break;
+  }
+}
+
 void output_plaintext_write_move(output_engine_type const *engine,
                                  FILE *file,
                                  output_symbol_table_type const *symbol_table)
@@ -801,8 +815,8 @@ void output_plaintext_write_move(output_engine_type const *engine,
   se_move(mov);
 #endif
 
-  if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
-    write_singlebox_type3_promotion(engine,file,symbol_table);
+  if (move_effect_journal_index_offset_capture==1)
+    write_pre_capture_effect(engine,file,symbol_table);
 
   context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");
   write_regular_move(&context);
