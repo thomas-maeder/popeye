@@ -23,7 +23,7 @@
   h#1                         2 + 2
 
   1.Kh6-h5 Qd5-g5 #
-  1.h7*g6 Qd5-h1 #
+  1.[+wTIg6]h7*g6 Qd5-h1 #
   add_to_move_generation_stack:        1977
                      play_move:         285
  is_white_king_square_attacked:          73
@@ -57,8 +57,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 2
 
-  1.b2-b1=R a2*b3 #
-  1.b2*c1=S Qa3-b2 #
+  1.b2-b1=R [+bTIb3]a2*b3 #
+  1.[+wTIc1]b2*c1=S Qa3-b2 #
   add_to_move_generation_stack:        3264
                      play_move:         733
  is_white_king_square_attacked:         155
@@ -161,11 +161,11 @@ Sake tourney 2018, 1st prize, b) cooked
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-g3 TI~*g3   2.h2*g1=Q Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.h2*g1=S Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.h2*g1=R Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.h2*g1=B Qb2-b8 #
-  1.Be1-f2 TI~*f2   2.f5*g4 Qb2-f6 #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8 #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=S Qb2-b8 #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8 #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=B Qb2-b8 #
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4 Qb2-f6 #
   add_to_move_generation_stack:    19137958
                      play_move:     2422903
  is_white_king_square_attacked:      439099
@@ -233,7 +233,7 @@ Sake tourney 2018, 1st prize, b) corrected
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-f2 TI~*f2   2.f5*g4 Qb2-f6 #
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4 Qb2-f6 #
   add_to_move_generation_stack:    16518148
                      play_move:     2100081
  is_white_king_square_attacked:      380925
@@ -358,14 +358,14 @@ solution finished.
   h#2                         7 + 2
 
   1.Qh1-a8 TI~*a8   2.Ka4-a5 Rd3-a3 #
-  1.Qh1-a8 f2*g3   2.Qa8-e4 TI~*e4 #
+  1.Qh1-a8 [+bTIg3]f2*g3   2.Qa8-e4 TI~*e4 #
   1.Qh1-e4 Kf6-e6   2.TI~*g5 TI~*e4 #
-  1.Qh1-a1 f2*g3   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 f2*e3   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 f5*g6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 f5*e6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 g5*h6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-b1 f2*e3   2.Qb1-d1 TI~*d1 #
+  1.Qh1-a1 [+bTIg3]f2*g3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe3]f2*e3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIg6]f5*g6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
   add_to_move_generation_stack:    39397208
                      play_move:     4897244
  is_white_king_square_attacked:      925987
@@ -524,11 +524,11 @@ Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye f
 
 a) 
 
-  1.Kg1-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
-  1.Kg1-h2 Qd3-g3   2.Kh2-g1 0-0-0 #
-  1.Kg1-g2 0-0-0   2.Kg2-h3 Qd3-g3 #
-  1.Kg1-g2 Qd3-h3   2.Kg2-h1 0-0-0 #
-  1.Kg1-h1 Qd3-g3   2.Kh1-g1 0-0-0 #
+  1.Kg1-h2 [+wRa1]0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1 [+wRa1]0-0-0 #
+  1.Kg1-g2 [+wRa1]0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1 [+wRa1]0-0-0 #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1 [+wRa1]0-0-0 #
   add_to_move_generation_stack:      907812
                      play_move:      101475
  is_white_king_square_attacked:       30159
@@ -536,10 +536,10 @@ a)
 
 b) bKg1-->g2  
 
-  1.Kg2-h3 0-0-0   2.Kh3-g2 Qd3-g3 #
-  1.Kg2-h3 0-0-0   2.Kh3-h2 Qd3-g3 #
-  1.Kg2-g1 Qd3-h3   2.Kg1-h1 0-0-0 #
-  1.Kg2-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg2-h3 [+wRa1]0-0-0   2.Kh3-g2 Qd3-g3 #
+  1.Kg2-h3 [+wRa1]0-0-0   2.Kh3-h2 Qd3-g3 #
+  1.Kg2-g1 Qd3-h3   2.Kg1-h1 [+wRa1]0-0-0 #
+  1.Kg2-h2 [+wRa1]0-0-0   2.Kh2-h3 Qd3-g3 #
   add_to_move_generation_stack:     1381633
                      play_move:      147760
  is_white_king_square_attacked:       40258
@@ -574,8 +574,8 @@ solution finished.
   h#2                         4 + 5
 
   1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4 #
-  1.Bf8-c5 TI~*c5   2.e3*f2 TI~*a4 #
-  1.Bf8-h6 TI~*h6   2.a4*b3 TI~*e3 #
+  1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4 #
+  1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3 #
   add_to_move_generation_stack:      650016
                      play_move:      209730
  is_white_king_square_attacked:       34803
@@ -611,24 +611,24 @@ solution finished.
 
 a) 
 
-  1.e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
-  1.e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
-  1.e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
-  1.e3*f2 Bb5-d3   2.Ke4-e3 TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
-  1.e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
-  1.e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
-  1.e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
-  1.Ke4-f3 Kc2-d3   2.e3*f2 TI~*h5 #
-  1.Ke4-f3 Kc2-d3   2.e3*f2 Bb5-c6 #
-  1.Ke4-f3 Se2-c3   2.e3*f2 TI~*h5 #
+  1.[+wTIf2]e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
+  1.[+wTIf2]e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-e3 TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 TI~*h5 #
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 Bb5-c6 #
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5 #
   1.Ke4-f3 Qh3-e6   2.Kf3-e4 Bb5-c6 #
   1.Ke4-f3 Qh3-g3   2.Kf3*e2 TI~*e3 #
   1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
-  1.Ke4-f3 Bb5-d3   2.e3*f2 TI~*h5 #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5 #
   1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5 #
   add_to_move_generation_stack:     6304871
                      play_move:     1134721
@@ -637,48 +637,48 @@ a)
 
 b) wKc2-->g6  
 
-  1.e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
-  1.e3*f2 Qh3-c3   2.f2*g1=S Bb5-c6 #
-  1.e3*f2 Qh3-c3   2.f2*g1=B Bb5-c6 #
-  1.e3*f2 Qh3-c3   2.f2*e1=Q Bb5-c6 #
-  1.e3*f2 Qh3-c3   2.f2*e1=S Bb5-c6 #
-  1.e3*f2 Qh3-c3   2.f2*e1=R Bb5-c6 #
-  1.e3*f2 Qh3-c3   2.f2*e1=B Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*g1=Q Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*g1=S Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*g1=R Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*g1=B Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*e1=Q Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*e1=S Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*e1=R Bb5-c6 #
-  1.e3*f2 Qh3-g3   2.f2*e1=B Bb5-c6 #
-  1.e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
-  1.e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
-  1.e3*d2 Qh3-c3   2.d2*e1=Q Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*e1=S Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*e1=R Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*e1=B Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*c1=Q Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*c1=S Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*c1=R Bb5-c6 #
-  1.e3*d2 Qh3-c3   2.d2*c1=B Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*e1=Q Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*e1=S Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*e1=R Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*e1=B Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*c1=S Bb5-c6 #
-  1.e3*d2 Qh3-g3   2.d2*c1=B Bb5-c6 #
-  1.e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
-  1.e3*d2 Bb5-c6   2.d2-d1=B TI~*h5 #
-  1.e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.[+wTIf2]e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=B TI~*h5 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
   1.Ke4-d3 TI~*h5   2.Kd3-e4 Qh3-f5 #
   1.Ke4-d3 Bb5-c6   2.Kd3-e4 Qh3-f5 #
-  1.Ke4-f3 Se2-c3   2.e3*f2 TI~*h5 #
-  1.Ke4-f3 Bb5-d3   2.e3*f2 TI~*h5 #
-  1.Ke4-f3 Kg6-f5   2.e3*f2 TI~*h5 #
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5 #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5 #
+  1.Ke4-f3 Kg6-f5   2.[+wTIf2]e3*f2 TI~*h5 #
   add_to_move_generation_stack:     5220707
                      play_move:      961517
  is_white_king_square_attacked:      159706
@@ -712,9 +712,9 @@ Michel Caillaud & Igor Vere\vs\vcagin
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-  1.b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6 #
-  1.0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
-  1.0-0-0 Qh3-h7   2.Rd8-g8 TI~*g8 #
+  1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6 #
+  1.[+bRa8]0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
+  1.[+bRa8]0-0-0 Qh3-h7   2.Rd8-g8 TI~*g8 #
   add_to_move_generation_stack:    11154025
                      play_move:     1210633
  is_white_king_square_attacked:      236810
@@ -752,7 +752,7 @@ Michael Caillaud (after Ken Kousaka)
   1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7 #
   1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6 #
   1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3 #
-  1.h7*g6 Qc8-h3   2.h5*g4 Qh3-h4 #
+  1.[+wTIg6]h7*g6 Qc8-h3   2.[+wTIg4]h5*g4 Qh3-h4 #
   add_to_move_generation_stack:   105445589
                      play_move:    10825747
  is_white_king_square_attacked:     1992684
