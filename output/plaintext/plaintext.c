@@ -478,7 +478,7 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       assert(0);
       break;
 
-    case move_effect_reason_castling_partner_movement:
+    case move_effect_reason_castling_partner:
       if (CondFlag[castlingchess] || CondFlag[rokagogo])
       {
         (*context->engine->fputc)('/',context->file);
@@ -554,6 +554,16 @@ static void write_piece_creation(output_plaintext_move_context_type *context,
                                  move_effect_journal_index_type curr)
 {
   next_context(context,curr,"[+","]");
+  write_complete_piece(context,
+                       move_effect_journal[curr].u.piece_addition.added.flags,
+                       move_effect_journal[curr].u.piece_addition.added.walk,
+                       move_effect_journal[curr].u.piece_addition.added.on);
+}
+
+static void write_piece_revelation(output_plaintext_move_context_type *context,
+                                   move_effect_journal_index_type curr)
+{
+  next_context(context,curr,"[","]");
   write_complete_piece(context,
                        move_effect_journal[curr].u.piece_addition.added.flags,
                        move_effect_journal[curr].u.piece_addition.added.walk,
@@ -766,6 +776,10 @@ static void write_other_effects(output_plaintext_move_context_type *context,
 
       case move_effect_bgl_adjustment:
         write_bgl_status(context,curr);
+        break;
+
+      case move_effect_revelation_of_invisible:
+        write_piece_revelation(context,curr);
         break;
 
       default:

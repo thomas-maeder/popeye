@@ -63,6 +63,8 @@ typedef enum
 
   move_effect_hunter_type_definition,
 
+  move_effect_revelation_of_invisible,
+
   nr_move_effect_types
 } move_effect_type;
 
@@ -74,7 +76,7 @@ typedef enum
   move_effect_reason_regular_capture,
   move_effect_reason_ep_capture,
   move_effect_reason_castling_king_movement,
-  move_effect_reason_castling_partner_movement,
+  move_effect_reason_castling_partner,
   move_effect_reason_pawn_promotion,
   move_effect_reason_messigny_exchange,
   move_effect_reason_exchange_castling_exchange,
@@ -123,7 +125,6 @@ typedef enum
   move_effect_reason_snek,
   move_effect_reason_breton,
   move_effect_reason_removal_of_invisible,
-  move_effect_reason_revelation_of_invisible,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning

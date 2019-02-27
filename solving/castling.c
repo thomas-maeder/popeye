@@ -71,7 +71,7 @@ static void castle(square sq_departure, square sq_arrival,
   move_effect_journal_do_no_piece_removal();
   move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                         sq_departure,sq_arrival);
-  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                         sq_partner_departure,sq_partner_arrival);
 
   TraceFunctionExit(__func__);

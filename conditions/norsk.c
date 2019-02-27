@@ -58,7 +58,7 @@ static move_effect_journal_index_type find_castling_partner_movement(void)
 
   for (result = top-1; result>base; --result)
     if (move_effect_journal[result].type==move_effect_piece_movement
-        && move_effect_journal[result].reason==move_effect_reason_castling_partner_movement)
+        && move_effect_journal[result].reason==move_effect_reason_castling_partner)
       break;
 
   TraceFunctionExit(__func__);

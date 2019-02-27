@@ -1103,7 +1103,7 @@ static int imitator_diff(void)
       {
         case move_effect_reason_moving_piece_movement:
         case move_effect_reason_castling_king_movement:
-        case move_effect_reason_castling_partner_movement:
+        case move_effect_reason_castling_partner:
           result += move_effect_journal[curr].u.piece_movement.to-move_effect_journal[curr].u.piece_movement.from;
           break;
 
