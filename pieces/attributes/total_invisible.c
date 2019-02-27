@@ -135,7 +135,7 @@ static void know_specific_piece(square pos, piece_walk_type placed_walk, Side si
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
   {
     piece_walk_type walk;
-    for (walk = Pawn; walk!=Bishop; ++walk)
+    for (walk = Pawn; walk<=Bishop; ++walk)
       knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].walk_impossible[walk] = walk!=placed_walk;
   }
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_impossible[advers(side)] = true;
@@ -181,7 +181,7 @@ static piece_walk_type get_revealed_walk(unsigned int i)
   TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
-  for (walk = Pawn; walk!=Bishop; ++walk)
+  for (walk = Pawn; walk<=Bishop; ++walk)
     if (!knowledge_on_placed_invisibles[nbply][i].walk_impossible[walk])
     {
       assert(result==Empty);
@@ -258,6 +258,8 @@ static void move_knowledge(square from, square to)
   unsigned int i;
 
   TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceSquare(to);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
@@ -278,36 +280,57 @@ static void update_knowledge(void)
   TraceFunctionParamListEnd();
 
   for (curr = base; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    switch (move_effect_journal[curr].type)
     {
-      square const from = move_effect_journal[curr].u.piece_movement.from;
-      square const to = move_effect_journal[curr].u.piece_movement.to;
-      move_knowledge(from,to);
+      case move_effect_piece_movement:
+      {
+        square const from = move_effect_journal[curr].u.piece_movement.from;
+        square const to = move_effect_journal[curr].u.piece_movement.to;
+        move_knowledge(from,to);
+        break;
+      }
+
+      case move_effect_piece_removal:
+      {
+        square const from = move_effect_journal[curr].u.piece_removal.on;
+        move_knowledge(from,initsquare);
+        break;
+      }
+
+      default:
+        break;
     }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void unupdate_knowledge(void)
+void write_knowledge(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type curr;
+  unsigned int i;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
+  printf(" ");
 
-  for (curr = base; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_movement)
-    {
-      square const from = move_effect_journal[curr].u.piece_movement.from;
-      square const to = move_effect_journal[curr].u.piece_movement.to;
-      move_knowledge(to,from);
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
+  {
+    square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
+    piece_walk_type walk;
+    printf("(");
+    if (pos==initsquare)
+      printf("-");
+    else
+       WriteSquare(&output_plaintext_engine,stdout,pos);
+    printf(":");
+    if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[White])
+      printf("w");
+    if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[Black])
+      printf("b");
+    printf(":");
+    for (walk = Pawn; walk<=Bishop; ++walk)
+      if (!knowledge_on_placed_invisibles[nbply][i].walk_impossible[walk])
+        WriteWalk(&output_plaintext_engine,stdout,walk);
+    printf(")");
+  }
 }
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
@@ -1708,6 +1731,34 @@ void total_invisible_move_repeater_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+void total_invisible_knowledge_updater_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  update_knowledge();
+  add_revelation_effects();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
 void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -1718,12 +1769,9 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
     solve_result = previous_move_is_illegal;
   else
   {
-    update_knowledge();
-    add_revelation_effects();
     update_taboo(+1);
     pipe_solve_delegate(si);
     update_taboo(-1);
-    unupdate_knowledge();
   }
 
   TraceFunctionExit(__func__);
@@ -2629,8 +2677,10 @@ static void copy_help_branch(slice_index si,
       slice_index const prototypes[] = {
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleKnowledgeUpdater),
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
-          alloc_pipe(STTotalInvisibleSpecialMovesPlayer)
+          alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleKnowledgeUpdater)
       };
       enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_protypes);

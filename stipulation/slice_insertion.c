@@ -747,6 +747,7 @@ static slice_index const slice_rank_order[] =
   STRetroRedoLastPawnMultistep,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
+  STTotalInvisibleUninterceptableSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsWasShortSolutionFound,
   STMagicViewsInitialiser,
