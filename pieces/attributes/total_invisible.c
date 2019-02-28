@@ -85,6 +85,101 @@ enum
 static knowledge_type knowledge_on_placed_invisibles[maxply+1][max_nr_played_invisibles];
 static unsigned int nr_placed_invisibles[maxply+1];
 
+static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
+                                                        vec_index_type k, piece_walk_type rider_walk)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(king_pos);
+  TraceValue("%u",k);
+  TraceWalk(rider_walk);
+  TraceFunctionParamListEnd();
+
+  {
+    square s = king_pos+vec[k];
+    while (is_square_empty(s) && taboo[White][s]>0 && taboo[Black][s]>0)
+      s += vec[k];
+
+    {
+      piece_walk_type const walk = get_walk_of_piece_on_square(s);
+      result = ((walk==rider_walk || walk==Queen)
+                && TSTFLAG(being_solved.spec[s],side_checking));
+    }
+    TraceSquare(s);
+    TraceValue("%u",is_square_empty(s));
+    TraceValue("%u",taboo[White][s]);
+    TraceValue("%u",taboo[Black][s]);
+    TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static vec_index_type is_rider_check_uninterceptable(Side side_checking, square king_pos,
+                                                     vec_index_type kanf, vec_index_type kend, piece_walk_type rider_walk)
+{
+  vec_index_type result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(king_pos);
+  TraceValue("%u",kanf);
+  TraceValue("%u",kend);
+  TraceWalk(rider_walk);
+  TraceFunctionParamListEnd();
+
+  {
+    vec_index_type k;
+    for (k = kanf; !result && k<=kend; k++)
+      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,rider_walk))
+      {
+        result = k;
+        break;
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack, square sq_attacked)
+{
+  vec_index_type result = 0;
+  Side const side_checking = advers(side_under_attack);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_under_attack);
+  TraceSquare(sq_attacked);
+  TraceFunctionParamListEnd();
+
+  if (!result && being_solved.number_of_pieces[side_checking][King]>0)
+    result = king_check_ortho(side_checking,sq_attacked);
+
+  if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
+    result = pawn_check_ortho(side_checking,sq_attacked);
+
+  if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
+    result = knight_check_ortho(side_checking,sq_attacked);
+
+  if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
+    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
+
+  if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
+    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void copy_knowledge(void)
 {
   TraceFunctionEntry(__func__);
@@ -112,9 +207,24 @@ static void unknow_last(void)
   TraceFunctionResultEnd();
 }
 
+static void know_dummy(square pos)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
+  ++nr_placed_invisibles[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void know_coloured_dummy(square pos, Side side)
 {
   TraceFunctionEntry(__func__);
+  TraceSquare(pos);
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
@@ -331,101 +441,6 @@ void write_knowledge(void)
         WriteWalk(&output_plaintext_engine,stdout,walk);
     printf(")");
   }
-}
-
-static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
-                                                        vec_index_type k, piece_walk_type rider_walk)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_checking);
-  TraceSquare(king_pos);
-  TraceValue("%u",k);
-  TraceWalk(rider_walk);
-  TraceFunctionParamListEnd();
-
-  {
-    square s = king_pos+vec[k];
-    while (is_square_empty(s) && taboo[White][s]>0 && taboo[Black][s]>0)
-      s += vec[k];
-
-    {
-      piece_walk_type const walk = get_walk_of_piece_on_square(s);
-      result = ((walk==rider_walk || walk==Queen)
-                && TSTFLAG(being_solved.spec[s],side_checking));
-    }
-    TraceSquare(s);
-    TraceValue("%u",is_square_empty(s));
-    TraceValue("%u",taboo[White][s]);
-    TraceValue("%u",taboo[Black][s]);
-    TraceEOL();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static vec_index_type is_rider_check_uninterceptable(Side side_checking, square king_pos,
-                                                     vec_index_type kanf, vec_index_type kend, piece_walk_type rider_walk)
-{
-  vec_index_type result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_checking);
-  TraceSquare(king_pos);
-  TraceValue("%u",kanf);
-  TraceValue("%u",kend);
-  TraceWalk(rider_walk);
-  TraceFunctionParamListEnd();
-
-  {
-    vec_index_type k;
-    for (k = kanf; !result && k<=kend; k++)
-      if (is_rider_check_uninterceptable_on_vector(side_checking,king_pos,k,rider_walk))
-      {
-        result = k;
-        break;
-      }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack, square sq_attacked)
-{
-  vec_index_type result = 0;
-  Side const side_checking = advers(side_under_attack);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_under_attack);
-  TraceSquare(sq_attacked);
-  TraceFunctionParamListEnd();
-
-  if (!result && being_solved.number_of_pieces[side_checking][King]>0)
-    result = king_check_ortho(side_checking,sq_attacked);
-
-  if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
-    result = pawn_check_ortho(side_checking,sq_attacked);
-
-  if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
-    result = knight_check_ortho(side_checking,sq_attacked);
-
-  if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
-    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
-
-  if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
-    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static void play_with_placed_invisibles(void)
