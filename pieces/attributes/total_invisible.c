@@ -600,21 +600,21 @@ void write_knowledge(void)
   {
     square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
     piece_walk_type walk;
-    printf("(");
+    output_plaintext_engine.fputc('(',stdout);
     if (pos==initsquare)
-      printf("-");
+      output_plaintext_engine.fputc('-',stdout);
     else
        WriteSquare(&output_plaintext_engine,stdout,pos);
-    printf(":");
+    output_plaintext_engine.fputc(':',stdout);
     if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[White])
-      printf("w");
+      output_plaintext_engine.fputc('w',stdout);
     if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[Black])
-      printf("b");
-    printf(":");
+      output_plaintext_engine.fputc('b',stdout);
+    output_plaintext_engine.fputc(':',stdout);
     for (walk = Pawn; walk<=Bishop; ++walk)
       if (!knowledge_on_placed_invisibles[nbply][i].walk_impossible[walk])
         WriteWalk(&output_plaintext_engine,stdout,walk);
-    printf(")");
+    output_plaintext_engine.fputc(')',stdout);
   }
 }
 
