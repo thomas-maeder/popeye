@@ -58,7 +58,7 @@ solution finished.
   h#1                         3 + 2
 
   1.b2-b1=R [+bTIb3]a2*b3(b3:c:v:w:bPQSRB) #
-  1.[+wTIc1]b2*c1=S(c1:c:v:wPQSRB:b) Qa3-b2(c1:c:v:wPQSRB:b) #
+  1.[+wTIc1]b2*c1=S(c1:c:v:wQSRB:b) Qa3-b2(c1:c:v:wQSRB:b) #
   add_to_move_generation_stack:        3264
                      play_move:         737
  is_white_king_square_attacked:         155
@@ -161,10 +161,10 @@ Sake tourney 2018, 1st prize, b) cooked
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=Q(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b)(f1:i:i:wPQSRB:bPQSRB) #
-  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=S(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=R(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b)(f1:i:i:wPQSRB:bPQSRB) #
-  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=B(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wPQSRB:b) #
+  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=Q(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b)(f1:i:i:wQSRB:bQSRB) #
+  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=S(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=R(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b)(f1:i:i:wQSRB:bQSRB) #
+  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.[+wTIg1]h2*g1=B(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(g1:c:v:wQSRB:b) #
   1.Be1-f2 TI~*f2(f2:i:c:wPQSRB:b)   2.[+wTIg4]f5*g4(f2:i:c:wPQSRB:b)(g4:c:v:wPQSRB:b) Qb2-f6(f2:i:c:wPQSRB:b)(g4:c:v:wPQSRB:b) #
   add_to_move_generation_stack:    19325109
                      play_move:     2434796
@@ -199,7 +199,7 @@ Sake tourney 2018, 1st prize, a) corrected
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.Rh1-g1(g3:i:c:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(f1:i:i:wPQSRB:bPQSRB) #
+  1.Be1-g3 TI~*g3(g3:i:c:wPQSRB:b)   2.Rh1-g1(g3:i:c:wPQSRB:b) Qb2-b8(g3:i:c:wPQSRB:b)(f1:i:i:wQSRB:bQSRB) #
   add_to_move_generation_stack:    15691478
                      play_move:     1983288
  is_white_king_square_attacked:      353378
@@ -634,38 +634,38 @@ a)
 
 b) wKc2-->g6  
 
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=Q(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=R(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-c3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=Q(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=R(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) Bb5-c6(g1:c:v:wPQSRB:b)(g1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Qh3-g3(f2:c:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
   1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Bb5-c6(f2:c:v:wPQSRB:b)   2.f2-f1=Q(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
   1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Bb5-c6(f2:c:v:wPQSRB:b)   2.f2-f1=S(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
   1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Bb5-c6(f2:c:v:wPQSRB:b)   2.f2-f1=R(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
   1.[+wTIf2]e3*f2(f2:c:v:wPQSRB:b) Bb5-c6(f2:c:v:wPQSRB:b)   2.f2-f1=B(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(f1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=Q(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=R(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
-  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=Q(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=R(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-c3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) Bb5-c6(e1:c:v:wPQSRB:b)(e1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
+  1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Qh3-g3(d2:c:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) Bb5-c6(c1:c:v:wPQSRB:b)(c1:c:v:wQSRB:b) #
   1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Bb5-c6(d2:c:v:wPQSRB:b)   2.d2-d1=S(d1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(d1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
   1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Bb5-c6(d2:c:v:wPQSRB:b)   2.d2-d1=B(d1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB) TI~*h5(d1:c:v:wPQSRB:b)(d5:i:i:wPQSRB:bPQSRB)(h5:i:c:wPQSRB:b) #
   1.[+wTId2]e3*d2(d2:c:v:wPQSRB:b) Bb5-c6(d2:c:v:wPQSRB:b)   2.Ke4-e3(d2:c:v:wPQSRB:b) Qh3-f3(d2:c:v:wPQSRB:b) #
@@ -707,7 +707,7 @@ Michel Caillaud & Igor Vere\vs\vcagin
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-  1.[+wTIc6]b7*c6(c6:c:v:wPQSRB:b) Qh3-c8(c6:c:v:wPQSRB:b)   2.Ra7-f7(c6:c:v:wPQSRB:b)(d8:i:i:wPQSRB:bPQSRB) TI~*c6(c6:c:v:wPQSRB:b)(d8:i:i:wPQSRB:bPQSRB)(c6:i:c:wPQSRB:b) #
+  1.[+wTIc6]b7*c6(c6:c:v:wPQSRB:b) Qh3-c8(c6:c:v:wPQSRB:b)   2.Ra7-f7(c6:c:v:wPQSRB:b)(d8:i:i:wQSRB:bQSRB) TI~*c6(c6:c:v:wPQSRB:b)(d8:i:i:wQSRB:bQSRB)(c6:i:c:wPQSRB:b) #
   1.[+bRa8]0-0-0[bRd8] Qh3-d7   2.Kc8-b8 Qd7*d8(d8:c:p:w:bR) #
   1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8(g8:c:p:w:bR)(g8:i:c:wPQSRB:b) #
   add_to_move_generation_stack:    11156408

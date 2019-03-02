@@ -246,6 +246,11 @@ static void know_interceptor(square pos)
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_interceptor;
+  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
+  {
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[White][Pawn] = true;
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[Black][Pawn] = true;
+  }
   ++nr_placed_invisibles[nbply];
   TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
@@ -268,6 +273,11 @@ static void know_capturer(square pos, Side side)
     for (walk = Pawn; walk<=Bishop; ++walk)
       knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
   }
+  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
+  {
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[White][Pawn] = true;
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[Black][Pawn] = true;
+  }
   ++nr_placed_invisibles[nbply];
   TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
@@ -289,6 +299,11 @@ static void know_victim(square pos, Side side)
     piece_walk_type walk;
     for (walk = Pawn; walk<=Bishop; ++walk)
       knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
+  }
+  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
+  {
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[White][Pawn] = true;
+    knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[Black][Pawn] = true;
   }
   ++nr_placed_invisibles[nbply];
   TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
