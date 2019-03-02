@@ -348,16 +348,191 @@ static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const
 {
 }
 
-static void add_revelation_effects(void)
+static void add_revelation_effects(slice_index si)
 {
   unsigned int i;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
     if (is_new_revelation(i))
       add_revelation_effect(i);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef void uniquely_intercepter(slice_index si,
+                                  vec_index_type kcurr);
+
+static void uniquely_place_interceptor_on_square(slice_index si,
+                                                 square s,
+                                                 vec_index_type kcurr,
+                                                 uniquely_intercepter *recurse)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(s);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParamListEnd();
+
+  ++taboo[White][s];
+  ++taboo[Black][s];
+
+  ++nr_placed_interceptors;
+
+  occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+  SetPieceId(being_solved.spec[s],++being_solved.currPieceId);
+
+  know_dummy(s);
+
+  (*recurse)(si,kcurr+1);
+
+  empty_square(s);
+
+  --nr_placed_interceptors;
+
+  --taboo[White][s];
+  --taboo[Black][s];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static square find_unique_interception_point(square king_pos,
+                                             square sq_end,
+                                             int dir)
+{
+  square result = initsquare;
+  square s;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(king_pos);
+  TraceSquare(sq_end);
+  TraceFunctionParam("%i",dir);
+  TraceFunctionParamListEnd();
+
+  for (s = king_pos+dir; s!=sq_end; s += dir)
+    if (taboo[White][s]==0 && taboo[Black][s]==0)
+    {
+      if (result==initsquare)
+        result = s;
+      else
+      {
+        result = initsquare;
+        break;
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void uniquely_intercept_line_if_check(slice_index si,
+                                             vec_index_type kcurr,
+                                             piece_walk_type walk_rider,
+                                             uniquely_intercepter *recurse)
+{
+  Side const side_in_check = trait[nbply];
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+  int const dir = vec[kcurr];
+  square const sq_end = find_end_of_line(king_pos,dir);
+  piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",kcurr);
+  TraceWalk(walk_rider);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceEnumerator(Side,side_in_check);
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(king_pos);
+  TraceSquare(sq_end);
+  TraceWalk(walk_at_end);
+  TraceEOL();
+
+  if ((walk_at_end==walk_rider || walk_at_end==Queen)
+      && TSTFLAG(being_solved.spec[sq_end],side_checking))
+  {
+    square const s = find_unique_interception_point(king_pos,sq_end,dir);
+    if (s!=initsquare)
+    {
+      TraceValue("%u",nr_placed_interceptors);
+      TraceValue("%u",nr_total_invisibles_left);
+      TraceEOL();
+      if (nr_placed_interceptors==nr_total_invisibles_left)
+        /* there are not enough total invisibles to intercept all checks */;
+      else
+        uniquely_place_interceptor_on_square(si,s,kcurr,recurse);
+    }
+    else
+      (*recurse)(si,kcurr+1);
+  }
+  else
+    (*recurse)(si,kcurr+1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void uniquely_intercept_illegal_checks_diagonal(slice_index si,
+                                                       vec_index_type kcurr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParamListEnd();
+
+  if (kcurr>vec_bishop_end)
+    add_revelation_effects(si);
+  else
+    uniquely_intercept_line_if_check(si,kcurr,Bishop,
+                                     &uniquely_intercept_illegal_checks_diagonal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void uniquely_intercept_illegal_checks_orthogonal(slice_index si,
+                                                         vec_index_type kcurr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParamListEnd();
+
+  if (kcurr>vec_rook_end)
+    uniquely_intercept_illegal_checks_diagonal(si,vec_bishop_start);
+  else
+    uniquely_intercept_line_if_check(si,kcurr,Rook,
+                                     &uniquely_intercept_illegal_checks_orthogonal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void uniquely_intercept_illegal_checks(slice_index si)
+{
+  Side const side_in_check = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side_in_check);TraceEOL();
+
+  if (!is_square_uninterceptably_attacked(side_in_check,
+                                          being_solved.king_square[side_in_check]))
+    uniquely_intercept_illegal_checks_orthogonal(si,vec_rook_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1010,7 +1185,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       flesh_out_capture_by_specific_invisible(walk_capturing,from);
     else if (get_walk_of_piece_on_square(from)==Dummy)
     {
-      assert(being_solved.spec[from]==(BIT(White)|BIT(Black)|BIT(Chameleon)));
+      assert((being_solved.spec[from]&PieSpMask)==(BIT(White)|BIT(Black)|BIT(Chameleon)));
       ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
       being_solved.board[from] = walk_capturing;
       being_solved.spec[from] = BIT(trait[nbply])|BIT(Chameleon);
@@ -1594,22 +1769,28 @@ static boolean is_move_still_playable(slice_index si)
 
     // TODO redo (and undo) the pre-capture effect?
 
-    if (sq_capture==queenside_castling)
-      SETCASTLINGFLAGMASK(side,ra_cancastle);
-    else if (sq_capture==kingside_castling)
-      SETCASTLINGFLAGMASK(side,rh_cancastle);
-    else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
-      occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
-
     assert(TSTFLAG(being_solved.spec[sq_departure],side));
-    generate_moves_for_piece(sq_departure);
 
     if (sq_capture==queenside_castling)
+    {
+      SETCASTLINGFLAGMASK(side,ra_cancastle);
+      generate_moves_for_piece(sq_departure);
       CLRCASTLINGFLAGMASK(side,ra_cancastle);
+    }
     else if (sq_capture==kingside_castling)
+    {
+      SETCASTLINGFLAGMASK(side,rh_cancastle);
+      generate_moves_for_piece(sq_departure);
       CLRCASTLINGFLAGMASK(side,rh_cancastle);
-    else if (!is_no_capture(sq_capture) && being_solved.board[sq_capture]==Dummy)
+    }
+    else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
+    {
+      occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+      generate_moves_for_piece(sq_departure);
       empty_square(sq_capture);
+    }
+    else
+      generate_moves_for_piece(sq_departure);
 
     {
       numecoup start = MOVEBASE_OF_PLY(nbply);
@@ -1709,8 +1890,10 @@ void total_invisible_move_repeater_solve(slice_index si)
         break;
 
       default:
-        assert(is_move_still_playable(si));
-        playable = true;
+        // TODO can we restore this assertion?
+//        assert(is_move_still_playable(si));
+//        playable = true;
+        playable = is_move_still_playable(si);
         break;
     }
 
@@ -1753,9 +1936,7 @@ void total_invisible_knowledge_updater_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   update_knowledge();
-  add_revelation_effects();
-
-  pipe_solve_delegate(si);
+  uniquely_intercept_illegal_checks(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2254,7 +2435,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
 
-      if (nr_placed_interceptors<nr_total_invisibles_left)
+      /* TODO:
+       * a) unplaced invisible
+       * b) placed invisible that can reach sq_capture (with added knowledge)
+      if (nr_placed_interceptors<nr_total_invisibles_left)*/
       {
         Side const side = trait[nbply];
 
@@ -2270,11 +2454,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
         unknow_last();
       }
-      else
-      {
-        pop_move();
-        solve_result = previous_move_is_illegal;
-      }
+//      else
+//      {
+//        pop_move();
+//        solve_result = previous_move_is_illegal;
+//      }
     }
     else
       switch (sq_capture)
