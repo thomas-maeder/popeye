@@ -672,10 +672,9 @@ void write_knowledge(void)
       Side side;
       piece_walk_type walk;
       output_plaintext_engine.fputc('(',stdout);
-      if (knowledge_on_placed_invisibles[nbply][i].fate==knowledge_fate_captured)
-        output_plaintext_engine.fputc('-',stdout);
-      else
-         WriteSquare(&output_plaintext_engine,stdout,knowledge_on_placed_invisibles[nbply][i].pos);
+      WriteSquare(&output_plaintext_engine,stdout,knowledge_on_placed_invisibles[nbply][i].pos);
+      output_plaintext_engine.fputc(':',stdout);
+      output_plaintext_engine.fputc(fate_char[knowledge_on_placed_invisibles[nbply][i].fate],stdout);
       output_plaintext_engine.fputc(':',stdout);
       output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
       for (side = White; side<=Black; ++side)
