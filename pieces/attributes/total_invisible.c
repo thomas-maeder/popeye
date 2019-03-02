@@ -68,11 +68,12 @@ static square sq_mating_piece_to_be_attacked = initsquare;
 typedef enum
 {
   knowledge_purpose_interceptor,
+  knowledge_purpose_capturer,
   knowledge_purpose_victim,
   knowledge_purpose_castling_partner
 } knowledge_purpose_type;
 
-static char const purpose_char[] = "ivc";
+static char const purpose_char[] = "icvp";
 
 /* the boolean fields negation is chosen so that zero-initialising means that we know
  * nothing */
@@ -199,6 +200,18 @@ static void copy_knowledge(void)
           sizeof knowledge_on_placed_invisibles[0]);
   nr_placed_invisibles[nbply] = nr_placed_invisibles[nbply-1];
 
+  {
+    unsigned int i;
+    for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
+    {
+      TraceValue("%u",i);
+      TraceValue("%u",knowledge_on_placed_invisibles[nbply][i].is_revealed);
+      TraceSquare(knowledge_on_placed_invisibles[nbply][i].pos);
+      TraceValue("%u",knowledge_on_placed_invisibles[nbply][i].purpose);
+      TraceEOL();
+    }
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -225,6 +238,29 @@ static void know_interceptor(square pos)
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_interceptor;
   ++nr_placed_invisibles[nbply];
+  TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void know_capturer(square pos, Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(pos);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_capturer;
+  {
+    piece_walk_type walk;
+    for (walk = Pawn; walk<=Bishop; ++walk)
+      knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
+  }
+  ++nr_placed_invisibles[nbply];
+  TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -246,6 +282,7 @@ static void know_victim(square pos, Side side)
       knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
   }
   ++nr_placed_invisibles[nbply];
+  TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -269,6 +306,7 @@ static void know_castling_partner(square pos, piece_walk_type placed_walk, Side 
   }
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].is_revealed = true;
   ++nr_placed_invisibles[nbply];
+  TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -836,8 +874,6 @@ static void redo_adapted_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-typedef void intercept_checks_fct(vec_index_type kcurr);
-
 static void walk_interceptor(unsigned int idx,
                              vec_index_type kcurr,
                              Side side,
@@ -909,6 +945,8 @@ static void colour_interceptor(unsigned int idx,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+typedef void intercept_checks_fct(vec_index_type kcurr);
 
 static void place_interceptor_on_square(vec_index_type kcurr,
                                         square s,
@@ -1111,7 +1149,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
     mate_validation_result = mate_unvalidated;
     end_of_iteration = false;
 
-    intercept_illegal_checks();
+    restart_from_scratch();
 
     TraceValue("%u",combined_result);
     TraceValue("%u",mate_validation_result);
@@ -1123,7 +1161,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
     end_of_iteration = combined_validation_result==no_mate;
   }
   else
-    intercept_illegal_checks();
+    restart_from_scratch();
 
   move_gen_top->departure = capture_by_invisible;
 
@@ -1187,6 +1225,11 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceWalk(walk_capturing);
   TraceSquare(from);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",TSTFLAG(being_solved.spec[from],Chameleon));
+  TraceValue("%u",TSTFLAG(being_solved.spec[from],trait[nbply]));
+  TraceWalk(get_walk_of_piece_on_square(from));
+  TraceEOL();
 
   if (TSTFLAG(being_solved.spec[from],Chameleon)
       && TSTFLAG(being_solved.spec[from],trait[nbply]))
@@ -1371,6 +1414,116 @@ static void flesh_out_captures_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static void colour_interceptor_from_knowledge(unsigned int idx,
+                                              Side preferred_side);
+
+static void walk_interceptor_from_knowledge(unsigned int idx,
+                                            Side side)
+{
+  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
+  square const pos = knowledge_on_placed_invisibles[mating_move_ply][idx].pos;
+  piece_walk_type walk;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);TraceEOL();
+  assert(is_square_empty(pos));
+
+  for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
+    if (!(is_pawn(walk)
+          && (TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq))))
+    {
+      TraceWalk(walk);TraceEOL();
+      ++being_solved.number_of_pieces[side][walk];
+      occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
+      // TODO this test is wrong in the mating ply
+      // would we gain something by doing it in earlier plies?
+//      if (!is_square_uninterceptably_attacked(advers(side),
+//                                              being_solved.king_square[advers(side)]))
+      {
+        colour_interceptor_from_knowledge(idx+1,side);
+      }
+      TraceSquare(pos);
+      TraceWalk(get_walk_of_piece_on_square(pos));
+      TraceWalk(walk);
+      TraceEOL();
+      assert(get_walk_of_piece_on_square(pos)==walk);
+      --being_solved.number_of_pieces[side][walk];
+      empty_square(pos);
+    }
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_interceptor_from_knowledge(unsigned int idx,
+                                              Side preferred_side)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceEnumerator(Side,preferred_side);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nr_placed_invisibles[mating_move_ply]);
+  TraceEOL();
+
+  TraceSquare(knowledge_on_placed_invisibles[mating_move_ply][idx].pos);
+  TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].is_revealed);
+  TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].purpose);
+  TraceValue("%u",knowledge_purpose_interceptor);
+  TraceEOL();
+
+  while (idx<nr_placed_invisibles[mating_move_ply]
+         && (knowledge_on_placed_invisibles[mating_move_ply][idx].is_revealed
+             || (knowledge_on_placed_invisibles[mating_move_ply][idx].purpose
+                 !=knowledge_purpose_interceptor)
+             || (knowledge_on_placed_invisibles[mating_move_ply][idx].pos==initsquare)))
+  {
+    ++idx;
+
+    TraceValue("%u",idx);
+    TraceSquare(knowledge_on_placed_invisibles[mating_move_ply][idx].pos);
+    TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].is_revealed);
+    TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].purpose);
+    TraceValue("%u",knowledge_purpose_interceptor);
+    TraceEOL();
+  }
+
+  if (idx==nr_placed_invisibles[mating_move_ply])
+    flesh_out_captures_by_invisible();
+  else
+  {
+    square const pos = knowledge_on_placed_invisibles[mating_move_ply][idx].pos;
+    Flags const spec = being_solved.spec[pos];
+
+    assert(get_walk_of_piece_on_square(pos)==Dummy);
+    empty_square(pos);
+
+    /* taboo equal to 1 is ok: this is "my" taboo! */
+    if (taboo[preferred_side][pos]==1)
+      walk_interceptor_from_knowledge(idx,preferred_side);
+
+    if (!end_of_iteration)
+    {
+      if (taboo[advers(preferred_side)][pos]==1)
+        walk_interceptor_from_knowledge(idx,advers(preferred_side));
+    }
+
+    occupy_square(pos,Dummy,spec);
+  }
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_taboo(int delta)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -1480,7 +1633,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
-  flesh_out_captures_by_invisible();
+  colour_interceptor_from_knowledge(0,Black);
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
@@ -1655,7 +1808,7 @@ static void test_mate(void)
       play_phase = replaying_moves;
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
-      flesh_out_captures_by_invisible();
+      colour_interceptor_from_knowledge(0,Black);
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
@@ -2451,6 +2604,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
       // TODO:
       /* a) unplaced invisible
        * b) placed invisible that can reach sq_capture (with added knowledge)
+       * the following test only applies to case a)
       if (nr_placed_interceptors<nr_total_invisibles_left)*/
       {
         Side const side = trait[nbply];
@@ -2461,7 +2615,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side)|BIT(Chameleon),
                                               side);
 
-        know_victim(capture_by_invisible,side);
+        know_capturer(capture_by_invisible,side);
 
         pipe_solve_delegate(si);
 
@@ -2791,7 +2945,8 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   {
     // TODO this wouldn't be necessary if we invoked total_invisible_instrumenter_solve()
-    // after stip_insert_root_slices()
+    // after stip_insert_root_slices() - but that would lead to other difficulaties
+    // that aren't yet fully understood
     slice_index const prototype = alloc_pipe(STTotalInvisibleKnowledgeUpdater);
     slice_insertion_insert(si,&prototype,1);
   }

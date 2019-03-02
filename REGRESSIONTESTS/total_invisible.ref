@@ -23,9 +23,9 @@
   h#1                         2 + 2
 
   1.Kh6-h5 Qd5-g5 #
-  1.[+wTIg6]h7*g6 Qd5-h1 #
+  1.[+wTIg6]h7*g6(-:v:wPQSRB:b) Qd5-h1(-:v:wPQSRB:b) #
   add_to_move_generation_stack:        1977
-                     play_move:         285
+                     play_move:         286
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         126
 
@@ -57,10 +57,10 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 2
 
-  1.b2-b1=R [+bTIb3]a2*b3 #
-  1.[+wTIc1]b2*c1=S Qa3-b2 #
+  1.b2-b1=R [+bTIb3]a2*b3(-:v:w:bPQSRB) #
+  1.[+wTIc1]b2*c1=S(-:v:wPQSRB:b) Qa3-b2(-:v:wPQSRB:b) #
   add_to_move_generation_stack:        3264
-                     play_move:         733
+                     play_move:         737
  is_white_king_square_attacked:         155
  is_black_king_square_attacked:         304
 
@@ -92,12 +92,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-  1.Se7-f5 Qh1-a8   2.Sf5-d4 TI~*d4 #
-  1.Se7-c8 Qh1-h8   2.Sc8-a7 TI~*a7 #
-  add_to_move_generation_stack:     3245212
-                     play_move:      406478
- is_white_king_square_attacked:       74354
- is_black_king_square_attacked:       93767
+  1.Se7-f5 Qh1-a8   2.Sf5-d4 TI~*d4(d4:c:wPQSRB:b) #
+  1.Se7-c8 Qh1-h8   2.Sc8-a7 TI~*a7(a7:c:wPQSRB:b) #
+  add_to_move_generation_stack:     3235072
+                     play_move:      404982
+ is_white_king_square_attacked:       74074
+ is_black_king_square_attacked:       93218
 
 solution finished.
 
@@ -128,10 +128,10 @@ Sake tourney 2018, announcement (solution that relies on retro not shown)
   h#2                         3 + 4
 
   1.Kg3-h4 Ke1-f1   2.Kh4-g3 Rh1-h3 #
-  add_to_move_generation_stack:     2204603
-                     play_move:      432589
- is_white_king_square_attacked:      136784
- is_black_king_square_attacked:      104940
+  add_to_move_generation_stack:     2200066
+                     play_move:      434670
+ is_white_king_square_attacked:      136583
+ is_black_king_square_attacked:      104739
 
 solution finished.
 
@@ -161,15 +161,15 @@ Sake tourney 2018, 1st prize, b) cooked
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=S Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8 #
-  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=B Qb2-b8 #
-  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4 Qb2-f6 #
-  add_to_move_generation_stack:    19139382
-                     play_move:     2424327
- is_white_king_square_attacked:      439099
- is_black_king_square_attacked:      594815
+  1.Be1-g3 TI~*g3(g3:c:wPQSRB:b)   2.[+wTIg1]h2*g1=Q(g3:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-b8(g3:c:wPQSRB:b)(-:v:wPQSRB:b)(f1:i:wPQSRB:bPQSRB) #
+  1.Be1-g3 TI~*g3(g3:c:wPQSRB:b)   2.[+wTIg1]h2*g1=S(g3:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-b8(g3:c:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.Be1-g3 TI~*g3(g3:c:wPQSRB:b)   2.[+wTIg1]h2*g1=R(g3:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-b8(g3:c:wPQSRB:b)(-:v:wPQSRB:b)(f1:i:wPQSRB:bPQSRB) #
+  1.Be1-g3 TI~*g3(g3:c:wPQSRB:b)   2.[+wTIg1]h2*g1=B(g3:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-b8(g3:c:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.Be1-f2 TI~*f2(f2:c:wPQSRB:b)   2.[+wTIg4]f5*g4(f2:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-f6(f2:c:wPQSRB:b)(-:v:wPQSRB:b) #
+  add_to_move_generation_stack:    19325109
+                     play_move:     2434796
+ is_white_king_square_attacked:      445316
+ is_black_king_square_attacked:      594036
 
 solution finished.
 
@@ -199,11 +199,11 @@ Sake tourney 2018, 1st prize, a) corrected
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-g3 TI~*g3   2.Rh1-g1 Qb2-b8 #
-  add_to_move_generation_stack:    15659000
-                     play_move:     1981208
- is_white_king_square_attacked:      352256
- is_black_king_square_attacked:      480702
+  1.Be1-g3 TI~*g3(g3:c:wPQSRB:b)   2.Rh1-g1(g3:c:wPQSRB:b) Qb2-b8(g3:c:wPQSRB:b)(f1:i:wPQSRB:bPQSRB) #
+  add_to_move_generation_stack:    15691478
+                     play_move:     1983288
+ is_white_king_square_attacked:      353378
+ is_black_king_square_attacked:      480131
 
 solution finished.
 
@@ -233,11 +233,11 @@ Sake tourney 2018, 1st prize, b) corrected
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
 
-  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4 Qb2-f6 #
-  add_to_move_generation_stack:    16519029
-                     play_move:     2100962
- is_white_king_square_attacked:      380925
- is_black_king_square_attacked:      511687
+  1.Be1-f2 TI~*f2(f2:c:wPQSRB:b)   2.[+wTIg4]f5*g4(f2:c:wPQSRB:b)(-:v:wPQSRB:b) Qb2-f6(f2:c:wPQSRB:b)(-:v:wPQSRB:b) #
+  add_to_move_generation_stack:    16635455
+                     play_move:     2107213
+ is_white_king_square_attacked:      384763
+ is_black_king_square_attacked:      511297
 
 solution finished.
 
@@ -269,21 +269,21 @@ Sake tourney 2018, 3rd prize, cooked
 
 a) 
 
-  1.TI~*g6 h5-h6   2.TI~*h6 TI~*d7 #
-  1.TI~*h5 Kg3-f3   2.TI~*g6 TI~*d7 #
-  add_to_move_generation_stack:     3413790
-                     play_move:      945700
- is_white_king_square_attacked:      176439
- is_black_king_square_attacked:      194039
+  1.TI~*g6(g6:c:w:bPQSRB) h5-h6(g6:c:w:bPQSRB)   2.TI~*h6(g6:c:w:bPQSRB)(h6:c:w:bPQSRB) TI~*d7(g6:c:w:bPQSRB)(h6:c:w:bPQSRB)(d7:c:wPQSRB:b) #
+  1.TI~*h5(h5:c:w:bPQSRB) Kg3-f3(h5:c:w:bPQSRB)   2.TI~*g6(h5:c:w:bPQSRB)(g6:c:w:bPQSRB) TI~*d7(h5:c:w:bPQSRB)(g6:c:w:bPQSRB)(d7:c:wPQSRB:b) #
+  add_to_move_generation_stack:     3384394
+                     play_move:      937113
+ is_white_king_square_attacked:      174814
+ is_black_king_square_attacked:      191329
 
 b) wPg6-->d4  
 
-  1.TI~*d4 Kg3-h4   2.TI~*d2 TI~*d7 #
-  1.TI~*d4 Kg3-f4   2.TI~*d2 TI~*c3 #
-  add_to_move_generation_stack:     2966549
-                     play_move:      860808
- is_white_king_square_attacked:      159952
- is_black_king_square_attacked:      175757
+  1.TI~*d4(d4:c:w:bPQSRB) Kg3-h4(d4:c:w:bPQSRB)   2.TI~*d2(d4:c:w:bPQSRB)(d2:c:w:bPQSRB) TI~*d7(d4:c:w:bPQSRB)(d2:c:w:bPQSRB)(d7:c:wPQSRB:b) #
+  1.TI~*d4(d4:c:w:bPQSRB) Kg3-f4(d4:c:w:bPQSRB)   2.TI~*d2(d4:c:w:bPQSRB)(d2:c:w:bPQSRB) TI~*c3(d4:c:w:bPQSRB)(d2:c:w:bPQSRB)(c3:c:wPQSRB:b) #
+  add_to_move_generation_stack:     2954074
+                     play_move:      857459
+ is_white_king_square_attacked:      159365
+ is_black_king_square_attacked:      174209
 
 solution finished.
 
@@ -315,19 +315,19 @@ Sake tourney 2018, 3rd prize, correction
 
 a) 
 
-  1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7 #
-  add_to_move_generation_stack:     2597341
-                     play_move:      679659
- is_white_king_square_attacked:      126437
- is_black_king_square_attacked:      139558
+  1.TI~*h5(h5:c:w:bPQSRB) Kf1-e2(h5:c:w:bPQSRB)   2.TI~*g6(h5:c:w:bPQSRB)(g6:c:w:bPQSRB) TI~*d7(h5:c:w:bPQSRB)(g6:c:w:bPQSRB)(d7:c:wPQSRB:b) #
+  add_to_move_generation_stack:     2577360
+                     play_move:      674026
+ is_white_king_square_attacked:      125350
+ is_black_king_square_attacked:      137719
 
 b) wPg6-->d4  
 
-  1.TI~*d2 Kf1-f2   2.TI~*d4 TI~*c3 #
-  add_to_move_generation_stack:     2210835
-                     play_move:      609798
- is_white_king_square_attacked:      112964
- is_black_king_square_attacked:      124453
+  1.TI~*d2(d2:c:w:bPQSRB) Kf1-f2(d2:c:w:bPQSRB)   2.TI~*d4(d2:c:w:bPQSRB)(d4:c:w:bPQSRB) TI~*c3(d2:c:w:bPQSRB)(d4:c:w:bPQSRB)(c3:c:wPQSRB:b) #
+  add_to_move_generation_stack:     2205403
+                     play_move:      608543
+ is_white_king_square_attacked:      112743
+ is_black_king_square_attacked:      123589
 
 solution finished.
 
@@ -357,19 +357,19 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#2                         7 + 2
 
-  1.Qh1-a8 TI~*a8   2.Ka4-a5 Rd3-a3 #
-  1.Qh1-a8 [+bTIg3]f2*g3   2.Qa8-e4 TI~*e4 #
-  1.Qh1-e4 Kf6-e6   2.TI~*g5 TI~*e4 #
-  1.Qh1-a1 [+bTIg3]f2*g3   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 [+bTIe3]f2*e3   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 [+bTIg6]f5*g6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
-  1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
-  add_to_move_generation_stack:    39397410
-                     play_move:     4897446
- is_white_king_square_attacked:      925987
- is_black_king_square_attacked:     1040003
+  1.Qh1-a8 TI~*a8(a8:c:wPQSRB:b)   2.Ka4-a5(a8:c:wPQSRB:b) Rd3-a3(a8:c:wPQSRB:b) #
+  1.Qh1-a8 [+bTIg3]f2*g3(-:v:w:bPQSRB)   2.Qa8-e4(-:v:w:bPQSRB) TI~*e4(-:v:w:bPQSRB)(e4:c:wPQSRB:b) #
+  1.Qh1-e4 Kf6-e6(e5:i:wPQSRB:bPQSRB)   2.TI~*g5(e5:i:wPQSRB:bPQSRB)(g5:c:w:bPQSRB) TI~*e4(e5:i:wPQSRB:bPQSRB)(g5:c:w:bPQSRB)(e4:c:wPQSRB:b) #
+  1.Qh1-a1 [+bTIg3]f2*g3(-:v:w:bPQSRB)   2.Qa1-a2(-:v:w:bPQSRB) TI~*a2(-:v:w:bPQSRB)(a2:c:wPQSRB:b) #
+  1.Qh1-a1 [+bTIe3]f2*e3(-:v:w:bPQSRB)   2.Qa1-a2(-:v:w:bPQSRB) TI~*a2(-:v:w:bPQSRB)(a2:c:wPQSRB:b) #
+  1.Qh1-a1 [+bTIg6]f5*g6(-:v:w:bPQSRB)   2.Qa1-a2(-:v:w:bPQSRB) TI~*a2(-:v:w:bPQSRB)(a2:c:wPQSRB:b) #
+  1.Qh1-a1 [+bTIe6]f5*e6(-:v:w:bPQSRB)   2.Qa1-a2(-:v:w:bPQSRB) TI~*a2(-:v:w:bPQSRB)(a2:c:wPQSRB:b) #
+  1.Qh1-a1 [+bTIh6]g5*h6(-:v:w:bPQSRB)   2.Qa1-a2(-:v:w:bPQSRB) TI~*a2(-:v:w:bPQSRB)(a2:c:wPQSRB:b) #
+  1.Qh1-b1 [+bTIe3]f2*e3(-:v:w:bPQSRB)   2.Qb1-d1(-:v:w:bPQSRB) TI~*d1(-:v:w:bPQSRB)(d1:c:wPQSRB:b) #
+  add_to_move_generation_stack:    39347349
+                     play_move:     4872360
+ is_white_king_square_attacked:      924767
+ is_black_king_square_attacked:     1038298
 
 solution finished.
 
@@ -399,12 +399,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 2
 
-  1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
-  1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
-  add_to_move_generation_stack:    47813305
-                     play_move:     5529241
- is_white_king_square_attacked:     1022766
- is_black_king_square_attacked:     1378626
+  1.Qf3-h5 Rc8-d8(h6:i:wPQSRB:bPQSRB)   2.Qh5-f7(h6:i:wPQSRB:bPQSRB) Rd8-d6(h6:i:wPQSRB:bPQSRB)(g7:i:wPQSRB:bPQSRB) #
+  1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4(g6:i:wPQSRB:bPQSRB) #
+  add_to_move_generation_stack:    47911028
+                     play_move:     5558642
+ is_white_king_square_attacked:     1024368
+ is_black_king_square_attacked:     1406017
 
 solution finished.
 
@@ -437,18 +437,18 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:    48880655
-                     play_move:     7501974
- is_white_king_square_attacked:      884614
- is_black_king_square_attacked:     3971320
+  add_to_move_generation_stack:    50697845
+                     play_move:     7791724
+ is_white_king_square_attacked:      920578
+ is_black_king_square_attacked:     4184872
 
 b) wSb5-->d7  
 
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
-  add_to_move_generation_stack:    44301608
-                     play_move:     5159112
- is_white_king_square_attacked:      886403
- is_black_king_square_attacked:     1559029
+  add_to_move_generation_stack:    45359491
+                     play_move:     5209796
+ is_white_king_square_attacked:      912284
+ is_black_king_square_attacked:     1559032
 
 solution finished.
 
@@ -481,18 +481,18 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:   141644941
-                     play_move:    64704008
- is_white_king_square_attacked:     3053087
- is_black_king_square_attacked:    53574397
+  add_to_move_generation_stack:   141504871
+                     play_move:    64614295
+ is_white_king_square_attacked:     3053593
+ is_black_king_square_attacked:    53486408
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:   109197123
-                     play_move:    49712321
- is_white_king_square_attacked:     2350450
- is_black_king_square_attacked:    41034290
+  add_to_move_generation_stack:   111144158
+                     play_move:    51004226
+ is_white_king_square_attacked:     2382590
+ is_black_king_square_attacked:    42232832
 
 solution finished.
 
@@ -525,25 +525,25 @@ Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye f
 a) 
 
   1.Kg1-h2 [+wRa1]0-0-0[wRd1]   2.Kh2-h3 Qd3-g3 #
-  1.Kg1-h2 Qd3-g3   2.Kh2-g1 [+wRa1]0-0-0 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1(g2:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](g2:i:wPQSRB:bPQSRB) #
   1.Kg1-g2 [+wRa1]0-0-0[wRd1]   2.Kg2-h3 Qd3-g3 #
-  1.Kg1-g2 Qd3-h3   2.Kg2-h1 [+wRa1]0-0-0 #
-  1.Kg1-h1 Qd3-g3   2.Kh1-g1 [+wRa1]0-0-0 #
-  add_to_move_generation_stack:      907892
-                     play_move:      101555
- is_white_king_square_attacked:       30112
- is_black_king_square_attacked:       23547
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1(h2:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](h2:i:wPQSRB:bPQSRB) #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1(g2:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](g2:i:wPQSRB:bPQSRB) #
+  add_to_move_generation_stack:      905784
+                     play_move:      101317
+ is_white_king_square_attacked:       29962
+ is_black_king_square_attacked:       23548
 
 b) bKg1-->g2  
 
   1.Kg2-h3 [+wRa1]0-0-0[wRd1]   2.Kh3-g2 Qd3-g3 #
   1.Kg2-h3 [+wRa1]0-0-0[wRd1]   2.Kh3-h2 Qd3-g3 #
-  1.Kg2-g1 Qd3-h3   2.Kg1-h1 [+wRa1]0-0-0 #
+  1.Kg2-g1 Qd3-h3   2.Kg1-h1(h2:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](h2:i:wPQSRB:bPQSRB) #
   1.Kg2-h2 [+wRa1]0-0-0[wRd1]   2.Kh2-h3 Qd3-g3 #
-  add_to_move_generation_stack:     1381715
-                     play_move:      147842
- is_white_king_square_attacked:       40213
- is_black_king_square_attacked:       34673
+  add_to_move_generation_stack:     1386096
+                     play_move:      148296
+ is_white_king_square_attacked:       40212
+ is_black_king_square_attacked:       34981
 
 solution finished.
 
@@ -573,13 +573,13 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 5
 
-  1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4 #
-  1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4 #
-  1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3 #
-  add_to_move_generation_stack:      650016
-                     play_move:      209730
- is_white_king_square_attacked:       34803
- is_black_king_square_attacked:       49121
+  1.Bf8-c5 TI~*c5(c5:c:wPQSRB:b)   2.TI~*d2(c5:c:wPQSRB:b)(d2:c:w:bPQSRB) TI~*a4(c5:c:wPQSRB:b)(d2:c:w:bPQSRB)(a4:c:wPQSRB:b) #
+  1.Bf8-c5 TI~*c5(c5:c:wPQSRB:b)   2.[+wTIf2]e3*f2(c5:c:wPQSRB:b)(-:v:wPQSRB:b) TI~*a4(c5:c:wPQSRB:b)(-:v:wPQSRB:b)(a4:c:wPQSRB:b) #
+  1.Bf8-h6 TI~*h6(h6:c:wPQSRB:b)   2.[+wTIb3]a4*b3(h6:c:wPQSRB:b)(-:v:wPQSRB:b) TI~*e3(h6:c:wPQSRB:b)(-:v:wPQSRB:b)(e3:c:wPQSRB:b) #
+  add_to_move_generation_stack:      645435
+                     play_move:      210050
+ is_white_king_square_attacked:       34570
+ is_black_king_square_attacked:       48848
 
 solution finished.
 
@@ -611,78 +611,73 @@ solution finished.
 
 a) 
 
-  1.[+wTIf2]e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
-  1.[+wTIf2]e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-e3 TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
-  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
-  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
-  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 TI~*h5 #
-  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 Bb5-c6 #
-  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5 #
-  1.Ke4-f3 Qh3-e6   2.Kf3-e4 Bb5-c6 #
-  1.Ke4-f3 Qh3-g3   2.Kf3*e2 TI~*e3 #
-  1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
-  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5 #
-  1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5 #
-  add_to_move_generation_stack:     6305540
-                     play_move:     1135390
- is_white_king_square_attacked:      191557
- is_black_king_square_attacked:      333848
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Kc2-d2(-:v:wPQSRB:b)   2.Ke4-f3(-:v:wPQSRB:b)(g3:i:wPQSRB:bPQSRB) Bb5-c6(-:v:wPQSRB:b)(g3:i:wPQSRB:bPQSRB) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=Q(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=S(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=R(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=B(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.Ke4-e3(-:v:wPQSRB:b) Qh3-f3(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.d2-d1=S(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.Ke4-e3(-:v:wPQSRB:b) Qh3-f3(-:v:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Kc2-d3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Kc2-d3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) Bb5-c6(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Se2-c3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Qh3-e6(g3:i:wPQSRB:bPQSRB)   2.Kf3-e4(g3:i:wPQSRB:bPQSRB)(e5:i:wPQSRB:bPQSRB) Bb5-c6(g3:i:wPQSRB:bPQSRB)(e5:i:wPQSRB:bPQSRB) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Qh3*g3(-:i:wPQSRB:bPQSRB)   2.Kf3*e2(-:i:wPQSRB:bPQSRB) TI~*e3(-:i:wPQSRB:bPQSRB)(e3:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Qh3*g3(-:i:wPQSRB:bPQSRB)   2.Kf3*e2(-:i:wPQSRB:bPQSRB) Bb5-d3(-:i:wPQSRB:bPQSRB) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Bb5-d3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Bb5-c6(g3:i:wPQSRB:bPQSRB)   2.Kf3-e4(g3:i:wPQSRB:bPQSRB)(d5:i:wPQSRB:bPQSRB) TI~*h5(g3:i:wPQSRB:bPQSRB)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  add_to_move_generation_stack:     6301455
+                     play_move:     1130052
+ is_white_king_square_attacked:      191613
+ is_black_king_square_attacked:      332744
 
 b) wKc2-->g6  
 
-  1.[+wTIf2]e3*f2 Se2-c3   2.Ke4-f3 TI~*h5 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=S Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=B Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=S Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=R Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=B Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=Q Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=S Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=R Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=B Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=S Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=R Bb5-c6 #
-  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=B Bb5-c6 #
-  1.[+wTIf2]e3*f2 Bb5-d3   2.Ke4-f3 TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5 #
-  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=S Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=R Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=B Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=Q Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=S Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=R Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=B Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=S Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=R Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=B Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=S Bb5-c6 #
-  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=B Bb5-c6 #
-  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5 #
-  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=B TI~*h5 #
-  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
-  1.Ke4-d3 TI~*h5   2.Kd3-e4 Qh3-f5 #
-  1.Ke4-d3 Bb5-c6   2.Kd3-e4 Qh3-f5 #
-  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5 #
-  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5 #
-  1.Ke4-f3 Kg6-f5   2.[+wTIf2]e3*f2 TI~*h5 #
-  add_to_move_generation_stack:     5221055
-                     play_move:      961865
- is_white_king_square_attacked:      159706
- is_black_king_square_attacked:      284177
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIg1]f2*g1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]f2*e1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=Q(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=S(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=R(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTIf2]e3*f2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.f2-f1=B(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-c3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=Q(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=R(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIe1]d2*e1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=S(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Qh3-g3(-:v:wPQSRB:b)   2.[+wTIc1]d2*c1=B(-:v:wPQSRB:b)(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)(-:v:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.d2-d1=S(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.d2-d1=B(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB) TI~*h5(-:v:wPQSRB:b)(d5:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.[+wTId2]e3*d2(-:v:wPQSRB:b) Bb5-c6(-:v:wPQSRB:b)   2.Ke4-e3(-:v:wPQSRB:b) Qh3-f3(-:v:wPQSRB:b) #
+  1.Ke4-d3(c4:i:wPQSRB:bPQSRB) TI~*h5(c4:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b)   2.Kd3-e4(c4:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) Qh3-f5(c4:i:wPQSRB:bPQSRB)(h5:c:wPQSRB:b) #
+  1.Ke4-d3(c4:i:wPQSRB:bPQSRB) Bb5-c6(c4:i:wPQSRB:bPQSRB)   2.Kd3-e4(c4:i:wPQSRB:bPQSRB)(d5:i:wPQSRB:bPQSRB) Qh3-f5(c4:i:wPQSRB:bPQSRB)(d5:i:wPQSRB:bPQSRB) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Se2-c3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Bb5-d3(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  1.Ke4-f3(g3:i:wPQSRB:bPQSRB) Kg6-f5(g3:i:wPQSRB:bPQSRB)   2.[+wTIf2]e3*f2(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b) TI~*h5(g3:i:wPQSRB:bPQSRB)(-:v:wPQSRB:b)(h5:c:wPQSRB:b) #
+  add_to_move_generation_stack:     5220183
+                     play_move:      958784
+ is_white_king_square_attacked:      159837
+ is_black_king_square_attacked:      284456
 
 solution finished.
 
@@ -712,13 +707,13 @@ Michel Caillaud & Igor Vere\vs\vcagin
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
 
-  1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6 #
+  1.[+wTIc6]b7*c6(-:v:wPQSRB:b) Qh3-c8(-:v:wPQSRB:b)   2.Ra7-f7(-:v:wPQSRB:b)(d8:i:wPQSRB:bPQSRB) TI~*c6(-:v:wPQSRB:b)(d8:i:wPQSRB:bPQSRB)(c6:c:wPQSRB:b) #
   1.[+bRa8]0-0-0[bRd8] Qh3-d7   2.Kc8-b8 Qd7*d8 #
-  1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8 #
-  add_to_move_generation_stack:    11154871
-                     play_move:     1211479
- is_white_king_square_attacked:      236810
- is_black_king_square_attacked:      387409
+  1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8(g8:c:wPQSRB:b) #
+  add_to_move_generation_stack:    11156408
+                     play_move:     1210857
+ is_white_king_square_attacked:      236730
+ is_black_king_square_attacked:      386788
 
 solution finished.
 
@@ -748,15 +743,15 @@ Michael Caillaud (after Ken Kousaka)
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 8
 
-  1.Be3-g5 Qc8-g8   2.Rd6-g6 TI~*h7 #
-  1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7 #
-  1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6 #
-  1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3 #
-  1.[+wTIg6]h7*g6 Qc8-h3   2.[+wTIg4]h5*g4 Qh3-h4 #
-  add_to_move_generation_stack:   105446008
-                     play_move:    10826166
- is_white_king_square_attacked:     1992684
- is_black_king_square_attacked:     2569695
+  1.Be3-g5 Qc8-g8   2.Rd6-g6 TI~*h7(h7:c:wPQSRB:b) #
+  1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7(h7:c:wPQSRB:b) #
+  1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6(d6:c:wPQSRB:b)(b4:i:wPQSRB:bPQSRB) #
+  1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3(e3:c:wPQSRB:b) #
+  1.[+wTIg6]h7*g6(-:v:wPQSRB:b) Qc8-h3(-:v:wPQSRB:b)   2.[+wTIg4]h5*g4(-:v:wPQSRB:b)(-:v:wPQSRB:b)(h4:i:wPQSRB:bPQSRB) Qh3*h4(-:v:wPQSRB:b)(-:v:wPQSRB:b)(-:i:wPQSRB:bPQSRB) #
+  add_to_move_generation_stack:   105598803
+                     play_move:    10830730
+ is_white_king_square_attacked:     1995530
+ is_black_king_square_attacked:     2569559
 
 solution finished.
 
