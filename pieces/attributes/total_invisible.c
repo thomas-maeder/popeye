@@ -70,8 +70,7 @@ static square sq_mating_piece_to_be_attacked = initsquare;
 typedef struct
 {
     square pos; /* initsquare means piece was captured after having been placed */
-    boolean side_impossible[nr_sides];
-    boolean walk_impossible[Bishop+1];
+    boolean side_walk_impossible[nr_sides][Bishop+1];
     boolean is_revealed;
 } knowledge_type;
 
@@ -229,7 +228,11 @@ static void know_coloured_dummy(square pos, Side side)
 
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
-  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_impossible[advers(side)] = true;
+  {
+    piece_walk_type walk;
+    for (walk = Pawn; walk<=Bishop; ++walk)
+      knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
+  }
   ++nr_placed_invisibles[nbply];
 
   TraceFunctionExit(__func__);
@@ -246,9 +249,11 @@ static void know_specific_piece(square pos, piece_walk_type placed_walk, Side si
   {
     piece_walk_type walk;
     for (walk = Pawn; walk<=Bishop; ++walk)
-      knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].walk_impossible[walk] = walk!=placed_walk;
+    {
+      knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[side][walk] = walk!=placed_walk;
+      knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
+    }
   }
-  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_impossible[advers(side)] = true;
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].is_revealed = true;
   ++nr_placed_invisibles[nbply];
 
@@ -282,48 +287,38 @@ static boolean is_new_revelation(unsigned int i)
   return result;
 }
 
-static piece_walk_type get_revealed_walk(unsigned int i)
+static void get_revealed_side_walk(unsigned int i, Side *side, piece_walk_type *walk)
 {
-  piece_walk_type result = Empty;
-  piece_walk_type walk;
+  Side s;
+  piece_walk_type w;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
-  for (walk = Pawn; walk<=Bishop; ++walk)
-    if (!knowledge_on_placed_invisibles[nbply][i].walk_impossible[walk])
-    {
-      assert(result==Empty);
-      result = walk;
-    }
+  *side = no_side;
+  *walk = Empty;
+
+  for (s = White; s<=Black; ++s)
+    for (w = Pawn; w<=Bishop; ++w)
+      if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[s][w])
+      {
+        if (*side==no_side)
+        {
+          assert(*walk==Empty);
+          *side = s;
+          *walk = w;
+        }
+        else
+        {
+          *side = no_side;
+          *walk = Empty;
+          break;
+        }
+      }
 
   TraceFunctionExit(__func__);
-  TraceWalk(result);
   TraceFunctionResultEnd();
-  return result;
-}
-
-static Side get_revealed_side(unsigned int i)
-{
-  Side result = no_side;
-  Side side;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",i);
-  TraceFunctionParamListEnd();
-
-  for (side = White; side<=Black; ++side)
-    if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[side])
-    {
-      assert(result==no_side);
-      result = side;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static void add_revelation_effect(unsigned int i)
@@ -335,9 +330,8 @@ static void add_revelation_effect(unsigned int i)
   TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
-  entry->u.piece_addition.for_side = get_revealed_side(i);
+  get_revealed_side_walk(i,&entry->u.piece_addition.for_side,&entry->u.piece_addition.added.walk);
   entry->u.piece_addition.added.on = knowledge_on_placed_invisibles[nbply][i].pos;
-  entry->u.piece_addition.added.walk = get_revealed_walk(i);;
   entry->u.piece_addition.added.flags = BIT(entry->u.piece_addition.for_side);
 
   TraceFunctionExit(__func__);
@@ -599,21 +593,21 @@ void write_knowledge(void)
   for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
   {
     square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
+    Side side;
     piece_walk_type walk;
     output_plaintext_engine.fputc('(',stdout);
     if (pos==initsquare)
       output_plaintext_engine.fputc('-',stdout);
     else
        WriteSquare(&output_plaintext_engine,stdout,pos);
-    output_plaintext_engine.fputc(':',stdout);
-    if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[White])
-      output_plaintext_engine.fputc('w',stdout);
-    if (!knowledge_on_placed_invisibles[nbply][i].side_impossible[Black])
-      output_plaintext_engine.fputc('b',stdout);
-    output_plaintext_engine.fputc(':',stdout);
-    for (walk = Pawn; walk<=Bishop; ++walk)
-      if (!knowledge_on_placed_invisibles[nbply][i].walk_impossible[walk])
-        WriteWalk(&output_plaintext_engine,stdout,walk);
+    for (side = White; side<=Black; ++side)
+    {
+      output_plaintext_engine.fputc(':',stdout);
+      output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
+      for (walk = Pawn; walk<=Bishop; ++walk)
+        if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
+          WriteWalk(&output_plaintext_engine,stdout,walk);
+    }
     output_plaintext_engine.fputc(')',stdout);
   }
 }
