@@ -65,11 +65,21 @@ static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
+typedef enum
+{
+  knowledge_purpose_interceptor,
+  knowledge_purpose_victim,
+  knowledge_purpose_castling_partner
+} knowledge_purpose_type;
+
+static char const purpose_char[] = "ivc";
+
 /* the boolean fields negation is chosen so that zero-initialising means that we know
  * nothing */
 typedef struct
 {
     square pos; /* initsquare means piece was captured after having been placed */
+    knowledge_purpose_type purpose;
     boolean side_walk_impossible[nr_sides][Bishop+1];
     boolean is_revealed;
 } knowledge_type;
@@ -206,20 +216,21 @@ static void unknow_last(void)
   TraceFunctionResultEnd();
 }
 
-static void know_dummy(square pos)
+static void know_interceptor(square pos)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_interceptor;
   ++nr_placed_invisibles[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void know_coloured_dummy(square pos, Side side)
+static void know_victim(square pos, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(pos);
@@ -228,6 +239,7 @@ static void know_coloured_dummy(square pos, Side side)
 
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_victim;
   {
     piece_walk_type walk;
     for (walk = Pawn; walk<=Bishop; ++walk)
@@ -239,13 +251,14 @@ static void know_coloured_dummy(square pos, Side side)
   TraceFunctionResultEnd();
 }
 
-static void know_specific_piece(square pos, piece_walk_type placed_walk, Side side)
+static void know_castling_partner(square pos, piece_walk_type placed_walk, Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   assert(nr_placed_invisibles[nbply]<max_nr_played_invisibles);
   knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].pos = pos;
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].purpose = knowledge_purpose_castling_partner;
   {
     piece_walk_type walk;
     for (walk = Pawn; walk<=Bishop; ++walk)
@@ -382,7 +395,7 @@ static void uniquely_place_interceptor_on_square(slice_index si,
   occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
   SetPieceId(being_solved.spec[s],++being_solved.currPieceId);
 
-  know_dummy(s);
+  know_interceptor(s);
 
   (*recurse)(si,kcurr+1);
 
@@ -600,6 +613,8 @@ void write_knowledge(void)
       output_plaintext_engine.fputc('-',stdout);
     else
        WriteSquare(&output_plaintext_engine,stdout,pos);
+    output_plaintext_engine.fputc(':',stdout);
+    output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
     for (side = White; side<=Black; ++side)
     {
       output_plaintext_engine.fputc(':',stdout);
@@ -2442,7 +2457,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side)|BIT(Chameleon),
                                               side);
 
-        know_coloured_dummy(capture_by_invisible,side);
+        know_victim(capture_by_invisible,side);
 
         pipe_solve_delegate(si);
 
@@ -2484,7 +2499,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            know_specific_piece(square_h,Rook,side);
+            know_castling_partner(square_h,Rook,side);
 
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
@@ -2516,7 +2531,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            know_specific_piece(square_a,Rook,side);
+            know_castling_partner(square_a,Rook,side);
 
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
@@ -2548,7 +2563,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side_victim)|BIT(Chameleon),
                                                   side_victim);
 
-            know_coloured_dummy(sq_capture,side_victim);
+            know_victim(sq_capture,side_victim);
 
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
