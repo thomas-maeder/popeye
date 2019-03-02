@@ -604,27 +604,28 @@ void write_knowledge(void)
   printf(" ");
 
   for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
-  {
-    square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
-    Side side;
-    piece_walk_type walk;
-    output_plaintext_engine.fputc('(',stdout);
-    if (pos==initsquare)
-      output_plaintext_engine.fputc('-',stdout);
-    else
-       WriteSquare(&output_plaintext_engine,stdout,pos);
-    output_plaintext_engine.fputc(':',stdout);
-    output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
-    for (side = White; side<=Black; ++side)
+    if (!knowledge_on_placed_invisibles[nbply][i].is_revealed)
     {
+      square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
+      Side side;
+      piece_walk_type walk;
+      output_plaintext_engine.fputc('(',stdout);
+      if (pos==initsquare)
+        output_plaintext_engine.fputc('-',stdout);
+      else
+         WriteSquare(&output_plaintext_engine,stdout,pos);
       output_plaintext_engine.fputc(':',stdout);
-      output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
-      for (walk = Pawn; walk<=Bishop; ++walk)
-        if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
-          WriteWalk(&output_plaintext_engine,stdout,walk);
+      output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
+      for (side = White; side<=Black; ++side)
+      {
+        output_plaintext_engine.fputc(':',stdout);
+        output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
+        for (walk = Pawn; walk<=Bishop; ++walk)
+          if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
+            WriteWalk(&output_plaintext_engine,stdout,walk);
+      }
+      output_plaintext_engine.fputc(')',stdout);
     }
-    output_plaintext_engine.fputc(')',stdout);
-  }
 }
 
 static void play_with_placed_invisibles(void)
