@@ -708,8 +708,8 @@ Michel Caillaud & Igor Vere\vs\vcagin
   h#2                         2 + 3
 
   1.[+wTIc6]b7*c6(-:v:wPQSRB:b) Qh3-c8(-:v:wPQSRB:b)   2.Ra7-f7(-:v:wPQSRB:b)(d8:i:wPQSRB:bPQSRB) TI~*c6(-:v:wPQSRB:b)(d8:i:wPQSRB:bPQSRB)(c6:c:wPQSRB:b) #
-  1.[+bRa8]0-0-0[bRd8] Qh3-d7   2.Kc8-b8 Qd7*d8 #
-  1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8(g8:c:wPQSRB:b) #
+  1.[+bRa8]0-0-0[bRd8] Qh3-d7   2.Kc8-b8 Qd7*d8(-:p:w:bR) #
+  1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8(-:p:w:bR)(g8:c:wPQSRB:b) #
   add_to_move_generation_stack:    11156408
                      play_move:     1210857
  is_white_king_square_attacked:      236730

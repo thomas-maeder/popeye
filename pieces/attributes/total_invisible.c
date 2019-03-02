@@ -75,14 +75,23 @@ typedef enum
 
 static char const purpose_char[] = "icvp";
 
+typedef enum
+{
+  knowledge_fate_invisible,
+  knowledge_fate_revealed,
+  knowledge_fate_captured
+} knowledge_fate_type;
+
+static char const fate_char[] = "irc";
+
 /* the boolean fields negation is chosen so that zero-initialising means that we know
  * nothing */
 typedef struct
 {
     square pos; /* initsquare means piece was captured after having been placed */
     knowledge_purpose_type purpose;
+    knowledge_fate_type fate;
     boolean side_walk_impossible[nr_sides][Bishop+1];
-    boolean is_revealed;
 } knowledge_type;
 
 static knowledge_type const null_knowledge = { 0 };
@@ -304,7 +313,7 @@ static void know_castling_partner(square pos, piece_walk_type placed_walk, Side 
       knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].side_walk_impossible[advers(side)][walk] = true;
     }
   }
-  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].is_revealed = true;
+  knowledge_on_placed_invisibles[nbply][nr_placed_invisibles[nbply]].fate = knowledge_fate_revealed;
   ++nr_placed_invisibles[nbply];
   TraceValue("%u",nr_placed_invisibles[nbply]);TraceEOL();
 
@@ -319,7 +328,7 @@ static boolean is_new_revelation(unsigned int i)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (knowledge_on_placed_invisibles[nbply][i].is_revealed)
+  if (knowledge_on_placed_invisibles[nbply][i].fate==knowledge_fate_revealed)
   {
     if (nbply-1==ply_retro_move)
       /* revelation after first move */
@@ -327,7 +336,7 @@ static boolean is_new_revelation(unsigned int i)
     else if (i>=nr_placed_invisibles[nbply-1])
       /* nothing known about this piece after the previous move */
       result = true;
-    else if (!knowledge_on_placed_invisibles[nbply-1][i].is_revealed)
+    else if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_revealed)
       /* piece wasn't revealed yet after the previous move */
       result = true;
   }
@@ -600,6 +609,22 @@ static void move_knowledge(square from, square to)
   TraceFunctionResultEnd();
 }
 
+static void know_captured(square from)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
+    if (knowledge_on_placed_invisibles[nbply][i].pos==from)
+      knowledge_on_placed_invisibles[nbply][i].fate = knowledge_fate_captured;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_knowledge(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -623,7 +648,7 @@ static void update_knowledge(void)
       case move_effect_piece_removal:
       {
         square const from = move_effect_journal[curr].u.piece_removal.on;
-        move_knowledge(from,initsquare);
+        know_captured(from);
         break;
       }
 
@@ -642,16 +667,15 @@ void write_knowledge(void)
   printf(" ");
 
   for (i = 0; i!=nr_placed_invisibles[nbply]; ++i)
-    if (!knowledge_on_placed_invisibles[nbply][i].is_revealed)
+    if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_revealed)
     {
-      square const pos = knowledge_on_placed_invisibles[nbply][i].pos;
       Side side;
       piece_walk_type walk;
       output_plaintext_engine.fputc('(',stdout);
-      if (pos==initsquare)
+      if (knowledge_on_placed_invisibles[nbply][i].fate==knowledge_fate_captured)
         output_plaintext_engine.fputc('-',stdout);
       else
-         WriteSquare(&output_plaintext_engine,stdout,pos);
+         WriteSquare(&output_plaintext_engine,stdout,knowledge_on_placed_invisibles[nbply][i].pos);
       output_plaintext_engine.fputc(':',stdout);
       output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
       for (side = White; side<=Black; ++side)
@@ -1480,10 +1504,10 @@ static void colour_interceptor_from_knowledge(unsigned int idx,
   TraceEOL();
 
   while (idx<nr_placed_invisibles[mating_move_ply]
-         && (knowledge_on_placed_invisibles[mating_move_ply][idx].is_revealed
+         && (knowledge_on_placed_invisibles[mating_move_ply][idx].fate==knowledge_fate_revealed
              || (knowledge_on_placed_invisibles[mating_move_ply][idx].purpose
                  !=knowledge_purpose_interceptor)
-             || (knowledge_on_placed_invisibles[mating_move_ply][idx].pos==initsquare)))
+             || (knowledge_on_placed_invisibles[mating_move_ply][idx].fate==knowledge_fate_captured)))
   {
     ++idx;
 
