@@ -2448,8 +2448,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
       TraceValue("%u",nr_total_invisibles_left);
       TraceEOL();
 
-      /* TODO:
-       * a) unplaced invisible
+      // TODO:
+      /* a) unplaced invisible
        * b) placed invisible that can reach sq_capture (with added knowledge)
       if (nr_placed_interceptors<nr_total_invisibles_left)*/
       {
@@ -2787,6 +2787,13 @@ void total_invisible_instrumenter_solve(slice_index si)
                                              STSelfCheckGuard,
                                              &replace_self_check_guard);
     stip_traverse_structure(si,&st);
+  }
+
+  {
+    // TODO this wouldn't be necessary if we invoked total_invisible_instrumenter_solve()
+    // after stip_insert_root_slices()
+    slice_index const prototype = alloc_pipe(STTotalInvisibleKnowledgeUpdater);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceStipulation(si);
