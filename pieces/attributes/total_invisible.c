@@ -551,6 +551,66 @@ static void uniquely_intercept_line_if_check(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void rule_out_illegal_possibilities_from_known_inivisible(slice_index si,
+                                                                 unsigned int idx)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParamListEnd();
+
+  if (idx==nr_invisibles_with_knowledge[nbply])
+    add_revelation_effects(si);
+  else
+  {
+    TraceValue("%u",idx);
+    TraceValue("%u",knowledge_on_placed_invisibles[nbply][idx].fate);TraceEOL();
+    if (knowledge_on_placed_invisibles[nbply][idx].fate==knowledge_fate_invisible)
+    {
+      knowledge_type const save_knowledge = knowledge_on_placed_invisibles[nbply][idx];
+      Side const side_in_check = trait[nbply];
+      Side const side_checking = advers(side_in_check);
+      square const king_pos = being_solved.king_square[side_in_check];
+      square const pos = knowledge_on_placed_invisibles[nbply][idx].pos;
+      int const diff = pos-king_pos;
+
+      TraceEnumerator(Side,side_in_check);
+      TraceEnumerator(Side,side_checking);
+      TraceSquare(king_pos);
+      TraceSquare(pos);
+      TraceValue("%i",diff);
+      TraceValue("%i",CheckDir[Rook][diff]);
+      TraceValue("%i",CheckDir[Bishop][diff]);
+      TraceValue("%i",CheckDir[Knight][diff]);
+      TraceEOL();
+
+      if (CheckDir[Rook][diff]!=0 && find_end_of_line(king_pos,CheckDir[Rook][diff])==pos)
+      {
+        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Queen] = true;
+        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Rook] = true;
+      }
+      else if (CheckDir[Bishop][diff]!=0 && find_end_of_line(king_pos,CheckDir[Bishop][diff])==pos)
+      {
+        int const dir_vert = side_checking==White ? dir_up : dir_down;
+        if (-diff==dir_vert+dir_left || -diff==dir_vert+dir_right)
+          knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Pawn] = true;
+        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Queen] = true;
+        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Bishop] = true;
+      }
+      else if (CheckDir[Knight][diff]!=0)
+        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Knight] = true;
+
+      rule_out_illegal_possibilities_from_known_inivisible(si,idx+1);
+      knowledge_on_placed_invisibles[nbply][idx] = save_knowledge;
+    }
+    else
+      rule_out_illegal_possibilities_from_known_inivisible(si,idx+1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void rule_out_illegal_possibilities_from_known_inivisibles(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -558,12 +618,16 @@ static void rule_out_illegal_possibilities_from_known_inivisibles(slice_index si
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
+  TraceEnumerator(Side,trait[nbply]);
   TraceValue("%u",total_invisible_number);
   TraceValue("%u",nr_total_invisibles_left);
   TraceValue("%u",nr_invisibles_with_knowledge[nbply]);
   TraceEOL();
 
-  add_revelation_effects(si);
+  if (nr_total_invisibles_left==0 && nr_invisibles_with_knowledge[nbply]>0)
+    rule_out_illegal_possibilities_from_known_inivisible(si,0);
+  else
+    add_revelation_effects(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
