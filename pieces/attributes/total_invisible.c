@@ -535,9 +535,7 @@ static void uniquely_intercept_line_if_check(slice_index si,
     square const s = find_unique_interception_point(king_pos,sq_end,dir);
     if (s!=initsquare)
     {
-      TraceValue("%u",nr_placed_interceptors);
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
       if (nr_total_invisibles_left==0)
         /* there are not enough total invisibles to intercept all checks */;
       else
@@ -1104,9 +1102,7 @@ static void intercept_line_if_check(vec_index_type kcurr,
   if ((walk_at_end==walk_rider || walk_at_end==Queen)
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
-    TraceValue("%u",nr_placed_interceptors);
-    TraceValue("%u",nr_total_invisibles_left);
-    TraceEOL();
+    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     if (nr_total_invisibles_left==0)
       /* there are not enough total invisibles to intercept all checks */;
     else if (sq_end==king_pos+dir)
@@ -1241,9 +1237,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   if (taboo[side_playing][from]==0)
   {
-    TraceValue("%u",nr_total_invisibles_left);
-    TraceValue("%u",nr_placed_interceptors);
-    TraceEOL();
+    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     if (nr_total_invisibles_left>0)
     {
       --nr_total_invisibles_left;
@@ -2220,9 +2214,7 @@ static boolean make_flight_ortho(Side side_in_check,
     TraceSquare(end);TraceWalk(walk);TraceEOL();
     if ((walk==Queen || walk==walk_rider) && TSTFLAG(being_solved.spec[end],side_checking))
     {
-      TraceValue("%u",nr_placed_interceptors);
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
       if (nr_total_invisibles_left>0)
       {
         square s;
@@ -2412,9 +2404,6 @@ void total_invisible_goal_guard_solve(slice_index si)
 
   if (play_phase==validating_mate)
   {
-    TraceValue("%u",nr_placed_interceptors);
-    TraceEOL();
-
     if (solve_result==previous_move_has_not_solved)
       mate_validation_result = no_mate;
     else if (make_a_flight())
@@ -2653,9 +2642,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
     if (sq_departure==capture_by_invisible)
     {
-      TraceValue("%u",nr_placed_interceptors);
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
       // TODO:
       /* a) unplaced invisible
