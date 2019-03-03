@@ -529,10 +529,10 @@ a)
   1.Kg1-g2 [+wRa1]0-0-0[wRd1]   2.Kg2-h3 Qd3-g3 #
   1.Kg1-g2 Qd3-h3   2.Kg2-h1(h2:i:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](h2:i:i:wPQSRB:bPQSRB) #
   1.Kg1-h1 Qd3-g3   2.Kh1-g1(g2:i:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](g2:i:i:wPQSRB:bPQSRB) #
-  add_to_move_generation_stack:      905784
-                     play_move:      101317
- is_white_king_square_attacked:       29962
- is_black_king_square_attacked:       23548
+  add_to_move_generation_stack:      905728
+                     play_move:      101304
+ is_white_king_square_attacked:       29953
+ is_black_king_square_attacked:       23543
 
 b) bKg1-->g2  
 
@@ -540,10 +540,10 @@ b) bKg1-->g2
   1.Kg2-h3 [+wRa1]0-0-0[wRd1]   2.Kh3-h2 Qd3-g3 #
   1.Kg2-g1 Qd3-h3   2.Kg1-h1(h2:i:i:wPQSRB:bPQSRB) [+wRa1]0-0-0[wRd1](h2:i:i:wPQSRB:bPQSRB) #
   1.Kg2-h2 [+wRa1]0-0-0[wRd1]   2.Kh2-h3 Qd3-g3 #
-  add_to_move_generation_stack:     1386096
-                     play_move:      148296
- is_white_king_square_attacked:       40212
- is_black_king_square_attacked:       34981
+  add_to_move_generation_stack:     1385183
+                     play_move:      148179
+ is_white_king_square_attacked:       40101
+ is_black_king_square_attacked:       34962
 
 solution finished.
 
