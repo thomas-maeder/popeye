@@ -524,11 +524,11 @@ Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye f
 
 a) 
 
-  1.Kg1-h2 [+wRa1]0-0-0   2.Kh2-h3 Qd3-g3 #
-  1.Kg1-h2 Qd3-g3   2.Kh2-g1 [+wRa1]0-0-0 #
-  1.Kg1-g2 [+wRa1]0-0-0   2.Kg2-h3 Qd3-g3 #
-  1.Kg1-g2 Qd3-h3   2.Kg2-h1 [+wRa1]0-0-0 #
-  1.Kg1-h1 Qd3-g3   2.Kh1-g1 [+wRa1]0-0-0 #
+  1.Kg1-h2 [+wRa1]0-0-0[wRd1]   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1 [+wRa1]0-0-0[wRd1] #
+  1.Kg1-g2 [+wRa1]0-0-0[wRd1]   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1 [+wRa1]0-0-0[wRd1] #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1 [+wRa1]0-0-0[wRd1] #
   add_to_move_generation_stack:      905802
                      play_move:      101417
  is_white_king_square_attacked:       29980
@@ -536,10 +536,10 @@ a)
 
 b) bKg1-->g2  
 
-  1.Kg2-h3 [+wRa1]0-0-0   2.Kh3-g2 Qd3-g3 #
-  1.Kg2-h3 [+wRa1]0-0-0   2.Kh3-h2 Qd3-g3 #
-  1.Kg2-g1 Qd3-h3   2.Kg1-h1 [+wRa1]0-0-0 #
-  1.Kg2-h2 [+wRa1]0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg2-h3 [+wRa1]0-0-0[wRd1]   2.Kh3-g2 Qd3-g3 #
+  1.Kg2-h3 [+wRa1]0-0-0[wRd1]   2.Kh3-h2 Qd3-g3 #
+  1.Kg2-g1 Qd3-h3   2.Kg1-h1 [+wRa1]0-0-0[wRd1] #
+  1.Kg2-h2 [+wRa1]0-0-0[wRd1]   2.Kh2-h3 Qd3-g3 #
   add_to_move_generation_stack:     1378449
                      play_move:      147628
  is_white_king_square_attacked:       39968
@@ -708,8 +708,8 @@ Michel Caillaud & Igor Vere\vs\vcagin
   h#2                         2 + 3
 
   1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6 #
-  1.[+bRa8]0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
-  1.[+bRa8]0-0-0 Qh3-h7   2.Rd8-g8 TI~*g8 #
+  1.[+bRa8]0-0-0[bRd8] Qh3-d7   2.Kc8-b8 Qd7*d8 #
+  1.[+bRa8]0-0-0[bRd8] Qh3-h7   2.Rd8-g8 TI~*g8 #
   add_to_move_generation_stack:    11127152
                      play_move:     1209873
  is_white_king_square_attacked:      235752

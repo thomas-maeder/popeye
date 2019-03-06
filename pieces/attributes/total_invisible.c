@@ -1457,6 +1457,28 @@ void total_invisible_move_repeater_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void add_revelation_effect(square s)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_invisible,
+                                                                                    move_effect_no_reason);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  entry->u.piece_addition.added.walk = get_walk_of_piece_on_square(s);
+  entry->u.piece_addition.added.on = s;
+  entry->u.piece_addition.added.flags = being_solved.spec[s];
+  entry->u.piece_addition.for_side = trait[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const *entry)
+{
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1476,6 +1498,33 @@ void total_invisible_knowledge_updater_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+    square const sq_capture = move_gen_top->capture;
+
+    switch (sq_capture)
+    {
+      case kingside_castling:
+      {
+        Side const side = trait[nbply];
+        square const square_f = side==White ? square_f1 : square_f8;
+        add_revelation_effect(square_f);
+        break;
+      }
+
+      case queenside_castling:
+      {
+        Side const side = trait[nbply];
+        square const square_d = side==White ? square_d1 : square_d8;
+        add_revelation_effect(square_d);
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -2478,6 +2527,10 @@ void solving_instrument_total_invisible(slice_index si)
 
   move_effect_journal_register_pre_capture_effect();
 
-  TraceFunctionExit(__func__);
+  move_effect_journal_set_effect_doers(move_effect_revelation_of_invisible,
+                                       &undo_redo_add_revelation_effect,
+                                       &undo_redo_add_revelation_effect);
+
   TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
 }
