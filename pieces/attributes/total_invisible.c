@@ -63,45 +63,6 @@ static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
-typedef enum
-{
-  knowledge_purpose_interceptor,
-  knowledge_purpose_capturer,
-  knowledge_purpose_victim,
-  knowledge_purpose_castling_partner
-} knowledge_purpose_type;
-
-static char const purpose_char[] = "icvp";
-
-typedef enum
-{
-  knowledge_fate_invisible,
-  knowledge_fate_revealed,
-  knowledge_fate_captured
-} knowledge_fate_type;
-
-static char const fate_char[] = "irc";
-
-/* the boolean fields negation is chosen so that zero-initialising means that we know
- * nothing */
-typedef struct
-{
-    square pos; /* initsquare means piece was captured after having been placed */
-    knowledge_purpose_type purpose;
-    knowledge_fate_type fate;
-    boolean side_walk_impossible[nr_sides][Bishop+1];
-} knowledge_type;
-
-static knowledge_type const null_knowledge = { 0 };
-
-enum
-{
-  max_nr_played_invisibles = 10
-};
-
-static knowledge_type knowledge_on_placed_invisibles[maxply+1][max_nr_played_invisibles];
-static unsigned int nr_invisibles_with_knowledge[maxply+1];
-
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -195,596 +156,6 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void copy_knowledge(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  memmove(knowledge_on_placed_invisibles+nbply,
-          knowledge_on_placed_invisibles+nbply-1,
-          sizeof knowledge_on_placed_invisibles[0]);
-  nr_invisibles_with_knowledge[nbply] = nr_invisibles_with_knowledge[nbply-1];
-
-  {
-    unsigned int i;
-    for (i = 0; i!=nr_invisibles_with_knowledge[nbply]; ++i)
-    {
-      TraceValue("%u",i);
-      TraceValue("%u",knowledge_on_placed_invisibles[nbply][i].fate);
-      TraceSquare(knowledge_on_placed_invisibles[nbply][i].pos);
-      TraceValue("%u",knowledge_on_placed_invisibles[nbply][i].purpose);
-      TraceEOL();
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void unknow_last(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(nr_invisibles_with_knowledge[nbply]>0);
-  --nr_invisibles_with_knowledge[nbply];
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]] = null_knowledge;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void know_interceptor(square pos)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(nr_invisibles_with_knowledge[nbply]<max_nr_played_invisibles);
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].pos = pos;
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].purpose = knowledge_purpose_interceptor;
-  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
-  {
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[White][Pawn] = true;
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[Black][Pawn] = true;
-  }
-  ++nr_invisibles_with_knowledge[nbply];
-  TraceValue("%u",nr_invisibles_with_knowledge[nbply]);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void know_capturer(square pos, Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(pos);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  assert(nr_invisibles_with_knowledge[nbply]<max_nr_played_invisibles);
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].pos = pos;
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].purpose = knowledge_purpose_capturer;
-  {
-    piece_walk_type walk;
-    for (walk = Pawn; walk<=Bishop; ++walk)
-      knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[advers(side)][walk] = true;
-  }
-  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
-  {
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[White][Pawn] = true;
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[Black][Pawn] = true;
-  }
-  ++nr_invisibles_with_knowledge[nbply];
-  TraceValue("%u",nr_invisibles_with_knowledge[nbply]);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void know_victim(square pos, Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(pos);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  assert(nr_invisibles_with_knowledge[nbply]<max_nr_played_invisibles);
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].pos = pos;
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].purpose = knowledge_purpose_victim;
-  {
-    piece_walk_type walk;
-    for (walk = Pawn; walk<=Bishop; ++walk)
-      knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[advers(side)][walk] = true;
-  }
-  if (TSTFLAG(sq_spec[pos],WhPromSq) || TSTFLAG(sq_spec[pos],WhBaseSq))
-  {
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[White][Pawn] = true;
-    knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[Black][Pawn] = true;
-  }
-  ++nr_invisibles_with_knowledge[nbply];
-  TraceValue("%u",nr_invisibles_with_knowledge[nbply]);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void know_castling_partner(square pos, piece_walk_type placed_walk, Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(nr_invisibles_with_knowledge[nbply]<max_nr_played_invisibles);
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].pos = pos;
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].purpose = knowledge_purpose_castling_partner;
-  {
-    piece_walk_type walk;
-    for (walk = Pawn; walk<=Bishop; ++walk)
-    {
-      knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[side][walk] = walk!=placed_walk;
-      knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].side_walk_impossible[advers(side)][walk] = true;
-    }
-  }
-  knowledge_on_placed_invisibles[nbply][nr_invisibles_with_knowledge[nbply]].fate = knowledge_fate_revealed;
-  ++nr_invisibles_with_knowledge[nbply];
-  TraceValue("%u",nr_invisibles_with_knowledge[nbply]);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean is_new_revelation(unsigned int i)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (knowledge_on_placed_invisibles[nbply][i].fate==knowledge_fate_revealed)
-  {
-    if (nbply-1==ply_retro_move)
-      /* revelation after first move */
-      result = true;
-    else if (i>=nr_invisibles_with_knowledge[nbply-1])
-      /* nothing known about this piece after the previous move */
-      result = true;
-    else if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_revealed)
-      /* piece wasn't revealed yet after the previous move */
-      result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void get_revealed_side_walk(unsigned int i, Side *side, piece_walk_type *walk)
-{
-  Side s;
-  piece_walk_type w;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",i);
-  TraceFunctionParamListEnd();
-
-  *side = no_side;
-  *walk = Empty;
-
-  for (s = White; s<=Black; ++s)
-    for (w = Pawn; w<=Bishop; ++w)
-      if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[s][w])
-      {
-        if (*side==no_side)
-        {
-          assert(*walk==Empty);
-          *side = s;
-          *walk = w;
-        }
-        else
-        {
-          *side = no_side;
-          *walk = Empty;
-          break;
-        }
-      }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void add_revelation_effect(unsigned int i)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_invisible,
-                                                                                    move_effect_no_reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",i);
-  TraceFunctionParamListEnd();
-
-  get_revealed_side_walk(i,&entry->u.piece_addition.for_side,&entry->u.piece_addition.added.walk);
-  entry->u.piece_addition.added.on = knowledge_on_placed_invisibles[nbply][i].pos;
-  entry->u.piece_addition.added.flags = BIT(entry->u.piece_addition.for_side);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const *entry)
-{
-}
-
-static void add_revelation_effects(slice_index si)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=nr_invisibles_with_knowledge[nbply]; ++i)
-    if (is_new_revelation(i))
-      add_revelation_effect(i);
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-typedef void uniquely_intercepter(slice_index si,
-                                  vec_index_type kcurr);
-
-static void uniquely_place_interceptor_on_square(slice_index si,
-                                                 square s,
-                                                 vec_index_type kcurr,
-                                                 uniquely_intercepter *recurse)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceSquare(s);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParamListEnd();
-
-  assert(nr_total_invisibles_left>0);
-
-  ++taboo[White][s];
-  ++taboo[Black][s];
-
-  --nr_total_invisibles_left;
-
-  occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
-  SetPieceId(being_solved.spec[s],++being_solved.currPieceId);
-
-  know_interceptor(s);
-
-  (*recurse)(si,kcurr+1);
-
-  empty_square(s);
-
-  ++nr_total_invisibles_left;
-
-  --taboo[White][s];
-  --taboo[Black][s];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static square find_unique_interception_point(square king_pos,
-                                             square sq_end,
-                                             int dir)
-{
-  square result = initsquare;
-  square s;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(king_pos);
-  TraceSquare(sq_end);
-  TraceFunctionParam("%i",dir);
-  TraceFunctionParamListEnd();
-
-  for (s = king_pos+dir; s!=sq_end; s += dir)
-    if (taboo[White][s]==0 && taboo[Black][s]==0)
-    {
-      if (result==initsquare)
-        result = s;
-      else
-      {
-        result = initsquare;
-        break;
-      }
-    }
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void uniquely_intercept_line_if_check(slice_index si,
-                                             vec_index_type kcurr,
-                                             piece_walk_type walk_rider,
-                                             uniquely_intercepter *recurse)
-{
-  Side const side_in_check = trait[nbply];
-  Side const side_checking = advers(side_in_check);
-  square const king_pos = being_solved.king_square[side_in_check];
-  int const dir = vec[kcurr];
-  square const sq_end = find_end_of_line(king_pos,dir);
-  piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",kcurr);
-  TraceWalk(walk_rider);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceEnumerator(Side,side_in_check);
-  TraceEnumerator(Side,side_checking);
-  TraceSquare(king_pos);
-  TraceSquare(sq_end);
-  TraceWalk(walk_at_end);
-  TraceEOL();
-
-  if ((walk_at_end==walk_rider || walk_at_end==Queen)
-      && TSTFLAG(being_solved.spec[sq_end],side_checking))
-  {
-    square const s = find_unique_interception_point(king_pos,sq_end,dir);
-    if (s!=initsquare)
-    {
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-      if (nr_total_invisibles_left==0)
-        /* there are not enough total invisibles to intercept all checks */;
-      else
-        uniquely_place_interceptor_on_square(si,s,kcurr,recurse);
-    }
-    else
-      (*recurse)(si,kcurr+1);
-  }
-  else
-    (*recurse)(si,kcurr+1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void rule_out_illegal_possibilities_from_known_inivisible(slice_index si,
-                                                                 unsigned int idx)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParamListEnd();
-
-  if (idx==nr_invisibles_with_knowledge[nbply])
-    add_revelation_effects(si);
-  else
-  {
-    TraceValue("%u",idx);
-    TraceValue("%u",knowledge_on_placed_invisibles[nbply][idx].fate);TraceEOL();
-    if (knowledge_on_placed_invisibles[nbply][idx].fate==knowledge_fate_invisible)
-    {
-      knowledge_type const save_knowledge = knowledge_on_placed_invisibles[nbply][idx];
-      Side const side_in_check = trait[nbply];
-      Side const side_checking = advers(side_in_check);
-      square const king_pos = being_solved.king_square[side_in_check];
-      square const pos = knowledge_on_placed_invisibles[nbply][idx].pos;
-      int const diff = pos-king_pos;
-
-      TraceEnumerator(Side,side_in_check);
-      TraceEnumerator(Side,side_checking);
-      TraceSquare(king_pos);
-      TraceSquare(pos);
-      TraceValue("%i",diff);
-      TraceValue("%i",CheckDir[Rook][diff]);
-      TraceValue("%i",CheckDir[Bishop][diff]);
-      TraceValue("%i",CheckDir[Knight][diff]);
-      TraceEOL();
-
-      if (CheckDir[Rook][diff]!=0 && find_end_of_line(king_pos,CheckDir[Rook][diff])==pos)
-      {
-        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Queen] = true;
-        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Rook] = true;
-      }
-      else if (CheckDir[Bishop][diff]!=0 && find_end_of_line(king_pos,CheckDir[Bishop][diff])==pos)
-      {
-        int const dir_vert = side_checking==White ? dir_up : dir_down;
-        if (-diff==dir_vert+dir_left || -diff==dir_vert+dir_right)
-          knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Pawn] = true;
-        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Queen] = true;
-        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Bishop] = true;
-      }
-      else if (CheckDir[Knight][diff]!=0)
-        knowledge_on_placed_invisibles[nbply][idx].side_walk_impossible[side_checking][Knight] = true;
-
-      rule_out_illegal_possibilities_from_known_inivisible(si,idx+1);
-      knowledge_on_placed_invisibles[nbply][idx] = save_knowledge;
-    }
-    else
-      rule_out_illegal_possibilities_from_known_inivisible(si,idx+1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void rule_out_illegal_possibilities_from_known_inivisibles(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceEnumerator(Side,trait[nbply]);
-  TraceValue("%u",total_invisible_number);
-  TraceValue("%u",nr_total_invisibles_left);
-  TraceValue("%u",nr_invisibles_with_knowledge[nbply]);
-  TraceEOL();
-
-  if (nr_total_invisibles_left==0 && nr_invisibles_with_knowledge[nbply]>0)
-    rule_out_illegal_possibilities_from_known_inivisible(si,0);
-  else
-    add_revelation_effects(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void uniquely_intercept_illegal_checks_diagonal(slice_index si,
-                                                       vec_index_type kcurr)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParamListEnd();
-
-  if (kcurr>vec_bishop_end)
-    rule_out_illegal_possibilities_from_known_inivisibles(si);
-  else
-    uniquely_intercept_line_if_check(si,kcurr,Bishop,
-                                     &uniquely_intercept_illegal_checks_diagonal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void uniquely_intercept_illegal_checks_orthogonal(slice_index si,
-                                                         vec_index_type kcurr)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParamListEnd();
-
-  if (kcurr>vec_rook_end)
-    uniquely_intercept_illegal_checks_diagonal(si,vec_bishop_start);
-  else
-    uniquely_intercept_line_if_check(si,kcurr,Rook,
-                                     &uniquely_intercept_illegal_checks_orthogonal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void uniquely_intercept_illegal_checks(slice_index si)
-{
-  Side const side_in_check = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,side_in_check);TraceEOL();
-
-  if (!is_square_uninterceptably_attacked(side_in_check,
-                                          being_solved.king_square[side_in_check]))
-    uniquely_intercept_illegal_checks_orthogonal(si,vec_rook_start);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void move_knowledge(square from, square to)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=nr_invisibles_with_knowledge[nbply]; ++i)
-    if (knowledge_on_placed_invisibles[nbply][i].pos==from)
-      knowledge_on_placed_invisibles[nbply][i].pos = to;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void know_captured(square from)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=nr_invisibles_with_knowledge[nbply]; ++i)
-    if (knowledge_on_placed_invisibles[nbply][i].pos==from)
-      knowledge_on_placed_invisibles[nbply][i].fate = knowledge_fate_captured;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void update_knowledge(void)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type curr;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (curr = base; curr!=top; ++curr)
-    switch (move_effect_journal[curr].type)
-    {
-      case move_effect_piece_movement:
-      {
-        square const from = move_effect_journal[curr].u.piece_movement.from;
-        square const to = move_effect_journal[curr].u.piece_movement.to;
-        move_knowledge(from,to);
-        break;
-      }
-
-      case move_effect_piece_removal:
-      {
-        square const from = move_effect_journal[curr].u.piece_removal.on;
-        know_captured(from);
-        break;
-      }
-
-      default:
-        break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void write_knowledge(void)
-{
-  unsigned int i;
-
-  printf(" ");
-
-  for (i = 0; i!=nr_invisibles_with_knowledge[nbply]; ++i)
-    if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_revealed)
-    {
-      Side side;
-      piece_walk_type walk;
-      output_plaintext_engine.fputc('(',stdout);
-      WriteSquare(&output_plaintext_engine,stdout,knowledge_on_placed_invisibles[nbply][i].pos);
-      if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_captured)
-      {
-        output_plaintext_engine.fputc(':',stdout);
-        output_plaintext_engine.fputc(fate_char[knowledge_on_placed_invisibles[nbply][i].fate],stdout);
-        output_plaintext_engine.fputc(':',stdout);
-        output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
-        for (side = White; side<=Black; ++side)
-        {
-          output_plaintext_engine.fputc(':',stdout);
-          output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
-          for (walk = Pawn; walk<=Bishop; ++walk)
-            if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
-              WriteWalk(&output_plaintext_engine,stdout,walk);
-        }
-      }
-      output_plaintext_engine.fputc(')',stdout);
-    }
 }
 
 static void play_with_placed_invisibles(void)
@@ -1529,116 +900,6 @@ static void flesh_out_captures_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor_from_knowledge(unsigned int idx,
-                                              Side preferred_side);
-
-static void walk_interceptor_from_knowledge(unsigned int idx,
-                                            Side side)
-{
-  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
-  square const pos = knowledge_on_placed_invisibles[mating_move_ply][idx].pos;
-  piece_walk_type walk;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(pos);TraceEOL();
-  assert(is_square_empty(pos));
-
-  for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
-    if (!(is_pawn(walk)
-          && (TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq))))
-    {
-      TraceWalk(walk);TraceEOL();
-      ++being_solved.number_of_pieces[side][walk];
-      occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
-      // TODO this test is wrong in the mating ply
-      // would we gain something by doing it in earlier plies?
-//      if (!is_square_uninterceptably_attacked(advers(side),
-//                                              being_solved.king_square[advers(side)]))
-      {
-        colour_interceptor_from_knowledge(idx+1,side);
-      }
-      TraceSquare(pos);
-      TraceWalk(get_walk_of_piece_on_square(pos));
-      TraceWalk(walk);
-      TraceEOL();
-      assert(get_walk_of_piece_on_square(pos)==walk);
-      --being_solved.number_of_pieces[side][walk];
-      empty_square(pos);
-    }
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void colour_interceptor_from_knowledge(unsigned int idx,
-                                              Side preferred_side)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceEnumerator(Side,preferred_side);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nr_invisibles_with_knowledge[mating_move_ply]);
-  TraceEOL();
-
-  TraceSquare(knowledge_on_placed_invisibles[mating_move_ply][idx].pos);
-  TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].fate);
-  TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].purpose);
-  TraceValue("%u",knowledge_purpose_interceptor);
-  TraceEOL();
-
-  while (idx<nr_invisibles_with_knowledge[mating_move_ply]
-         && (knowledge_on_placed_invisibles[mating_move_ply][idx].fate==knowledge_fate_revealed
-             || (knowledge_on_placed_invisibles[mating_move_ply][idx].purpose
-                 !=knowledge_purpose_interceptor)
-             || (knowledge_on_placed_invisibles[mating_move_ply][idx].fate==knowledge_fate_captured)))
-  {
-    ++idx;
-
-    TraceValue("%u",idx);
-    TraceSquare(knowledge_on_placed_invisibles[mating_move_ply][idx].pos);
-    TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].fate);
-    TraceValue("%u",knowledge_on_placed_invisibles[mating_move_ply][idx].purpose);
-    TraceValue("%u",knowledge_purpose_interceptor);
-    TraceEOL();
-  }
-
-  if (idx==nr_invisibles_with_knowledge[mating_move_ply])
-    flesh_out_captures_by_invisible();
-  else
-  {
-    square const pos = knowledge_on_placed_invisibles[mating_move_ply][idx].pos;
-    Flags const spec = being_solved.spec[pos];
-
-    assert(get_walk_of_piece_on_square(pos)==Dummy);
-    empty_square(pos);
-
-    /* taboo equal to 1 is ok: this is "my" taboo! */
-    if (taboo[preferred_side][pos]==1)
-      walk_interceptor_from_knowledge(idx,preferred_side);
-
-    if (!end_of_iteration)
-    {
-      if (taboo[advers(preferred_side)][pos]==1)
-        walk_interceptor_from_knowledge(idx,advers(preferred_side));
-    }
-
-    occupy_square(pos,Dummy,spec);
-  }
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void update_taboo(int delta)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -1750,7 +1011,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   --nr_total_invisibles_left;
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
-  colour_interceptor_from_knowledge(0,Black);
+  flesh_out_captures_by_invisible();
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
@@ -1925,7 +1186,7 @@ static void test_mate(void)
       play_phase = replaying_moves;
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
-      colour_interceptor_from_knowledge(0,Black);
+      flesh_out_captures_by_invisible();
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
@@ -2215,8 +1476,7 @@ void total_invisible_knowledge_updater_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  update_knowledge();
-  uniquely_intercept_illegal_checks(si);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2705,8 +1965,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
     TraceSquare(sq_capture);
     TraceEOL();
 
-    copy_knowledge();
-
     if (sq_departure==capture_by_invisible)
     {
       TraceValue("%u",nr_total_invisibles_left);TraceEOL();
@@ -2725,11 +1983,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side)|BIT(Chameleon),
                                               side);
 
-        know_capturer(capture_by_invisible,side);
-
         pipe_solve_delegate(si);
-
-        unknow_last();
       }
 //      else
 //      {
@@ -2767,13 +2021,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            know_castling_partner(square_h,Rook,side);
-
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
-
-            unknow_last();
           }
           else
           {
@@ -2799,13 +2049,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side),
                                                   side);
 
-            know_castling_partner(square_a,Rook,side);
-
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
-
-            unknow_last();
           }
           else
           {
@@ -2834,13 +2080,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side_victim)|BIT(Chameleon),
                                                   side_victim);
 
-            know_victim(sq_capture,side_victim);
-
             --nr_total_invisibles_left;
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
-
-            unknow_last();
           }
           else
           {
@@ -3235,10 +2477,6 @@ void solving_instrument_total_invisible(slice_index si)
   nr_total_invisibles_left = total_invisible_number;
 
   move_effect_journal_register_pre_capture_effect();
-
-  move_effect_journal_set_effect_doers(move_effect_revelation_of_invisible,
-                                       &undo_redo_add_revelation_effect,
-                                       &undo_redo_add_revelation_effect);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
