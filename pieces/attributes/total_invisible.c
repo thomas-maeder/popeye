@@ -768,17 +768,20 @@ void write_knowledge(void)
       piece_walk_type walk;
       output_plaintext_engine.fputc('(',stdout);
       WriteSquare(&output_plaintext_engine,stdout,knowledge_on_placed_invisibles[nbply][i].pos);
-      output_plaintext_engine.fputc(':',stdout);
-      output_plaintext_engine.fputc(fate_char[knowledge_on_placed_invisibles[nbply][i].fate],stdout);
-      output_plaintext_engine.fputc(':',stdout);
-      output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
-      for (side = White; side<=Black; ++side)
+      if (knowledge_on_placed_invisibles[nbply][i].fate!=knowledge_fate_captured)
       {
         output_plaintext_engine.fputc(':',stdout);
-        output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
-        for (walk = Pawn; walk<=Bishop; ++walk)
-          if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
-            WriteWalk(&output_plaintext_engine,stdout,walk);
+        output_plaintext_engine.fputc(fate_char[knowledge_on_placed_invisibles[nbply][i].fate],stdout);
+        output_plaintext_engine.fputc(':',stdout);
+        output_plaintext_engine.fputc(purpose_char[knowledge_on_placed_invisibles[nbply][i].purpose],stdout);
+        for (side = White; side<=Black; ++side)
+        {
+          output_plaintext_engine.fputc(':',stdout);
+          output_plaintext_engine.fputc(side==White ? 'w' : 'b',stdout);
+          for (walk = Pawn; walk<=Bishop; ++walk)
+            if (!knowledge_on_placed_invisibles[nbply][i].side_walk_impossible[side][walk])
+              WriteWalk(&output_plaintext_engine,stdout,walk);
+        }
       }
       output_plaintext_engine.fputc(')',stdout);
     }
@@ -2712,7 +2715,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
       /* a) unplaced invisible
        * b) placed invisible that can reach sq_capture (with added knowledge)
        * the following test only applies to case a)
-      if (nr_placed_interceptors<nr_total_invisibles_left)*/
+      if (nr_total_invisibles_left>0)*/
       {
         Side const side = trait[nbply];
 
