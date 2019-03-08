@@ -170,9 +170,27 @@ static void play_with_placed_invisibles(void)
   if (solve_result>combined_result)
     combined_result = solve_result;
 
-  if (combined_result==previous_move_has_not_solved
-      || (play_phase==validating_mate && mate_validation_result<=mate_attackable))
-    end_of_iteration = true;
+  switch (play_phase)
+  {
+    case regular_play:
+      assert(0);
+      break;
+
+    case validating_mate:
+      if (mate_validation_result<=mate_attackable)
+        end_of_iteration = true;
+      break;
+
+    case replaying_moves:
+      assert(solve_result>=previous_move_has_solved);
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceValue("%u",end_of_iteration);TraceEOL();
 
