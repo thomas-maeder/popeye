@@ -1219,7 +1219,12 @@ static void test_mate(void)
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
-      combined_result = previous_move_has_solved;
+      /* we only reply moves for TI revelation */
+      play_phase = replaying_moves;
+      end_of_iteration = false;
+      combined_result = previous_move_is_illegal;
+      flesh_out_captures_by_invisible();
+      assert(combined_result==previous_move_has_solved);
       break;
 
     default:
@@ -1260,7 +1265,7 @@ static void setup_revelations(void)
   nr_potential_revelations = 0;
 
   for (s = boardnum; *s; ++s)
-    if (TSTFLAG(being_solved.spec[*s],Chameleon))
+    if (is_square_empty(*s) || TSTFLAG(being_solved.spec[*s],Chameleon))
     {
       TraceSquare(*s);TraceEOL();
       revelation_status[nr_potential_revelations].pos = *s;
@@ -1275,16 +1280,27 @@ static void setup_revelations(void)
 
 static void initialise_revelations(void)
 {
-  unsigned int i;
+  unsigned int i = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_potential_revelations; ++i)
+  while (i!=nr_potential_revelations)
   {
     square const s = revelation_status[i].pos;
-    revelation_status[i].walk = get_walk_of_piece_on_square(s);
-    revelation_status[i].spec = being_solved.spec[s];
+    piece_walk_type const walk = get_walk_of_piece_on_square(s);
+    if (walk==Empty)
+    {
+      memmove(&revelation_status[i],&revelation_status[i+1],
+              (nr_potential_revelations-i-1)*sizeof revelation_status[0]);
+      --nr_potential_revelations;
+    }
+    else
+    {
+      revelation_status[i].walk = walk;
+      revelation_status[i].spec = being_solved.spec[s];
+      ++i;
+    }
   }
 
   revelation_status_is_uninitialised = false;
@@ -1295,20 +1311,23 @@ static void initialise_revelations(void)
 
 static void update_revelations(void)
 {
-  unsigned int i;
+  unsigned int i = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_potential_revelations; ++i)
+  while (i!=nr_potential_revelations)
   {
     square const s = revelation_status[i].pos;
     if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
         || being_solved.spec[s]!=revelation_status[i].spec)
     {
-      revelation_status[i].walk = Empty;
-      revelation_status[i].spec = 0;
+      memmove(&revelation_status[i],&revelation_status[i+1],
+              (nr_potential_revelations-i-1)*sizeof revelation_status[0]);
+      --nr_potential_revelations;
     }
+    else
+      ++i;
   }
 
   TraceFunctionExit(__func__);

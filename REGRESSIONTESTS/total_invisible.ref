@@ -437,18 +437,18 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:    48880146
-                     play_move:     7501975
- is_white_king_square_attacked:      884614
- is_black_king_square_attacked:     3971321
+  add_to_move_generation_stack:    48880227
+                     play_move:     7502001
+ is_white_king_square_attacked:      884615
+ is_black_king_square_attacked:     3971344
 
 b) wSb5-->d7  
 
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
-  add_to_move_generation_stack:    44300474
-                     play_move:     5159090
- is_white_king_square_attacked:      886401
- is_black_king_square_attacked:     1559013
+  add_to_move_generation_stack:    44300561
+                     play_move:     5159119
+ is_white_king_square_attacked:      886402
+ is_black_king_square_attacked:     1559039
 
 solution finished.
 
