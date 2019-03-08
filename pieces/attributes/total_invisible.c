@@ -63,6 +63,17 @@ static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
+typedef struct
+{
+    square pos;
+    piece_walk_type walk;
+    Flags spec;
+} revelation_status_type;
+
+static boolean revelation_status_is_uninitialised;
+static unsigned int nr_potential_revelations;
+static revelation_status_type revelation_status[nr_squares_on_board];
+
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -1220,6 +1231,113 @@ static void test_mate(void)
   TraceFunctionResultEnd();
 }
 
+static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_invisible,
+                                                                                    move_effect_no_reason);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
+  entry->u.piece_addition.added.walk = walk;
+  entry->u.piece_addition.added.on = s;
+  entry->u.piece_addition.added.flags = spec;
+  entry->u.piece_addition.for_side = trait[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void setup_revelations(void)
+{
+  square const *s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_potential_revelations = 0;
+
+  for (s = boardnum; *s; ++s)
+    if (TSTFLAG(being_solved.spec[*s],Chameleon))
+    {
+      TraceSquare(*s);TraceEOL();
+      revelation_status[nr_potential_revelations].pos = *s;
+      ++nr_potential_revelations;
+    }
+
+  revelation_status_is_uninitialised = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void initialise_revelations(void)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_potential_revelations; ++i)
+  {
+    square const s = revelation_status[i].pos;
+    revelation_status[i].walk = get_walk_of_piece_on_square(s);
+    revelation_status[i].spec = being_solved.spec[s];
+  }
+
+  revelation_status_is_uninitialised = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void update_revelations(void)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_potential_revelations; ++i)
+  {
+    square const s = revelation_status[i].pos;
+    if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
+        || being_solved.spec[s]!=revelation_status[i].spec)
+    {
+      revelation_status[i].walk = Empty;
+      revelation_status[i].spec = 0;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void evaluate_revelations(void)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_potential_revelations; ++i)
+  {
+    square const s = revelation_status[i].pos;
+    TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
+    if (revelation_status[i].walk!=Empty)
+      add_revelation_effect(s,revelation_status[i].walk,revelation_status[i].spec);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const *entry)
+{
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1261,6 +1379,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     mating_move_ply = nbply;
     tester_slice = si;
 
+    setup_revelations();
+
     while (nbply!=ply_retro_move)
     {
       numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -1296,6 +1416,9 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
         ++taboo[Black][sq_departure];
       }
     }
+
+    if (combined_result==previous_move_has_solved)
+      evaluate_revelations();
 
     play_phase = regular_play;
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
@@ -1473,28 +1596,6 @@ void total_invisible_move_repeater_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void add_revelation_effect(square s)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_invisible,
-                                                                                    move_effect_no_reason);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceFunctionParamListEnd();
-
-  entry->u.piece_addition.added.walk = get_walk_of_piece_on_square(s);
-  entry->u.piece_addition.added.on = s;
-  entry->u.piece_addition.added.flags = being_solved.spec[s];
-  entry->u.piece_addition.for_side = trait[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const *entry)
-{
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1525,7 +1626,9 @@ void total_invisible_knowledge_updater_solve(slice_index si)
       {
         Side const side = trait[nbply];
         square const square_f = side==White ? square_f1 : square_f8;
-        add_revelation_effect(square_f);
+        add_revelation_effect(square_f,
+                              get_walk_of_piece_on_square(square_f),
+                              being_solved.spec[square_f]);
         break;
       }
 
@@ -1533,7 +1636,9 @@ void total_invisible_knowledge_updater_solve(slice_index si)
       {
         Side const side = trait[nbply];
         square const square_d = side==White ? square_d1 : square_d8;
-        add_revelation_effect(square_d);
+        add_revelation_effect(square_d,
+                              get_walk_of_piece_on_square(square_d),
+                              being_solved.spec[square_d]);
         break;
       }
 
@@ -1805,6 +1910,13 @@ void total_invisible_goal_guard_solve(slice_index si)
     }
     else
       attack_checks();
+  }
+  else
+  {
+    if (revelation_status_is_uninitialised)
+      initialise_revelations();
+    else
+      update_revelations();
   }
 
   TraceFunctionExit(__func__);
