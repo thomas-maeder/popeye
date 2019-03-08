@@ -38,9 +38,9 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
   assert(!is_square_blocked(on));
   assert(!is_square_empty(on));
 
-  entry->u.piece_change.on = on;
-  entry->u.piece_change.from = get_walk_of_piece_on_square(on);
-  entry->u.piece_change.to = to;
+  entry->u.piece_walk_change.on = on;
+  entry->u.piece_walk_change.from = get_walk_of_piece_on_square(on);
+  entry->u.piece_walk_change.to = to;
 
   do_walk_change(on,to);
 
@@ -50,8 +50,8 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
 
 static void undo_walk_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_change.on;
-  piece_walk_type const from = entry->u.piece_change.from;
+  square const on = entry->u.piece_walk_change.on;
+  piece_walk_type const from = entry->u.piece_walk_change.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -64,8 +64,8 @@ static void undo_walk_change(move_effect_journal_entry_type const *entry)
 
 static void redo_walk_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_change.on;
-  piece_walk_type const to = entry->u.piece_change.to;
+  square const on = entry->u.piece_walk_change.on;
+  piece_walk_type const to = entry->u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

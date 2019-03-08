@@ -157,7 +157,7 @@ typedef struct
             square on;
             piece_walk_type from;
             piece_walk_type to;
-        } piece_change;
+        } piece_walk_change;
         struct
         {
             piece_walk_type moving;

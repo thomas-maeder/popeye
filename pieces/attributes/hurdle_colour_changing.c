@@ -145,7 +145,7 @@ static void solve_nested(slice_index si)
  */
 static void do_change(move_effect_journal_index_type idx_promotion)
 {
-  square const sq_prom = move_effect_journal[idx_promotion].u.piece_change.on;
+  square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
   Flags changed = being_solved.spec[sq_prom];
   SETFLAG(changed,ColourChange);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
@@ -206,7 +206,7 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
       solve_nested(si);
     else
     {
-      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_change.to;
+      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_walk_change.to;
       switch (promote_walk_into[walk_promotee])
       {
         case none:

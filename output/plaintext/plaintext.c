@@ -386,9 +386,9 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
 static void write_singlebox_promotion(output_plaintext_move_context_type *context,
                                       move_effect_journal_index_type curr)
 {
-  WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
+  WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.on);
   (*context->engine->fputc)('=',context->file);
-  WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
+  WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
 }
 
 static void write_piece_change(output_plaintext_move_context_type *context,
@@ -404,14 +404,14 @@ static void write_piece_change(output_plaintext_move_context_type *context,
     case move_effect_reason_promotion_of_reborn:
       if (/* regular promotion doesn't test whether the "promotion" is
            * into pawn (e.g. in SingleBox); it's more efficient to test here */
-          move_effect_journal[curr].u.piece_change.to
-          !=move_effect_journal[curr].u.piece_change.from)
+          move_effect_journal[curr].u.piece_walk_change.to
+          !=move_effect_journal[curr].u.piece_walk_change.from)
       {
-        square const on = move_effect_journal[curr].u.piece_change.on;
+        square const on = move_effect_journal[curr].u.piece_walk_change.on;
         Flags const flags = find_piece_flags(context,curr,on);
         (*context->engine->fputc)('=',context->file);
-        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_change.to,false);
-        WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
+        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_walk_change.to,false);
+        WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
       }
       break;
 
@@ -424,7 +424,7 @@ static void write_piece_change(output_plaintext_move_context_type *context,
     case move_effect_reason_kobul_king:
       next_context(context,curr,"[","]");
 
-      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.on);
       (*context->engine->fputc)('=',context->file);
 
       {
@@ -436,16 +436,16 @@ static void write_piece_change(output_plaintext_move_context_type *context,
         else
           flags = BIT(Royal);
 
-        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_change.to,false);
+        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_walk_change.to,false);
       }
 
-      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
+      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
       break;
 
     case move_effect_reason_snek:
     {
-      square const on = move_effect_journal[curr].u.piece_change.on;
-      piece_walk_type const to = move_effect_journal[curr].u.piece_change.to;
+      square const on = move_effect_journal[curr].u.piece_walk_change.on;
+      piece_walk_type const to = move_effect_journal[curr].u.piece_walk_change.to;
 
       next_context(context,curr,"[","]");
 
@@ -460,7 +460,7 @@ static void write_piece_change(output_plaintext_move_context_type *context,
     case move_effect_reason_football_chess_substitution:
     case move_effect_reason_king_transmutation:
       (*context->engine->fputc)('=',context->file);
-      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
+      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
       break;
 
     default:

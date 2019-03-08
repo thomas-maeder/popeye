@@ -399,9 +399,9 @@ static void adjust_castling_rights(Side trait_ply)
 
       case move_effect_walk_change:
         disable_castling_rights(move_effect_journal[curr].reason,
-                                move_effect_journal[curr].u.piece_change.on);
+                                move_effect_journal[curr].u.piece_walk_change.on);
         enable_castling_rights(move_effect_journal[curr].reason,
-                               move_effect_journal[curr].u.piece_change.on);
+                               move_effect_journal[curr].u.piece_walk_change.on);
         break;
 
       default:

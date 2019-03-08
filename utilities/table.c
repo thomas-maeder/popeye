@@ -182,8 +182,8 @@ static boolean moves_equal(table_elmt_type const *snapshot)
             break;
 
           case move_effect_walk_change:
-            if (move_effect_journal[curr].u.piece_change.on!=snapshot->relevant_effects[id_relevant].u.piece_change.on
-                || move_effect_journal[curr].u.piece_change.to!=snapshot->relevant_effects[id_relevant].u.piece_change.to)
+            if (move_effect_journal[curr].u.piece_walk_change.on!=snapshot->relevant_effects[id_relevant].u.piece_walk_change.on
+                || move_effect_journal[curr].u.piece_walk_change.to!=snapshot->relevant_effects[id_relevant].u.piece_walk_change.to)
               return false;
             break;
 
