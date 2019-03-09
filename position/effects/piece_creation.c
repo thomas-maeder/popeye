@@ -25,6 +25,11 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceEnumerator(Side,for_side);
   TraceFunctionParamListEnd();
 
+  SetPieceId(createdspec,++being_solved.currPieceId);
+
+  TraceValue("%u",GetPieceId(createdspec));
+  TraceEOL();
+
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = created;
   entry->u.piece_addition.added.flags = createdspec;
@@ -36,7 +41,6 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   if (TSTFLAG(createdspec,Black))
     ++being_solved.number_of_pieces[Black][created];
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -56,11 +60,6 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   if (TSTFLAG(createdspec,Black))
     --being_solved.number_of_pieces[Black][created];
 
-  /* this no longer holds since the introduction of captures by total invisibles:
-   * assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);*/
-  ClearPieceId(being_solved.spec[on]);
-  --being_solved.currPieceId;
-
   empty_square(on);
 
   TraceFunctionExit(__func__);
@@ -76,7 +75,10 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceWalk(created);TraceSquare(on);TraceEOL();
+  TraceWalk(created);
+  TraceSquare(on);
+  TraceValue("%u",GetPieceId(createdspec));
+  TraceEOL();
 
   if (TSTFLAG(createdspec,White))
     ++being_solved.number_of_pieces[White][created];
@@ -85,7 +87,7 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 
   assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
+//  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

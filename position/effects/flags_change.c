@@ -17,6 +17,10 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceSquare(on);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",GetPieceId(being_solved.spec[on]));
+  TraceValue("%u",GetPieceId(to));
+  TraceEOL();
+
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
 
   entry->u.flags_change.on = on;
@@ -77,8 +81,13 @@ static void redo_flags_change(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(being_solved.spec[on]==entry->u.flags_change.from);
+  TraceSquare(on);
+  TraceValue("%u",GetPieceId(being_solved.spec[on]));
+  TraceValue("%u",GetPieceId(to));
+  TraceEOL();
+
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
+  assert(being_solved.spec[on]==entry->u.flags_change.from);
 
   if (TSTFLAG(being_solved.spec[on],White))
     --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
