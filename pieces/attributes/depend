@@ -662,7 +662,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  position/move_diff_code.h position/effects/piece_creation.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- position/effects/null_move.h stipulation/structure_traversal.h \
+ position/effects/null_move.h position/effects/walk_change.h \
+ position/effects/flags_change.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -744,6 +745,10 @@ debugging/trace.h:
 solving/ply.h:
 
 position/effects/null_move.h:
+
+position/effects/walk_change.h:
+
+position/effects/flags_change.h:
 
 stipulation/structure_traversal.h:
 

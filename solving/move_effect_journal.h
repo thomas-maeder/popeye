@@ -63,8 +63,6 @@ typedef enum
 
   move_effect_hunter_type_definition,
 
-  move_effect_revelation_of_invisible,
-
   nr_move_effect_types
 } move_effect_type;
 
@@ -126,6 +124,7 @@ typedef enum
   move_effect_reason_breton,
   move_effect_reason_removal_of_invisible,
   move_effect_reason_addition_of_invisible,
+  move_effect_reason_revelation_of_invisible,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning

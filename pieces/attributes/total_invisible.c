@@ -4,6 +4,8 @@
 #include "position/move_diff_code.h"
 #include "position/effects/piece_creation.h"
 #include "position/effects/null_move.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/flags_change.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -171,25 +173,22 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
 
 static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 {
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_invisible,
-                                                                                    move_effect_no_reason);
-
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  entry->u.piece_addition.added.walk = walk;
-  entry->u.piece_addition.added.on = s;
-  entry->u.piece_addition.added.flags = spec;
-  entry->u.piece_addition.for_side = trait[nbply];
+  assert(!is_square_empty(s));
+  assert(TSTFLAG(being_solved.spec[s],Chameleon));
+
+  CLRFLAG(spec,Chameleon);
+  SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+
+  move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
+  move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void undo_redo_add_revelation_effect(move_effect_journal_entry_type const *entry)
-{
 }
 
 static void setup_revelations(void)
@@ -1653,9 +1652,10 @@ void total_invisible_knowledge_updater_solve(slice_index si)
       {
         Side const side = trait[nbply];
         square const square_f = side==White ? square_f1 : square_f8;
-        add_revelation_effect(square_f,
-                              get_walk_of_piece_on_square(square_f),
-                              being_solved.spec[square_f]);
+        if (TSTFLAG(being_solved.spec[square_f],Chameleon))
+          add_revelation_effect(square_f,
+                                get_walk_of_piece_on_square(square_f),
+                                being_solved.spec[square_f]);
         break;
       }
 
@@ -1663,9 +1663,10 @@ void total_invisible_knowledge_updater_solve(slice_index si)
       {
         Side const side = trait[nbply];
         square const square_d = side==White ? square_d1 : square_d8;
-        add_revelation_effect(square_d,
-                              get_walk_of_piece_on_square(square_d),
-                              being_solved.spec[square_d]);
+        if (TSTFLAG(being_solved.spec[square_d],Chameleon))
+          add_revelation_effect(square_d,
+                                get_walk_of_piece_on_square(square_d),
+                                being_solved.spec[square_d]);
         break;
       }
 
@@ -2215,7 +2216,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             move_effect_journal_do_piece_creation(move_effect_reason_castling_partner,
                                                   square_h,
                                                   Rook,
-                                                  BIT(side),
+                                                  BIT(side)|BIT(Chameleon),
                                                   side);
 
             --nr_total_invisibles_left;
@@ -2243,7 +2244,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             move_effect_journal_do_piece_creation(move_effect_reason_castling_partner,
                                                   square_a,
                                                   Rook,
-                                                  BIT(side),
+                                                  BIT(side)|BIT(Chameleon),
                                                   side);
 
             --nr_total_invisibles_left;
@@ -2674,10 +2675,6 @@ void solving_instrument_total_invisible(slice_index si)
   nr_total_invisibles_left = total_invisible_number;
 
   move_effect_journal_register_pre_capture_effect();
-
-  move_effect_journal_set_effect_doers(move_effect_revelation_of_invisible,
-                                       &undo_redo_add_revelation_effect,
-                                       &undo_redo_add_revelation_effect);
 
   TraceFunctionResultEnd();
   TraceFunctionExit(__func__);

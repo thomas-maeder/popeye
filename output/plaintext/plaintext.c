@@ -309,16 +309,20 @@ static void write_flags_change(output_plaintext_move_context_type *context,
     case move_effect_reason_kobul_king:
       if (move_effect_journal[curr-1].type!=move_effect_walk_change
           || move_effect_journal[curr-1].reason!=move_effect_reason_kobul_king)
-        /* otherwise the flags are written with the changed piece */
+        /* otherwise the flags are written with the changed walk */
       {
         next_context(context,curr,"[","]");
         WriteSquare(context->engine,context->file,move_effect_journal[curr].u.flags_change.on);
         (*context->engine->fputc)('=',context->file);
         WriteSpec(context->engine,context->file,
-                   move_effect_journal[curr].u.flags_change.to,
-                   being_solved.board[move_effect_journal[curr].u.flags_change.on],
-                   false);
+                  move_effect_journal[curr].u.flags_change.to,
+                  being_solved.board[move_effect_journal[curr].u.flags_change.on],
+                  false);
       }
+      break;
+
+    case move_effect_reason_revelation_of_invisible:
+      /* the flags are written with the changed walk */
       break;
 
     default:
@@ -391,7 +395,7 @@ static void write_singlebox_promotion(output_plaintext_move_context_type *contex
   WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
 }
 
-static void write_piece_change(output_plaintext_move_context_type *context,
+static void write_walk_change(output_plaintext_move_context_type *context,
                                move_effect_journal_index_type curr)
 {
   switch (move_effect_journal[curr].reason)
@@ -462,6 +466,19 @@ static void write_piece_change(output_plaintext_move_context_type *context,
       (*context->engine->fputc)('=',context->file);
       WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
       break;
+
+    case move_effect_reason_revelation_of_invisible:
+    {
+      square const on = move_effect_journal[curr].u.piece_walk_change.on;
+      Flags const flags = move_effect_journal[curr+1].u.flags_change.to;
+      assert(move_effect_journal[curr+1].type==move_effect_flags_change);
+      next_context(context,curr,"[","]");
+      WriteSquare(context->engine,context->file,on);
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_walk_change.to,true);
+      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
+      break;
+    }
 
     default:
       break;
@@ -560,15 +577,15 @@ static void write_piece_creation(output_plaintext_move_context_type *context,
                        move_effect_journal[curr].u.piece_addition.added.on);
 }
 
-static void write_piece_revelation(output_plaintext_move_context_type *context,
-                                   move_effect_journal_index_type curr)
-{
-  next_context(context,curr,"[","]");
-  write_complete_piece(context,
-                       move_effect_journal[curr].u.piece_addition.added.flags,
-                       move_effect_journal[curr].u.piece_addition.added.walk,
-                       move_effect_journal[curr].u.piece_addition.added.on);
-}
+//static void write_piece_revelation(output_plaintext_move_context_type *context,
+//                                   move_effect_journal_index_type curr)
+//{
+//  next_context(context,curr,"[","]");
+//  write_complete_piece(context,
+//                       move_effect_journal[curr].u.piece_addition.added.flags,
+//                       move_effect_journal[curr].u.piece_addition.added.walk,
+//                       move_effect_journal[curr].u.piece_addition.added.on);
+//}
 
 static void write_piece_readdition(output_plaintext_move_context_type *context,
                                    move_effect_journal_index_type curr)
@@ -735,7 +752,7 @@ static void write_other_effects(output_plaintext_move_context_type *context,
         break;
 
       case move_effect_walk_change:
-        write_piece_change(context,curr);
+        write_walk_change(context,curr);
         break;
 
       case move_effect_piece_movement:
@@ -776,10 +793,6 @@ static void write_other_effects(output_plaintext_move_context_type *context,
 
       case move_effect_bgl_adjustment:
         write_bgl_status(context,curr);
-        break;
-
-      case move_effect_revelation_of_invisible:
-        write_piece_revelation(context,curr);
         break;
 
       default:
