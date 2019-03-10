@@ -10,6 +10,11 @@ static void do_walk_change(square on, piece_walk_type to)
   if (TSTFLAG(being_solved.spec[on],Black))
     --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
+  TraceSquare(on);
+  TraceWalk(being_solved.board[on]);
+  TraceWalk(to);
+  TraceEOL();
+
   replace_walk(on,to);
 
   if (TSTFLAG(being_solved.spec[on],White))
