@@ -27,13 +27,13 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
 
   SetPieceId(createdspec,++being_solved.currPieceId);
 
-  TraceValue("%u",GetPieceId(createdspec));
-  TraceEOL();
-
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = created;
   entry->u.piece_addition.added.flags = createdspec;
   entry->u.piece_addition.for_side = for_side;
+
+  TraceValue("%u",GetPieceId(being_solved.spec[on]));
+  TraceEOL();
 
   assert(is_square_empty(on));
   if (TSTFLAG(createdspec,White))
@@ -55,6 +55,14 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceSquare(on);
+  TraceWalk(created);
+  TraceValue("%x",being_solved.spec[on]);
+  TraceEOL();
+
+  assert(being_solved.board[on]==created);
+  assert(being_solved.spec[on]==createdspec);
+
   if (TSTFLAG(createdspec,White))
     --being_solved.number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
@@ -75,9 +83,9 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceWalk(created);
   TraceSquare(on);
-  TraceValue("%u",GetPieceId(createdspec));
+  TraceWalk(created);
+  TraceValue("%x",createdspec);
   TraceEOL();
 
   if (TSTFLAG(createdspec,White))
@@ -87,7 +95,6 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 
   assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
-//  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

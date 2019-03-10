@@ -11,7 +11,11 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(being_solved.board[from]);TraceEOL();
+  TraceValue("%u",nbply);
+  TraceSquare(from);
+  TraceWalk(being_solved.board[from]);
+  TraceValue("%x",being_solved.spec[from]);
+  TraceEOL();
 
   entry->u.piece_removal.on = from;
   entry->u.piece_removal.walk = get_walk_of_piece_on_square(from);
@@ -69,7 +73,11 @@ static void undo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(removed);TraceEOL();
+  TraceValue("%u",nbply);
+  TraceSquare(from);
+  TraceWalk(removed);
+  TraceValue("%x",removedspec);
+  TraceEOL();
 
   occupy_square(from,removed,removedspec);
 
@@ -89,7 +97,14 @@ static void redo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(entry->u.piece_removal.walk);TraceEOL();
+  TraceValue("%u",nbply);
+  TraceSquare(from);
+  TraceWalk(entry->u.piece_removal.walk);
+  TraceValue("%x",entry->u.piece_removal.flags);
+  TraceEOL();
+
+  assert(being_solved.board[from]==entry->u.piece_removal.walk);
+  assert(being_solved.spec[from]==entry->u.piece_removal.flags);
 
   do_removal(from);
 

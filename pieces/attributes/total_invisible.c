@@ -468,9 +468,13 @@ static void redo_adapted_move_effects(void)
       if (move_effect_journal[capture].type==move_effect_no_piece_removal)
         /* no need for adaptation */
         recurse_into_child_ply();
+      else if (move_effect_journal[base].type==move_effect_piece_creation
+               && move_effect_journal[base].u.piece_addition.added.on==to)
+        /* victim to be created - no need for adaptation */
+        recurse_into_child_ply();
       else
       {
-        /* this was supposed to be capture, but the capturee has already been
+        /* this was supposed to be a capture, but the capturee has already been
          * captured by a TI which has in turn left the arrival square
          */
         assert(move_effect_journal[capture].type==move_effect_piece_removal);
