@@ -32,6 +32,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   entry->u.piece_addition.added.flags = createdspec;
   entry->u.piece_addition.for_side = for_side;
 
+  TraceValue("%u",being_solved.currPieceId);
   TraceValue("%u",GetPieceId(being_solved.spec[on]));
   TraceEOL();
 
@@ -58,10 +59,17 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceSquare(on);
   TraceWalk(created);
   TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%u",GetPieceId(being_solved.spec[on]));
+  TraceValue("%u",being_solved.currPieceId);
   TraceEOL();
 
   assert(being_solved.board[on]==created);
-  assert(being_solved.spec[on]==createdspec);
+  assert((being_solved.spec[on]&PieSpMask)==(createdspec&PieSpMask));
+  assert(GetPieceId(being_solved.spec[on])==being_solved.currPieceId);
+  --being_solved.currPieceId;
+
+  TraceValue("%u",being_solved.currPieceId);
+  TraceEOL();
 
   if (TSTFLAG(createdspec,White))
     --being_solved.number_of_pieces[White][created];
@@ -95,10 +103,15 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 
   assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
+  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
+
+  TraceValue("%u",being_solved.currPieceId);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param followed_id id of the piece to be followed
  * @param idx index of a piece_creation effect
