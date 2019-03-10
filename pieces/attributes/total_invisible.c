@@ -47,6 +47,7 @@ static unsigned int taboo[nr_sides][maxsquare];
 static enum
 {
   regular_play,
+  detecting_revelations,
   validating_mate,
   replaying_moves
 } play_phase = regular_play;
@@ -203,7 +204,6 @@ static void setup_revelations(void)
   for (s = boardnum; *s; ++s)
     if (is_square_empty(*s) || TSTFLAG(being_solved.spec[*s],Chameleon))
     {
-      TraceSquare(*s);TraceEOL();
       revelation_status[nr_potential_revelations].pos = *s;
       ++nr_potential_revelations;
     }
@@ -313,7 +313,11 @@ static void play_with_placed_invisibles(void)
       break;
 
     case replaying_moves:
-      assert(solve_result>=previous_move_has_solved);
+      /* This:
+       * assert(solve_result>=previous_move_has_solved);
+       * held surprisingly long, especially since it's wrong.
+       * E.g. mate by castling: if we attack the rook, the castling is not
+       * evan playable */
       if (solve_result==previous_move_has_not_solved)
         end_of_iteration = true;
       break;
@@ -336,6 +340,16 @@ static void done_intercepting_illegal_checks(void)
 
   if (is_in_check(trait[nbply-1]))
     solve_result = previous_move_is_illegal;
+  else if (play_phase==detecting_revelations)
+  {
+    if (revelation_status_is_uninitialised)
+      initialise_revelations();
+    else
+      update_revelations();
+
+    if (nr_potential_revelations==0)
+      end_of_iteration = true;
+  }
   else
   {
     do
@@ -356,14 +370,6 @@ static void done_intercepting_illegal_checks(void)
     {
       redo_move_effects();
       ++nbply;
-    }
-
-    if (play_phase==replaying_moves)
-    {
-      if (revelation_status_is_uninitialised)
-        initialise_revelations();
-      else
-        update_revelations();
     }
   }
 
@@ -551,13 +557,14 @@ static void walk_interceptor(vec_index_type kcurr,
       TraceWalk(walk);TraceEOL();
       ++being_solved.number_of_pieces[side][walk];
       occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
-      if (!is_square_uninterceptably_attacked(advers(side),
-                                              being_solved.king_square[advers(side)]))
-        restart_from_scratch();
-      TraceSquare(pos);
-      TraceWalk(get_walk_of_piece_on_square(pos));
-      TraceWalk(walk);
-      TraceEOL();
+      {
+        Side const side_attacked = advers(side);
+        square const king_pos = being_solved.king_square[side_attacked];
+        vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
+                                                                    king_pos);
+        if (k==0 || king_pos+vec[k]!=pos)
+          restart_from_scratch();
+      }
       assert(get_walk_of_piece_on_square(pos)==walk);
       --being_solved.number_of_pieces[side][walk];
       empty_square(pos);
@@ -1414,6 +1421,122 @@ static void unrewind_effects(void)
   TraceFunctionResultEnd();
 }
 
+static void taint_history_of_piece(move_effect_journal_index_type idx,
+                                   move_effect_journal_index_type total_base)
+{
+  square pos = move_effect_journal[idx].u.flags_change.on;
+  Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
+  piece_walk_type const walk = being_solved.board[pos];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",total_base);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(walk);
+  TraceEOL();
+
+  move_effect_journal[idx].type = move_effect_none;
+  --idx;
+  assert(move_effect_journal[idx].type==move_effect_walk_change);
+  assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
+  move_effect_journal[idx].type = move_effect_none;
+
+  do
+  {
+    --idx;
+
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        if (pos==move_effect_journal[idx].u.piece_movement.to)
+        {
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = walk;
+          move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
+        }
+        break;
+
+      case move_effect_piece_creation:
+        if (pos==move_effect_journal[idx].u.piece_addition.added.on)
+        {
+          if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk);
+          else
+            move_effect_journal[idx].u.piece_addition.added.walk = walk;
+          move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
+          idx = 0;
+        }
+        break;
+
+      default:
+        break;
+    }
+  } while (idx>=total_base);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void untaint_history_of_piece(move_effect_journal_index_type idx,
+                                     move_effect_journal_index_type total_base)
+{
+  square pos = move_effect_journal[idx].u.flags_change.on;
+  Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
+  piece_walk_type const walk = being_solved.board[pos];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",total_base);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(walk);
+  TraceEOL();
+
+  move_effect_journal[idx].type = move_effect_flags_change;
+  --idx;
+  assert(move_effect_journal[idx].type==move_effect_none);
+  assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
+  move_effect_journal[idx].type = move_effect_walk_change;
+
+  do
+  {
+    --idx;
+
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        if (pos==move_effect_journal[idx].u.piece_movement.to)
+        {
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = Dummy;
+          move_effect_journal[idx].u.piece_movement.movingspec = flags_from;
+        }
+        break;
+
+      case move_effect_piece_creation:
+        if (pos==move_effect_journal[idx].u.piece_addition.added.on)
+        {
+          if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk);
+          else
+            move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
+          move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
+          idx = 0;
+        }
+        break;
+
+      default:
+        break;
+    }
+  } while (idx>=total_base);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -1455,8 +1578,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     mating_move_ply = nbply;
     tester_slice = si;
 
-    setup_revelations();
-
     rewind_effects();
     play_phase = validating_mate;
     validate_mate();
@@ -1466,7 +1587,31 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     unrewind_effects();
 
     if (combined_result==previous_move_has_solved)
-      evaluate_revelations();
+    {
+      setup_revelations();
+      play_phase = detecting_revelations;
+      rewind_effects();
+      move_effect_journal_index_type const total_base = move_effect_journal_base[nbply];
+      end_of_iteration = false;
+      flesh_out_captures_by_invisible();
+      unrewind_effects();
+      if (!revelation_status_is_uninitialised)
+        evaluate_revelations();
+
+      TraceValue("%u",total_base);
+      TraceValue("%u",move_effect_journal_base[nbply]);
+      TraceEOL();
+
+      move_effect_journal_index_type curr;
+      for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+        if (move_effect_journal[curr].type==move_effect_flags_change
+            && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
+          taint_history_of_piece(curr,total_base);
+      for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+        if (move_effect_journal[curr].type==move_effect_none
+            && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
+          untaint_history_of_piece(curr,total_base);
+    }
 
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
@@ -1662,39 +1807,6 @@ void total_invisible_knowledge_updater_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt * const move_gen_top = move_generation_stack+curr;
-    square const sq_capture = move_gen_top->capture;
-
-    switch (sq_capture)
-    {
-      case kingside_castling:
-      {
-        Side const side = trait[nbply];
-        square const square_f = side==White ? square_f1 : square_f8;
-        if (TSTFLAG(being_solved.spec[square_f],Chameleon))
-          add_revelation_effect(square_f,
-                                get_walk_of_piece_on_square(square_f),
-                                being_solved.spec[square_f]);
-        break;
-      }
-
-      case queenside_castling:
-      {
-        Side const side = trait[nbply];
-        square const square_d = side==White ? square_d1 : square_d8;
-        if (TSTFLAG(being_solved.spec[square_d],Chameleon))
-          add_revelation_effect(square_d,
-                                get_walk_of_piece_on_square(square_d),
-                                being_solved.spec[square_d]);
-        break;
-      }
-
-      default:
-        break;
-    }
-  }
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
