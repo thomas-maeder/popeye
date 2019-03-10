@@ -1309,7 +1309,6 @@ static void validate_mate(void)
   mate_validation_result = mate_unvalidated;
 
   combined_result = previous_move_is_illegal;
-  play_phase = validating_mate;
   end_of_iteration = false;
   flesh_out_captures_by_invisible();
 
@@ -1337,14 +1336,12 @@ static void test_mate(void)
       break;
 
     case mate_attackable:
-      play_phase = replaying_moves;
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
       attack_mating_piece(advers(trait[mating_move_ply]),sq_mating_piece_to_be_attacked);
       break;
 
     case mate_defendable_by_interceptors:
-      play_phase = replaying_moves;
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
       flesh_out_captures_by_invisible();
@@ -1352,7 +1349,6 @@ static void test_mate(void)
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only reply moves for TI revelation */
-      play_phase = replaying_moves;
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
       flesh_out_captures_by_invisible();
@@ -1362,6 +1358,56 @@ static void test_mate(void)
     default:
       assert(0);
       break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void rewind_effects(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  while (nbply!=ply_retro_move)
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+    square const sq_departure = move_gen_top->departure;
+
+    --taboo[White][sq_departure];
+    --taboo[Black][sq_departure];
+
+    undo_move_effects();
+    --nbply;
+  }
+
+  ++nbply;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unrewind_effects(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  --nbply;
+
+  while (nbply!=mating_move_ply)
+  {
+    ++nbply;
+    redo_move_effects();
+
+    {
+      numecoup const curr = CURRMOVE_OF_PLY(nbply);
+      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+      square const sq_departure = move_gen_top->departure;
+
+      ++taboo[White][sq_departure];
+      ++taboo[Black][sq_departure];
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1411,46 +1457,17 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     setup_revelations();
 
-    while (nbply!=ply_retro_move)
-    {
-      numecoup const curr = CURRMOVE_OF_PLY(nbply);
-      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-      square const sq_departure = move_gen_top->departure;
-
-      --taboo[White][sq_departure];
-      --taboo[Black][sq_departure];
-
-      undo_move_effects();
-      --nbply;
-    }
-
-    ++nbply;
-
+    rewind_effects();
+    play_phase = validating_mate;
     validate_mate();
-
+    play_phase = replaying_moves;
     test_mate();
-
-    --nbply;
-
-    while (nbply!=mating_move_ply)
-    {
-      ++nbply;
-      redo_move_effects();
-
-      {
-        numecoup const curr = CURRMOVE_OF_PLY(nbply);
-        move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-        square const sq_departure = move_gen_top->departure;
-
-        ++taboo[White][sq_departure];
-        ++taboo[Black][sq_departure];
-      }
-    }
+    play_phase = regular_play;
+    unrewind_effects();
 
     if (combined_result==previous_move_has_solved)
       evaluate_revelations();
 
-    play_phase = regular_play;
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
