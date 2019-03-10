@@ -57,8 +57,10 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
   TraceFunctionParamListEnd();
 
   TraceSquare(on);
+  TraceWalk(being_solved.board[on]);
   TraceWalk(created);
   TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%x",createdspec);
   TraceValue("%u",GetPieceId(being_solved.spec[on]));
   TraceValue("%u",being_solved.currPieceId);
   TraceEOL();
