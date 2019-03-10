@@ -1588,10 +1588,12 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     if (combined_result==previous_move_has_solved)
     {
+      move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+      move_effect_journal_index_type curr;
+
       setup_revelations();
       play_phase = detecting_revelations;
       rewind_effects();
-      move_effect_journal_index_type const total_base = move_effect_journal_base[nbply];
       end_of_iteration = false;
       flesh_out_captures_by_invisible();
       unrewind_effects();
@@ -1602,7 +1604,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
       TraceValue("%u",move_effect_journal_base[nbply]);
       TraceEOL();
 
-      move_effect_journal_index_type curr;
       for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
         if (move_effect_journal[curr].type==move_effect_flags_change
             && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
