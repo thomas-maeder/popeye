@@ -1084,9 +1084,11 @@ static void update_taboo(int delta)
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
+  TraceWalk(walk);
   TraceEOL();
 
   taboo[White][sq_departure] += delta;
@@ -1426,7 +1428,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
   Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
-  piece_walk_type const walk = being_solved.board[pos];
+  piece_walk_type const walk_to = being_solved.board[pos];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -1434,7 +1436,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
-  TraceWalk(walk);
+  TraceWalk(walk_to);
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_none;
@@ -1453,7 +1455,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_movement.to)
         {
           pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = walk;
+          move_effect_journal[idx].u.piece_movement.moving = walk_to;
           move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
         }
         break;
@@ -1462,9 +1464,9 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_addition.added.on)
         {
           if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk);
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
           else
-            move_effect_journal[idx].u.piece_addition.added.walk = walk;
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
           idx = 0;
         }
@@ -1484,7 +1486,8 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
-  piece_walk_type const walk = being_solved.board[pos];
+  piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
+  piece_walk_type const walk_to = being_solved.board[pos];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -1492,7 +1495,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
-  TraceWalk(walk);
+  TraceWalk(walk_from);
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
@@ -1511,7 +1514,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_movement.to)
         {
           pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = Dummy;
+          move_effect_journal[idx].u.piece_movement.moving = walk_from;
           move_effect_journal[idx].u.piece_movement.movingspec = flags_from;
         }
         break;
@@ -1520,9 +1523,9 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_addition.added.on)
         {
           if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk);
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
           else
-            move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
           idx = 0;
         }
@@ -1608,6 +1611,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
         if (move_effect_journal[curr].type==move_effect_flags_change
             && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
           taint_history_of_piece(curr,total_base);
+
       for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
         if (move_effect_journal[curr].type==move_effect_none
             && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
