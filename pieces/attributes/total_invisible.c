@@ -2202,7 +2202,7 @@ static void generate_pawn_capture_right(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s))
+  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     pipe_move_generation_delegate(si);
@@ -2223,7 +2223,7 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s))
+  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     generate_pawn_capture_right(si,dir_vertical);
