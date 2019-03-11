@@ -854,9 +854,18 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     if (nr_total_invisibles_left>0)
     {
+      /* insert the capturer with the flags from the journal, which may have been
+       * tainted if the piece was eventually revealed
+       */
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const pre_capture_effect = base;
+      Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
+
+      assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_creation);
+
       --nr_total_invisibles_left;
 
-      occupy_square(from,walk_capturing,BIT(side_playing)|BIT(Chameleon));
+      occupy_square(from,walk_capturing,flags);
 
       ++taboo[White][from];
       ++taboo[Black][from];
