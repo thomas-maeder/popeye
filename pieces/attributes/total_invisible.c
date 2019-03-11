@@ -233,6 +233,10 @@ static void initialise_revelations(void)
     }
     else
     {
+      TraceSquare(s);
+      TraceWalk(walk);
+      TraceValue("%x",being_solved.spec[s]);
+      TraceEOL();
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
       ++i;
@@ -258,6 +262,10 @@ static void update_revelations(void)
     if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
         || being_solved.spec[s]!=revelation_status[i].spec)
     {
+      TraceSquare(s);
+      TraceWalk(get_walk_of_piece_on_square(s));
+      TraceValue("%x",being_solved.spec[s]);
+      TraceEOL();
       memmove(&revelation_status[i],&revelation_status[i+1],
               (nr_potential_revelations-i-1)*sizeof revelation_status[0]);
       --nr_potential_revelations;
@@ -1428,7 +1436,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
   Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
-  piece_walk_type const walk_to = being_solved.board[pos];
+  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -1464,7 +1472,11 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_addition.added.on)
         {
           if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+          {
+            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+            TraceEOL();
             assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
+          }
           else
             move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
@@ -1487,7 +1499,6 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   square pos = move_effect_journal[idx].u.flags_change.on;
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
   piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
-  piece_walk_type const walk_to = being_solved.board[pos];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -1523,7 +1534,11 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
         if (pos==move_effect_journal[idx].u.piece_addition.added.on)
         {
           if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
+          {
+            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+            TraceEOL();
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
+          }
           else
             move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
@@ -1600,6 +1615,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
       end_of_iteration = false;
       flesh_out_captures_by_invisible();
       unrewind_effects();
+      play_phase = regular_play;
+
       if (!revelation_status_is_uninitialised)
         evaluate_revelations();
 
@@ -1769,8 +1786,10 @@ void total_invisible_move_repeater_solve(slice_index si)
         break;
 
       default:
-        assert(is_move_still_playable(si));
-        playable = true;
+// TODO
+//        assert(is_move_still_playable(si));
+//        playable = true;
+        playable = is_move_still_playable(si);
         break;
     }
 
@@ -1843,7 +1862,39 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   else if (nbply>ply_retro_move)
   {
     update_taboo(+1);
-    pipe_solve_delegate(si);
+
+    {
+      move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+      move_effect_journal_index_type curr;
+
+      mating_move_ply = nbply;
+      setup_revelations();
+      play_phase = detecting_revelations;
+      rewind_effects();
+      end_of_iteration = false;
+      flesh_out_captures_by_invisible();
+      unrewind_effects();
+      play_phase = regular_play;
+
+      if (!revelation_status_is_uninitialised)
+        evaluate_revelations();
+
+      TraceValue("%u",total_base);
+      TraceValue("%u",move_effect_journal_base[nbply]);
+      TraceEOL();
+
+      for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+        if (move_effect_journal[curr].type==move_effect_flags_change
+            && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
+          taint_history_of_piece(curr,total_base);
+
+      pipe_solve_delegate(si);
+
+      for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+        if (move_effect_journal[curr].type==move_effect_none
+            && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
+          untaint_history_of_piece(curr,total_base);
+    }
     update_taboo(-1);
   }
   else
