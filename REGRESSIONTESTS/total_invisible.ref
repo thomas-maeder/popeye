@@ -243,6 +243,50 @@ solution finished.
 
 
 
+             Ofer Comay
+    Sake tourney 2018, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -R   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K  -P   .  -P  -P   5
+|                                   |
+4   .   .   .   .  -P   .  -Q  -P   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .  -P   .   .  -K   2
+|                                   |
+1   .   .   .  -S  -S  -R  -B  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        1 + 15
+
+a) 
+
+  1.Rf1-f5 TI~*g4   2.Rf8-d8[g4=wR] TI~*g1 #
+  add_to_move_generation_stack:    22663559
+                     play_move:     4806716
+ is_white_king_square_attacked:      884492
+ is_black_king_square_attacked:     1267967
+
+b) -bPg5  
+
+  1.Rf8-f2 TI~*f1   2.Qg4-g8[f1=wB] TI~*h3 #
+  add_to_move_generation_stack:    25302356
+                     play_move:     4935494
+ is_white_king_square_attacked:      909297
+ is_black_king_square_attacked:     1345421
+
+solution finished.
+
+
+
           Manfred Rittirsch
 Sake tourney 2018, 3rd prize, cooked
 
