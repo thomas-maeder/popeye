@@ -1849,45 +1849,41 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean make_flight_ortho(Side side_in_check,
-                                 square flight,
-                                 vec_index_type k_start, vec_index_type k_end,
-                                 piece_walk_type walk_rider)
+static unsigned int find_nr_interceptors_needed(Side side_checking,
+                                                square potential_flight,
+                                                unsigned int nr_interceptors_available,
+                                                vec_index_type start, vec_index_type end,
+                                                piece_walk_type walk_rider)
 {
-  boolean result = false;
-  Side const side_checking = advers(side_in_check);
+  unsigned int result = 0;
   vec_index_type k;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_in_check);
-  TraceSquare(flight);
-  TraceFunctionParam("%u",k_start);
-  TraceFunctionParam("%u",k_end);
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(potential_flight);
+  TraceValue("%u",nr_interceptors_available);
+  TraceValue("%u",start);
+  TraceValue("%u",end);
   TraceWalk(walk_rider);
   TraceFunctionParamListEnd();
 
-  for (k = k_start; k<=k_end && !result; ++k)
+  for (k = start; k<=end && result<=nr_interceptors_available; ++k)
   {
-    square const end = find_end_of_line(flight,vec[k]);
-    piece_walk_type const walk = being_solved.board[end];
-    TraceSquare(end);TraceWalk(walk);TraceEOL();
-    if ((walk==Queen || walk==walk_rider) && TSTFLAG(being_solved.spec[end],side_checking))
+    square const end = find_end_of_line(potential_flight,vec[k]);
+    piece_walk_type const walk = get_walk_of_piece_on_square(end);
+    Flags const flags = being_solved.spec[end];
+    if ((walk==Queen || walk==walk_rider) && TSTFLAG(flags,side_checking))
     {
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-      if (nr_total_invisibles_left>0)
-      {
-        square s;
-        for (s = flight+vec[k]; s!=end; s += vec[k])
+      square s;
+      for (s = potential_flight+vec[k]; s!=end; s += vec[k])
+        if (taboo[White][s]==0 || taboo[Black][s]==0)
         {
-          TraceSquare(s);TraceValue("%u",taboo[White][s]);TraceValue("%u",taboo[Black][s]);TraceEOL();
-          if (taboo[White][s]==0 || taboo[Black][s]==0)
-          {
-            TraceText("intercepted guard");TraceEOL();
-            result = true;
-            break;
-          }
+          ++result;
+          break;
         }
-      }
+
+      if (s==end)
+        result = nr_interceptors_available+1;
     }
   }
 
@@ -1897,26 +1893,33 @@ static boolean make_flight_ortho(Side side_in_check,
   return result;
 }
 
-static boolean find_interceptable_guard(Side side_in_check, square s)
+static boolean are_all_guards_interceptable(Side side_in_check, square potential_flight)
 {
-  boolean result = false;
   Side const side_checking = advers(side_in_check);
+  unsigned int nr_interceptors_needed;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
-  TraceSquare(s);
+  TraceSquare(potential_flight);
   TraceFunctionParamListEnd();
 
-  if ((being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0
-       && make_flight_ortho(side_in_check,s,vec_rook_start,vec_rook_end,Rook))
-      || (being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0
-          && make_flight_ortho(side_in_check,s,vec_bishop_start,vec_bishop_end,Bishop)))
-    result = true;
+  nr_interceptors_needed = find_nr_interceptors_needed(side_checking,
+                                                       potential_flight,
+                                                       nr_total_invisibles_left,
+                                                       vec_rook_start,vec_rook_end,
+                                                       Rook);
+
+  if (nr_interceptors_needed<=nr_total_invisibles_left)
+    nr_interceptors_needed += find_nr_interceptors_needed(side_checking,
+                                                          potential_flight,
+                                                          nr_total_invisibles_left-nr_interceptors_needed,
+                                                          vec_bishop_start,vec_bishop_end,
+                                                          Bishop);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",nr_interceptors_needed);
   TraceFunctionResultEnd();
-  return result;
+  return nr_interceptors_needed<=nr_total_invisibles_left;
 }
 
 static boolean make_flight(Side side_in_check, square s)
@@ -1931,7 +1934,7 @@ static boolean make_flight(Side side_in_check, square s)
   if ((is_square_empty(s)
       || TSTFLAG(being_solved.spec[s],advers(side_in_check)))
       && !is_square_uninterceptably_attacked(side_in_check,s)
-      && find_interceptable_guard(side_in_check,s))
+      && are_all_guards_interceptable(side_in_check,s))
     result = true;
 
   TraceFunctionExit(__func__);
@@ -1994,7 +1997,7 @@ static void attack_checks(void)
     vec_index_type const k = is_square_uninterceptably_attacked(side_in_check,king_pos);
     if (k==0)
     {
-      if (find_interceptable_guard(side_in_check,king_pos))
+      if (are_all_guards_interceptable(side_in_check,king_pos))
       {
         TraceText("interceptable check\n");
         /* the king square can be made a "flight" */
