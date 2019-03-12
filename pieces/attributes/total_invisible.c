@@ -33,7 +33,7 @@ unsigned int total_invisible_number;
 
 static unsigned int nr_total_invisibles_left;
 
-static ply mating_move_ply;
+static ply top_ply_of_regular_play;
 static slice_index tester_slice;
 
 static ply ply_replayed;
@@ -526,13 +526,13 @@ static void done_intercepting_illegal_checks(void)
     while (nbply-1!=ply_retro_move);
 
     ply_replayed = nbply;
-    nbply = mating_move_ply;
+    nbply = top_ply_of_regular_play;
 
     play_with_placed_invisibles();
 
     nbply = ply_replayed;
 
-    while (nbply<=mating_move_ply)
+    while (nbply<=top_ply_of_regular_play)
     {
       redo_move_effects();
       ++nbply;
@@ -897,7 +897,7 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
 
   if (kcurr>vec_bishop_end)
   {
-    if (nbply>mating_move_ply)
+    if (nbply>top_ply_of_regular_play)
       done_intercepting_illegal_checks();
     else
       redo_adapted_move_effects();
@@ -1205,13 +1205,13 @@ static void flesh_out_captures_by_invisible(void)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceValue("%u",mating_move_ply);
+  TraceValue("%u",top_ply_of_regular_play);
   TraceSquare(move_gen_top->departure);
   TraceValue("%u",move_gen_top->departure);
   TraceValue("%u",capture_by_invisible);
   TraceEOL();
 
-  if (nbply<=mating_move_ply && move_gen_top->departure==capture_by_invisible)
+  if (nbply<=top_ply_of_regular_play && move_gen_top->departure==capture_by_invisible)
   {
     if (play_phase==validating_mate)
     {
@@ -1522,7 +1522,7 @@ static void test_mate(void)
     case mate_attackable:
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
-      attack_mating_piece(advers(trait[mating_move_ply]),sq_mating_piece_to_be_attacked);
+      attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
       break;
 
     case mate_defendable_by_interceptors:
@@ -1579,7 +1579,7 @@ static void unrewind_effects(void)
 
   --nbply;
 
-  while (nbply!=mating_move_ply)
+  while (nbply!=top_ply_of_regular_play)
   {
     ++nbply;
     redo_move_effects();
@@ -1593,6 +1593,27 @@ static void unrewind_effects(void)
       ++taboo[Black][sq_departure];
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void make_revelations(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  top_ply_of_regular_play = nbply;
+  setup_revelations();
+  play_phase = detecting_revelations;
+  rewind_effects();
+  end_of_iteration = false;
+  flesh_out_captures_by_invisible();
+  unrewind_effects();
+  play_phase = regular_play;
+
+  if (!revelation_status_is_uninitialised)
+    evaluate_revelations();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1636,7 +1657,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     TraceValue("%u",slices[SLICE_NEXT2(si)].u.branch.length);
     TraceEOL();
 
-    mating_move_ply = nbply;
+    top_ply_of_regular_play = nbply;
     tester_slice = si;
 
     rewind_effects();
@@ -1649,21 +1670,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     if (combined_result==previous_move_has_solved)
     {
-      setup_revelations();
-      play_phase = detecting_revelations;
-      rewind_effects();
-      end_of_iteration = false;
-      flesh_out_captures_by_invisible();
-      unrewind_effects();
-      play_phase = regular_play;
-
-      if (!revelation_status_is_uninitialised)
-        evaluate_revelations();
-
-      TraceValue("%u",total_base);
-      TraceValue("%u",move_effect_journal_base[nbply]);
-      TraceEOL();
-
+      make_revelations();
       taint_history_of_revealed_pieces();
       untaint_history_of_revealed_pieces();
     }
@@ -1871,17 +1878,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   {
     update_taboo(+1);
 
-    mating_move_ply = nbply;
-    setup_revelations();
-    play_phase = detecting_revelations;
-    rewind_effects();
-    end_of_iteration = false;
-    flesh_out_captures_by_invisible();
-    unrewind_effects();
-    play_phase = regular_play;
-
-    if (!revelation_status_is_uninitialised)
-      evaluate_revelations();
+    make_revelations();
 
     taint_history_of_revealed_pieces();
 
