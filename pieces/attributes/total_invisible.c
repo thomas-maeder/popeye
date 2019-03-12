@@ -1834,31 +1834,6 @@ void total_invisible_move_repeater_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_knowledge_updater_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
 void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -2697,14 +2672,6 @@ void total_invisible_instrumenter_solve(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  {
-    // TODO this wouldn't be necessary if we invoked total_invisible_instrumenter_solve()
-    // after stip_insert_root_slices() - but that would lead to other difficulaties
-    // that aren't yet fully understood
-    slice_index const prototype = alloc_pipe(STTotalInvisibleKnowledgeUpdater);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
   TraceStipulation(si);
 
   output_plaintext_check_indication_disabled = true;
@@ -2802,10 +2769,8 @@ static void copy_help_branch(slice_index si,
       slice_index const prototypes[] = {
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
-          alloc_pipe(STTotalInvisibleKnowledgeUpdater),
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
-          alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
-          alloc_pipe(STTotalInvisibleKnowledgeUpdater)
+          alloc_pipe(STTotalInvisibleSpecialMovesPlayer)
       };
       enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_protypes);

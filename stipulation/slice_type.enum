@@ -559,7 +559,6 @@
     ENUMERATOR(STTotalInvisibleMoveSequenceTester),                     \
     ENUMERATOR(STTotalInvisibleMoveSequenceMoveRepeater),               \
     ENUMERATOR(STTotalInvisibleInstrumenter),                           \
-    ENUMERATOR(STTotalInvisibleKnowledgeUpdater),                       \
     ENUMERATOR(STTotalInvisibleUninterceptableSelfCheckGuard),          \
     ENUMERATOR(STTotalInvisibleGoalGuard),                              \
     ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
