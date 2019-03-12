@@ -909,12 +909,12 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       flesh_out_capture_by_specific_invisible(walk_capturing,from);
     else if (get_walk_of_piece_on_square(from)==Dummy)
     {
-      assert((being_solved.spec[from]&PieSpMask)==(BIT(White)|BIT(Black)|BIT(Chameleon)));
+      Flags const flags = being_solved.spec[from];
       ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
       being_solved.board[from] = walk_capturing;
-      being_solved.spec[from] = BIT(trait[nbply])|BIT(Chameleon);
+      CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
       flesh_out_capture_by_specific_invisible(walk_capturing,from);
-      being_solved.spec[from] = BIT(White)|BIT(Black)|BIT(Chameleon);
+      being_solved.spec[from] = flags;
       being_solved.board[from] = Dummy;
       --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
     }
