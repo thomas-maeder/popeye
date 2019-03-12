@@ -1671,7 +1671,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     if (combined_result==previous_move_has_solved)
     {
       make_revelations();
-      taint_history_of_revealed_pieces();
+      /* restore revelation effects from previous plies so that they appear
+       * in output correctly */
       untaint_history_of_revealed_pieces();
     }
 
