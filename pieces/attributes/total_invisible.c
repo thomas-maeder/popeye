@@ -1804,48 +1804,23 @@ static void copy_move_effects(void)
  */
 void total_invisible_move_repeater_solve(slice_index si)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(ply_replayed);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_capture = move_gen_top->capture;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
 
-  /* With the current placement algorithm, the move is always playable unless it is a castling */
-
+  if (is_move_still_playable(si))
   {
-    boolean playable;
-
-    switch (sq_capture)
-    {
-      case queenside_castling:
-      case kingside_castling:
-        playable = is_move_still_playable(si);
-        break;
-
-      default:
-// TODO
-//        assert(is_move_still_playable(si));
-//        playable = true;
-        playable = is_move_still_playable(si);
-        break;
-    }
-
-    if (playable)
-    {
-      copy_move_effects();
-      redo_move_effects();
-      ++ply_replayed;
-      pipe_solve_delegate(si);
-      --ply_replayed;
-      undo_move_effects();
-    }
-    else
-      solve_result = previous_move_is_illegal;
+    copy_move_effects();
+    redo_move_effects();
+    ++ply_replayed;
+    pipe_solve_delegate(si);
+    --ply_replayed;
+    undo_move_effects();
   }
+  else
+    solve_result = previous_move_is_illegal;
 
   finply();
 
