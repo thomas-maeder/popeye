@@ -1009,6 +1009,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_playing);
@@ -1048,7 +1049,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_gen_top->departure = capture_by_invisible;
 
-  move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+  move_effect_journal[movement].u.piece_movement.from = sq_created_on;
   move_effect_journal[movement].u.piece_movement.moving = Dummy;
   move_effect_journal[movement].u.piece_movement.movingspec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
