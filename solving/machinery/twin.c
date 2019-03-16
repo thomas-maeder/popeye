@@ -1072,6 +1072,13 @@ void verify_position(slice_index si)
   if (OptFlag[sansrn] && being_solved.king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
 
+  if (total_invisible_number>0)
+  {
+    disable_orthodox_mating_move_optimisation(nr_sides);
+    OptFlag[sansrn] = true;
+    OptFlag[sansrb] = true;
+  }
+
   if (being_solved.king_square[White]==initsquare && being_solved.number_of_pieces[White][King]==0 && !OptFlag[sansrb])
   {
     output_plaintext_error_message(MissingKing);
@@ -1719,9 +1726,6 @@ void verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[breton])
-    disable_orthodox_mating_move_optimisation(nr_sides);
-
-  if (total_invisible_number>0)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none
