@@ -6,6 +6,7 @@
 #include "position/effects/null_move.h"
 #include "position/effects/walk_change.h"
 #include "position/effects/flags_change.h"
+#include "position/effects/king_square.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -151,20 +152,23 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
   TraceSquare(sq_attacked);
   TraceFunctionParamListEnd();
 
-  if (!result && being_solved.number_of_pieces[side_checking][King]>0)
-    result = king_check_ortho(side_checking,sq_attacked);
+  if (being_solved.king_square[side_under_attack]!=initsquare)
+  {
+    if (!result && being_solved.number_of_pieces[side_checking][King]>0)
+      result = king_check_ortho(side_checking,sq_attacked);
 
-  if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
-    result = pawn_check_ortho(side_checking,sq_attacked);
+    if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
+      result = pawn_check_ortho(side_checking,sq_attacked);
 
-  if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
-    result = knight_check_ortho(side_checking,sq_attacked);
+    if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
+      result = knight_check_ortho(side_checking,sq_attacked);
 
-  if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
-    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
+    if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
+      result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
 
-  if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
-    result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
+    if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
+      result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -187,6 +191,11 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 
   move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
   move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
+
+//  if (walk==King)
+//    move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
+//                                                side,
+//                                                s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -314,6 +323,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_none;
+
   --idx;
   assert(move_effect_journal[idx].type==move_effect_walk_change);
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
@@ -376,6 +386,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
+
   --idx;
   assert(move_effect_journal[idx].type==move_effect_none);
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
@@ -501,10 +512,16 @@ static void play_with_placed_invisibles(void)
 
 static void done_intercepting_illegal_checks(void)
 {
+  Side const side_to_be_mated = trait[nbply-1];
+  Side const side_mating = trait[nbply];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_in_check(trait[nbply-1]))
+  if (being_solved.king_square[side_to_be_mated]==initsquare
+      || (being_solved.king_square[side_mating]==initsquare
+          && nr_total_invisibles_left==0)
+      || is_in_check(side_to_be_mated))
     solve_result = previous_move_is_illegal;
   else if (play_phase==detecting_revelations)
   {
@@ -699,42 +716,30 @@ static void redo_adapted_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(vec_index_type kcurr,
-                             Side side,
-                             square pos)
-{
-  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
-  piece_walk_type walk;
 
+static void walk_interceptor_any_walk(Side side,
+                                      square pos,
+                                      piece_walk_type walk)
+{
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",kcurr);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
+  TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  TraceSquare(pos);TraceEOL();
-  assert(is_square_empty(pos));
-
-  for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
-    if (!(is_pawn(walk)
-          && (TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq))))
-    {
-      TraceWalk(walk);TraceEOL();
-      ++being_solved.number_of_pieces[side][walk];
-      occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
-      {
-        Side const side_attacked = advers(side);
-        square const king_pos = being_solved.king_square[side_attacked];
-        vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
-                                                                    king_pos);
-        if (k==0 || king_pos+vec[k]!=pos)
-          restart_from_scratch();
-      }
-      assert(get_walk_of_piece_on_square(pos)==walk);
-      --being_solved.number_of_pieces[side][walk];
-      empty_square(pos);
-    }
+  ++being_solved.number_of_pieces[side][walk];
+  occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
+  {
+    Side const side_attacked = advers(side);
+    square const king_pos = being_solved.king_square[side_attacked];
+    vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
+                                                                king_pos);
+    if (k==0 || king_pos+vec[k]!=pos)
+      restart_from_scratch();
+  }
+  assert(get_walk_of_piece_on_square(pos)==walk);
+  --being_solved.number_of_pieces[side][walk];
+  empty_square(pos);
 
   TracePosition(being_solved.board,being_solved.spec);
 
@@ -742,24 +747,78 @@ static void walk_interceptor(vec_index_type kcurr,
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(vec_index_type kcurr,
-                               Side preferred_side,
-                               square pos)
+static void walk_interceptor_pawn(Side side, square pos)
+{
+  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  if (!(TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
+    walk_interceptor_any_walk(side,pos,Pawn);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+//static void walk_interceptor_king(Side side, square pos)
+//{
+//  TraceFunctionEntry(__func__);
+//  TraceEnumerator(Side,side);
+//  TraceSquare(pos);
+//  TraceFunctionParamListEnd();
+//
+//  being_solved.king_square[side] = pos;
+//  walk_interceptor_any_walk(side,pos,King);
+//  being_solved.king_square[side] = initsquare;
+//
+//  TraceFunctionExit(__func__);
+//  TraceFunctionResultEnd();
+//}
+
+static void walk_interceptor(Side side, square pos)
+{
+  piece_walk_type walk;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);TraceEOL();
+  assert(is_square_empty(pos));
+
+//  if (being_solved.king_square[side]==initsquare)
+//    walk_interceptor_king(side,pos);
+
+  if (!end_of_iteration)
+    walk_interceptor_pawn(side,pos);
+
+  for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+    walk_interceptor_any_walk(side,pos,walk);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void colour_interceptor(Side preferred_side, square pos)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",kcurr);
   TraceEnumerator(Side,preferred_side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   /* taboo equal to 1 is ok: this is "my" taboo! */
   if (taboo[preferred_side][pos]==1)
-    walk_interceptor(kcurr,preferred_side,pos);
+    walk_interceptor(preferred_side,pos);
 
   if (!end_of_iteration)
   {
     if (taboo[advers(preferred_side)][pos]==1)
-      walk_interceptor(kcurr,advers(preferred_side),pos);
+      walk_interceptor(advers(preferred_side),pos);
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -802,7 +861,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     empty_square(s);
   }
   else
-    colour_interceptor(kcurr,side_in_check,s);
+    colour_interceptor(side_in_check,s);
 
   ++nr_total_invisibles_left;
 
@@ -927,12 +986,14 @@ static void intercept_illegal_checks_orthogonal(vec_index_type kcurr)
 static void intercept_illegal_checks(void)
 {
   Side const side_in_check = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!is_square_uninterceptably_attacked(side_in_check,
-                                          being_solved.king_square[side_in_check]))
+  if (king_pos==initsquare)
+    done_intercepting_illegal_checks();
+  else if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
     intercept_illegal_checks_orthogonal(vec_rook_start);
 
   TraceFunctionExit(__func__);
