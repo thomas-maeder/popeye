@@ -84,7 +84,7 @@ void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 
 void WriteSquare(output_engine_type const * engine, FILE *file, square i)
 {
-  if (i==capture_by_invisible)
+  if (i>=capture_by_invisible)
     (*engine->fputc)('~',file);
   else
   {

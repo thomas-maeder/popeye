@@ -818,7 +818,7 @@ static void write_pre_capture_effect(output_engine_type const *engine,
     }
 
     case move_effect_piece_creation:
-      if (move_effect_journal[base].u.piece_addition.added.on!=capture_by_invisible)
+      if (move_effect_journal[base].u.piece_addition.added.on<capture_by_invisible)
       {
         output_plaintext_move_context_type context;
         context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");

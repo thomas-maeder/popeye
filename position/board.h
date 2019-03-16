@@ -202,18 +202,22 @@ enum
 
   capture_by_invisible = maxsquare,
 
-  retro_capture_departure = maxsquare+1,
+  retro_capture_departure,
 
-  pawn_multistep = maxsquare+2,
+  pawn_multistep,
 
-  messigny_exchange = maxsquare+3,
+  messigny_exchange,
 
-  min_castling = maxsquare+4,
-  kingside_castling = min_castling,
-  queenside_castling = maxsquare+5,
-  max_castling = queenside_castling,
+  kingside_castling,
+  queenside_castling,
 
-  no_capture = maxsquare+6
+  no_capture
+};
+
+enum
+{
+  min_castling = kingside_castling,
+  max_castling = queenside_castling
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
@@ -227,7 +231,7 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define GridNum(s)      (sq_spec[(s)] >> Grid)
 #define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
 
-#define is_no_capture(sq) ((sq)>=pawn_multistep)
+#define is_no_capture(sq_capture) ((sq_capture)>=pawn_multistep)
 
 #define is_on_board(sq) \
    (left_file<=(sq)%onerow && (sq)%onerow<=right_file \

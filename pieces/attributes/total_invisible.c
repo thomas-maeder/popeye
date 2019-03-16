@@ -1047,7 +1047,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   else
     restart_from_scratch();
 
-  move_gen_top->departure = capture_by_invisible;
+  move_gen_top->departure = sq_created_on;
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
   move_effect_journal[movement].u.piece_movement.moving = Dummy;
@@ -1273,7 +1273,7 @@ static void flesh_out_captures_by_invisible(void)
   TraceValue("%u",capture_by_invisible);
   TraceEOL();
 
-  if (nbply<=top_ply_of_regular_play && move_gen_top->departure==capture_by_invisible)
+  if (nbply<=top_ply_of_regular_play && move_gen_top->departure>=capture_by_invisible)
   {
     if (play_phase==validating_mate)
     {
@@ -2384,7 +2384,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
     TraceSquare(sq_capture);
     TraceEOL();
 
-    if (sq_departure==capture_by_invisible)
+    if (sq_departure>=capture_by_invisible)
     {
       TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
@@ -2397,7 +2397,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
         Side const side = trait[nbply];
 
         move_effect_journal_do_piece_creation(move_effect_reason_removal_of_invisible,
-                                              capture_by_invisible,
+                                              sq_departure,
                                               Dummy,
                                               BIT(side)|BIT(Chameleon),
                                               side);
