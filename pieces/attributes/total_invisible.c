@@ -1247,6 +1247,7 @@ static void flesh_out_captures_by_invisible_walk_by_walk(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  // TODO King
   flesh_out_captures_by_invisible_pawn();
   flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
   flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
@@ -1272,7 +1273,9 @@ static void flesh_out_captures_by_invisible(void)
   TraceValue("%u",capture_by_invisible);
   TraceEOL();
 
-  if (nbply<=top_ply_of_regular_play && move_gen_top->departure>=capture_by_invisible)
+  if (nbply<=top_ply_of_regular_play
+      && move_gen_top->departure>=capture_by_invisible
+      && is_on_board(move_gen_top->arrival))
   {
     if (play_phase==validating_mate)
     {
