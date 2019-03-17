@@ -3,6 +3,7 @@
 #include "position/position.h"
 #include "position/move_diff_code.h"
 #include "position/effects/piece_creation.h"
+#include "position/effects/piece_movement.h"
 #include "position/effects/null_move.h"
 #include "position/effects/walk_change.h"
 #include "position/effects/flags_change.h"
@@ -178,6 +179,8 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
 
 static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 {
+  Side const side = TSTFLAG(spec,White) ? White : Black;
+
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceWalk(walk);
@@ -192,10 +195,10 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
   move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
 
-//  if (walk==King)
-//    move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
-//                                                side,
-//                                                s);
+  if (walk==King)
+    move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
+                                                side,
+                                                s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -569,7 +572,7 @@ static void restart_from_scratch(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  while (nbply!=ply_retro_move)
+  while (nbply!=ply_retro_move+1)
   {
     --nbply;
 
@@ -585,12 +588,8 @@ static void restart_from_scratch(void)
     undo_move_effects();
   }
 
-  ++nbply;
-
   TraceValue("%u",nbply);TraceEOL();
   flesh_out_captures_by_invisible();
-
-  --nbply;
 
   while (nbply!=save_nbply)
   {
@@ -764,20 +763,20 @@ static void walk_interceptor_pawn(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-//static void walk_interceptor_king(Side side, square pos)
-//{
-//  TraceFunctionEntry(__func__);
-//  TraceEnumerator(Side,side);
-//  TraceSquare(pos);
-//  TraceFunctionParamListEnd();
-//
-//  being_solved.king_square[side] = pos;
-//  walk_interceptor_any_walk(side,pos,King);
-//  being_solved.king_square[side] = initsquare;
-//
-//  TraceFunctionExit(__func__);
-//  TraceFunctionResultEnd();
-//}
+static void walk_interceptor_king(Side side, square pos)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  being_solved.king_square[side] = pos;
+  walk_interceptor_any_walk(side,pos,King);
+  being_solved.king_square[side] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void walk_interceptor(Side side, square pos)
 {
@@ -791,8 +790,8 @@ static void walk_interceptor(Side side, square pos)
   TraceSquare(pos);TraceEOL();
   assert(is_square_empty(pos));
 
-//  if (being_solved.king_square[side]==initsquare)
-//    walk_interceptor_king(side,pos);
+  if (being_solved.king_square[side]==initsquare)
+    walk_interceptor_king(side,pos);
 
   if (!end_of_iteration)
     walk_interceptor_pawn(side,pos);
@@ -1674,9 +1673,6 @@ static void make_revelations(void)
   unrewind_effects();
   play_phase = regular_play;
 
-  if (!revelation_status_is_uninitialised)
-    evaluate_revelations();
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1733,6 +1729,10 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     if (combined_result==previous_move_has_solved)
     {
       make_revelations();
+
+      if (!revelation_status_is_uninitialised)
+        evaluate_revelations();
+
       /* restore revelation effects from previous plies so that they appear
        * in output correctly */
       untaint_history_of_revealed_pieces();
@@ -1918,11 +1918,43 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 
     make_revelations();
 
-    taint_history_of_revealed_pieces();
-
-    pipe_solve_delegate(si);
-
-    untaint_history_of_revealed_pieces();
+    if (revelation_status_is_uninitialised)
+      pipe_solve_delegate(si);
+    else
+    {
+      unsigned int nr_revealed_unplaced_invisibles = 0;
+      {
+        unsigned int i;
+        for (i = 0; i!=nr_potential_revelations; ++i)
+        {
+          square const s = revelation_status[i].pos;
+          TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
+          if (revelation_status[i].walk!=Empty && is_square_empty(s))
+            ++nr_revealed_unplaced_invisibles;
+        }
+      }
+      if (nr_revealed_unplaced_invisibles<=nr_total_invisibles_left)
+      {
+        unsigned int i;
+        for (i = 0; i!=nr_potential_revelations; ++i)
+        {
+          square const s = revelation_status[i].pos;
+          TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
+          if (revelation_status[i].walk!=Empty && is_square_empty(s))
+          {
+            move_effect_journal_do_piece_movement(move_effect_reason_revelation_of_invisible,
+                                                  nr_total_invisibles_left,
+                                                  s);
+            --nr_total_invisibles_left;
+          }
+        }
+        evaluate_revelations();
+        taint_history_of_revealed_pieces();
+        pipe_solve_delegate(si);
+        untaint_history_of_revealed_pieces();
+        nr_total_invisibles_left += nr_revealed_unplaced_invisibles;
+      }
+    }
 
     update_taboo(-1);
   }
@@ -2724,6 +2756,11 @@ void total_invisible_instrumenter_solve(slice_index si)
   solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
   {
+    slice_index const prototype = alloc_pipe(STTotalInvisibleInvisiblesAllocator);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  {
     square const *s;
     for (s = boardnum; *s; ++s)
       if (!is_square_empty(*s))
@@ -2744,6 +2781,43 @@ void total_invisible_instrumenter_solve(slice_index si)
         --taboo[Black][*s];
       }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_invisibles_allocator_solve(slice_index si)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  for (i = 1; i<=total_invisible_number; ++i)
+  {
+    empty_square(i);
+    move_effect_journal_do_piece_creation(move_effect_reason_addition_of_invisible,
+                                          i,
+                                          Dummy,
+                                          BIT(White)|BIT(Black)|BIT(Chameleon),
+                                          no_side);
+  }
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

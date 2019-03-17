@@ -2074,6 +2074,10 @@ void dispatch(slice_index si)
       total_invisible_instrumenter_solve(si);
       break;
 
+    case STTotalInvisibleInvisiblesAllocator:
+      total_invisible_invisibles_allocator_solve(si);
+      break;
+
     case STTotalInvisibleMoveSequenceMoveRepeater:
       total_invisible_move_repeater_solve(si);
       break;

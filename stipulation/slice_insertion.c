@@ -745,6 +745,7 @@ static slice_index const slice_rank_order[] =
   STRetroPlayNullMove,
   STRetroRedoLastCapture,
   STRetroRedoLastPawnMultistep,
+  STTotalInvisibleInvisiblesAllocator,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
   STTotalInvisibleUninterceptableSelfCheckGuard,
