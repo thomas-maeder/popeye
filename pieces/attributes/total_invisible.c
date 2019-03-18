@@ -177,6 +177,34 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
   return result;
 }
 
+static vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, square sq_attacked)
+{
+  vec_index_type result = 0;
+  Side const side_checking = advers(side_under_attack);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_under_attack);
+  TraceSquare(sq_attacked);
+  TraceFunctionParamListEnd();
+
+  if (being_solved.king_square[side_under_attack]!=initsquare)
+  {
+    if (!result && being_solved.number_of_pieces[side_checking][King]>0)
+      result = king_check_ortho(side_checking,sq_attacked);
+
+    if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
+      result = pawn_check_ortho(side_checking,sq_attacked);
+
+    if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
+      result = knight_check_ortho(side_checking,sq_attacked);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 {
   Side const side = TSTFLAG(spec,White) ? White : Black;
@@ -992,7 +1020,7 @@ static void intercept_illegal_checks(void)
 
   if (king_pos==initsquare)
     done_intercepting_illegal_checks();
-  else if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
+  else if (!is_square_attacked_by_uninterceptable(side_in_check,king_pos))
     intercept_illegal_checks_orthogonal(vec_rook_start);
 
   TraceFunctionExit(__func__);
