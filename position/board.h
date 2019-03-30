@@ -211,6 +211,8 @@ enum
   kingside_castling,
   queenside_castling,
 
+  move_by_invisible,
+
   no_capture
 };
 

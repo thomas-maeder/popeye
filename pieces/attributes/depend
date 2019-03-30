@@ -675,12 +675,13 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/slice_insertion.h stipulation/goals/slice_insertion.h \
- solving/check.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/machinery/slack_length.h solving/move_generator.h solving/pipe.h \
- solving/castling.h output/plaintext/plaintext.h output/output.h \
- output/plaintext/pieces.h optimisations/orthodox_square_observation.h \
+ stipulation/slice_insertion.h stipulation/help_play/branch.h \
+ stipulation/goals/slice_insertion.h solving/check.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/machinery/slack_length.h \
+ solving/move_generator.h solving/pipe.h solving/castling.h \
+ output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
+ optimisations/orthodox_square_observation.h \
  optimisations/orthodox_check_directions.h debugging/assert.h
 
 pieces/attributes/total_invisible.h:
@@ -786,6 +787,8 @@ stipulation/pipe.h:
 stipulation/proxy.h:
 
 stipulation/slice_insertion.h:
+
+stipulation/help_play/branch.h:
 
 stipulation/goals/slice_insertion.h:
 

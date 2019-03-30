@@ -144,6 +144,7 @@ static slice_index const slice_rank_order[] =
   STLegalDefenseCounter,
   STMaxSolutionsCounter,
   STGoalConstraintTester,
+  STTotalInvisibleRevealAfterFinalMove,
   STOutputPlaintextLineLineWriter,
   STOutputLaTeXLineLineWriter,
   STOhneschachDetectUndecidableGoal,

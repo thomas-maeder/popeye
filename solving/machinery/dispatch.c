@@ -2102,6 +2102,10 @@ void dispatch(slice_index si)
       total_invisible_generate_moves_by_invisible(si);
       break;
 
+    case STTotalInvisibleRevealAfterFinalMove:
+      total_invisible_reveal_after_mating_move(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;

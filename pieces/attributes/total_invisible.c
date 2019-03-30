@@ -13,6 +13,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/goals/slice_insertion.h"
 #include "solving/check.h"
 #include "solving/has_solution_type.h"
@@ -214,19 +215,34 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  assert(!is_square_empty(s));
-  assert(TSTFLAG(being_solved.spec[s],Chameleon));
+  if (is_square_empty(s))
+  {
+    TraceValue("%u",nbply);
+    TraceValue("%u",nr_total_invisibles_left);
+    TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
+    move_effect_journal_do_piece_movement(move_effect_reason_revelation_of_invisible,
+                                          nr_total_invisibles_left,
+                                          s);
+    --nr_total_invisibles_left;
+  }
 
+  assert(TSTFLAG(being_solved.spec[s],Chameleon));
   CLRFLAG(spec,Chameleon);
   SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+
+  if (walk==King)
+  {
+    SETFLAG(spec,Royal);
+    move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
+                                                side,
+                                                s);
+  }
 
   move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
   move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
 
-  if (walk==King)
-    move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
-                                                side,
-                                                s);
+  /* add a null effect to allow untaint_history to tell apart the different revelations */
+  move_effect_journal_do_null_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -356,19 +372,64 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   move_effect_journal[idx].type = move_effect_none;
 
   --idx;
+  TraceValue("%u",idx);
+  TraceValue("%u",move_effect_journal[idx].type);
+  TraceWalk(move_effect_journal[idx].u.piece_walk_change.from);
+  TraceWalk(move_effect_journal[idx].u.piece_walk_change.to);
+  TraceEOL();
   assert(move_effect_journal[idx].type==move_effect_walk_change);
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
   move_effect_journal[idx].type = move_effect_none;
 
-  do
+  --idx;
+  if (TSTFLAG(flags_to,Royal) && walk_to==King)
   {
+    TraceValue("%u",idx);
+    TraceValue("%u",move_effect_journal[idx].type);
+    TraceSquare(move_effect_journal[idx].u.king_square_movement.from);
+    TraceSquare(move_effect_journal[idx].u.king_square_movement.to);
+    TraceEOL();
+    assert(move_effect_journal[idx].type==move_effect_king_square_movement);
+    assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
+    assert(move_effect_journal[idx].u.king_square_movement.from==initsquare);
+    assert(move_effect_journal[idx].u.king_square_movement.to==pos);
+    move_effect_journal[idx].type = move_effect_none;
     --idx;
+  }
+
+  TraceValue("%u",idx);
+  TraceValue("%u",move_effect_journal[idx].type);
+  if (move_effect_journal[idx].type==move_effect_piece_movement
+      && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
+  {
+    TraceSquare(move_effect_journal[idx].u.piece_movement.from);
+    TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+    TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
+    assert(move_effect_journal[idx].u.piece_movement.from<square_a1);
+    assert(move_effect_journal[idx].u.piece_movement.to==pos);
+    move_effect_journal[idx].type = move_effect_none;
+
+    --idx;
+  }
+  TraceEOL();
+
+  // TODO should we also taint the king square movement if a king was revealed?
+
+  while (idx>=total_base)
+  {
+    TraceValue("%u",idx);
+    TraceValue("%u",move_effect_journal[idx].type);
+    TraceEOL();
 
     switch (move_effect_journal[idx].type)
     {
       case move_effect_piece_movement:
         if (pos==move_effect_journal[idx].u.piece_movement.to)
         {
+          TraceSquare(move_effect_journal[idx].u.piece_movement.from);
+          TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+          TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
+          TraceEOL();
           pos = move_effect_journal[idx].u.piece_movement.from;
           move_effect_journal[idx].u.piece_movement.moving = walk_to;
           move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
@@ -378,23 +439,23 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
       case move_effect_piece_creation:
         if (pos==move_effect_journal[idx].u.piece_addition.added.on)
         {
+          TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+          TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+          TraceEOL();
           if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-          {
-            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-            TraceEOL();
             assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
-          }
           else
             move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
-          idx = 0;
+          idx = 1;
         }
         break;
 
       default:
         break;
     }
-  } while (idx>=total_base);
+    --idx;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -405,7 +466,9 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
+  Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
   piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
+  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -414,6 +477,8 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
 
   TraceSquare(pos);
   TraceWalk(walk_from);
+  TraceValue("%u",TSTFLAG(flags_to,Royal));
+  TraceWalk(walk_to);
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
@@ -423,10 +488,33 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
   move_effect_journal[idx].type = move_effect_walk_change;
 
-  do
-  {
-    --idx;
+  --idx;
 
+  if (TSTFLAG(flags_to,Royal) && walk_to==King)
+  {
+    assert(move_effect_journal[idx].type==move_effect_none);
+    assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
+    assert(move_effect_journal[idx].u.king_square_movement.from==initsquare);
+    assert(move_effect_journal[idx].u.king_square_movement.to==pos);
+    move_effect_journal[idx].type = move_effect_king_square_movement;
+    --idx;
+  }
+
+  if (move_effect_journal[idx].type==move_effect_none
+      && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
+  {
+    TraceValue("%u",idx);
+    TraceSquare(move_effect_journal[idx].u.piece_movement.from);
+    TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+    TraceEOL();
+    assert(move_effect_journal[idx].u.piece_movement.from<square_a1);
+    assert(move_effect_journal[idx].u.piece_movement.to==pos);
+    move_effect_journal[idx].type = move_effect_piece_movement;
+    --idx;
+  }
+
+  while (idx>=total_base)
+  {
     switch (move_effect_journal[idx].type)
     {
       case move_effect_piece_movement:
@@ -450,28 +538,32 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
           else
             move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
-          idx = 0;
+          idx = 1;
         }
         break;
 
       default:
         break;
     }
-  } while (idx>=total_base);
+
+    --idx;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void taint_history_of_revealed_pieces(void)
+static void taint_history_of_revealed_pieces(ply ply)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
   move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
-  for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+  for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_flags_change
         && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
       taint_history_of_piece(curr,total_base);
@@ -480,15 +572,17 @@ static void taint_history_of_revealed_pieces(void)
   TraceFunctionResultEnd();
 }
 
-static void untaint_history_of_revealed_pieces(void)
+static void untaint_history_of_revealed_pieces(ply ply)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
   move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
-  for (curr = move_effect_journal_base[nbply+1]-1; curr>=total_base; --curr)
+  for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_none
         && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
       untaint_history_of_piece(curr,total_base);
@@ -541,7 +635,7 @@ static void play_with_placed_invisibles(void)
   TraceFunctionResultEnd();
 }
 
-static void done_intercepting_illegal_checks(void)
+static void done_fleshing_out_move_by_invisible(void)
 {
   Side const side_to_be_mated = trait[nbply-1];
   Side const side_mating = trait[nbply];
@@ -549,10 +643,17 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (being_solved.king_square[side_to_be_mated]==initsquare
-      || (being_solved.king_square[side_mating]==initsquare
-          && nr_total_invisibles_left==0)
-      || is_in_check(side_to_be_mated))
+  TraceValue("%u",nbply);
+  TraceEnumerator(Side,side_to_be_mated);
+  TraceSquare(being_solved.king_square[side_to_be_mated]);
+  TraceEOL();
+  TracePosition(being_solved.board,being_solved.spec);
+
+  if (is_in_check(side_to_be_mated))
+    solve_result = previous_move_is_illegal;
+  else if (being_solved.king_square[side_to_be_mated]==initsquare
+           || (being_solved.king_square[side_mating]==initsquare
+               && nr_total_invisibles_left==0))
     solve_result = previous_move_is_illegal;
   else if (play_phase==detecting_revelations)
   {
@@ -686,8 +787,14 @@ static void redo_adapted_move_effects(void)
         recurse_into_child_ply();
       else if (move_effect_journal[base].type==move_effect_piece_creation
                && move_effect_journal[base].u.piece_addition.added.on==to)
-        /* victim to be created - no need for adaptation */
+      {
+        /* victim to be created - no need for adaptation, but for accounting */
+        --nr_total_invisibles_left;
+        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
         recurse_into_child_ply();
+        ++nr_total_invisibles_left;
+        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+      }
       else
       {
         /* this was supposed to be a capture, but the capturee has already been
@@ -701,22 +808,52 @@ static void redo_adapted_move_effects(void)
     }
     else
     {
-      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+      if (move_effect_journal[base].type==move_effect_piece_creation)
+      {
+        assert(move_effect_journal[base].u.piece_addition.added.on==to);
+        assert(move_effect_journal[capture].type==move_effect_piece_removal);
+        assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
+        TraceText("capture of a total invisible (created for this purpose) by a pawn, ");
+        TraceText("but a total invisible has moved to the arrival square");
+        TraceEOL();
+
+        if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+        {
+          piece_walk_type const walk_victim_orig = move_effect_journal[capture].u.piece_removal.walk;
+          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+          move_effect_journal[base].type = move_effect_none;
+          recurse_into_child_ply();
+          move_effect_journal[base].type = move_effect_piece_creation;
+          move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
+        }
+        else
+        {
+          TraceText("move blocked by a random TI move");
+          TraceEOL();
+        }
+      }
+      else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
       {
         TraceText("capture of a total invisible that landed on the arrival square");
         TraceEOL();
 
-        assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
+        if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+        {
+          move_effect_journal[capture].type = move_effect_piece_removal;
+          move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+          move_effect_journal[capture].u.piece_removal.on = to;
+          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+          move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-        move_effect_journal[capture].u.piece_removal.on = to;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+          recurse_into_child_ply();
 
-        recurse_into_child_ply();
-
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
+          move_effect_journal[capture].type = move_effect_no_piece_removal;
+        }
+        else
+        {
+          TraceText("move blocked by a random TI move");
+          TraceEOL();
+        }
       }
       else
       {
@@ -743,6 +880,321 @@ static void redo_adapted_move_effects(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_move_by_invisible_pawn(square s)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  Side const side = trait[nbply];
+  int const dir = side==White ? dir_up : dir_down;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  {
+    square const sq_singlestep = move_effect_journal[movement].u.piece_movement.from+dir;
+    TraceSquare(sq_singlestep);TraceEOL();
+    if (is_square_empty(sq_singlestep))
+    {
+      move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
+      move_generation_stack[currmove].arrival = sq_singlestep;
+      redo_adapted_move_effects();
+
+      if (!end_of_iteration)
+      {
+        SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
+        if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublstepsq))
+        {
+          square const sq_doublestep = sq_singlestep+dir;
+          TraceSquare(sq_doublestep);TraceEOL();
+          if (is_square_empty(sq_doublestep))
+          {
+            move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
+            move_generation_stack[currmove].arrival = sq_doublestep;
+            redo_adapted_move_effects();
+          }
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_move_by_invisible_rider(square s,
+                                              vec_index_type kstart,
+                                              vec_index_type kend)
+{
+  vec_index_type k;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceValue("%u",kstart);
+  TraceValue("%u",kend);
+  TraceFunctionParamListEnd();
+
+  assert(kstart<=kend);
+  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  {
+    square sq_arrival;
+    for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
+         is_square_empty(sq_arrival) && !end_of_iteration;
+         sq_arrival += vec[k])
+    {
+      TraceSquare(sq_arrival);TraceEOL();
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      move_generation_stack[currmove].arrival = sq_arrival;
+      redo_adapted_move_effects();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_move_by_invisible_leaper(square s,
+                                               vec_index_type kstart,
+                                               vec_index_type kend)
+{
+  vec_index_type k;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceValue("%u",kstart);
+  TraceValue("%u",kend);
+  TraceFunctionParamListEnd();
+
+  assert(kstart<=kend);
+  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  {
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
+    TraceSquare(sq_arrival);TraceEOL();
+    if (is_square_empty(sq_arrival))
+    {
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      move_generation_stack[currmove].arrival = sq_arrival;
+      redo_adapted_move_effects();
+    }
+    else
+      ;// TODO
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_move_by_specific_invisible(square s)
+{
+  piece_walk_type const walk_on_square = get_walk_of_piece_on_square(s);
+  Flags const flags_on_square = being_solved.spec[s];
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  piece_walk_type const walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+  square const currmove_departure = move_generation_stack[currmove].departure;
+  square const currmove_arrival = move_generation_stack[currmove].arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  TraceWalk(walk_on_square);
+  TraceValue("%x",flags_on_square);
+  TraceWalk(walk_moving);
+  TraceValue("%x",flags_moving);
+  TraceEOL();
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+  move_effect_journal[movement].u.piece_movement.from = s;
+
+  assert(currmove_departure==move_by_invisible);
+  assert(currmove_arrival==move_by_invisible);
+  move_generation_stack[currmove].departure = s;
+
+  // TODO use a sibling ply?
+
+  move_effect_journal[movement].u.piece_movement.moving = being_solved.board[s];
+  CLRFLAG(being_solved.spec[s],advers(trait[nbply]));
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[s];
+
+  if (walk_on_square==Dummy)
+  {
+    assert(play_phase==validating_mate);
+
+    // TODO why does this not work?
+//    if (!end_of_iteration)
+//    {
+//      Side const side = trait[nbply];
+//      if (being_solved.king_square[side]==initsquare)
+//      {
+//        being_solved.king_square[side] = s;
+//        ++being_solved.number_of_pieces[trait[nbply]][King];
+//        being_solved.board[s] = King;
+//        SETFLAG(being_solved.spec[s],Royal);
+//        flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
+//        CLRFLAG(being_solved.spec[s],Royal);
+//        --being_solved.number_of_pieces[trait[nbply]][King];
+//        being_solved.king_square[side] = initsquare;
+//      }
+//    }
+
+    if (!end_of_iteration)
+    {
+      Side const side = trait[nbply];
+      SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
+      SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
+      if (!(TSTFLAG(sq_spec[s],basesq) || TSTFLAG(sq_spec[s],promsq)))
+      {
+        ++being_solved.number_of_pieces[trait[nbply]][Pawn];
+        being_solved.board[s] = Pawn;
+        flesh_out_move_by_invisible_pawn(s);
+        --being_solved.number_of_pieces[trait[nbply]][Pawn];
+      }
+    }
+
+    if (!end_of_iteration)
+    {
+      ++being_solved.number_of_pieces[trait[nbply]][Knight];
+      being_solved.board[s] = Knight;
+      flesh_out_move_by_invisible_leaper(s,vec_knight_start,vec_knight_end);
+      --being_solved.number_of_pieces[trait[nbply]][Knight];
+    }
+
+    if (!end_of_iteration)
+    {
+      ++being_solved.number_of_pieces[trait[nbply]][Bishop];
+      being_solved.board[s] = Bishop;
+      flesh_out_move_by_invisible_rider(s,vec_bishop_start,vec_bishop_end);
+      --being_solved.number_of_pieces[trait[nbply]][Bishop];
+    }
+
+    if (!end_of_iteration)
+    {
+      ++being_solved.number_of_pieces[trait[nbply]][Rook];
+      being_solved.board[s] = Rook;
+      flesh_out_move_by_invisible_rider(s,vec_rook_start,vec_rook_end);
+      --being_solved.number_of_pieces[trait[nbply]][Rook];
+    }
+
+    if (!end_of_iteration)
+    {
+      ++being_solved.number_of_pieces[trait[nbply]][Queen];
+      being_solved.board[s] = Queen;
+      flesh_out_move_by_invisible_rider(s,vec_queen_start,vec_queen_end);
+      --being_solved.number_of_pieces[trait[nbply]][Queen];
+    }
+  }
+  else
+  {
+    switch (walk_on_square)
+    {
+      case King:
+        flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
+        break;
+
+      case Queen:
+        flesh_out_move_by_invisible_rider(s,vec_queen_start,vec_queen_end);
+        break;
+
+      case Rook:
+        flesh_out_move_by_invisible_rider(s,vec_rook_start,vec_rook_end);
+        break;
+
+      case Bishop:
+        flesh_out_move_by_invisible_rider(s,vec_bishop_start,vec_bishop_end);
+        break;
+
+      case Knight:
+        flesh_out_move_by_invisible_leaper(s,vec_knight_start,vec_knight_end);
+        break;
+
+      case Pawn:
+        flesh_out_move_by_invisible_pawn(s);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  being_solved.board[s] = walk_on_square;
+  being_solved.spec[s] = flags_on_square;
+
+  move_generation_stack[currmove].departure = currmove_departure;
+  move_generation_stack[currmove].arrival = currmove_arrival;
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.moving = walk_moving;
+  move_effect_journal[movement].u.piece_movement.movingspec = flags_moving;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_move_by_invisibles(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",top_ply_of_regular_play);
+  TraceEOL();
+
+  if (nbply<=top_ply_of_regular_play)
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+
+    TraceSquare(move_gen_top->departure);
+    TraceValue("%u",move_gen_top->departure);
+    TraceSquare(move_gen_top->arrival);
+    TraceValue("%u",move_gen_top->arrival);
+    TraceValue("%u",move_by_invisible);
+    TraceEOL();
+
+    if (move_gen_top->departure==move_by_invisible
+        && move_gen_top->arrival==move_by_invisible)
+    {
+      Side const side_playing = trait[nbply];
+      square const *s;
+
+      TraceEnumerator(Side,side_playing);
+      TraceEOL();
+
+      for (s = boardnum; *s && !end_of_iteration; ++s)
+        if (TSTFLAG(being_solved.spec[*s],Chameleon)
+            && TSTFLAG(being_solved.spec[*s],side_playing))
+        {
+          Flags const save_flags = being_solved.spec[*s];
+          CLRFLAG(being_solved.spec[*s],advers(side_playing));
+          flesh_out_move_by_specific_invisible(*s);
+          being_solved.spec[*s] = save_flags;
+        }
+    }
+    else
+      redo_adapted_move_effects();
+  }
+  else
+    done_fleshing_out_move_by_invisible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void walk_interceptor_any_walk(Side side,
                                       square pos,
@@ -764,6 +1216,9 @@ static void walk_interceptor_any_walk(Side side,
     if (k==0 || king_pos+vec[k]!=pos)
       restart_from_scratch();
   }
+  TraceWalk(get_walk_of_piece_on_square(pos));
+  TraceWalk(walk);
+  TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==walk);
   --being_solved.number_of_pieces[side][walk];
   empty_square(pos);
@@ -815,7 +1270,9 @@ static void walk_interceptor(Side side, square pos)
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  TraceSquare(pos);TraceEOL();
+  TraceSquare(pos);
+  TraceSquare(being_solved.king_square[side]);
+  TraceEOL();
   assert(is_square_empty(pos));
 
   if (being_solved.king_square[side]==initsquare)
@@ -880,6 +1337,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
   ++taboo[Black][s];
 
   --nr_total_invisibles_left;
+  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   if (play_phase==validating_mate)
   {
@@ -891,6 +1349,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     colour_interceptor(side_in_check,s);
 
   ++nr_total_invisibles_left;
+  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   --taboo[White][s];
   --taboo[Black][s];
@@ -954,6 +1413,7 @@ static void intercept_line_if_check(vec_index_type kcurr,
   TraceEnumerator(Side,side_checking);
   TraceSquare(king_pos);
   TraceSquare(sq_end);
+  TraceSquare(king_pos+dir);
   TraceWalk(walk_at_end);
   TraceEOL();
 
@@ -961,11 +1421,8 @@ static void intercept_line_if_check(vec_index_type kcurr,
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
     TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-    if (nr_total_invisibles_left==0)
-      /* there are not enough total invisibles to intercept all checks */;
-    else if (sq_end==king_pos+dir)
-      /* there is no square where to intercept the check */;
-    else
+    if (sq_end!=king_pos+dir
+        && nr_total_invisibles_left>0)
       place_interceptor_on_line(kcurr,walk_at_end,recurse);
   }
   else
@@ -982,12 +1439,7 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
   TraceFunctionParamListEnd();
 
   if (kcurr>vec_bishop_end)
-  {
-    if (nbply>top_ply_of_regular_play)
-      done_intercepting_illegal_checks();
-    else
-      redo_adapted_move_effects();
-  }
+    flesh_out_move_by_invisibles();
   else
     intercept_line_if_check(kcurr,Bishop,&intercept_illegal_checks_diagonal);
 
@@ -1019,7 +1471,7 @@ static void intercept_illegal_checks(void)
   TraceFunctionParamListEnd();
 
   if (king_pos==initsquare)
-    done_intercepting_illegal_checks();
+    flesh_out_move_by_invisibles();
   else if (!is_square_attacked_by_uninterceptable(side_in_check,king_pos))
     intercept_illegal_checks_orthogonal(vec_rook_start);
 
@@ -1111,6 +1563,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_creation);
 
       --nr_total_invisibles_left;
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
       occupy_square(from,walk_capturing,flags);
 
@@ -1129,6 +1582,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       empty_square(from);
 
       ++nr_total_invisibles_left;
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     }
   }
 
@@ -1446,12 +1900,14 @@ static void place_mating_piece_attacker(Side side_attacking,
   ++taboo[Black][s];
 
   --nr_total_invisibles_left;
+  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
   flesh_out_captures_by_invisible();
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
+  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   --taboo[White][s];
   --taboo[Black][s];
@@ -1757,22 +2213,65 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = regular_play;
     unrewind_effects();
 
-    if (combined_result==previous_move_has_solved)
-    {
-      make_revelations();
-
-      if (!revelation_status_is_uninitialised)
-        evaluate_revelations();
-
-      /* restore revelation effects from previous plies so that they appear
-       * in output correctly */
-      untaint_history_of_revealed_pieces();
-    }
-
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
   update_taboo(-1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_reveal_after_mating_move(slice_index si)
+{
+  unsigned int const save_nr_total_invisibles_left = nr_total_invisibles_left;
+  move_effect_journal_index_type const top_before_revelations = move_effect_journal_base[nbply+1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  make_revelations();
+
+  if (!revelation_status_is_uninitialised)
+    evaluate_revelations();
+
+  /* restore revelation effects from previous plies so that they appear
+   * in output correctly */
+  {
+    ply ply;
+    for (ply = nbply; ply>ply_retro_move; --ply)
+      untaint_history_of_revealed_pieces(ply);
+  }
+
+  pipe_solve_delegate(si);
+
+  {
+    ply ply;
+    /* this is a hack to prevent the effects of revealing invisibles after the
+     * mating move from being tainted */
+    move_effect_journal_index_type const top_after_revelations = move_effect_journal_base[nbply+1];
+    move_effect_journal_base[nbply+1] = top_before_revelations;
+
+    for (ply = nbply; ply>ply_retro_move; --ply)
+      taint_history_of_revealed_pieces(ply);
+
+    move_effect_journal_base[nbply+1] = top_after_revelations;
+  }
+
+  nr_total_invisibles_left = save_nr_total_invisibles_left;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1959,31 +2458,22 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
         for (i = 0; i!=nr_potential_revelations; ++i)
         {
           square const s = revelation_status[i].pos;
-          TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
+          TraceValue("%u",i);
+          TraceSquare(s);
+          TraceWalk(revelation_status[i].walk);
+          TraceEOL();
           if (revelation_status[i].walk!=Empty && is_square_empty(s))
             ++nr_revealed_unplaced_invisibles;
         }
       }
       if (nr_revealed_unplaced_invisibles<=nr_total_invisibles_left)
       {
-        unsigned int i;
-        for (i = 0; i!=nr_potential_revelations; ++i)
-        {
-          square const s = revelation_status[i].pos;
-          TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
-          if (revelation_status[i].walk!=Empty && is_square_empty(s))
-          {
-            move_effect_journal_do_piece_movement(move_effect_reason_revelation_of_invisible,
-                                                  nr_total_invisibles_left,
-                                                  s);
-            --nr_total_invisibles_left;
-          }
-        }
         evaluate_revelations();
-        taint_history_of_revealed_pieces();
+        taint_history_of_revealed_pieces(nbply);
         pipe_solve_delegate(si);
-        untaint_history_of_revealed_pieces();
+        untaint_history_of_revealed_pieces(nbply);
         nr_total_invisibles_left += nr_revealed_unplaced_invisibles;
+        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
       }
     }
 
@@ -2106,11 +2596,15 @@ static boolean make_a_flight(void)
     piece_walk_type const walk = get_walk_of_piece_on_square(king_pos);
     Flags const flags = being_solved.spec[king_pos];
 
+    TraceWalk(walk);
+    TraceValue("%x",flags);
+    TraceEOL();
+
     empty_square(king_pos);
     ++taboo[White][king_pos];
     ++taboo[Black][king_pos];
 
-    for (dir_vert = dir_down; dir_vert<=dir_up; dir_vert += dir_up)
+    for (dir_vert = dir_down; dir_vert<=dir_up && !result; dir_vert += dir_up)
       for (dir_horiz = dir_left; dir_horiz<=dir_right; dir_horiz += dir_right)
       {
         square const flight = king_pos+dir_vert+dir_horiz;
@@ -2270,6 +2764,10 @@ void total_invisible_generate_moves_by_invisible(slice_index si)
       push_move_regular_capture();
     }
   }
+
+  curr_generation->departure = move_by_invisible;
+  curr_generation->arrival = move_by_invisible;
+  push_move_capture_extra(move_by_invisible);
 
   pipe_solve_delegate(si);
 
@@ -2445,12 +2943,13 @@ void total_invisible_special_moves_player_solve(slice_index si)
     TraceSquare(sq_departure);
     TraceSquare(move_gen_top->arrival);
     TraceSquare(sq_capture);
+    TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
 
-    if (sq_departure>=capture_by_invisible)
+    if (sq_departure==move_by_invisible)
+      pipe_solve_delegate(si);
+    else if (sq_departure>=capture_by_invisible)
     {
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-
       // TODO:
       /* a) unplaced invisible
        * b) placed invisible that can reach sq_capture (with added knowledge)
@@ -2465,6 +2964,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                               BIT(side)|BIT(Chameleon),
                                               side);
 
+        /* No adjustment of nr_total_invisibles_left here!
+         * The capture may be done by an existing invisible. We can only do the
+         * adjustment when we flesh out this capture by inserting a new invisible.
+         */
         pipe_solve_delegate(si);
       }
 //      else
@@ -2504,8 +3007,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   side);
 
             --nr_total_invisibles_left;
+            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
+            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
           }
           else
           {
@@ -2532,8 +3037,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   side);
 
             --nr_total_invisibles_left;
+            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
             pipe_solve_delegate(si);
             ++nr_total_invisibles_left;
+            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
           }
           else
           {
@@ -2562,9 +3069,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
                                                   BIT(side_victim)|BIT(Chameleon),
                                                   side_victim);
 
-            --nr_total_invisibles_left;
+            /* No adjustment of nr_total_invisibles_left here! Another invisible may
+             * have moved to sq_capture and serve as a victim.
+             */
             pipe_solve_delegate(si);
-            ++nr_total_invisibles_left;
           }
           else
           {
@@ -2720,9 +3228,9 @@ static void instrument_replay_branch(slice_index si,
                                              &subsitute_goal_guard);
     /* self check is impossible with the current optimisations for orthodox pieces ...
      */
-    stip_structure_traversal_override_single(&st_nested,
-                                             STSelfCheckGuard,
-                                             &remove_the_pipe);
+//    stip_structure_traversal_override_single(&st_nested,
+//                                             STSelfCheckGuard,
+//                                             &remove_the_pipe);
     stip_traverse_structure(si,&st_nested);
   }
 
@@ -2886,6 +3394,14 @@ static void insert_copy(slice_index si,
     assert(state->length!=no_stip_length);
     if (state->length%2!=0)
       pipe_append(proxy,alloc_pipe(STMoveInverter));
+
+    {
+      slice_index const prototypes[] = {
+          alloc_pipe(STTotalInvisibleRevealAfterFinalMove)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      help_branch_insert_slices(si,prototypes,nr_prototypes);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2989,6 +3505,7 @@ void solving_instrument_total_invisible(slice_index si)
   TraceStipulation(si);
 
   nr_total_invisibles_left = total_invisible_number;
+  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   move_effect_journal_register_pre_capture_effect();
 

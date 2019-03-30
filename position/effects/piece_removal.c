@@ -100,6 +100,7 @@ static void redo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceValue("%u",nbply);
   TraceSquare(from);
   TraceWalk(entry->u.piece_removal.walk);
+  TraceValue("%x",being_solved.spec[from]);
   TraceValue("%x",entry->u.piece_removal.flags);
   TraceEOL();
 
