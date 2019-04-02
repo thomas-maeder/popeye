@@ -316,7 +316,7 @@ static void update_revelations(void)
   {
     square const s = revelation_status[i].pos;
     if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
-        || being_solved.spec[s]!=revelation_status[i].spec)
+        || (being_solved.spec[s]&PieSpMask)!=(revelation_status[i].spec&PieSpMask))
     {
       TraceSquare(s);
       TraceWalk(get_walk_of_piece_on_square(s));
@@ -637,25 +637,12 @@ static void play_with_placed_invisibles(void)
 
 static void done_fleshing_out_move_by_invisible(void)
 {
-  Side const side_to_be_mated = trait[nbply-1];
-  Side const side_mating = trait[nbply];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceEnumerator(Side,side_to_be_mated);
-  TraceSquare(being_solved.king_square[side_to_be_mated]);
-  TraceEOL();
   TracePosition(being_solved.board,being_solved.spec);
 
-  if (is_in_check(side_to_be_mated))
-    solve_result = previous_move_is_illegal;
-  else if (being_solved.king_square[side_to_be_mated]==initsquare
-           || (being_solved.king_square[side_mating]==initsquare
-               && nr_total_invisibles_left==0))
-    solve_result = previous_move_is_illegal;
-  else if (play_phase==detecting_revelations)
+  if (play_phase==detecting_revelations)
   {
     if (revelation_status_is_uninitialised)
       initialise_revelations();
@@ -738,6 +725,95 @@ static void restart_from_scratch(void)
   TraceFunctionResultEnd();
 }
 
+static void nominate_king_invisible_by_invisible(void)
+{
+  Side const side_to_be_mated = Black;
+  Side const side_mating = White;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    square const *s;
+    TraceText("Try to make one of the placed invisibles the king to be mated\n");
+    for (s = boardnum; *s && !end_of_iteration; ++s)
+      if (get_walk_of_piece_on_square(*s)==Dummy
+          && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
+      {
+        Flags const save_flags = being_solved.spec[*s];
+        CLRFLAG(being_solved.spec[*s],side_mating);
+        SETFLAG(being_solved.spec[*s],Royal);
+        ++being_solved.number_of_pieces[side_to_be_mated][King];
+        being_solved.board[*s] = King;
+        being_solved.king_square[side_to_be_mated] = *s;
+
+        TraceSquare(*s);TraceEOL();
+        restart_from_scratch();
+
+        being_solved.board[*s] = Dummy;
+        --being_solved.number_of_pieces[side_to_be_mated][King];
+        being_solved.spec[*s] = save_flags;
+      }
+
+    being_solved.king_square[side_to_be_mated] = initsquare;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void validate_king_placements(void)
+{
+  Side const side_to_be_mated = Black;
+  Side const side_mating = White;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceEnumerator(Side,side_to_be_mated);
+  TraceSquare(being_solved.king_square[side_to_be_mated]);
+  TraceValue("%u",nr_total_invisibles_left);
+  TraceEnumerator(Side,side_mating);
+  TraceSquare(being_solved.king_square[side_mating]);
+  TraceEOL();
+  TracePosition(being_solved.board,being_solved.spec);
+
+  if (being_solved.king_square[side_to_be_mated]==initsquare)
+  {
+    if (nr_total_invisibles_left==0)
+      nominate_king_invisible_by_invisible();
+    else
+    {
+      TraceText("The king to be mated can be anywhere\n");
+
+      if (play_phase==detecting_revelations)
+      {
+        if (revelation_status_is_uninitialised)
+          initialise_revelations();
+        else
+          update_revelations();
+
+        if (nr_potential_revelations==0)
+          end_of_iteration = true;
+      }
+      else
+      {
+        solve_result = previous_move_has_not_solved;
+        end_of_iteration = true;
+      }
+    }
+  }
+  else if (being_solved.king_square[side_mating]==initsquare
+           && nr_total_invisibles_left==0)
+    solve_result = previous_move_is_illegal;
+  else
+    done_fleshing_out_move_by_invisible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void recurse_into_child_ply(void)
 {
   ply const save_nbply = nbply;
@@ -789,11 +865,14 @@ static void redo_adapted_move_effects(void)
                && move_effect_journal[base].u.piece_addition.added.on==to)
       {
         /* victim to be created - no need for adaptation, but for accounting */
-        --nr_total_invisibles_left;
-        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        recurse_into_child_ply();
-        ++nr_total_invisibles_left;
-        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        if (nr_total_invisibles_left>0)
+        {
+          --nr_total_invisibles_left;
+          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+          recurse_into_child_ply();
+          ++nr_total_invisibles_left;
+          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        }
       }
       else
       {
@@ -1190,7 +1269,7 @@ static void flesh_out_move_by_invisibles(void)
       redo_adapted_move_effects();
   }
   else
-    done_fleshing_out_move_by_invisible();
+    validate_king_placements();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2035,14 +2114,31 @@ static void attack_mating_piece(Side side_attacking,
 
 static void validate_mate(void)
 {
+  numecoup const curr = CURRMOVE_OF_PLY(top_ply_of_regular_play);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  mate_validation_result = mate_unvalidated;
+  TraceValue("%u",top_ply_of_regular_play);
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceSquare(move_gen_top->arrival);
+  TraceValue("%u",move_gen_top->arrival);
+  TraceValue("%u",move_by_invisible);
+  TraceEOL();
 
-  combined_result = previous_move_is_illegal;
-  end_of_iteration = false;
-  flesh_out_captures_by_invisible();
+  if (move_gen_top->departure==move_by_invisible
+      && move_gen_top->arrival==move_by_invisible)
+    mate_validation_result = mate_defendable_by_interceptors;
+  else
+  {
+    mate_validation_result = mate_unvalidated;
+
+    combined_result = previous_move_is_illegal;
+    end_of_iteration = false;
+    flesh_out_captures_by_invisible();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
