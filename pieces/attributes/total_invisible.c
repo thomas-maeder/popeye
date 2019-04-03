@@ -1287,6 +1287,8 @@ static void walk_interceptor_any_walk(Side side,
 
   ++being_solved.number_of_pieces[side][walk];
   occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
+  if (walk==King)
+    SETFLAG(being_solved.spec[pos],Royal);
   {
     Side const side_attacked = advers(side);
     square const king_pos = being_solved.king_square[side_attacked];
