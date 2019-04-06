@@ -565,6 +565,7 @@
     ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
     ENUMERATOR(STTotalInvisibleMovesByInvisibleGenerator),              \
     ENUMERATOR(STTotalInvisibleSpecialMovesPlayer),                     \
+    ENUMERATOR(STTotalInvisibleReserveKingMovement),                    \
     ENUMERATOR(STTotalInvisibleRevealAfterFinalMove),                   \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

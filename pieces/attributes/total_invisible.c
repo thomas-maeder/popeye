@@ -790,20 +790,30 @@ static void validate_king_placements(void)
     {
       TraceText("The king to be mated can be anywhere\n");
 
-      if (play_phase==detecting_revelations)
+      switch (play_phase)
       {
-        if (revelation_status_is_uninitialised)
-          initialise_revelations();
-        else
-          update_revelations();
+        case detecting_revelations:
+          if (revelation_status_is_uninitialised)
+            initialise_revelations();
+          else
+            update_revelations();
 
-        if (nr_potential_revelations==0)
+          if (nr_potential_revelations==0)
+            end_of_iteration = true;
+
+          break;
+
+        case validating_mate:
+          mate_validation_result = no_mate;
+          solve_result = previous_move_has_not_solved;
+          combined_result = previous_move_has_not_solved;
           end_of_iteration = true;
-      }
-      else
-      {
-        solve_result = previous_move_has_not_solved;
-        end_of_iteration = true;
+          break;
+
+        default:
+          solve_result = previous_move_has_not_solved;
+          end_of_iteration = true;
+          break;
       }
     }
   }
@@ -1064,13 +1074,26 @@ static void flesh_out_move_by_invisible_leaper(square s,
   assert(kstart<=kend);
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
     TraceSquare(sq_arrival);TraceEOL();
     if (is_square_empty(sq_arrival))
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       move_generation_stack[currmove].arrival = sq_arrival;
-      redo_adapted_move_effects();
+
+      if (TSTFLAG(being_solved.spec[sq_departure],Royal))
+      {
+        assert(move_effect_journal[movement+1].type==move_effect_none);
+        move_effect_journal[movement+1].type = move_effect_king_square_movement;
+        move_effect_journal[movement+1].u.king_square_movement.from = sq_departure;
+        move_effect_journal[movement+1].u.king_square_movement.to = sq_arrival;
+        move_effect_journal[movement+1].u.king_square_movement.side = trait[nbply];
+        redo_adapted_move_effects();
+        move_effect_journal[movement+1].type = move_effect_none;
+      }
+      else
+        redo_adapted_move_effects();
     }
     else
       ;// TODO
@@ -3234,6 +3257,35 @@ void total_invisible_special_moves_player_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_reserve_king_movement(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* reserve a spot in the move effect journal for the case that a move by an invisible
+   * turns out to move a side's king square
+   */
+  move_effect_journal_do_null_effect();
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void subsitute_generator(slice_index si,
                                 stip_structure_traversal *st)
 {
@@ -3582,8 +3634,10 @@ static void copy_help_branch(slice_index si,
       slice_index const prototypes[] = {
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleReserveKingMovement),
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
-          alloc_pipe(STTotalInvisibleSpecialMovesPlayer)
+          alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
+          alloc_pipe(STTotalInvisibleReserveKingMovement)
       };
       enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_protypes);

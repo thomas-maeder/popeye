@@ -104,6 +104,7 @@ static slice_type const move_slice_rank_order[] =
     STLostPiecesRemover,
     STLandingAfterMovePlay,
     STMoveCounter,
+    STTotalInvisibleReserveKingMovement,
     STKingSquareUpdater,
     STMoveTracer,
     STBGLAdjuster,

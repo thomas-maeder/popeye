@@ -113,11 +113,11 @@ static move_effect_journal_index_type find_pre_move_effect(move_effect_type type
 static void write_departing_piece(output_plaintext_move_context_type *context,
                                   move_effect_journal_index_type movement)
 {
-  if (WriteSpec(context->engine,context->file,
+  if (/*WriteSpec(context->engine,context->file,
                 move_effect_journal[movement].u.piece_movement.movingspec,
                 move_effect_journal[movement].u.piece_movement.moving,
                 false)
-      || move_effect_journal[movement].u.piece_movement.moving!=Pawn)
+      ||*/ move_effect_journal[movement].u.piece_movement.moving!=Pawn)
     WriteWalk(context->engine,context->file,move_effect_journal[movement].u.piece_movement.moving);
 
   WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
