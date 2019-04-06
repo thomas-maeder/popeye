@@ -80,6 +80,9 @@ static boolean revelation_status_is_uninitialised;
 static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
 
+// TODO change departure and arrival of generated move instead of this hack?
+static ply highwater = ply_retro_move;
+
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -899,6 +902,8 @@ static void redo_adapted_move_effects(void)
         if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
         {
           piece_walk_type const walk_victim_orig = move_effect_journal[capture].u.piece_removal.walk;
+          /* if the piece to be captured is royal, then our tests for self check have failed */
+          assert(!TSTFLAG(being_solved.spec[to],Royal));
           move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
           move_effect_journal[base].type = move_effect_none;
           recurse_into_child_ply();
@@ -918,6 +923,8 @@ static void redo_adapted_move_effects(void)
 
         if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
         {
+          /* if the piece to be captured is royal, then our tests for self check have failed */
+          assert(!TSTFLAG(being_solved.spec[to],Royal));
           move_effect_journal[capture].type = move_effect_piece_removal;
           move_effect_journal[capture].reason = move_effect_reason_regular_capture;
           move_effect_journal[capture].u.piece_removal.on = to;
@@ -1100,7 +1107,6 @@ static void flesh_out_move_by_specific_invisible(square s)
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
   move_effect_journal[movement].u.piece_movement.from = s;
 
-  assert(currmove_departure==move_by_invisible);
   assert(currmove_arrival==move_by_invisible);
   move_generation_stack[currmove].departure = s;
 
@@ -1232,12 +1238,13 @@ static void flesh_out_move_by_invisibles(void)
 
   TraceValue("%u",nbply);
   TraceValue("%u",top_ply_of_regular_play);
+  TraceValue("%u",highwater);
   TraceEOL();
 
   if (nbply<=top_ply_of_regular_play)
   {
     numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+    move_generation_elmt * const move_gen_top = move_generation_stack+curr;
 
     TraceSquare(move_gen_top->departure);
     TraceValue("%u",move_gen_top->departure);
@@ -1247,13 +1254,17 @@ static void flesh_out_move_by_invisibles(void)
     TraceEOL();
 
     if (move_gen_top->departure==move_by_invisible
-        && move_gen_top->arrival==move_by_invisible)
+        && move_gen_top->arrival==move_by_invisible
+        && nbply>highwater)
     {
       Side const side_playing = trait[nbply];
       square const *s;
+      ply const save_highwater = highwater;
 
       TraceEnumerator(Side,side_playing);
       TraceEOL();
+
+      highwater = nbply;
 
       for (s = boardnum; *s && !end_of_iteration; ++s)
         if (TSTFLAG(being_solved.spec[*s],Chameleon)
@@ -1261,9 +1272,26 @@ static void flesh_out_move_by_invisibles(void)
         {
           Flags const save_flags = being_solved.spec[*s];
           CLRFLAG(being_solved.spec[*s],advers(side_playing));
+          move_gen_top->departure = *s;
           flesh_out_move_by_specific_invisible(*s);
+          move_gen_top->departure = move_by_invisible;
           being_solved.spec[*s] = save_flags;
         }
+
+      if (nr_total_invisibles_left>0)
+      {
+        // TODO avoid random moves by 1 unplaced invisible for both sides
+        TraceText("random move by unplaced invisible\n");
+        redo_adapted_move_effects();
+      }
+      else if (nbply==6)
+      {
+        // TODO
+        TraceText("random move by invisible to its placement in first ply\n");
+        redo_adapted_move_effects();
+      }
+
+      highwater = save_highwater;
     }
     else
       redo_adapted_move_effects();
@@ -1288,7 +1316,19 @@ static void walk_interceptor_any_walk(Side side,
   ++being_solved.number_of_pieces[side][walk];
   occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
   if (walk==King)
+  {
     SETFLAG(being_solved.spec[pos],Royal);
+    {
+      Side const side_attacked = side;
+      // TODO use pos instead of king_pos (or assert that they are equal)
+      square const king_pos = being_solved.king_square[side_attacked];
+      vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
+                                                                  king_pos);
+      if (k==0)
+        restart_from_scratch();
+    }
+  }
+  else
   {
     Side const side_attacked = advers(side);
     square const king_pos = being_solved.king_square[side_attacked];
@@ -2396,48 +2436,57 @@ static boolean is_move_still_playable(slice_index si)
 
     // TODO redo (and undo) the pre-capture effect?
 
-    assert(TSTFLAG(being_solved.spec[sq_departure],side));
-
-    if (sq_capture==queenside_castling)
+    if (sq_departure==move_by_invisible
+        && sq_arrival==move_by_invisible)
     {
-      SETCASTLINGFLAGMASK(side,ra_cancastle);
-      generate_moves_for_piece(sq_departure);
-      CLRCASTLINGFLAGMASK(side,ra_cancastle);
-    }
-    else if (sq_capture==kingside_castling)
-    {
-      SETCASTLINGFLAGMASK(side,rh_cancastle);
-      generate_moves_for_piece(sq_departure);
-      CLRCASTLINGFLAGMASK(side,rh_cancastle);
-    }
-    else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
-    {
-      occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
-      generate_moves_for_piece(sq_departure);
-      empty_square(sq_capture);
+      TraceText("we assume that un-fleshed-out random moves by total invisibles are always playable");
+      result = true;
     }
     else
-      generate_moves_for_piece(sq_departure);
-
     {
-      numecoup start = MOVEBASE_OF_PLY(nbply);
-      numecoup i;
-      numecoup new_top = start;
-      for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+      assert(TSTFLAG(being_solved.spec[sq_departure],side));
+
+      if (sq_capture==queenside_castling)
       {
-        assert(move_generation_stack[i].departure==sq_departure);
-        if (move_generation_stack[i].arrival==sq_arrival)
+        SETCASTLINGFLAGMASK(side,ra_cancastle);
+        generate_moves_for_piece(sq_departure);
+        CLRCASTLINGFLAGMASK(side,ra_cancastle);
+      }
+      else if (sq_capture==kingside_castling)
+      {
+        SETCASTLINGFLAGMASK(side,rh_cancastle);
+        generate_moves_for_piece(sq_departure);
+        CLRCASTLINGFLAGMASK(side,rh_cancastle);
+      }
+      else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
+      {
+        occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+        generate_moves_for_piece(sq_departure);
+        empty_square(sq_capture);
+      }
+      else
+        generate_moves_for_piece(sq_departure);
+
+      {
+        numecoup start = MOVEBASE_OF_PLY(nbply);
+        numecoup i;
+        numecoup new_top = start;
+        for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
         {
-          ++new_top;
-          move_generation_stack[new_top] = move_generation_stack[i];
-          break;
+          assert(move_generation_stack[i].departure==sq_departure);
+          if (move_generation_stack[i].arrival==sq_arrival)
+          {
+            ++new_top;
+            move_generation_stack[new_top] = move_generation_stack[i];
+            break;
+          }
         }
+
+        SET_CURRMOVE(nbply,new_top);
       }
 
-      SET_CURRMOVE(nbply,new_top);
+      result = CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply);
     }
-
-    result = CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply);
   }
 
   TraceFunctionExit(__func__);
