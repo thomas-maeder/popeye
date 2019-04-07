@@ -869,7 +869,33 @@ static void redo_adapted_move_effects(void)
     square const to = move_effect_journal[movement].u.piece_movement.to;
 
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
-    if (is_square_empty(to))
+
+    if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement
+        && move_effect_journal[movement+1].type==move_effect_piece_movement
+        && move_effect_journal[movement+1].reason==move_effect_reason_castling_partner)
+    {
+      square const from_king = move_effect_journal[movement].u.piece_movement.from;
+      square const from_partner = move_effect_journal[movement+1].u.piece_movement.from;
+      int const dir = from_king<from_partner ? dir_right : dir_left;
+      boolean is_castling_still_possible = true;
+
+      square s;
+      for (s = from_king+dir; s!=from_partner; s += dir)
+        if (!is_square_empty(s))
+        {
+          is_castling_still_possible = false;
+          break;
+        }
+
+      if (is_castling_still_possible)
+      {
+        TraceText("castling is still possible\n");
+        recurse_into_child_ply();
+      }
+      else
+        TraceText("castling no longer possible because a random move went to a disturbing square\n");
+    }
+    else if (is_square_empty(to))
     {
       if (move_effect_journal[capture].type==move_effect_no_piece_removal)
         /* no need for adaptation */
