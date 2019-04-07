@@ -81,7 +81,10 @@ static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
 
 // TODO change departure and arrival of generated move instead of this hack?
-static ply highwater = ply_retro_move;
+static ply flesh_out_move_highwater = ply_retro_move;
+
+// TODO
+static ply victimg_placement_highwater = ply_retro_move;
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
@@ -858,143 +861,151 @@ static void recurse_into_child_ply(void)
 
 static void redo_adapted_move_effects(void)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* do we have to invent a removal effect for an inserted total invisible? */
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+  if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement
+      && move_effect_journal[movement+1].type==move_effect_piece_movement
+      && move_effect_journal[movement+1].reason==move_effect_reason_castling_partner)
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const to = move_effect_journal[movement].u.piece_movement.to;
+    square const from_king = move_effect_journal[movement].u.piece_movement.from;
+    square const from_partner = move_effect_journal[movement+1].u.piece_movement.from;
+    int const dir = from_king<from_partner ? dir_right : dir_left;
+    boolean is_castling_still_possible = true;
 
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-    if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement
-        && move_effect_journal[movement+1].type==move_effect_piece_movement
-        && move_effect_journal[movement+1].reason==move_effect_reason_castling_partner)
-    {
-      square const from_king = move_effect_journal[movement].u.piece_movement.from;
-      square const from_partner = move_effect_journal[movement+1].u.piece_movement.from;
-      int const dir = from_king<from_partner ? dir_right : dir_left;
-      boolean is_castling_still_possible = true;
-
-      square s;
-      for (s = from_king+dir; s!=from_partner; s += dir)
-        if (!is_square_empty(s))
-        {
-          is_castling_still_possible = false;
-          break;
-        }
-
-      if (is_castling_still_possible)
+    square s;
+    for (s = from_king+dir; s!=from_partner; s += dir)
+      if (!is_square_empty(s))
       {
-        TraceText("castling is still possible\n");
-        recurse_into_child_ply();
+        is_castling_still_possible = false;
+        break;
       }
-      else
-        TraceText("castling no longer possible because a random move went to a disturbing square\n");
+
+    if (is_castling_still_possible)
+    {
+      TraceText("castling is still possible\n");
+      recurse_into_child_ply();
     }
-    else if (is_square_empty(to))
+    else
+      TraceText("castling no longer possible because a random move went to a disturbing square\n");
+  }
+  else if (is_square_empty(to))
+  {
+    if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+      /* no need for adaptation */
+      recurse_into_child_ply();
+    else if (move_effect_journal[base].type==move_effect_piece_creation
+             && move_effect_journal[base].u.piece_addition.added.on==to)
     {
-      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-        /* no need for adaptation */
-        recurse_into_child_ply();
-      else if (move_effect_journal[base].type==move_effect_piece_creation
-               && move_effect_journal[base].u.piece_addition.added.on==to)
+      /* victim to be created - no need for adaptation, but for accounting */
+      if (nbply<=victimg_placement_highwater)
       {
-        /* victim to be created - no need for adaptation, but for accounting */
-        if (nr_total_invisibles_left>0)
-        {
-          --nr_total_invisibles_left;
-          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-          recurse_into_child_ply();
-          ++nr_total_invisibles_left;
-          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        }
+        TraceText("placed an invisible as victim in previous iteration\n");
+        recurse_into_child_ply();
+      }
+      else if (nr_total_invisibles_left>0)
+      {
+        ply const save_victimg_placement_highwater = victimg_placement_highwater;
+        victimg_placement_highwater = nbply;
+        TraceText("place an invisible as victim\n");
+        --nr_total_invisibles_left;
+        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        recurse_into_child_ply();
+        ++nr_total_invisibles_left;
+        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        victimg_placement_highwater = save_victimg_placement_highwater;
       }
       else
-      {
-        /* this was supposed to be a capture, but the capturee has already been
-         * captured by a TI which has in turn left the arrival square
-         */
-        assert(move_effect_journal[capture].type==move_effect_piece_removal);
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-        recurse_into_child_ply();
-        move_effect_journal[capture].type = move_effect_piece_removal;
-      }
+        TraceText("no invisible left to be used as victim\n");
     }
     else
     {
-      if (move_effect_journal[base].type==move_effect_piece_creation)
+      /* this was supposed to be a capture, but the capturee has already been
+       * captured by a TI which has in turn left the arrival square
+       */
+      assert(move_effect_journal[capture].type==move_effect_piece_removal);
+      move_effect_journal[capture].type = move_effect_no_piece_removal;
+      recurse_into_child_ply();
+      move_effect_journal[capture].type = move_effect_piece_removal;
+    }
+  }
+  else
+  {
+    if (move_effect_journal[base].type==move_effect_piece_creation)
+    {
+      assert(move_effect_journal[base].u.piece_addition.added.on==to);
+      assert(move_effect_journal[capture].type==move_effect_piece_removal);
+      assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
+      TraceText("capture of a total invisible (created for this purpose) by a pawn, ");
+      TraceText("but a total invisible has moved to the arrival square");
+      TraceEOL();
+
+      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
       {
-        assert(move_effect_journal[base].u.piece_addition.added.on==to);
-        assert(move_effect_journal[capture].type==move_effect_piece_removal);
-        assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
-        TraceText("capture of a total invisible (created for this purpose) by a pawn, ");
-        TraceText("but a total invisible has moved to the arrival square");
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
-        {
-          piece_walk_type const walk_victim_orig = move_effect_journal[capture].u.piece_removal.walk;
-          /* if the piece to be captured is royal, then our tests for self check have failed */
-          assert(!TSTFLAG(being_solved.spec[to],Royal));
-          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-          move_effect_journal[base].type = move_effect_none;
-          recurse_into_child_ply();
-          move_effect_journal[base].type = move_effect_piece_creation;
-          move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
-        }
-        else
-        {
-          TraceText("move blocked by a random TI move");
-          TraceEOL();
-        }
-      }
-      else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-      {
-        TraceText("capture of a total invisible that landed on the arrival square");
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
-        {
-          /* if the piece to be captured is royal, then our tests for self check have failed */
-          assert(!TSTFLAG(being_solved.spec[to],Royal));
-          move_effect_journal[capture].type = move_effect_piece_removal;
-          move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-          move_effect_journal[capture].u.piece_removal.on = to;
-          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-          move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
-          recurse_into_child_ply();
-
-          move_effect_journal[capture].type = move_effect_no_piece_removal;
-        }
-        else
-        {
-          TraceText("move blocked by a random TI move");
-          TraceEOL();
-        }
+        piece_walk_type const walk_victim_orig = move_effect_journal[capture].u.piece_removal.walk;
+        /* if the piece to be captured is royal, then our tests for self check have failed */
+        assert(!TSTFLAG(being_solved.spec[to],Royal));
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[base].type = move_effect_none;
+        recurse_into_child_ply();
+        move_effect_journal[base].type = move_effect_piece_creation;
+        move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
       {
-        piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
-        Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
-
-        TraceText("adjusting capture of what was a total invisible");
+        TraceText("move blocked by a random TI move");
         TraceEOL();
+      }
+    }
+    else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+    {
+      TraceText("capture of a total invisible that landed on the arrival square");
+      TraceEOL();
 
-        assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
+      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+      {
+        /* if the piece to be captured is royal, then our tests for self check have failed */
+        assert(!TSTFLAG(being_solved.spec[to],Royal));
+        move_effect_journal[capture].type = move_effect_piece_removal;
+        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+        move_effect_journal[capture].u.piece_removal.on = to;
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
         move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
         recurse_into_child_ply();
 
-        move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
-        move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
       }
+      else
+      {
+        TraceText("move blocked by a random TI move");
+        TraceEOL();
+      }
+    }
+    else
+    {
+      piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
+
+      TraceText("adjusting capture of what was a total invisible");
+      TraceEOL();
+
+      assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+      recurse_into_child_ply();
+
+      move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
+      move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
     }
   }
 
@@ -1287,7 +1298,7 @@ static void flesh_out_move_by_invisibles(void)
 
   TraceValue("%u",nbply);
   TraceValue("%u",top_ply_of_regular_play);
-  TraceValue("%u",highwater);
+  TraceValue("%u",flesh_out_move_highwater);
   TraceEOL();
 
   if (nbply<=top_ply_of_regular_play)
@@ -1304,16 +1315,16 @@ static void flesh_out_move_by_invisibles(void)
 
     if (move_gen_top->departure==move_by_invisible
         && move_gen_top->arrival==move_by_invisible
-        && nbply>highwater)
+        && nbply>flesh_out_move_highwater)
     {
       Side const side_playing = trait[nbply];
       square const *s;
-      ply const save_highwater = highwater;
+      ply const save_highwater = flesh_out_move_highwater;
 
       TraceEnumerator(Side,side_playing);
       TraceEOL();
 
-      highwater = nbply;
+      flesh_out_move_highwater = nbply;
 
       for (s = boardnum; *s && !end_of_iteration; ++s)
         if (TSTFLAG(being_solved.spec[*s],Chameleon)
@@ -1340,7 +1351,7 @@ static void flesh_out_move_by_invisibles(void)
         redo_adapted_move_effects();
       }
 
-      highwater = save_highwater;
+      flesh_out_move_highwater = save_highwater;
     }
     else
       redo_adapted_move_effects();
