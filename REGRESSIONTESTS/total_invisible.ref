@@ -422,6 +422,119 @@ solution finished.
 
 
 
+             Ofer Comay
+  Sake tourney 2018, 3rd HM, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 5
+
+  1..~-~ Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-f6   2.Re1-e2 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2..~-~ TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Re1-e2 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-c4 TI~*c4[e3=bK][c4=wS] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-d3 TI~*d3[d3=wR][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-a1 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-b2 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b1 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b2 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b3 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-a4 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4*b7 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b6 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-d4 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*c4[e3=bK][c4=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-c3 Qh8-f8   2.Re1-e2 TI~*f1[f1=wS][e3=bK] #
+  1.Ba1-b2 Qh8-h5   2.Bb2-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Re1-e3 Qh8-c8   2.TI~*b7[b7=bB] .~-~[c3=bK][e4=wS] #
+  1.Re1-e2 Qh8-f6   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Re1-e2 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Re1-e2 Qh8-f8   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Bf1-c4 Qh8-h5   2.Ba1-c3 TI~*c4[e3=bK][c4=wS] #
+  1.Bf1-d3 TI~*a1   2.Re1-e2 TI~*d3[d3=wR][e3=bK] #
+  1.Bf1-d3 Qh8-h5   2.Ba1-c3 TI~*d3[d3=wR][e3=bK] #
+  1.Rb4-b1 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-b2 TI~*a1   2.Bf1-c4[c3=bK] TI~*b2[b2=wQ] #
+  1.Rb4-b2 Qh8-h5   2.TI~*h4 TI~*f1[f1=wS][e3=bK][h4=bR] #
+  1.Rb4-b3 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-d3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-a4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4*b7 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-b6 Ke5-e6   2.Bf1-b5[c6=bK] Qh8-c8 #
+  1.Rb4-b6 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-d4 Qh8-h5   2.TI~*b7 TI~*f1[f1=wS][e3=bK][b7=bR] #
+  1.Rb4-d4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[e3=bK][c4=wS] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
+  1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[f1=wS][e3=bK] #
+  add_to_move_generation_stack:    36286784
+                     play_move:     8737890
+ is_white_king_square_attacked:     1157066
+ is_black_king_square_attacked:     4354997
+
+solution finished.
+
+
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, corrected
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -S   S  -B   7
+|                                   |
+6   .   .   .   .   .  -Q   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   P   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   P   2
+|                                   |
+1   .   .   .   Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 4
+
+  1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] .~-~[f5=wS][e7=bK] #
+  1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] .~-~[e5=wS][g6=bK] #
+  add_to_move_generation_stack:    32208086
+                     play_move:     6451231
+ is_white_king_square_attacked:      882266
+ is_black_king_square_attacked:     2810927
+
+solution finished.
+
+
+
             Kjell Widlert
       Sake tourney 2018, 4th HM
 
@@ -742,6 +855,40 @@ b) wKc2-->g6
                      play_move:     1184794
  is_white_king_square_attacked:      196815
  is_black_king_square_attacked:      745307
+
+solution finished.
+
+
+
+    Kjell Widlert / Thomas Maeder
+       Sake tourney 2018, Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   R   .  -K   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 2
+
+  1..~-~ .~-~   2..~-~ .~-~ #
+  add_to_move_generation_stack:      981673
+                     play_move:      193917
+ is_white_king_square_attacked:       34100
+ is_black_king_square_attacked:      107615
 
 solution finished.
 
