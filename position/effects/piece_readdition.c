@@ -52,12 +52,21 @@ static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(addedspec,White))
-    --being_solved.number_of_pieces[White][added];
-  if (TSTFLAG(addedspec,Black))
-    --being_solved.number_of_pieces[Black][added];
+  TraceWalk(added);
+  TraceSquare(on);
+  TraceEOL();
 
-  empty_square(on);
+  if (addedspec==0)
+    TraceText("disabled\n");
+  else
+  {
+    if (TSTFLAG(addedspec,White))
+      --being_solved.number_of_pieces[White][added];
+    if (TSTFLAG(addedspec,Black))
+      --being_solved.number_of_pieces[Black][added];
+
+    empty_square(on);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -72,13 +81,22 @@ static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(addedspec,White))
-    ++being_solved.number_of_pieces[White][added];
-  if (TSTFLAG(addedspec,Black))
-    ++being_solved.number_of_pieces[Black][added];
+  TraceWalk(added);
+  TraceSquare(on);
+  TraceEOL();
 
-  assert(is_square_empty(on));
-  occupy_square(on,added,addedspec);
+  if (addedspec==0)
+    TraceText("disabled\n");
+  else
+  {
+    if (TSTFLAG(addedspec,White))
+      ++being_solved.number_of_pieces[White][added];
+    if (TSTFLAG(addedspec,Black))
+      ++being_solved.number_of_pieces[Black][added];
+
+    assert(is_square_empty(on));
+    occupy_square(on,added,addedspec);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

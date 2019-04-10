@@ -136,8 +136,8 @@ void redo_move_effects(void)
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
   {
 #if defined(DOTRACE)
+    TraceValue("%u",entry-&move_effect_journal[0]);
     TraceValue("%u",entry->type);
-    TraceEOL();
     TraceValue("%lu",entry->id);
     TraceEOL();
 #endif
