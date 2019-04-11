@@ -107,10 +107,6 @@ static void redo_piece_removal(move_effect_journal_entry_type const *entry)
   assert(being_solved.board[from]==entry->u.piece_removal.walk);
   assert((being_solved.spec[from]&PieSpMask)==(entry->u.piece_removal.flags&PieSpMask));
 
-  // TODO this is a hack
-  SetPieceId(((move_effect_journal_entry_type *)entry)->u.piece_removal.flags,
-             GetPieceId(being_solved.spec[from]));
-
   do_removal(from);
 
   TraceFunctionExit(__func__);
