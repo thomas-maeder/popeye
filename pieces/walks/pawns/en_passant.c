@@ -244,7 +244,10 @@ square en_passant_find_capturee(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = move_effect_journal_follow_piece_through_other_effects(ply_parent,capturee_id,sq_arrival);
+  if (capturee_id==NullPieceId)
+    result = initsquare;
+  else
+    result = move_effect_journal_follow_piece_through_other_effects(ply_parent,capturee_id,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

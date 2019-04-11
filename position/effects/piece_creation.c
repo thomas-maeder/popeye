@@ -94,8 +94,8 @@ static void redo_piece_creation(move_effect_journal_entry_type const *entry)
  *         initsquare if the piece is not on the board after effect idx
  */
 square position_piece_creation_follow_piece(PieceIdType followed_id,
-                                           move_effect_journal_index_type idx,
-                                           square pos)
+                                            move_effect_journal_index_type idx,
+                                            square pos)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",followed_id);
@@ -103,10 +103,11 @@ square position_piece_creation_follow_piece(PieceIdType followed_id,
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
+  assert(followed_id!=NullPieceId);
+
   if (GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags)==followed_id)
   {
-//TODO
-//    assert(pos==initsquare);
+    assert(pos==initsquare);
     pos = move_effect_journal[idx].u.piece_addition.added.on;
   }
 
