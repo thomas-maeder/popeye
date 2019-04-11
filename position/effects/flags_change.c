@@ -17,10 +17,6 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceSquare(on);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",GetPieceId(being_solved.spec[on]));
-  TraceValue("%u",GetPieceId(to));
-  TraceEOL();
-
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
 
   entry->u.flags_change.on = on;
@@ -46,7 +42,7 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
 static void undo_flags_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.flags_change.on;
-  Flags from = entry->u.flags_change.from;
+  Flags const from = entry->u.flags_change.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -54,9 +50,8 @@ static void undo_flags_change(move_effect_journal_entry_type const *entry)
   TraceSquare(on);
   TraceEOL();
 
-  assert((being_solved.spec[on]&PieSpMask)==(entry->u.flags_change.to&PieSpMask));
-
-  SetPieceId(from,GetPieceId(being_solved.spec[on]));
+  assert(being_solved.spec[on]==entry->u.flags_change.to);
+  assert(GetPieceId(being_solved.spec[on])==GetPieceId(from));
 
   if (TSTFLAG(being_solved.spec[on],White))
     --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
@@ -77,19 +72,13 @@ static void undo_flags_change(move_effect_journal_entry_type const *entry)
 static void redo_flags_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.flags_change.on;
-  Flags to = entry->u.flags_change.to;
+  Flags const to = entry->u.flags_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(on);
-  TraceValue("%u",GetPieceId(being_solved.spec[on]));
-  TraceValue("%u",GetPieceId(to));
-  TraceEOL();
-
-  assert((being_solved.spec[on]&PieSpMask)==(entry->u.flags_change.from&PieSpMask));
-
-  SetPieceId(to,GetPieceId(being_solved.spec[on]));
+  assert(being_solved.spec[on]==entry->u.flags_change.from);
+  assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
 
   if (TSTFLAG(being_solved.spec[on],White))
     --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
