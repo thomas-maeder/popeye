@@ -492,6 +492,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
                                      move_effect_journal_index_type total_base)
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
   Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
   piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
@@ -506,6 +507,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceWalk(walk_from);
   TraceValue("%u",TSTFLAG(flags_to,Royal));
   TraceWalk(walk_to);
+  TraceValue("%u",id);
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
@@ -545,35 +547,55 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
     switch (move_effect_journal[idx].type)
     {
       case move_effect_piece_movement:
-        if (pos==move_effect_journal[idx].u.piece_movement.to)
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
         {
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
           pos = move_effect_journal[idx].u.piece_movement.from;
           move_effect_journal[idx].u.piece_movement.moving = walk_from;
           move_effect_journal[idx].u.piece_movement.movingspec = flags_from;
         }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
         break;
 
       case move_effect_piece_readdition:
-        if (pos==move_effect_journal[idx].u.piece_addition.added.on)
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
-          if (pos>=capture_by_invisible)
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+          assert(pos>=capture_by_invisible);
+
+          if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
           {
-            if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-            {
-              TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-              TraceEOL();
-              assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
-            }
-            else
-              move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
-            move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
+            TraceText("untainting history of castling partner - nothing to do");
+            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+            TraceEOL();
+            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
           }
           else
           {
+            TraceText("untainting added piece's walk\n");
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
+          }
+
+          move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
+          idx = 1;
+        }
+        else
+        {
+          if (pos==move_effect_journal[idx].u.piece_addition.added.on)
+          {
+            TraceText("reactivating piece addition that was deactivated while tainting\n");
+            assert(pos<capture_by_invisible);
             assert(move_effect_journal[idx].u.piece_addition.added.flags==0);
             move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
+            idx = 1;
           }
-          idx = 1;
         }
         break;
 
