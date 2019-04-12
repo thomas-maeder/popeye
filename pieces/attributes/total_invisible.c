@@ -439,9 +439,9 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
         TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
         TraceSquare(move_effect_journal[idx].u.piece_movement.to);
         TraceEOL();
-        if (pos==move_effect_journal[idx].u.piece_movement.to)
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
         {
-          assert(id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
           TraceSquare(move_effect_journal[idx].u.piece_movement.from);
           TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
           TraceEOL();
@@ -450,14 +450,16 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
           move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
         }
         else
-          assert(id!=GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
         break;
 
       case move_effect_piece_readdition:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
         TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
         TraceEOL();
-        if (pos==move_effect_journal[idx].u.piece_addition.added.on)
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
           if (pos>=capture_by_invisible)
           {
             TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
@@ -472,6 +474,8 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
             move_effect_journal[idx].u.piece_addition.added.flags = 0;
           idx = 1;
         }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
         break;
 
       default:
