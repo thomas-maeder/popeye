@@ -471,7 +471,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
             move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
           }
           else
-            move_effect_journal[idx].u.piece_addition.added.flags = 0;
+            move_effect_journal[idx].u.piece_addition.added.on = initsquare;
           idx = 1;
         }
         else
@@ -567,36 +567,34 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
         TraceEOL();
         if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
-          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          assert(pos>=capture_by_invisible);
-
-          if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+          if (move_effect_journal[idx].u.piece_addition.added.on==initsquare)
           {
-            TraceText("untainting history of castling partner - nothing to do");
-            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-            TraceEOL();
-            assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
+            TraceText("reactivating piece addition that was deactivated while tainting\n");
+            move_effect_journal[idx].u.piece_addition.added.on = pos;
           }
           else
           {
-            TraceText("untainting added piece's walk\n");
-            move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
+            assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+            assert(pos>=capture_by_invisible);
+            if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+            {
+              TraceText("untainting history of castling partner - nothing to do");
+              TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+              TraceEOL();
+              assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
+            }
+            else
+            {
+              TraceText("untainting added piece's walk\n");
+              move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
+            }
           }
 
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
           idx = 1;
         }
         else
-        {
-          if (pos==move_effect_journal[idx].u.piece_addition.added.on)
-          {
-            TraceText("reactivating piece addition that was deactivated while tainting\n");
-            assert(pos<capture_by_invisible);
-            assert(move_effect_journal[idx].u.piece_addition.added.flags==0);
-            move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
-            idx = 1;
-          }
-        }
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
         break;
 
       default:

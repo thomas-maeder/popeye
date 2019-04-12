@@ -56,7 +56,7 @@ static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
   TraceSquare(on);
   TraceEOL();
 
-  if (addedspec==0)
+  if (on==initsquare)
     TraceText("disabled\n");
   else
   {
@@ -85,7 +85,7 @@ static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
   TraceSquare(on);
   TraceEOL();
 
-  if (addedspec==0)
+  if (on==initsquare)
     TraceText("disabled\n");
   else
   {
