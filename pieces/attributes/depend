@@ -669,7 +669,7 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  pieces/walks/classification.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
- position/move_diff_code.h position/effects/piece_creation.h \
+ position/move_diff_code.h position/effects/piece_readdition.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  position/effects/piece_movement.h position/effects/null_move.h \
@@ -744,7 +744,7 @@ position/castling_rights.h:
 
 position/move_diff_code.h:
 
-position/effects/piece_creation.h:
+position/effects/piece_readdition.h:
 
 solving/move_effect_journal.h:
 

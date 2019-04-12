@@ -228,11 +228,10 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceValue("%u",nbply);
     TraceValue("%u",nr_total_invisibles_left);
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
-    SetPieceId(spec,next_invisible_piece_id);
+    SetPieceId(spec,++next_invisible_piece_id);
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
                                             s,walk,spec,side);
     --nr_total_invisibles_left;
-    ++next_invisible_piece_id;
   }
 
   assert(TSTFLAG(being_solved.spec[s],Chameleon));
@@ -366,6 +365,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
                                    move_effect_journal_index_type total_base)
 {
   square pos = move_effect_journal[idx].u.flags_change.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
   Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
   piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_walk_change.to;
 
@@ -376,7 +376,10 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
 
   TraceSquare(pos);
   TraceWalk(walk_to);
+  TraceValue("%u",id);
   TraceEOL();
+
+  assert(id==GetPieceId(move_effect_journal[idx].u.flags_change.to));
 
   move_effect_journal[idx].type = move_effect_none;
 
@@ -414,13 +417,13 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
     TraceSquare(move_effect_journal[idx].u.piece_movement.from);
     TraceSquare(move_effect_journal[idx].u.piece_movement.to);
     TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
+    TraceEOL();
     assert(move_effect_journal[idx].u.piece_movement.from<square_a1);
     assert(move_effect_journal[idx].u.piece_movement.to==pos);
     move_effect_journal[idx].type = move_effect_none;
 
     --idx;
   }
-  TraceEOL();
 
   // TODO should we also taint the king square movement if a king was revealed?
 
@@ -433,10 +436,12 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
     switch (move_effect_journal[idx].type)
     {
       case move_effect_piece_movement:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
         TraceSquare(move_effect_journal[idx].u.piece_movement.to);
         TraceEOL();
         if (pos==move_effect_journal[idx].u.piece_movement.to)
         {
+          assert(id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
           TraceSquare(move_effect_journal[idx].u.piece_movement.from);
           TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
           TraceEOL();
@@ -444,6 +449,8 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
           move_effect_journal[idx].u.piece_movement.moving = walk_to;
           move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
         }
+        else
+          assert(id!=GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
         break;
 
       case move_effect_piece_readdition:
@@ -1691,6 +1698,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
   square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
@@ -1707,6 +1715,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_effect_journal[movement].u.piece_movement.from = from;
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
   move_effect_journal[movement].u.piece_movement.movingspec = BIT(side_playing)|BIT(Chameleon);
+  SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,GetPieceId(save_moving_spec));
 
   move_gen_top->departure = from;
 
@@ -1733,7 +1742,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
   move_effect_journal[movement].u.piece_movement.moving = Dummy;
-  move_effect_journal[movement].u.piece_movement.movingspec = BIT(White)|BIT(Black)|BIT(Chameleon);
+  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
 
@@ -3191,10 +3200,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
       {
         Side const side = trait[nbply];
         Flags spec = BIT(side)|BIT(Chameleon);
-        SetPieceId(spec,next_invisible_piece_id);
+        SetPieceId(spec,++next_invisible_piece_id);
         move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                 sq_departure,Dummy,spec,side);
-        ++next_invisible_piece_id;
 
         /* No adjustment of nr_total_invisibles_left here!
          * The capture may be done by an existing invisible. We can only do the
@@ -3234,10 +3242,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
           {
             Flags spec = BIT(side)|BIT(Chameleon);
             assert(nr_total_invisibles_left>0);
-            SetPieceId(spec,next_invisible_piece_id);
+            SetPieceId(spec,++next_invisible_piece_id);
             move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                                     square_h,Rook,spec,side);
-            ++next_invisible_piece_id;
             --nr_total_invisibles_left;
             TraceValue("%u",nr_total_invisibles_left);TraceEOL();
             pipe_solve_delegate(si);
@@ -3264,10 +3271,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
           {
             Flags spec = BIT(side)|BIT(Chameleon);
             assert(nr_total_invisibles_left>0);
-            SetPieceId(spec,next_invisible_piece_id);
+            SetPieceId(spec,++next_invisible_piece_id);
             move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                                     square_a,Rook,spec,side);
-            ++next_invisible_piece_id;
             --nr_total_invisibles_left;
             TraceValue("%u",nr_total_invisibles_left);TraceEOL();
             pipe_solve_delegate(si);
@@ -3296,10 +3302,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Flags spec = BIT(side_victim)|BIT(Chameleon);
 
             assert(nr_total_invisibles_left>0);
-            SetPieceId(spec,next_invisible_piece_id);
+            SetPieceId(spec,++next_invisible_piece_id);
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
-            ++next_invisible_piece_id;
 
             /* No adjustment of nr_total_invisibles_left here! Another invisible may
              * have moved to sq_capture and serve as a victim.
