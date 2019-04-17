@@ -471,7 +471,16 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
             move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
           }
           else
-            move_effect_journal[idx].u.piece_addition.added.on = initsquare;
+          {
+            Side const side = TSTFLAG(move_effect_journal[idx].u.piece_addition.added.flags,White) ? White : Black;
+            TraceEnumerator(Side,side);
+            TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+            TraceValue("%u",taboo[side][move_effect_journal[idx].u.piece_addition.added.on]);
+            TraceEOL();
+            if (taboo[side][move_effect_journal[idx].u.piece_addition.added.on]==0
+                || move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+              move_effect_journal[idx].u.piece_addition.added.on = initsquare;
+          }
           idx = 1;
         }
         else
@@ -575,7 +584,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
           else
           {
             assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-            assert(pos>=capture_by_invisible);
+//            assert(pos>=capture_by_invisible);
             if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
             {
               TraceText("untainting history of castling partner - nothing to do");
@@ -1084,9 +1093,12 @@ static void flesh_out_move_by_invisible_pawn(square s)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
-      move_generation_stack[currmove].arrival = sq_singlestep;
-      redo_adapted_move_effects();
+      if (taboo[trait[nbply]][sq_singlestep]==0)
+      {
+        move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
+        move_generation_stack[currmove].arrival = sq_singlestep;
+        redo_adapted_move_effects();
+      }
 
       if (!end_of_iteration)
       {
@@ -1097,9 +1109,12 @@ static void flesh_out_move_by_invisible_pawn(square s)
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
-            move_generation_stack[currmove].arrival = sq_doublestep;
-            redo_adapted_move_effects();
+            if (taboo[trait[nbply]][sq_doublestep]==0)
+            {
+              move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
+              move_generation_stack[currmove].arrival = sq_doublestep;
+              redo_adapted_move_effects();
+            }
           }
         }
       }
@@ -1135,9 +1150,12 @@ static void flesh_out_move_by_invisible_rider(square s,
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
-      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      move_generation_stack[currmove].arrival = sq_arrival;
-      redo_adapted_move_effects();
+      if (taboo[trait[nbply]][sq_arrival]==0)
+      {
+        move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+        move_generation_stack[currmove].arrival = sq_arrival;
+        redo_adapted_move_effects();
+      }
     }
   }
 
@@ -1169,21 +1187,24 @@ static void flesh_out_move_by_invisible_leaper(square s,
     TraceSquare(sq_arrival);TraceEOL();
     if (is_square_empty(sq_arrival))
     {
-      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      move_generation_stack[currmove].arrival = sq_arrival;
-
-      if (TSTFLAG(being_solved.spec[sq_departure],Royal))
+      if (taboo[trait[nbply]][sq_arrival]==0)
       {
-        assert(move_effect_journal[movement+1].type==move_effect_none);
-        move_effect_journal[movement+1].type = move_effect_king_square_movement;
-        move_effect_journal[movement+1].u.king_square_movement.from = sq_departure;
-        move_effect_journal[movement+1].u.king_square_movement.to = sq_arrival;
-        move_effect_journal[movement+1].u.king_square_movement.side = trait[nbply];
-        redo_adapted_move_effects();
-        move_effect_journal[movement+1].type = move_effect_none;
+        move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+        move_generation_stack[currmove].arrival = sq_arrival;
+
+        if (TSTFLAG(being_solved.spec[sq_departure],Royal))
+        {
+          assert(move_effect_journal[movement+1].type==move_effect_none);
+          move_effect_journal[movement+1].type = move_effect_king_square_movement;
+          move_effect_journal[movement+1].u.king_square_movement.from = sq_departure;
+          move_effect_journal[movement+1].u.king_square_movement.to = sq_arrival;
+          move_effect_journal[movement+1].u.king_square_movement.side = trait[nbply];
+          redo_adapted_move_effects();
+          move_effect_journal[movement+1].type = move_effect_none;
+        }
+        else
+          redo_adapted_move_effects();
       }
-      else
-        redo_adapted_move_effects();
     }
     else
       ;// TODO
