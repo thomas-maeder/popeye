@@ -1367,69 +1367,76 @@ static void flesh_out_move_by_specific_invisible(square s)
 
 static void flesh_out_move_by_invisibles(void)
 {
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
   TraceValue("%u",top_ply_of_regular_play);
   TraceValue("%u",flesh_out_move_highwater);
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceSquare(move_gen_top->arrival);
+  TraceValue("%u",move_gen_top->arrival);
+  TraceValue("%u",move_by_invisible);
   TraceEOL();
 
-  if (nbply<=top_ply_of_regular_play)
+  if (move_gen_top->departure==move_by_invisible
+      && move_gen_top->arrival==move_by_invisible
+      && nbply>flesh_out_move_highwater)
   {
-    numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+    Side const side_playing = trait[nbply];
+    square const *s;
+    ply const save_highwater = flesh_out_move_highwater;
 
-    TraceSquare(move_gen_top->departure);
-    TraceValue("%u",move_gen_top->departure);
-    TraceSquare(move_gen_top->arrival);
-    TraceValue("%u",move_gen_top->arrival);
-    TraceValue("%u",move_by_invisible);
+    TraceEnumerator(Side,side_playing);
     TraceEOL();
 
-    if (move_gen_top->departure==move_by_invisible
-        && move_gen_top->arrival==move_by_invisible
-        && nbply>flesh_out_move_highwater)
+    flesh_out_move_highwater = nbply;
+
+    for (s = boardnum; *s && !end_of_iteration; ++s)
+      if (TSTFLAG(being_solved.spec[*s],Chameleon)
+          && TSTFLAG(being_solved.spec[*s],side_playing))
+      {
+        Flags const save_flags = being_solved.spec[*s];
+        CLRFLAG(being_solved.spec[*s],advers(side_playing));
+        move_gen_top->departure = *s;
+        flesh_out_move_by_specific_invisible(*s);
+        move_gen_top->departure = move_by_invisible;
+        being_solved.spec[*s] = save_flags;
+      }
+
+    if (nr_total_invisibles_left>0)
     {
-      Side const side_playing = trait[nbply];
-      square const *s;
-      ply const save_highwater = flesh_out_move_highwater;
-
-      TraceEnumerator(Side,side_playing);
-      TraceEOL();
-
-      flesh_out_move_highwater = nbply;
-
-      for (s = boardnum; *s && !end_of_iteration; ++s)
-        if (TSTFLAG(being_solved.spec[*s],Chameleon)
-            && TSTFLAG(being_solved.spec[*s],side_playing))
-        {
-          Flags const save_flags = being_solved.spec[*s];
-          CLRFLAG(being_solved.spec[*s],advers(side_playing));
-          move_gen_top->departure = *s;
-          flesh_out_move_by_specific_invisible(*s);
-          move_gen_top->departure = move_by_invisible;
-          being_solved.spec[*s] = save_flags;
-        }
-
-      if (nr_total_invisibles_left>0)
-      {
-        // TODO avoid random moves by 1 unplaced invisible for both sides
-        TraceText("random move by unplaced invisible\n");
-        redo_adapted_move_effects();
-      }
-      else if (nbply==6)
-      {
-        // TODO
-        TraceText("random move by invisible to its placement in first ply\n");
-        redo_adapted_move_effects();
-      }
-
-      flesh_out_move_highwater = save_highwater;
-    }
-    else
+      // TODO avoid random moves by 1 unplaced invisible for both sides
+      TraceText("random move by unplaced invisible\n");
       redo_adapted_move_effects();
+    }
+    else if (nbply==6)
+    {
+      // TODO
+      TraceText("random move by invisible to its placement in first ply\n");
+      redo_adapted_move_effects();
+    }
+
+    flesh_out_move_highwater = save_highwater;
   }
+  else
+    redo_adapted_move_effects();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void done_intercepting_illegal_checks(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (nbply<=top_ply_of_regular_play)
+    flesh_out_move_by_invisibles();
   else
     validate_king_placements();
 
@@ -1694,7 +1701,7 @@ static void intercept_illegal_checks_diagonal(vec_index_type kcurr)
   TraceFunctionParamListEnd();
 
   if (kcurr>vec_bishop_end)
-    flesh_out_move_by_invisibles();
+    done_intercepting_illegal_checks();
   else
     intercept_line_if_check(kcurr,Bishop,&intercept_illegal_checks_diagonal);
 
@@ -1726,7 +1733,7 @@ static void intercept_illegal_checks(void)
   TraceFunctionParamListEnd();
 
   if (king_pos==initsquare)
-    flesh_out_move_by_invisibles();
+    done_intercepting_illegal_checks();
   else if (!is_square_attacked_by_uninterceptable(side_in_check,king_pos))
     intercept_illegal_checks_orthogonal(vec_rook_start);
 
