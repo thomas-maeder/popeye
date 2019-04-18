@@ -1365,62 +1365,44 @@ static void flesh_out_move_by_invisibles(void)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+  Side const side_playing = trait[nbply];
+  square const *s;
+  ply const save_highwater = flesh_out_move_highwater;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",top_ply_of_regular_play);
-  TraceValue("%u",flesh_out_move_highwater);
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceSquare(move_gen_top->arrival);
-  TraceValue("%u",move_gen_top->arrival);
-  TraceValue("%u",move_by_invisible);
+  TraceEnumerator(Side,side_playing);
   TraceEOL();
 
-  if (move_gen_top->departure==move_by_invisible
-      && move_gen_top->arrival==move_by_invisible
-      && nbply>flesh_out_move_highwater)
+  flesh_out_move_highwater = nbply;
+
+  for (s = boardnum; *s && !end_of_iteration; ++s)
+    if (TSTFLAG(being_solved.spec[*s],Chameleon)
+        && TSTFLAG(being_solved.spec[*s],side_playing))
+    {
+      Flags const save_flags = being_solved.spec[*s];
+      CLRFLAG(being_solved.spec[*s],advers(side_playing));
+      move_gen_top->departure = *s;
+      flesh_out_move_by_specific_invisible(*s);
+      move_gen_top->departure = move_by_invisible;
+      being_solved.spec[*s] = save_flags;
+    }
+
+  if (nr_total_invisibles_left>0)
   {
-    Side const side_playing = trait[nbply];
-    square const *s;
-    ply const save_highwater = flesh_out_move_highwater;
-
-    TraceEnumerator(Side,side_playing);
-    TraceEOL();
-
-    flesh_out_move_highwater = nbply;
-
-    for (s = boardnum; *s && !end_of_iteration; ++s)
-      if (TSTFLAG(being_solved.spec[*s],Chameleon)
-          && TSTFLAG(being_solved.spec[*s],side_playing))
-      {
-        Flags const save_flags = being_solved.spec[*s];
-        CLRFLAG(being_solved.spec[*s],advers(side_playing));
-        move_gen_top->departure = *s;
-        flesh_out_move_by_specific_invisible(*s);
-        move_gen_top->departure = move_by_invisible;
-        being_solved.spec[*s] = save_flags;
-      }
-
-    if (nr_total_invisibles_left>0)
-    {
-      // TODO avoid random moves by 1 unplaced invisible for both sides
-      TraceText("random move by unplaced invisible\n");
-      redo_adapted_move_effects();
-    }
-    else if (nbply==6)
-    {
-      // TODO
-      TraceText("random move by invisible to its placement in first ply\n");
-      redo_adapted_move_effects();
-    }
-
-    flesh_out_move_highwater = save_highwater;
-  }
-  else
+    // TODO avoid random moves by 1 unplaced invisible for both sides
+    TraceText("random move by unplaced invisible\n");
     redo_adapted_move_effects();
+  }
+  else if (nbply==6)
+  {
+    // TODO
+    TraceText("random move by invisible to its placement in first ply\n");
+    redo_adapted_move_effects();
+  }
+
+  flesh_out_move_highwater = save_highwater;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1691,47 +1673,31 @@ static void flesh_out_captures_by_invisible_walk_by_walk(void)
 
 static void flesh_out_captures_by_invisible(void)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",top_ply_of_regular_play);
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceEOL();
-
-  if (move_gen_top->departure>=capture_by_invisible
-      && is_on_board(move_gen_top->arrival))
+  if (play_phase==validating_mate)
   {
-    if (play_phase==validating_mate)
-    {
-      mate_validation_type const save_combined_validation_result = combined_validation_result;
+    mate_validation_type const save_combined_validation_result = combined_validation_result;
 
-      combined_validation_result = mate_validation_result;
+    combined_validation_result = mate_validation_result;
 
-      flesh_out_captures_by_invisible_walk_by_walk();
+    flesh_out_captures_by_invisible_walk_by_walk();
 
-      end_of_iteration = combined_result==previous_move_has_not_solved;
+    end_of_iteration = combined_result==previous_move_has_not_solved;
 
-      if (combined_validation_result<mate_validation_result)
-        mate_validation_result = combined_validation_result;
+    if (combined_validation_result<mate_validation_result)
+      mate_validation_result = combined_validation_result;
 
-      combined_validation_result = save_combined_validation_result;
+    combined_validation_result = save_combined_validation_result;
 
-      TraceValue("%u",combined_result);
-      TraceValue("%u",mate_validation_result);
-      TraceValue("%u",end_of_iteration);
-      TraceEOL();
-    }
-    else
-      flesh_out_captures_by_invisible_walk_by_walk();
+    TraceValue("%u",combined_result);
+    TraceValue("%u",mate_validation_result);
+    TraceValue("%u",end_of_iteration);
+    TraceEOL();
   }
   else
-    flesh_out_move_by_invisibles();
+    flesh_out_captures_by_invisible_walk_by_walk();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1743,7 +1709,31 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionParamListEnd();
 
   if (nbply<=top_ply_of_regular_play)
-    flesh_out_captures_by_invisible();
+  {
+    numecoup const curr = CURRMOVE_OF_PLY(nbply);
+    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",top_ply_of_regular_play);
+    TraceSquare(move_gen_top->departure);
+    TraceValue("%u",move_gen_top->departure);
+    TraceValue("%u",capture_by_invisible);
+    TraceValue("%u",flesh_out_move_highwater);
+    TraceSquare(move_gen_top->arrival);
+    TraceValue("%u",move_gen_top->arrival);
+    TraceValue("%u",move_by_invisible);
+    TraceEOL();
+
+    if (move_gen_top->departure>=capture_by_invisible
+        && is_on_board(move_gen_top->arrival))
+      flesh_out_captures_by_invisible();
+    else if (move_gen_top->departure==move_by_invisible
+             && move_gen_top->arrival==move_by_invisible
+             && nbply>flesh_out_move_highwater)
+      flesh_out_move_by_invisibles();
+    else
+      redo_adapted_move_effects();
+  }
   else
     validate_king_placements();
 
