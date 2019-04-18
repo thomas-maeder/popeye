@@ -743,7 +743,7 @@ static void done_fleshing_out_move_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible(void);
+static void start_iteration(void);
 
 static void restart_from_scratch(void)
 {
@@ -769,7 +769,7 @@ static void restart_from_scratch(void)
   }
 
   TraceValue("%u",nbply);TraceEOL();
-  flesh_out_captures_by_invisible();
+  start_iteration();
 
   while (nbply!=save_nbply)
   {
@@ -905,7 +905,7 @@ static void recurse_into_child_ply(void)
 
   ++nbply;
   TraceValue("%u",nbply);TraceEOL();
-  flesh_out_captures_by_invisible();
+  start_iteration();
   nbply = save_nbply;
 
   undo_move_effects();
@@ -2064,6 +2064,17 @@ static void flesh_out_captures_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static void start_iteration(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  flesh_out_captures_by_invisible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_taboo(int delta)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -2178,7 +2189,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
   ++being_solved.number_of_pieces[side_attacking][walk];
   occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
-  flesh_out_captures_by_invisible();
+  start_iteration();
   empty_square(s);
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
@@ -2333,7 +2344,7 @@ static void validate_mate(void)
 
     combined_result = previous_move_is_illegal;
     end_of_iteration = false;
-    flesh_out_captures_by_invisible();
+    start_iteration();
   }
 
   TraceFunctionExit(__func__);
@@ -2368,14 +2379,14 @@ static void test_mate(void)
     case mate_defendable_by_interceptors:
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
-      flesh_out_captures_by_invisible();
+      start_iteration();
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only reply moves for TI revelation */
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
-      flesh_out_captures_by_invisible();
+      start_iteration();
       assert(combined_result==previous_move_has_solved);
       break;
 
@@ -2448,7 +2459,7 @@ static void make_revelations(void)
   play_phase = detecting_revelations;
   rewind_effects();
   end_of_iteration = false;
-  flesh_out_captures_by_invisible();
+  start_iteration();
   unrewind_effects();
   play_phase = regular_play;
 
