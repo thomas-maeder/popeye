@@ -1741,6 +1741,17 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
+static void done_fleshing_out_captures_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  intercept_illegal_checks();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
                                                     square from)
 {
@@ -2047,7 +2058,7 @@ static void flesh_out_captures_by_invisible(void)
       flesh_out_captures_by_invisible_walk_by_walk();
   }
   else
-    intercept_illegal_checks();
+    done_fleshing_out_captures_by_invisible();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
