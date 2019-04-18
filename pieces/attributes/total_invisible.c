@@ -699,7 +699,7 @@ static void play_with_placed_invisibles(void)
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_move_by_invisible(void)
+static void done_validating_king_placements(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -882,7 +882,7 @@ static void validate_king_placements(void)
            && nr_total_invisibles_left==0)
     solve_result = previous_move_is_illegal;
   else
-    done_fleshing_out_move_by_invisible();
+    done_validating_king_placements();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1430,17 +1430,6 @@ static void flesh_out_move_by_invisibles(void)
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_captures_by_invisible(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  flesh_out_move_by_invisibles();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
                                                     square from)
 {
@@ -1746,7 +1735,7 @@ static void flesh_out_captures_by_invisible(void)
       flesh_out_captures_by_invisible_walk_by_walk();
   }
   else
-    done_fleshing_out_captures_by_invisible();
+    flesh_out_move_by_invisibles();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
