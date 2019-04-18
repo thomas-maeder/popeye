@@ -1430,13 +1430,335 @@ static void flesh_out_move_by_invisibles(void)
   TraceFunctionResultEnd();
 }
 
+static void done_fleshing_out_captures_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  flesh_out_move_by_invisibles();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
+                                                    square from)
+{
+  Side const side_playing = trait[nbply];
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_playing);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+  move_effect_journal[precapture].type = move_effect_none;
+
+  move_effect_journal[movement].u.piece_movement.from = from;
+  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+  move_effect_journal[movement].u.piece_movement.movingspec = BIT(side_playing)|BIT(Chameleon);
+  SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,GetPieceId(save_moving_spec));
+
+  move_gen_top->departure = from;
+
+  if (play_phase==validating_mate)
+  {
+    mate_validation_result = mate_unvalidated;
+    end_of_iteration = false;
+
+    restart_from_scratch();
+
+    TraceValue("%u",combined_result);
+    TraceValue("%u",mate_validation_result);
+    TraceValue("%u",combined_validation_result);
+    TraceEOL();
+    if (mate_validation_result<combined_validation_result)
+      combined_validation_result = mate_validation_result;
+
+    end_of_iteration = combined_validation_result==no_mate;
+  }
+  else
+    restart_from_scratch();
+
+  move_gen_top->departure = sq_created_on;
+
+  move_effect_journal[movement].u.piece_movement.from = sq_created_on;
+  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
+                                                    square from)
+{
+  Side const side_playing = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  if (taboo[side_playing][from]==0)
+  {
+    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+    if (nr_total_invisibles_left>0)
+    {
+      /* insert the capturer with the flags from the journal, which may have been
+       * tainted if the piece was eventually revealed
+       */
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const pre_capture_effect = base;
+      Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
+
+      assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_readdition);
+
+      --nr_total_invisibles_left;
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+
+      occupy_square(from,walk_capturing,flags);
+
+      ++taboo[White][from];
+      ++taboo[Black][from];
+
+      ++being_solved.number_of_pieces[side_playing][walk_capturing];
+
+      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+
+      --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+      --taboo[White][from];
+      --taboo[Black][from];
+
+      empty_square(from);
+
+      ++nr_total_invisibles_left;
+      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
+                                                    square from)
+{
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_capturing);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",TSTFLAG(being_solved.spec[from],Chameleon));
+  TraceValue("%u",TSTFLAG(being_solved.spec[from],trait[nbply]));
+  TraceWalk(get_walk_of_piece_on_square(from));
+  TraceEOL();
+
+  if (TSTFLAG(being_solved.spec[from],Chameleon)
+      && TSTFLAG(being_solved.spec[from],trait[nbply]))
+  {
+    if (get_walk_of_piece_on_square(from)==walk_capturing)
+      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+    else if (get_walk_of_piece_on_square(from)==Dummy)
+    {
+      Flags const flags = being_solved.spec[from];
+      ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+      being_solved.board[from] = walk_capturing;
+      CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
+      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+      being_solved.spec[from] = flags;
+      being_solved.board[from] = Dummy;
+      --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
+                                                  vec_index_type kcurr, vec_index_type kend)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_rider);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+  TraceSquare(sq_capture);TraceEOL();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square s;
+    for (s = sq_capture+vec[kcurr];
+         is_square_empty(s) && !end_of_iteration;
+         s += vec[kcurr])
+    {
+      flesh_out_capture_by_inserted_invisible(walk_rider,s);
+      ++taboo[White][s];
+      ++taboo[Black][s];
+    }
+
+    if (!end_of_iteration)
+      flesh_out_capture_by_existing_invisible(walk_rider,s);
+
+    for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
+    {
+      --taboo[White][s];
+      --taboo[Black][s];
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
+                                                   vec_index_type kcurr, vec_index_type kend)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_leaper);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square const s = sq_capture+vec[kcurr];
+    if (is_square_empty(s))
+      flesh_out_capture_by_inserted_invisible(walk_leaper,s);
+    else
+      flesh_out_capture_by_existing_invisible(walk_leaper,s);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_pawn(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
+  SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (!end_of_iteration)
+  {
+    square s = sq_capture+dir_vert+dir_left;
+    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+      flesh_out_capture_by_inserted_invisible(Pawn,s);
+  }
+
+  if (!end_of_iteration)
+  {
+    square s = sq_capture+dir_vert+dir_right;
+    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+      flesh_out_capture_by_inserted_invisible(Pawn,s);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible_walk_by_walk(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  // TODO King
+  flesh_out_captures_by_invisible_pawn();
+  flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
+  flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
+  flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
+  flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_captures_by_invisible(void)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",top_ply_of_regular_play);
+  TraceSquare(move_gen_top->departure);
+  TraceValue("%u",move_gen_top->departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceEOL();
+
+  if (move_gen_top->departure>=capture_by_invisible
+      && is_on_board(move_gen_top->arrival))
+  {
+    if (play_phase==validating_mate)
+    {
+      mate_validation_type const save_combined_validation_result = combined_validation_result;
+
+      combined_validation_result = mate_validation_result;
+
+      flesh_out_captures_by_invisible_walk_by_walk();
+
+      end_of_iteration = combined_result==previous_move_has_not_solved;
+
+      if (combined_validation_result<mate_validation_result)
+        mate_validation_result = combined_validation_result;
+
+      combined_validation_result = save_combined_validation_result;
+
+      TraceValue("%u",combined_result);
+      TraceValue("%u",mate_validation_result);
+      TraceValue("%u",end_of_iteration);
+      TraceEOL();
+    }
+    else
+      flesh_out_captures_by_invisible_walk_by_walk();
+  }
+  else
+    done_fleshing_out_captures_by_invisible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (nbply<=top_ply_of_regular_play)
-    flesh_out_move_by_invisibles();
+    flesh_out_captures_by_invisible();
   else
     validate_king_placements();
 
@@ -1741,335 +2063,12 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_captures_by_invisible(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  intercept_illegal_checks();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
-                                                    square from)
-{
-  Side const side_playing = trait[nbply];
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const precapture = effects_base;
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-  square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_playing);
-  TraceWalk(walk_capturing);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-  move_effect_journal[precapture].type = move_effect_none;
-
-  move_effect_journal[movement].u.piece_movement.from = from;
-  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-  move_effect_journal[movement].u.piece_movement.movingspec = BIT(side_playing)|BIT(Chameleon);
-  SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,GetPieceId(save_moving_spec));
-
-  move_gen_top->departure = from;
-
-  if (play_phase==validating_mate)
-  {
-    mate_validation_result = mate_unvalidated;
-    end_of_iteration = false;
-
-    restart_from_scratch();
-
-    TraceValue("%u",combined_result);
-    TraceValue("%u",mate_validation_result);
-    TraceValue("%u",combined_validation_result);
-    TraceEOL();
-    if (mate_validation_result<combined_validation_result)
-      combined_validation_result = mate_validation_result;
-
-    end_of_iteration = combined_validation_result==no_mate;
-  }
-  else
-    restart_from_scratch();
-
-  move_gen_top->departure = sq_created_on;
-
-  move_effect_journal[movement].u.piece_movement.from = sq_created_on;
-  move_effect_journal[movement].u.piece_movement.moving = Dummy;
-  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
-                                                    square from)
-{
-  Side const side_playing = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  if (taboo[side_playing][from]==0)
-  {
-    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-    if (nr_total_invisibles_left>0)
-    {
-      /* insert the capturer with the flags from the journal, which may have been
-       * tainted if the piece was eventually revealed
-       */
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const pre_capture_effect = base;
-      Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
-
-      assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_readdition);
-
-      --nr_total_invisibles_left;
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-
-      occupy_square(from,walk_capturing,flags);
-
-      ++taboo[White][from];
-      ++taboo[Black][from];
-
-      ++being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
-
-      --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      --taboo[White][from];
-      --taboo[Black][from];
-
-      empty_square(from);
-
-      ++nr_total_invisibles_left;
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
-                                                    square from)
-{
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",TSTFLAG(being_solved.spec[from],Chameleon));
-  TraceValue("%u",TSTFLAG(being_solved.spec[from],trait[nbply]));
-  TraceWalk(get_walk_of_piece_on_square(from));
-  TraceEOL();
-
-  if (TSTFLAG(being_solved.spec[from],Chameleon)
-      && TSTFLAG(being_solved.spec[from],trait[nbply]))
-  {
-    if (get_walk_of_piece_on_square(from)==walk_capturing)
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
-    else if (get_walk_of_piece_on_square(from)==Dummy)
-    {
-      Flags const flags = being_solved.spec[from];
-      ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-      being_solved.board[from] = walk_capturing;
-      CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
-      being_solved.spec[from] = flags;
-      being_solved.board[from] = Dummy;
-      --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
-                                                  vec_index_type kcurr, vec_index_type kend)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_rider);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
-  TraceSquare(sq_capture);TraceEOL();
-
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
-  {
-    square s;
-    for (s = sq_capture+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
-         s += vec[kcurr])
-    {
-      flesh_out_capture_by_inserted_invisible(walk_rider,s);
-      ++taboo[White][s];
-      ++taboo[Black][s];
-    }
-
-    if (!end_of_iteration)
-      flesh_out_capture_by_existing_invisible(walk_rider,s);
-
-    for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
-    {
-      --taboo[White][s];
-      --taboo[Black][s];
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
-                                                   vec_index_type kcurr, vec_index_type kend)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_leaper);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
-  {
-    square const s = sq_capture+vec[kcurr];
-    if (is_square_empty(s))
-      flesh_out_capture_by_inserted_invisible(walk_leaper,s);
-    else
-      flesh_out_capture_by_existing_invisible(walk_leaper,s);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_pawn(void)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-  int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
-  SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (!end_of_iteration)
-  {
-    square s = sq_capture+dir_vert+dir_left;
-    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_inserted_invisible(Pawn,s);
-  }
-
-  if (!end_of_iteration)
-  {
-    square s = sq_capture+dir_vert+dir_right;
-    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_inserted_invisible(Pawn,s);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible_walk_by_walk(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  // TODO King
-  flesh_out_captures_by_invisible_pawn();
-  flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
-  flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
-  flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
-  flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_captures_by_invisible(void)
-{
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u",top_ply_of_regular_play);
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceEOL();
-
-  if (nbply<=top_ply_of_regular_play
-      && move_gen_top->departure>=capture_by_invisible
-      && is_on_board(move_gen_top->arrival))
-  {
-    if (play_phase==validating_mate)
-    {
-      mate_validation_type const save_combined_validation_result = combined_validation_result;
-
-      combined_validation_result = mate_validation_result;
-
-      flesh_out_captures_by_invisible_walk_by_walk();
-
-      end_of_iteration = combined_result==previous_move_has_not_solved;
-
-      if (combined_validation_result<mate_validation_result)
-        mate_validation_result = combined_validation_result;
-
-      combined_validation_result = save_combined_validation_result;
-
-      TraceValue("%u",combined_result);
-      TraceValue("%u",mate_validation_result);
-      TraceValue("%u",end_of_iteration);
-      TraceEOL();
-    }
-    else
-      flesh_out_captures_by_invisible_walk_by_walk();
-  }
-  else
-    done_fleshing_out_captures_by_invisible();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void start_iteration(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  flesh_out_captures_by_invisible();
+  intercept_illegal_checks();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
