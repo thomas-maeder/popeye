@@ -80,11 +80,7 @@ static boolean revelation_status_is_uninitialised;
 static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
 
-// TODO change departure and arrival of generated move instead of this hack?
 static ply flesh_out_move_highwater = ply_retro_move;
-
-// TODO
-static ply victimg_placement_highwater = ply_retro_move;
 
 static PieceIdType next_invisible_piece_id;
 
@@ -965,22 +961,22 @@ static void redo_adapted_move_effects(void)
              && move_effect_journal[base].u.piece_addition.added.on==to)
     {
       /* victim to be created - no need for adaptation, but for accounting */
-      if (nbply<=victimg_placement_highwater)
+      if (nbply<=flesh_out_move_highwater)
       {
         TraceText("placed an invisible as victim in previous iteration\n");
         recurse_into_child_ply();
       }
       else if (nr_total_invisibles_left>0)
       {
-        ply const save_victimg_placement_highwater = victimg_placement_highwater;
-        victimg_placement_highwater = nbply;
+        ply const save_victimg_placement_highwater = flesh_out_move_highwater;
+        flesh_out_move_highwater = nbply;
         TraceText("place an invisible as victim\n");
         --nr_total_invisibles_left;
         TraceValue("%u",nr_total_invisibles_left);TraceEOL();
         recurse_into_child_ply();
         ++nr_total_invisibles_left;
         TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        victimg_placement_highwater = save_victimg_placement_highwater;
+        flesh_out_move_highwater = save_victimg_placement_highwater;
       }
       else
       {
