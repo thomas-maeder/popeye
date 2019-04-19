@@ -871,7 +871,7 @@ static void validate_king_placements(void)
           break;
 
         default:
-          solve_result = previous_move_has_not_solved;
+          combined_result = previous_move_has_not_solved;
           end_of_iteration = true;
           break;
       }
@@ -879,7 +879,7 @@ static void validate_king_placements(void)
   }
   else if (being_solved.king_square[side_mating]==initsquare
            && nr_total_invisibles_left==0)
-    solve_result = previous_move_is_illegal;
+    combined_result = previous_move_is_illegal;
   else
     done_validating_king_placements();
 
@@ -2293,7 +2293,6 @@ static void validate_mate(void)
   else
   {
     combined_validation_result = mate_unvalidated;
-
     combined_result = previous_move_is_illegal;
     end_of_iteration = false;
     start_iteration();
