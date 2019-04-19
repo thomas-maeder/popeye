@@ -1434,6 +1434,8 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
+  assert(move_gen_top->departure==sq_created_on);
+
   move_effect_journal[precapture].type = move_effect_none;
 
   move_effect_journal[movement].u.piece_movement.from = from;
