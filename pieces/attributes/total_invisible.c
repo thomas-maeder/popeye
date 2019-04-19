@@ -899,10 +899,23 @@ static void recurse_into_child_ply(void)
 
   redo_move_effects();
 
-  ++nbply;
-  TraceValue("%u",nbply);TraceEOL();
-  start_iteration();
-  nbply = save_nbply;
+  if (nbply<=flesh_out_move_highwater)
+  {
+    ++nbply;
+    TraceValue("%u",nbply);TraceEOL();
+    start_iteration();
+    nbply = save_nbply;
+  }
+  else
+  {
+    ply const save_highwater = flesh_out_move_highwater;
+    flesh_out_move_highwater = nbply;
+    ++nbply;
+    TraceValue("%u",nbply);TraceEOL();
+    start_iteration();
+    nbply = save_nbply;
+    flesh_out_move_highwater = save_highwater;
+  }
 
   undo_move_effects();
 
@@ -960,7 +973,6 @@ static void redo_adapted_move_effects(void)
     else if (move_effect_journal[base].type==move_effect_piece_readdition
              && move_effect_journal[base].u.piece_addition.added.on==to)
     {
-      /* victim to be created - no need for adaptation, but for accounting */
       if (nbply<=flesh_out_move_highwater)
       {
         TraceText("placed an invisible as victim in previous iteration\n");
@@ -968,15 +980,13 @@ static void redo_adapted_move_effects(void)
       }
       else if (nr_total_invisibles_left>0)
       {
-        ply const save_victimg_placement_highwater = flesh_out_move_highwater;
-        flesh_out_move_highwater = nbply;
+        /* victim to be created - no need for adaptation, but for bookkeeping */
         TraceText("place an invisible as victim\n");
         --nr_total_invisibles_left;
         TraceValue("%u",nr_total_invisibles_left);TraceEOL();
         recurse_into_child_ply();
         ++nr_total_invisibles_left;
         TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        flesh_out_move_highwater = save_victimg_placement_highwater;
       }
       else
       {
@@ -1036,9 +1046,7 @@ static void redo_adapted_move_effects(void)
         move_effect_journal[capture].u.piece_removal.on = to;
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
         move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
         recurse_into_child_ply();
-
         move_effect_journal[capture].type = move_effect_no_piece_removal;
       }
       else
@@ -1059,9 +1067,7 @@ static void redo_adapted_move_effects(void)
 
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
       recurse_into_child_ply();
-
       move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
       move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
     }
@@ -1116,6 +1122,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
       }
     }
   }
+
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1367,15 +1374,12 @@ static void flesh_out_move_by_invisibles(void)
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   Side const side_playing = trait[nbply];
   square const *s;
-  ply const save_highwater = flesh_out_move_highwater;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,side_playing);
   TraceEOL();
-
-  flesh_out_move_highwater = nbply;
 
   for (s = boardnum; *s && !end_of_iteration; ++s)
     if (TSTFLAG(being_solved.spec[*s],Chameleon)
@@ -1401,8 +1405,6 @@ static void flesh_out_move_by_invisibles(void)
     TraceText("random move by invisible to its placement in first ply\n");
     recurse_into_child_ply();
   }
-
-  flesh_out_move_highwater = save_highwater;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
