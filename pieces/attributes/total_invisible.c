@@ -1445,7 +1445,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_gen_top->departure = from;
 
-  restart_from_scratch();
+  redo_adapted_move_effects();
 
   move_gen_top->departure = sq_created_on;
 
@@ -1480,6 +1480,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       move_effect_journal_index_type const base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const pre_capture_effect = base;
       Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
+      Side const side_in_check = trait[nbply-1];
+      square const king_pos = being_solved.king_square[side_in_check];
 
       assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_readdition);
 
@@ -1493,7 +1495,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
 
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+      if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
+        flesh_out_capture_by_specific_invisible(walk_capturing,from);
 
       --being_solved.number_of_pieces[side_playing][walk_capturing];
 
@@ -1531,11 +1534,14 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       flesh_out_capture_by_specific_invisible(walk_capturing,from);
     else if (get_walk_of_piece_on_square(from)==Dummy)
     {
+      Side const side_in_check = trait[nbply-1];
+      square const king_pos = being_solved.king_square[side_in_check];
       Flags const flags = being_solved.spec[from];
       ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
       being_solved.board[from] = walk_capturing;
       CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+      if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
+        flesh_out_capture_by_specific_invisible(walk_capturing,from);
       being_solved.spec[from] = flags;
       being_solved.board[from] = Dummy;
       --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
