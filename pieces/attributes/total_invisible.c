@@ -1093,7 +1093,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         move_generation_stack[currmove].arrival = sq_singlestep;
-        redo_adapted_move_effects();
+        recurse_into_child_ply();
       }
 
       if (!end_of_iteration)
@@ -1109,7 +1109,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               move_generation_stack[currmove].arrival = sq_doublestep;
-              redo_adapted_move_effects();
+              recurse_into_child_ply();
             }
           }
         }
@@ -1150,7 +1150,7 @@ static void flesh_out_move_by_invisible_rider(square s,
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
-        redo_adapted_move_effects();
+        recurse_into_child_ply();
       }
     }
   }
@@ -1195,11 +1195,11 @@ static void flesh_out_move_by_invisible_leaper(square s,
           move_effect_journal[movement+1].u.king_square_movement.from = sq_departure;
           move_effect_journal[movement+1].u.king_square_movement.to = sq_arrival;
           move_effect_journal[movement+1].u.king_square_movement.side = trait[nbply];
-          redo_adapted_move_effects();
+          recurse_into_child_ply();
           move_effect_journal[movement+1].type = move_effect_none;
         }
         else
-          redo_adapted_move_effects();
+          recurse_into_child_ply();
       }
     }
     else
@@ -1393,13 +1393,13 @@ static void flesh_out_move_by_invisibles(void)
   {
     // TODO avoid random moves by 1 unplaced invisible for both sides
     TraceText("random move by unplaced invisible\n");
-    redo_adapted_move_effects();
+    recurse_into_child_ply();
   }
   else if (nbply==6)
   {
     // TODO
     TraceText("random move by invisible to its placement in first ply\n");
-    redo_adapted_move_effects();
+    recurse_into_child_ply();
   }
 
   flesh_out_move_highwater = save_highwater;
