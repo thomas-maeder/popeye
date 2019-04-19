@@ -1724,12 +1724,13 @@ static void done_intercepting_illegal_checks(void)
     TraceValue("%u",move_by_invisible);
     TraceEOL();
 
-    if (move_gen_top->departure>=capture_by_invisible
-        && is_on_board(move_gen_top->arrival))
+    if (nbply<=flesh_out_move_highwater)
+      redo_adapted_move_effects();
+    else if (move_gen_top->departure>=capture_by_invisible
+             && is_on_board(move_gen_top->arrival))
       flesh_out_captures_by_invisible();
     else if (move_gen_top->departure==move_by_invisible
-             && move_gen_top->arrival==move_by_invisible
-             && nbply>flesh_out_move_highwater)
+             && move_gen_top->arrival==move_by_invisible)
       flesh_out_move_by_invisibles();
     else
       redo_adapted_move_effects();
