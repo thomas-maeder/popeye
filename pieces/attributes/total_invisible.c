@@ -658,6 +658,8 @@ static void play_with_placed_invisibles(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
+  mate_validation_result = mate_unvalidated;
+
   pipe_solve_delegate(tester_slice);
 
   if (solve_result>combined_result)
@@ -670,6 +672,8 @@ static void play_with_placed_invisibles(void)
       break;
 
     case validating_mate:
+      if (mate_validation_result<combined_validation_result)
+        combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
         end_of_iteration = true;
       break;
@@ -861,8 +865,7 @@ static void validate_king_placements(void)
           break;
 
         case validating_mate:
-          mate_validation_result = no_mate;
-          solve_result = previous_move_has_not_solved;
+          combined_validation_result = no_mate;
           combined_result = previous_move_has_not_solved;
           end_of_iteration = true;
           break;
@@ -1440,24 +1443,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_gen_top->departure = from;
 
-  if (play_phase==validating_mate)
-  {
-    mate_validation_result = mate_unvalidated;
-    end_of_iteration = false;
-
-    restart_from_scratch();
-
-    TraceValue("%u",combined_result);
-    TraceValue("%u",mate_validation_result);
-    TraceValue("%u",combined_validation_result);
-    TraceEOL();
-    if (mate_validation_result<combined_validation_result)
-      combined_validation_result = mate_validation_result;
-
-    end_of_iteration = combined_validation_result==no_mate;
-  }
-  else
-    restart_from_scratch();
+  restart_from_scratch();
 
   move_gen_top->departure = sq_created_on;
 
@@ -1680,18 +1666,7 @@ static void flesh_out_captures_by_invisible(void)
 
   if (play_phase==validating_mate)
   {
-    mate_validation_type const save_combined_validation_result = combined_validation_result;
-
-    combined_validation_result = mate_validation_result;
-
     flesh_out_captures_by_invisible_walk_by_walk();
-
-    end_of_iteration = combined_result==previous_move_has_not_solved;
-
-    if (combined_validation_result<mate_validation_result)
-      mate_validation_result = combined_validation_result;
-
-    combined_validation_result = save_combined_validation_result;
 
     TraceValue("%u",combined_result);
     TraceValue("%u",mate_validation_result);
@@ -2314,10 +2289,10 @@ static void validate_mate(void)
 
   if (move_gen_top->departure==move_by_invisible
       && move_gen_top->arrival==move_by_invisible)
-    mate_validation_result = mate_defendable_by_interceptors;
+    combined_validation_result = mate_defendable_by_interceptors;
   else
   {
-    mate_validation_result = mate_unvalidated;
+    combined_validation_result = mate_unvalidated;
 
     combined_result = previous_move_is_illegal;
     end_of_iteration = false;
@@ -2334,10 +2309,10 @@ static void test_mate(void)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",combined_result);
-  TraceValue("%u",mate_validation_result);
+  TraceValue("%u",combined_validation_result);
   TraceEOL();
 
-  switch (mate_validation_result)
+  switch (combined_validation_result)
   {
     case mate_unvalidated:
       assert(combined_result==previous_move_is_illegal);
