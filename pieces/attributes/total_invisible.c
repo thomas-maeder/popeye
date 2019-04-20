@@ -1703,19 +1703,7 @@ static void flesh_out_capture_by_invisible(void)
     TraceText("capture by invisible, but invisible has left\n");
   }
   else
-  {
-    if (play_phase==validating_mate)
-    {
-      flesh_out_capture_by_invisible_walk_by_walk();
-
-      TraceValue("%u",combined_result);
-      TraceValue("%u",mate_validation_result);
-      TraceValue("%u",end_of_iteration);
-      TraceEOL();
-    }
-    else
-      flesh_out_capture_by_invisible_walk_by_walk();
-  }
+    flesh_out_capture_by_invisible_walk_by_walk();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
