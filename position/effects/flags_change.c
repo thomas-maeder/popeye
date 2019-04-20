@@ -49,6 +49,7 @@ static void undo_flags_change(move_effect_journal_entry_type const *entry)
 
   TraceSquare(on);
   TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%x",entry->u.flags_change.from);
   TraceValue("%x",entry->u.flags_change.to);
   TraceEOL();
 
@@ -78,6 +79,12 @@ static void redo_flags_change(move_effect_journal_entry_type const *entry)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceSquare(on);
+  TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%x",entry->u.flags_change.from);
+  TraceValue("%x",entry->u.flags_change.to);
+  TraceEOL();
 
   assert(being_solved.spec[on]==entry->u.flags_change.from);
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
