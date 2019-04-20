@@ -74,7 +74,11 @@ static void undo_piece_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(from);TraceSquare(to);TraceWalk(entry->u.piece_movement.moving);TraceEOL();
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceWalk(entry->u.piece_movement.moving);
+  TraceValue("%x",entry->u.piece_movement.movingspec);
+  TraceEOL();
 
   if (to!=from)
   {
@@ -94,7 +98,12 @@ static void redo_piece_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(from);TraceSquare(to);TraceWalk(entry->u.piece_movement.moving);TraceEOL();
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceWalk(entry->u.piece_movement.moving);
+  TraceValue("%x",being_solved.spec[from]);
+  TraceValue("%x",entry->u.piece_movement.movingspec);
+  TraceEOL();
 
   if (to!=from)
   {
