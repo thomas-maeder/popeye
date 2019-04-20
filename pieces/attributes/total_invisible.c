@@ -972,6 +972,8 @@ static void redo_adapted_move_effects(void)
     else
     {
       TraceText("castling no longer possible because a random move went to a disturbing square\n");
+      /* we shouldn't arrive here if we manage taboos correctly */
+      assert(0);
     }
   }
   else if (is_square_empty(to))
