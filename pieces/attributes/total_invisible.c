@@ -899,9 +899,14 @@ static void recurse_into_child_ply(void)
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_departure = move_gen_top->departure;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible
+         || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
   ++taboo[White][sq_departure];
   ++taboo[Black][sq_departure];
@@ -2163,6 +2168,8 @@ static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
                                         piece_walk_type walk)
 {
+  Flags spec = BIT(side_attacking)|BIT(Chameleon);
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_attacking);
   TraceSquare(s);
@@ -2177,9 +2184,11 @@ static void place_mating_piece_attacker(Side side_attacking,
   --nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
   ++being_solved.number_of_pieces[side_attacking][walk];
-  occupy_square(s,walk,BIT(side_attacking)|BIT(Chameleon));
+  SetPieceId(spec,++next_invisible_piece_id);
+  occupy_square(s,walk,spec);
   start_iteration();
   empty_square(s);
+  --next_invisible_piece_id;
   --being_solved.number_of_pieces[side_attacking][walk];
   ++nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
