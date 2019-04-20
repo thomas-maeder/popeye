@@ -1379,7 +1379,7 @@ static void flesh_out_move_by_specific_invisible(square s)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_move_by_invisibles(void)
+static void flesh_out_move_by_invisible(void)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
@@ -1568,7 +1568,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
+static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
                                                   vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -1611,7 +1611,7 @@ static void flesh_out_captures_by_invisible_rider(piece_walk_type walk_rider,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
+static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
                                                    vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -1637,7 +1637,7 @@ static void flesh_out_captures_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_pawn(void)
+static void flesh_out_capture_by_invisible_pawn(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -1667,23 +1667,23 @@ static void flesh_out_captures_by_invisible_pawn(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible_walk_by_walk(void)
+static void flesh_out_capture_by_invisible_walk_by_walk(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   // TODO King
-  flesh_out_captures_by_invisible_pawn();
-  flesh_out_captures_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
-  flesh_out_captures_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
-  flesh_out_captures_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
-  flesh_out_captures_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
+  flesh_out_capture_by_invisible_pawn();
+  flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
+  flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
+  flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
+  flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_captures_by_invisible(void)
+static void flesh_out_capture_by_invisible(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -1706,7 +1706,7 @@ static void flesh_out_captures_by_invisible(void)
   {
     if (play_phase==validating_mate)
     {
-      flesh_out_captures_by_invisible_walk_by_walk();
+      flesh_out_capture_by_invisible_walk_by_walk();
 
       TraceValue("%u",combined_result);
       TraceValue("%u",mate_validation_result);
@@ -1714,7 +1714,7 @@ static void flesh_out_captures_by_invisible(void)
       TraceEOL();
     }
     else
-      flesh_out_captures_by_invisible_walk_by_walk();
+      flesh_out_capture_by_invisible_walk_by_walk();
   }
 
   TraceFunctionExit(__func__);
@@ -1746,10 +1746,10 @@ static void done_intercepting_illegal_checks(void)
       redo_adapted_move_effects();
     else if (move_gen_top->departure>=capture_by_invisible
              && is_on_board(move_gen_top->arrival))
-      flesh_out_captures_by_invisible();
+      flesh_out_capture_by_invisible();
     else if (move_gen_top->departure==move_by_invisible
              && move_gen_top->arrival==move_by_invisible)
-      flesh_out_move_by_invisibles();
+      flesh_out_move_by_invisible();
     else
       redo_adapted_move_effects();
   }
