@@ -1447,6 +1447,8 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   assert(move_gen_top->departure==sq_created_on);
 
+  assert(!TSTFLAG(being_solved.spec[from],advers(trait[nbply])));
+
   move_effect_journal[precapture].type = move_effect_none;
 
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
