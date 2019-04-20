@@ -1437,7 +1437,6 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   square const sq_capture = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_playing);
   TraceWalk(walk_capturing);
   TraceSquare(from);
   TraceFunctionParamListEnd();
@@ -1764,7 +1763,7 @@ static void walk_interceptor_any_walk(Side side,
 
   ++being_solved.number_of_pieces[side][walk];
   SetPieceId(spec,++next_invisible_piece_id);
-  occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
+  occupy_square(pos,walk,spec);
   if (walk==King)
   {
     SETFLAG(being_solved.spec[pos],Royal);
