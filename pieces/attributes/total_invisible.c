@@ -217,6 +217,7 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceWalk(walk);
+  TraceFunctionParam("%x",spec);
   TraceFunctionParamListEnd();
 
   if (is_square_empty(s))
@@ -228,6 +229,10 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
                                             s,walk,spec,side);
     --nr_total_invisibles_left;
+  }
+  else
+  {
+    TraceText("revelation of a placed invisible\n");
   }
 
   assert(TSTFLAG(being_solved.spec[s],Chameleon));
@@ -372,6 +377,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
 
   TraceSquare(pos);
   TraceWalk(walk_to);
+  TraceValue("%x",flags_to);
   TraceValue("%u",id);
   TraceEOL();
 
@@ -1416,14 +1422,17 @@ static void flesh_out_move_by_invisibles(void)
 static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
                                                     square from)
 {
-  Side const side_playing = trait[nbply];
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
+  Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
   square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_capture = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_playing);
@@ -1438,20 +1447,25 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_effect_journal[precapture].type = move_effect_none;
 
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
+
   move_effect_journal[movement].u.piece_movement.from = from;
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-  move_effect_journal[movement].u.piece_movement.movingspec = BIT(side_playing)|BIT(Chameleon);
-  SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,GetPieceId(save_moving_spec));
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[from];
 
   move_gen_top->departure = from;
 
-  redo_adapted_move_effects();
+  recurse_into_child_ply();
 
   move_gen_top->departure = sq_created_on;
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
   move_effect_journal[movement].u.piece_movement.moving = Dummy;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+
+  move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
+  move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
 
@@ -1669,20 +1683,37 @@ static void flesh_out_captures_by_invisible_walk_by_walk(void)
 
 static void flesh_out_captures_by_invisible(void)
 {
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (play_phase==validating_mate)
+  if (is_square_empty(sq_capture))
   {
-    flesh_out_captures_by_invisible_walk_by_walk();
-
-    TraceValue("%u",combined_result);
-    TraceValue("%u",mate_validation_result);
-    TraceValue("%u",end_of_iteration);
-    TraceEOL();
+    // TODO we shouldn't arrive here, but currently we do:
+    // 1 TI was revealed on capture square
+    // 2 a move with a TI capturing the revealed piece was generated (and is being played)
+    // 3 the revealed piece has left before that in a TI~ move
+    // 4 there is nothing to remove when the move generated in 2 is played
+    // this case is illegal because 3 shouldn't occur
+    TraceText("capture by invisible, but invisible has left\n");
   }
   else
-    flesh_out_captures_by_invisible_walk_by_walk();
+  {
+    if (play_phase==validating_mate)
+    {
+      flesh_out_captures_by_invisible_walk_by_walk();
+
+      TraceValue("%u",combined_result);
+      TraceValue("%u",mate_validation_result);
+      TraceValue("%u",end_of_iteration);
+      TraceEOL();
+    }
+    else
+      flesh_out_captures_by_invisible_walk_by_walk();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1731,6 +1762,8 @@ static void walk_interceptor_any_walk(Side side,
                                       square pos,
                                       piece_walk_type walk)
 {
+  Flags spec = BIT(side)|BIT(Chameleon);
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
@@ -1738,6 +1771,7 @@ static void walk_interceptor_any_walk(Side side,
   TraceFunctionParamListEnd();
 
   ++being_solved.number_of_pieces[side][walk];
+  SetPieceId(spec,++next_invisible_piece_id);
   occupy_square(pos,walk,BIT(side)|BIT(Chameleon));
   if (walk==King)
   {
@@ -1765,8 +1799,9 @@ static void walk_interceptor_any_walk(Side side,
   TraceWalk(walk);
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==walk);
-  --being_solved.number_of_pieces[side][walk];
   empty_square(pos);
+  --next_invisible_piece_id;
+  --being_solved.number_of_pieces[side][walk];
 
   TracePosition(being_solved.board,being_solved.spec);
 
@@ -1886,9 +1921,12 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
   if (play_phase==validating_mate)
   {
-    occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+    SetPieceId(spec,++next_invisible_piece_id);
+    occupy_square(s,Dummy,spec);
     (*recurse)(kcurr+1);
     empty_square(s);
+    --next_invisible_piece_id;
   }
   else
     colour_interceptor(side_in_check,s);
