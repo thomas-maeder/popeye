@@ -952,13 +952,37 @@ static void redo_adapted_move_effects(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  if (is_square_empty(to))
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
-    if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+    if (is_square_empty(to))
       /* no need for adaptation */
       recurse_into_child_ply();
-    else if (move_effect_journal[base].type==move_effect_piece_readdition
-             && move_effect_journal[base].u.piece_addition.added.on==to)
+    else
+    {
+      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+      {
+        TraceText("capture of a total invisible that happened to land on the arrival square\n");
+
+        /* if the piece to be captured is royal, then our tests for self check have failed */
+        assert(!TSTFLAG(being_solved.spec[to],Royal));
+        move_effect_journal[capture].type = move_effect_piece_removal;
+        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+        move_effect_journal[capture].u.piece_removal.on = to;
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+        recurse_into_child_ply();
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
+      }
+      else
+      {
+        TraceText("move blocked by a random TI move\n");
+      }
+    }
+  }
+  else if (move_effect_journal[base].type==move_effect_piece_readdition
+           && move_effect_journal[base].u.piece_addition.added.on==to)
+  {
+    if (is_square_empty(to))
     {
       if (nbply<=flesh_out_move_highwater)
       {
@@ -982,25 +1006,9 @@ static void redo_adapted_move_effects(void)
     }
     else
     {
-      /* this was supposed to be a capture, but the capturee has already been
-       * captured by a TI which has in turn left the arrival square
-       */
-      assert(move_effect_journal[capture].type==move_effect_piece_removal);
-      move_effect_journal[capture].type = move_effect_no_piece_removal;
-      recurse_into_child_ply();
-      move_effect_journal[capture].type = move_effect_piece_removal;
-    }
-  }
-  else
-  {
-    if (move_effect_journal[base].type==move_effect_piece_readdition)
-    {
-      assert(move_effect_journal[base].u.piece_addition.added.on==to);
-      assert(move_effect_journal[capture].type==move_effect_piece_removal);
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
-      TraceText("capture of a total invisible (created for this purpose) by a pawn, ");
-      TraceText("but a total invisible has moved to the arrival square");
-      TraceEOL();
+      TraceText("capture of a total invisible (created for this purpose) by a pawn, "
+                "but another total invisible has moved to the arrival square\n");
 
       if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
       {
@@ -1015,49 +1023,29 @@ static void redo_adapted_move_effects(void)
       }
       else
       {
-        TraceText("move blocked by a random TI move");
-        TraceEOL();
+        TraceText("move is now blocked\n");
       }
     }
-    else if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-    {
-      TraceText("capture of a total invisible that landed on the arrival square");
-      TraceEOL();
+  }
+  else if (is_square_empty(to))
+  {
+    TraceText("original capture victim was captured by a TI that has since left\n");
+    move_effect_journal[capture].type = move_effect_no_piece_removal;
+    recurse_into_child_ply();
+    move_effect_journal[capture].type = move_effect_piece_removal;
+  }
+  else
+  {
+    piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
+    Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
 
-      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
-      {
-        /* if the piece to be captured is royal, then our tests for self check have failed */
-        assert(!TSTFLAG(being_solved.spec[to],Royal));
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-        move_effect_journal[capture].u.piece_removal.on = to;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-        recurse_into_child_ply();
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-      }
-      else
-      {
-        TraceText("move blocked by a random TI move");
-        TraceEOL();
-      }
-    }
-    else
-    {
-      piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
-      Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
+    TraceText("adjusting capture to current piece that occupies the capture square\n");
 
-      TraceText("adjusting capture of what was a total invisible");
-      TraceEOL();
-
-      assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
-      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-      recurse_into_child_ply();
-      move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
-      move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
-    }
+    move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+    move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+    recurse_into_child_ply();
+    move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
+    move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
   }
 
   TraceFunctionExit(__func__);
