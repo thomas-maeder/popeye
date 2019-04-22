@@ -222,13 +222,16 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 
   if (is_square_empty(s))
   {
+    Flags spec_inserted = BIT(White)|BIT(Black)|BIT(Chameleon);
     TraceValue("%u",nbply);
     TraceValue("%u",nr_total_invisibles_left);
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
-    SetPieceId(spec,++next_invisible_piece_id);
-    // TODO re-add a Dummy (walk_change below will take care of the walk)?
+    SetPieceId(spec_inserted,++next_invisible_piece_id);
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
-                                            s,walk,spec,side);
+                                            s,
+                                            Dummy,
+                                            spec_inserted,
+                                            side);
     --nr_total_invisibles_left;
   }
   else
