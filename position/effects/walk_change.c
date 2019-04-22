@@ -3,7 +3,7 @@
 #include "debugging/assert.h"
 
 
-static void do_walk_change(square on, piece_walk_type to)
+static void do_walk_change(square on, piece_walk_type from, piece_walk_type to)
 {
   if (TSTFLAG(being_solved.spec[on],White))
     --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
@@ -12,8 +12,11 @@ static void do_walk_change(square on, piece_walk_type to)
 
   TraceSquare(on);
   TraceWalk(being_solved.board[on]);
+  TraceWalk(from);
   TraceWalk(to);
   TraceEOL();
+
+  assert(being_solved.board[on]==from);
 
   replace_walk(on,to);
 
@@ -47,7 +50,7 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
   entry->u.piece_walk_change.from = get_walk_of_piece_on_square(on);
   entry->u.piece_walk_change.to = to;
 
-  do_walk_change(on,to);
+  do_walk_change(on,get_walk_of_piece_on_square(on),to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -57,11 +60,12 @@ static void undo_walk_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_walk_change.on;
   piece_walk_type const from = entry->u.piece_walk_change.from;
+  piece_walk_type const to = entry->u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  do_walk_change(on,from);
+  do_walk_change(on,to,from);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -70,12 +74,13 @@ static void undo_walk_change(move_effect_journal_entry_type const *entry)
 static void redo_walk_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_walk_change.on;
+  piece_walk_type const from = entry->u.piece_walk_change.from;
   piece_walk_type const to = entry->u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  do_walk_change(on,to);
+  do_walk_change(on,from,to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

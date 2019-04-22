@@ -268,6 +268,7 @@ static void redo_king_square_movement(move_effect_journal_entry_type const *entr
   TraceEnumerator(Side,side);
   TraceSquare(entry->u.king_square_movement.from);
   TraceSquare(to);
+  TraceSquare(being_solved.king_square[side]);
   TraceEOL();
 
   assert(being_solved.king_square[side]==entry->u.king_square_movement.from);

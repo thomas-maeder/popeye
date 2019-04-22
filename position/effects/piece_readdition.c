@@ -37,7 +37,6 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   if (TSTFLAG(addedspec,Black))
     ++being_solved.number_of_pieces[Black][added];
   occupy_square(on,added,addedspec);
-  assert(GetPieceId(addedspec)!=NullPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
