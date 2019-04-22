@@ -226,6 +226,7 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceValue("%u",nr_total_invisibles_left);
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
     SetPieceId(spec,++next_invisible_piece_id);
+    // TODO re-add a Dummy (walk_change below will take care of the walk)?
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
                                             s,walk,spec,side);
     --nr_total_invisibles_left;
@@ -1052,6 +1053,18 @@ static void redo_adapted_move_effects(void)
   TraceFunctionResultEnd();
 }
 
+static void done_fleshing_out_move_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  recurse_into_child_ply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 static void flesh_out_move_by_invisible_pawn(square s)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1074,7 +1087,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         move_generation_stack[currmove].arrival = sq_singlestep;
-        recurse_into_child_ply();
+        done_fleshing_out_move_by_invisible();
       }
 
       if (!end_of_iteration)
@@ -1090,7 +1103,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               move_generation_stack[currmove].arrival = sq_doublestep;
-              recurse_into_child_ply();
+              done_fleshing_out_move_by_invisible();
             }
           }
         }
@@ -1119,6 +1132,8 @@ static void flesh_out_move_by_invisible_rider(square s,
   TraceValue("%u",kend);
   TraceFunctionParamListEnd();
 
+  TraceWalk(get_walk_of_piece_on_square(s));TraceEOL();
+
   assert(kstart<=kend);
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
@@ -1132,7 +1147,7 @@ static void flesh_out_move_by_invisible_rider(square s,
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
-        recurse_into_child_ply();
+        done_fleshing_out_move_by_invisible();
       }
     }
   }
@@ -1157,6 +1172,8 @@ static void flesh_out_move_by_invisible_leaper(square s,
   TraceValue("%u",kend);
   TraceFunctionParamListEnd();
 
+  TraceWalk(get_walk_of_piece_on_square(s));TraceEOL();
+
   assert(kstart<=kend);
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
@@ -1177,11 +1194,11 @@ static void flesh_out_move_by_invisible_leaper(square s,
           move_effect_journal[movement+1].u.king_square_movement.from = sq_departure;
           move_effect_journal[movement+1].u.king_square_movement.to = sq_arrival;
           move_effect_journal[movement+1].u.king_square_movement.side = trait[nbply];
-          recurse_into_child_ply();
+          done_fleshing_out_move_by_invisible();
           move_effect_journal[movement+1].type = move_effect_none;
         }
         else
-          recurse_into_child_ply();
+          done_fleshing_out_move_by_invisible();
       }
     }
     else
@@ -1230,6 +1247,9 @@ static void flesh_out_move_by_specific_invisible(square s)
 
   if (walk_on_square==Dummy)
   {
+    Side const side_under_attack = advers(trait[nbply]);
+    square const king_pos = being_solved.king_square[side_under_attack];
+
     assert(play_phase==validating_mate);
 
     // TODO why does this not work?
@@ -1258,7 +1278,8 @@ static void flesh_out_move_by_specific_invisible(square s)
       {
         ++being_solved.number_of_pieces[trait[nbply]][Pawn];
         being_solved.board[s] = Pawn;
-        flesh_out_move_by_invisible_pawn(s);
+        if (!(king_pos!=initsquare && pawn_check_ortho(trait[nbply],king_pos)))
+          flesh_out_move_by_invisible_pawn(s);
         --being_solved.number_of_pieces[trait[nbply]][Pawn];
       }
     }
@@ -1267,7 +1288,8 @@ static void flesh_out_move_by_specific_invisible(square s)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Knight];
       being_solved.board[s] = Knight;
-      flesh_out_move_by_invisible_leaper(s,vec_knight_start,vec_knight_end);
+      if (!(king_pos!=initsquare && knight_check_ortho(trait[nbply],king_pos)))
+        flesh_out_move_by_invisible_leaper(s,vec_knight_start,vec_knight_end);
       --being_solved.number_of_pieces[trait[nbply]][Knight];
     }
 
@@ -1275,7 +1297,10 @@ static void flesh_out_move_by_specific_invisible(square s)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Bishop];
       being_solved.board[s] = Bishop;
-      flesh_out_move_by_invisible_rider(s,vec_bishop_start,vec_bishop_end);
+      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+                                          vec_bishop_start,vec_bishop_end,
+                                          Bishop))
+        flesh_out_move_by_invisible_rider(s,vec_bishop_start,vec_bishop_end);
       --being_solved.number_of_pieces[trait[nbply]][Bishop];
     }
 
@@ -1283,6 +1308,9 @@ static void flesh_out_move_by_specific_invisible(square s)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Rook];
       being_solved.board[s] = Rook;
+      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+                                          vec_rook_start,vec_rook_end,
+                                          Rook))
       flesh_out_move_by_invisible_rider(s,vec_rook_start,vec_rook_end);
       --being_solved.number_of_pieces[trait[nbply]][Rook];
     }
@@ -1291,7 +1319,10 @@ static void flesh_out_move_by_specific_invisible(square s)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Queen];
       being_solved.board[s] = Queen;
-      flesh_out_move_by_invisible_rider(s,vec_queen_start,vec_queen_end);
+      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+                                          vec_queen_start,vec_queen_end,
+                                          Queen))
+        flesh_out_move_by_invisible_rider(s,vec_queen_start,vec_queen_end);
       --being_solved.number_of_pieces[trait[nbply]][Queen];
     }
   }
@@ -1372,13 +1403,13 @@ static void flesh_out_move_by_invisible(void)
   {
     // TODO avoid random moves by 1 unplaced invisible for both sides
     TraceText("random move by unplaced invisible\n");
-    recurse_into_child_ply();
+    done_fleshing_out_move_by_invisible();
   }
   else if (nbply==6)
   {
     // TODO
     TraceText("random move by invisible to its placement in first ply\n");
-    recurse_into_child_ply();
+    done_fleshing_out_move_by_invisible();
   }
 
   TraceFunctionExit(__func__);
@@ -2731,6 +2762,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
           TraceValue("%u",i);
           TraceSquare(s);
           TraceWalk(revelation_status[i].walk);
+          TraceValue("%x",revelation_status[i].spec);
           TraceEOL();
           if (revelation_status[i].walk!=Empty && is_square_empty(s))
             ++nr_revealed_unplaced_invisibles;
