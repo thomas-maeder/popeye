@@ -2446,12 +2446,12 @@ static void make_revelations(void)
 
   top_ply_of_regular_play = nbply;
   setup_revelations();
-  play_phase = detecting_revelations;
   rewind_effects();
+  play_phase = detecting_revelations;
   end_of_iteration = false;
   start_iteration();
-  unrewind_effects();
   play_phase = regular_play;
+  unrewind_effects();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
