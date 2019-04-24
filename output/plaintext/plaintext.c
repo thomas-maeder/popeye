@@ -733,6 +733,30 @@ static void write_bgl_status(output_plaintext_move_context_type *context,
   }
 }
 
+static void write_revelation(output_plaintext_move_context_type *context,
+                             move_effect_journal_index_type curr)
+{
+  switch (move_effect_journal[curr].reason)
+  {
+    case move_effect_reason_revelation_of_invisible:
+    {
+      square const on = move_effect_journal[curr].u.piece_addition.added.on;
+      piece_walk_type const walk = move_effect_journal[curr].u.piece_addition.added.walk;
+      Flags const flags = move_effect_journal[curr].u.piece_addition.added.flags;
+      next_context(context,curr,"[","]");
+      WriteSquare(context->engine,context->file,on);
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,flags,on,true);
+      WriteWalk(context->engine,context->file,walk);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
 static void write_other_effects(output_plaintext_move_context_type *context,
                                 move_effect_journal_index_type offset)
 {
@@ -793,6 +817,10 @@ static void write_other_effects(output_plaintext_move_context_type *context,
 
       case move_effect_bgl_adjustment:
         write_bgl_status(context,curr);
+        break;
+
+      case move_effect_revelation_of_castling_partner:
+        write_revelation(context,curr);
         break;
 
       default:

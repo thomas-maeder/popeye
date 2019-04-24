@@ -49,6 +49,9 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
   move_effect_swap_volcanic,
+  move_effect_revelation_of_castling_partner,
+  move_effect_revelation_of_placed_invisible,
+  move_effect_revelation_of_new_invisible,
 
   move_effect_input_condition,
   move_effect_input_stipulation,
@@ -123,7 +126,6 @@ typedef enum
   move_effect_reason_snek,
   move_effect_reason_breton,
   move_effect_reason_removal_of_invisible,
-  move_effect_reason_addition_of_invisible,
   move_effect_reason_revelation_of_invisible,
 
   move_effect_reason_diagram_setup,
