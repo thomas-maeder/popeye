@@ -859,10 +859,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
           {
             TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
             TraceEOL();
-            if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-              assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_to);
-            else
-              move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
             move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
           }
           else
