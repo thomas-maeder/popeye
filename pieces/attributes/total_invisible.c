@@ -236,6 +236,12 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 
   assert(is_square_empty(on));
 
+  if (TSTFLAG(spec_revealed,Royal) && walk_revealed==King)
+  {
+    Side const side = TSTFLAG(spec_revealed,White) ? White : Black;
+    being_solved.king_square[side] = on;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -243,6 +249,8 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 static void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -250,6 +258,13 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = initsquare;
+      }
+      break;
+
     case play_rewinding:
       break;
 
@@ -274,6 +289,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -281,6 +297,11 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = on;
+      }
       break;
 
     case play_rewinding:
@@ -455,6 +476,12 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
 
   assert(!is_square_empty(on));
 
+  if (TSTFLAG(spec_revealed,Royal) && walk_revealed==King)
+  {
+    Side const side = TSTFLAG(spec_revealed,White) ? White : Black;
+    being_solved.king_square[side] = on;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -462,7 +489,8 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
 static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
-//  piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -471,6 +499,12 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   {
     case play_regular:
       assert(!is_square_empty(on));
+
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = initsquare;
+      }
       break;
 
     case play_rewinding:
@@ -501,6 +535,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -516,6 +551,12 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       // TODO one walk would be preferable
       assert(get_walk_of_piece_on_square(on)==Dummy /* while solving */
              || get_walk_of_piece_on_square(on)==walk /* while writing */);
+
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = on;
+      }
       break;
 
     case play_rewinding:
@@ -581,14 +622,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
                                             spec_inserted,
                                             side);
 
-    if (TSTFLAG(spec,Royal))
-    {
-      assert(walk==King);
-      move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
-                                                  side,
-                                                  s);
-    }
-
     move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
 
     assert(TSTFLAG(being_solved.spec[s],Chameleon));
@@ -617,14 +650,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceText("revelation of a placed invisible\n");
     do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
-
-    if (TSTFLAG(spec,Royal))
-    {
-      assert(walk==King);
-      move_effect_journal_do_king_square_movement(move_effect_reason_revelation_of_invisible,
-                                                  side,
-                                                  s);
-    }
 
     move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
 
@@ -779,22 +804,6 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
   move_effect_journal[idx].type = move_effect_none;
 
-  --idx;
-  if (TSTFLAG(flags_to,Royal) && walk_to==King)
-  {
-    TraceValue("%u",idx);
-    TraceValue("%u",move_effect_journal[idx].type);
-    TraceSquare(move_effect_journal[idx].u.king_square_movement.from);
-    TraceSquare(move_effect_journal[idx].u.king_square_movement.to);
-    TraceEOL();
-    assert(move_effect_journal[idx].type==move_effect_king_square_movement);
-    assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
-    assert(move_effect_journal[idx].u.king_square_movement.from==initsquare);
-    assert(move_effect_journal[idx].u.king_square_movement.to==pos);
-    move_effect_journal[idx].type = move_effect_none;
-    --idx;
-  }
-
   if (move_effect_journal[idx].type==move_effect_piece_movement
       && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
   {
@@ -888,9 +897,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   square pos = move_effect_journal[idx].u.flags_change.on;
   PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
-  Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
   piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
-  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_walk_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -912,16 +919,6 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   move_effect_journal[idx].type = move_effect_walk_change;
 
   --idx;
-
-  if (TSTFLAG(flags_to,Royal) && walk_to==King)
-  {
-    assert(move_effect_journal[idx].type==move_effect_none);
-    assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
-    assert(move_effect_journal[idx].u.king_square_movement.from==initsquare);
-    assert(move_effect_journal[idx].u.king_square_movement.to==pos);
-    move_effect_journal[idx].type = move_effect_king_square_movement;
-    --idx;
-  }
 
   if (move_effect_journal[idx].type==move_effect_none
       && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
