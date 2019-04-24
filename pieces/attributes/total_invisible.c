@@ -966,19 +966,8 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
           else
           {
             assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-//            assert(pos>=capture_by_invisible);
-            if (move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-            {
-              TraceText("untainting history of castling partner - nothing to do");
-              TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-              TraceEOL();
-              assert(move_effect_journal[idx].u.piece_addition.added.walk==walk_from);
-            }
-            else
-            {
-              TraceText("untainting added piece's walk\n");
-              move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
-            }
+            TraceText("untainting added piece's walk\n");
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
           }
 
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
