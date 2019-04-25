@@ -634,9 +634,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     SetPieceId(spec,GetPieceId(being_solved.spec[s]));
 
     move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
-
-    /* add a null effect to allow untaint_history to tell apart the different revelations */
-    move_effect_journal_do_null_effect();
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition
            && move_effect_journal[base].reason==move_effect_reason_castling_partner
@@ -646,9 +643,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceText("pseudo revelation of a castling partner\n");
     do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
-
-    /* add a null effect to allow untaint_history to tell apart the different revelations */
-    move_effect_journal_do_null_effect();
   }
   else
   {
@@ -662,9 +656,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     CLRFLAG(spec,Chameleon);
     SetPieceId(spec,GetPieceId(being_solved.spec[s]));
     move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
-
-    /* add a null effect to allow untaint_history to tell apart the different revelations */
-    move_effect_journal_do_null_effect();
   }
 
   TraceFunctionExit(__func__);
@@ -969,9 +960,16 @@ static void taint_history_of_revealed_pieces(ply ply)
   TraceFunctionParamListEnd();
 
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
-    if (move_effect_journal[curr].type==move_effect_flags_change
-        && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
-      taint_history_of_piece(curr,total_base);
+    if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
+    {
+      assert(move_effect_journal[curr+3].type==move_effect_flags_change);
+      taint_history_of_piece(curr+3,total_base);
+    }
+    else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
+    {
+      assert(move_effect_journal[curr+2].type==move_effect_flags_change);
+      taint_history_of_piece(curr+2,total_base);
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -988,9 +986,16 @@ static void untaint_history_of_revealed_pieces(ply ply)
   TraceFunctionParamListEnd();
 
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
-    if (move_effect_journal[curr].type==move_effect_none
-        && move_effect_journal[curr].reason==move_effect_reason_revelation_of_invisible)
-      untaint_history_of_piece(curr,total_base);
+    if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
+    {
+      assert(move_effect_journal[curr+3].type==move_effect_none);
+      untaint_history_of_piece(curr+3,total_base);
+    }
+    else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
+    {
+      assert(move_effect_journal[curr+2].type==move_effect_none);
+      untaint_history_of_piece(curr+2,total_base);
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2890,8 +2895,15 @@ void total_invisible_reveal_after_mating_move(slice_index si)
    * in output correctly */
   {
     ply ply;
+    /* this is a hack to prevent the effects of revealing invisibles after the
+     * mating move from being untainted */
+    move_effect_journal_index_type const top_after_revelations = move_effect_journal_base[nbply+1];
+    move_effect_journal_base[nbply+1] = top_before_revelations;
+
     for (ply = nbply; ply>ply_retro_move; --ply)
       untaint_history_of_revealed_pieces(ply);
+
+    move_effect_journal_base[nbply+1] = top_after_revelations;
   }
 
   pipe_solve_delegate(si);
