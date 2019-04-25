@@ -547,10 +547,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   switch (play_phase)
   {
     case play_regular:
-      assert(!is_square_empty(on));
-      // TODO one walk would be preferable
-      assert(get_walk_of_piece_on_square(on)==Dummy /* while solving */
-             || get_walk_of_piece_on_square(on)==walk /* while writing */);
+      assert(get_walk_of_piece_on_square(on)==Dummy);
 
       if (TSTFLAG(spec,Royal) && walk==King)
       {
