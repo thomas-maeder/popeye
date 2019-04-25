@@ -498,6 +498,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   switch (play_phase)
   {
     case play_regular:
+    case play_rewinding:
       assert(!is_square_empty(on));
 
       if (TSTFLAG(spec,Royal) && walk==King)
@@ -507,7 +508,6 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       }
       break;
 
-    case play_rewinding:
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
@@ -579,6 +579,12 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
     case play_unwinding:
       assert(!is_square_empty(on));
+
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = on;
+      }
       break;
 
     default:
