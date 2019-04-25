@@ -298,12 +298,15 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
-    case play_unwinding:
       if (TSTFLAG(spec,Royal) && walk==King)
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = on;
       }
+      break;
+
+    case play_unwinding:
+      /* nothing since we are leaving the revealed piece on the board */
       break;
 
     case play_rewinding:
