@@ -297,6 +297,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
+    case play_unwinding:
       if (TSTFLAG(spec,Royal) && walk==King)
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
@@ -332,9 +333,6 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       --nr_total_invisibles_left;
       break;
     }
-
-    case play_unwinding:
-      break;
 
     default:
       assert(0);
