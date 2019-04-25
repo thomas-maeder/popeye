@@ -266,6 +266,7 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       break;
 
     case play_rewinding:
+      /* nothing since we are leaving the revealed piece on the board */
       break;
 
     case play_detecting_revelations:
@@ -888,8 +889,6 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
 
   TraceSquare(pos);
   TraceWalk(walk_from);
-  TraceValue("%u",TSTFLAG(flags_to,Royal));
-  TraceWalk(walk_to);
   TraceValue("%u",id);
   TraceEOL();
 
