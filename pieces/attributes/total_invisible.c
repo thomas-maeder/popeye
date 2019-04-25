@@ -804,22 +804,6 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
   move_effect_journal[idx].type = move_effect_none;
 
-  if (move_effect_journal[idx].type==move_effect_piece_movement
-      && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
-  {
-    TraceValue("%u",idx);
-    TraceValue("%u",move_effect_journal[idx].type);
-    TraceSquare(move_effect_journal[idx].u.piece_movement.from);
-    TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-    TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
-    TraceEOL();
-    assert(move_effect_journal[idx].u.piece_movement.from<square_a1);
-    assert(move_effect_journal[idx].u.piece_movement.to==pos);
-    move_effect_journal[idx].type = move_effect_none;
-
-    --idx;
-  }
-
   // TODO should we also taint the king square movement if a king was revealed?
 
   while (idx>=total_base)
@@ -909,26 +893,12 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
-
   --idx;
+
   assert(move_effect_journal[idx].type==move_effect_none);
   assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
   move_effect_journal[idx].type = move_effect_walk_change;
-
   --idx;
-
-  if (move_effect_journal[idx].type==move_effect_none
-      && move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible)
-  {
-    TraceValue("%u",idx);
-    TraceSquare(move_effect_journal[idx].u.piece_movement.from);
-    TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-    TraceEOL();
-    assert(move_effect_journal[idx].u.piece_movement.from<square_a1);
-    assert(move_effect_journal[idx].u.piece_movement.to==pos);
-    move_effect_journal[idx].type = move_effect_piece_movement;
-    --idx;
-  }
 
   while (idx>=total_base)
   {
