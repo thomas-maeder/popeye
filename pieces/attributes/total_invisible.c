@@ -491,6 +491,9 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   if (TSTFLAG(being_solved.spec[on],Black))
     ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
+  assert(TSTFLAG(being_solved.spec[on],Chameleon));
+  CLRFLAG(being_solved.spec[on],Chameleon);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -522,6 +525,9 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
       if (TSTFLAG(being_solved.spec[on],Black))
         --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_detecting_revelations:
@@ -557,7 +563,10 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceFunctionParamListEnd();
 
   TraceSquare(on);
+  TraceWalk(being_solved.board[on]);
   TraceWalk(walk);
+  TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%x",spec);
   TraceEOL();
 
   switch (play_phase)
@@ -577,6 +586,9 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_rewinding:
@@ -615,6 +627,9 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
+//      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
     default:
@@ -675,13 +690,9 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   else
   {
     TraceText("revelation of a placed invisible\n");
+    SetPieceId(spec,GetPieceId(being_solved.spec[s]));
     do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
-
-    assert(TSTFLAG(being_solved.spec[s],Chameleon));
-    CLRFLAG(spec,Chameleon);
-    SetPieceId(spec,GetPieceId(being_solved.spec[s]));
-    move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
   }
 
   TraceFunctionExit(__func__);
@@ -978,9 +989,9 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
 static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
                                           move_effect_journal_index_type total_base)
 {
-  square pos = move_effect_journal[idx].u.flags_change.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
-  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_addition.added.walk;
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
+  piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -992,11 +1003,6 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
   TraceValue("%u",id);
   TraceEOL();
 
-  assert(id==GetPieceId(move_effect_journal[idx].u.flags_change.to));
-
-  move_effect_journal[idx].type = move_effect_none;
-
-  --idx;
   assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
 
   while (idx>=total_base)
@@ -1059,8 +1065,8 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
 static void untaint_history_of_placed_piece(move_effect_journal_index_type idx,
                                             move_effect_journal_index_type total_base)
 {
-  square pos = move_effect_journal[idx].u.flags_change.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -1068,15 +1074,10 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx,
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
-  TraceWalk(move_effect_journal[idx-1].u.piece_walk_change.from);
+  TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
   TraceValue("%u",id);
   TraceEOL();
 
-  assert(TSTFLAG(move_effect_journal[idx].u.flags_change.from,Chameleon));
-
-  move_effect_journal[idx].type = move_effect_flags_change;
-
-  --idx;
   assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
 
   while (idx>=total_base)
@@ -1141,10 +1142,7 @@ static void taint_history_of_revealed_pieces(ply ply)
       taint_history_of_piece(curr+3,total_base);
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-    {
-      assert(move_effect_journal[curr+1].type==move_effect_flags_change);
-      taint_history_of_placed_piece(curr+1,total_base);
-    }
+      taint_history_of_placed_piece(curr,total_base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1167,10 +1165,7 @@ static void untaint_history_of_revealed_pieces(ply ply)
       untaint_history_of_piece(curr+3,total_base);
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-    {
-      assert(move_effect_journal[curr+1].type==move_effect_none);
-      untaint_history_of_placed_piece(curr+1,total_base);
-    }
+      untaint_history_of_placed_piece(curr,total_base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
