@@ -484,6 +484,13 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
     being_solved.king_square[side] = on;
   }
 
+  replace_walk(on,walk_revealed);
+
+  if (TSTFLAG(being_solved.spec[on],White))
+    ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+  if (TSTFLAG(being_solved.spec[on],Black))
+    ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -508,6 +515,13 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = initsquare;
       }
+
+      replace_walk(on,Dummy);
+
+      if (TSTFLAG(being_solved.spec[on],White))
+        --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+      if (TSTFLAG(being_solved.spec[on],Black))
+        --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
       break;
 
     case play_detecting_revelations:
@@ -556,6 +570,13 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = on;
       }
+
+      replace_walk(on,walk);
+
+      if (TSTFLAG(being_solved.spec[on],White))
+        ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+      if (TSTFLAG(being_solved.spec[on],Black))
+        ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
       break;
 
     case play_rewinding:
@@ -587,6 +608,13 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = on;
       }
+
+      replace_walk(on,walk);
+
+      if (TSTFLAG(being_solved.spec[on],White))
+        ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+      if (TSTFLAG(being_solved.spec[on],Black))
+        ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
       break;
 
     default:
@@ -649,8 +677,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceText("revelation of a placed invisible\n");
     do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
-
-    move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
 
     assert(TSTFLAG(being_solved.spec[s],Chameleon));
     CLRFLAG(spec,Chameleon);
@@ -949,6 +975,155 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceFunctionResultEnd();
 }
 
+static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
+                                          move_effect_journal_index_type total_base)
+{
+  square pos = move_effect_journal[idx].u.flags_change.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
+  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_addition.added.walk;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",total_base);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(walk_to);
+  TraceValue("%u",id);
+  TraceEOL();
+
+  assert(id==GetPieceId(move_effect_journal[idx].u.flags_change.to));
+
+  move_effect_journal[idx].type = move_effect_none;
+
+  --idx;
+  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
+
+  while (idx>=total_base)
+  {
+    TraceValue("%u",idx);
+    TraceValue("%u",move_effect_journal[idx].type);
+    TraceEOL();
+
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
+          TraceSquare(move_effect_journal[idx].u.piece_movement.from);
+          TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
+          TraceEOL();
+          assert(move_effect_journal[idx].u.piece_movement.moving==Dummy);
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = walk_to;
+          CLRFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        break;
+
+      case move_effect_piece_readdition:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+          if (pos>=capture_by_invisible)
+          {
+            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+            TraceEOL();
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
+            CLRFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
+          }
+          idx = 1;
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        break;
+
+      default:
+        break;
+    }
+    --idx;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void untaint_history_of_placed_piece(move_effect_journal_index_type idx,
+                                            move_effect_journal_index_type total_base)
+{
+  square pos = move_effect_journal[idx].u.flags_change.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParam("%u",total_base);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(move_effect_journal[idx-1].u.piece_walk_change.from);
+  TraceValue("%u",id);
+  TraceEOL();
+
+  assert(TSTFLAG(move_effect_journal[idx].u.flags_change.from,Chameleon));
+
+  move_effect_journal[idx].type = move_effect_flags_change;
+
+  --idx;
+  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
+
+  while (idx>=total_base)
+  {
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = Dummy;
+          SETFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        break;
+
+      case move_effect_piece_readdition:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+          move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
+          SETFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
+          idx = 1;
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        break;
+
+      default:
+        break;
+    }
+
+    --idx;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void taint_history_of_revealed_pieces(ply ply)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
@@ -967,8 +1142,8 @@ static void taint_history_of_revealed_pieces(ply ply)
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
     {
-      assert(move_effect_journal[curr+2].type==move_effect_flags_change);
-      taint_history_of_piece(curr+2,total_base);
+      assert(move_effect_journal[curr+1].type==move_effect_flags_change);
+      taint_history_of_placed_piece(curr+1,total_base);
     }
 
   TraceFunctionExit(__func__);
@@ -993,8 +1168,8 @@ static void untaint_history_of_revealed_pieces(ply ply)
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
     {
-      assert(move_effect_journal[curr+2].type==move_effect_none);
-      untaint_history_of_piece(curr+2,total_base);
+      assert(move_effect_journal[curr+1].type==move_effect_none);
+      untaint_history_of_placed_piece(curr+1,total_base);
     }
 
   TraceFunctionExit(__func__);

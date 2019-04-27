@@ -820,6 +820,7 @@ static void write_other_effects(output_plaintext_move_context_type *context,
         break;
 
       case move_effect_revelation_of_castling_partner:
+      case move_effect_revelation_of_placed_invisible:
         write_revelation(context,curr);
         break;
 
