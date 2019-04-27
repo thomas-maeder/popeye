@@ -467,19 +467,6 @@ static void write_walk_change(output_plaintext_move_context_type *context,
       WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
       break;
 
-    case move_effect_reason_revelation_of_invisible:
-    {
-      square const on = move_effect_journal[curr].u.piece_walk_change.on;
-      Flags const flags = move_effect_journal[curr+1].u.flags_change.to;
-      assert(move_effect_journal[curr+1].type==move_effect_flags_change);
-      next_context(context,curr,"[","]");
-      WriteSquare(context->engine,context->file,on);
-      (*context->engine->fputc)('=',context->file);
-      WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_walk_change.to,true);
-      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);
-      break;
-    }
-
     default:
       break;
   }
@@ -821,6 +808,7 @@ static void write_other_effects(output_plaintext_move_context_type *context,
 
       case move_effect_revelation_of_castling_partner:
       case move_effect_revelation_of_placed_invisible:
+      case move_effect_revelation_of_new_invisible:
         write_revelation(context,curr);
         break;
 
