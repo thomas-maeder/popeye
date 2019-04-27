@@ -666,11 +666,9 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     SetPieceId(spec_inserted,++next_invisible_piece_id);
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
                                             s,
-                                            Dummy,
+                                            walk,
                                             spec_inserted,
                                             side);
-
-    move_effect_journal_do_walk_change(move_effect_reason_revelation_of_invisible,s,walk);
 
     assert(TSTFLAG(being_solved.spec[s],Chameleon));
     CLRFLAG(spec,Chameleon);
@@ -810,7 +808,7 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   square pos = move_effect_journal[idx].u.flags_change.on;
   PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
   Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
-  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_walk_change.to;
+  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -826,18 +824,6 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   assert(id==GetPieceId(move_effect_journal[idx].u.flags_change.to));
 
   move_effect_journal[idx].type = move_effect_none;
-
-  --idx;
-  TraceValue("%u",idx);
-  TraceValue("%u",move_effect_journal[idx].type);
-  TraceWalk(move_effect_journal[idx].u.piece_walk_change.from);
-  TraceWalk(move_effect_journal[idx].u.piece_walk_change.to);
-  TraceEOL();
-  assert(move_effect_journal[idx].type==move_effect_walk_change);
-  assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
-  move_effect_journal[idx].type = move_effect_none;
-
-  // TODO should we also taint the king square movement if a king was revealed?
 
   while (idx>=total_base)
   {
@@ -911,7 +897,7 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   square pos = move_effect_journal[idx].u.flags_change.on;
   PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
   Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
-  piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_walk_change.from;
+  piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
@@ -924,11 +910,6 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceEOL();
 
   move_effect_journal[idx].type = move_effect_flags_change;
-  --idx;
-
-  assert(move_effect_journal[idx].type==move_effect_none);
-  assert(move_effect_journal[idx].reason==move_effect_reason_revelation_of_invisible);
-  move_effect_journal[idx].type = move_effect_walk_change;
   --idx;
 
   while (idx>=total_base)
@@ -986,16 +967,15 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceFunctionResultEnd();
 }
 
-static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
-                                          move_effect_journal_index_type total_base)
+static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
 {
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   square pos = move_effect_journal[idx].u.piece_addition.added.on;
   PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
   piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",total_base);
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
@@ -1062,15 +1042,14 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx,
   TraceFunctionResultEnd();
 }
 
-static void untaint_history_of_placed_piece(move_effect_journal_index_type idx,
-                                            move_effect_journal_index_type total_base)
+static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
 {
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   square pos = move_effect_journal[idx].u.piece_addition.added.on;
   PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",total_base);
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
@@ -1138,11 +1117,11 @@ static void taint_history_of_revealed_pieces(ply ply)
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
     {
-      assert(move_effect_journal[curr+3].type==move_effect_flags_change);
-      taint_history_of_piece(curr+3,total_base);
+      assert(move_effect_journal[curr+2].type==move_effect_flags_change);
+      taint_history_of_piece(curr+2,total_base);
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-      taint_history_of_placed_piece(curr,total_base);
+      taint_history_of_placed_piece(curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1161,11 +1140,11 @@ static void untaint_history_of_revealed_pieces(ply ply)
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
     {
-      assert(move_effect_journal[curr+3].type==move_effect_none);
-      untaint_history_of_piece(curr+3,total_base);
+      assert(move_effect_journal[curr+2].type==move_effect_none);
+      untaint_history_of_piece(curr+2,total_base);
     }
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-      untaint_history_of_placed_piece(curr,total_base);
+      untaint_history_of_placed_piece(curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
