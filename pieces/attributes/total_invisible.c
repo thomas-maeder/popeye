@@ -507,6 +507,12 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",play_phase);
+  TraceSquare(on);
+  TraceWalk(walk);
+  TraceValue("%x",spec);
+  TraceEOL();
+
   switch (play_phase)
   {
     case play_regular:
@@ -587,7 +593,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+// doesn't hold while we write the solution as long as tainting is done in regular play
+//      assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
@@ -628,6 +635,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
+// doesn't hold while we write the solution as long as tainting is done in regular play
 //      assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
@@ -3026,7 +3034,6 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 {
   unsigned int const save_nr_total_invisibles_left = nr_total_invisibles_left;
   PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
-  move_effect_journal_index_type const top_before_revelations = move_effect_journal_base[nbply+1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -3036,35 +3043,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   if (!revelation_status_is_uninitialised)
     evaluate_revelations();
 
-  /* restore revelation effects from previous plies so that they appear
-   * in output correctly */
-  {
-    ply ply;
-    /* this is a hack to prevent the effects of revealing invisibles after the
-     * mating move from being untainted */
-    move_effect_journal_index_type const top_after_revelations = move_effect_journal_base[nbply+1];
-    move_effect_journal_base[nbply+1] = top_before_revelations;
-
-    for (ply = nbply; ply>ply_retro_move; --ply)
-      untaint_history_of_revealed_pieces(ply);
-
-    move_effect_journal_base[nbply+1] = top_after_revelations;
-  }
-
   pipe_solve_delegate(si);
-
-  {
-    ply ply;
-    /* this is a hack to prevent the effects of revealing invisibles after the
-     * mating move from being tainted */
-    move_effect_journal_index_type const top_after_revelations = move_effect_journal_base[nbply+1];
-    move_effect_journal_base[nbply+1] = top_before_revelations;
-
-    for (ply = nbply; ply>ply_retro_move; --ply)
-      taint_history_of_revealed_pieces(ply);
-
-    move_effect_journal_base[nbply+1] = top_after_revelations;
-  }
 
   nr_total_invisibles_left = save_nr_total_invisibles_left;
   next_invisible_piece_id = save_next_invisible_piece_id;
