@@ -235,6 +235,11 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   entry->u.piece_addition.added.flags = spec_revealed;
 
   assert(is_square_empty(on));
+  if (TSTFLAG(spec_revealed,White))
+    ++being_solved.number_of_pieces[White][walk_revealed];
+  if (TSTFLAG(spec_revealed,Black))
+    ++being_solved.number_of_pieces[Black][walk_revealed];
+  occupy_square(on,walk_revealed,spec_revealed);
 
   if (TSTFLAG(spec_revealed,Royal) && walk_revealed==King)
   {
@@ -258,6 +263,13 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
+      if (TSTFLAG(spec,White))
+        --being_solved.number_of_pieces[White][walk];
+      if (TSTFLAG(spec,Black))
+        --being_solved.number_of_pieces[Black][walk];
+
+      empty_square(on);
+
       if (TSTFLAG(spec,Royal) && walk==King)
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
@@ -298,6 +310,13 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   switch (play_phase)
   {
     case play_regular:
+      assert(is_square_empty(on));
+      if (TSTFLAG(spec,White))
+        ++being_solved.number_of_pieces[White][walk];
+      if (TSTFLAG(spec,Black))
+        ++being_solved.number_of_pieces[Black][walk];
+      occupy_square(on,walk,spec);
+
       if (TSTFLAG(spec,Royal) && walk==King)
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
@@ -773,7 +792,6 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
 static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 {
-  Side const side = TSTFLAG(spec,White) ? White : Black;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
 
   TraceFunctionEntry(__func__);
@@ -793,12 +811,6 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     CLRFLAG(spec,Chameleon);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
-
-    move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
-                                            s,
-                                            walk,
-                                            spec,
-                                            side);
     assert(!TSTFLAG(being_solved.spec[s],Chameleon));
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition
@@ -928,97 +940,6 @@ static void evaluate_revelations(void)
     if (revelation_status[i].walk!=Empty)
       add_revelation_effect(s,revelation_status[i].walk,revelation_status[i].spec);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
-{
-  square pos = move_effect_journal[idx].u.piece_addition.added.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-  TraceEOL();
-
-  ++idx;
-
-  assert(move_effect_journal[idx].type==move_effect_piece_readdition);
-  assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
-  assert(move_effect_journal[idx].u.piece_addition.added.walk
-         ==move_effect_journal[idx-1].u.piece_addition.added.walk);
-
-  TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-  TraceEOL();
-  assert(!(pos>=capture_by_invisible));
-  move_effect_journal[idx].u.piece_addition.added.on = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void untaint_history_of_new_invisible(move_effect_journal_index_type idx)
-{
-  square pos = move_effect_journal[idx].u.piece_addition.added.on;
-  Flags const flags_from = move_effect_journal[idx].u.piece_addition.added.flags;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-  TraceEOL();
-
-  ++idx;
-
-  assert(move_effect_journal[idx].type==move_effect_piece_readdition);
-  assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
-  assert(move_effect_journal[idx].u.piece_addition.added.walk
-         ==move_effect_journal[idx-1].u.piece_addition.added.walk);
-
-  TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-  TraceEOL();
-  assert(move_effect_journal[idx].u.piece_addition.added.on==initsquare);
-  TraceText("reactivating piece addition that was deactivated while tainting\n");
-  move_effect_journal[idx].u.piece_addition.added.on = pos;
-  move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void taint_history_of_revealed_pieces(ply ply)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[ply];
-  move_effect_journal_index_type curr;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",ply);
-  TraceFunctionParamListEnd();
-
-  for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
-    if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
-      taint_history_of_new_invisible(curr);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void untaint_history_of_revealed_pieces(ply ply)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[ply];
-  move_effect_journal_index_type curr;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",ply);
-  TraceFunctionParamListEnd();
-
-  for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
-    if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
-      untaint_history_of_new_invisible(curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3125,9 +3046,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
       {
         PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
         evaluate_revelations();
-        taint_history_of_revealed_pieces(nbply);
         pipe_solve_delegate(si);
-        untaint_history_of_revealed_pieces(nbply);
         TraceValue("%u",nr_total_invisibles_left);TraceEOL();
         next_invisible_piece_id = save_next_invisible_piece_id;
       }
