@@ -647,7 +647,9 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceValue("%u",play_phase);
   TraceSquare(on);
   TraceWalk(walk);
+  TraceWalk(get_walk_of_piece_on_square(on));
   TraceValue("%x",spec);
+  TraceValue("%x",being_solved.spec[on]);
   TraceEOL();
 
   switch (play_phase)
@@ -685,7 +687,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       // TODO as long as redo_revelation_of_placed_invisible() can't abort
       // immediately when the wrong walk is detected on square on, we have to
       // accept wrong walks as well
-      //assert(get_walk_of_piece_on_square(on)==walk);
+      assert(has_revalation_been_violated || get_walk_of_piece_on_square(on)==walk);
       break;
 
     case play_unwinding:
@@ -710,6 +712,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",play_phase);
   TraceSquare(on);
   TraceWalk(being_solved.board[on]);
   TraceWalk(walk);
@@ -745,19 +748,15 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
     case play_detecting_revelations:
     case play_validating_mate:
+    case play_testing_mate:
       assert(!is_square_empty(on));
 
       TraceWalk(get_walk_of_piece_on_square(on));TraceEOL();
-      if (get_walk_of_piece_on_square(on)==walk)
+      if (get_walk_of_piece_on_square(on)!=walk)
       {
-        /* go on */
-      }
-      else
+        TraceText("the revelation has been violated - terminating redoing effects with this ply");
         has_revalation_been_violated = true;
-      break;
-
-    case play_testing_mate:
-      assert(!is_square_empty(on));
+      }
       break;
 
     case play_unwinding:
