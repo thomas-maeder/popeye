@@ -935,76 +935,26 @@ static void evaluate_revelations(void)
 
 static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
 {
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   square pos = move_effect_journal[idx].u.piece_addition.added.on;
-  Flags const flags_to = move_effect_journal[idx].u.piece_addition.added.flags;
-  PieceIdType const id = GetPieceId(flags_to);
-  piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  TraceSquare(pos);
-  TraceWalk(walk_to);
-  TraceValue("%x",flags_to);
-  TraceValue("%u",id);
+  TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
   TraceEOL();
 
   ++idx;
 
   assert(move_effect_journal[idx].type==move_effect_piece_readdition);
   assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
-  assert(move_effect_journal[idx].u.piece_addition.added.walk==move_effect_journal[idx].u.piece_addition.added.walk);
+  assert(move_effect_journal[idx].u.piece_addition.added.walk
+         ==move_effect_journal[idx-1].u.piece_addition.added.walk);
 
-  while (idx>=total_base)
-  {
-    TraceValue("%u",idx);
-    TraceValue("%u",move_effect_journal[idx].type);
-    TraceEOL();
-
-    switch (move_effect_journal[idx].type)
-    {
-      case move_effect_piece_movement:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
-        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_movement.to);
-          TraceSquare(move_effect_journal[idx].u.piece_movement.from);
-          TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
-          TraceEOL();
-          pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = walk_to;
-          move_effect_journal[idx].u.piece_movement.movingspec = flags_to;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
-        break;
-
-      case move_effect_piece_readdition:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          assert(!(pos>=capture_by_invisible));
-          TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-          TraceEOL();
-          move_effect_journal[idx].u.piece_addition.added.on = initsquare;
-          idx = 1;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
-        break;
-
-      default:
-        break;
-    }
-    --idx;
-  }
+  TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+  TraceEOL();
+  assert(!(pos>=capture_by_invisible));
+  move_effect_journal[idx].u.piece_addition.added.on = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1012,68 +962,29 @@ static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
 
 static void untaint_history_of_new_invisible(move_effect_journal_index_type idx)
 {
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   square pos = move_effect_journal[idx].u.piece_addition.added.on;
   Flags const flags_from = move_effect_journal[idx].u.piece_addition.added.flags;
-  PieceIdType const id = GetPieceId(flags_from);
-  piece_walk_type const walk_from = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  TraceSquare(pos);
-  TraceWalk(walk_from);
-  TraceValue("%u",id);
+  TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
   TraceEOL();
 
   ++idx;
 
   assert(move_effect_journal[idx].type==move_effect_piece_readdition);
   assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
-  assert(move_effect_journal[idx].u.piece_addition.added.walk==move_effect_journal[idx-1].u.piece_addition.added.walk);
+  assert(move_effect_journal[idx].u.piece_addition.added.walk
+         ==move_effect_journal[idx-1].u.piece_addition.added.walk);
 
-  while (idx>=total_base)
-  {
-    switch (move_effect_journal[idx].type)
-    {
-      case move_effect_piece_movement:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
-        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_movement.to);
-          pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = walk_from;
-          move_effect_journal[idx].u.piece_movement.movingspec = flags_from;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
-        break;
-
-      case move_effect_piece_readdition:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
-        {
-          assert(move_effect_journal[idx].u.piece_addition.added.on==initsquare);
-          TraceText("reactivating piece addition that was deactivated while tainting\n");
-          move_effect_journal[idx].u.piece_addition.added.on = pos;
-          move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
-          idx = 1;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
-        break;
-
-      default:
-        break;
-    }
-
-    --idx;
-  }
+  TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+  TraceEOL();
+  assert(move_effect_journal[idx].u.piece_addition.added.on==initsquare);
+  TraceText("reactivating piece addition that was deactivated while tainting\n");
+  move_effect_journal[idx].u.piece_addition.added.on = pos;
+  move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
