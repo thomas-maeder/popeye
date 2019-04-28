@@ -659,6 +659,7 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     SetPieceId(spec,++next_invisible_piece_id);
+    assert(TSTFLAG(spec,Chameleon));
     CLRFLAG(spec,Chameleon);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
@@ -668,6 +669,7 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
                                             walk,
                                             spec,
                                             side);
+    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition
            && move_effect_journal[base].reason==move_effect_reason_castling_partner
@@ -675,15 +677,21 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
                ==GetPieceId(spec)))
   {
     TraceText("pseudo revelation of a castling partner\n");
+    assert(TSTFLAG(spec,Chameleon));
+    assert(TSTFLAG(being_solved.spec[s],Chameleon));
     do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
+    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
   }
   else
   {
     TraceText("revelation of a placed invisible\n");
     SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+    assert(TSTFLAG(spec,Chameleon));
+    assert(TSTFLAG(being_solved.spec[s],Chameleon));
     do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                       s,walk,spec);
+    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
   }
 
   TraceFunctionExit(__func__);
