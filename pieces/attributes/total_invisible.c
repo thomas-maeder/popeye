@@ -1531,7 +1531,7 @@ static void flesh_out_move_by_specific_invisible(square s)
   assert(currmove_arrival==move_by_invisible);
   move_generation_stack[currmove].departure = s;
 
-  // TODO use a sibling ply?
+  // TODO use a sibling ply and the regular move generation machinery?
 
   move_effect_journal[movement].u.piece_movement.moving = being_solved.board[s];
   CLRFLAG(being_solved.spec[s],advers(trait[nbply]));
@@ -1544,22 +1544,21 @@ static void flesh_out_move_by_specific_invisible(square s)
 
     assert(play_phase==play_validating_mate);
 
-    // TODO why does this not work?
-//    if (!end_of_iteration)
-//    {
-//      Side const side = trait[nbply];
-//      if (being_solved.king_square[side]==initsquare)
-//      {
-//        being_solved.king_square[side] = s;
-//        ++being_solved.number_of_pieces[trait[nbply]][King];
-//        being_solved.board[s] = King;
-//        SETFLAG(being_solved.spec[s],Royal);
-//        flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
-//        CLRFLAG(being_solved.spec[s],Royal);
-//        --being_solved.number_of_pieces[trait[nbply]][King];
-//        being_solved.king_square[side] = initsquare;
-//      }
-//    }
+    if (!end_of_iteration)
+    {
+      Side const side = trait[nbply];
+      if (being_solved.king_square[side]==initsquare)
+      {
+        being_solved.king_square[side] = s;
+        ++being_solved.number_of_pieces[trait[nbply]][King];
+        being_solved.board[s] = King;
+        SETFLAG(being_solved.spec[s],Royal);
+        flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
+        CLRFLAG(being_solved.spec[s],Royal);
+        --being_solved.number_of_pieces[trait[nbply]][King];
+        being_solved.king_square[side] = initsquare;
+      }
+    }
 
     if (!end_of_iteration)
     {
