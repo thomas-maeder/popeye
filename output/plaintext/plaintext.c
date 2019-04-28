@@ -321,10 +321,6 @@ static void write_flags_change(output_plaintext_move_context_type *context,
       }
       break;
 
-    case move_effect_reason_revelation_of_invisible:
-      /* the flags are written with the changed walk */
-      break;
-
     default:
       break;
   }
@@ -564,16 +560,6 @@ static void write_piece_creation(output_plaintext_move_context_type *context,
                        move_effect_journal[curr].u.piece_addition.added.on);
 }
 
-//static void write_piece_revelation(output_plaintext_move_context_type *context,
-//                                   move_effect_journal_index_type curr)
-//{
-//  next_context(context,curr,"[","]");
-//  write_complete_piece(context,
-//                       move_effect_journal[curr].u.piece_addition.added.flags,
-//                       move_effect_journal[curr].u.piece_addition.added.walk,
-//                       move_effect_journal[curr].u.piece_addition.added.on);
-//}
-
 static void write_piece_readdition(output_plaintext_move_context_type *context,
                                    move_effect_journal_index_type curr)
 {
@@ -733,7 +719,7 @@ static void write_revelation(output_plaintext_move_context_type *context,
       next_context(context,curr,"[","]");
       WriteSquare(context->engine,context->file,on);
       (*context->engine->fputc)('=',context->file);
-      WriteSpec(context->engine,context->file,flags,on,true);
+      WriteSpec(context->engine,context->file,flags,walk,true);
       WriteWalk(context->engine,context->file,walk);
       break;
     }

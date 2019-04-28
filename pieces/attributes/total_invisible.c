@@ -654,27 +654,20 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 
   if (is_square_empty(s))
   {
-    Flags spec_inserted = BIT(White)|BIT(Black)|BIT(Chameleon);
-
     TraceValue("%u",nbply);
     TraceValue("%u",nr_total_invisibles_left);
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
+    SetPieceId(spec,++next_invisible_piece_id);
+    CLRFLAG(spec,Chameleon);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
 
-    SetPieceId(spec_inserted,++next_invisible_piece_id);
     move_effect_journal_do_piece_readdition(move_effect_reason_revelation_of_invisible,
                                             s,
                                             walk,
-                                            spec_inserted,
+                                            spec,
                                             side);
-
-    assert(TSTFLAG(being_solved.spec[s],Chameleon));
-    CLRFLAG(spec,Chameleon);
-    SetPieceId(spec,GetPieceId(being_solved.spec[s]));
-
-    move_effect_journal_do_flags_change(move_effect_reason_revelation_of_invisible,s,spec);
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition
            && move_effect_journal[base].reason==move_effect_reason_castling_partner
@@ -802,17 +795,16 @@ static void evaluate_revelations(void)
   TraceFunctionResultEnd();
 }
 
-static void taint_history_of_piece(move_effect_journal_index_type idx,
-                                   move_effect_journal_index_type total_base)
+static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
 {
-  square pos = move_effect_journal[idx].u.flags_change.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
-  Flags const flags_to = move_effect_journal[idx].u.flags_change.to;
-  piece_walk_type const walk_to = move_effect_journal[idx-1].u.piece_addition.added.walk;
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  Flags const flags_to = move_effect_journal[idx].u.piece_addition.added.flags;
+  PieceIdType const id = GetPieceId(flags_to);
+  piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",total_base);
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
@@ -821,9 +813,11 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   TraceValue("%u",id);
   TraceEOL();
 
-  assert(id==GetPieceId(move_effect_journal[idx].u.flags_change.to));
+  ++idx;
 
-  move_effect_journal[idx].type = move_effect_none;
+  assert(move_effect_journal[idx].type==move_effect_piece_readdition);
+  assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
+  assert(move_effect_journal[idx].u.piece_addition.added.walk==move_effect_journal[idx].u.piece_addition.added.walk);
 
   while (idx>=total_base)
   {
@@ -891,17 +885,16 @@ static void taint_history_of_piece(move_effect_journal_index_type idx,
   TraceFunctionResultEnd();
 }
 
-static void untaint_history_of_piece(move_effect_journal_index_type idx,
-                                     move_effect_journal_index_type total_base)
+static void untaint_history_of_new_invisible(move_effect_journal_index_type idx)
 {
-  square pos = move_effect_journal[idx].u.flags_change.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.flags_change.from);
-  Flags const flags_from = move_effect_journal[idx].u.flags_change.from;
-  piece_walk_type const walk_from = move_effect_journal[idx-1].u.piece_addition.added.walk;
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  Flags const flags_from = move_effect_journal[idx].u.piece_addition.added.flags;
+  PieceIdType const id = GetPieceId(flags_from);
+  piece_walk_type const walk_from = move_effect_journal[idx].u.piece_addition.added.walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx);
-  TraceFunctionParam("%u",total_base);
   TraceFunctionParamListEnd();
 
   TraceSquare(pos);
@@ -909,8 +902,11 @@ static void untaint_history_of_piece(move_effect_journal_index_type idx,
   TraceValue("%u",id);
   TraceEOL();
 
-  move_effect_journal[idx].type = move_effect_flags_change;
-  --idx;
+  ++idx;
+
+  assert(move_effect_journal[idx].type==move_effect_piece_readdition);
+  assert(move_effect_journal[idx-1].type==move_effect_revelation_of_new_invisible);
+  assert(move_effect_journal[idx].u.piece_addition.added.walk==move_effect_journal[idx-1].u.piece_addition.added.walk);
 
   while (idx>=total_base)
   {
@@ -1107,7 +1103,6 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
 static void taint_history_of_revealed_pieces(ply ply)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
@@ -1116,10 +1111,7 @@ static void taint_history_of_revealed_pieces(ply ply)
 
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
-    {
-      assert(move_effect_journal[curr+2].type==move_effect_flags_change);
-      taint_history_of_piece(curr+2,total_base);
-    }
+      taint_history_of_new_invisible(curr);
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
       taint_history_of_placed_piece(curr);
 
@@ -1130,7 +1122,6 @@ static void taint_history_of_revealed_pieces(ply ply)
 static void untaint_history_of_revealed_pieces(ply ply)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
@@ -1139,10 +1130,7 @@ static void untaint_history_of_revealed_pieces(ply ply)
 
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
-    {
-      assert(move_effect_journal[curr+2].type==move_effect_none);
-      untaint_history_of_piece(curr+2,total_base);
-    }
+      untaint_history_of_new_invisible(curr);
     else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
       untaint_history_of_placed_piece(curr);
 
