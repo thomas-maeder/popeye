@@ -456,6 +456,143 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
   TraceFunctionResultEnd();
 }
 
+static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
+{
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
+  piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(walk_to);
+  TraceValue("%u",id);
+  TraceEOL();
+
+  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
+
+  while (idx>=total_base)
+  {
+    TraceValue("%u",idx);
+    TraceValue("%u",move_effect_journal[idx].type);
+    TraceEOL();
+
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
+          TraceSquare(move_effect_journal[idx].u.piece_movement.from);
+          TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
+          TraceEOL();
+          assert(move_effect_journal[idx].u.piece_movement.moving==Dummy);
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = walk_to;
+          CLRFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        break;
+
+      case move_effect_piece_readdition:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+          if (pos>=capture_by_invisible)
+          {
+            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+            TraceEOL();
+            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
+            CLRFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
+          }
+          idx = 1;
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        break;
+
+      default:
+        break;
+    }
+    --idx;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
+{
+  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
+  square pos = move_effect_journal[idx].u.piece_addition.added.on;
+  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos);
+  TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
+  TraceValue("%u",id);
+  TraceEOL();
+
+  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
+
+  while (idx>=total_base)
+  {
+    switch (move_effect_journal[idx].type)
+    {
+      case move_effect_piece_movement:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
+        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_movement.to);
+          pos = move_effect_journal[idx].u.piece_movement.from;
+          move_effect_journal[idx].u.piece_movement.moving = Dummy;
+          SETFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        break;
+
+      case move_effect_piece_readdition:
+        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
+        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+        TraceEOL();
+        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
+        {
+          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
+          move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
+          SETFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
+          idx = 1;
+        }
+        else
+          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        break;
+
+      default:
+        break;
+    }
+
+    --idx;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
                                               square on,
                                               piece_walk_type walk_revealed,
@@ -516,7 +653,28 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   switch (play_phase)
   {
     case play_regular:
+      assert(!is_square_empty(on));
+
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        being_solved.king_square[side] = initsquare;
+      }
+
+      replace_walk(on,Dummy);
+
+      if (TSTFLAG(being_solved.spec[on],White))
+        --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+      if (TSTFLAG(being_solved.spec[on],Black))
+        --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      SETFLAG(being_solved.spec[on],Chameleon);
+      break;
+
     case play_rewinding:
+      taint_history_of_placed_piece(entry-&move_effect_journal[0]);
+
       assert(!is_square_empty(on));
 
       if (TSTFLAG(spec,Royal) && walk==King)
@@ -638,6 +796,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 // doesn't hold while we write the solution as long as tainting is done in regular play
 //      assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
+
+      untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
       break;
 
     default:
@@ -979,143 +1139,6 @@ static void untaint_history_of_new_invisible(move_effect_journal_index_type idx)
   TraceFunctionResultEnd();
 }
 
-static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
-{
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
-  square pos = move_effect_journal[idx].u.piece_addition.added.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
-  piece_walk_type const walk_to = move_effect_journal[idx].u.piece_addition.added.walk;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(pos);
-  TraceWalk(walk_to);
-  TraceValue("%u",id);
-  TraceEOL();
-
-  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
-
-  while (idx>=total_base)
-  {
-    TraceValue("%u",idx);
-    TraceValue("%u",move_effect_journal[idx].type);
-    TraceEOL();
-
-    switch (move_effect_journal[idx].type)
-    {
-      case move_effect_piece_movement:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
-        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_movement.to);
-          TraceSquare(move_effect_journal[idx].u.piece_movement.from);
-          TraceWalk(move_effect_journal[idx].u.piece_movement.moving);
-          TraceEOL();
-          assert(move_effect_journal[idx].u.piece_movement.moving==Dummy);
-          pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = walk_to;
-          CLRFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
-        break;
-
-      case move_effect_piece_readdition:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          if (pos>=capture_by_invisible)
-          {
-            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-            TraceEOL();
-            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
-            CLRFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
-          }
-          idx = 1;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
-        break;
-
-      default:
-        break;
-    }
-    --idx;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
-{
-  move_effect_journal_index_type const total_base = move_effect_journal_base[ply_retro_move+1];
-  square pos = move_effect_journal[idx].u.piece_addition.added.on;
-  PieceIdType const id = GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(pos);
-  TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-  TraceValue("%u",id);
-  TraceEOL();
-
-  assert(move_effect_journal[idx].type==move_effect_revelation_of_placed_invisible);
-
-  while (idx>=total_base)
-  {
-    switch (move_effect_journal[idx].type)
-    {
-      case move_effect_piece_movement:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec));
-        TraceSquare(move_effect_journal[idx].u.piece_movement.to);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_movement.movingspec))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_movement.to);
-          pos = move_effect_journal[idx].u.piece_movement.from;
-          move_effect_journal[idx].u.piece_movement.moving = Dummy;
-          SETFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_movement.to);
-        break;
-
-      case move_effect_piece_readdition:
-        TraceValue("%u",GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags));
-        TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-        TraceEOL();
-        if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
-        {
-          assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
-          SETFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
-          idx = 1;
-        }
-        else
-          assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
-        break;
-
-      default:
-        break;
-    }
-
-    --idx;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void taint_history_of_revealed_pieces(ply ply)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
@@ -1128,8 +1151,6 @@ static void taint_history_of_revealed_pieces(ply ply)
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
       taint_history_of_new_invisible(curr);
-    else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-      taint_history_of_placed_piece(curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1147,8 +1168,6 @@ static void untaint_history_of_revealed_pieces(ply ply)
   for (curr = move_effect_journal_base[ply+1]-1; curr>=base; --curr)
     if (move_effect_journal[curr].type==move_effect_revelation_of_new_invisible)
       untaint_history_of_new_invisible(curr);
-    else if (move_effect_journal[curr].type==move_effect_revelation_of_placed_invisible)
-      untaint_history_of_placed_piece(curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
