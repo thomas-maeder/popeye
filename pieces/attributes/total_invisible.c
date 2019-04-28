@@ -684,9 +684,8 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_validating_mate:
     case play_testing_mate:
       assert(!is_square_empty(on));
-      // TODO as long as redo_revelation_of_placed_invisible() can't abort
-      // immediately when the wrong walk is detected on square on, we have to
-      // accept wrong walks as well
+      // either get_walk_of_piece_on_square(on) is the revealed walk or iterations have
+      // been canceled by redo_revelation_of_placed_invisible()
       assert(has_revelation_been_violated || get_walk_of_piece_on_square(on)==walk);
       break;
 
@@ -1000,13 +999,9 @@ static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
           }
           else
           {
-            Side const side = TSTFLAG(move_effect_journal[idx].u.piece_addition.added.flags,White) ? White : Black;
-            TraceEnumerator(Side,side);
             TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-            TraceValue("%u",taboo[side][move_effect_journal[idx].u.piece_addition.added.on]);
             TraceEOL();
-            if (taboo[side][move_effect_journal[idx].u.piece_addition.added.on]==0)
-              move_effect_journal[idx].u.piece_addition.added.on = initsquare;
+            move_effect_journal[idx].u.piece_addition.added.on = initsquare;
           }
           idx = 1;
         }
