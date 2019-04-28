@@ -990,19 +990,10 @@ static void taint_history_of_new_invisible(move_effect_journal_index_type idx)
         if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
           assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          if (pos>=capture_by_invisible)
-          {
-            TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
-            TraceEOL();
-            move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
-            move_effect_journal[idx].u.piece_addition.added.flags = flags_to;
-          }
-          else
-          {
-            TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
-            TraceEOL();
-            move_effect_journal[idx].u.piece_addition.added.on = initsquare;
-          }
+          assert(!(pos>=capture_by_invisible));
+          TraceSquare(move_effect_journal[idx].u.piece_addition.added.on);
+          TraceEOL();
+          move_effect_journal[idx].u.piece_addition.added.on = initsquare;
           idx = 1;
         }
         else
@@ -1067,18 +1058,9 @@ static void untaint_history_of_new_invisible(move_effect_journal_index_type idx)
         TraceEOL();
         if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
-          if (move_effect_journal[idx].u.piece_addition.added.on==initsquare)
-          {
-            TraceText("reactivating piece addition that was deactivated while tainting\n");
-            move_effect_journal[idx].u.piece_addition.added.on = pos;
-          }
-          else
-          {
-            assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-            TraceText("untainting added piece's walk\n");
-            move_effect_journal[idx].u.piece_addition.added.walk = walk_from;
-          }
-
+          assert(move_effect_journal[idx].u.piece_addition.added.on==initsquare);
+          TraceText("reactivating piece addition that was deactivated while tainting\n");
+          move_effect_journal[idx].u.piece_addition.added.on = pos;
           move_effect_journal[idx].u.piece_addition.added.flags = flags_from;
           idx = 1;
         }
