@@ -86,7 +86,7 @@ static ply flesh_out_move_highwater = ply_retro_move;
 
 static PieceIdType next_invisible_piece_id;
 
-static boolean has_revalation_been_violated;
+static boolean has_revelation_been_violated;
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
@@ -326,13 +326,13 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
 
       if (nr_total_invisibles_left==0)
         // TODO this is ugly: we temporarily accept an integer underflow
-        has_revalation_been_violated = true;
+        has_revelation_been_violated = true;
       else if (get_walk_of_piece_on_square(on)==walk)
       {
         /* go on */
       }
       else
-        has_revalation_been_violated = true;
+        has_revelation_been_violated = true;
 
       --nr_total_invisibles_left;
       break;
@@ -687,7 +687,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       // TODO as long as redo_revelation_of_placed_invisible() can't abort
       // immediately when the wrong walk is detected on square on, we have to
       // accept wrong walks as well
-      assert(has_revalation_been_violated || get_walk_of_piece_on_square(on)==walk);
+      assert(has_revelation_been_violated || get_walk_of_piece_on_square(on)==walk);
       break;
 
     case play_unwinding:
@@ -750,12 +750,10 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_validating_mate:
     case play_testing_mate:
       assert(!is_square_empty(on));
-
-      TraceWalk(get_walk_of_piece_on_square(on));TraceEOL();
       if (get_walk_of_piece_on_square(on)!=walk)
       {
         TraceText("the revelation has been violated - terminating redoing effects with this ply");
-        has_revalation_been_violated = true;
+        has_revelation_been_violated = true;
       }
       break;
 
@@ -1392,11 +1390,11 @@ static void recurse_into_child_ply(void)
   ++taboo[White][sq_departure];
   ++taboo[Black][sq_departure];
 
-  has_revalation_been_violated = false;
+  has_revelation_been_violated = false;
 
   redo_move_effects();
 
-  if (!has_revalation_been_violated)
+  if (!has_revelation_been_violated)
   {
     if (nbply<=flesh_out_move_highwater)
     {
