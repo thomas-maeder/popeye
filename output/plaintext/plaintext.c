@@ -565,7 +565,7 @@ static void write_piece_readdition(output_plaintext_move_context_type *context,
 {
   if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
     (*context->engine->fprintf)(context->file,"%s","->v");
-  else if (move_effect_journal[curr].reason!=move_effect_reason_revelation_of_invisible)
+  else
   {
     PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.added.flags);
     move_effect_journal_index_type const removal = find_piece_removal(context,
