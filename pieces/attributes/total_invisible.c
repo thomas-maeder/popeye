@@ -674,24 +674,8 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
     case play_rewinding:
       taint_history_of_placed_piece(entry-&move_effect_journal[0]);
-
       assert(!is_square_empty(on));
-
-      if (TSTFLAG(spec,Royal) && walk==King)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        being_solved.king_square[side] = initsquare;
-      }
-
-      replace_walk(on,Dummy);
-
-      if (TSTFLAG(being_solved.spec[on],White))
-        --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-      if (TSTFLAG(being_solved.spec[on],Black))
-        --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_detecting_revelations:
@@ -751,8 +735,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
-// doesn't hold while we write the solution as long as tainting is done in regular play
-//      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
@@ -779,24 +762,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
     case play_unwinding:
       assert(!is_square_empty(on));
-
-      if (TSTFLAG(spec,Royal) && walk==King)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        being_solved.king_square[side] = on;
-      }
-
-      replace_walk(on,walk);
-
-      if (TSTFLAG(being_solved.spec[on],White))
-        ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-      if (TSTFLAG(being_solved.spec[on],Black))
-        ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
-// doesn't hold while we write the solution as long as tainting is done in regular play
-//      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
-
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
       break;
 
