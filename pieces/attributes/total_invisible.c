@@ -800,6 +800,8 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   TraceFunctionParam("%x",spec);
   TraceFunctionParamListEnd();
 
+  assert(TSTFLAG(spec,Chameleon));
+
   if (is_square_empty(s))
   {
     TraceValue("%u",nbply);
@@ -807,34 +809,32 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     SetPieceId(spec,++next_invisible_piece_id);
-    assert(TSTFLAG(spec,Chameleon));
     CLRFLAG(spec,Chameleon);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
-    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
-  }
-  else if (move_effect_journal[base].type==move_effect_piece_readdition
-           && move_effect_journal[base].reason==move_effect_reason_castling_partner
-           && (GetPieceId(move_effect_journal[base].u.piece_addition.added.flags)
-               ==GetPieceId(spec)))
-  {
-    TraceText("pseudo revelation of a castling partner\n");
-    assert(TSTFLAG(spec,Chameleon));
-    assert(TSTFLAG(being_solved.spec[s],Chameleon));
-    do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
-                                      s,walk,spec);
-    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
   }
   else
   {
-    TraceText("revelation of a placed invisible\n");
-    SetPieceId(spec,GetPieceId(being_solved.spec[s]));
-    assert(TSTFLAG(spec,Chameleon));
     assert(TSTFLAG(being_solved.spec[s],Chameleon));
-    do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
-                                      s,walk,spec);
-    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
+    if (move_effect_journal[base].type==move_effect_piece_readdition
+        && move_effect_journal[base].reason==move_effect_reason_castling_partner
+        && (GetPieceId(move_effect_journal[base].u.piece_addition.added.flags)
+            ==GetPieceId(spec)))
+    {
+      TraceText("pseudo revelation of a castling partner\n");
+      do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
+                                        s,walk,spec);
+    }
+    else
+    {
+      TraceText("revelation of a placed invisible\n");
+      SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+      do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
+                                        s,walk,spec);
+    }
   }
+
+  assert(!TSTFLAG(being_solved.spec[s],Chameleon));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
