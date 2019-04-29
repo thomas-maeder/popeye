@@ -216,34 +216,33 @@ static vec_index_type is_square_attacked_by_uninterceptable(Side side_under_atta
 
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,
-                                           piece_walk_type walk_revealed,
-                                           Flags spec_revealed)
+                                           piece_walk_type walk,
+                                           Flags spec)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_new_invisible,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
-  TraceWalk(walk_revealed);
-  TraceFunctionParam("%x",spec_revealed);
+  TraceWalk(walk);
+  TraceFunctionParam("%x",spec);
   TraceFunctionParamListEnd();
 
   assert(play_phase==play_regular);
 
   entry->u.piece_addition.added.on = on;
-  entry->u.piece_addition.added.walk = walk_revealed;
-  entry->u.piece_addition.added.flags = spec_revealed;
+  entry->u.piece_addition.added.walk = walk;
+  entry->u.piece_addition.added.flags = spec;
 
-  assert(is_square_empty(on));
-  if (TSTFLAG(spec_revealed,White))
-    ++being_solved.number_of_pieces[White][walk_revealed];
-  if (TSTFLAG(spec_revealed,Black))
-    ++being_solved.number_of_pieces[Black][walk_revealed];
-  occupy_square(on,walk_revealed,spec_revealed);
+  if (TSTFLAG(spec,White))
+    ++being_solved.number_of_pieces[White][walk];
+  if (TSTFLAG(spec,Black))
+    ++being_solved.number_of_pieces[Black][walk];
+  occupy_square(on,walk,spec);
 
-  if (TSTFLAG(spec_revealed,Royal) && walk_revealed==King)
+  if (TSTFLAG(spec,Royal) && walk==King)
   {
-    Side const side = TSTFLAG(spec_revealed,White) ? White : Black;
+    Side const side = TSTFLAG(spec,White) ? White : Black;
     being_solved.king_square[side] = on;
   }
 
@@ -368,30 +367,26 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
 
 static void do_revelation_of_castling_partner(move_effect_reason_type reason,
                                               square on,
-                                              piece_walk_type walk_revealed,
-                                              Flags spec_revealed)
+                                              piece_walk_type walk,
+                                              Flags spec)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_castling_partner,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
-  TraceWalk(walk_revealed);
-  TraceFunctionParam("%x",spec_revealed);
+  TraceWalk(walk);
+  TraceFunctionParam("%x",spec);
   TraceFunctionParamListEnd();
 
   assert(play_phase==play_regular);
 
   entry->u.piece_addition.added.on = on;
-  entry->u.piece_addition.added.walk = walk_revealed;
-  entry->u.piece_addition.added.flags = spec_revealed;
+  entry->u.piece_addition.added.walk = walk;
+  entry->u.piece_addition.added.flags = spec;
 
   assert(get_walk_of_piece_on_square(on)==Rook);
-  assert(walk_revealed==Rook);
-  assert(GetPieceId(spec_revealed)==GetPieceId(being_solved.spec[on]));
-
-  assert(TSTFLAG(being_solved.spec[on],Chameleon));
-  CLRFLAG(being_solved.spec[on],Chameleon);
+  assert(walk==Rook);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -614,41 +609,36 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
 
 static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
                                               square on,
-                                              piece_walk_type walk_revealed,
-                                              Flags spec_revealed)
+                                              piece_walk_type walk,
+                                              Flags spec)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_placed_invisible,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
-  TraceWalk(walk_revealed);
-  TraceFunctionParam("%x",spec_revealed);
+  TraceWalk(walk);
+  TraceFunctionParam("%x",spec);
   TraceFunctionParamListEnd();
 
   assert(play_phase==play_regular);
 
   entry->u.piece_addition.added.on = on;
-  entry->u.piece_addition.added.walk = walk_revealed;
-  entry->u.piece_addition.added.flags = spec_revealed;
+  entry->u.piece_addition.added.walk = walk;
+  entry->u.piece_addition.added.flags = spec;
 
-  assert(!is_square_empty(on));
-
-  if (TSTFLAG(spec_revealed,Royal) && walk_revealed==King)
+  if (TSTFLAG(spec,Royal) && walk==King)
   {
-    Side const side = TSTFLAG(spec_revealed,White) ? White : Black;
+    Side const side = TSTFLAG(spec,White) ? White : Black;
     being_solved.king_square[side] = on;
   }
 
-  replace_walk(on,walk_revealed);
+  replace_walk(on,walk);
 
   if (TSTFLAG(being_solved.spec[on],White))
     ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
   if (TSTFLAG(being_solved.spec[on],Black))
     ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
-  assert(TSTFLAG(being_solved.spec[on],Chameleon));
-  CLRFLAG(being_solved.spec[on],Chameleon);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -801,27 +791,29 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   TraceFunctionParamListEnd();
 
   assert(TSTFLAG(spec,Chameleon));
+  CLRFLAG(spec,Chameleon);
 
   if (is_square_empty(s))
   {
     TraceValue("%u",nbply);
     TraceValue("%u",nr_total_invisibles_left);
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
-
     SetPieceId(spec,++next_invisible_piece_id);
-    CLRFLAG(spec,Chameleon);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
   }
   else
   {
     assert(TSTFLAG(being_solved.spec[s],Chameleon));
+    CLRFLAG(being_solved.spec[s],Chameleon);
+
     if (move_effect_journal[base].type==move_effect_piece_readdition
         && move_effect_journal[base].reason==move_effect_reason_castling_partner
         && (GetPieceId(move_effect_journal[base].u.piece_addition.added.flags)
             ==GetPieceId(spec)))
     {
       TraceText("pseudo revelation of a castling partner\n");
+      assert(GetPieceId(spec)==GetPieceId(being_solved.spec[s]));
       do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
                                         s,walk,spec);
     }
