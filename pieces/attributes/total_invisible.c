@@ -45,7 +45,7 @@ static stip_length_type combined_result;
 
 static boolean end_of_iteration;
 
-static unsigned int taboo[maxsquare];
+static unsigned int taboo[nr_sides][maxsquare];
 
 static enum
 {
@@ -102,7 +102,7 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
 
   {
     square s = king_pos+vec[k];
-    while (is_square_empty(s) && taboo[s]>0 && taboo[s]>0)
+    while (is_square_empty(s) && taboo[White][s]>0 && taboo[Black][s]>0)
       s += vec[k];
 
     {
@@ -112,8 +112,8 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
     }
     TraceSquare(s);
     TraceValue("%u",is_square_empty(s));
-    TraceValue("%u",taboo[s]);
-    TraceValue("%u",taboo[s]);
+    TraceValue("%u",taboo[White][s]);
+    TraceValue("%u",taboo[Black][s]);
     TraceEOL();
   }
 
@@ -1047,7 +1047,8 @@ static void restart_from_scratch(void)
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_departure = move_gen_top->departure;
 
-      --taboo[sq_departure];
+      --taboo[White][sq_departure];
+      --taboo[Black][sq_departure];
     }
 
     undo_move_effects();
@@ -1064,7 +1065,8 @@ static void restart_from_scratch(void)
 
     redo_move_effects();
 
-    ++taboo[sq_departure];
+    ++taboo[White][sq_departure];
+    ++taboo[Black][sq_departure];
 
     ++nbply;
   }
@@ -1186,7 +1188,8 @@ static void recurse_into_child_ply(void)
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
-  ++taboo[sq_departure];
+  ++taboo[White][sq_departure];
+  ++taboo[Black][sq_departure];
 
   has_revelation_been_violated = false;
 
@@ -1215,7 +1218,8 @@ static void recurse_into_child_ply(void)
 
   undo_move_effects();
 
-  --taboo[sq_departure];
+  --taboo[White][sq_departure];
+  --taboo[Black][sq_departure];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1363,7 +1367,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      if (taboo[sq_singlestep]==0)
+      if (taboo[trait[nbply]][sq_singlestep]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         move_generation_stack[currmove].arrival = sq_singlestep;
@@ -1379,7 +1383,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (taboo[sq_doublestep]==0)
+            if (taboo[trait[nbply]][sq_doublestep]==0)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               move_generation_stack[currmove].arrival = sq_doublestep;
@@ -1423,7 +1427,7 @@ static void flesh_out_move_by_invisible_rider(square s,
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
-      if (taboo[sq_arrival]==0)
+      if (taboo[trait[nbply]][sq_arrival]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
@@ -1462,7 +1466,7 @@ static void flesh_out_move_by_invisible_leaper(square s,
     TraceSquare(sq_arrival);TraceEOL();
     if (is_square_empty(sq_arrival))
     {
-      if (taboo[sq_arrival]==0)
+      if (taboo[trait[nbply]][sq_arrival]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
@@ -1760,7 +1764,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  if (taboo[from]==0)
+  if (taboo[side_playing][from]==0)
   {
     TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     if (nr_total_invisibles_left>0)
@@ -1781,7 +1785,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
       occupy_square(from,walk_capturing,flags);
 
-      ++taboo[from];
+      ++taboo[White][from];
+      ++taboo[Black][from];
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
 
@@ -1790,7 +1795,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
       --being_solved.number_of_pieces[side_playing][walk_capturing];
 
-      --taboo[from];
+      --taboo[White][from];
+      --taboo[Black][from];
 
       empty_square(from);
 
@@ -1866,14 +1872,18 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
          s += vec[kcurr])
     {
       flesh_out_capture_by_inserted_invisible(walk_rider,s);
-      ++taboo[s];
+      ++taboo[White][s];
+      ++taboo[Black][s];
     }
 
     if (!end_of_iteration)
       flesh_out_capture_by_existing_invisible(walk_rider,s);
 
     for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
-      --taboo[s];
+    {
+      --taboo[White][s];
+      --taboo[Black][s];
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2135,11 +2145,12 @@ static void colour_interceptor(Side preferred_side, square pos)
   TraceFunctionParamListEnd();
 
   /* taboo equal to 1 is ok: this is "my" taboo! */
-  if (taboo[pos]==1)
-  {
+  if (taboo[preferred_side][pos]==1)
     walk_interceptor(preferred_side,pos);
 
-    if (!end_of_iteration)
+  if (!end_of_iteration)
+  {
+    if (taboo[advers(preferred_side)][pos]==1)
       walk_interceptor(advers(preferred_side),pos);
   }
 
@@ -2171,7 +2182,8 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
   assert(nr_total_invisibles_left>0);
 
-  ++taboo[s];
+  ++taboo[White][s];
+  ++taboo[Black][s];
 
   --nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
@@ -2191,7 +2203,8 @@ static void place_interceptor_on_square(vec_index_type kcurr,
   ++nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
-  --taboo[s];
+  --taboo[White][s];
+  --taboo[Black][s];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2216,10 +2229,10 @@ static void place_interceptor_on_line(vec_index_type kcurr,
          s += vec[kcurr])
     {
       TraceSquare(s);
-      TraceValue("%u",taboo[s]);
-      TraceValue("%u",taboo[s]);
+      TraceValue("%u",taboo[White][s]);
+      TraceValue("%u",taboo[Black][s]);
       TraceEOL();
-      if (taboo[s]==0)
+      if (taboo[White][s]==0 || taboo[Black][s]==0)
         place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
     }
     TraceSquare(s);
@@ -2352,7 +2365,10 @@ static void update_taboo(int delta)
   TraceWalk(walk);
   TraceEOL();
 
-  taboo[sq_departure] += delta;
+  taboo[White][sq_departure] += delta;
+  taboo[Black][sq_departure] += delta;
+
+  taboo[trait[nbply]][sq_arrival] += delta;
 
   switch (sq_capture)
   {
@@ -2360,7 +2376,10 @@ static void update_taboo(int delta)
     {
       square s;
       for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
-        taboo[s] += delta;
+      {
+        taboo[White][s] += delta;
+        taboo[Black][s] += delta;
+      }
       break;
     }
 
@@ -2368,14 +2387,18 @@ static void update_taboo(int delta)
     {
       square s;
       for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
-        taboo[s] += delta;
+      {
+        taboo[White][s] += delta;
+        taboo[Black][s] += delta;
+      }
       break;
     }
 
     case pawn_multistep:
     {
       square const sq_intermediate = (sq_departure+sq_arrival)/2;
-      taboo[sq_intermediate] += delta;
+      taboo[White][sq_intermediate] += delta;
+      taboo[Black][sq_intermediate] += delta;
       break;
     }
 
@@ -2385,7 +2408,8 @@ static void update_taboo(int delta)
       break;
 
     default:
-      taboo[sq_capture] += delta;
+      taboo[White][sq_capture] += delta;
+      taboo[Black][sq_capture] += delta;
       break;
   }
 
@@ -2397,11 +2421,17 @@ static void update_taboo(int delta)
     square s;
     assert(dir_move!=0);
     for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
-      taboo[s] += delta;
+    {
+      taboo[White][s] += delta;
+      taboo[Black][s] += delta;
+    }
   }
   else if (is_pawn(walk))
+  {
     /* arrival square must not be blocked */
-    taboo[sq_arrival] += delta;
+    taboo[White][sq_arrival] += delta;
+    taboo[Black][sq_arrival] += delta;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2421,7 +2451,8 @@ static void place_mating_piece_attacker(Side side_attacking,
 
   assert(nr_total_invisibles_left>0);
 
-  ++taboo[s];
+  ++taboo[White][s];
+  ++taboo[Black][s];
 
   --nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
@@ -2435,7 +2466,8 @@ static void place_mating_piece_attacker(Side side_attacking,
   ++nr_total_invisibles_left;
   TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
-  --taboo[s];
+  --taboo[White][s];
+  --taboo[Black][s];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2463,7 +2495,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
       if (is_square_empty(s))
       {
         TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-        if (taboo[s]==0)
+        if (taboo[side_attacking][s]==0)
           place_mating_piece_attacker(side_attacking,s,walk_rider);
       }
   }
@@ -2489,7 +2521,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   {
     square const s = sq_mating_piece+vec[kcurr];
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && taboo[s]==0)
+    if (is_square_empty(s) && taboo[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,walk_leaper);
   }
 
@@ -2509,7 +2541,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   {
     square s = sq_mating_piece+dir_up+dir_left;
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && taboo[s]==0)
+    if (is_square_empty(s) && taboo[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
@@ -2517,7 +2549,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   {
     square s = sq_mating_piece+dir_up+dir_right;
     TraceSquare(s);TraceValue("%u",taboo[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && taboo[s]==0)
+    if (is_square_empty(s) && taboo[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
@@ -2648,7 +2680,8 @@ static void rewind_effects(void)
     move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
     square const sq_departure = move_gen_top->departure;
 
-    --taboo[sq_departure];
+    --taboo[White][sq_departure];
+    --taboo[Black][sq_departure];
 
     undo_move_effects();
     --nbply;
@@ -2677,7 +2710,8 @@ static void unrewind_effects(void)
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_departure = move_gen_top->departure;
 
-      ++taboo[sq_departure];
+      ++taboo[White][sq_departure];
+      ++taboo[Black][sq_departure];
     }
   }
 
@@ -3045,7 +3079,7 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
     {
       square s;
       for (s = potential_flight+vec[k]; s!=end; s += vec[k])
-        if (taboo[s]==0)
+        if (taboo[White][s]==0 || taboo[Black][s]==0)
         {
           ++result;
           break;
@@ -3133,7 +3167,8 @@ static boolean make_a_flight(void)
     TraceEOL();
 
     empty_square(king_pos);
-    ++taboo[king_pos];
+    ++taboo[White][king_pos];
+    ++taboo[Black][king_pos];
 
     for (dir_vert = dir_down; dir_vert<=dir_up && !result; dir_vert += dir_up)
       for (dir_horiz = dir_left; dir_horiz<=dir_right; dir_horiz += dir_right)
@@ -3146,7 +3181,8 @@ static boolean make_a_flight(void)
         }
       }
 
-    --taboo[king_pos];
+    --taboo[White][king_pos];
+    --taboo[Black][king_pos];
     occupy_square(king_pos,walk,flags);
   }
 
@@ -3313,7 +3349,7 @@ static void generate_pawn_capture_right(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && taboo[s]==0)
+  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     pipe_move_generation_delegate(si);
@@ -3334,7 +3370,7 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && taboo[s]==0)
+  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     generate_pawn_capture_right(si,dir_vertical);
@@ -3359,7 +3395,8 @@ static void prepare_king_side_castling_generation(slice_index si)
 
   if (nr_total_invisibles_left>0
       && is_square_empty(square_h)
-      && taboo[square_h]==0)
+      && taboo[White][square_h]==0
+      && taboo[Black][square_h]==0)
   {
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_h,Rook,BIT(side)|BIT(Chameleon));
@@ -3387,7 +3424,8 @@ static void prepare_queen_side_castling_generation(slice_index si)
 
   if (nr_total_invisibles_left>0
       && is_square_empty(square_a)
-      && taboo[square_a]==0)
+      && taboo[White][square_a]==0
+      && taboo[Black][square_a]==0)
   {
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_a,Rook,BIT(side)|BIT(Chameleon));
@@ -3857,7 +3895,10 @@ void total_invisible_instrumenter_solve(slice_index si)
     square const *s;
     for (s = boardnum; *s; ++s)
       if (!is_square_empty(*s))
-        ++taboo[*s];
+      {
+        ++taboo[White][*s];
+        ++taboo[Black][*s];
+      }
   }
 
   pipe_solve_delegate(si);
@@ -3866,7 +3907,10 @@ void total_invisible_instrumenter_solve(slice_index si)
     square const *s;
     for (s = boardnum; *s; ++s)
       if (!is_square_empty(*s))
-        --taboo[*s];
+      {
+        --taboo[White][*s];
+        --taboo[Black][*s];
+      }
   }
 
   TraceFunctionExit(__func__);
