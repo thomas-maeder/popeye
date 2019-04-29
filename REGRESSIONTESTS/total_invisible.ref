@@ -534,10 +534,10 @@ solution finished.
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[e3=bK][c4=wS] #
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
   1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[f1=wS][e3=bK] #
-  add_to_move_generation_stack:    35782467
-                     play_move:     8693380
- is_white_king_square_attacked:     1121340
- is_black_king_square_attacked:     4346449
+  add_to_move_generation_stack:    41067645
+                     play_move:     9378231
+ is_white_king_square_attacked:     1140967
+ is_black_king_square_attacked:     5011673
 
 solution finished.
 
@@ -567,10 +567,10 @@ Sake tourney 2018, 3rd HM, corrected
 +---a---b---c---d---e---f---g---h---+
   h#2                         7 + 4
 
-  add_to_move_generation_stack:    31860541
-                     play_move:     6390712
- is_white_king_square_attacked:      856721
- is_black_king_square_attacked:     2775973
+  add_to_move_generation_stack:    36121535
+                     play_move:     6829232
+ is_white_king_square_attacked:      864034
+ is_black_king_square_attacked:     3207180
 
 solution finished.
 
