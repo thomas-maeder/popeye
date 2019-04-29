@@ -2661,7 +2661,7 @@ static void test_mate(void)
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
-      /* we only reply moves for TI revelation */
+      /* we only replay moves for TI revelation */
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
       start_iteration();
