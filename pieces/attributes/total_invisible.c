@@ -1225,7 +1225,7 @@ static void recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
-static void redo_adapted_move_effects(void)
+static void adapt_capture_effect(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -1240,60 +1240,41 @@ static void redo_adapted_move_effects(void)
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     if (is_square_empty(to))
-      /* no need for adaptation */
+    {
+      TraceText("no capture planned and destination square empty - no need for adaptation\n");
+      recurse_into_child_ply();
+    }
+    else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+    {
+      TraceText("capture of a total invisible that happened to land on the arrival square\n");
+
+      /* if the piece to be captured is royal, then our tests for self check have failed */
+      assert(!TSTFLAG(being_solved.spec[to],Royal));
+      move_effect_journal[capture].type = move_effect_piece_removal;
+      move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+      move_effect_journal[capture].u.piece_removal.on = to;
+      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+      recurse_into_child_ply();
+      move_effect_journal[capture].type = move_effect_no_piece_removal;
+    }
+    else
+    {
+      TraceText("move blocked by a random TI move\n");
+    }
+  }
+  else if (move_effect_journal[base].type==move_effect_piece_readdition)
+  {
+    assert(move_effect_journal[base].u.piece_addition.added.on==to);
+
+    TraceText("capture of invisible victim added for the purpose\n");
+
+    if (is_square_empty(to))
       recurse_into_child_ply();
     else
     {
-      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
-      {
-        TraceText("capture of a total invisible that happened to land on the arrival square\n");
-
-        /* if the piece to be captured is royal, then our tests for self check have failed */
-        assert(!TSTFLAG(being_solved.spec[to],Royal));
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-        move_effect_journal[capture].u.piece_removal.on = to;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-        recurse_into_child_ply();
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-      }
-      else
-      {
-        TraceText("move blocked by a random TI move\n");
-      }
-    }
-  }
-  else if (move_effect_journal[base].type==move_effect_piece_readdition
-           && move_effect_journal[base].u.piece_addition.added.on==to)
-  {
-    if (is_square_empty(to))
-    {
-      if (nbply<=flesh_out_move_highwater)
-      {
-        TraceText("placed an invisible as victim in previous iteration\n");
-        recurse_into_child_ply();
-      }
-      else if (nr_total_invisibles_left>0)
-      {
-        /* victim to be created - no need for adaptation, but for bookkeeping */
-        TraceText("place an invisible as victim\n");
-        --nr_total_invisibles_left;
-        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        recurse_into_child_ply();
-        ++nr_total_invisibles_left;
-        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-      }
-      else
-      {
-        TraceText("no invisible left to be used as victim\n");
-      }
-    }
-    else
-    {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
-      TraceText("capture of a total invisible (created for this purpose) by a pawn, "
-                "but another total invisible has moved to the arrival square\n");
+      TraceText("another total invisible has moved to the arrival square\n");
 
       if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
       {
@@ -1301,9 +1282,7 @@ static void redo_adapted_move_effects(void)
         /* if the piece to be captured is royal, then our tests for self check have failed */
         assert(!TSTFLAG(being_solved.spec[to],Royal));
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[base].type = move_effect_none;
         recurse_into_child_ply();
-        move_effect_journal[base].type = move_effect_piece_readdition;
         move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
@@ -1324,13 +1303,77 @@ static void redo_adapted_move_effects(void)
     piece_walk_type const orig_walk_removed = move_effect_journal[capture].u.piece_removal.walk;
     Flags const orig_flags_removed = move_effect_journal[capture].u.piece_removal.flags;
 
-    TraceText("adjusting capture to current piece that occupies the capture square\n");
+    TraceText("adjusting removal to actual victim, which may be different from planned victim\n");
 
     move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
     move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
     recurse_into_child_ply();
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void adapt_pre_capture_effect(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const pre_capture = base;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
+  {
+    if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
+    {
+      TraceText("capture of invisible victim added for the purpose\n");
+
+      if (is_square_empty(to))
+      {
+        if (nbply<=flesh_out_move_highwater)
+        {
+          TraceText("victim was placed in previous iteration\n");
+          adapt_capture_effect();
+        }
+        else if (nr_total_invisibles_left>0)
+        {
+          /* victim to be created - no need for adaptation, but for bookkeeping */
+          TraceText("victim is placed in this iteration\n");
+          --nr_total_invisibles_left;
+          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+          adapt_capture_effect();
+          ++nr_total_invisibles_left;
+          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        }
+        else
+        {
+          TraceText("no invisible left to be placed as victim\n");
+        }
+      }
+      else
+      {
+        TraceText("another total invisible has moved to the arrival square - "
+                  "no need for addition any more!\n");
+        move_effect_journal[pre_capture].type = move_effect_none;
+        adapt_capture_effect();
+        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+      }
+    }
+    else
+    {
+      TraceText("addition of a castling partner - no need for adaptation\n");
+      adapt_capture_effect();
+    }
+  }
+  else
+  {
+    TraceText("no piece addition to be adapted\n");
+    assert(move_effect_journal[pre_capture].type==move_effect_none);
+    adapt_capture_effect();
   }
 
   TraceFunctionExit(__func__);
@@ -2010,7 +2053,7 @@ static void done_intercepting_illegal_checks(void)
     TraceEOL();
 
     if (nbply<=flesh_out_move_highwater)
-      redo_adapted_move_effects();
+      adapt_pre_capture_effect();
     else if (move_gen_top->departure>=capture_by_invisible
              && is_on_board(move_gen_top->arrival))
       flesh_out_capture_by_invisible();
@@ -2018,7 +2061,7 @@ static void done_intercepting_illegal_checks(void)
              && move_gen_top->arrival==move_by_invisible)
       flesh_out_move_by_invisible();
     else
-      redo_adapted_move_effects();
+      adapt_pre_capture_effect();
   }
   else
     validate_king_placements();
