@@ -242,8 +242,6 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 
   assert(play_phase==play_regular);
 
-  // TODO no longer necessary once we add another adaptation layer
-  entry->u.piece_addition.for_side = no_side;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = walk;
   entry->u.piece_addition.added.flags = spec;
@@ -302,28 +300,6 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_validating_mate:
     case play_testing_mate:
       assert(has_revelation_been_violated || !is_square_empty(on));
-      if (entry->u.piece_addition.for_side==White)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        assert(play_phase==play_validating_mate);
-        assert(get_walk_of_piece_on_square(on)==walk);
-        assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-        ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
-        // TODO move this to adaptations
-        TraceText("substituting dummy for revealed piece\n");
-        if (TSTFLAG(spec,Royal) && walk==King)
-        {
-          CLRFLAG(being_solved.spec[on],Royal);
-          being_solved.king_square[side] = initsquare;
-        }
-        SETFLAG(being_solved.spec[on],advers(side));
-        SETFLAG(being_solved.spec[on],Chameleon);
-        replace_walk(on,Dummy);
-        if (TSTFLAG(spec,White))
-          --being_solved.number_of_pieces[White][walk];
-        if (TSTFLAG(spec,Black))
-          --being_solved.number_of_pieces[Black][walk];
-      }
       break;
 
     case play_initialising_replay:
@@ -381,43 +357,10 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-      assert(entry->u.piece_addition.for_side==no_side);
       if (is_square_empty(on))
       {
         TraceText("revelation expected, but square is empty - aborting\n");
         has_revelation_been_violated = true;
-      }
-      else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
-      {
-        // TODO move this to adaptations
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        if (TSTFLAG(spec,Royal) && walk==King && being_solved.king_square[side]!=initsquare)
-        {
-          TraceText("revelation of king - but king has already been placed - aborting\n");
-          has_revelation_been_violated = true;
-        }
-        else
-        {
-          TraceText("substituting revealed piece for dummy\n");
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
-          if (TSTFLAG(spec,White))
-            ++being_solved.number_of_pieces[White][walk];
-          if (TSTFLAG(spec,Black))
-            ++being_solved.number_of_pieces[Black][walk];
-          replace_walk(on,walk);
-          CLRFLAG(being_solved.spec[on],Chameleon);
-          CLRFLAG(being_solved.spec[on],advers(side));
-          if (TSTFLAG(spec,Royal) && walk==King)
-          {
-            TraceSquare(being_solved.king_square[side]);
-            being_solved.king_square[side] = on;
-            SETFLAG(being_solved.spec[on],Royal);
-            TraceSquare(being_solved.king_square[side]);
-          }
-          TraceValue("%x",being_solved.spec[on]);TraceEOL();
-          // TODO should we reveal the id as well?
-          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-        }
       }
       else if (get_walk_of_piece_on_square(on)==walk)
       {
@@ -1351,6 +1294,119 @@ static void recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_next_revelation(move_effect_journal_entry_type const *curr);
+
+static void flesh_out_revelation_all_walks(move_effect_journal_entry_type const *curr)
+{
+  square const on = curr->u.piece_addition.added.on;
+  piece_walk_type const walk = curr->u.piece_addition.added.walk;
+  Flags const spec = curr->u.piece_addition.added.flags;
+  Side const side = TSTFLAG(spec,White) ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceText("substituting revealed piece for dummy\n");
+  if (TSTFLAG(spec,White))
+    ++being_solved.number_of_pieces[White][walk];
+  if (TSTFLAG(spec,Black))
+    ++being_solved.number_of_pieces[Black][walk];
+
+  replace_walk(on,walk);
+
+  CLRFLAG(being_solved.spec[on],Chameleon);
+  CLRFLAG(being_solved.spec[on],advers(side));
+
+  TraceValue("%x",being_solved.spec[on]);TraceEOL();
+  // TODO should we reveal the id as well?
+  assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+
+  flesh_out_next_revelation(curr+1);
+
+  assert(get_walk_of_piece_on_square(on)==walk);
+  assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+
+  TraceText("substituting dummy for revealed piece\n");
+
+  SETFLAG(being_solved.spec[on],advers(side));
+  SETFLAG(being_solved.spec[on],Chameleon);
+
+  replace_walk(on,Dummy);
+
+  if (TSTFLAG(spec,White))
+    --being_solved.number_of_pieces[White][walk];
+  if (TSTFLAG(spec,Black))
+    --being_solved.number_of_pieces[Black][walk];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_next_revelation(move_effect_journal_entry_type const *curr)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_entry_type const *top_entry = &move_effect_journal[top];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (curr==top_entry)
+    recurse_into_child_ply();
+  else if (curr->type==move_effect_revelation_of_new_invisible)
+  {
+    square const on = curr->u.piece_addition.added.on;
+
+    if (get_walk_of_piece_on_square(on)==Dummy)
+    {
+      piece_walk_type const walk = curr->u.piece_addition.added.walk;
+      Flags const spec = curr->u.piece_addition.added.flags;
+
+      if (TSTFLAG(spec,Royal) && walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        if (being_solved.king_square[side]==initsquare)
+        {
+          being_solved.king_square[side] = on;
+          SETFLAG(being_solved.spec[on],Royal);
+          flesh_out_revelation_all_walks(curr);
+          CLRFLAG(being_solved.spec[on],Royal);
+          being_solved.king_square[side] = initsquare;
+        }
+        else
+        {
+          TraceText("revelation of king - but king has already been placed - aborting\n");
+        }
+      }
+      else
+        flesh_out_revelation_all_walks(curr);
+    }
+    else
+      flesh_out_next_revelation(curr+1);
+  }
+  else
+    flesh_out_next_revelation(curr+1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_revelations(void)
+{
+  move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const other = parent_top+move_effect_journal_index_offset_other_effects;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (play_phase==play_validating_mate)
+    flesh_out_next_revelation(&move_effect_journal[other]);
+  else
+    recurse_into_child_ply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void adapt_capture_effect(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1368,7 +1424,7 @@ static void adapt_capture_effect(void)
     if (is_square_empty(to))
     {
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
-      recurse_into_child_ply();
+      flesh_out_revelations();
     }
     else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
     {
@@ -1387,7 +1443,7 @@ static void adapt_capture_effect(void)
         move_effect_journal[capture].u.piece_removal.on = to;
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
         move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-        recurse_into_child_ply();
+        flesh_out_revelations();
         move_effect_journal[capture].type = move_effect_no_piece_removal;
       }
     }
@@ -1403,7 +1459,7 @@ static void adapt_capture_effect(void)
     TraceText("capture of invisible victim added for the purpose\n");
 
     if (is_square_empty(to))
-      recurse_into_child_ply();
+      flesh_out_revelations();
     else
     {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
@@ -1415,7 +1471,7 @@ static void adapt_capture_effect(void)
         /* if the piece to be captured is royal, then our tests for self check have failed */
         assert(!TSTFLAG(being_solved.spec[to],Royal));
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        recurse_into_child_ply();
+        flesh_out_revelations();
         move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
@@ -1428,7 +1484,7 @@ static void adapt_capture_effect(void)
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
     move_effect_journal[capture].type = move_effect_no_piece_removal;
-    recurse_into_child_ply();
+    flesh_out_revelations();
     move_effect_journal[capture].type = move_effect_piece_removal;
   }
   else
@@ -1440,7 +1496,7 @@ static void adapt_capture_effect(void)
 
     move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
     move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-    recurse_into_child_ply();
+    flesh_out_revelations();
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
   }
@@ -1518,7 +1574,7 @@ static void done_fleshing_out_move_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  recurse_into_child_ply();
+  flesh_out_revelations();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1914,7 +1970,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_gen_top->departure = from;
 
-  recurse_into_child_ply();
+  flesh_out_revelations();
 
   move_gen_top->departure = sq_created_on;
 
