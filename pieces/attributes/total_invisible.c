@@ -47,15 +47,26 @@ static boolean end_of_iteration;
 
 static unsigned int taboo[nr_sides][maxsquare];
 
-static enum
+typedef unsigned int taboo_phase_type;
+
+static taboo_phase_type taboo_phase[maxply+1];
+
+static unsigned int taboo_arrival[maxply+1][nr_sides][maxsquare];
+
+typedef enum
 {
   play_regular,
   play_rewinding,
   play_detecting_revelations,
   play_validating_mate,
   play_testing_mate,
+  play_initialising_replay,
+  play_replay,
+  play_finalising_replay,
   play_unwinding
-} play_phase = play_regular;
+} play_phase_type;
+
+static play_phase_type play_phase = play_regular;
 
 typedef enum
 {
@@ -230,6 +241,8 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 
   assert(play_phase==play_regular);
 
+  // TODO no longer necessary once we add another adaptation layer
+  entry->u.piece_addition.for_side = no_side;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = walk;
   entry->u.piece_addition.added.flags = spec;
@@ -259,9 +272,17 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceSquare(on);
+  TraceWalk(walk);
+  TraceWalk(get_walk_of_piece_on_square(on));
+  TraceValue("%x",spec);
+  TraceValue("%x",being_solved.spec[on]);
+  TraceEOL();
+
   switch (play_phase)
   {
     case play_regular:
+    case play_rewinding:
       if (TSTFLAG(spec,White))
         --being_solved.number_of_pieces[White][walk];
       if (TSTFLAG(spec,Black))
@@ -276,18 +297,41 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       }
       break;
 
-    case play_rewinding:
-      /* nothing since we are leaving the revealed piece on the board */
-      break;
-
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-      assert(!is_square_empty(on));
-      ++nr_total_invisibles_left;
+      assert(has_revelation_been_violated || !is_square_empty(on));
+      if (entry->u.piece_addition.for_side==White)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        assert(play_phase==play_validating_mate);
+        assert(get_walk_of_piece_on_square(on)==walk);
+        assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+        ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
+        // TODO move this to adaptations
+        TraceText("substituting dummy for revealed piece\n");
+        if (TSTFLAG(spec,Royal) && walk==King)
+        {
+          CLRFLAG(being_solved.spec[on],Royal);
+          being_solved.king_square[side] = initsquare;
+        }
+        SETFLAG(being_solved.spec[on],advers(side));
+        SETFLAG(being_solved.spec[on],Chameleon);
+        replace_walk(on,Dummy);
+        if (TSTFLAG(spec,White))
+          --being_solved.number_of_pieces[White][walk];
+        if (TSTFLAG(spec,Black))
+          --being_solved.number_of_pieces[Black][walk];
+      }
+      break;
+
+    case play_initialising_replay:
+    case play_replay:
+      /* nothing */
       break;
 
     case play_unwinding:
+    case play_finalising_replay:
     default:
       assert(0);
       break;
@@ -306,9 +350,18 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceSquare(on);
+  TraceWalk(walk);
+  TraceWalk(get_walk_of_piece_on_square(on));
+  TraceValue("%x",spec);
+  TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%u",play_phase);
+  TraceEOL();
+
   switch (play_phase)
   {
     case play_regular:
+    case play_unwinding:
       assert(is_square_empty(on));
       if (TSTFLAG(spec,White))
         ++being_solved.number_of_pieces[White][walk];
@@ -323,39 +376,65 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       }
       break;
 
-    case play_unwinding:
-      /* nothing since we are leaving the revealed piece on the board */
-      break;
-
-    case play_rewinding:
-      assert(0);
-      break;
-
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-    {
-      TraceSquare(on);
-      TraceWalk(walk);
-      TraceWalk(get_walk_of_piece_on_square(on));
-      TraceValue("%u",nr_total_invisibles_left);
-      TraceEOL();
-      assert(!is_square_empty(on));
-
-      if (nr_total_invisibles_left==0)
-        // TODO this is ugly: we temporarily accept an integer underflow
+      assert(entry->u.piece_addition.for_side==no_side);
+      if (is_square_empty(on))
+      {
+        TraceText("revelation expected, but square is empty - aborting\n");
         has_revelation_been_violated = true;
+      }
+      else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
+      {
+        // TODO move this to adaptations
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        if (TSTFLAG(spec,Royal) && walk==King && being_solved.king_square[side]!=initsquare)
+        {
+          TraceText("revelation of king - but king has already been placed - aborting\n");
+          has_revelation_been_violated = true;
+        }
+        else
+        {
+          TraceText("substituting revealed piece for dummy\n");
+          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
+          if (TSTFLAG(spec,White))
+            ++being_solved.number_of_pieces[White][walk];
+          if (TSTFLAG(spec,Black))
+            ++being_solved.number_of_pieces[Black][walk];
+          replace_walk(on,walk);
+          CLRFLAG(being_solved.spec[on],Chameleon);
+          CLRFLAG(being_solved.spec[on],advers(side));
+          if (TSTFLAG(spec,Royal) && walk==King)
+          {
+            TraceSquare(being_solved.king_square[side]);
+            being_solved.king_square[side] = on;
+            SETFLAG(being_solved.spec[on],Royal);
+            TraceSquare(being_solved.king_square[side]);
+          }
+          TraceValue("%x",being_solved.spec[on]);TraceEOL();
+          // TODO should we reveal the id as well?
+          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+        }
+      }
       else if (get_walk_of_piece_on_square(on)==walk)
       {
         /* go on */
       }
       else
+      {
         has_revelation_been_violated = true;
-
-      --nr_total_invisibles_left;
+        TraceText("revelation expected - but walk of present piece is differnt - aborting\n");
+      }
       break;
-    }
 
+    case play_replay:
+    case play_finalising_replay:
+      /* nothing */
+      break;
+
+    case play_rewinding:
+    case play_initialising_replay:
     default:
       assert(0);
       break;
@@ -413,6 +492,9 @@ static void undo_revelation_of_castling_partner(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_initialising_replay:
+    case play_replay:
+    case play_finalising_replay:
       break;
 
     case play_unwinding:
@@ -458,6 +540,9 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
       break;
 
     case play_testing_mate:
+    case play_initialising_replay:
+    case play_replay:
+    case play_finalising_replay:
       assert(!is_square_empty(on));
       break;
 
@@ -692,6 +777,9 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_initialising_replay:
+    case play_replay:
+    case play_finalising_replay:
       assert(!is_square_empty(on));
       // either get_walk_of_piece_on_square(on) is the revealed walk or iterations have
       // been canceled by redo_revelation_of_placed_invisible()
@@ -757,6 +845,9 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_initialising_replay:
+    case play_replay:
+    case play_finalising_replay:
       assert(!is_square_empty(on));
       if (get_walk_of_piece_on_square(on)!=walk)
       {
@@ -937,53 +1028,8 @@ static void evaluate_revelations(void)
   TraceFunctionResultEnd();
 }
 
-static void play_with_placed_invisibles(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  mate_validation_result = mate_unvalidated;
-
-  pipe_solve_delegate(tester_slice);
-
-  if (solve_result>combined_result)
-    combined_result = solve_result;
-
-  switch (play_phase)
-  {
-    case play_regular:
-      assert(0);
-      break;
-
-    case play_validating_mate:
-      if (mate_validation_result<combined_validation_result)
-        combined_validation_result = mate_validation_result;
-      if (mate_validation_result<=mate_attackable)
-        end_of_iteration = true;
-      break;
-
-    case play_testing_mate:
-      /* This:
-       * assert(solve_result>=previous_move_has_solved);
-       * held surprisingly long, especially since it's wrong.
-       * E.g. mate by castling: if we attack the rook, the castling is not
-       * evan playable */
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceValue("%u",end_of_iteration);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+// TODO
+play_phase_type save_play_phase;
 
 static void done_validating_king_placements(void)
 {
@@ -992,6 +1038,7 @@ static void done_validating_king_placements(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
+  // TODO switch on play_phase
   if (play_phase==play_detecting_revelations)
   {
     if (revelation_status_is_uninitialised)
@@ -1004,6 +1051,9 @@ static void done_validating_king_placements(void)
   }
   else
   {
+    save_play_phase = play_phase;
+
+    play_phase = play_initialising_replay;
     do
     {
       --nbply;
@@ -1014,7 +1064,20 @@ static void done_validating_king_placements(void)
     ply_replayed = nbply;
     nbply = top_ply_of_regular_play;
 
-    play_with_placed_invisibles();
+    play_phase = play_replay;
+
+    TracePosition(being_solved.board,being_solved.spec);
+
+    mate_validation_result = mate_unvalidated;
+
+    pipe_solve_delegate(tester_slice);
+
+    if (solve_result>combined_result)
+      combined_result = solve_result;
+
+    play_phase = play_finalising_replay;
+
+    TracePosition(being_solved.board,being_solved.spec);
 
     nbply = ply_replayed;
 
@@ -1023,7 +1086,36 @@ static void done_validating_king_placements(void)
       redo_move_effects();
       ++nbply;
     }
+
+    play_phase = save_play_phase;
+
+    switch (play_phase)
+    {
+      case play_validating_mate:
+        if (mate_validation_result<combined_validation_result)
+          combined_validation_result = mate_validation_result;
+        if (mate_validation_result<=mate_attackable)
+          end_of_iteration = true;
+        break;
+
+      case play_testing_mate:
+        /* This:
+         * assert(solve_result>=previous_move_has_solved);
+         * held surprisingly long, especially since it's wrong.
+         * E.g. mate by castling: if we attack the rook, the castling is not
+         * even playable */
+        if (solve_result==previous_move_has_not_solved)
+          end_of_iteration = true;
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
+
+  TracePosition(being_solved.board,being_solved.spec);
+  TraceValue("%u",end_of_iteration);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1248,15 +1340,22 @@ static void adapt_capture_effect(void)
     {
       TraceText("capture of a total invisible that happened to land on the arrival square\n");
 
-      /* if the piece to be captured is royal, then our tests for self check have failed */
-      assert(!TSTFLAG(being_solved.spec[to],Royal));
-      move_effect_journal[capture].type = move_effect_piece_removal;
-      move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-      move_effect_journal[capture].u.piece_removal.on = to;
-      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-      recurse_into_child_ply();
-      move_effect_journal[capture].type = move_effect_no_piece_removal;
+      // TODO deal with blocked pawn moves
+
+      if (TSTFLAG(being_solved.spec[to],Royal))
+      {
+        TraceText("oops - we are about to capture the king\n");
+      }
+      else
+      {
+        move_effect_journal[capture].type = move_effect_piece_removal;
+        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+        move_effect_journal[capture].u.piece_removal.on = to;
+        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+        recurse_into_child_ply();
+        move_effect_journal[capture].type = move_effect_no_piece_removal;
+      }
     }
     else
     {
@@ -1410,7 +1509,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      if (taboo[trait[nbply]][sq_singlestep]==0)
+      if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_singlestep]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         move_generation_stack[currmove].arrival = sq_singlestep;
@@ -1426,7 +1525,7 @@ static void flesh_out_move_by_invisible_pawn(square s)
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (taboo[trait[nbply]][sq_doublestep]==0)
+            if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_doublestep]==0)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               move_generation_stack[currmove].arrival = sq_doublestep;
@@ -1470,7 +1569,7 @@ static void flesh_out_move_by_invisible_rider(square s,
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
-      if (taboo[trait[nbply]][sq_arrival]==0)
+      if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
@@ -1509,7 +1608,7 @@ static void flesh_out_move_by_invisible_leaper(square s,
     TraceSquare(sq_arrival);TraceEOL();
     if (is_square_empty(sq_arrival))
     {
-      if (taboo[trait[nbply]][sq_arrival]==0)
+      if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
@@ -1588,7 +1687,8 @@ static void flesh_out_move_by_specific_invisible(square s)
         ++being_solved.number_of_pieces[trait[nbply]][King];
         being_solved.board[s] = King;
         SETFLAG(being_solved.spec[s],Royal);
-        flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
+        if (!(king_pos!=initsquare && king_check_ortho(trait[nbply],king_pos)))
+          flesh_out_move_by_invisible_leaper(s,vec_queen_start,vec_queen_end);
         CLRFLAG(being_solved.spec[s],Royal);
         --being_solved.number_of_pieces[trait[nbply]][King];
         being_solved.king_square[side] = initsquare;
@@ -2385,6 +2485,114 @@ static void start_iteration(void)
   TraceFunctionResultEnd();
 }
 
+static void update_taboo_arrival(int delta)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_capture = move_gen_top->capture;
+  square const sq_departure = move_gen_top->departure;
+  square const sq_arrival = move_gen_top->arrival;
+
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceWalk(walk);
+  TraceEOL();
+
+  if (sq_departure==move_by_invisible
+      || sq_departure>=capture_by_invisible)
+  {
+    taboo_phase[nbply] = taboo_phase[nbply-1]+1;
+    TraceValue("%u",taboo_phase[nbply]);TraceEOL();
+  }
+  else
+  {
+    taboo_phase[nbply] = taboo_phase[nbply-1];
+    TraceValue("%u",taboo_phase[nbply]);TraceEOL();
+
+    taboo_arrival[taboo_phase[nbply]][White][sq_departure] += delta;
+    taboo_arrival[taboo_phase[nbply]][Black][sq_departure] += delta;
+
+    /* arrival of piece from side advers(...) (aka capture) is allowed */
+    taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival] += delta;
+
+    switch (sq_capture)
+    {
+      case kingside_castling :
+      {
+        square s;
+        for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+        {
+          taboo_arrival[taboo_phase[nbply]][White][s] += delta;
+          taboo_arrival[taboo_phase[nbply]][Black][s] += delta;
+        }
+        break;
+      }
+
+      case queenside_castling:
+      {
+        square s;
+        for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
+        {
+          taboo_arrival[taboo_phase[nbply]][White][s] += delta;
+          taboo_arrival[taboo_phase[nbply]][Black][s] += delta;
+        }
+        break;
+      }
+
+      case pawn_multistep:
+      {
+        square const sq_intermediate = (sq_departure+sq_arrival)/2;
+        taboo_arrival[taboo_phase[nbply]][White][sq_intermediate] += delta;
+        taboo_arrival[taboo_phase[nbply]][Black][sq_intermediate] += delta;
+        break;
+      }
+
+      case messigny_exchange:
+      case retro_capture_departure:
+      case no_capture:
+        break;
+
+      default:
+        taboo_arrival[taboo_phase[nbply]][White][sq_capture] += delta;
+        taboo_arrival[taboo_phase[nbply]][Black][sq_capture] += delta;
+        break;
+    }
+
+    if (is_rider(walk))
+    {
+      int const diff_move = sq_arrival-sq_departure;
+      int const dir_move = CheckDir[walk][diff_move];
+
+      square s;
+      assert(dir_move!=0);
+      for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+      {
+        taboo_arrival[taboo_phase[nbply]][White][s] += delta;
+        taboo_arrival[taboo_phase[nbply]][Black][s] += delta;
+      }
+    }
+    else if (is_pawn(walk))
+    {
+      /* arrival square must not be blocked */
+      taboo_arrival[taboo_phase[nbply]][White][sq_arrival] += delta;
+      taboo_arrival[taboo_phase[nbply]][Black][sq_arrival] += delta;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_taboo(int delta)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -2407,6 +2615,8 @@ static void update_taboo(int delta)
   TraceSquare(sq_capture);
   TraceWalk(walk);
   TraceEOL();
+
+  update_taboo_arrival(delta);
 
   taboo[White][sq_departure] += delta;
   taboo[Black][sq_departure] += delta;
@@ -3310,11 +3520,11 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   /* make sure that we don't generate pawn captures total invisible */
-  assert(play_phase!=play_regular);
+  assert(play_phase==play_replay);
 
   pipe_solve_delegate(si);
 
-  if (play_phase==play_validating_mate)
+  if (save_play_phase==play_validating_mate)
   {
     if (solve_result==previous_move_has_not_solved)
       mate_validation_result = no_mate;
