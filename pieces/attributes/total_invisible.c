@@ -61,7 +61,8 @@ typedef enum
   play_validating_mate,
   play_testing_mate,
   play_initialising_replay,
-  play_replay,
+  play_replay_validating,
+  play_replay_testing,
   play_finalising_replay,
   play_unwinding
 } play_phase_type;
@@ -326,7 +327,8 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       break;
 
     case play_initialising_replay:
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
       /* nothing */
       break;
 
@@ -428,7 +430,8 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       }
       break;
 
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
     case play_finalising_replay:
       /* nothing */
       break;
@@ -493,7 +496,8 @@ static void undo_revelation_of_castling_partner(move_effect_journal_entry_type c
     case play_validating_mate:
     case play_testing_mate:
     case play_initialising_replay:
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
     case play_finalising_replay:
       break;
 
@@ -541,7 +545,8 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
 
     case play_testing_mate:
     case play_initialising_replay:
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
       break;
@@ -778,7 +783,8 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_validating_mate:
     case play_testing_mate:
     case play_initialising_replay:
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
       // either get_walk_of_piece_on_square(on) is the revealed walk or iterations have
@@ -846,7 +852,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_validating_mate:
     case play_testing_mate:
     case play_initialising_replay:
-    case play_replay:
+    case play_replay_validating:
+    case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
       if (get_walk_of_piece_on_square(on)!=walk)
@@ -1028,8 +1035,60 @@ static void evaluate_revelations(void)
   TraceFunctionResultEnd();
 }
 
-// TODO
-play_phase_type save_play_phase;
+static void initialise_replay(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    --nbply;
+    undo_move_effects();
+  }
+  while (nbply-1!=ply_retro_move);
+
+  ply_replayed = nbply;
+  nbply = top_ply_of_regular_play;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_replay(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TracePosition(being_solved.board,being_solved.spec);
+
+  mate_validation_result = mate_unvalidated;
+
+  pipe_solve_delegate(tester_slice);
+
+  if (solve_result>combined_result)
+    combined_result = solve_result;
+  TracePosition(being_solved.board,being_solved.spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void finalise_replay(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nbply = ply_replayed;
+
+  while (nbply<=top_ply_of_regular_play)
+  {
+    redo_move_effects();
+    ++nbply;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void done_validating_king_placements(void)
 {
@@ -1038,80 +1097,55 @@ static void done_validating_king_placements(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
-  // TODO switch on play_phase
-  if (play_phase==play_detecting_revelations)
+  switch (play_phase)
   {
-    if (revelation_status_is_uninitialised)
-      initialise_revelations();
-    else
-      update_revelations();
+    case play_detecting_revelations:
+      if (revelation_status_is_uninitialised)
+        initialise_revelations();
+      else
+        update_revelations();
+      if (nr_potential_revelations==0)
+        end_of_iteration = true;
+      break;
 
-    if (nr_potential_revelations==0)
-      end_of_iteration = true;
-  }
-  else
-  {
-    save_play_phase = play_phase;
+    case play_validating_mate:
+      play_phase = play_initialising_replay;
+      initialise_replay();
+      play_phase = play_replay_validating;
+      do_replay();
+      play_phase = play_finalising_replay;
+      finalise_replay();
+      play_phase = play_validating_mate;
 
-    play_phase = play_initialising_replay;
-    do
-    {
-      --nbply;
-      undo_move_effects();
-    }
-    while (nbply-1!=ply_retro_move);
+      if (mate_validation_result<combined_validation_result)
+        combined_validation_result = mate_validation_result;
+      if (mate_validation_result<=mate_attackable)
+        end_of_iteration = true;
 
-    ply_replayed = nbply;
-    nbply = top_ply_of_regular_play;
+      break;
 
-    play_phase = play_replay;
+    case play_testing_mate:
+      play_phase = play_initialising_replay;
+      initialise_replay();
+      play_phase = play_replay_testing;
+      do_replay();
+      play_phase = play_finalising_replay;
+      finalise_replay();
+      play_phase = play_testing_mate;
 
-    TracePosition(being_solved.board,being_solved.spec);
+      /* This:
+       * assert(solve_result>=previous_move_has_solved);
+       * held surprisingly long, especially since it's wrong.
+       * E.g. mate by castling: if we attack the rook, the castling is not
+       * even playable */
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
 
-    mate_validation_result = mate_unvalidated;
+      break;
 
-    pipe_solve_delegate(tester_slice);
-
-    if (solve_result>combined_result)
-      combined_result = solve_result;
-
-    play_phase = play_finalising_replay;
-
-    TracePosition(being_solved.board,being_solved.spec);
-
-    nbply = ply_replayed;
-
-    while (nbply<=top_ply_of_regular_play)
-    {
-      redo_move_effects();
-      ++nbply;
-    }
-
-    play_phase = save_play_phase;
-
-    switch (play_phase)
-    {
-      case play_validating_mate:
-        if (mate_validation_result<combined_validation_result)
-          combined_validation_result = mate_validation_result;
-        if (mate_validation_result<=mate_attackable)
-          end_of_iteration = true;
-        break;
-
-      case play_testing_mate:
-        /* This:
-         * assert(solve_result>=previous_move_has_solved);
-         * held surprisingly long, especially since it's wrong.
-         * E.g. mate by castling: if we attack the rook, the castling is not
-         * even playable */
-        if (solve_result==previous_move_has_not_solved)
-          end_of_iteration = true;
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    default:
+      assert(0);
+      break;
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -3520,11 +3554,11 @@ void total_invisible_goal_guard_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   /* make sure that we don't generate pawn captures total invisible */
-  assert(play_phase==play_replay);
+  assert(play_phase==play_replay_validating || play_phase==play_replay_testing);
 
   pipe_solve_delegate(si);
 
-  if (save_play_phase==play_validating_mate)
+  if (play_phase==play_replay_validating)
   {
     if (solve_result==previous_move_has_not_solved)
       mate_validation_result = no_mate;
