@@ -1368,11 +1368,11 @@ static void adapt_capture_effect(void)
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
       recurse_into_child_ply();
     }
-    else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+    else
     {
+      assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
+      assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
       TraceText("capture of a total invisible that happened to land on the arrival square\n");
-
-      // TODO deal with blocked pawn moves
 
       if (TSTFLAG(being_solved.spec[to],Royal))
       {
@@ -1388,10 +1388,6 @@ static void adapt_capture_effect(void)
         recurse_into_child_ply();
         move_effect_journal[capture].type = move_effect_no_piece_removal;
       }
-    }
-    else
-    {
-      TraceText("move blocked by a random TI move\n");
     }
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition)
@@ -2163,6 +2159,100 @@ static void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static boolean is_taboo_violated(void)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_capture = move_gen_top->capture;
+  square const sq_departure = move_gen_top->departure;
+  square const sq_arrival = move_gen_top->arrival;
+
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+
+  assert(sq_departure!=move_by_invisible);
+  assert(sq_departure<capture_by_invisible);
+
+  if (!is_square_empty(sq_arrival)
+      && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
+  {
+    TraceText("arrival square blocked\n");
+    return true;
+  }
+
+  switch (sq_capture)
+  {
+    case kingside_castling :
+    {
+      square s;
+      for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+        if (!is_square_empty(s))
+        {
+          TraceText("castling traversal square blocked\n");
+          return true;
+        }
+      break;
+    }
+
+    case queenside_castling:
+    {
+      square s;
+      for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
+        if (!is_square_empty(s))
+        {
+          TraceText("castling traversal square blocked\n");
+          return true;
+        }
+      break;
+    }
+
+    case pawn_multistep:
+    {
+      square const sq_intermediate = (sq_departure+sq_arrival)/2;
+      if (!is_square_empty(sq_intermediate))
+      {
+        TraceText("pawn multistep intercepted\n");
+        return true;
+      }
+      break;
+    }
+
+    case messigny_exchange:
+    case retro_capture_departure:
+    case no_capture:
+      break;
+
+    default:
+      break;
+  }
+
+  if (is_rider(walk))
+  {
+    int const diff_move = sq_arrival-sq_departure;
+    int const dir_move = CheckDir[walk][diff_move];
+
+    square s;
+    assert(dir_move!=0);
+    for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+      if (!is_square_empty(s))
+      {
+        TraceText("rider move intercepted\n");
+        return true;
+      }
+  }
+  else if (is_pawn(walk))
+  {
+    if (!is_square_empty(sq_arrival))
+    {
+      TraceText("pawn move blocked\n");
+      return true;
+    }
+  }
+
+  return false;
+}
+
 static void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
@@ -2192,7 +2282,7 @@ static void done_intercepting_illegal_checks(void)
     else if (move_gen_top->departure==move_by_invisible
              && move_gen_top->arrival==move_by_invisible)
       flesh_out_move_by_invisible();
-    else
+    else if (!is_taboo_violated())
       adapt_pre_capture_effect();
   }
   else
