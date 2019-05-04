@@ -307,9 +307,10 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
         TraceText("this revelation has been violated - undoing nothing\n");
         first_detected_revelation_violation = revelation_violation_later;
       }
-      else if (first_detected_revelation_violation==revelation_violation_later)
+      else if (first_detected_revelation_violation==revelation_violation_later
+               || first_detected_revelation_violation==0)
       {
-        TraceText("a later revelation has been violated - undoing anyway\n");
+        TraceText("no revelation has been violated up to and including this one - undoing\n");
         assert(first_detected_revelation_violation!=0 || !is_square_empty(on));
         if (entry->u.piece_addition.for_side==White)
         {
@@ -332,35 +333,10 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
           if (TSTFLAG(spec,Black))
             --being_solved.number_of_pieces[Black][walk];
         }
-      }
-      else if (first_detected_revelation_violation!=0)
-      {
-        TraceText("an earlier revelation has been violated - undoing nothing\n");
       }
       else
       {
-        assert(first_detected_revelation_violation!=0 || !is_square_empty(on));
-        if (entry->u.piece_addition.for_side==White)
-        {
-          Side const side = TSTFLAG(spec,White) ? White : Black;
-          assert(play_phase==play_validating_mate);
-          assert(get_walk_of_piece_on_square(on)==walk);
-          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
-          TraceText("substituting dummy for revealed piece\n");
-          if (TSTFLAG(spec,Royal) && walk==King)
-          {
-            CLRFLAG(being_solved.spec[on],Royal);
-            being_solved.king_square[side] = initsquare;
-          }
-          SETFLAG(being_solved.spec[on],advers(side));
-          SETFLAG(being_solved.spec[on],Chameleon);
-          replace_walk(on,Dummy);
-          if (TSTFLAG(spec,White))
-            --being_solved.number_of_pieces[White][walk];
-          if (TSTFLAG(spec,Black))
-            --being_solved.number_of_pieces[Black][walk];
-        }
+        TraceText("an earlier revelation has been violated - undoing nothing\n");
       }
       break;
 
