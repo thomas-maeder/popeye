@@ -98,7 +98,8 @@ static ply flesh_out_move_highwater = ply_retro_move;
 
 static PieceIdType next_invisible_piece_id;
 
-static boolean has_revelation_been_violated;
+static move_effect_journal_entry_type const *revelation_violation_later = move_effect_journal+move_effect_journal_size;
+static move_effect_journal_entry_type const *first_detected_revelation_violation;
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
@@ -301,27 +302,65 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-      assert(has_revelation_been_violated || !is_square_empty(on));
-      if (entry->u.piece_addition.for_side==White)
+      if (first_detected_revelation_violation==entry)
       {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        assert(play_phase==play_validating_mate);
-        assert(get_walk_of_piece_on_square(on)==walk);
-        assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-        ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
-        TraceText("substituting dummy for revealed piece\n");
-        if (TSTFLAG(spec,Royal) && walk==King)
+        TraceText("this revelation has been violated - undoing nothing\n");
+        first_detected_revelation_violation = revelation_violation_later;
+      }
+      else if (first_detected_revelation_violation==revelation_violation_later)
+      {
+        TraceText("a later revelation has been violated - undoing anyway\n");
+        assert(first_detected_revelation_violation!=0 || !is_square_empty(on));
+        if (entry->u.piece_addition.for_side==White)
         {
-          CLRFLAG(being_solved.spec[on],Royal);
-          being_solved.king_square[side] = initsquare;
+          Side const side = TSTFLAG(spec,White) ? White : Black;
+          assert(play_phase==play_validating_mate);
+          assert(get_walk_of_piece_on_square(on)==walk);
+          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
+          TraceText("substituting dummy for revealed piece\n");
+          if (TSTFLAG(spec,Royal) && walk==King)
+          {
+            CLRFLAG(being_solved.spec[on],Royal);
+            being_solved.king_square[side] = initsquare;
+          }
+          SETFLAG(being_solved.spec[on],advers(side));
+          SETFLAG(being_solved.spec[on],Chameleon);
+          replace_walk(on,Dummy);
+          if (TSTFLAG(spec,White))
+            --being_solved.number_of_pieces[White][walk];
+          if (TSTFLAG(spec,Black))
+            --being_solved.number_of_pieces[Black][walk];
         }
-        SETFLAG(being_solved.spec[on],advers(side));
-        SETFLAG(being_solved.spec[on],Chameleon);
-        replace_walk(on,Dummy);
-        if (TSTFLAG(spec,White))
-          --being_solved.number_of_pieces[White][walk];
-        if (TSTFLAG(spec,Black))
-          --being_solved.number_of_pieces[Black][walk];
+      }
+      else if (first_detected_revelation_violation!=0)
+      {
+        TraceText("an earlier revelation has been violated - undoing nothing\n");
+      }
+      else
+      {
+        assert(first_detected_revelation_violation!=0 || !is_square_empty(on));
+        if (entry->u.piece_addition.for_side==White)
+        {
+          Side const side = TSTFLAG(spec,White) ? White : Black;
+          assert(play_phase==play_validating_mate);
+          assert(get_walk_of_piece_on_square(on)==walk);
+          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
+          TraceText("substituting dummy for revealed piece\n");
+          if (TSTFLAG(spec,Royal) && walk==King)
+          {
+            CLRFLAG(being_solved.spec[on],Royal);
+            being_solved.king_square[side] = initsquare;
+          }
+          SETFLAG(being_solved.spec[on],advers(side));
+          SETFLAG(being_solved.spec[on],Chameleon);
+          replace_walk(on,Dummy);
+          if (TSTFLAG(spec,White))
+            --being_solved.number_of_pieces[White][walk];
+          if (TSTFLAG(spec,Black))
+            --being_solved.number_of_pieces[Black][walk];
+        }
       }
       break;
 
@@ -381,50 +420,57 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_validating_mate:
     case play_testing_mate:
       assert(entry->u.piece_addition.for_side==no_side);
-      if (is_square_empty(on))
+      if (first_detected_revelation_violation==0)
       {
-        TraceText("revelation expected, but square is empty - aborting\n");
-        has_revelation_been_violated = true;
-      }
-      else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        if (TSTFLAG(spec,Royal) && walk==King && being_solved.king_square[side]!=initsquare)
+        if (is_square_empty(on))
         {
-          TraceText("revelation of king - but king has already been placed - aborting\n");
-          has_revelation_been_violated = true;
+          TraceText("revelation expected, but square is empty - aborting\n");
+          first_detected_revelation_violation = entry;
+        }
+        else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
+        {
+          Side const side = TSTFLAG(spec,White) ? White : Black;
+          if (TSTFLAG(spec,Royal) && walk==King && being_solved.king_square[side]!=initsquare)
+          {
+            TraceText("revelation of king - but king has already been placed - aborting\n");
+            first_detected_revelation_violation = entry;
+          }
+          else
+          {
+            TraceText("substituting revealed piece for dummy\n");
+            ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
+            if (TSTFLAG(spec,White))
+              ++being_solved.number_of_pieces[White][walk];
+            if (TSTFLAG(spec,Black))
+              ++being_solved.number_of_pieces[Black][walk];
+            replace_walk(on,walk);
+            CLRFLAG(being_solved.spec[on],Chameleon);
+            CLRFLAG(being_solved.spec[on],advers(side));
+            if (TSTFLAG(spec,Royal) && walk==King)
+            {
+              TraceSquare(being_solved.king_square[side]);
+              being_solved.king_square[side] = on;
+              SETFLAG(being_solved.spec[on],Royal);
+              TraceSquare(being_solved.king_square[side]);
+            }
+            TraceValue("%x",being_solved.spec[on]);TraceEOL();
+            // TODO should we reveal the id as well?
+            assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+          }
+        }
+        else if (get_walk_of_piece_on_square(on)==walk)
+        {
+          /* go on */
         }
         else
         {
-          TraceText("substituting revealed piece for dummy\n");
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
-          if (TSTFLAG(spec,White))
-            ++being_solved.number_of_pieces[White][walk];
-          if (TSTFLAG(spec,Black))
-            ++being_solved.number_of_pieces[Black][walk];
-          replace_walk(on,walk);
-          CLRFLAG(being_solved.spec[on],Chameleon);
-          CLRFLAG(being_solved.spec[on],advers(side));
-          if (TSTFLAG(spec,Royal) && walk==King)
-          {
-            TraceSquare(being_solved.king_square[side]);
-            being_solved.king_square[side] = on;
-            SETFLAG(being_solved.spec[on],Royal);
-            TraceSquare(being_solved.king_square[side]);
-          }
-          TraceValue("%x",being_solved.spec[on]);TraceEOL();
-          // TODO should we reveal the id as well?
-          assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+          first_detected_revelation_violation = entry;
+          TraceText("revelation expected - but walk of present piece is differnt - aborting\n");
         }
-      }
-      else if (get_walk_of_piece_on_square(on)==walk)
-      {
-        /* go on */
       }
       else
       {
-        has_revelation_been_violated = true;
-        TraceText("revelation expected - but walk of present piece is differnt - aborting\n");
+        TraceText("a previous revelation has been violated - doing nothing\n");
       }
       break;
 
@@ -497,6 +543,8 @@ static void undo_revelation_of_castling_partner(move_effect_journal_entry_type c
     case play_replay_validating:
     case play_replay_testing:
     case play_finalising_replay:
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_unwinding:
@@ -539,6 +587,8 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
 
     case play_detecting_revelations:
     case play_validating_mate:
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_testing_mate:
@@ -547,6 +597,8 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
     case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
     default:
@@ -597,7 +649,6 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
           assert(move_effect_journal[idx].u.piece_movement.moving==Dummy);
           pos = move_effect_journal[idx].u.piece_movement.from;
           move_effect_journal[idx].u.piece_movement.moving = walk_to;
-          CLRFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
         }
         else
           assert(pos!=move_effect_journal[idx].u.piece_movement.to);
@@ -615,7 +666,6 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
             TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
             TraceEOL();
             move_effect_journal[idx].u.piece_addition.added.walk = walk_to;
-            CLRFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
           }
           idx = 1;
         }
@@ -663,7 +713,6 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
           assert(pos==move_effect_journal[idx].u.piece_movement.to);
           pos = move_effect_journal[idx].u.piece_movement.from;
           move_effect_journal[idx].u.piece_movement.moving = Dummy;
-          SETFLAG(move_effect_journal[idx].u.piece_movement.movingspec,Chameleon);
         }
         else
           assert(pos!=move_effect_journal[idx].u.piece_movement.to);
@@ -677,7 +726,6 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
         {
           assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
           move_effect_journal[idx].u.piece_addition.added.walk = Dummy;
-          SETFLAG(move_effect_journal[idx].u.piece_addition.added.flags,Chameleon);
           idx = 1;
         }
         else
@@ -772,9 +820,11 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       break;
 
     case play_rewinding:
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       taint_history_of_placed_piece(entry-&move_effect_journal[0]);
       assert(!is_square_empty(on));
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_detecting_revelations:
@@ -785,9 +835,28 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
-      // either get_walk_of_piece_on_square(on) is the revealed walk or iterations have
-      // been canceled by redo_revelation_of_placed_invisible()
-      assert(has_revelation_been_violated || get_walk_of_piece_on_square(on)==walk);
+      if (first_detected_revelation_violation==entry)
+      {
+        TraceText("this revelation has been violated - undoing nothing\n");
+        first_detected_revelation_violation = revelation_violation_later;
+      }
+      else if (first_detected_revelation_violation==revelation_violation_later)
+      {
+        TraceText("a later revelation has been violated - undoing anyway\n");
+        assert(get_walk_of_piece_on_square(on)==walk);
+        assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+        SETFLAG(being_solved.spec[on],Chameleon);
+      }
+      else if (first_detected_revelation_violation!=0)
+      {
+        TraceText("an earlier revelation has been violated - undoing nothing\n");
+      }
+      else
+      {
+        assert(get_walk_of_piece_on_square(on)==walk);
+        assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+        SETFLAG(being_solved.spec[on],Chameleon);
+      }
       break;
 
     case play_unwinding:
@@ -854,16 +923,29 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_replay_testing:
     case play_finalising_replay:
       assert(!is_square_empty(on));
-      if (get_walk_of_piece_on_square(on)!=walk)
+      if (first_detected_revelation_violation==0)
       {
-        TraceText("the revelation has been violated - terminating redoing effects with this ply");
-        has_revelation_been_violated = true;
+        if (get_walk_of_piece_on_square(on)==walk)
+        {
+          assert(TSTFLAG(being_solved.spec[on],Chameleon));
+          CLRFLAG(being_solved.spec[on],Chameleon);
+        }
+        else
+        {
+          TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
+          first_detected_revelation_violation = entry;
+        }
+      }
+      else
+      {
+        TraceText("a previous revelation has been violated - doing nothing\n");
       }
       break;
 
     case play_unwinding:
       assert(!is_square_empty(on));
-      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
       untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
       break;
 
@@ -1315,11 +1397,11 @@ static void recurse_into_child_ply(void)
   ++taboo[White][sq_departure];
   ++taboo[Black][sq_departure];
 
-  has_revelation_been_violated = false;
+  assert(first_detected_revelation_violation==0);
 
   redo_move_effects();
 
-  if (!has_revelation_been_violated)
+  if (first_detected_revelation_violation==0)
   {
     if (nbply<=flesh_out_move_highwater)
     {
@@ -1341,6 +1423,8 @@ static void recurse_into_child_ply(void)
   }
 
   undo_move_effects();
+
+  first_detected_revelation_violation = 0;
 
   --taboo[White][sq_departure];
   --taboo[Black][sq_departure];
@@ -1940,9 +2024,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     TraceValue("%u",nr_total_invisibles_left);TraceEOL();
     if (nr_total_invisibles_left>0)
     {
-      /* insert the capturer with the flags from the journal, which may have been
-       * tainted if the piece was eventually revealed
-       */
       move_effect_journal_index_type const base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const pre_capture_effect = base;
       Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
@@ -1952,7 +2033,10 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_readdition);
 
       --nr_total_invisibles_left;
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+      TraceValue("%u",nr_total_invisibles_left);
+      TraceWalk(walk_capturing);
+      TraceValue("%x",flags);
+      TraceEOL();
 
       occupy_square(from,walk_capturing,flags);
 
@@ -2142,18 +2226,9 @@ static void flesh_out_capture_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_capture))
-  {
-    // TODO we shouldn't arrive here, but currently we do:
-    // 1 TI was revealed on capture square
-    // 2 a move with a TI capturing the revealed piece was generated (and is being played)
-    // 3 the revealed piece has left before that in a TI~ move
-    // 4 there is nothing to remove when the move generated in 2 is played
-    // this case is illegal because 3 shouldn't occur
-    TraceText("capture by invisible, but invisible has left\n");
-  }
-  else
-    flesh_out_capture_by_invisible_walk_by_walk();
+  TraceSquare(sq_capture);TraceEOL();
+  assert(!is_square_empty(sq_capture));
+  flesh_out_capture_by_invisible_walk_by_walk();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
