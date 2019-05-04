@@ -792,6 +792,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
@@ -800,6 +801,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       taint_history_of_placed_piece(entry-&move_effect_journal[0]);
       assert(!is_square_empty(on));
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
@@ -816,22 +818,18 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         TraceText("this revelation has been violated - undoing nothing\n");
         first_detected_revelation_violation = revelation_violation_later;
       }
-      else if (first_detected_revelation_violation==revelation_violation_later)
+      else if (first_detected_revelation_violation==revelation_violation_later
+               || first_detected_revelation_violation==0)
       {
-        TraceText("a later revelation has been violated - undoing anyway\n");
+        TraceText("no revelation has been violated up to and including this one - undoing\n");
         assert(get_walk_of_piece_on_square(on)==walk);
         assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+        assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
         SETFLAG(being_solved.spec[on],Chameleon);
-      }
-      else if (first_detected_revelation_violation!=0)
-      {
-        TraceText("an earlier revelation has been violated - undoing nothing\n");
       }
       else
       {
-        assert(get_walk_of_piece_on_square(on)==walk);
-        assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-        SETFLAG(being_solved.spec[on],Chameleon);
+        TraceText("an earlier revelation has been violated - undoing nothing\n");
       }
       break;
 
@@ -885,6 +883,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
       assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
+      assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       break;
 
     case play_rewinding:
@@ -905,6 +904,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
         {
           assert(TSTFLAG(being_solved.spec[on],Chameleon));
           CLRFLAG(being_solved.spec[on],Chameleon);
+          assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
         }
         else
         {
@@ -923,6 +923,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
       untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
+      assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       break;
 
     default:
