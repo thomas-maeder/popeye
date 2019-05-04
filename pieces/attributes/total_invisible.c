@@ -1597,6 +1597,8 @@ static void flesh_out_move_by_invisible_pawn(square s)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
+      move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(s);
+
       if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_singlestep]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
@@ -1648,6 +1650,8 @@ static void flesh_out_move_by_invisible_rider(square s,
 
   TraceWalk(get_walk_of_piece_on_square(s));TraceEOL();
 
+  move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(s);
+
   assert(kstart<=kend);
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
@@ -1698,6 +1702,7 @@ static void flesh_out_move_by_invisible_leaper(square s,
     {
       if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
       {
+        move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(s);
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         move_generation_stack[currmove].arrival = sq_arrival;
 
@@ -1941,6 +1946,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
   Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
+  piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
   square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
   square const sq_capture = move_effect_journal[movement].u.piece_movement.to;
@@ -1973,7 +1979,7 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_gen_top->departure = sq_created_on;
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
-  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+  move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
