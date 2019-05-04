@@ -243,7 +243,6 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 
   assert(play_phase==play_regular);
 
-  // TODO no longer necessary once we add another adaptation layer
   entry->u.piece_addition.for_side = no_side;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = walk;
@@ -1942,32 +1941,17 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const precapture = effects_base;
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
-  Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
-  piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
   square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_capture = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
   assert(move_gen_top->departure==sq_created_on);
 
   assert(!TSTFLAG(being_solved.spec[from],advers(trait[nbply])));
-
-  move_effect_journal[precapture].type = move_effect_none;
-
-  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
-  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
   move_effect_journal[movement].u.piece_movement.from = from;
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -1980,13 +1964,6 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   move_gen_top->departure = sq_created_on;
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
-  move_effect_journal[movement].u.piece_movement.moving = save_moving;
-  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
-  move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
-
-  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2012,8 +1989,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       Flags const flags = move_effect_journal[pre_capture_effect].u.piece_addition.added.flags;
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
-
-      assert(move_effect_journal[pre_capture_effect].type==move_effect_piece_readdition);
 
       --nr_total_invisibles_left;
       TraceValue("%u",nr_total_invisibles_left);
@@ -2186,8 +2161,26 @@ static void flesh_out_capture_by_invisible_pawn(void)
 
 static void flesh_out_capture_by_invisible_walk_by_walk(void)
 {
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const precapture = effects_base;
+  piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
+  Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  square const sq_capture = move_effect_journal[movement].u.piece_movement.to;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+  move_effect_journal[precapture].type = move_effect_none;
+
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
   // TODO King
   flesh_out_capture_by_invisible_pawn();
@@ -2195,6 +2188,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
   flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
   flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
   flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
+
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+  move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
+  move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
+
+  move_effect_journal[movement].u.piece_movement.moving = save_moving;
+  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
