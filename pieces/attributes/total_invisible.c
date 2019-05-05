@@ -2046,12 +2046,12 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       square const king_pos = being_solved.king_square[side_in_check];
       Flags const flags = being_solved.spec[from];
       ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-      being_solved.board[from] = walk_capturing;
+      replace_walk(from,walk_capturing);
       CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
         flesh_out_capture_by_specific_invisible(walk_capturing,from);
       being_solved.spec[from] = flags;
-      being_solved.board[from] = Dummy;
+      replace_walk(from,Dummy);
       --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
     }
   }
