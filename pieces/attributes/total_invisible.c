@@ -862,6 +862,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   switch (play_phase)
   {
     case play_regular:
+    {
+      PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
       assert(get_walk_of_piece_on_square(on)==Dummy);
 
       if (TSTFLAG(spec,Royal) && walk==King)
@@ -877,10 +879,12 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       if (TSTFLAG(being_solved.spec[on],Black))
         ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
+      being_solved.spec[on] = spec;
+      SetPieceId(being_solved.spec[on],id_on_board);
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       break;
+    }
 
     case play_rewinding:
       assert(0);
@@ -898,8 +902,11 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       {
         if (get_walk_of_piece_on_square(on)==walk)
         {
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
           assert(TSTFLAG(being_solved.spec[on],Chameleon));
-          CLRFLAG(being_solved.spec[on],Chameleon);
+          being_solved.spec[on] = spec;
+          SetPieceId(being_solved.spec[on],id_on_board);
+          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
           assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
         }
         else
@@ -915,12 +922,17 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       break;
 
     case play_unwinding:
+    {
+      PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
       assert(!is_square_empty(on));
       assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
+      being_solved.spec[on] = spec;
+      SetPieceId(being_solved.spec[on],id_on_board);
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
       assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       break;
+    }
 
     default:
       assert(0);
