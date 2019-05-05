@@ -3943,37 +3943,24 @@ void total_invisible_special_moves_player_solve(slice_index si)
     TraceSquare(sq_departure);
     TraceSquare(move_gen_top->arrival);
     TraceSquare(sq_capture);
-    TraceValue("%u",nr_total_invisibles_left);
     TraceEOL();
 
     if (sq_departure==move_by_invisible)
       pipe_solve_delegate(si);
     else if (sq_departure>=capture_by_invisible)
     {
-      // TODO:
-      /* a) unplaced invisible
-       * b) placed invisible that can reach sq_capture (with added knowledge)
-       * the following test only applies to case a)
-      if (nr_total_invisibles_left>0)*/
-      {
-        Side const side = trait[nbply];
-        Flags spec = BIT(side)|BIT(Chameleon);
-        SetPieceId(spec,++next_invisible_piece_id);
-        move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
-                                                sq_departure,Dummy,spec,side);
+      Side const side = trait[nbply];
+      Flags spec = BIT(side)|BIT(Chameleon);
+      SetPieceId(spec,++next_invisible_piece_id);
+      move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
+                                              sq_departure,Dummy,spec,side);
 
-        /* No adjustment of nr_total_invisibles_left here!
-         * The capture may be done by an existing invisible. We can only do the
-         * adjustment when we flesh out this capture by inserting a new invisible.
-         */
-        pipe_solve_delegate(si);
-        --next_invisible_piece_id;
-      }
-//      else
-//      {
-//        pop_move();
-//        solve_result = previous_move_is_illegal;
-//      }
+      /* No adjustment of nr_total_invisibles_left here!
+       * The capture may be done by an existing invisible. We can only do the
+       * adjustment when we flesh out this capture by inserting a new invisible.
+       */
+      pipe_solve_delegate(si);
+      --next_invisible_piece_id;
     }
     else
       switch (sq_capture)
