@@ -742,6 +742,7 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   }
 
   replace_walk(on,walk);
+  being_solved.spec[on] = spec;
 
   if (TSTFLAG(being_solved.spec[on],White))
     ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
@@ -2112,8 +2113,62 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_capture_by_invisible_king(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const pre_capture = effects_base;
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const king_square_movement = movement+1;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  vec_index_type kcurr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (kcurr = vec_queen_start; kcurr<=vec_queen_end && !end_of_iteration; ++kcurr)
+  {
+    square const s = sq_capture+vec[kcurr];
+    if (is_square_empty(s))
+    {
+//      flesh_out_capture_by_inserted_invisible(King,s);
+    }
+    else if (get_walk_of_piece_on_square(s)==King
+             && s==being_solved.king_square[trait[nbply]])
+    {
+      assert(TSTFLAG(being_solved.spec[s],Royal));
+
+      assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
+      SETFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+
+      assert(move_effect_journal[king_square_movement].type==move_effect_none);
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = s;
+      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_capture;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+      flesh_out_capture_by_existing_invisible(King,s);
+
+      move_effect_journal[king_square_movement].type = move_effect_none;
+
+      CLRFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+    }
+    else if (get_walk_of_piece_on_square(s)==Dummy)
+    {
+//      flesh_out_capture_by_existing_invisible(King,s);
+    }
+    else
+    {
+      /* nothing */
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
-                                                   vec_index_type kcurr, vec_index_type kend)
+                                                  vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -2191,7 +2246,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
-  // TODO King
+  flesh_out_capture_by_invisible_king();
   flesh_out_capture_by_invisible_pawn();
   flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
   flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
