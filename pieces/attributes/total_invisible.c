@@ -2129,9 +2129,36 @@ static void flesh_out_capture_by_invisible_king(void)
   for (kcurr = vec_queen_start; kcurr<=vec_queen_end && !end_of_iteration; ++kcurr)
   {
     square const s = sq_capture+vec[kcurr];
-    if (is_square_empty(s))
+    if (is_square_empty(s)
+        && being_solved.king_square[trait[nbply]]==initsquare)
     {
-//      flesh_out_capture_by_inserted_invisible(King,s);
+      /* we have just deactivated the readdition effect...*/
+      assert(move_effect_journal[pre_capture].type==move_effect_none);
+      /* but its flags field is still used*/
+      assert(!TSTFLAG(move_effect_journal[pre_capture].u.piece_addition.added.flags,Royal));
+      SETFLAG(move_effect_journal[pre_capture].u.piece_addition.added.flags,Royal);
+
+      // TODO  this is probably unnecessary
+      assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
+      SETFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+
+      being_solved.king_square[trait[nbply]] = s;
+
+      assert(move_effect_journal[king_square_movement].type==move_effect_none);
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = s;
+      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_capture;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+      flesh_out_capture_by_inserted_invisible(King,s);
+
+      move_effect_journal[king_square_movement].type = move_effect_none;
+
+      being_solved.king_square[trait[nbply]] = initsquare;
+
+      CLRFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+
+      CLRFLAG(move_effect_journal[pre_capture].u.piece_addition.added.flags,Royal);
     }
     else if (get_walk_of_piece_on_square(s)==King
              && s==being_solved.king_square[trait[nbply]])
