@@ -2153,9 +2153,32 @@ static void flesh_out_capture_by_invisible_king(void)
 
       CLRFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
     }
-    else if (get_walk_of_piece_on_square(s)==Dummy)
+    else if (get_walk_of_piece_on_square(s)==Dummy
+             && being_solved.king_square[trait[nbply]]==initsquare)
     {
-//      flesh_out_capture_by_existing_invisible(King,s);
+      assert(!TSTFLAG(being_solved.spec[s],Royal));
+      SETFLAG(being_solved.spec[s],Royal);
+
+      assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
+      SETFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+
+      being_solved.king_square[trait[nbply]] = s;
+
+      assert(move_effect_journal[king_square_movement].type==move_effect_none);
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = s;
+      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_capture;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+      flesh_out_capture_by_existing_invisible(King,s);
+
+      move_effect_journal[king_square_movement].type = move_effect_none;
+
+      being_solved.king_square[trait[nbply]] = initsquare;
+
+      CLRFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal);
+
+      CLRFLAG(being_solved.spec[s],Royal);
     }
     else
     {
