@@ -412,6 +412,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
           }
           else
           {
+            PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
             TraceText("substituting revealed piece for dummy\n");
             ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
             if (TSTFLAG(spec,White))
@@ -419,18 +420,14 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
             if (TSTFLAG(spec,Black))
               ++being_solved.number_of_pieces[Black][walk];
             replace_walk(on,walk);
-            CLRFLAG(being_solved.spec[on],Chameleon);
-            CLRFLAG(being_solved.spec[on],advers(side));
+            being_solved.spec[on] = spec;
+            SetPieceId(being_solved.spec[on],id_on_board);
             if (TSTFLAG(spec,Royal) && walk==King)
             {
               TraceSquare(being_solved.king_square[side]);
               being_solved.king_square[side] = on;
-              SETFLAG(being_solved.spec[on],Royal);
-              TraceSquare(being_solved.king_square[side]);
             }
             TraceValue("%x",being_solved.spec[on]);TraceEOL();
-            // TODO should we reveal the id as well?
-            assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
           }
         }
         else if (get_walk_of_piece_on_square(on)==walk)
