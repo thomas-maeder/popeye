@@ -1718,13 +1718,67 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_move_by_existing_invisible(square sq_departure)
+{
+  piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const king_square_movement = movement+1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  switch (walk_on_square)
+  {
+    case King:
+      move_effect_journal[movement].u.piece_movement.moving = King;
+      assert(move_effect_journal[king_square_movement].type==move_effect_none);
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+      flesh_out_move_by_invisible_leaper(vec_queen_start,vec_queen_end);
+      move_effect_journal[king_square_movement].type = move_effect_none;
+      break;
+
+    case Queen:
+      move_effect_journal[movement].u.piece_movement.moving = Queen;
+      flesh_out_move_by_invisible_rider(vec_queen_start,vec_queen_end);
+      break;
+
+    case Rook:
+      move_effect_journal[movement].u.piece_movement.moving = Rook;
+      flesh_out_move_by_invisible_rider(vec_rook_start,vec_rook_end);
+      break;
+
+    case Bishop:
+      move_effect_journal[movement].u.piece_movement.moving = Bishop;
+      flesh_out_move_by_invisible_rider(vec_bishop_start,vec_bishop_end);
+      break;
+
+    case Knight:
+      move_effect_journal[movement].u.piece_movement.moving = Knight;
+      flesh_out_move_by_invisible_leaper(vec_knight_start,vec_knight_end);
+      break;
+
+    case Pawn:
+      move_effect_journal[movement].u.piece_movement.moving = Pawn;
+      flesh_out_move_by_invisible_pawn();
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_move_by_specific_invisible(square sq_departure)
 {
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
   Flags const flags_on_square = being_solved.spec[sq_departure];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type const king_square_movement = movement+1;
   piece_walk_type const walk_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
 
@@ -1772,15 +1826,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
         being_solved.board[sq_departure] = King;
         SETFLAG(being_solved.spec[sq_departure],Royal);
         if (!(king_pos!=initsquare && king_check_ortho(trait[nbply],king_pos)))
-        {
-          move_effect_journal[movement].u.piece_movement.moving = King;
-          assert(move_effect_journal[king_square_movement].type==move_effect_none);
-          move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-          move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-          move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-          flesh_out_move_by_invisible_leaper(vec_queen_start,vec_queen_end);
-          move_effect_journal[king_square_movement].type = move_effect_none;
-        }
+          flesh_out_move_by_existing_invisible(sq_departure);
         CLRFLAG(being_solved.spec[sq_departure],Royal);
         --being_solved.number_of_pieces[trait[nbply]][King];
         being_solved.king_square[side] = initsquare;
@@ -1797,10 +1843,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
         ++being_solved.number_of_pieces[trait[nbply]][Pawn];
         being_solved.board[sq_departure] = Pawn;
         if (!(king_pos!=initsquare && pawn_check_ortho(trait[nbply],king_pos)))
-        {
-          move_effect_journal[movement].u.piece_movement.moving = Pawn;
-          flesh_out_move_by_invisible_pawn();
-        }
+          flesh_out_move_by_existing_invisible(sq_departure);
         --being_solved.number_of_pieces[trait[nbply]][Pawn];
       }
     }
@@ -1810,10 +1853,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       ++being_solved.number_of_pieces[trait[nbply]][Knight];
       being_solved.board[sq_departure] = Knight;
       if (!(king_pos!=initsquare && knight_check_ortho(trait[nbply],king_pos)))
-      {
-        move_effect_journal[movement].u.piece_movement.moving = Knight;
-        flesh_out_move_by_invisible_leaper(vec_knight_start,vec_knight_end);
-      }
+        flesh_out_move_by_existing_invisible(sq_departure);
       --being_solved.number_of_pieces[trait[nbply]][Knight];
     }
 
@@ -1824,10 +1864,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
-      {
-        move_effect_journal[movement].u.piece_movement.moving = Bishop;
-        flesh_out_move_by_invisible_rider(vec_bishop_start,vec_bishop_end);
-      }
+        flesh_out_move_by_existing_invisible(sq_departure);
       --being_solved.number_of_pieces[trait[nbply]][Bishop];
     }
 
@@ -1838,10 +1875,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
-      {
-        move_effect_journal[movement].u.piece_movement.moving = Rook;
-        flesh_out_move_by_invisible_rider(vec_rook_start,vec_rook_end);
-      }
+        flesh_out_move_by_existing_invisible(sq_departure);
       --being_solved.number_of_pieces[trait[nbply]][Rook];
     }
 
@@ -1852,56 +1886,12 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
-      {
-        move_effect_journal[movement].u.piece_movement.moving = Queen;
-        flesh_out_move_by_invisible_rider(vec_queen_start,vec_queen_end);
-      }
+        flesh_out_move_by_existing_invisible(sq_departure);
       --being_solved.number_of_pieces[trait[nbply]][Queen];
     }
   }
   else
-  {
-    switch (walk_on_square)
-    {
-      case King:
-        move_effect_journal[movement].u.piece_movement.moving = King;
-        assert(move_effect_journal[king_square_movement].type==move_effect_none);
-        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-        flesh_out_move_by_invisible_leaper(vec_queen_start,vec_queen_end);
-        move_effect_journal[king_square_movement].type = move_effect_none;
-        break;
-
-      case Queen:
-        move_effect_journal[movement].u.piece_movement.moving = Queen;
-        flesh_out_move_by_invisible_rider(vec_queen_start,vec_queen_end);
-        break;
-
-      case Rook:
-        move_effect_journal[movement].u.piece_movement.moving = Rook;
-        flesh_out_move_by_invisible_rider(vec_rook_start,vec_rook_end);
-        break;
-
-      case Bishop:
-        move_effect_journal[movement].u.piece_movement.moving = Bishop;
-        flesh_out_move_by_invisible_rider(vec_bishop_start,vec_bishop_end);
-        break;
-
-      case Knight:
-        move_effect_journal[movement].u.piece_movement.moving = Knight;
-        flesh_out_move_by_invisible_leaper(vec_knight_start,vec_knight_end);
-        break;
-
-      case Pawn:
-        move_effect_journal[movement].u.piece_movement.moving = Pawn;
-        flesh_out_move_by_invisible_pawn();
-        break;
-
-      default:
-        break;
-    }
-  }
+    flesh_out_move_by_existing_invisible(sq_departure);
 
   being_solved.board[sq_departure] = walk_on_square;
   being_solved.spec[sq_departure] = flags_on_square;
