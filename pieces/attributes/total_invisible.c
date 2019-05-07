@@ -1724,11 +1724,24 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   move_effect_journal_index_type const king_square_movement = movement+1;
+  piece_walk_type const walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+  square const currmove_departure = move_generation_stack[currmove].departure;
+  square const currmove_arrival = move_generation_stack[currmove].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(currmove_arrival==move_by_invisible);
+  move_generation_stack[currmove].departure = sq_departure;
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
   move_effect_journal[movement].u.piece_movement.moving = walk_on_square;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   switch (walk_on_square)
   {
@@ -1765,6 +1778,14 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
       break;
   }
 
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.moving = walk_moving;
+  move_effect_journal[movement].u.piece_movement.movingspec = flags_moving;
+
+  move_generation_stack[currmove].departure = currmove_departure;
+  move_generation_stack[currmove].arrival = currmove_arrival;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1773,14 +1794,6 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 {
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
   Flags const flags_on_square = being_solved.spec[sq_departure];
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  piece_walk_type const walk_moving = move_effect_journal[movement].u.piece_movement.moving;
-  Flags const flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
-
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-  square const currmove_departure = move_generation_stack[currmove].departure;
-  square const currmove_arrival = move_generation_stack[currmove].arrival;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -1792,18 +1805,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
   TraceValue("%x",flags_moving);
   TraceEOL();
 
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
-
-  assert(currmove_arrival==move_by_invisible);
-  move_generation_stack[currmove].departure = sq_departure;
-
   // TODO use a sibling ply and the regular move generation machinery?
-
-  move_effect_journal[movement].u.piece_movement.moving = being_solved.board[sq_departure];
-  CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   if (walk_on_square==Dummy)
   {
@@ -1812,6 +1814,8 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
     assert(play_phase==play_validating_mate);
 
+    CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+
     if (!end_of_iteration)
     {
       Side const side = trait[nbply];
@@ -1819,7 +1823,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       {
         being_solved.king_square[side] = sq_departure;
         ++being_solved.number_of_pieces[trait[nbply]][King];
-        being_solved.board[sq_departure] = King;
+        replace_walk(sq_departure,King);
         SETFLAG(being_solved.spec[sq_departure],Royal);
         if (!(king_pos!=initsquare && king_check_ortho(trait[nbply],king_pos)))
           flesh_out_move_by_existing_invisible(sq_departure);
@@ -1837,7 +1841,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
       if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
       {
         ++being_solved.number_of_pieces[trait[nbply]][Pawn];
-        being_solved.board[sq_departure] = Pawn;
+        replace_walk(sq_departure,Pawn);
         if (!(king_pos!=initsquare && pawn_check_ortho(trait[nbply],king_pos)))
           flesh_out_move_by_existing_invisible(sq_departure);
         --being_solved.number_of_pieces[trait[nbply]][Pawn];
@@ -1847,7 +1851,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
     if (!end_of_iteration)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Knight];
-      being_solved.board[sq_departure] = Knight;
+      replace_walk(sq_departure,Knight);
       if (!(king_pos!=initsquare && knight_check_ortho(trait[nbply],king_pos)))
         flesh_out_move_by_existing_invisible(sq_departure);
       --being_solved.number_of_pieces[trait[nbply]][Knight];
@@ -1856,7 +1860,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
     if (!end_of_iteration)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Bishop];
-      being_solved.board[sq_departure] = Bishop;
+      replace_walk(sq_departure,Bishop);
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
@@ -1867,7 +1871,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
     if (!end_of_iteration)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Rook];
-      being_solved.board[sq_departure] = Rook;
+      replace_walk(sq_departure,Rook);
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
@@ -1878,7 +1882,7 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
     if (!end_of_iteration)
     {
       ++being_solved.number_of_pieces[trait[nbply]][Queen];
-      being_solved.board[sq_departure] = Queen;
+      replace_walk(sq_departure,Queen);
       if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
@@ -1889,16 +1893,8 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
   else
     flesh_out_move_by_existing_invisible(sq_departure);
 
-  being_solved.board[sq_departure] = walk_on_square;
+  replace_walk(sq_departure,walk_on_square);
   being_solved.spec[sq_departure] = flags_on_square;
-
-  move_generation_stack[currmove].departure = currmove_departure;
-  move_generation_stack[currmove].arrival = currmove_arrival;
-
-  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.moving = walk_moving;
-  move_effect_journal[movement].u.piece_movement.movingspec = flags_moving;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
