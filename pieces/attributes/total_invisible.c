@@ -1728,10 +1728,11 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  move_effect_journal[movement].u.piece_movement.moving = walk_on_square;
+
   switch (walk_on_square)
   {
     case King:
-      move_effect_journal[movement].u.piece_movement.moving = King;
       assert(move_effect_journal[king_square_movement].type==move_effect_none);
       move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
       move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
@@ -1741,27 +1742,22 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
       break;
 
     case Queen:
-      move_effect_journal[movement].u.piece_movement.moving = Queen;
       flesh_out_move_by_invisible_rider(vec_queen_start,vec_queen_end);
       break;
 
     case Rook:
-      move_effect_journal[movement].u.piece_movement.moving = Rook;
       flesh_out_move_by_invisible_rider(vec_rook_start,vec_rook_end);
       break;
 
     case Bishop:
-      move_effect_journal[movement].u.piece_movement.moving = Bishop;
       flesh_out_move_by_invisible_rider(vec_bishop_start,vec_bishop_end);
       break;
 
     case Knight:
-      move_effect_journal[movement].u.piece_movement.moving = Knight;
       flesh_out_move_by_invisible_leaper(vec_knight_start,vec_knight_end);
       break;
 
     case Pawn:
-      move_effect_journal[movement].u.piece_movement.moving = Pawn;
       flesh_out_move_by_invisible_pawn();
       break;
 
