@@ -1707,7 +1707,9 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
       }
       else
       {
-        if (is_on_board(sq_arrival) && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
+        if (is_on_board(sq_arrival)
+            && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+            && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
         {
           assert(move_generation_stack[currmove].capture==move_by_invisible);
           move_generation_stack[currmove].capture = sq_arrival;
@@ -1767,7 +1769,9 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
 
       if (is_square_empty(sq_arrival))
         done_fleshing_out_move_by_invisible();
-      else if (is_on_board(sq_arrival) && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
+      else if (is_on_board(sq_arrival)
+               && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+               && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
       {
         assert(move_generation_stack[currmove].capture==move_by_invisible);
         move_generation_stack[currmove].capture = sq_arrival;
