@@ -1705,7 +1705,7 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
   TraceValue("%u",kend);
   TraceFunctionParamListEnd();
 
-  TraceWalk(get_walk_of_piece_on_square(s));TraceEOL();
+  TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
 
   assert(kstart<=kend);
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
