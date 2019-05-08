@@ -1678,6 +1678,7 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   numecoup const currmove = CURRMOVE_OF_PLY(nbply);
@@ -1692,15 +1693,39 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
   {
     square sq_arrival;
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
-         is_square_empty(sq_arrival) && !end_of_iteration;
+         !end_of_iteration;
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
-      if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      move_generation_stack[currmove].arrival = sq_arrival;
+
+      if (is_square_empty(sq_arrival))
       {
-        move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-        move_generation_stack[currmove].arrival = sq_arrival;
-        done_fleshing_out_move_by_invisible();
+        if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
+          done_fleshing_out_move_by_invisible();
+      }
+      else
+      {
+        if (is_on_board(sq_arrival) && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
+        {
+          assert(move_generation_stack[currmove].capture==move_by_invisible);
+          move_generation_stack[currmove].capture = sq_arrival;
+
+          assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+          move_effect_journal[capture].type = move_effect_piece_removal;
+          move_effect_journal[capture].u.piece_removal.on = sq_arrival;
+          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
+          move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
+
+          done_fleshing_out_move_by_invisible();
+
+          move_effect_journal[capture].type = move_effect_no_piece_removal;
+
+          move_generation_stack[currmove].capture = move_by_invisible;
+        }
+
+        break;
       }
     }
   }
