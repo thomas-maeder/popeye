@@ -1811,93 +1811,94 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
   TraceWalk(walk_on_square);
   TraceValue("%x",flags_on_square);
-  TraceWalk(walk_moving);
-  TraceValue("%x",flags_moving);
   TraceEOL();
 
   // TODO use a sibling ply and the regular move generation machinery?
 
   if (walk_on_square==Dummy)
   {
-    Side const side_under_attack = advers(trait[nbply]);
+    Side const side_playing = trait[nbply];
+    Side const side_under_attack = advers(side_playing);
     square const king_pos = being_solved.king_square[side_under_attack];
 
     assert(play_phase==play_validating_mate);
 
-    CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+    CLRFLAG(being_solved.spec[sq_departure],side_under_attack);
+    TraceText("adjusting side flags of fleshed out Dummy ");
+    TraceEnumerator(Side,side_playing);
+    TraceValue("%x",being_solved.spec[sq_departure]);
+    TraceEOL();
 
     if (!end_of_iteration)
     {
-      Side const side = trait[nbply];
-      if (being_solved.king_square[side]==initsquare)
+      if (being_solved.king_square[side_playing]==initsquare)
       {
-        being_solved.king_square[side] = sq_departure;
-        ++being_solved.number_of_pieces[trait[nbply]][King];
+        being_solved.king_square[side_playing] = sq_departure;
+        ++being_solved.number_of_pieces[side_playing][King];
         replace_walk(sq_departure,King);
         SETFLAG(being_solved.spec[sq_departure],Royal);
-        if (!(king_pos!=initsquare && king_check_ortho(trait[nbply],king_pos)))
+        if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
           flesh_out_move_by_existing_invisible(sq_departure);
         CLRFLAG(being_solved.spec[sq_departure],Royal);
-        --being_solved.number_of_pieces[trait[nbply]][King];
-        being_solved.king_square[side] = initsquare;
+        --being_solved.number_of_pieces[side_playing][King];
+        being_solved.king_square[side_playing] = initsquare;
       }
     }
 
     if (!end_of_iteration)
     {
-      Side const side = trait[nbply];
-      SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
-      SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
+      SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
+      SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
       if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
       {
-        ++being_solved.number_of_pieces[trait[nbply]][Pawn];
+        ++being_solved.number_of_pieces[side_playing][Pawn];
         replace_walk(sq_departure,Pawn);
-        if (!(king_pos!=initsquare && pawn_check_ortho(trait[nbply],king_pos)))
+        if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
           flesh_out_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[trait[nbply]][Pawn];
+        --being_solved.number_of_pieces[side_playing][Pawn];
       }
     }
 
     if (!end_of_iteration)
     {
-      ++being_solved.number_of_pieces[trait[nbply]][Knight];
+      ++being_solved.number_of_pieces[side_playing][Knight];
       replace_walk(sq_departure,Knight);
-      if (!(king_pos!=initsquare && knight_check_ortho(trait[nbply],king_pos)))
+      if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
         flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[trait[nbply]][Knight];
+      --being_solved.number_of_pieces[side_playing][Knight];
     }
 
     if (!end_of_iteration)
     {
-      ++being_solved.number_of_pieces[trait[nbply]][Bishop];
+      ++being_solved.number_of_pieces[side_playing][Bishop];
       replace_walk(sq_departure,Bishop);
-      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+      if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
         flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[trait[nbply]][Bishop];
+      --being_solved.number_of_pieces[side_playing][Bishop];
     }
 
     if (!end_of_iteration)
     {
-      ++being_solved.number_of_pieces[trait[nbply]][Rook];
+      ++being_solved.number_of_pieces[side_playing][Rook];
       replace_walk(sq_departure,Rook);
-      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+      if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
         flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[trait[nbply]][Rook];
+      --being_solved.number_of_pieces[side_playing][Rook];
     }
 
     if (!end_of_iteration)
     {
-      ++being_solved.number_of_pieces[trait[nbply]][Queen];
+      ++being_solved.number_of_pieces[side_playing][Queen];
       replace_walk(sq_departure,Queen);
-      if (!is_rider_check_uninterceptable(trait[nbply],king_pos,
+      if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
         flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[trait[nbply]][Queen];
+      --being_solved.number_of_pieces[side_playing][Queen];
     }
   }
   else
