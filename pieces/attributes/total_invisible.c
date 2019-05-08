@@ -361,6 +361,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
   Flags const spec = entry->u.piece_addition.added.flags;
+  Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -371,6 +372,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   TraceValue("%x",spec);
   TraceValue("%x",being_solved.spec[on]);
   TraceValue("%u",play_phase);
+  TraceEnumerator(Side,side_revealed);
   TraceEOL();
 
   switch (play_phase)
@@ -404,8 +406,9 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
         }
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
         {
-          Side const side = TSTFLAG(spec,White) ? White : Black;
-          if (TSTFLAG(spec,Royal) && walk==King && being_solved.king_square[side]!=initsquare)
+          if (TSTFLAG(spec,Royal)
+              && walk==King
+              && being_solved.king_square[side_revealed]!=initsquare)
           {
             TraceText("revelation of king - but king has already been placed - aborting\n");
             first_detected_revelation_violation = entry;
@@ -424,13 +427,14 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
             SetPieceId(being_solved.spec[on],id_on_board);
             if (TSTFLAG(spec,Royal) && walk==King)
             {
-              TraceSquare(being_solved.king_square[side]);
-              being_solved.king_square[side] = on;
+              TraceSquare(being_solved.king_square[side_revealed]);
+              being_solved.king_square[side_revealed] = on;
             }
             TraceValue("%x",being_solved.spec[on]);TraceEOL();
           }
         }
-        else if (get_walk_of_piece_on_square(on)==walk)
+        else if (get_walk_of_piece_on_square(on)==walk
+                 && TSTFLAG(being_solved.spec[on],side_revealed))
         {
           /* go on */
         }
