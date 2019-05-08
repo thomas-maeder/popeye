@@ -278,6 +278,7 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
   TraceWalk(get_walk_of_piece_on_square(on));
   TraceValue("%x",spec);
   TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%u",play_phase);
   TraceEOL();
 
   switch (play_phase)
@@ -311,13 +312,13 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       {
         TraceText("no revelation has been violated up to and including this one - undoing\n");
         assert(first_detected_revelation_violation!=0 || !is_square_empty(on));
+        TraceValue("%u",(entry->u.piece_addition.for_side==White));TraceEOL();
         if (entry->u.piece_addition.for_side==White)
         {
           Side const side = TSTFLAG(spec,White) ? White : Black;
           assert(play_phase==play_validating_mate);
           assert(get_walk_of_piece_on_square(on)==walk);
           assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
           TraceText("substituting dummy for revealed piece\n");
           if (TSTFLAG(spec,Royal) && walk==King)
           {
@@ -332,6 +333,12 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
           if (TSTFLAG(spec,Black))
             --being_solved.number_of_pieces[Black][walk];
         }
+        else if (entry->u.piece_addition.for_side==Black)
+        {
+          TraceText("re-setting TI flag\n");
+          SETFLAG(being_solved.spec[on],Chameleon);
+        }
+        ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
       }
       else
       {
@@ -342,7 +349,11 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
-      /* nothing */
+      if (entry->u.piece_addition.for_side==Black)
+      {
+        TraceText("re-setting TI flag\n");
+        SETFLAG(being_solved.spec[on],Chameleon);
+      }
       break;
 
     case play_unwinding:
@@ -438,12 +449,13 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
         else if (get_walk_of_piece_on_square(on)==walk
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
-          /* go on */
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          TraceText("clearing TI flag\n");
           being_solved.spec[on] = spec;
           SetPieceId(being_solved.spec[on],id_on_board);
           TraceValue("%x",being_solved.spec[on]);TraceEOL();
           assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = Black;
         }
         else
         {
@@ -457,10 +469,14 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       }
       break;
 
+    case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
-    case play_finalising_replay:
-      /* nothing */
+      if (entry->u.piece_addition.for_side==Black)
+      {
+        TraceText("re-clearing TI flag\n");
+        CLRFLAG(being_solved.spec[on],Chameleon);
+      }
       break;
 
     case play_rewinding:
@@ -802,6 +818,8 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
+      /* just in case */
+      CLRFLAG(being_solved.spec[on],Royal);
       break;
 
     case play_rewinding:
@@ -811,6 +829,8 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(spec&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
+      /* just in case */
+      CLRFLAG(being_solved.spec[on],Royal);
       break;
 
     case play_detecting_revelations:
