@@ -391,6 +391,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = on;
       }
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       break;
 
     case play_detecting_revelations:
@@ -431,12 +432,18 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
               being_solved.king_square[side_revealed] = on;
             }
             TraceValue("%x",being_solved.spec[on]);TraceEOL();
+            assert(!TSTFLAG(being_solved.spec[on],Chameleon));
           }
         }
         else if (get_walk_of_piece_on_square(on)==walk
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
           /* go on */
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          being_solved.spec[on] = spec;
+          SetPieceId(being_solved.spec[on],id_on_board);
+          TraceValue("%x",being_solved.spec[on]);TraceEOL();
+          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
         }
         else
         {
