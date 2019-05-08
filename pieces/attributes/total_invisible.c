@@ -852,6 +852,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
   Flags const spec = entry->u.piece_addition.added.flags;
+  Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -862,6 +863,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceWalk(walk);
   TraceValue("%x",being_solved.spec[on]);
   TraceValue("%x",spec);
+  TraceEnumerator(Side,side_revealed);
   TraceEOL();
 
   switch (play_phase)
@@ -905,7 +907,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!is_square_empty(on));
       if (first_detected_revelation_violation==0)
       {
-        if (get_walk_of_piece_on_square(on)==walk)
+        if (get_walk_of_piece_on_square(on)==walk
+            && TSTFLAG(being_solved.spec[on],side_revealed))
         {
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
           assert(TSTFLAG(being_solved.spec[on],Chameleon));
