@@ -1731,17 +1731,20 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   move_effect_journal_index_type const king_square_movement = movement+1;
-  piece_walk_type const walk_moving = move_effect_journal[movement].u.piece_movement.moving;
-  Flags const flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+  piece_walk_type const save_walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const save_flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
 
   numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-  square const currmove_departure = move_generation_stack[currmove].departure;
-  square const currmove_arrival = move_generation_stack[currmove].arrival;
+  square const save_currmove_departure = move_generation_stack[currmove].departure;
+  square const save_currmove_arrival = move_generation_stack[currmove].arrival;
 
   TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  assert(currmove_arrival==move_by_invisible);
+  TraceWalk(walk_on_square);TraceEOL();
+
+  assert(save_currmove_arrival==move_by_invisible);
   move_generation_stack[currmove].departure = sq_departure;
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
@@ -1787,11 +1790,11 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
 
   move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
   move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.moving = walk_moving;
-  move_effect_journal[movement].u.piece_movement.movingspec = flags_moving;
+  move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+  move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
 
-  move_generation_stack[currmove].departure = currmove_departure;
-  move_generation_stack[currmove].arrival = currmove_arrival;
+  move_generation_stack[currmove].departure = save_currmove_departure;
+  move_generation_stack[currmove].arrival = save_currmove_arrival;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
