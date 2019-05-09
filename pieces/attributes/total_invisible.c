@@ -1622,6 +1622,41 @@ static void done_fleshing_out_move_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_accidental_capture_by_invisible(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
+  square const sq_arrival = move_generation_stack[currmove].arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  if (is_on_board(sq_arrival)
+      && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+      && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
+  {
+    assert(move_generation_stack[currmove].capture==move_by_invisible);
+    move_generation_stack[currmove].capture = sq_arrival;
+
+    assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+    move_effect_journal[capture].type = move_effect_piece_removal;
+    move_effect_journal[capture].u.piece_removal.on = sq_arrival;
+    move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
+    move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
+
+    done_fleshing_out_move_by_invisible();
+
+    move_effect_journal[capture].type = move_effect_no_piece_removal;
+
+    move_generation_stack[currmove].capture = move_by_invisible;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void flesh_out_move_by_invisible_pawn(void)
 {
@@ -1666,6 +1701,24 @@ static void flesh_out_move_by_invisible_pawn(void)
         }
       }
     }
+
+    // TODO add capture victim if arrival square empty and nr_total...>0
+
+    if (!end_of_iteration)
+    {
+      square const sq_arrival = sq_singlestep+dir_right;
+      move_generation_stack[currmove].arrival = sq_arrival;
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      flesh_out_accidental_capture_by_invisible();
+    }
+
+    if (!end_of_iteration)
+    {
+      square const sq_arrival = sq_singlestep+dir_left;
+      move_generation_stack[currmove].arrival = sq_arrival;
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      flesh_out_accidental_capture_by_invisible();
+    }
   }
 
 
@@ -1678,7 +1731,6 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   numecoup const currmove = CURRMOVE_OF_PLY(nbply);
@@ -1707,26 +1759,7 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
       }
       else
       {
-        if (is_on_board(sq_arrival)
-            && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
-            && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
-        {
-          assert(move_generation_stack[currmove].capture==move_by_invisible);
-          move_generation_stack[currmove].capture = sq_arrival;
-
-          assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
-          move_effect_journal[capture].type = move_effect_piece_removal;
-          move_effect_journal[capture].u.piece_removal.on = sq_arrival;
-          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
-          move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
-
-          done_fleshing_out_move_by_invisible();
-
-          move_effect_journal[capture].type = move_effect_no_piece_removal;
-
-          move_generation_stack[currmove].capture = move_by_invisible;
-        }
-
+        flesh_out_accidental_capture_by_invisible();
         break;
       }
     }
@@ -1741,7 +1774,6 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   move_effect_journal_index_type const king_square_movement = movement+1;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
@@ -1769,25 +1801,8 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
 
       if (is_square_empty(sq_arrival))
         done_fleshing_out_move_by_invisible();
-      else if (is_on_board(sq_arrival)
-               && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
-               && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
-      {
-        assert(move_generation_stack[currmove].capture==move_by_invisible);
-        move_generation_stack[currmove].capture = sq_arrival;
-
-        assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].u.piece_removal.on = sq_arrival;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
-
-        done_fleshing_out_move_by_invisible();
-
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-
-        move_generation_stack[currmove].capture = move_by_invisible;
-      }
+      else
+        flesh_out_accidental_capture_by_invisible();
     }
   }
 
