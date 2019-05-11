@@ -2027,12 +2027,6 @@ static void flesh_out_move_by_invisible(void)
     TraceText("random move by unplaced invisible\n");
     done_fleshing_out_move_by_invisible();
   }
-  else if (nbply==6)
-  {
-    // TODO
-    TraceText("random move by invisible to its placement in first ply\n");
-    done_fleshing_out_move_by_invisible();
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

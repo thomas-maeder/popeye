@@ -24,10 +24,10 @@
 
   1.Kh6-h5 Qd5-g5 #
   1.[+wTIg6]h7*g6 Qd5-h1 #
-  add_to_move_generation_stack:        3193
-                     play_move:         514
+  add_to_move_generation_stack:        3152
+                     play_move:         502
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         386
+ is_black_king_square_attacked:         374
 
 solution finished.
 
@@ -60,10 +60,10 @@ solution finished.
   1..~-~ [+bTIb3]a2*b3 #
   1.b2-b1=R [+bTIb3]a2*b3 #
   1.[+wTIc1]b2*c1=S Qa3-b2 #
-  add_to_move_generation_stack:        3823
-                     play_move:         892
+  add_to_move_generation_stack:        3797
+                     play_move:         886
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         570
+ is_black_king_square_attacked:         564
 
 solution finished.
 
@@ -129,10 +129,10 @@ Sake tourney 2018, announcement (solution that relies on retro not shown)
   h#2                         3 + 4
 
   1.Kg3-h4 Ke1-f1   2.Kh4-g3 Rh1-h3 #
-  add_to_move_generation_stack:     2476747
-                     play_move:      535981
- is_white_king_square_attacked:      149141
- is_black_king_square_attacked:      309917
+  add_to_move_generation_stack:     2473447
+                     play_move:      533852
+ is_white_king_square_attacked:      148951
+ is_black_king_square_attacked:      307856
 
 solution finished.
 
