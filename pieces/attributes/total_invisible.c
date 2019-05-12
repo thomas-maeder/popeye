@@ -1584,27 +1584,34 @@ static void adapt_capture_effect(void)
     }
     else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
     {
-      assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
-      TraceText("capture of a total invisible that happened to land on the arrival square\n");
-
-      if (TSTFLAG(being_solved.spec[to],Royal))
+      if (move_effect_journal[movement].u.piece_movement.moving==Pawn)
       {
-        TraceText("oops - we are about to capture the king\n");
+        // TODO 1 can we avoid this kind of block?
+        TraceText("fleshed out random move by invisible pawn has been blocked by interceptor\n");
       }
       else
       {
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-        move_effect_journal[capture].u.piece_removal.on = to;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-        recurse_into_child_ply();
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
+        TraceText("capture of a total invisible that happened to land on the arrival square\n");
+
+        if (TSTFLAG(being_solved.spec[to],Royal))
+        {
+          TraceText("oops - we are about to capture the king\n");
+        }
+        else
+        {
+          move_effect_journal[capture].type = move_effect_piece_removal;
+          move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+          move_effect_journal[capture].u.piece_removal.on = to;
+          move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+          move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+          recurse_into_child_ply();
+          move_effect_journal[capture].type = move_effect_no_piece_removal;
+        }
       }
     }
     else
     {
-      // TODO can we avoid this kind of block?
+      // TODO 2 can we avoid this kind of block?
       TraceText("fleshed out random move by invisible has been blocked by interceptor\n");
     }
   }
