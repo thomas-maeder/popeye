@@ -34,7 +34,92 @@
 
 unsigned int total_invisible_number;
 
-static unsigned int nr_total_invisibles_left;
+typedef struct
+{
+    unsigned int placed;
+    boolean claimed[nr_sides];
+} consumption_type;
+
+static consumption_type current_consumption = { 0 };
+
+static unsigned int nr_total_invisbles_consumed(void)
+{
+  return (current_consumption.placed
+          + current_consumption.claimed[White]
+          + current_consumption.claimed[Black]);
+}
+
+static void TraceConsumption(void)
+{
+  TraceValue("%u",current_consumption.placed);
+  TraceValue("%u",current_consumption.claimed[White]);
+  TraceValue("%u",current_consumption.claimed[Black]);
+}
+
+/* Determine the maximum number of placement allocations possible for both sides
+ * @return the maximum number
+ */
+static unsigned int nr_placeable_invisibles_for_both_sides(void)
+{
+  assert(total_invisible_number
+         >=(current_consumption.placed
+            + (current_consumption.claimed[White] && current_consumption.claimed[Black])
+           )
+        );
+
+  return (total_invisible_number
+          - (current_consumption.placed
+             + (current_consumption.claimed[White] && current_consumption.claimed[Black])
+            )
+         );
+}
+
+/* Determine the maximum number of placement allocations possible for a specific side
+ * @param side the side
+ * @return the maximum number
+ */
+static unsigned int nr_placeable_invisibles_for_side(Side side)
+{
+  assert(total_invisible_number
+         >= (current_consumption.placed
+             +current_consumption.claimed[advers(side)]
+            )
+        );
+
+  return (total_invisible_number
+          - (current_consumption.placed
+             +current_consumption.claimed[advers(side)]
+            )
+         );
+}
+
+/* Allocate placement of an invisible, which may have already been claimed by
+ * the side for a random move
+ * @return false iff we have exhausted the invisibles contingent
+ * @note modifies bookkeeping even on failure
+ *       so restore bookkeeping after both success and failure
+ */
+static boolean allocate_placement_of_invisible(Side side)
+{
+  ++current_consumption.placed;
+  current_consumption.claimed[side] = false;
+  TraceConsumption();TraceEOL();
+
+  return nr_total_invisbles_consumed()<=total_invisible_number;
+}
+
+/* Allocate placement of an unclaimed invisible
+ * @return false iff we have exhausted the invisibles contingent
+ * @note modifies bookkeeping even on failure
+ *       so restore bookkeeping after both success and failure
+ */
+static boolean allocate_placement_of_unclaimed_invisible(void)
+{
+  ++current_consumption.placed;
+  TraceConsumption();TraceEOL();
+
+  return nr_total_invisbles_consumed()<=total_invisible_number;
+}
 
 static ply top_ply_of_regular_play;
 static slice_index tester_slice;
@@ -994,7 +1079,7 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
   if (is_square_empty(s))
   {
     TraceValue("%u",nbply);
-    TraceValue("%u",nr_total_invisibles_left);
+    TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
     SetPieceId(spec,++next_invisible_piece_id);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
@@ -1273,8 +1358,11 @@ static void restart_from_scratch(void)
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_departure = move_gen_top->departure;
 
-      --taboo[White][sq_departure];
-      --taboo[Black][sq_departure];
+      if (is_on_board(sq_departure))
+      {
+        --taboo[White][sq_departure];
+        --taboo[Black][sq_departure];
+      }
     }
 
     undo_move_effects();
@@ -1291,8 +1379,11 @@ static void restart_from_scratch(void)
 
     redo_move_effects();
 
-    ++taboo[White][sq_departure];
-    ++taboo[Black][sq_departure];
+    if (is_on_board(sq_departure))
+    {
+      ++taboo[White][sq_departure];
+      ++taboo[Black][sq_departure];
+    }
 
     ++nbply;
   }
@@ -1349,7 +1440,7 @@ static void validate_king_placements(void)
   TraceValue("%u",nbply);
   TraceEnumerator(Side,side_to_be_mated);
   TraceSquare(being_solved.king_square[side_to_be_mated]);
-  TraceValue("%u",nr_total_invisibles_left);
+  TraceConsumption();
   TraceEnumerator(Side,side_mating);
   TraceSquare(being_solved.king_square[side_mating]);
   TraceEOL();
@@ -1357,7 +1448,7 @@ static void validate_king_placements(void)
 
   if (being_solved.king_square[side_to_be_mated]==initsquare)
   {
-    if (nr_total_invisibles_left==0)
+    if (nr_total_invisbles_consumed()==total_invisible_number)
       nominate_king_invisible_by_invisible();
     else
     {
@@ -1390,7 +1481,7 @@ static void validate_king_placements(void)
     }
   }
   else if (being_solved.king_square[side_mating]==initsquare
-           && nr_total_invisibles_left==0)
+           && nr_total_invisbles_consumed()==total_invisible_number)
     combined_result = previous_move_is_illegal;
   else
     done_validating_king_placements();
@@ -1414,8 +1505,11 @@ static void recurse_into_child_ply(void)
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
-  ++taboo[White][sq_departure];
-  ++taboo[Black][sq_departure];
+  if (is_on_board(sq_departure))
+  {
+    ++taboo[White][sq_departure];
+    ++taboo[Black][sq_departure];
+  }
 
   assert(first_detected_revelation_violation==0);
 
@@ -1446,8 +1540,11 @@ static void recurse_into_child_ply(void)
 
   first_detected_revelation_violation = 0;
 
-  --taboo[White][sq_departure];
-  --taboo[Black][sq_departure];
+  if (is_on_board(sq_departure))
+  {
+    --taboo[White][sq_departure];
+    --taboo[Black][sq_departure];
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1463,6 +1560,11 @@ static void adapt_capture_effect(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceSquare(to);
+  TraceWalk(get_walk_of_piece_on_square(to));
+  TraceValue("%x",being_solved.spec[to]);
+  TraceEOL();
+
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
@@ -1472,9 +1574,8 @@ static void adapt_capture_effect(void)
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
       recurse_into_child_ply();
     }
-    else
+    else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
     {
-      assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
       TraceText("capture of a total invisible that happened to land on the arrival square\n");
 
@@ -1492,6 +1593,11 @@ static void adapt_capture_effect(void)
         recurse_into_child_ply();
         move_effect_journal[capture].type = move_effect_no_piece_removal;
       }
+    }
+    else
+    {
+      // TODO can we avoid this kind of block?
+      TraceText("fleshed out random move by invisible has been blocked by interceptor\n");
     }
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition)
@@ -1570,19 +1676,22 @@ static void adapt_pre_capture_effect(void)
           TraceText("victim was placed in previous iteration\n");
           adapt_capture_effect();
         }
-        else if (nr_total_invisibles_left>0)
-        {
-          /* victim to be created - no need for adaptation, but for bookkeeping */
-          TraceText("victim is placed in this iteration\n");
-          --nr_total_invisibles_left;
-          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-          adapt_capture_effect();
-          ++nr_total_invisibles_left;
-          TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-        }
         else
         {
-          TraceText("no invisible left to be placed as victim\n");
+          consumption_type const save_consumption = current_consumption;
+          if (allocate_placement_of_invisible(advers(trait[nbply])))
+          {
+            /* victim to be created - no need for adaptation, but for bookkeeping */
+            TraceText("victim is placed in this iteration\n");
+            adapt_capture_effect();
+          }
+          else
+          {
+            TraceText("no invisible left to be placed as victim\n");
+          }
+
+          current_consumption = save_consumption;
+          TraceConsumption();TraceEOL();
         }
       }
       else
@@ -2021,11 +2130,24 @@ static void flesh_out_move_by_invisible(void)
       being_solved.spec[*s] = save_flags;
     }
 
-  if (nr_total_invisibles_left>0)
+  TraceText("random move by unplaced invisible\n");
+  // TODO Strictly speaking, there is no guarantee that such a move exists
+  // but we probably save a lot of time by not fleshing it out. As long as we
+  // restrict ourselves to h#n, the risk is printing some wrong cooks.
+  // Options:
+  // * find out how hight the cost would be
+  // * fleshing it out
+  // * option for activating fleshing out
   {
-    // TODO avoid random moves by 1 unplaced invisible for both sides
-    TraceText("random move by unplaced invisible\n");
-    done_fleshing_out_move_by_invisible();
+    consumption_type const save_consumption = current_consumption;
+    current_consumption.claimed[side_playing] = true;
+    TraceConsumption();TraceEOL();
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+      done_fleshing_out_move_by_invisible();
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
   }
 
   TraceFunctionExit(__func__);
@@ -2078,8 +2200,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   if (taboo[side_playing][from]==0)
   {
-    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-    if (nr_total_invisibles_left>0)
+    consumption_type const save_consumption = current_consumption;
+    if (allocate_placement_of_invisible(side_playing))
     {
       move_effect_journal_index_type const base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const pre_capture_effect = base;
@@ -2087,11 +2209,11 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
 
-      --nr_total_invisibles_left;
-      TraceValue("%u",nr_total_invisibles_left);
+      TraceConsumption();
       TraceWalk(walk_capturing);
       TraceValue("%x",flags);
       TraceEOL();
+      assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
       occupy_square(from,walk_capturing,flags);
 
@@ -2110,9 +2232,10 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
       empty_square(from);
 
-      ++nr_total_invisibles_left;
-      TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+      TraceConsumption();TraceEOL();
     }
+
+    current_consumption = save_consumption;
   }
 
   TraceFunctionExit(__func__);
@@ -2646,6 +2769,7 @@ static void walk_interceptor_king(Side side, square pos)
 static void walk_interceptor(Side side, square pos)
 {
   piece_walk_type walk;
+  consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
@@ -2657,14 +2781,20 @@ static void walk_interceptor(Side side, square pos)
   TraceEOL();
   assert(is_square_empty(pos));
 
-  if (being_solved.king_square[side]==initsquare)
-    walk_interceptor_king(side,pos);
+  if (allocate_placement_of_invisible(side))
+  {
+    if (being_solved.king_square[side]==initsquare)
+      walk_interceptor_king(side,pos);
 
-  if (!end_of_iteration)
-    walk_interceptor_pawn(side,pos);
+    if (!end_of_iteration)
+      walk_interceptor_pawn(side,pos);
 
-  for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
-    walk_interceptor_any_walk(side,pos,walk);
+    for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+      walk_interceptor_any_walk(side,pos,walk);
+  }
+
+  current_consumption = save_consumption;
+  TraceConsumption();TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2713,28 +2843,36 @@ static void place_interceptor_on_square(vec_index_type kcurr,
   assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
   TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
-  assert(nr_total_invisibles_left>0);
-
   ++taboo[White][s];
   ++taboo[Black][s];
 
-  --nr_total_invisibles_left;
-  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-
   if (play_phase==play_validating_mate)
   {
+    consumption_type const save_consumption = current_consumption;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+
+    ++current_consumption.placed;
+    // TODO this isn't quite correct! should we claim first one side, then the other?
+    current_consumption.claimed[White] = false;
+    current_consumption.claimed[Black] = false;
+    TraceConsumption();TraceEOL();
+
     SetPieceId(spec,++next_invisible_piece_id);
+
     occupy_square(s,Dummy,spec);
+
     (*recurse)(kcurr+1);
+
     empty_square(s);
+
     --next_invisible_piece_id;
+
+    current_consumption = save_consumption;
+    TraceConsumption();
+    TraceEOL();
   }
   else
     colour_interceptor(side_in_check,s);
-
-  ++nr_total_invisibles_left;
-  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   --taboo[White][s];
   --taboo[Black][s];
@@ -2805,9 +2943,9 @@ static void intercept_line_if_check(vec_index_type kcurr,
   if ((walk_at_end==walk_rider || walk_at_end==Queen)
       && TSTFLAG(being_solved.spec[sq_end],side_checking))
   {
-    TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+    TraceConsumption();;TraceEOL();
     if (sq_end!=king_pos+dir
-        && nr_total_invisibles_left>0)
+        && nr_placeable_invisibles_for_both_sides()>0)
       place_interceptor_on_line(kcurr,walk_at_end,recurse);
   }
   else
@@ -3006,74 +3144,77 @@ static void update_taboo(int delta)
   TraceWalk(walk);
   TraceEOL();
 
-  update_taboo_arrival(delta);
-
-  taboo[White][sq_departure] += delta;
-  taboo[Black][sq_departure] += delta;
-
-  taboo[trait[nbply]][sq_arrival] += delta;
-
-  switch (sq_capture)
+  if (walk!=Empty)
   {
-    case kingside_castling :
+    update_taboo_arrival(delta);
+
+    taboo[White][sq_departure] += delta;
+    taboo[Black][sq_departure] += delta;
+
+    taboo[trait[nbply]][sq_arrival] += delta;
+
+    switch (sq_capture)
     {
+      case kingside_castling :
+      {
+        square s;
+        for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+        {
+          taboo[White][s] += delta;
+          taboo[Black][s] += delta;
+        }
+        break;
+      }
+
+      case queenside_castling:
+      {
+        square s;
+        for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
+        {
+          taboo[White][s] += delta;
+          taboo[Black][s] += delta;
+        }
+        break;
+      }
+
+      case pawn_multistep:
+      {
+        square const sq_intermediate = (sq_departure+sq_arrival)/2;
+        taboo[White][sq_intermediate] += delta;
+        taboo[Black][sq_intermediate] += delta;
+        break;
+      }
+
+      case messigny_exchange:
+      case retro_capture_departure:
+      case no_capture:
+        break;
+
+      default:
+        taboo[White][sq_capture] += delta;
+        taboo[Black][sq_capture] += delta;
+        break;
+    }
+
+    if (is_rider(walk))
+    {
+      int const diff_move = sq_arrival-sq_departure;
+      int const dir_move = CheckDir[walk][diff_move];
+
       square s;
-      for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+      assert(dir_move!=0);
+      for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
       {
         taboo[White][s] += delta;
         taboo[Black][s] += delta;
       }
-      break;
     }
-
-    case queenside_castling:
+    else if (is_pawn(walk))
     {
-      square s;
-      for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
-      {
-        taboo[White][s] += delta;
-        taboo[Black][s] += delta;
-      }
-      break;
+      /* arrival square must not be blocked */
+      taboo[White][sq_arrival] += delta;
+      taboo[Black][sq_arrival] += delta;
     }
-
-    case pawn_multistep:
-    {
-      square const sq_intermediate = (sq_departure+sq_arrival)/2;
-      taboo[White][sq_intermediate] += delta;
-      taboo[Black][sq_intermediate] += delta;
-      break;
-    }
-
-    case messigny_exchange:
-    case retro_capture_departure:
-    case no_capture:
-      break;
-
-    default:
-      taboo[White][sq_capture] += delta;
-      taboo[Black][sq_capture] += delta;
-      break;
-  }
-
-  if (is_rider(walk))
-  {
-    int const diff_move = sq_arrival-sq_departure;
-    int const dir_move = CheckDir[walk][diff_move];
-
-    square s;
-    assert(dir_move!=0);
-    for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
-    {
-      taboo[White][s] += delta;
-      taboo[Black][s] += delta;
-    }
-  }
-  else if (is_pawn(walk))
-  {
-    /* arrival square must not be blocked */
-    taboo[White][sq_arrival] += delta;
-    taboo[Black][sq_arrival] += delta;
   }
 
   TraceFunctionExit(__func__);
@@ -3084,6 +3225,7 @@ static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
                                         piece_walk_type walk)
 {
+  consumption_type const save_consumption = current_consumption;
   Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
   TraceFunctionEntry(__func__);
@@ -3092,22 +3234,26 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  assert(nr_total_invisibles_left>0);
-
   ++taboo[White][s];
   ++taboo[Black][s];
 
-  --nr_total_invisibles_left;
-  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-  ++being_solved.number_of_pieces[side_attacking][walk];
-  SetPieceId(spec,++next_invisible_piece_id);
-  occupy_square(s,walk,spec);
-  start_iteration();
-  empty_square(s);
-  --next_invisible_piece_id;
-  --being_solved.number_of_pieces[side_attacking][walk];
-  ++nr_total_invisibles_left;
-  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+  if (allocate_placement_of_invisible(side_attacking))
+  {
+    ++being_solved.number_of_pieces[side_attacking][walk];
+    SetPieceId(spec,++next_invisible_piece_id);
+    occupy_square(s,walk,spec);
+    start_iteration();
+    empty_square(s);
+    --next_invisible_piece_id;
+    --being_solved.number_of_pieces[side_attacking][walk];
+  }
+  else
+  {
+    assert(0);
+  }
+
+  current_consumption = save_consumption;
+  TraceConsumption();TraceEOL();
 
   --taboo[White][s];
   --taboo[Black][s];
@@ -3323,8 +3469,12 @@ static void rewind_effects(void)
     move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
     square const sq_departure = move_gen_top->departure;
 
-    --taboo[White][sq_departure];
-    --taboo[Black][sq_departure];
+    if (is_on_board(sq_departure))
+    {
+      --taboo[White][sq_departure];
+      --taboo[Black][sq_departure];
+    }
+    assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
     undo_move_effects();
     --nbply;
@@ -3353,8 +3503,11 @@ static void unrewind_effects(void)
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_departure = move_gen_top->departure;
 
-      ++taboo[White][sq_departure];
-      ++taboo[Black][sq_departure];
+      if (is_on_board(sq_departure))
+      {
+        ++taboo[White][sq_departure];
+        ++taboo[Black][sq_departure];
+      }
     }
   }
 
@@ -3457,7 +3610,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  */
 void total_invisible_reveal_after_mating_move(slice_index si)
 {
-  unsigned int const save_nr_total_invisibles_left = nr_total_invisibles_left;
+  consumption_type const save_consumption = current_consumption;
   PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
 
   TraceFunctionEntry(__func__);
@@ -3470,7 +3623,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   pipe_solve_delegate(si);
 
-  nr_total_invisibles_left = save_nr_total_invisibles_left;
+  current_consumption = save_consumption;
   next_invisible_piece_id = save_next_invisible_piece_id;
 
   TraceFunctionExit(__func__);
@@ -3501,7 +3654,7 @@ static boolean is_move_still_playable(slice_index si)
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
     {
-      TraceText("we assume that un-fleshed-out random moves by total invisibles are always playable");
+      TraceText("we assume that un-fleshed-out random moves by total invisibles are always playable\n");
       result = true;
     }
     else
@@ -3661,7 +3814,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
       pipe_solve_delegate(si);
     else
     {
-      unsigned int nr_revealed_unplaced_invisibles = 0;
+      unsigned int nr_revealed_unplaced_invisibles[nr_sides] = { 0, 0 };
       {
         unsigned int i;
         for (i = 0; i!=nr_potential_revelations; ++i)
@@ -3673,15 +3826,23 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
           TraceValue("%x",revelation_status[i].spec);
           TraceEOL();
           if (revelation_status[i].walk!=Empty && is_square_empty(s))
-            ++nr_revealed_unplaced_invisibles;
+          {
+            Side const side = TSTFLAG(revelation_status[i].spec,White) ? White : Black;
+            ++nr_revealed_unplaced_invisibles[side];
+          }
         }
       }
-      if (nr_revealed_unplaced_invisibles<=nr_total_invisibles_left)
+      // TODO there must be a simpler, understandable way to do this
+      if (current_consumption.claimed[White] && nr_revealed_unplaced_invisibles[White]>0)
+        --nr_revealed_unplaced_invisibles[White];
+      if (current_consumption.claimed[Black] && nr_revealed_unplaced_invisibles[Black]>0)
+        --nr_revealed_unplaced_invisibles[Black];
+      if (current_consumption.placed+nr_revealed_unplaced_invisibles[White]+nr_revealed_unplaced_invisibles[Black]<=total_invisible_number)
       {
         PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
         evaluate_revelations();
         pipe_solve_delegate(si);
-        TraceValue("%u",nr_total_invisibles_left);TraceEOL();
+        TraceConsumption();TraceEOL();
         next_invisible_piece_id = save_next_invisible_piece_id;
       }
     }
@@ -3707,7 +3868,7 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_checking);
   TraceSquare(potential_flight);
-  TraceValue("%u",nr_interceptors_available);
+  TraceValue("%u",nr_placeable_invisibles_for_side);
   TraceValue("%u",start);
   TraceValue("%u",end);
   TraceWalk(walk_rider);
@@ -3742,6 +3903,7 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
 static boolean are_all_guards_interceptable(Side side_in_check, square potential_flight)
 {
   Side const side_checking = advers(side_in_check);
+  unsigned int nr_available;
   unsigned int nr_interceptors_needed;
 
   TraceFunctionEntry(__func__);
@@ -3749,23 +3911,28 @@ static boolean are_all_guards_interceptable(Side side_in_check, square potential
   TraceSquare(potential_flight);
   TraceFunctionParamListEnd();
 
+  nr_available = nr_placeable_invisibles_for_side(side_in_check);
+  TraceConsumption();
+  TraceValue("%u",nr_available);
+  TraceEOL();
+
   nr_interceptors_needed = find_nr_interceptors_needed(side_checking,
                                                        potential_flight,
-                                                       nr_total_invisibles_left,
+                                                       nr_available,
                                                        vec_rook_start,vec_rook_end,
                                                        Rook);
 
-  if (nr_interceptors_needed<=nr_total_invisibles_left)
+  if (nr_interceptors_needed<=nr_available)
     nr_interceptors_needed += find_nr_interceptors_needed(side_checking,
                                                           potential_flight,
-                                                          nr_total_invisibles_left-nr_interceptors_needed,
+                                                          nr_available-nr_interceptors_needed,
                                                           vec_bishop_start,vec_bishop_end,
                                                           Bishop);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",nr_interceptors_needed);
+  TraceFunctionResult("%u",(nr_interceptors_needed<=nr_available));
   TraceFunctionResultEnd();
-  return nr_interceptors_needed<=nr_total_invisibles_left;
+  return nr_interceptors_needed<=nr_available;
 }
 
 static boolean make_flight(Side side_in_check, square s)
@@ -3860,7 +4027,7 @@ static void attack_checks(void)
         mate_validation_result = mate_defendable_by_interceptors;
       }
     }
-    else if (nr_total_invisibles_left>0)
+    else if (nr_placeable_invisibles_for_side(side_in_check)>0)
     {
       square const sq_attacker = find_end_of_line(king_pos,vec[k]);
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
@@ -4036,7 +4203,7 @@ static void prepare_king_side_castling_generation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (nr_total_invisibles_left>0
+  if ((nr_total_invisbles_consumed()<total_invisible_number)
       && is_square_empty(square_h)
       && taboo[White][square_h]==0
       && taboo[Black][square_h]==0)
@@ -4065,7 +4232,7 @@ static void prepare_queen_side_castling_generation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (nr_total_invisibles_left>0
+  if ((nr_total_invisbles_consumed()<total_invisible_number)
       && is_square_empty(square_a)
       && taboo[White][square_a]==0
       && taboo[Black][square_a]==0)
@@ -4097,13 +4264,16 @@ void total_invisible_generate_special_moves(slice_index si)
   TraceFunctionParamListEnd();
 
   if (play_phase==play_regular)
-  {
     switch (being_solved.board[sq_departure])
     {
       case Pawn:
-        if (nr_total_invisibles_left>0)
-          generate_pawn_capture_left(si,trait[nbply]==White ? dir_up : dir_down);
+      {
+        Side const side_playing = trait[nbply];
+        Side const side_victim = advers(side_playing);
+        if (nr_placeable_invisibles_for_side(side_victim)>0)
+          generate_pawn_capture_left(si,side_playing==White ? dir_up : dir_down);
         break;
+      }
 
       case King:
         if (TSTCASTLINGFLAGMASK(trait[nbply],castlings)>=k_cancastle)
@@ -4116,7 +4286,6 @@ void total_invisible_generate_special_moves(slice_index si)
         pipe_move_generation_delegate(si);
         break;
     }
-  }
   else
     pipe_move_generation_delegate(si);
 
@@ -4164,7 +4333,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
-      /* No adjustment of nr_total_invisibles_left here!
+      /* No adjustment of current_consumption.placed here!
        * The capture may be done by an existing invisible. We can only do the
        * adjustment when we flesh out this capture by inserting a new invisible.
        */
@@ -4194,17 +4363,22 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
           if (is_square_empty(square_h))
           {
-            Flags spec = BIT(side)|BIT(Chameleon);
-            assert(nr_total_invisibles_left>0);
-            SetPieceId(spec,++next_invisible_piece_id);
-            move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                                    square_h,Rook,spec,side);
-            --nr_total_invisibles_left;
-            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-            pipe_solve_delegate(si);
-            ++nr_total_invisibles_left;
-            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-            --next_invisible_piece_id;
+            consumption_type const save_consumption = current_consumption;
+            if (allocate_placement_of_unclaimed_invisible())
+            {
+              Flags spec = BIT(side)|BIT(Chameleon);
+              SetPieceId(spec,++next_invisible_piece_id);
+              move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
+                                                      square_h,Rook,spec,side);
+              pipe_solve_delegate(si);
+              --next_invisible_piece_id;
+            }
+            else
+              /* we have checked when we generated the castling */
+              assert(0);
+
+            current_consumption = save_consumption;
+            TraceConsumption();TraceEOL();
           }
           else
           {
@@ -4216,6 +4390,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
         case queenside_castling:
         {
+          // TODO factor out the two castlings
           Side const side = trait[nbply];
           square const square_a = side==White ? square_a1 : square_a8;
 
@@ -4223,17 +4398,22 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
           if (is_square_empty(square_a))
           {
-            Flags spec = BIT(side)|BIT(Chameleon);
-            assert(nr_total_invisibles_left>0);
-            SetPieceId(spec,++next_invisible_piece_id);
-            move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                                    square_a,Rook,spec,side);
-            --nr_total_invisibles_left;
-            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-            pipe_solve_delegate(si);
-            ++nr_total_invisibles_left;
-            TraceValue("%u",nr_total_invisibles_left);TraceEOL();
-            --next_invisible_piece_id;
+            consumption_type const save_consumption = current_consumption;
+            if (allocate_placement_of_unclaimed_invisible())
+            {
+              Flags spec = BIT(side)|BIT(Chameleon);
+              SetPieceId(spec,++next_invisible_piece_id);
+              move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
+                                                      square_a,Rook,spec,side);
+              pipe_solve_delegate(si);
+              --next_invisible_piece_id;
+            }
+            else
+              /* we have checked when we generated the castling */
+              assert(0);
+
+            current_consumption = save_consumption;
+            TraceConsumption();TraceEOL();
           }
           else
           {
@@ -4255,12 +4435,11 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
 
-            assert(nr_total_invisibles_left>0);
             SetPieceId(spec,++next_invisible_piece_id);
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
-            /* No adjustment of nr_total_invisibles_left here! Another invisible may
+            /* No adjustment of current_consumption.placed here! Another invisible may
              * have moved to sq_capture and serve as a victim.
              */
             pipe_solve_delegate(si);
@@ -4689,7 +4868,7 @@ void solving_instrument_total_invisible(slice_index si)
 
   // bail out at STAttackAdapter
 
-  // input for nr_total_invisibles_left, initialize to 0
+  // input for total_invisible_number, initialize to 0
 
   // what about:
   // - structured stipulations?
@@ -4722,9 +4901,6 @@ void solving_instrument_total_invisible(slice_index si)
   }
 
   TraceStipulation(si);
-
-  nr_total_invisibles_left = total_invisible_number;
-  TraceValue("%u",nr_total_invisibles_left);TraceEOL();
 
   move_effect_journal_register_pre_capture_effect();
 
