@@ -1117,15 +1117,23 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
 
 static void setup_revelations(void)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square sq_ep_capture = initsquare;
+
   square const *s;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
+    sq_ep_capture = move_effect_journal[capture].u.piece_removal.on;
+
   nr_potential_revelations = 0;
 
   for (s = boardnum; *s; ++s)
-    if (is_square_empty(*s) || TSTFLAG(being_solved.spec[*s],Chameleon))
+    if (*s!=sq_ep_capture
+        && (is_square_empty(*s) || TSTFLAG(being_solved.spec[*s],Chameleon)))
     {
       revelation_status[nr_potential_revelations].pos = *s;
       ++nr_potential_revelations;
