@@ -2162,8 +2162,15 @@ static void flesh_out_move_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+typedef enum
+{
+  fleshout_by_existing,
+  fleshout_by_inserted
+} fleshout_type;
+
 static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
-                                                    square from)
+                                                    square from,
+                                                    fleshout_type fleshout_how)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
@@ -2186,7 +2193,10 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
 
   move_gen_top->departure = from;
 
-  recurse_into_child_ply();
+  if (fleshout_how==fleshout_by_existing)
+    recurse_into_child_ply();
+  else
+    restart_from_scratch();
 
   move_gen_top->departure = sq_created_on;
 
@@ -2231,7 +2241,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
 
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
-        flesh_out_capture_by_specific_invisible(walk_capturing,from);
+        flesh_out_capture_by_specific_invisible(walk_capturing,from,fleshout_by_inserted);
 
       --being_solved.number_of_pieces[side_playing][walk_capturing];
 
@@ -2267,7 +2277,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       && TSTFLAG(being_solved.spec[from],trait[nbply]))
   {
     if (get_walk_of_piece_on_square(from)==walk_capturing)
-      flesh_out_capture_by_specific_invisible(walk_capturing,from);
+      flesh_out_capture_by_specific_invisible(walk_capturing,from,fleshout_by_existing);
     else if (get_walk_of_piece_on_square(from)==Dummy)
     {
       Side const side_in_check = trait[nbply-1];
@@ -2277,7 +2287,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       replace_walk(from,walk_capturing);
       CLRFLAG(being_solved.spec[from],advers(trait[nbply]));
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
-        flesh_out_capture_by_specific_invisible(walk_capturing,from);
+        flesh_out_capture_by_specific_invisible(walk_capturing,from,fleshout_by_existing);
       being_solved.spec[from] = flags;
       replace_walk(from,Dummy);
       --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
