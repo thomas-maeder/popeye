@@ -172,6 +172,13 @@ typedef struct
             Side for_side;
         } piece_addition;
         piece_type piece_removal;
+        struct {
+            square on;
+            piece_walk_type walk_original;
+            Flags flags_original;
+            piece_walk_type walk_revealed;
+            Flags flags_revealed;
+        } revelation_of_placed_piece;
         struct
         {
             square from;
