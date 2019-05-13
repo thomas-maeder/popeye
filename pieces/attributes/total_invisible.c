@@ -979,10 +979,8 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
 
   TraceValue("%u",play_phase);
   TraceSquare(on);
-  TraceWalk(walk_original);
   TraceWalk(walk_revealed);
   TraceWalk(get_walk_of_piece_on_square(on));
-  TraceValue("%x",flags_original);
   TraceValue("%x",flags_revealed);
   TraceValue("%x",being_solved.spec[on]);
   TraceEnumerator(Side,side_revealed);
@@ -2510,15 +2508,25 @@ static void flesh_out_capture_by_invisible_pawn(void)
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_left;
-    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_inserted_invisible(Pawn,s);
+    if (!TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+    {
+      if (is_square_empty(s))
+        flesh_out_capture_by_inserted_invisible(Pawn,s);
+      else
+        flesh_out_capture_by_existing_invisible(Pawn,s);
+    }
   }
 
   if (!end_of_iteration)
   {
     square s = sq_capture+dir_vert+dir_right;
-    if (is_square_empty(s) && !TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
-      flesh_out_capture_by_inserted_invisible(Pawn,s);
+    if (!TSTFLAG(sq_spec[s],basesq) && !TSTFLAG(sq_spec[s],promsq))
+    {
+      if (is_square_empty(s))
+        flesh_out_capture_by_inserted_invisible(Pawn,s);
+      else
+        flesh_out_capture_by_existing_invisible(Pawn,s);
+    }
   }
 
   TraceFunctionExit(__func__);
