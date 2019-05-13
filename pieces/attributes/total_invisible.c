@@ -1922,7 +1922,9 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    TraceSquare(sq_arrival);TraceEOL();
+    TraceSquare(sq_arrival);
+    TraceValue("%u",taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]);
+    TraceEOL();
     if (taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival]==0)
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -3091,9 +3093,6 @@ static void update_taboo_arrival(int delta)
 
     taboo_arrival[taboo_phase[nbply]][White][sq_departure] += delta;
     taboo_arrival[taboo_phase[nbply]][Black][sq_departure] += delta;
-
-    /* arrival of piece from side advers(...) (aka capture) is allowed */
-    taboo_arrival[taboo_phase[nbply]][trait[nbply]][sq_arrival] += delta;
 
     switch (sq_capture)
     {
