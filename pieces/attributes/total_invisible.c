@@ -1365,9 +1365,11 @@ static void restart_from_scratch(void)
     --nbply;
 
     {
-      numecoup const curr = CURRMOVE_OF_PLY(nbply);
-      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-      square const sq_departure = move_gen_top->departure;
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+
+      assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
       if (is_on_board(sq_departure))
       {
@@ -1384,9 +1386,9 @@ static void restart_from_scratch(void)
 
   while (nbply!=save_nbply)
   {
-    numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-    square const sq_departure = move_gen_top->departure;
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
     redo_move_effects();
 
@@ -1504,16 +1506,14 @@ static void validate_king_placements(void)
 static void recurse_into_child_ply(void)
 {
   ply const save_nbply = nbply;
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_departure = move_gen_top->departure;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible
+  assert(sq_departure==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
   if (is_on_board(sq_departure))
@@ -1793,12 +1793,12 @@ static void update_taboo_arrival(int delta)
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
-  square const sq_departure = move_gen_top->departure;
-  square const sq_arrival = move_gen_top->arrival;
 
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
@@ -1860,11 +1860,7 @@ static void update_taboo_arrival(int delta)
       case messigny_exchange:
       case retro_capture_departure:
       case no_capture:
-        break;
-
       default:
-        taboo_arrival[nbply][White][sq_capture] += delta;
-        taboo_arrival[nbply][Black][sq_capture] += delta;
         break;
     }
 
@@ -2011,9 +2007,8 @@ static void flesh_out_accidental_capture_by_invisible(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-  square const sq_arrival = move_generation_stack[currmove].arrival;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
@@ -2023,9 +2018,6 @@ static void flesh_out_accidental_capture_by_invisible(void)
       && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
       && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
   {
-    assert(move_generation_stack[currmove].capture==move_by_invisible);
-    move_generation_stack[currmove].capture = sq_arrival;
-
     assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
     move_effect_journal[capture].type = move_effect_piece_removal;
     move_effect_journal[capture].u.piece_removal.on = sq_arrival;
@@ -2035,8 +2027,6 @@ static void flesh_out_accidental_capture_by_invisible(void)
     done_fleshing_out_move_by_invisible();
 
     move_effect_journal[capture].type = move_effect_no_piece_removal;
-
-    move_generation_stack[currmove].capture = move_by_invisible;
   }
 
   TraceFunctionExit(__func__);
@@ -2941,7 +2931,7 @@ static boolean is_taboo_violated(void)
   }
   else if (is_pawn(walk))
   {
-    if (sq_capture==initsquare && !is_square_empty(sq_arrival))
+    if (sq_capture==no_capture && !is_square_empty(sq_arrival))
     {
       TraceText("pawn move blocked\n");
       return true;
