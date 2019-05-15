@@ -1671,6 +1671,51 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
+static boolean was_taboo(square s)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",taboo_arrival[ply][White][s]);
+    TraceValue("%u",taboo_arrival[ply][Black][s]);
+    TraceEOL();
+    if (taboo_arrival[ply][White][s]>0 || taboo_arrival[ply][Black][s]>0)
+    {
+      result = true;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_taboo(square s, Side side)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  result = taboo_arrival[nbply][side][s];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void adapt_pre_capture_effect(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1693,6 +1738,11 @@ static void adapt_pre_capture_effect(void)
         {
           TraceText("victim was placed in previous iteration\n");
           adapt_capture_effect();
+        }
+        else if (was_taboo(to))
+        {
+          // TODO should was_taboo stop at the last not fleshed out random TI move?
+          TraceText("a total invisible can't be standing here\n");
         }
         else
         {
@@ -2440,7 +2490,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  if (taboo[side_playing][from]==0)
+  if (!was_taboo(from) && !is_taboo(from,side_playing))
   {
     consumption_type const save_consumption = current_consumption;
     if (allocate_placement_of_invisible(side_playing))
@@ -2767,10 +2817,15 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
   flesh_out_capture_by_invisible_king();
+  TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_pawn();
+  TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
+  TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end);
+  TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end);
+  TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end);
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
@@ -2886,7 +2941,7 @@ static boolean is_taboo_violated(void)
   }
   else if (is_pawn(walk))
   {
-    if (!is_square_empty(sq_arrival))
+    if (sq_capture==initsquare && !is_square_empty(sq_arrival))
     {
       TraceText("pawn move blocked\n");
       return true;
@@ -3050,51 +3105,6 @@ static void walk_interceptor(Side side, square pos)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static boolean was_taboo(square s)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceFunctionParamListEnd();
-
-  for (ply = ply_retro_move+1; ply<nbply; ++ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",taboo_arrival[ply][White][s]);
-    TraceValue("%u",taboo_arrival[ply][Black][s]);
-    TraceEOL();
-    if (taboo_arrival[ply][White][s]>0 || taboo_arrival[ply][Black][s]>0)
-    {
-      result = true;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_taboo(square s, Side side)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  result = taboo_arrival[nbply][side][s];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static void colour_interceptor(Side preferred_side, square pos)
