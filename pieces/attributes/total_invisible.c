@@ -1838,6 +1838,53 @@ static void update_taboo_piece_movement_leaper(int delta,
   TraceFunctionResultEnd();
 }
 
+static void update_taboo_piece_movement_pawn_no_capture(int delta,
+                                                        move_effect_journal_index_type const movement,
+                                                        taboo_type taboo)
+{
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  int const dir = trait[nbply]==White ? dir_up : dir_down;
+  square s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParamListEnd();
+
+  for (s = sq_departure; s!=sq_arrival; s += dir)
+  {
+    (*taboo)[White][s] += delta;
+    (*taboo)[Black][s] += delta;
+  }
+
+  /* arrival square must not be blocked by either side */
+  (*taboo)[White][sq_arrival] += delta;
+  (*taboo)[Black][sq_arrival] += delta;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void update_taboo_piece_movement_pawn_capture(int delta,
+                                                     move_effect_journal_index_type const movement,
+                                                     taboo_type taboo)
+{
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParamListEnd();
+
+  (*taboo)[White][sq_departure] += delta;
+  (*taboo)[Black][sq_departure] += delta;
+
+  (*taboo)[trait[nbply]][sq_arrival] += delta;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_taboo_arrival(int delta)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
@@ -1895,27 +1942,14 @@ static void update_taboo_arrival(int delta)
       }
 
       case pawn_multistep:
-      {
-        square const sq_intermediate = (sq_departure+sq_arrival)/2;
-        taboo_arrival[nbply][White][sq_departure] += delta;
-        taboo_arrival[nbply][Black][sq_departure] += delta;
-
-        taboo_arrival[nbply][White][sq_intermediate] += delta;
-        taboo_arrival[nbply][Black][sq_intermediate] += delta;
+        update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo_arrival[nbply]);
         break;
-      }
 
       case no_capture:
         if (is_rider(walk))
           update_taboo_piece_movement_rider(delta,movement,&taboo_arrival[nbply]);
         else if (is_pawn(walk))
-        {
-          taboo_arrival[nbply][White][sq_departure] += delta;
-          taboo_arrival[nbply][Black][sq_departure] += delta;
-          /* arrival square must not be blocked */
-          taboo_arrival[nbply][White][sq_arrival] += delta;
-          taboo_arrival[nbply][Black][sq_arrival] += delta;
-        }
+          update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo_arrival[nbply]);
         else
           update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
         break;
@@ -1928,11 +1962,7 @@ static void update_taboo_arrival(int delta)
         if (is_rider(walk))
           update_taboo_piece_movement_rider(delta,movement,&taboo_arrival[nbply]);
         else if (is_pawn(walk))
-        {
-          taboo_arrival[nbply][White][sq_departure] += delta;
-          taboo_arrival[nbply][Black][sq_departure] += delta;
-          taboo_arrival[nbply][trait[nbply]][sq_arrival] += delta;
-        }
+          update_taboo_piece_movement_pawn_capture(delta,movement,&taboo_arrival[nbply]);
         else
           update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
         break;
