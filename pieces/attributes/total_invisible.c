@@ -2438,8 +2438,6 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
                                                     square from,
                                                     fleshout_type fleshout_how)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_created_on = move_effect_journal[movement].u.piece_movement.from;
@@ -2449,15 +2447,11 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  assert(move_gen_top->departure==sq_created_on);
-
   assert(!TSTFLAG(being_solved.spec[from],advers(trait[nbply])));
 
   move_effect_journal[movement].u.piece_movement.from = from;
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[from];
-
-  move_gen_top->departure = from;
 
   update_taboo_arrival(+1);
 
@@ -2467,8 +2461,6 @@ static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturi
     restart_from_scratch();
 
   update_taboo_arrival(-1);
-
-  move_gen_top->departure = sq_created_on;
 
   move_effect_journal[movement].u.piece_movement.from = sq_created_on;
 
@@ -2858,12 +2850,12 @@ static boolean is_taboo_violated(void)
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
-  square const sq_departure = move_gen_top->departure;
-  square const sq_arrival = move_gen_top->arrival;
 
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   assert(sq_departure!=move_by_invisible);
   assert(sq_departure<capture_by_invisible);
