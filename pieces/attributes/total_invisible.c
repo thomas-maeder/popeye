@@ -1885,12 +1885,32 @@ static void update_taboo_piece_movement_pawn_capture(int delta,
   TraceFunctionResultEnd();
 }
 
+static void update_taboo_piece_movement_castling(int delta,
+                                                 move_effect_journal_index_type const movement,
+                                                 taboo_type taboo)
+{
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  int const diff_move = sq_arrival-sq_departure;
+  int const dir_movement = CheckDir[Rook][diff_move];
+  square s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParamListEnd();
+
+  for (s = sq_departure; s!=sq_arrival; s += dir_movement)
+  {
+    (*taboo)[White][s] += delta;
+    (*taboo)[Black][s] += delta;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void update_taboo_arrival(int delta)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_capture = move_gen_top->capture;
-
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -1927,34 +1947,21 @@ static void update_taboo_arrival(int delta)
         update_taboo_piece_movement_pawn_capture(delta,movement,&taboo_arrival[nbply]);
     }
     else
-      update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
-
-    switch (sq_capture)
     {
-      case kingside_castling :
-      {
-        square s;
-        for (s = sq_departure; is_on_board(s); s += dir_right)
-        {
-          taboo_arrival[nbply][White][s] += delta;
-          taboo_arrival[nbply][Black][s] += delta;
-        }
-        break;
-      }
+      if (walk==King && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+        update_taboo_piece_movement_castling(delta,movement,&taboo_arrival[nbply]);
+      else
+        update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
+    }
 
-      case queenside_castling:
-      {
-        square s;
-        for (s = sq_departure; is_on_board(s); s += dir_left)
-        {
-          taboo_arrival[nbply][White][s] += delta;
-          taboo_arrival[nbply][Black][s] += delta;
-        }
-        break;
-      }
+    {
+      move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+      move_effect_journal_index_type idx;
 
-      default:
-        break;
+      for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
+        if (move_effect_journal[idx].type==move_effect_piece_movement
+            && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+          update_taboo_piece_movement_castling(delta,idx,&taboo_arrival[nbply]);
     }
   }
 
