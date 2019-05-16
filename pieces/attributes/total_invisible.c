@@ -1948,7 +1948,8 @@ static void update_taboo_arrival(int delta)
     }
     else
     {
-      if (walk==King && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+      if (walk==King
+          && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
         update_taboo_piece_movement_castling(delta,movement,&taboo_arrival[nbply]);
       else
         update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
@@ -1971,13 +1972,8 @@ static void update_taboo_arrival(int delta)
 
 static void update_taboo(int delta)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_capture = move_gen_top->capture;
-  square const sq_departure = move_gen_top->departure;
-  square const sq_arrival = move_gen_top->arrival;
-
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
 
@@ -1986,9 +1982,6 @@ static void update_taboo(int delta)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceWalk(walk);
   TraceEOL();
 
@@ -1996,73 +1989,32 @@ static void update_taboo(int delta)
 
   if (walk!=Empty)
   {
-
-    taboo[White][sq_departure] += delta;
-    taboo[Black][sq_departure] += delta;
-
-    taboo[trait[nbply]][sq_arrival] += delta;
-
-    switch (sq_capture)
-    {
-      case kingside_castling :
-      {
-        square s;
-        for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
-        {
-          taboo[White][s] += delta;
-          taboo[Black][s] += delta;
-        }
-        break;
-      }
-
-      case queenside_castling:
-      {
-        square s;
-        for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
-        {
-          taboo[White][s] += delta;
-          taboo[Black][s] += delta;
-        }
-        break;
-      }
-
-      case pawn_multistep:
-      {
-        square const sq_intermediate = (sq_departure+sq_arrival)/2;
-        taboo[White][sq_intermediate] += delta;
-        taboo[Black][sq_intermediate] += delta;
-        break;
-      }
-
-      case messigny_exchange:
-      case retro_capture_departure:
-      case no_capture:
-        break;
-
-      default:
-        taboo[White][sq_capture] += delta;
-        taboo[Black][sq_capture] += delta;
-        break;
-    }
-
     if (is_rider(walk))
-    {
-      int const diff_move = sq_arrival-sq_departure;
-      int const dir_move = CheckDir[walk][diff_move];
-
-      square s;
-      assert(dir_move!=0);
-      for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
-      {
-        taboo[White][s] += delta;
-        taboo[Black][s] += delta;
-      }
-    }
+      update_taboo_piece_movement_rider(delta,movement,&taboo);
     else if (is_pawn(walk))
     {
-      /* arrival square must not be blocked */
-      taboo[White][sq_arrival] += delta;
-      taboo[Black][sq_arrival] += delta;
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+        update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo);
+      else
+        update_taboo_piece_movement_pawn_capture(delta,movement,&taboo);
+    }
+    else
+    {
+      if (walk==King
+          && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+        update_taboo_piece_movement_castling(delta,movement,&taboo);
+      else
+        update_taboo_piece_movement_leaper(delta,movement,&taboo);
+    }
+
+    {
+      move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+      move_effect_journal_index_type idx;
+
+      for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
+        if (move_effect_journal[idx].type==move_effect_piece_movement
+            && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+          update_taboo_piece_movement_castling(delta,idx,&taboo);
     }
   }
 
