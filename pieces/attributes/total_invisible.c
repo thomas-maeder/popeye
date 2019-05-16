@@ -2072,8 +2072,6 @@ static void flesh_out_move_by_invisible_pawn(void)
   Side const side = trait[nbply];
   int const dir = side==White ? dir_up : dir_down;
 
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -2085,7 +2083,6 @@ static void flesh_out_move_by_invisible_pawn(void)
       if (taboo_arrival[nbply][trait[nbply]][sq_singlestep]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
-        move_generation_stack[currmove].arrival = sq_singlestep;
         done_fleshing_out_move_by_invisible();
       }
 
@@ -2101,7 +2098,6 @@ static void flesh_out_move_by_invisible_pawn(void)
             if (taboo_arrival[nbply][trait[nbply]][sq_doublestep]==0)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
-              move_generation_stack[currmove].arrival = sq_doublestep;
               done_fleshing_out_move_by_invisible();
             }
           }
@@ -2114,7 +2110,6 @@ static void flesh_out_move_by_invisible_pawn(void)
     if (!end_of_iteration)
     {
       square const sq_arrival = sq_singlestep+dir_right;
-      move_generation_stack[currmove].arrival = sq_arrival;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
@@ -2122,7 +2117,6 @@ static void flesh_out_move_by_invisible_pawn(void)
     if (!end_of_iteration)
     {
       square const sq_arrival = sq_singlestep+dir_left;
-      move_generation_stack[currmove].arrival = sq_arrival;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
@@ -2140,8 +2134,6 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-
   TraceFunctionEntry(__func__);
   TraceValue("%u",kstart);
   TraceValue("%u",kend);
@@ -2157,7 +2149,6 @@ static void flesh_out_move_by_invisible_rider(vec_index_type kstart,
     {
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      move_generation_stack[currmove].arrival = sq_arrival;
 
       if (is_square_empty(sq_arrival))
       {
@@ -2185,8 +2176,6 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
   move_effect_journal_index_type const king_square_movement = movement+1;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-
   TraceFunctionEntry(__func__);
   TraceValue("%u",kstart);
   TraceValue("%u",kend);
@@ -2204,7 +2193,6 @@ static void flesh_out_move_by_invisible_leaper(vec_index_type kstart,
     if (taboo_arrival[nbply][trait[nbply]][sq_arrival]==0)
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      move_generation_stack[currmove].arrival = sq_arrival;
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
@@ -2228,18 +2216,11 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
   piece_walk_type const save_walk_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
 
-  numecoup const currmove = CURRMOVE_OF_PLY(nbply);
-  square const save_currmove_departure = move_generation_stack[currmove].departure;
-  square const save_currmove_arrival = move_generation_stack[currmove].arrival;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   TraceWalk(walk_on_square);TraceEOL();
-
-  assert(save_currmove_arrival==move_by_invisible);
-  move_generation_stack[currmove].departure = sq_departure;
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
@@ -2286,9 +2267,6 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
   move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
   move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
-
-  move_generation_stack[currmove].departure = save_currmove_departure;
-  move_generation_stack[currmove].arrival = save_currmove_arrival;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2407,8 +2385,6 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
 static void flesh_out_move_by_invisible(void)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   Side const side_playing = trait[nbply];
   square const *s;
 
@@ -2424,9 +2400,7 @@ static void flesh_out_move_by_invisible(void)
     {
       Flags const save_flags = being_solved.spec[*s];
       CLRFLAG(being_solved.spec[*s],advers(side_playing));
-      move_gen_top->departure = *s;
       flesh_out_move_by_specific_invisible(*s);
-      move_gen_top->departure = move_by_invisible;
       being_solved.spec[*s] = save_flags;
     }
 
