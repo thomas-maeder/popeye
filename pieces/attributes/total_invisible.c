@@ -2971,6 +2971,7 @@ static void done_intercepting_illegal_checks(void)
              && sq_arrival==move_by_invisible)
       flesh_out_move_by_invisible();
     else if (!is_taboo_violated())
+      // TODO try to prevent taboos from being violated
       adapt_pre_capture_effect();
   }
   else
