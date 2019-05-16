@@ -2980,8 +2980,10 @@ static void done_intercepting_illegal_checks(void)
 
   if (nbply<=top_ply_of_regular_play)
   {
-    numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
     TraceValue("%u",nbply);
     TraceValue("%u",top_ply_of_regular_play);
@@ -2996,11 +2998,11 @@ static void done_intercepting_illegal_checks(void)
 
     if (nbply<=flesh_out_move_highwater)
       adapt_pre_capture_effect();
-    else if (move_gen_top->departure>=capture_by_invisible
-             && is_on_board(move_gen_top->arrival))
+    else if (sq_departure>=capture_by_invisible
+             && is_on_board(sq_arrival))
       flesh_out_capture_by_invisible();
-    else if (move_gen_top->departure==move_by_invisible
-             && move_gen_top->arrival==move_by_invisible)
+    else if (sq_departure==move_by_invisible
+             && sq_arrival==move_by_invisible)
       flesh_out_move_by_invisible();
     else if (!is_taboo_violated())
       adapt_pre_capture_effect();
@@ -3520,8 +3522,10 @@ static void attack_mating_piece(Side side_attacking,
 
 static void validate_mate(void)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(top_ply_of_regular_play);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -3534,8 +3538,8 @@ static void validate_mate(void)
   TraceValue("%u",move_by_invisible);
   TraceEOL();
 
-  if (move_gen_top->departure==move_by_invisible
-      && move_gen_top->arrival==move_by_invisible)
+  if (sq_departure==move_by_invisible
+      && sq_arrival==move_by_invisible)
     combined_validation_result = mate_defendable_by_interceptors;
   else
   {
@@ -3604,9 +3608,9 @@ static void rewind_effects(void)
 
   while (nbply!=ply_retro_move)
   {
-    numecoup const curr = CURRMOVE_OF_PLY(nbply);
-    move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-    square const sq_departure = move_gen_top->departure;
+    move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
     if (is_on_board(sq_departure))
     {
@@ -3638,9 +3642,9 @@ static void unrewind_effects(void)
     redo_move_effects();
 
     {
-      numecoup const curr = CURRMOVE_OF_PLY(nbply);
-      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-      square const sq_departure = move_gen_top->departure;
+      move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
       if (is_on_board(sq_departure))
       {
@@ -3778,8 +3782,10 @@ static boolean is_move_still_playable(slice_index si)
 
   {
     Side const side = SLICE_STARTER(si);
-    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].departure;
-    square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].arrival;
+    move_effect_journal_index_type const base = move_effect_journal_base[ply_replayed];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
 
     TraceValue("%u",ply_replayed);
@@ -3814,6 +3820,7 @@ static boolean is_move_still_playable(slice_index si)
       }
       else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
       {
+        // TODO how can we end up here?
         occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
         generate_moves_for_piece(sq_departure);
         empty_square(sq_capture);
