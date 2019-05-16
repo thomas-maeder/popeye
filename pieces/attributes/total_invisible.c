@@ -1892,10 +1892,10 @@ static void update_taboo_arrival(int delta)
   square const sq_capture = move_gen_top->capture;
 
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
@@ -1916,6 +1916,18 @@ static void update_taboo_arrival(int delta)
   else
   {
     assert(walk!=Empty);
+
+    if (is_rider(walk))
+      update_taboo_piece_movement_rider(delta,movement,&taboo_arrival[nbply]);
+    else if (is_pawn(walk))
+    {
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+        update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo_arrival[nbply]);
+      else
+        update_taboo_piece_movement_pawn_capture(delta,movement,&taboo_arrival[nbply]);
+    }
+    else
+      update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
 
     switch (sq_capture)
     {
@@ -1941,30 +1953,7 @@ static void update_taboo_arrival(int delta)
         break;
       }
 
-      case pawn_multistep:
-        update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo_arrival[nbply]);
-        break;
-
-      case no_capture:
-        if (is_rider(walk))
-          update_taboo_piece_movement_rider(delta,movement,&taboo_arrival[nbply]);
-        else if (is_pawn(walk))
-          update_taboo_piece_movement_pawn_no_capture(delta,movement,&taboo_arrival[nbply]);
-        else
-          update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
-        break;
-
-      case messigny_exchange:
-      case retro_capture_departure:
-        break;
-
       default:
-        if (is_rider(walk))
-          update_taboo_piece_movement_rider(delta,movement,&taboo_arrival[nbply]);
-        else if (is_pawn(walk))
-          update_taboo_piece_movement_pawn_capture(delta,movement,&taboo_arrival[nbply]);
-        else
-          update_taboo_piece_movement_leaper(delta,movement,&taboo_arrival[nbply]);
         break;
     }
   }
