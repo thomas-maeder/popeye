@@ -182,6 +182,51 @@ static PieceIdType next_invisible_piece_id;
 static move_effect_journal_entry_type const *revelation_violation_later = move_effect_journal+move_effect_journal_size;
 static move_effect_journal_entry_type const *first_detected_revelation_violation;
 
+static boolean was_taboo(square s)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",taboo_arrival[ply][White][s]);
+    TraceValue("%u",taboo_arrival[ply][Black][s]);
+    TraceEOL();
+    if (taboo_arrival[ply][White][s]>0 || taboo_arrival[ply][Black][s]>0)
+    {
+      result = true;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_taboo(square s, Side side)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  result = taboo_arrival[nbply][side][s];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,
                                                         vec_index_type k, piece_walk_type rider_walk)
 {
@@ -196,7 +241,8 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
 
   {
     square s = king_pos+vec[k];
-    while (is_square_empty(s) && taboo[White][s]>0 && taboo[Black][s]>0)
+    while (is_square_empty(s)
+           && (was_taboo(s) || (is_taboo(s,White) && is_taboo(s,Black))))
       s += vec[k];
 
     {
@@ -1671,51 +1717,6 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-static boolean was_taboo(square s)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceFunctionParamListEnd();
-
-  for (ply = ply_retro_move+1; ply<nbply; ++ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",taboo_arrival[ply][White][s]);
-    TraceValue("%u",taboo_arrival[ply][Black][s]);
-    TraceEOL();
-    if (taboo_arrival[ply][White][s]>0 || taboo_arrival[ply][Black][s]>0)
-    {
-      result = true;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_taboo(square s, Side side)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  result = taboo_arrival[nbply][side][s];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void adapt_pre_capture_effect(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -3098,21 +3099,31 @@ static void walk_interceptor(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(Side preferred_side, square pos)
+static void colour_interceptor(vec_index_type kcurr,
+                               Side preferred_side,
+                               square pos,
+                               piece_walk_type const walk_at_end)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",kcurr);
   TraceEnumerator(Side,preferred_side);
   TraceSquare(pos);
+  TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
-  /* taboo equal to 1 is ok: this is "my" taboo! */
   if (!is_taboo(pos,preferred_side))
+  {
+    assert(!is_rider_check_uninterceptable_on_vector(trait[nbply-1],being_solved.king_square[trait[nbply-1]],kcurr,walk_at_end));
     walk_interceptor(preferred_side,pos);
+  }
 
   if (!end_of_iteration)
   {
     if (!is_taboo(pos,advers(preferred_side)))
+    {
+      assert(!is_rider_check_uninterceptable_on_vector(trait[nbply-1],being_solved.king_square[trait[nbply-1]],kcurr,walk_at_end));
       walk_interceptor(advers(preferred_side),pos);
+    }
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -3145,8 +3156,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
     if (!was_taboo(s) && !(is_taboo(s,White) && is_taboo(s,Black)))
     {
-      // TODO this still works with taboo
-//      assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
+      assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
       TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
       ++taboo[White][s];
@@ -3180,14 +3190,12 @@ static void place_interceptor_on_square(vec_index_type kcurr,
   {
     if (!was_taboo(s))
     {
-      // TODO this still works with taboo
-//      assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
       TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
       ++taboo[White][s];
       ++taboo[Black][s];
 
-      colour_interceptor(side_in_check,s);
+      colour_interceptor(kcurr,side_in_check,s,walk_at_end);
 
       --taboo[White][s];
       --taboo[Black][s];
