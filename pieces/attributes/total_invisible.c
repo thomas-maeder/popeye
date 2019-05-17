@@ -1886,8 +1886,6 @@ static void update_taboo_arrival(int delta)
 
   TraceValue("%u",nbply);
   TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceWalk(walk);
   TraceEOL();
 
@@ -2900,12 +2898,12 @@ static void done_intercepting_illegal_checks(void)
 
     TraceValue("%u",nbply);
     TraceValue("%u",top_ply_of_regular_play);
-    TraceSquare(move_gen_top->departure);
-    TraceValue("%u",move_gen_top->departure);
+    TraceSquare(sq_departure);
+    TraceValue("%u",sq_departure);
     TraceValue("%u",capture_by_invisible);
     TraceValue("%u",flesh_out_move_highwater);
-    TraceSquare(move_gen_top->arrival);
-    TraceValue("%u",move_gen_top->arrival);
+    TraceSquare(sq_arrival);
+    TraceValue("%u",sq_arrival);
     TraceValue("%u",move_by_invisible);
     TraceEOL();
 
@@ -2917,8 +2915,12 @@ static void done_intercepting_illegal_checks(void)
     else if (sq_departure==move_by_invisible
              && sq_arrival==move_by_invisible)
       flesh_out_move_by_invisible();
-    else if (!is_taboo_violated())
+    else if (is_taboo_violated())
+    {
       // TODO try to prevent taboos from being violated
+//      assert(0);
+    }
+    else
       adapt_pre_capture_effect();
   }
   else
@@ -3433,10 +3435,10 @@ static void validate_mate(void)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",top_ply_of_regular_play);
-  TraceSquare(move_gen_top->departure);
-  TraceValue("%u",move_gen_top->departure);
-  TraceSquare(move_gen_top->arrival);
-  TraceValue("%u",move_gen_top->arrival);
+  TraceSquare(sq_departure);
+  TraceValue("%u",sq_departure);
+  TraceSquare(sq_arrival);
+  TraceValue("%u",sq_arrival);
   TraceValue("%u",move_by_invisible);
   TraceEOL();
 
