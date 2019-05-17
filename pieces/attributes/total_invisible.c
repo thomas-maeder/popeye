@@ -1409,21 +1409,6 @@ static void restart_from_scratch(void)
   while (nbply!=ply_retro_move+1)
   {
     --nbply;
-
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-
-      assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-      if (is_on_board(sq_departure))
-      {
-        --taboo[White][sq_departure];
-        --taboo[Black][sq_departure];
-      }
-    }
-
     undo_move_effects();
   }
 
@@ -1432,18 +1417,7 @@ static void restart_from_scratch(void)
 
   while (nbply!=save_nbply)
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-
     redo_move_effects();
-
-    if (is_on_board(sq_departure))
-    {
-      ++taboo[White][sq_departure];
-      ++taboo[Black][sq_departure];
-    }
-
     ++nbply;
   }
 
@@ -1562,12 +1536,6 @@ static void recurse_into_child_ply(void)
   assert(sq_departure==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
-  if (is_on_board(sq_departure))
-  {
-    ++taboo[White][sq_departure];
-    ++taboo[Black][sq_departure];
-  }
-
   assert(first_detected_revelation_violation==0);
 
   redo_move_effects();
@@ -1596,12 +1564,6 @@ static void recurse_into_child_ply(void)
   undo_move_effects();
 
   first_detected_revelation_violation = 0;
-
-  if (is_on_board(sq_departure))
-  {
-    --taboo[White][sq_departure];
-    --taboo[Black][sq_departure];
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2498,18 +2460,12 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
       occupy_square(from,walk_capturing,flags);
 
-      ++taboo[White][from];
-      ++taboo[Black][from];
-
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
 
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
         flesh_out_capture_by_specific_invisible(walk_capturing,from,fleshout_by_inserted);
 
       --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      --taboo[White][from];
-      --taboo[Black][from];
 
       empty_square(from);
 
@@ -2584,20 +2540,10 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
     for (s = sq_capture+vec[kcurr];
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
-    {
       flesh_out_capture_by_inserted_invisible(walk_rider,s);
-      ++taboo[White][s];
-      ++taboo[Black][s];
-    }
 
     if (!end_of_iteration)
       flesh_out_capture_by_existing_invisible(walk_rider,s);
-
-    for (s -= vec[kcurr]; s!=sq_capture; s -= vec[kcurr])
-    {
-      --taboo[White][s];
-      --taboo[Black][s];
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -3159,9 +3105,6 @@ static void place_interceptor_on_square(vec_index_type kcurr,
       assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
       TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
-      ++taboo[White][s];
-      ++taboo[Black][s];
-
       ++current_consumption.placed;
       // TODO this isn't quite correct! should we claim first one side, then the other?
       current_consumption.claimed[White] = false;
@@ -3181,9 +3124,6 @@ static void place_interceptor_on_square(vec_index_type kcurr,
       current_consumption = save_consumption;
       TraceConsumption();
       TraceEOL();
-
-      --taboo[White][s];
-      --taboo[Black][s];
     }
   }
   else
@@ -3191,14 +3131,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     if (!was_taboo(s))
     {
       TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
-      ++taboo[White][s];
-      ++taboo[Black][s];
-
       colour_interceptor(kcurr,side_in_check,s,walk_at_end);
-
-      --taboo[White][s];
-      --taboo[Black][s];
     }
   }
 
@@ -3350,9 +3283,6 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  ++taboo[White][s];
-  ++taboo[Black][s];
-
   if (allocate_placement_of_invisible(side_attacking))
   {
     ++being_solved.number_of_pieces[side_attacking][walk];
@@ -3370,9 +3300,6 @@ static void place_mating_piece_attacker(Side side_attacking,
 
   current_consumption = save_consumption;
   TraceConsumption();TraceEOL();
-
-  --taboo[White][s];
-  --taboo[Black][s];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3583,17 +3510,7 @@ static void rewind_effects(void)
 
   while (nbply!=ply_retro_move)
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-
-    if (is_on_board(sq_departure))
-    {
-      --taboo[White][sq_departure];
-      --taboo[Black][sq_departure];
-    }
     assert(nr_total_invisbles_consumed()<=total_invisible_number);
-
     undo_move_effects();
     --nbply;
   }
@@ -3615,18 +3532,6 @@ static void unrewind_effects(void)
   {
     ++nbply;
     redo_move_effects();
-
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-
-      if (is_on_board(sq_departure))
-      {
-        ++taboo[White][sq_departure];
-        ++taboo[Black][sq_departure];
-      }
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -4098,8 +4003,6 @@ static boolean make_a_flight(void)
     TraceEOL();
 
     empty_square(king_pos);
-    ++taboo[White][king_pos];
-    ++taboo[Black][king_pos];
 
     for (dir_vert = dir_down; dir_vert<=dir_up && !result; dir_vert += dir_up)
       for (dir_horiz = dir_left; dir_horiz<=dir_right; dir_horiz += dir_right)
@@ -4112,8 +4015,6 @@ static boolean make_a_flight(void)
         }
       }
 
-    --taboo[White][king_pos];
-    --taboo[Black][king_pos];
     occupy_square(king_pos,walk,flags);
   }
 

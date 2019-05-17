@@ -639,10 +639,10 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:    56783745
-                     play_move:     9318898
- is_white_king_square_attacked:     1050333
- is_black_king_square_attacked:     7262215
+  add_to_move_generation_stack:    56783593
+                     play_move:     9318886
+ is_white_king_square_attacked:     1050330
+ is_black_king_square_attacked:     7262206
 
 b) wSb5-->d7  
 
@@ -683,10 +683,10 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:   135572323
-                     play_move:    61922350
- is_white_king_square_attacked:     3159890
- is_black_king_square_attacked:    56625452
+  add_to_move_generation_stack:   135572061
+                     play_move:    61922186
+ is_white_king_square_attacked:     3159886
+ is_black_king_square_attacked:    56625292
 
 b) bPe5-->h3  
 
