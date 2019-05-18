@@ -2390,43 +2390,6 @@ static void flesh_out_move_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-typedef enum
-{
-  fleshout_by_existing,
-  fleshout_by_inserted
-} fleshout_type;
-
-static void flesh_out_capture_by_specific_invisible(piece_walk_type walk_capturing,
-                                                    square sq_departure,
-                                                    fleshout_type fleshout_how)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
-  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-  update_taboo_arrival(+1);
-
-  if (fleshout_how==fleshout_by_existing)
-    recurse_into_child_ply();
-  else
-    restart_from_scratch();
-
-  update_taboo_arrival(-1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
                                                     square sq_departure)
 {
@@ -2444,15 +2407,13 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
       Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
 
-      TraceConsumption();
-      TraceWalk(walk_capturing);
-      TraceValue("%x",flags);
-      TraceEOL();
+      TraceConsumption();TraceEOL();
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
       /* adding the total invisible in the pre-capture effect sounds tempting, but
@@ -2464,16 +2425,25 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
+      ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags);
 
-      ++being_solved.number_of_pieces[side_playing][walk_capturing];
-
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
-        flesh_out_capture_by_specific_invisible(walk_capturing,sq_departure,fleshout_by_inserted);
+      {
+        assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-      --being_solved.number_of_pieces[side_playing][walk_capturing];
+        move_effect_journal[movement].u.piece_movement.from = sq_departure;
+        /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+        move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+        move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+        update_taboo_arrival(+1);
+        restart_from_scratch();
+        update_taboo_arrival(-1);
+      }
 
       empty_square(sq_departure);
+      --being_solved.number_of_pieces[side_playing][walk_capturing];
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
 
@@ -2482,6 +2452,30 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
     current_consumption = save_consumption;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void done_fleshing_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
+                                                            square sq_departure)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_capturing);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  update_taboo_arrival(+1);
+  recurse_into_child_ply();
+  update_taboo_arrival(-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2506,25 +2500,31 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const precapture = effects_base;
 
-    /* deactivate the pre-capture insertion of the moving total invisible since we
+    /* deactivate the pre-capture insertion of the moving total invisible since
      * that piece is already on the board
      */
     assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
     move_effect_journal[precapture].type = move_effect_none;
 
     if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
-      flesh_out_capture_by_specific_invisible(walk_capturing,sq_departure,fleshout_by_existing);
+    {
+      assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+      done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+    }
     else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
     {
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
-      Flags const flags = being_solved.spec[sq_departure];
+      Flags const save_flags = being_solved.spec[sq_departure];
+
       ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
       replace_walk(sq_departure,walk_capturing);
       CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
-        flesh_out_capture_by_specific_invisible(walk_capturing,sq_departure,fleshout_by_existing);
-      being_solved.spec[sq_departure] = flags;
+        done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+
+      being_solved.spec[sq_departure] = save_flags;
       replace_walk(sq_departure,Dummy);
       --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
     }
