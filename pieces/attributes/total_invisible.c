@@ -1780,7 +1780,7 @@ static void update_taboo_piece_movement_rider(int delta,
     ADJUST_TABOO((*taboo)[Black][s],delta);
   }
 
-  (*taboo)[trait[nbply]][sq_arrival] += delta;
+  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1797,10 +1797,10 @@ static void update_taboo_piece_movement_leaper(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  (*taboo)[White][sq_departure] += delta;
-  (*taboo)[Black][sq_departure] += delta;
+  ADJUST_TABOO((*taboo)[White][sq_departure],delta);
+  ADJUST_TABOO((*taboo)[Black][sq_departure],delta);
 
-  (*taboo)[trait[nbply]][sq_arrival] += delta;
+  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1826,8 +1826,8 @@ static void update_taboo_piece_movement_pawn_no_capture(int delta,
   }
 
   /* arrival square must not be blocked by either side */
-  (*taboo)[White][sq_arrival] += delta;
-  (*taboo)[Black][sq_arrival] += delta;
+  ADJUST_TABOO((*taboo)[White][sq_arrival],delta);
+  ADJUST_TABOO((*taboo)[Black][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1844,10 +1844,10 @@ static void update_taboo_piece_movement_pawn_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  (*taboo)[White][sq_departure] += delta;
-  (*taboo)[Black][sq_departure] += delta;
+  ADJUST_TABOO((*taboo)[White][sq_departure],delta);
+  ADJUST_TABOO((*taboo)[Black][sq_departure],delta);
 
-  (*taboo)[trait[nbply]][sq_arrival] += delta;
+  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1942,6 +1942,7 @@ static void update_taboo(int delta)
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
@@ -1953,7 +1954,12 @@ static void update_taboo(int delta)
 
   update_taboo_arrival(delta);
 
-  if (walk!=Empty)
+  if (sq_departure==move_by_invisible
+      || sq_departure>=capture_by_invisible)
+  {
+    /* no taboos! */
+  }
+  else
   {
     if (is_rider(walk))
       update_taboo_piece_movement_rider(delta,movement,&taboo);
