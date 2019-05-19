@@ -1754,6 +1754,10 @@ static void adapt_pre_capture_effect(void)
 
 typedef unsigned int (*taboo_type)[nr_sides][maxsquare];
 
+#define ADJUST_TABOO(TABOO,DELTA) \
+  assert(((DELTA)>0) || ((TABOO)>0)), \
+  (TABOO) += (DELTA);
+
 static void update_taboo_piece_movement_rider(int delta,
                                               move_effect_journal_index_type const movement,
                                               taboo_type taboo)
@@ -1772,8 +1776,8 @@ static void update_taboo_piece_movement_rider(int delta,
   assert(dir_move!=0);
   for (s = sq_departure; s!=sq_arrival; s += dir_move)
   {
-    (*taboo)[White][s] += delta;
-    (*taboo)[Black][s] += delta;
+    ADJUST_TABOO((*taboo)[White][s],delta);
+    ADJUST_TABOO((*taboo)[Black][s],delta);
   }
 
   (*taboo)[trait[nbply]][sq_arrival] += delta;
@@ -1817,8 +1821,8 @@ static void update_taboo_piece_movement_pawn_no_capture(int delta,
 
   for (s = sq_departure; s!=sq_arrival; s += dir)
   {
-    (*taboo)[White][s] += delta;
-    (*taboo)[Black][s] += delta;
+    ADJUST_TABOO((*taboo)[White][s],delta);
+    ADJUST_TABOO((*taboo)[Black][s],delta);
   }
 
   /* arrival square must not be blocked by either side */
@@ -1865,8 +1869,8 @@ static void update_taboo_piece_movement_castling(int delta,
 
   for (s = sq_departure; s!=sq_arrival; s += dir_movement)
   {
-    (*taboo)[White][s] += delta;
-    (*taboo)[Black][s] += delta;
+    ADJUST_TABOO((*taboo)[White][s],delta);
+    ADJUST_TABOO((*taboo)[Black][s],delta);
   }
 
   TraceFunctionExit(__func__);
