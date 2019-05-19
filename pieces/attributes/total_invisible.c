@@ -3073,25 +3073,44 @@ static void place_interceptor_on_square(vec_index_type kcurr,
       assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
       TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
-      ++current_consumption.placed;
-      // TODO this isn't quite correct! should we claim first one side, then the other?
-      current_consumption.claimed[White] = false;
-      current_consumption.claimed[Black] = false;
-      TraceConsumption();TraceEOL();
-
       SetPieceId(spec,++next_invisible_piece_id);
-
       occupy_square(s,Dummy,spec);
 
-      (*recurse)(kcurr+1);
+      ++current_consumption.placed;
 
-      empty_square(s);
+      if (current_consumption.claimed[White])
+      {
+        current_consumption.claimed[White] = false;
+        TraceConsumption();TraceEOL();
+        (*recurse)(kcurr+1);
+        current_consumption.claimed[White] = true;
 
-      --next_invisible_piece_id;
+        if (!end_of_iteration && current_consumption.claimed[Black])
+        {
+          current_consumption.claimed[Black] = false;
+          TraceConsumption();TraceEOL();
+          (*recurse)(kcurr+1);
+          current_consumption.claimed[Black] = true;
+        }
+      }
+      else if (current_consumption.claimed[Black])
+      {
+        current_consumption.claimed[Black] = false;
+        TraceConsumption();TraceEOL();
+        (*recurse)(kcurr+1);
+        current_consumption.claimed[Black] = true;
+      }
+      else
+      {
+        TraceConsumption();TraceEOL();
+        (*recurse)(kcurr+1);
+      }
 
       current_consumption = save_consumption;
-      TraceConsumption();
-      TraceEOL();
+      TraceConsumption();TraceEOL();
+
+      empty_square(s);
+      --next_invisible_piece_id;
     }
   }
   else
