@@ -1773,8 +1773,10 @@ static void update_taboo_piece_movement_rider(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
+  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+
   assert(dir_move!=0);
-  for (s = sq_departure; s!=sq_arrival; s += dir_move)
+  for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
     ADJUST_TABOO((*taboo)[White][s],delta);
     ADJUST_TABOO((*taboo)[Black][s],delta);
@@ -1797,9 +1799,7 @@ static void update_taboo_piece_movement_leaper(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO((*taboo)[White][sq_departure],delta);
-  ADJUST_TABOO((*taboo)[Black][sq_departure],delta);
-
+  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
   ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
@@ -1812,14 +1812,16 @@ static void update_taboo_piece_movement_pawn_no_capture(int delta,
 {
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  int const dir = trait[nbply]==White ? dir_up : dir_down;
+  int const dir_move = trait[nbply]==White ? dir_up : dir_down;
   square s;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  for (s = sq_departure; s!=sq_arrival; s += dir)
+  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+
+  for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
     ADJUST_TABOO((*taboo)[White][s],delta);
     ADJUST_TABOO((*taboo)[Black][s],delta);
@@ -1844,9 +1846,7 @@ static void update_taboo_piece_movement_pawn_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO((*taboo)[White][sq_departure],delta);
-  ADJUST_TABOO((*taboo)[Black][sq_departure],delta);
-
+  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
   ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
