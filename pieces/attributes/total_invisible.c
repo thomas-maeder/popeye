@@ -3088,32 +3088,36 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
       ++current_consumption.placed;
 
+      // TODO factor out duplication
+      CLRFLAG(being_solved.spec[s],Black);
       if (current_consumption.claimed[White])
       {
         current_consumption.claimed[White] = false;
         TraceConsumption();TraceEOL();
-        (*recurse)(kcurr+1);
+        if (nr_total_invisbles_consumed()<=total_invisible_number)
+          (*recurse)(kcurr+1);
         current_consumption.claimed[White] = true;
+        TraceConsumption();TraceEOL();
+      }
+      else if (nr_total_invisbles_consumed()<=total_invisible_number)
+        (*recurse)(kcurr+1);
+      SETFLAG(being_solved.spec[s],Black);
 
-        if (!end_of_iteration && current_consumption.claimed[Black])
+      if (!end_of_iteration)
+      {
+        CLRFLAG(being_solved.spec[s],White);
+        if (current_consumption.claimed[Black])
         {
           current_consumption.claimed[Black] = false;
           TraceConsumption();TraceEOL();
-          (*recurse)(kcurr+1);
+          if (nr_total_invisbles_consumed()<=total_invisible_number)
+            (*recurse)(kcurr+1);
           current_consumption.claimed[Black] = true;
+          TraceConsumption();TraceEOL();
         }
-      }
-      else if (current_consumption.claimed[Black])
-      {
-        current_consumption.claimed[Black] = false;
-        TraceConsumption();TraceEOL();
-        (*recurse)(kcurr+1);
-        current_consumption.claimed[Black] = true;
-      }
-      else
-      {
-        TraceConsumption();TraceEOL();
-        (*recurse)(kcurr+1);
+        else if (nr_total_invisbles_consumed()<=total_invisible_number)
+          (*recurse)(kcurr+1);
+        SETFLAG(being_solved.spec[s],White);
       }
 
       current_consumption = save_consumption;
