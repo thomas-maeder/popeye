@@ -694,7 +694,6 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
             CLRFLAG(being_solved.spec[on],Royal);
             being_solved.king_square[side] = initsquare;
           }
-          SETFLAG(being_solved.spec[on],advers(side));
           SETFLAG(being_solved.spec[on],Chameleon);
           replace_walk(on,Dummy);
           if (TSTFLAG(spec,White))
@@ -2267,9 +2266,11 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
     assert(play_phase==play_validating_mate);
 
-    CLRFLAG(being_solved.spec[sq_departure],side_under_attack);
     TraceText("adjusting side flags of fleshed out Dummy ");
     TraceEnumerator(Side,side_playing);
+    TraceEOL();
+    assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
+    CLRFLAG(being_solved.spec[sq_departure],side_under_attack);
     TraceValue("%x",being_solved.spec[sq_departure]);
     TraceEOL();
 
