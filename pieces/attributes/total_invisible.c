@@ -229,9 +229,14 @@ static boolean is_taboo(square s, Side side)
 
 typedef unsigned int (*taboo_type)[nr_sides][maxsquare];
 
+#if defined(NDEBUG)
+#define ADJUST_TABOO(TABOO,DELTA) \
+  (TABOO) += (DELTA);
+#else
 #define ADJUST_TABOO(TABOO,DELTA) \
   assert(((DELTA)>0) || ((TABOO)>0)), \
   (TABOO) += (DELTA);
+#endif
 
 static void update_taboo_piece_movement_rider(int delta,
                                               move_effect_journal_index_type const movement,
@@ -1045,7 +1050,9 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
           move_effect_journal[idx].u.piece_movement.moving = walk_to;
         }
         else
+        {
           assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        }
         break;
 
       case move_effect_piece_readdition:
@@ -1064,7 +1071,9 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
           idx = 1;
         }
         else
+        {
           assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        }
         break;
 
       default:
@@ -1109,7 +1118,9 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
           move_effect_journal[idx].u.piece_movement.moving = Dummy;
         }
         else
+        {
           assert(pos!=move_effect_journal[idx].u.piece_movement.to);
+        }
         break;
 
       case move_effect_piece_readdition:
@@ -1123,7 +1134,9 @@ static void untaint_history_of_placed_piece(move_effect_journal_index_type idx)
           idx = 1;
         }
         else
+        {
           assert(pos!=move_effect_journal[idx].u.piece_addition.added.on);
+        }
         break;
 
       default:
@@ -2308,14 +2321,8 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
     assert(play_phase==play_validating_mate);
 
-    // TODO is this still necessary?
-    TraceText("adjusting side flags of fleshed out Dummy");
-    TraceEnumerator(Side,side_playing);
-    TraceEOL();
     assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
-    CLRFLAG(being_solved.spec[sq_departure],side_under_attack);
-    TraceValue("%x",being_solved.spec[sq_departure]);
-    TraceEOL();
+    assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
 
     if (!end_of_iteration)
     {
@@ -4459,8 +4466,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
               --next_invisible_piece_id;
             }
             else
+            {
               /* we have checked when we generated the castling */
               assert(0);
+            }
 
             current_consumption = save_consumption;
             TraceConsumption();TraceEOL();
@@ -4494,8 +4503,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
               --next_invisible_piece_id;
             }
             else
+            {
               /* we have checked when we generated the castling */
               assert(0);
+            }
 
             current_consumption = save_consumption;
             TraceConsumption();TraceEOL();
