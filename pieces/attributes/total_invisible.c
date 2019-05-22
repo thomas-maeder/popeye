@@ -248,16 +248,28 @@ static void update_taboo_piece_movement_rider(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(Side,trait[nbply]);
+  TraceEnumerator(Side,advers(trait[nbply]));
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEOL();
+
   ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+  TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);TraceEOL();
 
   assert(dir_move!=0);
   for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
+    TraceSquare(s);
     ADJUST_TABOO((*taboo)[White][s],delta);
+    TraceValue("%u",(*taboo)[White][s]);
     ADJUST_TABOO((*taboo)[Black][s],delta);
+    TraceValue("%u",(*taboo)[Black][s]);
+    TraceEOL();
   }
 
   ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
+  TraceValue("%u",(*taboo)[trait[nbply]][sq_arrival]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -342,10 +354,20 @@ static void update_taboo_piece_movement_castling(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  for (s = sq_departure; s!=sq_arrival; s += dir_movement)
+  TraceEnumerator(Side,trait[nbply]);
+  TraceSquare(sq_departure);
+  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+  TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);
+  TraceEOL();
+
+  for (s = sq_departure+dir_movement; s!=sq_arrival; s += dir_movement)
   {
+    TraceSquare(s);
     ADJUST_TABOO((*taboo)[White][s],delta);
+    TraceValue("%u",(*taboo)[White][s]);
     ADJUST_TABOO((*taboo)[Black][s],delta);
+    TraceValue("%u",(*taboo)[Black][s]);
+    TraceEOL();
   }
 
   TraceFunctionExit(__func__);
@@ -793,7 +815,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
             TraceText("revelation of king - but king has already been placed - aborting\n");
             first_detected_revelation_violation = entry;
           }
-          else
+          else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
             PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
             TraceText("substituting revealed piece for dummy\n");
@@ -812,6 +834,11 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
             }
             TraceValue("%x",being_solved.spec[on]);TraceEOL();
             assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+          }
+          else
+          {
+            TraceText("revealed piece belongs to different side than actual piece\n");
+            first_detected_revelation_violation = entry;
           }
         }
         else if (get_walk_of_piece_on_square(on)==walk
@@ -1766,9 +1793,8 @@ static void validate_king_placements(void)
 
 static void recurse_into_child_ply(void)
 {
-  ply const save_nbply = nbply;
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
@@ -1788,7 +1814,7 @@ static void recurse_into_child_ply(void)
       ++nbply;
       TraceValue("%u",nbply);TraceEOL();
       start_iteration();
-      nbply = save_nbply;
+      --nbply;
     }
     else
     {
@@ -1797,8 +1823,8 @@ static void recurse_into_child_ply(void)
       ++nbply;
       TraceValue("%u",nbply);TraceEOL();
       start_iteration();
-      nbply = save_nbply;
       flesh_out_move_highwater = save_highwater;
+      --nbply;
     }
   }
 
@@ -1922,9 +1948,9 @@ static void adapt_capture_effect(void)
 
 static void adapt_pre_capture_effect(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const pre_capture = base;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const pre_capture = effects_base;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const to = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
@@ -1953,9 +1979,23 @@ static void adapt_pre_capture_effect(void)
           consumption_type const save_consumption = current_consumption;
           if (allocate_placement_of_invisible(advers(trait[nbply])))
           {
-            /* victim to be created - no need for adaptation, but for bookkeeping */
+            /* adding the total invisible in the pre-capture effect sounds tempting, but
+             * the inserted victim may intercept an illegal check by accident
+             */
+            square const sq_capture = move_effect_journal[pre_capture].u.piece_addition.added.on;
+            piece_walk_type const walk_vicitim = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+            Flags const flags = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+
             TraceText("victim is placed in this iteration\n");
+
+            assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+            move_effect_journal[pre_capture].type = move_effect_none;
+
+            occupy_square(sq_capture,walk_vicitim,flags);
             adapt_capture_effect();
+            empty_square(sq_capture);
+
+            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
           }
           else
           {
@@ -1999,6 +2039,8 @@ static void done_fleshing_out_move_by_invisible(void)
   TraceFunctionParamListEnd();
 
   update_taboo_arrival(+1);
+  // TODO shouldn't we restart_from_scratch()?
+  // we may have fleshed out a piece that delivers check!
   recurse_into_child_ply();
   update_taboo_arrival(-1);
 
@@ -2266,7 +2308,8 @@ static void flesh_out_move_by_specific_invisible(square sq_departure)
 
     assert(play_phase==play_validating_mate);
 
-    TraceText("adjusting side flags of fleshed out Dummy ");
+    // TODO is this still necessary?
+    TraceText("adjusting side flags of fleshed out Dummy");
     TraceEnumerator(Side,side_playing);
     TraceEOL();
     assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
@@ -2722,6 +2765,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
 
   flesh_out_capture_by_invisible_king();
   TraceValue("%u",end_of_iteration);TraceEOL();
+  // TODO if we capture a rook that has just castled, we should not flesh out into Pawn
   flesh_out_capture_by_invisible_pawn();
   TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end);
@@ -2782,6 +2826,10 @@ static boolean is_taboo_violated(void)
   assert(sq_departure!=move_by_invisible);
   assert(sq_departure<capture_by_invisible);
 
+  TraceSquare(sq_arrival);
+  TraceWalk(get_walk_of_piece_on_square(sq_arrival));
+  TraceValue("%x",being_solved.spec[sq_arrival]);
+  TraceEOL();
   if (!is_square_empty(sq_arrival)
       && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
   {
@@ -2793,10 +2841,15 @@ static boolean is_taboo_violated(void)
   {
     case kingside_castling :
     {
+      // TODO also test partner movement
       square s;
-      for (s = sq_departure+dir_right; is_on_board(s); s += dir_right)
+      for (s = sq_departure+dir_right; s!=sq_arrival; s += dir_right)
         if (!is_square_empty(s))
         {
+          TraceSquare(s);
+          TraceWalk(get_walk_of_piece_on_square(s));
+          TraceValue("%x",being_solved.spec[s]);
+          TraceEOL();
           TraceText("castling traversal square blocked\n");
           return true;
         }
@@ -2805,10 +2858,15 @@ static boolean is_taboo_violated(void)
 
     case queenside_castling:
     {
+      // TODO also test partner movement
       square s;
-      for (s = sq_departure+dir_left; is_on_board(s); s += dir_left)
+      for (s = sq_departure+dir_left; s!=sq_arrival; s += dir_left)
         if (!is_square_empty(s))
         {
+          TraceSquare(s);
+          TraceWalk(get_walk_of_piece_on_square(s));
+          TraceValue("%x",being_solved.spec[s]);
+          TraceEOL();
           TraceText("castling traversal square blocked\n");
           return true;
         }
@@ -2818,7 +2876,7 @@ static boolean is_taboo_violated(void)
     case pawn_multistep:
     {
       square const sq_intermediate = (sq_departure+sq_arrival)/2;
-      if (!is_square_empty(sq_intermediate))
+      if (!is_square_empty(sq_intermediate) || !is_square_empty(sq_arrival))
       {
         TraceText("pawn multistep intercepted\n");
         return true;
@@ -2895,7 +2953,6 @@ static void done_intercepting_illegal_checks(void)
     else if (is_taboo_violated())
     {
       // TODO try to prevent taboos from being violated
-//      assert(0);
     }
     else
       adapt_pre_capture_effect();
@@ -3545,6 +3602,8 @@ static void make_revelations(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  update_taboo(+1);
+
   top_ply_of_regular_play = nbply;
   setup_revelations();
   play_phase = play_rewinding;
@@ -3555,6 +3614,8 @@ static void make_revelations(void)
   play_phase = play_unwinding;
   unrewind_effects();
   play_phase = play_regular;
+
+  update_taboo(-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
