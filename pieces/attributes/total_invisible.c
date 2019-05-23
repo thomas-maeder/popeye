@@ -2818,20 +2818,22 @@ static void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static boolean is_taboo_violated(void)
+static boolean is_taboo_violated_rider(move_effect_journal_index_type movement,
+                                       piece_walk_type walk)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_capture = move_gen_top->capture;
-
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+  boolean result = false;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-  assert(sq_departure!=move_by_invisible);
-  assert(sq_departure<capture_by_invisible);
+  int const diff_move = sq_arrival-sq_departure;
+  int const dir_move = CheckDir[walk][diff_move];
+
+  square s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",movement);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);
   TraceWalk(get_walk_of_piece_on_square(sq_arrival));
@@ -2841,89 +2843,132 @@ static boolean is_taboo_violated(void)
       && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
   {
     TraceText("arrival square blocked\n");
-    return true;
+    result = true;
   }
 
-  switch (sq_capture)
+  assert(dir_move!=0);
+  for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+    if (!is_square_empty(s))
+    {
+      TraceText("rider movement is intercepted\n");
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult(%u,result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_taboo_violated_leaper(move_effect_journal_index_type movement)
+{
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",movement);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_arrival);
+  TraceWalk(get_walk_of_piece_on_square(sq_arrival));
+  TraceValue("%x",being_solved.spec[sq_arrival]);
+  TraceEOL();
+  if (!is_square_empty(sq_arrival)
+      && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
   {
-    case kingside_castling :
-    {
-      // TODO also test partner movement
-      square s;
-      for (s = sq_departure+dir_right; s!=sq_arrival; s += dir_right)
-        if (!is_square_empty(s))
-        {
-          TraceSquare(s);
-          TraceWalk(get_walk_of_piece_on_square(s));
-          TraceValue("%x",being_solved.spec[s]);
-          TraceEOL();
-          TraceText("castling traversal square blocked\n");
-          return true;
-        }
-      break;
-    }
-
-    case queenside_castling:
-    {
-      // TODO also test partner movement
-      square s;
-      for (s = sq_departure+dir_left; s!=sq_arrival; s += dir_left)
-        if (!is_square_empty(s))
-        {
-          TraceSquare(s);
-          TraceWalk(get_walk_of_piece_on_square(s));
-          TraceValue("%x",being_solved.spec[s]);
-          TraceEOL();
-          TraceText("castling traversal square blocked\n");
-          return true;
-        }
-      break;
-    }
-
-    case pawn_multistep:
-    {
-      square const sq_intermediate = (sq_departure+sq_arrival)/2;
-      if (!is_square_empty(sq_intermediate) || !is_square_empty(sq_arrival))
-      {
-        TraceText("pawn multistep intercepted\n");
-        return true;
-      }
-      break;
-    }
-
-    case messigny_exchange:
-    case retro_capture_departure:
-    case no_capture:
-      break;
-
-    default:
-      break;
+    TraceText("arrival square blocked\n");
+    result = true;
   }
 
-  if (is_rider(walk))
-  {
-    int const diff_move = sq_arrival-sq_departure;
-    int const dir_move = CheckDir[walk][diff_move];
+  TraceFunctionExit(__func__);
+  TraceFunctionResult(%u,result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
-    square s;
-    assert(dir_move!=0);
-    for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+static boolean is_taboo_violated_pawn(move_effect_journal_index_type capture,
+                                      move_effect_journal_index_type movement)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",capture);
+  TraceFunctionParam("%u",movement);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+  {
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    Flags const spec = move_effect_journal[movement].u.piece_movement.movingspec;
+    int const dir_move = TSTFLAG(spec,White) ? dir_up : dir_down;
+    square s = sq_departure;
+
+    do
+    {
+      s += dir_move;
       if (!is_square_empty(s))
       {
-        TraceText("rider move intercepted\n");
-        return true;
+        TraceText("non-capturing pawn move blocked\n");
+        result = true;
+        break;
       }
-  }
-  else if (is_pawn(walk))
-  {
-    if (sq_capture==no_capture && !is_square_empty(sq_arrival))
-    {
-      TraceText("pawn move blocked\n");
-      return true;
     }
+    while (s!=sq_arrival);
   }
+  else
+    result = is_taboo_violated_leaper(movement);
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult(%u,result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_taboo_violated(void)
+{
+  boolean result = false;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = base; curr!=top && !result; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    {
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+
+      assert(sq_departure!=move_by_invisible);
+      assert(sq_departure<capture_by_invisible);
+
+      if (is_rider(walk))
+        result = is_taboo_violated_rider(movement,walk);
+      else if (walk==King)
+      {
+        if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
+          /* faking a rook movement by the king */
+          result = is_taboo_violated_rider(movement,Rook);
+        else
+          result = is_taboo_violated_leaper(movement);
+      }
+      else if (is_leaper(walk))
+        result = is_taboo_violated_leaper(movement);
+      else if (is_pawn(walk))
+        result = is_taboo_violated_pawn(capture,movement);
+      else
+        assert(0);
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult(%u,result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void done_intercepting_illegal_checks(void)
