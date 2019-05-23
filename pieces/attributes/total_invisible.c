@@ -2300,152 +2300,161 @@ static void flesh_out_move_by_existing_invisible(square sq_departure)
 
 static void flesh_out_move_by_specific_invisible(square sq_departure)
 {
-  piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
-  Flags const flags_on_square = being_solved.spec[sq_departure];
+  Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  TraceWalk(walk_on_square);
-  TraceValue("%x",flags_on_square);
-  TraceEOL();
-
-  // TODO use a sibling ply and the regular move generation machinery?
-
-  if (walk_on_square==Dummy)
+  if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+      && TSTFLAG(being_solved.spec[sq_departure],side_playing))
   {
-    Side const side_playing = trait[nbply];
-    Side const side_under_attack = advers(side_playing);
-    square const king_pos = being_solved.king_square[side_under_attack];
+    piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
+    Flags const flags_on_square = being_solved.spec[sq_departure];
 
-    assert(play_phase==play_validating_mate);
+    Flags const save_flags = being_solved.spec[sq_departure];
+    CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
-    assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
-    assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
+    TraceWalk(walk_on_square);
+    TraceValue("%x",flags_on_square);
+    TraceEOL();
 
-    if (!end_of_iteration)
+    // TODO use a sibling ply and the regular move generation machinery?
+
+    if (walk_on_square==Dummy)
     {
-      if (being_solved.king_square[side_playing]==initsquare)
+      Side const side_playing = trait[nbply];
+      Side const side_under_attack = advers(side_playing);
+      square const king_pos = being_solved.king_square[side_under_attack];
+
+      assert(play_phase==play_validating_mate);
+
+      assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
+      assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
+
+      if (!end_of_iteration)
       {
-        being_solved.king_square[side_playing] = sq_departure;
-        ++being_solved.number_of_pieces[side_playing][King];
-        replace_walk(sq_departure,King);
-        SETFLAG(being_solved.spec[sq_departure],Royal);
-        if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+        if (being_solved.king_square[side_playing]==initsquare)
+        {
+          being_solved.king_square[side_playing] = sq_departure;
+          ++being_solved.number_of_pieces[side_playing][King];
+          replace_walk(sq_departure,King);
+          SETFLAG(being_solved.spec[sq_departure],Royal);
+          if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+            flesh_out_move_by_existing_invisible(sq_departure);
+          CLRFLAG(being_solved.spec[sq_departure],Royal);
+          --being_solved.number_of_pieces[side_playing][King];
+          being_solved.king_square[side_playing] = initsquare;
+        }
+      }
+
+      if (!end_of_iteration)
+      {
+        SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
+        SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
+        if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
+        {
+          ++being_solved.number_of_pieces[side_playing][Pawn];
+          replace_walk(sq_departure,Pawn);
+          if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
+            flesh_out_move_by_existing_invisible(sq_departure);
+          --being_solved.number_of_pieces[side_playing][Pawn];
+        }
+      }
+
+      if (!end_of_iteration)
+      {
+        ++being_solved.number_of_pieces[side_playing][Knight];
+        replace_walk(sq_departure,Knight);
+        if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
           flesh_out_move_by_existing_invisible(sq_departure);
-        CLRFLAG(being_solved.spec[sq_departure],Royal);
-        --being_solved.number_of_pieces[side_playing][King];
-        being_solved.king_square[side_playing] = initsquare;
+        --being_solved.number_of_pieces[side_playing][Knight];
+      }
+
+      if (!end_of_iteration)
+      {
+        ++being_solved.number_of_pieces[side_playing][Bishop];
+        replace_walk(sq_departure,Bishop);
+        if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_bishop_start,vec_bishop_end,
+                                            Bishop))
+          flesh_out_move_by_existing_invisible(sq_departure);
+        --being_solved.number_of_pieces[side_playing][Bishop];
+      }
+
+      if (!end_of_iteration)
+      {
+        ++being_solved.number_of_pieces[side_playing][Rook];
+        replace_walk(sq_departure,Rook);
+        if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_rook_start,vec_rook_end,
+                                            Rook))
+          flesh_out_move_by_existing_invisible(sq_departure);
+        --being_solved.number_of_pieces[side_playing][Rook];
+      }
+
+      if (!end_of_iteration)
+      {
+        ++being_solved.number_of_pieces[side_playing][Queen];
+        replace_walk(sq_departure,Queen);
+        if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_queen_start,vec_queen_end,
+                                            Queen))
+          flesh_out_move_by_existing_invisible(sq_departure);
+        --being_solved.number_of_pieces[side_playing][Queen];
       }
     }
+    else
+      flesh_out_move_by_existing_invisible(sq_departure);
 
-    if (!end_of_iteration)
-    {
-      SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
-      SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
-      if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
-      {
-        ++being_solved.number_of_pieces[side_playing][Pawn];
-        replace_walk(sq_departure,Pawn);
-        if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
-          flesh_out_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[side_playing][Pawn];
-      }
-    }
+    replace_walk(sq_departure,walk_on_square);
+    being_solved.spec[sq_departure] = flags_on_square;
 
-    if (!end_of_iteration)
-    {
-      ++being_solved.number_of_pieces[side_playing][Knight];
-      replace_walk(sq_departure,Knight);
-      if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
-        flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[side_playing][Knight];
-    }
-
-    if (!end_of_iteration)
-    {
-      ++being_solved.number_of_pieces[side_playing][Bishop];
-      replace_walk(sq_departure,Bishop);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_bishop_start,vec_bishop_end,
-                                          Bishop))
-        flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[side_playing][Bishop];
-    }
-
-    if (!end_of_iteration)
-    {
-      ++being_solved.number_of_pieces[side_playing][Rook];
-      replace_walk(sq_departure,Rook);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_rook_start,vec_rook_end,
-                                          Rook))
-        flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[side_playing][Rook];
-    }
-
-    if (!end_of_iteration)
-    {
-      ++being_solved.number_of_pieces[side_playing][Queen];
-      replace_walk(sq_departure,Queen);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_queen_start,vec_queen_end,
-                                          Queen))
-        flesh_out_move_by_existing_invisible(sq_departure);
-      --being_solved.number_of_pieces[side_playing][Queen];
-    }
+    being_solved.spec[sq_departure] = save_flags;
   }
-  else
-    flesh_out_move_by_existing_invisible(sq_departure);
-
-  replace_walk(sq_departure,walk_on_square);
-  being_solved.spec[sq_departure] = flags_on_square;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_move_by_invisible(void)
+static void flesh_out_move_by_invisible(square first_taboo_violation)
 {
-  Side const side_playing = trait[nbply];
-  square const *s;
-
   TraceFunctionEntry(__func__);
+  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,side_playing);
   TraceEOL();
 
-  for (s = boardnum; *s && !end_of_iteration; ++s)
-    if (TSTFLAG(being_solved.spec[*s],Chameleon)
-        && TSTFLAG(being_solved.spec[*s],side_playing))
-    {
-      Flags const save_flags = being_solved.spec[*s];
-      CLRFLAG(being_solved.spec[*s],advers(side_playing));
-      flesh_out_move_by_specific_invisible(*s);
-      being_solved.spec[*s] = save_flags;
-    }
-
-  TraceText("random move by unplaced invisible\n");
-  // TODO Strictly speaking, there is no guarantee that such a move exists
-  // but we probably save a lot of time by not fleshing it out. As long as we
-  // restrict ourselves to h#n, the risk is printing some wrong cooks.
-  // Options:
-  // * find out how hight the cost would be
-  // * fleshing it out
-  // * option for activating fleshing out
+  if (first_taboo_violation==nullsquare)
   {
-    consumption_type const save_consumption = current_consumption;
-    current_consumption.claimed[side_playing] = true;
-    TraceConsumption();TraceEOL();
+    square const *s;
+    for (s = boardnum; *s && !end_of_iteration; ++s)
+      flesh_out_move_by_specific_invisible(*s);
 
-    if (nr_total_invisbles_consumed()<=total_invisible_number)
-      done_fleshing_out_move_by_invisible();
+    TraceText("random move by unplaced invisible\n");
+    // TODO Strictly speaking, there is no guarantee that such a move exists
+    // but we probably save a lot of time by not fleshing it out. As long as we
+    // restrict ourselves to h#n, the risk is printing some wrong cooks.
+    // Options:
+    // * find out how hight the cost would be
+    // * fleshing it out
+    // * option for activating fleshing out
+    {
+      consumption_type const save_consumption = current_consumption;
 
-    current_consumption = save_consumption;
-    TraceConsumption();TraceEOL();
+      current_consumption.claimed[trait[nbply]] = true;
+      TraceConsumption();TraceEOL();
+
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+        done_fleshing_out_move_by_invisible();
+
+      current_consumption = save_consumption;
+      TraceConsumption();TraceEOL();
+    }
   }
+  else
+    flesh_out_move_by_specific_invisible(first_taboo_violation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2948,25 +2957,26 @@ static square find_taboo_violation(void)
       piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
-      assert(sq_departure!=move_by_invisible);
-      assert(sq_departure<capture_by_invisible);
-
-      if (is_rider(walk))
-        result = find_taboo_violation_rider(movement,walk);
-      else if (walk==King)
+      if (sq_departure!=move_by_invisible
+          && sq_departure<capture_by_invisible)
       {
-        if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
-          /* faking a rook movement by the king */
-          result = find_taboo_violation_rider(movement,Rook);
-        else
+        if (is_rider(walk))
+          result = find_taboo_violation_rider(movement,walk);
+        else if (walk==King)
+        {
+          if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
+            /* faking a rook movement by the king */
+            result = find_taboo_violation_rider(movement,Rook);
+          else
+            result = find_taboo_violation_leaper(movement);
+        }
+        else if (is_leaper(walk))
           result = find_taboo_violation_leaper(movement);
+        else if (is_pawn(walk))
+          result = find_taboo_violation_pawn(capture,movement);
+        else
+          assert(0);
       }
-      else if (is_leaper(walk))
-        result = find_taboo_violation_leaper(movement);
-      else if (is_pawn(walk))
-        result = find_taboo_violation_pawn(capture,movement);
-      else
-        assert(0);
     }
 
   TraceFunctionExit(__func__);
@@ -2986,6 +2996,7 @@ static void done_intercepting_illegal_checks(void)
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    square const first_taboo_violation = find_taboo_violation();
 
     TraceValue("%u",nbply);
     TraceValue("%u",top_ply_of_regular_play);
@@ -2999,14 +3010,17 @@ static void done_intercepting_illegal_checks(void)
     TraceEOL();
 
     if (nbply<=flesh_out_move_highwater)
-      adapt_pre_capture_effect();
+    {
+      if (first_taboo_violation==nullsquare)
+        adapt_pre_capture_effect();
+    }
     else if (sq_departure>=capture_by_invisible
              && is_on_board(sq_arrival))
       flesh_out_capture_by_invisible();
     else if (sq_departure==move_by_invisible
              && sq_arrival==move_by_invisible)
-      flesh_out_move_by_invisible();
-    else if (find_taboo_violation()==nullsquare)
+      flesh_out_move_by_invisible(first_taboo_violation);
+    else if (first_taboo_violation==nullsquare)
       adapt_pre_capture_effect();
     else
     {
