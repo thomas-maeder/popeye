@@ -2818,14 +2818,14 @@ static void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static boolean is_taboo_violated_rider(move_effect_journal_index_type movement,
-                                       piece_walk_type walk)
+static square find_taboo_violation_rider(move_effect_journal_index_type movement,
+                                         piece_walk_type walk)
 {
-  boolean result = false;
+  square result = nullsquare;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-  int const diff_move = sq_arrival-sq_departure;
+  int const diff_move = sq_arrival - sq_departure;
   int const dir_move = CheckDir[walk][diff_move];
 
   square s;
@@ -2839,32 +2839,36 @@ static boolean is_taboo_violated_rider(move_effect_journal_index_type movement,
   TraceWalk(get_walk_of_piece_on_square(sq_arrival));
   TraceValue("%x",being_solved.spec[sq_arrival]);
   TraceEOL();
+
   if (!is_square_empty(sq_arrival)
       && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
   {
     TraceText("arrival square blocked\n");
-    result = true;
+    result = sq_arrival;
+  }
+  else
+  {
+    assert(dir_move!=0);
+    for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+      if (!is_square_empty (s))
+      {
+        TraceText("rider movement is intercepted\n");
+        result = s;
+        break;
+      }
   }
 
-  assert(dir_move!=0);
-  for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
-    if (!is_square_empty(s))
-    {
-      TraceText("rider movement is intercepted\n");
-      result = true;
-      break;
-    }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult(%u,result);
+  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
 
-static boolean is_taboo_violated_leaper(move_effect_journal_index_type movement)
+static square find_taboo_violation_leaper(move_effect_journal_index_type movement)
 {
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  boolean result = false;
+  square result = nullsquare;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",movement);
@@ -2878,19 +2882,19 @@ static boolean is_taboo_violated_leaper(move_effect_journal_index_type movement)
       && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
   {
     TraceText("arrival square blocked\n");
-    result = true;
+    result = sq_arrival;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult(%u,result);
+  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
 
-static boolean is_taboo_violated_pawn(move_effect_journal_index_type capture,
-                                      move_effect_journal_index_type movement)
+static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
+                                        move_effect_journal_index_type movement)
 {
-  boolean result = false;
+  square result = nullsquare;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",capture);
@@ -2911,24 +2915,24 @@ static boolean is_taboo_violated_pawn(move_effect_journal_index_type capture,
       if (!is_square_empty(s))
       {
         TraceText("non-capturing pawn move blocked\n");
-        result = true;
+        result = s;
         break;
       }
     }
     while (s!=sq_arrival);
   }
   else
-    result = is_taboo_violated_leaper(movement);
+    result = find_taboo_violation_leaper(movement);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult(%u,result);
+  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
 
-static boolean is_taboo_violated(void)
+static square find_taboo_violation(void)
 {
-  boolean result = false;
+  square result = nullsquare;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
@@ -2936,7 +2940,7 @@ static boolean is_taboo_violated(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (curr = base; curr!=top && !result; ++curr)
+  for (curr = base; curr!=top && result==nullsquare; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
       move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -2948,25 +2952,25 @@ static boolean is_taboo_violated(void)
       assert(sq_departure<capture_by_invisible);
 
       if (is_rider(walk))
-        result = is_taboo_violated_rider(movement,walk);
+        result = find_taboo_violation_rider(movement,walk);
       else if (walk==King)
       {
         if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
           /* faking a rook movement by the king */
-          result = is_taboo_violated_rider(movement,Rook);
+          result = find_taboo_violation_rider(movement,Rook);
         else
-          result = is_taboo_violated_leaper(movement);
+          result = find_taboo_violation_leaper(movement);
       }
       else if (is_leaper(walk))
-        result = is_taboo_violated_leaper(movement);
+        result = find_taboo_violation_leaper(movement);
       else if (is_pawn(walk))
-        result = is_taboo_violated_pawn(capture,movement);
+        result = find_taboo_violation_pawn(capture,movement);
       else
         assert(0);
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult(%u,result);
+  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -3002,12 +3006,12 @@ static void done_intercepting_illegal_checks(void)
     else if (sq_departure==move_by_invisible
              && sq_arrival==move_by_invisible)
       flesh_out_move_by_invisible();
-    else if (is_taboo_violated())
+    else if (find_taboo_violation()==nullsquare)
+      adapt_pre_capture_effect();
+    else
     {
       // TODO try to prevent taboos from being violated
     }
-    else
-      adapt_pre_capture_effect();
   }
   else
     validate_king_placements();
