@@ -219,7 +219,19 @@ static boolean is_taboo(square s, Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  result = taboo_arrival[nbply][side][s];
+  if (taboo_arrival[nbply][side][s])
+    result = true;
+  else
+  {
+    if (nbply<top_ply_of_regular_play && trait[nbply+1]==side)
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply+1];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      if (s==sq_arrival)
+        result = true;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
