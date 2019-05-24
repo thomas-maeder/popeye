@@ -3224,46 +3224,55 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     consumption_type const save_consumption = current_consumption;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
-    if (!was_taboo(s) && !(is_taboo(s,White) && is_taboo(s,Black)))
+    if (!was_taboo(s))
     {
-      assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-      TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
       SetPieceId(spec,++next_invisible_piece_id);
       occupy_square(s,Dummy,spec);
 
       ++current_consumption.placed;
 
       // TODO factor out duplication
-      CLRFLAG(being_solved.spec[s],Black);
-      if (current_consumption.claimed[White])
+      if (!is_taboo(s,White))
       {
-        current_consumption.claimed[White] = false;
-        TraceConsumption();TraceEOL();
-        if (nr_total_invisbles_consumed()<=total_invisible_number)
-          (*recurse)(kcurr+1);
-        current_consumption.claimed[White] = true;
-        TraceConsumption();TraceEOL();
-      }
-      else if (nr_total_invisbles_consumed()<=total_invisible_number)
-        (*recurse)(kcurr+1);
-      SETFLAG(being_solved.spec[s],Black);
+        assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
+        TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
-      if (!end_of_iteration)
-      {
-        CLRFLAG(being_solved.spec[s],White);
-        if (current_consumption.claimed[Black])
+        CLRFLAG(being_solved.spec[s],Black);
+        if (current_consumption.claimed[White])
         {
-          current_consumption.claimed[Black] = false;
+          current_consumption.claimed[White] = false;
           TraceConsumption();TraceEOL();
           if (nr_total_invisbles_consumed()<=total_invisible_number)
             (*recurse)(kcurr+1);
-          current_consumption.claimed[Black] = true;
+          current_consumption.claimed[White] = true;
           TraceConsumption();TraceEOL();
         }
         else if (nr_total_invisbles_consumed()<=total_invisible_number)
           (*recurse)(kcurr+1);
-        SETFLAG(being_solved.spec[s],White);
+        SETFLAG(being_solved.spec[s],Black);
+      }
+
+      if (!end_of_iteration)
+      {
+        if (!is_taboo(s,Black))
+        {
+          assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
+          TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
+
+          CLRFLAG(being_solved.spec[s],White);
+          if (current_consumption.claimed[Black])
+          {
+            current_consumption.claimed[Black] = false;
+            TraceConsumption();TraceEOL();
+            if (nr_total_invisbles_consumed()<=total_invisible_number)
+              (*recurse)(kcurr+1);
+            current_consumption.claimed[Black] = true;
+            TraceConsumption();TraceEOL();
+          }
+          else if (nr_total_invisbles_consumed()<=total_invisible_number)
+            (*recurse)(kcurr+1);
+          SETFLAG(being_solved.spec[s],White);
+        }
       }
 
       current_consumption = save_consumption;
