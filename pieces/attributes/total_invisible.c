@@ -2046,7 +2046,7 @@ static void adapt_pre_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_move_by_invisible(void)
+static void done_fleshing_out_random_move_by_invisible(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2082,7 +2082,7 @@ static void flesh_out_accidental_capture_by_invisible(void)
     move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
     move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
 
-    done_fleshing_out_move_by_invisible();
+    done_fleshing_out_random_move_by_invisible();
 
     move_effect_journal[capture].type = move_effect_no_piece_removal;
   }
@@ -2106,10 +2106,10 @@ static void flesh_out_random_move_by_invisible_pawn(void)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      if (taboo_arrival[nbply][trait[nbply]][sq_singlestep]==0)
+      if (taboo_arrival[nbply+1][trait[nbply]][sq_singlestep]==0)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
-        done_fleshing_out_move_by_invisible();
+        done_fleshing_out_random_move_by_invisible();
       }
 
       if (!end_of_iteration)
@@ -2121,10 +2121,10 @@ static void flesh_out_random_move_by_invisible_pawn(void)
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (taboo_arrival[nbply][trait[nbply]][sq_doublestep]==0)
+            if (taboo_arrival[nbply+1][trait[nbply]][sq_doublestep]==0)
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
-              done_fleshing_out_move_by_invisible();
+              done_fleshing_out_random_move_by_invisible();
             }
           }
         }
@@ -2178,8 +2178,8 @@ static void flesh_out_random_move_by_invisible_rider(vec_index_type kstart,
 
       if (is_square_empty(sq_arrival))
       {
-        if (taboo_arrival[nbply][trait[nbply]][sq_arrival]==0)
-          done_fleshing_out_move_by_invisible();
+        if (taboo_arrival[nbply+1][trait[nbply]][sq_arrival]==0)
+          done_fleshing_out_random_move_by_invisible();
       }
       else
       {
@@ -2216,14 +2216,14 @@ static void flesh_out_random_move_by_invisible_leaper(vec_index_type kstart,
     TraceSquare(sq_arrival);
     TraceValue("%u",taboo_arrival[nbply][trait[nbply]][sq_arrival]);
     TraceEOL();
-    if (taboo_arrival[nbply][trait[nbply]][sq_arrival]==0)
+    if (taboo_arrival[nbply+1][trait[nbply]][sq_arrival]==0)
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
       if (is_square_empty(sq_arrival))
-        done_fleshing_out_move_by_invisible();
+        done_fleshing_out_random_move_by_invisible();
       else
         flesh_out_accidental_capture_by_invisible();
     }
@@ -2423,9 +2423,6 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,side_playing);
-  TraceEOL();
-
   if (first_taboo_violation==nullsquare)
   {
     square const *s;
@@ -2447,7 +2444,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
       TraceConsumption();TraceEOL();
 
       if (nr_total_invisbles_consumed()<=total_invisible_number)
-        done_fleshing_out_move_by_invisible();
+        done_fleshing_out_random_move_by_invisible();
 
       current_consumption = save_consumption;
       TraceConsumption();TraceEOL();
@@ -2799,7 +2796,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  // TODO refuse capturing a rook that has just castled
   flesh_out_capture_by_invisible_king(first_taboo_violation);
   TraceValue("%u",end_of_iteration);TraceEOL();
   flesh_out_capture_by_invisible_pawn(first_taboo_violation);
@@ -3046,6 +3042,7 @@ static void done_intercepting_illegal_checks(void)
     else
     {
       // TODO try to prevent taboos from being or remaining violated in the first place
+//      assert(0);
     }
   }
   else
