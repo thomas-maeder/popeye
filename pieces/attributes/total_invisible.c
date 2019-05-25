@@ -2228,15 +2228,15 @@ static void flesh_out_random_move_by_invisible_rider(vec_index_type kstart,
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
 
-      if (is_square_empty(sq_arrival))
+      if (!is_taboo(sq_arrival,trait[nbply]))
       {
-        if (taboo_arrival[nbply+1][trait[nbply]][sq_arrival]==0)
+        if (is_square_empty(sq_arrival))
           done_fleshing_out_random_move_by_invisible();
-      }
-      else
-      {
-        flesh_out_accidental_capture_by_invisible();
-        break;
+        else
+        {
+          flesh_out_accidental_capture_by_invisible();
+          break;
+        }
       }
     }
   }
@@ -2265,10 +2265,7 @@ static void flesh_out_random_move_by_invisible_leaper(vec_index_type kstart,
   for (k = kstart; k<=kend && !end_of_iteration; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    TraceSquare(sq_arrival);
-    TraceValue("%u",taboo_arrival[nbply][trait[nbply]][sq_arrival]);
-    TraceEOL();
-    if (taboo_arrival[nbply+1][trait[nbply]][sq_arrival]==0)
+    if (!is_taboo(sq_arrival,trait[nbply]))
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
