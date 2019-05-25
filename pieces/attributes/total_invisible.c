@@ -210,28 +210,60 @@ static boolean was_taboo(square s)
   return result;
 }
 
+static boolean is_taboo_candidate_removed(ply ply, square s)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+  {
+    square const sq_removal = move_effect_journal[capture].u.piece_removal.on;
+    if (sq_removal==s)
+      result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_taboo(square s, Side side)
 {
   boolean result = false;
+  ply ply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  if (taboo_arrival[nbply][side][s])
-    result = true;
-  else
-  {
-    if (nbply<top_ply_of_regular_play && trait[nbply+1]==side)
+  for (ply = nbply; ply<=top_ply_of_regular_play; ++ply)
+    if (taboo_arrival[ply][side][s])
     {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply+1];
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-      if (s==sq_arrival)
-        result = true;
+      TraceValue("%u",ply);
+      TraceValue("%u",taboo_arrival[ply][side][s]);
+      TraceEOL();
+      result = true;
+      break;
     }
-  }
+    else if (is_taboo_candidate_removed(ply,s))
+      break;
+    else if (side==trait[ply])
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+      TraceEOL();
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
