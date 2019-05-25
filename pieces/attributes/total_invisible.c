@@ -240,6 +240,26 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
   return result;
 }
 
+static boolean is_random_move_by_invisible(ply ply)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+  result = move_effect_journal[movement].u.piece_movement.from==move_by_invisible;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_taboo(square s, Side side)
 {
   boolean result = false;
@@ -259,15 +279,14 @@ static boolean is_taboo(square s, Side side)
       result = true;
       break;
     }
-    else if (is_taboo_candidate_captured(ply,s))
-      break;
     else if (side==trait[ply])
     {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      TraceSquare(move_effect_journal[movement].u.piece_movement.from);
-      TraceEOL();
-      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
+      if (is_random_move_by_invisible(ply))
+        break;
+    }
+    else
+    {
+      if (is_taboo_candidate_captured(ply,s))
         break;
     }
   // TODO what if two taboos have to be lifted in the same ply?
