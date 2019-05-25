@@ -210,10 +210,12 @@ static boolean was_taboo(square s)
   return result;
 }
 
-static boolean is_taboo_candidate_removed(ply ply, square s)
+static boolean is_taboo_candidate_captured(ply ply, square s)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -221,10 +223,14 @@ static boolean is_taboo_candidate_removed(ply ply, square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+  if (sq_arrival==s)
+    /* accidental capture */
+    result = true;
+  else if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
-    square const sq_removal = move_effect_journal[capture].u.piece_removal.on;
-    if (sq_removal==s)
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+    if (sq_capture==s)
+      /* planned capture */
       result = true;
   }
 
@@ -253,7 +259,7 @@ static boolean is_taboo(square s, Side side)
       result = true;
       break;
     }
-    else if (is_taboo_candidate_removed(ply,s))
+    else if (is_taboo_candidate_captured(ply,s))
       break;
     else if (side==trait[ply])
     {
