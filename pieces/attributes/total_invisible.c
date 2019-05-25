@@ -2158,7 +2158,7 @@ static void flesh_out_random_move_by_invisible_pawn(void)
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      if (taboo_arrival[nbply+1][trait[nbply]][sq_singlestep]==0)
+      if (!is_taboo(sq_singlestep,side))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         done_fleshing_out_random_move_by_invisible();
@@ -2173,7 +2173,7 @@ static void flesh_out_random_move_by_invisible_pawn(void)
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (taboo_arrival[nbply+1][trait[nbply]][sq_doublestep]==0)
+            if (!is_taboo(sq_doublestep,side))
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               done_fleshing_out_random_move_by_invisible();
@@ -3300,7 +3300,10 @@ static void place_interceptor_on_square(vec_index_type kcurr,
           TraceConsumption();TraceEOL();
         }
         else if (nr_total_invisbles_consumed()<=total_invisible_number)
+        {
+          TraceConsumption();TraceEOL();
           (*recurse)(kcurr+1);
+        }
         SETFLAG(being_solved.spec[s],Black);
       }
 
@@ -3322,7 +3325,10 @@ static void place_interceptor_on_square(vec_index_type kcurr,
             TraceConsumption();TraceEOL();
           }
           else if (nr_total_invisbles_consumed()<=total_invisible_number)
+          {
+            TraceConsumption();TraceEOL();
             (*recurse)(kcurr+1);
+          }
           SETFLAG(being_solved.spec[s],White);
         }
       }
