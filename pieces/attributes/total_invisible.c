@@ -264,6 +264,8 @@ static boolean is_taboo(square s, Side side)
       if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
         break;
     }
+  // TODO what if two taboos have to be lifted in the same ply?
+  // TODO what about captures by invisible?
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
