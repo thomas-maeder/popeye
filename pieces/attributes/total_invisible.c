@@ -175,6 +175,25 @@ static boolean revelation_status_is_uninitialised;
 static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
 
+typedef enum
+{
+  purpose_none,
+  purpose_victim,
+  purpose_interceptor,
+  purpose_capturer,
+  purpose_castling_partner,
+  purpose_attacker
+} purpose_type;
+
+typedef struct
+{
+    purpose_type purpose;
+    ply when;
+    square on;
+} motivation_type;
+
+static motivation_type motivation[MaxPieceId+1];
+
 static ply flesh_out_move_highwater = ply_retro_move;
 
 static PieceIdType next_invisible_piece_id;
@@ -2632,39 +2651,50 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
 
-    /* deactivate the pre-capture insertion of the moving total invisible since
-     * that piece is already on the board
-     */
-    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-    move_effect_journal[precapture].type = move_effect_none;
-
-    if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
+    TraceValue("%u",id);
+    TraceValue("%u",motivation[id].purpose);
+    TraceEOL();
+    assert(motivation[id].purpose!=purpose_none);
+    if (motivation[id].purpose==purpose_attacker)
+      TraceText("the piece on the departure square was placed as an attacker\n");
+    else
     {
-      assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-      done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
-    }
-    else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
-    {
-      Side const side_in_check = trait[nbply-1];
-      square const king_pos = being_solved.king_square[side_in_check];
-      Flags const save_flags = being_solved.spec[sq_departure];
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
 
-      ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-      replace_walk(sq_departure,walk_capturing);
-      CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+      /* deactivate the pre-capture insertion of the moving total invisible since
+       * that piece is already on the board
+       */
+      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+      move_effect_journal[precapture].type = move_effect_none;
 
-      if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
+      if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
+      {
+        assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
         done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+      }
+      else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
+      {
+        Side const side_in_check = trait[nbply-1];
+        square const king_pos = being_solved.king_square[side_in_check];
+        Flags const save_flags = being_solved.spec[sq_departure];
 
-      being_solved.spec[sq_departure] = save_flags;
-      replace_walk(sq_departure,Dummy);
-      --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+        ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+        replace_walk(sq_departure,walk_capturing);
+        CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+
+        if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
+          done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+
+        being_solved.spec[sq_departure] = save_flags;
+        replace_walk(sq_departure,Dummy);
+        --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+      }
+
+      move_effect_journal[precapture].type = move_effect_piece_readdition;
     }
-
-    move_effect_journal[precapture].type = move_effect_piece_readdition;
   }
 
   TraceFunctionExit(__func__);
@@ -3134,6 +3164,10 @@ static void walk_interceptor_any_walk(Side side,
 
   ++being_solved.number_of_pieces[side][walk];
   SetPieceId(spec,++next_invisible_piece_id);
+  assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+  motivation[next_invisible_piece_id].purpose = purpose_interceptor;
+  motivation[next_invisible_piece_id].when = nbply;
+  motivation[next_invisible_piece_id].on = pos;
   occupy_square(pos,walk,spec);
   if (walk==King)
   {
@@ -3162,6 +3196,7 @@ static void walk_interceptor_any_walk(Side side,
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==walk);
   empty_square(pos);
+  motivation[next_invisible_piece_id].purpose = purpose_none;
   --next_invisible_piece_id;
   --being_solved.number_of_pieces[side][walk];
 
@@ -3295,6 +3330,10 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     if (!was_taboo(s))
     {
       SetPieceId(spec,++next_invisible_piece_id);
+      assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+      motivation[next_invisible_piece_id].purpose = purpose_interceptor;
+      motivation[next_invisible_piece_id].when = nbply;
+      motivation[next_invisible_piece_id].on = s;
       occupy_square(s,Dummy,spec);
 
       ++current_consumption.placed;
@@ -3353,6 +3392,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
       TraceConsumption();TraceEOL();
 
       empty_square(s);
+      motivation[next_invisible_piece_id].purpose = purpose_none;
       --next_invisible_piece_id;
     }
   }
@@ -3517,9 +3557,17 @@ static void place_mating_piece_attacker(Side side_attacking,
   {
     ++being_solved.number_of_pieces[side_attacking][walk];
     SetPieceId(spec,++next_invisible_piece_id);
+    assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+    motivation[next_invisible_piece_id].purpose = purpose_attacker;
+    motivation[next_invisible_piece_id].when = top_ply_of_regular_play;
+    motivation[next_invisible_piece_id].on = s;
+    TraceValue("%u",next_invisible_piece_id);
+    TraceValue("%u",motivation[next_invisible_piece_id].purpose);
+    TraceEOL();
     occupy_square(s,walk,spec);
     start_iteration();
     empty_square(s);
+    motivation[next_invisible_piece_id].purpose = purpose_none;
     --next_invisible_piece_id;
     --being_solved.number_of_pieces[side_attacking][walk];
   }
@@ -4587,6 +4635,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
       SetPieceId(spec,++next_invisible_piece_id);
+      assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+      motivation[next_invisible_piece_id].purpose = purpose_capturer;
+      motivation[next_invisible_piece_id].when = nbply;
+      motivation[next_invisible_piece_id].on = sq_departure;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -4595,6 +4647,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
        * adjustment when we flesh out this capture by inserting a new invisible.
        */
       pipe_solve_delegate(si);
+      motivation[next_invisible_piece_id].purpose = purpose_none;
       --next_invisible_piece_id;
     }
     else
@@ -4627,7 +4680,12 @@ void total_invisible_special_moves_player_solve(slice_index si)
               SetPieceId(spec,++next_invisible_piece_id);
               move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                                       square_h,Rook,spec,side);
+              assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+              motivation[next_invisible_piece_id].purpose = purpose_castling_partner;
+              motivation[next_invisible_piece_id].when = nbply;
+              motivation[next_invisible_piece_id].on = square_h;
               pipe_solve_delegate(si);
+              motivation[next_invisible_piece_id].purpose = purpose_none;
               --next_invisible_piece_id;
             }
             else
@@ -4664,7 +4722,12 @@ void total_invisible_special_moves_player_solve(slice_index si)
               SetPieceId(spec,++next_invisible_piece_id);
               move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                                       square_a,Rook,spec,side);
+              assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+              motivation[next_invisible_piece_id].purpose = purpose_castling_partner;
+              motivation[next_invisible_piece_id].when = nbply;
+              motivation[next_invisible_piece_id].on = square_a;
               pipe_solve_delegate(si);
+              motivation[next_invisible_piece_id].purpose = purpose_none;
               --next_invisible_piece_id;
             }
             else
@@ -4697,6 +4760,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Flags spec = BIT(side_victim)|BIT(Chameleon);
 
             SetPieceId(spec,++next_invisible_piece_id);
+            assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+            motivation[next_invisible_piece_id].purpose = purpose_victim;
+            motivation[next_invisible_piece_id].when = nbply;
+            motivation[next_invisible_piece_id].on = sq_capture;
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
@@ -4705,6 +4772,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
              */
             pipe_solve_delegate(si);
 
+            motivation[next_invisible_piece_id].purpose = purpose_none;
             --next_invisible_piece_id;
           }
           else
