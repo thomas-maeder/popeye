@@ -2628,7 +2628,7 @@ static void done_fleshing_out_capture_by_existing_invisible(piece_walk_type walk
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   update_taboo_arrival(+1);
-  recurse_into_child_ply();
+  restart_from_scratch();
   update_taboo_arrival(-1);
 
   TraceFunctionExit(__func__);
@@ -2655,10 +2655,13 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
     TraceValue("%u",id);
     TraceValue("%u",motivation[id].purpose);
+    TraceValue("%u",motivation[id].when);
     TraceEOL();
     assert(motivation[id].purpose!=purpose_none);
     if (motivation[id].purpose==purpose_attacker)
       TraceText("the piece on the departure square was placed as an attacker\n");
+    else if (motivation[id].purpose==purpose_interceptor && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as an interceptor\n");
     else
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
