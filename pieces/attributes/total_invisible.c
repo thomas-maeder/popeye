@@ -2396,108 +2396,131 @@ static void flesh_out_random_move_by_specific_invisible(square sq_departure)
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],side_playing))
   {
-    piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
-    Flags const flags_on_square = being_solved.spec[sq_departure];
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
 
-    Flags const save_flags = being_solved.spec[sq_departure];
-    CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
-
-    TraceWalk(walk_on_square);
-    TraceValue("%x",flags_on_square);
+    TraceValue("%u",id);
+    TraceValue("%u",motivation[id].purpose);
+    TraceValue("%u",motivation[id].when);
     TraceEOL();
+    assert(motivation[id].purpose!=purpose_none);
 
-    // TODO use a sibling ply and the regular move generation machinery?
-
-    if (walk_on_square==Dummy)
-    {
-      Side const side_playing = trait[nbply];
-      Side const side_under_attack = advers(side_playing);
-      square const king_pos = being_solved.king_square[side_under_attack];
-
-      assert(play_phase==play_validating_mate);
-
-      assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
-      assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
-
-      if (!end_of_iteration)
-      {
-        if (being_solved.king_square[side_playing]==initsquare)
-        {
-          being_solved.king_square[side_playing] = sq_departure;
-          ++being_solved.number_of_pieces[side_playing][King];
-          replace_walk(sq_departure,King);
-          SETFLAG(being_solved.spec[sq_departure],Royal);
-          if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
-            flesh_out_random_move_by_existing_invisible(sq_departure);
-          CLRFLAG(being_solved.spec[sq_departure],Royal);
-          --being_solved.number_of_pieces[side_playing][King];
-          being_solved.king_square[side_playing] = initsquare;
-        }
-      }
-
-      if (!end_of_iteration)
-      {
-        SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
-        SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
-        if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
-        {
-          ++being_solved.number_of_pieces[side_playing][Pawn];
-          replace_walk(sq_departure,Pawn);
-          if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
-            flesh_out_random_move_by_existing_invisible(sq_departure);
-          --being_solved.number_of_pieces[side_playing][Pawn];
-        }
-      }
-
-      if (!end_of_iteration)
-      {
-        ++being_solved.number_of_pieces[side_playing][Knight];
-        replace_walk(sq_departure,Knight);
-        if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
-          flesh_out_random_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[side_playing][Knight];
-      }
-
-      if (!end_of_iteration)
-      {
-        ++being_solved.number_of_pieces[side_playing][Bishop];
-        replace_walk(sq_departure,Bishop);
-        if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_bishop_start,vec_bishop_end,
-                                            Bishop))
-          flesh_out_random_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[side_playing][Bishop];
-      }
-
-      if (!end_of_iteration)
-      {
-        ++being_solved.number_of_pieces[side_playing][Rook];
-        replace_walk(sq_departure,Rook);
-        if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_rook_start,vec_rook_end,
-                                            Rook))
-          flesh_out_random_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[side_playing][Rook];
-      }
-
-      if (!end_of_iteration)
-      {
-        ++being_solved.number_of_pieces[side_playing][Queen];
-        replace_walk(sq_departure,Queen);
-        if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_queen_start,vec_queen_end,
-                                            Queen))
-          flesh_out_random_move_by_existing_invisible(sq_departure);
-        --being_solved.number_of_pieces[side_playing][Queen];
-      }
-    }
+    // TODO less cases might be faster and more readable
+    // TODO generate moves *to* sq_departure for pieces that have a purpose later
+    /*if (motivation[id].purpose==purpose_attacker)
+      TraceText("the piece on the departure square was placed as an attacker\n");
+    else */if (motivation[id].purpose==purpose_interceptor && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as an interceptor\n");
+    else if (motivation[id].purpose==purpose_victim && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as victim of a pawn capture\n");
+    else if (motivation[id].purpose==purpose_castling_partner && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as castling partner\n");
+    else if (motivation[id].purpose==purpose_capturer && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as capturer (elsewhere)\n");
     else
-      flesh_out_random_move_by_existing_invisible(sq_departure);
+    {
+      piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
+      Flags const flags_on_square = being_solved.spec[sq_departure];
 
-    replace_walk(sq_departure,walk_on_square);
-    being_solved.spec[sq_departure] = flags_on_square;
+      Flags const save_flags = being_solved.spec[sq_departure];
+      CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
-    being_solved.spec[sq_departure] = save_flags;
+      TraceWalk(walk_on_square);
+      TraceValue("%x",flags_on_square);
+      TraceEOL();
+
+      // TODO use a sibling ply and the regular move generation machinery?
+
+      if (walk_on_square==Dummy)
+      {
+        Side const side_playing = trait[nbply];
+        Side const side_under_attack = advers(side_playing);
+        square const king_pos = being_solved.king_square[side_under_attack];
+
+        assert(play_phase==play_validating_mate);
+
+        assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
+        assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
+
+        if (!end_of_iteration)
+        {
+          if (being_solved.king_square[side_playing]==initsquare)
+          {
+            being_solved.king_square[side_playing] = sq_departure;
+            ++being_solved.number_of_pieces[side_playing][King];
+            replace_walk(sq_departure,King);
+            SETFLAG(being_solved.spec[sq_departure],Royal);
+            if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+              flesh_out_random_move_by_existing_invisible(sq_departure);
+            CLRFLAG(being_solved.spec[sq_departure],Royal);
+            --being_solved.number_of_pieces[side_playing][King];
+            being_solved.king_square[side_playing] = initsquare;
+          }
+        }
+
+        if (!end_of_iteration)
+        {
+          SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
+          SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
+          if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
+          {
+            ++being_solved.number_of_pieces[side_playing][Pawn];
+            replace_walk(sq_departure,Pawn);
+            if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
+              flesh_out_random_move_by_existing_invisible(sq_departure);
+            --being_solved.number_of_pieces[side_playing][Pawn];
+          }
+        }
+
+        if (!end_of_iteration)
+        {
+          ++being_solved.number_of_pieces[side_playing][Knight];
+          replace_walk(sq_departure,Knight);
+          if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
+            flesh_out_random_move_by_existing_invisible(sq_departure);
+          --being_solved.number_of_pieces[side_playing][Knight];
+        }
+
+        if (!end_of_iteration)
+        {
+          ++being_solved.number_of_pieces[side_playing][Bishop];
+          replace_walk(sq_departure,Bishop);
+          if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                              vec_bishop_start,vec_bishop_end,
+                                              Bishop))
+            flesh_out_random_move_by_existing_invisible(sq_departure);
+          --being_solved.number_of_pieces[side_playing][Bishop];
+        }
+
+        if (!end_of_iteration)
+        {
+          ++being_solved.number_of_pieces[side_playing][Rook];
+          replace_walk(sq_departure,Rook);
+          if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                              vec_rook_start,vec_rook_end,
+                                              Rook))
+            flesh_out_random_move_by_existing_invisible(sq_departure);
+          --being_solved.number_of_pieces[side_playing][Rook];
+        }
+
+        if (!end_of_iteration)
+        {
+          ++being_solved.number_of_pieces[side_playing][Queen];
+          replace_walk(sq_departure,Queen);
+          if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                              vec_queen_start,vec_queen_end,
+                                              Queen))
+            flesh_out_random_move_by_existing_invisible(sq_departure);
+          --being_solved.number_of_pieces[side_playing][Queen];
+        }
+      }
+      else
+        flesh_out_random_move_by_existing_invisible(sq_departure);
+
+      replace_walk(sq_departure,walk_on_square);
+      being_solved.spec[sq_departure] = flags_on_square;
+
+      being_solved.spec[sq_departure] = save_flags;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2658,6 +2681,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceValue("%u",motivation[id].when);
     TraceEOL();
     assert(motivation[id].purpose!=purpose_none);
+    // TODO less cases might be faster and more readable
     if (motivation[id].purpose==purpose_attacker)
       TraceText("the piece on the departure square was placed as an attacker\n");
     else if (motivation[id].purpose==purpose_interceptor && motivation[id].when>nbply)
