@@ -683,10 +683,10 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:   134777546
-                     play_move:    61681638
- is_white_king_square_attacked:     3142783
- is_black_king_square_attacked:    56401846
+  add_to_move_generation_stack:   134753851
+                     play_move:    61665542
+ is_white_king_square_attacked:     3142324
+ is_black_king_square_attacked:    56386209
 
 b) bPe5-->h3  
 

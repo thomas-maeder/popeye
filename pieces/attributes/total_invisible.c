@@ -2166,15 +2166,36 @@ static void flesh_out_accidental_capture_by_invisible(void)
       && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
       && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
   {
-    assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
-    move_effect_journal[capture].type = move_effect_piece_removal;
-    move_effect_journal[capture].u.piece_removal.on = sq_arrival;
-    move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
-    move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
 
-    done_fleshing_out_random_move_by_invisible();
+    TraceValue("%u",id);
+    TraceValue("%u",motivation[id].purpose);
+    TraceValue("%u",motivation[id].when);
+    TraceEOL();
+    assert(motivation[id].purpose!=purpose_none);
+    // TODO less cases might be faster and more readable
+    if (motivation[id].purpose==purpose_attacker)
+      TraceText("the piece on the departure square was placed as an attacker\n");
+    else if (motivation[id].purpose==purpose_interceptor && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as an interceptor\n");
+    else if (motivation[id].purpose==purpose_victim && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as victim of a pawn capture\n");
+    else if (motivation[id].purpose==purpose_castling_partner && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as castling partner\n");
+    else if (motivation[id].purpose==purpose_capturer && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as capturer (elsewhere)\n");
+    else
+    {
+      assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+      move_effect_journal[capture].type = move_effect_piece_removal;
+      move_effect_journal[capture].u.piece_removal.on = sq_arrival;
+      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
+      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
 
-    move_effect_journal[capture].type = move_effect_no_piece_removal;
+      done_fleshing_out_random_move_by_invisible();
+
+      move_effect_journal[capture].type = move_effect_no_piece_removal;
+    }
   }
 
   TraceFunctionExit(__func__);
