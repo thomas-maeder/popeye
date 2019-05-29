@@ -2662,6 +2662,12 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       TraceText("the piece on the departure square was placed as an attacker\n");
     else if (motivation[id].purpose==purpose_interceptor && motivation[id].when>nbply)
       TraceText("the piece on the departure square was placed as an interceptor\n");
+    else if (motivation[id].purpose==purpose_victim && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as victim of a pawn capture\n");
+    else if (motivation[id].purpose==purpose_castling_partner && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as castling partner\n");
+    else if (motivation[id].purpose==purpose_capturer && motivation[id].when>nbply)
+      TraceText("the piece on the departure square was placed as capturer (elsewhere)\n");
     else
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
