@@ -2158,10 +2158,7 @@ static void done_fleshing_out_random_move_by_invisible(void)
   TraceFunctionParamListEnd();
 
   update_taboo_arrival(+1);
-  // TODO shouldn't we restart_from_scratch()?
-  // we may have fleshed out a piece that delivers check!
-  // BUT: currently, we'd run into a stack overflow!
-  recurse_into_child_ply();
+  restart_from_scratch();
   update_taboo_arrival(-1);
 
   TraceFunctionExit(__func__);
@@ -2898,7 +2895,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
         TraceConsumption();TraceEOL();
 
         if (nr_total_invisbles_consumed()<=total_invisible_number)
-          done_fleshing_out_random_move_by_invisible();
+          recurse_into_child_ply();
 
         current_consumption = save_consumption;
         TraceConsumption();TraceEOL();
