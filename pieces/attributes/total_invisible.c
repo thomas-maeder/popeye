@@ -2190,19 +2190,8 @@ static void flesh_out_accidental_capture_by_invisible(void)
     TraceValue("%u",motivation[id].acts_when);
     TraceEOL();
     assert(motivation[id].purpose!=purpose_none);
-    // TODO less cases might be faster and more readable
-    if (motivation[id].purpose==purpose_attacker)
-      TraceText("the piece on the departure square was placed as an attacker\n");
-    else if (motivation[id].purpose==purpose_interceptor && motivation[id].acts_when>nbply)
-      TraceText("the piece on the departure square was placed as an interceptor\n");
-    else if (motivation[id].purpose==purpose_random_mover && motivation[id].acts_when>nbply)
-      TraceText("the piece on the departure square was placed as random mover\n");
-    else if (motivation[id].purpose==purpose_victim && motivation[id].acts_when>nbply)
-      TraceText("the piece on the departure square was placed as victim of a pawn capture\n");
-    else if (motivation[id].purpose==purpose_castling_partner && motivation[id].acts_when>nbply)
-      TraceText("the piece on the departure square was placed as castling partner\n");
-    else if (motivation[id].purpose==purpose_capturer && motivation[id].acts_when>nbply)
-      TraceText("the piece on the departure square was placed as capturer (elsewhere)\n");
+    if (motivation[id].acts_when>nbply)
+      TraceText("the planned victim was added to later act from its current square\n");
     else
     {
       assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
