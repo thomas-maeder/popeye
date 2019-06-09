@@ -2276,15 +2276,20 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
 
-      if (!is_taboo(sq_arrival,trait[nbply]))
+      /* "factoring out" the invokations of is_taboo() is tempting, but we
+       * want to break the loop if sq_arrival is not empty whether or not
+       * that square is taboo!
+       */
+      if (is_square_empty(sq_arrival))
       {
-        if (is_square_empty(sq_arrival))
+        if (!is_taboo(sq_arrival,trait[nbply]))
           done_fleshing_out_random_move_by_invisible();
-        else
-        {
+      }
+      else
+      {
+        if (!is_taboo(sq_arrival,trait[nbply]))
           flesh_out_accidental_capture_by_invisible();
-          break;
-        }
+        break;
       }
     }
   }
