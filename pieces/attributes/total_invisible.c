@@ -5009,6 +5009,53 @@ void total_invisible_generate_special_moves(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void play_castling_with_invisible_partner(slice_index si,
+                                                 square square_partner)
+{
+  Side const side = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(square_partner);
+  TraceFunctionParamListEnd();
+
+  if (is_square_empty(square_partner))
+  {
+    consumption_type const save_consumption = current_consumption;
+    if (allocate_placement_of_unclaimed_invisible())
+    {
+      Flags spec = BIT(side)|BIT(Chameleon);
+      SetPieceId(spec,++next_invisible_piece_id);
+      move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
+                                              square_partner,Rook,spec,side);
+      assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+      motivation[next_invisible_piece_id].purpose = purpose_castling_partner;
+      motivation[next_invisible_piece_id].acts_when = nbply;
+      motivation[next_invisible_piece_id].inserted_when = current_iteration;
+      motivation[next_invisible_piece_id].on = square_partner;
+      pipe_solve_delegate(si);
+      motivation[next_invisible_piece_id].purpose = purpose_none;
+      --next_invisible_piece_id;
+    }
+    else
+    {
+      /* we have checked acts_when we generated the castling */
+      assert(0);
+    }
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
+  }
+  else
+  {
+    move_effect_journal_do_null_effect();
+    pipe_solve_delegate(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -5082,82 +5129,17 @@ void total_invisible_special_moves_player_solve(slice_index si)
           square const square_h = square_a+file_h;
 
           TraceText("kingside_castling\n");
-
-          if (is_square_empty(square_h))
-          {
-            consumption_type const save_consumption = current_consumption;
-            if (allocate_placement_of_unclaimed_invisible())
-            {
-              Flags spec = BIT(side)|BIT(Chameleon);
-              SetPieceId(spec,++next_invisible_piece_id);
-              move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                                      square_h,Rook,spec,side);
-              assert(motivation[next_invisible_piece_id].purpose==purpose_none);
-              motivation[next_invisible_piece_id].purpose = purpose_castling_partner;
-              motivation[next_invisible_piece_id].acts_when = nbply;
-              motivation[next_invisible_piece_id].inserted_when = current_iteration;
-              motivation[next_invisible_piece_id].on = square_h;
-              pipe_solve_delegate(si);
-              motivation[next_invisible_piece_id].purpose = purpose_none;
-              --next_invisible_piece_id;
-            }
-            else
-            {
-              /* we have checked acts_when we generated the castling */
-              assert(0);
-            }
-
-            current_consumption = save_consumption;
-            TraceConsumption();TraceEOL();
-          }
-          else
-          {
-            move_effect_journal_do_null_effect();
-            pipe_solve_delegate(si);
-          }
+          play_castling_with_invisible_partner(si,square_h);
           break;
         }
 
         case queenside_castling:
         {
-          // TODO factor out the two castlings
           Side const side = trait[nbply];
           square const square_a = side==White ? square_a1 : square_a8;
 
           TraceText("queenside_castling\n");
-
-          if (is_square_empty(square_a))
-          {
-            consumption_type const save_consumption = current_consumption;
-            if (allocate_placement_of_unclaimed_invisible())
-            {
-              Flags spec = BIT(side)|BIT(Chameleon);
-              SetPieceId(spec,++next_invisible_piece_id);
-              move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                                      square_a,Rook,spec,side);
-              assert(motivation[next_invisible_piece_id].purpose==purpose_none);
-              motivation[next_invisible_piece_id].purpose = purpose_castling_partner;
-              motivation[next_invisible_piece_id].acts_when = nbply;
-              motivation[next_invisible_piece_id].inserted_when = current_iteration;
-              motivation[next_invisible_piece_id].on = square_a;
-              pipe_solve_delegate(si);
-              motivation[next_invisible_piece_id].purpose = purpose_none;
-              --next_invisible_piece_id;
-            }
-            else
-            {
-              /* we have checked acts_when we generated the castling */
-              assert(0);
-            }
-
-            current_consumption = save_consumption;
-            TraceConsumption();TraceEOL();
-          }
-          else
-          {
-            move_effect_journal_do_null_effect();
-            pipe_solve_delegate(si);
-          }
+          play_castling_with_invisible_partner(si,square_a);
           break;
         }
 
