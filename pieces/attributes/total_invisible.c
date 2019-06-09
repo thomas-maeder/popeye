@@ -3764,10 +3764,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     empty_square(s);
   }
   else
-  {
-    TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
     colour_interceptor(kcurr,s,walk_at_end);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
