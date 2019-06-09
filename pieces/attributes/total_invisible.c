@@ -2980,11 +2980,11 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
-      motivation[id].on = sq_departure;
-      // TODO are these 3 already set?
       motivation[id].inserted_when = nbply;
-      motivation[id].acts_when = nbply;
-      motivation[id].purpose = purpose_capturer;
+      motivation[id].on = sq_departure;
+      /* these were set in regular play already: */
+      assert(motivation[id].acts_when==nbply);
+      assert(motivation[id].purpose==purpose_capturer);
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags);
