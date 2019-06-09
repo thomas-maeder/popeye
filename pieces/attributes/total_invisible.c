@@ -2706,14 +2706,13 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   if (motivation[id].on==sq_arrival)
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    square const save_from = move_effect_journal[movement].u.piece_movement.from;
-    square const save_to = move_effect_journal[movement].u.piece_movement.to;
-    piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-    Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
     assert(move_effect_journal[movement].type==move_effect_piece_movement);
+    assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+    assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
+    assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
+    assert(move_effect_journal[movement].u.piece_movement.movingspec==0);
 
     move_effect_journal[movement].u.piece_movement.to = sq_arrival;
     move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
@@ -2751,11 +2750,10 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
         break;
     }
 
-    // TODO don't we know all these save_* values already?
-    move_effect_journal[movement].u.piece_movement.from = save_from;
-    move_effect_journal[movement].u.piece_movement.to = save_to;
-    move_effect_journal[movement].u.piece_movement.moving = save_moving;
-    move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+    move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+    move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+    move_effect_journal[movement].u.piece_movement.moving = Empty;
+    move_effect_journal[movement].u.piece_movement.movingspec = 0;
   }
   else
   {
