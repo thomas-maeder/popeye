@@ -3711,14 +3711,56 @@ static void colour_interceptor(vec_index_type kcurr,
 
 typedef void intercept_checks_fct(vec_index_type kcurr);
 
+static void place_interceptor_of_side_on_square(vec_index_type kcurr,
+                                                square s,
+                                                piece_walk_type const walk_at_end,
+                                                intercept_checks_fct *recurse,
+                                                Side side)
+{
+  Side const side_in_check = trait[nbply-1];
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",kcurr);
+  TraceSquare(s);
+  TraceWalk(walk_at_end);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  if (!is_taboo(s,side))
+  {
+    assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
+    TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
+
+    CLRFLAG(being_solved.spec[s],advers(side));
+    if (current_consumption.claimed[side])
+    {
+      current_consumption.claimed[side] = false;
+      TraceConsumption();TraceEOL();
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+        (*recurse)(kcurr+1);
+      current_consumption.claimed[side] = true;
+      TraceConsumption();TraceEOL();
+    }
+    else if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      TraceConsumption();TraceEOL();
+      (*recurse)(kcurr+1);
+    }
+    SETFLAG(being_solved.spec[s],advers(side));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_interceptor_on_square(vec_index_type kcurr,
                                         square s,
                                         piece_walk_type const walk_at_end,
                                         intercept_checks_fct *recurse)
 {
   Side const side_in_check = trait[nbply-1];
-  Side const side_checking = advers(side_in_check);
-  square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
@@ -3743,55 +3785,10 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
       ++current_consumption.placed;
 
-      // TODO factor out duplication
-      if (!is_taboo(s,White))
-      {
-        assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-        TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
-        CLRFLAG(being_solved.spec[s],Black);
-        if (current_consumption.claimed[White])
-        {
-          current_consumption.claimed[White] = false;
-          TraceConsumption();TraceEOL();
-          if (nr_total_invisbles_consumed()<=total_invisible_number)
-            (*recurse)(kcurr+1);
-          current_consumption.claimed[White] = true;
-          TraceConsumption();TraceEOL();
-        }
-        else if (nr_total_invisbles_consumed()<=total_invisible_number)
-        {
-          TraceConsumption();TraceEOL();
-          (*recurse)(kcurr+1);
-        }
-        SETFLAG(being_solved.spec[s],Black);
-      }
+      place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
 
       if (!end_of_iteration)
-      {
-        if (!is_taboo(s,Black))
-        {
-          assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-          TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-
-          CLRFLAG(being_solved.spec[s],White);
-          if (current_consumption.claimed[Black])
-          {
-            current_consumption.claimed[Black] = false;
-            TraceConsumption();TraceEOL();
-            if (nr_total_invisbles_consumed()<=total_invisible_number)
-              (*recurse)(kcurr+1);
-            current_consumption.claimed[Black] = true;
-            TraceConsumption();TraceEOL();
-          }
-          else if (nr_total_invisbles_consumed()<=total_invisible_number)
-          {
-            TraceConsumption();TraceEOL();
-            (*recurse)(kcurr+1);
-          }
-          SETFLAG(being_solved.spec[s],White);
-        }
-      }
+        place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
 
       current_consumption = save_consumption;
       TraceConsumption();TraceEOL();
