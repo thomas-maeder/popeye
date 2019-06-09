@@ -3566,12 +3566,8 @@ static void walk_interceptor_any_walk(Side side,
   TraceFunctionParamListEnd();
 
   ++being_solved.number_of_pieces[side][walk];
-  SetPieceId(spec,++next_invisible_piece_id);
-  assert(motivation[next_invisible_piece_id].purpose==purpose_none);
-  motivation[next_invisible_piece_id].purpose = purpose_interceptor;
-  motivation[next_invisible_piece_id].acts_when = nbply;
-  motivation[next_invisible_piece_id].on = pos;
-  motivation[next_invisible_piece_id].inserted_when = current_iteration;
+
+  SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
   if (walk==King)
   {
@@ -3600,8 +3596,6 @@ static void walk_interceptor_any_walk(Side side,
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==walk);
   empty_square(pos);
-  motivation[next_invisible_piece_id].purpose = purpose_none;
-  --next_invisible_piece_id;
   --being_solved.number_of_pieces[side][walk];
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -3677,13 +3671,13 @@ static void walk_interceptor(Side side, square pos)
 }
 
 static void colour_interceptor(vec_index_type kcurr,
-                               Side preferred_side,
                                square pos,
                                piece_walk_type const walk_at_end)
 {
+  Side const preferred_side = trait[nbply-1];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceEnumerator(Side,preferred_side);
   TraceSquare(pos);
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
@@ -3760,51 +3754,38 @@ static void place_interceptor_on_square(vec_index_type kcurr,
                                         piece_walk_type const walk_at_end,
                                         intercept_checks_fct *recurse)
 {
-  Side const side_in_check = trait[nbply-1];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
   TraceSquare(s);
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
+  motivation[next_invisible_piece_id].on = s;
+
   if (play_phase==play_validating_mate)
   {
     consumption_type const save_consumption = current_consumption;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
-    if (!was_taboo(s))
-    {
-      SetPieceId(spec,++next_invisible_piece_id);
-      assert(motivation[next_invisible_piece_id].purpose==purpose_none);
-      motivation[next_invisible_piece_id].purpose = purpose_interceptor;
-      motivation[next_invisible_piece_id].acts_when = nbply;
-      motivation[next_invisible_piece_id].inserted_when = current_iteration;
-      motivation[next_invisible_piece_id].on = s;
-      occupy_square(s,Dummy,spec);
+    SetPieceId(spec,next_invisible_piece_id);
+    occupy_square(s,Dummy,spec);
 
-      ++current_consumption.placed;
+    ++current_consumption.placed;
 
-      place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
+    place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
 
-      if (!end_of_iteration)
-        place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
+    if (!end_of_iteration)
+      place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
 
-      current_consumption = save_consumption;
-      TraceConsumption();TraceEOL();
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
 
-      empty_square(s);
-      motivation[next_invisible_piece_id].purpose = purpose_none;
-      --next_invisible_piece_id;
-    }
+    empty_square(s);
   }
   else
   {
-    if (!was_taboo(s))
-    {
-      TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
-      colour_interceptor(kcurr,side_in_check,s,walk_at_end);
-    }
+    TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
+    colour_interceptor(kcurr,s,walk_at_end);
   }
 
   TraceFunctionExit(__func__);
@@ -3823,6 +3804,13 @@ static void place_interceptor_on_line(vec_index_type kcurr,
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
+  ++next_invisible_piece_id;
+
+  assert(motivation[next_invisible_piece_id].purpose==purpose_none);
+  motivation[next_invisible_piece_id].purpose = purpose_interceptor;
+  motivation[next_invisible_piece_id].acts_when = nbply;
+  motivation[next_invisible_piece_id].inserted_when = current_iteration;
+
   {
     square s;
     for (s = king_pos+vec[kcurr];
@@ -3833,12 +3821,16 @@ static void place_interceptor_on_line(vec_index_type kcurr,
       TraceValue("%u",taboo[White][s]);
       TraceValue("%u",taboo[Black][s]);
       TraceEOL();
-      place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
+      if (!was_taboo(s))
+        place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
     TraceEOL();
   }
+
+  motivation[next_invisible_piece_id].purpose = purpose_none;
+  --next_invisible_piece_id;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
