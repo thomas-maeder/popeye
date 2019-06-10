@@ -195,4 +195,6 @@ void total_invisible_generate_special_moves(slice_index si);
  */
 void solving_instrument_total_invisible(slice_index si);
 
+void total_invisible_write_flesh_out_history(void);
+
 #endif
