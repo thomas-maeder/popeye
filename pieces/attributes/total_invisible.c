@@ -3489,6 +3489,35 @@ static square find_taboo_violation(void)
   return result;
 }
 
+static boolean is_taboo_violation_acceptable(square first_taboo_violation)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(first_taboo_violation);
+  TraceFunctionParamListEnd();
+
+  {
+    PieceIdType const id = GetPieceId(being_solved.spec[first_taboo_violation]);
+    TraceValue("%x",being_solved.spec[first_taboo_violation]);
+    TraceValue("%u",id);
+    TraceValue("%u",motivation[id].acts_when);
+    TraceValue("%u",motivation[id].inserted_when);
+    TraceSquare(motivation[id].on);
+    TraceValue("%u",motivation[id].purpose);
+    TraceEOL();
+
+    if (motivation[id].acts_when<nbply
+        && motivation[id].purpose==purpose_interceptor)
+      result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
@@ -3527,10 +3556,7 @@ static void done_intercepting_illegal_checks(void)
     else if (first_taboo_violation==nullsquare)
       adapt_pre_capture_effect();
     else
-    {
-      // TODO try to prevent taboos from being or remaining violated in the first place
-//      assert(0);
-    }
+      assert(is_taboo_violation_acceptable(first_taboo_violation));
   }
   else
     validate_king_placements();
