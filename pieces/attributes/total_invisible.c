@@ -37,6 +37,7 @@ unsigned int total_invisible_number;
 typedef struct
 {
     unsigned int placed_fleshed_out[nr_sides];
+    unsigned int placed_not_fleshed_out[nr_sides];
     boolean claimed[nr_sides];
 } consumption_type;
 
@@ -46,6 +47,8 @@ static unsigned int nr_total_invisbles_consumed(void)
 {
   return (current_consumption.placed_fleshed_out[White]
           + current_consumption.placed_fleshed_out[Black]
+          + current_consumption.placed_not_fleshed_out[White]
+          + current_consumption.placed_not_fleshed_out[Black]
           + current_consumption.claimed[White]
           + current_consumption.claimed[Black]);
 }
@@ -64,13 +67,19 @@ static void TraceConsumption(void)
 static unsigned int nr_placeable_invisibles_for_both_sides(void)
 {
   assert(total_invisible_number
-         >=(current_consumption.placed_fleshed_out[White]+current_consumption.placed_fleshed_out[Black]
+         >=(current_consumption.placed_fleshed_out[White]
+            +current_consumption.placed_fleshed_out[Black]
+            +current_consumption.placed_not_fleshed_out[White]
+            +current_consumption.placed_not_fleshed_out[Black]
             + (current_consumption.claimed[White] && current_consumption.claimed[Black])
            )
         );
 
   return (total_invisible_number
-          - ((current_consumption.placed_fleshed_out[White]+current_consumption.placed_fleshed_out[Black])
+          - ((current_consumption.placed_fleshed_out[White]
+              +current_consumption.placed_fleshed_out[Black])
+              +current_consumption.placed_not_fleshed_out[White]
+              +current_consumption.placed_not_fleshed_out[Black]
              + (current_consumption.claimed[White] && current_consumption.claimed[Black])
             )
          );
@@ -83,14 +92,20 @@ static unsigned int nr_placeable_invisibles_for_both_sides(void)
 static unsigned int nr_placeable_invisibles_for_side(Side side)
 {
   assert(total_invisible_number
-         >= (current_consumption.placed_fleshed_out[White]+current_consumption.placed_fleshed_out[Black]
+         >= (current_consumption.placed_fleshed_out[White]
+             +current_consumption.placed_fleshed_out[Black]
+             +current_consumption.placed_not_fleshed_out[White]
+             +current_consumption.placed_not_fleshed_out[Black]
              +current_consumption.claimed[advers(side)]
             )
         );
 
   return (total_invisible_number
-          - ((current_consumption.placed_fleshed_out[White]+current_consumption.placed_fleshed_out[Black])
-             +current_consumption.claimed[advers(side)]
+          - ((current_consumption.placed_fleshed_out[White]
+              +current_consumption.placed_fleshed_out[Black]
+              +current_consumption.placed_not_fleshed_out[White]
+              +current_consumption.placed_not_fleshed_out[Black])
+              +current_consumption.claimed[advers(side)]
             )
          );
 }
@@ -101,9 +116,24 @@ static unsigned int nr_placeable_invisibles_for_side(Side side)
  * @note modifies bookkeeping even on failure
  *       so restore bookkeeping after both success and failure
  */
-static boolean allocate_placement_of_invisible(Side side)
+static boolean allocate_placement_of_claimed_fleshed_out(Side side)
 {
   ++current_consumption.placed_fleshed_out[side];
+  current_consumption.claimed[side] = false;
+  TraceConsumption();TraceEOL();
+
+  return nr_total_invisbles_consumed()<=total_invisible_number;
+}
+
+/* Allocate placement of an invisible, which may have already been claimed by
+ * the side for a random move
+ * @return false iff we have exhausted the invisibles contingent
+ * @note modifies bookkeeping even on failure
+ *       so restore bookkeeping after both success and failure
+ */
+static boolean allocate_placement_of_claimed_not_fleshed_out(Side side)
+{
+  ++current_consumption.placed_not_fleshed_out[side];
   current_consumption.claimed[side] = false;
   TraceConsumption();TraceEOL();
 
@@ -115,7 +145,7 @@ static boolean allocate_placement_of_invisible(Side side)
  * @note modifies bookkeeping even on failure
  *       so restore bookkeeping after both success and failure
  */
-static boolean allocate_placement_of_unclaimed_invisible(Side side)
+static boolean allocate_placement_of_unclaimed_fleshed_out(Side side)
 {
   ++current_consumption.placed_fleshed_out[side];
   TraceConsumption();TraceEOL();
@@ -2108,23 +2138,23 @@ static void adapt_pre_capture_effect(void)
         else
         {
           consumption_type const save_consumption = current_consumption;
-          if (allocate_placement_of_invisible(advers(trait[nbply])))
+          if (allocate_placement_of_claimed_fleshed_out(advers(trait[nbply])))
           {
             /* adding the total invisible in the pre-capture effect sounds tempting, but
-             * the inserted victim may intercept an illegal check by accident
+             * if added right-away, the inserted piece may intercept an illegal check
              */
-            square const sq_capture = move_effect_journal[pre_capture].u.piece_addition.added.on;
-            piece_walk_type const walk_vicitim = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-            Flags const flags = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
 
             TraceText("victim is placed in this iteration\n");
 
             assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
             move_effect_journal[pre_capture].type = move_effect_none;
 
-            occupy_square(sq_capture,walk_vicitim,flags);
+            occupy_square(sq_addition,walk_added,flags_added);
             adapt_capture_effect();
-            empty_square(sq_capture);
+            empty_square(sq_addition);
 
             move_effect_journal[pre_capture].type = move_effect_piece_readdition;
           }
@@ -2957,7 +2987,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   if (!was_taboo(sq_departure) && !is_taboo(sq_departure,side_playing))
   {
     consumption_type const save_consumption = current_consumption;
-    if (allocate_placement_of_invisible(side_playing))
+    if (allocate_placement_of_claimed_fleshed_out(side_playing))
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
@@ -3743,7 +3773,7 @@ static void walk_interceptor(Side side, square pos)
   TraceEOL();
   assert(is_square_empty(pos));
 
-  if (allocate_placement_of_invisible(side))
+  if (allocate_placement_of_claimed_fleshed_out(side))
   {
     if (being_solved.king_square[side]==initsquare)
       walk_interceptor_king(side,pos);
@@ -3816,24 +3846,17 @@ static void place_interceptor_of_side_on_square(vec_index_type kcurr,
 
   if (!is_taboo(s,side))
   {
+    consumption_type const save_consumption = current_consumption;
+
     assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
     TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
 
     CLRFLAG(being_solved.spec[s],advers(side));
-    if (current_consumption.claimed[side])
-    {
-      current_consumption.claimed[side] = false;
-      TraceConsumption();TraceEOL();
-      if (nr_total_invisbles_consumed()<=total_invisible_number)
-        (*recurse)(kcurr+1);
-      current_consumption.claimed[side] = true;
-      TraceConsumption();TraceEOL();
-    }
-    else if (nr_total_invisbles_consumed()<=total_invisible_number)
-    {
-      TraceConsumption();TraceEOL();
+
+    if (allocate_placement_of_claimed_not_fleshed_out(side))
       (*recurse)(kcurr+1);
-    }
+    current_consumption = save_consumption;
+
     SETFLAG(being_solved.spec[s],advers(side));
   }
 
@@ -3861,16 +3884,10 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     SetPieceId(spec,next_invisible_piece_id);
     occupy_square(s,Dummy,spec);
 
-    ++current_consumption.placed_fleshed_out[White];
     place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
-    --current_consumption.placed_fleshed_out[White];
 
     if (!end_of_iteration)
-    {
-      ++current_consumption.placed_fleshed_out[Black];
       place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
-      --current_consumption.placed_fleshed_out[Black];
-    }
 
     TraceConsumption();TraceEOL();
 
@@ -4043,7 +4060,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  if (allocate_placement_of_invisible(side_attacking))
+  if (allocate_placement_of_claimed_fleshed_out(side_attacking))
   {
     ++being_solved.number_of_pieces[side_attacking][walk];
     SetPieceId(spec,++next_invisible_piece_id);
@@ -4638,6 +4655,8 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
         --nr_revealed_unplaced_invisibles[Black];
       if ((current_consumption.placed_fleshed_out[White]
            +current_consumption.placed_fleshed_out[Black]
+           +current_consumption.placed_not_fleshed_out[White]
+           +current_consumption.placed_not_fleshed_out[Black]
            +nr_revealed_unplaced_invisibles[White]
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
@@ -5106,7 +5125,7 @@ static void play_castling_with_invisible_partner(slice_index si,
   if (is_square_empty(square_partner))
   {
     consumption_type const save_consumption = current_consumption;
-    if (allocate_placement_of_unclaimed_invisible(trait[nbply]))
+    if (allocate_placement_of_unclaimed_fleshed_out(trait[nbply]))
     {
       Flags spec = BIT(side)|BIT(Chameleon);
       SetPieceId(spec,++next_invisible_piece_id);
