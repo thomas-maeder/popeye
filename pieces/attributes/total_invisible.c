@@ -3509,6 +3509,25 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_interceptor)
+      /* 1. an interceptor of side s was placed as interceptor on square sq
+       * 2. advers(s) made a random move that might have accidentally captured on sq but didn't
+       * 3. Side s moves to sq and is blocked by 1
+       */
+      // TODO is item 2 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tigthen the if()?
+      result = true;
+
+    if (motivation[id].acts_when<nbply
+        && motivation[id].purpose==purpose_random_mover
+        && motivation[id].on!=first_taboo_violation)
+      /* 1. an invisible piece of side s was placed
+       * 2. a random move f s placed it on square sq
+       * 3. s made a random move that could have left sq but didn't
+       * 4. the current move is intercepted on sq
+       */
+      // TODO is item 3 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tigthen the if()?
+      // TODO item 4: only interception? or also block?
       result = true;
   }
 
