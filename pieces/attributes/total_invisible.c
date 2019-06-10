@@ -217,6 +217,32 @@ static PieceIdType next_invisible_piece_id;
 static move_effect_journal_entry_type const *revelation_violation_later = move_effect_journal+move_effect_journal_size;
 static move_effect_journal_entry_type const *first_detected_revelation_violation;
 
+
+static void write_history_recursive(ply ply)
+{
+  if (parent_ply[ply]>ply_retro_move)
+    write_history_recursive(parent_ply[ply]);
+
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[ply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    fprintf(stdout," %u:",ply);
+    WriteWalk(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.moving);
+    WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.from);
+    fputs("-",stdout);
+    WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.to);
+  }
+}
+
+void total_invisible_write_flesh_out_history(void)
+{
+  if (nbply!=ply_nil)
+  {
+    fprintf(stdout," -");
+    write_history_recursive(nbply);
+  }
+}
+
 static boolean was_taboo(square s)
 {
   boolean result = false;
@@ -3498,6 +3524,9 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
   TraceFunctionParamListEnd();
 
   {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
     PieceIdType const id = GetPieceId(being_solved.spec[first_taboo_violation]);
     TraceValue("%x",being_solved.spec[first_taboo_violation]);
     TraceValue("%u",id);
@@ -3509,7 +3538,8 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_interceptor)
-      /* 1. an interceptor of side s was placed as interceptor on square sq
+      /* 6:f4-e5 7:~-~ 8:~-~ 9:b2-d4 - 6:Kf4-e5 7:.~-~ 8:.~-~ 9:Qb2-d4
+       * 1. an interceptor of side s was placed as interceptor on square sq
        * 2. advers(s) made a random move that might have accidentally captured on sq but didn't
        * 3. Side s moves to sq and is blocked by 1
        */
@@ -3519,15 +3549,44 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_random_mover
-        && motivation[id].on!=first_taboo_violation)
-      /* 1. an invisible piece of side s was placed
-       * 2. a random move f s placed it on square sq
+        && motivation[id].on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to!=first_taboo_violation)
+      /* 6:.~-~(iPg7-g6) 7:.~-~(iSd5-b6) 8:.~-~(iRf3-b3) 9:Rh6-f6
+       * 1. an invisible piece of side s was placed
+       * 2. a random move of s placed it on square sq
        * 3. s made a random move that could have left sq but didn't
        * 4. the current move is intercepted on sq
        */
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
-      // TODO item 4: only interception? or also block?
+      result = true;
+
+    if (motivation[id].acts_when<nbply
+        && motivation[id].purpose==purpose_random_mover
+        && motivation[id].on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to==first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.moving!=Pawn)
+    /* 6:~-~(Bf3-e4) 7:~-~(Pe3-d4) 8:~-b7(Be4-b7) 9:e5-d4(Ke5-d4)
+     * 1. an invisible piece of side s was placed
+     * 2. a random move of side s placed it on square sq
+     * 3. s made a random move that could have left sq but didn't
+     * 4. the current pawn move is blocked on sq
+     * */
+      result = true;
+
+    if (motivation[id].acts_when<nbply
+        && motivation[id].purpose==purpose_random_mover
+        && motivation[id].on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to==first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.moving==Pawn)
+      /* 6:.~-~(iRd4-c4) 7:.~-~(iRe4-d4) 8:.~-~(iPe3-e2) 9:c2-c4
+       * 1. an invisible piece of side s was placed
+       * 2. a random move of side s placed it on square sq
+       * 3. s made a random move that could have left sq but didn't
+       * 4. the current pawn move is blocked on sq
+       */
+      // TODO is item 3 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tigthen the if()?
       result = true;
   }
 
