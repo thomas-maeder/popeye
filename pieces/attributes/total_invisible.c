@@ -45,18 +45,32 @@ static consumption_type current_consumption = { 0 };
 
 static unsigned int nr_total_invisbles_consumed(void)
 {
-  return (current_consumption.placed_fleshed_out[White]
-          + current_consumption.placed_fleshed_out[Black]
-          + current_consumption.placed_not_fleshed_out[White]
-          + current_consumption.placed_not_fleshed_out[Black]
-          + current_consumption.claimed[White]
-          + current_consumption.claimed[Black]);
+  unsigned int result = (current_consumption.placed_fleshed_out[White]
+                         + current_consumption.placed_fleshed_out[Black]
+                         + current_consumption.placed_not_fleshed_out[White]
+                         + current_consumption.placed_not_fleshed_out[Black]
+                         + current_consumption.claimed[White]
+                         + current_consumption.claimed[Black]);
+
+  if (!current_consumption.claimed[White]
+      && current_consumption.placed_not_fleshed_out[White]==0
+      && being_solved.king_square[White]==initsquare)
+    ++result;
+
+  if (!current_consumption.claimed[Black]
+      && current_consumption.placed_not_fleshed_out[Black]==0
+      && being_solved.king_square[Black]==initsquare)
+    ++result;
+
+  return result;
 }
 
 static void TraceConsumption(void)
 {
   TraceValue("%u",current_consumption.placed_fleshed_out[White]);
   TraceValue("%u",current_consumption.placed_fleshed_out[Black]);
+  TraceValue("%u",current_consumption.placed_not_fleshed_out[White]);
+  TraceValue("%u",current_consumption.placed_not_fleshed_out[Black]);
   TraceValue("%u",current_consumption.claimed[White]);
   TraceValue("%u",current_consumption.claimed[Black]);
 }
@@ -1926,10 +1940,22 @@ static void validate_king_placements(void)
 
   if (being_solved.king_square[side_to_be_mated]==initsquare)
   {
+    being_solved.king_square[side_to_be_mated] = nullsquare;
     if (nr_total_invisbles_consumed()==total_invisible_number)
-      nominate_king_invisible_by_invisible();
+    {
+      being_solved.king_square[side_to_be_mated] = initsquare;
+      if (current_consumption.placed_not_fleshed_out[side_to_be_mated]>0)
+      {
+        --current_consumption.placed_not_fleshed_out[side_to_be_mated];
+        ++current_consumption.placed_fleshed_out[side_to_be_mated];
+        nominate_king_invisible_by_invisible();
+        --current_consumption.placed_fleshed_out[side_to_be_mated];
+        ++current_consumption.placed_not_fleshed_out[side_to_be_mated];
+      }
+    }
     else
     {
+      being_solved.king_square[side_to_be_mated] = initsquare;
       TraceText("The king to be mated can be anywhere\n");
 
       switch (play_phase)
@@ -2494,6 +2520,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
     assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
 
+    --current_consumption.placed_not_fleshed_out[side_playing];
+    ++current_consumption.placed_fleshed_out[side_playing];
+
     if (!end_of_iteration)
     {
       if (being_solved.king_square[side_playing]==initsquare)
@@ -2565,6 +2594,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
         flesh_out_random_move_by_existing_invisible_from(sq_departure);
       --being_solved.number_of_pieces[side_playing][Queen];
     }
+
+    --current_consumption.placed_fleshed_out[side_playing];
+    ++current_consumption.placed_not_fleshed_out[side_playing];
   }
   else
     flesh_out_random_move_by_existing_invisible_from(sq_departure);
@@ -2752,6 +2784,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
 
     // TODO King
+    // TODO Dummy
 
     switch (move_effect_journal[movement].u.piece_movement.moving)
     {
@@ -2924,6 +2957,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
     if (first_taboo_violation==nullsquare)
     {
       square const *s;
+
       for (s = boardnum; *s && !end_of_iteration; ++s)
         flesh_out_random_move_by_specific_invisible(*s,save_last_time);
 
@@ -3126,6 +3160,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         square const king_pos = being_solved.king_square[side_in_check];
         Flags const save_flags = being_solved.spec[sq_departure];
 
+        --current_consumption.placed_not_fleshed_out[trait[nbply]];
+        ++current_consumption.placed_fleshed_out[trait[nbply]];
+
         ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
         replace_walk(sq_departure,walk_capturing);
         CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
@@ -3136,6 +3173,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         being_solved.spec[sq_departure] = save_flags;
         replace_walk(sq_departure,Dummy);
         --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+
+        --current_consumption.placed_fleshed_out[trait[nbply]];
+        ++current_consumption.placed_not_fleshed_out[trait[nbply]];
       }
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
@@ -3745,13 +3785,21 @@ static void walk_interceptor_pawn(Side side, square pos)
 
 static void walk_interceptor_king(Side side, square pos)
 {
+  consumption_type const save_consumption = current_consumption;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   being_solved.king_square[side] = pos;
-  walk_interceptor_any_walk(side,pos,King);
+
+  if (allocate_placement_of_claimed_fleshed_out(side))
+    walk_interceptor_any_walk(side,pos,King);
+
+  current_consumption = save_consumption;
+  TraceConsumption();TraceEOL();
+
   being_solved.king_square[side] = initsquare;
 
   TraceFunctionExit(__func__);
@@ -3760,9 +3808,6 @@ static void walk_interceptor_king(Side side, square pos)
 
 static void walk_interceptor(Side side, square pos)
 {
-  piece_walk_type walk;
-  consumption_type const save_consumption = current_consumption;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
@@ -3773,20 +3818,25 @@ static void walk_interceptor(Side side, square pos)
   TraceEOL();
   assert(is_square_empty(pos));
 
-  if (allocate_placement_of_claimed_fleshed_out(side))
+  if (being_solved.king_square[side]==initsquare)
+    walk_interceptor_king(side,pos);
+
   {
-    if (being_solved.king_square[side]==initsquare)
-      walk_interceptor_king(side,pos);
+    piece_walk_type walk;
+    consumption_type const save_consumption = current_consumption;
 
-    if (!end_of_iteration)
-      walk_interceptor_pawn(side,pos);
+    if (allocate_placement_of_claimed_fleshed_out(side))
+    {
+      if (!end_of_iteration)
+        walk_interceptor_pawn(side,pos);
 
-    for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
-      walk_interceptor_any_walk(side,pos,walk);
+      for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+        walk_interceptor_any_walk(side,pos,walk);
+    }
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
   }
-
-  current_consumption = save_consumption;
-  TraceConsumption();TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
