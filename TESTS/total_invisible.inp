@@ -1,7 +1,14 @@
 begin
 
+protocol total_invisible.tst
+
 pieces white kb2 rb1 black kd1 sc1d2 pe2
 stipulation h#0.5
+
+next
+
+pieces 1 white kc4 ra1b1 pa5 black ka6
+stipulation h#1.5
 
 end
 

@@ -2140,6 +2140,8 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival);
+
 static void adapt_pre_capture_effect(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -2165,8 +2167,46 @@ static void adapt_pre_capture_effect(void)
         }
         else if (was_taboo(to))
         {
-          // TODO should was_taboo stop at the last not fleshed out random TI move?
-          TraceText("a total invisible can't be standing here\n");
+          // TODO generalise
+          // all walks
+          // earlier plys up to and including diagram setup
+          --nbply;
+          undo_move_effects();
+
+          {
+            move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+            move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+            square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+            square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+            if (sq_departure==move_by_invisible
+                && sq_arrival==move_by_invisible)
+            {
+              consumption_type const save_consumption = current_consumption;
+              if (allocate_placement_of_claimed_fleshed_out(trait[nbply]))
+              {
+                square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+                piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+                Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+
+                TraceText("has victim moved here in a previous iteration?\n");
+
+                assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+                move_effect_journal[pre_capture].type = move_effect_none;
+
+                occupy_square(sq_addition,Knight,flags_added);
+                flesh_out_random_move_by_specific_invisible_to(sq_addition);
+                empty_square(sq_addition);
+
+                move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+              }
+
+              current_consumption = save_consumption;
+              TraceConsumption();TraceEOL();
+            }
+          }
+
+          redo_move_effects();
+          ++nbply;
         }
         else
         {
@@ -2186,7 +2226,7 @@ static void adapt_pre_capture_effect(void)
             move_effect_journal[pre_capture].type = move_effect_none;
 
             occupy_square(sq_addition,walk_added,flags_added);
-            adapt_capture_effect();
+            restart_from_scratch();
             empty_square(sq_addition);
 
             move_effect_journal[pre_capture].type = move_effect_piece_readdition;
@@ -2778,53 +2818,59 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
-    assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
-    assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
-    assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
-    assert(move_effect_journal[movement].u.piece_movement.movingspec==0);
-
-    move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-    move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
-
-    // TODO King
-    // TODO Dummy
-
-    switch (move_effect_journal[movement].u.piece_movement.moving)
+    TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
+    if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
+      // TODO flesh out Dummy and move accordingly
+      recurse_into_child_ply();
+    else
     {
-      case Queen:
-        flesh_out_random_move_by_specific_invisible_rider_to(vec_queen_start,
-                                                             vec_queen_end);
-        break;
+      assert(move_effect_journal[movement].type==move_effect_piece_movement);
+      assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+      assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
+      assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
+      assert(move_effect_journal[movement].u.piece_movement.movingspec==0);
 
-      case Rook:
-        flesh_out_random_move_by_specific_invisible_rider_to(vec_rook_start,
-                                                             vec_rook_end);
-        break;
+      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+      move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
+      move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
 
-      case Bishop:
-        flesh_out_random_move_by_specific_invisible_rider_to(vec_bishop_start,
-                                                             vec_bishop_end);
-        break;
+      // TODO King
 
-      case Knight:
-        flesh_out_random_move_by_specific_invisible_leaper_to(vec_knight_start,
-                                                              vec_knight_end);
-        break;
+      switch (move_effect_journal[movement].u.piece_movement.moving)
+      {
+        case Queen:
+          flesh_out_random_move_by_specific_invisible_rider_to(vec_queen_start,
+                                                               vec_queen_end);
+          break;
 
-      case Pawn:
-        flesh_out_random_move_by_specific_invisible_pawn_to();
-        break;
+        case Rook:
+          flesh_out_random_move_by_specific_invisible_rider_to(vec_rook_start,
+                                                               vec_rook_end);
+          break;
 
-      default:
-        break;
+        case Bishop:
+          flesh_out_random_move_by_specific_invisible_rider_to(vec_bishop_start,
+                                                               vec_bishop_end);
+          break;
+
+        case Knight:
+          flesh_out_random_move_by_specific_invisible_leaper_to(vec_knight_start,
+                                                                vec_knight_end);
+          break;
+
+        case Pawn:
+          flesh_out_random_move_by_specific_invisible_pawn_to();
+          break;
+
+        default:
+          break;
+      }
+
+      move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+      move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+      move_effect_journal[movement].u.piece_movement.moving = Empty;
+      move_effect_journal[movement].u.piece_movement.movingspec = 0;
     }
-
-    move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-    move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
-    move_effect_journal[movement].u.piece_movement.moving = Empty;
-    move_effect_journal[movement].u.piece_movement.movingspec = 0;
   }
   else
   {
@@ -5036,7 +5082,8 @@ static void generate_pawn_capture_right(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
+  // TODO what kind of taboo can we apply here?
+  if (is_square_empty(s))
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     pipe_move_generation_delegate(si);
@@ -5057,7 +5104,8 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && taboo[White][s]==0 && taboo[Black][s]==0)
+  // TODO what kind of taboo can we apply here?
+  if (is_square_empty(s))
   {
     occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
     generate_pawn_capture_right(si,dir_vertical);
