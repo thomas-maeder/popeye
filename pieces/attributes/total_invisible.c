@@ -4766,7 +4766,11 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
         }
 
       if (s==end)
+      {
+        /* line can't be intercepted - all guard are not interceptable */
         result = nr_interceptors_available+1;
+        break;
+      }
     }
   }
 
