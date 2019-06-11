@@ -167,6 +167,13 @@ static boolean allocate_placement_of_unclaimed_fleshed_out(Side side)
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
 
+/* Adapt bookkeeping to the fleshing out of an invisible of a side */
+static void reallocate_fleshing_out(Side side)
+{
+  --current_consumption.placed_not_fleshed_out[side];
+  ++current_consumption.placed_fleshed_out[side];
+}
+
 static ply top_ply_of_regular_play;
 static slice_index tester_slice;
 
@@ -1946,11 +1953,11 @@ static void validate_king_placements(void)
       being_solved.king_square[side_to_be_mated] = initsquare;
       if (current_consumption.placed_not_fleshed_out[side_to_be_mated]>0)
       {
-        --current_consumption.placed_not_fleshed_out[side_to_be_mated];
-        ++current_consumption.placed_fleshed_out[side_to_be_mated];
+        consumption_type const save_consumption = current_consumption;
+
+        reallocate_fleshing_out(side_to_be_mated);
         nominate_king_invisible_by_invisible();
-        --current_consumption.placed_fleshed_out[side_to_be_mated];
-        ++current_consumption.placed_not_fleshed_out[side_to_be_mated];
+        current_consumption = save_consumption;
       }
     }
     else
@@ -2493,7 +2500,6 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
   motivation_type const save_motivation = motivation[id];
   Flags const save_flags = being_solved.spec[sq_departure];
 
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
@@ -2514,14 +2520,14 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     Side const side_playing = trait[nbply];
     Side const side_under_attack = advers(side_playing);
     square const king_pos = being_solved.king_square[side_under_attack];
+    consumption_type const save_consumption = current_consumption;
 
     assert(play_phase==play_validating_mate);
 
     assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
     assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
 
-    --current_consumption.placed_not_fleshed_out[side_playing];
-    ++current_consumption.placed_fleshed_out[side_playing];
+    reallocate_fleshing_out(side_playing);
 
     if (!end_of_iteration)
     {
@@ -2595,8 +2601,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Queen];
     }
 
-    --current_consumption.placed_fleshed_out[side_playing];
-    ++current_consumption.placed_not_fleshed_out[side_playing];
+    current_consumption = save_consumption;
   }
   else
     flesh_out_random_move_by_existing_invisible_from(sq_departure);
@@ -3159,9 +3164,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         Side const side_in_check = trait[nbply-1];
         square const king_pos = being_solved.king_square[side_in_check];
         Flags const save_flags = being_solved.spec[sq_departure];
+        consumption_type const save_consumption = current_consumption;
 
-        --current_consumption.placed_not_fleshed_out[trait[nbply]];
-        ++current_consumption.placed_fleshed_out[trait[nbply]];
+        reallocate_fleshing_out(trait[nbply]);
 
         ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
         replace_walk(sq_departure,walk_capturing);
@@ -3174,8 +3179,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         replace_walk(sq_departure,Dummy);
         --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
 
-        --current_consumption.placed_fleshed_out[trait[nbply]];
-        ++current_consumption.placed_not_fleshed_out[trait[nbply]];
+        current_consumption = save_consumption;
       }
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
