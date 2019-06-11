@@ -2880,22 +2880,23 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
   if (motivation[id].on==sq_arrival)
   {
-    Side const side_playing = trait[nbply];
-
     TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
     {
+      Side const side_playing = trait[nbply];
       consumption_type const save_consumption = current_consumption;
+      piece_walk_type walk;
 
       reallocate_fleshing_out(side_playing);
 
-      // TODO iterate over all walks
-      ++being_solved.number_of_pieces[side_playing][Knight];
-      replace_walk(sq_arrival,Knight);
-      // TODO detect uninterceptable check
-      flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
-      replace_walk(sq_arrival,Dummy);
-      --being_solved.number_of_pieces[side_playing][Knight];
+      for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
+      {
+        ++being_solved.number_of_pieces[side_playing][walk];
+        replace_walk(sq_arrival,walk);
+        flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+        replace_walk(sq_arrival,Dummy);
+        --being_solved.number_of_pieces[side_playing][walk];
+      }
 
       current_consumption = save_consumption;
     }
