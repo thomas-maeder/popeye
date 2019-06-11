@@ -56,7 +56,7 @@ solution finished.
   1...Rb1-b8   2..~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:       97742
+  add_to_move_generation_stack:       97908
                      play_move:       18033
  is_white_king_square_attacked:        4016
  is_black_king_square_attacked:        9285

@@ -2168,7 +2168,6 @@ static void adapt_pre_capture_effect(void)
         else if (was_taboo(to))
         {
           // TODO generalise
-          // all walks
           // earlier plys up to and including diagram setup
           --nbply;
           undo_move_effects();
@@ -2193,7 +2192,7 @@ static void adapt_pre_capture_effect(void)
                 assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
                 move_effect_journal[pre_capture].type = move_effect_none;
 
-                occupy_square(sq_addition,Knight,flags_added);
+                occupy_square(sq_addition,walk_added,flags_added);
                 flesh_out_random_move_by_specific_invisible_to(sq_addition);
                 empty_square(sq_addition);
 
@@ -2803,6 +2802,72 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_random_move_by_specific_invisible_to_according_to_walk(square sq_arrival)
+{
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(motivation[id].on);TraceEOL();
+  TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
+
+  assert(motivation[id].on==sq_arrival);
+  assert(get_walk_of_piece_on_square(sq_arrival)!=Dummy);
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+  assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
+  assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
+  assert(move_effect_journal[movement].u.piece_movement.movingspec==0);
+
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+  move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
+
+  // TODO King
+
+  switch (move_effect_journal[movement].u.piece_movement.moving)
+  {
+    case Queen:
+      flesh_out_random_move_by_specific_invisible_rider_to(vec_queen_start,
+                                                           vec_queen_end);
+      break;
+
+    case Rook:
+      flesh_out_random_move_by_specific_invisible_rider_to(vec_rook_start,
+                                                           vec_rook_end);
+      break;
+
+    case Bishop:
+      flesh_out_random_move_by_specific_invisible_rider_to(vec_bishop_start,
+                                                           vec_bishop_end);
+      break;
+
+    case Knight:
+      flesh_out_random_move_by_specific_invisible_leaper_to(vec_knight_start,
+                                                            vec_knight_end);
+      break;
+
+    case Pawn:
+      flesh_out_random_move_by_specific_invisible_pawn_to();
+      break;
+
+    default:
+      break;
+  }
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.moving = Empty;
+  move_effect_journal[movement].u.piece_movement.movingspec = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
@@ -2815,62 +2880,27 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
   if (motivation[id].on==sq_arrival)
   {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    Side const side_playing = trait[nbply];
 
     TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
-      // TODO flesh out Dummy and move accordingly
-      recurse_into_child_ply();
-    else
     {
-      assert(move_effect_journal[movement].type==move_effect_piece_movement);
-      assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
-      assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
-      assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
-      assert(move_effect_journal[movement].u.piece_movement.movingspec==0);
+      consumption_type const save_consumption = current_consumption;
 
-      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
-      move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
+      reallocate_fleshing_out(side_playing);
 
-      // TODO King
+      // TODO iterate over all walks
+      ++being_solved.number_of_pieces[side_playing][Knight];
+      replace_walk(sq_arrival,Knight);
+      // TODO detect uninterceptable check
+      flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+      replace_walk(sq_arrival,Dummy);
+      --being_solved.number_of_pieces[side_playing][Knight];
 
-      switch (move_effect_journal[movement].u.piece_movement.moving)
-      {
-        case Queen:
-          flesh_out_random_move_by_specific_invisible_rider_to(vec_queen_start,
-                                                               vec_queen_end);
-          break;
-
-        case Rook:
-          flesh_out_random_move_by_specific_invisible_rider_to(vec_rook_start,
-                                                               vec_rook_end);
-          break;
-
-        case Bishop:
-          flesh_out_random_move_by_specific_invisible_rider_to(vec_bishop_start,
-                                                               vec_bishop_end);
-          break;
-
-        case Knight:
-          flesh_out_random_move_by_specific_invisible_leaper_to(vec_knight_start,
-                                                                vec_knight_end);
-          break;
-
-        case Pawn:
-          flesh_out_random_move_by_specific_invisible_pawn_to();
-          break;
-
-        default:
-          break;
-      }
-
-      move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-      move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
-      move_effect_journal[movement].u.piece_movement.moving = Empty;
-      move_effect_journal[movement].u.piece_movement.movingspec = 0;
+      current_consumption = save_consumption;
     }
+    else
+      flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
   }
   else
   {
