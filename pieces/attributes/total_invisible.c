@@ -2396,6 +2396,70 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   TraceFunctionResultEnd();
 }
 
+static void find_time_in_history_when_to_place_victim(square sq_addition,
+                                                      piece_walk_type walk_victim,
+                                                      Flags flags_victim)
+{
+  Side const side = TSTFLAG(flags_victim,White) ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_addition);
+  TraceWalk(walk_victim);
+  TraceValue("%x",flags_victim);
+  TraceFunctionParamListEnd();
+
+  // TODO generalise earlier plys up to and including diagram setup
+  --nbply;
+  TraceValue("%u",nbply);TraceEOL();
+
+  if (nbply==ply_retro_move)
+  {
+    // TODO victim has been on sq_addition "forever"
+    assert(0);// impossible as long as we test was_taboo() before invoking this function
+  }
+  else if (is_taboo(sq_addition,side))
+  {
+    /* end of recursion */
+  }
+  else
+  {
+    undo_move_effects();
+
+    if (is_square_empty(sq_addition))
+    {
+      if (side==trait[nbply])
+      {
+        move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+        if (sq_departure==move_by_invisible
+            && sq_arrival==move_by_invisible)
+        {
+          occupy_square(sq_addition,walk_victim,flags_victim);
+          flesh_out_random_move_by_specific_invisible_to(sq_addition);
+          empty_square(sq_addition);
+        }
+      }
+
+      find_time_in_history_when_to_place_victim(sq_addition,walk_victim,flags_victim);
+    }
+    else
+    {
+      /* end of recursion */
+    }
+
+    redo_move_effects();
+  }
+
+  ++nbply;
+  TraceValue("%u",nbply);TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void adapt_pre_capture_effect(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -2421,45 +2485,22 @@ static void adapt_pre_capture_effect(void)
         }
         else if (was_taboo(to))
         {
-          // TODO generalise
-          // earlier plys up to and including diagram setup
-          --nbply;
-          undo_move_effects();
+          consumption_type const save_consumption = current_consumption;
 
+          if (allocate_placement_of_claimed_fleshed_out(advers(trait[nbply])))
           {
-            move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-            move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-            square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-            square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-            if (sq_departure==move_by_invisible
-                && sq_arrival==move_by_invisible)
-            {
-              consumption_type const save_consumption = current_consumption;
-              if (allocate_placement_of_claimed_fleshed_out(trait[nbply]))
-              {
-                square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-                piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-                Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
 
-                TraceText("has victim moved here in a previous iteration?\n");
-
-                assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
-                move_effect_journal[pre_capture].type = move_effect_none;
-
-                occupy_square(sq_addition,walk_added,flags_added);
-                flesh_out_random_move_by_specific_invisible_to(sq_addition);
-                empty_square(sq_addition);
-
-                move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-              }
-
-              current_consumption = save_consumption;
-              TraceConsumption();TraceEOL();
-            }
+            assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+            move_effect_journal[pre_capture].type = move_effect_none;
+            find_time_in_history_when_to_place_victim(sq_addition,walk_added,flags_added);
+            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
           }
 
-          redo_move_effects();
-          ++nbply;
+          current_consumption = save_consumption;
+          TraceConsumption();TraceEOL();
         }
         else
         {
