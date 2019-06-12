@@ -64,3 +64,35 @@ solution finished.
 solution finished.
 
 
+
+1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   B   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       3 + 2
+
+  add_to_move_generation_stack:      107188
+                     play_move:       22514
+ is_white_king_square_attacked:        4939
+ is_black_king_square_attacked:       11930
+
+solution finished.
+
+

@@ -10,5 +10,10 @@ next
 pieces 1 white kc4 ra1b1 pa5 black ka6
 stipulation h#1.5
 
-end
+next
 
+origin 1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
+pieces 2 white ka5 rh1 bh8 black ka1 pa2
+stipulation h#1.5
+
+end
