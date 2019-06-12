@@ -96,3 +96,40 @@ solution finished.
 solution finished.
 
 
+
+1...Rb1-b8   2..~-~ [+bTIb6]a5*b6 # is not a solution because a bTI can not have moved to b6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8       .       .   .   .   .   .   8
+|                                   |
+7   .   .       .   .   .   .   .   7
+|                                   |
+6  -K   .   .       .   .   .   .   6
+|                                   |
+5   P   .   K       .   .   .   .   5
+|                                   |
+4   .   .       .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       4 + 1
+
+  1...Ra1-a3   2.Ka6*a5 .~-~ #
+  1...Rb1-b7   2.Ka6*a5 Rb7-a7 #
+  1...Rb1-b5   2.TI~*a5 Ra1*a5 #
+  1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
+  1...Kc5-c6   2..~-~ [+bTIb6]a5*b6 #
+  add_to_move_generation_stack:       71928
+                     play_move:       14347
+ is_white_king_square_attacked:        2920
+ is_black_king_square_attacked:        8044
+
+solution finished.
+
+
