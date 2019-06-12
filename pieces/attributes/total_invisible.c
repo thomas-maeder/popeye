@@ -2408,14 +2408,17 @@ static void find_time_in_history_when_to_place_victim(square sq_addition,
   TraceValue("%x",flags_victim);
   TraceFunctionParamListEnd();
 
-  // TODO generalise earlier plys up to and including diagram setup
   --nbply;
   TraceValue("%u",nbply);TraceEOL();
 
   if (nbply==ply_retro_move)
   {
-    // TODO victim has been on sq_addition "forever"
-    assert(0);// impossible as long as we test was_taboo() before invoking this function
+    TraceText("victim has been here \"forever\"\n");
+    occupy_square(sq_addition,walk_victim,flags_victim);
+    ++nbply;
+    start_iteration();
+    --nbply;
+    empty_square(sq_addition);
   }
   else if (is_taboo(sq_addition,side))
   {
@@ -2437,6 +2440,7 @@ static void find_time_in_history_when_to_place_victim(square sq_addition,
         if (sq_departure==move_by_invisible
             && sq_arrival==move_by_invisible)
         {
+          TraceText("victim moved here\n");
           occupy_square(sq_addition,walk_victim,flags_victim);
           flesh_out_random_move_by_specific_invisible_to(sq_addition);
           empty_square(sq_addition);
@@ -2483,7 +2487,7 @@ static void adapt_pre_capture_effect(void)
           TraceText("victim was placed in previous iteration\n");
           adapt_capture_effect();
         }
-        else if (was_taboo(to))
+        else
         {
           consumption_type const save_consumption = current_consumption;
 
@@ -2497,37 +2501,6 @@ static void adapt_pre_capture_effect(void)
             move_effect_journal[pre_capture].type = move_effect_none;
             find_time_in_history_when_to_place_victim(sq_addition,walk_added,flags_added);
             move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-          }
-
-          current_consumption = save_consumption;
-          TraceConsumption();TraceEOL();
-        }
-        else
-        {
-          consumption_type const save_consumption = current_consumption;
-          if (allocate_placement_of_claimed_fleshed_out(advers(trait[nbply])))
-          {
-            /* adding the total invisible in the pre-capture effect sounds tempting, but
-             * if added right-away, the inserted piece may intercept an illegal check
-             */
-            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-
-            TraceText("victim is placed in this iteration\n");
-
-            assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
-            move_effect_journal[pre_capture].type = move_effect_none;
-
-            occupy_square(sq_addition,walk_added,flags_added);
-            restart_from_scratch();
-            empty_square(sq_addition);
-
-            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-          }
-          else
-          {
-            TraceText("no invisible left to be placed as victim\n");
           }
 
           current_consumption = save_consumption;
