@@ -60,10 +60,10 @@ solution finished.
   1..~-~ [+bTIb3]a2*b3 #
   1.b2-b1=R [+bTIb3]a2*b3 #
   1.[+wTIc1]b2*c1=S Qa3-b2 #
-  add_to_move_generation_stack:        4970
-                     play_move:        1368
+  add_to_move_generation_stack:        6230
+                     play_move:        1896
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        1046
+ is_black_king_square_attacked:        1574
 
 solution finished.
 
@@ -165,10 +165,10 @@ Sake tourney 2018, 1st prize, b) cooked
   1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8[g3=wR] #
   1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8[g3=wR] #
   1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
-  add_to_move_generation_stack:    21795739
-                     play_move:     2868343
+  add_to_move_generation_stack:    21795064
+                     play_move:     2868298
  is_white_king_square_attacked:      520502
- is_black_king_square_attacked:     1747807
+ is_black_king_square_attacked:     1747762
 
 solution finished.
 
@@ -199,10 +199,10 @@ Sake tourney 2018, 1st prize, a) corrected
   h#2                         2 + 6
 
   1.Be1-g3 TI~*g3   2.Rh1-g1 Qb2-b8[g3=wR] #
-  add_to_move_generation_stack:    17906809
-                     play_move:     2350017
- is_white_king_square_attacked:      417190
- is_black_king_square_attacked:     1405659
+  add_to_move_generation_stack:    17909770
+                     play_move:     2349770
+ is_white_king_square_attacked:      417178
+ is_black_king_square_attacked:     1405424
 
 solution finished.
 
@@ -233,10 +233,10 @@ Sake tourney 2018, 1st prize, b) corrected
   h#2                         2 + 6
 
   1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
-  add_to_move_generation_stack:    19012313
-                     play_move:     2512108
+  add_to_move_generation_stack:    19018631
+                     play_move:     2513172
  is_white_king_square_attacked:      457237
- is_black_king_square_attacked:     1527690
+ is_black_king_square_attacked:     1528754
 
 solution finished.
 
@@ -269,7 +269,7 @@ solution finished.
 a) 
 
   1.Rf1-f5 TI~*g4   2.Rf8-d8[g4=wR] TI~*g1 #
-  add_to_move_generation_stack:    26285872
+  add_to_move_generation_stack:    26286780
                      play_move:     5769402
  is_white_king_square_attacked:     1063975
  is_black_king_square_attacked:     3373825
@@ -277,7 +277,7 @@ a)
 b) -bPg5  
 
   1.Rf8-f2 TI~*f1   2.Qg4-g8[f1=wB] TI~*h3 #
-  add_to_move_generation_stack:    29465684
+  add_to_move_generation_stack:    29466154
                      play_move:     5938698
  is_white_king_square_attacked:     1096822
  is_black_king_square_attacked:     3481989
@@ -314,19 +314,19 @@ a)
 
   1.TI~*g6 h5-h6   2.TI~*h6 TI~*d7[d7=wB] #
   1.TI~*h5 Kg3-f3   2.TI~*g6 TI~*d7[g6=bQ][d7=wB] #
-  add_to_move_generation_stack:     4244820
-                     play_move:     1235918
- is_white_king_square_attacked:      229068
- is_black_king_square_attacked:      712365
+  add_to_move_generation_stack:     4246656
+                     play_move:     1236080
+ is_white_king_square_attacked:      229114
+ is_black_king_square_attacked:      712481
 
 b) wPg6-->d4  
 
   1.TI~*d4 Kg3-h4   2.TI~*d2 TI~*d7[d7=wB] #
   1.TI~*d4 Kg3-f4   2.TI~*d2 TI~*c3[d2=bR][c3=wS] #
-  add_to_move_generation_stack:     3703834
-                     play_move:     1133515
- is_white_king_square_attacked:      209005
- is_black_king_square_attacked:      650730
+  add_to_move_generation_stack:     3703491
+                     play_move:     1133419
+ is_white_king_square_attacked:      208958
+ is_black_king_square_attacked:      650681
 
 solution finished.
 
@@ -359,18 +359,18 @@ Sake tourney 2018, 3rd prize, correction
 a) 
 
   1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7[g6=bQ][d7=wB] #
-  add_to_move_generation_stack:     3268460
-                     play_move:      899892
- is_white_king_square_attacked:      166173
- is_black_king_square_attacked:      517810
+  add_to_move_generation_stack:     3270153
+                     play_move:      900031
+ is_white_king_square_attacked:      166215
+ is_black_king_square_attacked:      517907
 
 b) wPg6-->d4  
 
   1.TI~*d2 Kf1-f2   2.TI~*d4 TI~*c3[c3=wS][d4=bR] #
-  add_to_move_generation_stack:     2790727
-                     play_move:      814188
- is_white_king_square_attacked:      149507
- is_black_king_square_attacked:      466461
+  add_to_move_generation_stack:     2791486
+                     play_move:      814206
+ is_white_king_square_attacked:      149479
+ is_black_king_square_attacked:      466507
 
 solution finished.
 
@@ -455,10 +455,10 @@ solution finished.
   1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
   1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
   1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
-  add_to_move_generation_stack:    43740628
-                     play_move:     5661822
- is_white_king_square_attacked:     1072019
- is_black_king_square_attacked:     3353406
+  add_to_move_generation_stack:    43741736
+                     play_move:     5661750
+ is_white_king_square_attacked:     1072074
+ is_black_king_square_attacked:     3353279
 
 solution finished.
 
@@ -603,10 +603,10 @@ solution finished.
 
   1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
   1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
-  add_to_move_generation_stack:    53392773
-                     play_move:     6523491
- is_white_king_square_attacked:     1188718
- is_black_king_square_attacked:     4101732
+  add_to_move_generation_stack:    53392707
+                     play_move:     6523483
+ is_white_king_square_attacked:     1188716
+ is_black_king_square_attacked:     4101726
 
 solution finished.
 
@@ -639,7 +639,7 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:    56822048
+  add_to_move_generation_stack:    56822159
                      play_move:     9440809
  is_white_king_square_attacked:     1057065
  is_black_king_square_attacked:     7373768
@@ -647,7 +647,7 @@ a)
 b) wSb5-->d7  
 
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
-  add_to_move_generation_stack:    49039207
+  add_to_move_generation_stack:    49039330
                      play_move:     5938603
  is_white_king_square_attacked:     1026713
  is_black_king_square_attacked:     3833475
@@ -683,18 +683,18 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:   128972499
-                     play_move:    57824584
- is_white_king_square_attacked:     3072772
- is_black_king_square_attacked:    52553251
+  add_to_move_generation_stack:   129005131
+                     play_move:    57843870
+ is_white_king_square_attacked:     3073276
+ is_black_king_square_attacked:    52572033
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:    92479941
-                     play_move:    40980209
- is_white_king_square_attacked:     2279703
- is_black_king_square_attacked:    36873724
+  add_to_move_generation_stack:    92681367
+                     play_move:    41122324
+ is_white_king_square_attacked:     2283097
+ is_black_king_square_attacked:    37012445
 
 solution finished.
 
@@ -737,10 +737,10 @@ a)
   1.Kg1-g2 Qd3-h3   2.Kg2-h1 [+wRa1]0-0-0[d1=wR] #
   1.Kg1-h1 Qd3-h3   2..~-~ [+wRa1]0-0-0[d1=wR] #
   1.Kg1-h1 Qd3-g3   2.Kh1-g1 [+wRa1]0-0-0[d1=wR] #
-  add_to_move_generation_stack:     1538147
-                     play_move:      179353
- is_white_king_square_attacked:       51273
- is_black_king_square_attacked:      114840
+  add_to_move_generation_stack:     1538144
+                     play_move:      179341
+ is_white_king_square_attacked:       51270
+ is_black_king_square_attacked:      114831
 
 b) bKg1-->g2  
 
@@ -756,10 +756,10 @@ b) bKg1-->g2
   1.Kg2-g1 Qd3-h3   2.Kg1-h1 [+wRa1]0-0-0[d1=wR] #
   1.Kg2-h2 .~-~   2.Kh2-h3 Qd3-g3 #
   1.Kg2-h2 [+wRa1]0-0-0[d1=wR]   2.Kh2-h3 Qd3-g3 #
-  add_to_move_generation_stack:     2286388
-                     play_move:      260296
- is_white_king_square_attacked:       70648
- is_black_king_square_attacked:      166673
+  add_to_move_generation_stack:     2286402
+                     play_move:      260288
+ is_white_king_square_attacked:       70646
+ is_black_king_square_attacked:      166667
 
 solution finished.
 
@@ -792,10 +792,10 @@ solution finished.
   1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4[a4=wS] #
   1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4[a4=wS] #
   1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3[e3=wB] #
-  add_to_move_generation_stack:      861862
-                     play_move:      295527
- is_white_king_square_attacked:       47955
- is_black_king_square_attacked:      164045
+  add_to_move_generation_stack:      862807
+                     play_move:      295590
+ is_white_king_square_attacked:       47945
+ is_black_king_square_attacked:      164118
 
 solution finished.
 
@@ -961,7 +961,7 @@ Michel Caillaud & Igor Vere\vs\vcagin
   1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6[c6=wS] #
   1.[+bRa8]0-0-0[d8=bR] Qh3-d7   2.Kc8-b8 Qd7*d8 #
   1.[+bRa8]0-0-0[d8=bR] Qh3-h7   2.Rd8-g8 TI~*g8[g8=wR] #
-  add_to_move_generation_stack:    12618881
+  add_to_move_generation_stack:    12618441
                      play_move:     1436514
  is_white_king_square_attacked:      267286
  is_black_king_square_attacked:      985175
@@ -998,10 +998,10 @@ Michael Caillaud (after Ken Kousaka)
   1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7 #
   1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6[d6=wR] #
   1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3[e3=wB] #
-  add_to_move_generation_stack:   115416537
-                     play_move:    12196846
- is_white_king_square_attacked:     2259699
- is_black_king_square_attacked:     7387911
+  add_to_move_generation_stack:   115425108
+                     play_move:    12205524
+ is_white_king_square_attacked:     2259873
+ is_black_king_square_attacked:     7396415
 
 solution finished.
 

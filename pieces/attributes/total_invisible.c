@@ -3948,18 +3948,12 @@ static void colour_interceptor(vec_index_type kcurr,
   TraceFunctionParamListEnd();
 
   if (!is_taboo(pos,preferred_side))
-  {
-    assert(!is_rider_check_uninterceptable_on_vector(trait[nbply-1],being_solved.king_square[trait[nbply-1]],kcurr,walk_at_end));
     walk_interceptor(preferred_side,pos);
-  }
 
   if (!end_of_iteration)
   {
     if (!is_taboo(pos,advers(preferred_side)))
-    {
-      assert(!is_rider_check_uninterceptable_on_vector(trait[nbply-1],being_solved.king_square[trait[nbply-1]],kcurr,walk_at_end));
       walk_interceptor(advers(preferred_side),pos);
-    }
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -3976,10 +3970,6 @@ static void place_interceptor_of_side_on_square(vec_index_type kcurr,
                                                 intercept_checks_fct *recurse,
                                                 Side side)
 {
-  Side const side_in_check = trait[nbply-1];
-  Side const side_checking = advers(side_in_check);
-  square const king_pos = being_solved.king_square[side_in_check];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
   TraceSquare(s);
@@ -3991,8 +3981,7 @@ static void place_interceptor_of_side_on_square(vec_index_type kcurr,
   {
     consumption_type const save_consumption = current_consumption;
 
-    assert(!is_rider_check_uninterceptable_on_vector(side_checking,king_pos,kcurr,walk_at_end));
-    TraceSquare(s);TraceEnumerator(Side,side_in_check);TraceEOL();
+    TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
     CLRFLAG(being_solved.spec[s],advers(side));
 
