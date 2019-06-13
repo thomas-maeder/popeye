@@ -2237,6 +2237,45 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_random_move_by_specific_invisible_king_to(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const king_square_movement = movement+1;
+  vec_index_type k;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  assert(being_solved.king_square[trait[nbply]]==move_effect_journal[movement].u.piece_movement.to);
+
+  assert(move_effect_journal[king_square_movement].type==move_effect_none);
+  move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+  move_effect_journal[king_square_movement].u.king_square_movement.to = move_effect_journal[movement].u.piece_movement.to;
+  move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+  for (k = vec_queen_start; k<=vec_queen_end && !end_of_iteration; ++k)
+  {
+    move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
+    TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+    TraceEOL();
+
+    if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+    {
+      being_solved.king_square[trait[nbply]] = move_effect_journal[movement].u.piece_movement.from;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = move_effect_journal[movement].u.piece_movement.from;
+      done_fleshing_out_random_move_by_specific_invisible_to();
+    }
+  }
+
+  being_solved.king_square[trait[nbply]] = move_effect_journal[movement].u.piece_movement.to;
+  move_effect_journal[king_square_movement].type = move_effect_none;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type kstart,
                                                                   vec_index_type kend)
 {
@@ -2326,10 +2365,12 @@ static void flesh_out_random_move_by_specific_invisible_to_according_to_walk(squ
   move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(sq_arrival);
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_arrival];
 
-  // TODO King
-
   switch (move_effect_journal[movement].u.piece_movement.moving)
   {
+    case King:
+      flesh_out_random_move_by_specific_invisible_king_to();
+      break;
+
     case Queen:
       flesh_out_random_move_by_specific_invisible_rider_to(vec_queen_start,
                                                            vec_queen_end);
