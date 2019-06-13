@@ -746,33 +746,48 @@ static vec_index_type is_rider_check_uninterceptable(Side side_checking, square 
   return result;
 }
 
+static boolean can_interceptor_be_allocated(void)
+{
+  consumption_type const save_consumption = current_consumption;
+  boolean result = allocate_placement_of_claimed_fleshed_out(White);
+  current_consumption = save_consumption;
+  result = result || allocate_placement_of_claimed_fleshed_out(Black);
+  current_consumption = save_consumption;
+  return result;
+}
+
 static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack, square sq_attacked)
 {
-  vec_index_type result = 0;
   Side const side_checking = advers(side_under_attack);
+  vec_index_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_under_attack);
   TraceSquare(sq_attacked);
   TraceFunctionParamListEnd();
 
-  if (being_solved.king_square[side_under_attack]!=initsquare)
+  if (can_interceptor_be_allocated())
   {
-    if (!result && being_solved.number_of_pieces[side_checking][King]>0)
-      result = king_check_ortho(side_checking,sq_attacked);
+    if (being_solved.king_square[side_under_attack]!=initsquare)
+    {
+      if (!result && being_solved.number_of_pieces[side_checking][King]>0)
+        result = king_check_ortho(side_checking,sq_attacked);
 
-    if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
-      result = pawn_check_ortho(side_checking,sq_attacked);
+      if (!result && being_solved.number_of_pieces[side_checking][Pawn]>0)
+        result = pawn_check_ortho(side_checking,sq_attacked);
 
-    if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
-      result = knight_check_ortho(side_checking,sq_attacked);
+      if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
+        result = knight_check_ortho(side_checking,sq_attacked);
 
-    if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
-      result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
+      if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
+        result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_rook_start,vec_rook_end, Rook);
 
-    if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
-      result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
+      if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
+        result = is_rider_check_uninterceptable(side_checking,sq_attacked, vec_bishop_start,vec_bishop_end, Bishop);
+    }
   }
+  else
+    result = is_square_uninterceptably_observed_ortho(side_checking,sq_attacked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
