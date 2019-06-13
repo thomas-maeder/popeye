@@ -787,7 +787,7 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
     }
   }
   else
-    result = is_square_uninterceptably_observed_ortho(side_checking,sq_attacked);
+    result = is_square_observed_ortho(side_checking,sq_attacked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
