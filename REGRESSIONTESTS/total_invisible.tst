@@ -133,3 +133,45 @@ solution finished.
 solution finished.
 
 
+
+no castling if the invisible rook would have delivered check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       2 + 2
+
+a) 
+
+  add_to_move_generation_stack:       24162
+                     play_move:        6320
+ is_white_king_square_attacked:        1862
+ is_black_king_square_attacked:        2919
+
+b)   
+
+  1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
+  add_to_move_generation_stack:       21175
+                     play_move:        5682
+ is_white_king_square_attacked:        1839
+ is_black_king_square_attacked:        2651
+
+solution finished.
+
+

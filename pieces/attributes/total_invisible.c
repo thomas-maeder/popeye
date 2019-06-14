@@ -2574,9 +2574,23 @@ static void adapt_pre_capture_effect(void)
     }
     else
     {
-      // TODO should we detect illegal checks by the added castling partner?
-      TraceText("addition of a castling partner - no need for adaptation\n");
-      adapt_capture_effect();
+      square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+      TraceText("addition of a castling partner - must have happend at diagram setup time\n");
+      if (!was_taboo(sq_addition))
+      {
+        piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+        Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+        Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+
+        assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+        move_effect_journal[pre_capture].type = move_effect_none;
+        ++being_solved.number_of_pieces[side_added][walk_added];
+        occupy_square(sq_addition,walk_added,flags_added);
+        restart_from_scratch();
+        empty_square(sq_addition);
+        --being_solved.number_of_pieces[side_added][walk_added];
+        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+      }
     }
   }
   else
@@ -5278,6 +5292,8 @@ void total_invisible_generate_special_moves(slice_index si)
         Side const side_victim = advers(side_playing);
         if (nr_placeable_invisibles_for_side(side_victim)>0)
           generate_pawn_capture_left(si,side_playing==White ? dir_up : dir_down);
+        else
+          pipe_move_generation_delegate(si);
         break;
       }
 
