@@ -4676,13 +4676,6 @@ static boolean is_move_still_playable(slice_index si)
         generate_moves_for_piece(sq_departure);
         CLRCASTLINGFLAGMASK(side,rh_cancastle);
       }
-      else if (!is_no_capture(sq_capture) && is_square_empty(sq_capture))
-      {
-        // TODO how can we end up here?
-        occupy_square(sq_capture,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
-        generate_moves_for_piece(sq_departure);
-        empty_square(sq_capture);
-      }
       else
         generate_moves_for_piece(sq_departure);
 
