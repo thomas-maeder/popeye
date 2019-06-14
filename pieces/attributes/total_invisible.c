@@ -2575,8 +2575,12 @@ static void adapt_pre_capture_effect(void)
     else
     {
       square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-      TraceText("addition of a castling partner - must have happend at diagram setup time\n");
-      if (!was_taboo(sq_addition))
+      TraceText("addition of a castling partner - must have happened at diagram setup time\n");
+      if (was_taboo(sq_addition))
+      {
+        TraceText("Hmm - some invisible piece must have travelled through the castling partner's square\n");
+      }
+      else
       {
         piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
