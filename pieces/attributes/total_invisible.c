@@ -198,7 +198,8 @@ typedef enum
   play_replay_validating,
   play_replay_testing,
   play_finalising_replay,
-  play_unwinding
+  play_unwinding,
+  play_testing_goal
 } play_phase_type;
 
 static play_phase_type play_phase = play_regular;
@@ -5093,6 +5094,8 @@ static void attack_checks(void)
  */
 void total_invisible_goal_guard_solve(slice_index si)
 {
+  play_phase_type const save_play_phase = play_phase;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -5100,7 +5103,9 @@ void total_invisible_goal_guard_solve(slice_index si)
   /* make sure that we don't generate pawn captures total invisible */
   assert(play_phase==play_replay_validating || play_phase==play_replay_testing);
 
+  play_phase = play_testing_goal;
   pipe_solve_delegate(si);
+  play_phase = save_play_phase;
 
   if (play_phase==play_replay_validating)
   {
