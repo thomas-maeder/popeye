@@ -1759,55 +1759,40 @@ static void evaluate_revelations(void)
   TraceFunctionResultEnd();
 }
 
-static void initialise_replay(void)
+static void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",phase_replay)
   TraceFunctionParamListEnd();
 
-  do
+  if (nbply>ply_retro_move+1)
   {
     --nbply;
     undo_move_effects();
-  }
-  while (nbply-1!=ply_retro_move);
-
-  ply_replayed = nbply;
-  nbply = top_ply_of_regular_play;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void do_replay(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TracePosition(being_solved.board,being_solved.spec);
-
-  mate_validation_result = mate_unvalidated;
-
-  pipe_solve_delegate(tester_slice);
-
-  if (solve_result>combined_result)
-    combined_result = solve_result;
-  TracePosition(being_solved.board,being_solved.spec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void finalise_replay(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  nbply = ply_replayed;
-
-  while (nbply<=top_ply_of_regular_play)
-  {
+    replay_fleshed_out_move_sequence(phase_replay);
     redo_move_effects();
     ++nbply;
+  }
+  else
+  {
+    ply_replayed = nbply;
+    nbply = top_ply_of_regular_play;
+
+    TracePosition(being_solved.board,being_solved.spec);
+
+    play_phase = phase_replay;
+
+    mate_validation_result = mate_unvalidated;
+
+    pipe_solve_delegate(tester_slice);
+
+    if (solve_result>combined_result)
+      combined_result = solve_result;
+    TracePosition(being_solved.board,being_solved.spec);
+
+    play_phase = play_finalising_replay;
+
+    nbply = ply_replayed;
   }
 
   TraceFunctionExit(__func__);
@@ -1834,11 +1819,7 @@ static void done_validating_king_placements(void)
 
     case play_validating_mate:
       play_phase = play_initialising_replay;
-      initialise_replay();
-      play_phase = play_replay_validating;
-      do_replay();
-      play_phase = play_finalising_replay;
-      finalise_replay();
+      replay_fleshed_out_move_sequence(play_replay_validating);
       play_phase = play_validating_mate;
 
       if (mate_validation_result<combined_validation_result)
@@ -1850,11 +1831,7 @@ static void done_validating_king_placements(void)
 
     case play_testing_mate:
       play_phase = play_initialising_replay;
-      initialise_replay();
-      play_phase = play_replay_testing;
-      do_replay();
-      play_phase = play_finalising_replay;
-      finalise_replay();
+      replay_fleshed_out_move_sequence(play_replay_testing);
       play_phase = play_testing_mate;
 
       /* This:
@@ -1883,22 +1860,19 @@ static void start_iteration(void);
 
 static void restart_from_scratch(void)
 {
-  ply const save_nbply = nbply;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  while (nbply!=ply_retro_move+1)
+  if (nbply==ply_retro_move+1)
+  {
+    TraceValue("%u",nbply);TraceEOL();
+    start_iteration();
+  }
+  else
   {
     --nbply;
     undo_move_effects();
-  }
-
-  TraceValue("%u",nbply);TraceEOL();
-  start_iteration();
-
-  while (nbply!=save_nbply)
-  {
+    restart_from_scratch();
     redo_move_effects();
     ++nbply;
   }
