@@ -23,5 +23,12 @@ pieces 1 white kc5 ra1b1 pa5 black ka6
 stipulation h#1.5
 condition hole c4d5d6c7a8c8
 
+next
+
+origin no castling if the invisible rook would have delivered check
+pieces 1 white ke1 se3 black kh3 ph5
+stipulation h#1.5
+twin condition hole h2
+
 end
 
