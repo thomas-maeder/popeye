@@ -3808,9 +3808,9 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
     /* 6:~-~(Bf3-e4) 7:~-~(Pe3-d4) 8:~-b7(Be4-b7) 9:e5-d4(Ke5-d4)
      * 1. an invisible piece of side s was placed
      * 2. a random move of side s placed it on square sq
-     * 3. s made a random move that could have left sq but didn't
+     * 3. advers(s) dit *not* make a move that could have captured on sq
      * 4. the current pawn move is blocked on sq
-     * */
+     */
       result = true;
 
     if (motivation[id].acts_when<nbply
