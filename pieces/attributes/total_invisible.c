@@ -860,6 +860,99 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
+static void reveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
+  Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
+  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
+  if (TSTFLAG(spec,White))
+    ++being_solved.number_of_pieces[White][walk];
+  if (TSTFLAG(spec,Black))
+    ++being_solved.number_of_pieces[Black][walk];
+  replace_walk(on,walk);
+  being_solved.spec[on] = spec;
+  SetPieceId(being_solved.spec[on],id_on_board);
+  if (TSTFLAG(spec,Royal) && walk==King)
+  {
+    TraceSquare(being_solved.king_square[side_revealed]);
+    being_solved.king_square[side_revealed] = on;
+  }
+  TraceValue("%x",being_solved.spec[on]);TraceEOL();
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unreveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const walk = entry->u.piece_addition.added.walk;
+  Flags const spec = entry->u.piece_addition.added.flags;
+  Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(play_phase==play_validating_mate);
+  assert(get_walk_of_piece_on_square(on)==walk);
+  assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
+  TraceText("substituting dummy for revealed piece\n");
+  if (TSTFLAG(spec,Royal) && walk==King)
+  {
+    CLRFLAG(being_solved.spec[on],Royal);
+    being_solved.king_square[side_revealed] = initsquare;
+  }
+  SETFLAG(being_solved.spec[on],Chameleon);
+  replace_walk(on,Dummy);
+  if (TSTFLAG(spec,White))
+    --being_solved.number_of_pieces[White][walk];
+  if (TSTFLAG(spec,Black))
+    --being_solved.number_of_pieces[Black][walk];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reveal_fleshed_out(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.piece_addition.added.on;
+  Flags const spec = entry->u.piece_addition.added.flags;
+  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  being_solved.spec[on] = spec;
+  SetPieceId(being_solved.spec[on],id_on_board);
+  TraceValue("%x",being_solved.spec[on]);TraceEOL();
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+  ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = Black;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unreveal_fleshed_out(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.piece_addition.added.on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  SETFLAG(being_solved.spec[on],Chameleon);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
@@ -901,29 +994,9 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       assert(!is_square_empty(on));
       TraceValue("%u",(entry->u.piece_addition.for_side==White));TraceEOL();
       if (entry->u.piece_addition.for_side==White)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        assert(play_phase==play_validating_mate);
-        assert(get_walk_of_piece_on_square(on)==walk);
-        assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-        TraceText("substituting dummy for revealed piece\n");
-        if (TSTFLAG(spec,Royal) && walk==King)
-        {
-          CLRFLAG(being_solved.spec[on],Royal);
-          being_solved.king_square[side] = initsquare;
-        }
-        SETFLAG(being_solved.spec[on],Chameleon);
-        replace_walk(on,Dummy);
-        if (TSTFLAG(spec,White))
-          --being_solved.number_of_pieces[White][walk];
-        if (TSTFLAG(spec,Black))
-          --being_solved.number_of_pieces[Black][walk];
-      }
+        unreveal_not_fleshed_out(entry);
       else if (entry->u.piece_addition.for_side==Black)
-      {
-        TraceText("re-setting TI flag\n");
-        SETFLAG(being_solved.spec[on],Chameleon);
-      }
+        unreveal_fleshed_out(entry);
       ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
       break;
 
@@ -997,38 +1070,12 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
         assert(!(TSTFLAG(spec,Royal)
                  && walk==King
                  && being_solved.king_square[side_revealed]!=initsquare));
-        {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-          TraceText("substituting revealed piece for dummy\n");
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
-          if (TSTFLAG(spec,White))
-            ++being_solved.number_of_pieces[White][walk];
-          if (TSTFLAG(spec,Black))
-            ++being_solved.number_of_pieces[Black][walk];
-          replace_walk(on,walk);
-          being_solved.spec[on] = spec;
-          SetPieceId(being_solved.spec[on],id_on_board);
-          if (TSTFLAG(spec,Royal) && walk==King)
-          {
-            TraceSquare(being_solved.king_square[side_revealed]);
-            being_solved.king_square[side_revealed] = on;
-          }
-          TraceValue("%x",being_solved.spec[on]);TraceEOL();
-          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-        }
+        reveal_not_fleshed_out(entry);
       }
       else
       {
         assert(get_walk_of_piece_on_square(on)==walk);
-        {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-          TraceText("clearing TI flag\n");
-          being_solved.spec[on] = spec;
-          SetPieceId(being_solved.spec[on],id_on_board);
-          TraceValue("%x",being_solved.spec[on]);TraceEOL();
-          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = Black;
-        }
+        reveal_fleshed_out(entry);
       }
       break;
 
@@ -1354,6 +1401,43 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
+static void reveal_placed(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.revelation_of_placed_piece.on;
+  Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(TSTFLAG(being_solved.spec[on],Chameleon));
+  being_solved.spec[on] = flags_revealed;
+  SetPieceId(being_solved.spec[on],id_on_board);
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unreveal_placed(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.revelation_of_placed_piece.on;
+  piece_walk_type const walk_revealed = entry->u.revelation_of_placed_piece.walk_revealed;
+  Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(get_walk_of_piece_on_square(on)==walk_revealed);
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
+  SETFLAG(being_solved.spec[on],Chameleon);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.revelation_of_placed_piece.on;
@@ -1419,11 +1503,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_replay_validating:
     case play_replay_testing:
     case play_finalising_replay:
-      assert(!is_square_empty(on));
-      assert(get_walk_of_piece_on_square(on)==walk_revealed);
-      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-      SETFLAG(being_solved.spec[on],Chameleon);
+      unreveal_placed(entry);
       break;
 
     case play_unwinding:
@@ -1499,14 +1579,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!is_square_empty(on));
       assert(get_walk_of_piece_on_square(on)==walk_revealed
              && TSTFLAG(being_solved.spec[on],side_revealed));
-      {
-        PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-        assert(TSTFLAG(being_solved.spec[on],Chameleon));
-        being_solved.spec[on] = flags_revealed;
-        SetPieceId(being_solved.spec[on],id_on_board);
-        assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-        assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-      }
+      reveal_placed(entry);
       break;
 
     case play_unwinding:
@@ -1974,45 +2047,14 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
               && walk==King
               && being_solved.king_square[side_revealed]!=initsquare)
           {
+            // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
-            PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-            TraceText("substituting revealed piece for dummy\n");
-            ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
-            if (TSTFLAG(spec,White))
-              ++being_solved.number_of_pieces[White][walk];
-            if (TSTFLAG(spec,Black))
-              ++being_solved.number_of_pieces[Black][walk];
-            replace_walk(on,walk);
-            being_solved.spec[on] = spec;
-            SetPieceId(being_solved.spec[on],id_on_board);
-            if (TSTFLAG(spec,Royal) && walk==King)
-            {
-              TraceSquare(being_solved.king_square[side_revealed]);
-              being_solved.king_square[side_revealed] = on;
-            }
-            TraceValue("%x",being_solved.spec[on]);TraceEOL();
-            assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-
+            reveal_not_fleshed_out(entry);
             test_and_execute_revelations(curr+1);
-
-            assert(play_phase==play_validating_mate);
-            assert(get_walk_of_piece_on_square(on)==walk);
-            assert(((being_solved.spec[on])&PieSpMask)==((spec)&PieSpMask));
-            TraceText("substituting dummy for revealed piece\n");
-            if (TSTFLAG(spec,Royal) && walk==King)
-            {
-              CLRFLAG(being_solved.spec[on],Royal);
-              being_solved.king_square[side_revealed] = initsquare;
-            }
-            SETFLAG(being_solved.spec[on],Chameleon);
-            replace_walk(on,Dummy);
-            if (TSTFLAG(spec,White))
-              --being_solved.number_of_pieces[White][walk];
-            if (TSTFLAG(spec,Black))
-              --being_solved.number_of_pieces[Black][walk];
+            unreveal_not_fleshed_out(entry);
           }
           else
           {
@@ -2022,18 +2064,9 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else if (get_walk_of_piece_on_square(on)==walk
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-          TraceText("clearing TI flag\n");
-          being_solved.spec[on] = spec;
-          SetPieceId(being_solved.spec[on],id_on_board);
-          TraceValue("%x",being_solved.spec[on]);TraceEOL();
-          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-          ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = Black;
-
+          reveal_fleshed_out(entry);
           test_and_execute_revelations(curr+1);
-
-          TraceText("re-setting TI flag\n");
-          SETFLAG(being_solved.spec[on],Chameleon);
+          unreveal_fleshed_out(entry);
         }
         else
         {
@@ -2054,19 +2087,9 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (get_walk_of_piece_on_square(on)==walk_revealed
             && TSTFLAG(being_solved.spec[on],side_revealed))
         {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-          assert(TSTFLAG(being_solved.spec[on],Chameleon));
-          being_solved.spec[on] = flags_revealed;
-          SetPieceId(being_solved.spec[on],id_on_board);
-          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-          assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-
+          reveal_placed(entry);
           test_and_execute_revelations(curr+1);
-
-          assert(get_walk_of_piece_on_square(on)==walk_revealed);
-          assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-          assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-          SETFLAG(being_solved.spec[on],Chameleon);
+          unreveal_placed(entry);
         }
         else
         {
