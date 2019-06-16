@@ -292,7 +292,7 @@ void total_invisible_write_flesh_out_history(void)
   if (nbply!=ply_nil)
   {
     fprintf(stdout," -");
-    write_history_recursive(nbply);
+    write_history_recursive(top_ply_of_regular_play);
   }
 }
 
