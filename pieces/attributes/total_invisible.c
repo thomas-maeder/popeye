@@ -5699,12 +5699,9 @@ static void instrument_replay_branch(slice_index si,
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachedTester,
                                              &subsitute_goal_guard);
-    /* self check is impossible with the current optimisations for orthodox pieces ...
-     */
-    // TODO can we get rid of tests for self-check again?
-//    stip_structure_traversal_override_single(&st_nested,
-//                                             STSelfCheckGuard,
-//                                             &remove_the_pipe);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STSelfCheckGuard,
+                                             &remove_the_pipe);
     stip_traverse_structure(si,&st_nested);
   }
 
