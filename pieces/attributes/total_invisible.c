@@ -930,6 +930,7 @@ static void reveal_fleshed_out(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(TSTFLAG(being_solved.spec[on],Chameleon));
   being_solved.spec[on] = spec;
   SetPieceId(being_solved.spec[on],id_on_board);
   TraceValue("%x",being_solved.spec[on]);TraceEOL();
@@ -943,10 +944,15 @@ static void reveal_fleshed_out(move_effect_journal_entry_type const *entry)
 static void unreveal_fleshed_out(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const walk_revealed = entry->u.piece_addition.added.walk;
+  Flags const flags_revealed = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(get_walk_of_piece_on_square(on)==walk_revealed);
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
   SETFLAG(being_solved.spec[on],Chameleon);
 
   TraceFunctionExit(__func__);
@@ -1414,7 +1420,6 @@ static void reveal_placed(move_effect_journal_entry_type const *entry)
   being_solved.spec[on] = flags_revealed;
   SetPieceId(being_solved.spec[on],id_on_board);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
