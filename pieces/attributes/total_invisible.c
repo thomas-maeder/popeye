@@ -1796,6 +1796,47 @@ static void done_validating_king_placements(void)
       break;
   }
 
+//  printf("%u:",play_phase);
+//  total_invisible_write_flesh_out_history();
+//  printf(" - ");
+//  {
+//    square const *bnp;
+//    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+//      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
+//      {
+//        WriteSpec(&output_plaintext_engine,
+//                  stdout,being_solved.spec[*bnp],
+//                  being_solved.board[*bnp],true);
+//        WriteWalk(&output_plaintext_engine,
+//                  stdout,
+//                  get_walk_of_piece_on_square(*bnp));
+//        WriteSquare(&output_plaintext_engine,stdout,*bnp);
+//        printf("(%lu) ",GetPieceId(being_solved.spec[*bnp]));
+//      }
+//  }
+//  switch (play_phase)
+//  {
+//    case play_detecting_revelations:
+//      printf("-");
+//      {
+//        unsigned int i;
+//        for (i = 0; i!=nr_potential_revelations; ++i)
+//        {
+//          printf(TSTFLAG(revelation_status[i].spec,White) ? " w" : " s");
+//          WriteWalk(&output_plaintext_engine,
+//                    stdout,
+//                    revelation_status[i].walk);
+//          WriteSquare(&output_plaintext_engine,stdout,revelation_status[i].pos);
+//          printf("(%lu)",GetPieceId(revelation_status[i].spec));
+//        }
+//      }
+//      break;
+//
+//    default:
+//      break;
+//  }
+//  printf(":%u\n",end_of_iteration);
+
   TracePosition(being_solved.board,being_solved.spec);
   TraceValue("%u",end_of_iteration);TraceEOL();
 
