@@ -954,11 +954,9 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       }
       break;
 
-    case play_detecting_revelations:
     case play_validating_mate:
-    case play_testing_mate:
       assert(!is_square_empty(on));
-      unreveal_new(entry);
+      SETFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_initialising_replay:
@@ -966,6 +964,8 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_replay_testing:
       break;
 
+    case play_detecting_revelations:
+    case play_testing_mate:
     case play_unwinding:
     case play_finalising_replay:
     default:
@@ -1015,17 +1015,10 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       break;
 
-    case play_detecting_revelations:
     case play_validating_mate:
-    case play_testing_mate:
       assert(!is_square_empty(on));
       assert(TSTFLAG(being_solved.spec[on],side_revealed));
-      assert(play_phase==play_validating_mate);
-      assert(get_walk_of_piece_on_square(on)==Dummy);
-      assert(!(TSTFLAG(spec,Royal)
-               && walk==King
-               && being_solved.king_square[side_revealed]!=initsquare));
-      reveal_new(entry);
+      CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
     case play_finalising_replay:
@@ -1033,6 +1026,8 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_replay_testing:
       break;
 
+    case play_detecting_revelations:
+    case play_testing_mate:
     case play_rewinding:
     case play_initialising_replay:
     default:
