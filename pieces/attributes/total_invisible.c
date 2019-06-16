@@ -839,7 +839,6 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
 
   assert(play_phase==play_regular);
 
-  entry->u.piece_addition.for_side = no_side;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = walk;
   entry->u.piece_addition.added.flags = spec;
@@ -860,7 +859,7 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void reveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
+static void reveal_new(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -871,7 +870,6 @@ static void reveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = White;
   if (TSTFLAG(spec,White))
     ++being_solved.number_of_pieces[White][walk];
   if (TSTFLAG(spec,Black))
@@ -891,7 +889,7 @@ static void reveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-static void unreveal_not_fleshed_out(move_effect_journal_entry_type const *entry)
+static void unreveal_new(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -916,44 +914,6 @@ static void unreveal_not_fleshed_out(move_effect_journal_entry_type const *entry
     --being_solved.number_of_pieces[White][walk];
   if (TSTFLAG(spec,Black))
     --being_solved.number_of_pieces[Black][walk];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void reveal_fleshed_out(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.piece_addition.added.on;
-  Flags const spec = entry->u.piece_addition.added.flags;
-  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(TSTFLAG(being_solved.spec[on],Chameleon));
-  being_solved.spec[on] = spec;
-  SetPieceId(being_solved.spec[on],id_on_board);
-  TraceValue("%x",being_solved.spec[on]);TraceEOL();
-  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = Black;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void unreveal_fleshed_out(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.piece_addition.added.on;
-  piece_walk_type const walk_revealed = entry->u.piece_addition.added.walk;
-  Flags const flags_revealed = entry->u.piece_addition.added.flags;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(get_walk_of_piece_on_square(on)==walk_revealed);
-  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-  SETFLAG(being_solved.spec[on],Chameleon);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -998,22 +958,12 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_validating_mate:
     case play_testing_mate:
       assert(!is_square_empty(on));
-      TraceValue("%u",(entry->u.piece_addition.for_side==White));TraceEOL();
-      if (entry->u.piece_addition.for_side==White)
-        unreveal_not_fleshed_out(entry);
-      else if (entry->u.piece_addition.for_side==Black)
-        unreveal_fleshed_out(entry);
-      ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
+      unreveal_new(entry);
       break;
 
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
-      if (entry->u.piece_addition.for_side==Black)
-      {
-        TraceText("re-setting TI flag\n");
-        SETFLAG(being_solved.spec[on],Chameleon);
-      }
       break;
 
     case play_unwinding:
@@ -1068,31 +1018,19 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-      assert(entry->u.piece_addition.for_side==no_side);
       assert(!is_square_empty(on));
       assert(TSTFLAG(being_solved.spec[on],side_revealed));
-      if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
-      {
-        assert(!(TSTFLAG(spec,Royal)
-                 && walk==King
-                 && being_solved.king_square[side_revealed]!=initsquare));
-        reveal_not_fleshed_out(entry);
-      }
-      else
-      {
-        assert(get_walk_of_piece_on_square(on)==walk);
-        reveal_fleshed_out(entry);
-      }
+      assert(play_phase==play_validating_mate);
+      assert(get_walk_of_piece_on_square(on)==Dummy);
+      assert(!(TSTFLAG(spec,Royal)
+               && walk==King
+               && being_solved.king_square[side_revealed]!=initsquare));
+      reveal_new(entry);
       break;
 
     case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
-      if (entry->u.piece_addition.for_side==Black)
-      {
-        TraceText("re-clearing TI flag\n");
-        CLRFLAG(being_solved.spec[on],Chameleon);
-      }
       break;
 
     case play_rewinding:
@@ -2033,7 +1971,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
   }
   else
   {
-    move_effect_journal_entry_type const * const entry = &move_effect_journal[curr];
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
     switch (entry->type)
     {
       case move_effect_revelation_of_new_invisible:
@@ -2043,7 +1981,6 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         Flags const spec = entry->u.piece_addition.added.flags;
         Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
 
-        assert(entry->u.piece_addition.for_side==no_side);
         if (is_square_empty(on))
           TraceText("revelation expected, but square is empty - aborting\n");
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
@@ -2057,9 +1994,9 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
-            reveal_not_fleshed_out(entry);
+            reveal_new(entry);
             test_and_execute_revelations(curr+1);
-            unreveal_not_fleshed_out(entry);
+            unreveal_new(entry);
           }
           else
           {
@@ -2069,15 +2006,24 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else if (get_walk_of_piece_on_square(on)==walk
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
-          reveal_fleshed_out(entry);
+          entry->type = move_effect_revelation_of_placed_invisible;
+          entry->u.revelation_of_placed_piece.on = on;
+          entry->u.revelation_of_placed_piece.walk_original = get_walk_of_piece_on_square(on);
+          entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
+          entry->u.revelation_of_placed_piece.walk_revealed = walk;
+          entry->u.revelation_of_placed_piece.flags_revealed = spec;
+          reveal_placed(entry);
           test_and_execute_revelations(curr+1);
-          unreveal_fleshed_out(entry);
+          unreveal_placed(entry);
+          entry->type = move_effect_revelation_of_new_invisible;
+          entry->u.piece_addition.added.on = on;
+          entry->u.piece_addition.added.walk = walk;
+          entry->u.piece_addition.added.flags = spec;
         }
         else
         {
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
         }
-        ((move_effect_journal_entry_type *)entry)->u.piece_addition.for_side = no_side;
         break;
       }
 
