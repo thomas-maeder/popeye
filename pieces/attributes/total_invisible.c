@@ -2202,9 +2202,16 @@ static void adapt_capture_effect(void)
   else if (is_square_empty(to))
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
-    move_effect_journal[capture].type = move_effect_no_piece_removal;
-    recurse_into_child_ply();
-    move_effect_journal[capture].type = move_effect_piece_removal;
+    if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
+    {
+      TraceText("bad idea if the capturer is a pawn!\n");
+    }
+    else
+    {
+      move_effect_journal[capture].type = move_effect_no_piece_removal;
+      recurse_into_child_ply();
+      move_effect_journal[capture].type = move_effect_piece_removal;
+    }
   }
   else
   {
@@ -2380,6 +2387,8 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   Side const side_moving = trait[nbply];
   int const dir = side_moving==White ? dir_up : dir_down;
+  SquareFlags const promsq = side_moving==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side_moving==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2390,16 +2399,18 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   TraceSquare(move_effect_journal[movement].u.piece_movement.from);
   TraceEOL();
 
-  if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+  if (is_square_empty(move_effect_journal[movement].u.piece_movement.from)
+      && !TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],basesq)
+      && !TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],promsq))
   {
     done_fleshing_out_random_move_by_specific_invisible_to();
 
     if (!end_of_iteration)
     {
-      SquareFlags const basesq = side_moving==White ? WhBaseSq : BlBaseSq;
+      SquareFlags const doublestepsq = side_moving==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
       move_effect_journal[movement].u.piece_movement.from -= dir;
-      if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],basesq)
+      if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublestepsq)
           && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
         done_fleshing_out_random_move_by_specific_invisible_to();
     }
@@ -2634,10 +2645,17 @@ static void adapt_pre_capture_effect(void)
       }
       else
       {
+        PieceIdType const id = GetPieceId(being_solved.spec[to]);
+        motivation_type const save_motivation = motivation[id];
+
         TraceText("another total invisible has moved to the arrival square - "
                   "no need for addition any more!\n");
         move_effect_journal[pre_capture].type = move_effect_none;
+        motivation[id].acts_when = nbply;
+        motivation[id].purpose = purpose_victim;
+        motivation[id].on = to;
         adapt_capture_effect();
+        motivation[id] = save_motivation;
         move_effect_journal[pre_capture].type = move_effect_piece_readdition;
       }
     }
@@ -4860,7 +4878,11 @@ void total_invisible_move_repeater_solve(slice_index si)
     undo_move_effects();
   }
   else
+  {
+    assert(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==kingside_castling
+           || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling);
     solve_result = previous_move_is_illegal;
+  }
 
   finply();
 
