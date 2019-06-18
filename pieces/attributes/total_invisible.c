@@ -4868,7 +4868,9 @@ void total_invisible_move_repeater_solve(slice_index si)
 
   nextply(SLICE_STARTER(si));
 
-  if (is_move_still_playable(si))
+  if (!(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==kingside_castling
+       || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling)
+      || is_move_still_playable(si))
   {
     copy_move_effects();
     redo_move_effects();
@@ -4878,11 +4880,7 @@ void total_invisible_move_repeater_solve(slice_index si)
     undo_move_effects();
   }
   else
-  {
-    assert(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==kingside_castling
-           || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling);
     solve_result = previous_move_is_illegal;
-  }
 
   finply();
 
