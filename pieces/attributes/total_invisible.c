@@ -4869,7 +4869,7 @@ void total_invisible_move_repeater_solve(slice_index si)
   nextply(SLICE_STARTER(si));
 
   if (!(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==kingside_castling
-       || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling)
+        || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling)
       || is_move_still_playable(si))
   {
     copy_move_effects();
