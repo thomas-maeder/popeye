@@ -270,6 +270,16 @@ static PieceIdType next_invisible_piece_id;
 
 static move_effect_journal_index_type top_before_relevations[maxply+1];
 
+static void report_deadend(char const *s, unsigned int lineno)
+{
+  printf("%s;%u;%u\n",s,lineno,play_phase);
+}
+
+#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
+#define REPORT_EXIT report_deadend("EXIT",__LINE__)
+
+#define REPORT_DEADEND
+#define REPORT_EXIT
 
 static void write_history_recursive(ply ply)
 {
@@ -1753,6 +1763,8 @@ static void done_validating_king_placements(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
+  REPORT_EXIT;
+
   switch (play_phase)
   {
     case play_detecting_revelations:
@@ -1942,6 +1954,7 @@ static void validate_king_placements(void)
     {
       being_solved.king_square[side_to_be_mated] = initsquare;
       TraceText("The king to be mated can be anywhere\n");
+      REPORT_DEADEND;
 
       switch (play_phase)
       {
@@ -1971,7 +1984,10 @@ static void validate_king_placements(void)
   }
   else if (being_solved.king_square[side_mating]==initsquare
            && nr_total_invisbles_consumed()==total_invisible_number)
+  {
     combined_result = previous_move_is_illegal;
+    REPORT_DEADEND;
+  }
   else
     done_validating_king_placements();
 
@@ -2018,7 +2034,10 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
 
         if (is_square_empty(on))
+        {
           TraceText("revelation expected, but square is empty - aborting\n");
+          REPORT_DEADEND;
+        }
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
         {
           if (TSTFLAG(spec,Royal)
@@ -2027,6 +2046,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           {
             // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
+            REPORT_DEADEND;
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
@@ -2037,6 +2057,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           else
           {
             TraceText("revealed piece belongs to different side than actual piece\n");
+            REPORT_DEADEND;
           }
         }
         else if (get_walk_of_piece_on_square(on)==walk
@@ -2059,6 +2080,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
+          REPORT_DEADEND;
         }
         break;
       }
@@ -2081,6 +2103,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
+          REPORT_DEADEND;
         }
         break;
       }
@@ -2196,6 +2219,7 @@ static void adapt_capture_effect(void)
       else
       {
         TraceText("move is now blocked\n");
+        REPORT_DEADEND;
       }
     }
   }
@@ -2205,6 +2229,7 @@ static void adapt_capture_effect(void)
     if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
     {
       TraceText("bad idea if the capturer is a pawn!\n");
+      REPORT_DEADEND;
     }
     else
     {
@@ -2526,6 +2551,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   else
   {
     TraceText("the piece has already moved\n");
+    REPORT_DEADEND;
   }
 
   TraceFunctionExit(__func__);
@@ -2666,6 +2692,7 @@ static void adapt_pre_capture_effect(void)
       if (was_taboo(sq_addition))
       {
         TraceText("Hmm - some invisible piece must have travelled through the castling partner's square\n");
+        REPORT_DEADEND;
       }
       else
       {
@@ -3300,6 +3327,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
+      assert(motivation[id].purpose==purpose_capturer);
       motivation[id].inserted_when = nbply;
       motivation[id].on = sq_departure;
       /* these were set in regular play already: */
@@ -3388,7 +3416,10 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceEOL();
     assert(motivation[id].purpose!=purpose_none);
     if (motivation[id].acts_when>nbply)
+    {
       TraceText("the piece was added to later act from its current square\n");
+      REPORT_DEADEND;
+    }
     else
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -3461,12 +3492,12 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 
   for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
-      square sq_departure;
-      for (sq_departure = sq_arrival+vec[kcurr];
-           is_square_empty(sq_departure) && !end_of_iteration;
-           sq_departure += vec[kcurr])
-        if (first_taboo_violation==nullsquare)
-          flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
+    square sq_departure;
+    for (sq_departure = sq_arrival+vec[kcurr];
+         is_square_empty(sq_departure) && !end_of_iteration;
+         sq_departure += vec[kcurr])
+      if (first_taboo_violation==nullsquare)
+        flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
 
     if (!end_of_iteration)
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
@@ -3871,7 +3902,12 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
        */
       // TODO is item 2 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
-      result = true;
+    {
+//      if (move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure==move_by_invisible
+//          && move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].arrival==move_by_invisible)
+      REPORT_DEADEND;
+        result = true;
+    }
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_random_mover
@@ -3885,7 +3921,10 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
        */
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
+    {
+      REPORT_DEADEND;
       result = true;
+    }
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_random_mover
@@ -3898,7 +3937,10 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
      * 3. advers(s) dit *not* make a move that could have captured on sq
      * 4. the current pawn move is blocked on sq
      */
+    {
+      REPORT_DEADEND;
       result = true;
+    }
 
     if (motivation[id].acts_when<nbply
         && motivation[id].purpose==purpose_random_mover
@@ -3913,7 +3955,10 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
        */
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
+    {
+      REPORT_DEADEND;
       result = true;
+    }
   }
 
   TraceFunctionExit(__func__);
