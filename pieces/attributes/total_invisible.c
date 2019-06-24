@@ -2758,7 +2758,10 @@ static void flesh_out_accidental_capture_by_invisible(void)
     TraceEOL();
     assert(motivation[id].purpose!=purpose_none);
     if (motivation[id].acts_when>nbply)
+    {
       TraceText("the planned victim was added to later act from its current square\n");
+      REPORT_DEADEND;
+    }
     else
     {
       assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
