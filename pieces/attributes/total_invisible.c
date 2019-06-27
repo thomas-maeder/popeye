@@ -3342,7 +3342,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
-      motivation[id].insertion_iteration = nbply;
+      motivation[id].insertion_iteration = current_iteration;
       motivation[id].last_on = sq_departure;
       /* these were set in regular play already: */
       assert(motivation[id].acts_last_when==nbply);

@@ -691,10 +691,10 @@ a)
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:    32731019
-                     play_move:    41121607
+  add_to_move_generation_stack:    32666213
+                     play_move:    41051185
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:    32444053
+ is_black_king_square_attacked:    32377843
 
 solution finished.
 
