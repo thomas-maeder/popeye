@@ -2759,6 +2759,7 @@ static void flesh_out_accidental_capture_by_invisible(void)
     TraceValue("%u",motivation[id].last_purpose);
     TraceValue("%u",motivation[id].acts_last_when);
     TraceEOL();
+    assert(motivation[id].first_purpose!=purpose_none);
     assert(motivation[id].last_purpose!=purpose_none);
     if (motivation[id].acts_last_when>nbply)
     {
@@ -3199,6 +3200,7 @@ static void flesh_out_random_move_by_specific_invisible(square pos,
     TraceValue("%u",motivation[id].acts_last_when);
     TraceValue("%u",motivation[id].insertion_iteration);
     TraceEOL();
+    assert(motivation[id].first_purpose!=purpose_none);
     assert(motivation[id].last_purpose!=purpose_none);
 
     if (motivation[id].acts_last_when<=nbply)
@@ -3428,6 +3430,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceValue("%u",motivation[id].last_purpose);
     TraceValue("%u",motivation[id].acts_last_when);
     TraceEOL();
+    assert(motivation[id].first_purpose!=purpose_none);
     assert(motivation[id].last_purpose!=purpose_none);
     if (motivation[id].acts_last_when>nbply)
     {
