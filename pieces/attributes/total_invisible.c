@@ -3281,7 +3281,16 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
 
     /* we are committed to only fleshing out moves by one piece to the square where
      * it will later fulfill its purpose */
-    if (first_taboo_violation==nullsquare || motivation[id].last_on==first_taboo_violation)
+    if (first_taboo_violation==nullsquare)
+    {
+      assert(can_invisible_used_later_move(id));
+      if (is_there_random_move_until(motivation[id].acts_last_when))
+        /* let posteriority act first, possibly unmoving piece to pos "first" */
+        recurse_into_child_ply();
+      else
+        flesh_out_random_move_by_specific_invisible_to(motivation[id].last_on);
+    }
+    else if (motivation[id].last_on==first_taboo_violation)
     {
       assert(can_invisible_used_later_move(id));
       if (is_there_random_move_until(motivation[id].acts_last_when))
