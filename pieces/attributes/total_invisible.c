@@ -2725,7 +2725,7 @@ static void adapt_pre_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_random_move_by_invisible(void)
+static void done_fleshing_out_random_move_by_invisible_from(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2774,7 +2774,7 @@ static void flesh_out_accidental_capture_by_invisible(void)
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
 
-      done_fleshing_out_random_move_by_invisible();
+      done_fleshing_out_random_move_by_invisible_from();
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
     }
@@ -2802,7 +2802,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
       if (!is_taboo(sq_singlestep,side))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
-        done_fleshing_out_random_move_by_invisible();
+        done_fleshing_out_random_move_by_invisible_from();
       }
 
       if (!end_of_iteration)
@@ -2817,7 +2817,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
             if (!is_taboo(sq_doublestep,side))
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
-              done_fleshing_out_random_move_by_invisible();
+              done_fleshing_out_random_move_by_invisible_from();
             }
           }
         }
@@ -2876,7 +2876,7 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
       if (is_square_empty(sq_arrival))
       {
         if (!is_taboo(sq_arrival,trait[nbply]))
-          done_fleshing_out_random_move_by_invisible();
+          done_fleshing_out_random_move_by_invisible_from();
       }
       else
       {
@@ -2918,7 +2918,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
       if (is_square_empty(sq_arrival))
-        done_fleshing_out_random_move_by_invisible();
+        done_fleshing_out_random_move_by_invisible_from();
       else
         flesh_out_accidental_capture_by_invisible();
     }
