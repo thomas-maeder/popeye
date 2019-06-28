@@ -2289,8 +2289,9 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       PieceIdType const id = GetPieceId(being_solved.spec[move_effect_journal[movement].u.piece_movement.from]);
       motivation_type const save_motivation = motivation[id];
 
-      motivation[id].last_purpose = purpose_random_mover;
-      motivation[id].last_on = move_effect_journal[movement].u.piece_movement.from;
+      motivation[id].first_purpose = purpose_random_mover;
+      motivation[id].first_on = move_effect_journal[movement].u.piece_movement.from;
+      motivation[id].acts_first_when = nbply;
 
       update_taboo_arrival(+1);
       restart_from_scratch();
@@ -2458,10 +2459,10 @@ static void flesh_out_random_move_by_specific_invisible_to_according_to_walk(squ
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  TraceSquare(motivation[id].last_on);TraceEOL();
+  TraceSquare(motivation[id].first_on);TraceEOL();
   TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
 
-  assert(motivation[id].last_on==sq_arrival);
+  assert(motivation[id].first_on==sq_arrival);
   assert(get_walk_of_piece_on_square(sq_arrival)!=Dummy);
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
@@ -2524,9 +2525,9 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  TraceSquare(motivation[id].last_on);TraceEOL();
+  TraceSquare(motivation[id].first_on);TraceEOL();
 
-  if (motivation[id].last_on==sq_arrival)
+  if (motivation[id].first_on==sq_arrival)
   {
     TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
@@ -2643,7 +2644,7 @@ static void adapt_pre_capture_effect(void)
   {
     if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
     {
-      TraceText("capture of invisible victim added for the last_purpose\n");
+      TraceText("capture of invisible victim added for the purpose\n");
 
       if (is_square_empty(to))
       {
@@ -3196,6 +3197,8 @@ static void flesh_out_random_move_by_specific_invisible(square pos,
     PieceIdType const id = GetPieceId(being_solved.spec[pos]);
 
     TraceValue("%u",id);
+    TraceValue("%u",motivation[id].first_purpose);
+    TraceValue("%u",motivation[id].acts_first_when);
     TraceValue("%u",motivation[id].last_purpose);
     TraceValue("%u",motivation[id].acts_last_when);
     TraceValue("%u",motivation[id].insertion_iteration);
@@ -3209,12 +3212,12 @@ static void flesh_out_random_move_by_specific_invisible(square pos,
       if (motivation[id].insertion_iteration>=if_inserted_since)
         flesh_out_random_move_by_specific_invisible_from(pos);
     }
-    else
+    else if (motivation[id].acts_first_when>nbply)
     {
       /* piece will be used on pos - fleshing out moves *to* pos */
       if (can_invisible_used_later_move(id))
       {
-        if (is_there_random_move_until(motivation[id].acts_last_when))
+        if (is_there_random_move_until(motivation[id].acts_first_when))
         {
           /* let posteriority act first, possibly unmoving piece to pos "first",
            * but remember what we are at */
@@ -3237,6 +3240,9 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",committed_to_fleshing_out_random_move_by[nbply]);
+  TraceEOL();
 
   if (committed_to_fleshing_out_random_move_by[nbply]==NullPieceId)
   {
@@ -3286,11 +3292,11 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
     if (first_taboo_violation==nullsquare)
     {
       assert(can_invisible_used_later_move(id));
-      if (is_there_random_move_until(motivation[id].acts_last_when))
+      if (is_there_random_move_until(motivation[id].acts_first_when))
         /* let posteriority act first, possibly unmoving piece to pos "first" */
         recurse_into_child_ply();
       else
-        flesh_out_random_move_by_specific_invisible_to(motivation[id].last_on);
+        flesh_out_random_move_by_specific_invisible_to(motivation[id].first_on);
     }
     else if (motivation[id].last_on==first_taboo_violation)
     {
@@ -3344,11 +3350,15 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
-      motivation[id].insertion_iteration = current_iteration;
-      motivation[id].last_on = sq_departure;
       /* these were set in regular play already: */
+      assert(motivation[id].acts_first_when==nbply);
+      assert(motivation[id].first_purpose==purpose_capturer);
       assert(motivation[id].acts_last_when==nbply);
       assert(motivation[id].last_purpose==purpose_capturer);
+      /* fill in the rest: */
+      motivation[id].insertion_iteration = current_iteration;
+      motivation[id].first_on = sq_departure;
+      motivation[id].last_on = sq_departure;
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags);
