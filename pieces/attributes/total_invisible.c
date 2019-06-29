@@ -3181,8 +3181,8 @@ static boolean is_there_random_move_until(ply when)
   return result;
 }
 
-static void flesh_out_random_move_by_specific_invisible(square pos,
-                                                        iteration_index_type if_inserted_since)
+static void flesh_out_random_move_by_specific_invisible_from_or_to(square pos,
+                                                                   iteration_index_type if_inserted_since)
 {
   Side const side_playing = trait[nbply];
 
@@ -3255,7 +3255,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
       square const *s;
 
       for (s = boardnum; *s && !end_of_iteration; ++s)
-        flesh_out_random_move_by_specific_invisible(*s,save_last_time);
+        flesh_out_random_move_by_specific_invisible_from_or_to(*s,save_last_time);
 
       TraceText("random move by unplaced invisible\n");
       // TODO Strictly speaking, there is no guarantee that such a move exists
@@ -3279,7 +3279,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
       }
     }
     else
-      flesh_out_random_move_by_specific_invisible(first_taboo_violation,save_last_time);
+      flesh_out_random_move_by_specific_invisible_from_or_to(first_taboo_violation,save_last_time);
 
     fleshed_out_random_move_last_time[nbply] = save_last_time;
   }
@@ -3289,7 +3289,8 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
 
     /* we are committed to only fleshing out moves by one piece to the square where
      * it will later fulfill its purpose */
-    if (first_taboo_violation==nullsquare)
+    if (first_taboo_violation==nullsquare
+        || motivation[id].first_on==first_taboo_violation)
     {
       assert(can_invisible_used_later_move(id));
       if (is_there_random_move_until(motivation[id].acts_first_when))
@@ -3297,15 +3298,6 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
         recurse_into_child_ply();
       else
         flesh_out_random_move_by_specific_invisible_to(motivation[id].first_on);
-    }
-    else if (motivation[id].last_on==first_taboo_violation)
-    {
-      assert(can_invisible_used_later_move(id));
-      if (is_there_random_move_until(motivation[id].acts_last_when))
-        /* let posteriority act first, possibly unmoving piece to pos "first" */
-        recurse_into_child_ply();
-      else
-        flesh_out_random_move_by_specific_invisible_to(motivation[id].last_on);
     }
   }
 
