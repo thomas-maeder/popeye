@@ -235,6 +235,7 @@ typedef struct
     square pos;
     piece_walk_type walk;
     Flags spec;
+    boolean is_allocated;
 } knowledge_type;
 
 static knowledge_type knowledge;
@@ -1739,9 +1740,11 @@ static void evaluate_revelations(void)
       TraceSquare(revelation_status[i].pos_first);TraceEOL();
       if (revelation_status[i].pos_first!=initsquare)
       {
+        PieceIdType const id = GetPieceId(revelation_status[i].spec);
         knowledge.pos = revelation_status[i].pos_first;
         knowledge.walk = revelation_status[i].walk;
         knowledge.spec = revelation_status[i].spec;
+        knowledge.is_allocated = motivation[id].first.purpose==purpose_castling_partner;
         TraceWalk(knowledge.walk);
         TraceSquare(knowledge.pos);
         TraceValue("%x",knowledge.spec);
@@ -4824,9 +4827,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
       TraceEnumerator(Side,side);
       TraceEOL();
 
-      // TODO this is very ugly
-      if (((knowledge.walk==Rook && (s==square_a1 || s==square_a8 || s==square_h1 || s==square_h8))
-          || allocate_placement_of_claimed_not_fleshed_out(side))
+      if ((knowledge.is_allocated
+           || allocate_placement_of_claimed_not_fleshed_out(side))
           && !is_taboo(s,side))
       {
         ++next_invisible_piece_id;
