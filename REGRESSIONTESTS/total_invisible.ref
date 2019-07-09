@@ -533,10 +533,10 @@ Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[e3=bK][c4=wS] #
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
   1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[f1=wS][e3=bK] #
-  add_to_move_generation_stack:     4467854
-                     play_move:     8854231
+  add_to_move_generation_stack:     4471739
+                     play_move:     8872658
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2091669
+ is_black_king_square_attacked:     2097010
 
 solution finished.
 
@@ -568,10 +568,10 @@ Sake tourney 2018, 3rd HM, corrected
 
   1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] .~-~[f5=wS][e7=bK] #
   1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] .~-~[e5=wS][g6=bK] #
-  add_to_move_generation_stack:     3200470
-                     play_move:     6604469
+  add_to_move_generation_stack:     3201544
+                     play_move:     6614960
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1107897
+ is_black_king_square_attacked:     1110798
 
 solution finished.
 

@@ -1457,8 +1457,14 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
-      /* just in case */
-      CLRFLAG(being_solved.spec[on],Royal);
+      if (TSTFLAG(being_solved.spec[on],Royal))
+      {
+        Side const side = TSTFLAG(flags_revealed,White) ? White : Black;
+        assert(being_solved.king_square[side]==on);
+        assert(TSTFLAG(flags_revealed,Royal));
+        being_solved.king_square[side] = initsquare;
+        CLRFLAG(being_solved.spec[on],Royal);
+      }
       break;
 
     case play_detecting_revelations:
@@ -1557,6 +1563,11 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
       assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
+      if (TSTFLAG(flags_revealed,Royal))
+      {
+        assert(being_solved.king_square[side_revealed]==initsquare);
+        being_solved.king_square[side_revealed] = on;
+      }
       break;
     }
 
@@ -4852,26 +4863,13 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
           TraceSquare(being_solved.king_square[side]);
           TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
           TraceEOL();
-          if (being_solved.king_square[side]==initsquare)
-          {
-            being_solved.king_square[side] = s;
-            play_phase = play_validating_mate;
-            validate_mate();
-            play_phase = play_testing_mate;
-            test_mate();
-            being_solved.king_square[side] = initsquare;
-          }
-          else
-          {
-            // TODO something is wrong if we arrive here
-            square const save_king_square = being_solved.king_square[side];
-            being_solved.king_square[side] = s;
-            play_phase = play_validating_mate;
-            validate_mate();
-            play_phase = play_testing_mate;
-            test_mate();
-            being_solved.king_square[side] = save_king_square;
-          }
+          assert(being_solved.king_square[side]==initsquare);
+          being_solved.king_square[side] = s;
+          play_phase = play_validating_mate;
+          validate_mate();
+          play_phase = play_testing_mate;
+          test_mate();
+          being_solved.king_square[side] = initsquare;
         }
         else
         {
