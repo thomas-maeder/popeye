@@ -223,11 +223,21 @@ typedef struct
     square pos;
     piece_walk_type walk;
     Flags spec;
+    square pos_first;
 } revelation_status_type;
 
 static boolean revelation_status_is_uninitialised;
 static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
+
+typedef struct
+{
+    square pos;
+    piece_walk_type walk;
+    Flags spec;
+} knowledge_type;
+
+static knowledge_type knowledge;
 
 typedef unsigned int iteration_index_type;
 
@@ -1664,6 +1674,7 @@ static void initialise_revelations(void)
       TraceEOL();
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
+      revelation_status[i].pos_first = motivation[GetPieceId(being_solved.spec[s])].first.on;
       ++i;
     }
   }
@@ -1696,7 +1707,15 @@ static void update_revelations(void)
       --nr_potential_revelations;
     }
     else
+    {
+      PieceIdType const id = GetPieceId(being_solved.spec[s]);
+      square const first_on = motivation[id].first.on;
+      assert(id!=NullPieceId);
+      assert(is_on_board(first_on));
+      if (first_on!=revelation_status[i].pos_first)
+        revelation_status[i].pos_first = initsquare;
       ++i;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -1715,7 +1734,20 @@ static void evaluate_revelations(void)
     square const s = revelation_status[i].pos;
     TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
     if (revelation_status[i].walk!=Empty)
+    {
       add_revelation_effect(s,revelation_status[i].walk,revelation_status[i].spec);
+      TraceSquare(revelation_status[i].pos_first);TraceEOL();
+      if (revelation_status[i].pos_first!=initsquare)
+      {
+        knowledge.pos = revelation_status[i].pos_first;
+        knowledge.walk = revelation_status[i].walk;
+        knowledge.spec = revelation_status[i].spec;
+        TraceWalk(knowledge.walk);
+        TraceSquare(knowledge.pos);
+        TraceValue("%x",knowledge.spec);
+        TraceEOL();
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2695,15 +2727,25 @@ static void adapt_pre_capture_effect(void)
     else
     {
       square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+      piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
       TraceText("addition of a castling partner - must have happened at diagram setup time\n");
-      if (was_taboo(sq_addition))
+      if (!is_square_empty(sq_addition)
+          && sq_addition==knowledge.pos
+          && walk_added==knowledge.walk)
+      {
+        // TODO this will always be the case once we fully use our knowledge
+        TraceText("castling partner was added as part of applying our knowledge\n");
+        move_effect_journal[pre_capture].type = move_effect_none;
+        adapt_capture_effect();
+        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+      }
+      else if (was_taboo(sq_addition))
       {
         TraceText("Hmm - some invisible piece must have travelled through the castling partner's square\n");
         REPORT_DEADEND;
       }
       else
       {
-        piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
         Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
 
@@ -4275,6 +4317,7 @@ static void place_interceptor_on_line(vec_index_type kcurr,
 
   ++next_invisible_piece_id;
 
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
   assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
   motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
   motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
@@ -4759,10 +4802,96 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
     play_phase = play_rewinding;
     rewind_effects();
-    play_phase = play_validating_mate;
-    validate_mate();
-    play_phase = play_testing_mate;
-    test_mate();
+
+    TraceSquare(knowledge.pos);
+    TraceEOL();
+
+    if (knowledge.pos==initsquare)
+    {
+      play_phase = play_validating_mate;
+      validate_mate();
+      play_phase = play_testing_mate;
+      test_mate();
+    }
+    else
+    {
+      consumption_type const save_consumption = current_consumption;
+      square const s = knowledge.pos;
+      Side const side = TSTFLAG(knowledge.spec,White) ? White : Black;
+
+      TraceWalk(knowledge.walk);
+      TraceValue("%x",knowledge.spec);
+      TraceEnumerator(Side,side);
+      TraceEOL();
+
+      // TODO this is very ugly
+      if (((knowledge.walk==Rook && (s==square_a1 || s==square_a8 || s==square_h1 || s==square_h8))
+          || allocate_placement_of_claimed_not_fleshed_out(side))
+          && !is_taboo(s,side))
+      {
+        ++next_invisible_piece_id;
+        TraceValue("%u",next_invisible_piece_id);
+        TraceEOL();
+
+        assert(is_square_empty(knowledge.pos));
+        assert(TSTFLAG(knowledge.spec,Chameleon));
+        motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
+        motivation[next_invisible_piece_id].first.acts_when = 0;
+        motivation[next_invisible_piece_id].first.on = s;
+        motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
+        motivation[next_invisible_piece_id].last.acts_when = 0;
+        motivation[next_invisible_piece_id].last.on = s;
+        ++being_solved.number_of_pieces[side][knowledge.walk];
+        occupy_square(knowledge.pos,knowledge.walk,knowledge.spec);
+        SetPieceId(being_solved.spec[s],next_invisible_piece_id);
+
+        if (TSTFLAG(being_solved.spec[s],Royal))
+        {
+          TraceSquare(being_solved.king_square[side]);
+          TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
+          TraceEOL();
+          if (being_solved.king_square[side]==initsquare)
+          {
+            being_solved.king_square[side] = s;
+            play_phase = play_validating_mate;
+            validate_mate();
+            play_phase = play_testing_mate;
+            test_mate();
+            being_solved.king_square[side] = initsquare;
+          }
+          else
+          {
+            // TODO something is wrong if we arrive here
+            square const save_king_square = being_solved.king_square[side];
+            being_solved.king_square[side] = s;
+            play_phase = play_validating_mate;
+            validate_mate();
+            play_phase = play_testing_mate;
+            test_mate();
+            being_solved.king_square[side] = save_king_square;
+          }
+        }
+        else
+        {
+          play_phase = play_validating_mate;
+          validate_mate();
+          play_phase = play_testing_mate;
+          test_mate();
+        }
+
+        assert(s==knowledge.pos);
+        empty_square(knowledge.pos);
+        --being_solved.number_of_pieces[side][knowledge.walk];
+
+        motivation[next_invisible_piece_id].last.purpose = purpose_none;
+
+        --next_invisible_piece_id;
+      }
+      else
+        combined_result = previous_move_has_not_solved;
+
+      current_consumption = save_consumption;
+    }
     play_phase = play_unwinding;
     unrewind_effects();
     play_phase = play_regular;
@@ -4793,6 +4922,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 {
   consumption_type const save_consumption = current_consumption;
   PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
+  knowledge_type const save_knowledge = knowledge;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -4804,6 +4934,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   pipe_solve_delegate(si);
 
+  knowledge = save_knowledge;
   current_consumption = save_consumption;
   next_invisible_piece_id = save_next_invisible_piece_id;
 
@@ -5026,11 +5157,13 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
       {
+        knowledge_type const save_knowledge = knowledge;
         PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
         evaluate_revelations();
         pipe_solve_delegate(si);
         TraceConsumption();TraceEOL();
         next_invisible_piece_id = save_next_invisible_piece_id;
+        knowledge = save_knowledge;
       }
     }
 
