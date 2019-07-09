@@ -167,10 +167,10 @@ a)
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
-  add_to_move_generation_stack:        3289
-                     play_move:        5682
- is_white_king_square_attacked:         581
- is_black_king_square_attacked:        1393
+  add_to_move_generation_stack:        3271
+                     play_move:        5673
+ is_white_king_square_attacked:         575
+ is_black_king_square_attacked:        1390
 
 solution finished.
 
