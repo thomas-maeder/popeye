@@ -238,7 +238,11 @@ typedef struct
     boolean is_allocated;
 } knowledge_type;
 
-static knowledge_type knowledge;
+// TODO what is a good size for this?
+static knowledge_type knowledge[MaxPieceId];
+
+typedef unsigned int knowledge_index_type;
+static knowledge_index_type size_knowledge;
 
 typedef unsigned int iteration_index_type;
 
@@ -1752,14 +1756,15 @@ static void evaluate_revelations(void)
       if (revelation_status[i].pos_first!=initsquare)
       {
         PieceIdType const id = GetPieceId(revelation_status[i].spec);
-        knowledge.pos = revelation_status[i].pos_first;
-        knowledge.walk = revelation_status[i].walk;
-        knowledge.spec = revelation_status[i].spec;
-        knowledge.is_allocated = motivation[id].first.purpose==purpose_castling_partner;
-        TraceWalk(knowledge.walk);
-        TraceSquare(knowledge.pos);
-        TraceValue("%x",knowledge.spec);
+        knowledge[size_knowledge].pos = revelation_status[i].pos_first;
+        knowledge[size_knowledge].walk = revelation_status[i].walk;
+        knowledge[size_knowledge].spec = revelation_status[i].spec;
+        knowledge[size_knowledge].is_allocated = motivation[id].first.purpose==purpose_castling_partner;
+        TraceWalk(knowledge[size_knowledge].walk);
+        TraceSquare(knowledge[size_knowledge].pos);
+        TraceValue("%x",knowledge[size_knowledge].spec);
         TraceEOL();
+        ++size_knowledge;
       }
     }
   }
@@ -2744,8 +2749,9 @@ static void adapt_pre_capture_effect(void)
       piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
       TraceText("addition of a castling partner - must have happened at diagram setup time\n");
       if (!is_square_empty(sq_addition)
-          && sq_addition==knowledge.pos
-          && walk_added==knowledge.walk)
+          && sq_addition==knowledge[0].pos
+          && walk_added==knowledge[0].walk
+          && knowledge[0].is_allocated)
       {
         // TODO this will always be the case once we fully use our knowledge
         TraceText("castling partner was added as part of applying our knowledge\n");
@@ -4747,28 +4753,29 @@ static void unrewind_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void apply_knowledge(void (*next_step)(void))
+static void apply_knowledge(knowledge_index_type idx_knowledge,
+                            void (*next_step)(void))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(knowledge.pos);
+  TraceSquare(knowledge[idx_knowledge].pos);
   TraceEOL();
 
-  if (knowledge.pos==initsquare)
+  if (idx_knowledge==size_knowledge)
     (*next_step)();
   else
   {
     consumption_type const save_consumption = current_consumption;
-    square const s = knowledge.pos;
-    Side const side = TSTFLAG(knowledge.spec,White) ? White : Black;
+    square const s = knowledge[idx_knowledge].pos;
+    Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
     TraceWalk(knowledge.walk);
     TraceValue("%x",knowledge.spec);
     TraceEnumerator(Side,side);
     TraceEOL();
 
-    if ((knowledge.is_allocated
+    if ((knowledge[idx_knowledge].is_allocated
          || allocate_placement_of_claimed_not_fleshed_out(side))
         && !is_taboo(s,side))
     {
@@ -4776,16 +4783,16 @@ static void apply_knowledge(void (*next_step)(void))
       TraceValue("%u",next_invisible_piece_id);
       TraceEOL();
 
-      assert(is_square_empty(knowledge.pos));
-      assert(TSTFLAG(knowledge.spec,Chameleon));
+      assert(is_square_empty(knowledge[idx_knowledge].pos));
+      assert(TSTFLAG(knowledge[idx_knowledge].spec,Chameleon));
       motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
       motivation[next_invisible_piece_id].first.acts_when = 0;
       motivation[next_invisible_piece_id].first.on = s;
       motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
       motivation[next_invisible_piece_id].last.acts_when = 0;
       motivation[next_invisible_piece_id].last.on = s;
-      ++being_solved.number_of_pieces[side][knowledge.walk];
-      occupy_square(knowledge.pos,knowledge.walk,knowledge.spec);
+      ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
+      occupy_square(knowledge[idx_knowledge].pos,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
       SetPieceId(being_solved.spec[s],next_invisible_piece_id);
 
       if (TSTFLAG(being_solved.spec[s],Royal))
@@ -4795,15 +4802,15 @@ static void apply_knowledge(void (*next_step)(void))
         TraceEOL();
         assert(being_solved.king_square[side]==initsquare);
         being_solved.king_square[side] = s;
-        (*next_step)();
+        apply_knowledge(idx_knowledge+1,next_step);
         being_solved.king_square[side] = initsquare;
       }
       else
-        (*next_step)();
+        apply_knowledge(idx_knowledge+1,next_step);
 
-      assert(s==knowledge.pos);
-      empty_square(knowledge.pos);
-      --being_solved.number_of_pieces[side][knowledge.walk];
+      assert(s==knowledge[idx_knowledge].pos);
+      empty_square(knowledge[idx_knowledge].pos);
+      --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
 
       motivation[next_invisible_piece_id].last.purpose = purpose_none;
 
@@ -4836,7 +4843,7 @@ static void make_revelations(void)
   rewind_effects();
   play_phase = play_detecting_revelations;
   end_of_iteration = false;
-  apply_knowledge(&start_iteration);
+  apply_knowledge(0,&start_iteration);
   play_phase = play_unwinding;
   unrewind_effects();
   play_phase = play_regular;
@@ -4907,7 +4914,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = play_rewinding;
     rewind_effects();
 
-    apply_knowledge(&validate_and_test);
+    apply_knowledge(0,&validate_and_test);
 
     play_phase = play_unwinding;
     unrewind_effects();
@@ -4939,7 +4946,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 {
   consumption_type const save_consumption = current_consumption;
   PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
-  knowledge_type const save_knowledge = knowledge;
+  knowledge_index_type const save_size_knowledge = size_knowledge;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -4951,7 +4958,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   pipe_solve_delegate(si);
 
-  knowledge = save_knowledge;
+  size_knowledge = save_size_knowledge;
   current_consumption = save_consumption;
   next_invisible_piece_id = save_next_invisible_piece_id;
 
@@ -5174,13 +5181,13 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
       {
-        knowledge_type const save_knowledge = knowledge;
+        knowledge_index_type const save_size_knowledge = size_knowledge;
         PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
         evaluate_revelations();
         pipe_solve_delegate(si);
         TraceConsumption();TraceEOL();
         next_invisible_piece_id = save_next_invisible_piece_id;
-        knowledge = save_knowledge;
+        size_knowledge = save_size_knowledge;
       }
     }
 
