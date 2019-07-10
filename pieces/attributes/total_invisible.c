@@ -4747,6 +4747,82 @@ static void unrewind_effects(void)
   TraceFunctionResultEnd();
 }
 
+static void apply_knowledge(void (*next_step)(void))
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(knowledge.pos);
+  TraceEOL();
+
+  if (knowledge.pos==initsquare)
+    (*next_step)();
+  else
+  {
+    consumption_type const save_consumption = current_consumption;
+    square const s = knowledge.pos;
+    Side const side = TSTFLAG(knowledge.spec,White) ? White : Black;
+
+    TraceWalk(knowledge.walk);
+    TraceValue("%x",knowledge.spec);
+    TraceEnumerator(Side,side);
+    TraceEOL();
+
+    if ((knowledge.is_allocated
+         || allocate_placement_of_claimed_not_fleshed_out(side))
+        && !is_taboo(s,side))
+    {
+      ++next_invisible_piece_id;
+      TraceValue("%u",next_invisible_piece_id);
+      TraceEOL();
+
+      assert(is_square_empty(knowledge.pos));
+      assert(TSTFLAG(knowledge.spec,Chameleon));
+      motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
+      motivation[next_invisible_piece_id].first.acts_when = 0;
+      motivation[next_invisible_piece_id].first.on = s;
+      motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
+      motivation[next_invisible_piece_id].last.acts_when = 0;
+      motivation[next_invisible_piece_id].last.on = s;
+      ++being_solved.number_of_pieces[side][knowledge.walk];
+      occupy_square(knowledge.pos,knowledge.walk,knowledge.spec);
+      SetPieceId(being_solved.spec[s],next_invisible_piece_id);
+
+      if (TSTFLAG(being_solved.spec[s],Royal))
+      {
+        TraceSquare(being_solved.king_square[side]);
+        TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
+        TraceEOL();
+        assert(being_solved.king_square[side]==initsquare);
+        being_solved.king_square[side] = s;
+        (*next_step)();
+        being_solved.king_square[side] = initsquare;
+      }
+      else
+        (*next_step)();
+
+      assert(s==knowledge.pos);
+      empty_square(knowledge.pos);
+      --being_solved.number_of_pieces[side][knowledge.walk];
+
+      motivation[next_invisible_piece_id].last.purpose = purpose_none;
+
+      --next_invisible_piece_id;
+    }
+    else
+    {
+      combined_result = previous_move_has_not_solved;
+      TraceText("allocation for application of knowledge not possible\n");
+      REPORT_DEADEND;
+    }
+
+    current_consumption = save_consumption;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void make_revelations(void)
 {
   TraceFunctionEntry(__func__);
@@ -4760,12 +4836,26 @@ static void make_revelations(void)
   rewind_effects();
   play_phase = play_detecting_revelations;
   end_of_iteration = false;
-  start_iteration();
+  apply_knowledge(&start_iteration);
   play_phase = play_unwinding;
   unrewind_effects();
   play_phase = play_regular;
 
   update_taboo(-1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void validate_and_test(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  play_phase = play_validating_mate;
+  validate_mate();
+  play_phase = play_testing_mate;
+  test_mate();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4817,81 +4907,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = play_rewinding;
     rewind_effects();
 
-    TraceSquare(knowledge.pos);
-    TraceEOL();
+    apply_knowledge(&validate_and_test);
 
-    if (knowledge.pos==initsquare)
-    {
-      play_phase = play_validating_mate;
-      validate_mate();
-      play_phase = play_testing_mate;
-      test_mate();
-    }
-    else
-    {
-      consumption_type const save_consumption = current_consumption;
-      square const s = knowledge.pos;
-      Side const side = TSTFLAG(knowledge.spec,White) ? White : Black;
-
-      TraceWalk(knowledge.walk);
-      TraceValue("%x",knowledge.spec);
-      TraceEnumerator(Side,side);
-      TraceEOL();
-
-      if ((knowledge.is_allocated
-           || allocate_placement_of_claimed_not_fleshed_out(side))
-          && !is_taboo(s,side))
-      {
-        ++next_invisible_piece_id;
-        TraceValue("%u",next_invisible_piece_id);
-        TraceEOL();
-
-        assert(is_square_empty(knowledge.pos));
-        assert(TSTFLAG(knowledge.spec,Chameleon));
-        motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
-        motivation[next_invisible_piece_id].first.acts_when = 0;
-        motivation[next_invisible_piece_id].first.on = s;
-        motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
-        motivation[next_invisible_piece_id].last.acts_when = 0;
-        motivation[next_invisible_piece_id].last.on = s;
-        ++being_solved.number_of_pieces[side][knowledge.walk];
-        occupy_square(knowledge.pos,knowledge.walk,knowledge.spec);
-        SetPieceId(being_solved.spec[s],next_invisible_piece_id);
-
-        if (TSTFLAG(being_solved.spec[s],Royal))
-        {
-          TraceSquare(being_solved.king_square[side]);
-          TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
-          TraceEOL();
-          assert(being_solved.king_square[side]==initsquare);
-          being_solved.king_square[side] = s;
-          play_phase = play_validating_mate;
-          validate_mate();
-          play_phase = play_testing_mate;
-          test_mate();
-          being_solved.king_square[side] = initsquare;
-        }
-        else
-        {
-          play_phase = play_validating_mate;
-          validate_mate();
-          play_phase = play_testing_mate;
-          test_mate();
-        }
-
-        assert(s==knowledge.pos);
-        empty_square(knowledge.pos);
-        --being_solved.number_of_pieces[side][knowledge.walk];
-
-        motivation[next_invisible_piece_id].last.purpose = purpose_none;
-
-        --next_invisible_piece_id;
-      }
-      else
-        combined_result = previous_move_has_not_solved;
-
-      current_consumption = save_consumption;
-    }
     play_phase = play_unwinding;
     unrewind_effects();
     play_phase = play_regular;
