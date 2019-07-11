@@ -218,12 +218,31 @@ static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
+typedef enum
+{
+  purpose_none,
+  purpose_victim,
+  purpose_interceptor,
+  purpose_random_mover,
+  purpose_capturer,
+  purpose_castling_partner,
+  purpose_attacker
+} purpose_type;
+
+typedef struct action_type
+{
+    purpose_type purpose;
+    ply acts_when;
+    square on;
+} action_type;
+
 typedef struct
 {
-    square pos;
+    square first_on;
     piece_walk_type walk;
     Flags spec;
-    square pos_first;
+    action_type first;
+    action_type last;
 } revelation_status_type;
 
 static boolean revelation_status_is_uninitialised;
@@ -232,7 +251,9 @@ static revelation_status_type revelation_status[nr_squares_on_board];
 
 typedef struct
 {
-    square pos;
+    square revealed_on;
+    square first_on;
+    action_type last;
     piece_walk_type walk;
     Flags spec;
     boolean is_allocated;
@@ -257,24 +278,6 @@ static iteration_index_type current_iteration;
 static iteration_index_type fleshed_out_random_move_last_time[maxply+1];
 /* before they fulfill their purpose: */
 static PieceIdType committed_to_fleshing_out_random_move_by[maxply+1];
-
-typedef enum
-{
-  purpose_none,
-  purpose_victim,
-  purpose_interceptor,
-  purpose_random_mover,
-  purpose_capturer,
-  purpose_castling_partner,
-  purpose_attacker
-} purpose_type;
-
-typedef struct action_type
-{
-    purpose_type purpose;
-    ply acts_when;
-    square on;
-} action_type;
 
 typedef struct
 {
@@ -1655,7 +1658,7 @@ static void setup_revelations(void)
     if (*s!=sq_ep_capture
         && (is_square_empty(*s) || TSTFLAG(being_solved.spec[*s],Chameleon)))
     {
-      revelation_status[nr_potential_revelations].pos = *s;
+      revelation_status[nr_potential_revelations].first_on = *s;
       ++nr_potential_revelations;
     }
 
@@ -1674,7 +1677,7 @@ static void initialise_revelations(void)
 
   while (i!=nr_potential_revelations)
   {
-    square const s = revelation_status[i].pos;
+    square const s = revelation_status[i].first_on;
     piece_walk_type const walk = get_walk_of_piece_on_square(s);
     if (walk==Empty)
     {
@@ -1684,13 +1687,15 @@ static void initialise_revelations(void)
     }
     else
     {
+      PieceIdType const id = GetPieceId(being_solved.spec[s]);
       TraceSquare(s);
       TraceWalk(walk);
       TraceValue("%x",being_solved.spec[s]);
       TraceEOL();
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
-      revelation_status[i].pos_first = motivation[GetPieceId(being_solved.spec[s])].first.on;
+      revelation_status[i].first.on = motivation[id].first.on;
+      revelation_status[i].last = motivation[id].last;
       ++i;
     }
   }
@@ -1710,7 +1715,8 @@ static void update_revelations(void)
 
   while (i!=nr_potential_revelations)
   {
-    square const s = revelation_status[i].pos;
+    square const s = revelation_status[i].first_on;
+    TraceSquare(s);TraceEOL();
     if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
         || (being_solved.spec[s]&PieSpMask)!=(revelation_status[i].spec&PieSpMask))
     {
@@ -1726,10 +1732,15 @@ static void update_revelations(void)
     {
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
       square const first_on = motivation[id].first.on;
+      TraceSquare(motivation[id].last.on);TraceEOL();
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
-      if (first_on!=revelation_status[i].pos_first)
-        revelation_status[i].pos_first = initsquare;
+      if (first_on!=revelation_status[i].first.on)
+        revelation_status[i].first.on = initsquare;
+      if (revelation_status[i].last.acts_when!=ply_nil
+          && (motivation[id].last.acts_when!=revelation_status[i].last.acts_when
+              || motivation[id].last.on!=revelation_status[i].last.on))
+        revelation_status[i].last.acts_when = ply_nil;
       ++i;
     }
   }
@@ -1747,21 +1758,30 @@ static void evaluate_revelations(void)
 
   for (i = 0; i!=nr_potential_revelations; ++i)
   {
-    square const s = revelation_status[i].pos;
+    square const s = revelation_status[i].first_on;
     TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
     if (revelation_status[i].walk!=Empty)
     {
       add_revelation_effect(s,revelation_status[i].walk,revelation_status[i].spec);
-      TraceSquare(revelation_status[i].pos_first);TraceEOL();
-      if (revelation_status[i].pos_first!=initsquare)
+      TraceSquare(revelation_status[i].first.on);TraceEOL();
+      if (revelation_status[i].first.on!=initsquare)
       {
         PieceIdType const id = GetPieceId(revelation_status[i].spec);
-        knowledge[size_knowledge].pos = revelation_status[i].pos_first;
+        knowledge[size_knowledge].revealed_on = s;
+        knowledge[size_knowledge].first_on = revelation_status[i].first.on;
+        knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
         knowledge[size_knowledge].is_allocated = motivation[id].first.purpose==purpose_castling_partner;
+        TraceValue("%u",id);
+        TraceValue("%u",motivation[id].first.acts_when);
+        TraceValue("%u",motivation[id].first.purpose);
+        TraceSquare(motivation[id].first.on);
+        TraceValue("%u",motivation[id].last.acts_when);
+        TraceValue("%u",motivation[id].last.purpose);
+        TraceSquare(motivation[id].last.on);
         TraceWalk(knowledge[size_knowledge].walk);
-        TraceSquare(knowledge[size_knowledge].pos);
+        TraceSquare(knowledge[size_knowledge].first_on);
         TraceValue("%x",knowledge[size_knowledge].spec);
         TraceEOL();
         ++size_knowledge;
@@ -1959,10 +1979,8 @@ static void nominate_king_invisible_by_invisible(void)
         ++being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
-
         TraceSquare(*s);TraceEOL();
         restart_from_scratch();
-
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
@@ -2749,7 +2767,7 @@ static void adapt_pre_capture_effect(void)
       piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
       TraceText("addition of a castling partner - must have happened at diagram setup time\n");
       if (!is_square_empty(sq_addition)
-          && sq_addition==knowledge[0].pos
+          && sq_addition==knowledge[0].first_on
           && walk_added==knowledge[0].walk
           && knowledge[0].is_allocated)
       {
@@ -4196,7 +4214,6 @@ static void walk_interceptor(Side side, square pos)
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  TraceSquare(pos);
   TraceSquare(being_solved.king_square[side]);
   TraceEOL();
   assert(is_square_empty(pos));
@@ -4754,24 +4771,56 @@ static void unrewind_effects(void)
 }
 
 static void apply_knowledge(knowledge_index_type idx_knowledge,
+                            void (*next_step)(void));
+
+static void apply_royal_knowledge(knowledge_index_type idx_knowledge,
+                                  void (*next_step)(void))
+{
+  square const s = knowledge[idx_knowledge].first_on;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx_knowledge);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(being_solved.spec[s],Royal))
+  {
+    Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
+    TraceSquare(being_solved.king_square[side]);
+    TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
+    TraceEOL();
+    assert(being_solved.king_square[side]==initsquare);
+    being_solved.king_square[side] = s;
+    apply_knowledge(idx_knowledge+1,next_step);
+    being_solved.king_square[side] = initsquare;
+  }
+  else
+    apply_knowledge(idx_knowledge+1,next_step);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void apply_knowledge(knowledge_index_type idx_knowledge,
                             void (*next_step)(void))
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx_knowledge);
   TraceFunctionParamListEnd();
 
-  TraceSquare(knowledge[idx_knowledge].pos);
-  TraceEOL();
+  TraceValue("%u",size_knowledge);TraceEOL();
 
   if (idx_knowledge==size_knowledge)
     (*next_step)();
   else
   {
     consumption_type const save_consumption = current_consumption;
-    square const s = knowledge[idx_knowledge].pos;
+    square const s = knowledge[idx_knowledge].first_on;
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
-    TraceWalk(knowledge.walk);
-    TraceValue("%x",knowledge.spec);
+    TraceSquare(s);
+    TraceSquare(knowledge[idx_knowledge].first_on);
+    TraceWalk(knowledge[idx_knowledge].walk);
+    TraceValue("%x",knowledge[idx_knowledge].spec);
     TraceEnumerator(Side,side);
     TraceEOL();
 
@@ -4783,7 +4832,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       TraceValue("%u",next_invisible_piece_id);
       TraceEOL();
 
-      assert(is_square_empty(knowledge[idx_knowledge].pos));
+      assert(is_square_empty(knowledge[idx_knowledge].first_on));
       assert(TSTFLAG(knowledge[idx_knowledge].spec,Chameleon));
       motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
       motivation[next_invisible_piece_id].first.acts_when = 0;
@@ -4792,24 +4841,80 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       motivation[next_invisible_piece_id].last.acts_when = 0;
       motivation[next_invisible_piece_id].last.on = s;
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-      occupy_square(knowledge[idx_knowledge].pos,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
+      occupy_square(knowledge[idx_knowledge].first_on,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
       SetPieceId(being_solved.spec[s],next_invisible_piece_id);
 
-      if (TSTFLAG(being_solved.spec[s],Royal))
+      if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
-        TraceSquare(being_solved.king_square[side]);
-        TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
+        move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
+        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        TraceSquare(knowledge[idx_knowledge].revealed_on);
+        TraceValue("%u",knowledge[idx_knowledge].last.acts_when);
+        TraceValue("%u",knowledge[idx_knowledge].last.purpose);
+        TraceSquare(knowledge[idx_knowledge].last.on);
+        TraceWalk(move_effect_journal[movement].u.piece_movement.moving);
+        TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
+        TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+        TraceSquare(move_effect_journal[movement].u.piece_movement.to);
         TraceEOL();
-        assert(being_solved.king_square[side]==initsquare);
-        being_solved.king_square[side] = s;
-        apply_knowledge(idx_knowledge+1,next_step);
-        being_solved.king_square[side] = initsquare;
+        assert(move_effect_journal[movement].type==move_effect_piece_movement);
+        if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
+        {
+          ply const save_nbply = nbply;
+          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+          motivation_type const save_motivation = motivation[id];
+          move_effect_journal_index_type const precapture = effects_base;
+          move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
+          assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+          assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
+          assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
+          TraceText("prevent searching for capturer - we know who did it\n");
+          move_effect_journal[precapture].type = move_effect_none;
+          move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
+          move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
+          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[knowledge[idx_knowledge].last.on];
+          motivation[id].last = knowledge[idx_knowledge].last;
+          nbply = knowledge[idx_knowledge].last.acts_when;
+          update_taboo_arrival(+1);
+          nbply = save_nbply;
+          apply_royal_knowledge(idx_knowledge,next_step);
+          nbply = knowledge[idx_knowledge].last.acts_when;
+          update_taboo_arrival(-1);
+          nbply = save_nbply;
+          move_effect_journal[movement] = save_movement;
+          move_effect_journal[precapture].type = move_effect_piece_readdition;
+          motivation[id] = save_motivation;
+        }
+        else if (knowledge[idx_knowledge].last.purpose==purpose_castling_partner)
+        {
+          // no adaption necessary
+          assert(move_effect_journal[movement].u.piece_movement.moving==King);
+          assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
+          assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
+          apply_royal_knowledge(idx_knowledge,next_step);
+        }
+        else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
+        {
+          // override all three:
+          assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
+          assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+          assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
+          apply_royal_knowledge(idx_knowledge,next_step);
+        }
+        else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
+        {
+          // no adaption necessary - it can't have moved
+          assert(s==knowledge[idx_knowledge].revealed_on);
+          apply_royal_knowledge(idx_knowledge,next_step);
+        }
+        else
+          assert(0);
       }
       else
-        apply_knowledge(idx_knowledge+1,next_step);
+        apply_royal_knowledge(idx_knowledge,next_step);
 
-      assert(s==knowledge[idx_knowledge].pos);
-      empty_square(knowledge[idx_knowledge].pos);
+      assert(s==knowledge[idx_knowledge].first_on);
+      empty_square(knowledge[idx_knowledge].first_on);
       --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
 
       motivation[next_invisible_piece_id].last.purpose = purpose_none;
@@ -5155,7 +5260,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
         unsigned int i;
         for (i = 0; i!=nr_potential_revelations; ++i)
         {
-          square const s = revelation_status[i].pos;
+          square const s = revelation_status[i].first_on;
           TraceValue("%u",i);
           TraceSquare(s);
           TraceWalk(revelation_status[i].walk);
