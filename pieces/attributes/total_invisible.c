@@ -2178,7 +2178,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
 
         if (is_square_empty(on))
         {
-          TraceText("the revelated piece isn't here (any more?)\n");
+          TraceText("the revealed piece isn't here (any more?)\n");
           REPORT_DEADEND;
         }
         else if (get_walk_of_piece_on_square(on)==walk_revealed
@@ -4512,11 +4512,13 @@ static void start_iteration(void)
   TraceFunctionParamListEnd();
 
   ++current_iteration;
+  TraceValue("%u",current_iteration);TraceEOL();
 
   intercept_illegal_checks();
 
   assert(current_iteration>0);
   --current_iteration;
+  TraceValue("%u",current_iteration);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
