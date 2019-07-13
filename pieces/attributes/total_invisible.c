@@ -4381,12 +4381,31 @@ static void place_interceptor_on_line(vec_index_type kcurr,
          is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
     {
-      TraceSquare(s);
-      TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
-      TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
-      TraceEOL();
-      if (!was_taboo(s))
-        place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
+      /* use the taboo machinery to avoid attempting to intercept on the same
+       * square in different iterations.
+       * nbply minus 1 is correct - this taboo is equivalent to those deduced from
+       * the previous move.
+       */
+      if (nr_taboos_for_current_move_in_ply[nbply-1][White][s]==0
+          && nr_taboos_for_current_move_in_ply[nbply-1][Black][s]==0)
+      {
+        TraceSquare(s);
+        TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
+        TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
+        TraceEOL();
+        if (!was_taboo(s))
+          place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
+      }
+      ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];
+      ++nr_taboos_for_current_move_in_ply[nbply-1][Black][s];
+    }
+    {
+      square s2;
+      for (s2 = king_pos+vec[kcurr]; s2!=s; s2 += vec[kcurr])
+      {
+        --nr_taboos_for_current_move_in_ply[nbply-1][White][s2];
+        --nr_taboos_for_current_move_in_ply[nbply-1][Black][s2];
+      }
     }
     TraceSquare(s);
     TraceValue("%u",end_of_iteration);
