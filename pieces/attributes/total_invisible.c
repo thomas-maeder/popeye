@@ -4959,8 +4959,6 @@ static void make_revelations(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  update_taboo(+1);
-
   top_ply_of_regular_play = nbply;
   setup_revelations();
   play_phase = play_rewinding;
@@ -4971,8 +4969,6 @@ static void make_revelations(void)
   play_phase = play_unwinding;
   unrewind_effects();
   play_phase = play_regular;
-
-  update_taboo(-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5075,7 +5071,9 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  update_taboo(+1);
   make_revelations();
+  update_taboo(-1);
 
   if (!revelation_status_is_uninitialised)
     evaluate_revelations();
