@@ -3482,30 +3482,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
-static void done_fleshing_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
-                                                            square sq_departure)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
-  /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-  update_nr_taboos_for_current_move_in_ply(+1);
-  restart_from_scratch();
-  update_nr_taboos_for_current_move_in_ply(-1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
                                                     square sq_departure)
 {
@@ -3539,6 +3515,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       motivation_type const save_motivation = motivation[id];
 
       /* deactivate the pre-capture insertion of the moving total invisible since
@@ -3547,13 +3524,20 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
 
+      move_effect_journal[movement].u.piece_movement.from = sq_departure;
+      /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+      move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+      update_nr_taboos_for_current_move_in_ply(+1);
+
       motivation[id].last.purpose = purpose_capturer;
       motivation[id].last.acts_when = nbply;
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-        done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+        move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+        recurse_into_child_ply();
       }
       else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
       {
@@ -3569,7 +3553,10 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
 
         if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
-          done_fleshing_out_capture_by_existing_invisible(walk_capturing,sq_departure);
+        {
+          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+          restart_from_scratch();
+        }
 
         being_solved.spec[sq_departure] = save_flags;
         replace_walk(sq_departure,Dummy);
@@ -3578,9 +3565,11 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         current_consumption = save_consumption;
       }
 
-      move_effect_journal[precapture].type = move_effect_piece_readdition;
-
       motivation[id] = save_motivation;
+
+      update_nr_taboos_for_current_move_in_ply(-1);
+
+      move_effect_journal[precapture].type = move_effect_piece_readdition;
     }
   }
 
