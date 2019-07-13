@@ -1732,7 +1732,10 @@ static void update_revelations(void)
     {
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
       square const first_on = motivation[id].first.on;
-      TraceSquare(motivation[id].last.on);TraceEOL();
+      TraceSquare(motivation[id].last.on);
+      TraceValue("%u",revelation_status[i].last.acts_when);
+      TraceValue("%u",motivation[id].last.acts_when);
+      TraceEOL();
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
       if (first_on!=revelation_status[i].first.on)
@@ -1773,6 +1776,9 @@ static void evaluate_revelations(void)
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
         knowledge[size_knowledge].is_allocated = motivation[id].first.purpose==purpose_castling_partner;
+        TraceValue("%u",revelation_status[i].last.acts_when);
+        TraceSquare(revelation_status[i].last.on);
+        TraceValue("%u",revelation_status[i].last.purpose);
         TraceValue("%u",id);
         TraceValue("%u",motivation[id].first.acts_when);
         TraceValue("%u",motivation[id].first.purpose);
@@ -2167,9 +2173,18 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
         Side const side_revealed = TSTFLAG(flags_revealed,White) ? White : Black;
 
-        assert(!is_square_empty(on));
-        if (get_walk_of_piece_on_square(on)==walk_revealed
-            && TSTFLAG(being_solved.spec[on],side_revealed))
+        TraceEnumerator(Side,side_revealed);
+        TraceWalk(walk_revealed);
+        TraceSquare(on);
+        TraceEOL();
+
+        if (is_square_empty(on))
+        {
+          TraceText("the revelated piece isn't here (any more?)\n");
+          REPORT_DEADEND;
+        }
+        else if (get_walk_of_piece_on_square(on)==walk_revealed
+                 && TSTFLAG(being_solved.spec[on],side_revealed))
         {
           reveal_placed(entry);
           test_and_execute_revelations(curr+1);
@@ -4818,10 +4833,14 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
     TraceSquare(s);
+    TraceSquare(knowledge[idx_knowledge].revealed_on);
     TraceSquare(knowledge[idx_knowledge].first_on);
     TraceWalk(knowledge[idx_knowledge].walk);
     TraceValue("%x",knowledge[idx_knowledge].spec);
     TraceEnumerator(Side,side);
+    TraceValue("%u",knowledge[idx_knowledge].last.acts_when);
+    TraceValue("%u",knowledge[idx_knowledge].last.purpose);
+    TraceSquare(knowledge[idx_knowledge].last.on);
     TraceEOL();
 
     if ((knowledge[idx_knowledge].is_allocated
@@ -4848,10 +4867,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       {
         move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        TraceSquare(knowledge[idx_knowledge].revealed_on);
-        TraceValue("%u",knowledge[idx_knowledge].last.acts_when);
-        TraceValue("%u",knowledge[idx_knowledge].last.purpose);
-        TraceSquare(knowledge[idx_knowledge].last.on);
         TraceWalk(move_effect_journal[movement].u.piece_movement.moving);
         TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
         TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -4904,8 +4919,12 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
           // no adaption necessary - it can't have moved
+          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+          motivation_type const save_motivation = motivation[id];
           assert(s==knowledge[idx_knowledge].revealed_on);
+          motivation[id].last = knowledge[idx_knowledge].last;
           apply_royal_knowledge(idx_knowledge,next_step);
+          motivation[id] = save_motivation;
         }
         else
           assert(0);
