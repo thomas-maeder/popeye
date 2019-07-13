@@ -673,8 +673,6 @@ static void update_taboo(int delta)
   TraceWalk(walk);
   TraceEOL();
 
-  update_taboo_arrival(delta);
-
   if (sq_departure==move_by_invisible
       || sq_departure>=capture_by_invisible)
   {
@@ -5010,6 +5008,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   TraceValue("%u",nbply-ply_retro_move);TraceEOL();
 
   update_taboo(+1);
+  update_taboo_arrival(+1);
 
   /* necessary for detecting checks by pawns and leapers */
   if (is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
@@ -5043,6 +5042,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
+  update_taboo_arrival(-1);
   update_taboo(-1);
 
   TraceFunctionExit(__func__);
@@ -5072,7 +5072,9 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   TraceFunctionParamListEnd();
 
   update_taboo(+1);
+  update_taboo_arrival(+1);
   make_revelations();
+  update_taboo_arrival(-1);
   update_taboo(-1);
 
   if (!revelation_status_is_uninitialised)
@@ -5263,6 +5265,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
   else if (nbply>ply_retro_move)
   {
     update_taboo(+1);
+    update_taboo_arrival(+1);
 
     top_before_relevations[nbply] = move_effect_journal_base[nbply+1];
 
@@ -5313,6 +5316,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
       }
     }
 
+    update_taboo_arrival(-1);
     update_taboo(-1);
   }
   else
