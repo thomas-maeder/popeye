@@ -181,8 +181,6 @@ static ply ply_replayed;
 
 static stip_length_type combined_result;
 
-static boolean end_of_iteration;
-
 static unsigned int nr_taboos_accumulated_until_ply[nr_sides][maxsquare];
 
 static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
@@ -267,10 +265,12 @@ static knowledge_index_type size_knowledge;
 
 typedef unsigned int iteration_index_type;
 
-static iteration_index_type current_iteration;
-/* 0: "pre-history" including insertion of mating piece attackers
- * 1..n: flesh out invisibles
+static iteration_index_type current_iteration = 10;
+/* 10: "pre-history" including insertion of mating piece attackers
+ * 11..n: flesh out invisibles
  */
+
+static iteration_index_type continue_iteration;
 
 /* avoid duplication when fleshing out random moves by invisibles: */
 /* after they have fulfilled their purpose: */
@@ -284,6 +284,7 @@ typedef struct
     iteration_index_type insertion_iteration;
     action_type first;
     action_type last;
+    iteration_index_type modification_iteration;
 } motivation_type;
 
 static motivation_type motivation[MaxPieceId+1];
@@ -1700,6 +1701,9 @@ static void initialise_revelations(void)
 
   revelation_status_is_uninitialised = false;
 
+  if (nr_potential_revelations==0)
+    continue_iteration = 0;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1707,6 +1711,7 @@ static void initialise_revelations(void)
 static void update_revelations(void)
 {
   unsigned int i = 0;
+  iteration_index_type max_modification_iteration = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1733,6 +1738,7 @@ static void update_revelations(void)
       TraceSquare(motivation[id].last.on);
       TraceValue("%u",revelation_status[i].last.acts_when);
       TraceValue("%u",motivation[id].last.acts_when);
+      TraceValue("%u",motivation[id].modification_iteration);
       TraceEOL();
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
@@ -1742,8 +1748,18 @@ static void update_revelations(void)
           && (motivation[id].last.acts_when!=revelation_status[i].last.acts_when
               || motivation[id].last.on!=revelation_status[i].last.on))
         revelation_status[i].last.acts_when = ply_nil;
+      if (max_modification_iteration<motivation[id].modification_iteration)
+        max_modification_iteration = motivation[id].modification_iteration;
       ++i;
     }
+  }
+
+  if (nr_potential_revelations==0)
+    continue_iteration = 0;
+  else
+  {
+    assert(max_modification_iteration>0);
+    continue_iteration = max_modification_iteration;
   }
 
   TraceFunctionExit(__func__);
@@ -1853,8 +1869,6 @@ static void done_validating_king_placements(void)
         initialise_revelations();
       else
         update_revelations();
-      if (nr_potential_revelations==0)
-        end_of_iteration = true;
       break;
 
     case play_validating_mate:
@@ -1865,7 +1879,7 @@ static void done_validating_king_placements(void)
       if (mate_validation_result<combined_validation_result)
         combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
-        end_of_iteration = true;
+        continue_iteration = 0;
 
       break;
 
@@ -1880,7 +1894,7 @@ static void done_validating_king_placements(void)
        * E.g. mate by castling: if we attack the rook, the castling is not
        * even playable */
       if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
+        continue_iteration = 0;
 
       break;
 
@@ -1928,10 +1942,10 @@ static void done_validating_king_placements(void)
 //    default:
 //      break;
 //  }
-//  printf(":%u\n",end_of_iteration);
+//  printf(":%u\n",continue_iteration);
 
   TracePosition(being_solved.board,being_solved.spec);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1973,18 +1987,22 @@ static void nominate_king_invisible_by_invisible(void)
   {
     square const *s;
     TraceText("Try to make one of the placed invisibles the king to be mated\n");
-    for (s = boardnum; *s && !end_of_iteration; ++s)
+    for (s = boardnum; *s && continue_iteration>=current_iteration; ++s)
       if (get_walk_of_piece_on_square(*s)==Dummy
           && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
       {
         Flags const save_flags = being_solved.spec[*s];
+        PieceIdType const id = GetPieceId(save_flags);
+        iteration_index_type const save_iteration = motivation[id].modification_iteration;
         CLRFLAG(being_solved.spec[*s],side_mating);
         SETFLAG(being_solved.spec[*s],Royal);
         ++being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
+        motivation[id].modification_iteration = current_iteration;
         restart_from_scratch();
+        motivation[id].modification_iteration = save_iteration;
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
@@ -2044,19 +2062,19 @@ static void validate_king_placements(void)
             update_revelations();
 
           if (nr_potential_revelations==0)
-            end_of_iteration = true;
+            continue_iteration = 0;
 
           break;
 
         case play_validating_mate:
           combined_validation_result = no_mate;
           combined_result = previous_move_has_not_solved;
-          end_of_iteration = true;
+          continue_iteration = 0;
           break;
 
         default:
           combined_result = previous_move_has_not_solved;
-          end_of_iteration = true;
+          continue_iteration = 0;
           break;
       }
     }
@@ -2377,6 +2395,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.purpose = purpose_random_mover;
       motivation[id].first.on = move_effect_journal[movement].u.piece_movement.from;
       motivation[id].first.acts_when = nbply;
+      motivation[id].modification_iteration = current_iteration;
 
       update_nr_taboos_for_current_move_in_ply(+1);
       restart_from_scratch();
@@ -2409,13 +2428,13 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && continue_iteration>=current_iteration; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
-    while (!end_of_iteration
+    while (continue_iteration>=current_iteration
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
       done_fleshing_out_random_move_by_specific_invisible_to();
@@ -2445,7 +2464,7 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
   move_effect_journal[king_square_movement].u.king_square_movement.to = move_effect_journal[movement].u.piece_movement.to;
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-  for (k = vec_queen_start; k<=vec_queen_end && !end_of_iteration; ++k)
+  for (k = vec_queen_start; k<=vec_queen_end && continue_iteration>=current_iteration; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -2480,7 +2499,7 @@ static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && continue_iteration>=current_iteration; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -2519,7 +2538,7 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   {
     done_fleshing_out_random_move_by_specific_invisible_to();
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       SquareFlags const doublestepsq = side_moving==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
@@ -2623,7 +2642,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
       reallocate_fleshing_out(side_playing);
 
-      for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
+      for (walk = Pawn; walk<=Bishop && continue_iteration>=current_iteration; ++walk)
       {
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
@@ -2902,7 +2921,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
         done_fleshing_out_random_move_by_invisible_from();
       }
 
-      if (!end_of_iteration)
+      if (continue_iteration>=current_iteration)
       {
         SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
         if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublstepsq))
@@ -2923,14 +2942,14 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
 
     // TODO add capture victim if arrival square empty and nr_total...>0
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       square const sq_arrival = sq_singlestep+dir_right;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       square const sq_arrival = sq_singlestep+dir_left;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -2956,11 +2975,11 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
   TraceFunctionParamListEnd();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && continue_iteration>=current_iteration; ++k)
   {
     square sq_arrival;
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
-         !end_of_iteration;
+        continue_iteration>=current_iteration;
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
@@ -3005,7 +3024,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && continue_iteration>=current_iteration; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
     if (!is_taboo(sq_arrival,trait[nbply]))
@@ -3128,7 +3147,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     reallocate_fleshing_out(side_playing);
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       if (being_solved.king_square[side_playing]==initsquare)
       {
@@ -3144,7 +3163,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       }
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
       SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
@@ -3158,7 +3177,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       }
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       ++being_solved.number_of_pieces[side_playing][Knight];
       replace_walk(sq_departure,Knight);
@@ -3167,7 +3186,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Knight];
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       ++being_solved.number_of_pieces[side_playing][Bishop];
       replace_walk(sq_departure,Bishop);
@@ -3178,7 +3197,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Bishop];
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       ++being_solved.number_of_pieces[side_playing][Rook];
       replace_walk(sq_departure,Rook);
@@ -3189,7 +3208,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Rook];
     }
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
     {
       ++being_solved.number_of_pieces[side_playing][Queen];
       replace_walk(sq_departure,Queen);
@@ -3350,7 +3369,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
     {
       square const *s;
 
-      for (s = boardnum; *s && !end_of_iteration; ++s)
+      for (s = boardnum; *s && continue_iteration>=current_iteration; ++s)
         flesh_out_random_move_by_specific_invisible_from_or_to(*s,save_last_time);
 
       TraceText("random move by unplaced invisible\n");
@@ -3447,6 +3466,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       motivation[id].insertion_iteration = current_iteration;
       motivation[id].first.on = sq_departure;
       motivation[id].last.on = sq_departure;
+      motivation[id].modification_iteration = current_iteration;
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags);
@@ -3532,6 +3552,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
       motivation[id].last.purpose = purpose_capturer;
       motivation[id].last.acts_when = nbply;
+      motivation[id].modification_iteration = current_iteration;
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
@@ -3594,16 +3615,16 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 
   TraceSquare(sq_arrival);TraceEOL();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && continue_iteration>=current_iteration; ++kcurr)
   {
     square sq_departure;
     for (sq_departure = sq_arrival+vec[kcurr];
-         is_square_empty(sq_departure) && !end_of_iteration;
+         is_square_empty(sq_departure) && continue_iteration>=current_iteration;
          sq_departure += vec[kcurr])
       if (first_taboo_violation==nullsquare)
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
         flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
   }
@@ -3629,7 +3650,7 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
-  for (kcurr = vec_queen_start; kcurr<=vec_queen_end && !end_of_iteration; ++kcurr)
+  for (kcurr = vec_queen_start; kcurr<=vec_queen_end && continue_iteration>=current_iteration; ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
@@ -3690,7 +3711,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && continue_iteration>=current_iteration; ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
@@ -3721,7 +3742,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 
   // TODO en passant capture
 
-  if (!end_of_iteration)
+  if (continue_iteration>=current_iteration)
   {
     square sq_departure = sq_capture+dir_vert+dir_left;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
@@ -3736,7 +3757,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
     }
   }
 
-  if (!end_of_iteration)
+  if (continue_iteration>=current_iteration)
   {
     square sq_departure = sq_capture+dir_vert+dir_right;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
@@ -3771,15 +3792,15 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   flesh_out_capture_by_invisible_king(first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
   flesh_out_capture_by_invisible_pawn(first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
   flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
+  TraceValue("%u",continue_iteration);TraceEOL();
   flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,first_taboo_violation);
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
@@ -4229,10 +4250,10 @@ static void walk_interceptor(Side side, square pos)
 
     if (allocate_placement_of_claimed_fleshed_out(side))
     {
-      if (!end_of_iteration)
+      if (continue_iteration>=current_iteration)
         walk_interceptor_pawn(side,pos);
 
-      for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+      for (walk = Queen; walk<=Bishop && continue_iteration>=current_iteration; ++walk)
         walk_interceptor_any_walk(side,pos,walk);
     }
 
@@ -4259,7 +4280,7 @@ static void colour_interceptor(vec_index_type kcurr,
   if (!is_taboo(pos,preferred_side))
     walk_interceptor(preferred_side,pos);
 
-  if (!end_of_iteration)
+  if (continue_iteration>=current_iteration)
   {
     if (!is_taboo(pos,advers(preferred_side)))
       walk_interceptor(advers(preferred_side),pos);
@@ -4288,16 +4309,20 @@ static void place_interceptor_of_side_on_square(vec_index_type kcurr,
 
   if (!is_taboo(s,side))
   {
+    PieceIdType const id = GetPieceId(being_solved.spec[s]);
+    iteration_index_type const save_iteration = motivation[id].modification_iteration;
     consumption_type const save_consumption = current_consumption;
 
     TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
     CLRFLAG(being_solved.spec[s],advers(side));
+    motivation[id].modification_iteration = current_iteration;
 
     if (allocate_placement_of_claimed_not_fleshed_out(side))
       (*recurse)(kcurr+1);
     current_consumption = save_consumption;
 
+    motivation[id].modification_iteration = save_iteration;
     SETFLAG(being_solved.spec[s],advers(side));
   }
 
@@ -4328,7 +4353,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
     place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
 
-    if (!end_of_iteration)
+    if (continue_iteration>=current_iteration)
       place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
 
     TraceConsumption();TraceEOL();
@@ -4363,11 +4388,12 @@ static void place_interceptor_on_line(vec_index_type kcurr,
   motivation[next_invisible_piece_id].first.acts_when = nbply;
   motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
   motivation[next_invisible_piece_id].last.acts_when = nbply;
+  motivation[next_invisible_piece_id].modification_iteration = current_iteration;
 
   {
     square s;
     for (s = king_pos+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
+         is_square_empty(s) && continue_iteration>=current_iteration;
          s += vec[kcurr])
     {
       /* use the taboo machinery to avoid attempting to intercept on the same
@@ -4397,7 +4423,7 @@ static void place_interceptor_on_line(vec_index_type kcurr,
       }
     }
     TraceSquare(s);
-    TraceValue("%u",end_of_iteration);
+    TraceValue("%u",continue_iteration);
     TraceEOL();
   }
 
@@ -4500,6 +4526,8 @@ static void start_iteration(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  continue_iteration = UINT_MAX;
+
   ++current_iteration;
   TraceValue("%u",current_iteration);TraceEOL();
 
@@ -4538,6 +4566,7 @@ static void place_mating_piece_attacker(Side side_attacking,
     motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
     motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
     motivation[next_invisible_piece_id].last.on = s;
+    motivation[next_invisible_piece_id].modification_iteration = current_iteration;
     TraceValue("%u",next_invisible_piece_id);
     TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
     TraceEOL();
@@ -4573,11 +4602,11 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && continue_iteration>=current_iteration; ++kcurr)
   {
     square s;
     for (s = sq_mating_piece+vec[kcurr];
-         !is_square_blocked(s) && !end_of_iteration;
+         !is_square_blocked(s) && continue_iteration>=current_iteration;
          s += vec[kcurr])
       if (is_square_empty(s))
       {
@@ -4604,7 +4633,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && continue_iteration>=current_iteration; ++kcurr)
   {
     square const s = sq_mating_piece+vec[kcurr];
     TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
@@ -4624,7 +4653,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   TraceEnumerator(Side,side_attacking);
   TraceFunctionParamListEnd();
 
-  if (!end_of_iteration)
+  if (continue_iteration>=current_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_left;
     TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
@@ -4632,7 +4661,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
-  if (!end_of_iteration)
+  if (continue_iteration>=current_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_right;
     TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
@@ -4702,7 +4731,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
-    end_of_iteration = false;
+    continue_iteration = UINT_MAX;
     start_iteration();
   }
 
@@ -4730,20 +4759,20 @@ static void test_mate(void)
       break;
 
     case mate_attackable:
-      end_of_iteration = false;
+      continue_iteration = UINT_MAX;
       combined_result = previous_move_is_illegal;
       attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
       break;
 
     case mate_defendable_by_interceptors:
-      end_of_iteration = false;
+      continue_iteration = UINT_MAX;
       combined_result = previous_move_is_illegal;
       start_iteration();
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
-      end_of_iteration = false;
+      continue_iteration = UINT_MAX;
       combined_result = previous_move_is_illegal;
       start_iteration();
       assert(combined_result==previous_move_has_solved);
@@ -4972,7 +5001,7 @@ static void make_revelations(void)
   play_phase = play_rewinding;
   rewind_effects();
   play_phase = play_detecting_revelations;
-  end_of_iteration = false;
+  continue_iteration = UINT_MAX;
   apply_knowledge(0,&start_iteration);
   play_phase = play_unwinding;
   unrewind_effects();
@@ -5807,6 +5836,7 @@ static void play_castling_with_invisible_partner(slice_index si,
       motivation[next_invisible_piece_id].last.purpose = purpose_castling_partner;
       motivation[next_invisible_piece_id].last.acts_when = nbply;
       motivation[next_invisible_piece_id].last.on = square_partner;
+      motivation[next_invisible_piece_id].modification_iteration = current_iteration;
       pipe_solve_delegate(si);
       motivation[next_invisible_piece_id].last.purpose = purpose_none;
       --next_invisible_piece_id;
@@ -5875,6 +5905,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
       motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
       motivation[next_invisible_piece_id].last.acts_when = nbply;
       motivation[next_invisible_piece_id].last.on = sq_departure;
+      motivation[next_invisible_piece_id].modification_iteration = current_iteration;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -5941,6 +5972,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             motivation[next_invisible_piece_id].last.purpose = purpose_victim;
             motivation[next_invisible_piece_id].last.acts_when = nbply;
             motivation[next_invisible_piece_id].last.on = sq_capture;
+            motivation[next_invisible_piece_id].modification_iteration = current_iteration;
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
