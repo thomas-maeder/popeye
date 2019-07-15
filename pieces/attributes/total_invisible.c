@@ -4948,7 +4948,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
-          // override all three:
+          // trying to generate random move by revealed piece seems hard
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
           assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
