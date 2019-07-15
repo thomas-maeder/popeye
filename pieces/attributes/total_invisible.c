@@ -3124,7 +3124,6 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
   motivation[id].last.purpose = purpose_random_mover;
   motivation[id].last.acts_when = nbply;
-  motivation[id].modification_iteration = current_iteration;
 
   CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
