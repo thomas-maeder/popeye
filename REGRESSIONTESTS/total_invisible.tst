@@ -56,10 +56,10 @@ solution finished.
   1...Rb1-b8   2..~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:        7323
-                     play_move:       18484
+  add_to_move_generation_stack:        7223
+                     play_move:       18385
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5592
+ is_black_king_square_attacked:        5533
 
 solution finished.
 
@@ -125,10 +125,10 @@ solution finished.
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2..~-~ [+bTIb6]a5*b6 #
-  add_to_move_generation_stack:        6035
-                     play_move:       14418
+  add_to_move_generation_stack:        5960
+                     play_move:       14343
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5173
+ is_black_king_square_attacked:        5128
 
 solution finished.
 
@@ -160,17 +160,17 @@ no castling if the invisible rook would have delivered check
 a) 
 
   add_to_move_generation_stack:        3254
-                     play_move:        6359
+                     play_move:        6320
  is_white_king_square_attacked:         476
- is_black_king_square_attacked:        1546
+ is_black_king_square_attacked:        1533
 
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
   add_to_move_generation_stack:        3271
-                     play_move:        5712
+                     play_move:        5673
  is_white_king_square_attacked:         575
- is_black_king_square_attacked:        1403
+ is_black_king_square_attacked:        1390
 
 solution finished.
 
