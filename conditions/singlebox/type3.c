@@ -227,7 +227,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       ++nr_latent_promotions;
       replace_walk(where,sequence.promotee);
       if (where==curr_generation->departure)
-        pipe_move_generation_differnt_walk_delegate(si,sequence.promotee);
+        pipe_move_generation_different_walk_delegate(si,sequence.promotee);
       else
         pipe_move_generation_delegate(si);
 

@@ -25,6 +25,7 @@
 #include "conditions/grid.h"
 #include "conditions/edgemover.h"
 #include "conditions/annan.h"
+#include "conditions/pointreflection.h"
 #include "conditions/facetoface.h"
 #include "conditions/circe/circe.h"
 #include "conditions/marscirce/phantom.h"
@@ -121,6 +122,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STAnnanEnforceObserverWalk:
       result = annan_enforce_observer_walk(si);
+      break;
+
+    case STPointReflectionEnforceObserverWalk:
+      result = point_reflection_enforce_observer_walk(si);
       break;
 
     case STFaceToFaceEnforceObserverWalk:
@@ -350,6 +355,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STReflectiveKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
     STFaceToFaceEnforceObserverWalk,
     STBackToBackEnforceObserverWalk,
@@ -375,6 +381,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STUndoOptimiseObservationsByQueen,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
     STPartialParalysisMovesForPieceGenerator,
@@ -390,6 +397,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMonochromeRemoveNonMonochromeMoves,
     STBichromeRemoveNonBichromeMoves,

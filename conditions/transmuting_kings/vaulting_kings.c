@@ -80,7 +80,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
     {
       unsigned int i;
       for (i = 0; i!=nr_king_vaulters[side]; ++i)
-        pipe_move_generation_differnt_walk_delegate(si,king_vaulters[side][i]);
+        pipe_move_generation_different_walk_delegate(si,king_vaulters[side][i]);
     }
     else if (vaulting_kings_transmuting[side])
       return; /* don't generate non-vaulting moves */

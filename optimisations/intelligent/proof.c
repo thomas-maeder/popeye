@@ -76,6 +76,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan]
+                || CondFlag[pointreflection]
                 || CondFlag[glasgow]
                 || CondFlag[takemake] || CondFlag[maketake]
                 || CondFlag[messigny]

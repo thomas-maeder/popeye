@@ -226,8 +226,9 @@ typedef enum
   rokagogo,               /* 205 */
   breton,                 /* 206 */
   maketake,               /* 207 */
+  pointreflection,        /* 208 */
 
-  CondCount               /* 208 */
+  CondCount               /* 209 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

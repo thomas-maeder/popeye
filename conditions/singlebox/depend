@@ -21,7 +21,7 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/move.h solving/observation.h solving/ply.h \
- solving/temporary_hacks.h debugging/assert.h
+ solving/temporary_hacks.h solving/fork.h debugging/assert.h
 
 conditions/singlebox/type1.h:
 
@@ -117,6 +117,8 @@ solving/ply.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 debugging/assert.h:
 conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  conditions/singlebox/type2.h solving/machinery/solve.h \
@@ -141,7 +143,7 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/move.h solving/post_move_iteration.h solving/observation.h \
- solving/temporary_hacks.h position/effects/walk_change.h \
+ solving/temporary_hacks.h solving/fork.h position/effects/walk_change.h \
  solving/move_effect_journal.h solving/pipe.h \
  conditions/singlebox/type1.h conditions/conditions.h debugging/assert.h
 
@@ -237,6 +239,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 position/effects/walk_change.h:
 
 solving/move_effect_journal.h:
@@ -257,9 +261,9 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- conditions/singlebox/type1.h conditions/conditions.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h position/castling_rights.h \
+ solving/fork.h conditions/singlebox/type1.h conditions/conditions.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h position/castling_rights.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/classification.h position/effects/walk_change.h \
  solving/move_effect_journal.h position/effects/null_move.h \
@@ -322,6 +326,8 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 conditions/singlebox/type1.h:
 
