@@ -69,3 +69,67 @@ solution finished.
 solution finished.
 
 
+
+          Jean-Marc Loustau
+         Phenix 2018/XI-XII
+     dedicated to Pierre Tritten
+In Breton, threats relying on the selection of the Bretonned piece weren't correctly enforced
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   B   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   K   .  -K   .   .   S   .   5
+|                                   |
+4   .   .   R  -B   .   .   .   .   4
+|                                   |
+3   .  -P   .  -R   .   P   .   .   3
+|                                   |
+2   .  -P   .  -S   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 7
+               Breton
+
+      1...Sd2*f3[-bPb2]
+          2.Sa8-b6 #
+      1...Sd2*f3[-bPb3]
+          2.Sa8-b6 #
+      1...Rd3*f3[-bPb2]
+          2.Rc4-c5 #
+      1...Rd3*f3[-bPb3]
+          2.Rc4-c5 #
+      1...Bd4-c3
+          2.Sa8-b6 #
+      1...Bd4-h8
+          2.Sa8-b6 #
+      1...Bd4-g7
+          2.Sa8-b6 #
+      1...Bd4-f6
+          2.Sa8-b6 #
+      1...Bd4-e5
+          2.Sa8-b6 #
+      1...Bd4-b6
+          2.Sa8*b6[-wBb7] #
+
+   1.Qh1-d1 ! threat:
+          2.Qd1*b3[-wPc6] #
+      1...Sd2*f3[-bPb3]
+          2.Rc4-c5 #
+      1...Rd3*f3[-bPb3]
+          2.Sa8-b6 #
+
+  add_to_move_generation_stack:       21832
+                     play_move:       16039
+ is_white_king_square_attacked:         848
+ is_black_king_square_attacked:       16023
+
+solution finished.
+
+

@@ -194,8 +194,10 @@ void threat_enforcer_solve(slice_index si)
     stip_length_type len_test_threats;
 
     nr_threats_to_be_confirmed = table_length(threats_table);
+    TraceValue("%u",nr_threats_to_be_confirmed);TraceEOL();
 
     len_test_threats = testing_pipe_solve_delegate(si,len_threat);
+    TraceValue("%u",nr_threats_to_be_confirmed);TraceEOL();
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */

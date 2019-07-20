@@ -114,6 +114,10 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
           result = CondFlag[takemake];
           break;
 
+        case move_effect_reason_breton:
+          result = true;
+          break;
+
         default:
           break;
       }
