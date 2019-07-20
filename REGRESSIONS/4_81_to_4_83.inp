@@ -16,15 +16,5 @@ forsyth 4k3/8/bs6/8/P7/8/4B3/R3K2R
 stip h#1
 cond BlackMustCapture Ultra
 
-next
-
-title In Breton, threats relying on the selection of the Bretonned piece weren't correctly enforced
-author Jean-Marc Loustau
-origin Phenix 2018/XI-XII
-origin dedicated to Pierre Tritten
-pieces white kb5 Qh1 Rc4 Bb7 Bb8 Sg5 Sa8 Ph2 Pf3 Pc6 black Kd5 Rd3 Bd4 Bh7 Sd2 Pb2 Pb3
-stipulation #2
-condition breton
-option set vari
-
 end
+

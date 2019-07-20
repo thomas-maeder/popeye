@@ -116,87 +116,17 @@ solution finished.
 
    1.Qd1-h1 ! threat:
           2.Qh1*h3[-wPc6] #
-      1...Rf3-f1
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-      1...Rf3-f2
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
       1...Rf3*d3[-bPh3]
-          2.d7-d8=Q #
-      1...Rf3-e3
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-      1...Rf3-f5
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-      1...Rf3-f4
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-      1...Rf3-g3
-          2.Qh1*h3[-wPc6] #
           2.d7-d8=Q #
       1...h3-h2
           2.Qh1*h2[-wPc6] #
       1...Qe4*d3[-bPh3]
           2.d7-d8=R #
-      1...Qe4-h7
-          2.Qh1*h3[-wPc6] #
-      1...Qe4-g6
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4-f5
-          2.Qh1*h3[-wPc6] #
-      1...Qe4-e1
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4-e2
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4-e3
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4-d4
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4*e5[-bSg5]
-          2.Qh1*h3[-wPc6] #
-      1...Qe4-h4
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Qe4-g4
-          2.Qh1*h3[-wPc6] #
-      1...Qe4-f4
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=R #
-      1...Sg5-h7
-          2.Qh1*h3[-wPc6] #
-          2.d3*e4[-wQh1] #
-      1...Sg5-f7
-          2.Qh1*h3[-wPc6] #
-          2.d3*e4[-wQh1] #
-      1...Sg5-e6
-          2.Qh1*h3[-wPc6] #
-          2.d3*e4[-wQh1] #
-      1...Bf6*e5[-bSg5]
-          2.Qh1*h3[-wPc6] #
-      1...Bf6-h8
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-          2.d7-d8=R #
-      1...Bf6-g7
-          2.Qh1*h3[-wPc6] #
-          2.d7-d8=Q #
-          2.d7-d8=R #
-      1...Bf6-d8
-          2.Qh1*h3[-wPc6] #
-      1...Bf6-e7
-          2.Qh1*h3[-wPc6] #
 
-  add_to_move_generation_stack:       21415
-                     play_move:       17039
- is_white_king_square_attacked:         609
- is_black_king_square_attacked:       17020
+  add_to_move_generation_stack:       18276
+                     play_move:       13952
+ is_white_king_square_attacked:         486
+ is_black_king_square_attacked:       13933
 
 solution finished.
 
@@ -577,6 +507,9 @@ dedicated to Pierre Tritten
           2.d4*e5[-wPe5] #
       1...Sg3-e4
           2.Rc5*e5[-wPd4] #
+      1...Rf4-e4
+          2.Bb7*e4[-wRf1] #
+          2.Bb7*e4[-wRc5] #
 
    1.Bc8-d7 ? threat:
           2.Qf7-h7 #
@@ -585,10 +518,10 @@ dedicated to Pierre Tritten
     but
       1...Rf4-h4 !
 
-  add_to_move_generation_stack:       54686
-                     play_move:       38044
- is_white_king_square_attacked:        2581
- is_black_king_square_attacked:       37414
+  add_to_move_generation_stack:       55329
+                     play_move:       38952
+ is_white_king_square_attacked:        2643
+ is_black_king_square_attacked:       38322
 
 solution finished.
 
@@ -668,10 +601,10 @@ dedicated to Pierre Tritten
       1...c6-c5
           2.Rc4*c5[-wPe5] #
 
-  add_to_move_generation_stack:       17355
-                     play_move:       11474
- is_white_king_square_attacked:         633
- is_black_king_square_attacked:       11382
+  add_to_move_generation_stack:       17536
+                     play_move:       11818
+ is_white_king_square_attacked:         650
+ is_black_king_square_attacked:       11726
 
 solution finished.
 
@@ -765,10 +698,10 @@ solution finished.
       1...f2-f1=BL
           2.RLf5*f1[-wBLb5] #
 
-  add_to_move_generation_stack:        6045
-                     play_move:        4973
- is_white_king_square_attacked:         587
- is_black_king_square_attacked:        4976
+  add_to_move_generation_stack:        6565
+                     play_move:        5896
+ is_white_king_square_attacked:         670
+ is_black_king_square_attacked:        5899
 
 solution finished.
 
