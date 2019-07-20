@@ -69,3 +69,39 @@ solution finished.
 solution finished.
 
 
+
+              P1299017
+Circe variations like Mirror weren't applied to Kamikaze pieces since 4.63
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  =P  =P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .  =P  =P   .   .   .   .   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 1 + 4n
+        Kamikaze e7 f7 c2 d2
+            Circe Mirror
+
+  1.nkPc2-c1=nkB nkPf7-f8=nkR   2.nkPd2*c1=nkS[nkSc1->g1] nkPe7*f8=nkQ[nkQf8->d8][+nkRa1] #
+  add_to_move_generation_stack:       60039
+                     play_move:       53884
+ is_white_king_square_attacked:        5146
+ is_black_king_square_attacked:       53662
+
+solution finished.
+
+
