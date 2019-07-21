@@ -27,7 +27,7 @@ static move_effect_journal_index_type horizon;
 
 piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 
-twin_id_type chameleon_is_squence_explicit;
+twin_id_type explicit_chameleon_squence_set_in_twin;
 
 static void reset_sequence(chameleon_sequence_type* sequence)
 {
@@ -41,7 +41,7 @@ static void reset_sequence(chameleon_sequence_type* sequence)
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
 void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
-                                           chameleon_sequence_type* sequence,
+                                           chameleon_sequence_type *sequence,
                                            piece_walk_type from, piece_walk_type to)
 {
   if (*is_explicit != twin_id)
@@ -55,24 +55,18 @@ void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
 
 /* Initialise the reborn pieces if they haven't been already initialised
  * from the explicit indication
- * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(twin_id_type *is_explicit,
-                                      chameleon_sequence_type* sequence)
+void chameleon_init_sequence_implicit(chameleon_sequence_type *sequence)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*is_explicit==twin_id);
   TraceFunctionParamListEnd();
 
-  if (*is_explicit!=twin_id)
-  {
-    reset_sequence(sequence);
+  reset_sequence(sequence);
 
-    (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
-    (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
-    (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
-    (*sequence)[standard_walks[Queen]] = standard_walks[Knight];
-  }
+  (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
+  (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
+  (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
+  (*sequence)[standard_walks[Queen]] = standard_walks[Knight];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

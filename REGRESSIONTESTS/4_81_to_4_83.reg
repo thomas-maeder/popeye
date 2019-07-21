@@ -138,3 +138,48 @@ Since 4.65, kings could castle after having moved in Chameleon Chess (issue #243
 solution finished.
 
 
+
+Chameleon sequence was forgotten by twinning (issue #239)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   S   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -S   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  VA  -P   2
+|                                   |
+1  -B   .   .   .   . -PA   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 8
+           Chameleon g2 f1
+    ChameleonSequence PA->VA->PA
+
+a) 
+
+  1.e5-e4 cVAg2*a8=cPA   2.Sb3-a5 cPAa8*a1=cVA #
+  add_to_move_generation_stack:       97033
+                     play_move:       91524
+ is_white_king_square_attacked:        2846
+ is_black_king_square_attacked:       91129
+
+b) wSf6-->h5  
+
+  1.cPAf1-f7=cVA Kh1*h2   2.cVAf7-g8=cPA cVAg2-h3=cPA #
+  add_to_move_generation_stack:       74548
+                     play_move:       70960
+ is_white_king_square_attacked:        2680
+ is_black_king_square_attacked:       70618
+
+solution finished.
+
+

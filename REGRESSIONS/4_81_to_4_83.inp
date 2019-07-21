@@ -32,5 +32,13 @@ option NoBk
 stip h00 1.5
 cond ChameleonChess
 
-end
+next
+
+title Chameleon sequence was forgotten by twinning (issue #239)
+Pieces White chameleon VAg2 Black chameleon PAf1 White Sf6 Kh1 Black Ba8 Kh8 Pd6 Pe5 Sb3 Ph2 Ba1
+Stipulation h#2
+Condition ChameleonSequence PA VA PA
+Twin Move f6 h5
+
+EndProblem
 
