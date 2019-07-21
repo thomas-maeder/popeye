@@ -183,3 +183,47 @@ b) wSf6-->h5
 solution finished.
 
 
+
+          Bernd Schwarzkopf
+Popeye hasn't found solution b) since 4.65
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -K  -P   B   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2.5                    16 + 15
+
+a) 
+
+  1.e2-e3 f7-f6   2.Bf1-d3 Ke8-f7   3.Bd3*h7 dia
+  add_to_move_generation_stack:         162
+                     play_move:         162
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           6
+
+b) bQd8-->e8  dia3  
+
+  1.e2-e3 f7-f6   2.Bf1-d3 Ke8-f7   3.Bd3*h7 Qd8-e8 dia
+  add_to_move_generation_stack:         183
+                     play_move:         183
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           7
+
+solution finished.
+
+

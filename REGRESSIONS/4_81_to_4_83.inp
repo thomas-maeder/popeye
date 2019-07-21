@@ -40,5 +40,14 @@ Stipulation h#2
 Condition ChameleonSequence PA VA PA
 Twin Move f6 h5
 
-EndProblem
+next
+
+author Bernd Schwarzkopf
+title Popeye hasn't found solution b) since 4.65
+pieces white Ke1 qd1 ra1h1 bc1h7 Sb1g1 pa2b2c2d2e3f2g2h2
+       black Kf7 qd8 ra8h8 bc8f8 Sb8g8 pa7b7c7d7e7f6g7
+stipulation dia2.5
+twin move d8 e8 stipulation dia3
+
+end
 
