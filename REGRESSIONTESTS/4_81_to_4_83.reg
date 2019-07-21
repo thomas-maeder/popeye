@@ -227,3 +227,37 @@ b) bQd8-->e8  dia3
 solution finished.
 
 
+
+Popeye 4.81 couldn't solve proof games with condition Breton
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   .   .   .   3
+|                                   |
+2   P   P   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2                      15 + 15
+               Breton
+
+  1.c2-c3 b7-b5   2.Qd1-a4 b5*a4[-bQd8] dia
+  add_to_move_generation_stack:       11981
+                     play_move:       12244
+ is_white_king_square_attacked:         170
+ is_black_king_square_attacked:         404
+
+solution finished.
+
+

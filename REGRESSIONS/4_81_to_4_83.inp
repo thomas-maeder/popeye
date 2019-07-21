@@ -49,5 +49,11 @@ pieces white Ke1 qd1 ra1h1 bc1h7 Sb1g1 pa2b2c2d2e3f2g2h2
 stipulation dia2.5
 twin move d8 e8 stipulation dia3
 
-end
+next
 
+title Popeye 4.81 couldn't solve proof games with condition Breton
+Pieces White Pc3 Pa2 Pb2 Pd2 Pe2 Pf2 Pg2 Ph2 Ra1 Sb1 Bc1 Ke1 Bf1 Sg1 Rh1 Black Ra8 Sb8 Bc8 Ke8 Bf8 Sg8 Rh8 Pa7 Pc7 Pd7 Pe7 Pf7 Pg7 Ph7 Pa4
+Stipulation dia2.0
+Condition Breton
+
+end

@@ -734,7 +734,7 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand] && !CondFlag[lostpieces])
+    if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton])
     {
       /* not enough time to capture the remaining pieces */
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
