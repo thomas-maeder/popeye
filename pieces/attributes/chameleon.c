@@ -310,9 +310,16 @@ void chameleon_chess_arriving_adjuster_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
-                                        pos,
-                                        champiece(get_walk_of_piece_on_square(pos)));
+    piece_walk_type const from_walk = get_walk_of_piece_on_square(pos);
+    piece_walk_type const to_walk = champiece(from_walk);
+
+    /* this check primarily prevents a King moving to e1/e8 from getting the right to castle
+     * because of his "transformation" to King
+     */
+    if (from_walk!=to_walk)
+      move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
+                                         pos,
+                                         to_walk);
   }
 
   pipe_solve_delegate(si);

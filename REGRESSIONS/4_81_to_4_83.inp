@@ -18,11 +18,19 @@ cond BlackMustCapture Ultra
 
 next
 
-title Circe variations like Mirror weren't applied to Kamikaze pieces since 4.63
+title Circe variations like Mirror weren't applied to Kamikaze pieces since 4.65 (issue #246)
 origin P1299017
 pieces white Kb3 black Kd1 neutral kamikaze Pc2d2e7f7
 stip h#2
 cond Circe Mirror
+
+next
+
+title Since 4.65, kings could castle after having moved in Chameleon Chess (issue #243)
+pieces white Kd1 Rh1 black Pa6
+option NoBk
+stip h00 1.5
+cond ChameleonChess
 
 end
 

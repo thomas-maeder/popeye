@@ -71,7 +71,7 @@ solution finished.
 
 
               P1299017
-Circe variations like Mirror weren't applied to Kamikaze pieces since 4.63
+Circe variations like Mirror weren't applied to Kamikaze pieces since 4.65 (issue #246)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -101,6 +101,39 @@ Circe variations like Mirror weren't applied to Kamikaze pieces since 4.63
                      play_move:       53884
  is_white_king_square_attacked:        5146
  is_black_king_square_attacked:       53662
+
+solution finished.
+
+
+
+Since 4.65, kings could castle after having moved in Chameleon Chess (issue #243)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h001.5                      2 + 1
+           ChameleonChess
+
+  add_to_move_generation_stack:          30
+                     play_move:          30
+ is_white_king_square_attacked:          15
+ is_black_king_square_attacked:           0
 
 solution finished.
 
