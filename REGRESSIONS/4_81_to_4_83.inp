@@ -56,4 +56,13 @@ Pieces White Pc3 Pa2 Pb2 Pd2 Pe2 Pf2 Pg2 Ph2 Ra1 Sb1 Bc1 Ke1 Bf1 Sg1 Rh1 Black R
 Stipulation dia2.0
 Condition Breton
 
+next
+
+title Popeye hasn't been able to solve this since 4.75
+author flab03
+stip dia 8.5
+pieces white ke5 qd1 ra1h1 bc1f1 sd6g1 pa2b2c3d3d2f2g2h2 black ke8 qd8 ra8g8 bf8 sb8f6 pa7b6c7d7e7f3g7h7
+cond ChecklessChess
+
 end
+

@@ -261,3 +261,38 @@ Popeye 4.81 couldn't solve proof games with condition Breton
 solution finished.
 
 
+
+               flab03
+Popeye hasn't been able to solve this since 4.75
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -R   .   8
+|                                   |
+7  -P   .  -P  -P  -P   .  -P  -P   7
+|                                   |
+6   .  -P   .   S   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   P   .  -P   .   .   3
+|                                   |
+2   P   P   .   P   .   P   P   P   2
+|                                   |
+1   R   .   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia8.5                    16 + 15
+           ChecklessChess
+
+  1.Sb1-c3 b7-b6   2.Sc3-e4 Bc8-a6   3.c2-c3 Ba6-d3   4.e2*d3 f7-f5   5.Ke1-e2 Sg8-f6   6.Ke2-e3 Rh8-g8   7.Ke3-d4 f5-f4   8.Kd4-e5 f4-f3   9.Se4-d6 + dia
+  add_to_move_generation_stack:       11003
+                     play_move:       10989
+ is_white_king_square_attacked:        1081
+ is_black_king_square_attacked:        1078
+
+solution finished.
+
+

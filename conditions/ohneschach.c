@@ -110,6 +110,11 @@ static boolean is_instrumentation_needed(slice_index si, stip_structure_traversa
 {
   boolean result = true;
   stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   stip_structure_traversal_init_nested(&st_nested,st,&result);
   stip_structure_traversal_override_single(&st_nested,
                                            STOhneschachStopIfCheckAndNotMate,
@@ -121,6 +126,10 @@ static boolean is_instrumentation_needed(slice_index si, stip_structure_traversa
                                            STGoalNotCheckReachedTester,
                                            &remember_instrumentation_not_necessary);
   stip_traverse_structure(si,&st_nested);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -129,8 +138,6 @@ static void insert_avoid_check_at_goal(slice_index si, stip_structure_traversal 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
 
   if (is_instrumentation_needed(SLICE_NEXT2(si),st))
   {
@@ -141,6 +148,9 @@ static void insert_avoid_check_at_goal(slice_index si, stip_structure_traversal 
     link_to_branch(proxy,tester);
     goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
   }
+
+  /* only now - tester may contain a STGoalReachedTester that needs instrumentation as well */
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
