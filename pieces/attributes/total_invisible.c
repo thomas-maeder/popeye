@@ -4869,7 +4869,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       motivation[next_invisible_piece_id].last.on = s;
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
       occupy_square(knowledge[idx_knowledge].first_on,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
-      SetPieceId(being_solved.spec[s],next_invisible_piece_id);
 
       if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
@@ -4883,15 +4882,19 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
+          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
           ply const save_nbply = nbply;
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];
           move_effect_journal_index_type const precapture = effects_base;
           move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
+
           assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
           assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
           assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
+
           TraceText("prevent searching for capturer - we know who did it\n");
+
           move_effect_journal[precapture].type = move_effect_none;
           move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
           move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
@@ -4900,7 +4903,9 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
           nbply = knowledge[idx_knowledge].last.acts_when;
           update_nr_taboos_for_current_move_in_ply(+1);
           nbply = save_nbply;
+
           apply_royal_knowledge(idx_knowledge,next_step);
+
           nbply = knowledge[idx_knowledge].last.acts_when;
           update_nr_taboos_for_current_move_in_ply(-1);
           nbply = save_nbply;
@@ -4918,6 +4923,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
+          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
           // trying to generate random move by revealed piece seems hard
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
@@ -4926,6 +4932,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
+          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
           // no adaption necessary - it can't have moved
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];
