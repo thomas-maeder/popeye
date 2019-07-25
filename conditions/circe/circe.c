@@ -539,7 +539,7 @@ void circe_initialise_solving(slice_index si,
     circe_solving_instrument_nocapture_bypass(si,interval_start);
 
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
-    chameleon_init_sequence_implicit(&variant->chameleon_is_walk_squence_explicit,
+    chameleon_init_sequence_implicit(&variant->explicit_chameleon_squence_set_in_twin,
                                      &variant->chameleon_walk_sequence);
 
   TraceFunctionExit(__func__);

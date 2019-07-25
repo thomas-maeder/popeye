@@ -495,7 +495,7 @@ void build_solvers1(slice_index si)
     chameleon_initialise_solving(si);
 
   if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_init_sequence_implicit(&chameleon_is_squence_explicit,
+    chameleon_init_sequence_implicit(&explicit_chameleon_squence_set_in_twin,
                                      &chameleon_walk_sequence);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))

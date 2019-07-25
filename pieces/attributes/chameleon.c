@@ -27,7 +27,7 @@ static move_effect_journal_index_type horizon;
 
 piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 
-twin_id_type chameleon_is_squence_explicit;
+twin_id_type explicit_chameleon_squence_set_in_twin;
 
 static void reset_sequence(chameleon_sequence_type* sequence)
 {
