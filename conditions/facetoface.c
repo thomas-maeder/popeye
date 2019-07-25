@@ -21,7 +21,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(being_solved.spec[confronter_pos],advers(trait[nbply])))
-    pipe_move_generation_differnt_walk_delegate(si,get_walk_of_piece_on_square(confronter_pos));
+    pipe_move_generation_different_walk_delegate(si,get_walk_of_piece_on_square(confronter_pos));
   else
     pipe_move_generation_delegate(si);
 
