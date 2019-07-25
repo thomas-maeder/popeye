@@ -730,6 +730,30 @@ static void write_revelation(output_plaintext_move_context_type *context,
   }
 }
 
+static void write_revelation_of_placed(output_plaintext_move_context_type *context,
+                                       move_effect_journal_index_type curr)
+{
+  switch (move_effect_journal[curr].reason)
+  {
+    case move_effect_reason_revelation_of_invisible:
+    {
+      square const on = move_effect_journal[curr].u.revelation_of_placed_piece.on;
+      piece_walk_type const walk = move_effect_journal[curr].u.revelation_of_placed_piece.walk_revealed;
+      Flags const flags = move_effect_journal[curr].u.revelation_of_placed_piece.flags_revealed;
+      next_context(context,curr,"[","]");
+      WriteSquare(context->engine,context->file,on);
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,flags,walk,true);
+      WriteWalk(context->engine,context->file,walk);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
 static void write_other_effects(output_plaintext_move_context_type *context,
                                 move_effect_journal_index_type offset)
 {
@@ -793,9 +817,12 @@ static void write_other_effects(output_plaintext_move_context_type *context,
         break;
 
       case move_effect_revelation_of_castling_partner:
-      case move_effect_revelation_of_placed_invisible:
       case move_effect_revelation_of_new_invisible:
         write_revelation(context,curr);
+        break;
+
+      case move_effect_revelation_of_placed_invisible:
+        write_revelation_of_placed(context,curr);
         break;
 
       default:
