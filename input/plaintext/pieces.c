@@ -346,7 +346,7 @@ char *ParsePieces(char *tok)
     {
       Flags PieSpFlags = ParseColour(tok,nr_groups==0);
       if (PieSpFlags==0)
-          break;
+        break;
       else
       {
         Flags nonCOLOURFLAGS = 0;
