@@ -3498,15 +3498,15 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+    PieceIdType const id_existing = GetPieceId(being_solved.spec[sq_departure]);
 
-    TraceValue("%u",id);
-    TraceValue("%u",motivation[id].last.purpose);
-    TraceValue("%u",motivation[id].last.acts_when);
+    TraceValue("%u",id_existing);
+    TraceValue("%u",motivation[id_existing].last.purpose);
+    TraceValue("%u",motivation[id_existing].last.acts_when);
     TraceEOL();
-    assert(motivation[id].first.purpose!=purpose_none);
-    assert(motivation[id].last.purpose!=purpose_none);
-    if (motivation[id].last.acts_when>nbply)
+    assert(motivation[id_existing].first.purpose!=purpose_none);
+    assert(motivation[id_existing].last.purpose!=purpose_none);
+    if (motivation[id_existing].last.acts_when>nbply)
     {
       TraceText("the piece was added to later act from its current square\n");
       REPORT_DEADEND;
@@ -3516,7 +3516,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      motivation_type const save_motivation = motivation[id];
+      Flags const save_flags = being_solved.spec[sq_departure];
+      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+      motivation_type const save_motivation = motivation[id_random];
 
       /* deactivate the pre-capture insertion of the moving total invisible since
        * that piece is already on the board
@@ -3530,8 +3532,30 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
       update_nr_taboos_for_current_move_in_ply(+1);
 
-      motivation[id].last.purpose = purpose_capturer;
-      motivation[id].last.acts_when = nbply;
+      SetPieceId(being_solved.spec[sq_departure],id_random);
+      motivation[id_random].first = motivation[id_existing].first;
+      motivation[id_random].insertion_iteration = motivation[id_existing].insertion_iteration;
+      motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
+
+      TraceValue("%u",id_existing);
+      TraceValue("%u",motivation[id_existing].insertion_iteration);
+      TraceValue("%u",motivation[id_existing].first.purpose);
+      TraceValue("%u",motivation[id_existing].first.acts_when);
+      TraceSquare(motivation[id_existing].first.on);
+      TraceValue("%u",motivation[id_existing].last.purpose);
+      TraceValue("%u",motivation[id_existing].last.acts_when);
+      TraceSquare(motivation[id_existing].last.on);
+      TraceEOL();
+
+      TraceValue("%u",id_random);
+      TraceValue("%u",motivation[id_random].insertion_iteration);
+      TraceValue("%u",motivation[id_random].first.purpose);
+      TraceValue("%u",motivation[id_random].first.acts_when);
+      TraceSquare(motivation[id_random].first.on);
+      TraceValue("%u",motivation[id_random].last.purpose);
+      TraceValue("%u",motivation[id_random].last.acts_when);
+      TraceSquare(motivation[id_random].last.on);
+      TraceEOL();
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
@@ -3543,7 +3567,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       {
         Side const side_in_check = trait[nbply-1];
         square const king_pos = being_solved.king_square[side_in_check];
-        Flags const save_flags = being_solved.spec[sq_departure];
         consumption_type const save_consumption = current_consumption;
 
         reallocate_fleshing_out(trait[nbply]);
@@ -3558,14 +3581,14 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
           restart_from_scratch();
         }
 
-        being_solved.spec[sq_departure] = save_flags;
         replace_walk(sq_departure,Dummy);
         --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
 
         current_consumption = save_consumption;
       }
 
-      motivation[id] = save_motivation;
+      being_solved.spec[sq_departure] = save_flags;
+      motivation[id_random] = save_motivation;
 
       update_nr_taboos_for_current_move_in_ply(-1);
 
@@ -4837,10 +4860,10 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
   else
   {
     consumption_type const save_consumption = current_consumption;
-    square const s = knowledge[idx_knowledge].first_on;
+    square const sq_first_on = knowledge[idx_knowledge].first_on;
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
-    TraceSquare(s);
+    TraceSquare(sq_first_on);
     TraceSquare(knowledge[idx_knowledge].revealed_on);
     TraceSquare(knowledge[idx_knowledge].first_on);
     TraceWalk(knowledge[idx_knowledge].walk);
@@ -4853,7 +4876,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
 
     if ((knowledge[idx_knowledge].is_allocated
          || allocate_placement_of_claimed_not_fleshed_out(side))
-        && !is_taboo(s,side))
+        && !is_taboo(sq_first_on,side))
     {
       ++next_invisible_piece_id;
       TraceValue("%u",next_invisible_piece_id);
@@ -4863,10 +4886,10 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       assert(TSTFLAG(knowledge[idx_knowledge].spec,Chameleon));
       motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
       motivation[next_invisible_piece_id].first.acts_when = 0;
-      motivation[next_invisible_piece_id].first.on = s;
+      motivation[next_invisible_piece_id].first.on = sq_first_on;
       motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
       motivation[next_invisible_piece_id].last.acts_when = 0;
-      motivation[next_invisible_piece_id].last.on = s;
+      motivation[next_invisible_piece_id].last.on = sq_first_on;
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
       occupy_square(knowledge[idx_knowledge].first_on,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
 
@@ -4882,7 +4905,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
-          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
+          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
           ply const save_nbply = nbply;
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];
@@ -4898,7 +4921,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
           move_effect_journal[precapture].type = move_effect_none;
           move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
           move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
-          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[knowledge[idx_knowledge].last.on];
+          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
           motivation[id].last = knowledge[idx_knowledge].last;
           nbply = knowledge[idx_knowledge].last.acts_when;
           update_nr_taboos_for_current_move_in_ply(+1);
@@ -4923,7 +4946,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
-          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
+          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
           // trying to generate random move by revealed piece seems hard
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
@@ -4932,11 +4955,11 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
-          SetPieceId(being_solved.spec[s],next_invisible_piece_id);
+          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
           // no adaption necessary - it can't have moved
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];
-          assert(s==knowledge[idx_knowledge].revealed_on);
+          assert(sq_first_on==knowledge[idx_knowledge].revealed_on);
           motivation[id].last = knowledge[idx_knowledge].last;
           apply_royal_knowledge(idx_knowledge,next_step);
           motivation[id] = save_motivation;
@@ -4947,7 +4970,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       else
         apply_royal_knowledge(idx_knowledge,next_step);
 
-      assert(s==knowledge[idx_knowledge].first_on);
+      assert(sq_first_on==knowledge[idx_knowledge].first_on);
       empty_square(knowledge[idx_knowledge].first_on);
       --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
 
