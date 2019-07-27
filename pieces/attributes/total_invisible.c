@@ -2899,6 +2899,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
       if (!is_taboo(sq_singlestep,side))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
+        // TODO promotion
         done_fleshing_out_random_move_by_invisible_from();
       }
 
