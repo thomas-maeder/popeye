@@ -1372,14 +1372,37 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
+static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to)
+{
+  ply ply;
+  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    PieceIdType const id_moving = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+    // TODO what about other effects?
+    // castling partner movement
+    // piece removal
+
+    if (id_moving==from)
+      SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,to);
+  }
+}
+
 static void reveal_placed(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.revelation_of_placed_piece.on;
   Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
   PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+  PieceIdType const id_revealed = GetPieceId(flags_revealed);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",id_on_board);
+  TraceValue("%u",id_revealed);
+  TraceEOL();
 
   assert(TSTFLAG(being_solved.spec[on],Chameleon));
   being_solved.spec[on] = flags_revealed;
@@ -3499,14 +3522,40 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    PieceIdType const id_existing = GetPieceId(being_solved.spec[sq_departure]);
+    Flags const save_flags = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(save_flags);
+
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const precapture = effects_base;
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
     TraceValue("%u",id_existing);
+    TraceValue("%u",motivation[id_existing].insertion_iteration);
+    TraceValue("%u",motivation[id_existing].first.purpose);
+    TraceValue("%u",motivation[id_existing].first.acts_when);
+    TraceSquare(motivation[id_existing].first.on);
     TraceValue("%u",motivation[id_existing].last.purpose);
     TraceValue("%u",motivation[id_existing].last.acts_when);
+    TraceSquare(motivation[id_existing].last.on);
     TraceEOL();
+
+    TraceValue("%u",id_random);
+    TraceValue("%u",motivation[id_random].insertion_iteration);
+    TraceValue("%u",motivation[id_random].first.purpose);
+    TraceValue("%u",motivation[id_random].first.acts_when);
+    TraceSquare(motivation[id_random].first.on);
+    TraceValue("%u",motivation[id_random].last.purpose);
+    TraceValue("%u",motivation[id_random].last.acts_when);
+    TraceSquare(motivation[id_random].last.on);
+    TraceEOL();
+
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
+
+    SetPieceId(being_solved.spec[sq_departure],id_random);
+    replace_moving_piece_ids_in_past_moves(id_existing,id_random);
+
     if (motivation[id_existing].last.acts_when>nbply)
     {
       TraceText("the piece was added to later act from its current square\n");
@@ -3514,11 +3563,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     }
     else
     {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const precapture = effects_base;
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      Flags const save_flags = being_solved.spec[sq_departure];
-      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       motivation_type const save_motivation = motivation[id_random];
 
       /* deactivate the pre-capture insertion of the moving total invisible since
@@ -3533,30 +3577,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
       update_nr_taboos_for_current_move_in_ply(+1);
 
-      SetPieceId(being_solved.spec[sq_departure],id_random);
       motivation[id_random].first = motivation[id_existing].first;
       motivation[id_random].insertion_iteration = motivation[id_existing].insertion_iteration;
       motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
-
-      TraceValue("%u",id_existing);
-      TraceValue("%u",motivation[id_existing].insertion_iteration);
-      TraceValue("%u",motivation[id_existing].first.purpose);
-      TraceValue("%u",motivation[id_existing].first.acts_when);
-      TraceSquare(motivation[id_existing].first.on);
-      TraceValue("%u",motivation[id_existing].last.purpose);
-      TraceValue("%u",motivation[id_existing].last.acts_when);
-      TraceSquare(motivation[id_existing].last.on);
-      TraceEOL();
-
-      TraceValue("%u",id_random);
-      TraceValue("%u",motivation[id_random].insertion_iteration);
-      TraceValue("%u",motivation[id_random].first.purpose);
-      TraceValue("%u",motivation[id_random].first.acts_when);
-      TraceSquare(motivation[id_random].first.on);
-      TraceValue("%u",motivation[id_random].last.purpose);
-      TraceValue("%u",motivation[id_random].last.acts_when);
-      TraceSquare(motivation[id_random].last.on);
-      TraceEOL();
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
@@ -3588,13 +3611,15 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         current_consumption = save_consumption;
       }
 
-      being_solved.spec[sq_departure] = save_flags;
       motivation[id_random] = save_motivation;
 
       update_nr_taboos_for_current_move_in_ply(-1);
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
     }
+
+    replace_moving_piece_ids_in_past_moves(id_random,id_existing);
+    being_solved.spec[sq_departure] = save_flags;
   }
 
   TraceFunctionExit(__func__);
@@ -4906,7 +4931,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
-          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
           ply const save_nbply = nbply;
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];

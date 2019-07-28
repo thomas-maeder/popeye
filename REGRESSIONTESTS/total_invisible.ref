@@ -569,9 +569,9 @@ Sake tourney 2018, 3rd HM, corrected
   1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] .~-~[f5=wS][e7=bK] #
   1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] .~-~[e5=wS][g6=bK] #
   add_to_move_generation_stack:     3201431
-                     play_move:     6614768
+                     play_move:     6614672
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1110702
+ is_black_king_square_attacked:     1110678
 
 solution finished.
 
