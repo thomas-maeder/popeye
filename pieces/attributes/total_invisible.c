@@ -1375,6 +1375,12 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
 static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to)
 {
   ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",from);
+  TraceFunctionParam("%u",to);
+  TraceFunctionParamListEnd();
+
   for (ply = ply_retro_move+1; ply<nbply; ++ply)
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
@@ -1388,9 +1394,12 @@ static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType
     if (id_moving==from)
       SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,to);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-static void reveal_placed(move_effect_journal_entry_type const *entry)
+static void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.revelation_of_placed_piece.on;
   Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
@@ -1403,6 +1412,46 @@ static void reveal_placed(move_effect_journal_entry_type const *entry)
   TraceValue("%u",id_on_board);
   TraceValue("%u",id_revealed);
   TraceEOL();
+
+  assert(TSTFLAG(being_solved.spec[on],Chameleon));
+  being_solved.spec[on] = flags_revealed;
+  replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed);
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.revelation_of_placed_piece.on;
+  piece_walk_type const walk_revealed = entry->u.revelation_of_placed_piece.walk_revealed;
+  Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+  Flags const flags_original = entry->u.revelation_of_placed_piece.flags_original;
+  PieceIdType const id_original = GetPieceId(flags_original);
+  PieceIdType const id_revealed = GetPieceId(flags_revealed);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(get_walk_of_piece_on_square(on)==walk_revealed);
+  assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+  assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
+  replace_moving_piece_ids_in_past_moves(id_revealed,id_original);
+  being_solved.spec[on] = flags_original;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reveal_placed(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.revelation_of_placed_piece.on;
+  Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   assert(TSTFLAG(being_solved.spec[on],Chameleon));
   being_solved.spec[on] = flags_revealed;
@@ -1626,7 +1675,8 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceValue("%u",nbply);
     TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
-    SetPieceId(spec,++next_invisible_piece_id);
+    ++next_invisible_piece_id;
+    SetPieceId(spec,next_invisible_piece_id);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,walk,spec);
   }
@@ -1753,18 +1803,27 @@ static void update_revelations(void)
     {
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
       square const first_on = motivation[id].first.on;
+
       TraceSquare(motivation[id].last.on);
       TraceValue("%u",revelation_status[i].last.acts_when);
       TraceValue("%u",motivation[id].last.acts_when);
       TraceEOL();
+
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
+
       if (first_on!=revelation_status[i].first.on)
         revelation_status[i].first.on = initsquare;
-      if (revelation_status[i].last.acts_when!=ply_nil
-          && (motivation[id].last.acts_when!=revelation_status[i].last.acts_when
-              || motivation[id].last.on!=revelation_status[i].last.on))
-        revelation_status[i].last.acts_when = ply_nil;
+
+      if (revelation_status[i].last.acts_when!=ply_nil)
+      {
+        if (motivation[id].last.on!=revelation_status[i].last.on)
+          revelation_status[i].last.acts_when = ply_nil;
+        else if (motivation[id].last.acts_when<revelation_status[i].last.acts_when)
+          // TODO this looks a little dubious
+          revelation_status[i].last.acts_when = motivation[id].last.acts_when;
+      }
+
       ++i;
     }
   }
@@ -1790,13 +1849,18 @@ static void evaluate_revelations(void)
       TraceSquare(revelation_status[i].first.on);TraceEOL();
       if (revelation_status[i].first.on!=initsquare)
       {
-        PieceIdType const id = GetPieceId(revelation_status[i].spec);
+        PieceIdType const id = GetPieceId(being_solved.spec[s]);
+
         knowledge[size_knowledge].revealed_on = s;
         knowledge[size_knowledge].first_on = revelation_status[i].first.on;
         knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
         knowledge[size_knowledge].is_allocated = motivation[id].first.purpose==purpose_castling_partner;
+
+        /* if we revealed a so far unplaced invisible piece, the id will have changed */
+        SetPieceId(knowledge[size_knowledge].spec,id);
+
         TraceValue("%u",revelation_status[i].last.acts_when);
         TraceSquare(revelation_status[i].last.on);
         TraceValue("%u",revelation_status[i].last.purpose);
@@ -1811,6 +1875,7 @@ static void evaluate_revelations(void)
         TraceSquare(knowledge[size_knowledge].first_on);
         TraceValue("%x",knowledge[size_knowledge].spec);
         TraceEOL();
+
         ++size_knowledge;
       }
     }
@@ -2171,9 +2236,9 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
           entry->u.revelation_of_placed_piece.walk_revealed = walk;
           entry->u.revelation_of_placed_piece.flags_revealed = spec;
-          reveal_placed(entry);
+          adapt_id_of_existing_to_revealed(entry);
           test_and_execute_revelations(curr+1);
-          unreveal_placed(entry);
+          unadapt_id_of_existing_to_revealed(entry);
           entry->type = move_effect_revelation_of_new_invisible;
           entry->u.piece_addition.added.on = on;
           entry->u.piece_addition.added.walk = walk;
@@ -2873,15 +2938,21 @@ static void flesh_out_accidental_capture_by_invisible(void)
       && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
       && TSTFLAG(being_solved.spec[sq_arrival],Chameleon))
   {
-    PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
+    PieceIdType const id_victim = GetPieceId(being_solved.spec[sq_arrival]);
 
-    TraceValue("%u",id);
-    TraceValue("%u",motivation[id].last.purpose);
-    TraceValue("%u",motivation[id].last.acts_when);
+    TraceValue("%u",id_victim);
+    TraceValue("%u",motivation[id_victim].insertion_iteration);
+    TraceValue("%u",motivation[id_victim].first.purpose);
+    TraceValue("%u",motivation[id_victim].first.acts_when);
+    TraceSquare(motivation[id_victim].first.on);
+    TraceValue("%u",motivation[id_victim].last.purpose);
+    TraceValue("%u",motivation[id_victim].last.acts_when);
+    TraceSquare(motivation[id_victim].last.on);
     TraceEOL();
-    assert(motivation[id].first.purpose!=purpose_none);
-    assert(motivation[id].last.purpose!=purpose_none);
-    if (motivation[id].last.acts_when>nbply)
+
+    assert(motivation[id_victim].first.purpose!=purpose_none);
+    assert(motivation[id_victim].last.purpose!=purpose_none);
+    if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");
       REPORT_DEADEND;
@@ -3529,6 +3600,10 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     move_effect_journal_index_type const precapture = effects_base;
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+    TraceWalk(get_walk_of_piece_on_square(sq_departure));
+    TraceValue("%x",being_solved.spec[sq_departure]);
+    TraceEOL();
 
     TraceValue("%u",id_existing);
     TraceValue("%u",motivation[id_existing].insertion_iteration);
@@ -4917,8 +4992,11 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       motivation[next_invisible_piece_id].last.acts_when = 0;
       motivation[next_invisible_piece_id].last.on = sq_first_on;
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-      occupy_square(knowledge[idx_knowledge].first_on,knowledge[idx_knowledge].walk,knowledge[idx_knowledge].spec);
+      occupy_square(knowledge[idx_knowledge].first_on,
+                    knowledge[idx_knowledge].walk,
+                    knowledge[idx_knowledge].spec);
 
+      TraceValue("%u",knowledge[idx_knowledge].last.acts_when);TraceEOL();
       if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
         move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
@@ -4980,7 +5058,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
-          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
           // no adaption necessary - it can't have moved
           PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
           motivation_type const save_motivation = motivation[id];
