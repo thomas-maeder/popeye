@@ -3093,8 +3093,8 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",kstart);
-  TraceValue("%u",kend);
+  TraceFunctionParam("%u",kstart);
+  TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
@@ -4187,6 +4187,20 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
       REPORT_DEADEND;
       result = true;
     }
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_random_mover
+        && motivation[id].last.on==first_taboo_violation)
+      /* 6:Bh8-f6 7:~-~(Sd5-b6) 8:Bf6-h4  first_taboo_violation:g5
+       * 1. an invisible piece of side s was placed on square sq
+       * 2. s made a random move that could have left sq but didn't
+       * 3. the current move is intercepted on sq
+       * 4. the relevation would only happen after the current move
+       */
+    {
+      REPORT_DEADEND;
+      result = true;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -4480,7 +4494,9 @@ static void place_interceptor_on_line(vec_index_type kcurr,
 
   ++next_invisible_piece_id;
 
-  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+  TraceValue("%u",next_invisible_piece_id);
+  TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+  TraceEOL();
   assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
   motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
   motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
@@ -5049,12 +5065,16 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
-          SetPieceId(being_solved.spec[sq_first_on],next_invisible_piece_id);
+          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+          motivation_type const save_motivation = motivation[id];
+
           // trying to generate random move by revealed piece seems hard
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
           assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
+          motivation[id].last = knowledge[idx_knowledge].last;
           apply_royal_knowledge(idx_knowledge,next_step);
+          motivation[id] = save_motivation;
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
