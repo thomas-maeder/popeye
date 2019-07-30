@@ -2,6 +2,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
@@ -38,7 +39,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
     }
   }
 
-  if (!(TSTFLAG(sp,Chameleon)))
+  if (!(TSTFLAG(sp,Chameleon)) || total_invisible_number==0)
   {
     piece_flag_type spname;
     for (spname = nr_sides; spname<nr_piece_flags; ++spname)

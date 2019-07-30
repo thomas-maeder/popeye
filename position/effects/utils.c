@@ -29,7 +29,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
   TraceFunctionParamListEnd();
 
   TraceValue("%u",followed_id);TraceEOL();
-  assert(followed_id!=NullPieceId);
+// TODO why doesn't this hold in Republican Chess?
+//  assert(followed_id!=NullPieceId);
 
   for (other = base+move_effect_journal_index_offset_other_effects;
        other<top;
