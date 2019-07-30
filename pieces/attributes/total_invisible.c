@@ -5002,19 +5002,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
          || allocate_placement_of_claimed_not_fleshed_out(side))
         && !is_taboo(sq_first_on,side))
     {
-      // TODO is this still necessary?
-      ++next_invisible_piece_id;
-      TraceValue("%u",next_invisible_piece_id);
-      TraceEOL();
-
-      assert(is_square_empty(knowledge[idx_knowledge].first_on));
-      assert(TSTFLAG(knowledge[idx_knowledge].spec,Chameleon));
-      motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
-      motivation[next_invisible_piece_id].first.acts_when = 0;
-      motivation[next_invisible_piece_id].first.on = sq_first_on;
-      motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
-      motivation[next_invisible_piece_id].last.acts_when = 0;
-      motivation[next_invisible_piece_id].last.on = sq_first_on;
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
       occupy_square(knowledge[idx_knowledge].first_on,
                     knowledge[idx_knowledge].walk,
@@ -5104,10 +5091,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       assert(sq_first_on==knowledge[idx_knowledge].first_on);
       empty_square(knowledge[idx_knowledge].first_on);
       --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-
-      motivation[next_invisible_piece_id].last.purpose = purpose_none;
-
-      --next_invisible_piece_id;
     }
     else
     {
