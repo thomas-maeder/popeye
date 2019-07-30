@@ -1372,16 +1372,17 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to)
+static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to, ply up_to_ply)
 {
   ply ply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",from);
   TraceFunctionParam("%u",to);
+  TraceFunctionParam("%u",up_to_ply);
   TraceFunctionParamListEnd();
 
-  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  for (ply = ply_retro_move+1; ply<=up_to_ply; ++ply)
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -1390,6 +1391,10 @@ static void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType
     // TODO what about other effects?
     // castling partner movement
     // piece removal
+
+    TraceValue("%u",ply);
+    TraceValue("%u",id_moving);
+    TraceEOL();
 
     if (id_moving==from)
       SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,to);
@@ -1415,7 +1420,7 @@ static void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type cons
 
   assert(TSTFLAG(being_solved.spec[on],Chameleon));
   being_solved.spec[on] = flags_revealed;
-  replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed);
+  replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed,nbply);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
 
   TraceFunctionExit(__func__);
@@ -1437,7 +1442,7 @@ static void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type co
   assert(get_walk_of_piece_on_square(on)==walk_revealed);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
   assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-  replace_moving_piece_ids_in_past_moves(id_revealed,id_original);
+  replace_moving_piece_ids_in_past_moves(id_revealed,id_original,nbply);
   being_solved.spec[on] = flags_original;
 
   TraceFunctionExit(__func__);
@@ -3590,6 +3595,8 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceWalk(get_walk_of_piece_on_square(sq_departure));
   TraceEOL();
 
+  // TODO do tests earlier, modifications only if tests succeed?
+
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
@@ -3629,7 +3636,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
     SetPieceId(being_solved.spec[sq_departure],id_random);
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random);
+    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
     if (motivation[id_existing].last.acts_when>nbply)
     {
@@ -3693,7 +3700,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       move_effect_journal[precapture].type = move_effect_piece_readdition;
     }
 
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing);
+    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
     being_solved.spec[sq_departure] = save_flags;
   }
 
@@ -4995,6 +5002,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
          || allocate_placement_of_claimed_not_fleshed_out(side))
         && !is_taboo(sq_first_on,side))
     {
+      // TODO is this still necessary?
       ++next_invisible_piece_id;
       TraceValue("%u",next_invisible_piece_id);
       TraceEOL();
@@ -5023,6 +5031,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         TraceSquare(move_effect_journal[movement].u.piece_movement.to);
         TraceEOL();
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
+        // TODO do we need to distinguish between these cases?
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
           ply const save_nbply = nbply;
