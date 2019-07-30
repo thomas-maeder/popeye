@@ -5010,20 +5010,24 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       TraceValue("%u",knowledge[idx_knowledge].last.acts_when);TraceEOL();
       if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
+        PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+        motivation_type const save_motivation = motivation[id];
         move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
         TraceWalk(move_effect_journal[movement].u.piece_movement.moving);
         TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
         TraceSquare(move_effect_journal[movement].u.piece_movement.from);
         TraceSquare(move_effect_journal[movement].u.piece_movement.to);
         TraceEOL();
+
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
-        // TODO do we need to distinguish between these cases?
+
+        motivation[id].last = knowledge[idx_knowledge].last;
+
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
           ply const save_nbply = nbply;
-          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-          motivation_type const save_motivation = motivation[id];
           move_effect_journal_index_type const precapture = effects_base;
           move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
 
@@ -5037,7 +5041,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
           move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
           move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
           move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
-          motivation[id].last = knowledge[idx_knowledge].last;
+
           nbply = knowledge[idx_knowledge].last.acts_when;
           update_nr_taboos_for_current_move_in_ply(+1);
           nbply = save_nbply;
@@ -5047,13 +5051,12 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
           nbply = knowledge[idx_knowledge].last.acts_when;
           update_nr_taboos_for_current_move_in_ply(-1);
           nbply = save_nbply;
+
           move_effect_journal[movement] = save_movement;
           move_effect_journal[precapture].type = move_effect_piece_readdition;
-          motivation[id] = save_motivation;
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_castling_partner)
         {
-          // no adaption necessary
           assert(move_effect_journal[movement].u.piece_movement.moving==King);
           assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
           assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
@@ -5061,29 +5064,21 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
-          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-          motivation_type const save_motivation = motivation[id];
-
-          // trying to generate random move by revealed piece seems hard
+          // TODO can we restrict generation of random move to the revealed piece?
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
           assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
-          motivation[id].last = knowledge[idx_knowledge].last;
           apply_royal_knowledge(idx_knowledge,next_step);
-          motivation[id] = save_motivation;
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
-          // no adaption necessary - it can't have moved
-          PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-          motivation_type const save_motivation = motivation[id];
           assert(sq_first_on==knowledge[idx_knowledge].revealed_on);
-          motivation[id].last = knowledge[idx_knowledge].last;
           apply_royal_knowledge(idx_knowledge,next_step);
-          motivation[id] = save_motivation;
         }
         else
           assert(0);
+
+        motivation[id] = save_motivation;
       }
       else
         apply_royal_knowledge(idx_knowledge,next_step);
