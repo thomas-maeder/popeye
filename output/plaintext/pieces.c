@@ -4,6 +4,7 @@
 #include "output/plaintext/protocol.h"
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
 
@@ -65,8 +66,8 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
 
 void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 {
-  if (p==Dummy)
-     (*engine->fprintf)(file,"%s","TI");
+  if (p==Dummy || (total_invisible_number>0 && p==Empty))
+     (*engine->fprintf)(file,"%s",TITab[0]);
   else if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];

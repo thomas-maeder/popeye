@@ -51,9 +51,9 @@ solution finished.
 1   R   R   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1.5                       4 + 1
+  h#1.5                4 + 1 + 1 TI
 
-  1...Rb1-b8   2..~-~ [+bTIb6]a5*b6 #
+  1...Rb1-b8   2.TI~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   add_to_move_generation_stack:        7223
@@ -86,7 +86,7 @@ solution finished.
 1  -K   .   .   .   .   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1.5                       3 + 2
+  h#1.5                3 + 2 + 2 TI
 
   add_to_move_generation_stack:        8375
                      play_move:       22514
@@ -118,13 +118,13 @@ solution finished.
 1   R   R   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1.5                       4 + 1
+  h#1.5                4 + 1 + 1 TI
 
-  1...Ra1-a3   2.Ka6*a5 .~-~ #
+  1...Ra1-a3   2.Ka6*a5 TI~-~ #
   1...Rb1-b7   2.Ka6*a5 Rb7-a7 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  1...Kc5-c6   2..~-~ [+bTIb6]a5*b6 #
+  1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
   add_to_move_generation_stack:        5960
                      play_move:       14343
  is_white_king_square_attacked:           0
@@ -155,7 +155,7 @@ no castling if the invisible rook would have delivered check
 1   .   .   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1.5                       2 + 2
+  h#1.5                2 + 2 + 1 TI
 
 a) 
 

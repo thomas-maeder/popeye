@@ -80,6 +80,7 @@ extern char const * const *OptTab;
 extern char const * const *CondTab;
 extern char const * const *ExtraCondTab;
 extern char const * const *ColourTab;
+extern char const * const *TITab;
 extern char const * const *PieSpTab;
 extern char const * const *VaultingVariantTypeTab;
 extern char const * const *ConditionLetteredVariantTypeTab;

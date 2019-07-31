@@ -16,6 +16,7 @@
 #include "conditions/grid.h"
 #include "conditions/imitator.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
 #include "position/position.h"
@@ -207,6 +208,8 @@ static void DoPieceCounts(position const *pos,
         ++piece_per_colour[colour_white];
     }
   }
+
+  piece_per_colour[pseudocolour_totalinvisible] = total_invisible_number;
 }
 
 static int indentation = 0;
@@ -217,6 +220,7 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
 
   DoPieceCounts(pos,piece_per_colour);
 
+  if (piece_per_colour[pseudocolour_totalinvisible]==0)
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn\n" : "%d + %d\n";
     int const width = nr_files_on_board*fileWidth+4-indentation;
@@ -224,6 +228,16 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
                        piece_per_colour[colour_white],
                        piece_per_colour[colour_black],
                        piece_per_colour[colour_neutral]);
+  }
+  else
+  {
+    char const *format = "%d + %d + %d %s\n";
+    int const width = nr_files_on_board*fileWidth+4-indentation;
+    protocol_fprintf_r(stdout,width,format,
+                       piece_per_colour[colour_white],
+                       piece_per_colour[colour_black],
+                       piece_per_colour[pseudocolour_totalinvisible],
+                       TITab[0]);
   }
 }
 

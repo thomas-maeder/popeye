@@ -1125,11 +1125,11 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  input/plaintext/problem.h options/maxthreatlength.h \
  options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
  conditions/imitator.h pieces/attributes/neutral/neutral.h \
- pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
- solving/castling.h solving/move_generator.h solving/proofgames.h \
- solving/pipe.h stipulation/pipe.h stipulation/branch.h \
- debugging/assert.h
+ pieces/attributes/total_invisible.h pieces/walks/classification.h \
+ pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
+ solving/fork.h solving/castling.h solving/move_generator.h \
+ solving/proofgames.h solving/pipe.h stipulation/pipe.h \
+ stipulation/branch.h debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1280,6 +1280,8 @@ conditions/grid.h:
 conditions/imitator.h:
 
 pieces/attributes/neutral/neutral.h:
+
+pieces/attributes/total_invisible.h:
 
 pieces/walks/classification.h:
 

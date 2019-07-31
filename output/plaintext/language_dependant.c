@@ -1390,6 +1390,24 @@ static char const * const ColourString[LanguageCount][nr_colours] =
   }
 };
 
+char const * const *TITab;
+
+static char const * const TIString[LanguageCount][1] =
+{
+  {
+    /* French */
+    "TI"
+  },
+  {
+    /* German */
+    "TU"
+  },
+  {
+    /* English */
+    "TI"
+  }
+};
+
 
 char const * const *PieSpTab;
 
@@ -1915,6 +1933,7 @@ void output_plaintext_select_language(Language lang)
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];
+  TITab= TIString[lang];
 }
 
 static int comparePieceNames(void const * param1, void const * param2)
