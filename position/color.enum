@@ -8,5 +8,6 @@
   ENUMERATOR(colour_white), \
     ENUMERATOR(colour_black), \
     ENUMERATOR(colour_neutral), \
+    ENUMERATOR(pseudocolour_totalinvisible), \
                        \
     ENUMERATOR(nr_colours)

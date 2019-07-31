@@ -175,7 +175,7 @@ solution finished.
 
 
            Michel Caillaud
-Sake tourney 2018, 1st prize, a) corrected
+Sake tourney 2018, 1st prize, corrected
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -197,6 +197,8 @@ Sake tourney 2018, 1st prize, a) corrected
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 6
+
+a) 
 
   1.Be1-g3 TI~*g3   2.Rh1-g1 Qb2-b8[g3=wR] #
   add_to_move_generation_stack:     1042776
@@ -204,33 +206,7 @@ Sake tourney 2018, 1st prize, a) corrected
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      568306
 
-solution finished.
-
-
-
-           Michel Caillaud
-Sake tourney 2018, 1st prize, b) corrected
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .  -P   .   .   5
-|                                   |
-4   .   .   .   .  -P  -K   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .  -P   3
-|                                   |
-2   .   Q   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   K  -B   .   .  -R   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                         2 + 6
+b) 
 
   1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
   add_to_move_generation_stack:     1055318

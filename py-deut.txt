@@ -1149,6 +1149,10 @@ aufwendiger ist das Kommando
 	                                        horizontale Zuege
 	                                        nicht erlaubt
 
+	Die "Pseudo-Farbe" TotalUnsichbar gefolgt von einer positiven Zahl
+	kann verwendet werden, um die Anzahl TotalUnsichbarer Steine
+	anzugeben.
+
  - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
 	Veraenderungen aus der Ausgangsstellung ergeben. Folgende Angaben
 	sind moeglich:
@@ -1173,6 +1177,9 @@ aufwendiger ist das Kommando
 	ueberschrieben. Beispiel: zwilling hinzufuegen schw para NHa6
 	- ein schwarzer paralysierender Nachtreiterhuepfer wird auf a6
 	ergaenzt. Siehe auch das Kommando Steine.
+	Die "Pseudo-Farbe" TotalUnsichtbar gefolgt von einer positiven Zahl
+	kann verwendet werden fuer Zwillingsbildung durch Aenderung der
+	Anzahl TotalUnsichbarer Steine.
     Drehung n: Drehung um n Grad nach links (n=90, 180, 270). Beispiel:
 	zwilling drehung 180.
     Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,

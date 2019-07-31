@@ -1115,6 +1115,9 @@ suivante est un peu plus compliquee:
                                                et s'approche d'elle comme un Y;
                                                les coups horizontaux ne sont pas possibles
 
+	La "couleur pseudo" TotalInvisible suivie d'un chiffre positif peut
+	etre utilisee pour indiquer le nombre de pieces TotalInvisibles.
+
  - Jumeau: Verification de positions resultant de modifications "simples" 
 	de la position de depart. Les modifications suivantes seront acceptees:
 
@@ -1137,6 +1140,9 @@ suivante est un peu plus compliquee:
 	presentes sur ces cases seront remplacees. 
 	Exemple: jumau ajoute noir para sna6: un noctambule sauteur 
 		 paralysant est ajoute sur a6 (voir la commande piece).
+	La "couleur pseudo" TotalInvisible suivie d'un chiffre positif peut
+	utilisee pour indiquer un jumelage par modification du nombre de
+	pieces TotalInvisibles.
     Rotation n: Rotation de la position de n degrees (n=90, 180, 270). 
 	Exemple: jumeau rotation 180.
     Miroir a1<-->h1: axe verticale

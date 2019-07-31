@@ -1371,19 +1371,22 @@ static char const * const ColourString[LanguageCount][nr_colours] =
      /* French */
     "Blanc",
     "Noir",
-    "Neutre"
+    "Neutre",
+    "TotalInvisible"
   },
   {
     /* German */
     "Weiss",
     "Schwarz",
-    "Neutral"
+    "Neutral",
+    "TotalUnsichtbar"
   },
   {
     /* English */
     "White",
     "Black",
-    "Neutral"
+    "Neutral",
+    "TotalInvisible"
   }
 };
 

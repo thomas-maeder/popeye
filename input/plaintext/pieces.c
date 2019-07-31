@@ -301,6 +301,8 @@ Flags ParseColour(char *tok, boolean colour_is_mandatory)
   }
   else if (colour==colour_neutral)
     return NeutralMask;
+  else if (colour==pseudocolour_totalinvisible)
+    return BIT(Chameleon);
   else
     return BIT(colour);
 }
@@ -340,28 +342,38 @@ char *ParsePieces(char *tok)
   int nr_groups = 0;
   while (true)
   {
-    char *end;
-    unsigned long const value = strtoul(tok,&end,10);
-    if (end==tok)
+    Flags PieSpFlags = ParseColour(tok,nr_groups==0);
+    if (PieSpFlags==0)
+      break;
+    else if (TSTFLAG(PieSpFlags,Chameleon))
     {
-      Flags PieSpFlags = ParseColour(tok,nr_groups==0);
-      if (PieSpFlags==0)
-        break;
-      else
+      tok = ReadNextTokStr();
+
       {
-        Flags nonCOLOURFLAGS = 0;
-        tok = ParsePieceFlags(&nonCOLOURFLAGS);
-        PieSpFlags |= nonCOLOURFLAGS;
-
-        tok = ParsePieceWalkAndSquares(tok,PieSpFlags);
-
-        ++nr_groups;
+        char *end;
+        unsigned long const value = strtoul(tok,&end,10);
+        if (end==tok)
+        {
+          output_plaintext_input_error_message(WrongInt,0);
+          break;
+        }
+        else
+        {
+          total_invisible_number = value;
+          tok = ReadNextTokStr();
+          ++nr_groups;
+        }
       }
     }
     else
     {
-      total_invisible_number = value;
-      tok = ReadNextTokStr();
+      Flags nonCOLOURFLAGS = 0;
+      tok = ParsePieceFlags(&nonCOLOURFLAGS);
+      PieSpFlags |= nonCOLOURFLAGS;
+
+      tok = ParsePieceWalkAndSquares(tok,PieSpFlags);
+
+      ++nr_groups;
     }
   }
 
