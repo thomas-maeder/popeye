@@ -70,7 +70,7 @@ void annan_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (annanises(trait[nbply],annaniser_pos,curr_generation->departure))
-    pipe_move_generation_differnt_walk_delegate(si,get_walk_of_piece_on_square(annaniser_pos));
+    pipe_move_generation_different_walk_delegate(si,get_walk_of_piece_on_square(annaniser_pos));
   else
     pipe_move_generation_delegate(si);
 

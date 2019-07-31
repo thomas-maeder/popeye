@@ -815,6 +815,7 @@ void verify_position(slice_index si)
         || flagsymmetricfairy
         || TSTFLAG(some_pieces_flags, Jigger)
         || CondFlag[annan]
+        || CondFlag[pointreflection]
         || CondFlag[newkoeko]
         || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
         || CondFlag[blackedge] || CondFlag[whiteedge]
@@ -1578,6 +1579,13 @@ void verify_position(slice_index si)
     return;
   }
 
+
+  if (CondFlag[annan]+CondFlag[facetoface]+CondFlag[backtoback]+CondFlag[cheektocheek]+CondFlag[pointreflection]>1)
+  {
+    output_plaintext_verifie_message(NonsenseCombination);
+    return;
+  }
+
   if (TSTFLAG(some_pieces_flags, ColourChange))
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -1585,7 +1593,8 @@ void verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[annan]
-      || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek])
+      || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+      || CondFlag[pointreflection])
   {
     if (CondFlag[masand] || TSTFLAG(some_pieces_flags, Magic))
     {

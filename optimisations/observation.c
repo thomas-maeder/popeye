@@ -319,6 +319,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
       /* no optimisation */
     }
     else if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+        || CondFlag[pointreflection]
         || CondFlag[bicolores]
         || CondFlag[whtrans_king] || CondFlag[bltrans_king]
         || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king])
@@ -358,6 +359,7 @@ static void optimise_side(slice_index si, Side side)
         || CondFlag[whrefl_king] || CondFlag[blrefl_king]
         || CondFlag[eiffel]
         || CondFlag[annan]
+        || CondFlag[pointreflection]
         || CondFlag[amu]
         || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
         || CondFlag[woozles] || CondFlag[biwoozles]

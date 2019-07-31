@@ -2312,9 +2312,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/partial_paralysis.h conditions/masand.h conditions/eiffel.h \
  conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
  conditions/grid.h conditions/edgemover.h conditions/annan.h \
- conditions/conditions.h conditions/facetoface.h \
- conditions/marscirce/phantom.h conditions/marscirce/plus.h \
- conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ conditions/conditions.h conditions/pointreflection.h \
+ conditions/facetoface.h conditions/marscirce/phantom.h \
+ conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
+ conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h \
@@ -2483,6 +2484,8 @@ conditions/edgemover.h:
 conditions/annan.h:
 
 conditions/conditions.h:
+
+conditions/pointreflection.h:
 
 conditions/facetoface.h:
 

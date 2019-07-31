@@ -1,0 +1,25 @@
+begin
+
+protocol pointreflection.ref
+
+author Ken Kousaka
+pieces white kg7 ra6 bh3 black ke6 rd5 be7
+stipulation h#1
+condition pointreflection
+twin move g7 f4
+
+next
+
+author Ken Kousaka
+pieces white kc6 sc2f3 black kd2 re7 pf4
+stipulation h#1
+condition pointreflection
+
+next
+
+author Ken Kousaka
+pieces white kb8 rh1 ba8 sg1 black kh8 rh7
+stipulation h#2
+condition pointreflection
+
+end

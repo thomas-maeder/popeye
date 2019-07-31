@@ -124,7 +124,7 @@ static void generate_moves_of_supertransmuting_king(slice_index si)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       numecoup curr_id = current_move_id[nbply];
-      pipe_move_generation_differnt_walk_delegate(si,*ptrans);
+      pipe_move_generation_different_walk_delegate(si,*ptrans);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
       exists_transmutation[nbply] = true;

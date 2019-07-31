@@ -28,6 +28,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach.h"
+#include "conditions/pointreflection.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -732,6 +733,9 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[annan])
     annan_initialise_solving(si);
+
+  if (CondFlag[pointreflection])
+    point_reflection_initialise_solving(si);
 
 #if defined(DOTRACE)
   solving_insert_move_tracers(si);

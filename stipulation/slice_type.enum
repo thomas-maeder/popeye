@@ -546,6 +546,7 @@
     ENUMERATOR(STPlatzwechselRochadeMovesForPieceGenerator),            \
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \
     ENUMERATOR(STAnnanMovesForPieceGenerator),                          \
+    ENUMERATOR(STPointReflectionMovesForPieceGenerator),                \
     ENUMERATOR(STFaceToFaceMovesForPieceGenerator),                     \
     ENUMERATOR(STBackToBackMovesForPieceGenerator),                     \
     ENUMERATOR(STCheekToCheekMovesForPieceGenerator),                   \
@@ -631,6 +632,7 @@
     ENUMERATOR(STTransmutingKingDetectNonTransmutation),                \
     ENUMERATOR(STReflectiveKingsEnforceObserverWalk),                   \
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \
+    ENUMERATOR(STPointReflectionEnforceObserverWalk),                   \
     ENUMERATOR(STFaceToFaceEnforceObserverWalk),                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk),                        \
     ENUMERATOR(STCheekToCheekEnforceObserverWalk),                      \

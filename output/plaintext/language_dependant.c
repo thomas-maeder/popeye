@@ -939,7 +939,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "Make&TakeEchecs"
+    /*207*/ "Make&TakeEchecs",
+    /*208*/ "ReflexionCentrale"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1149,7 +1150,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "Make&TakeSchach"
+    /*207*/ "Make&TakeSchach",
+    /*208*/ "Punktspiegelung"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1359,7 +1361,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*204*/ "LeseMajeste",
     /*205*/ "Rokagogo",
     /*206*/ "Breton",
-    /*207*/ "Make&TakeChess"
+    /*207*/ "Make&TakeChess",
+    /*208*/ "PointReflection"
   }
 };
 
