@@ -295,7 +295,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
         case CirceVariantChameleon:
           if (circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_chameleon))
             tok = ReadChameleonSequence(tok,
-                                        &variant->chameleon_is_walk_squence_explicit,
+                                        &variant->explicit_chameleon_squence_set_in_twin,
                                         &variant->chameleon_walk_sequence);
           else
             output_plaintext_input_error_message(NonsenseCombination,0);
@@ -1340,7 +1340,7 @@ char *ParseCond(char *tok)
           CondFlag[circe] = true;
           circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_chameleon;
           tok = ReadChameleonSequence(tok,
-                                      &circe_variant.chameleon_is_walk_squence_explicit,
+                                      &circe_variant.explicit_chameleon_squence_set_in_twin,
                                       &circe_variant.chameleon_walk_sequence);
           break;
         case circeturncoats:
@@ -1666,7 +1666,7 @@ char *ParseCond(char *tok)
         case chameleonsequence:
         case chamchess:
           tok = ReadChameleonSequence(tok,
-                                      &chameleon_is_squence_explicit,
+                                      &explicit_chameleon_squence_set_in_twin,
                                       &chameleon_walk_sequence);
           break;
 
