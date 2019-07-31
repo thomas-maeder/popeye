@@ -1,0 +1,14 @@
+begin
+
+prot 4_83_to_4_85.reg
+
+title Popeye didn't solve b) since 4.65
+author Sergey Shumeiko
+origin Julia's Fairies 2019
+pieces white kf1 black kh2
+stipulation ser-hza16
+condition bichrom messigny
+twin stipulation ser-hzh86
+
+end
+
