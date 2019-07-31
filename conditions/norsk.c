@@ -38,7 +38,7 @@ static boolean find_promotion(square sq_arrival)
 
   for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
     if (move_effect_journal[curr].type==move_effect_walk_change
-        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+        && move_effect_journal[curr].u.piece_walk_change.on==sq_arrival)
     {
       result = true;
       break;
@@ -58,7 +58,7 @@ static move_effect_journal_index_type find_castling_partner_movement(void)
 
   for (result = top-1; result>base; --result)
     if (move_effect_journal[result].type==move_effect_piece_movement
-        && move_effect_journal[result].reason==move_effect_reason_castling_partner_movement)
+        && move_effect_journal[result].reason==move_effect_reason_castling_partner)
       break;
 
   TraceFunctionExit(__func__);

@@ -29,12 +29,12 @@ static void reflecting_bishop_generate_moves_recursive(square in, numvec dir, un
 
   while (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += dir;
   }
 
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
   else if (nr_remaining_reflections>0 && is_square_blocked(curr_generation->arrival))
   {
     square const sq_reflection = curr_generation->arrival-dir;

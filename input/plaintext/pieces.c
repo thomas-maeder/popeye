@@ -9,11 +9,13 @@
 #include "position/effects/piece_creation.h"
 #include "position/effects/piece_removal.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/circe/parachute.h"
 
 #include <assert.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* Identify a piece walk from the characters of its shortcut
@@ -299,6 +301,8 @@ Flags ParseColour(char *tok, boolean colour_is_mandatory)
   }
   else if (colour==colour_neutral)
     return NeutralMask;
+  else if (colour==pseudocolour_totalinvisible)
+    return BIT(Chameleon);
   else
     return BIT(colour);
 }
@@ -341,6 +345,26 @@ char *ParsePieces(char *tok)
     Flags PieSpFlags = ParseColour(tok,nr_groups==0);
     if (PieSpFlags==0)
       break;
+    else if (TSTFLAG(PieSpFlags,Chameleon))
+    {
+      tok = ReadNextTokStr();
+
+      {
+        char *end;
+        unsigned long const value = strtoul(tok,&end,10);
+        if (end==tok)
+        {
+          output_plaintext_input_error_message(WrongInt,0);
+          break;
+        }
+        else
+        {
+          total_invisible_number = value;
+          tok = ReadNextTokStr();
+          ++nr_groups;
+        }
+      }
+    }
     else
     {
       Flags nonCOLOURFLAGS = 0;

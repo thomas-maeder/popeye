@@ -37,7 +37,6 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   if (TSTFLAG(addedspec,Black))
     ++being_solved.number_of_pieces[Black][added];
   occupy_square(on,added,addedspec);
-  assert(GetPieceId(addedspec)!=NullPieceId);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -51,6 +50,10 @@ static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceWalk(added);
+  TraceSquare(on);
+  TraceEOL();
 
   if (TSTFLAG(addedspec,White))
     --being_solved.number_of_pieces[White][added];
@@ -71,6 +74,10 @@ static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceWalk(added);
+  TraceSquare(on);
+  TraceEOL();
 
   if (TSTFLAG(addedspec,White))
     ++being_solved.number_of_pieces[White][added];

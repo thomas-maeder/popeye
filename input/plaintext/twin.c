@@ -408,9 +408,9 @@ static void move_effect_journal_do_twinning_substitute(piece_walk_type from,
   TraceWalk(to);
   TraceFunctionParamListEnd();
 
-  entry->u.piece_change.from = from;
-  entry->u.piece_change.to = to;
-  entry->u.piece_change.on = initsquare;
+  entry->u.piece_walk_change.from = from;
+  entry->u.piece_walk_change.to = to;
+  entry->u.piece_walk_change.on = initsquare;
 
   do_substitute_all(from,to);
 

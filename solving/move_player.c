@@ -3,6 +3,7 @@
 #include "position/position.h"
 #include "position/effects/piece_movement.h"
 #include "position/effects/piece_removal.h"
+#include "position/effects/null_move.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
@@ -17,10 +18,14 @@ static void play_move(void)
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
 
+  while (move_effect_journal_base[nbply+1]-move_effect_journal_base[nbply]
+         <move_effect_journal_index_offset_capture)
+    move_effect_journal_do_null_effect();
+
   if (en_passant_is_ep_capture(sq_capture))
     move_effect_journal_do_piece_removal(move_effect_reason_ep_capture,
                                          sq_capture-offset_en_passant_capture);
-  else if (is_square_empty(sq_capture))
+  else if (is_no_capture(sq_capture))
     move_effect_journal_do_no_piece_removal();
   else
     move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,

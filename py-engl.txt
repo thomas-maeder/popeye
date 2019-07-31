@@ -1101,6 +1101,9 @@ sstipulation). A little bit more elaborate are the commands
                                       in direction of the homebase like an Y;
                                       horizontal moves not allowed
 
+	The "pseudo color" TotalInvisible followed by a positive number
+	may be used to indicate the number of TotalInvisible pieces.
+
 
  - Twin: Solving/testing of positions obtained by small changes of the
 	initial position. The following specifications are supported:
@@ -1119,9 +1122,13 @@ sstipulation). A little bit more elaborate are the commands
 	by pieces of type <piece2>. Colour and further piece specifications
 	(like paralysing etc.) are not affected. Example: twin
 	substitute R B.  All rooks are replaced by bishops.
-    Add <colour> <piecespecs> <type><squarelist>: Add pieces. Example:
-	twin add black para NHa6 - a black paralysing NightriderHopper is
+    Add <colour> <piecespecs> <type><squarelist>: Add pieces - present pieces
+	are replaced.
+	Example: twin add black para NHa6 - a black paralysing NightriderHopper is
 	added on a6. See the basic command "pieces".
+	The "pseudo color" TotalInvisible followed by a positive number can
+	be used to indicate twinning by modification of the number of TotalInvisible
+	pieces.
     Rotate n: Turns the board by n degrees to the left (n=90, 180, 270).
 	Example: twin rotate 180.
     Mirror a1<-->h1: Mirrors the position on the vertical middle line.

@@ -52,7 +52,7 @@ void find_attack_solve(slice_index si)
   while (encore() && result_intermediate>MOVE_HAS_SOLVED_LENGTH())
   {
     pipe_solve_delegate(si);
-    assert(slack_length<=solve_result || solve_result==this_move_is_illegal);
+    assert(slack_length<=solve_result || solve_result<=immobility_on_next_move);
     if (slack_length<solve_result && solve_result<result_intermediate)
       result_intermediate = solve_result;
   }

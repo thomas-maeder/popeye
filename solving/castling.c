@@ -71,7 +71,7 @@ static void castle(square sq_departure, square sq_arrival,
   move_effect_journal_do_no_piece_removal();
   move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                         sq_departure,sq_arrival);
-  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                         sq_partner_departure,sq_partner_arrival);
 
   TraceFunctionExit(__func__);
@@ -399,9 +399,9 @@ static void adjust_castling_rights(Side trait_ply)
 
       case move_effect_walk_change:
         disable_castling_rights(move_effect_journal[curr].reason,
-                                move_effect_journal[curr].u.piece_change.on);
+                                move_effect_journal[curr].u.piece_walk_change.on);
         enable_castling_rights(move_effect_journal[curr].reason,
-                               move_effect_journal[curr].u.piece_change.on);
+                               move_effect_journal[curr].u.piece_walk_change.on);
         break;
 
       default:
@@ -758,7 +758,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     siblingply(trait[nbply]);
 
     curr_generation->arrival = to;
-    push_move();
+    push_move_no_capture();
 
     result = (conditional_pipe_solve_delegate(temporary_hack_castling_intermediate_move_legality_tester[side])
               ==previous_move_has_solved);

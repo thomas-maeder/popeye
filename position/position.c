@@ -60,6 +60,7 @@ void initialise_game_array(position *pos)
   pos->board[kingside_castling] = Empty;
   pos->board[queenside_castling] = Empty;
   pos->board[retro_capture_departure] = Empty;
+  pos->board[move_by_invisible] = Empty;
 
   for (bnp = boardnum; *bnp; bnp++)
   {
@@ -172,6 +173,9 @@ void occupy_square(square s, piece_walk_type walk, Flags flags)
 {
   assert(walk!=Empty);
   assert(walk!=Invalid);
+  // TODO why don't these hold?
+//  assert(being_solved.board[s]==Empty);
+//  assert(being_solved.spec[s]==EmptySpec);
   being_solved.board[s] = walk;
   being_solved.spec[s] = flags;
 }

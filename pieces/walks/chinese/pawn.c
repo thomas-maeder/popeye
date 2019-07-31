@@ -17,23 +17,27 @@ void chinese_pawn_generate_moves(void)
   {
     int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
     curr_generation->arrival = sq_departure+dir_forward;
-    if (is_square_empty(curr_generation->arrival)
-        || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
-      push_move();
+    if (is_square_empty(curr_generation->arrival))
+      push_move_no_capture();
+    else if (TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
+      push_move_regular_capture();
   }
 
   if (past_river)
   {
     {
       curr_generation->arrival = sq_departure+dir_right;
-      if (is_square_empty(curr_generation->arrival)
-          || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
-        push_move();
+      if (is_square_empty(curr_generation->arrival))
+        push_move_no_capture();
+      else if (TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
+        push_move_regular_capture();
     }
     {
       curr_generation->arrival = sq_departure+dir_left;
-      if (is_square_empty(curr_generation->arrival) || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
-        push_move();
+      if (is_square_empty(curr_generation->arrival))
+        push_move_no_capture();
+      else if (TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
+        push_move_regular_capture();
     }
   }
 }

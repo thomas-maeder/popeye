@@ -207,9 +207,9 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.from);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_walk_change.from);
   protocol_fprintf(stdout,"%s"," ==> ");
-  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.to);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_walk_change.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 

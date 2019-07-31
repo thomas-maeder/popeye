@@ -140,7 +140,7 @@ void take_and_make_generate_make_solve(slice_index si)
     if (en_passant_is_ep_capture(take_capture))
       generate_make_for_one_take(take_current,
                                  take_capture-offset_en_passant_capture);
-    else if (get_walk_of_piece_on_square(take_capture)==Empty)
+    else if (is_no_capture(take_capture))
       push_move_copy(take_current);
     else
       generate_make_for_one_take(take_current,take_capture);

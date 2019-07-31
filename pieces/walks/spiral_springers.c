@@ -10,18 +10,18 @@ static void generate_zigzag(vec_index_type idx_zig, vec_index_type idx_zag)
 
   while (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += vec[idx_zag];
     if (is_square_empty(curr_generation->arrival))
     {
-      push_move();
+      push_move_no_capture();
       curr_generation->arrival += vec[idx_zig];
     }
     else
       break;
   }
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
 }
 
 static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,

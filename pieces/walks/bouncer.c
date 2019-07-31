@@ -22,10 +22,13 @@ void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend)
            && is_square_empty(curr_generation->arrival))
       curr_generation->arrival -= vec[k];
 
-    if (curr_generation->arrival==bounce_to
-        && (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival)))
-      push_move();
+    if (curr_generation->arrival==bounce_to)
+    {
+      if (is_square_empty(curr_generation->arrival))
+        push_move_no_capture();
+      else if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_move_regular_capture();
+    }
   }
 }
 

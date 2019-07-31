@@ -63,7 +63,7 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
                                                                    move_effect_reason_type reason)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_entry_type * const result = &move_effect_journal[top];
+  move_effect_journal_entry_type * const entry = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
@@ -72,12 +72,12 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 
   assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
-  result->type = type;
-  result->reason = reason;
+  entry->type = type;
+  entry->reason = reason;
 
 #if defined(DOTRACE)
-  result->id = move_effect_journal_next_id++;
-  TraceValue("%lu",result->id);
+  entry->id = move_effect_journal_next_id++;
+  TraceValue("%lu",entry->id);
   TraceEOL();
 #endif
 
@@ -87,7 +87,7 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-  return result;
+  return entry;
 }
 
 
@@ -136,8 +136,8 @@ void redo_move_effects(void)
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
   {
 #if defined(DOTRACE)
+    TraceValue("%u",entry-&move_effect_journal[0]);
     TraceValue("%u",entry->type);
-    TraceEOL();
     TraceValue("%lu",entry->id);
     TraceEOL();
 #endif
@@ -161,6 +161,11 @@ void undo_move_effects(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_top);
+  TraceValue("%u",top);
+  TraceEOL();
 
   assert(parent_top>0);
   assert(top>=parent_top);

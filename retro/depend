@@ -15,9 +15,9 @@ retro/retro$(OBJ_SUFFIX): retro/retro.c retro/retro.h solving/machinery/solve.h 
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h position/effects/null_move.h solving/move_effect_journal.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/pipe.h debugging/assert.h
+ stipulation/pipe.h position/effects/null_move.h \
+ solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/pipe.h debugging/assert.h
 
 retro/retro.h:
 

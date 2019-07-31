@@ -1,0 +1,165 @@
+begin
+
+protocol total_invisible.ref
+
+origin Sake tourney 2018, announcement
+pieces TotalInvisible 1 white kf6 qd5 black kh6 ph7
+stipulation h#1
+
+next
+
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces TotalInvisible 1 white kc2 qa3 pa2 black ka1 pb2
+stipulation h#1
+
+next
+
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces TotalInvisible 1 white kb8 qh1 black ka1 sb1e7
+stipulation h#2
+
+next
+
+author Shinichi Soma
+origin Sake tourney 2018, announcement (solution that relies on retro not shown)
+pieces TotalInvisible 1 white ke1 rh1 pg2 black kg3 ba1 sg4 pf4
+stipulation h#2
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, b) cooked
+pieces TotalInvisible 3 white kd1 qb2 black kf4 rh1 be1 pe4f5h2
+stipulation h#2
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, corrected
+pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+stipulation h#2
+twin add TotalInvisible 3
+
+next
+
+author Ofer Comay
+origin Sake tourney 2018, 2nd prize
+pieces TotalInvisible 3 white kd5 black kh2 qg4 rf1f8 bg1h1 sd1e1 pe2e4e5g5h3h4h5
+stipulation h#2
+twin remove g5
+
+next
+
+author Manfred Rittirsch
+origin Sake tourney 2018, 3rd prize, cooked
+pieces TotalInvisible 2 white kg3 bd6 sb3 pc2d2f2g6h5 black ka4 pc3d7
+stipulation h#2
+twin move g6 d4
+
+next
+
+author Manfred Rittirsch
+origin Sake tourney 2018, 3rd prize, correction
+pieces TotalInvisible 2 white kf1 bd6 sb3 pc2d2g6h5 black ka4 pc3d7
+stipulation h#2
+twin move g6 d4
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+pieces TotalInvisible 3 white kg4 rh6 ba2 pd4d6 black ke6 qe2 re8g8 bd7h8 pd2
+stipulation h#2
+
+next
+
+author Michel Caillaud
+origin Sake tourney 2018, 2nd HM, cooked
+pieces TotalInvisible 2 white kf6 rd3 bd2 sd6 pf2f5g5 black ka4 qh1
+stipulation h#2
+
+next
+
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
+stipulation h#2
+
+next
+
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, corrected
+pieces TotalInvisible 3 white ke4 qd1 bd2 sg7 pa5f3h2 black qf6 re8 bh7 sf7
+stipulation h#2
+
+next
+
+author Kjell Widlert
+origin Sake tourney 2018, 4th HM
+pieces TotalInvisible 3 white kh7 rc8c1 bc5 sg5 pf4 black kd5 qf3
+stipulation h#2 
+
+next
+
+author Kjell Widlert
+origin Sake tourney 2018, 5th HM
+pieces TotalInvisible 4 white kh8 qh5 bf5 sb5d3 pb3 black kd5 qe4
+stipulation h#2
+twin move b5 d7
+
+next
+
+author Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+origin Sake tourney 2018, 6th HM
+pieces TotalInvisible 5 white kh1 rh6 bb7g5 sg3 pe2f2f4 black kg4 rd1e1 bb3g1 pe3e5
+stipulation h#2
+twin move e5 h3
+
+next
+
+author Vlaicu Crisan, Eric Huber
+origin Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+pieces TotalInvisible 2 white ke1 qd3 pf2 black kg1
+stipulation h#2
+twin move g1 g2
+
+next
+
+author Ricardo Vieira / Menachem Witztum
+origin Sake tourney 2018, Comm, cooked
+pieces TotalInvisible 2 white kb8 pb5c4d2 black kb6 bf8 pa4a5e3
+stipulation h#2
+
+next
+
+author Kjell Widlert
+origin Sake tourney 2018, Comm, cooked
+pieces TotalInvisible 2 white kc2 qh3 bb5 se2 black ke4 sh5 pe3
+stipulation h#2
+twin move c2 g6
+
+next
+
+author Kjell Widlert / Thomas Maeder
+origin Sake tourney 2018, Comm
+pieces TotalInvisible 2 white ka4 rf8h1 black kh8 pg7
+stipulation h#2
+
+next
+
+author Michel Caillaud & Igor Vere\vs\vcagin
+origin Sake tourney 2018, Comm, cooked
+pieces TotalInvisible 2 white kh1 qh3 black ke8 ra7 pb7
+stipulation h#2
+
+next
+
+author Michael Caillaud (after Ken Kousaka)
+origin Sake tourney 2018, Comm, cooked
+pieces TotalInvisible 3 white ka3 qc8 black kh6 qb7 rd6 be3 pa5g7h5h7
+stipulation h#2
+
+end
+

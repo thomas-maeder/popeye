@@ -243,6 +243,7 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/walks/generate_moves.h"
@@ -2064,6 +2065,50 @@ void dispatch(slice_index si)
 
     case STKillerAttackCollector:
       killer_attack_collector_solve(si);
+      break;
+
+    case STTotalInvisibleMoveSequenceTester:
+      total_invisible_move_sequence_tester_solve(si);
+      break;
+
+    case STTotalInvisibleInstrumenter:
+      total_invisible_instrumenter_solve(si);
+      break;
+
+    case STTotalInvisibleInvisiblesAllocator:
+      total_invisible_invisibles_allocator_solve(si);
+      break;
+
+    case STTotalInvisibleMoveSequenceMoveRepeater:
+      total_invisible_move_repeater_solve(si);
+      break;
+
+    case STTotalInvisibleUninterceptableSelfCheckGuard:
+      total_invisible_uninterceptable_selfcheck_guard_solve(si);
+      break;
+
+    case STTotalInvisibleGoalGuard:
+      total_invisible_goal_guard_solve(si);
+      break;
+
+    case STTotalInvisibleSpecialMoveGenerator:
+      total_invisible_generate_special_moves(si);
+      break;
+
+    case STTotalInvisibleSpecialMovesPlayer:
+      total_invisible_special_moves_player_solve(si);
+      break;
+
+    case STTotalInvisibleReserveKingMovement:
+      total_invisible_reserve_king_movement(si);
+      break;
+
+    case STTotalInvisibleMovesByInvisibleGenerator:
+      total_invisible_generate_moves_by_invisible(si);
+      break;
+
+    case STTotalInvisibleRevealAfterFinalMove:
+      total_invisible_reveal_after_mating_move(si);
       break;
 
     case STMummerOrchestrator:

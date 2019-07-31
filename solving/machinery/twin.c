@@ -2,6 +2,7 @@
 #include "pieces/pieces.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
@@ -1071,6 +1072,13 @@ void verify_position(slice_index si)
 
   if (OptFlag[sansrn] && being_solved.king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
+
+  if (total_invisible_number>0)
+  {
+    disable_orthodox_mating_move_optimisation(nr_sides);
+    OptFlag[sansrn] = true;
+    OptFlag[sansrb] = true;
+  }
 
   if (being_solved.king_square[White]==initsquare && being_solved.number_of_pieces[White][King]==0 && !OptFlag[sansrb])
   {

@@ -1211,11 +1211,11 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  input/plaintext/problem.h options/maxthreatlength.h \
  options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
  conditions/imitator.h pieces/attributes/neutral/neutral.h \
- pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
- solving/castling.h solving/move_generator.h solving/proofgames.h \
- solving/pipe.h stipulation/pipe.h stipulation/branch.h \
- debugging/assert.h
+ pieces/attributes/total_invisible.h pieces/walks/classification.h \
+ pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
+ solving/fork.h solving/castling.h solving/move_generator.h \
+ solving/proofgames.h solving/pipe.h stipulation/pipe.h \
+ stipulation/branch.h debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1367,6 +1367,8 @@ conditions/imitator.h:
 
 pieces/attributes/neutral/neutral.h:
 
+pieces/attributes/total_invisible.h:
+
 pieces/walks/classification.h:
 
 pieces/walks/hunters.h:
@@ -1420,9 +1422,10 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/message.h output/plaintext/protocol.h \
- pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
- pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- solving/fork.h debugging/assert.h
+ pieces/attributes/total_invisible.h pieces/attributes/neutral/neutral.h \
+ pieces/walks/classification.h pieces/walks/hunters.h \
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ debugging/assert.h
 
 output/plaintext/pieces.h:
 
@@ -1547,6 +1550,8 @@ output/plaintext/message.h:
 output/message.h:
 
 output/plaintext/protocol.h:
+
+pieces/attributes/total_invisible.h:
 
 pieces/attributes/neutral/neutral.h:
 

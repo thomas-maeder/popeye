@@ -16,7 +16,7 @@
 /* Array containing an element for each square plus many slack square
  * for making move generation easier
  */
-typedef piece_walk_type echiquier[maxsquare+5];
+typedef piece_walk_type echiquier[maxsquare+8];
 
 /* Some useful symbols for dealing with these flags
  */

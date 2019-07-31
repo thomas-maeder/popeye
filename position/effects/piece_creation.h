@@ -6,7 +6,7 @@
 
 #include "solving/move_effect_journal.h"
 
-/* Add an newly created piece to the current move of the current ply
+/* Add a newly created piece to the current move of the current ply
  * @param reason reason for creating the piece
  * @param on where to insert the piece
  * @param created nature of created piece

@@ -2096,7 +2096,8 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/move.h debugging/assert.h
+ stipulation/pipe.h stipulation/move.h debugging/assert.h \
+ pieces/attributes/total_invisible.h
 
 solving/king_capture_avoider.h:
 
@@ -2179,6 +2180,8 @@ stipulation/pipe.h:
 stipulation/move.h:
 
 debugging/assert.h:
+
+pieces/attributes/total_invisible.h:
 solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  solving/recursion_stopper.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -3833,9 +3836,9 @@ solving/move_player$(OBJ_SUFFIX): solving/move_player.c solving/move_player.h \
  solving/fork.h position/position.h position/color.h \
  position/color.enum.h position/color.enum \
  position/effects/piece_movement.h position/effects/piece_removal.h \
- solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/pipe.h debugging/assert.h
+ position/effects/null_move.h solving/move_generator.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/pipe.h debugging/assert.h
 
 solving/move_player.h:
 
@@ -3904,6 +3907,8 @@ position/color.enum:
 position/effects/piece_movement.h:
 
 position/effects/piece_removal.h:
+
+position/effects/null_move.h:
 
 solving/move_generator.h:
 

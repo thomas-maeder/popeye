@@ -38,7 +38,7 @@ static boolean is_capture(numecoup n)
   TraceSquare(move_generation_stack[n].capture);
   TraceEOL();
 
-  result = !is_square_empty(move_generation_stack[n].capture);
+  result = !is_no_capture(move_generation_stack[n].capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

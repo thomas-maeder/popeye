@@ -12,12 +12,12 @@ static void cardinal_generate_moves_recursive(square in, numvec k, int x)
 
   while (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += k;
   }
 
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
   else if (x && is_square_blocked(curr_generation->arrival))
   {
     for (k1= 1; k1<=4; k1++)
@@ -28,10 +28,10 @@ static void cardinal_generate_moves_recursive(square in, numvec k, int x)
     {
       curr_generation->arrival += vec[k1];
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        push_move();
+        push_move_regular_capture();
       else if (is_square_empty(curr_generation->arrival))
       {
-        push_move();
+        push_move_no_capture();
         k1= 5;
         while (vec[k1]!=k)
           k1++;

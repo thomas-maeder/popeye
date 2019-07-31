@@ -74,10 +74,18 @@ static void undo_piece_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(from);TraceSquare(to);TraceWalk(being_solved.board[to]);TraceEOL();
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceWalk(get_walk_of_piece_on_square(to));
+  TraceWalk(entry->u.piece_movement.moving);
+  TraceValue("%x",being_solved.spec[to]);
+  TraceValue("%x",entry->u.piece_movement.movingspec);
+  TraceEOL();
 
   if (to!=from)
   {
+    assert(get_walk_of_piece_on_square(to)==entry->u.piece_movement.moving);
+    assert(being_solved.spec[to]==entry->u.piece_movement.movingspec);
     occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
     empty_square(to);
   }
@@ -96,10 +104,16 @@ static void redo_piece_movement(move_effect_journal_entry_type const *entry)
 
   TraceSquare(from);
   TraceSquare(to);
+  TraceWalk(get_walk_of_piece_on_square(from));
+  TraceWalk(entry->u.piece_movement.moving);
+  TraceValue("%x",being_solved.spec[from]);
+  TraceValue("%x",entry->u.piece_movement.movingspec);
   TraceEOL();
 
   if (to!=from)
   {
+    assert(get_walk_of_piece_on_square(from)==entry->u.piece_movement.moving);
+    assert(being_solved.spec[from]==entry->u.piece_movement.movingspec);
     occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
     empty_square(from);
   }

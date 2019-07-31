@@ -88,7 +88,7 @@ static square find_promotion(move_effect_journal_index_type base)
     if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
-      result = move_effect_journal[curr].u.piece_change.on;
+      result = move_effect_journal[curr].u.piece_walk_change.on;
       break;
     }
   }

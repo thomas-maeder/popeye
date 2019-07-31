@@ -379,7 +379,7 @@ static void flesh_out_castling_as_make(int offset_partner_departure,
   move_effect_journal[idx_prev].reason = move_effect_reason_castling_king_movement;
   move_effect_journal[idx_prev].u.piece_movement.to = sq_king_intermediate;
 
-  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                         sq_partner_departure,
                                         sq_partner_arrival);
 

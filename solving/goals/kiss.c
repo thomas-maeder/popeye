@@ -9,7 +9,7 @@
 #include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
- * whether an chess81 goal has just been reached
+ * whether a kiss goal has just been reached
  */
 
 static boolean is_naked(square candidate, square pos_kisser)

@@ -314,8 +314,8 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   twinning_pos += fprintf(twinning, "{\\w%s} $\\Rightarrow$ \\w%s",
-          LaTeXWalk(entry->u.piece_change.from),
-          LaTeXWalk(entry->u.piece_change.to));
+          LaTeXWalk(entry->u.piece_walk_change.from),
+          LaTeXWalk(entry->u.piece_walk_change.to));
 }
 
 static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)

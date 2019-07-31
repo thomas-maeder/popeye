@@ -74,9 +74,9 @@ static piece_walk_type find_promotion(ply ply, square sq_arrival)
 
   for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
     if (move_effect_journal[curr].type==move_effect_walk_change
-        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+        && move_effect_journal[curr].u.piece_walk_change.on==sq_arrival)
     {
-      result = move_effect_journal[curr].u.piece_change.to;
+      result = move_effect_journal[curr].u.piece_walk_change.to;
       break;
     }
 

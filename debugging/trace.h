@@ -59,7 +59,7 @@ void TraceFunctionExit(char const *name);
 /* Trace a function parameter
  */
 #define TraceFunctionParam(format,name) \
-  TraceValueImpl(" ->" #name ":", format, (size_t)name)
+  TraceValueImpl(" ->" #name ":", (format), (size_t)(name))
 
 /* Trace end of function parameter list
  */
@@ -68,7 +68,7 @@ void TraceFunctionParamListEnd(void);
 /* Trace the value of some expression
  */
 #define TraceValue(format,name) \
-  TraceValueImpl(" " #name ":", format, (size_t)name)
+  TraceValueImpl(" " #name ":", (format), (size_t)(name))
 
 /* Trace arbitrary text
  */
@@ -79,14 +79,14 @@ void TraceSquareImpl(char const *prefix, square s);
 /* Trace a square name
  */
 #define TraceSquare(name) \
-  TraceSquareImpl(" " #name ":", name)
+  TraceSquareImpl(" " #name ":", (name))
 
 void TraceWalkImpl(char const *prefix, piece_walk_type p);
 
 /* Trace a piece
  */
 #define TraceWalk(name) \
-  TraceWalkImpl(" " #name ":", name)
+  TraceWalkImpl(" " #name ":", (name))
 
 /* Trace the notation of the current position
  */
@@ -100,7 +100,7 @@ void TraceCurrentHashBuffer(void);
  * Works best in SESE style functions.
  */
 #define TraceFunctionResult(format,name) \
-  TraceFunctionResultImpl(" <- " #name ":", format, (size_t)name)
+  TraceFunctionResultImpl(" <- " #name ":", (format), (size_t)(name))
 
 /* Trace end of function return value (if any)
  */
@@ -112,8 +112,8 @@ void TraceFunctionResultEnd(void);
  */
 #define TraceEnumerator(type_name,name) \
   TraceEnumeratorImpl(" " #name ":%s(%u)", \
-                      type_name##_names[name], \
-                      name)
+                      type_name##_names[(name)], \
+                      (name))
 
 /* Trace the current stipulation structure
  * @param start_slice identifies slice where to start tracing

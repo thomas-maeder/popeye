@@ -35,7 +35,7 @@ void pawns_generate_capture_move(numvec dir)
   curr_generation->arrival = curr_generation->departure+dir;
 
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
   else
     pawns_generate_ep_capture_move(curr_generation->arrival);
 
@@ -57,7 +57,7 @@ void pawns_generate_nocapture_moves(numvec dir, int steps)
 
   if (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += dir;
 
     while (--steps>0)

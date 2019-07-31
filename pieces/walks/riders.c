@@ -18,7 +18,7 @@ square generate_moves_on_line_segment(square sq_base, vec_index_type k)
 
   while (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += vec[k];
   }
 
@@ -46,7 +46,7 @@ void rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
   {
     curr_generation->arrival = generate_moves_on_line_segment(curr_generation->departure,k);
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 
   TraceFunctionExit(__func__);

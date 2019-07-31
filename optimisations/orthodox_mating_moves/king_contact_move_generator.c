@@ -64,10 +64,13 @@ void orthodox_mating_king_contact_generator_solve(slice_index si)
     for (k = vec_queen_start; k<=vec_queen_end; k++)
     {
       curr_generation->arrival = curr_generation->departure+vec[k];
-      if ((is_square_empty(curr_generation->arrival)
-          || TSTFLAG(being_solved.spec[curr_generation->arrival],mated))
-          && move_diff_code[abs(sq_mated_king-curr_generation->arrival)]<=1+1)
-        push_move();
+      if (move_diff_code[abs(sq_mated_king-curr_generation->arrival)]<=1+1)
+      {
+        if (is_square_empty(curr_generation->arrival))
+            push_move_no_capture();
+        else if (TSTFLAG(being_solved.spec[curr_generation->arrival],mated))
+          push_move_regular_capture();
+      }
     }
   }
 

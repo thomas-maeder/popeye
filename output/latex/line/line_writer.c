@@ -16,7 +16,7 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* This module provides the STOutputPlaintextLineLineWriter slice type.
+/* This module provides the STOutputLaTeXLineLineWriter slice type.
  * Slices of this type write lines in line mode.
  */
 

@@ -234,9 +234,7 @@ void black_checks_null_move_generator_solve(slice_index si)
 
   assert(trait[nbply]==Black);
 
-  curr_generation->departure = nullsquare;
-  curr_generation->arrival = nullsquare;
-  push_move();
+  push_null_move();
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

@@ -19,12 +19,12 @@ void argentinian_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
     curr_generation->arrival = find_end_of_line(curr_generation->departure,dir);
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
 
     for (curr_generation->arrival += dir;
          is_square_empty(curr_generation->arrival);
          curr_generation->arrival += dir)
-      push_move();
+      push_move_no_capture();
   }
 }
 

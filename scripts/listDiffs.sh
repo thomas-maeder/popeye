@@ -11,4 +11,5 @@
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
 
-for f in `ls -tr *`; do echo $f; diff -wb $f ${POPEYEDIR}/REGRESSIONTESTS/$f; done
+for f in `ls -tr *`; do echo $f; diff -wb ${POPEYEDIR}/REGRESSIONTESTS/$f $f; done
+

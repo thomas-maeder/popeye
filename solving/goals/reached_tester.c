@@ -31,6 +31,7 @@ void goal_reached_tester_solve(slice_index si)
       break;
 
     case previous_move_has_not_solved:
+    case immobility_on_next_move:
       solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
       break;
 

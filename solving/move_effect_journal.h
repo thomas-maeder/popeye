@@ -49,6 +49,9 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
   move_effect_swap_volcanic,
+  move_effect_revelation_of_castling_partner,
+  move_effect_revelation_of_placed_invisible,
+  move_effect_revelation_of_new_invisible,
 
   move_effect_input_condition,
   move_effect_input_stipulation,
@@ -74,7 +77,7 @@ typedef enum
   move_effect_reason_regular_capture,
   move_effect_reason_ep_capture,
   move_effect_reason_castling_king_movement,
-  move_effect_reason_castling_partner_movement,
+  move_effect_reason_castling_partner,
   move_effect_reason_pawn_promotion,
   move_effect_reason_messigny_exchange,
   move_effect_reason_exchange_castling_exchange,
@@ -122,6 +125,8 @@ typedef enum
   move_effect_reason_zeroed_in,
   move_effect_reason_snek,
   move_effect_reason_breton,
+  move_effect_reason_removal_of_invisible,
+  move_effect_reason_revelation_of_invisible,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning
@@ -153,7 +158,7 @@ typedef struct
             square on;
             piece_walk_type from;
             piece_walk_type to;
-        } piece_change;
+        } piece_walk_change;
         struct
         {
             piece_walk_type moving;
@@ -167,6 +172,13 @@ typedef struct
             Side for_side;
         } piece_addition;
         piece_type piece_removal;
+        struct {
+            square on;
+            piece_walk_type walk_original;
+            Flags flags_original;
+            piece_walk_type walk_revealed;
+            Flags flags_revealed;
+        } revelation_of_placed_piece;
         struct
         {
             square from;

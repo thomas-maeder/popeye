@@ -23,7 +23,7 @@ static square generate_moves_on_circle_segment(square sq_base,
   while (curr_generation->arrival!=sq_base
          && is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += vec[*idx_curr_dir];
     *idx_curr_dir += sense;
   }
@@ -69,7 +69,7 @@ static void rose_generate_circle(vec_index_type idx_curr_dir,
                                                               sense);
   if (curr_generation->arrival!=curr_generation->departure
       && piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -166,7 +166,7 @@ static void rao_generate_circle(vec_index_type idx_curr_dir,
                                                        sense);
     if (curr_generation->arrival!=curr_generation->departure
         && piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -225,7 +225,7 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
 #endif
     if (curr_generation->arrival!=curr_generation->departure
         && piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -327,10 +327,11 @@ static void rosehopper_genrerate_circle(vec_index_type rotation,
   if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
     curr_generation->arrival = sq_hurdle+vec[rotation];
-    if (is_square_empty(curr_generation->arrival)
-        || (curr_generation->arrival!=curr_generation->departure
-            && piece_belongs_to_opponent(curr_generation->arrival)))
-      push_move();
+    if (is_square_empty(curr_generation->arrival))
+      push_move_no_capture();
+    else if  (curr_generation->arrival!=curr_generation->departure
+              && piece_belongs_to_opponent(curr_generation->arrival))
+      push_move_regular_capture();
   }
 }
 

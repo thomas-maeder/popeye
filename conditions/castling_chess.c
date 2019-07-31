@@ -51,7 +51,7 @@ void castling_chess_move_player_solve(slice_index si)
     move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                           sq_departure,sq_arrival);
-    move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+    move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                           sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 

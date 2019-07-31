@@ -24,11 +24,11 @@
   ser-h005                    3 + 9
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0
-
-  add_to_move_generation_stack:    14613743
-                     play_move:     2591834
- is_white_king_square_attacked:     1205485
- is_black_king_square_attacked:     2575236
+  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0
+  add_to_move_generation_stack:    47388716
+                     play_move:    10376638
+ is_white_king_square_attacked:     3111067
+ is_black_king_square_attacked:    10300616
 Bearbeitung abgebrochen.
 
 
@@ -60,11 +60,10 @@ Bearbeitung abgebrochen.
   h#11                        1 + 3
           Beamtet h8 a3 a1
 
-
-  add_to_move_generation_stack:     4360966
-                     play_move:     4013565
+  add_to_move_generation_stack:    17360109
+                     play_move:    16014828
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     3619247
+ is_black_king_square_attacked:    14319105
 Bearbeitung abgebrochen.
 
 
@@ -96,18 +95,17 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 
 a) 
 
+  add_to_move_generation_stack:    23002769
+                     play_move:    23002769
+ is_white_king_square_attacked:     5367601
+ is_black_king_square_attacked:    22951407
 
-  add_to_move_generation_stack:     5208880
-                     play_move:     5208880
- is_white_king_square_attacked:     1171705
- is_black_king_square_attacked:     5194199
 b) wKc1-->b3  
 
-
-  add_to_move_generation_stack:     5606506
-                     play_move:     5606506
- is_white_king_square_attacked:     1275216
- is_black_king_square_attacked:     5594003
+  add_to_move_generation_stack:    23206577
+                     play_move:    23206577
+ is_white_king_square_attacked:     5484542
+ is_black_king_square_attacked:    23166523
 Bearbeitung abgebrochen.
 
 
@@ -144,11 +142,11 @@ eigentlich:  ser-h=8/3
   3  (a7-a6 )
   4  (Ka8-b7 )
   5  (Ka8-b8 )
-
   add_to_move_generation_stack:      791286
                      play_move:      163546
  is_white_king_square_attacked:       99878
  is_black_king_square_attacked:      142970
+
 Loesung beendet.
 
 
@@ -182,11 +180,15 @@ Motto: Viele Koeche verderben den Brei
   h#5                         5 + 3
               MarsCirce
 
-
-  add_to_move_generation_stack:     4388099
-                     play_move:     2438057
- is_white_king_square_attacked:       96784
- is_black_king_square_attacked:     2370338
+  1  (Se1-g2 )
+  2  (Se1-f3 )
+  3  (Se1-d3 )
+  4  (Se1-c2 )
+  5  (Ke2-d1 )
+  add_to_move_generation_stack:    18974092
+                     play_move:    10200207
+ is_white_king_square_attacked:      600621
+ is_black_king_square_attacked:     9754409
 Bearbeitung abgebrochen.
 
 
@@ -217,11 +219,17 @@ Bearbeitung abgebrochen.
              OhneSchach
 
   1  (Sh1-g3 )
-
-  add_to_move_generation_stack:    11672821
-                     play_move:     7741401
- is_white_king_square_attacked:     1641909
- is_black_king_square_attacked:     7738223
+  2  (Sh1-f2 )
+  3  (c3-c2 )
+  4  (Kd5-c4 )
+  5  (Kd5-e4 )
+  6  (Kd5-e6 )
+  7  (Kd5-c6 )
+  8  (Kd5-d4 )
+  add_to_move_generation_stack:    45749447
+                     play_move:    31833923
+ is_white_king_square_attacked:     6873932
+ is_black_king_square_attacked:    31809568
 Bearbeitung abgebrochen.
 
 
@@ -251,11 +259,10 @@ Bearbeitung abgebrochen.
   #7                          5 + 2
               MarsCirce
 
-
-  add_to_move_generation_stack:     7151900
-                     play_move:     2558238
- is_white_king_square_attacked:      169323
- is_black_king_square_attacked:     2412016
+  add_to_move_generation_stack:    30898831
+                     play_move:    11125929
+ is_white_king_square_attacked:      740203
+ is_black_king_square_attacked:    10474005
 Bearbeitung abgebrochen.
 
 
@@ -286,11 +293,10 @@ Bearbeitung abgebrochen.
   =8                          3 + 1
               MarsCirce
 
-
-  add_to_move_generation_stack:    20437715
-                     play_move:     3080487
+  add_to_move_generation_stack:    85722351
+                     play_move:    14520911
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2957740
+ is_black_king_square_attacked:    13902282
 Bearbeitung abgebrochen.
 
 
@@ -335,11 +341,11 @@ Bearbeitung abgebrochen.
                       3...c3-c2
                           4.Tf5-f3 #
 
-
   add_to_move_generation_stack:       35327
                      play_move:       20545
  is_white_king_square_attacked:        9353
  is_black_king_square_attacked:       14045
+
 Loesung beendet.
 
 
@@ -419,11 +425,11 @@ Loesung beendet.
                                                       7...Ke4-d4
                                                           8.Se5-c6 #
 
-
   add_to_move_generation_stack:       74163
                      play_move:       64372
  is_white_king_square_attacked:       39347
  is_black_king_square_attacked:       29989
+
 Loesung beendet.
 
 
@@ -466,11 +472,11 @@ Loesung beendet.
                       3...nTe3-f3
                           4.Lh1*f3 #
 
-
   add_to_move_generation_stack:      150368
                      play_move:       73839
  is_white_king_square_attacked:       20073
  is_black_king_square_attacked:       71818
+
 Loesung beendet.
 
 
@@ -523,11 +529,11 @@ nebenloesig - eigentlich #6
                       3...Se6*g7[+wROe6]
                           4.ROe6*c5[+sBe6] #
 
-
   add_to_move_generation_stack:      245628
                      play_move:      177568
  is_white_king_square_attacked:       71968
  is_black_king_square_attacked:      112048
+
 Loesung beendet.
 
 
@@ -557,11 +563,10 @@ Loesung beendet.
   h=5                         2 + 4
              OhneSchach
 
-
-  add_to_move_generation_stack:    45116463
-                     play_move:     4919641
- is_white_king_square_attacked:     4919504
- is_black_king_square_attacked:     4471422
+  add_to_move_generation_stack:   202420315
+                     play_move:    19175698
+ is_white_king_square_attacked:    19114390
+ is_black_king_square_attacked:    17272385
 Bearbeitung abgebrochen.
 
 
@@ -592,11 +597,10 @@ Bearbeitung abgebrochen.
              OhneSchach
 
   1  (b2-b1=D )
-
-  add_to_move_generation_stack:    49244027
-                     play_move:     4574207
- is_white_king_square_attacked:     4556212
- is_black_king_square_attacked:     4427745
+  add_to_move_generation_stack:   248556661
+                     play_move:    20489350
+ is_white_king_square_attacked:    20350599
+ is_black_king_square_attacked:    19756561
 Bearbeitung abgebrochen.
 
 
@@ -627,11 +631,11 @@ Bearbeitung abgebrochen.
   h=5                         2 + 4
              OhneSchach
 
-
-  add_to_move_generation_stack:    41290109
-                     play_move:     4492343
- is_white_king_square_attacked:     4476995
- is_black_king_square_attacked:     4094692
+  1  (Ka1-b2 )
+  add_to_move_generation_stack:   174503351
+                     play_move:    19209864
+ is_white_king_square_attacked:    19104069
+ is_black_king_square_attacked:    17458841
 Bearbeitung abgebrochen.
 
 
@@ -662,11 +666,11 @@ Bearbeitung abgebrochen.
                 Circe
              OhneSchach
 
-
-  add_to_move_generation_stack:    38547957
-                     play_move:     4257297
- is_white_king_square_attacked:     4240611
- is_black_king_square_attacked:     3969642
+  1  (Kb1-c2 )
+  add_to_move_generation_stack:   210341284
+                     play_move:    20776337
+ is_white_king_square_attacked:    20525248
+ is_black_king_square_attacked:    19478775
 Bearbeitung abgebrochen.
 
 
@@ -697,11 +701,10 @@ Bearbeitung abgebrochen.
              Ohneschlag
              OhneSchach
 
-
-  add_to_move_generation_stack:    37916901
-                     play_move:     4523338
- is_white_king_square_attacked:     4521678
- is_black_king_square_attacked:     4245212
+  add_to_move_generation_stack:   168189405
+                     play_move:    19776895
+ is_white_king_square_attacked:    19759163
+ is_black_king_square_attacked:    18333007
 Bearbeitung abgebrochen.
 
 
@@ -739,26 +742,81 @@ a)
   3  (La3-b4 )
   4  (f3-f2 )
   5  (Tc5*c1[+wSg1] )
+  6  (Tc5-c2 )
+  7  (Tc5-c3 )
+  8  (Tc5-c4 + )
+  9  (Tc5-a5 )
+ 10  (Tc5-b5 )
+ 11  (Tc5-c8 )
+ 12  (Tc5-c7 )
+ 13  (Tc5-c6 )
+ 14  (Tc5-h5 )
+ 15  (Tc5-g5 )
+ 16  (Tc5-f5 )
+ 17  (Tc5-e5 + )
+ 18  (Tc5-d5 )
+  1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] #
+ 19  (Ka7-b6 )
+ 20  (Ka7-b8 )
+ 21  (Ka7-a6 )
+ 22  (Ka7-a8 )
+ 23  (Tb7-b1 )
+ 24  (Tb7-b2 )
+ 25  (Tb7-b3 )
+ 26  (Tb7-b4 + )
+ 27  (Tb7-b5 )
+ 28  (Tb7-b6 )
+ 29  (Tb7-b8 )
+ 30  (Tb7-h7 )
+ 31  (Tb7-g7 )
+ 32  (Tb7-f7 )
+  add_to_move_generation_stack:     9086519
+                     play_move:     8943590
+ is_white_king_square_attacked:      128944
+ is_black_king_square_attacked:     8881512
 
-  add_to_move_generation_stack:     2166766
-                     play_move:     2137681
- is_white_king_square_attacked:       28136
- is_black_king_square_attacked:     2126328
 b) sKa7-->b1  
 
-  6  (Kb1-c2 )
-  7  (Kb1-a2 )
-  8  (Kb1-a1 )
-  9  (Kb1-b2 )
- 10  (Kb1*c1[+wSg1] )
- 11  (La3*c1[+wSg1] )
+ 33  (Kb1-c2 )
+ 34  (Kb1-a2 )
+ 35  (Kb1-a1 )
+ 36  (Kb1-b2 )
+ 37  (Kb1*c1[+wSg1] )
+ 38  (La3*c1[+wSg1] )
   1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] #
- 12  (La3-b2 )
-
-  add_to_move_generation_stack:     2376005
-                     play_move:     2162326
- is_white_king_square_attacked:      134777
- is_black_king_square_attacked:     2150177
+ 39  (La3-b2 )
+ 40  (La3-b4 )
+ 41  (f3-f2 )
+ 42  (Tc5*c1[+wSg1] )
+ 43  (Tc5-c2 )
+ 44  (Tc5-c3 )
+ 45  (Tc5-c4 + )
+ 46  (Tc5-a5 )
+ 47  (Tc5-b5 )
+ 48  (Tc5-c8 )
+ 49  (Tc5-c7 )
+ 50  (Tc5-c6 )
+ 51  (Tc5-h5 )
+ 52  (Tc5-g5 )
+ 53  (Tc5-f5 )
+ 54  (Tc5-e5 + )
+ 55  (Tc5-d5 )
+ 56  (Tb7-b2 )
+ 57  (Tb7-b3 )
+ 58  (Tb7-b4 + )
+ 59  (Tb7-b5 )
+ 60  (Tb7-b6 )
+ 61  (Tb7-a7 )
+ 62  (Tb7-b8 )
+ 63  (Tb7-h7 )
+ 64  (Tb7-g7 )
+ 65  (Tb7-f7 )
+ 66  (Tb7-e7 + )
+ 67  (Tb7-d7 )
+  add_to_move_generation_stack:     9773746
+                     play_move:     9111997
+ is_white_king_square_attacked:      422641
+ is_black_king_square_attacked:     9048587
 Bearbeitung abgebrochen.
 
 
