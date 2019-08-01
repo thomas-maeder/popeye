@@ -25,12 +25,12 @@
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0
   1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0
-
   add_to_move_generation_stack:    52830392
                      play_move:    11644417
  is_white_king_square_attacked:     3539020
  is_black_king_square_attacked:    11568335
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -57,7 +57,7 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#11                     2 + 1
-             HaanerSchach
+            HaanerSchach
 
 a) 
 
@@ -71,12 +71,12 @@ a)
   7  (16g7-f1 )
   8  (16g7-h1 )
   9  (16g7-a8 )
-
   add_to_move_generation_stack:   104550963
                      play_move:   104550963
  is_white_king_square_attacked:    25397113
  is_black_king_square_attacked:   104345821
-b) wKc1-->b3
+
+b) wKc1-->b3  
 
  10  (Kb3-a2 + )
  11  (Kb3-c2 )
@@ -91,19 +91,19 @@ b) wKc1-->b3
   1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 #
  20  (16g7-h1 )
  21  (16g7-a8 )
+  add_to_move_generation_stack:   207102299
+                     play_move:   207102299
+ is_white_king_square_attacked:    46990194
+ is_black_king_square_attacked:   206816742
 
-  add_to_move_generation_stack:   172423409
-                     play_move:   172423409
- is_white_king_square_attacked:    43072625
- is_black_king_square_attacked:   172169418
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Bernhard Geismann
              Hans Gruber
-            Stefan Hoening
-           Hans-Peter Reich
+           Stefan Hoening
+          Hans-Peter Reich
     2929, Problemkiste 80, 4/1992
 Motto: Viele Koeche verderben den Brei
 
@@ -141,16 +141,16 @@ Motto: Viele Koeche verderben den Brei
  10  (d7-d5 )
   1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S #
  11  (d7-d6 )
-
-  add_to_move_generation_stack:    83305227
+  add_to_move_generation_stack:    89545466
                      play_move:    47711396
  is_white_king_square_attacked:     3348158
  is_black_king_square_attacked:    44938672
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
-             Franz Palatz
+            Franz Palatz
         Funkschach, 24.1.1926
 
 +---a---b---c---d---e---f---g---h---+
@@ -173,7 +173,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         3 + 5
-              OhneSchach
+             OhneSchach
 
   1  (Sh1-g3 )
   2  (Sh1-f2 )
@@ -194,12 +194,12 @@ Loesung beendet.
   1.Sf6-g8 Lh7-b1   2.c3-c2 h6-h7   3.c2*b1=L h7*g8=S   4.Lb1-e4 Sg8-e7 #
  17  (Sf6-e8 )
  18  (Sf6-d7 )
-
   add_to_move_generation_stack:    53082848
                      play_move:    37512330
  is_white_king_square_attacked:     8470516
  is_black_king_square_attacked:    37478882
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -244,7 +244,7 @@ Loesung beendet.
 
    1.La7-b6 !
       1...Kb8-c7
-          2.Tc5*a8
+          2.Tc5-a1*a8
               2...Kc7-b8
                   3.Kb7-c7
                       3...Kb8-a7
@@ -616,7 +616,7 @@ Loesung beendet.
       1...La8-b7
           2.La7-b6
               2...Lb7-a6
-                  3.Tc5*a6
+                  3.Tc5-a1*a6
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
@@ -845,7 +845,7 @@ Loesung beendet.
                                       5...Kb8-a7
                                           6.Ta8-b8 #
               2...Lb7-a8
-                  3.Tc5*a8
+                  3.Tc5-a1*a8
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
@@ -1213,7 +1213,7 @@ Loesung beendet.
       1...Kb8-b7
           2.La7-b6
               2...Kb7-b8
-                  3.Tc5*a8
+                  3.Tc5-a1*a8
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
@@ -1579,12 +1579,12 @@ Loesung beendet.
                                                   7.Ta6-a3 #
                                                   7.Ta6-a5 #
 
+  add_to_move_generation_stack:  5759896384
+                     play_move:  1799904571
+ is_white_king_square_attacked:   146048354
+ is_black_king_square_attacked:  1671436888
 
-  add_to_move_generation_stack:  5300095540
-                     play_move:  1651749000
- is_white_king_square_attacked:   134485570
- is_black_king_square_attacked:  1532484527
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1632,12 +1632,12 @@ Loesung beendet.
                                                       7...Kc3-b2
                                                           8.Db4-c3 =
 
-
-  add_to_move_generation_stack:  3587983690
-                     play_move:   574454113
+  add_to_move_generation_stack:  3386658690
+                     play_move:   544119063
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:   499442815
-Loesung beendet. 
+ is_black_king_square_attacked:   472152882
+
+Loesung beendet.
 
 
 
@@ -1664,21 +1664,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=5                         2 + 4
-              OhneSchach
+             OhneSchach
 
   1.b2-b1=T a5-a6   2.Tb1-b6 Ka7*b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
   1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
-
   add_to_move_generation_stack:   991034893
                      play_move:   107447539
  is_white_king_square_attacked:   107114678
  is_black_king_square_attacked:    97305088
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Theodor Steudel
-     29), Problemkiste 79, 2/1992
+    29), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1700,7 +1700,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=4                         3 + 3
-              OhneSchach
+             OhneSchach
 
   1  (b2-b1=D )
   2  (b2-b1=S )
@@ -1716,17 +1716,17 @@ Loesung beendet.
  11  (Kh5-h4 )
  12  (Kh5-g5 )
  13  (Kh5-h6 )
-
   add_to_move_generation_stack:  1028586519
                      play_move:   101884047
  is_white_king_square_attacked:   101165287
  is_black_king_square_attacked:    99051040
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Theodor Steudel
-     14), Problemkiste 79, 2/1992
+    14), Problemkiste 79, 2/1992
               14. Platz
 
 +---a---b---c---d---e---f---g---h---+
@@ -1749,7 +1749,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=5                         2 + 4
-              OhneSchach
+             OhneSchach
 
   1  (Ka1-b2 )
   2  (Ka1-a2 )
@@ -1767,17 +1767,17 @@ Loesung beendet.
  13  (h2-h1=S )
  14  (h2-h1=T )
  15  (h2-h1=L + )
-
   add_to_move_generation_stack:   838407004
                      play_move:    97085290
  is_white_king_square_attacked:    95595614
  is_black_king_square_attacked:    86642318
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Theodor Steudel
-     15), Problemkiste 79, 2/1992
+    15), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1800,7 +1800,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=5                         2 + 4
                 Circe
-              OhneSchach
+             OhneSchach
 
   1  (Kb1-c2 )
   2  (Kb1-a1 )
@@ -1843,17 +1843,17 @@ Loesung beendet.
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
-
   add_to_move_generation_stack:  2034867482
                      play_move:   203839793
  is_white_king_square_attacked:   198902324
  is_black_king_square_attacked:   189866067
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Theodor Steudel
-     16), Problemkiste 79, 2/1992
+    16), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1875,8 +1875,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=6                         2 + 4
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
   1  (Kd1-c1 )
   2  (Kd1-e1 )
@@ -1892,12 +1892,12 @@ Loesung beendet.
   9  (c2-c1=T )
   1.c2-c1=T e2-e4   2.Tc1-b1 e4-e5   3.Kd1-c1 e5-e6   4.d2-d1=S e6-e7   5.Sd1-b2 e7-e8=D   6.a2-a1=L De8-e2 =
  10  (c2-c1=L )
-
   add_to_move_generation_stack:  3634349430
                      play_move:   421422463
  is_white_king_square_attacked:   420000490
  is_black_king_square_attacked:   382465199
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
@@ -1925,7 +1925,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 6
                 Circe
-        ActuatedRevolvingBoard
+       ActuatedRevolvingBoard
 
 a) 
 
@@ -1972,12 +1972,12 @@ a)
  40  (Le8-h5 )
  41  (Le8-g6 + )
  42  (Le8-f7 )
-
   add_to_move_generation_stack:     9606263
                      play_move:     9448611
  is_white_king_square_attacked:      143489
  is_black_king_square_attacked:     9380029
-b) sKa7-->b1
+
+b) sKa7-->b1  
 
  43  (Kb1-c2 )
  44  (Kb1-a2 )
@@ -2023,17 +2023,17 @@ b) sKa7-->b1
  83  (Le8-h5 )
  84  (Le8-g6 + )
  85  (Le8-f7 )
-
   add_to_move_generation_stack:    10257208
                      play_move:     9582611
  is_white_king_square_attacked:      439335
  is_black_king_square_attacked:     9513633
-Loesung beendet. 
+
+Loesung beendet.
 
 
 
            Rene J. Millour
-     Diagrammes, 1982-4, 1er Prix
+    Diagrammes, 1982-4, 1er Prix
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2072,30 +2072,30 @@ a)
  11  (Se5*c4[Ie5] )
  12  (Se5-d3[If4] + )
  13  (Se5-f3[Ih4] + )
- 14  (g7-g8=I[Ig7,g8] )
- 15  (g7-g8=D[Ig7] )
- 16  (g7-g8=S[Ig7] )
-   1.g7-g8=S[Ig7] ! Zugzwang.
+ 14  (g7-g8[Ig7]=I )
+ 15  (g7-g8[Ig7]=D )
+ 16  (g7-g8[Ig7]=S )
+   1.g7-g8[Ig7]=S ! Zugzwang.
       1...f6*e5[If6]
-          2.f7-f8=S[If7] Zugzwang.
+          2.f7-f8[If7]=S Zugzwang.
               2...e6*d5[Ie6]
-                  3.e7-e8=S[Ie7] Zugzwang.
+                  3.e7-e8[Ie7]=S Zugzwang.
                       3...d6*c5[Id6]
-                          4.d7-d8=S[Id7] Zugzwang.
+                          4.d7-d8[Id7]=S Zugzwang.
                               4...c5*b4[Ic6]
-                                  5.c7-c8=S[Ic7] Zugzwang.
+                                  5.c7-c8[Ic7]=S Zugzwang.
                                       5...b4*a3[Ib6]
-                                          6.b7-b8=S[Ib7]
+                                          6.b7-b8[Ib7]=S
                                               6...Kh3*g2[Ia6] #
 
- 17  (g7-g8=T[Ig7] )
- 18  (g7-g8=L[Ig7] )
+ 17  (g7-g8[Ig7]=T )
+ 18  (g7-g8[Ig7]=L )
+  add_to_move_generation_stack:   170014841
+                     play_move:    61397025
+ is_white_king_square_attacked:    61028416
+ is_black_king_square_attacked:    29456465
 
-  add_to_move_generation_stack:   169171117
-                     play_move:    61071568
- is_white_king_square_attacked:    60712250
- is_black_king_square_attacked:    29485550
-b) sBc4-->c3
+b) sBc4-->c3  
 
  19  (Tg2-g1[Ig5] + )
  20  (Sb4-a2[If4] + )
@@ -2111,30 +2111,30 @@ b) sBc4-->c3
  30  (Se5-c4[Ie5] )
  31  (Se5-d3[If4] + )
  32  (Se5-f3[Ih4] + )
- 33  (g7-g8=I[Ig7,g8] )
- 34  (g7-g8=D[Ig7] )
- 35  (g7-g8=S[Ig7] )
- 36  (g7-g8=T[Ig7] )
- 37  (g7-g8=L[Ig7] )
-   1.g7-g8=L[Ig7] ! Zugzwang.
+ 33  (g7-g8[Ig7]=I )
+ 34  (g7-g8[Ig7]=D )
+ 35  (g7-g8[Ig7]=S )
+ 36  (g7-g8[Ig7]=T )
+ 37  (g7-g8[Ig7]=L )
+   1.g7-g8[Ig7]=L ! Zugzwang.
       1...f6*e5[If6]
-          2.f7-f8=L[If7] Zugzwang.
+          2.f7-f8[If7]=L Zugzwang.
               2...e6*d5[Ie6]
-                  3.e7-e8=L[Ie7] Zugzwang.
+                  3.e7-e8[Ie7]=L Zugzwang.
                       3...d6*c5[Id6]
-                          4.d7-d8=L[Id7] Zugzwang.
+                          4.d7-d8[Id7]=L Zugzwang.
                               4...c5*b4[Ic6]
-                                  5.c7-c8=L[Ic7] Zugzwang.
+                                  5.c7-c8[Ic7]=L Zugzwang.
                                       5...b4*a3[Ib6]
-                                          6.b7-b8=L[Ib7]
+                                          6.b7-b8[Ib7]=L
                                               6...Kh3*g2[Ia6] #
 
+  add_to_move_generation_stack:   184097636
+                     play_move:    67044196
+ is_white_king_square_attacked:    66640656
+ is_black_king_square_attacked:    32074378
 
-  add_to_move_generation_stack:   179619237
-                     play_move:    65424066
- is_white_king_square_attacked:    65035689
- is_black_king_square_attacked:    31562923
-c) sBb3-->c3
+c) sBb3-->c3  
 
  38  (Tg2-g1[Ig5] + )
  39  (Sb4-a2[If4] + )
@@ -2149,34 +2149,34 @@ c) sBb3-->c3
  48  (Se5*c4[Ie5] )
  49  (Se5-d3[If4] + )
  50  (Se5-f3[Ih4] + )
- 51  (g7-g8=I[Ig7,g8] )
- 52  (g7-g8=D[Ig7] )
- 53  (g7-g8=S[Ig7] )
- 54  (g7-g8=T[Ig7] )
-   1.g7-g8=T[Ig7] ! Zugzwang.
+ 51  (g7-g8[Ig7]=I )
+ 52  (g7-g8[Ig7]=D )
+ 53  (g7-g8[Ig7]=S )
+ 54  (g7-g8[Ig7]=T )
+   1.g7-g8[Ig7]=T ! Zugzwang.
       1...f6*e5[If6]
-          2.f7-f8=T[If7] Zugzwang.
+          2.f7-f8[If7]=T Zugzwang.
               2...e6*d5[Ie6]
-                  3.e7-e8=T[Ie7] Zugzwang.
+                  3.e7-e8[Ie7]=T Zugzwang.
                       3...d6*c5[Id6]
-                          4.d7-d8=T[Id7] Zugzwang.
+                          4.d7-d8[Id7]=T Zugzwang.
                               4...c5*b4[Ic6]
-                                  5.c7-c8=T[Ic7] Zugzwang.
+                                  5.c7-c8[Ic7]=T Zugzwang.
                                       5...b4*a3[Ib6]
-                                          6.b7-b8=T[Ib7]
+                                          6.b7-b8[Ib7]=T
                                               6...Kh3*g2[Ia6] #
 
- 55  (g7-g8=L[Ig7] )
+ 55  (g7-g8[Ig7]=L )
+  add_to_move_generation_stack:   184135323
+                     play_move:    66647332
+ is_white_king_square_attacked:    66300150
+ is_black_king_square_attacked:    32651296
 
-  add_to_move_generation_stack:   183190699
-                     play_move:    66306497
- is_white_king_square_attacked:    65967049
- is_black_king_square_attacked:    32645883
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Kevin Begley
+            Kevin Begley
 http://www.strategems.org/beginners/SwappingKings.htm, Juli/2004
 Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
 
@@ -2223,12 +2223,12 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  18  (g2-g3 )
  19  (h2-h4 )
  20  (h2-h3 )
+  add_to_move_generation_stack:  2780893827
+                     play_move:  2780897217
+ is_white_king_square_attacked:  2010466412
+ is_black_king_square_attacked:  1002882581
 
-  add_to_move_generation_stack:  2055220163
-                     play_move:  2055223463
- is_white_king_square_attacked:  1439544615
- is_black_king_square_attacked:   790408557
-Loesung beendet. 
+Loesung beendet.
 
 
 dauert 13 min mit Athlon 2400 / 200MB
@@ -2256,7 +2256,7 @@ dauert 13 min mit Athlon 2400 / 200MB
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#31                        1 + 3
-           SchwarzSchaecher
+          SchwarzSchaecher
 
    1.Ka7-b6 !
       1...
@@ -2337,17 +2337,17 @@ dauert 13 min mit Athlon 2400 / 200MB
     Aber
       1... !
 
-
   add_to_move_generation_stack:    89505906
-                     play_move:    58339784
+                     play_move:    56568400
  is_white_king_square_attacked:    58679000
- is_black_king_square_attacked:    10808101
-Loesung beendet. 
+ is_black_king_square_attacked:     9036717
+
+Loesung beendet.
 
 
 
            Michel Caillaud
-       Andernach 2006, 7. Platz
+      Andernach 2006, 7. Platz
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2453,16 +2453,16 @@ Loesung beendet.
                                               6...e3-e2 #
 
  57  (e7-e8=L )
+  add_to_move_generation_stack: 41518581450
+                     play_move:  6323082649
+ is_white_king_square_attacked:  6323082657
+ is_black_king_square_attacked:  4237667704
 
-  add_to_move_generation_stack: 41537939179
-                     play_move:  6326518092
- is_white_king_square_attacked:  6326518100
- is_black_king_square_attacked:  4240696396
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Zbigniew Szcep
+           Zbigniew Szcep
 Sake, Portoroz 2002, 2eme Mention d'Honneur
 
 +---a---b---c---d---e---f---g---h---+
@@ -2486,7 +2486,7 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
 +---a---b---c---d---e---f---g---h---+
   h#5                         3 + 6
              Unschlagbar
-              Spukschach
+             Spukschach
 
   1  (Lb1*e4 )
   2  (Lb1-d3 + )
@@ -2500,42 +2500,16 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
   9  (h2-h1=S )
  10  (h2-h1=T + )
  11  (h2-h1=L )
+  add_to_move_generation_stack:   161657522
+                     play_move:   135645085
+ is_white_king_square_attacked:    34961709
+ is_black_king_square_attacked:   110996752
 
-  add_to_move_generation_stack:   128302870
-                     play_move:   117133637
- is_white_king_square_attacked:    29862034
- is_black_king_square_attacked:    93000121
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Friedrich Hariuc
-        feenschach 165 "2006"
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4  -B   .   .   .   .   .   .   .   4
-|                                   |
-3  -K   .   L   .   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   K   S   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  weiss 15a[a=>b]d            3 + 2
-
-Initial (Weiss ->):
-
-           Friedrich Hariuc
+          Friedrich Hariuc
         feenschach 165 "2006"
 
 +---a---b---c---d---e---f---g---h---+
@@ -2557,7 +2531,31 @@ Initial (Weiss ->):
 1  -L   K   .   T   D   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 15a[a=>b]d            5 + 5
+                              5 + 5
+
+            => (Weiss ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -B   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   L   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  Weiss 15a[a=>b]d            3 + 2
 
    1.Kb1-c2 !
       1...b2-b1=D +
@@ -2739,17 +2737,17 @@ Initial (Weiss ->):
                                       5...Ka2-a3
                                           6.Kc2-b1 a=>b
 
+  add_to_move_generation_stack:  7687286135
+                     play_move:  6519498221
+ is_white_king_square_attacked:  3839893003
+ is_black_king_square_attacked:   330424165
 
-  add_to_move_generation_stack:  7605732582
-                     play_move:  6480156486
- is_white_king_square_attacked:  3765040810
- is_black_king_square_attacked:   368557042
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Jochen Lehmensick
-      feenschach 191, 2012, UM/6
+     feenschach 191, 2012, UM/6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2770,7 +2768,7 @@ Loesung beendet.
 1   T   .   .   .   K   .  -K   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 6hh[/2da[#]{!+}]    4 + 9
+  Schwarz 6hh[/2da[#]{!+}]    4 + 9
 
   1.Kg1-h1 Ta1-b1   2.a2-a1=L Ke1-d1   3.Se7-g8 Th6*g6
   1.Kg1-h1 Ta1-b1   2.a2-a1=L b6*a7   3.Se7-g8 Th6*g6
@@ -2908,12 +2906,12 @@ Loesung beendet.
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L
   1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=D   3.Tg6-g1 + Ke1-f2
   1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=L   3.Tg6-g1 + Ke1-f2
+  add_to_move_generation_stack:  1727312638
+                     play_move:   280156833
+ is_white_king_square_attacked:   120162240
+ is_black_king_square_attacked:   262296227
 
-  add_to_move_generation_stack:  1584923975
-                     play_move:   259339256
- is_white_king_square_attacked:   111349966
- is_black_king_square_attacked:   242316633
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2939,7 +2937,7 @@ Loesung beendet.
 1   .   .   .   .   .   .  -L   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 8hh[/2da[#]{!+}]    2 + 8
+  Schwarz 8hh[/2da[#]{!+}]    2 + 8
 
   1.Sb6-d5 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7
   1.Sb6-c8 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8
@@ -2955,12 +2953,12 @@ Loesung beendet.
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8
   1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6
+  add_to_move_generation_stack: 67647335888
+                     play_move:  5455796905
+ is_white_king_square_attacked:  2897352233
+ is_black_king_square_attacked:  4700866002
 
-  add_to_move_generation_stack: 30014984828
-                     play_move:  2899760980
- is_white_king_square_attacked:  1458565126
- is_black_king_square_attacked:  2482896998
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2986,19 +2984,19 @@ Loesung beendet.
 1   .   .  -K   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 8hh[/2da[#]{!+}]    6 + 7
+  Schwarz 8hh[/2da[#]{!+}]    6 + 7
 
 a) 
 
   1.Le4-g6 h5*g6   2.Se5-f7 g6*f7   3.Sf6-e8 f7*e8=D   4.a2-a1=L De8-e2
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
+  add_to_move_generation_stack: 27276145103
+                     play_move:  2228977053
+ is_white_king_square_attacked:  1215832085
+ is_black_king_square_attacked:  1834224536
 
-  add_to_move_generation_stack:  8864113256
-                     play_move:   834402404
- is_white_king_square_attacked:   430803559
- is_black_king_square_attacked:   677778771
-b) sBe5 
+b) sBe5  
 
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=L
@@ -3007,16 +3005,16 @@ b) sBe5
   1.Le4-g6 h5*g6   2.g2-g1=L g6-g7   3.Kc1-b1 g7-g8=D   4.Kb1-a1 Dg8-c4
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
+  add_to_move_generation_stack:  9712984030
+                     play_move:   904887746
+ is_white_king_square_attacked:   494781902
+ is_black_king_square_attacked:   742911628
 
-  add_to_move_generation_stack:  2296023662
-                     play_move:   243445140
- is_white_king_square_attacked:   126742909
- is_black_king_square_attacked:   194259431
-Loesung beendet. 
+Loesung beendet.
 
 
 
-        Ofer Comay & Paz Einat
+       Ofer Comay & Paz Einat
 WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 
 +---a---b---c---d---e---f---g---h---+
@@ -3039,7 +3037,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#3                        9 + 8
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -3098,12 +3096,12 @@ a)
  52  (Td8-e8 )
  53  (Sg8-f6 )
  54  (Sg8-h6 )
-
-  add_to_move_generation_stack:  1049542958
-                     play_move:   404839988
+  add_to_move_generation_stack:  1049556342
+                     play_move:   404852179
  is_white_king_square_attacked:   401519541
- is_black_king_square_attacked:   193390261
-b) wSg8-->c2
+ is_black_king_square_attacked:   193402452
+
+b) wSg8-->c2  
 
  55  (Sc2-a1 )
  56  (Sc2*e1[+sLd2] )
@@ -3207,12 +3205,68 @@ b) wSg8-->c2
 153  (Td8-g8 )
 154  (Td8-f8 )
 155  (Td8-e8 )
-
-  add_to_move_generation_stack:  3198124576
-                     play_move:  1254828991
+  add_to_move_generation_stack:  3198181082
+                     play_move:  1254879313
  is_white_king_square_attacked:  1246034371
- is_black_king_square_attacked:   615195896
-Loesung beendet. 
+ is_black_king_square_attacked:   615246218
+
+Loesung beendet.
+
+
+
+           Michel Caillaud
+          Problemkiste 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  =B  =B  =B  =B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=7                1 + 1 + 4n
+            Circe Vulkan
+
+  1  (nBa2-a1=nD )
+  2  (nBa2-a1=nS )
+  1.nBa2-a1=nS   2.nBb2*a1=nD[+nSg1]   3.nDa1*g1[+nSg1->v]   4.nBd2-d1=nL   5.nBc2*d1=nT[+nLf1]   6.nTd1*f1[+nLf1->v]   7.Kh4-h3 Kh6-h5 =
+  3  (nBa2-a1=nT )
+  4  (nBa2-a1=nL )
+  5  (nBb2-b1=nD )
+  6  (nBb2-b1=nS )
+  7  (nBb2-b1=nT )
+  8  (nBb2-b1=nL )
+  9  (nBc2-c1=nD )
+ 10  (nBc2-c1=nS )
+ 11  (nBc2-c1=nT )
+ 12  (nBc2-c1=nL )
+ 13  (nBd2-d1=nD )
+ 14  (nBd2-d1=nS )
+ 15  (nBd2-d1=nT )
+ 16  (nBd2-d1=nL )
+ 17  (Kh4-g3 )
+ 18  (Kh4-g5 + )
+ 19  (Kh4-h3 )
+ 20  (Kh4-g4 )
+ 21  (Kh4-h5 + )
+  add_to_move_generation_stack:  1589378933
+                     play_move:   812941327
+ is_white_king_square_attacked:   351662546
+ is_black_king_square_attacked:   681273283
+
+Loesung beendet.
 
 
 
@@ -3238,7 +3292,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia6.5                    12 + 11
-              Make&Take
+           Make&TakeSchach
 
   1  (Sb1-c3 )
   2  (Sb1-a3 )
@@ -3261,8 +3315,8 @@ Loesung beendet.
  18  (g2-g3 )
  19  (h2-h4 )
  20  (h2-h3 )
-  add_to_move_generation_stack:2815358343570
-                     play_move: 66456276176
+  add_to_move_generation_stack:2814023969002
+                     play_move: 66423287117
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
