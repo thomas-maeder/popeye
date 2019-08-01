@@ -29,6 +29,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach.h"
+#include "conditions/pointreflection.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -494,9 +495,9 @@ void build_solvers1(slice_index si)
   if (TSTFLAG(some_pieces_flags,Chameleon))
     chameleon_initialise_solving(si);
 
-  if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_init_sequence_implicit(&explicit_chameleon_squence_set_in_twin,
-                                     &chameleon_walk_sequence);
+  if ((CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
+      && !CondFlag[chameleonsequence])
+    chameleon_init_sequence_implicit(&chameleon_walk_sequence);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
     solving_insert_hurdle_colour_changers(si);
@@ -741,6 +742,9 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[annan])
     annan_initialise_solving(si);
+
+  if (CondFlag[pointreflection])
+    point_reflection_initialise_solving(si);
 
 #if defined(DOTRACE)
   solving_insert_move_tracers(si);

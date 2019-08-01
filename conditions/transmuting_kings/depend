@@ -7,12 +7,11 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h \
+ debugging/trace.h solving/temporary_hacks.h solving/fork.h \
+ solving/machinery/solve.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- solving/fork.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -69,15 +68,15 @@ debugging/trace.h:
 
 solving/temporary_hacks.h:
 
-solving/move_generator.h:
+solving/fork.h:
 
 solving/machinery/solve.h:
+
+solving/move_generator.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
-
-solving/fork.h:
 
 stipulation/proxy.h:
 
@@ -135,7 +134,7 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h conditions/mummer.h \
  conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/move_generator.h \
+ solving/fork.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/check.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -206,6 +205,8 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 solving/move_generator.h:
 
@@ -288,8 +289,8 @@ conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  output/mode.enum.h output/mode.enum \
  conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h \
+ debugging/trace.h solving/temporary_hacks.h solving/fork.h \
+ solving/machinery/solve.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -351,9 +352,11 @@ debugging/trace.h:
 
 solving/temporary_hacks.h:
 
-solving/move_generator.h:
+solving/fork.h:
 
 solving/machinery/solve.h:
+
+solving/move_generator.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -411,13 +414,14 @@ conditions/transmuting_kings/vaulting_kings$(OBJ_SUFFIX): \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
  output/mode.enum solving/machinery/dispatch.h pieces/walks/vectors.h \
- solving/ply.h debugging/trace.h solving/temporary_hacks.h \
+ solving/ply.h debugging/trace.h solving/temporary_hacks.h solving/fork.h \
+ solving/machinery/solve.h \
  conditions/transmuting_kings/transmuting_kings.h \
- solving/move_generator.h solving/machinery/solve.h \
+ solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- solving/fork.h position/position.h position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- position/castling_rights.h debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h position/castling_rights.h \
+ debugging/assert.h
 
 conditions/transmuting_kings/vaulting_kings.h:
 
@@ -463,17 +467,17 @@ debugging/trace.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
+solving/machinery/solve.h:
+
 conditions/transmuting_kings/transmuting_kings.h:
 
 solving/move_generator.h:
 
-solving/machinery/solve.h:
-
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
-
-solving/fork.h:
 
 position/position.h:
 

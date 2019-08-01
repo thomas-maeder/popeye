@@ -18,15 +18,13 @@ extern twin_id_type explicit_chameleon_squence_set_in_twin;
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
 void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
-                                           chameleon_sequence_type* sequence,
+                                           chameleon_sequence_type *sequence,
                                            piece_walk_type from, piece_walk_type to);
 
 /* Initialise the reborn pieces if they haven't been already initialised
  * from explicit indications.
- * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(twin_id_type *is_explicit,
-                                      chameleon_sequence_type* sequence);
+void chameleon_init_sequence_implicit(chameleon_sequence_type *sequence);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

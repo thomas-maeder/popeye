@@ -147,6 +147,10 @@ void circe_test_rebirth_square_empty_solve(slice_index si)
 
   assert(context->reborn_walk!=Empty);
 
+  TraceSquare(context->rebirth_square);
+  TraceValue("%u",is_square_empty(context->rebirth_square));
+  TraceEOL();
+
   binary_solve_if_then_else(si,!is_square_empty(context->rebirth_square));
 
   TraceFunctionExit(__func__);

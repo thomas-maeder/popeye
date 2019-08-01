@@ -2,10 +2,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/machinery/solvers.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/twin.h solving/move_effect_journal.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum solving/machinery/twin.h solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  options/options.h conditions/conditions.h position/position.h \
@@ -34,12 +33,12 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/mummer.h conditions/extinction.h conditions/madrasi.h \
  conditions/partial_paralysis.h conditions/maff/immobility_tester.h \
  conditions/owu/immobility_tester.h conditions/ohneschach.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
- conditions/patience.h conditions/isardam.h conditions/masand.h \
- conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
- conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
- conditions/oscillating_kings.h conditions/messigny.h \
+ conditions/pointreflection.h conditions/singlebox/type1.h \
+ conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
+ conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
+ conditions/masand.h conditions/disparate.h conditions/dynasty.h \
+ conditions/eiffel.h conditions/ultraschachzwang/legality_tester.h \
+ conditions/sat.h conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/circe.h \
  conditions/circe/rebirth_square_occupied.h \
@@ -131,8 +130,6 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -273,6 +270,8 @@ conditions/maff/immobility_tester.h:
 conditions/owu/immobility_tester.h:
 
 conditions/ohneschach.h:
+
+conditions/pointreflection.h:
 
 conditions/singlebox/type1.h:
 
@@ -1116,10 +1115,10 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
  conditions/make_and_take.h conditions/superguards.h \
  conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
- conditions/annan.h conditions/beamten.h conditions/central.h \
- conditions/disparate.h conditions/eiffel.h conditions/facetoface.h \
- conditions/madrasi.h conditions/partial_paralysis.h \
- conditions/marscirce/plus.h \
+ conditions/annan.h conditions/pointreflection.h conditions/beamten.h \
+ conditions/central.h conditions/disparate.h conditions/eiffel.h \
+ conditions/facetoface.h conditions/madrasi.h \
+ conditions/partial_paralysis.h conditions/marscirce/plus.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/lostpieces.h \
@@ -1579,6 +1578,8 @@ conditions/backhome.h:
 conditions/shielded_kings.h:
 
 conditions/annan.h:
+
+conditions/pointreflection.h:
 
 conditions/beamten.h:
 

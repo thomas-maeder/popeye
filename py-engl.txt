@@ -250,6 +250,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	LeseMajeste
 	Rokagogo
 	Breton
+	PointReflection
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

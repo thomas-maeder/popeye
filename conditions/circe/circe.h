@@ -48,6 +48,7 @@ typedef struct circe_variant_type
     anticirce_type_type anticirce_type;
     boolean is_restricted_to_walks;
     boolean is_walk_affected[nr_piece_walks];
+    boolean is_chameleon_sequence_explicit;
     twin_id_type explicit_chameleon_squence_set_in_twin;
     piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 } circe_variant_type;

@@ -16,5 +16,53 @@ forsyth 4k3/8/bs6/8/P7/8/4B3/R3K2R
 stip h#1
 cond BlackMustCapture Ultra
 
+next
+
+title Circe variations like Mirror weren't applied to Kamikaze pieces since 4.65 (issue #246)
+origin P1299017
+pieces white Kb3 black Kd1 neutral kamikaze Pc2d2e7f7
+stip h#2
+cond Circe Mirror
+
+next
+
+title Since 4.65, kings could castle after having moved in Chameleon Chess (issue #243)
+pieces white Kd1 Rh1 black Pa6
+option NoBk
+stip h00 1.5
+cond ChameleonChess
+
+next
+
+title Chameleon sequence was forgotten by twinning (issue #239)
+Pieces White chameleon VAg2 Black chameleon PAf1 White Sf6 Kh1 Black Ba8 Kh8 Pd6 Pe5 Sb3 Ph2 Ba1
+Stipulation h#2
+Condition ChameleonSequence PA VA PA
+Twin Move f6 h5
+
+next
+
+author Bernd Schwarzkopf
+title Popeye hasn't found solution b) since 4.65
+pieces white Ke1 qd1 ra1h1 bc1h7 Sb1g1 pa2b2c2d2e3f2g2h2
+       black Kf7 qd8 ra8h8 bc8f8 Sb8g8 pa7b7c7d7e7f6g7
+stipulation dia2.5
+twin move d8 e8 stipulation dia3
+
+next
+
+title Popeye 4.81 couldn't solve proof games with condition Breton
+Pieces White Pc3 Pa2 Pb2 Pd2 Pe2 Pf2 Pg2 Ph2 Ra1 Sb1 Bc1 Ke1 Bf1 Sg1 Rh1 Black Ra8 Sb8 Bc8 Ke8 Bf8 Sg8 Rh8 Pa7 Pc7 Pd7 Pe7 Pf7 Pg7 Ph7 Pa4
+Stipulation dia2.0
+Condition Breton
+
+next
+
+title Popeye hasn't been able to solve this since 4.75
+author flab03
+stip dia 8.5
+pieces white ke5 qd1 ra1h1 bc1f1 sd6g1 pa2b2c3d3d2f2g2h2 black ke8 qd8 ra8g8 bf8 sb8f6 pa7b6c7d7e7f3g7h7
+cond ChecklessChess
+
 end
 

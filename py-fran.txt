@@ -252,6 +252,7 @@ simples:
 	LeseMajeste
 	Rokagogo
 	Breton
+	ReflexionCentrale
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

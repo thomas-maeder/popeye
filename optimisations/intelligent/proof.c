@@ -76,6 +76,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan]
+                || CondFlag[pointreflection]
                 || CondFlag[glasgow]
                 || CondFlag[takemake] || CondFlag[maketake]
                 || CondFlag[messigny]
@@ -487,39 +488,56 @@ static void PieceMovesFromTo(Side side,
   TraceFunctionResultEnd();
 }
 
-static stip_length_type ArrangeListedPieces(
-  PieceList2    *pl,
-  int       nto,
-  int       nfrom,
-  boolean   *taken,
-  stip_length_type CapturesAllowed)
+static stip_length_type ArrangeListedPieces(PieceList2 *pl,
+                                            int nto,
+                                            int nfrom,
+                                            boolean *taken,
+                                            stip_length_type CapturesAllowed)
 {
-  stip_length_type Diff, Diff2;
-  int i, id;
+  stip_length_type result;
 
-  Diff= current_length;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",nto);
+  TraceFunctionParam("%d",nfrom);
+  TraceFunctionParam("%u",CapturesAllowed);
+  TraceFunctionParamListEnd();
 
-  if (nto == 0)
-    return 0;
-
-  for (i= 0; i < pl[0].Nbr; ++i)
+  if (nto==0)
+    result = 0;
+  else
   {
-    id= pl[0].id[i];
-    if (taken[id] || pl[0].captures[i]>CapturesAllowed)
-      continue;
+    int i;
+    result = current_length;
+    for (i = 0; i<pl[0].Nbr; ++i)
+    {
+      stip_length_type Diff2;
+      int const id = pl[0].id[i];
+      if (taken[id] || pl[0].captures[i]>CapturesAllowed)
+      {
+        /* nothing */
+      }
+      else
+      {
+        taken[id] = true;
+        Diff2 = (pl[0].moves[i]
+                 + ArrangeListedPieces(pl+1,
+                                       nto-1,
+                                       nfrom,
+                                       taken,
+                                       CapturesAllowed-pl[0].captures[i]));
 
-    taken[id]= true;
-    Diff2= pl[0].moves[i]
-      + ArrangeListedPieces(pl+1, nto-1, nfrom,
-                            taken, CapturesAllowed-pl[0].captures[i]);
+        if (Diff2<result)
+          result = Diff2;
 
-    if (Diff2 < Diff)
-      Diff= Diff2;
-
-    taken[id]= false;
+        taken[id]= false;
+      }
+    }
   }
 
-  return Diff;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
@@ -535,38 +553,46 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
   TraceFunctionParam("%u",CapturesRequired);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",ProofOfficers[camp].Nbr);TraceEOL();
+
   if (to->Nbr == 0)
     result = 0;
   else
   {
     PieceList * const from = &PiecesToBeArranged[camp];
     PieceList2 pl[16];
-    boolean   taken[16];
+    boolean taken[16];
     int ito;
     int ifrom;
 
-    for (ito = 0; ito<to->Nbr; ito++)
+    TraceValue("%u",PiecesToBeArranged[camp].Nbr);TraceEOL();
+
+    for (ito = 0; ito<to->Nbr; ++ito)
     {
       pl[ito].Nbr = 0;
-      for (ifrom = 0; ifrom<from->Nbr; ifrom++)
+      for (ifrom = 0; ifrom<from->Nbr; ++ifrom)
       {
-        stip_length_type moves, captures;
+        stip_length_type moves;
+        stip_length_type captures;
         PieceMovesFromTo(camp,
                          from->sq[ifrom],
-                         to->sq[ito], &moves, &captures,
-                         CapturesAllowed, CapturesRequired);
+                         to->sq[ito],
+                         &moves,
+                         &captures,
+                         CapturesAllowed,
+                         CapturesRequired);
         if (moves<current_length)
         {
-          pl[ito].moves[pl[ito].Nbr]= moves;
-          pl[ito].captures[pl[ito].Nbr]= captures;
-          pl[ito].id[pl[ito].Nbr]= ifrom;
-          pl[ito].Nbr++;
+          pl[ito].moves[pl[ito].Nbr] = moves;
+          pl[ito].captures[pl[ito].Nbr] = captures;
+          pl[ito].id[pl[ito].Nbr] = ifrom;
+          ++pl[ito].Nbr;
         }
       }
     }
 
-    for (ifrom = 0; ifrom<from->Nbr; ifrom++)
-      taken[ifrom]= false;
+    for (ifrom = 0; ifrom<from->Nbr; ++ifrom)
+      taken[ifrom] = false;
 
     /* determine minimal number of moves required */
     result = ArrangeListedPieces(pl,to->Nbr,from->Nbr,taken,CapturesAllowed);
@@ -709,7 +735,7 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand] && !CondFlag[lostpieces])
+    if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton])
     {
       /* not enough time to capture the remaining pieces */
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
@@ -990,7 +1016,7 @@ static boolean Impossible(void)
   PawnsToBeArranged[Black].Nbr = 0;
   PiecesToBeArranged[Black].Nbr= 0;
 
-  for (bnp= boardnum; *bnp; bnp++)
+  for (bnp = boardnum; *bnp; bnp++)
   {
     piece_walk_type const p1 = proofgames_target_position.board[*bnp];
     piece_walk_type const p2 = get_walk_of_piece_on_square(*bnp);
@@ -999,6 +1025,13 @@ static boolean Impossible(void)
 
     if (p1!=p2 || side_target!=side_current)
     {
+      TraceSquare(*bnp);
+      TraceWalk(proofgames_target_position.board[*bnp]);
+      TraceEnumerator(Side,side_target);
+      TraceWalk(get_walk_of_piece_on_square(*bnp));
+      TraceEnumerator(Side,side_current);
+      TraceEOL();
+
       switch (p1)
       {
         case Empty:
@@ -1025,27 +1058,67 @@ static boolean Impossible(void)
           break;
 
         case Pawn:
-          PawnsToBeArranged[side_current].sq[PawnsToBeArranged[side_current].Nbr++] = *bnp;
-          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+          PawnsToBeArranged[side_current].sq[PawnsToBeArranged[side_current].Nbr] = *bnp;
+          ++PawnsToBeArranged[side_current].Nbr;
+
+          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+          ++PiecesToBeArranged[side_current].Nbr;
           break;
 
-        default:
+        case Bishop:
+          TraceValue("%u",CapturedQueenBishop[side_current]);
+          TraceValue("%u",CapturedKingBishop[side_current]);
+          TraceEOL();
           if (side_current==White)
           {
-            if (!(CapturedQueenBishop[White] && *bnp == square_c1 && p2 == Bishop)
-                && !(CapturedKingBishop[White] && *bnp == square_f1 && p2 == Bishop)
-                && !(CapturedQueen[White] && *bnp == square_d1 && p2 == Queen))
-              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+            if (!(CapturedQueenBishop[White] && *bnp == square_c1)
+                && !(CapturedKingBishop[White] && *bnp == square_f1))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
           }
           else
           {
-            if (!(CapturedQueenBishop[Black] && *bnp == square_c8 && p2 == Bishop)
-                && !(CapturedKingBishop[Black] && *bnp == square_f8 && p2 == Bishop)
-                && !(CapturedQueen[Black] && *bnp == square_d8 && p2 == Queen))
-              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+            if (!(CapturedQueenBishop[Black] && *bnp == square_c8)
+                && !(CapturedKingBishop[Black] && *bnp == square_f8))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
           }
           break;
+
+        case Queen:
+          TraceValue("%u",CapturedQueen[side_current]);
+          TraceEOL();
+          if (side_current==White)
+          {
+            if (!(CapturedQueen[White] && *bnp==square_d1))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
+          }
+          else
+          {
+            if (!(CapturedQueen[Black] && *bnp==square_d8))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
+          }
+          break;
+
+        default:
+          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+          ++PiecesToBeArranged[side_current].Nbr;
+          break;
       }
+
+      TraceValue("%u",PawnsToBeArranged[side_current].Nbr);
+      TraceValue("%u",PiecesToBeArranged[side_current].Nbr);
+      TraceEOL();
     }
   }
 
@@ -1065,14 +1138,18 @@ static boolean Impossible(void)
     return true;
   }
 
-  if (ArrangePieces(to_be_captured[Black],White,captures_required[Black])>moves_left[White])
+  if (ArrangePieces(to_be_captured[Black],
+                    White,
+                    captures_required[Black])>moves_left[White])
   {
     TraceText("(ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)"
               ">white_moves_left\n");
     return true;
   }
 
-  if (ArrangePieces(to_be_captured[White],Black,captures_required[White])>moves_left[Black])
+  if (ArrangePieces(to_be_captured[White],
+                    Black,
+                    captures_required[White])>moves_left[Black])
   {
     TraceText("ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)"
               ">black_moves_left\n");
@@ -1311,7 +1388,9 @@ static void InitialiseIntelligentSide(Side side)
     square const sq_king_bishop_block_left = sq_king_bishop+dir_forward+dir_left;
     square const sq_king_bishop_block_right = sq_king_bishop+dir_forward+dir_right;
     square const sq_queen_block_left = sq_queen+dir_forward+dir_left;
-    square const sq_queen_block_right = sq_queen+dir_forward+dir_right;
+    /* 2*dir_right is correct
+     * together with the bishops, this causes queen and king to be trapped */
+    square const sq_queen_block_right = sq_queen+dir_forward+2*dir_right;
 
     /* determine pieces blocked */
     BlockedQueenBishop[side] = (proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
@@ -1342,6 +1421,14 @@ static void InitialiseIntelligentSide(Side side)
         && !(proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
         && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
         && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
+
+    TraceEnumerator(Side,side);
+    TraceValue("%u",BlockedQueenBishop[side]);
+    TraceValue("%u",BlockedKingBishop[side]);
+    TraceSquare(sq_queen);
+    TraceWalk(proofgames_target_position.board[sq_queen]);
+    TraceValue("%u",CapturedQueen[side]);
+    TraceEOL();
 
     /* update castling possibilities */
     if (BlockedQueenBishop[side])

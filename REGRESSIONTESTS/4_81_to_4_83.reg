@@ -69,3 +69,230 @@ solution finished.
 solution finished.
 
 
+
+              P1299017
+Circe variations like Mirror weren't applied to Kamikaze pieces since 4.65 (issue #246)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  =P  =P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .  =P  =P   .   .   .   .   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 1 + 4n
+        Kamikaze e7 f7 c2 d2
+            Circe Mirror
+
+  1.nkPc2-c1=nkB nkPf7-f8=nkR   2.nkPd2*c1=nkS[nkSc1->g1] nkPe7*f8=nkQ[nkQf8->d8][+nkRa1] #
+  add_to_move_generation_stack:       60039
+                     play_move:       53884
+ is_white_king_square_attacked:        5146
+ is_black_king_square_attacked:       53662
+
+solution finished.
+
+
+
+Since 4.65, kings could castle after having moved in Chameleon Chess (issue #243)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h001.5                      2 + 1
+           ChameleonChess
+
+  add_to_move_generation_stack:          30
+                     play_move:          30
+ is_white_king_square_attacked:          15
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+Chameleon sequence was forgotten by twinning (issue #239)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   S   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -S   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  VA  -P   2
+|                                   |
+1  -B   .   .   .   . -PA   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 8
+           Chameleon g2 f1
+    ChameleonSequence PA->VA->PA
+
+a) 
+
+  1.e5-e4 cVAg2*a8=cPA   2.Sb3-a5 cPAa8*a1=cVA #
+  add_to_move_generation_stack:       97033
+                     play_move:       91524
+ is_white_king_square_attacked:        2846
+ is_black_king_square_attacked:       91129
+
+b) wSf6-->h5  
+
+  1.cPAf1-f7=cVA Kh1*h2   2.cVAf7-g8=cPA cVAg2-h3=cPA #
+  add_to_move_generation_stack:       74548
+                     play_move:       70960
+ is_white_king_square_attacked:        2680
+ is_black_king_square_attacked:       70618
+
+solution finished.
+
+
+
+          Bernd Schwarzkopf
+Popeye hasn't found solution b) since 4.65
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -K  -P   B   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   P   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2.5                    16 + 15
+
+a) 
+
+  1.e2-e3 f7-f6   2.Bf1-d3 Ke8-f7   3.Bd3*h7 dia
+  add_to_move_generation_stack:         162
+                     play_move:         162
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           6
+
+b) bQd8-->e8  dia3  
+
+  1.e2-e3 f7-f6   2.Bf1-d3 Ke8-f7   3.Bd3*h7 Qd8-e8 dia
+  add_to_move_generation_stack:         183
+                     play_move:         183
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           7
+
+solution finished.
+
+
+
+Popeye 4.81 couldn't solve proof games with condition Breton
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   .   .   .   3
+|                                   |
+2   P   P   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2                      15 + 15
+               Breton
+
+  1.c2-c3 b7-b5   2.Qd1-a4 b5*a4[-bQd8] dia
+  add_to_move_generation_stack:       11981
+                     play_move:       12244
+ is_white_king_square_attacked:         170
+ is_black_king_square_attacked:         404
+
+solution finished.
+
+
+
+               flab03
+Popeye hasn't been able to solve this since 4.75
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -R   .   8
+|                                   |
+7  -P   .  -P  -P  -P   .  -P  -P   7
+|                                   |
+6   .  -P   .   S   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   P   .  -P   .   .   3
+|                                   |
+2   P   P   .   P   .   P   P   P   2
+|                                   |
+1   R   .   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia8.5                    16 + 15
+           ChecklessChess
+
+  1.Sb1-c3 b7-b6   2.Sc3-e4 Bc8-a6   3.c2-c3 Ba6-d3   4.e2*d3 f7-f5   5.Ke1-e2 Sg8-f6   6.Ke2-e3 Rh8-g8   7.Ke3-d4 f5-f4   8.Kd4-e5 f4-f3   9.Se4-d6 + dia
+  add_to_move_generation_stack:       11003
+                     play_move:       10989
+ is_white_king_square_attacked:        1081
+ is_black_king_square_attacked:        1078
+
+solution finished.
+
+

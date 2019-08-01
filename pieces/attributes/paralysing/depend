@@ -23,7 +23,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/slice_insertion.h stipulation/boolean/or.h \
  solving/observation.h solving/ply.h solving/temporary_hacks.h \
- solving/move_generator.h solving/has_solution_type.h \
+ solving/fork.h solving/move_generator.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
@@ -120,6 +120,8 @@ solving/observation.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 solving/move_generator.h:
 

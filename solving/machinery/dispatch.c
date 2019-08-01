@@ -117,6 +117,7 @@
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
 #include "conditions/annan.h"
+#include "conditions/pointreflection.h"
 #include "conditions/beamten.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -2369,6 +2370,10 @@ void dispatch(slice_index si)
 
     case STAnnanMovesForPieceGenerator:
       annan_generate_moves_for_piece(si);
+      break;
+
+    case STPointReflectionMovesForPieceGenerator:
+      point_reflection_generate_moves_for_piece(si);
       break;
 
     case STFaceToFaceMovesForPieceGenerator:
