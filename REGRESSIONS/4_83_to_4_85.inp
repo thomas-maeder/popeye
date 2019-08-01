@@ -2,9 +2,9 @@ begin
 
 prot 4_83_to_4_85.reg
 
-title Popeye didn't solve b) since 4.65
+title Popeye didn't find solutions in Messigny Chess if the the goal was target and the last move an exchange since 4.65
 author Sergey Shumeiko
-origin Julia's Fairies 2019
+origin Julia's Fairies 2019, #1426
 pieces white kf1 black kh2
 stipulation ser-hza16
 condition bichrom messigny
