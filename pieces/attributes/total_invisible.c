@@ -4216,6 +4216,162 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
   return result;
 }
 
+static void place_mating_piece_attacker(Side side_attacking,
+                                        square s,
+                                        piece_walk_type walk)
+{
+  consumption_type const save_consumption = current_consumption;
+  Flags spec = BIT(side_attacking)|BIT(Chameleon);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_attacking);
+  TraceSquare(s);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
+  if (allocate_placement_of_claimed_fleshed_out(side_attacking))
+  {
+    ++being_solved.number_of_pieces[side_attacking][walk];
+    SetPieceId(spec,++next_invisible_piece_id);
+    assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
+    motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
+    motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
+    motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
+    motivation[next_invisible_piece_id].first.on = s;
+    motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
+    motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
+    motivation[next_invisible_piece_id].last.on = s;
+    TraceValue("%u",next_invisible_piece_id);
+    TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+    TraceEOL();
+    occupy_square(s,walk,spec);
+    restart_from_scratch();
+    empty_square(s);
+    motivation[next_invisible_piece_id].last.purpose = purpose_none;
+    --next_invisible_piece_id;
+    --being_solved.number_of_pieces[side_attacking][walk];
+  }
+
+  current_consumption = save_consumption;
+  TraceConsumption();TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_mating_piece_attacking_rider(Side side_attacking,
+                                               square sq_mating_piece,
+                                               piece_walk_type walk_rider,
+                                               vec_index_type kcurr, vec_index_type kend)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_mating_piece);
+  TraceEnumerator(Side,side_attacking);
+  TraceWalk(walk_rider);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square s;
+    for (s = sq_mating_piece+vec[kcurr];
+         !is_square_blocked(s) && !end_of_iteration;
+         s += vec[kcurr])
+      if (is_square_empty(s))
+      {
+        TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
+        if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+          place_mating_piece_attacker(side_attacking,s,walk_rider);
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_mating_piece_attacking_leaper(Side side_attacking,
+                                                square sq_mating_piece,
+                                                piece_walk_type walk_leaper,
+                                                vec_index_type kcurr, vec_index_type kend)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_mating_piece);
+  TraceEnumerator(Side,side_attacking);
+  TraceWalk(walk_leaper);
+  TraceFunctionParam("%u",kcurr);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  {
+    square const s = sq_mating_piece+vec[kcurr];
+    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
+    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+      place_mating_piece_attacker(side_attacking,s,walk_leaper);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_mating_piece_attacking_pawn(Side side_attacking,
+                                              square sq_mating_piece)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_mating_piece);
+  TraceEnumerator(Side,side_attacking);
+  TraceFunctionParamListEnd();
+
+  if (!end_of_iteration)
+  {
+    square s = sq_mating_piece+dir_up+dir_left;
+    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
+    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+      place_mating_piece_attacker(side_attacking,s,Pawn);
+  }
+
+  if (!end_of_iteration)
+  {
+    square s = sq_mating_piece+dir_up+dir_right;
+    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
+    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+      place_mating_piece_attacker(side_attacking,s,Pawn);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void attack_mating_piece(Side side_attacking,
+                                square sq_mating_piece)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_attacking);
+  TraceSquare(sq_mating_piece);
+  TraceFunctionParamListEnd();
+
+  place_mating_piece_attacking_rider(side_attacking,
+                                     sq_mating_piece,
+                                     Bishop,
+                                     vec_bishop_start,vec_bishop_end);
+
+  place_mating_piece_attacking_rider(side_attacking,
+                                     sq_mating_piece,
+                                     Rook,
+                                     vec_rook_start,vec_rook_end);
+
+  place_mating_piece_attacking_leaper(side_attacking,
+                                      sq_mating_piece,
+                                      Knight,
+                                      vec_knight_start,vec_knight_end);
+
+  place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
@@ -4255,6 +4411,12 @@ static void done_intercepting_illegal_checks(void)
       adapt_pre_capture_effect();
     else
       assert(is_taboo_violation_acceptable(first_taboo_violation));
+  }
+  else if (combined_validation_result==mate_attackable)
+  {
+    combined_validation_result = mate_defendable_by_interceptors;
+    attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
+    combined_validation_result = mate_attackable;
   }
   else
     validate_king_placements();
@@ -4660,170 +4822,6 @@ static void start_iteration(void)
   TraceFunctionResultEnd();
 }
 
-static void place_mating_piece_attacker(Side side_attacking,
-                                        square s,
-                                        piece_walk_type walk)
-{
-  consumption_type const save_consumption = current_consumption;
-  Flags spec = BIT(side_attacking)|BIT(Chameleon);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_attacking);
-  TraceSquare(s);
-  TraceWalk(walk);
-  TraceFunctionParamListEnd();
-
-  if (allocate_placement_of_claimed_fleshed_out(side_attacking))
-  {
-    ++being_solved.number_of_pieces[side_attacking][walk];
-    SetPieceId(spec,++next_invisible_piece_id);
-    assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-    motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
-    motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
-    motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
-    motivation[next_invisible_piece_id].first.on = s;
-    motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
-    motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
-    motivation[next_invisible_piece_id].last.on = s;
-    TraceValue("%u",next_invisible_piece_id);
-    TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
-    TraceEOL();
-    occupy_square(s,walk,spec);
-    start_iteration();
-    empty_square(s);
-    motivation[next_invisible_piece_id].last.purpose = purpose_none;
-    --next_invisible_piece_id;
-    --being_solved.number_of_pieces[side_attacking][walk];
-  }
-  else
-  {
-    assert(0);
-  }
-
-  current_consumption = save_consumption;
-  TraceConsumption();TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void place_mating_piece_attacking_rider(Side side_attacking,
-                                               square sq_mating_piece,
-                                               piece_walk_type walk_rider,
-                                               vec_index_type kcurr, vec_index_type kend)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_mating_piece);
-  TraceEnumerator(Side,side_attacking);
-  TraceWalk(walk_rider);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
-  {
-    square s;
-    for (s = sq_mating_piece+vec[kcurr];
-         !is_square_blocked(s) && !end_of_iteration;
-         s += vec[kcurr])
-      if (is_square_empty(s))
-      {
-        TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-        if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-          place_mating_piece_attacker(side_attacking,s,walk_rider);
-      }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void place_mating_piece_attacking_leaper(Side side_attacking,
-                                                square sq_mating_piece,
-                                                piece_walk_type walk_leaper,
-                                                vec_index_type kcurr, vec_index_type kend)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_mating_piece);
-  TraceEnumerator(Side,side_attacking);
-  TraceWalk(walk_leaper);
-  TraceFunctionParam("%u",kcurr);
-  TraceFunctionParam("%u",kend);
-  TraceFunctionParamListEnd();
-
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
-  {
-    square const s = sq_mating_piece+vec[kcurr];
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-      place_mating_piece_attacker(side_attacking,s,walk_leaper);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void place_mating_piece_attacking_pawn(Side side_attacking,
-                                              square sq_mating_piece)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_mating_piece);
-  TraceEnumerator(Side,side_attacking);
-  TraceFunctionParamListEnd();
-
-  if (!end_of_iteration)
-  {
-    square s = sq_mating_piece+dir_up+dir_left;
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-      place_mating_piece_attacker(side_attacking,s,Pawn);
-  }
-
-  if (!end_of_iteration)
-  {
-    square s = sq_mating_piece+dir_up+dir_right;
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-      place_mating_piece_attacker(side_attacking,s,Pawn);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void attack_mating_piece(Side side_attacking,
-                                square sq_mating_piece)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_attacking);
-  TraceSquare(sq_mating_piece);
-  TraceFunctionParamListEnd();
-
-  /* We are defending against a verified mate. If we can't attack the mate,
-   * we are dealing with a solution. */
-  combined_result = previous_move_has_solved;
-
-  place_mating_piece_attacking_rider(side_attacking,
-                                     sq_mating_piece,
-                                     Bishop,
-                                     vec_bishop_start,vec_bishop_end);
-
-  place_mating_piece_attacking_rider(side_attacking,
-                                     sq_mating_piece,
-                                     Rook,
-                                     vec_rook_start,vec_rook_end);
-
-  place_mating_piece_attacking_leaper(side_attacking,
-                                      sq_mating_piece,
-                                      Knight,
-                                      vec_knight_start,vec_knight_end);
-
-  place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void validate_mate(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
@@ -4877,11 +4875,6 @@ static void test_mate(void)
       break;
 
     case mate_attackable:
-      end_of_iteration = false;
-      combined_result = previous_move_is_illegal;
-      attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
-      break;
-
     case mate_defendable_by_interceptors:
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
