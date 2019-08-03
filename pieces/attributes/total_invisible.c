@@ -277,8 +277,6 @@ static iteration_index_type current_iteration;
 /* after they have fulfilled their purpose: */
 /* in which iteration have we fleshed out the random move by inivisible of a certain ply? */
 static iteration_index_type fleshed_out_random_move_last_time[maxply+1];
-/* before they fulfill their purpose: */
-static PieceIdType committed_to_fleshing_out_random_move_by[maxply+1];
 
 typedef struct
 {
@@ -1938,6 +1936,7 @@ static void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
 }
 
 static void start_iteration(void);
+static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival);
 
 static void restart_from_scratch(void)
 {
@@ -1953,7 +1952,36 @@ static void restart_from_scratch(void)
   {
     --nbply;
     undo_move_effects();
-    restart_from_scratch();
+    if (is_random_move_by_invisible(nbply))
+    {
+      // TODO avoid repetition
+      Side const side_playing = trait[nbply];
+      square const *s;
+      for (s = boardnum; *s && !end_of_iteration; ++s)
+        if (TSTFLAG(being_solved.spec[*s],Chameleon)
+            && TSTFLAG(being_solved.spec[*s],side_playing))
+        {
+          PieceIdType const id = GetPieceId(being_solved.spec[*s]);
+          if (motivation[id].first.acts_when>nbply)
+            flesh_out_random_move_by_specific_invisible_to(*s);
+        }
+
+      TraceText("random move by unplaced invisible\n");
+      {
+        consumption_type const save_consumption = current_consumption;
+
+        current_consumption.claimed[trait[nbply]] = true;
+        TraceConsumption();TraceEOL();
+
+        if (nr_total_invisbles_consumed()<=total_invisible_number)
+          restart_from_scratch();
+
+        current_consumption = save_consumption;
+        TraceConsumption();TraceEOL();
+      }
+    }
+    else
+      restart_from_scratch();
     redo_move_effects();
     ++nbply;
   }
@@ -2930,74 +2958,6 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   TraceFunctionResultEnd();
 }
 
-static void find_time_in_history_when_to_place_victim(square sq_addition,
-                                                      piece_walk_type walk_victim,
-                                                      Flags flags_victim)
-{
-  Side const side = TSTFLAG(flags_victim,White) ? White : Black;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_addition);
-  TraceWalk(walk_victim);
-  TraceValue("%x",flags_victim);
-  TraceFunctionParamListEnd();
-
-  --nbply;
-  TraceValue("%u",nbply);TraceEOL();
-
-  if (nbply==ply_retro_move)
-  {
-    TraceText("victim has been here \"forever\"\n");
-    occupy_square(sq_addition,walk_victim,flags_victim);
-    ++nbply;
-    start_iteration();
-    --nbply;
-    empty_square(sq_addition);
-  }
-  else if (is_taboo(sq_addition,side))
-  {
-    /* end of recursion */
-  }
-  else
-  {
-    undo_move_effects();
-
-    if (is_square_empty(sq_addition))
-    {
-      if (side==trait[nbply])
-      {
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-        if (sq_departure==move_by_invisible
-            && sq_arrival==move_by_invisible)
-        {
-          TraceText("victim moved here\n");
-          occupy_square(sq_addition,walk_victim,flags_victim);
-          flesh_out_random_move_by_specific_invisible_to(sq_addition);
-          empty_square(sq_addition);
-        }
-      }
-
-      find_time_in_history_when_to_place_victim(sq_addition,walk_victim,flags_victim);
-    }
-    else
-    {
-      /* end of recursion */
-    }
-
-    redo_move_effects();
-  }
-
-  ++nbply;
-  TraceValue("%u",nbply);TraceEOL();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void adapt_pre_capture_effect(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -3033,7 +2993,9 @@ static void adapt_pre_capture_effect(void)
 
             assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
             move_effect_journal[pre_capture].type = move_effect_none;
-            find_time_in_history_when_to_place_victim(sq_addition,walk_added,flags_added);
+            occupy_square(sq_addition,walk_added,flags_added);
+            restart_from_scratch();
+            empty_square(sq_addition);
             move_effect_journal[pre_capture].type = move_effect_piece_readdition;
           }
 
@@ -3506,69 +3468,8 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
   TraceFunctionResultEnd();
 }
 
-static boolean can_invisible_used_later_move(PieceIdType id)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",id);
-  TraceFunctionParamListEnd();
-
-  assert(motivation[id].last.acts_when>nbply);
-
-  /* basically, invisibles used later as castling partners can *not* move */
-  switch (motivation[id].last.purpose)
-  {
-    case purpose_interceptor:
-    case purpose_attacker:
-    case purpose_random_mover:
-    case purpose_victim:
-    case purpose_capturer:
-      result = true;
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_there_random_move_until(ply when)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",when);
-  TraceFunctionParamListEnd();
-
-  for (ply = nbply+2; ply<when; ply +=2)
-  {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-    if (sq_departure==move_by_invisible
-        && sq_arrival==move_by_invisible)
-    {
-      result = true;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void flesh_out_random_move_by_specific_invisible_from_or_to(square pos,
-                                                                   iteration_index_type if_inserted_since)
+static void flesh_out_random_move_by_specific_piece(square pos,
+                                                    iteration_index_type if_inserted_since)
 {
   Side const side_playing = trait[nbply];
 
@@ -3592,29 +3493,9 @@ static void flesh_out_random_move_by_specific_invisible_from_or_to(square pos,
     assert(motivation[id].first.purpose!=purpose_none);
     assert(motivation[id].last.purpose!=purpose_none);
 
-    if (motivation[id].last.acts_when<=nbply)
-    {
-      /* piece was used on pos - fleshing out moves *from* pos */
-      if (motivation[id].insertion_iteration>=if_inserted_since)
-        flesh_out_random_move_by_specific_invisible_from(pos);
-    }
-    else if (motivation[id].first.acts_when>nbply)
-    {
-      /* piece will be used on pos - fleshing out moves *to* pos */
-      if (can_invisible_used_later_move(id))
-      {
-        if (is_there_random_move_until(motivation[id].first.acts_when))
-        {
-          /* let posteriority act first, possibly unmoving piece to pos "first",
-           * but remember what we are at */
-          committed_to_fleshing_out_random_move_by[nbply] = id;
-          recurse_into_child_ply();
-          committed_to_fleshing_out_random_move_by[nbply] = NullPieceId;
-        }
-        else
-          flesh_out_random_move_by_specific_invisible_to(pos);
-      }
-    }
+    if (motivation[id].last.acts_when<=nbply
+        && motivation[id].insertion_iteration>=if_inserted_since)
+      flesh_out_random_move_by_specific_invisible_from(pos);
   }
 
   TraceFunctionExit(__func__);
@@ -3623,69 +3504,47 @@ static void flesh_out_random_move_by_specific_invisible_from_or_to(square pos,
 
 static void flesh_out_random_move_by_invisible(square first_taboo_violation)
 {
+  iteration_index_type const save_last_time = fleshed_out_random_move_last_time[nbply];
+
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",committed_to_fleshing_out_random_move_by[nbply]);
-  TraceEOL();
+  fleshed_out_random_move_last_time[nbply] = current_iteration;
 
-  if (committed_to_fleshing_out_random_move_by[nbply]==NullPieceId)
+  if (first_taboo_violation==nullsquare)
   {
-    iteration_index_type const save_last_time = fleshed_out_random_move_last_time[nbply];
+    square const *s;
 
-    fleshed_out_random_move_last_time[nbply] = current_iteration;
+    for (s = boardnum; *s && !end_of_iteration; ++s)
+      flesh_out_random_move_by_specific_piece(*s,save_last_time);
 
-    if (first_taboo_violation==nullsquare)
+    TraceText("random move by unplaced invisible\n");
+    // TODO Strictly speaking, there is no guarantee that such a move exists
+    // but we probably save a lot of time by not fleshing it out. As long as we
+    // restrict ourselves to h#n, the risk is printing some wrong cooks.
+    // Options:
+    // * find out how hight the cost would be
+    // * fleshing it out
+    // * option for activating fleshing out
     {
-      square const *s;
+      consumption_type const save_consumption = current_consumption;
 
-      for (s = boardnum; *s && !end_of_iteration; ++s)
-        flesh_out_random_move_by_specific_invisible_from_or_to(*s,save_last_time);
+      current_consumption.claimed[trait[nbply]] = true;
+      TraceConsumption();TraceEOL();
 
-      TraceText("random move by unplaced invisible\n");
-      // TODO Strictly speaking, there is no guarantee that such a move exists
-      // but we probably save a lot of time by not fleshing it out. As long as we
-      // restrict ourselves to h#n, the risk is printing some wrong cooks.
-      // Options:
-      // * find out how hight the cost would be
-      // * fleshing it out
-      // * option for activating fleshing out
-      {
-        consumption_type const save_consumption = current_consumption;
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+        recurse_into_child_ply();
 
-        current_consumption.claimed[trait[nbply]] = true;
-        TraceConsumption();TraceEOL();
-
-        if (nr_total_invisbles_consumed()<=total_invisible_number)
-          recurse_into_child_ply();
-
-        current_consumption = save_consumption;
-        TraceConsumption();TraceEOL();
-      }
+      current_consumption = save_consumption;
+      TraceConsumption();TraceEOL();
     }
-    else
-      flesh_out_random_move_by_specific_invisible_from_or_to(first_taboo_violation,save_last_time);
-
-    fleshed_out_random_move_last_time[nbply] = save_last_time;
   }
   else
-  {
-    PieceIdType const id = committed_to_fleshing_out_random_move_by[nbply];
+    flesh_out_random_move_by_specific_piece(first_taboo_violation,
+                                                           save_last_time);
 
-    /* we are committed to only fleshing out moves by one piece to the square where
-     * it will later fulfill its purpose */
-    if (first_taboo_violation==nullsquare
-        || motivation[id].first.on==first_taboo_violation)
-    {
-      assert(can_invisible_used_later_move(id));
-      if (is_there_random_move_until(motivation[id].first.acts_when))
-        /* let posteriority act first, possibly unmoving piece to pos "first" */
-        recurse_into_child_ply();
-      else
-        flesh_out_random_move_by_specific_invisible_to(motivation[id].first.on);
-    }
-  }
+  fleshed_out_random_move_last_time[nbply] = save_last_time;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
