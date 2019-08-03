@@ -194,6 +194,7 @@ typedef enum
   play_detecting_revelations,
   play_validating_mate,
   play_testing_mate,
+  play_attacking_mating_piece,
   play_initialising_replay,
   play_replay_validating,
   play_replay_testing,
@@ -203,8 +204,6 @@ typedef enum
 } play_phase_type;
 
 static play_phase_type play_phase = play_regular;
-
-static boolean placing_mating_piece_attacker = false;
 
 typedef enum
 {
@@ -1000,6 +999,7 @@ static void undo_revelation_of_new_invisible(move_effect_journal_entry_type cons
 
     case play_detecting_revelations:
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_unwinding:
     case play_finalising_replay:
     default:
@@ -1062,6 +1062,7 @@ static void redo_revelation_of_new_invisible(move_effect_journal_entry_type cons
 
     case play_detecting_revelations:
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_rewinding:
     case play_initialising_replay:
     default:
@@ -1121,6 +1122,7 @@ static void undo_revelation_of_castling_partner(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -1174,6 +1176,7 @@ static void redo_revelation_of_castling_partner(move_effect_journal_entry_type c
       break;
 
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -1554,6 +1557,7 @@ static void undo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -1627,6 +1631,7 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
+    case play_attacking_mating_piece:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -2145,11 +2150,11 @@ static void done_validating_king_placements(void)
       break;
 
     case play_testing_mate:
-      if (combined_validation_result==mate_attackable && !placing_mating_piece_attacker)
+      if (combined_validation_result==mate_attackable)
       {
-        placing_mating_piece_attacker = true;
+        play_phase = play_attacking_mating_piece;
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
-        placing_mating_piece_attacker = false;
+        play_phase = play_testing_mate;
 
         if (combined_result==previous_move_is_illegal)
           /* no legal placement found for a mating piece attacker */
@@ -2171,6 +2176,21 @@ static void done_validating_king_placements(void)
       }
 
       break;
+
+    case play_attacking_mating_piece:
+      play_phase = play_initialising_replay;
+      replay_fleshed_out_move_sequence(play_replay_testing);
+      play_phase = play_attacking_mating_piece;
+
+      /* This:
+       * assert(solve_result>=previous_move_has_solved);
+       * held surprisingly long, especially since it's wrong.
+       * E.g. mate by castling: if we attack the rook, the castling is not
+       * even playable */
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
+      break;
+
 
     default:
       assert(0);
