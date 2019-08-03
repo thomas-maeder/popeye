@@ -1930,6 +1930,11 @@ static void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
   TraceFunctionResultEnd();
 }
 
+static void attack_mating_piece(Side side_attacking,
+                                square sq_mating_piece);
+
+static boolean placing_mating_piece_attacker = false;
+
 static void done_validating_king_placements(void)
 {
   TraceFunctionEntry(__func__);
@@ -1963,17 +1968,30 @@ static void done_validating_king_placements(void)
       break;
 
     case play_testing_mate:
-      play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_testing);
-      play_phase = play_testing_mate;
+      if (combined_validation_result==mate_attackable && !placing_mating_piece_attacker)
+      {
+        placing_mating_piece_attacker = true;
+        attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
+        placing_mating_piece_attacker = false;
 
-      /* This:
-       * assert(solve_result>=previous_move_has_solved);
-       * held surprisingly long, especially since it's wrong.
-       * E.g. mate by castling: if we attack the rook, the castling is not
-       * even playable */
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
+        if (combined_result==previous_move_is_illegal)
+          /* no legal placement found for a mating piece attacker */
+          combined_result = previous_move_has_solved;
+      }
+      else
+      {
+        play_phase = play_initialising_replay;
+        replay_fleshed_out_move_sequence(play_replay_testing);
+        play_phase = play_testing_mate;
+
+        /* This:
+         * assert(solve_result>=previous_move_has_solved);
+         * held surprisingly long, especially since it's wrong.
+         * E.g. mate by castling: if we attack the rook, the castling is not
+         * even playable */
+        if (solve_result==previous_move_has_not_solved)
+          end_of_iteration = true;
+      }
 
       break;
 
@@ -4276,14 +4294,13 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   {
     square s;
     for (s = sq_mating_piece+vec[kcurr];
-         !is_square_blocked(s) && !end_of_iteration;
+         is_square_empty(s) && !end_of_iteration;
          s += vec[kcurr])
-      if (is_square_empty(s))
-      {
-        TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-        if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-          place_mating_piece_attacker(side_attacking,s,walk_rider);
-      }
+    {
+      TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
+      if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+        place_mating_piece_attacker(side_attacking,s,walk_rider);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -4411,12 +4428,6 @@ static void done_intercepting_illegal_checks(void)
       adapt_pre_capture_effect();
     else
       assert(is_taboo_violation_acceptable(first_taboo_violation));
-  }
-  else if (combined_validation_result==mate_attackable)
-  {
-    combined_validation_result = mate_defendable_by_interceptors;
-    attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
-    combined_validation_result = mate_attackable;
   }
   else
     validate_king_placements();
