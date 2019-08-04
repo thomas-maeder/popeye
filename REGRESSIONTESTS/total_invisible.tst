@@ -125,10 +125,10 @@ solution finished.
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
-  add_to_move_generation_stack:        5960
-                     play_move:       14343
+  add_to_move_generation_stack:        5740
+                     play_move:       13991
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5128
+ is_black_king_square_attacked:        4864
 
 solution finished.
 

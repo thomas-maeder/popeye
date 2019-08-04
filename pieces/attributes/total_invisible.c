@@ -418,11 +418,13 @@ static boolean is_taboo(square s, Side side)
   TraceFunctionParamListEnd();
 
   for (ply = nbply; ply<=top_ply_of_regular_play; ++ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+    TraceEOL();
+
     if (nr_taboos_for_current_move_in_ply[ply][side][s])
     {
-      TraceValue("%u",ply);
-      TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-      TraceEOL();
       result = true;
       break;
     }
@@ -436,6 +438,7 @@ static boolean is_taboo(square s, Side side)
       if (is_taboo_candidate_captured(ply,s))
         break;
     }
+  }
   // TODO what if two taboos have to be lifted in the same ply?
   // TODO what about captures by invisible?
 
@@ -4903,7 +4906,11 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
 
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
+        motivation[id].first = knowledge[idx_knowledge].last;
+        motivation[id].first.on = sq_first_on;
         motivation[id].last = knowledge[idx_knowledge].last;
+
+        TraceValue("%u",motivation[id].last.purpose);TraceEOL();
 
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
@@ -5951,7 +5958,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
 
-            SetPieceId(spec,++next_invisible_piece_id);
+            ++next_invisible_piece_id;
+            SetPieceId(spec,next_invisible_piece_id);
             assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
             motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
             motivation[next_invisible_piece_id].first.purpose = purpose_victim;
