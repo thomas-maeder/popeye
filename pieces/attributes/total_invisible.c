@@ -357,6 +357,57 @@ static boolean was_taboo(square s)
   return result;
 }
 
+static boolean is_random_move_by_invisible(ply ply)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+  result = move_effect_journal[movement].u.piece_movement.from==move_by_invisible;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean has_been_taboo_since_random_move(square s)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  for (ply = nbply-1; ply>ply_retro_move; --ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][White][s]);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][Black][s]);
+    TraceEOL();
+    if (nr_taboos_for_current_move_in_ply[ply][White][s]>0
+        || nr_taboos_for_current_move_in_ply[ply][Black][s]>0)
+    {
+      result = true;
+      break;
+    }
+    else if (is_random_move_by_invisible(ply))
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_taboo_candidate_captured(ply ply, square s)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
@@ -380,26 +431,6 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
       /* planned capture */
       result = true;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_random_move_by_invisible(ply ply)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",ply);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
-
-  result = move_effect_journal[movement].u.piece_movement.from==move_by_invisible;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2984,7 +3015,8 @@ static void adapt_pre_capture_effect(void)
           TraceText("victim was placed in previous iteration\n");
           adapt_capture_effect();
         }
-        else
+        else if (!is_taboo(to,advers(trait[nbply]))
+                 && !has_been_taboo_since_random_move(to))
         {
           consumption_type const save_consumption = current_consumption;
 
@@ -3004,6 +3036,11 @@ static void adapt_pre_capture_effect(void)
 
           current_consumption = save_consumption;
           TraceConsumption();TraceEOL();
+        }
+        else
+        {
+          TraceText("we should a victim, but we can't because of how we have fleshed out earlier moves\n");
+          REPORT_DEADEND;
         }
       }
       else
