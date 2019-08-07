@@ -2086,14 +2086,29 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square s;
-    for (s = sq_mating_piece+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
-         s += vec[kcurr])
-    {
-      TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-      if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
-        place_mating_piece_attacker(side_attacking,s,walk_rider);
-    }
+    for (s = sq_mating_piece+vec[kcurr]; !end_of_iteration; s += vec[kcurr])
+      if (is_square_empty(s))
+      {
+        TraceSquare(s);
+        TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
+        TraceEOL();
+
+        if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+          place_mating_piece_attacker(side_attacking,s,walk_rider);
+      }
+      else if ((get_walk_of_piece_on_square(s)==walk_rider
+                || get_walk_of_piece_on_square(s)==Queen)
+               && TSTFLAG(being_solved.spec[s],side_attacking))
+      {
+        play_phase = play_initialising_replay;
+        replay_fleshed_out_move_sequence(play_replay_testing);
+        play_phase = play_attacking_mating_piece;
+
+        if (solve_result==previous_move_has_not_solved)
+          end_of_iteration = true;
+      }
+      else
+        break;
   }
 
   TraceFunctionExit(__func__);
@@ -2116,8 +2131,23 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   for (; kcurr<=kend && !end_of_iteration; ++kcurr)
   {
     square const s = sq_mating_piece+vec[kcurr];
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+
+    TraceSquare(s);
+    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
+    TraceEOL();
+
+    if (get_walk_of_piece_on_square(s)==walk_leaper
+        && TSTFLAG(being_solved.spec[s],side_attacking))
+    {
+      play_phase = play_initialising_replay;
+      replay_fleshed_out_move_sequence(play_replay_testing);
+      play_phase = play_attacking_mating_piece;
+
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
+    }
+    else if (is_square_empty(s)
+             && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,walk_leaper);
   }
 
@@ -2136,16 +2166,46 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   if (!end_of_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_left;
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+
+    TraceSquare(s);
+    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
+    TraceEOL();
+
+    if (get_walk_of_piece_on_square(s)==Pawn
+        && TSTFLAG(being_solved.spec[s],side_attacking))
+    {
+      play_phase = play_initialising_replay;
+      replay_fleshed_out_move_sequence(play_replay_testing);
+      play_phase = play_attacking_mating_piece;
+
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
+    }
+    else if (is_square_empty(s)
+        && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
   if (!end_of_iteration)
   {
     square s = sq_mating_piece+dir_up+dir_right;
-    TraceSquare(s);TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);TraceEOL();
-    if (is_square_empty(s) && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+
+    TraceSquare(s);
+    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
+    TraceEOL();
+
+    if (get_walk_of_piece_on_square(s)==Pawn
+        && TSTFLAG(being_solved.spec[s],side_attacking))
+    {
+      play_phase = play_initialising_replay;
+      replay_fleshed_out_move_sequence(play_replay_testing);
+      play_phase = play_attacking_mating_piece;
+
+      if (solve_result==previous_move_has_not_solved)
+        end_of_iteration = true;
+    }
+    else if (is_square_empty(s)
+             && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
@@ -2221,18 +2281,9 @@ static void done_validating_king_placements(void)
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
 
-        if (combined_result<previous_move_has_not_solved)
-        {
-          /* no legal placement found for a mating piece attacker - have we
-           * attacked the mating piece by accident?
-           */
-          play_phase = play_initialising_replay;
-          replay_fleshed_out_move_sequence(play_replay_testing);
-          play_phase = play_testing_mate;
-        }
-
-        if (solve_result==previous_move_has_not_solved)
-          end_of_iteration = true;
+        if (combined_result==previous_move_is_illegal)
+          /* no legal placement found for a mating piece attacker */
+          combined_result = previous_move_has_solved;
       }
       else
       {
