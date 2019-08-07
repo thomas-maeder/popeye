@@ -2037,27 +2037,30 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  if (allocate_placement_of_claimed_fleshed_out(side_attacking))
+  if (!has_been_taboo_since_random_move(s))
   {
-    ++being_solved.number_of_pieces[side_attacking][walk];
-    SetPieceId(spec,++next_invisible_piece_id);
-    assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-    motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
-    motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
-    motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
-    motivation[next_invisible_piece_id].first.on = s;
-    motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
-    motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
-    motivation[next_invisible_piece_id].last.on = s;
-    TraceValue("%u",next_invisible_piece_id);
-    TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
-    TraceEOL();
-    occupy_square(s,walk,spec);
-    restart_from_scratch();
-    empty_square(s);
-    motivation[next_invisible_piece_id].last.purpose = purpose_none;
-    --next_invisible_piece_id;
-    --being_solved.number_of_pieces[side_attacking][walk];
+    if (allocate_placement_of_claimed_fleshed_out(side_attacking))
+    {
+      ++being_solved.number_of_pieces[side_attacking][walk];
+      SetPieceId(spec,++next_invisible_piece_id);
+      assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
+      motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
+      motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
+      motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
+      motivation[next_invisible_piece_id].first.on = s;
+      motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
+      motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
+      motivation[next_invisible_piece_id].last.on = s;
+      TraceValue("%u",next_invisible_piece_id);
+      TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+      TraceEOL();
+      occupy_square(s,walk,spec);
+      restart_from_scratch();
+      empty_square(s);
+      motivation[next_invisible_piece_id].last.purpose = purpose_none;
+      --next_invisible_piece_id;
+      --being_solved.number_of_pieces[side_attacking][walk];
+    }
   }
 
   current_consumption = save_consumption;
@@ -2218,9 +2221,18 @@ static void done_validating_king_placements(void)
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
 
-        if (combined_result==previous_move_is_illegal)
-          /* no legal placement found for a mating piece attacker */
-          combined_result = previous_move_has_solved;
+        if (combined_result<previous_move_has_not_solved)
+        {
+          /* no legal placement found for a mating piece attacker - have we
+           * attacked the mating piece by accident?
+           */
+          play_phase = play_initialising_replay;
+          replay_fleshed_out_move_sequence(play_replay_testing);
+          play_phase = play_testing_mate;
+        }
+
+        if (solve_result==previous_move_has_not_solved)
+          end_of_iteration = true;
       }
       else
       {
