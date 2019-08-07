@@ -2112,12 +2112,15 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
         if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
           place_mating_piece_attacker(side_attacking,s,walk_rider);
       }
-      else if ((get_walk_of_piece_on_square(s)==walk_rider
-                || get_walk_of_piece_on_square(s)==Queen)
-               && TSTFLAG(being_solved.spec[s],side_attacking))
-        done_placing_mating_piece_attacker();
       else
+      {
+        if ((get_walk_of_piece_on_square(s)==walk_rider
+            || get_walk_of_piece_on_square(s)==Queen)
+            && TSTFLAG(being_solved.spec[s],side_attacking))
+          done_placing_mating_piece_attacker();
+
         break;
+      }
   }
 
   TraceFunctionExit(__func__);
