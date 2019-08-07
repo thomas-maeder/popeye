@@ -2070,6 +2070,22 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceFunctionResultEnd();
 }
 
+static void done_placing_mating_piece_attacker(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  play_phase = play_initialising_replay;
+  replay_fleshed_out_move_sequence(play_replay_testing);
+  play_phase = play_attacking_mating_piece;
+
+  if (solve_result==previous_move_has_not_solved)
+    end_of_iteration = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_mating_piece_attacking_rider(Side side_attacking,
                                                square sq_mating_piece,
                                                piece_walk_type walk_rider,
@@ -2099,14 +2115,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
       else if ((get_walk_of_piece_on_square(s)==walk_rider
                 || get_walk_of_piece_on_square(s)==Queen)
                && TSTFLAG(being_solved.spec[s],side_attacking))
-      {
-        play_phase = play_initialising_replay;
-        replay_fleshed_out_move_sequence(play_replay_testing);
-        play_phase = play_attacking_mating_piece;
-
-        if (solve_result==previous_move_has_not_solved)
-          end_of_iteration = true;
-      }
+        done_placing_mating_piece_attacker();
       else
         break;
   }
@@ -2138,14 +2147,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==walk_leaper
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_testing);
-      play_phase = play_attacking_mating_piece;
-
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
-    }
+      done_placing_mating_piece_attacker();
     else if (is_square_empty(s)
              && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,walk_leaper);
@@ -2173,14 +2175,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_testing);
-      play_phase = play_attacking_mating_piece;
-
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
-    }
+      done_placing_mating_piece_attacker();
     else if (is_square_empty(s)
         && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
@@ -2196,14 +2191,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_testing);
-      play_phase = play_attacking_mating_piece;
-
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
-    }
+      done_placing_mating_piece_attacker();
     else if (is_square_empty(s)
              && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
@@ -2303,17 +2291,7 @@ static void done_validating_king_placements(void)
       break;
 
     case play_attacking_mating_piece:
-      play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_testing);
-      play_phase = play_attacking_mating_piece;
-
-      /* This:
-       * assert(solve_result>=previous_move_has_solved);
-       * held surprisingly long, especially since it's wrong.
-       * E.g. mate by castling: if we attack the rook, the castling is not
-       * even playable */
-      if (solve_result==previous_move_has_not_solved)
-        end_of_iteration = true;
+      done_placing_mating_piece_attacker();
       break;
 
 
