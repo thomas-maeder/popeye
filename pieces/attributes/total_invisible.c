@@ -4989,6 +4989,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
 
         motivation[id].first = knowledge[idx_knowledge].last;
         motivation[id].first.on = sq_first_on;
+        motivation[id].first.acts_when = 0;
         motivation[id].last = knowledge[idx_knowledge].last;
 
         TraceValue("%u",motivation[id].last.purpose);TraceEOL();
