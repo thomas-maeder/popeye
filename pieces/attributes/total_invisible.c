@@ -1997,12 +1997,19 @@ static void restart_from_scratch(void)
         {
           PieceIdType const id = GetPieceId(being_solved.spec[*s]);
           if (motivation[id].first.acts_when>nbply)
+          {
+            ply const save_when = motivation[id].first.acts_when;
+            motivation[id].first.acts_when = nbply;
             flesh_out_random_move_by_specific_invisible_to(*s);
+            motivation[id].first.acts_when = save_when;
+          }
         }
 
-      TraceText("random move by unplaced invisible\n");
+      if (!end_of_iteration)
       {
         consumption_type const save_consumption = current_consumption;
+
+        TraceText("random move by unplaced invisible\n");
 
         current_consumption.claimed[trait[nbply]] = true;
         TraceConsumption();TraceEOL();
