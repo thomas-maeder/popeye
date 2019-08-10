@@ -3820,12 +3820,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     SetPieceId(being_solved.spec[sq_departure],id_random);
     replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-    if (motivation[id_existing].last.acts_when>nbply)
-    {
-      TraceText("the piece was added to later act from its current square\n");
-      REPORT_DEADEND;
-    }
-    else
+    if (motivation[id_existing].last.acts_when<nbply
+        || (motivation[id_existing].last.purpose==purpose_interceptor
+            && motivation[id_existing].last.acts_when<=nbply))
     {
       motivation_type const save_motivation = motivation[id_random];
 
@@ -3880,6 +3877,11 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       update_nr_taboos_for_current_move_in_ply(-1);
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
+    }
+    else
+    {
+      TraceText("the piece was added to later act from its current square\n");
+      REPORT_DEADEND;
     }
 
     replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
