@@ -3754,6 +3754,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
+  // TODO first test allocation, then taboo?
+
   if (!was_taboo(sq_departure) && !is_taboo(sq_departure,side_playing))
   {
     consumption_type const save_consumption = current_consumption;
