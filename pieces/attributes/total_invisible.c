@@ -298,6 +298,47 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_DEADEND
 #define REPORT_EXIT
 
+static unsigned long report_decision_counter;
+
+#define REPORT_DECISION_CONTEXT(context) \
+  printf("\n!%s",context); \
+  write_history_recursive(top_ply_of_regular_play); \
+  printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_MOVE(direction,action) \
+  printf("!%*u ",current_iteration,current_iteration); \
+  printf("%c%u ",direction,nbply); \
+  WriteWalk(&output_plaintext_engine, \
+            stdout, \
+            move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.moving); \
+  WriteSquare(&output_plaintext_engine, \
+              stdout, \
+              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.from); \
+  printf("%c",action); \
+  WriteSquare(&output_plaintext_engine, \
+              stdout, \
+              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
+  printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_PLACEMENT(s) \
+    printf("!%*u ",current_iteration,current_iteration); \
+    WriteSpec(&output_plaintext_engine, \
+              stdout, \
+              being_solved.spec[s], \
+              being_solved.board[s], \
+              true); \
+    WriteWalk(&output_plaintext_engine, \
+              stdout, \
+              being_solved.board[s]); \
+    WriteSquare(&output_plaintext_engine, \
+                stdout, \
+                s); \
+    printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_CONTEXT(context)
+#define REPORT_DECISION_MOVE(direction,action)
+#define REPORT_DECISION_PLACEMENT(s)
+
 static void write_history_recursive(ply ply)
 {
   if (parent_ply[ply]>ply_retro_move)
@@ -2025,7 +2066,11 @@ static void retract_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      ++current_iteration;
       restart_from_scratch();
+      --current_iteration;
+    }
 
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
@@ -2053,7 +2098,11 @@ static void restart_from_scratch(void)
     if (is_random_move_by_invisible(nbply))
       retract_random_move_by_invisible(boardnum);
     else
+    {
+      ++current_iteration;
       restart_from_scratch();
+      --current_iteration;
+    }
 
     redo_move_effects();
     ++nbply;
@@ -2411,6 +2460,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
+        REPORT_DECISION_PLACEMENT(*s);
         restart_from_scratch();
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
@@ -2418,6 +2468,46 @@ static void nominate_king_invisible_by_invisible(void)
       }
 
     being_solved.king_square[side_to_be_mated] = initsquare;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void failed_king_placement_validation(void)
+{
+  Side const side_to_be_mated = Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  being_solved.king_square[side_to_be_mated] = initsquare;
+  TraceText("The king to be mated can be anywhere\n");
+  REPORT_DEADEND;
+
+  switch (play_phase)
+  {
+    case play_detecting_revelations:
+      if (revelation_status_is_uninitialised)
+        initialise_revelations();
+      else
+        update_revelations();
+
+      if (nr_potential_revelations==0)
+        end_of_iteration = true;
+
+      break;
+
+    case play_validating_mate:
+      combined_validation_result = no_mate;
+      combined_result = previous_move_has_not_solved;
+      end_of_iteration = true;
+      break;
+
+    default:
+      combined_result = previous_move_has_not_solved;
+      end_of_iteration = true;
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -2455,38 +2545,11 @@ static void validate_king_placements(void)
         nominate_king_invisible_by_invisible();
         current_consumption = save_consumption;
       }
+      else
+        failed_king_placement_validation();
     }
     else
-    {
-      being_solved.king_square[side_to_be_mated] = initsquare;
-      TraceText("The king to be mated can be anywhere\n");
-      REPORT_DEADEND;
-
-      switch (play_phase)
-      {
-        case play_detecting_revelations:
-          if (revelation_status_is_uninitialised)
-            initialise_revelations();
-          else
-            update_revelations();
-
-          if (nr_potential_revelations==0)
-            end_of_iteration = true;
-
-          break;
-
-        case play_validating_mate:
-          combined_validation_result = no_mate;
-          combined_result = previous_move_has_not_solved;
-          end_of_iteration = true;
-          break;
-
-        default:
-          combined_result = previous_move_has_not_solved;
-          end_of_iteration = true;
-          break;
-      }
-    }
+      failed_king_placement_validation();
   }
   else if (being_solved.king_square[side_mating]==initsquare
            && nr_total_invisbles_consumed()==total_invisible_number)
@@ -2806,7 +2869,10 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       update_nr_taboos_for_current_move_in_ply(+1);
+      REPORT_DECISION_MOVE('<','-');
+      ++current_iteration;
       restart_from_scratch();
+      --current_iteration;
       update_nr_taboos_for_current_move_in_ply(-1);
 
       motivation[id] = save_motivation;
@@ -3194,6 +3260,8 @@ static void done_fleshing_out_random_move_by_invisible_from(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  REPORT_DECISION_MOVE('>','-');
+
   update_nr_taboos_for_current_move_in_ply(+1);
   restart_from_scratch();
   update_nr_taboos_for_current_move_in_ply(-1);
@@ -3220,7 +3288,6 @@ static void flesh_out_accidental_capture_by_invisible(void)
     PieceIdType const id_victim = GetPieceId(being_solved.spec[sq_arrival]);
 
     TraceValue("%u",id_victim);
-    TraceValue("%u",motivation[id_victim].insertion_iteration);
     TraceValue("%u",motivation[id_victim].first.purpose);
     TraceValue("%u",motivation[id_victim].first.acts_when);
     TraceSquare(motivation[id_victim].first.on);
@@ -3653,7 +3720,10 @@ static void forward_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      REPORT_DECISION_MOVE('>','-');
       recurse_into_child_ply();
+    }
 
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
@@ -3734,6 +3804,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
         update_nr_taboos_for_current_move_in_ply(+1);
+        REPORT_DECISION_MOVE('>','*');
         restart_from_scratch();
         update_nr_taboos_for_current_move_in_ply(-1);
 
@@ -3786,7 +3857,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceEOL();
 
     TraceValue("%u",id_existing);
-    TraceValue("%u",motivation[id_existing].insertion_iteration);
     TraceValue("%u",motivation[id_existing].first.purpose);
     TraceValue("%u",motivation[id_existing].first.acts_when);
     TraceSquare(motivation[id_existing].first.on);
@@ -3796,7 +3866,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceEOL();
 
     TraceValue("%u",id_random);
-    TraceValue("%u",motivation[id_random].insertion_iteration);
     TraceValue("%u",motivation[id_random].first.purpose);
     TraceValue("%u",motivation[id_random].first.acts_when);
     TraceSquare(motivation[id_random].first.on);
@@ -3838,6 +3907,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       {
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+        REPORT_DECISION_MOVE('>','*');
         recurse_into_child_ply();
       }
       else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
@@ -3855,6 +3925,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
         {
           move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+          REPORT_DECISION_MOVE('>','*');
           restart_from_scratch();
         }
 
@@ -4299,7 +4370,6 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
     TraceValue("%x",being_solved.spec[first_taboo_violation]);
     TraceValue("%u",id);
     TraceValue("%u",motivation[id].last.acts_when);
-    TraceValue("%u",motivation[id].insertion_iteration);
     TraceSquare(motivation[id].last.on);
     TraceValue("%u",motivation[id].last.purpose);
     TraceEOL();
@@ -4463,6 +4533,8 @@ static void walk_interceptor_any_walk(Side side,
 
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
+  REPORT_DECISION_PLACEMENT(pos);
+
   if (walk==King)
   {
     SETFLAG(being_solved.spec[pos],Royal);
@@ -4654,8 +4726,12 @@ static void place_interceptor_on_square(vec_index_type kcurr,
 
     SetPieceId(spec,next_invisible_piece_id);
     occupy_square(s,Dummy,spec);
+    REPORT_DECISION_PLACEMENT(s);
+    ++current_iteration;
 
     place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
+
+    --current_iteration;
 
     if (!end_of_iteration)
       place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
@@ -4869,6 +4945,7 @@ static void validate_mate(void)
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
     end_of_iteration = false;
+    REPORT_DECISION_CONTEXT(__func__);
     start_iteration();
   }
 
@@ -4899,6 +4976,7 @@ static void test_mate(void)
     case mate_defendable_by_interceptors:
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
+      REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
       break;
 
@@ -4906,6 +4984,7 @@ static void test_mate(void)
       /* we only replay moves for TI revelation */
       end_of_iteration = false;
       combined_result = previous_move_is_illegal;
+      REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
       assert(combined_result==previous_move_has_solved);
       break;
@@ -5131,6 +5210,7 @@ static void make_revelations(void)
   rewind_effects();
   play_phase = play_detecting_revelations;
   end_of_iteration = false;
+  REPORT_DECISION_CONTEXT(__func__);
   apply_knowledge(0,&start_iteration);
   play_phase = play_unwinding;
   unrewind_effects();
