@@ -1971,6 +1971,75 @@ static void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
 
 static void start_iteration(void);
 static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival);
+static void restart_from_scratch(void);
+
+static square const *find_next_backward_mover(square const *start_square)
+{
+  Side const side_playing = trait[nbply];
+  square const *result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  for (result = start_square; *result; ++result)
+    if (TSTFLAG(being_solved.spec[*result],Chameleon)
+        && TSTFLAG(being_solved.spec[*result],side_playing))
+    {
+      PieceIdType const id = GetPieceId(being_solved.spec[*result]);
+      if (motivation[id].first.acts_when>nbply)
+        break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(*result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void retract_random_move_by_invisible(square const *start_square)
+{
+  square const *s;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  s = find_next_backward_mover(start_square);
+
+  if (*s)
+  {
+    PieceIdType const id = GetPieceId(being_solved.spec[*s]);
+    ply const save_when = motivation[id].first.acts_when;
+
+    motivation[id].first.acts_when = nbply;
+
+    flesh_out_random_move_by_specific_invisible_to(*s);
+
+    if (!end_of_iteration)
+      retract_random_move_by_invisible(s+1);
+
+    motivation[id].first.acts_when = save_when;
+  }
+  else
+  {
+    consumption_type const save_consumption = current_consumption;
+
+    TraceText("random move by unplaced invisible\n");
+
+    current_consumption.claimed[trait[nbply]] = true;
+    TraceConsumption();TraceEOL();
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+      restart_from_scratch();
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void restart_from_scratch(void)
 {
@@ -1986,43 +2055,12 @@ static void restart_from_scratch(void)
   {
     --nbply;
     undo_move_effects();
+
     if (is_random_move_by_invisible(nbply))
-    {
-      // TODO avoid repetition
-      Side const side_playing = trait[nbply];
-      square const *s;
-      for (s = boardnum; *s && !end_of_iteration; ++s)
-        if (TSTFLAG(being_solved.spec[*s],Chameleon)
-            && TSTFLAG(being_solved.spec[*s],side_playing))
-        {
-          PieceIdType const id = GetPieceId(being_solved.spec[*s]);
-          if (motivation[id].first.acts_when>nbply)
-          {
-            ply const save_when = motivation[id].first.acts_when;
-            motivation[id].first.acts_when = nbply;
-            flesh_out_random_move_by_specific_invisible_to(*s);
-            motivation[id].first.acts_when = save_when;
-          }
-        }
-
-      if (!end_of_iteration)
-      {
-        consumption_type const save_consumption = current_consumption;
-
-        TraceText("random move by unplaced invisible\n");
-
-        current_consumption.claimed[trait[nbply]] = true;
-        TraceConsumption();TraceEOL();
-
-        if (nr_total_invisbles_consumed()<=total_invisible_number)
-          restart_from_scratch();
-
-        current_consumption = save_consumption;
-        TraceConsumption();TraceEOL();
-      }
-    }
+      retract_random_move_by_invisible(boardnum);
     else
       restart_from_scratch();
+
     redo_move_effects();
     ++nbply;
   }

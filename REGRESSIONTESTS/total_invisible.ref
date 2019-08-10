@@ -580,9 +580,9 @@ solution finished.
   1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
   1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
   add_to_move_generation_stack:     2304086
-                     play_move:     6469344
+                     play_move:     6469424
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1707919
+ is_black_king_square_attacked:     1707939
 
 solution finished.
 
@@ -659,18 +659,18 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:     6846858
-                     play_move:    14047486
+  add_to_move_generation_stack:     6846866
+                     play_move:    14047644
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5754141
+ is_black_king_square_attacked:     5754182
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:     6631487
-                     play_move:    12383431
+  add_to_move_generation_stack:     6631459
+                     play_move:    12383399
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5654736
+ is_black_king_square_attacked:     5654707
 
 solution finished.
 
