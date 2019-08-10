@@ -3638,6 +3638,86 @@ static void flesh_out_random_move_by_specific_piece(square pos,
   TraceFunctionResultEnd();
 }
 
+static square const *find_next_forward_mover(square const *start_square)
+{
+  Side const side_playing = trait[nbply];
+  square const *result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  for (result = boardnum; *result; ++result)
+    if (TSTFLAG(being_solved.spec[*result],Chameleon)
+        && TSTFLAG(being_solved.spec[*result],side_playing))
+    {
+      PieceIdType const id = GetPieceId(being_solved.spec[*result]);
+
+      if (motivation[id].last.acts_when<nbply
+          || (motivation[id].last.purpose==purpose_interceptor
+              && motivation[id].last.acts_when<=nbply))
+        break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(*result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void abc(square const *start_square)
+{
+  square const *s;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  s = find_next_forward_mover(start_square);
+
+  if (*s)
+  {
+    PieceIdType const id = GetPieceId(being_solved.spec[*s]);
+    action_type const save_last = motivation[id].last;
+
+    motivation[id].last.acts_when = nbply;
+    motivation[id].last.purpose = purpose_random_mover;
+
+    flesh_out_random_move_by_specific_invisible_from(*s);
+
+    if (!end_of_iteration)
+      abc(s+1);
+
+    motivation[id].last = save_last;
+  }
+  else
+  {
+    // TODO Strictly speaking, there is no guarantee that such a move exists
+    // but we probably save a lot of time by not fleshing it out. As long as we
+    // restrict ourselves to h#n, the risk is printing some wrong cooks.
+    // Options:
+    // * find out how hight the cost would be
+    // * fleshing it out
+    // * option for activating fleshing out
+
+    consumption_type const save_consumption = current_consumption;
+
+    TraceText("random move by unplaced invisible\n");
+
+    current_consumption.claimed[trait[nbply]] = true;
+    TraceConsumption();TraceEOL();
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+      recurse_into_child_ply();
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_random_move_by_invisible(square first_taboo_violation)
 {
   iteration_index_type const save_last_time = fleshed_out_random_move_last_time[nbply];
@@ -3649,36 +3729,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
   fleshed_out_random_move_last_time[nbply] = current_iteration;
 
   if (first_taboo_violation==nullsquare)
-  {
-    square const *s;
-
-    for (s = boardnum; *s && !end_of_iteration; ++s)
-      flesh_out_random_move_by_specific_piece(*s,save_last_time);
-
-    // TODO Strictly speaking, there is no guarantee that such a move exists
-    // but we probably save a lot of time by not fleshing it out. As long as we
-    // restrict ourselves to h#n, the risk is printing some wrong cooks.
-    // Options:
-    // * find out how hight the cost would be
-    // * fleshing it out
-    // * option for activating fleshing out
-
-    if (!end_of_iteration)
-    {
-      consumption_type const save_consumption = current_consumption;
-
-      TraceText("random move by unplaced invisible\n");
-
-      current_consumption.claimed[trait[nbply]] = true;
-      TraceConsumption();TraceEOL();
-
-      if (nr_total_invisbles_consumed()<=total_invisible_number)
-        recurse_into_child_ply();
-
-      current_consumption = save_consumption;
-      TraceConsumption();TraceEOL();
-    }
-  }
+    abc(boardnum);
   else
     flesh_out_random_move_by_specific_piece(first_taboo_violation,
                                             save_last_time);
