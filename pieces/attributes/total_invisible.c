@@ -3469,18 +3469,13 @@ static void flesh_out_random_move_by_existing_invisible_from(square sq_departure
 static void flesh_out_random_move_by_specific_invisible_from(square sq_departure)
 {
   Side const side_playing = trait[nbply];
-  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
   Flags const flags_on_square = being_solved.spec[sq_departure];
-  motivation_type const save_motivation = motivation[id];
   Flags const save_flags = being_solved.spec[sq_departure];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  motivation[id].last.purpose = purpose_random_mover;
-  motivation[id].last.acts_when = nbply;
 
   CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
@@ -3585,8 +3580,6 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
   being_solved.spec[sq_departure] = flags_on_square;
 
   being_solved.spec[sq_departure] = save_flags;
-
-  motivation[id] = save_motivation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3841,6 +3834,8 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       motivation[id_random].first = motivation[id_existing].first;
       motivation[id_random].insertion_iteration = motivation[id_existing].insertion_iteration;
       motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
+      motivation[id_random].last.acts_when = nbply;
+      motivation[id_random].last.purpose = purpose_capturer;
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
