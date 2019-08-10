@@ -246,17 +246,17 @@ a)
 
   1.Rf1-f5 TI~*g4   2.Rf8-d8[g4=wR] TI~*g1 #
   add_to_move_generation_stack:     1626156
-                     play_move:     5573844
+                     play_move:     5573836
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1188704
+ is_black_king_square_attacked:     1188702
 
 b) -bPg5  
 
   1.Rf8-f2 TI~*f1   2.Qg4-g8[f1=wB] TI~*h3 #
   add_to_move_generation_stack:     1670510
-                     play_move:     5728236
+                     play_move:     5728228
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1226614
+ is_black_king_square_attacked:     1226612
 
 solution finished.
 

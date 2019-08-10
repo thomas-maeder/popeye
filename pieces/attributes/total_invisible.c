@@ -4900,6 +4900,45 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
+static void intercept_illegal_checks2(void)
+{
+  vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
+  unsigned int nr_check_vectors = 0;
+  vec_index_type kcurr;
+  Side const side_in_check = trait[nbply-1];
+  Side const side_checking = advers(side_in_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (kcurr = vec_rook_start; kcurr<=vec_rook_end; ++kcurr)
+  {
+    int const dir = vec[kcurr];
+    square const sq_end = find_end_of_line(king_pos,dir);
+    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+    if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+        && (walk_at_end==Queen || walk_at_end==Rook))
+      check_vectors[nr_check_vectors++] = kcurr;
+  }
+
+  for (kcurr = vec_bishop_start; kcurr<=vec_bishop_end; ++kcurr)
+  {
+    int const dir = vec[kcurr];
+    square const sq_end = find_end_of_line(king_pos,dir);
+    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+    if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+        && (walk_at_end==Queen || walk_at_end==Bishop))
+      check_vectors[nr_check_vectors++] = kcurr;
+  }
+
+  if (nr_placeable_invisibles_for_both_sides()>=nr_check_vectors)
+    intercept_illegal_checks();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void start_iteration(void)
 {
   TraceFunctionEntry(__func__);
@@ -4908,7 +4947,7 @@ static void start_iteration(void)
   ++current_iteration;
   TraceValue("%u",current_iteration);TraceEOL();
 
-  intercept_illegal_checks();
+  intercept_illegal_checks2();
 
   assert(current_iteration>0);
   --current_iteration;
