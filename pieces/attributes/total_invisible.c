@@ -275,7 +275,6 @@ static iteration_index_type current_iteration;
 
 typedef struct
 {
-    iteration_index_type insertion_iteration;
     action_type first;
     action_type last;
 } motivation_type;
@@ -2084,7 +2083,6 @@ static void place_mating_piece_attacker(Side side_attacking,
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,++next_invisible_piece_id);
       assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
       motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
       motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
       motivation[next_invisible_piece_id].first.on = s;
@@ -3719,7 +3717,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       assert(motivation[id].last.acts_when==nbply);
       assert(motivation[id].last.purpose==purpose_capturer);
       /* fill in the rest: */
-      motivation[id].insertion_iteration = current_iteration;
       motivation[id].first.on = sq_departure;
       motivation[id].last.on = sq_departure;
 
@@ -3832,7 +3829,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       update_nr_taboos_for_current_move_in_ply(+1);
 
       motivation[id_random].first = motivation[id_existing].first;
-      motivation[id_random].insertion_iteration = motivation[id_existing].insertion_iteration;
       motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
       motivation[id_random].last.acts_when = nbply;
       motivation[id_random].last.purpose = purpose_capturer;
@@ -4692,7 +4688,6 @@ static void place_interceptor_on_line(vec_index_type kcurr,
   TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
   TraceEOL();
   assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-  motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
   motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
   motivation[next_invisible_piece_id].first.acts_when = nbply;
   motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
@@ -5962,7 +5957,6 @@ static void play_castling_with_invisible_partner(slice_index si,
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                               square_partner,Rook,spec,side);
       assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
       motivation[next_invisible_piece_id].first.purpose = purpose_castling_partner;
       motivation[next_invisible_piece_id].first.acts_when = nbply;
       motivation[next_invisible_piece_id].first.on = square_partner;
@@ -6030,7 +6024,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
       Flags spec = BIT(side)|BIT(Chameleon);
       SetPieceId(spec,++next_invisible_piece_id);
       assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
       motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
       motivation[next_invisible_piece_id].first.acts_when = nbply;
       motivation[next_invisible_piece_id].first.on = sq_departure;
@@ -6097,7 +6090,6 @@ void total_invisible_special_moves_player_solve(slice_index si)
             ++next_invisible_piece_id;
             SetPieceId(spec,next_invisible_piece_id);
             assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-            motivation[next_invisible_piece_id].insertion_iteration = current_iteration;
             motivation[next_invisible_piece_id].first.purpose = purpose_victim;
             motivation[next_invisible_piece_id].first.acts_when = nbply;
             motivation[next_invisible_piece_id].first.on = sq_capture;
