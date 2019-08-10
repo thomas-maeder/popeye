@@ -4647,8 +4647,7 @@ static void walk_interceptor(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(square pos,
-                               piece_walk_type const walk_at_end)
+static void colour_interceptor(square pos, piece_walk_type walk_at_end)
 {
   Side const preferred_side = trait[nbply-1];
 
