@@ -3691,41 +3691,42 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     {
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
       Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
-      PieceIdType const id = GetPieceId(flags);
-      motivation_type const save_motivation = motivation[id];
 
       TraceConsumption();TraceEOL();
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
-
-      /* adding the total invisible in the pre-capture effect sounds tempting, but
-       * we have to make sure that there was no illegal check from it before this
-       * move!
-       * NB: this works with illegal checks both from the inserted piece and to
-       * the inserted king (afert we restart_from_scratch()).
-       */
-      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-      move_effect_journal[precapture].type = move_effect_none;
-
-      /* these were set in regular play already: */
-      assert(motivation[id].first.acts_when==nbply);
-      assert(motivation[id].first.purpose==purpose_capturer);
-      assert(motivation[id].last.acts_when==nbply);
-      assert(motivation[id].last.purpose==purpose_capturer);
-      /* fill in the rest: */
-      motivation[id].first.on = sq_departure;
-      motivation[id].last.on = sq_departure;
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags);
 
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
       {
+        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        PieceIdType const id = GetPieceId(flags);
+        motivation_type const save_motivation = motivation[id];
+
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+
+        /* adding the total invisible in the pre-capture effect sounds tempting, but
+         * we have to make sure that there was no illegal check from it before this
+         * move!
+         * NB: this works with illegal checks both from the inserted piece and to
+         * the inserted king (afert we restart_from_scratch()).
+         */
+        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+        move_effect_journal[precapture].type = move_effect_none;
+
+        /* these were set in regular play already: */
+        assert(motivation[id].first.acts_when==nbply);
+        assert(motivation[id].first.purpose==purpose_capturer);
+        assert(motivation[id].last.acts_when==nbply);
+        assert(motivation[id].last.purpose==purpose_capturer);
+        /* fill in the rest: */
+        motivation[id].first.on = sq_departure;
+        motivation[id].last.on = sq_departure;
 
         move_effect_journal[movement].u.piece_movement.from = sq_departure;
         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
@@ -3735,14 +3736,14 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         update_nr_taboos_for_current_move_in_ply(+1);
         restart_from_scratch();
         update_nr_taboos_for_current_move_in_ply(-1);
+
+        motivation[id] = save_motivation;
+
+        move_effect_journal[precapture].type = move_effect_piece_readdition;
       }
 
       empty_square(sq_departure);
       --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      motivation[id] = save_motivation;
-
-      move_effect_journal[precapture].type = move_effect_piece_readdition;
 
       TraceConsumption();TraceEOL();
     }
