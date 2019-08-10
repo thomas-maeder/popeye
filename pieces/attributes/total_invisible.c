@@ -4519,13 +4519,19 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor_any_walk(Side side,
+static void place_interceptor_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                      unsigned int nr_check_vectors);
+
+static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                      unsigned int nr_check_vectors,
+                                      Side side,
                                       square pos,
                                       piece_walk_type walk)
 {
   Flags spec = BIT(side)|BIT(Chameleon);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceWalk(walk);
@@ -4547,7 +4553,16 @@ static void walk_interceptor_any_walk(Side side,
       vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
                                                                   king_pos);
       if (k==0)
-        restart_from_scratch();
+      {
+        if (nr_check_vectors==1)
+          restart_from_scratch();
+        else
+          place_interceptor_on_line(check_vectors,nr_check_vectors-1);
+      }
+      else
+      {
+        REPORT_DEADEND;
+      }
     }
   }
   else
@@ -4557,7 +4572,16 @@ static void walk_interceptor_any_walk(Side side,
     vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
                                                                 king_pos);
     if (k==0 || king_pos+vec[k]!=pos)
-      restart_from_scratch();
+    {
+      if (nr_check_vectors==1)
+        restart_from_scratch();
+      else
+        place_interceptor_on_line(check_vectors,nr_check_vectors-1);
+    }
+    else
+    {
+      REPORT_DEADEND;
+    }
   }
   TraceWalk(get_walk_of_piece_on_square(pos));
   TraceWalk(walk);
@@ -4572,28 +4596,36 @@ static void walk_interceptor_any_walk(Side side,
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor_pawn(Side side, square pos)
+static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                  unsigned int nr_check_vectors,
+                                  Side side,
+                                  square pos)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   if (!(TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
-    walk_interceptor_any_walk(side,pos,Pawn);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor_king(Side side, square pos)
+static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                  unsigned int nr_check_vectors,
+                                  Side side,
+                                  square pos)
 {
   consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
@@ -4601,7 +4633,7 @@ static void walk_interceptor_king(Side side, square pos)
   being_solved.king_square[side] = pos;
 
   if (allocate_placement_of_claimed_fleshed_out(side))
-    walk_interceptor_any_walk(side,pos,King);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King);
 
   current_consumption = save_consumption;
   TraceConsumption();TraceEOL();
@@ -4612,9 +4644,13 @@ static void walk_interceptor_king(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(Side side, square pos)
+static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                             unsigned int nr_check_vectors,
+                             Side side,
+                             square pos)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
@@ -4624,7 +4660,7 @@ static void walk_interceptor(Side side, square pos)
   assert(is_square_empty(pos));
 
   if (being_solved.king_square[side]==initsquare)
-    walk_interceptor_king(side,pos);
+    walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
 
   {
     piece_walk_type walk;
@@ -4633,10 +4669,10 @@ static void walk_interceptor(Side side, square pos)
     if (allocate_placement_of_claimed_fleshed_out(side))
     {
       if (!end_of_iteration)
-        walk_interceptor_pawn(side,pos);
+        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos);
 
       for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
-        walk_interceptor_any_walk(side,pos,walk);
+        walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk);
     }
 
     current_consumption = save_consumption;
@@ -4647,21 +4683,24 @@ static void walk_interceptor(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(square pos)
+static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                               unsigned int nr_check_vectors,
+                               square pos)
 {
   Side const preferred_side = trait[nbply-1];
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   if (!is_taboo(pos,preferred_side))
-    walk_interceptor(preferred_side,pos);
+    walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
 
   if (!end_of_iteration)
   {
     if (!is_taboo(pos,advers(preferred_side)))
-      walk_interceptor(advers(preferred_side),pos);
+      walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -4669,9 +4708,6 @@ static void colour_interceptor(square pos)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static void place_interceptor_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                      unsigned int nr_check_vectors);
 
 static void place_interceptor_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                                 unsigned int nr_check_vectors,
@@ -4746,7 +4782,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     empty_square(s);
   }
   else
-    colour_interceptor(s);
+    colour_interceptor(check_vectors,nr_check_vectors,s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
