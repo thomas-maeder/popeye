@@ -3665,7 +3665,7 @@ static square const *find_next_forward_mover(square const *start_square)
   return result;
 }
 
-static void abc(square const *start_square)
+static void forward_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
@@ -3686,7 +3686,7 @@ static void abc(square const *start_square)
     flesh_out_random_move_by_specific_invisible_from(*s);
 
     if (!end_of_iteration)
-      abc(s+1);
+      forward_random_move_by_invisible(s+1);
 
     motivation[id].last = save_last;
   }
@@ -3729,7 +3729,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
   fleshed_out_random_move_last_time[nbply] = current_iteration;
 
   if (first_taboo_violation==nullsquare)
-    abc(boardnum);
+    forward_random_move_by_invisible(boardnum);
   else
     flesh_out_random_move_by_specific_piece(first_taboo_violation,
                                             save_last_time);
