@@ -4900,7 +4900,7 @@ static void intercept_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void intercept_illegal_checks2(void)
+static void deal_with_illegal_checks(void)
 {
   vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
   unsigned int nr_check_vectors = 0;
@@ -4908,11 +4908,14 @@ static void intercept_illegal_checks2(void)
   Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
+  unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (kcurr = vec_rook_start; kcurr<=vec_rook_end; ++kcurr)
+  for (kcurr = vec_rook_start;
+       kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
+       ++kcurr)
   {
     int const dir = vec[kcurr];
     square const sq_end = find_end_of_line(king_pos,dir);
@@ -4922,7 +4925,9 @@ static void intercept_illegal_checks2(void)
       check_vectors[nr_check_vectors++] = kcurr;
   }
 
-  for (kcurr = vec_bishop_start; kcurr<=vec_bishop_end; ++kcurr)
+  for (kcurr = vec_bishop_start;
+       kcurr<=vec_bishop_end && nr_available>=nr_check_vectors;
+       ++kcurr)
   {
     int const dir = vec[kcurr];
     square const sq_end = find_end_of_line(king_pos,dir);
@@ -4932,8 +4937,13 @@ static void intercept_illegal_checks2(void)
       check_vectors[nr_check_vectors++] = kcurr;
   }
 
-  if (nr_placeable_invisibles_for_both_sides()>=nr_check_vectors)
+  if (nr_available>=nr_check_vectors)
     intercept_illegal_checks();
+  else
+  {
+    TraceText("not enough available invisibles for intercepting all illegal checks\n");
+    REPORT_DEADEND;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4947,7 +4957,7 @@ static void start_iteration(void)
   ++current_iteration;
   TraceValue("%u",current_iteration);TraceEOL();
 
-  intercept_illegal_checks2();
+  deal_with_illegal_checks();
 
   assert(current_iteration>0);
   --current_iteration;
