@@ -129,10 +129,10 @@ Sake tourney 2018, announcement (solution that relies on retro not shown)
   h#2                  3 + 4 + 1 TI
 
   1.Kg3-h4 Ke1-f1   2.Kh4-g3 Rh1-h3 #
-  add_to_move_generation_stack:      233035
-                     play_move:      520192
- is_white_king_square_attacked:       16998
- is_black_king_square_attacked:      112368
+  add_to_move_generation_stack:      232876
+                     play_move:      519636
+ is_white_king_square_attacked:       16976
+ is_black_king_square_attacked:      112214
 
 solution finished.
 
@@ -387,10 +387,10 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
   1.Rg8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
   1.Bh8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
   1.Bh8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
-  add_to_move_generation_stack:     3557442
-                     play_move:     5496428
+  add_to_move_generation_stack:     3553725
+                     play_move:     5485621
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      946007
+ is_black_king_square_attacked:      941937
 
 solution finished.
 
@@ -509,10 +509,10 @@ Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[e3=bK][c4=wS] #
   1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[f1=wS][e3=bK] #
   1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[f1=wS][e3=bK] #
-  add_to_move_generation_stack:     4470733
-                     play_move:     8871159
+  add_to_move_generation_stack:     4470719
+                     play_move:     8871057
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2095628
+ is_black_king_square_attacked:     2095601
 
 solution finished.
 
@@ -544,10 +544,10 @@ Sake tourney 2018, 3rd HM, corrected
 
   1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] TI~-~[f5=wS][e7=bK] #
   1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] TI~-~[e5=wS][g6=bK] #
-  add_to_move_generation_stack:     3201403
-                     play_move:     6614690
+  add_to_move_generation_stack:     3201397
+                     play_move:     6614510
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1110687
+ is_black_king_square_attacked:     1110639
 
 solution finished.
 

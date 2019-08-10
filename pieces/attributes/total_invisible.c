@@ -3622,7 +3622,9 @@ static void flesh_out_random_move_by_specific_piece(square pos,
     assert(motivation[id].first.purpose!=purpose_none);
     assert(motivation[id].last.purpose!=purpose_none);
 
-    if (motivation[id].last.acts_when<=nbply)
+    if (motivation[id].last.acts_when<nbply
+        || (motivation[id].last.purpose==purpose_interceptor
+            && motivation[id].last.acts_when<=nbply))
     {
       ply const save_when = motivation[id].last.acts_when;
 
