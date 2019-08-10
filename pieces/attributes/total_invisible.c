@@ -3622,9 +3622,14 @@ static void flesh_out_random_move_by_specific_piece(square pos,
     assert(motivation[id].first.purpose!=purpose_none);
     assert(motivation[id].last.purpose!=purpose_none);
 
-    if (motivation[id].last.acts_when<=nbply
-        && motivation[id].insertion_iteration>=if_inserted_since)
+    if (motivation[id].last.acts_when<=nbply)
+    {
+      ply const save_when = motivation[id].last.acts_when;
+
+      motivation[id].last.acts_when = nbply;
       flesh_out_random_move_by_specific_invisible_from(pos);
+      motivation[id].last.acts_when = save_when;
+    }
   }
 
   TraceFunctionExit(__func__);
