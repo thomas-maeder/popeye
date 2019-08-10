@@ -4647,13 +4647,12 @@ static void walk_interceptor(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(square pos, piece_walk_type walk_at_end)
+static void colour_interceptor(square pos)
 {
   Side const preferred_side = trait[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceSquare(pos);
-  TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
   if (!is_taboo(pos,preferred_side))
@@ -4675,14 +4674,12 @@ typedef void intercept_checks_fct(vec_index_type kcurr);
 
 static void place_interceptor_of_side_on_square(vec_index_type kcurr,
                                                 square s,
-                                                piece_walk_type const walk_at_end,
                                                 intercept_checks_fct *recurse,
                                                 Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
   TraceSquare(s);
-  TraceWalk(walk_at_end);
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
@@ -4707,13 +4704,11 @@ static void place_interceptor_of_side_on_square(vec_index_type kcurr,
 
 static void place_interceptor_on_square(vec_index_type kcurr,
                                         square s,
-                                        piece_walk_type const walk_at_end,
                                         intercept_checks_fct *recurse)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
   TraceSquare(s);
-  TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
   motivation[next_invisible_piece_id].first.on = s;
@@ -4728,26 +4723,25 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     REPORT_DECISION_PLACEMENT(s);
     ++current_iteration;
 
-    place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,White);
+    place_interceptor_of_side_on_square(kcurr,s,recurse,White);
 
     --current_iteration;
 
     if (!end_of_iteration)
-      place_interceptor_of_side_on_square(kcurr,s,walk_at_end,recurse,Black);
+      place_interceptor_of_side_on_square(kcurr,s,recurse,Black);
 
     TraceConsumption();TraceEOL();
 
     empty_square(s);
   }
   else
-    colour_interceptor(s,walk_at_end);
+    colour_interceptor(s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void place_interceptor_on_line(vec_index_type kcurr,
-                                      piece_walk_type const walk_at_end,
                                       intercept_checks_fct *recurse)
 {
   Side const side_in_check = trait[nbply-1];
@@ -4755,7 +4749,6 @@ static void place_interceptor_on_line(vec_index_type kcurr,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kcurr);
-  TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
 
   ++next_invisible_piece_id;
@@ -4788,7 +4781,7 @@ static void place_interceptor_on_line(vec_index_type kcurr,
         TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
         TraceEOL();
         if (!was_taboo(s))
-          place_interceptor_on_square(kcurr,s,walk_at_end,recurse);
+          place_interceptor_on_square(kcurr,s,recurse);
       }
       ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];
       ++nr_taboos_for_current_move_in_ply[nbply-1][Black][s];
@@ -4844,7 +4837,7 @@ static void intercept_line_if_check(vec_index_type kcurr,
     TraceConsumption();;TraceEOL();
     if (sq_end!=king_pos+dir
         && nr_placeable_invisibles_for_both_sides()>0)
-      place_interceptor_on_line(kcurr,walk_at_end,recurse);
+      place_interceptor_on_line(kcurr,recurse);
   }
   else
     (*recurse)(kcurr+1);
