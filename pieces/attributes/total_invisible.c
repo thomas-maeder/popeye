@@ -4424,11 +4424,19 @@ static void done_intercepting_illegal_checks(void)
 
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
+    {
+      assert(first_taboo_violation==nullsquare);
       flesh_out_random_move_by_invisible();
+    }
     else if (nbply<=flesh_out_move_highwater)
     {
       if (first_taboo_violation==nullsquare)
         adapt_pre_capture_effect();
+      else
+      {
+        TraceText("can't resolve taboo violation\n");
+        REPORT_DEADEND;
+      }
     }
     else if (sq_departure>=capture_by_invisible
              && is_on_board(sq_arrival))
