@@ -273,11 +273,6 @@ static iteration_index_type current_iteration;
  * 1..n: flesh out invisibles
  */
 
-/* avoid duplication when fleshing out random moves by invisibles: */
-/* after they have fulfilled their purpose: */
-/* in which iteration have we fleshed out the random move by inivisible of a certain ply? */
-static iteration_index_type fleshed_out_random_move_last_time[maxply+1];
-
 typedef struct
 {
     iteration_index_type insertion_iteration;
@@ -3597,47 +3592,6 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_random_move_by_specific_piece(square pos,
-                                                    iteration_index_type if_inserted_since)
-{
-  Side const side_playing = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(pos);
-  TraceFunctionParam("%u",if_inserted_since);
-  TraceFunctionParamListEnd();
-
-  if (TSTFLAG(being_solved.spec[pos],Chameleon)
-      && TSTFLAG(being_solved.spec[pos],side_playing))
-  {
-    PieceIdType const id = GetPieceId(being_solved.spec[pos]);
-
-    TraceValue("%u",id);
-    TraceValue("%u",motivation[id].first.purpose);
-    TraceValue("%u",motivation[id].first.acts_when);
-    TraceValue("%u",motivation[id].last.purpose);
-    TraceValue("%u",motivation[id].last.acts_when);
-    TraceValue("%u",motivation[id].insertion_iteration);
-    TraceEOL();
-    assert(motivation[id].first.purpose!=purpose_none);
-    assert(motivation[id].last.purpose!=purpose_none);
-
-    if (motivation[id].last.acts_when<nbply
-        || (motivation[id].last.purpose==purpose_interceptor
-            && motivation[id].last.acts_when<=nbply))
-    {
-      ply const save_when = motivation[id].last.acts_when;
-
-      motivation[id].last.acts_when = nbply;
-      flesh_out_random_move_by_specific_invisible_from(pos);
-      motivation[id].last.acts_when = save_when;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static square const *find_next_forward_mover(square const *start_square)
 {
   Side const side_playing = trait[nbply];
@@ -3718,23 +3672,12 @@ static void forward_random_move_by_invisible(square const *start_square)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_random_move_by_invisible(square first_taboo_violation)
+static void flesh_out_random_move_by_invisible(void)
 {
-  iteration_index_type const save_last_time = fleshed_out_random_move_last_time[nbply];
-
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  fleshed_out_random_move_last_time[nbply] = current_iteration;
-
-  if (first_taboo_violation==nullsquare)
-    forward_random_move_by_invisible(boardnum);
-  else
-    flesh_out_random_move_by_specific_piece(first_taboo_violation,
-                                            save_last_time);
-
-  fleshed_out_random_move_last_time[nbply] = save_last_time;
+  forward_random_move_by_invisible(boardnum);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4481,7 +4424,7 @@ static void done_intercepting_illegal_checks(void)
 
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
-      flesh_out_random_move_by_invisible(first_taboo_violation);
+      flesh_out_random_move_by_invisible();
     else if (nbply<=flesh_out_move_highwater)
     {
       if (first_taboo_violation==nullsquare)
