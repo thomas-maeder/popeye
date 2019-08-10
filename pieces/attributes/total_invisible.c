@@ -3648,7 +3648,6 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
     for (s = boardnum; *s && !end_of_iteration; ++s)
       flesh_out_random_move_by_specific_piece(*s,save_last_time);
 
-    TraceText("random move by unplaced invisible\n");
     // TODO Strictly speaking, there is no guarantee that such a move exists
     // but we probably save a lot of time by not fleshing it out. As long as we
     // restrict ourselves to h#n, the risk is printing some wrong cooks.
@@ -3656,8 +3655,12 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
     // * find out how hight the cost would be
     // * fleshing it out
     // * option for activating fleshing out
+
+    if (!end_of_iteration)
     {
       consumption_type const save_consumption = current_consumption;
+
+      TraceText("random move by unplaced invisible\n");
 
       current_consumption.claimed[trait[nbply]] = true;
       TraceConsumption();TraceEOL();
@@ -3671,7 +3674,7 @@ static void flesh_out_random_move_by_invisible(square first_taboo_violation)
   }
   else
     flesh_out_random_move_by_specific_piece(first_taboo_violation,
-                                                           save_last_time);
+                                            save_last_time);
 
   fleshed_out_random_move_last_time[nbply] = save_last_time;
 
