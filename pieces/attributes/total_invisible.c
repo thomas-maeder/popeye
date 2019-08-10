@@ -4647,14 +4647,12 @@ static void walk_interceptor(Side side, square pos)
   TraceFunctionResultEnd();
 }
 
-static void colour_interceptor(vec_index_type kcurr,
-                               square pos,
+static void colour_interceptor(square pos,
                                piece_walk_type const walk_at_end)
 {
   Side const preferred_side = trait[nbply-1];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",kcurr);
   TraceSquare(pos);
   TraceWalk(walk_at_end);
   TraceFunctionParamListEnd();
@@ -4743,7 +4741,7 @@ static void place_interceptor_on_square(vec_index_type kcurr,
     empty_square(s);
   }
   else
-    colour_interceptor(kcurr,s,walk_at_end);
+    colour_interceptor(s,walk_at_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
