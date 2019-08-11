@@ -4652,13 +4652,32 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
     if (allocate_placement_of_claimed_fleshed_out(side))
     {
       Flags const spec = BIT(side)|BIT(Chameleon);
-      piece_walk_type walk;
 
       if (!end_of_iteration)
         walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos,spec);
 
-      for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
-        walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
+      if (side==trait[nbply])
+      {
+        if (!end_of_iteration)
+          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight,spec);
+
+        if (!end_of_iteration)
+        {
+          vec_index_type const k = check_vectors[nr_check_vectors-1];
+          boolean const is_check_orthogonal = k<=vec_rook_end;
+
+          if (is_check_orthogonal)
+            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop,spec);
+          else
+            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Rook,spec);
+        }
+      }
+      else
+      {
+        piece_walk_type walk;
+        for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
+      }
     }
 
     current_consumption = save_consumption;
