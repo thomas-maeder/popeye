@@ -303,7 +303,7 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_MOVE(direction,action) \
-  printf("!%*c%d ",decision_level,' ',decision_level); \
+  printf("!%*s%d ",decision_level,"",decision_level); \
   printf("%c%u ",direction,nbply); \
   WriteWalk(&output_plaintext_engine, \
             stdout, \
@@ -318,14 +318,14 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_SQUARE(pos) \
-    printf("!%*c%d ",decision_level,' ',decision_level); \
+    printf("!%*s%d ",decision_level,"",decision_level); \
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_COLOUR(colourspec) \
-    printf("!%*c%d ",decision_level,' ',decision_level); \
+    printf("!%*s%d ",decision_level,"",decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               colourspec, \
@@ -334,14 +334,14 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_WALK(walk) \
-    printf("!%*c%d ",decision_level,' ',decision_level); \
+    printf("!%*s%d ",decision_level,"",decision_level); \
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_PLACEMENT(pos) \
-    printf("!%*c%d ",decision_level,' ',decision_level); \
+    printf("!%*s%d ",decision_level,"",decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               being_solved.spec[pos], \
@@ -356,7 +356,7 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_OUTCOME(outcome) \
-    printf("!%*c%d ",decision_level,' ',decision_level); \
+    printf("!%*s%d ",decision_level,"",decision_level); \
     printf("%s",outcome); \
     printf(" - %lu\n",report_decision_counter++);
 
@@ -2359,12 +2359,12 @@ static void done_validating_king_placements(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
-  REPORT_DECISION_OUTCOME("The king to be mated is placed");
   REPORT_EXIT;
 
   switch (play_phase)
   {
     case play_detecting_revelations:
+      REPORT_DECISION_OUTCOME("Updating revelation candidates");
       if (revelation_status_is_uninitialised)
         initialise_revelations();
       else
@@ -2374,6 +2374,7 @@ static void done_validating_king_placements(void)
       break;
 
     case play_validating_mate:
+      REPORT_DECISION_OUTCOME("Replaying moves for validation");
       play_phase = play_initialising_replay;
       replay_fleshed_out_move_sequence(play_replay_validating);
       play_phase = play_validating_mate;
@@ -2388,6 +2389,7 @@ static void done_validating_king_placements(void)
     case play_testing_mate:
       if (combined_validation_result==mate_attackable)
       {
+        REPORT_DECISION_OUTCOME("Attacking mating piece");
         play_phase = play_attacking_mating_piece;
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
@@ -2398,6 +2400,7 @@ static void done_validating_king_placements(void)
       }
       else
       {
+        REPORT_DECISION_OUTCOME("Replaying moves for testing");
         play_phase = play_initialising_replay;
         replay_fleshed_out_move_sequence(play_replay_testing);
         play_phase = play_testing_mate;
@@ -2414,6 +2417,7 @@ static void done_validating_king_placements(void)
       break;
 
     case play_attacking_mating_piece:
+      REPORT_DECISION_OUTCOME("Placed mating piece attacker");
       done_placing_mating_piece_attacker();
       break;
 
@@ -2494,7 +2498,9 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
         REPORT_DECISION_PLACEMENT(*s);
+        ++decision_level;
         restart_from_scratch();
+        --decision_level;
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
@@ -3325,10 +3331,13 @@ static void done_fleshing_out_random_move_by_invisible_from(void)
   TraceFunctionParamListEnd();
 
   REPORT_DECISION_MOVE('>','-');
+  ++decision_level;
 
   update_nr_taboos_for_current_move_in_ply(+1);
   restart_from_scratch();
   update_nr_taboos_for_current_move_in_ply(-1);
+
+  --decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3787,7 +3796,9 @@ static void forward_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       REPORT_DECISION_MOVE('>','-');
+      ++decision_level;
       recurse_into_child_ply();
+      --decision_level;
     }
 
     current_consumption = save_consumption;
@@ -3872,7 +3883,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
         update_nr_taboos_for_current_move_in_ply(+1);
         REPORT_DECISION_MOVE('>','*');
+        ++decision_level;
         restart_from_scratch();
+        --decision_level;
         update_nr_taboos_for_current_move_in_ply(-1);
 
         motivation[id] = save_motivation;
