@@ -306,7 +306,7 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_MOVE(direction,action) \
-  printf("!%*u ",current_iteration,current_iteration); \
+  printf("!%*c%d ",current_iteration,' ',current_iteration); \
   printf("%c%u ",direction,nbply); \
   WriteWalk(&output_plaintext_engine, \
             stdout, \
@@ -320,24 +320,56 @@ static unsigned long report_decision_counter;
               move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
   printf(" - %lu\n",report_decision_counter++);
 
-#define REPORT_DECISION_PLACEMENT(s) \
-    printf("!%*u ",current_iteration,current_iteration); \
+#define REPORT_DECISION_SQUARE(pos) \
+    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    WriteSquare(&output_plaintext_engine, \
+                stdout, \
+                pos); \
+    printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_COLOUR(colourspec) \
+    printf("!%*c%d ",current_iteration,' ',current_iteration); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
-              being_solved.spec[s], \
-              being_solved.board[s], \
+              colourspec, \
+              initsquare, \
+              true); \
+    printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_WALK(walk) \
+    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    WriteWalk(&output_plaintext_engine, \
+              stdout, \
+              walk); \
+    printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_PLACEMENT(pos) \
+    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    WriteSpec(&output_plaintext_engine, \
+              stdout, \
+              being_solved.spec[pos], \
+              being_solved.board[pos], \
               true); \
     WriteWalk(&output_plaintext_engine, \
               stdout, \
-              being_solved.board[s]); \
+              being_solved.board[pos]); \
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
-                s); \
+                pos); \
+    printf(" - %lu\n",report_decision_counter++);
+
+#define REPORT_DECISION_OUTCOME(outcome) \
+    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("%s",outcome); \
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_CONTEXT(context)
 #define REPORT_DECISION_MOVE(direction,action)
-#define REPORT_DECISION_PLACEMENT(s)
+#define REPORT_DECISION_SQUARE(pos)
+#define REPORT_DECISION_COLOUR(colourspec)
+#define REPORT_DECISION_WALK(walk)
+#define REPORT_DECISION_PLACEMENT(pos)
+#define REPORT_DECISION_OUTCOME(outcome)
 
 static void write_history_recursive(ply ply)
 {
@@ -2096,7 +2128,18 @@ static void restart_from_scratch(void)
     undo_move_effects();
 
     if (is_random_move_by_invisible(nbply))
+    {
+      unsigned int const save_counter = report_decision_counter;
+
       retract_random_move_by_invisible(boardnum);
+
+      if (report_decision_counter==save_counter)
+      {
+        // TODO retract pawn captures?
+        REPORT_DECISION_OUTCOME("no retractable random move found - TODO we don't retract pawn captures");
+        REPORT_DEADEND;
+      }
+    }
     else
     {
       ++current_iteration;
@@ -2327,6 +2370,7 @@ static void done_validating_king_placements(void)
 
   TracePosition(being_solved.board,being_solved.spec);
 
+  REPORT_DECISION_OUTCOME("The king to be mated is placed");
   REPORT_EXIT;
 
   switch (play_phase)
@@ -2474,7 +2518,7 @@ static void nominate_king_invisible_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static void failed_king_placement_validation(void)
+static void indistinct_king_placement_validation(void)
 {
   Side const side_to_be_mated = Black;
 
@@ -2483,6 +2527,7 @@ static void failed_king_placement_validation(void)
 
   being_solved.king_square[side_to_be_mated] = initsquare;
   TraceText("The king to be mated can be anywhere\n");
+  REPORT_DECISION_OUTCOME("The king to be mated can be anywhere");
   REPORT_DEADEND;
 
   switch (play_phase)
@@ -2514,6 +2559,22 @@ static void failed_king_placement_validation(void)
   TraceFunctionResultEnd();
 }
 
+static void impossible_king_placement_validation(void)
+{
+  Side const side_to_be_mated = Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  being_solved.king_square[side_to_be_mated] = initsquare;
+  TraceText("The king to be mated can't be placed\n");
+  REPORT_DECISION_OUTCOME("The king to be mated can't be placed");
+  REPORT_DEADEND;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void validate_king_placements(void)
 {
   Side const side_to_be_mated = Black;
@@ -2531,6 +2592,8 @@ static void validate_king_placements(void)
   TraceEOL();
   TracePosition(being_solved.board,being_solved.spec);
 
+  assert(being_solved.king_square[side_to_be_mated]!=nullsquare);
+
   if (being_solved.king_square[side_to_be_mated]==initsquare)
   {
     being_solved.king_square[side_to_be_mated] = nullsquare;
@@ -2546,15 +2609,16 @@ static void validate_king_placements(void)
         current_consumption = save_consumption;
       }
       else
-        failed_king_placement_validation();
+        impossible_king_placement_validation();
     }
     else
-      failed_king_placement_validation();
+      indistinct_king_placement_validation();
   }
   else if (being_solved.king_square[side_mating]==initsquare
            && nr_total_invisbles_consumed()==total_invisible_number)
   {
     combined_result = previous_move_is_illegal;
+    REPORT_DECISION_OUTCOME("The king of the mating side can't be placed");
     REPORT_DEADEND;
   }
   else
@@ -2605,6 +2669,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("revelation expected, but square is empty - aborting\n");
+          REPORT_DECISION_OUTCOME("revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
         }
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
@@ -2615,6 +2680,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           {
             // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
+            REPORT_DECISION_OUTCOME("revelation of king - but king has already been placed - aborting");
             REPORT_DEADEND;
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
@@ -2626,6 +2692,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           else
           {
             TraceText("revealed piece belongs to different side than actual piece\n");
+            REPORT_DECISION_OUTCOME("revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
           }
         }
@@ -2649,6 +2716,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
+          REPORT_DECISION_OUTCOME("revelation expected - but walk of present piece is different - aborting");
           REPORT_DEADEND;
         }
         break;
@@ -2669,6 +2737,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("the revealed piece isn't here (any more?)\n");
+          REPORT_DECISION_OUTCOME("the revealed piece isn't here (any more?)");
           REPORT_DEADEND;
         }
         else if (get_walk_of_piece_on_square(on)==walk_revealed
@@ -2681,6 +2750,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
+          REPORT_DECISION_OUTCOME("the revelation has been violated - terminating redoing effects with this ply");
           REPORT_DEADEND;
         }
         break;
@@ -2797,6 +2867,7 @@ static void adapt_capture_effect(void)
       else
       {
         TraceText("move is now blocked\n");
+        REPORT_DECISION_OUTCOME("move is now blocked");
         REPORT_DEADEND;
       }
     }
@@ -2807,6 +2878,7 @@ static void adapt_capture_effect(void)
     if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
     {
       TraceText("bad idea if the capturer is a pawn!\n");
+      REPORT_DECISION_OUTCOME("bad idea if the capturer is a pawn!");
       REPORT_DEADEND;
     }
     else
@@ -3133,6 +3205,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   else
   {
     TraceText("the piece has already moved\n");
+    REPORT_DECISION_OUTCOME("the piece has already moved");
     REPORT_DEADEND;
   }
 
@@ -3187,7 +3260,8 @@ static void adapt_pre_capture_effect(void)
         }
         else
         {
-          TraceText("we should a victim, but we can't because of how we have fleshed out earlier moves\n");
+          TraceText("we should add a victim, but we can't because of how we have fleshed out earlier moves\n");
+          REPORT_DECISION_OUTCOME("we should add a victim, but we can't because of how we have fleshed out earlier moves");
           REPORT_DEADEND;
         }
       }
@@ -3225,7 +3299,8 @@ static void adapt_pre_capture_effect(void)
       }
       else if (was_taboo(sq_addition))
       {
-        TraceText("Hmm - some invisible piece must have travelled through the castling partner's square\n");
+        TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
+        REPORT_DECISION_OUTCOME("Hmm - some invisible piece must have traveled through the castling partner's square");
         REPORT_DEADEND;
       }
       else
@@ -3301,6 +3376,7 @@ static void flesh_out_accidental_capture_by_invisible(void)
     if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");
+      REPORT_DECISION_OUTCOME("the planned victim was added to later act from its current square");
       REPORT_DEADEND;
     }
     else
@@ -3910,7 +3986,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
         REPORT_DECISION_MOVE('>','*');
+        ++current_iteration;
         recurse_into_child_ply();
+        --current_iteration;
       }
       else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
       {
@@ -3928,7 +4006,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         {
           move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
           REPORT_DECISION_MOVE('>','*');
+          ++current_iteration;
           restart_from_scratch();
+          --current_iteration;
         }
 
         replace_walk(sq_departure,Dummy);
@@ -3946,6 +4026,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     else
     {
       TraceText("the piece was added to later act from its current square\n");
+      REPORT_DECISION_OUTCOME("the piece was added to later act from its current square");
       REPORT_DEADEND;
     }
 
@@ -4172,6 +4253,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
 static void flesh_out_capture_by_invisible(square first_taboo_violation)
 {
+  unsigned int const save_counter = report_decision_counter;
+
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -4193,6 +4276,12 @@ static void flesh_out_capture_by_invisible(square first_taboo_violation)
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
+
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("no invisible piece found that could capture");
+    REPORT_DEADEND;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4388,8 +4477,9 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
     {
 //      if (move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure==move_by_invisible
 //          && move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].arrival==move_by_invisible)
+      REPORT_DECISION_OUTCOME("move is blocked by interceptor");
       REPORT_DEADEND;
-        result = true;
+      result = true;
     }
 
     if (motivation[id].last.acts_when<nbply
@@ -4405,6 +4495,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tighten the if()?
     {
+      REPORT_DECISION_OUTCOME("move is intercepted by interceptor");
       REPORT_DEADEND;
       result = true;
     }
@@ -4421,6 +4512,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
      * 4. the current pawn move is blocked on sq
      */
     {
+      REPORT_DECISION_OUTCOME("pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4439,6 +4531,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
     {
+      REPORT_DECISION_OUTCOME("pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4450,9 +4543,10 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
        * 1. an invisible piece of side s was placed on square sq
        * 2. s made a random move that could have left sq but didn't
        * 3. the current move is intercepted on sq
-       * 4. the relevation would only happen after the current move
+       * 4. the revelation would only happen after the current move
        */
     {
+      REPORT_DECISION_OUTCOME("move is intercepted by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4501,6 +4595,7 @@ static void done_intercepting_illegal_checks(void)
       else
       {
         TraceText("can't resolve taboo violation\n");
+        REPORT_DECISION_OUTCOME("can't resolve taboo violation");
         REPORT_DEADEND;
       }
     }
@@ -4534,14 +4629,15 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceWalk(walk);
-  TraceValue("%x",spec)
+  TraceValue("%x",spec);
   TraceFunctionParamListEnd();
 
   ++being_solved.number_of_pieces[side][walk];
 
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
-  REPORT_DECISION_PLACEMENT(pos);
+  REPORT_DECISION_WALK(walk);
+  ++current_iteration;
 
   {
     Side const side_attacked = advers(side);
@@ -4553,17 +4649,18 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
       if (nr_check_vectors==1)
         restart_from_scratch();
       else
-      {
-        ++current_iteration;
         place_interceptor_on_line(check_vectors,nr_check_vectors-1);
-        --current_iteration;
-      }
     }
     else
     {
+      // TODO accept uninterceptable check if not illegal
+      REPORT_DECISION_OUTCOME("interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
     }
   }
+
+  --current_iteration;
+
   TraceWalk(get_walk_of_piece_on_square(pos));
   TraceWalk(walk);
   TraceEOL();
@@ -4590,10 +4687,15 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
-  TraceValue("%x",spec)
+  TraceValue("%x",spec);
   TraceFunctionParamListEnd();
 
-  if (!(TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
+  if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
+  {
+    REPORT_DECISION_OUTCOME("pawn is placed on impossible square");
+    REPORT_DEADEND;
+  }
+  else
     walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn,spec);
 
   TraceFunctionExit(__func__);
@@ -4683,6 +4785,11 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
           walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
       }
     }
+    else
+    {
+      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
+      REPORT_DEADEND;
+    }
 
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
@@ -4704,12 +4811,22 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   TraceFunctionParamListEnd();
 
   if (!is_taboo(pos,preferred_side))
+  {
+    REPORT_DECISION_COLOUR(BIT(preferred_side));
+    ++current_iteration;
     walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
+    --current_iteration;
+  }
 
   if (!end_of_iteration)
   {
     if (!is_taboo(pos,advers(preferred_side)))
+    {
+      REPORT_DECISION_COLOUR(BIT(advers(preferred_side)));
+      ++current_iteration;
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
+      --current_iteration;
+    }
   }
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -4731,11 +4848,19 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
   assert(nr_check_vectors>0);
 
-  if (!is_taboo(s,side))
+  if (is_taboo(s,side))
+  {
+    REPORT_DECISION_OUTCOME("taboo violation");
+    REPORT_DEADEND;
+  }
+  else
   {
     consumption_type const save_consumption = current_consumption;
 
     TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
+
+    REPORT_DECISION_COLOUR(BIT(side));
+    ++current_iteration;
 
     CLRFLAG(being_solved.spec[s],advers(side));
 
@@ -4746,10 +4871,17 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
       else
         place_interceptor_on_line(check_vectors,nr_check_vectors-1);
     }
+    else
+    {
+      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
+      REPORT_DEADEND;
+    }
 
     current_consumption = save_consumption;
 
     SETFLAG(being_solved.spec[s],advers(side));
+
+    --current_iteration;
   }
 
   TraceFunctionExit(__func__);
@@ -4781,17 +4913,23 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
     place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
-    --current_iteration;
 
     if (!end_of_iteration)
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+
+    --current_iteration;
 
     TraceConsumption();TraceEOL();
 
     empty_square(s);
   }
   else
+  {
+    REPORT_DECISION_SQUARE(s);
+    ++current_iteration;
     colour_interceptor(check_vectors,nr_check_vectors,s);
+    --current_iteration;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4800,6 +4938,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 static void place_interceptor_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors)
 {
+  unsigned int const save_counter = report_decision_counter;
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
@@ -4861,6 +5000,12 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
   motivation[next_invisible_piece_id].last.purpose = purpose_none;
   --next_invisible_piece_id;
 
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("no available square found where to intercept check");
+    REPORT_DEADEND;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -4880,7 +5025,12 @@ static void deal_with_illegal_checks(void)
 
   if (king_pos==initsquare)
     done_intercepting_illegal_checks();
-  else if (!is_square_attacked_by_uninterceptable(side_in_check,king_pos))
+  else if (is_square_attacked_by_uninterceptable(side_in_check,king_pos))
+  {
+    REPORT_DECISION_OUTCOME("uninterceptable illegal check");
+    REPORT_DEADEND;
+  }
+  else
   {
     for (kcurr = vec_rook_start;
          kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
@@ -4929,6 +5079,7 @@ static void deal_with_illegal_checks(void)
     else
     {
       TraceText("not enough available invisibles for intercepting all illegal checks\n");
+      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
     }
   }
@@ -5225,6 +5376,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
     {
       combined_result = previous_move_has_not_solved;
       TraceText("allocation for application of knowledge not possible\n");
+      REPORT_DECISION_OUTCOME("allocation for application of knowledge not possible");
       REPORT_DEADEND;
     }
 
