@@ -4526,15 +4526,15 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
                                       unsigned int nr_check_vectors,
                                       Side side,
                                       square pos,
-                                      piece_walk_type walk)
+                                      piece_walk_type walk,
+                                      Flags spec)
 {
-  Flags spec = BIT(side)|BIT(Chameleon);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceWalk(walk);
+  TraceValue("%x",spec)
   TraceFunctionParamListEnd();
 
   ++being_solved.number_of_pieces[side][walk];
@@ -4543,29 +4543,6 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
   occupy_square(pos,walk,spec);
   REPORT_DECISION_PLACEMENT(pos);
 
-  if (walk==King)
-  {
-    SETFLAG(being_solved.spec[pos],Royal);
-    {
-      Side const side_attacked = side;
-      // TODO use pos instead of king_pos (or assert that they are equal)
-      square const king_pos = being_solved.king_square[side_attacked];
-      vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
-                                                                  king_pos);
-      if (k==0)
-      {
-        if (nr_check_vectors==1)
-          restart_from_scratch();
-        else
-          place_interceptor_on_line(check_vectors,nr_check_vectors-1);
-      }
-      else
-      {
-        REPORT_DEADEND;
-      }
-    }
-  }
-  else
   {
     Side const side_attacked = advers(side);
     square const king_pos = being_solved.king_square[side_attacked];
@@ -4599,7 +4576,8 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                   unsigned int nr_check_vectors,
                                   Side side,
-                                  square pos)
+                                  square pos,
+                                  Flags spec)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
@@ -4608,10 +4586,11 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
+  TraceValue("%x",spec)
   TraceFunctionParamListEnd();
 
   if (!(TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn,spec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4630,10 +4609,15 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
+  /* this removes the implicit allocation for the invisible king ...*/
   being_solved.king_square[side] = pos;
 
+  /* ... and thus allows this to succeed: */
   if (allocate_placement_of_claimed_fleshed_out(side))
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King);
+  {
+    Flags const spec = BIT(side)|BIT(Royal)|BIT(Chameleon);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King,spec);
+  }
 
   current_consumption = save_consumption;
   TraceConsumption();TraceEOL();
@@ -4663,16 +4647,18 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
 
   {
-    piece_walk_type walk;
     consumption_type const save_consumption = current_consumption;
 
     if (allocate_placement_of_claimed_fleshed_out(side))
     {
+      Flags const spec = BIT(side)|BIT(Chameleon);
+      piece_walk_type walk;
+
       if (!end_of_iteration)
-        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos);
+        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos,spec);
 
       for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
-        walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk);
+        walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
     }
 
     current_consumption = save_consumption;
