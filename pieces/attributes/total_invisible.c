@@ -4553,7 +4553,11 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
       if (nr_check_vectors==1)
         restart_from_scratch();
       else
+      {
+        ++current_iteration;
         place_interceptor_on_line(check_vectors,nr_check_vectors-1);
+        --current_iteration;
+      }
     }
     else
     {
