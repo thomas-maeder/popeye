@@ -268,10 +268,7 @@ static knowledge_index_type size_knowledge;
 
 typedef unsigned int iteration_index_type;
 
-static iteration_index_type current_iteration;
-/* 0: "pre-history" including insertion of mating piece attackers
- * 1..n: flesh out invisibles
- */
+static iteration_index_type decision_level;
 
 typedef struct
 {
@@ -306,7 +303,7 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_MOVE(direction,action) \
-  printf("!%*c%d ",current_iteration,' ',current_iteration); \
+  printf("!%*c%d ",decision_level,' ',decision_level); \
   printf("%c%u ",direction,nbply); \
   WriteWalk(&output_plaintext_engine, \
             stdout, \
@@ -321,14 +318,14 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_SQUARE(pos) \
-    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("!%*c%d ",decision_level,' ',decision_level); \
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_COLOUR(colourspec) \
-    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("!%*c%d ",decision_level,' ',decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               colourspec, \
@@ -337,14 +334,14 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_WALK(walk) \
-    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("!%*c%d ",decision_level,' ',decision_level); \
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_PLACEMENT(pos) \
-    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("!%*c%d ",decision_level,' ',decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               being_solved.spec[pos], \
@@ -359,7 +356,7 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++);
 
 #define REPORT_DECISION_OUTCOME(outcome) \
-    printf("!%*c%d ",current_iteration,' ',current_iteration); \
+    printf("!%*c%d ",decision_level,' ',decision_level); \
     printf("%s",outcome); \
     printf(" - %lu\n",report_decision_counter++);
 
@@ -2098,11 +2095,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
-    {
-      ++current_iteration;
       restart_from_scratch();
-      --current_iteration;
-    }
 
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
@@ -2141,11 +2134,7 @@ static void restart_from_scratch(void)
       }
     }
     else
-    {
-      ++current_iteration;
       restart_from_scratch();
-      --current_iteration;
-    }
 
     redo_move_effects();
     ++nbply;
@@ -2942,9 +2931,9 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
 
       update_nr_taboos_for_current_move_in_ply(+1);
       REPORT_DECISION_MOVE('<','-');
-      ++current_iteration;
+      ++decision_level;
       restart_from_scratch();
-      --current_iteration;
+      --decision_level;
       update_nr_taboos_for_current_move_in_ply(-1);
 
       motivation[id] = save_motivation;
@@ -3986,9 +3975,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
         REPORT_DECISION_MOVE('>','*');
-        ++current_iteration;
+        ++decision_level;
         recurse_into_child_ply();
-        --current_iteration;
+        --decision_level;
       }
       else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
       {
@@ -4006,9 +3995,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         {
           move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
           REPORT_DECISION_MOVE('>','*');
-          ++current_iteration;
+          ++decision_level;
           restart_from_scratch();
-          --current_iteration;
+          --decision_level;
         }
 
         replace_walk(sq_departure,Dummy);
@@ -4637,7 +4626,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
   REPORT_DECISION_WALK(walk);
-  ++current_iteration;
+  ++decision_level;
 
   {
     Side const side_attacked = advers(side);
@@ -4659,7 +4648,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
     }
   }
 
-  --current_iteration;
+  --decision_level;
 
   TraceWalk(get_walk_of_piece_on_square(pos));
   TraceWalk(walk);
@@ -4813,9 +4802,9 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   if (!is_taboo(pos,preferred_side))
   {
     REPORT_DECISION_COLOUR(BIT(preferred_side));
-    ++current_iteration;
+    ++decision_level;
     walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
-    --current_iteration;
+    --decision_level;
   }
 
   if (!end_of_iteration)
@@ -4823,9 +4812,9 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
     if (!is_taboo(pos,advers(preferred_side)))
     {
       REPORT_DECISION_COLOUR(BIT(advers(preferred_side)));
-      ++current_iteration;
+      ++decision_level;
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
-      --current_iteration;
+      --decision_level;
     }
   }
 
@@ -4860,7 +4849,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
     TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
     REPORT_DECISION_COLOUR(BIT(side));
-    ++current_iteration;
+    ++decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
 
@@ -4881,7 +4870,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
     SETFLAG(being_solved.spec[s],advers(side));
 
-    --current_iteration;
+    --decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -4909,7 +4898,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     SetPieceId(spec,next_invisible_piece_id);
     occupy_square(s,Dummy,spec);
     REPORT_DECISION_PLACEMENT(s);
-    ++current_iteration;
+    ++decision_level;
 
     place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
@@ -4917,7 +4906,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     if (!end_of_iteration)
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
 
-    --current_iteration;
+    --decision_level;
 
     TraceConsumption();TraceEOL();
 
@@ -4926,9 +4915,9 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   else
   {
     REPORT_DECISION_SQUARE(s);
-    ++current_iteration;
+    ++decision_level;
     colour_interceptor(check_vectors,nr_check_vectors,s);
-    --current_iteration;
+    --decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -5093,14 +5082,7 @@ static void start_iteration(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ++current_iteration;
-  TraceValue("%u",current_iteration);TraceEOL();
-
   deal_with_illegal_checks();
-
-  assert(current_iteration>0);
-  --current_iteration;
-  TraceValue("%u",current_iteration);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
