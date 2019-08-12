@@ -304,6 +304,7 @@ static unsigned long report_decision_counter;
 #define REPORT_DECISION_CONTEXT(context) \
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
+  printf(" - %d",__LINE__); \
   printf(" - %lu\n",report_decision_counter++); \
   fflush(stdout);
 
@@ -320,6 +321,7 @@ static unsigned long report_decision_counter;
   WriteSquare(&output_plaintext_engine, \
               stdout, \
               move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
+  printf(" - %d",__LINE__); \
   printf(" - %lu\n",report_decision_counter++); \
   fflush(stdout);
 
@@ -328,6 +330,7 @@ static unsigned long report_decision_counter;
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
+    printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
@@ -338,6 +341,7 @@ static unsigned long report_decision_counter;
               colourspec, \
               initsquare, \
               true); \
+    printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
@@ -346,6 +350,7 @@ static unsigned long report_decision_counter;
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
+    printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
@@ -362,12 +367,14 @@ static unsigned long report_decision_counter;
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
+    printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
 #define REPORT_DECISION_OUTCOME(outcome) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf("%s",outcome); \
+    printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
@@ -2431,7 +2438,6 @@ static void done_validating_king_placements(void)
     case play_testing_mate:
       if (combined_validation_result==mate_attackable)
       {
-        REPORT_DECISION_OUTCOME("Attacking mating piece");
         play_phase = play_attacking_mating_piece;
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
@@ -3841,7 +3847,10 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
+    REPORT_DECISION_SQUARE(*s);
+    ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
+    --curr_decision_level;
 
     if (curr_decision_level<=max_decision_level)
     {
