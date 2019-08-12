@@ -242,7 +242,6 @@ typedef struct action_type
     purpose_type purpose;
     ply acts_when;
     square on;
-    decision_level_type level;
 } action_type;
 
 typedef struct
@@ -278,6 +277,7 @@ typedef struct
 {
     action_type first;
     action_type last;
+    decision_level_type level;
 } motivation_type;
 
 static motivation_type motivation[MaxPieceId+1];
@@ -2406,13 +2406,16 @@ static void done_validating_king_placements(void)
         unsigned int i;
         for (i = 0; i!=nr_potential_revelations; ++i)
         {
+          PieceIdType const id = GetPieceId(revelation_status[i].spec);
+
           TraceValue("%u",i);
           TraceSquare(revelation_status[i].last.on);
-          TraceValue("%u",revelation_status[i].last.level);
+          TraceValue("%u",id);
+          TraceValue("%u",motivation[id].level);
           TraceEOL();
-          assert(revelation_status[i].last.level>0);
-          if (revelation_status[i].last.level>max_level)
-            max_level = revelation_status[i].last.level;
+          assert(motivation[id].level>0);
+          if (motivation[id].level>max_level)
+            max_level = motivation[id].level;
         }
         TraceValue("%u",max_level);TraceEOL();
         max_decision_level = max_level;
@@ -3369,7 +3372,7 @@ static void adapt_pre_capture_effect(void)
 
         assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
         move_effect_journal[pre_capture].type = move_effect_none;
-        motivation[id].last.level = curr_decision_level;
+        motivation[id].level = curr_decision_level;
         ++being_solved.number_of_pieces[side_added][walk_added];
         occupy_square(sq_addition,walk_added,flags_added);
         restart_from_scratch();
@@ -3959,7 +3962,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         /* fill in the rest: */
         motivation[id].first.on = sq_departure;
         motivation[id].last.on = sq_departure;
-        motivation[id].last.level = curr_decision_level;
+        motivation[id].level = curr_decision_level;
 
         move_effect_journal[movement].u.piece_movement.from = sq_departure;
         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
@@ -4068,7 +4071,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
       motivation[id_random].last.acts_when = nbply;
       motivation[id_random].last.purpose = purpose_capturer;
-      motivation[id_random].last.level = motivation[id_existing].last.level;
+      motivation[id_random].level = motivation[id_existing].level;
 
       if (get_walk_of_piece_on_square(sq_departure)==walk_capturing)
       {
@@ -4732,7 +4735,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 
   TraceValue("%u",next_invisible_piece_id);TraceEOL();
 
-  motivation[next_invisible_piece_id].last.level = curr_decision_level;
+  motivation[next_invisible_piece_id].level = curr_decision_level;
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
   REPORT_DECISION_WALK(walk);
@@ -5019,7 +5022,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   {
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
-    motivation[next_invisible_piece_id].last.level = curr_decision_level;
+    motivation[next_invisible_piece_id].level = curr_decision_level;
 
     SetPieceId(spec,next_invisible_piece_id);
     occupy_square(s,Dummy,spec);
@@ -5027,7 +5030,6 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     ++curr_decision_level;
 
     place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
-
 
     if (curr_decision_level<=max_decision_level)
     {
