@@ -5393,8 +5393,8 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       TraceValue("%u",knowledge[idx_knowledge].last.acts_when);TraceEOL();
       if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
-        PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-        motivation_type const save_motivation = motivation[id];
+        PieceIdType const id_on_board = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+        motivation_type const save_motivation = motivation[id_on_board];
         move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
@@ -5408,50 +5408,57 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
 
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
-          // TODO this doesn't seem to work if the revealed piece has moved more than once
-//          motivation[id].first = knowledge[idx_knowledge].last;
-//          motivation[id].first.on = sq_first_on;
-//          motivation[id].first.acts_when = 0;
-//          motivation[id].last = knowledge[idx_knowledge].last;
-//
-//          TraceValue("%u",motivation[id].last.purpose);TraceEOL();
+          /* applying this knowledge doesn't work if the revealed piece has
+           * moved before this capturing move */
+          PieceIdType const id_from_knowledge = GetPieceId(knowledge[idx_knowledge].spec);
+          if (id_on_board!=id_from_knowledge)
+            apply_knowledge(idx_knowledge+1,next_step);
+          else
+          {
+            motivation[id_on_board].first = knowledge[idx_knowledge].last;
+            motivation[id_on_board].first.on = sq_first_on;
+            motivation[id_on_board].first.acts_when = 0;
+            motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-//          ply const save_nbply = nbply;
-//          move_effect_journal_index_type const precapture = effects_base;
-//          move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
-//
-//          assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-//          assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
-//          assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
-//
-//          TraceText("prevent searching for capturer - we know who did it\n");
-//
-//          move_effect_journal[precapture].type = move_effect_none;
-//          move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
-//          move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
-//          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
-//
-//          nbply = knowledge[idx_knowledge].last.acts_when;
-//          update_nr_taboos_for_current_move_in_ply(+1);
-//          nbply = save_nbply;
+            TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
-          apply_royal_knowledge(idx_knowledge,next_step);
+            ply const save_nbply = nbply;
+            move_effect_journal_index_type const precapture = effects_base;
+            move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
 
-//          nbply = knowledge[idx_knowledge].last.acts_when;
-//          update_nr_taboos_for_current_move_in_ply(-1);
-//          nbply = save_nbply;
-//
-//          move_effect_journal[movement] = save_movement;
-//          move_effect_journal[precapture].type = move_effect_piece_readdition;
+            assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+            assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
+            assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
+
+            TraceText("prevent searching for capturer - we know who did it\n");
+
+            move_effect_journal[precapture].type = move_effect_none;
+            move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
+            move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
+            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
+
+            nbply = knowledge[idx_knowledge].last.acts_when;
+            update_nr_taboos_for_current_move_in_ply(+1);
+            nbply = save_nbply;
+
+            apply_royal_knowledge(idx_knowledge,next_step);
+
+            nbply = knowledge[idx_knowledge].last.acts_when;
+            update_nr_taboos_for_current_move_in_ply(-1);
+            nbply = save_nbply;
+
+            move_effect_journal[movement] = save_movement;
+            move_effect_journal[precapture].type = move_effect_piece_readdition;
+          }
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_castling_partner)
         {
-          motivation[id].first = knowledge[idx_knowledge].last;
-          motivation[id].first.on = sq_first_on;
-          motivation[id].first.acts_when = 0;
-          motivation[id].last = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-          TraceValue("%u",motivation[id].last.purpose);TraceEOL();
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
           assert(move_effect_journal[movement].u.piece_movement.moving==King);
           assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
@@ -5460,12 +5467,12 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
-          motivation[id].first = knowledge[idx_knowledge].last;
-          motivation[id].first.on = sq_first_on;
-          motivation[id].first.acts_when = 0;
-          motivation[id].last = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-          TraceValue("%u",motivation[id].last.purpose);TraceEOL();
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
           // TODO can we restrict generation of random move to the revealed piece?
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
@@ -5475,12 +5482,12 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
-          motivation[id].first = knowledge[idx_knowledge].last;
-          motivation[id].first.on = sq_first_on;
-          motivation[id].first.acts_when = 0;
-          motivation[id].last = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-          TraceValue("%u",motivation[id].last.purpose);TraceEOL();
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
           // We no longer look for different insertion squares for pieces
           // revealed after having been inserted to move to intercept an
@@ -5492,7 +5499,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         else
           assert(0);
 
-        motivation[id] = save_motivation;
+        motivation[id_on_board] = save_motivation;
       }
       else
         apply_royal_knowledge(idx_knowledge,next_step);
