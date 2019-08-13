@@ -230,12 +230,14 @@ typedef enum
 
 typedef unsigned int decision_level_type;
 
-static decision_level_type curr_decision_level = 1;
+static decision_level_type curr_decision_level = 2;
 enum
 {
-  decision_level_inf = UINT_MAX
+  decision_level_uninitialised = 0,
+  decision_level_forever = 1,
+  decision_level_latest = UINT_MAX
 };
-static decision_level_type max_decision_level = decision_level_inf;
+static decision_level_type max_decision_level = decision_level_latest;
 
 typedef struct action_type
 {
@@ -2100,7 +2102,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       retract_random_move_by_invisible(s+1);
     }
 
@@ -2220,7 +2222,7 @@ static void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
-    max_decision_level = 0;
+    max_decision_level = decision_level_forever;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2244,7 +2246,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
     square s;
     for (s = sq_mating_piece+vec[kcurr]; curr_decision_level<=max_decision_level; s += vec[kcurr])
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       if (is_square_empty(s))
       {
         TraceSquare(s);
@@ -2291,7 +2293,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
 
-    max_decision_level = decision_level_inf;
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==walk_leaper
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2321,7 +2323,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
 
-    max_decision_level = decision_level_inf;
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2339,7 +2341,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
 
-    max_decision_level = decision_level_inf;
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2413,7 +2415,7 @@ static void done_validating_king_placements(void)
           TraceValue("%u",id);
           TraceValue("%u",motivation[id].level);
           TraceEOL();
-          assert(motivation[id].level>0);
+          assert(motivation[id].level!=decision_level_uninitialised);
           if (motivation[id].level>max_level)
             max_level = motivation[id].level;
         }
@@ -2422,7 +2424,7 @@ static void done_validating_king_placements(void)
       }
 
       if (nr_potential_revelations==0)
-        max_decision_level = 0;
+        max_decision_level = decision_level_forever;
       break;
 
     case play_validating_mate:
@@ -2434,7 +2436,7 @@ static void done_validating_king_placements(void)
       if (mate_validation_result<combined_validation_result)
         combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
-        max_decision_level = 0;
+        max_decision_level = decision_level_forever;
 
       break;
 
@@ -2462,7 +2464,7 @@ static void done_validating_king_placements(void)
          * E.g. mate by castling: if we attack the rook, the castling is not
          * even playable */
         if (solve_result==previous_move_has_not_solved)
-          max_decision_level = 0;
+          max_decision_level = decision_level_forever;
       }
 
       break;
@@ -2547,7 +2549,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         REPORT_DECISION_PLACEMENT(*s);
         ++curr_decision_level;
         restart_from_scratch();
@@ -2585,19 +2587,19 @@ static void indistinct_king_placement_validation(void)
         update_revelations();
 
       if (nr_potential_revelations==0)
-        max_decision_level = 0;
+        max_decision_level = decision_level_forever;
 
       break;
 
     case play_validating_mate:
       combined_validation_result = no_mate;
       combined_result = previous_move_has_not_solved;
-      max_decision_level = 0;
+      max_decision_level = decision_level_forever;
       break;
 
     default:
       combined_result = previous_move_has_not_solved;
-      max_decision_level = 0;
+      max_decision_level = decision_level_forever;
       break;
   }
 
@@ -3029,7 +3031,7 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
     while (curr_decision_level<=max_decision_level
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
       move_effect_journal[movement].u.piece_movement.from -= vec[k];
     }
@@ -3065,7 +3067,7 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       being_solved.king_square[trait[nbply]] = move_effect_journal[movement].u.piece_movement.from;
       move_effect_journal[king_square_movement].u.king_square_movement.from = move_effect_journal[movement].u.piece_movement.from;
       done_fleshing_out_random_move_by_specific_invisible_to();
@@ -3101,7 +3103,7 @@ static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
     }
   }
@@ -3143,7 +3145,7 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
       if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublestepsq)
           && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         done_fleshing_out_random_move_by_specific_invisible_to();
       }
     }
@@ -3244,7 +3246,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
       for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
         flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
@@ -3372,6 +3374,7 @@ static void adapt_pre_capture_effect(void)
 
         assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
         move_effect_journal[pre_capture].type = move_effect_none;
+        // TODO can we do better here? the rook has ben here FOREVER
         motivation[id].level = curr_decision_level;
         ++being_solved.number_of_pieces[side_added][walk_added];
         occupy_square(sq_addition,walk_added,flags_added);
@@ -3496,7 +3499,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
           {
             if (!is_taboo(sq_doublestep,side))
             {
-              max_decision_level = decision_level_inf;
+              max_decision_level = decision_level_latest;
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               done_fleshing_out_random_move_by_invisible_from();
             }
@@ -3510,7 +3513,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
     if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_right;
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
@@ -3518,7 +3521,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
     if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_left;
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
@@ -3552,7 +3555,7 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
 
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
 
       /* "factoring out" the invokations of is_taboo() is tempting, but we
        * want to break the loop if sq_arrival is not empty whether or not
@@ -3602,7 +3605,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_arrival))
         done_fleshing_out_random_move_by_invisible_from();
@@ -3717,7 +3720,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     {
       if (being_solved.king_square[side_playing]==initsquare)
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         being_solved.king_square[side_playing] = sq_departure;
         ++being_solved.number_of_pieces[side_playing][King];
         replace_walk(sq_departure,King);
@@ -3736,7 +3739,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
       if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         ++being_solved.number_of_pieces[side_playing][Pawn];
         replace_walk(sq_departure,Pawn);
         if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
@@ -3747,7 +3750,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Knight];
       replace_walk(sq_departure,Knight);
       if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
@@ -3757,7 +3760,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Bishop];
       replace_walk(sq_departure,Bishop);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3769,7 +3772,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Rook];
       replace_walk(sq_departure,Rook);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3781,7 +3784,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Queen];
       replace_walk(sq_departure,Queen);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3857,7 +3860,7 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       forward_random_move_by_invisible(s+1);
     }
 
@@ -4155,13 +4158,13 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
          sq_departure += vec[kcurr])
       if (first_taboo_violation==nullsquare)
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
       }
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
         flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
     }
@@ -4193,7 +4196,7 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
        ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
-    max_decision_level = decision_level_inf;
+    max_decision_level = decision_level_latest;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
       move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
@@ -4257,7 +4260,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
     square const sq_departure = sq_arrival+vec[kcurr];
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       if (is_square_empty(sq_departure))
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
       else
@@ -4289,7 +4292,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
     square sq_departure = sq_capture+dir_vert+dir_left;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
         if (is_square_empty(sq_departure))
@@ -4305,7 +4308,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
     square sq_departure = sq_capture+dir_vert+dir_right;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
         if (is_square_empty(sq_departure))
@@ -4863,7 +4866,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
 
       if (curr_decision_level<=max_decision_level)
       {
-        max_decision_level = decision_level_inf;
+        max_decision_level = decision_level_latest;
         walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos,spec);
       }
 
@@ -4871,7 +4874,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
       {
         if (curr_decision_level<=max_decision_level)
         {
-          max_decision_level = decision_level_inf;
+          max_decision_level = decision_level_latest;
           walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight,spec);
         }
 
@@ -4880,7 +4883,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
           vec_index_type const k = check_vectors[nr_check_vectors-1];
           boolean const is_check_orthogonal = k<=vec_rook_end;
 
-          max_decision_level = decision_level_inf;
+          max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
             walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop,spec);
@@ -4895,7 +4898,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
              walk<=Bishop && curr_decision_level<=max_decision_level;
              ++walk)
         {
-          max_decision_level = decision_level_inf;
+          max_decision_level = decision_level_latest;
           walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
         }
       }
@@ -4937,7 +4940,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   {
     if (!is_taboo(pos,advers(preferred_side)))
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       REPORT_DECISION_COLOUR(BIT(advers(preferred_side)));
       ++curr_decision_level;
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
@@ -5033,7 +5036,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
     if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
     }
 
@@ -5086,7 +5089,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
          is_square_empty(s) && curr_decision_level<=max_decision_level;
          s += vec[kcurr])
     {
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
 
       /* use the taboo machinery to avoid attempting to intercept on the same
        * square in different iterations.
@@ -5245,7 +5248,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
-    max_decision_level = decision_level_inf;
+    max_decision_level = decision_level_latest;
     REPORT_DECISION_CONTEXT(__func__);
     start_iteration();
   }
@@ -5275,7 +5278,7 @@ static void test_mate(void)
 
     case mate_attackable:
     case mate_defendable_by_interceptors:
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
       REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
@@ -5283,7 +5286,7 @@ static void test_mate(void)
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
-      max_decision_level = decision_level_inf;
+      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
       REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
@@ -5544,7 +5547,7 @@ static void make_revelations(void)
   play_phase = play_rewinding;
   rewind_effects();
   play_phase = play_detecting_revelations;
-  max_decision_level = decision_level_inf;
+  max_decision_level = decision_level_latest;
   REPORT_DECISION_CONTEXT(__func__);
   apply_knowledge(0,&start_iteration);
   play_phase = play_unwinding;
