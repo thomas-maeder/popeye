@@ -316,7 +316,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_EXIT
 
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)
 
@@ -327,6 +327,7 @@ static unsigned long report_decision_counter;
 #define REPORT_DECISION_CONTEXT(context) \
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
+  move_numbers_write_history(top_ply_of_regular_play+1); \
   printf(" - %d",__LINE__); \
   printf(" - %lu\n",report_decision_counter++); \
   fflush(stdout);
@@ -425,6 +426,7 @@ static void write_history_recursive(ply ply)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[ply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
     fprintf(stdout," %u:",ply);
     WriteWalk(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.moving);
     WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.from);

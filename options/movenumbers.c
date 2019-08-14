@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
-#include "solving/ply.h"
 #include "solving/pipe.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/output.h"
@@ -39,16 +38,21 @@ static void write_history_recursive(ply ply)
   fprintf(stdout,"%u",MoveNbr[ply]-1);
 }
 
-void move_numbers_write_history(void)
+void move_numbers_write_history(ply top_ply)
 {
   if (restart_deep)
   {
     fputs("\nuse option start ",stdout);
-    write_history_recursive(nbply-1);
+    write_history_recursive(top_ply-1);
     fputs(" to replay\n",stdout);
   }
   else
     fputs("\nuse option start 1:1 to get replay information\n",stdout);
+}
+
+void move_numbers_write_history2(ply top_ply)
+{
+  write_history_recursive(top_ply);
 }
 
 /* Reset the restart number setting.
