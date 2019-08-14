@@ -318,9 +318,9 @@ static void report_deadend(char const *s, unsigned int lineno)
 
 //#define REPORT_DECISIONS
 
-static unsigned long report_decision_counter;
-
 #if defined(REPORT_DECISIONS)
+
+static unsigned long report_decision_counter;
 
 #define REPORT_DECISION_DECLARE(x) x
 
@@ -2195,16 +2195,20 @@ static void restart_from_scratch(void)
 
     if (is_random_move_by_invisible(nbply))
     {
+#if defined(REPORT_DECISIONS)
       unsigned int const save_counter = report_decision_counter;
+#endif
 
       retract_random_move_by_invisible(boardnum);
 
+#if defined(REPORT_DECISIONS)
       if (report_decision_counter==save_counter)
       {
         // TODO retract pawn captures?
         REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
         REPORT_DEADEND;
       }
+#endif
     }
     else
       restart_from_scratch();
@@ -4522,8 +4526,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
 static void flesh_out_capture_by_invisible(square first_taboo_violation)
 {
-  unsigned int const save_counter = report_decision_counter;
-
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
@@ -4534,6 +4536,8 @@ static void flesh_out_capture_by_invisible(square first_taboo_violation)
   Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
   PieceIdType const id_inserted = GetPieceId(flags);
   decision_levels_type const save_levels = motivation[id_inserted].levels;
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
@@ -4553,11 +4557,13 @@ static void flesh_out_capture_by_invisible(square first_taboo_violation)
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
 
+#if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
     REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture");
     REPORT_DEADEND;
   }
+#endif
 
   motivation[id_inserted].levels = save_levels;
 
@@ -5248,11 +5254,11 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 static void place_interceptor_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors)
 {
-  unsigned int const save_counter = report_decision_counter;
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   int const dir = vec[kcurr];
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -5319,6 +5325,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
     motivation[next_invisible_piece_id] = motivation_null;
     --next_invisible_piece_id;
 
+#if defined(REPORT_DECISIONS)
     if (report_decision_counter==save_counter)
     {
       REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
@@ -5332,6 +5339,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
                               ply_check);
       REPORT_DEADEND;
     }
+#endif
   }
 
   TraceFunctionExit(__func__);
