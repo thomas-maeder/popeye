@@ -2342,33 +2342,18 @@ static void restart_from_scratch(void)
     {
       if (is_random_move_by_invisible(nbply))
       {
-        if (uninterceptable_check_delivered_from!=initsquare
-            && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
-        {
-          if (uninterceptable_check_delivered_in_ply<nbply)
-          {
-          }
-          else
-          {
-            REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
-            REPORT_DEADEND;
-          }
-        }
-        else
-        {
-          REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+        REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
-          retract_random_move_by_invisible(boardnum);
-          // TODO retract pawn captures?
+        retract_random_move_by_invisible(boardnum);
+        // TODO retract pawn captures?
 
-  #if defined(REPORT_DECISIONS)
-          if (report_decision_counter==save_counter)
-          {
-            REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
-            REPORT_DEADEND;
-          }
-  #endif
+#if defined(REPORT_DECISIONS)
+        if (report_decision_counter==save_counter)
+        {
+          REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+          REPORT_DEADEND;
         }
+#endif
       }
       else
         restart_from_scratch();
