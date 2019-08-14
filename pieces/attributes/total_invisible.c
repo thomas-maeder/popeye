@@ -315,10 +315,10 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_DEADEND
 #define REPORT_EXIT
 
-static unsigned long report_decision_counter;
-
 
 //#define REPORT_DECISIONS
+
+static unsigned long report_decision_counter;
 
 #if defined(REPORT_DECISIONS)
 
