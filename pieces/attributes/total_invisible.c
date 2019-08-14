@@ -27,6 +27,7 @@
 #include "output/plaintext/pieces.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "options/movenumbers.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -2189,6 +2190,91 @@ static void retract_random_move_by_invisible(square const *start_square)
 
 static void flesh_out_capture_by_invisible(square first_taboo_violation);
 
+static void fake_capture_by_invisible(void)
+{
+  ply const save_ply = uninterceptable_check_delivered_in_ply;
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_entry_type const save_movement_entry = move_effect_journal[movement];
+
+  Side const side = trait[nbply];
+  Flags spec = BIT(side)|BIT(Chameleon);
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(!is_square_empty(uninterceptable_check_delivered_from));
+
+  ++next_invisible_piece_id;
+  SetPieceId(spec,next_invisible_piece_id);
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
+  assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
+  motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
+  motivation[next_invisible_piece_id].first.acts_when = nbply;
+  motivation[next_invisible_piece_id].first.on = capture_by_invisible;
+  motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
+  motivation[next_invisible_piece_id].last.acts_when = nbply;
+  motivation[next_invisible_piece_id].last.on = capture_by_invisible;
+
+  assert(move_effect_journal[precapture].type==move_effect_none);
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
+  move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
+  move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+  move_effect_journal[precapture].u.piece_addition.added.flags = spec;
+  move_effect_journal[precapture].u.piece_addition.for_side = side;
+
+  assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+  move_effect_journal[capture].type = move_effect_piece_removal;
+  move_effect_journal[capture].u.piece_removal.on = uninterceptable_check_delivered_from;
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(uninterceptable_check_delivered_from);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[uninterceptable_check_delivered_from];
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  move_effect_journal[movement].type = move_effect_piece_movement;
+  move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = uninterceptable_check_delivered_from;
+  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+  move_effect_journal[movement].u.piece_movement.movingspec = spec;
+
+  ++being_solved.number_of_pieces[trait[nbply]][Dummy];
+  occupy_square(capture_by_invisible,Dummy,spec);
+
+  uninterceptable_check_delivered_from = initsquare;
+  uninterceptable_check_delivered_in_ply = ply_nil;
+
+  flesh_out_capture_by_invisible(nullsquare);
+
+  uninterceptable_check_delivered_in_ply = save_ply;
+  uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;
+
+  empty_square(capture_by_invisible);
+  --being_solved.number_of_pieces[trait[nbply]][Dummy];
+
+  move_effect_journal[movement] = save_movement_entry;
+  move_effect_journal[capture].type = move_effect_no_piece_removal;
+  move_effect_journal[precapture].type = move_effect_none;
+
+  motivation[next_invisible_piece_id] = motivation_null;
+  --next_invisible_piece_id;
+
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture the uninterceptable check deliverer");
+    REPORT_DEADEND;
+  }
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void restart_from_scratch(void)
 {
   TraceFunctionEntry(__func__);
@@ -2223,123 +2309,34 @@ static void restart_from_scratch(void)
         REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
         REPORT_DEADEND;
       }
-      else if (is_random_move_by_invisible(nbply)
-               && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+      else if (is_random_move_by_invisible(nbply))
       {
-        /* fake capture by invisible */
-        // TODO what about king flights? can happen before uninterceptable_check_delivered_in_ply
-        ply const save_ply = uninterceptable_check_delivered_in_ply;
-
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-        move_effect_journal_index_type const precapture = effects_base;
-        move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        move_effect_journal_entry_type const save_movement_entry = move_effect_journal[movement];
-
-        Side const side = trait[nbply];
-        Flags spec = BIT(side)|BIT(Chameleon);
-
-        REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
-
-        assert(!is_square_empty(uninterceptable_check_delivered_from));
-
-        ++next_invisible_piece_id;
-        SetPieceId(spec,next_invisible_piece_id);
-        TraceValue("%u",next_invisible_piece_id);TraceEOL();
-
-        assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-        motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
-        motivation[next_invisible_piece_id].first.acts_when = nbply;
-        motivation[next_invisible_piece_id].first.on = capture_by_invisible;
-        motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
-        motivation[next_invisible_piece_id].last.acts_when = nbply;
-        motivation[next_invisible_piece_id].last.on = capture_by_invisible;
-
-        assert(move_effect_journal[precapture].type==move_effect_none);
-        move_effect_journal[precapture].type = move_effect_piece_readdition;
-        move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
-        move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
-        move_effect_journal[precapture].u.piece_addition.added.flags = spec;
-        move_effect_journal[precapture].u.piece_addition.for_side = side;
-
-        assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
-        move_effect_journal[capture].type = move_effect_piece_removal;
-        move_effect_journal[capture].u.piece_removal.on = uninterceptable_check_delivered_from;
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(uninterceptable_check_delivered_from);
-        move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[uninterceptable_check_delivered_from];
-
-        assert(move_effect_journal[movement].type==move_effect_piece_movement);
-        move_effect_journal[movement].type = move_effect_piece_movement;
-        move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-        move_effect_journal[movement].u.piece_movement.to = uninterceptable_check_delivered_from;
-        move_effect_journal[movement].u.piece_movement.moving = Dummy;
-        move_effect_journal[movement].u.piece_movement.movingspec = spec;
-
-        ++being_solved.number_of_pieces[trait[nbply]][Dummy];
-        occupy_square(capture_by_invisible,Dummy,spec);
-
-        uninterceptable_check_delivered_from = initsquare;
-        uninterceptable_check_delivered_in_ply = ply_nil;
-
-        flesh_out_capture_by_invisible(nullsquare);
-
-        uninterceptable_check_delivered_in_ply = save_ply;
-        uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;
-
-        empty_square(capture_by_invisible);
-        --being_solved.number_of_pieces[trait[nbply]][Dummy];
-
-        move_effect_journal[movement] = save_movement_entry;
-        move_effect_journal[capture].type = move_effect_no_piece_removal;
-        move_effect_journal[precapture].type = move_effect_none;
-
-        motivation[next_invisible_piece_id] = motivation_null;
-        --next_invisible_piece_id;
-
-#if defined(REPORT_DECISIONS)
-        if (report_decision_counter==save_counter)
+        if (trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
         {
-          REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture");
-          REPORT_DEADEND;
-        }
-#endif
-      }
-      else
-      {
-        // TODO we should only need to do this once, not twice:
-        if (is_random_move_by_invisible(nbply))
-        {
-          if (uninterceptable_check_delivered_from!=initsquare
-              && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
-          {
-            if (uninterceptable_check_delivered_in_ply<nbply)
-            {
-            }
-            else
-            {
-              REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
-              REPORT_DEADEND;
-            }
-          }
-          else
-          {
-            REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+          // TODO what about king flights? can happen before uninterceptable_check_delivered_in_ply
 
-            retract_random_move_by_invisible(boardnum);
-            // TODO retract pawn captures?
+          fake_capture_by_invisible();
 
-    #if defined(REPORT_DECISIONS)
-            if (report_decision_counter==save_counter)
-            {
-              REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
-              REPORT_DEADEND;
-            }
-    #endif
-          }
+          // TODO should we also restart_from_scratch() to let earlier random moves capture?
         }
         else
-          restart_from_scratch();
+        {
+          REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+          retract_random_move_by_invisible(boardnum);
+          // TODO retract pawn captures?
+
+#if defined(REPORT_DECISIONS)
+          if (report_decision_counter==save_counter)
+          {
+            REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+            REPORT_DEADEND;
+          }
+#endif
+        }
       }
+      else
+        restart_from_scratch();
     }
     else
     {
