@@ -341,8 +341,9 @@ static unsigned long report_decision_counter;
   printf(" - %lu\n",report_decision_counter++); \
   fflush(stdout);
 
-#define REPORT_DECISION_SQUARE(pos) \
+#define REPORT_DECISION_SQUARE(direction,pos) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
@@ -350,8 +351,9 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
-#define REPORT_DECISION_COLOUR(colourspec) \
+#define REPORT_DECISION_COLOUR(direction,colourspec) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               colourspec, \
@@ -361,8 +363,9 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
-#define REPORT_DECISION_WALK(walk) \
+#define REPORT_DECISION_WALK(direction,walk) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
@@ -370,7 +373,7 @@ static unsigned long report_decision_counter;
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
 
-#define REPORT_DECISION_PLACEMENT(pos) \
+#define REPORT_DECISION_KING_NOMINATION(pos) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
@@ -396,10 +399,10 @@ static unsigned long report_decision_counter;
 
 #define REPORT_DECISION_CONTEXT(context)
 #define REPORT_DECISION_MOVE(direction,action)
-#define REPORT_DECISION_SQUARE(pos)
-#define REPORT_DECISION_COLOUR(colourspec)
-#define REPORT_DECISION_WALK(walk)
-#define REPORT_DECISION_PLACEMENT(pos)
+#define REPORT_DECISION_SQUARE(direction,pos)
+#define REPORT_DECISION_COLOUR(direction,colourspec)
+#define REPORT_DECISION_WALK(direction,walk)
+#define REPORT_DECISION_KING_NOMINATION(pos)
 #define REPORT_DECISION_OUTCOME(outcome)
 
 static void write_history_recursive(ply ply)
@@ -2589,7 +2592,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
         max_decision_level = decision_level_latest;
-        REPORT_DECISION_PLACEMENT(*s);
+        REPORT_DECISION_KING_NOMINATION(*s);
         ++curr_decision_level;
         restart_from_scratch();
         --curr_decision_level;
@@ -3893,7 +3896,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    REPORT_DECISION_SQUARE(*s);
+    REPORT_DECISION_SQUARE('>',*s);
     ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
     --curr_decision_level;
@@ -4193,7 +4196,7 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
       if (first_taboo_violation==nullsquare)
       {
         max_decision_level = decision_level_latest;
-        REPORT_DECISION_SQUARE(sq_departure);
+        REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
         --curr_decision_level;
@@ -4209,7 +4212,7 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
         decision_levels_type const save_levels = motivation[id_existing].levels;
 
         motivation[id_existing].levels = motivation[id_inserted].levels;
-        REPORT_DECISION_SQUARE(sq_departure);
+        REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
         flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
         --curr_decision_level;
@@ -4269,7 +4272,7 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
           PieceIdType const id = GetPieceId(flags);
 
           motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE(sq_departure);
+          REPORT_DECISION_SQUARE('>',sq_departure);
           ++curr_decision_level;
 
           assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
@@ -4327,7 +4330,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
 
         max_decision_level = decision_level_latest;
         motivation[id].levels.from = curr_decision_level;
-        REPORT_DECISION_SQUARE(sq_departure);
+        REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
         --curr_decision_level;
@@ -4372,7 +4375,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 
           max_decision_level = decision_level_latest;
           motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE(sq_departure);
+          REPORT_DECISION_SQUARE('>',sq_departure);
           ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
           --curr_decision_level;
@@ -4399,7 +4402,7 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 
           max_decision_level = decision_level_latest;
           motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE(sq_departure);
+          REPORT_DECISION_SQUARE('>',sq_departure);
           ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
           --curr_decision_level;
@@ -4438,7 +4441,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(King);
+    REPORT_DECISION_WALK('>',King);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_king(first_taboo_violation);
     --curr_decision_level;
@@ -4446,7 +4449,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(Pawn);
+    REPORT_DECISION_WALK('>',Pawn);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_pawn(first_taboo_violation);
     --curr_decision_level;
@@ -4454,7 +4457,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(Knight);
+    REPORT_DECISION_WALK('>',Knight);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
     --curr_decision_level;
@@ -4462,7 +4465,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(Bishop);
+    REPORT_DECISION_WALK('>',Bishop);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
     --curr_decision_level;
@@ -4470,7 +4473,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(Rook);
+    REPORT_DECISION_WALK('>',Rook);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
   --curr_decision_level;
@@ -4478,7 +4481,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   if (curr_decision_level<=max_decision_level)
   {
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK(Queen);
+    REPORT_DECISION_WALK('>',Queen);
     ++curr_decision_level;
     flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,first_taboo_violation);
   --curr_decision_level;
@@ -4888,7 +4891,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
-  REPORT_DECISION_WALK(walk);
+  REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
 
   {
@@ -5082,7 +5085,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
     if (!is_taboo(pos,preferred_side))
     {
       max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR(BIT(preferred_side));
+      REPORT_DECISION_COLOUR('>',BIT(preferred_side));
       ++curr_decision_level;
       walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
       --curr_decision_level;
@@ -5094,7 +5097,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
     if (!is_taboo(pos,advers(preferred_side)))
     {
       max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR(BIT(advers(preferred_side)));
+      REPORT_DECISION_COLOUR('>',BIT(advers(preferred_side)));
       ++curr_decision_level;
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
       --curr_decision_level;
@@ -5131,7 +5134,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
     TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
-    REPORT_DECISION_COLOUR(BIT(side));
+    REPORT_DECISION_COLOUR('>',BIT(side));
     ++curr_decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
@@ -5191,7 +5194,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
       max_decision_level = decision_level_latest;
       // TODO if REPORT_DECISION_COLOUR() faked level 1 less or used level.side,
       // we could adjust curr_decision_level outside of the loop
-      REPORT_DECISION_COLOUR(BIT(White));
+      REPORT_DECISION_COLOUR('>',BIT(White));
       ++curr_decision_level;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
       --curr_decision_level;
@@ -5200,7 +5203,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR(BIT(Black));
+      REPORT_DECISION_COLOUR('>',BIT(Black));
       ++curr_decision_level;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
       --curr_decision_level;
@@ -5267,7 +5270,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         {
           // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
           // curr_decision_level outside of the loop
-          REPORT_DECISION_SQUARE(s);
+          REPORT_DECISION_SQUARE('>',s);
           ++curr_decision_level;
           place_interceptor_on_square(check_vectors,nr_check_vectors,s);
           --curr_decision_level;
