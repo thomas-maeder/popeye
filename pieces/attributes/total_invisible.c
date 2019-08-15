@@ -2309,34 +2309,41 @@ static void restart_from_scratch(void)
         REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
         REPORT_DEADEND;
       }
-      else if (is_random_move_by_invisible(nbply))
+      else
       {
-        if (trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+        if (is_random_move_by_invisible(nbply))
         {
-          // TODO what about king flights? can happen before uninterceptable_check_delivered_in_ply
+          if (trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+          {
+            // TODO what about king flights? can happen before uninterceptable_check_delivered_in_ply
 
-          fake_capture_by_invisible();
+            fake_capture_by_invisible();
 
-          // TODO should we also restart_from_scratch() to let earlier random moves capture?
-        }
-        else
-        {
-          REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+            // TODO should we also restart_from_scratch() to let earlier random moves capture?
+          }
+          else
+          {
+            REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
-          retract_random_move_by_invisible(boardnum);
-          // TODO retract pawn captures?
+            retract_random_move_by_invisible(boardnum);
+            // TODO retract pawn captures?
 
 #if defined(REPORT_DECISIONS)
-          if (report_decision_counter==save_counter)
-          {
-            REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
-            REPORT_DEADEND;
-          }
+            if (report_decision_counter==save_counter)
+            {
+              REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+              REPORT_DEADEND;
+            }
 #endif
+          }
+        }
+
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
+          restart_from_scratch();
         }
       }
-      else
-        restart_from_scratch();
     }
     else
     {
@@ -2355,8 +2362,12 @@ static void restart_from_scratch(void)
         }
 #endif
       }
-      else
+
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
         restart_from_scratch();
+      }
     }
 
     redo_move_effects();
