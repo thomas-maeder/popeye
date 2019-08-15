@@ -2313,13 +2313,23 @@ static void restart_from_scratch(void)
     --nbply;
     undo_move_effects();
 
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
+    }
+
     if (is_random_move_by_invisible(nbply))
     {
       if (uninterceptable_check_delivered_from!=initsquare
           && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
       {
         // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
-        fake_capture_by_invisible();
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
+          fake_capture_by_invisible();
+        }
       }
 
       if (curr_decision_level<=max_decision_level)
@@ -2327,12 +2337,6 @@ static void restart_from_scratch(void)
         max_decision_level = decision_level_latest;
         retract_random_move_by_invisible(boardnum);
       }
-    }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      restart_from_scratch();
     }
 
     redo_move_effects();
@@ -5171,7 +5175,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
   TraceEOL();
   assert(is_square_empty(pos));
 
-  motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
+  motivation[next_invisible_piece_id].levels.walk = curr_decision_level;
 
   if (being_solved.king_square[side]==initsquare)
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
