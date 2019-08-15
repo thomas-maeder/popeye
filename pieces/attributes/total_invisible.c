@@ -2321,9 +2321,12 @@ static void restart_from_scratch(void)
 
             // TODO should we also restart_from_scratch() to let earlier random moves capture?
           }
-          else
+
+          if (curr_decision_level<=max_decision_level)
           {
             REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+            max_decision_level = decision_level_latest;
 
             retract_random_move_by_invisible(boardnum);
             // TODO retract pawn captures?
