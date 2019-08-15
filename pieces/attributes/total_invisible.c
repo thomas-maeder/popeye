@@ -2842,7 +2842,7 @@ static void validate_king_placements(void)
   if (being_solved.king_square[side_to_be_mated]==initsquare)
   {
     being_solved.king_square[side_to_be_mated] = nullsquare;
-    if (nr_total_invisbles_consumed()==total_invisible_number)
+    if (nr_placeable_invisibles_for_side(side_to_be_mated)==0)
     {
       being_solved.king_square[side_to_be_mated] = initsquare;
       if (current_consumption.placed_not_fleshed_out[side_to_be_mated]>0)
