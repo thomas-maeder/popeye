@@ -2145,9 +2145,13 @@ static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
   TraceFunctionParamListEnd();
+
+  // TODO retract pawn captures?
 
   s = find_next_backward_mover(start_square);
 
@@ -2183,6 +2187,14 @@ static void retract_random_move_by_invisible(square const *start_square)
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
   }
+
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+    REPORT_DEADEND;
+  }
+#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2284,93 +2296,43 @@ static void restart_from_scratch(void)
   TraceValue("%u",uninterceptable_check_delivered_in_ply);
   TraceEOL();
 
-  if (nbply==ply_retro_move+1)
+  if (uninterceptable_check_delivered_from!=initsquare
+      && (uninterceptable_check_delivered_in_ply>=nbply
+          || nbply==ply_retro_move+1))
   {
-    if (uninterceptable_check_delivered_from==initsquare)
-    {
-      TraceValue("%u",nbply);TraceEOL();
-      start_iteration();
-    }
-    else
-    {
-      REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
-      REPORT_DEADEND;
-    }
+    REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
+    REPORT_DEADEND;
+  }
+  else if (nbply==ply_retro_move+1)
+  {
+    TraceValue("%u",nbply);TraceEOL();
+    start_iteration();
   }
   else
   {
     --nbply;
     undo_move_effects();
 
-    if (uninterceptable_check_delivered_from!=initsquare)
+    if (is_random_move_by_invisible(nbply))
     {
-      if (uninterceptable_check_delivered_in_ply>=nbply)
+      if (uninterceptable_check_delivered_from!=initsquare
+          && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
       {
-        REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
-        REPORT_DEADEND;
-      }
-      else
-      {
-        if (is_random_move_by_invisible(nbply))
-        {
-          if (trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
-          {
-            // TODO what about king flights? can happen before uninterceptable_check_delivered_in_ply
-
-            fake_capture_by_invisible();
-
-            // TODO should we also restart_from_scratch() to let earlier random moves capture?
-          }
-
-          if (curr_decision_level<=max_decision_level)
-          {
-            REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
-
-            max_decision_level = decision_level_latest;
-
-            retract_random_move_by_invisible(boardnum);
-            // TODO retract pawn captures?
-
-#if defined(REPORT_DECISIONS)
-            if (report_decision_counter==save_counter)
-            {
-              REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
-              REPORT_DEADEND;
-            }
-#endif
-          }
-        }
-
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          restart_from_scratch();
-        }
-      }
-    }
-    else
-    {
-      if (is_random_move_by_invisible(nbply))
-      {
-        REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
-
-        retract_random_move_by_invisible(boardnum);
-        // TODO retract pawn captures?
-
-#if defined(REPORT_DECISIONS)
-        if (report_decision_counter==save_counter)
-        {
-          REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
-          REPORT_DEADEND;
-        }
-#endif
+        // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
+        fake_capture_by_invisible();
       }
 
       if (curr_decision_level<=max_decision_level)
       {
         max_decision_level = decision_level_latest;
-        restart_from_scratch();
+        retract_random_move_by_invisible(boardnum);
       }
+    }
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
     }
 
     redo_move_effects();
