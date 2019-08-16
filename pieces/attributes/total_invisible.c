@@ -2564,6 +2564,61 @@ static void attack_mating_piece(Side side_attacking,
   TraceFunctionResultEnd();
 }
 
+static void do_revelation_bookkeeping(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
+  TraceText("Updating revelation candidates\n");
+  if (revelation_status_is_uninitialised)
+  {
+    initialise_revelations();
+    REPORT_DECISION_OUTCOME("initialised revelation candidates."
+                            " %u found",
+                            nr_potential_revelations);
+  }
+  else
+  {
+    update_revelations();
+    REPORT_DECISION_OUTCOME("updated revelation candidates."
+                            " %u of %u left",
+                            nr_potential_revelations,
+                            prev_nr_potential_revelations);
+  }
+
+  {
+    decision_level_type max_level = decision_level_forever;
+    unsigned int i;
+    TraceValue("%u",nr_potential_revelations);TraceEOL();
+    for (i = 0; i!=nr_potential_revelations; ++i)
+    {
+      PieceIdType const id = GetPieceId(revelation_status[i].spec);
+
+      TraceValue("%u",i);
+      TraceWalk(revelation_status[i].walk);
+      TraceSquare(revelation_status[i].last.on);
+      TraceValue("%x",revelation_status[i].spec);
+      TraceValue("%u",id);
+      TraceValue("%u",motivation[id].levels.side);
+      TraceValue("%u",motivation[id].levels.walk);
+      TraceEOL();
+      assert(motivation[id].levels.side!=decision_level_uninitialised);
+      assert(motivation[id].levels.walk!=decision_level_uninitialised);
+      if (motivation[id].levels.side>max_level)
+        max_level = motivation[id].levels.side;
+      if (motivation[id].levels.walk>max_level)
+        max_level = motivation[id].levels.walk;
+    }
+    TraceValue("%u",max_level);TraceEOL();
+    max_decision_level = max_level;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+}
+
 static void done_validating_king_placements(void)
 {
   TraceFunctionEntry(__func__);
@@ -2576,53 +2631,8 @@ static void done_validating_king_placements(void)
   switch (play_phase)
   {
     case play_detecting_revelations:
-    {
-      REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
-      TraceText("Updating revelation candidates\n");
-      if (revelation_status_is_uninitialised)
-      {
-        initialise_revelations();
-        REPORT_DECISION_OUTCOME("initialised revelation candidates."
-                                " %u found",
-                                nr_potential_revelations);
-      }
-      else
-      {
-        update_revelations();
-        REPORT_DECISION_OUTCOME("updated revelation candidates."
-                                " %u of %u left",
-                                nr_potential_revelations,
-                                prev_nr_potential_revelations);
-      }
-
-      {
-        decision_level_type max_level = decision_level_forever;
-        unsigned int i;
-        TraceValue("%u",nr_potential_revelations);TraceEOL();
-        for (i = 0; i!=nr_potential_revelations; ++i)
-        {
-          PieceIdType const id = GetPieceId(revelation_status[i].spec);
-
-          TraceValue("%u",i);
-          TraceWalk(revelation_status[i].walk);
-          TraceSquare(revelation_status[i].last.on);
-          TraceValue("%x",revelation_status[i].spec);
-          TraceValue("%u",id);
-          TraceValue("%u",motivation[id].levels.side);
-          TraceValue("%u",motivation[id].levels.walk);
-          TraceEOL();
-          assert(motivation[id].levels.side!=decision_level_uninitialised);
-          assert(motivation[id].levels.walk!=decision_level_uninitialised);
-          if (motivation[id].levels.side>max_level)
-            max_level = motivation[id].levels.side;
-          if (motivation[id].levels.walk>max_level)
-            max_level = motivation[id].levels.walk;
-        }
-        TraceValue("%u",max_level);TraceEOL();
-        max_decision_level = max_level;
-      }
+      do_revelation_bookkeeping();
       break;
-    }
 
     case play_validating_mate:
       REPORT_DECISION_OUTCOME("%s","Replaying moves for validation");
@@ -2778,14 +2788,7 @@ static void indistinct_king_placement_validation(void)
   switch (play_phase)
   {
     case play_detecting_revelations:
-      if (revelation_status_is_uninitialised)
-        initialise_revelations();
-      else
-        update_revelations();
-
-      if (nr_potential_revelations==0)
-        max_decision_level = decision_level_forever;
-
+      do_revelation_bookkeeping();
       break;
 
     case play_validating_mate:
