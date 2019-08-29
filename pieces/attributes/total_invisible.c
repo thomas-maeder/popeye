@@ -4036,6 +4036,9 @@ static square const *find_next_forward_mover(square const *start_square)
   return result;
 }
 
+/* This function is recursive so that we remember which invisibles have already been
+ * visited
+ */
 static void forward_random_move_by_invisible(square const *start_square)
 {
   square const *s;
@@ -4207,18 +4210,11 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceWalk(get_walk_of_piece_on_square(sq_departure));
   TraceEOL();
 
-  // TODO do tests earlier, modifications only if tests succeed?
-
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    Flags const save_flags = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(save_flags);
-
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
 
     TraceWalk(get_walk_of_piece_on_square(sq_departure));
     TraceValue("%x",being_solved.spec[sq_departure]);
@@ -4233,27 +4229,39 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceSquare(motivation[id_existing].last.on);
     TraceEOL();
 
-    TraceValue("%u",id_random);
-    TraceValue("%u",motivation[id_random].first.purpose);
-    TraceValue("%u",motivation[id_random].first.acts_when);
-    TraceSquare(motivation[id_random].first.on);
-    TraceValue("%u",motivation[id_random].last.purpose);
-    TraceValue("%u",motivation[id_random].last.acts_when);
-    TraceSquare(motivation[id_random].last.on);
-    TraceEOL();
-
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
-
-    SetPieceId(being_solved.spec[sq_departure],id_random);
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
              || motivation[id_existing].last.purpose==purpose_capturer)
             && motivation[id_existing].last.acts_when<=nbply))
     {
+      decision_levels_type const levels_existing = motivation[id_existing].levels;
+
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
+
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       motivation_type const save_motivation = motivation[id_random];
+
+      TraceValue("%u",id_random);
+      TraceValue("%u",motivation[id_random].first.purpose);
+      TraceValue("%u",motivation[id_random].first.acts_when);
+      TraceSquare(motivation[id_random].first.on);
+      TraceValue("%u",motivation[id_random].last.purpose);
+      TraceValue("%u",motivation[id_random].last.acts_when);
+      TraceSquare(motivation[id_random].last.on);
+      TraceEOL();
+
+      motivation[id_existing].levels = motivation[id_random].levels;
+
+      REPORT_DECISION_SQUARE('>',sq_departure);
+      ++curr_decision_level;
+
+      SetPieceId(being_solved.spec[sq_departure],id_random);
+      replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
       /* deactivate the pre-capture insertion of the moving total invisible since
        * that piece is already on the board
@@ -4307,6 +4315,14 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       update_nr_taboos_for_current_move_in_ply(-1);
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+      replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+
+      being_solved.spec[sq_departure] = flags_existing;
+
+      --curr_decision_level;
+
+      motivation[id_existing].levels = levels_existing;
     }
     else
     {
@@ -4314,9 +4330,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
       REPORT_DEADEND;
     }
-
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-    being_solved.spec[sq_departure] = save_flags;
   }
 
   TraceFunctionExit(__func__);
@@ -4364,19 +4377,7 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
     {
       max_decision_level = decision_level_latest;
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
-      {
-        Flags const flags_existing = being_solved.spec[sq_departure];
-        PieceIdType const id_existing = GetPieceId(flags_existing);
-        decision_levels_type const save_levels = motivation[id_existing].levels;
-
-        motivation[id_existing].levels = motivation[id_inserted].levels;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
         flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
-        --curr_decision_level;
-
-        motivation[id_existing].levels = save_levels;
-      }
     }
   }
 
@@ -4480,13 +4481,13 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
       max_decision_level = decision_level_latest;
+
       if (is_square_empty(sq_departure))
       {
         move_effect_journal_index_type const precapture = effects_base;
         Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
         PieceIdType const id = GetPieceId(flags);
 
-        max_decision_level = decision_level_latest;
         motivation[id].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
