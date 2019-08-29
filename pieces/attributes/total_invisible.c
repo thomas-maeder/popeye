@@ -27,6 +27,7 @@
 #include "output/plaintext/pieces.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "options/movenumbers.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -181,8 +182,6 @@ static ply ply_replayed;
 
 static stip_length_type combined_result;
 
-static boolean end_of_iteration;
-
 static unsigned int nr_taboos_accumulated_until_ply[nr_sides][maxsquare];
 
 static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
@@ -230,6 +229,17 @@ typedef enum
   purpose_attacker
 } purpose_type;
 
+typedef unsigned int decision_level_type;
+
+static decision_level_type curr_decision_level = 2;
+enum
+{
+  decision_level_uninitialised = 0,
+  decision_level_forever = 1,
+  decision_level_latest = UINT_MAX
+};
+static decision_level_type max_decision_level = decision_level_latest;
+
 typedef struct action_type
 {
     purpose_type purpose;
@@ -266,15 +276,26 @@ static knowledge_type knowledge[MaxPieceId];
 typedef unsigned int knowledge_index_type;
 static knowledge_index_type size_knowledge;
 
-typedef unsigned int iteration_index_type;
-
-static iteration_index_type decision_level;
+typedef struct
+{
+    decision_level_type side;
+    decision_level_type walk;
+    decision_level_type from;
+    decision_level_type to;
+} decision_levels_type;
 
 typedef struct
 {
     action_type first;
     action_type last;
+    decision_levels_type levels;
 } motivation_type;
+
+static motivation_type const motivation_null = {
+    { purpose_none },
+    { purpose_none },
+    { 0 }
+};
 
 static motivation_type motivation[MaxPieceId+1];
 
@@ -283,6 +304,9 @@ static ply flesh_out_move_highwater = ply_retro_move;
 static PieceIdType next_invisible_piece_id;
 
 static move_effect_journal_index_type top_before_relevations[maxply+1];
+
+static ply uninterceptable_check_delivered_in_ply = ply_nil;
+static square uninterceptable_check_delivered_from = initsquare;
 
 static void report_deadend(char const *s, unsigned int lineno)
 {
@@ -295,15 +319,25 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_DEADEND
 #define REPORT_EXIT
 
+
+//#define REPORT_DECISIONS
+
+#if defined(REPORT_DECISIONS)
+
 static unsigned long report_decision_counter;
+
+#define REPORT_DECISION_DECLARE(x) x
 
 #define REPORT_DECISION_CONTEXT(context) \
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
-  printf(" - %lu\n",report_decision_counter++);
+  printf(" - %d",__LINE__); \
+  printf(" - %lu",report_decision_counter++); \
+  move_numbers_write_history(top_ply_of_regular_play+1); \
+  fflush(stdout);
 
 #define REPORT_DECISION_MOVE(direction,action) \
-  printf("!%*s%d ",decision_level,"",decision_level); \
+  printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
   printf("%c%u ",direction,nbply); \
   WriteWalk(&output_plaintext_engine, \
             stdout, \
@@ -315,33 +349,44 @@ static unsigned long report_decision_counter;
   WriteSquare(&output_plaintext_engine, \
               stdout, \
               move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
-  printf(" - %lu\n",report_decision_counter++);
+  printf(" - %d",__LINE__); \
+  printf(" - %lu\n",report_decision_counter++); \
+  fflush(stdout);
 
-#define REPORT_DECISION_SQUARE(pos) \
-    printf("!%*s%d ",decision_level,"",decision_level); \
+#define REPORT_DECISION_SQUARE(direction,pos) \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
-    printf(" - %lu\n",report_decision_counter++);
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
 
-#define REPORT_DECISION_COLOUR(colourspec) \
-    printf("!%*s%d ",decision_level,"",decision_level); \
+#define REPORT_DECISION_COLOUR(direction,colourspec) \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               colourspec, \
               initsquare, \
               true); \
-    printf(" - %lu\n",report_decision_counter++);
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
 
-#define REPORT_DECISION_WALK(walk) \
-    printf("!%*s%d ",decision_level,"",decision_level); \
+#define REPORT_DECISION_WALK(direction,walk) \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
-    printf(" - %lu\n",report_decision_counter++);
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
 
-#define REPORT_DECISION_PLACEMENT(pos) \
-    printf("!%*s%d ",decision_level,"",decision_level); \
+#define REPORT_DECISION_KING_NOMINATION(pos) \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     WriteSpec(&output_plaintext_engine, \
               stdout, \
               being_solved.spec[pos], \
@@ -353,20 +398,29 @@ static unsigned long report_decision_counter;
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
-    printf(" - %lu\n",report_decision_counter++);
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
 
-#define REPORT_DECISION_OUTCOME(outcome) \
-    printf("!%*s%d ",decision_level,"",decision_level); \
-    printf("%s",outcome); \
-    printf(" - %lu\n",report_decision_counter++);
+#define REPORT_DECISION_OUTCOME(format, ...) \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf(format,__VA_ARGS__); \
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
 
+#else
+
+#define REPORT_DECISION_DECLARE(x)
 #define REPORT_DECISION_CONTEXT(context)
 #define REPORT_DECISION_MOVE(direction,action)
-#define REPORT_DECISION_SQUARE(pos)
-#define REPORT_DECISION_COLOUR(colourspec)
-#define REPORT_DECISION_WALK(walk)
-#define REPORT_DECISION_PLACEMENT(pos)
-#define REPORT_DECISION_OUTCOME(outcome)
+#define REPORT_DECISION_SQUARE(direction,pos)
+#define REPORT_DECISION_COLOUR(direction,colourspec)
+#define REPORT_DECISION_WALK(direction,walk)
+#define REPORT_DECISION_KING_NOMINATION(pos)
+#define REPORT_DECISION_OUTCOME(format, ...)
+
+#endif
 
 static void write_history_recursive(ply ply)
 {
@@ -376,6 +430,7 @@ static void write_history_recursive(ply ply)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[ply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
     fprintf(stdout," %u:",ply);
     WriteWalk(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.moving);
     WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.from);
@@ -897,6 +952,7 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
 
   if (can_interceptor_be_allocated())
   {
+    // TODO shouldn't we compare sq_attacked to initsquare?
     if (being_solved.king_square[side_under_attack]!=initsquare)
     {
       if (!result && being_solved.number_of_pieces[side_checking][King]>0)
@@ -916,7 +972,10 @@ static vec_index_type is_square_uninterceptably_attacked(Side side_under_attack,
     }
   }
   else
-    result = is_square_observed_ortho(side_checking,sq_attacked);
+  {
+    if (is_square_observed_ortho(side_checking,sq_attacked))
+      result = UINT_MAX;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -994,10 +1053,12 @@ static void reveal_new(move_effect_journal_entry_type const *entry)
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
   Flags const spec = entry->u.piece_addition.added.flags;
   Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
-  PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",GetPieceId(entry->u.piece_addition.added.flags));
+  TraceValue("%u",GetPieceId(being_solved.spec[on]));
 
   if (TSTFLAG(spec,White))
     ++being_solved.number_of_pieces[White][walk];
@@ -1005,7 +1066,6 @@ static void reveal_new(move_effect_journal_entry_type const *entry)
     ++being_solved.number_of_pieces[Black][walk];
   replace_walk(on,walk);
   being_solved.spec[on] = spec;
-  SetPieceId(being_solved.spec[on],id_on_board);
   if (TSTFLAG(spec,Royal) && walk==King)
   {
     TraceSquare(being_solved.king_square[side_revealed]);
@@ -1765,14 +1825,15 @@ static void redo_revelation_of_placed_invisible(move_effect_journal_entry_type c
   TraceFunctionResultEnd();
 }
 
-static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
+static void add_revelation_effect(square s, unsigned int idx)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  Flags spec = revelation_status[idx].spec;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
-  TraceWalk(walk);
-  TraceFunctionParam("%x",spec);
+  TraceWalk(revelation_status[idx].walk);
+  TraceFunctionParam("%x",revelation_status[idx].spec);
   TraceFunctionParamListEnd();
 
   assert(TSTFLAG(spec,Chameleon));
@@ -1783,10 +1844,24 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
     TraceValue("%u",nbply);
     TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
+
     ++next_invisible_piece_id;
+    TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
+    motivation[next_invisible_piece_id].first = revelation_status[idx].first;
+    motivation[next_invisible_piece_id].last = revelation_status[idx].last;
+
+    TraceValue("%u",motivation[next_invisible_piece_id].first.purpose);
+    TraceValue("%u",motivation[next_invisible_piece_id].first.acts_when);
+    TraceSquare(motivation[next_invisible_piece_id].first.on);
+    TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+    TraceValue("%u",motivation[next_invisible_piece_id].last.acts_when);
+    TraceSquare(motivation[next_invisible_piece_id].last.on);
+    TraceEOL();
+
     SetPieceId(spec,next_invisible_piece_id);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
-                                   s,walk,spec);
+                                   s,revelation_status[idx].walk,spec);
   }
   else
   {
@@ -1800,14 +1875,14 @@ static void add_revelation_effect(square s, piece_walk_type walk, Flags spec)
       CLRFLAG(being_solved.spec[s],Chameleon);
       assert(GetPieceId(spec)==GetPieceId(being_solved.spec[s]));
       do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
-                                        s,walk,spec);
+                                        s,revelation_status[idx].walk,spec);
     }
     else
     {
       TraceText("revelation of a placed invisible\n");
       SetPieceId(spec,GetPieceId(being_solved.spec[s]));
       do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
-                                        s,walk,spec);
+                                        s,revelation_status[idx].walk,spec);
     }
   }
 
@@ -1873,7 +1948,8 @@ static void initialise_revelations(void)
       TraceEOL();
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
-      revelation_status[i].first.on = motivation[id].first.on;
+      revelation_status[i].first = motivation[id].first;
+      revelation_status[i].first.on = initsquare;
       revelation_status[i].last = motivation[id].last;
       ++i;
     }
@@ -1895,10 +1971,10 @@ static void update_revelations(void)
   while (i!=nr_potential_revelations)
   {
     square const s = revelation_status[i].first_on;
-    TraceSquare(s);TraceEOL();
     if (get_walk_of_piece_on_square(s)!=revelation_status[i].walk
         || (being_solved.spec[s]&PieSpMask)!=(revelation_status[i].spec&PieSpMask))
     {
+      TraceValue("%u",i);
       TraceSquare(s);
       TraceWalk(get_walk_of_piece_on_square(s));
       TraceValue("%x",being_solved.spec[s]);
@@ -1912,16 +1988,20 @@ static void update_revelations(void)
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
       square const first_on = motivation[id].first.on;
 
+      TraceValue("%u",i);
+      TraceSquare(s);
+      TraceValue("%x",being_solved.spec[s]);
+      TraceValue("%u",id);
       TraceSquare(motivation[id].last.on);
-      TraceValue("%u",revelation_status[i].last.acts_when);
       TraceValue("%u",motivation[id].last.acts_when);
+      TraceValue("%x",revelation_status[i].spec);
+      TraceValue("%u",revelation_status[i].last.acts_when);
       TraceEOL();
 
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
 
-      if (first_on!=revelation_status[i].first.on)
-        revelation_status[i].first.on = initsquare;
+      revelation_status[i].spec = being_solved.spec[s];
 
       if (revelation_status[i].last.acts_when!=ply_nil)
       {
@@ -1953,7 +2033,7 @@ static void evaluate_revelations(void)
     TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
     if (revelation_status[i].walk!=Empty)
     {
-      add_revelation_effect(s,revelation_status[i].walk,revelation_status[i].spec);
+      add_revelation_effect(s,i);
       TraceSquare(revelation_status[i].first.on);TraceEOL();
       if (revelation_status[i].first.on!=initsquare)
       {
@@ -2065,9 +2145,13 @@ static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
   TraceFunctionParamListEnd();
+
+  // TODO retract pawn captures?
 
   s = find_next_backward_mover(start_square);
 
@@ -2080,8 +2164,11 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     flesh_out_random_move_by_specific_invisible_to(*s);
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
       retract_random_move_by_invisible(s+1);
+    }
 
     motivation[id].first.acts_when = save_when;
   }
@@ -2101,6 +2188,101 @@ static void retract_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
   }
 
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+    REPORT_DEADEND;
+  }
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_capture_by_invisible(square first_taboo_violation);
+
+static void fake_capture_by_invisible(void)
+{
+  ply const save_ply = uninterceptable_check_delivered_in_ply;
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_entry_type const save_movement_entry = move_effect_journal[movement];
+
+  Side const side = trait[nbply];
+  Flags spec = BIT(side)|BIT(Chameleon);
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(!is_square_empty(uninterceptable_check_delivered_from));
+
+  ++next_invisible_piece_id;
+  SetPieceId(spec,next_invisible_piece_id);
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
+  assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
+  motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
+  motivation[next_invisible_piece_id].first.acts_when = nbply;
+  motivation[next_invisible_piece_id].first.on = capture_by_invisible;
+  motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
+  motivation[next_invisible_piece_id].last.acts_when = nbply;
+  motivation[next_invisible_piece_id].last.on = capture_by_invisible;
+
+  assert(move_effect_journal[precapture].type==move_effect_none);
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
+  move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
+  move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+  move_effect_journal[precapture].u.piece_addition.added.flags = spec;
+  move_effect_journal[precapture].u.piece_addition.for_side = side;
+
+  assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+  move_effect_journal[capture].type = move_effect_piece_removal;
+  move_effect_journal[capture].u.piece_removal.on = uninterceptable_check_delivered_from;
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(uninterceptable_check_delivered_from);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[uninterceptable_check_delivered_from];
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  move_effect_journal[movement].type = move_effect_piece_movement;
+  move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = uninterceptable_check_delivered_from;
+  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+  move_effect_journal[movement].u.piece_movement.movingspec = spec;
+
+  ++being_solved.number_of_pieces[trait[nbply]][Dummy];
+  occupy_square(capture_by_invisible,Dummy,spec);
+
+  uninterceptable_check_delivered_from = initsquare;
+  uninterceptable_check_delivered_in_ply = ply_nil;
+
+  flesh_out_capture_by_invisible(nullsquare);
+
+  uninterceptable_check_delivered_in_ply = save_ply;
+  uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;
+
+  empty_square(capture_by_invisible);
+  --being_solved.number_of_pieces[trait[nbply]][Dummy];
+
+  move_effect_journal[movement] = save_movement_entry;
+  move_effect_journal[capture].type = move_effect_no_piece_removal;
+  move_effect_journal[precapture].type = move_effect_none;
+
+  motivation[next_invisible_piece_id] = motivation_null;
+  --next_invisible_piece_id;
+
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture the uninterceptable check deliverer");
+    REPORT_DEADEND;
+  }
+#endif
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2110,7 +2292,18 @@ static void restart_from_scratch(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply==ply_retro_move+1)
+  TraceSquare(uninterceptable_check_delivered_from);
+  TraceValue("%u",uninterceptable_check_delivered_in_ply);
+  TraceEOL();
+
+  if (uninterceptable_check_delivered_from!=initsquare
+      && (uninterceptable_check_delivered_in_ply>=nbply
+          || nbply==ply_retro_move+1))
+  {
+    REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
+    REPORT_DEADEND;
+  }
+  else if (nbply==ply_retro_move+1)
   {
     TraceValue("%u",nbply);TraceEOL();
     start_iteration();
@@ -2120,21 +2313,31 @@ static void restart_from_scratch(void)
     --nbply;
     undo_move_effects();
 
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
+    }
+
     if (is_random_move_by_invisible(nbply))
     {
-      unsigned int const save_counter = report_decision_counter;
-
-      retract_random_move_by_invisible(boardnum);
-
-      if (report_decision_counter==save_counter)
+      if (uninterceptable_check_delivered_from!=initsquare
+          && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
       {
-        // TODO retract pawn captures?
-        REPORT_DECISION_OUTCOME("no retractable random move found - TODO we don't retract pawn captures");
-        REPORT_DEADEND;
+        // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
+          fake_capture_by_invisible();
+        }
+      }
+
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
+        retract_random_move_by_invisible(boardnum);
       }
     }
-    else
-      restart_from_scratch();
 
     redo_move_effects();
     ++nbply;
@@ -2176,7 +2379,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       occupy_square(s,walk,spec);
       restart_from_scratch();
       empty_square(s);
-      motivation[next_invisible_piece_id].last.purpose = purpose_none;
+      motivation[next_invisible_piece_id] = motivation_null;
       --next_invisible_piece_id;
       --being_solved.number_of_pieces[side_attacking][walk];
     }
@@ -2199,7 +2402,7 @@ static void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
-    end_of_iteration = true;
+    max_decision_level = decision_level_forever;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2218,10 +2421,12 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square s;
-    for (s = sq_mating_piece+vec[kcurr]; !end_of_iteration; s += vec[kcurr])
+    for (s = sq_mating_piece+vec[kcurr]; curr_decision_level<=max_decision_level; s += vec[kcurr])
+    {
+      max_decision_level = decision_level_latest;
       if (is_square_empty(s))
       {
         TraceSquare(s);
@@ -2240,6 +2445,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
 
         break;
       }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2259,13 +2465,15 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square const s = sq_mating_piece+vec[kcurr];
 
     TraceSquare(s);
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
+
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==walk_leaper
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2287,13 +2495,15 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   TraceEnumerator(Side,side_attacking);
   TraceFunctionParamListEnd();
 
-  if (!end_of_iteration)
+  if (curr_decision_level<=max_decision_level)
   {
     square s = sq_mating_piece+dir_up+dir_left;
 
     TraceSquare(s);
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
+
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2303,13 +2513,15 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
-  if (!end_of_iteration)
+  if (curr_decision_level<=max_decision_level)
   {
     square s = sq_mating_piece+dir_up+dir_right;
 
     TraceSquare(s);
     TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
     TraceEOL();
+
+    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
@@ -2352,6 +2564,61 @@ static void attack_mating_piece(Side side_attacking,
   TraceFunctionResultEnd();
 }
 
+static void do_revelation_bookkeeping(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
+  TraceText("Updating revelation candidates\n");
+  if (revelation_status_is_uninitialised)
+  {
+    initialise_revelations();
+    REPORT_DECISION_OUTCOME("initialised revelation candidates."
+                            " %u found",
+                            nr_potential_revelations);
+  }
+  else
+  {
+    update_revelations();
+    REPORT_DECISION_OUTCOME("updated revelation candidates."
+                            " %u of %u left",
+                            nr_potential_revelations,
+                            prev_nr_potential_revelations);
+  }
+
+  {
+    decision_level_type max_level = decision_level_forever;
+    unsigned int i;
+    TraceValue("%u",nr_potential_revelations);TraceEOL();
+    for (i = 0; i!=nr_potential_revelations; ++i)
+    {
+      PieceIdType const id = GetPieceId(revelation_status[i].spec);
+
+      TraceValue("%u",i);
+      TraceWalk(revelation_status[i].walk);
+      TraceSquare(revelation_status[i].last.on);
+      TraceValue("%x",revelation_status[i].spec);
+      TraceValue("%u",id);
+      TraceValue("%u",motivation[id].levels.side);
+      TraceValue("%u",motivation[id].levels.walk);
+      TraceEOL();
+      assert(motivation[id].levels.side!=decision_level_uninitialised);
+      assert(motivation[id].levels.walk!=decision_level_uninitialised);
+      if (motivation[id].levels.side>max_level)
+        max_level = motivation[id].levels.side;
+      if (motivation[id].levels.walk>max_level)
+        max_level = motivation[id].levels.walk;
+    }
+    TraceValue("%u",max_level);TraceEOL();
+    max_decision_level = max_level;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+}
+
 static void done_validating_king_placements(void)
 {
   TraceFunctionEntry(__func__);
@@ -2364,17 +2631,11 @@ static void done_validating_king_placements(void)
   switch (play_phase)
   {
     case play_detecting_revelations:
-      REPORT_DECISION_OUTCOME("Updating revelation candidates");
-      if (revelation_status_is_uninitialised)
-        initialise_revelations();
-      else
-        update_revelations();
-      if (nr_potential_revelations==0)
-        end_of_iteration = true;
+      do_revelation_bookkeeping();
       break;
 
     case play_validating_mate:
-      REPORT_DECISION_OUTCOME("Replaying moves for validation");
+      REPORT_DECISION_OUTCOME("%s","Replaying moves for validation");
       play_phase = play_initialising_replay;
       replay_fleshed_out_move_sequence(play_replay_validating);
       play_phase = play_validating_mate;
@@ -2382,14 +2643,13 @@ static void done_validating_king_placements(void)
       if (mate_validation_result<combined_validation_result)
         combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
-        end_of_iteration = true;
+        max_decision_level = decision_level_forever;
 
       break;
 
     case play_testing_mate:
       if (combined_validation_result==mate_attackable)
       {
-        REPORT_DECISION_OUTCOME("Attacking mating piece");
         play_phase = play_attacking_mating_piece;
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
@@ -2400,7 +2660,7 @@ static void done_validating_king_placements(void)
       }
       else
       {
-        REPORT_DECISION_OUTCOME("Replaying moves for testing");
+        REPORT_DECISION_OUTCOME("%s","replaying moves for testing");
         play_phase = play_initialising_replay;
         replay_fleshed_out_move_sequence(play_replay_testing);
         play_phase = play_testing_mate;
@@ -2411,13 +2671,13 @@ static void done_validating_king_placements(void)
          * E.g. mate by castling: if we attack the rook, the castling is not
          * even playable */
         if (solve_result==previous_move_has_not_solved)
-          end_of_iteration = true;
+          max_decision_level = decision_level_forever;
       }
 
       break;
 
     case play_attacking_mating_piece:
-      REPORT_DECISION_OUTCOME("Placed mating piece attacker");
+      REPORT_DECISION_OUTCOME("%s","placed mating piece attacker");
       done_placing_mating_piece_attacker();
       break;
 
@@ -2469,7 +2729,6 @@ static void done_validating_king_placements(void)
 //  printf(":%u\n",end_of_iteration);
 
   TracePosition(being_solved.board,being_solved.spec);
-  TraceValue("%u",end_of_iteration);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2486,7 +2745,7 @@ static void nominate_king_invisible_by_invisible(void)
   {
     square const *s;
     TraceText("Try to make one of the placed invisibles the king to be mated\n");
-    for (s = boardnum; *s && !end_of_iteration; ++s)
+    for (s = boardnum; *s && curr_decision_level<=max_decision_level; ++s)
       if (get_walk_of_piece_on_square(*s)==Dummy
           && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
       {
@@ -2497,10 +2756,11 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        REPORT_DECISION_PLACEMENT(*s);
-        ++decision_level;
+        max_decision_level = decision_level_latest;
+        REPORT_DECISION_KING_NOMINATION(*s);
+        ++curr_decision_level;
         restart_from_scratch();
-        --decision_level;
+        --curr_decision_level;
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
@@ -2522,31 +2782,24 @@ static void indistinct_king_placement_validation(void)
 
   being_solved.king_square[side_to_be_mated] = initsquare;
   TraceText("The king to be mated can be anywhere\n");
-  REPORT_DECISION_OUTCOME("The king to be mated can be anywhere");
+  REPORT_DECISION_OUTCOME("%s","The king to be mated can be anywhere");
   REPORT_DEADEND;
 
   switch (play_phase)
   {
     case play_detecting_revelations:
-      if (revelation_status_is_uninitialised)
-        initialise_revelations();
-      else
-        update_revelations();
-
-      if (nr_potential_revelations==0)
-        end_of_iteration = true;
-
+      do_revelation_bookkeeping();
       break;
 
     case play_validating_mate:
       combined_validation_result = no_mate;
       combined_result = previous_move_has_not_solved;
-      end_of_iteration = true;
+      max_decision_level = decision_level_forever;
       break;
 
     default:
       combined_result = previous_move_has_not_solved;
-      end_of_iteration = true;
+      max_decision_level = decision_level_forever;
       break;
   }
 
@@ -2563,7 +2816,7 @@ static void impossible_king_placement_validation(void)
 
   being_solved.king_square[side_to_be_mated] = initsquare;
   TraceText("The king to be mated can't be placed\n");
-  REPORT_DECISION_OUTCOME("The king to be mated can't be placed");
+  REPORT_DECISION_OUTCOME("%s","The king to be mated can't be placed");
   REPORT_DEADEND;
 
   TraceFunctionExit(__func__);
@@ -2592,7 +2845,7 @@ static void validate_king_placements(void)
   if (being_solved.king_square[side_to_be_mated]==initsquare)
   {
     being_solved.king_square[side_to_be_mated] = nullsquare;
-    if (nr_total_invisbles_consumed()==total_invisible_number)
+    if (nr_placeable_invisibles_for_side(side_to_be_mated)==0)
     {
       being_solved.king_square[side_to_be_mated] = initsquare;
       if (current_consumption.placed_not_fleshed_out[side_to_be_mated]>0)
@@ -2613,7 +2866,7 @@ static void validate_king_placements(void)
            && nr_total_invisbles_consumed()==total_invisible_number)
   {
     combined_result = previous_move_is_illegal;
-    REPORT_DECISION_OUTCOME("The king of the mating side can't be placed");
+    REPORT_DECISION_OUTCOME("%s","The king of the mating side can't be placed");
     REPORT_DEADEND;
   }
   else
@@ -2664,7 +2917,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("revelation expected, but square is empty - aborting\n");
-          REPORT_DECISION_OUTCOME("revelation expected, but square is empty - aborting");
+          REPORT_DECISION_OUTCOME("%s","revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
         }
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
@@ -2675,7 +2928,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           {
             // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
-            REPORT_DECISION_OUTCOME("revelation of king - but king has already been placed - aborting");
+            REPORT_DECISION_OUTCOME("%s","revelation of king - but king has already been placed - aborting");
             REPORT_DEADEND;
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
@@ -2687,7 +2940,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           else
           {
             TraceText("revealed piece belongs to different side than actual piece\n");
-            REPORT_DECISION_OUTCOME("revealed piece belongs to different side than actual piece");
+            REPORT_DECISION_OUTCOME("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
           }
         }
@@ -2711,7 +2964,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
-          REPORT_DECISION_OUTCOME("revelation expected - but walk of present piece is different - aborting");
+          REPORT_DECISION_OUTCOME("%s","revelation expected - but walk of present piece is different - aborting");
           REPORT_DEADEND;
         }
         break;
@@ -2732,7 +2985,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("the revealed piece isn't here (any more?)\n");
-          REPORT_DECISION_OUTCOME("the revealed piece isn't here (any more?)");
+          REPORT_DECISION_OUTCOME("%s","the revealed piece isn't here (any more?)");
           REPORT_DEADEND;
         }
         else if (get_walk_of_piece_on_square(on)==walk_revealed
@@ -2745,7 +2998,7 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
-          REPORT_DECISION_OUTCOME("the revelation has been violated - terminating redoing effects with this ply");
+          REPORT_DECISION_OUTCOME("%s","the revelation has been violated - terminating redoing effects with this ply");
           REPORT_DEADEND;
         }
         break;
@@ -2862,7 +3115,7 @@ static void adapt_capture_effect(void)
       else
       {
         TraceText("move is now blocked\n");
-        REPORT_DECISION_OUTCOME("move is now blocked");
+        REPORT_DECISION_OUTCOME("%s","move is now blocked");
         REPORT_DEADEND;
       }
     }
@@ -2873,7 +3126,7 @@ static void adapt_capture_effect(void)
     if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
     {
       TraceText("bad idea if the capturer is a pawn!\n");
-      REPORT_DECISION_OUTCOME("bad idea if the capturer is a pawn!");
+      REPORT_DECISION_OUTCOME("%s","bad idea if the capturer is a pawn!");
       REPORT_DEADEND;
     }
     else
@@ -2937,9 +3190,9 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
 
       update_nr_taboos_for_current_move_in_ply(+1);
       REPORT_DECISION_MOVE('<','-');
-      ++decision_level;
+      ++curr_decision_level;
       restart_from_scratch();
-      --decision_level;
+      --curr_decision_level;
       update_nr_taboos_for_current_move_in_ply(-1);
 
       motivation[id] = save_motivation;
@@ -2969,15 +3222,16 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
-    while (!end_of_iteration
+    while (curr_decision_level<=max_decision_level
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
+      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
       move_effect_journal[movement].u.piece_movement.from -= vec[k];
     }
@@ -3005,7 +3259,7 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
   move_effect_journal[king_square_movement].u.king_square_movement.to = move_effect_journal[movement].u.piece_movement.to;
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-  for (k = vec_queen_start; k<=vec_queen_end && !end_of_iteration; ++k)
+  for (k = vec_queen_start; k<=vec_queen_end && curr_decision_level<=max_decision_level; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -3013,6 +3267,7 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
+      max_decision_level = decision_level_latest;
       being_solved.king_square[trait[nbply]] = move_effect_journal[movement].u.piece_movement.from;
       move_effect_journal[king_square_movement].u.king_square_movement.from = move_effect_journal[movement].u.piece_movement.from;
       done_fleshing_out_random_move_by_specific_invisible_to();
@@ -3040,14 +3295,17 @@ static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+    {
+      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -3079,14 +3337,17 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   {
     done_fleshing_out_random_move_by_specific_invisible_to();
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
       SquareFlags const doublestepsq = side_moving==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
       move_effect_journal[movement].u.piece_movement.from -= dir;
       if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublestepsq)
           && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+      {
+        max_decision_level = decision_level_latest;
         done_fleshing_out_random_move_by_specific_invisible_to();
+      }
     }
   }
 
@@ -3183,8 +3444,9 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
       reallocate_fleshing_out(side_playing);
 
-      for (walk = Pawn; walk<=Bishop && !end_of_iteration; ++walk)
+      for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
       {
+        max_decision_level = decision_level_latest;
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
         flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
@@ -3200,7 +3462,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   else
   {
     TraceText("the piece has already moved\n");
-    REPORT_DECISION_OUTCOME("the piece has already moved");
+    REPORT_DECISION_OUTCOME("%s","the piece has already moved");
     REPORT_DEADEND;
   }
 
@@ -3249,6 +3511,12 @@ static void adapt_pre_capture_effect(void)
             empty_square(sq_addition);
             move_effect_journal[pre_capture].type = move_effect_piece_readdition;
           }
+          else
+          {
+            TraceText("no invisible left for placing it as victim\n");
+            REPORT_DECISION_OUTCOME("%s","no invisible left for placing it as victim");
+            REPORT_DEADEND;
+          }
 
           current_consumption = save_consumption;
           TraceConsumption();TraceEOL();
@@ -3256,7 +3524,7 @@ static void adapt_pre_capture_effect(void)
         else
         {
           TraceText("we should add a victim, but we can't because of how we have fleshed out earlier moves\n");
-          REPORT_DECISION_OUTCOME("we should add a victim, but we can't because of how we have fleshed out earlier moves");
+          REPORT_DECISION_OUTCOME("%s","we should add a victim, but we can't because of how we have fleshed out earlier moves");
           REPORT_DEADEND;
         }
       }
@@ -3295,16 +3563,20 @@ static void adapt_pre_capture_effect(void)
       else if (was_taboo(sq_addition))
       {
         TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
-        REPORT_DECISION_OUTCOME("Hmm - some invisible piece must have traveled through the castling partner's square");
+        REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
         REPORT_DEADEND;
       }
       else
       {
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
         Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+        PieceIdType const id = GetPieceId(flags_added);
 
         assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
         move_effect_journal[pre_capture].type = move_effect_none;
+        // TODO can we do better here? the rook has ben here FOREVER
+        motivation[id].levels.side = curr_decision_level;
+        motivation[id].levels.walk = curr_decision_level;
         ++being_solved.number_of_pieces[side_added][walk_added];
         occupy_square(sq_addition,walk_added,flags_added);
         restart_from_scratch();
@@ -3331,13 +3603,13 @@ static void done_fleshing_out_random_move_by_invisible_from(void)
   TraceFunctionParamListEnd();
 
   REPORT_DECISION_MOVE('>','-');
-  ++decision_level;
+  ++curr_decision_level;
 
   update_nr_taboos_for_current_move_in_ply(+1);
   restart_from_scratch();
   update_nr_taboos_for_current_move_in_ply(-1);
 
-  --decision_level;
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3374,7 +3646,7 @@ static void flesh_out_accidental_capture_by_invisible(void)
     if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");
-      REPORT_DECISION_OUTCOME("the planned victim was added to later act from its current square");
+      REPORT_DECISION_OUTCOME("%s","the planned victim was added to later act from its current square");
       REPORT_DEADEND;
     }
     else
@@ -3417,7 +3689,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
         done_fleshing_out_random_move_by_invisible_from();
       }
 
-      if (!end_of_iteration)
+      if (curr_decision_level<=max_decision_level)
       {
         SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
         if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublstepsq))
@@ -3428,6 +3700,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
           {
             if (!is_taboo(sq_doublestep,side))
             {
+              max_decision_level = decision_level_latest;
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               done_fleshing_out_random_move_by_invisible_from();
             }
@@ -3438,16 +3711,18 @@ static void flesh_out_random_move_by_invisible_pawn_from(void)
 
     // TODO add capture victim if arrival square empty and nr_total...>0
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_right;
+      max_decision_level = decision_level_latest;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_left;
+      max_decision_level = decision_level_latest;
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       flesh_out_accidental_capture_by_invisible();
     }
@@ -3471,15 +3746,17 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
   TraceFunctionParamListEnd();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
   {
     square sq_arrival;
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
-         !end_of_iteration;
+         curr_decision_level<=max_decision_level;
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+
+      max_decision_level = decision_level_latest;
 
       /* "factoring out" the invokations of is_taboo() is tempting, but we
        * want to break the loop if sq_arrival is not empty whether or not
@@ -3520,7 +3797,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && !end_of_iteration; ++k)
+  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
     if (!is_taboo(sq_arrival,trait[nbply]))
@@ -3528,6 +3805,8 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+
+      max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_arrival))
         done_fleshing_out_random_move_by_invisible_from();
@@ -3638,10 +3917,11 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     reallocate_fleshing_out(side_playing);
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
       if (being_solved.king_square[side_playing]==initsquare)
       {
+        max_decision_level = decision_level_latest;
         being_solved.king_square[side_playing] = sq_departure;
         ++being_solved.number_of_pieces[side_playing][King];
         replace_walk(sq_departure,King);
@@ -3654,12 +3934,13 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       }
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
       SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
       SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
       if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
       {
+        max_decision_level = decision_level_latest;
         ++being_solved.number_of_pieces[side_playing][Pawn];
         replace_walk(sq_departure,Pawn);
         if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
@@ -3668,8 +3949,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       }
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Knight];
       replace_walk(sq_departure,Knight);
       if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
@@ -3677,8 +3959,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Knight];
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Bishop];
       replace_walk(sq_departure,Bishop);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3688,8 +3971,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Bishop];
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Rook];
       replace_walk(sq_departure,Rook);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3699,8 +3983,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][Rook];
     }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
     {
+      max_decision_level = decision_level_latest;
       ++being_solved.number_of_pieces[side_playing][Queen];
       replace_walk(sq_departure,Queen);
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
@@ -3751,6 +4036,9 @@ static square const *find_next_forward_mover(square const *start_square)
   return result;
 }
 
+/* This function is recursive so that we remember which invisibles have already been
+ * visited
+ */
 static void forward_random_move_by_invisible(square const *start_square)
 {
   square const *s;
@@ -3769,10 +4057,16 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
+    REPORT_DECISION_SQUARE('>',*s);
+    ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
+    --curr_decision_level;
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
       forward_random_move_by_invisible(s+1);
+    }
 
     motivation[id].last = save_last;
   }
@@ -3796,9 +4090,9 @@ static void forward_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       REPORT_DECISION_MOVE('>','-');
-      ++decision_level;
+      ++curr_decision_level;
       recurse_into_child_ply();
-      --decision_level;
+      --curr_decision_level;
     }
 
     current_consumption = save_consumption;
@@ -3882,10 +4176,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
         update_nr_taboos_for_current_move_in_ply(+1);
-        REPORT_DECISION_MOVE('>','*');
-        ++decision_level;
         restart_from_scratch();
-        --decision_level;
         update_nr_taboos_for_current_move_in_ply(-1);
 
         motivation[id] = save_motivation;
@@ -3919,18 +4210,11 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   TraceWalk(get_walk_of_piece_on_square(sq_departure));
   TraceEOL();
 
-  // TODO do tests earlier, modifications only if tests succeed?
-
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    Flags const save_flags = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(save_flags);
-
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
 
     TraceWalk(get_walk_of_piece_on_square(sq_departure));
     TraceValue("%x",being_solved.spec[sq_departure]);
@@ -3945,26 +4229,39 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceSquare(motivation[id_existing].last.on);
     TraceEOL();
 
-    TraceValue("%u",id_random);
-    TraceValue("%u",motivation[id_random].first.purpose);
-    TraceValue("%u",motivation[id_random].first.acts_when);
-    TraceSquare(motivation[id_random].first.on);
-    TraceValue("%u",motivation[id_random].last.purpose);
-    TraceValue("%u",motivation[id_random].last.acts_when);
-    TraceSquare(motivation[id_random].last.on);
-    TraceEOL();
-
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    SetPieceId(being_solved.spec[sq_departure],id_random);
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
-
     if (motivation[id_existing].last.acts_when<nbply
-        || (motivation[id_existing].last.purpose==purpose_interceptor
+        || ((motivation[id_existing].last.purpose==purpose_interceptor
+             || motivation[id_existing].last.purpose==purpose_capturer)
             && motivation[id_existing].last.acts_when<=nbply))
     {
+      decision_levels_type const levels_existing = motivation[id_existing].levels;
+
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
+
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       motivation_type const save_motivation = motivation[id_random];
+
+      TraceValue("%u",id_random);
+      TraceValue("%u",motivation[id_random].first.purpose);
+      TraceValue("%u",motivation[id_random].first.acts_when);
+      TraceSquare(motivation[id_random].first.on);
+      TraceValue("%u",motivation[id_random].last.purpose);
+      TraceValue("%u",motivation[id_random].last.acts_when);
+      TraceSquare(motivation[id_random].last.on);
+      TraceEOL();
+
+      motivation[id_existing].levels = motivation[id_random].levels;
+
+      REPORT_DECISION_SQUARE('>',sq_departure);
+      ++curr_decision_level;
+
+      SetPieceId(being_solved.spec[sq_departure],id_random);
+      replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
       /* deactivate the pre-capture insertion of the moving total invisible since
        * that piece is already on the board
@@ -3987,10 +4284,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       {
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-        REPORT_DECISION_MOVE('>','*');
-        ++decision_level;
         recurse_into_child_ply();
-        --decision_level;
       }
       else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
       {
@@ -4007,10 +4301,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
         {
           move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-          REPORT_DECISION_MOVE('>','*');
-          ++decision_level;
           restart_from_scratch();
-          --decision_level;
         }
 
         replace_walk(sq_departure,Dummy);
@@ -4024,16 +4315,21 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       update_nr_taboos_for_current_move_in_ply(-1);
 
       move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+      replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+
+      being_solved.spec[sq_departure] = flags_existing;
+
+      --curr_decision_level;
+
+      motivation[id_existing].levels = levels_existing;
     }
     else
     {
       TraceText("the piece was added to later act from its current square\n");
-      REPORT_DECISION_OUTCOME("the piece was added to later act from its current square");
+      REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
       REPORT_DEADEND;
     }
-
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-    being_solved.spec[sq_departure] = save_flags;
   }
 
   TraceFunctionExit(__func__);
@@ -4045,6 +4341,9 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
                                                  square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -4057,18 +4356,29 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 
   TraceSquare(sq_arrival);TraceEOL();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  motivation[id_inserted].levels.from = curr_decision_level;
+
+  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square sq_departure;
     for (sq_departure = sq_arrival+vec[kcurr];
-         is_square_empty(sq_departure) && !end_of_iteration;
+         is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
          sq_departure += vec[kcurr])
       if (first_taboo_violation==nullsquare)
+      {
+        max_decision_level = decision_level_latest;
+        REPORT_DECISION_SQUARE('>',sq_departure);
+        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
+        --curr_decision_level;
+      }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
         flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -4092,9 +4402,12 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
-  for (kcurr = vec_queen_start; kcurr<=vec_queen_end && !end_of_iteration; ++kcurr)
+  for (kcurr = vec_queen_start;
+       kcurr<=vec_queen_end && curr_decision_level<=max_decision_level;
+       ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
+    max_decision_level = decision_level_latest;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
       move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
@@ -4114,10 +4427,19 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
 
         if (is_square_empty(sq_departure))
         {
+          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+          PieceIdType const id = GetPieceId(flags);
+
+          motivation[id].levels.from = curr_decision_level;
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
+
           assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
           SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
           flesh_out_capture_by_inserted_invisible(King,sq_departure);
           CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+
+          --curr_decision_level;
         }
         else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
         {
@@ -4153,13 +4475,25 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && !end_of_iteration; ++kcurr)
+  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
+      max_decision_level = decision_level_latest;
+
       if (is_square_empty(sq_departure))
+      {
+        move_effect_journal_index_type const precapture = effects_base;
+        Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+        PieceIdType const id = GetPieceId(flags);
+
+        motivation[id].levels.from = curr_decision_level;
+        REPORT_DECISION_SQUARE('>',sq_departure);
+        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+        --curr_decision_level;
+      }
       else
         flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
     }
@@ -4184,30 +4518,61 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 
   // TODO en passant capture
 
-  if (!end_of_iteration)
+  TraceValue("%u",curr_decision_level);
+  TraceValue("%u",max_decision_level);
+  TraceSquare(sq_capture);
+  TraceEOL();
+
+  if (curr_decision_level<=max_decision_level)
   {
     square sq_departure = sq_capture+dir_vert+dir_left;
+    TraceSquare(sq_departure);TraceEOL();
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
-      if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+      max_decision_level = decision_level_latest;
+      if (!TSTFLAG(sq_spec[sq_departure],basesq)
+          && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
         if (is_square_empty(sq_departure))
+        {
+          move_effect_journal_index_type const precapture = effects_base;
+          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+          PieceIdType const id = GetPieceId(flags);
+
+          max_decision_level = decision_level_latest;
+          motivation[id].levels.from = curr_decision_level;
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+          --curr_decision_level;
+        }
         else
           flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
       }
     }
   }
 
-  if (!end_of_iteration)
+  if (curr_decision_level<=max_decision_level)
   {
     square sq_departure = sq_capture+dir_vert+dir_right;
     if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
     {
+      max_decision_level = decision_level_latest;
       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
         if (is_square_empty(sq_departure))
+        {
+          move_effect_journal_index_type const precapture = effects_base;
+          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+          PieceIdType const id = GetPieceId(flags);
+
+          max_decision_level = decision_level_latest;
+          motivation[id].levels.from = curr_decision_level;
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+          --curr_decision_level;
+        }
         else
           flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
       }
@@ -4222,10 +4587,13 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id = GetPieceId(flags);
 
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
@@ -4233,17 +4601,57 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  flesh_out_capture_by_invisible_king(first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
-  flesh_out_capture_by_invisible_pawn(first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
-  flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
-  flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
-  flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
-  TraceValue("%u",end_of_iteration);TraceEOL();
-  flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,first_taboo_violation);
+  max_decision_level = decision_level_latest;
+  motivation[id].levels.walk = curr_decision_level;
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',King);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_king(first_taboo_violation);
+    --curr_decision_level;
+  }
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Pawn);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_pawn(first_taboo_violation);
+    --curr_decision_level;
+  }
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Knight);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
+    --curr_decision_level;
+  }
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Bishop);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
+    --curr_decision_level;
+  }
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Rook);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
+  --curr_decision_level;
+  }
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Queen);
+    ++curr_decision_level;
+    flesh_out_capture_by_invisible_rider(Queen,vec_queen_start,vec_queen_end,first_taboo_violation);
+  --curr_decision_level;
+  }
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -4255,14 +4663,18 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
 static void flesh_out_capture_by_invisible(square first_taboo_violation)
 {
-  unsigned int const save_counter = report_decision_counter;
-
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
   Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags);
+  decision_levels_type const save_levels = motivation[id_inserted].levels;
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
@@ -4270,6 +4682,9 @@ static void flesh_out_capture_by_invisible(square first_taboo_violation)
 
   TraceSquare(sq_capture);TraceEOL();
   assert(!is_square_empty(sq_capture));
+
+  motivation[id_inserted].levels.side = decision_level_forever;
+  motivation[id_inserted].levels.to = decision_level_forever;
 
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
@@ -4279,11 +4694,15 @@ static void flesh_out_capture_by_invisible(square first_taboo_violation)
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
 
+#if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
-    REPORT_DECISION_OUTCOME("no invisible piece found that could capture");
+    REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture");
     REPORT_DEADEND;
   }
+#endif
+
+  motivation[id_inserted].levels = save_levels;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4479,7 +4898,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
     {
 //      if (move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure==move_by_invisible
 //          && move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].arrival==move_by_invisible)
-      REPORT_DECISION_OUTCOME("move is blocked by interceptor");
+      REPORT_DECISION_OUTCOME("%s","move is blocked by interceptor");
       REPORT_DEADEND;
       result = true;
     }
@@ -4497,7 +4916,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tighten the if()?
     {
-      REPORT_DECISION_OUTCOME("move is intercepted by interceptor");
+      REPORT_DECISION_OUTCOME("%s","move is intercepted by interceptor");
       REPORT_DEADEND;
       result = true;
     }
@@ -4514,7 +4933,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
      * 4. the current pawn move is blocked on sq
      */
     {
-      REPORT_DECISION_OUTCOME("pawn move is blocked by invisible piece");
+      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4533,7 +4952,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
     {
-      REPORT_DECISION_OUTCOME("pawn move is blocked by invisible piece");
+      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4548,7 +4967,7 @@ static boolean is_taboo_violation_acceptable(square first_taboo_violation)
        * 4. the revelation would only happen after the current move
        */
     {
-      REPORT_DECISION_OUTCOME("move is intercepted by invisible piece");
+      REPORT_DECISION_OUTCOME("%s","move is intercepted by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -4597,7 +5016,7 @@ static void done_intercepting_illegal_checks(void)
       else
       {
         TraceText("can't resolve taboo violation\n");
-        REPORT_DECISION_OUTCOME("can't resolve taboo violation");
+        REPORT_DECISION_OUTCOME("%s","can't resolve taboo violation");
         REPORT_DEADEND;
       }
     }
@@ -4606,8 +5025,9 @@ static void done_intercepting_illegal_checks(void)
       flesh_out_capture_by_invisible(first_taboo_violation);
     else if (first_taboo_violation==nullsquare)
       adapt_pre_capture_effect();
-    else
-      assert(is_taboo_violation_acceptable(first_taboo_violation));
+    // TODO review
+//    else
+//      assert(is_taboo_violation_acceptable(first_taboo_violation));
   }
   else
     validate_king_placements();
@@ -4636,17 +5056,25 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 
   ++being_solved.number_of_pieces[side][walk];
 
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
   SetPieceId(spec,next_invisible_piece_id);
   occupy_square(pos,walk,spec);
-  REPORT_DECISION_WALK(walk);
-  ++decision_level;
+  REPORT_DECISION_WALK('>',walk);
+  ++curr_decision_level;
 
   {
     Side const side_attacked = advers(side);
     square const king_pos = being_solved.king_square[side_attacked];
     vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
                                                                 king_pos);
-    if (k==0 || king_pos+vec[k]!=pos)
+    if (k==UINT_MAX)
+    {
+      // TODO accept uninterceptable check if not illegal
+      REPORT_DECISION_OUTCOME("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
+      REPORT_DEADEND;
+    }
+    else if (k==0 || king_pos+vec[k]!=pos)
     {
       if (nr_check_vectors==1)
         restart_from_scratch();
@@ -4656,12 +5084,12 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
     else
     {
       // TODO accept uninterceptable check if not illegal
-      REPORT_DECISION_OUTCOME("interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
+      REPORT_DECISION_OUTCOME("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
     }
   }
 
-  --decision_level;
+  --curr_decision_level;
 
   TraceWalk(get_walk_of_piece_on_square(pos));
   TraceWalk(walk);
@@ -4694,7 +5122,7 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
 
   if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
   {
-    REPORT_DECISION_OUTCOME("pawn is placed on impossible square");
+    REPORT_DECISION_OUTCOME("%s","pawn is placed on impossible square");
     REPORT_DEADEND;
   }
   else
@@ -4751,6 +5179,8 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
   TraceEOL();
   assert(is_square_empty(pos));
 
+  motivation[next_invisible_piece_id].levels.walk = curr_decision_level;
+
   if (being_solved.king_square[side]==initsquare)
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
 
@@ -4761,18 +5191,26 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
     {
       Flags const spec = BIT(side)|BIT(Chameleon);
 
-      if (!end_of_iteration)
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
         walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos,spec);
+      }
 
       if (side==trait[nbply])
       {
-        if (!end_of_iteration)
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
           walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight,spec);
+        }
 
-        if (!end_of_iteration)
+        if (curr_decision_level<=max_decision_level)
         {
           vec_index_type const k = check_vectors[nr_check_vectors-1];
           boolean const is_check_orthogonal = k<=vec_rook_end;
+
+          max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
             walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop,spec);
@@ -4783,13 +5221,18 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
       else
       {
         piece_walk_type walk;
-        for (walk = Queen; walk<=Bishop && !end_of_iteration; ++walk)
+        for (walk = Queen;
+             walk<=Bishop && curr_decision_level<=max_decision_level;
+             ++walk)
+        {
+          max_decision_level = decision_level_latest;
           walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
+        }
       }
     }
     else
     {
-      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
+      REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
     }
 
@@ -4812,22 +5255,27 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  if (!is_taboo(pos,preferred_side))
+  if (curr_decision_level<=max_decision_level)
   {
-    REPORT_DECISION_COLOUR(BIT(preferred_side));
-    ++decision_level;
-    walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
-    --decision_level;
+    if (!is_taboo(pos,preferred_side))
+    {
+      max_decision_level = decision_level_latest;
+      REPORT_DECISION_COLOUR('>',BIT(preferred_side));
+      ++curr_decision_level;
+      walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
+      --curr_decision_level;
+    }
   }
 
-  if (!end_of_iteration)
+  if (curr_decision_level<=max_decision_level)
   {
     if (!is_taboo(pos,advers(preferred_side)))
     {
-      REPORT_DECISION_COLOUR(BIT(advers(preferred_side)));
-      ++decision_level;
+      max_decision_level = decision_level_latest;
+      REPORT_DECISION_COLOUR('>',BIT(advers(preferred_side)));
+      ++curr_decision_level;
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
-      --decision_level;
+      --curr_decision_level;
     }
   }
 
@@ -4852,7 +5300,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
   if (is_taboo(s,side))
   {
-    REPORT_DECISION_OUTCOME("taboo violation");
+    REPORT_DECISION_OUTCOME("%s","taboo violation");
     REPORT_DEADEND;
   }
   else
@@ -4860,9 +5308,6 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
     consumption_type const save_consumption = current_consumption;
 
     TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
-
-    REPORT_DECISION_COLOUR(BIT(side));
-    ++decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
 
@@ -4875,15 +5320,13 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
     }
     else
     {
-      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
+      REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
     }
 
     current_consumption = save_consumption;
 
     SETFLAG(being_solved.spec[s],advers(side));
-
-    --decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -4904,34 +5347,44 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   motivation[next_invisible_piece_id].first.on = s;
   motivation[next_invisible_piece_id].last.on = s;
 
+  motivation[next_invisible_piece_id].levels.from = decision_level_latest;
+  motivation[next_invisible_piece_id].levels.side = curr_decision_level;
+
   if (play_phase==play_validating_mate)
   {
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
     SetPieceId(spec,next_invisible_piece_id);
     occupy_square(s,Dummy,spec);
-    REPORT_DECISION_PLACEMENT(s);
-    ++decision_level;
 
-    place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+    motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
 
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      // TODO if REPORT_DECISION_COLOUR() faked level 1 less or used level.side,
+      // we could adjust curr_decision_level outside of the loop
+      REPORT_DECISION_COLOUR('>',BIT(White));
+      ++curr_decision_level;
+      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+      --curr_decision_level;
+    }
 
-    if (!end_of_iteration)
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      REPORT_DECISION_COLOUR('>',BIT(Black));
+      ++curr_decision_level;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-
-    --decision_level;
+      --curr_decision_level;
+    }
 
     TraceConsumption();TraceEOL();
 
     empty_square(s);
   }
   else
-  {
-    REPORT_DECISION_SQUARE(s);
-    ++decision_level;
     colour_interceptor(check_vectors,nr_check_vectors,s);
-    --decision_level;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4940,10 +5393,11 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 static void place_interceptor_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors)
 {
-  unsigned int const save_counter = report_decision_counter;
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
+  int const dir = vec[kcurr];
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -4961,13 +5415,16 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
   motivation[next_invisible_piece_id].first.acts_when = nbply;
   motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
   motivation[next_invisible_piece_id].last.acts_when = nbply;
+  motivation[next_invisible_piece_id].levels.to = curr_decision_level;
 
   {
     square s;
-    for (s = king_pos+vec[kcurr];
-         is_square_empty(s) && !end_of_iteration;
-         s += vec[kcurr])
+    for (s = king_pos+dir;
+         is_square_empty(s) && curr_decision_level<=max_decision_level;
+         s += dir)
     {
+      max_decision_level = decision_level_latest;
+
       /* use the taboo machinery to avoid attempting to intercept on the same
        * square in different iterations.
        * nbply minus 1 is correct - this taboo is equivalent to those deduced from
@@ -4981,7 +5438,14 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
         TraceEOL();
         if (!was_taboo(s))
+        {
+          // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
+          // curr_decision_level outside of the loop
+          REPORT_DECISION_SQUARE('>',s);
+          ++curr_decision_level;
           place_interceptor_on_square(check_vectors,nr_check_vectors,s);
+          --curr_decision_level;
+        }
       }
       ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];
       ++nr_taboos_for_current_move_in_ply[nbply-1][Black][s];
@@ -4994,18 +5458,27 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         --nr_taboos_for_current_move_in_ply[nbply-1][Black][s2];
       }
     }
-    TraceSquare(s);
-    TraceValue("%u",end_of_iteration);
-    TraceEOL();
-  }
 
-  motivation[next_invisible_piece_id].last.purpose = purpose_none;
-  --next_invisible_piece_id;
+    TraceSquare(s);TraceEOL();
 
-  if (report_decision_counter==save_counter)
-  {
-    REPORT_DECISION_OUTCOME("no available square found where to intercept check");
-    REPORT_DEADEND;
+    motivation[next_invisible_piece_id] = motivation_null;
+    --next_invisible_piece_id;
+
+#if defined(REPORT_DECISIONS)
+    if (report_decision_counter==save_counter)
+    {
+      REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
+      REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
+      REPORT_DECISION_OUTCOME("no available square found where to intercept check"
+                              " from dir:%d"
+                              " by id:%u"
+                              " in ply:%u",
+                              dir,
+                              id_checker,
+                              ply_check);
+      REPORT_DEADEND;
+    }
+#endif
   }
 
   TraceFunctionExit(__func__);
@@ -5027,62 +5500,99 @@ static void deal_with_illegal_checks(void)
 
   if (king_pos==initsquare)
     done_intercepting_illegal_checks();
-  else if (is_square_attacked_by_uninterceptable(side_in_check,king_pos))
-  {
-    REPORT_DECISION_OUTCOME("uninterceptable illegal check");
-    REPORT_DEADEND;
-  }
   else
   {
-    for (kcurr = vec_rook_start;
-         kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
-         ++kcurr)
+    vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_pos);
+    if (k!=0)
     {
-      int const dir = vec[kcurr];
-      square const sq_end = find_end_of_line(king_pos,dir);
-      piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+      int const dir_check = vec[k];
+      uninterceptable_check_delivered_from = king_pos+dir_check;
+      Flags const checkerSpec = being_solved.spec[uninterceptable_check_delivered_from];
+      if (TSTFLAG(checkerSpec,Chameleon))
+      {
+        PieceIdType const id_checker = GetPieceId(checkerSpec);
+        assert(uninterceptable_check_delivered_in_ply==ply_nil);
+        uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
 
-      TraceValue("%d",dir);
-      TraceSquare(sq_end);
-      TraceWalk(walk_at_end);
-      TraceEOL();
+        REPORT_DECISION_OUTCOME("uninterceptable illegal check"
+                                " from dir:%d"
+                                " by id:%u"
+                                " delivered in ply:%u",
+                                dir_check,
+                                id_checker,
+                                uninterceptable_check_delivered_in_ply);
 
-      if (TSTFLAG(being_solved.spec[sq_end],side_checking)
-          && (walk_at_end==Queen || walk_at_end==Rook))
-        check_vectors[nr_check_vectors++] = kcurr;
+        TraceValue("%u",nbply);TraceEOL();
+        if (nbply==ply_retro_move+1)
+        {
+          REPORT_DEADEND;
+        }
+        else
+          restart_from_scratch();
+
+        uninterceptable_check_delivered_in_ply = ply_nil;
+      }
+      else
+      {
+        REPORT_DECISION_OUTCOME("%s","uninterceptable check by visible piece");
+        REPORT_DEADEND;
+      }
+
+      uninterceptable_check_delivered_from = initsquare;
     }
-
-    for (kcurr = vec_bishop_start;
-         kcurr<=vec_bishop_end && nr_available>=nr_check_vectors;
-         ++kcurr)
-    {
-      int const dir = vec[kcurr];
-      square const sq_end = find_end_of_line(king_pos,dir);
-      piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-      TraceValue("%d",dir);
-      TraceSquare(sq_end);
-      TraceWalk(walk_at_end);
-      TraceEOL();
-
-      if (TSTFLAG(being_solved.spec[sq_end],side_checking)
-          && (walk_at_end==Queen || walk_at_end==Bishop))
-        check_vectors[nr_check_vectors++] = kcurr;
-    }
-
-    TraceValue("%u",nr_available);
-    TraceValue("%u",nr_check_vectors);
-    TraceEOL();
-
-    if (nr_check_vectors==0)
-      done_intercepting_illegal_checks();
-    else if (nr_available>=nr_check_vectors)
-      place_interceptor_on_line(check_vectors,nr_check_vectors);
     else
     {
-      TraceText("not enough available invisibles for intercepting all illegal checks\n");
-      REPORT_DECISION_OUTCOME("not enough available invisibles for intercepting all illegal checks");
-      REPORT_DEADEND;
+      /* there are only interceptable checks - deal with them */
+      for (kcurr = vec_rook_start;
+           kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
+           ++kcurr)
+      {
+        int const dir = vec[kcurr];
+        square const sq_end = find_end_of_line(king_pos,dir);
+        piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+        TraceValue("%d",dir);
+        TraceSquare(sq_end);
+        TraceWalk(walk_at_end);
+        TraceEOL();
+
+        if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+            && (walk_at_end==Queen || walk_at_end==Rook))
+          check_vectors[nr_check_vectors++] = kcurr;
+      }
+
+      for (kcurr = vec_bishop_start;
+           kcurr<=vec_bishop_end && nr_available>=nr_check_vectors;
+           ++kcurr)
+      {
+        int const dir = vec[kcurr];
+        square const sq_end = find_end_of_line(king_pos,dir);
+        piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+        TraceValue("%d",dir);
+        TraceSquare(sq_end);
+        TraceWalk(walk_at_end);
+        TraceEOL();
+
+        if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+            && (walk_at_end==Queen || walk_at_end==Bishop))
+          check_vectors[nr_check_vectors++] = kcurr;
+      }
+
+      TraceValue("%u",nr_available);
+      TraceValue("%u",nr_check_vectors);
+      TraceEOL();
+
+      if (nr_check_vectors==0)
+        done_intercepting_illegal_checks();
+      else if (nr_available>=nr_check_vectors)
+        place_interceptor_on_line(check_vectors,nr_check_vectors);
+      else
+      {
+        TraceText("not enough available invisibles for intercepting all illegal checks\n");
+        REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+        REPORT_DEADEND;
+      }
     }
   }
 
@@ -5126,7 +5636,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
-    end_of_iteration = false;
+    max_decision_level = decision_level_latest;
     REPORT_DECISION_CONTEXT(__func__);
     start_iteration();
   }
@@ -5156,7 +5666,7 @@ static void test_mate(void)
 
     case mate_attackable:
     case mate_defendable_by_interceptors:
-      end_of_iteration = false;
+      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
       REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
@@ -5164,7 +5674,7 @@ static void test_mate(void)
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
-      end_of_iteration = false;
+      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
       REPORT_DECISION_CONTEXT(__func__);
       start_iteration();
@@ -5285,8 +5795,8 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
       TraceValue("%u",knowledge[idx_knowledge].last.acts_when);TraceEOL();
       if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
       {
-        PieceIdType const id = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-        motivation_type const save_motivation = motivation[id];
+        PieceIdType const id_on_board = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+        motivation_type const save_motivation = motivation[id_on_board];
         move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
@@ -5298,45 +5808,60 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
 
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-        motivation[id].first = knowledge[idx_knowledge].last;
-        motivation[id].first.on = sq_first_on;
-        motivation[id].first.acts_when = 0;
-        motivation[id].last = knowledge[idx_knowledge].last;
-
-        TraceValue("%u",motivation[id].last.purpose);TraceEOL();
-
         if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
         {
-          ply const save_nbply = nbply;
-          move_effect_journal_index_type const precapture = effects_base;
-          move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
+          /* applying this knowledge doesn't work if the revealed piece has
+           * moved before this capturing move */
+          PieceIdType const id_from_knowledge = GetPieceId(knowledge[idx_knowledge].spec);
+          if (id_on_board!=id_from_knowledge)
+            apply_knowledge(idx_knowledge+1,next_step);
+          else
+          {
+            motivation[id_on_board].first = knowledge[idx_knowledge].last;
+            motivation[id_on_board].first.on = sq_first_on;
+            motivation[id_on_board].first.acts_when = 0;
+            motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-          assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-          assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
-          assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
+            TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
-          TraceText("prevent searching for capturer - we know who did it\n");
+            ply const save_nbply = nbply;
+            move_effect_journal_index_type const precapture = effects_base;
+            move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
 
-          move_effect_journal[precapture].type = move_effect_none;
-          move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
-          move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
-          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
+            assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+            assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
+            assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
 
-          nbply = knowledge[idx_knowledge].last.acts_when;
-          update_nr_taboos_for_current_move_in_ply(+1);
-          nbply = save_nbply;
+            TraceText("prevent searching for capturer - we know who did it\n");
 
-          apply_royal_knowledge(idx_knowledge,next_step);
+            move_effect_journal[precapture].type = move_effect_none;
+            move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
+            move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on);
+            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
 
-          nbply = knowledge[idx_knowledge].last.acts_when;
-          update_nr_taboos_for_current_move_in_ply(-1);
-          nbply = save_nbply;
+            nbply = knowledge[idx_knowledge].last.acts_when;
+            update_nr_taboos_for_current_move_in_ply(+1);
+            nbply = save_nbply;
 
-          move_effect_journal[movement] = save_movement;
-          move_effect_journal[precapture].type = move_effect_piece_readdition;
+            apply_royal_knowledge(idx_knowledge,next_step);
+
+            nbply = knowledge[idx_knowledge].last.acts_when;
+            update_nr_taboos_for_current_move_in_ply(-1);
+            nbply = save_nbply;
+
+            move_effect_journal[movement] = save_movement;
+            move_effect_journal[precapture].type = move_effect_piece_readdition;
+          }
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_castling_partner)
         {
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
+
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
+
           assert(move_effect_journal[movement].u.piece_movement.moving==King);
           assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
           assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
@@ -5344,6 +5869,13 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
         {
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
+
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
+
           // TODO can we restrict generation of random move to the revealed piece?
           assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
           assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
@@ -5352,13 +5884,24 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
         }
         else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
         {
-          assert(sq_first_on==knowledge[idx_knowledge].revealed_on);
+          motivation[id_on_board].first = knowledge[idx_knowledge].last;
+          motivation[id_on_board].first.on = sq_first_on;
+          motivation[id_on_board].first.acts_when = 0;
+          motivation[id_on_board].last = knowledge[idx_knowledge].last;
+
+          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
+
+          // We no longer look for different insertion squares for pieces
+          // revealed after having been inserted to move to intercept an
+          // illegal check.
+          // This seems to have been useless knowledge anyway...
+//          assert(sq_first_on==knowledge[idx_knowledge].revealed_on);
           apply_royal_knowledge(idx_knowledge,next_step);
         }
         else
           assert(0);
 
-        motivation[id] = save_motivation;
+        motivation[id_on_board] = save_motivation;
       }
       else
         apply_royal_knowledge(idx_knowledge,next_step);
@@ -5371,7 +5914,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
     {
       combined_result = previous_move_has_not_solved;
       TraceText("allocation for application of knowledge not possible\n");
-      REPORT_DECISION_OUTCOME("allocation for application of knowledge not possible");
+      REPORT_DECISION_OUTCOME("%s","allocation for application of knowledge not possible");
       REPORT_DEADEND;
     }
 
@@ -5392,7 +5935,7 @@ static void make_revelations(void)
   play_phase = play_rewinding;
   rewind_effects();
   play_phase = play_detecting_revelations;
-  end_of_iteration = false;
+  max_decision_level = decision_level_latest;
   REPORT_DECISION_CONTEXT(__func__);
   apply_knowledge(0,&start_iteration);
   play_phase = play_unwinding;
@@ -5508,6 +6051,8 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   update_nr_taboos_for_current_move_in_ply(-1);
   update_taboo(-1);
 
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
   if (!revelation_status_is_uninitialised)
     evaluate_revelations();
 
@@ -5515,7 +6060,15 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   size_knowledge = save_size_knowledge;
   current_consumption = save_consumption;
-  next_invisible_piece_id = save_next_invisible_piece_id;
+
+  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+
+  assert(next_invisible_piece_id>=save_next_invisible_piece_id);
+  while (next_invisible_piece_id>save_next_invisible_piece_id)
+  {
+    motivation[next_invisible_piece_id] = motivation_null;
+    --next_invisible_piece_id;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5739,10 +6292,18 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
       {
         knowledge_index_type const save_size_knowledge = size_knowledge;
         PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
+
         evaluate_revelations();
         pipe_solve_delegate(si);
         TraceConsumption();TraceEOL();
-        next_invisible_piece_id = save_next_invisible_piece_id;
+
+        assert(next_invisible_piece_id>=save_next_invisible_piece_id);
+        while (next_invisible_piece_id>save_next_invisible_piece_id)
+        {
+          motivation[next_invisible_piece_id] = motivation_null;
+          --next_invisible_piece_id;
+        }
+
         size_knowledge = save_size_knowledge;
       }
     }
@@ -5927,6 +6488,11 @@ static void attack_checks(void)
         TraceText("mate can be refuted by interceptors or free TIs (if any)\n");
         mate_validation_result = mate_defendable_by_interceptors;
       }
+    }
+    else if (k==UINT_MAX)
+    {
+      TraceText("mate can be refuted by interceptors - no free TI avaliable\n");
+      mate_validation_result = mate_defendable_by_interceptors;
     }
     else if (nr_placeable_invisibles_for_side(side_in_check)>0)
     {
@@ -6228,7 +6794,7 @@ static void play_castling_with_invisible_partner(slice_index si,
       motivation[next_invisible_piece_id].last.acts_when = nbply;
       motivation[next_invisible_piece_id].last.on = square_partner;
       pipe_solve_delegate(si);
-      motivation[next_invisible_piece_id].last.purpose = purpose_none;
+      motivation[next_invisible_piece_id] = motivation_null;
       --next_invisible_piece_id;
     }
     else
@@ -6286,7 +6852,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
     {
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
-      SetPieceId(spec,++next_invisible_piece_id);
+      ++next_invisible_piece_id;
+      SetPieceId(spec,next_invisible_piece_id);
+      TraceValue("%u",next_invisible_piece_id);TraceEOL();
       assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
       motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
       motivation[next_invisible_piece_id].first.acts_when = nbply;
@@ -6302,7 +6870,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
        * adjustment when we flesh out this capture by inserting a new invisible.
        */
       pipe_solve_delegate(si);
-      motivation[next_invisible_piece_id].last.purpose = purpose_none;
+
+      motivation[next_invisible_piece_id] = motivation_null;
       --next_invisible_piece_id;
     }
     else
@@ -6368,7 +6937,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
              */
             pipe_solve_delegate(si);
 
-            motivation[next_invisible_piece_id].last.purpose = purpose_none;
+            motivation[next_invisible_piece_id] = motivation_null;
             --next_invisible_piece_id;
           }
           else
