@@ -4126,6 +4126,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   // TODO first test allocation, then taboo?
 
+  REPORT_DECISION_SQUARE('>',sq_departure);
+  ++curr_decision_level;
+
   if (!was_taboo(sq_departure) && !is_taboo(sq_departure,side_playing))
   {
     consumption_type const save_consumption = current_consumption;
@@ -4192,6 +4195,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
     current_consumption = save_consumption;
   }
+
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4341,9 +4346,7 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
                                                  square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -4356,8 +4359,6 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 
   TraceSquare(sq_arrival);TraceEOL();
 
-  motivation[id_inserted].levels.from = curr_decision_level;
-
   for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square sq_departure;
@@ -4367,10 +4368,7 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
       if (first_taboo_violation==nullsquare)
       {
         max_decision_level = decision_level_latest;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
-        --curr_decision_level;
       }
 
     if (curr_decision_level<=max_decision_level)
@@ -4388,7 +4386,9 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
   move_effect_journal_index_type const precapture = effects_base;
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   move_effect_journal_index_type const king_square_movement = movement+1;
@@ -4427,19 +4427,10 @@ static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
 
         if (is_square_empty(sq_departure))
         {
-          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-          PieceIdType const id = GetPieceId(flags);
-
-          motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-
           assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
           SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
           flesh_out_capture_by_inserted_invisible(King,sq_departure);
           CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-
-          --curr_decision_level;
         }
         else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
         {
@@ -4465,6 +4456,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
                                                   square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -4483,17 +4475,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
-      {
-        move_effect_journal_index_type const precapture = effects_base;
-        Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-        PieceIdType const id = GetPieceId(flags);
-
-        motivation[id].levels.from = curr_decision_level;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-        --curr_decision_level;
-      }
       else
         flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
     }
@@ -4506,6 +4488,7 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
 static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
   int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
@@ -4535,16 +4518,8 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
       {
         if (is_square_empty(sq_departure))
         {
-          move_effect_journal_index_type const precapture = effects_base;
-          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-          PieceIdType const id = GetPieceId(flags);
-
           max_decision_level = decision_level_latest;
-          motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-          --curr_decision_level;
         }
         else
           flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
@@ -4562,16 +4537,8 @@ static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
       {
         if (is_square_empty(sq_departure))
         {
-          move_effect_journal_index_type const precapture = effects_base;
-          Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-          PieceIdType const id = GetPieceId(flags);
-
           max_decision_level = decision_level_latest;
-          motivation[id].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-          --curr_decision_level;
         }
         else
           flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
@@ -4588,12 +4555,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+  decision_levels_type const levels_inserted = motivation[id_inserted].levels;
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-  Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id = GetPieceId(flags);
 
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
@@ -4602,7 +4571,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   max_decision_level = decision_level_latest;
-  motivation[id].levels.walk = curr_decision_level;
+  motivation[id_inserted].levels.walk = curr_decision_level;
+  motivation[id_inserted].levels.from = curr_decision_level;
 
   if (curr_decision_level<=max_decision_level)
   {
@@ -4656,6 +4626,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+
+  motivation[id_inserted].levels = levels_inserted;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
