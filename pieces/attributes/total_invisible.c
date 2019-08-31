@@ -2316,7 +2316,10 @@ static void restart_from_scratch(void)
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
+      REPORT_DECISION_MOVE('<','-');
+      ++curr_decision_level;
       restart_from_scratch();
+      --curr_decision_level;
     }
 
     if (is_random_move_by_invisible(nbply))
