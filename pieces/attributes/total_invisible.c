@@ -338,13 +338,14 @@ static unsigned long report_decision_counter;
   fflush(stdout);
 
 #define REPORT_END_LINE \
-    printf(" (f:%u+%u n:%u+%u c:%u+%u)", \
-           current_consumption.placed_fleshed_out[White], \
-           current_consumption.placed_fleshed_out[Black], \
-           current_consumption.placed_not_fleshed_out[White], \
-           current_consumption.placed_not_fleshed_out[Black], \
-           current_consumption.claimed[White], \
-           current_consumption.claimed[Black]); \
+    printf(" (!:%u+%u DU:%u+%u F:%u+%u)" \
+           , current_consumption.claimed[White] \
+           , current_consumption.claimed[Black] \
+           , current_consumption.placed_not_fleshed_out[White] \
+           , current_consumption.placed_not_fleshed_out[Black] \
+           , current_consumption.placed_fleshed_out[White] \
+           , current_consumption.placed_fleshed_out[Black] \
+           ); \
     printf(" - %d",__LINE__); \
     printf(" - %lu\n",report_decision_counter++); \
     fflush(stdout);
@@ -2317,10 +2318,7 @@ static void restart_from_scratch(void)
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-      REPORT_DECISION_MOVE('<','-');
-      ++curr_decision_level;
       restart_from_scratch();
-      --curr_decision_level;
     }
 
     if (is_random_move_by_invisible(nbply))
@@ -3444,16 +3442,35 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     {
       Side const side_playing = trait[nbply];
       piece_walk_type walk;
+      decision_levels_type const save_levels = motivation[id].levels;
+
+      TraceValue("%u",id);
+      TraceValue("%u",motivation[id].levels.walk);
+      TraceEOL();
+      assert(motivation[id].levels.walk==decision_level_latest);
+      assert(motivation[id].levels.from==decision_level_latest);
+      motivation[id].levels.walk = curr_decision_level;
+      motivation[id].levels.from = curr_decision_level+1;
 
       for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
       {
         max_decision_level = decision_level_latest;
+
+        REPORT_DECISION_WALK('<',walk);
+        ++curr_decision_level;
+
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
+
         flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+
         replace_walk(sq_arrival,Dummy);
         --being_solved.number_of_pieces[side_playing][walk];
+
+        --curr_decision_level;
       }
+
+      motivation[id].levels = save_levels;
     }
     else
       flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
@@ -3570,6 +3587,7 @@ static void adapt_pre_capture_effect(void)
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
         Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
         PieceIdType const id = GetPieceId(flags_added);
+        decision_levels_type const save_levels = motivation[id].levels;
 
         assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
         move_effect_journal[pre_capture].type = move_effect_none;
@@ -3582,6 +3600,8 @@ static void adapt_pre_capture_effect(void)
         empty_square(sq_addition);
         --being_solved.number_of_pieces[side_added][walk_added];
         move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+
+        motivation[id].levels = save_levels;
       }
     }
   }
@@ -4570,6 +4590,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   max_decision_level = decision_level_latest;
+
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level;
 
@@ -5284,15 +5305,15 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
     if (allocate_placement_of_claimed_not_fleshed_out(side))
     {
+      REPORT_DECISION_COLOUR('>',BIT(White));
+      ++curr_decision_level;
+
       if (nr_check_vectors==1)
         done_intercepting_illegal_checks();
       else
         place_interceptor_on_line(check_vectors,nr_check_vectors-1);
-    }
-    else
-    {
-      REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
-      REPORT_DEADEND;
+
+      --curr_decision_level;
     }
 
     current_consumption = save_consumption;
@@ -5333,21 +5354,13 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-      // TODO if REPORT_DECISION_COLOUR() faked level 1 less or used level.side,
-      // we could adjust curr_decision_level outside of the loop
-      REPORT_DECISION_COLOUR('>',BIT(White));
-      ++curr_decision_level;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
-      --curr_decision_level;
     }
 
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR('>',BIT(Black));
-      ++curr_decision_level;
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-      --curr_decision_level;
     }
 
     TraceConsumption();TraceEOL();
@@ -6833,6 +6846,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
       motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
       motivation[next_invisible_piece_id].last.acts_when = nbply;
       motivation[next_invisible_piece_id].last.on = sq_departure;
+      motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
+      motivation[next_invisible_piece_id].levels.from = decision_level_latest;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -6900,6 +6915,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
             motivation[next_invisible_piece_id].last.purpose = purpose_victim;
             motivation[next_invisible_piece_id].last.acts_when = nbply;
             motivation[next_invisible_piece_id].last.on = sq_capture;
+            motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
+            motivation[next_invisible_piece_id].levels.from = decision_level_latest;
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
