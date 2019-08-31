@@ -171,6 +171,7 @@ static boolean allocate_placement_of_unclaimed_fleshed_out(Side side)
 /* Adapt bookkeeping to the fleshing out of an invisible of a side */
 static void reallocate_fleshing_out(Side side)
 {
+  assert(current_consumption.placed_not_fleshed_out[side]>0);
   --current_consumption.placed_not_fleshed_out[side];
   ++current_consumption.placed_fleshed_out[side];
 }
@@ -3442,10 +3443,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
     {
       Side const side_playing = trait[nbply];
-      consumption_type const save_consumption = current_consumption;
       piece_walk_type walk;
-
-      reallocate_fleshing_out(side_playing);
 
       for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
       {
@@ -3456,8 +3454,6 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
         replace_walk(sq_arrival,Dummy);
         --being_solved.number_of_pieces[side_playing][walk];
       }
-
-      current_consumption = save_consumption;
     }
     else
       flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
