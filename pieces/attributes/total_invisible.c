@@ -337,6 +337,18 @@ static unsigned long report_decision_counter;
   move_numbers_write_history(top_ply_of_regular_play+1); \
   fflush(stdout);
 
+#define REPORT_END_LINE \
+    printf(" (f:%u+%u n:%u+%u c:%u+%u)", \
+           current_consumption.placed_fleshed_out[White], \
+           current_consumption.placed_fleshed_out[Black], \
+           current_consumption.placed_not_fleshed_out[White], \
+           current_consumption.placed_not_fleshed_out[Black], \
+           current_consumption.claimed[White], \
+           current_consumption.claimed[Black]); \
+    printf(" - %d",__LINE__); \
+    printf(" - %lu\n",report_decision_counter++); \
+    fflush(stdout);
+
 #define REPORT_DECISION_MOVE(direction,action) \
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
   printf("%c%u ",direction,nbply); \
@@ -350,9 +362,7 @@ static unsigned long report_decision_counter;
   WriteSquare(&output_plaintext_engine, \
               stdout, \
               move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
-  printf(" - %d",__LINE__); \
-  printf(" - %lu\n",report_decision_counter++); \
-  fflush(stdout);
+  REPORT_END_LINE;
 
 #define REPORT_DECISION_SQUARE(direction,pos) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
@@ -360,9 +370,7 @@ static unsigned long report_decision_counter;
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
-    fflush(stdout);
+    REPORT_END_LINE;
 
 #define REPORT_DECISION_COLOUR(direction,colourspec) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
@@ -372,9 +380,7 @@ static unsigned long report_decision_counter;
               colourspec, \
               initsquare, \
               true); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
-    fflush(stdout);
+    REPORT_END_LINE;
 
 #define REPORT_DECISION_WALK(direction,walk) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
@@ -382,9 +388,7 @@ static unsigned long report_decision_counter;
     WriteWalk(&output_plaintext_engine, \
               stdout, \
               walk); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
-    fflush(stdout);
+    REPORT_END_LINE;
 
 #define REPORT_DECISION_KING_NOMINATION(pos) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
@@ -399,16 +403,12 @@ static unsigned long report_decision_counter;
     WriteSquare(&output_plaintext_engine, \
                 stdout, \
                 pos); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
-    fflush(stdout);
+    REPORT_END_LINE;
 
 #define REPORT_DECISION_OUTCOME(format, ...) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf(format,__VA_ARGS__); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
-    fflush(stdout);
+    REPORT_END_LINE;
 
 #else
 
