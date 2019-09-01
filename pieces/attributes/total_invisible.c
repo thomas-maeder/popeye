@@ -2174,21 +2174,6 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = save_when;
   }
-  else
-  {
-    consumption_type const save_consumption = current_consumption;
-
-    TraceText("random move by unplaced invisible\n");
-
-    current_consumption.claimed[trait[nbply]] = true;
-    TraceConsumption();TraceEOL();
-
-    if (nr_total_invisbles_consumed()<=total_invisible_number)
-      restart_from_scratch();
-
-    current_consumption = save_consumption;
-    TraceConsumption();TraceEOL();
-  }
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
@@ -2315,15 +2300,23 @@ static void restart_from_scratch(void)
     --nbply;
     undo_move_effects();
 
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      restart_from_scratch();
-    }
-
     if (is_random_move_by_invisible(nbply))
     {
-      if (uninterceptable_check_delivered_from!=initsquare
+      {
+        consumption_type const save_consumption = current_consumption;
+
+        current_consumption.claimed[trait[nbply]] = true;
+
+        if (nr_total_invisbles_consumed()<=total_invisible_number)
+        {
+          TraceText("random move by unplaced invisible\n");
+          restart_from_scratch();
+        }
+
+        current_consumption = save_consumption;
+      }
+
+      f (uninterceptable_check_delivered_from!=initsquare
           && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
       {
         // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
@@ -2339,6 +2332,11 @@ static void restart_from_scratch(void)
         max_decision_level = decision_level_latest;
         retract_random_move_by_invisible(boardnum);
       }
+    }
+    else if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
     }
 
     redo_move_effects();
