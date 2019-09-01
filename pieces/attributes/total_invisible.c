@@ -2316,7 +2316,7 @@ static void restart_from_scratch(void)
         current_consumption = save_consumption;
       }
 
-      f (uninterceptable_check_delivered_from!=initsquare
+      if (uninterceptable_check_delivered_from!=initsquare
           && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
       {
         // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
