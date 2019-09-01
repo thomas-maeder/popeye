@@ -326,6 +326,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #if defined(REPORT_DECISIONS)
 
 static unsigned long report_decision_counter;
+static unsigned long prev_report_decision_counter;
 
 #define REPORT_DECISION_DECLARE(x) x
 
@@ -333,7 +334,10 @@ static unsigned long report_decision_counter;
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
   printf(" - %d",__LINE__); \
-  printf(" - %lu",report_decision_counter++); \
+  printf(" - %lu",report_decision_counter); \
+  printf(" - %lu",report_decision_counter-prev_report_decision_counter); \
+  prev_report_decision_counter = report_decision_counter; \
+  ++report_decision_counter; \
   move_numbers_write_history(top_ply_of_regular_play+1); \
   fflush(stdout);
 
@@ -409,7 +413,8 @@ static unsigned long report_decision_counter;
 #define REPORT_DECISION_OUTCOME(format, ...) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf(format,__VA_ARGS__); \
-    REPORT_END_LINE;
+    printf("\n"); \
+    fflush(stdout);
 
 #else
 
@@ -4203,14 +4208,29 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
         move_effect_journal[precapture].type = move_effect_piece_readdition;
       }
+      else
+      {
+        REPORT_DECISION_OUTCOME("%s","capturer would deliver uninterceptable check");
+        REPORT_DEADEND;
+      }
 
       empty_square(sq_departure);
       --being_solved.number_of_pieces[side_playing][walk_capturing];
 
       TraceConsumption();TraceEOL();
     }
+    else
+    {
+      REPORT_DECISION_OUTCOME("%s","capturer can't be allocated");
+      REPORT_DEADEND;
+    }
 
     current_consumption = save_consumption;
+  }
+  else
+  {
+    REPORT_DECISION_OUTCOME("%s","capturer can't be placed on taboo square");
+    REPORT_DEADEND;
   }
 
   --curr_decision_level;
