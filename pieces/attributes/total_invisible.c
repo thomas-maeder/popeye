@@ -302,7 +302,8 @@ static motivation_type motivation[MaxPieceId+1];
 
 static ply flesh_out_move_highwater = ply_retro_move;
 
-static PieceIdType next_invisible_piece_id;
+static PieceIdType top_visible_piece_id;
+static PieceIdType top_invisible_piece_id;
 
 static move_effect_journal_index_type top_before_relevations[maxply+1];
 
@@ -1591,6 +1592,8 @@ static void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type cons
   replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed,nbply);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
 
+  motivation[id_on_board].last.purpose = purpose_none;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1606,6 +1609,8 @@ static void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type co
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  motivation[id_original].last.purpose = motivation[id_revealed].last.purpose;
 
   assert(get_walk_of_piece_on_square(on)==walk_revealed);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
@@ -1852,21 +1857,21 @@ static void add_revelation_effect(square s, unsigned int idx)
     TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
-    ++next_invisible_piece_id;
-    TraceValue("%u",next_invisible_piece_id);TraceEOL();
+    ++top_invisible_piece_id;
+    TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
-    motivation[next_invisible_piece_id].first = revelation_status[idx].first;
-    motivation[next_invisible_piece_id].last = revelation_status[idx].last;
+    motivation[top_invisible_piece_id].first = revelation_status[idx].first;
+    motivation[top_invisible_piece_id].last = revelation_status[idx].last;
 
-    TraceValue("%u",motivation[next_invisible_piece_id].first.purpose);
-    TraceValue("%u",motivation[next_invisible_piece_id].first.acts_when);
-    TraceSquare(motivation[next_invisible_piece_id].first.on);
-    TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
-    TraceValue("%u",motivation[next_invisible_piece_id].last.acts_when);
-    TraceSquare(motivation[next_invisible_piece_id].last.on);
+    TraceValue("%u",motivation[top_invisible_piece_id].first.purpose);
+    TraceValue("%u",motivation[top_invisible_piece_id].first.acts_when);
+    TraceSquare(motivation[top_invisible_piece_id].first.on);
+    TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
+    TraceValue("%u",motivation[top_invisible_piece_id].last.acts_when);
+    TraceSquare(motivation[top_invisible_piece_id].last.on);
     TraceEOL();
 
-    SetPieceId(spec,next_invisible_piece_id);
+    SetPieceId(spec,top_invisible_piece_id);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,revelation_status[idx].walk,spec);
   }
@@ -2214,17 +2219,17 @@ static void fake_capture_by_invisible(void)
 
   assert(!is_square_empty(uninterceptable_check_delivered_from));
 
-  ++next_invisible_piece_id;
-  SetPieceId(spec,next_invisible_piece_id);
-  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+  ++top_invisible_piece_id;
+  SetPieceId(spec,top_invisible_piece_id);
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
-  assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-  motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
-  motivation[next_invisible_piece_id].first.acts_when = nbply;
-  motivation[next_invisible_piece_id].first.on = capture_by_invisible;
-  motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
-  motivation[next_invisible_piece_id].last.acts_when = nbply;
-  motivation[next_invisible_piece_id].last.on = capture_by_invisible;
+  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  motivation[top_invisible_piece_id].first.purpose = purpose_capturer;
+  motivation[top_invisible_piece_id].first.acts_when = nbply;
+  motivation[top_invisible_piece_id].first.on = capture_by_invisible;
+  motivation[top_invisible_piece_id].last.purpose = purpose_capturer;
+  motivation[top_invisible_piece_id].last.acts_when = nbply;
+  motivation[top_invisible_piece_id].last.on = capture_by_invisible;
 
   assert(move_effect_journal[precapture].type==move_effect_none);
   move_effect_journal[precapture].type = move_effect_piece_readdition;
@@ -2264,8 +2269,8 @@ static void fake_capture_by_invisible(void)
   move_effect_journal[capture].type = move_effect_no_piece_removal;
   move_effect_journal[precapture].type = move_effect_none;
 
-  motivation[next_invisible_piece_id] = motivation_null;
-  --next_invisible_piece_id;
+  motivation[top_invisible_piece_id] = motivation_null;
+  --top_invisible_piece_id;
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
@@ -2370,22 +2375,22 @@ static void place_mating_piece_attacker(Side side_attacking,
     if (allocate_placement_of_claimed_fleshed_out(side_attacking))
     {
       ++being_solved.number_of_pieces[side_attacking][walk];
-      SetPieceId(spec,++next_invisible_piece_id);
-      assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].first.purpose = purpose_attacker;
-      motivation[next_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
-      motivation[next_invisible_piece_id].first.on = s;
-      motivation[next_invisible_piece_id].last.purpose = purpose_attacker;
-      motivation[next_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
-      motivation[next_invisible_piece_id].last.on = s;
-      TraceValue("%u",next_invisible_piece_id);
-      TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+      SetPieceId(spec,++top_invisible_piece_id);
+      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+      motivation[top_invisible_piece_id].first.purpose = purpose_attacker;
+      motivation[top_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
+      motivation[top_invisible_piece_id].first.on = s;
+      motivation[top_invisible_piece_id].last.purpose = purpose_attacker;
+      motivation[top_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
+      motivation[top_invisible_piece_id].last.on = s;
+      TraceValue("%u",top_invisible_piece_id);
+      TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
       TraceEOL();
       occupy_square(s,walk,spec);
       restart_from_scratch();
       empty_square(s);
-      motivation[next_invisible_piece_id] = motivation_null;
-      --next_invisible_piece_id;
+      motivation[top_invisible_piece_id] = motivation_null;
+      --top_invisible_piece_id;
       --being_solved.number_of_pieces[side_attacking][walk];
     }
   }
@@ -3080,11 +3085,18 @@ static void adapt_capture_effect(void)
     }
     else
     {
+      PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
+      motivation_type const save_motivation = motivation[id_captured];
+
       TraceText("capture of a total invisible that happened to land on the arrival square\n");
 
       assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
       assert(!TSTFLAG(being_solved.spec[to],Royal));
+
+      motivation[id_captured].last.purpose = purpose_victim;
+      motivation[id_captured].last.on = initsquare;
+      motivation[id_captured].last.acts_when = nbply;
 
       move_effect_journal[capture].type = move_effect_piece_removal;
       move_effect_journal[capture].reason = move_effect_reason_regular_capture;
@@ -3093,6 +3105,8 @@ static void adapt_capture_effect(void)
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
       recurse_into_child_ply();
       move_effect_journal[capture].type = move_effect_no_piece_removal;
+
+      motivation[id_captured] = save_motivation;
     }
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition)
@@ -3621,15 +3635,25 @@ static void adapt_pre_capture_effect(void)
 
 static void done_fleshing_out_random_move_by_invisible_from(void)
 {
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+  motivation_type const save_motivation = motivation[id];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   REPORT_DECISION_MOVE('>','-');
   ++curr_decision_level;
 
+  motivation[id].last.on = sq_arrival;
+
   update_nr_taboos_for_current_move_in_ply(+1);
   restart_from_scratch();
   update_nr_taboos_for_current_move_in_ply(-1);
+
+  motivation[id] = save_motivation;
 
   --curr_decision_level;
 
@@ -3639,9 +3663,9 @@ static void done_fleshing_out_random_move_by_invisible_from(void)
 
 static void flesh_out_accidental_capture_by_invisible(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
@@ -3673,6 +3697,13 @@ static void flesh_out_accidental_capture_by_invisible(void)
     }
     else
     {
+      PieceIdType const id_captured = GetPieceId(being_solved.spec[sq_arrival]);
+      motivation_type const save_motivation = motivation[id_captured];
+
+      motivation[id_captured].last.purpose = purpose_victim;
+      motivation[id_captured].last.on = initsquare;
+      motivation[id_captured].last.acts_when = nbply;
+
       assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
       move_effect_journal[capture].type = move_effect_piece_removal;
       move_effect_journal[capture].u.piece_removal.on = sq_arrival;
@@ -3682,6 +3713,8 @@ static void flesh_out_accidental_capture_by_invisible(void)
       done_fleshing_out_random_move_by_invisible_from();
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
+
+      motivation[id_captured] = save_motivation;
     }
   }
 
@@ -4172,6 +4205,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       if (!is_square_uninterceptably_attacked(side_in_check,king_pos))
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType const id = GetPieceId(flags);
         motivation_type const save_motivation = motivation[id];
 
@@ -4193,7 +4227,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         assert(motivation[id].last.purpose==purpose_capturer);
         /* fill in the rest: */
         motivation[id].first.on = sq_departure;
-        motivation[id].last.on = sq_departure;
+        motivation[id].last.on = sq_arrival;
 
         move_effect_journal[movement].u.piece_movement.from = sq_departure;
         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
@@ -4279,14 +4313,14 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
              || motivation[id_existing].last.purpose==purpose_capturer)
             && motivation[id_existing].last.acts_when<=nbply))
     {
-      decision_levels_type const levels_existing = motivation[id_existing].levels;
+      motivation_type const motivation_existing = motivation[id_existing];
 
       move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
       move_effect_journal_index_type const precapture = effects_base;
 
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-      motivation_type const save_motivation = motivation[id_random];
+      motivation_type const motivation_random = motivation[id_random];
 
       TraceValue("%u",id_random);
       TraceValue("%u",motivation[id_random].first.purpose);
@@ -4298,6 +4332,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       TraceEOL();
 
       motivation[id_existing].levels = motivation[id_random].levels;
+      motivation[id_existing].last.purpose = purpose_none;
+      motivation[id_existing].last.on = initsquare;
+      motivation[id_existing].last.acts_when = nbply
 
       REPORT_DECISION_SQUARE('>',sq_departure);
       ++curr_decision_level;
@@ -4318,7 +4355,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       update_nr_taboos_for_current_move_in_ply(+1);
 
       motivation[id_random].first = motivation[id_existing].first;
-      motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.from;
+      motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
       motivation[id_random].last.acts_when = nbply;
       motivation[id_random].last.purpose = purpose_capturer;
 
@@ -4352,7 +4389,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         current_consumption = save_consumption;
       }
 
-      motivation[id_random] = save_motivation;
+      motivation[id_random] = motivation_random;
 
       update_nr_taboos_for_current_move_in_ply(-1);
 
@@ -4364,7 +4401,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
       --curr_decision_level;
 
-      motivation[id_existing].levels = levels_existing;
+      motivation[id_existing] = motivation_existing;
     }
     else
     {
@@ -4383,7 +4420,6 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
                                                  square first_taboo_violation)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -4611,6 +4647,36 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level;
+
+  {
+    PieceIdType id;
+    for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+    {
+      TraceValue("%u",id);
+
+      TraceValue("%u",motivation[id].first.purpose);
+      TraceValue("%u",motivation[id].first.acts_when);
+      TraceSquare(motivation[id].first.on);
+
+      TraceValue("%u",motivation[id].last.purpose);
+      TraceValue("%u",motivation[id].last.acts_when);
+      TraceSquare(motivation[id].last.on);
+
+      TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
+      TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+      TraceEOL();
+    }
+
+    for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+    {
+      TraceValue("%u",id);TraceEOL();
+      assert((motivation[id].first.acts_when>nbply)
+             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply)
+             || (motivation[id].last.purpose==purpose_capturer)
+             || (motivation[id].last.purpose==purpose_none)
+             || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
+    }
+  }
 
   if (curr_decision_level<=max_decision_level)
   {
@@ -5066,9 +5132,9 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 
   ++being_solved.number_of_pieces[side][walk];
 
-  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
-  SetPieceId(spec,next_invisible_piece_id);
+  SetPieceId(spec,top_invisible_piece_id);
   occupy_square(pos,walk,spec);
   REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
@@ -5189,7 +5255,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
   TraceEOL();
   assert(is_square_empty(pos));
 
-  motivation[next_invisible_piece_id].levels.walk = curr_decision_level;
+  motivation[top_invisible_piece_id].levels.walk = curr_decision_level;
 
   if (being_solved.king_square[side]==initsquare)
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
@@ -5354,20 +5420,20 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
   assert(nr_check_vectors>0);
 
-  motivation[next_invisible_piece_id].first.on = s;
-  motivation[next_invisible_piece_id].last.on = s;
+  motivation[top_invisible_piece_id].first.on = s;
+  motivation[top_invisible_piece_id].last.on = s;
 
-  motivation[next_invisible_piece_id].levels.from = decision_level_latest;
-  motivation[next_invisible_piece_id].levels.side = curr_decision_level;
+  motivation[top_invisible_piece_id].levels.from = decision_level_latest;
+  motivation[top_invisible_piece_id].levels.side = curr_decision_level;
 
   if (play_phase==play_validating_mate)
   {
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
 
-    SetPieceId(spec,next_invisible_piece_id);
+    SetPieceId(spec,top_invisible_piece_id);
     occupy_square(s,Dummy,spec);
 
-    motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
+    motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
 
     if (curr_decision_level<=max_decision_level)
     {
@@ -5407,17 +5473,17 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
 
   assert(nr_check_vectors>0);
 
-  ++next_invisible_piece_id;
+  ++top_invisible_piece_id;
 
-  TraceValue("%u",next_invisible_piece_id);
-  TraceValue("%u",motivation[next_invisible_piece_id].last.purpose);
+  TraceValue("%u",top_invisible_piece_id);
+  TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
   TraceEOL();
-  assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-  motivation[next_invisible_piece_id].first.purpose = purpose_interceptor;
-  motivation[next_invisible_piece_id].first.acts_when = nbply;
-  motivation[next_invisible_piece_id].last.purpose = purpose_interceptor;
-  motivation[next_invisible_piece_id].last.acts_when = nbply;
-  motivation[next_invisible_piece_id].levels.to = curr_decision_level;
+  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  motivation[top_invisible_piece_id].first.purpose = purpose_interceptor;
+  motivation[top_invisible_piece_id].first.acts_when = nbply;
+  motivation[top_invisible_piece_id].last.purpose = purpose_interceptor;
+  motivation[top_invisible_piece_id].last.acts_when = nbply;
+  motivation[top_invisible_piece_id].levels.to = curr_decision_level;
 
   {
     square s;
@@ -5463,8 +5529,8 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
 
     TraceSquare(s);TraceEOL();
 
-    motivation[next_invisible_piece_id] = motivation_null;
-    --next_invisible_piece_id;
+    motivation[top_invisible_piece_id] = motivation_null;
+    --top_invisible_piece_id;
 
 #if defined(REPORT_DECISIONS)
     if (report_decision_counter==save_counter)
@@ -6041,7 +6107,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 void total_invisible_reveal_after_mating_move(slice_index si)
 {
   consumption_type const save_consumption = current_consumption;
-  PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
+  PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
   knowledge_index_type const save_size_knowledge = size_knowledge;
 
   TraceFunctionEntry(__func__);
@@ -6053,7 +6119,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   update_nr_taboos_for_current_move_in_ply(-1);
   update_taboo(-1);
 
-  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
   if (!revelation_status_is_uninitialised)
     evaluate_revelations();
@@ -6063,13 +6129,13 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   size_knowledge = save_size_knowledge;
   current_consumption = save_consumption;
 
-  TraceValue("%u",next_invisible_piece_id);TraceEOL();
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
-  assert(next_invisible_piece_id>=save_next_invisible_piece_id);
-  while (next_invisible_piece_id>save_next_invisible_piece_id)
+  assert(top_invisible_piece_id>=save_next_invisible_piece_id);
+  while (top_invisible_piece_id>save_next_invisible_piece_id)
   {
-    motivation[next_invisible_piece_id] = motivation_null;
-    --next_invisible_piece_id;
+    motivation[top_invisible_piece_id] = motivation_null;
+    --top_invisible_piece_id;
   }
 
   TraceFunctionExit(__func__);
@@ -6293,17 +6359,17 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
           <=total_invisible_number)
       {
         knowledge_index_type const save_size_knowledge = size_knowledge;
-        PieceIdType const save_next_invisible_piece_id = next_invisible_piece_id;
+        PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
 
         evaluate_revelations();
         pipe_solve_delegate(si);
         TraceConsumption();TraceEOL();
 
-        assert(next_invisible_piece_id>=save_next_invisible_piece_id);
-        while (next_invisible_piece_id>save_next_invisible_piece_id)
+        assert(top_invisible_piece_id>=save_next_invisible_piece_id);
+        while (top_invisible_piece_id>save_next_invisible_piece_id)
         {
-          motivation[next_invisible_piece_id] = motivation_null;
-          --next_invisible_piece_id;
+          motivation[top_invisible_piece_id] = motivation_null;
+          --top_invisible_piece_id;
         }
 
         size_knowledge = save_size_knowledge;
@@ -6770,34 +6836,36 @@ void total_invisible_generate_special_moves(slice_index si)
 }
 
 static void play_castling_with_invisible_partner(slice_index si,
-                                                 square square_partner)
+                                                 square sq_departure_partner,
+                                                 square sq_arrival_partner)
 {
   Side const side = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(square_partner);
+  TraceSquare(sq_departure_partner);
+  TraceSquare(sq_arrival_partner);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(square_partner))
+  if (is_square_empty(sq_departure_partner))
   {
     consumption_type const save_consumption = current_consumption;
     if (allocate_placement_of_unclaimed_fleshed_out(trait[nbply]))
     {
       Flags spec = BIT(side)|BIT(Chameleon);
-      SetPieceId(spec,++next_invisible_piece_id);
+      SetPieceId(spec,++top_invisible_piece_id);
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                              square_partner,Rook,spec,side);
-      assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].first.purpose = purpose_castling_partner;
-      motivation[next_invisible_piece_id].first.acts_when = nbply;
-      motivation[next_invisible_piece_id].first.on = square_partner;
-      motivation[next_invisible_piece_id].last.purpose = purpose_castling_partner;
-      motivation[next_invisible_piece_id].last.acts_when = nbply;
-      motivation[next_invisible_piece_id].last.on = square_partner;
+                                              sq_departure_partner,Rook,spec,side);
+      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+      motivation[top_invisible_piece_id].first.purpose = purpose_castling_partner;
+      motivation[top_invisible_piece_id].first.acts_when = nbply;
+      motivation[top_invisible_piece_id].first.on = sq_departure_partner;
+      motivation[top_invisible_piece_id].last.purpose = purpose_castling_partner;
+      motivation[top_invisible_piece_id].last.acts_when = nbply;
+      motivation[top_invisible_piece_id].last.on = sq_arrival_partner;
       pipe_solve_delegate(si);
-      motivation[next_invisible_piece_id] = motivation_null;
-      --next_invisible_piece_id;
+      motivation[top_invisible_piece_id] = motivation_null;
+      --top_invisible_piece_id;
     }
     else
     {
@@ -6854,18 +6922,18 @@ void total_invisible_special_moves_player_solve(slice_index si)
     {
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
-      ++next_invisible_piece_id;
-      SetPieceId(spec,next_invisible_piece_id);
-      TraceValue("%u",next_invisible_piece_id);TraceEOL();
-      assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-      motivation[next_invisible_piece_id].first.purpose = purpose_capturer;
-      motivation[next_invisible_piece_id].first.acts_when = nbply;
-      motivation[next_invisible_piece_id].first.on = sq_departure;
-      motivation[next_invisible_piece_id].last.purpose = purpose_capturer;
-      motivation[next_invisible_piece_id].last.acts_when = nbply;
-      motivation[next_invisible_piece_id].last.on = sq_departure;
-      motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
-      motivation[next_invisible_piece_id].levels.from = decision_level_latest;
+      ++top_invisible_piece_id;
+      SetPieceId(spec,top_invisible_piece_id);
+      TraceValue("%u",top_invisible_piece_id);TraceEOL();
+      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+      motivation[top_invisible_piece_id].first.purpose = purpose_capturer;
+      motivation[top_invisible_piece_id].first.acts_when = nbply;
+      motivation[top_invisible_piece_id].first.on = sq_departure;
+      motivation[top_invisible_piece_id].last.purpose = purpose_capturer;
+      motivation[top_invisible_piece_id].last.acts_when = nbply;
+      motivation[top_invisible_piece_id].last.on = sq_departure;
+      motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
+      motivation[top_invisible_piece_id].levels.from = decision_level_latest;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -6875,8 +6943,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
        */
       pipe_solve_delegate(si);
 
-      motivation[next_invisible_piece_id] = motivation_null;
-      --next_invisible_piece_id;
+      motivation[top_invisible_piece_id] = motivation_null;
+      --top_invisible_piece_id;
     }
     else
       switch (sq_capture)
@@ -6896,9 +6964,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
           Side const side = trait[nbply];
           square const square_a = side==White ? square_a1 : square_a8;
           square const square_h = square_a+file_h;
+          square const square_f = square_a+file_f;
 
           TraceText("kingside_castling\n");
-          play_castling_with_invisible_partner(si,square_h);
+          play_castling_with_invisible_partner(si,square_h,square_f);
           break;
         }
 
@@ -6906,9 +6975,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
         {
           Side const side = trait[nbply];
           square const square_a = side==White ? square_a1 : square_a8;
+          square const square_d = square_a+file_d;
 
           TraceText("queenside_castling\n");
-          play_castling_with_invisible_partner(si,square_a);
+          play_castling_with_invisible_partner(si,square_a,square_d);
           break;
         }
 
@@ -6924,17 +6994,17 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
 
-            ++next_invisible_piece_id;
-            SetPieceId(spec,next_invisible_piece_id);
-            assert(motivation[next_invisible_piece_id].last.purpose==purpose_none);
-            motivation[next_invisible_piece_id].first.purpose = purpose_victim;
-            motivation[next_invisible_piece_id].first.acts_when = nbply;
-            motivation[next_invisible_piece_id].first.on = sq_capture;
-            motivation[next_invisible_piece_id].last.purpose = purpose_victim;
-            motivation[next_invisible_piece_id].last.acts_when = nbply;
-            motivation[next_invisible_piece_id].last.on = sq_capture;
-            motivation[next_invisible_piece_id].levels.walk = decision_level_latest;
-            motivation[next_invisible_piece_id].levels.from = decision_level_latest;
+            ++top_invisible_piece_id;
+            SetPieceId(spec,top_invisible_piece_id);
+            assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+            motivation[top_invisible_piece_id].first.purpose = purpose_victim;
+            motivation[top_invisible_piece_id].first.acts_when = nbply;
+            motivation[top_invisible_piece_id].first.on = sq_capture;
+            motivation[top_invisible_piece_id].last.purpose = purpose_victim;
+            motivation[top_invisible_piece_id].last.acts_when = nbply;
+            motivation[top_invisible_piece_id].last.on = sq_capture;
+            motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
+            motivation[top_invisible_piece_id].levels.from = decision_level_latest;
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
@@ -6943,8 +7013,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
              */
             pipe_solve_delegate(si);
 
-            motivation[next_invisible_piece_id] = motivation_null;
-            --next_invisible_piece_id;
+            motivation[top_invisible_piece_id] = motivation_null;
+            --top_invisible_piece_id;
           }
           else
           {
@@ -7243,7 +7313,8 @@ void total_invisible_invisibles_allocator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  next_invisible_piece_id = being_solved.currPieceId;
+  top_visible_piece_id = being_solved.currPieceId;
+  top_invisible_piece_id = top_visible_piece_id;
 
   being_solved.currPieceId += total_invisible_number;
 
