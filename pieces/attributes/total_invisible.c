@@ -2279,6 +2279,47 @@ static void fake_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static void backward_fleshout_random_move_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+
+  if (uninterceptable_check_delivered_from!=initsquare
+      && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+  {
+    // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      fake_capture_by_invisible();
+    }
+  }
+  else
+  {
+    consumption_type const save_consumption = current_consumption;
+
+    current_consumption.claimed[trait[nbply]] = true;
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      TraceText("stick to random move by unplaced invisible\n");
+      restart_from_scratch();
+    }
+
+    current_consumption = save_consumption;
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      retract_random_move_by_invisible(boardnum);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void restart_from_scratch(void)
 {
   TraceFunctionEntry(__func__);
@@ -2306,38 +2347,7 @@ static void restart_from_scratch(void)
     undo_move_effects();
 
     if (is_random_move_by_invisible(nbply))
-    {
-      {
-        consumption_type const save_consumption = current_consumption;
-
-        current_consumption.claimed[trait[nbply]] = true;
-
-        if (nr_total_invisbles_consumed()<=total_invisible_number)
-        {
-          TraceText("random move by unplaced invisible\n");
-          restart_from_scratch();
-        }
-
-        current_consumption = save_consumption;
-      }
-
-      if (uninterceptable_check_delivered_from!=initsquare
-          && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
-      {
-        // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          fake_capture_by_invisible();
-        }
-      }
-
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        retract_random_move_by_invisible(boardnum);
-      }
-    }
+      backward_fleshout_random_move_by_invisible();
     else if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
