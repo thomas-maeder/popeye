@@ -2279,6 +2279,110 @@ static void fake_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
+static void backward_fleshout_random_move_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+
+  if (uninterceptable_check_delivered_from!=initsquare
+      && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+  {
+    // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      fake_capture_by_invisible();
+    }
+  }
+  else
+  {
+    consumption_type const save_consumption = current_consumption;
+
+    current_consumption.claimed[trait[nbply]] = true;
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      TraceText("stick to random move by unplaced invisible\n");
+      restart_from_scratch();
+    }
+
+    current_consumption = save_consumption;
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      retract_random_move_by_invisible(boardnum);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_relevation_effects(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceValue("%u",top_before_relevations[nbply]);
+  TraceEOL();
+
+  if (curr==top_before_relevations[nbply])
+  {
+    move_effect_journal_index_type const save_top = move_effect_journal_base[nbply+1];
+
+    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
+    undo_move_effects();
+    move_effect_journal_base[nbply+1] = save_top;
+
+    if (is_random_move_by_invisible(nbply))
+      backward_fleshout_random_move_by_invisible();
+    else if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
+    }
+
+    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
+    redo_move_effects();
+    move_effect_journal_base[nbply+1] = save_top;
+  }
+  else
+  {
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
+    switch (entry->type)
+    {
+      case move_effect_revelation_of_new_invisible:
+        undo_revelation_of_new_invisible(entry);
+        undo_relevation_effects(curr-1);
+        redo_revelation_of_new_invisible(entry);
+        break;
+
+      case move_effect_revelation_of_placed_invisible:
+        undo_revelation_of_placed_invisible(entry);
+        undo_relevation_effects(curr-1);
+        redo_revelation_of_placed_invisible(entry);
+        break;
+
+      case move_effect_revelation_of_castling_partner:
+        undo_revelation_of_castling_partner(entry);
+        undo_relevation_effects(curr-1);
+        redo_revelation_of_castling_partner(entry);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void restart_from_scratch(void)
 {
   TraceFunctionEntry(__func__);
@@ -2303,48 +2407,7 @@ static void restart_from_scratch(void)
   else
   {
     --nbply;
-    undo_move_effects();
-
-    if (is_random_move_by_invisible(nbply))
-    {
-      {
-        consumption_type const save_consumption = current_consumption;
-
-        current_consumption.claimed[trait[nbply]] = true;
-
-        if (nr_total_invisbles_consumed()<=total_invisible_number)
-        {
-          TraceText("random move by unplaced invisible\n");
-          restart_from_scratch();
-        }
-
-        current_consumption = save_consumption;
-      }
-
-      if (uninterceptable_check_delivered_from!=initsquare
-          && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
-      {
-        // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          fake_capture_by_invisible();
-        }
-      }
-
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        retract_random_move_by_invisible(boardnum);
-      }
-    }
-    else if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      restart_from_scratch();
-    }
-
-    redo_move_effects();
+    undo_relevation_effects(move_effect_journal_base[nbply+1]);
     ++nbply;
   }
 
@@ -3628,6 +3691,7 @@ static void done_fleshing_out_random_move_by_invisible_from(void)
   ++curr_decision_level;
 
   update_nr_taboos_for_current_move_in_ply(+1);
+  // TODO restart_from_scratch() is not necessary in all cases!
   restart_from_scratch();
   update_nr_taboos_for_current_move_in_ply(-1);
 
