@@ -2376,10 +2376,27 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
     switch (entry->type)
     {
       case move_effect_revelation_of_new_invisible:
+      {
+        Flags const spec_on_board = entry->u.piece_addition.added.flags;
+        PieceIdType const id_on_board = GetPieceId(spec_on_board);
+
+        square const on = entry->u.piece_addition.added.on;
+        Flags const spec_added = being_solved.spec[on];
+        PieceIdType const id_added = GetPieceId(spec_added);
+
+        assert(motivation[id_on_board].last.purpose==purpose_none);
+        assert(motivation[id_added].last.purpose==purpose_none);
+
         unreveal_new(entry);
+        // TODO how to re-set the original purpose?
+        motivation[id_on_board].last.purpose = purpose_random_mover;
+        motivation[id_added].last.purpose = purpose_random_mover;
         undo_relevation_effects(curr-1);
+        motivation[id_added].last.purpose = purpose_none;
+        motivation[id_on_board].last.purpose = purpose_none;
         reveal_new(entry);
         break;
+      }
 
       case move_effect_revelation_of_placed_invisible:
         undo_revelation_of_placed_invisible(entry);
@@ -2388,10 +2405,16 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
         break;
 
       case move_effect_revelation_of_castling_partner:
+      {
+        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
+
         undo_revelation_of_castling_partner(entry);
+        motivation[id].last.purpose = purpose_castling_partner;
         undo_relevation_effects(curr-1);
+        motivation[id].last.purpose = purpose_none;
         redo_revelation_of_castling_partner(entry);
         break;
+      }
 
       default:
         assert(0);
@@ -3021,8 +3044,21 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
+            square const on = entry->u.piece_addition.added.on;
+            Flags const spec_on_board = being_solved.spec[on];
+            PieceIdType const id_on_board = GetPieceId(spec_on_board);
+            purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
+
+            Flags const spec_added = entry->u.piece_addition.added.flags;
+            PieceIdType const id_added = GetPieceId(spec_added);
+            purpose_type const purpose_added = motivation[id_added].last.purpose;
+
             reveal_new(entry);
+            motivation[id_on_board].last.purpose = purpose_none;
+            motivation[id_added].last.purpose = purpose_none;
             test_and_execute_revelations(curr+1);
+            motivation[id_added].last.purpose = purpose_added;
+            motivation[id_on_board].last.purpose = purpose_on_board;
             unreveal_new(entry);
           }
           else
@@ -3093,10 +3129,16 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
       }
 
       case move_effect_revelation_of_castling_partner:
+      {
+        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
+
         redo_revelation_of_castling_partner(entry);
+        motivation[id].last.purpose = purpose_none;
         test_and_execute_revelations(curr+1);
+        motivation[id].last.purpose = purpose_castling_partner;
         undo_revelation_of_castling_partner(entry);
         break;
+      }
 
       default:
         assert(0);
@@ -4752,10 +4794,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
     {
       TraceValue("%u",id);TraceEOL();
-//      assert((motivation[id].first.acts_when>=nbply)
-//             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply)
-//             || (motivation[id].last.purpose==purpose_capturer)
-//             || (motivation[id].last.purpose==purpose_none)
+//      assert((motivation[id].first.acts_when>=nbply) // active in the future
+//             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
+//             || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
+//             || (motivation[id].last.purpose==purpose_capturer) // ???
+//             || (motivation[id].last.purpose==purpose_none) // put on hold by a revelation
 //             || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
   }
