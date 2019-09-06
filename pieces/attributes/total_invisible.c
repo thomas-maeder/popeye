@@ -3284,7 +3284,20 @@ static void adapt_capture_effect(void)
 
     move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
     move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-    recurse_into_child_ply();
+
+    if (TSTFLAG(orig_flags_removed,Chameleon))
+    {
+      // TODO always make sure we deal with an invisible before deactivating through motivation?
+      // or never?
+      PieceIdType const id_removed = GetPieceId(orig_flags_removed);
+      purpose_type const orig_purpose_removed = motivation[id_removed].last.purpose;
+      motivation[id_removed].last.purpose = purpose_none;
+      recurse_into_child_ply();
+      motivation[id_removed].last.purpose = orig_purpose_removed;
+    }
+    else
+      recurse_into_child_ply();
+
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
   }
@@ -4797,7 +4810,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 //      assert((motivation[id].first.acts_when>=nbply) // active in the future
 //             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
 //             || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
-//             || (motivation[id].last.purpose==purpose_capturer) // ???
 //             || (motivation[id].last.purpose==purpose_none) // put on hold by a revelation
 //             || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
