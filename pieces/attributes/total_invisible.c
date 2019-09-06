@@ -2399,10 +2399,17 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
       }
 
       case move_effect_revelation_of_placed_invisible:
+      {
+        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
+
         undo_revelation_of_placed_invisible(entry);
+        // TODO how to re-set the original purpose?
+        motivation[id].last.purpose = purpose_random_mover;
         undo_relevation_effects(curr-1);
+        motivation[id].last.purpose = purpose_none;
         redo_revelation_of_placed_invisible(entry);
         break;
+      }
 
       case move_effect_revelation_of_castling_partner:
       {
@@ -3115,8 +3122,13 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else if (get_walk_of_piece_on_square(on)==walk_revealed
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
+          PieceIdType const id_revealed = GetPieceId(flags_revealed);
+          purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
+
           reveal_placed(entry);
+          motivation[id_revealed].last.purpose = purpose_none;
           test_and_execute_revelations(curr+1);
+          motivation[id_revealed].last.purpose = purpose_revealed;
           unreveal_placed(entry);
         }
         else
