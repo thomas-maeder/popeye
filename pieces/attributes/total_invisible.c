@@ -3250,7 +3250,7 @@ static void adapt_capture_effect(void)
     else
     {
       PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
-      motivation_type const save_motivation = motivation[id_captured];
+      purpose_type const save_purpose = motivation[id_captured].last.purpose;
 
       TraceText("capture of a total invisible that happened to land on the arrival square\n");
 
@@ -3265,10 +3265,12 @@ static void adapt_capture_effect(void)
       move_effect_journal[capture].u.piece_removal.on = to;
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
       recurse_into_child_ply();
+
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
-      motivation[id_captured] = save_motivation;
+      motivation[id_captured].last.purpose = save_purpose;
     }
   }
   else if (move_effect_journal[base].type==move_effect_piece_readdition)
@@ -3282,7 +3284,7 @@ static void adapt_capture_effect(void)
     else
     {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
-      TraceText("another total invisible has moved to the arrival square\n");
+      TraceText("another total invisible has appeared on the arrival square\n");
 
       if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
       {
@@ -3333,6 +3335,11 @@ static void adapt_capture_effect(void)
       // or never?
       PieceIdType const id_removed = GetPieceId(orig_flags_removed);
       purpose_type const orig_purpose_removed = motivation[id_removed].last.purpose;
+
+      TraceValue("%x",orig_flags_removed);
+      TraceValue("%u",id_removed);
+      TraceEOL();
+
       motivation[id_removed].last.purpose = purpose_none;
       recurse_into_child_ply();
       motivation[id_removed].last.purpose = orig_purpose_removed;
@@ -3739,16 +3746,14 @@ static void adapt_pre_capture_effect(void)
       else
       {
         PieceIdType const id = GetPieceId(being_solved.spec[to]);
-        motivation_type const save_motivation = motivation[id];
+        purpose_type const save_purpose = motivation[id].last.purpose;
 
-        TraceText("another total invisible has moved to the arrival square - "
+        TraceText("another total invisible has appeared on the arrival square - "
                   "no need for addition any more!\n");
         move_effect_journal[pre_capture].type = move_effect_none;
-        motivation[id].last.acts_when = nbply;
-        motivation[id].last.purpose = purpose_victim;
-        motivation[id].last.on = to;
+        motivation[id].last.purpose = purpose_none;
         adapt_capture_effect();
-        motivation[id] = save_motivation;
+        motivation[id].last.purpose = save_purpose;
         move_effect_journal[pre_capture].type = move_effect_piece_readdition;
       }
     }
@@ -4851,7 +4856,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       TraceValue("%u",id);TraceEOL();
       assert((motivation[id].first.acts_when>=nbply) // active in the future
              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
-             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
              || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation
              || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
