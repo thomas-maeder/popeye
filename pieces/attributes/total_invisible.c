@@ -4856,7 +4856,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       TraceValue("%u",id);TraceEOL();
       assert((motivation[id].first.acts_when>=nbply) // active in the future
              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
-             || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation
+             || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation or capture
              || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
   }
