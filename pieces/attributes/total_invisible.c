@@ -4854,7 +4854,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       assert((motivation[id].first.acts_when>=nbply) // active in the future
              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
              || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
-             || (motivation[id].last.purpose==purpose_none) // put on hold by a revelation
+             || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation
              || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
   }
