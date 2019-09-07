@@ -3144,18 +3144,23 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           PieceIdType const id_original = GetPieceId(entry->u.revelation_of_placed_piece.flags_original);
           purpose_type const purpose_original = motivation[id_original].last.purpose;
 
-          TraceValue("%u",id_original);
-          TraceValue("%u",id_revealed);
-          TraceEOL();
-          // TODO why doesn't this hold???
-//        assert(id_original!=id_revealed);
-
           reveal_placed(entry);
+
           motivation[id_revealed].last.purpose = purpose_none;
-          motivation[id_original].last.purpose = purpose_none;
-          test_and_execute_revelations(curr+1);
-          motivation[id_original].last.purpose = purpose_original;
+
+          /* the following distinction isn't strictly necessary, but it clarifies nicely
+           * that the two ids may be, but aren't necessarily equal */
+          if (id_revealed==id_original)
+            test_and_execute_revelations(curr+1);
+          else
+          {
+            motivation[id_original].last.purpose = purpose_none;
+            test_and_execute_revelations(curr+1);
+            motivation[id_original].last.purpose = purpose_original;
+          }
+
           motivation[id_revealed].last.purpose = purpose_revealed;
+
           unreveal_placed(entry);
         }
         else
@@ -4846,11 +4851,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
     {
       TraceValue("%u",id);TraceEOL();
-//      assert((motivation[id].first.acts_when>=nbply) // active in the future
-//             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
-//             || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
-//             || (motivation[id].last.purpose==purpose_none) // put on hold by a revelation
-//             || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
+      assert((motivation[id].first.acts_when>=nbply) // active in the future
+             || (motivation[id].last.purpose==purpose_victim && motivation[id].last.acts_when<nbply) // captured in the past
+             || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
+             || (motivation[id].last.purpose==purpose_none) // put on hold by a revelation
+             || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
     }
   }
 
