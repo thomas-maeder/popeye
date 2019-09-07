@@ -3258,9 +3258,7 @@ static void adapt_capture_effect(void)
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
       assert(!TSTFLAG(being_solved.spec[to],Royal));
 
-      motivation[id_captured].last.purpose = purpose_victim;
-      motivation[id_captured].last.on = initsquare;
-      motivation[id_captured].last.acts_when = nbply;
+      motivation[id_captured].last.purpose = purpose_none;
 
       move_effect_journal[capture].type = move_effect_piece_removal;
       move_effect_journal[capture].reason = move_effect_reason_regular_capture;
@@ -4486,9 +4484,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
     TraceSquare(motivation[id_existing].last.on);
     TraceEOL();
 
-    assert(motivation[id_existing].first.purpose!=purpose_none);
-    assert(motivation[id_existing].last.purpose!=purpose_none);
-
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
              || motivation[id_existing].last.purpose==purpose_capturer)
@@ -4502,6 +4497,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       motivation_type const motivation_random = motivation[id_random];
+
+      assert(motivation[id_existing].first.purpose!=purpose_none);
+      assert(motivation[id_existing].last.purpose!=purpose_none);
 
       TraceValue("%u",id_random);
       TraceValue("%u",motivation[id_random].first.purpose);
