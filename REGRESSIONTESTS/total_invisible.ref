@@ -387,8 +387,8 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
   1.Rg8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
   1.Bh8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
   1.Bh8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
-  add_to_move_generation_stack:     3561607
-                     play_move:     5501259
+  add_to_move_generation_stack:     3561605
+                     play_move:     5501257
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      950840
 

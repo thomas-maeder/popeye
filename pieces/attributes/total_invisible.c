@@ -1599,8 +1599,6 @@ static void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type cons
   replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed,nbply);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
 
-  motivation[id_on_board].last.purpose = purpose_none;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1622,8 +1620,6 @@ static void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type co
   TraceEOL();
 
   assert(id_original!=id_revealed);
-
-  motivation[id_original].last.purpose = motivation[id_revealed].last.purpose;
 
   assert(get_walk_of_piece_on_square(on)==walk_revealed);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
@@ -3078,15 +3074,35 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
         else if (get_walk_of_piece_on_square(on)==walk
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
+
+          PieceIdType const id_revealed = GetPieceId(spec);
+          purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
+
+          TraceText("treat revelation of new invisible as revelation of placed invisible\n");
+
+          assert(id_on_board!=id_revealed);
+
           entry->type = move_effect_revelation_of_placed_invisible;
           entry->u.revelation_of_placed_piece.on = on;
           entry->u.revelation_of_placed_piece.walk_original = get_walk_of_piece_on_square(on);
           entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
           entry->u.revelation_of_placed_piece.walk_revealed = walk;
           entry->u.revelation_of_placed_piece.flags_revealed = spec;
+
           adapt_id_of_existing_to_revealed(entry);
+
+          motivation[id_on_board].last.purpose = purpose_none;
+          motivation[id_revealed].last.purpose = purpose_none;
+
           test_and_execute_revelations(curr+1);
+
+          motivation[id_revealed].last.purpose = purpose_revealed;
+          motivation[id_on_board].last.purpose = purpose_on_board;
+
           unadapt_id_of_existing_to_revealed(entry);
+
           entry->type = move_effect_revelation_of_new_invisible;
           entry->u.piece_addition.added.on = on;
           entry->u.piece_addition.added.walk = walk;
@@ -3125,9 +3141,20 @@ static void test_and_execute_revelations(move_effect_journal_index_type curr)
           PieceIdType const id_revealed = GetPieceId(flags_revealed);
           purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
+          PieceIdType const id_original = GetPieceId(entry->u.revelation_of_placed_piece.flags_original);
+          purpose_type const purpose_original = motivation[id_original].last.purpose;
+
+          TraceValue("%u",id_original);
+          TraceValue("%u",id_revealed);
+          TraceEOL();
+          // TODO why doesn't this hold???
+//        assert(id_original!=id_revealed);
+
           reveal_placed(entry);
           motivation[id_revealed].last.purpose = purpose_none;
+          motivation[id_original].last.purpose = purpose_none;
           test_and_execute_revelations(curr+1);
+          motivation[id_original].last.purpose = purpose_original;
           motivation[id_revealed].last.purpose = purpose_revealed;
           unreveal_placed(entry);
         }
