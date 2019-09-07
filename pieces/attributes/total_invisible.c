@@ -2373,16 +2373,6 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
     {
       case move_effect_revelation_of_new_invisible:
       {
-        Flags const spec_on_board = entry->u.piece_addition.added.flags;
-        PieceIdType const id_on_board = GetPieceId(spec_on_board);
-
-        square const on = entry->u.piece_addition.added.on;
-        Flags const spec_added = being_solved.spec[on];
-        PieceIdType const id_added = GetPieceId(spec_added);
-
-        assert(motivation[id_on_board].last.purpose==purpose_none);
-        assert(motivation[id_added].last.purpose==purpose_none);
-
         unreveal_new(entry);
         undo_relevation_effects(curr-1);
         reveal_new(entry);
