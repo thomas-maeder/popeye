@@ -2384,25 +2384,15 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
         assert(motivation[id_added].last.purpose==purpose_none);
 
         unreveal_new(entry);
-        // TODO how to re-set the original purpose?
-        motivation[id_on_board].last.purpose = purpose_random_mover;
-        motivation[id_added].last.purpose = purpose_random_mover;
         undo_relevation_effects(curr-1);
-        motivation[id_added].last.purpose = purpose_none;
-        motivation[id_on_board].last.purpose = purpose_none;
         reveal_new(entry);
         break;
       }
 
       case move_effect_revelation_of_placed_invisible:
       {
-        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
-
         undo_revelation_of_placed_invisible(entry);
-        // TODO how to re-set the original purpose?
-        motivation[id].last.purpose = purpose_random_mover;
         undo_relevation_effects(curr-1);
-        motivation[id].last.purpose = purpose_none;
         redo_revelation_of_placed_invisible(entry);
         break;
       }
