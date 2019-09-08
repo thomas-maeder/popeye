@@ -4844,44 +4844,52 @@ static boolean is_capture_by_invisible_possible(void)
       square const on = motivation[id].last.on;
       Flags const spec = being_solved.spec[motivation[id].last.on];
 
-      if (GetPieceId(spec)==id && TSTFLAG(spec,trait[nbply]))
+      if (GetPieceId(spec)==id)
       {
-        piece_walk_type const walk = get_walk_of_piece_on_square(on);
-        int const diff = sq_arrival-on;
-
-        switch (walk)
+        if (TSTFLAG(spec,trait[nbply]))
         {
-          case King:
-            result = CheckDir[Queen][diff]==diff;
-            break;
+          piece_walk_type const walk = get_walk_of_piece_on_square(on);
+          int const diff = sq_arrival-on;
 
-          case Queen:
-            result = CheckDir[Queen][diff]!=0;
-            break;
+          switch (walk)
+          {
+            case King:
+              result = CheckDir[Queen][diff]==diff;
+              break;
 
-          case Rook:
-            result = CheckDir[Rook][diff]!=0;
-            break;
+            case Queen:
+              result = CheckDir[Queen][diff]!=0;
+              break;
 
-          case Bishop:
-            result = CheckDir[Bishop][diff]!=0;
-            break;
+            case Rook:
+              result = CheckDir[Rook][diff]!=0;
+              break;
 
-          case Knight:
-            result = CheckDir[Knight][diff]==diff;
-            break;
+            case Bishop:
+              result = CheckDir[Bishop][diff]!=0;
+              break;
 
-          case Pawn:
-            result = CheckDir[Bishop][diff]==diff;
-            break;
+            case Knight:
+              result = CheckDir[Knight][diff]==diff;
+              break;
 
-          case Dummy:
-            result = CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff;
-            break;
+            case Pawn:
+              result = CheckDir[Bishop][diff]==diff;
+              break;
 
-          default:
-            break;
+            case Dummy:
+              result = CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff;
+              break;
+
+            default:
+              break;
+          }
         }
+      }
+      else if (motivation[id].first.acts_when==nbply && motivation[id].first.purpose==purpose_interceptor)
+      {
+        /* revelation violated */
+        break;
       }
     }
   }
