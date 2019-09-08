@@ -2980,6 +2980,9 @@ static boolean is_capture_by_invisible_possible(ply ply)
   TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
+  /* pretend that the king is placed; necessary if only aptures by the invisble king
+   * are possisble */
+  // TODO only try captures king in cases where this is relevant?
   being_solved.king_square[trait[ply]] = square_a1;
 
   if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
