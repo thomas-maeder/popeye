@@ -4648,7 +4648,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
       motivation[id_existing].levels = motivation[id_random].levels;
       motivation[id_existing].last.purpose = purpose_none;
       motivation[id_existing].last.on = initsquare;
-      motivation[id_existing].last.acts_when = nbply
+      motivation[id_existing].last.acts_when = nbply;
 
       REPORT_DECISION_SQUARE('>',sq_departure);
       ++curr_decision_level;
