@@ -2974,10 +2974,13 @@ static boolean is_capture_by_invisible_possible(ply ply)
 {
   boolean result;
   consumption_type const save_consumption = current_consumption;
+  square const save_king_square = being_solved.king_square[trait[ply]];
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",ply);
   TraceFunctionParamListEnd();
+
+  being_solved.king_square[trait[ply]] = square_a1;
 
   if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
   {
@@ -3084,6 +3087,7 @@ static boolean is_capture_by_invisible_possible(ply ply)
   }
 
   current_consumption = save_consumption;
+  being_solved.king_square[trait[ply]] = save_king_square;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -5676,7 +5680,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
     if (allocate_placement_of_claimed_not_fleshed_out(side))
     {
-      REPORT_DECISION_COLOUR('>',BIT(White));
+      REPORT_DECISION_COLOUR('>',BIT(side));
       ++curr_decision_level;
 
       if (nr_check_vectors==1)
