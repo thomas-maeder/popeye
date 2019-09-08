@@ -3558,6 +3558,15 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
+
+      /* it is irrevelant where the random move in the 1st ply is played from */
+      if (nbply==ply_retro_move+1
+          && (play_phase==play_detecting_revelations
+              || play_phase==play_validating_mate
+              || play_phase==play_testing_mate)
+          && max_decision_level>curr_decision_level-1)
+        max_decision_level = curr_decision_level-1;
+
       update_nr_taboos_for_current_move_in_ply(-1);
 
       motivation[id] = save_motivation;
