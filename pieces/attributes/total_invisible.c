@@ -4834,7 +4834,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
     {
       TraceValue("%u",id);TraceEOL();
-      assert((motivation[id].first.acts_when>=nbply) // active in the future
+      assert((motivation[id].first.acts_when>nbply) // active in the future
+             || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
+             || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
              || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation or capture
              || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
