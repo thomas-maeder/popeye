@@ -4875,75 +4875,84 @@ static void flesh_out_capture_by_invisible_rider(piece_walk_type walk_rider,
 
 static void flesh_out_capture_by_invisible_king(square first_taboo_violation)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  move_effect_journal_index_type const king_square_movement = movement+1;
-  vec_index_type kcurr;
-
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
-  assert(move_effect_journal[king_square_movement].type==move_effect_none);
-
-  for (kcurr = vec_queen_start;
-       kcurr<=vec_queen_end && curr_decision_level<=max_decision_level;
-       ++kcurr)
+  if (curr_decision_level<=max_decision_level)
   {
-    square const sq_departure = sq_arrival+vec[kcurr];
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+    move_effect_journal_index_type const precapture = effects_base;
+
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    move_effect_journal_index_type const king_square_movement = movement+1;
+    vec_index_type kcurr;
+
     max_decision_level = decision_level_latest;
-    if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+    REPORT_DECISION_WALK('>',King);
+    ++curr_decision_level;
+
+    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+    assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
+    assert(move_effect_journal[king_square_movement].type==move_effect_none);
+
+    for (kcurr = vec_queen_start;
+         kcurr<=vec_queen_end && curr_decision_level<=max_decision_level;
+         ++kcurr)
     {
-      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-      if (get_walk_of_piece_on_square(sq_departure)==King
-          && sq_departure==being_solved.king_square[trait[nbply]])
+      square const sq_departure = sq_arrival+vec[kcurr];
+      max_decision_level = decision_level_latest;
+      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
-        flesh_out_capture_by_existing_invisible(King,sq_departure);
-        --curr_decision_level;
-      }
-      else if (being_solved.king_square[trait[nbply]]==initsquare)
-      {
-        being_solved.king_square[trait[nbply]] = sq_departure;
+        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-        if (is_square_empty(sq_departure))
+        if (get_walk_of_piece_on_square(sq_departure)==King
+            && sq_departure==being_solved.king_square[trait[nbply]])
         {
-          assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
-          SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(King,sq_departure);
-          CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-          --curr_decision_level;
-        }
-        else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
-        {
-          assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
-          SETFLAG(being_solved.spec[sq_departure],Royal);
+          assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
           REPORT_DECISION_SQUARE('>',sq_departure);
           ++curr_decision_level;
           flesh_out_capture_by_existing_invisible(King,sq_departure);
           --curr_decision_level;
-          CLRFLAG(being_solved.spec[sq_departure],Royal);
+        }
+        else if (being_solved.king_square[trait[nbply]]==initsquare)
+        {
+          being_solved.king_square[trait[nbply]] = sq_departure;
+
+          if (is_square_empty(sq_departure))
+          {
+            assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
+            SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_inserted_invisible(King,sq_departure);
+            CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+            --curr_decision_level;
+          }
+          else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
+          {
+            assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
+            SETFLAG(being_solved.spec[sq_departure],Royal);
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_existing_invisible(King,sq_departure);
+            --curr_decision_level;
+            CLRFLAG(being_solved.spec[sq_departure],Royal);
+          }
+
+          being_solved.king_square[trait[nbply]] = initsquare;
         }
 
-        being_solved.king_square[trait[nbply]] = initsquare;
+        move_effect_journal[king_square_movement].type = move_effect_none;
       }
-
-      move_effect_journal[king_square_movement].type = move_effect_none;
     }
+
+    --curr_decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -4954,10 +4963,6 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
                                                   vec_index_type kcurr, vec_index_type kend,
                                                   square first_taboo_violation)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
@@ -4966,28 +4971,41 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+  if (curr_decision_level<=max_decision_level)
   {
-    square const sq_departure = sq_arrival+vec[kcurr];
-    if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
-    {
-      max_decision_level = decision_level_latest;
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-      if (is_square_empty(sq_departure))
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Knight);
+    ++curr_decision_level;
+
+    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    {
+      square const sq_departure = sq_arrival+vec[kcurr];
+      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
-        flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-        --curr_decision_level;
-      }
-      else
-      {
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
-        flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-        --curr_decision_level;
+        max_decision_level = decision_level_latest;
+
+        if (is_square_empty(sq_departure))
+        {
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
+          flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+          --curr_decision_level;
+        }
+        else
+        {
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
+          flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
+          --curr_decision_level;
+        }
       }
     }
+
+    --curr_decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -4996,79 +5014,86 @@ static void flesh_out_capture_by_invisible_leaper(piece_walk_type walk_leaper,
 
 static void flesh_out_capture_by_invisible_pawn(square first_taboo_violation)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-  int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
-  SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-
   TraceFunctionEntry(__func__);
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   // TODO en passant capture
-
-  TraceValue("%u",curr_decision_level);
-  TraceValue("%u",max_decision_level);
-  TraceSquare(sq_capture);
-  TraceEOL();
-
   if (curr_decision_level<=max_decision_level)
   {
-    square sq_departure = sq_capture+dir_vert+dir_left;
-    TraceSquare(sq_departure);TraceEOL();
-    if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+    int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
+    SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+    SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_WALK('>',Pawn);
+    ++curr_decision_level;
+
+    TraceValue("%u",curr_decision_level);
+    TraceValue("%u",max_decision_level);
+    TraceSquare(sq_capture);
+    TraceEOL();
+
+    if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_latest;
-      if (!TSTFLAG(sq_spec[sq_departure],basesq)
-          && !TSTFLAG(sq_spec[sq_departure],promsq))
+      square sq_departure = sq_capture+dir_vert+dir_left;
+      TraceSquare(sq_departure);TraceEOL();
+      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        if (is_square_empty(sq_departure))
+        max_decision_level = decision_level_latest;
+        if (!TSTFLAG(sq_spec[sq_departure],basesq)
+            && !TSTFLAG(sq_spec[sq_departure],promsq))
         {
-          max_decision_level = decision_level_latest;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-          --curr_decision_level;
-        }
-        else
-        {
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
-          --curr_decision_level;
+          if (is_square_empty(sq_departure))
+          {
+            max_decision_level = decision_level_latest;
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+            --curr_decision_level;
+          }
+          else
+          {
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
+            --curr_decision_level;
+          }
         }
       }
     }
-  }
 
-  if (curr_decision_level<=max_decision_level)
-  {
-    square sq_departure = sq_capture+dir_vert+dir_right;
-    if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+    if (curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_latest;
-      if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+      square sq_departure = sq_capture+dir_vert+dir_right;
+      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        if (is_square_empty(sq_departure))
+        max_decision_level = decision_level_latest;
+        if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
         {
-          max_decision_level = decision_level_latest;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-          --curr_decision_level;
-        }
-        else
-        {
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
-          --curr_decision_level;
+          if (is_square_empty(sq_departure))
+          {
+            max_decision_level = decision_level_latest;
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+            --curr_decision_level;
+          }
+          else
+          {
+            REPORT_DECISION_SQUARE('>',sq_departure);
+            ++curr_decision_level;
+            flesh_out_capture_by_existing_invisible(Pawn,sq_departure);
+            --curr_decision_level;
+          }
         }
       }
     }
+
+    --curr_decision_level;
   }
 
   TraceFunctionExit(__func__);
@@ -5106,33 +5131,12 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     motivation[id_inserted].levels.walk = curr_decision_level;
     motivation[id_inserted].levels.from = curr_decision_level+1;
 
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      REPORT_DECISION_WALK('>',King);
-      ++curr_decision_level;
-      flesh_out_capture_by_invisible_king(first_taboo_violation);
-      --curr_decision_level;
-    }
+    flesh_out_capture_by_invisible_king(first_taboo_violation);
 
     if (can_capture==capture_by_any_possible)
     {
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        REPORT_DECISION_WALK('>',Pawn);
-        ++curr_decision_level;
-        flesh_out_capture_by_invisible_pawn(first_taboo_violation);
-        --curr_decision_level;
-      }
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        REPORT_DECISION_WALK('>',Knight);
-        ++curr_decision_level;
-        flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
-        --curr_decision_level;
-      }
+      flesh_out_capture_by_invisible_pawn(first_taboo_violation);
+      flesh_out_capture_by_invisible_leaper(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
       flesh_out_capture_by_invisible_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
       flesh_out_capture_by_invisible_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
     }
