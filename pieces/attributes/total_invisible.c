@@ -5184,56 +5184,41 @@ static void chrtschnbrr(square first_taboo_violation,
 }
 
 static void flesh_out_capturer_as_leaper(piece_walk_type walk_leaper,
-                                                                      int dir,
-                                                                      square first_taboo_violation)
+                                         square sq_departure)
 {
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
-  TraceFunctionParam("%d",dir);
-  TraceSquare(first_taboo_violation);
+  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (curr_decision_level<=max_decision_level)
+  max_decision_level = decision_level_latest;
+  REPORT_DECISION_WALK('>',Knight);
+  ++curr_decision_level;
+
+  max_decision_level = decision_level_latest;
+
+  if (is_square_empty(sq_departure))
   {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-    max_decision_level = decision_level_latest;
-    REPORT_DECISION_WALK('>',Knight);
+    REPORT_DECISION_SQUARE('>',sq_departure);
     ++curr_decision_level;
-
-    {
-      square const sq_departure = sq_arrival+dir;
-      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
-      {
-        max_decision_level = decision_level_latest;
-
-        if (is_square_empty(sq_departure))
-        {
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-          --curr_decision_level;
-        }
-        else
-        {
-          Flags const flags_existing = being_solved.spec[sq_departure];
-          PieceIdType const id_existing = GetPieceId(flags_existing);
-          decision_levels_type const save_levels = motivation[id_existing].levels;
-
-          motivation[id_existing].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
-          flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-          --curr_decision_level;
-          motivation[id_existing].levels = save_levels;
-        }
-      }
-    }
-
+    flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
     --curr_decision_level;
   }
+  else
+  {
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+    decision_levels_type const save_levels = motivation[id_existing].levels;
+
+    motivation[id_existing].levels.from = curr_decision_level;
+    REPORT_DECISION_SQUARE('>',sq_departure);
+    ++curr_decision_level;
+    flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
+    --curr_decision_level;
+    motivation[id_existing].levels = save_levels;
+  }
+
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5849,7 +5834,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       }
 
                       if (CheckDir[Knight][diff]==diff)
-                        flesh_out_capturer_as_leaper(Knight,diff,first_taboo_violation);
+                        flesh_out_capturer_as_leaper(Knight,on);
 
                       if (CheckDir[Bishop][diff]!=0)
                         flesh_out_capturer_as_rider(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
