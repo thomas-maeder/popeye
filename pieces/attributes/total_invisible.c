@@ -5251,10 +5251,6 @@ static void flesh_out_king_for_capture(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  max_decision_level = decision_level_latest;
-  REPORT_DECISION_WALK('>',King);
-  ++curr_decision_level;
-
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
@@ -5267,14 +5263,12 @@ static void flesh_out_king_for_capture(square sq_departure)
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
   SETFLAG(being_solved.spec[sq_departure],Royal);
-  flesh_out_capture_by_existing_invisible(King,sq_departure);
+  flesh_out_walk_for_capture(King,sq_departure);
   CLRFLAG(being_solved.spec[sq_departure],Royal);
 
   being_solved.king_square[trait[nbply]] = initsquare;
 
   move_effect_journal[king_square_movement].type = move_effect_none;
-
-  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
