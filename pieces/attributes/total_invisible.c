@@ -5216,12 +5216,7 @@ static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
 
   TraceSquare(sq_arrival);TraceEOL();
 
-  motivation[id_existing].levels.from = curr_decision_level;
-  REPORT_DECISION_SQUARE('>',sq_departure);
-  ++curr_decision_level;
-
   {
-    max_decision_level = decision_level_latest;
     motivation[id_existing].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',walk_rider);
     ++curr_decision_level;
@@ -5238,8 +5233,6 @@ static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
     flesh_out_capture_by_existing_invisible(Queen,sq_departure);
     --curr_decision_level;
   }
-
-  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
