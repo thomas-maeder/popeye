@@ -5295,7 +5295,7 @@ static void flesh_out_capture_by_invisible_leaper_one_direction(piece_walk_type 
 }
 
 
-static void flesh_out_capture_by_invisible_king_one_direction(square sq_departure)
+static void capture_by_invisible_king(square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5328,7 +5328,7 @@ static void flesh_out_capture_by_invisible_king_one_direction(square sq_departur
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_rider_one_direction(int dir,
+static void capture_by_invisible_rider(int dir,
                                                                piece_walk_type walk_rider)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -5523,7 +5523,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 {
                   case King:
                     if (CheckDir[Queen][diff]==diff)
-                      flesh_out_capture_by_invisible_king_one_direction(on);
+                      capture_by_invisible_king(on);
                     break;
 
                   case Queen:
@@ -5532,7 +5532,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   {
                     int const dir = CheckDir[walk][diff];
                     if (dir!=0)
-                      flesh_out_capture_by_invisible_rider_one_direction(dir,walk);
+                      capture_by_invisible_rider(dir,walk);
                     break;
                   }
 
