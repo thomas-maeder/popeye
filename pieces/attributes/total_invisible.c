@@ -5186,12 +5186,15 @@ static void chrtschnbrr(square first_taboo_violation,
 static void flesh_out_walk_for_capture(piece_walk_type walk,
                                        square sq_departure)
 {
+  Flags const flags_existing = being_solved.spec[sq_departure];
+  PieceIdType const id_existing = GetPieceId(flags_existing);
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  max_decision_level = decision_level_latest;
+  motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
 
@@ -5275,6 +5278,9 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
+  Flags const flags_existing = being_solved.spec[sq_departure];
+  PieceIdType const id_existing = GetPieceId(flags_existing);
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
   TraceSquare(sq_departure);
@@ -5286,22 +5292,11 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
-  max_decision_level = decision_level_latest;
+  motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_leaper);
   ++curr_decision_level;
 
-  {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-    decision_levels_type const save_levels = motivation[id_existing].levels;
-
-    motivation[id_existing].levels.from = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-    --curr_decision_level;
-    motivation[id_existing].levels = save_levels;
-  }
+  flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
 
   --curr_decision_level;
 
