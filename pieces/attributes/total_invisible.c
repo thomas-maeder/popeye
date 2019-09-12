@@ -5183,26 +5183,6 @@ static void chrtschnbrr(square first_taboo_violation,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capturer_as_leaper(piece_walk_type walk_leaper,
-                                         square sq_departure)
-{
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_leaper);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  max_decision_level = decision_level_latest;
-  REPORT_DECISION_WALK('>',walk_leaper);
-  ++curr_decision_level;
-
-  flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-
-  --curr_decision_level;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
                                         square sq_departure)
 {
@@ -5655,7 +5635,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       }
 
                       if (CheckDir[Knight][diff]==diff)
-                        flesh_out_capturer_as_leaper(Knight,on);
+                        flesh_out_walk_for_capture(Knight,on);
 
                       if (CheckDir[Bishop][diff]!=0)
                         flesh_out_capturer_as_rider(Bishop,on);
