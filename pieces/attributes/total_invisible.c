@@ -5183,41 +5183,6 @@ static void chrtschnbrr(square first_taboo_violation,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
-                                        square sq_departure)
-{
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_rider);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(sq_arrival);TraceEOL();
-
-  {
-    motivation[id_existing].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',walk_rider);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
-    --curr_decision_level;
-  }
-
-  if (curr_decision_level<=max_decision_level)
-  {
-    max_decision_level = decision_level_latest;
-    motivation[id_existing].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',Queen);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(Queen,sq_departure);
-    --curr_decision_level;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void flesh_out_walk_for_capture(piece_walk_type walk,
                                        square sq_departure)
 {
@@ -5238,6 +5203,27 @@ static void flesh_out_walk_for_capture(piece_walk_type walk,
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
+                                        square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_rider);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_arrival);TraceEOL();
+
+  flesh_out_walk_for_capture(walk_rider,sq_departure);
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    flesh_out_capture_by_existing_invisible(Queen,sq_departure);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void flesh_out_king_for_capture(square sq_departure)
 {
