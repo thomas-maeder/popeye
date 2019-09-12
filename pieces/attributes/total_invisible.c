@@ -5239,8 +5239,8 @@ static void flesh_out_capture_by_invisible_leaper_one_direction_dummy(piece_walk
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_leaper_one_direction(piece_walk_type walk_leaper,
-                                                                square sq_departure)
+static void flesh_out_walk_for_capture(piece_walk_type walk_leaper,
+                                       square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5726,9 +5726,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       max_decision_level = decision_level_latest;
 
-                      motivation[id_inserted].levels.walk = curr_decision_level;
-                      motivation[id_inserted].levels.from = curr_decision_level+1;
-
                       if (CheckDir[Queen][diff]==diff
                           && being_solved.king_square[trait[nbply]]==initsquare)
                         flesh_out_king_for_capture(first_taboo_violation);
@@ -5739,7 +5736,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
                         if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
-                          flesh_out_capture_by_invisible_leaper_one_direction(Pawn,on);
+                          flesh_out_walk_for_capture(Pawn,on);
 
                         // TODO en passant capture
                       }
