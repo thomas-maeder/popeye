@@ -5266,56 +5266,21 @@ static void flesh_out_capturer_as_rider(piece_walk_type walk_rider,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_walk_for_capture(piece_walk_type walk_leaper,
+static void flesh_out_walk_for_capture(piece_walk_type walk,
                                        square sq_departure)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-  decision_levels_type const levels_inserted = motivation[id_inserted].levels;
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const save_from = move_effect_journal[movement].u.piece_movement.from;
-  piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-
   TraceFunctionEntry(__func__);
-  TraceWalk(walk_leaper);
+  TraceWalk(walk);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  motivation[id_inserted].levels.from = curr_decision_level+1;
-
   max_decision_level = decision_level_latest;
-  REPORT_DECISION_WALK('>',walk_leaper);
+  REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
 
-  {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-    decision_levels_type const save_levels = motivation[id_existing].levels;
-
-    motivation[id_existing].levels.from = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-    --curr_decision_level;
-    motivation[id_existing].levels = save_levels;
-  }
+  flesh_out_capture_by_existing_invisible(walk,sq_departure);
 
   --curr_decision_level;
-
-  move_effect_journal[movement].u.piece_movement.from = save_from;
-  move_effect_journal[movement].u.piece_movement.moving = save_moving;
-  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  motivation[id_inserted].levels = levels_inserted;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
