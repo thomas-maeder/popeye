@@ -5192,31 +5192,10 @@ static void flesh_out_capturer_as_leaper(piece_walk_type walk_leaper,
   TraceFunctionParamListEnd();
 
   max_decision_level = decision_level_latest;
-  REPORT_DECISION_WALK('>',Knight);
+  REPORT_DECISION_WALK('>',walk_leaper);
   ++curr_decision_level;
 
-  max_decision_level = decision_level_latest;
-
-  if (is_square_empty(sq_departure))
-  {
-    REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
-    flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-    --curr_decision_level;
-  }
-  else
-  {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-    decision_levels_type const save_levels = motivation[id_existing].levels;
-
-    motivation[id_existing].levels.from = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
-    --curr_decision_level;
-    motivation[id_existing].levels = save_levels;
-  }
+  flesh_out_capture_by_existing_invisible(walk_leaper,sq_departure);
 
   --curr_decision_level;
 
