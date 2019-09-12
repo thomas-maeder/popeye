@@ -5824,6 +5824,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                       Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
+                      Flags const flags_existing = being_solved.spec[on];
+                      PieceIdType const id_existing = GetPieceId(flags_existing);
+                      decision_levels_type const save_levels = motivation[id_existing].levels;
+
+                      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
                       assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
                       max_decision_level = decision_level_latest;
@@ -5851,6 +5856,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       if (CheckDir[Rook][diff]!=0)
                         flesh_out_capturer_as_rider(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
+
+                      motivation[id_existing].levels = save_levels;
 
                       move_effect_journal[movement].u.piece_movement.from = save_from;
                       move_effect_journal[movement].u.piece_movement.moving = save_moving;
