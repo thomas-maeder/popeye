@@ -5231,7 +5231,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
     replace_walk(sq_departure,walk_capturing);
-    CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
 
     if (is_square_uninterceptably_attacked(side_in_check,king_pos))
     {
@@ -5657,6 +5656,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                         move_effect_journal[movement].u.piece_movement.from = on;
                         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+
+                        CLRFLAG(being_solved.spec[on],advers(trait[nbply]));
 
                         if (CheckDir[Queen][diff]==diff
                             && being_solved.king_square[trait[nbply]]==initsquare)
