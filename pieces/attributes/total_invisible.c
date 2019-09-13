@@ -5610,24 +5610,24 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                           // TODO en passant capture
                         }
-                      }
 
-                      if (curr_decision_level<=max_decision_level)
-                      {
-                        if (CheckDir[Knight][diff]==diff)
-                          flesh_out_walk_for_capture(Knight,on);
-                      }
+                        if (curr_decision_level<=max_decision_level)
+                        {
+                          if (CheckDir[Knight][diff]==diff)
+                            flesh_out_walk_for_capture(Knight,on);
 
-                      if (curr_decision_level<=max_decision_level)
-                      {
-                        if (CheckDir[Bishop][diff]!=0)
-                          flesh_out_capturer_as_rider(Bishop,on);
-                      }
+                          if (curr_decision_level<=max_decision_level)
+                          {
+                            if (CheckDir[Bishop][diff]!=0)
+                              flesh_out_capturer_as_rider(Bishop,on);
 
-                      if (curr_decision_level<=max_decision_level)
-                      {
-                        if (CheckDir[Rook][diff]!=0)
-                          flesh_out_capturer_as_rider(Rook,on);
+                            if (curr_decision_level<=max_decision_level)
+                            {
+                              if (CheckDir[Rook][diff]!=0)
+                                flesh_out_capturer_as_rider(Rook,on);
+                            }
+                          }
+                        }
                       }
 
                       --curr_decision_level;
