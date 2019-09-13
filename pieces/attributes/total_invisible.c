@@ -5194,7 +5194,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-  motivation_type const motivation_random = motivation[id_random];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
@@ -5241,8 +5240,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   update_nr_taboos_for_current_move_in_ply(-1);
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-  motivation[id_random] = motivation_random;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5605,7 +5602,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       PieceIdType const id_existing = GetPieceId(flags_existing);
                       decision_levels_type const save_levels = motivation[id_existing].levels;
 
-                      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
                       assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
                       max_decision_level = decision_level_latest;
@@ -5627,6 +5623,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       {
                         motivation_type const motivation_existing = motivation[id_existing];
                         PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+                        motivation_type const motivation_random = motivation[id_random];
 
                         assert(motivation[id_existing].first.purpose!=purpose_none);
                         assert(motivation[id_existing].last.purpose!=purpose_none);
@@ -5703,6 +5700,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                             }
                           }
                         }
+
+                        motivation[id_random] = motivation_random;
 
                         replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
