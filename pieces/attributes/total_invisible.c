@@ -5259,8 +5259,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
-  being_solved.spec[sq_departure] = flags_existing;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -5716,6 +5714,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         }
 
                         motivation[id_existing] = motivation_existing;
+
+                        being_solved.spec[on] = flags_existing;
                       }
                       else
                       {
