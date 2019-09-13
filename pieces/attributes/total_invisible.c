@@ -5189,8 +5189,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
 
-  motivation_type const motivation_existing = motivation[id_existing];
-
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
 
@@ -5211,10 +5209,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceValue("%u",motivation[id_random].last.acts_when);
   TraceSquare(motivation[id_random].last.on);
   TraceEOL();
-
-  motivation[id_existing].last.purpose = purpose_none;
-  motivation[id_existing].last.on = initsquare;
-  motivation[id_existing].last.acts_when = nbply;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -5266,8 +5260,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
   being_solved.spec[sq_departure] = flags_existing;
-
-  motivation[id_existing] = motivation_existing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5650,8 +5642,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                                || motivation[id_existing].last.purpose==purpose_capturer)
                               && motivation[id_existing].last.acts_when<=nbply))
                       {
+                        motivation_type const motivation_existing = motivation[id_existing];
+
                         assert(motivation[id_existing].first.purpose!=purpose_none);
                         assert(motivation[id_existing].last.purpose!=purpose_none);
+
+                        motivation[id_existing].last.purpose = purpose_none;
+                        motivation[id_existing].last.on = initsquare;
+                        motivation[id_existing].last.acts_when = nbply;
 
                         /* deactivate the pre-capture insertion of the moving total invisible since
                          * that piece is already on the board
@@ -5716,6 +5714,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                             }
                           }
                         }
+
+                        motivation[id_existing] = motivation_existing;
                       }
                       else
                       {
