@@ -5212,7 +5212,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(motivation[id_random].last.on);
   TraceEOL();
 
-  motivation[id_existing].levels = motivation[id_random].levels;
   motivation[id_existing].last.purpose = purpose_none;
   motivation[id_existing].last.on = initsquare;
   motivation[id_existing].last.acts_when = nbply;
