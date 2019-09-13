@@ -5210,9 +5210,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(motivation[id_random].last.on);
   TraceEOL();
 
-  SetPieceId(being_solved.spec[sq_departure],id_random);
-  replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
-
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
 
   update_nr_taboos_for_current_move_in_ply(+1);
@@ -5255,8 +5252,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   update_nr_taboos_for_current_move_in_ply(-1);
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-  replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5640,6 +5635,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                               && motivation[id_existing].last.acts_when<=nbply))
                       {
                         motivation_type const motivation_existing = motivation[id_existing];
+                        PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
                         assert(motivation[id_existing].first.purpose!=purpose_none);
                         assert(motivation[id_existing].last.purpose!=purpose_none);
@@ -5658,6 +5654,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
 
                         CLRFLAG(being_solved.spec[on],advers(trait[nbply]));
+
+                        SetPieceId(being_solved.spec[on],id_random);
+                        replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
                         if (CheckDir[Queen][diff]==diff
                             && being_solved.king_square[trait[nbply]]==initsquare)
@@ -5713,6 +5712,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                             }
                           }
                         }
+
+                        replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
                         motivation[id_existing] = motivation_existing;
 
