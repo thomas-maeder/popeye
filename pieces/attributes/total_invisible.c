@@ -5201,23 +5201,14 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",id_random);
-  TraceValue("%u",motivation[id_random].first.purpose);
-  TraceValue("%u",motivation[id_random].first.acts_when);
-  TraceSquare(motivation[id_random].first.on);
-  TraceValue("%u",motivation[id_random].last.purpose);
-  TraceValue("%u",motivation[id_random].last.acts_when);
-  TraceSquare(motivation[id_random].last.on);
-  TraceEOL();
-
-  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
-  update_nr_taboos_for_current_move_in_ply(+1);
-
   motivation[id_random].first = motivation[id_existing].first;
   motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
   motivation[id_random].last.acts_when = nbply;
   motivation[id_random].last.purpose = purpose_capturer;
+
+  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+
+  update_nr_taboos_for_current_move_in_ply(+1);
 
   {
     Side const side_in_check = trait[nbply-1];
