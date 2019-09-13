@@ -5595,6 +5595,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           if (CheckDir[Knight][diff]==diff)
                             flesh_out_walk_for_capture(Knight,on);
 
+                          // TODO regrouping into three similar cases for Bishop, Rook
+                          // doesn't work - the reason is unclear
                           if (curr_decision_level<=max_decision_level)
                           {
                             if (CheckDir[Bishop][diff]!=0)
