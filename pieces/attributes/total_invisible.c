@@ -5220,12 +5220,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-  /* deactivate the pre-capture insertion of the moving total invisible since
-   * that piece is already on the board
-   */
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  move_effect_journal[precapture].type = move_effect_none;
-
   move_effect_journal[movement].u.piece_movement.from = sq_departure;
   /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
@@ -5661,6 +5655,12 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       {
                         assert(motivation[id_existing].first.purpose!=purpose_none);
                         assert(motivation[id_existing].last.purpose!=purpose_none);
+
+                        /* deactivate the pre-capture insertion of the moving total invisible since
+                         * that piece is already on the board
+                         */
+                        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+                        move_effect_journal[precapture].type = move_effect_none;
 
                         if (CheckDir[Queen][diff]==diff
                             && being_solved.king_square[trait[nbply]]==initsquare)
