@@ -5203,9 +5203,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  assert(motivation[id_existing].first.purpose!=purpose_none);
-  assert(motivation[id_existing].last.purpose!=purpose_none);
-
   TraceValue("%u",id_random);
   TraceValue("%u",motivation[id_random].first.purpose);
   TraceValue("%u",motivation[id_random].first.acts_when);
@@ -5662,6 +5659,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                                || motivation[id_existing].last.purpose==purpose_capturer)
                               && motivation[id_existing].last.acts_when<=nbply))
                       {
+                        assert(motivation[id_existing].first.purpose!=purpose_none);
+                        assert(motivation[id_existing].last.purpose!=purpose_none);
 
                         if (CheckDir[Queen][diff]==diff
                             && being_solved.king_square[trait[nbply]]==initsquare)
