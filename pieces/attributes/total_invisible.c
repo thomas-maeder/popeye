@@ -5238,11 +5238,11 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     current_consumption = save_consumption;
   }
 
-  motivation[id_random] = motivation_random;
-
   update_nr_taboos_for_current_move_in_ply(-1);
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+  motivation[id_random] = motivation_random;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
