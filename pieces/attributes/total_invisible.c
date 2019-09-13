@@ -5194,10 +5194,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  motivation[id_existing].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',walk_capturing);
-  ++curr_decision_level;
-
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
            || motivation[id_existing].last.purpose==purpose_capturer)
@@ -5297,8 +5293,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     REPORT_DEADEND;
     max_decision_level = motivation[id_existing].levels.from;
   }
-
-  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5666,8 +5660,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       max_decision_level = decision_level_latest;
 
+                      // TODO what for?
                       motivation[id_existing].levels.from = curr_decision_level;
                       REPORT_DECISION_SQUARE('>',sq_departure);
+                      ++curr_decision_level;
+
+                      // TODO what for?
+                      motivation[id_existing].levels.walk = curr_decision_level;
+                      REPORT_DECISION_WALK('>',Dummy);
                       ++curr_decision_level;
 
                       if (CheckDir[Queen][diff]==diff
@@ -5724,6 +5724,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           }
                         }
                       }
+
+                      --curr_decision_level;
 
                       --curr_decision_level;
 
