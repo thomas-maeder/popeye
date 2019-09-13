@@ -5578,7 +5578,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       if (curr_decision_level<=max_decision_level)
                       {
-                        if (CheckDir[Bishop][diff]==diff)
+                        if (CheckDir[Bishop][diff]==diff
+                            && (trait[nbply]==White ? on<sq_arrival : on>sq_arrival))
                         {
                           SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
                           SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
@@ -5586,7 +5587,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
                             flesh_out_walk_for_capture(Pawn,on);
 
-                          // TODO direction
                           // TODO en passant capture
                         }
 
