@@ -5598,25 +5598,37 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           && being_solved.king_square[trait[nbply]]==initsquare)
                         flesh_out_king_for_capture(on);
 
-                      if (CheckDir[Bishop][diff]==diff)
+                      if (curr_decision_level<=max_decision_level)
                       {
-                        SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-                        SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+                        if (CheckDir[Bishop][diff]==diff)
+                        {
+                          SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+                          SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-                        if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
-                          flesh_out_walk_for_capture(Pawn,on);
+                          if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
+                            flesh_out_walk_for_capture(Pawn,on);
 
-                        // TODO en passant capture
+                          // TODO en passant capture
+                        }
                       }
 
-                      if (CheckDir[Knight][diff]==diff)
-                        flesh_out_walk_for_capture(Knight,on);
+                      if (curr_decision_level<=max_decision_level)
+                      {
+                        if (CheckDir[Knight][diff]==diff)
+                          flesh_out_walk_for_capture(Knight,on);
+                      }
 
-                      if (CheckDir[Bishop][diff]!=0)
-                        flesh_out_capturer_as_rider(Bishop,on);
+                      if (curr_decision_level<=max_decision_level)
+                      {
+                        if (CheckDir[Bishop][diff]!=0)
+                          flesh_out_capturer_as_rider(Bishop,on);
+                      }
 
-                      if (CheckDir[Rook][diff]!=0)
-                        flesh_out_capturer_as_rider(Rook,on);
+                      if (curr_decision_level<=max_decision_level)
+                      {
+                        if (CheckDir[Rook][diff]!=0)
+                          flesh_out_capturer_as_rider(Rook,on);
+                      }
 
                       --curr_decision_level;
 
