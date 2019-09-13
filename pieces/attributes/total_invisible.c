@@ -5680,7 +5680,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                                 if (curr_decision_level<=max_decision_level)
                                 {
                                   max_decision_level = decision_level_latest;
-                                  flesh_out_capture_by_existing_invisible(Queen,on);
+                                  flesh_out_walk_for_capture(Queen,on);
                                 }
                               }
 
@@ -5693,7 +5693,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                                   if (curr_decision_level<=max_decision_level)
                                   {
                                     max_decision_level = decision_level_latest;
-                                    flesh_out_capture_by_existing_invisible(Queen,on);
+                                    flesh_out_walk_for_capture(Queen,on);
                                   }
                                 }
                               }
