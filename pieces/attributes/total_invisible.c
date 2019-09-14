@@ -5351,8 +5351,7 @@ static void capture_by_invisible_king(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_rider(int dir,
-                                       piece_walk_type walk_rider,
+static void capture_by_invisible_rider(piece_walk_type walk_rider,
                                        square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -5363,13 +5362,15 @@ static void capture_by_invisible_rider(int dir,
   decision_levels_type const levels_inserted = motivation[id_inserted].levels;
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
+  Flags const flags_existing = being_solved.spec[sq_departure];
+  PieceIdType const id_existing = GetPieceId(flags_existing);
+  decision_levels_type const save_levels = motivation[id_existing].levels;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",dir);
   TraceWalk(walk_rider);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
@@ -5379,29 +5380,20 @@ static void capture_by_invisible_rider(int dir,
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
-  if (sq_departure==find_end_of_line(sq_arrival,dir)
-      && is_on_board(sq_departure)
-      && curr_decision_level<=max_decision_level)
-  {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-    decision_levels_type const save_levels = motivation[id_existing].levels;
+  motivation[id_existing].levels.from = curr_decision_level;
+  REPORT_DECISION_SQUARE('>',sq_departure);
+  ++curr_decision_level;
 
-    motivation[id_existing].levels.from = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
+  max_decision_level = decision_level_latest;
+  motivation[id_existing].levels.walk = curr_decision_level;
+  REPORT_DECISION_WALK('>',walk_rider);
+  ++curr_decision_level;
+  flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
+  --curr_decision_level;
 
-    max_decision_level = decision_level_latest;
-    motivation[id_existing].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',walk_rider);
-    ++curr_decision_level;
-    flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
-    --curr_decision_level;
+  --curr_decision_level;
 
-    --curr_decision_level;
-
-    motivation[id_existing].levels = save_levels;
-  }
+  motivation[id_existing].levels = save_levels;
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -5554,8 +5546,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   case Bishop:
                   {
                     int const dir = CheckDir[walk][diff];
-                    if (dir!=0)
-                      capture_by_invisible_rider(dir,walk,on);
+                    if (dir!=0 && on==find_end_of_line(sq_arrival,dir))
+                      capture_by_invisible_rider(walk,on);
                     break;
                   }
 
