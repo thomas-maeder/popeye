@@ -5276,13 +5276,18 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+  motivation_type const motivation_random = motivation[id_random];
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
+  motivation_type const motivation_existing = motivation[id_existing];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
@@ -5306,80 +5311,58 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(motivation[id_existing].last.on);
   TraceEOL();
 
-  if (motivation[id_existing].last.acts_when<nbply
-      || ((motivation[id_existing].last.purpose==purpose_interceptor
-           || motivation[id_existing].last.purpose==purpose_capturer)
-          && motivation[id_existing].last.acts_when<=nbply))
-  {
-    motivation_type const motivation_existing = motivation[id_existing];
+  assert(motivation[id_existing].first.purpose!=purpose_none);
+  assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
+  TraceValue("%u",id_random);
+  TraceValue("%u",motivation[id_random].first.purpose);
+  TraceValue("%u",motivation[id_random].first.acts_when);
+  TraceSquare(motivation[id_random].first.on);
+  TraceValue("%u",motivation[id_random].last.purpose);
+  TraceValue("%u",motivation[id_random].last.acts_when);
+  TraceSquare(motivation[id_random].last.on);
+  TraceEOL();
 
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    motivation_type const motivation_random = motivation[id_random];
+  motivation[id_existing].levels = motivation[id_random].levels;
+  motivation[id_existing].last.purpose = purpose_none;
+  motivation[id_existing].last.on = initsquare;
+  motivation[id_existing].last.acts_when = nbply;
 
-    assert(motivation[id_existing].first.purpose!=purpose_none);
-    assert(motivation[id_existing].last.purpose!=purpose_none);
+  SetPieceId(being_solved.spec[sq_departure],id_random);
+  replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-    TraceValue("%u",id_random);
-    TraceValue("%u",motivation[id_random].first.purpose);
-    TraceValue("%u",motivation[id_random].first.acts_when);
-    TraceSquare(motivation[id_random].first.on);
-    TraceValue("%u",motivation[id_random].last.purpose);
-    TraceValue("%u",motivation[id_random].last.acts_when);
-    TraceSquare(motivation[id_random].last.on);
-    TraceEOL();
+  /* deactivate the pre-capture insertion of the moving total invisible since
+   * that piece is already on the board
+   */
+  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+  move_effect_journal[precapture].type = move_effect_none;
 
-    motivation[id_existing].levels = motivation[id_random].levels;
-    motivation[id_existing].last.purpose = purpose_none;
-    motivation[id_existing].last.on = initsquare;
-    motivation[id_existing].last.acts_when = nbply;
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+  move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
 
-    SetPieceId(being_solved.spec[sq_departure],id_random);
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+  update_nr_taboos_for_current_move_in_ply(+1);
 
-    /* deactivate the pre-capture insertion of the moving total invisible since
-     * that piece is already on the board
-     */
-    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-    move_effect_journal[precapture].type = move_effect_none;
+  motivation[id_random].first = motivation[id_existing].first;
+  motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
+  motivation[id_random].last.acts_when = nbply;
+  motivation[id_random].last.purpose = purpose_capturer;
 
-    move_effect_journal[movement].u.piece_movement.from = sq_departure;
-    /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-    move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
+  assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+  recurse_into_child_ply();
 
-    update_nr_taboos_for_current_move_in_ply(+1);
+  motivation[id_random] = motivation_random;
 
-    motivation[id_random].first = motivation[id_existing].first;
-    motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-    motivation[id_random].last.acts_when = nbply;
-    motivation[id_random].last.purpose = purpose_capturer;
+  update_nr_taboos_for_current_move_in_ply(-1);
 
-    assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-    recurse_into_child_ply();
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
-    motivation[id_random] = motivation_random;
+  replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
-    update_nr_taboos_for_current_move_in_ply(-1);
+  being_solved.spec[sq_departure] = flags_existing;
 
-    move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-
-    being_solved.spec[sq_departure] = flags_existing;
-
-    motivation[id_existing] = motivation_existing;
-  }
-  else
-  {
-    TraceText("the piece was added to later act from its current square\n");
-    REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
-    REPORT_DEADEND;
-    max_decision_level = motivation[id_existing].levels.from;
-  }
+  motivation[id_existing] = motivation_existing;
 
   --curr_decision_level;
 
@@ -5429,13 +5412,19 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
+  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+  motivation_type const motivation_random = motivation[id_random];
+
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
+  motivation_type const motivation_existing = motivation[id_existing];
   decision_levels_type const save_levels = motivation[id_existing].levels;
 
   TraceFunctionEntry(__func__);
@@ -5461,80 +5450,58 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceSquare(motivation[id_existing].last.on);
   TraceEOL();
 
-  if (motivation[id_existing].last.acts_when<nbply
-      || ((motivation[id_existing].last.purpose==purpose_interceptor
-           || motivation[id_existing].last.purpose==purpose_capturer)
-          && motivation[id_existing].last.acts_when<=nbply))
-  {
-    motivation_type const motivation_existing = motivation[id_existing];
+  assert(motivation[id_existing].first.purpose!=purpose_none);
+  assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const precapture = effects_base;
+  TraceValue("%u",id_random);
+  TraceValue("%u",motivation[id_random].first.purpose);
+  TraceValue("%u",motivation[id_random].first.acts_when);
+  TraceSquare(motivation[id_random].first.on);
+  TraceValue("%u",motivation[id_random].last.purpose);
+  TraceValue("%u",motivation[id_random].last.acts_when);
+  TraceSquare(motivation[id_random].last.on);
+  TraceEOL();
 
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    motivation_type const motivation_random = motivation[id_random];
+  motivation[id_existing].levels = motivation[id_random].levels;
+  motivation[id_existing].last.purpose = purpose_none;
+  motivation[id_existing].last.on = initsquare;
+  motivation[id_existing].last.acts_when = nbply;
 
-    assert(motivation[id_existing].first.purpose!=purpose_none);
-    assert(motivation[id_existing].last.purpose!=purpose_none);
+  SetPieceId(being_solved.spec[sq_departure],id_random);
+  replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-    TraceValue("%u",id_random);
-    TraceValue("%u",motivation[id_random].first.purpose);
-    TraceValue("%u",motivation[id_random].first.acts_when);
-    TraceSquare(motivation[id_random].first.on);
-    TraceValue("%u",motivation[id_random].last.purpose);
-    TraceValue("%u",motivation[id_random].last.acts_when);
-    TraceSquare(motivation[id_random].last.on);
-    TraceEOL();
+  /* deactivate the pre-capture insertion of the moving total invisible since
+   * that piece is already on the board
+   */
+  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+  move_effect_journal[precapture].type = move_effect_none;
 
-    motivation[id_existing].levels = motivation[id_random].levels;
-    motivation[id_existing].last.purpose = purpose_none;
-    motivation[id_existing].last.on = initsquare;
-    motivation[id_existing].last.acts_when = nbply;
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+  move_effect_journal[movement].u.piece_movement.moving = walk_rider;
 
-    SetPieceId(being_solved.spec[sq_departure],id_random);
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+  update_nr_taboos_for_current_move_in_ply(+1);
 
-    /* deactivate the pre-capture insertion of the moving total invisible since
-     * that piece is already on the board
-     */
-    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-    move_effect_journal[precapture].type = move_effect_none;
+  motivation[id_random].first = motivation[id_existing].first;
+  motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
+  motivation[id_random].last.acts_when = nbply;
+  motivation[id_random].last.purpose = purpose_capturer;
 
-    move_effect_journal[movement].u.piece_movement.from = sq_departure;
-    /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-    move_effect_journal[movement].u.piece_movement.moving = walk_rider;
+  assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+  recurse_into_child_ply();
 
-    update_nr_taboos_for_current_move_in_ply(+1);
+  motivation[id_random] = motivation_random;
 
-    motivation[id_random].first = motivation[id_existing].first;
-    motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-    motivation[id_random].last.acts_when = nbply;
-    motivation[id_random].last.purpose = purpose_capturer;
+  update_nr_taboos_for_current_move_in_ply(-1);
 
-    assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-    recurse_into_child_ply();
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
-    motivation[id_random] = motivation_random;
+  replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
-    update_nr_taboos_for_current_move_in_ply(-1);
+  being_solved.spec[sq_departure] = flags_existing;
 
-    move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-
-    being_solved.spec[sq_departure] = flags_existing;
-
-    motivation[id_existing] = motivation_existing;
-  }
-  else
-  {
-    TraceText("the piece was added to later act from its current square\n");
-    REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
-    REPORT_DEADEND;
-    max_decision_level = motivation[id_existing].levels.from;
-  }
+  motivation[id_existing] = motivation_existing;
 
   --curr_decision_level;
 
@@ -5686,62 +5653,62 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 PieceIdType const id_existing = GetPieceId(flags_existing);
                 decision_levels_type const save_levels = motivation[id_existing].levels;
 
-                motivation[id_existing].levels.from = curr_decision_level;
-                REPORT_DECISION_SQUARE('>',sq_departure);
-                ++curr_decision_level;
-
-                switch (walk)
+                if (motivation[id_existing].last.acts_when<nbply
+                    || ((motivation[id_existing].last.purpose==purpose_interceptor
+                         || motivation[id_existing].last.purpose==purpose_capturer)
+                        && motivation[id_existing].last.acts_when<=nbply))
                 {
-                  case King:
-                  {
-                    if (CheckDir[Queen][diff]==diff)
-                      capture_by_invisible_king(on);
-                    break;
-                  }
+                  motivation[id_existing].levels.from = curr_decision_level;
+                  REPORT_DECISION_SQUARE('>',sq_departure);
+                  ++curr_decision_level;
 
-                  case Queen:
-                  case Rook:
-                  case Bishop:
+                  switch (walk)
                   {
-                    int const dir = CheckDir[walk][diff];
-                    if (dir!=0 && on==find_end_of_line(sq_arrival,dir))
-                      capture_by_invisible_rider(walk,on);
-                    break;
-                  }
-
-                  case Knight:
-                  {
-                    if (CheckDir[Knight][diff]==diff)
-                      capture_by_invisible_leaper(Knight,on);
-                    break;
-                  }
-
-                  case Pawn:
-                  {
-                    if (CheckDir[Bishop][diff]==diff)
+                    case King:
                     {
-                      SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-                      SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-
-                      if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
-                        capture_by_invisible_leaper(Pawn,on);
-                      // TODO en passant capture
+                      if (CheckDir[Queen][diff]==diff)
+                        capture_by_invisible_king(on);
+                      break;
                     }
-                    break;
-                  }
-                  case Dummy:
-                  {
-                    if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-                    {
-                      square const save_from = move_effect_journal[movement].u.piece_movement.from;
-                      piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-                      Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-                      if (motivation[id_existing].last.acts_when<nbply
-                          || ((motivation[id_existing].last.purpose==purpose_interceptor
-                               || motivation[id_existing].last.purpose==purpose_capturer)
-                              && motivation[id_existing].last.acts_when<=nbply))
+                    case Queen:
+                    case Rook:
+                    case Bishop:
+                    {
+                      int const dir = CheckDir[walk][diff];
+                      if (dir!=0 && on==find_end_of_line(sq_arrival,dir))
+                        capture_by_invisible_rider(walk,on);
+                      break;
+                    }
+
+                    case Knight:
+                    {
+                      if (CheckDir[Knight][diff]==diff)
+                        capture_by_invisible_leaper(Knight,on);
+                      break;
+                    }
+
+                    case Pawn:
+                    {
+                      if (CheckDir[Bishop][diff]==diff)
                       {
+                        SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+                        SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+                        if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
+                          capture_by_invisible_leaper(Pawn,on);
+                        // TODO en passant capture
+                      }
+                      break;
+                    }
+                    case Dummy:
+                    {
+                      if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+                      {
+                        square const save_from = move_effect_journal[movement].u.piece_movement.from;
+                        piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
+                        Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+
                         motivation_type const motivation_existing = motivation[id_existing];
                         PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
                         motivation_type const motivation_random = motivation[id_random];
@@ -5868,30 +5835,30 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         move_effect_journal[precapture].type = move_effect_piece_readdition;
 
                         motivation[id_existing] = motivation_existing;
-                      }
-                      else
-                      {
-                        TraceText("the piece was added to later act from its current square\n");
-                        REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
-                        REPORT_DEADEND;
-                        max_decision_level = motivation[id_existing].levels.from;
-                      }
 
-                      move_effect_journal[movement].u.piece_movement.from = save_from;
-                      move_effect_journal[movement].u.piece_movement.moving = save_moving;
-                      move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+                        move_effect_journal[movement].u.piece_movement.from = save_from;
+                        move_effect_journal[movement].u.piece_movement.moving = save_moving;
+                        move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+                      }
+                      break;
                     }
-                    break;
+
+                    default:
+                      // TODO assert(0);?
+                      break;
                   }
 
-                  default:
-                    // TODO assert(0);?
-                    break;
+                  motivation[id_existing].levels = save_levels;
+
+                  --curr_decision_level;
                 }
-
-                motivation[id_existing].levels = save_levels;
-
-                --curr_decision_level;
+                else
+                {
+                  TraceText("the piece was added to later act from its current square\n");
+                  REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
+                  REPORT_DEADEND;
+                  max_decision_level = motivation[id_existing].levels.from;
+                }
               }
             }
             else if (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor)
