@@ -5202,6 +5202,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
+  max_decision_level = decision_level_latest;
+
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
 
   update_nr_taboos_for_current_move_in_ply(+1);
@@ -5215,7 +5217,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   {
     REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
-    max_decision_level = motivation[id_existing].levels.from;
+    max_decision_level = motivation[id_existing].levels.walk;
   }
   else
   {
@@ -5593,16 +5595,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-                      max_decision_level = decision_level_latest;
-
-                      // TODO what for?
                       motivation[id_existing].levels.from = curr_decision_level;
                       REPORT_DECISION_SQUARE('>',sq_departure);
-                      ++curr_decision_level;
-
-                      // TODO what for?
-                      motivation[id_existing].levels.walk = curr_decision_level;
-                      REPORT_DECISION_WALK('>',Dummy);
                       ++curr_decision_level;
 
                       if (motivation[id_existing].last.acts_when<nbply
@@ -5651,7 +5645,13 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                             SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
                             if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
+                            {
+                              motivation[id_existing].levels.walk = curr_decision_level;
+                              REPORT_DECISION_WALK('>',King);
+                              ++curr_decision_level;
                               flesh_out_walk_for_capture(Pawn,on);
+                              --curr_decision_level;
+                            }
 
                             // TODO en passant capture
                           }
@@ -5659,34 +5659,62 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           if (curr_decision_level<=max_decision_level)
                           {
                             if (CheckDir[Knight][diff]==diff)
+                            {
+                              motivation[id_existing].levels.walk = curr_decision_level;
+                              REPORT_DECISION_WALK('>',Knight);
+                              ++curr_decision_level;
                               flesh_out_walk_for_capture(Knight,on);
+                              --curr_decision_level;
+                            }
 
-                            // TODO regrouping into three similar cases for Bishop, Rook
-                            // doesn't work - the reason is unclear
                             if (curr_decision_level<=max_decision_level)
                             {
                               if (CheckDir[Bishop][diff]!=0)
                               {
+                                motivation[id_existing].levels.walk = curr_decision_level;
+                                REPORT_DECISION_WALK('>',Bishop);
+                                ++curr_decision_level;
+
                                 flesh_out_walk_for_capture(Bishop,on);
+
+                                /* don't reduce curr_decision_level yet; if Bishop
+                                 * wasn't acceptable, then Queen wouldn't be either */
 
                                 if (curr_decision_level<=max_decision_level)
                                 {
-                                  max_decision_level = decision_level_latest;
+                                  motivation[id_existing].levels.walk = curr_decision_level;
+                                  REPORT_DECISION_WALK('>',Queen);
+                                  ++curr_decision_level;
                                   flesh_out_walk_for_capture(Queen,on);
+                                  --curr_decision_level;
                                 }
+
+                                --curr_decision_level;
                               }
 
                               if (curr_decision_level<=max_decision_level)
                               {
                                 if (CheckDir[Rook][diff]!=0)
                                 {
+                                  motivation[id_existing].levels.walk = curr_decision_level;
+                                  REPORT_DECISION_WALK('>',Rook);
+                                  ++curr_decision_level;
+
                                   flesh_out_walk_for_capture(Rook,on);
+
+                                  /* don't reduce curr_decision_level yet; if Rook
+                                   * wasn't acceptable, then Queen wouldn't be either */
 
                                   if (curr_decision_level<=max_decision_level)
                                   {
-                                    max_decision_level = decision_level_latest;
+                                    motivation[id_existing].levels.walk = curr_decision_level;
+                                    REPORT_DECISION_WALK('>',Queen);
+                                    ++curr_decision_level;
                                     flesh_out_walk_for_capture(Queen,on);
+                                    --curr_decision_level;
                                   }
+
+                                  --curr_decision_level;
                                 }
                               }
                             }
@@ -5709,8 +5737,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         REPORT_DEADEND;
                         max_decision_level = motivation[id_existing].levels.from;
                       }
-
-                      --curr_decision_level;
 
                       --curr_decision_level;
 
