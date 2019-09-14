@@ -5294,9 +5294,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
@@ -5374,8 +5371,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceWalk(walk_rider);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
@@ -5483,6 +5478,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType id;
 
+        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+        assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
         for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
         {
           TraceValue("%u",id);
@@ -5585,8 +5583,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                       Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-                      assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
                       if (motivation[id_existing].last.acts_when<nbply
                           || ((motivation[id_existing].last.purpose==purpose_interceptor
                                || motivation[id_existing].last.purpose==purpose_capturer)
@@ -5604,7 +5600,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         /* deactivate the pre-capture insertion of the moving total invisible since
                          * that piece is already on the board
                          */
-                        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
                         move_effect_journal[precapture].type = move_effect_none;
 
                         move_effect_journal[movement].u.piece_movement.from = on;
