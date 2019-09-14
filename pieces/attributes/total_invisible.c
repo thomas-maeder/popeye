@@ -5669,7 +5669,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                             if (curr_decision_level<=max_decision_level)
                             {
-                              if (CheckDir[Bishop][diff]!=0)
+                              int const dir = CheckDir[Bishop][diff];
+                              if (dir!=0 && on==find_end_of_line(sq_arrival,dir))
                               {
                                 motivation[id_existing].levels.walk = curr_decision_level;
                                 REPORT_DECISION_WALK('>',Bishop);
@@ -5694,7 +5695,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                               if (curr_decision_level<=max_decision_level)
                               {
-                                if (CheckDir[Rook][diff]!=0)
+                                int const dir = CheckDir[Rook][diff];
+                                if (dir!=0 && on==find_end_of_line(sq_arrival,dir))
                                 {
                                   motivation[id_existing].levels.walk = curr_decision_level;
                                   REPORT_DECISION_WALK('>',Rook);
