@@ -5352,7 +5352,8 @@ static void capture_by_invisible_king(square sq_departure)
 }
 
 static void capture_by_invisible_rider(int dir,
-                                                               piece_walk_type walk_rider)
+                                       piece_walk_type walk_rider,
+                                       square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5367,11 +5368,10 @@ static void capture_by_invisible_rider(int dir,
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-  square sq_departure;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceWalk(walk_rider);
+  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
@@ -5379,9 +5379,9 @@ static void capture_by_invisible_rider(int dir,
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
-  sq_departure = find_end_of_line(sq_arrival,dir);
-
-  if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
+  if (sq_departure==find_end_of_line(sq_arrival,dir)
+      && is_on_board(sq_departure)
+      && curr_decision_level<=max_decision_level)
   {
     Flags const flags_existing = being_solved.spec[sq_departure];
     PieceIdType const id_existing = GetPieceId(flags_existing);
@@ -5555,7 +5555,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   {
                     int const dir = CheckDir[walk][diff];
                     if (dir!=0)
-                      capture_by_invisible_rider(dir,walk);
+                      capture_by_invisible_rider(dir,walk,on);
                     break;
                   }
 
