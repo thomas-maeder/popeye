@@ -5380,17 +5380,11 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
-  motivation[id_existing].levels.from = curr_decision_level;
-  REPORT_DECISION_SQUARE('>',sq_departure);
-  ++curr_decision_level;
-
   max_decision_level = decision_level_latest;
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_rider);
   ++curr_decision_level;
   flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
-  --curr_decision_level;
-
   --curr_decision_level;
 
   motivation[id_existing].levels = save_levels;
@@ -5536,12 +5530,22 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 piece_walk_type const walk = get_walk_of_piece_on_square(on);
                 int const diff = on-sq_arrival;
 
+                Flags const flags_existing = being_solved.spec[on];
+                PieceIdType const id_existing = GetPieceId(flags_existing);
+                decision_levels_type const save_levels = motivation[id_existing].levels;
+
+                motivation[id_existing].levels.from = curr_decision_level;
+                REPORT_DECISION_SQUARE('>',sq_departure);
+                ++curr_decision_level;
+
                 switch (walk)
                 {
                   case King:
+                  {
                     if (CheckDir[Queen][diff]==diff)
                       capture_by_invisible_king(on);
                     break;
+                  }
 
                   case Queen:
                   case Rook:
@@ -5554,11 +5558,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   }
 
                   case Knight:
+                  {
                     if (CheckDir[Knight][diff]==diff)
                       capture_by_invisible_leaper(Knight,on);
                     break;
+                  }
 
                   case Pawn:
+                  {
                     if (CheckDir[Bishop][diff]==diff)
                     {
                       SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
@@ -5566,27 +5573,19 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                       if (!TSTFLAG(sq_spec[on],basesq) && !TSTFLAG(sq_spec[on],promsq))
                         capture_by_invisible_leaper(Pawn,on);
-
                       // TODO en passant capture
                     }
                     break;
-
+                  }
                   case Dummy:
+                  {
                     if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
                     {
                       square const save_from = move_effect_journal[movement].u.piece_movement.from;
                       piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                       Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-                      Flags const flags_existing = being_solved.spec[on];
-                      PieceIdType const id_existing = GetPieceId(flags_existing);
-                      decision_levels_type const save_levels = motivation[id_existing].levels;
-
                       assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-                      motivation[id_existing].levels.from = curr_decision_level;
-                      REPORT_DECISION_SQUARE('>',sq_departure);
-                      ++curr_decision_level;
 
                       if (motivation[id_existing].last.acts_when<nbply
                           || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -5729,20 +5728,21 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         max_decision_level = motivation[id_existing].levels.from;
                       }
 
-                      --curr_decision_level;
-
-                      motivation[id_existing].levels = save_levels;
-
                       move_effect_journal[movement].u.piece_movement.from = save_from;
                       move_effect_journal[movement].u.piece_movement.moving = save_moving;
                       move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
                     }
                     break;
+                  }
 
                   default:
                     // TODO assert(0);?
                     break;
                 }
+
+                motivation[id_existing].levels = save_levels;
+
+                --curr_decision_level;
               }
             }
             else if (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor)
