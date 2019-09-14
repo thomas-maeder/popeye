@@ -5192,17 +5192,11 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  motivation[id_random].first = motivation[id_existing].first;
-  motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-  motivation[id_random].last.acts_when = nbply;
-  motivation[id_random].last.purpose = purpose_capturer;
 
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
 
@@ -5643,6 +5637,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         SetPieceId(being_solved.spec[on],id_random);
                         replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
+                        motivation[id_random].first = motivation[id_existing].first;
+                        motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
+                        motivation[id_random].last.acts_when = nbply;
+                        motivation[id_random].last.purpose = purpose_capturer;
+
                         if (CheckDir[Queen][diff]==diff
                             && being_solved.king_square[trait[nbply]]==initsquare)
                           flesh_out_king_for_capture(on);
@@ -5698,11 +5697,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           }
                         }
 
-                        move_effect_journal[precapture].type = move_effect_piece_readdition;
-
                         motivation[id_random] = motivation_random;
 
                         replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+
+                        move_effect_journal[precapture].type = move_effect_piece_readdition;
 
                         motivation[id_existing] = motivation_existing;
 
