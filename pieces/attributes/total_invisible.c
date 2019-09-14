@@ -5193,6 +5193,10 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
+  Side const side_in_check = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_in_check];
+  consumption_type const save_consumption = current_consumption;
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
@@ -5202,33 +5206,27 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   update_nr_taboos_for_current_move_in_ply(+1);
 
+  reallocate_fleshing_out(trait[nbply]);
+
+  ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+  replace_walk(sq_departure,walk_capturing);
+
+  if (is_square_uninterceptably_attacked(side_in_check,king_pos))
   {
-    Side const side_in_check = trait[nbply-1];
-    square const king_pos = being_solved.king_square[side_in_check];
-    consumption_type const save_consumption = current_consumption;
-
-    reallocate_fleshing_out(trait[nbply]);
-
-    ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-    replace_walk(sq_departure,walk_capturing);
-
-    if (is_square_uninterceptably_attacked(side_in_check,king_pos))
-    {
-      REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
-      REPORT_DEADEND;
-      max_decision_level = motivation[id_existing].levels.from;
-    }
-    else
-    {
-      move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-      restart_from_scratch();
-    }
-
-    replace_walk(sq_departure,Dummy);
-    --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-
-    current_consumption = save_consumption;
+    REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
+    REPORT_DEADEND;
+    max_decision_level = motivation[id_existing].levels.from;
   }
+  else
+  {
+    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+    restart_from_scratch();
+  }
+
+  replace_walk(sq_departure,Dummy);
+  --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+
+  current_consumption = save_consumption;
 
   update_nr_taboos_for_current_move_in_ply(-1);
 
@@ -5700,12 +5698,11 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         motivation[id_random] = motivation_random;
 
                         replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+                        being_solved.spec[on] = flags_existing;
 
                         move_effect_journal[precapture].type = move_effect_piece_readdition;
 
                         motivation[id_existing] = motivation_existing;
-
-                        being_solved.spec[on] = flags_existing;
                       }
                       else
                       {
