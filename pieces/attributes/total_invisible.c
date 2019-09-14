@@ -5297,30 +5297,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   REPORT_DECISION_WALK('>',walk_leaper);
   ++curr_decision_level;
 
-  TraceWalk(get_walk_of_piece_on_square(sq_departure));
-  TraceValue("%x",being_solved.spec[sq_departure]);
-  TraceEOL();
-
-  TraceValue("%u",id_existing);
-  TraceValue("%u",motivation[id_existing].first.purpose);
-  TraceValue("%u",motivation[id_existing].first.acts_when);
-  TraceSquare(motivation[id_existing].first.on);
-  TraceValue("%u",motivation[id_existing].last.purpose);
-  TraceValue("%u",motivation[id_existing].last.acts_when);
-  TraceSquare(motivation[id_existing].last.on);
-  TraceEOL();
-
-  TraceValue("%u",id_random);
-  TraceValue("%u",motivation[id_random].first.purpose);
-  TraceValue("%u",motivation[id_random].first.acts_when);
-  TraceSquare(motivation[id_random].first.on);
-  TraceValue("%u",motivation[id_random].last.purpose);
-  TraceValue("%u",motivation[id_random].last.acts_when);
-  TraceSquare(motivation[id_random].last.on);
-  TraceEOL();
-
-  motivation[id_existing].levels = motivation[id_random].levels;
-
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
@@ -5425,30 +5401,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_rider);
   ++curr_decision_level;
-
-  TraceWalk(get_walk_of_piece_on_square(sq_departure));
-  TraceValue("%x",being_solved.spec[sq_departure]);
-  TraceEOL();
-
-  TraceValue("%u",id_existing);
-  TraceValue("%u",motivation[id_existing].first.purpose);
-  TraceValue("%u",motivation[id_existing].first.acts_when);
-  TraceSquare(motivation[id_existing].first.on);
-  TraceValue("%u",motivation[id_existing].last.purpose);
-  TraceValue("%u",motivation[id_existing].last.acts_when);
-  TraceSquare(motivation[id_existing].last.on);
-  TraceEOL();
-
-  TraceValue("%u",id_random);
-  TraceValue("%u",motivation[id_random].first.purpose);
-  TraceValue("%u",motivation[id_random].first.acts_when);
-  TraceSquare(motivation[id_random].first.on);
-  TraceValue("%u",motivation[id_random].last.purpose);
-  TraceValue("%u",motivation[id_random].last.acts_when);
-  TraceSquare(motivation[id_random].last.on);
-  TraceEOL();
-
-  motivation[id_existing].levels = motivation[id_random].levels;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -5641,7 +5593,10 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 {
                   motivation_type const motivation_existing = motivation[id_existing];
 
+                  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
                   motivation[id_existing].last.purpose = purpose_none;
+                  motivation[id_existing].levels = motivation[id_random].levels;
 
                   motivation[id_existing].levels.from = curr_decision_level;
                   REPORT_DECISION_SQUARE('>',sq_departure);
@@ -5694,7 +5649,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                         Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-                        PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
                         motivation_type const motivation_random = motivation[id_random];
 
                         /* deactivate the pre-capture insertion of the moving total invisible since
