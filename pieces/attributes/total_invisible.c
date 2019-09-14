@@ -5618,8 +5618,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         assert(motivation[id_existing].last.purpose!=purpose_none);
 
                         motivation[id_existing].last.purpose = purpose_none;
-                        motivation[id_existing].last.on = initsquare;
-                        motivation[id_existing].last.acts_when = nbply;
 
                         /* deactivate the pre-capture insertion of the moving total invisible since
                          * that piece is already on the board
