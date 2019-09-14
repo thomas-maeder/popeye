@@ -5287,7 +5287,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
-  motivation_type const motivation_existing = motivation[id_existing];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
@@ -5311,9 +5310,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceSquare(motivation[id_existing].last.on);
   TraceEOL();
 
-  assert(motivation[id_existing].first.purpose!=purpose_none);
-  assert(motivation[id_existing].last.purpose!=purpose_none);
-
   TraceValue("%u",id_random);
   TraceValue("%u",motivation[id_random].first.purpose);
   TraceValue("%u",motivation[id_random].first.acts_when);
@@ -5324,9 +5320,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceEOL();
 
   motivation[id_existing].levels = motivation[id_random].levels;
-  motivation[id_existing].last.purpose = purpose_none;
-  motivation[id_existing].last.on = initsquare;
-  motivation[id_existing].last.acts_when = nbply;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -5361,8 +5354,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
   being_solved.spec[sq_departure] = flags_existing;
-
-  motivation[id_existing] = motivation_existing;
 
   --curr_decision_level;
 
@@ -5424,8 +5415,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
-  motivation_type const motivation_existing = motivation[id_existing];
-  decision_levels_type const save_levels = motivation[id_existing].levels;
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_rider);
@@ -5450,9 +5439,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceSquare(motivation[id_existing].last.on);
   TraceEOL();
 
-  assert(motivation[id_existing].first.purpose!=purpose_none);
-  assert(motivation[id_existing].last.purpose!=purpose_none);
-
   TraceValue("%u",id_random);
   TraceValue("%u",motivation[id_random].first.purpose);
   TraceValue("%u",motivation[id_random].first.acts_when);
@@ -5463,9 +5449,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceEOL();
 
   motivation[id_existing].levels = motivation[id_random].levels;
-  motivation[id_existing].last.purpose = purpose_none;
-  motivation[id_existing].last.on = initsquare;
-  motivation[id_existing].last.acts_when = nbply;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -5501,11 +5484,7 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
 
   being_solved.spec[sq_departure] = flags_existing;
 
-  motivation[id_existing] = motivation_existing;
-
   --curr_decision_level;
-
-  motivation[id_existing].levels = save_levels;
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -5651,13 +5630,19 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                 Flags const flags_existing = being_solved.spec[on];
                 PieceIdType const id_existing = GetPieceId(flags_existing);
-                decision_levels_type const save_levels = motivation[id_existing].levels;
+
+                assert(motivation[id_existing].first.purpose!=purpose_none);
+                assert(motivation[id_existing].last.purpose!=purpose_none);
 
                 if (motivation[id_existing].last.acts_when<nbply
                     || ((motivation[id_existing].last.purpose==purpose_interceptor
                          || motivation[id_existing].last.purpose==purpose_capturer)
                         && motivation[id_existing].last.acts_when<=nbply))
                 {
+                  motivation_type const motivation_existing = motivation[id_existing];
+
+                  motivation[id_existing].last.purpose = purpose_none;
+
                   motivation[id_existing].levels.from = curr_decision_level;
                   REPORT_DECISION_SQUARE('>',sq_departure);
                   ++curr_decision_level;
@@ -5709,14 +5694,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                         Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-                        motivation_type const motivation_existing = motivation[id_existing];
                         PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
                         motivation_type const motivation_random = motivation[id_random];
-
-                        assert(motivation[id_existing].first.purpose!=purpose_none);
-                        assert(motivation[id_existing].last.purpose!=purpose_none);
-
-                        motivation[id_existing].last.purpose = purpose_none;
 
                         /* deactivate the pre-capture insertion of the moving total invisible since
                          * that piece is already on the board
@@ -5834,8 +5813,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                         move_effect_journal[precapture].type = move_effect_piece_readdition;
 
-                        motivation[id_existing] = motivation_existing;
-
                         move_effect_journal[movement].u.piece_movement.from = save_from;
                         move_effect_journal[movement].u.piece_movement.moving = save_moving;
                         move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
@@ -5848,7 +5825,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       break;
                   }
 
-                  motivation[id_existing].levels = save_levels;
+                  motivation[id_existing] = motivation_existing;
 
                   --curr_decision_level;
                 }
