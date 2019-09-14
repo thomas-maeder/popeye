@@ -5379,7 +5379,101 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_rider);
   ++curr_decision_level;
-  flesh_out_capture_by_existing_invisible(walk_rider,sq_departure);
+
+  if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+      && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+  {
+    TraceWalk(get_walk_of_piece_on_square(sq_departure));
+    TraceValue("%x",being_solved.spec[sq_departure]);
+    TraceEOL();
+
+    TraceValue("%u",id_existing);
+    TraceValue("%u",motivation[id_existing].first.purpose);
+    TraceValue("%u",motivation[id_existing].first.acts_when);
+    TraceSquare(motivation[id_existing].first.on);
+    TraceValue("%u",motivation[id_existing].last.purpose);
+    TraceValue("%u",motivation[id_existing].last.acts_when);
+    TraceSquare(motivation[id_existing].last.on);
+    TraceEOL();
+
+    if (motivation[id_existing].last.acts_when<nbply
+        || ((motivation[id_existing].last.purpose==purpose_interceptor
+             || motivation[id_existing].last.purpose==purpose_capturer)
+            && motivation[id_existing].last.acts_when<=nbply))
+    {
+      motivation_type const motivation_existing = motivation[id_existing];
+
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
+
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+      motivation_type const motivation_random = motivation[id_random];
+
+      assert(motivation[id_existing].first.purpose!=purpose_none);
+      assert(motivation[id_existing].last.purpose!=purpose_none);
+
+      TraceValue("%u",id_random);
+      TraceValue("%u",motivation[id_random].first.purpose);
+      TraceValue("%u",motivation[id_random].first.acts_when);
+      TraceSquare(motivation[id_random].first.on);
+      TraceValue("%u",motivation[id_random].last.purpose);
+      TraceValue("%u",motivation[id_random].last.acts_when);
+      TraceSquare(motivation[id_random].last.on);
+      TraceEOL();
+
+      motivation[id_existing].levels = motivation[id_random].levels;
+      motivation[id_existing].last.purpose = purpose_none;
+      motivation[id_existing].last.on = initsquare;
+      motivation[id_existing].last.acts_when = nbply;
+
+      SetPieceId(being_solved.spec[sq_departure],id_random);
+      replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+
+      /* deactivate the pre-capture insertion of the moving total invisible since
+       * that piece is already on the board
+       */
+      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+      move_effect_journal[precapture].type = move_effect_none;
+
+      move_effect_journal[movement].u.piece_movement.from = sq_departure;
+      /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+      move_effect_journal[movement].u.piece_movement.moving = walk_rider;
+
+      update_nr_taboos_for_current_move_in_ply(+1);
+
+      motivation[id_random].first = motivation[id_existing].first;
+      motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
+      motivation[id_random].last.acts_when = nbply;
+      motivation[id_random].last.purpose = purpose_capturer;
+
+      assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+      move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+      recurse_into_child_ply();
+
+      motivation[id_random] = motivation_random;
+
+      update_nr_taboos_for_current_move_in_ply(-1);
+
+      move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+      replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+
+      being_solved.spec[sq_departure] = flags_existing;
+
+      motivation[id_existing] = motivation_existing;
+    }
+    else
+    {
+      TraceText("the piece was added to later act from its current square\n");
+      REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
+      REPORT_DEADEND;
+      max_decision_level = motivation[id_existing].levels.from;
+    }
+  }
+  else
+    max_decision_level = motivation[id_existing].levels.from;
+
   --curr_decision_level;
 
   motivation[id_existing].levels = save_levels;
