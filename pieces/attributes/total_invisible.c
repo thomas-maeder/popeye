@@ -5483,6 +5483,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       {
         move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
 
+        move_effect_journal_index_type const precapture = effects_base;
+
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType id;
@@ -5572,11 +5574,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   case Dummy:
                     if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
                     {
-                      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-                      move_effect_journal_index_type const precapture = effects_base;
-
-                      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
                       square const save_from = move_effect_journal[movement].u.piece_movement.from;
                       piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
                       Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
