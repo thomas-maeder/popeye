@@ -5190,7 +5190,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   PieceIdType const id_existing = GetPieceId(flags_existing);
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const precapture = effects_base;
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -5238,8 +5237,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   }
 
   update_nr_taboos_for_current_move_in_ply(-1);
-
-  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5700,6 +5697,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                             }
                           }
                         }
+
+                        move_effect_journal[precapture].type = move_effect_piece_readdition;
 
                         motivation[id_random] = motivation_random;
 
