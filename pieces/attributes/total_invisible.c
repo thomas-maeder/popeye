@@ -5276,11 +5276,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-  decision_levels_type const levels_inserted = motivation[id_inserted].levels;
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -5293,9 +5288,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   TraceWalk(walk_leaper);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  motivation[id_inserted].levels.from = curr_decision_level+1;
 
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_leaper);
@@ -5395,8 +5387,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
-  motivation[id_inserted].levels = levels_inserted;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -5439,11 +5429,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-  decision_levels_type const levels_inserted = motivation[id_inserted].levels;
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -5457,9 +5442,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceWalk(walk_rider);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  motivation[id_inserted].levels.from = curr_decision_level+1;
 
   max_decision_level = decision_level_latest;
   motivation[id_existing].levels.walk = curr_decision_level;
@@ -5561,8 +5543,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  motivation[id_inserted].levels = levels_inserted;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
