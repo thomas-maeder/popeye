@@ -4740,26 +4740,26 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    if (walk_on_board==walk_capturing)
+    if (motivation[id_existing].last.acts_when<nbply
+        || ((motivation[id_existing].last.purpose==purpose_interceptor
+             || motivation[id_existing].last.purpose==purpose_capturer)
+            && motivation[id_existing].last.acts_when<=nbply))
     {
-      TraceWalk(get_walk_of_piece_on_square(sq_departure));
-      TraceValue("%x",being_solved.spec[sq_departure]);
-      TraceEOL();
-
-      TraceValue("%u",id_existing);
-      TraceValue("%u",motivation[id_existing].first.purpose);
-      TraceValue("%u",motivation[id_existing].first.acts_when);
-      TraceSquare(motivation[id_existing].first.on);
-      TraceValue("%u",motivation[id_existing].last.purpose);
-      TraceValue("%u",motivation[id_existing].last.acts_when);
-      TraceSquare(motivation[id_existing].last.on);
-      TraceEOL();
-
-      if (motivation[id_existing].last.acts_when<nbply
-          || ((motivation[id_existing].last.purpose==purpose_interceptor
-               || motivation[id_existing].last.purpose==purpose_capturer)
-              && motivation[id_existing].last.acts_when<=nbply))
+      if (walk_on_board==walk_capturing)
       {
+        TraceWalk(get_walk_of_piece_on_square(sq_departure));
+        TraceValue("%x",being_solved.spec[sq_departure]);
+        TraceEOL();
+
+        TraceValue("%u",id_existing);
+        TraceValue("%u",motivation[id_existing].first.purpose);
+        TraceValue("%u",motivation[id_existing].first.acts_when);
+        TraceSquare(motivation[id_existing].first.on);
+        TraceValue("%u",motivation[id_existing].last.purpose);
+        TraceValue("%u",motivation[id_existing].last.acts_when);
+        TraceSquare(motivation[id_existing].last.on);
+        TraceEOL();
+
         motivation_type const motivation_existing = motivation[id_existing];
 
         move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -4820,34 +4820,21 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
         motivation[id_existing] = motivation_existing;
       }
-      else
+      else if (walk_on_board==Dummy)
       {
-        TraceText("the piece was added to later act from its current square\n");
-        REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
-        REPORT_DEADEND;
-        max_decision_level = motivation[id_existing].levels.from;
-      }
-    }
-    else if (walk_on_board==Dummy)
-    {
-      TraceWalk(get_walk_of_piece_on_square(sq_departure));
-      TraceValue("%x",being_solved.spec[sq_departure]);
-      TraceEOL();
+        TraceWalk(get_walk_of_piece_on_square(sq_departure));
+        TraceValue("%x",being_solved.spec[sq_departure]);
+        TraceEOL();
 
-      TraceValue("%u",id_existing);
-      TraceValue("%u",motivation[id_existing].first.purpose);
-      TraceValue("%u",motivation[id_existing].first.acts_when);
-      TraceSquare(motivation[id_existing].first.on);
-      TraceValue("%u",motivation[id_existing].last.purpose);
-      TraceValue("%u",motivation[id_existing].last.acts_when);
-      TraceSquare(motivation[id_existing].last.on);
-      TraceEOL();
+        TraceValue("%u",id_existing);
+        TraceValue("%u",motivation[id_existing].first.purpose);
+        TraceValue("%u",motivation[id_existing].first.acts_when);
+        TraceSquare(motivation[id_existing].first.on);
+        TraceValue("%u",motivation[id_existing].last.purpose);
+        TraceValue("%u",motivation[id_existing].last.acts_when);
+        TraceSquare(motivation[id_existing].last.on);
+        TraceEOL();
 
-      if (motivation[id_existing].last.acts_when<nbply
-          || ((motivation[id_existing].last.purpose==purpose_interceptor
-               || motivation[id_existing].last.purpose==purpose_capturer)
-              && motivation[id_existing].last.acts_when<=nbply))
-      {
         motivation_type const motivation_existing = motivation[id_existing];
 
         move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -4865,13 +4852,13 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
         motivation[id_existing] = motivation_existing;
       }
-      else
-      {
-        TraceText("the piece was added to later act from its current square\n");
-        REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
-        REPORT_DEADEND;
-        max_decision_level = motivation[id_existing].levels.from;
-      }
+    }
+    else
+    {
+      TraceText("the piece was added to later act from its current square\n");
+      REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
+      REPORT_DEADEND;
+      max_decision_level = motivation[id_existing].levels.from;
     }
   }
   else
