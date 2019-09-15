@@ -5276,8 +5276,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  move_effect_journal_index_type const precapture = effects_base;
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -5300,12 +5298,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-  /* deactivate the pre-capture insertion of the moving total invisible since
-   * that piece is already on the board
-   */
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  move_effect_journal[precapture].type = move_effect_none;
-
   move_effect_journal[movement].u.piece_movement.from = sq_departure;
   /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
   move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
@@ -5324,8 +5316,6 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   motivation[id_random] = motivation_random;
 
   update_nr_taboos_for_current_move_in_ply(-1);
-
-  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
@@ -5379,8 +5369,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  move_effect_journal_index_type const precapture = effects_base;
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -5397,19 +5385,12 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  max_decision_level = decision_level_latest;
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_rider);
   ++curr_decision_level;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
-
-  /* deactivate the pre-capture insertion of the moving total invisible since
-   * that piece is already on the board
-   */
-  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-  move_effect_journal[precapture].type = move_effect_none;
 
   move_effect_journal[movement].u.piece_movement.from = sq_departure;
   /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
@@ -5429,8 +5410,6 @@ static void capture_by_invisible_rider(piece_walk_type walk_rider,
   motivation[id_random] = motivation_random;
 
   update_nr_taboos_for_current_move_in_ply(-1);
-
-  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
@@ -5530,7 +5509,12 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType id;
 
+        /* deactivate the pre-capture insertion of the moving total invisible since
+         * that piece is already on the board
+         */
         assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+        move_effect_journal[precapture].type = move_effect_none;
+
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
         for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
@@ -5651,17 +5635,12 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                         motivation_type const motivation_random = motivation[id_random];
 
-                        /* deactivate the pre-capture insertion of the moving total invisible since
-                         * that piece is already on the board
-                         */
-                        move_effect_journal[precapture].type = move_effect_none;
-
                         move_effect_journal[movement].u.piece_movement.from = on;
                         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
 
                         CLRFLAG(being_solved.spec[on],advers(trait[nbply]));
-
                         SetPieceId(being_solved.spec[on],id_random);
+
                         replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
                         motivation[id_random].first = motivation[id_existing].first;
@@ -5765,8 +5744,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                         replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
                         being_solved.spec[on] = flags_existing;
 
-                        move_effect_journal[precapture].type = move_effect_piece_readdition;
-
                         move_effect_journal[movement].u.piece_movement.from = save_from;
                         move_effect_journal[movement].u.piece_movement.moving = save_moving;
                         move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
@@ -5800,6 +5777,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
             }
           }
         }
+
+        move_effect_journal[precapture].type = move_effect_piece_readdition;
       }
     }
   }
