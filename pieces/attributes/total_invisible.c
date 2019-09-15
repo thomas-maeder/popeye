@@ -5186,13 +5186,6 @@ static void chrtschnbrr(square first_taboo_violation,
 static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
                                        square sq_departure)
 {
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
 
@@ -5201,28 +5194,33 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  max_decision_level = decision_level_latest;
-
-  move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-
   ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
   replace_walk(sq_departure,walk_capturing);
 
   if (is_square_uninterceptably_attacked(side_in_check,king_pos))
   {
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+
     REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
+
     max_decision_level = motivation[id_existing].levels.walk;
   }
   else
   {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
     consumption_type const save_consumption = current_consumption;
+
+    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
     update_nr_taboos_for_current_move_in_ply(+1);
 
     reallocate_fleshing_out(trait[nbply]);
 
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
     restart_from_scratch();
 
     current_consumption = save_consumption;
