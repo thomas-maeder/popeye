@@ -3805,7 +3805,14 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  TraceSquare(motivation[id].first.on);TraceEOL();
+  TraceValue("%u",id);
+  TraceValue("%u",motivation[id].first.purpose);
+  TraceValue("%u",motivation[id].first.acts_when);
+  TraceSquare(motivation[id].first.on);
+  TraceValue("%u",motivation[id].last.purpose);
+  TraceValue("%u",motivation[id].last.acts_when);
+  TraceSquare(motivation[id].last.on);
+  TraceEOL();
 
   if (motivation[id].first.on==sq_arrival)
   {
@@ -4661,7 +4668,6 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   {
     move_effect_journal_index_type const precapture = effects_base;
 
-    Flags const flags_existing = being_solved.spec[sq_departure];
     PieceIdType const id_existing = GetPieceId(flags_existing);
 
     piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -4795,7 +4801,6 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
 
   TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
   TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-  TraceWalk(walk_on_board);
   TraceEOL();
 
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
@@ -5612,9 +5617,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
   {
     consumption_type const save_consumption = current_consumption;
-
-    TraceFunctionEntry(__func__);
-    TraceFunctionParamListEnd();
 
     if (allocate_placement_of_claimed_fleshed_out(trait[nbply]))
     {
