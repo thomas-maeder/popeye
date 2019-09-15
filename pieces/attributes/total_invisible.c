@@ -5316,7 +5316,8 @@ static void flesh_out_king_for_capture(square sq_departure)
 
 static void flesh_out_dummy_for_capture(square sq_departure,
                                         square sq_arrival,
-                                        PieceIdType id_existing)
+                                        PieceIdType id_existing,
+                                        boolean is_king_dealt_with)
 {
   int const move_square_diff = sq_departure-sq_arrival;
 
@@ -5324,9 +5325,11 @@ static void flesh_out_dummy_for_capture(square sq_departure,
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceValue("%u",id_existing);
+  TraceValue("%u",is_king_dealt_with);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Queen][move_square_diff]==move_square_diff
+  if (!is_king_dealt_with
+      && CheckDir[Queen][move_square_diff]==move_square_diff
       && being_solved.king_square[trait[nbply]]==initsquare)
     flesh_out_king_for_capture(sq_departure);
 
@@ -5523,12 +5526,12 @@ static void capture_by_invisible_king(square sq_departure)
 
   move_effect_journal[king_square_movement].type = move_effect_none;
 
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_on(square sq_departure)
+static void flesh_out_capture_by_invisible_on(square sq_departure,
+                                              boolean is_king_dealt_with)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5537,6 +5540,11 @@ static void flesh_out_capture_by_invisible_on(square sq_departure)
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id = GetPieceId(flags_existing);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceValue("%u",is_king_dealt_with);
+  TraceFunctionParamListEnd();
 
   if (GetPieceId(flags_existing)==id
       && motivation[id].last.purpose!=purpose_none
@@ -5571,7 +5579,8 @@ static void flesh_out_capture_by_invisible_on(square sq_departure)
       switch (walk_existing)
       {
         case King:
-          if (CheckDir[Queen][move_square_diff]==move_square_diff)
+          if (!is_king_dealt_with
+              && CheckDir[Queen][move_square_diff]==move_square_diff)
             capture_by_invisible_king(sq_departure);
           break;
 
@@ -5607,7 +5616,8 @@ static void flesh_out_capture_by_invisible_on(square sq_departure)
           if (CheckDir[Queen][move_square_diff]!=0
               || CheckDir[Knight][move_square_diff]==move_square_diff)
             flesh_out_dummy_for_capture(sq_departure,sq_arrival,
-                                        id_existing);
+                                        id_existing,
+                                        is_king_dealt_with);
           break;
 
         default:
@@ -5634,6 +5644,9 @@ static void flesh_out_capture_by_invisible_on(square sq_departure)
     REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
     REPORT_DEADEND;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_violation)
@@ -5656,7 +5669,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     }
     else
     {
-      boolean can_king;
+      boolean can_king_be_fleshed_out;
 
       current_consumption = save_consumption;
 
@@ -5667,13 +5680,13 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
          * are possisble */
         being_solved.king_square[trait[nbply]] = square_a1;
 
-        can_king = allocate_placement_of_claimed_fleshed_out(trait[nbply]);
+        can_king_be_fleshed_out = allocate_placement_of_claimed_fleshed_out(trait[nbply]);
 
         current_consumption = save_consumption;
         being_solved.king_square[trait[nbply]] = save_king_square;
       }
 
-      if (can_king)
+      if (can_king_be_fleshed_out)
         /* no problem - we can simply insert a capturing king */
       {
         move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -5703,19 +5716,19 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
         motivation[id_inserted].levels = levels_inserted;
       }
-      else
+
+      if (first_taboo_violation==nullsquare)
       {
-        if (first_taboo_violation==nullsquare)
-        {
-          PieceIdType id;
-          for (id = top_visible_piece_id+1;
-               id<=top_invisible_piece_id && curr_decision_level<=max_decision_level;
-               ++id)
-            flesh_out_capture_by_invisible_on(motivation[id].last.on);
-        }
-        else
-          flesh_out_capture_by_invisible_on(first_taboo_violation);
+        PieceIdType id;
+        for (id = top_visible_piece_id+1;
+             id<=top_invisible_piece_id && curr_decision_level<=max_decision_level;
+             ++id)
+          flesh_out_capture_by_invisible_on(motivation[id].last.on,
+                                            can_king_be_fleshed_out);
       }
+      else
+        flesh_out_capture_by_invisible_on(first_taboo_violation,
+                                          can_king_be_fleshed_out);
     }
   }
 
