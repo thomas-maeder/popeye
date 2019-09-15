@@ -5223,6 +5223,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
     Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+    square const save_from = move_effect_journal[movement].u.piece_movement.from;
 
     motivation_type const motivation_random = motivation[id_random];
 
@@ -5237,6 +5238,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
     move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+    move_effect_journal[movement].u.piece_movement.from = sq_departure;
+    /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
 
     update_nr_taboos_for_current_move_in_ply(+1);
 
@@ -5250,6 +5253,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     move_effect_journal[movement].u.piece_movement.moving = save_moving;
     move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+    move_effect_journal[movement].u.piece_movement.from = save_from;
 
     motivation[id_random] = motivation_random;
 
@@ -5308,6 +5312,7 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  square const save_from = move_effect_journal[movement].u.piece_movement.from;
 
   PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
   motivation_type const motivation_random = motivation[id_random];
@@ -5328,6 +5333,9 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
   move_effect_journal[movement].u.piece_movement.moving = walk_capturer;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
 
   update_nr_taboos_for_current_move_in_ply(+1);
 
@@ -5352,6 +5360,7 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
 
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+  move_effect_journal[movement].u.piece_movement.from = save_from;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5544,11 +5553,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                 PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
-                square const save_from = move_effect_journal[movement].u.piece_movement.from;
-
-                move_effect_journal[movement].u.piece_movement.from = sq_departure;
-                /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-
                 motivation[id_existing].last.purpose = purpose_none;
                 motivation[id_existing].levels = motivation[id_random].levels;
 
@@ -5706,8 +5710,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 motivation[id_existing] = motivation_existing;
 
                 --curr_decision_level;
-
-                move_effect_journal[movement].u.piece_movement.from = save_from;
               }
               else
               {
