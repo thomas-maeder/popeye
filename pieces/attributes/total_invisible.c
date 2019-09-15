@@ -5646,7 +5646,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     consumption_type const save_consumption = current_consumption;
 
     TraceFunctionEntry(__func__);
-    TraceValue("%u",ply);
     TraceFunctionParamListEnd();
 
     if (allocate_placement_of_claimed_fleshed_out(trait[nbply]))
@@ -5689,11 +5688,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
         piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
         Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-        TraceFunctionEntry(__func__);
-        TraceSquare(first_taboo_violation);
-        TraceValue("%u",can_capture);
-        TraceFunctionParamListEnd();
-
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
         max_decision_level = decision_level_latest;
@@ -5711,40 +5705,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       }
       else
       {
-        {
-          PieceIdType id;
-          for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
-          {
-            TraceValue("%u",id);
-
-            TraceValue("%u",motivation[id].first.purpose);
-            TraceValue("%u",motivation[id].first.acts_when);
-            TraceSquare(motivation[id].first.on);
-
-            TraceValue("%u",motivation[id].last.purpose);
-            TraceValue("%u",motivation[id].last.acts_when);
-            TraceSquare(motivation[id].last.on);
-
-            TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
-            TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
-            TraceEOL();
-          }
-        }
-
-        {
-          PieceIdType id;
-          for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
-          {
-            TraceValue("%u",id);TraceEOL();
-            assert((motivation[id].first.acts_when>nbply) // active in the future
-                   || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
-                   || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
-                   || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply) // in action
-                   || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation or capture
-                   || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
-          }
-        }
-
         if (first_taboo_violation==nullsquare)
         {
           PieceIdType id;
@@ -6104,6 +6064,40 @@ static void done_intercepting_illegal_checks(void)
     TraceValue("%u",sq_arrival);
     TraceValue("%u",move_by_invisible);
     TraceEOL();
+
+    {
+      PieceIdType id;
+      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+      {
+        TraceValue("%u",id);
+
+        TraceValue("%u",motivation[id].first.purpose);
+        TraceValue("%u",motivation[id].first.acts_when);
+        TraceSquare(motivation[id].first.on);
+
+        TraceValue("%u",motivation[id].last.purpose);
+        TraceValue("%u",motivation[id].last.acts_when);
+        TraceSquare(motivation[id].last.on);
+
+        TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
+        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+        TraceEOL();
+      }
+    }
+
+    {
+      PieceIdType id;
+      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+      {
+        TraceValue("%u",id);TraceEOL();
+        assert((motivation[id].first.acts_when>nbply) // active in the future
+               || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
+               || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
+               || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>=nbply) // in action
+               || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation or capture
+               || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
+      }
+    }
 
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
