@@ -5271,14 +5271,15 @@ static void flesh_out_king_for_capture(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
-                                        square sq_departure)
+static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
+                                             square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+
   PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
   motivation_type const motivation_random = motivation[id_random];
 
@@ -5286,18 +5287,18 @@ static void capture_by_invisible_leaper(piece_walk_type walk_leaper,
   PieceIdType const id_existing = GetPieceId(flags_existing);
 
   TraceFunctionEntry(__func__);
-  TraceWalk(walk_leaper);
+  TraceWalk(walk_capturer);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   motivation[id_existing].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',walk_leaper);
+  REPORT_DECISION_WALK('>',walk_capturer);
   ++curr_decision_level;
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
-  move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
+  move_effect_journal[movement].u.piece_movement.moving = walk_capturer;
 
   update_nr_taboos_for_current_move_in_ply(+1);
 
@@ -5351,7 +5352,7 @@ static void capture_by_invisible_king(square sq_departure)
   assert(sq_departure==being_solved.king_square[trait[nbply]]);
   assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
 
-  capture_by_invisible_leaper(King,sq_departure);
+  capture_by_fleshed_out_invisible(King,sq_departure);
 
   move_effect_journal[king_square_movement].type = move_effect_none;
 
@@ -5360,62 +5361,6 @@ static void capture_by_invisible_king(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_rider(piece_walk_type walk_rider,
-                                       square sq_departure)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-  Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-
-  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-  motivation_type const motivation_random = motivation[id_random];
-
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_rider);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  motivation[id_existing].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',walk_rider);
-  ++curr_decision_level;
-
-  SetPieceId(being_solved.spec[sq_departure],id_random);
-  replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
-
-  move_effect_journal[movement].u.piece_movement.moving = walk_rider;
-
-  update_nr_taboos_for_current_move_in_ply(+1);
-
-  motivation[id_random].first = motivation[id_existing].first;
-  motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-  motivation[id_random].last.acts_when = nbply;
-  motivation[id_random].last.purpose = purpose_capturer;
-
-  assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-  recurse_into_child_ply();
-
-  motivation[id_random] = motivation_random;
-
-  update_nr_taboos_for_current_move_in_ply(-1);
-
-  replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-
-  being_solved.spec[sq_departure] = flags_existing;
-
-  --curr_decision_level;
-
-  move_effect_journal[movement].u.piece_movement.moving = save_moving;
-  move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_violation)
 {
@@ -5597,14 +5542,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   {
                     int const dir = CheckDir[walk_existing][move_square_diff];
                     if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
-                      capture_by_invisible_rider(walk_existing,sq_departure);
+                      capture_by_fleshed_out_invisible(walk_existing,sq_departure);
                     break;
                   }
 
                   case Knight:
                   {
                     if (CheckDir[Knight][move_square_diff]==move_square_diff)
-                      capture_by_invisible_leaper(Knight,sq_departure);
+                      capture_by_fleshed_out_invisible(Knight,sq_departure);
                     break;
                   }
 
@@ -5616,7 +5561,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                       SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
                       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
-                        capture_by_invisible_leaper(Pawn,sq_departure);
+                        capture_by_fleshed_out_invisible(Pawn,sq_departure);
                       // TODO en passant capture
                     }
                     break;
