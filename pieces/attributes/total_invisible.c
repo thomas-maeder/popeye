@@ -4624,6 +4624,102 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
+                                       square sq_departure)
+{
+  Side const side_in_check = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_in_check];
+
+  Flags const flags_existing = being_solved.spec[sq_departure];
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_capturing);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+  SetPieceId(being_solved.spec[sq_departure],id_random);
+
+  ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+  replace_walk(sq_departure,walk_capturing);
+
+  if (is_square_uninterceptably_attacked(side_in_check,king_pos))
+  {
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+
+    REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
+    REPORT_DEADEND;
+
+    max_decision_level = motivation[id_existing].levels.walk;
+  }
+  else
+  {
+    move_effect_journal_index_type const precapture = effects_base;
+
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+
+    piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
+    Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+    square const save_from = move_effect_journal[movement].u.piece_movement.from;
+
+    motivation_type const motivation_random = motivation[id_random];
+
+    consumption_type const save_consumption = current_consumption;
+
+    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+
+    motivation[id_random].first = motivation[id_existing].first;
+    motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
+    motivation[id_random].last.acts_when = nbply;
+    motivation[id_random].last.purpose = purpose_capturer;
+
+    /* deactivate the pre-capture insertion of the moving total invisible since
+     * that piece is already on the board
+     */
+    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+    move_effect_journal[precapture].type = move_effect_none;
+
+    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+    move_effect_journal[movement].u.piece_movement.from = sq_departure;
+    /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+
+    update_nr_taboos_for_current_move_in_ply(+1);
+
+    reallocate_fleshing_out(trait[nbply]);
+
+    restart_from_scratch();
+
+    current_consumption = save_consumption;
+
+    update_nr_taboos_for_current_move_in_ply(-1);
+
+    move_effect_journal[movement].u.piece_movement.moving = save_moving;
+    move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+    move_effect_journal[movement].u.piece_movement.from = save_from;
+
+    move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+    motivation[id_random] = motivation_random;
+
+    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+  }
+
+  replace_walk(sq_departure,Dummy);
+  --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+
+  being_solved.spec[sq_departure] = flags_existing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturing,
                                                     square sq_departure)
 {
@@ -4644,7 +4740,7 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    if (walk_on_board==Dummy || walk_on_board==walk_capturing)
+    if (walk_on_board==walk_capturing)
     {
       TraceWalk(get_walk_of_piece_on_square(sq_departure));
       TraceValue("%x",being_solved.spec[sq_departure]);
@@ -4687,8 +4783,6 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
 
         motivation[id_existing].levels = motivation[id_random].levels;
         motivation[id_existing].last.purpose = purpose_none;
-        motivation[id_existing].last.on = initsquare;
-        motivation[id_existing].last.acts_when = nbply;
 
         SetPieceId(being_solved.spec[sq_departure],id_random);
         replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -4710,41 +4804,9 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         motivation[id_random].last.acts_when = nbply;
         motivation[id_random].last.purpose = purpose_capturer;
 
-        if (walk_on_board==walk_capturing)
-        {
-          assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-          move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-          recurse_into_child_ply();
-        }
-        else if (walk_on_board==Dummy)
-        {
-          Side const side_in_check = trait[nbply-1];
-          square const king_pos = being_solved.king_square[side_in_check];
-          consumption_type const save_consumption = current_consumption;
-
-          reallocate_fleshing_out(trait[nbply]);
-
-          ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-          replace_walk(sq_departure,walk_capturing);
-          CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
-
-          if (is_square_uninterceptably_attacked(side_in_check,king_pos))
-          {
-            REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
-            REPORT_DEADEND;
-            max_decision_level = motivation[id_existing].levels.from;
-          }
-          else
-          {
-            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-            restart_from_scratch();
-          }
-
-          replace_walk(sq_departure,Dummy);
-          --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-
-          current_consumption = save_consumption;
-        }
+        assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+        move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+        recurse_into_child_ply();
 
         motivation[id_random] = motivation_random;
 
@@ -4755,6 +4817,51 @@ static void flesh_out_capture_by_existing_invisible(piece_walk_type walk_capturi
         replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
         being_solved.spec[sq_departure] = flags_existing;
+
+        motivation[id_existing] = motivation_existing;
+      }
+      else
+      {
+        TraceText("the piece was added to later act from its current square\n");
+        REPORT_DECISION_OUTCOME("%s","the piece was added to later act from its current square");
+        REPORT_DEADEND;
+        max_decision_level = motivation[id_existing].levels.from;
+      }
+    }
+    else if (walk_on_board==Dummy)
+    {
+      TraceWalk(get_walk_of_piece_on_square(sq_departure));
+      TraceValue("%x",being_solved.spec[sq_departure]);
+      TraceEOL();
+
+      TraceValue("%u",id_existing);
+      TraceValue("%u",motivation[id_existing].first.purpose);
+      TraceValue("%u",motivation[id_existing].first.acts_when);
+      TraceSquare(motivation[id_existing].first.on);
+      TraceValue("%u",motivation[id_existing].last.purpose);
+      TraceValue("%u",motivation[id_existing].last.acts_when);
+      TraceSquare(motivation[id_existing].last.on);
+      TraceEOL();
+
+      if (motivation[id_existing].last.acts_when<nbply
+          || ((motivation[id_existing].last.purpose==purpose_interceptor
+               || motivation[id_existing].last.purpose==purpose_capturer)
+              && motivation[id_existing].last.acts_when<=nbply))
+      {
+        motivation_type const motivation_existing = motivation[id_existing];
+
+        move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+        assert(motivation[id_existing].first.purpose!=purpose_none);
+        assert(motivation[id_existing].last.purpose!=purpose_none);
+
+        motivation[id_existing].last.purpose = purpose_none;
+        motivation[id_existing].levels = motivation[id_random].levels;
+
+        flesh_out_walk_for_capture(walk_capturing,sq_departure);
 
         motivation[id_existing] = motivation_existing;
       }
@@ -5178,102 +5285,6 @@ static void chrtschnbrr(square first_taboo_violation,
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
   motivation[id_inserted].levels = levels_inserted;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
-                                       square sq_departure)
-{
-  Side const side_in_check = trait[nbply-1];
-  square const king_pos = being_solved.king_square[side_in_check];
-
-  Flags const flags_existing = being_solved.spec[sq_departure];
-
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
-  SetPieceId(being_solved.spec[sq_departure],id_random);
-
-  ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-  replace_walk(sq_departure,walk_capturing);
-
-  if (is_square_uninterceptably_attacked(side_in_check,king_pos))
-  {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-
-    REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
-    REPORT_DEADEND;
-
-    max_decision_level = motivation[id_existing].levels.walk;
-  }
-  else
-  {
-    move_effect_journal_index_type const precapture = effects_base;
-
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-
-    piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-    Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-    square const save_from = move_effect_journal[movement].u.piece_movement.from;
-
-    motivation_type const motivation_random = motivation[id_random];
-
-    consumption_type const save_consumption = current_consumption;
-
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
-
-    motivation[id_random].first = motivation[id_existing].first;
-    motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-    motivation[id_random].last.acts_when = nbply;
-    motivation[id_random].last.purpose = purpose_capturer;
-
-    /* deactivate the pre-capture insertion of the moving total invisible since
-     * that piece is already on the board
-     */
-    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-    move_effect_journal[precapture].type = move_effect_none;
-
-    move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-    move_effect_journal[movement].u.piece_movement.from = sq_departure;
-    /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-
-    update_nr_taboos_for_current_move_in_ply(+1);
-
-    reallocate_fleshing_out(trait[nbply]);
-
-    restart_from_scratch();
-
-    current_consumption = save_consumption;
-
-    update_nr_taboos_for_current_move_in_ply(-1);
-
-    move_effect_journal[movement].u.piece_movement.moving = save_moving;
-    move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-    move_effect_journal[movement].u.piece_movement.from = save_from;
-
-    move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-    motivation[id_random] = motivation_random;
-
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
-  }
-
-  replace_walk(sq_departure,Dummy);
-  --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
-
-  being_solved.spec[sq_departure] = flags_existing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
