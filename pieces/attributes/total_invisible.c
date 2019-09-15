@@ -5218,6 +5218,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   }
   else
   {
+    move_effect_journal_index_type const precapture = effects_base;
+
     Flags const flags_existing = being_solved.spec[sq_departure];
     PieceIdType const id_existing = GetPieceId(flags_existing);
 
@@ -5235,6 +5237,12 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
     motivation[id_random].last.acts_when = nbply;
     motivation[id_random].last.purpose = purpose_capturer;
+
+    /* deactivate the pre-capture insertion of the moving total invisible since
+     * that piece is already on the board
+     */
+    assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+    move_effect_journal[precapture].type = move_effect_none;
 
     move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
     move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
@@ -5254,6 +5262,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     move_effect_journal[movement].u.piece_movement.moving = save_moving;
     move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
     move_effect_journal[movement].u.piece_movement.from = save_from;
+
+    move_effect_journal[precapture].type = move_effect_piece_readdition;
 
     motivation[id_random] = motivation_random;
 
@@ -5309,6 +5319,8 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
@@ -5331,6 +5343,12 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+
+  /* deactivate the pre-capture insertion of the moving total invisible since
+   * that piece is already on the board
+   */
+  assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+  move_effect_journal[precapture].type = move_effect_none;
 
   move_effect_journal[movement].u.piece_movement.moving = walk_capturer;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
@@ -5361,6 +5379,8 @@ static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
   move_effect_journal[movement].u.piece_movement.from = save_from;
+
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5478,17 +5498,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       {
         move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
 
-        move_effect_journal_index_type const precapture = effects_base;
-
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType id;
-
-        /* deactivate the pre-capture insertion of the moving total invisible since
-         * that piece is already on the board
-         */
-        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-        move_effect_journal[precapture].type = move_effect_none;
 
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
@@ -5727,8 +5739,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
             }
           }
         }
-
-        move_effect_journal[precapture].type = move_effect_piece_readdition;
       }
     }
   }
