@@ -5189,10 +5189,19 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
 
+  Flags const flags_existing = being_solved.spec[sq_departure];
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
+
+  CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
+  SetPieceId(being_solved.spec[sq_departure],id_random);
 
   ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
   replace_walk(sq_departure,walk_capturing);
@@ -5212,12 +5221,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     Flags const flags_existing = being_solved.spec[sq_departure];
     PieceIdType const id_existing = GetPieceId(flags_existing);
 
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
     piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
     Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-
 
     motivation_type const motivation_random = motivation[id_random];
 
@@ -5253,6 +5258,8 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   replace_walk(sq_departure,Dummy);
   --being_solved.number_of_pieces[trait[nbply]][walk_capturing];
+
+  being_solved.spec[sq_departure] = flags_existing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5593,9 +5600,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   {
                     if (CheckDir[Queen][move_square_diff]!=0 || CheckDir[Knight][move_square_diff]==move_square_diff)
                     {
-                      CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
-                      SetPieceId(being_solved.spec[sq_departure],id_random);
-
                       if (CheckDir[Queen][move_square_diff]==move_square_diff
                           && being_solved.king_square[trait[nbply]]==initsquare)
                         flesh_out_king_for_capture(sq_departure);
@@ -5686,8 +5690,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                           }
                         }
                       }
-
-                      being_solved.spec[sq_departure] = flags_existing;
                     }
                     break;
                   }
