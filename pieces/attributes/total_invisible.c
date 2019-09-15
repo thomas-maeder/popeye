@@ -5556,6 +5556,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 REPORT_DECISION_SQUARE('>',sq_departure);
                 ++curr_decision_level;
 
+                max_decision_level = decision_level_latest;
+
                 switch (walk_existing)
                 {
                   case King:
@@ -5651,6 +5653,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                               if (curr_decision_level<=max_decision_level)
                               {
+                                max_decision_level = decision_level_latest;
                                 motivation[id_existing].levels.walk = curr_decision_level;
                                 REPORT_DECISION_WALK('>',Queen);
                                 ++curr_decision_level;
@@ -5677,6 +5680,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
 
                                 if (curr_decision_level<=max_decision_level)
                                 {
+                                  max_decision_level = decision_level_latest;
                                   motivation[id_existing].levels.walk = curr_decision_level;
                                   REPORT_DECISION_WALK('>',Queen);
                                   ++curr_decision_level;
