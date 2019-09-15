@@ -5314,6 +5314,115 @@ static void flesh_out_king_for_capture(square sq_departure)
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_dummy_for_capture(square sq_departure,
+                                        square sq_arrival,
+                                        PieceIdType id_existing)
+{
+  int const move_square_diff = sq_departure-sq_arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceValue("%u",id_existing);
+  TraceFunctionParamListEnd();
+
+  if (CheckDir[Queen][move_square_diff]==move_square_diff
+      && being_solved.king_square[trait[nbply]]==initsquare)
+    flesh_out_king_for_capture(sq_departure);
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    if (CheckDir[Bishop][move_square_diff]==move_square_diff
+        && (trait[nbply]==White ? sq_departure<sq_arrival : sq_departure>sq_arrival))
+    {
+      SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+      SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+      if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+      {
+        motivation[id_existing].levels.walk = curr_decision_level;
+        REPORT_DECISION_WALK('>',King);
+        ++curr_decision_level;
+        flesh_out_walk_for_capture(Pawn,sq_departure);
+        --curr_decision_level;
+      }
+
+      // TODO en passant capture
+    }
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      if (CheckDir[Knight][move_square_diff]==move_square_diff)
+      {
+        motivation[id_existing].levels.walk = curr_decision_level;
+        REPORT_DECISION_WALK('>',Knight);
+        ++curr_decision_level;
+        flesh_out_walk_for_capture(Knight,sq_departure);
+        --curr_decision_level;
+      }
+
+      if (curr_decision_level<=max_decision_level)
+      {
+        int const dir = CheckDir[Bishop][move_square_diff];
+        if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
+        {
+          motivation[id_existing].levels.walk = curr_decision_level;
+          REPORT_DECISION_WALK('>',Bishop);
+          ++curr_decision_level;
+
+          flesh_out_walk_for_capture(Bishop,sq_departure);
+
+          /* don't reduce curr_decision_level yet; if Bishop
+           * wasn't acceptable, then Queen wouldn't be either */
+
+          if (curr_decision_level<=max_decision_level)
+          {
+            max_decision_level = decision_level_latest;
+            motivation[id_existing].levels.walk = curr_decision_level;
+            REPORT_DECISION_WALK('>',Queen);
+            ++curr_decision_level;
+            flesh_out_walk_for_capture(Queen,sq_departure);
+            --curr_decision_level;
+          }
+
+          --curr_decision_level;
+        }
+
+        if (curr_decision_level<=max_decision_level)
+        {
+          int const dir = CheckDir[Rook][move_square_diff];
+          if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
+          {
+            motivation[id_existing].levels.walk = curr_decision_level;
+            REPORT_DECISION_WALK('>',Rook);
+            ++curr_decision_level;
+
+            flesh_out_walk_for_capture(Rook,sq_departure);
+
+            /* don't reduce curr_decision_level yet; if Rook
+             * wasn't acceptable, then Queen wouldn't be either */
+
+            if (curr_decision_level<=max_decision_level)
+            {
+              max_decision_level = decision_level_latest;
+              motivation[id_existing].levels.walk = curr_decision_level;
+              REPORT_DECISION_WALK('>',Queen);
+              ++curr_decision_level;
+              flesh_out_walk_for_capture(Queen,sq_departure);
+              --curr_decision_level;
+            }
+
+            --curr_decision_level;
+          }
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void capture_by_fleshed_out_invisible(piece_walk_type walk_capturer,
                                              square sq_departure)
 {
@@ -5548,8 +5657,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 && motivation[id].last.purpose!=purpose_none
                 && TSTFLAG(flags_existing,trait[ply]))
             {
-              int const move_square_diff = sq_departure-sq_arrival;
-
               piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
               PieceIdType const id_existing = GetPieceId(flags_existing);
 
@@ -5561,6 +5668,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                        || motivation[id_existing].last.purpose==purpose_capturer)
                       && motivation[id_existing].last.acts_when<=nbply))
               {
+                int const move_square_diff = sq_departure-sq_arrival;
+
                 motivation_type const motivation_existing = motivation[id_existing];
 
                 PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -5577,11 +5686,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                 switch (walk_existing)
                 {
                   case King:
-                  {
                     if (CheckDir[Queen][move_square_diff]==move_square_diff)
                       capture_by_invisible_king(sq_departure);
                     break;
-                  }
 
                   case Queen:
                   case Rook:
@@ -5594,125 +5701,29 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
                   }
 
                   case Knight:
-                  {
                     if (CheckDir[Knight][move_square_diff]==move_square_diff)
                       capture_by_fleshed_out_invisible(Knight,sq_departure);
                     break;
-                  }
 
                   case Pawn:
-                  {
                     if (CheckDir[Bishop][move_square_diff]==move_square_diff)
                     {
                       SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
                       SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-                      if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+                      if (!TSTFLAG(sq_spec[sq_departure],basesq)
+                          && !TSTFLAG(sq_spec[sq_departure],promsq))
                         capture_by_fleshed_out_invisible(Pawn,sq_departure);
                       // TODO en passant capture
                     }
                     break;
-                  }
 
                   case Dummy:
-                  {
-                    if (CheckDir[Queen][move_square_diff]!=0 || CheckDir[Knight][move_square_diff]==move_square_diff)
-                    {
-                      if (CheckDir[Queen][move_square_diff]==move_square_diff
-                          && being_solved.king_square[trait[nbply]]==initsquare)
-                        flesh_out_king_for_capture(sq_departure);
-
-                      if (curr_decision_level<=max_decision_level)
-                      {
-                        if (CheckDir[Bishop][move_square_diff]==move_square_diff
-                            && (trait[nbply]==White ? sq_departure<sq_arrival : sq_departure>sq_arrival))
-                        {
-                          SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-                          SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-
-                          if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
-                          {
-                            motivation[id_existing].levels.walk = curr_decision_level;
-                            REPORT_DECISION_WALK('>',King);
-                            ++curr_decision_level;
-                            flesh_out_walk_for_capture(Pawn,sq_departure);
-                            --curr_decision_level;
-                          }
-
-                          // TODO en passant capture
-                        }
-
-                        if (curr_decision_level<=max_decision_level)
-                        {
-                          if (CheckDir[Knight][move_square_diff]==move_square_diff)
-                          {
-                            motivation[id_existing].levels.walk = curr_decision_level;
-                            REPORT_DECISION_WALK('>',Knight);
-                            ++curr_decision_level;
-                            flesh_out_walk_for_capture(Knight,sq_departure);
-                            --curr_decision_level;
-                          }
-
-                          if (curr_decision_level<=max_decision_level)
-                          {
-                            int const dir = CheckDir[Bishop][move_square_diff];
-                            if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
-                            {
-                              motivation[id_existing].levels.walk = curr_decision_level;
-                              REPORT_DECISION_WALK('>',Bishop);
-                              ++curr_decision_level;
-
-                              flesh_out_walk_for_capture(Bishop,sq_departure);
-
-                              /* don't reduce curr_decision_level yet; if Bishop
-                               * wasn't acceptable, then Queen wouldn't be either */
-
-                              if (curr_decision_level<=max_decision_level)
-                              {
-                                max_decision_level = decision_level_latest;
-                                motivation[id_existing].levels.walk = curr_decision_level;
-                                REPORT_DECISION_WALK('>',Queen);
-                                ++curr_decision_level;
-                                flesh_out_walk_for_capture(Queen,sq_departure);
-                                --curr_decision_level;
-                              }
-
-                              --curr_decision_level;
-                            }
-
-                            if (curr_decision_level<=max_decision_level)
-                            {
-                              int const dir = CheckDir[Rook][move_square_diff];
-                              if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
-                              {
-                                motivation[id_existing].levels.walk = curr_decision_level;
-                                REPORT_DECISION_WALK('>',Rook);
-                                ++curr_decision_level;
-
-                                flesh_out_walk_for_capture(Rook,sq_departure);
-
-                                /* don't reduce curr_decision_level yet; if Rook
-                                 * wasn't acceptable, then Queen wouldn't be either */
-
-                                if (curr_decision_level<=max_decision_level)
-                                {
-                                  max_decision_level = decision_level_latest;
-                                  motivation[id_existing].levels.walk = curr_decision_level;
-                                  REPORT_DECISION_WALK('>',Queen);
-                                  ++curr_decision_level;
-                                  flesh_out_walk_for_capture(Queen,sq_departure);
-                                  --curr_decision_level;
-                                }
-
-                                --curr_decision_level;
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
+                    if (CheckDir[Queen][move_square_diff]!=0
+                        || CheckDir[Knight][move_square_diff]==move_square_diff)
+                      flesh_out_dummy_for_capture(sq_departure,sq_arrival,
+                                                  id_existing);
                     break;
-                  }
 
                   default:
                     // TODO assert(0);?
