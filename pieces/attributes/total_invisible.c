@@ -5626,26 +5626,14 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     }
     else
     {
-      boolean can_king_be_fleshed_out;
+      boolean const can_king_be_fleshed_out = (being_solved.king_square[trait[nbply]]==initsquare
+                                               && current_consumption.claimed[trait[nbply]]);
 
       current_consumption = save_consumption;
 
-      {
-        square const save_king_square = being_solved.king_square[trait[nbply]];
-
-        /* pretend that the king is placed; necessary if only captures by the invisble king
-         * are possisble */
-        being_solved.king_square[trait[nbply]] = square_a1;
-
-        can_king_be_fleshed_out = allocate_placement_of_claimed_fleshed_out(trait[nbply]);
-
-        current_consumption = save_consumption;
-        being_solved.king_square[trait[nbply]] = save_king_square;
-      }
-
       if (can_king_be_fleshed_out)
-        /* no problem - we can simply insert a capturing king */
       {
+        /* no problem - we can simply insert a capturing king */
         move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
         move_effect_journal_index_type const precapture = effects_base;
