@@ -4934,13 +4934,13 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
     if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
     {
-      max_decision_level = decision_level_latest;
-
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
         Flags const flags_existing = being_solved.spec[sq_departure];
         PieceIdType const id_existing = GetPieceId(flags_existing);
         decision_levels_type const save_levels = motivation[id_existing].levels;
+
+        max_decision_level = decision_level_latest;
 
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
