@@ -4965,6 +4965,24 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
   TraceFunctionResultEnd();
 }
 
+static void capture_by_king_at_end_of_line(square sq_departure)
+{
+  Flags const flags_existing = being_solved.spec[sq_departure];
+  PieceIdType const id_existing = GetPieceId(flags_existing);
+  decision_levels_type const save_levels = motivation[id_existing].levels;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
+  capture_by_piece_at_end_of_line(King,sq_departure);
+  motivation[id_existing].levels = save_levels;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void capture_by_invisible_king_inserted_or_existing(square first_taboo_violation)
 {
   TraceFunctionEntry(__func__);
@@ -5008,13 +5026,8 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
         if (get_walk_of_piece_on_square(sq_departure)==King
             && sq_departure==being_solved.king_square[trait[nbply]])
         {
-          Flags const flags_existing = being_solved.spec[sq_departure];
-          PieceIdType const id_existing = GetPieceId(flags_existing);
-          decision_levels_type const save_levels = motivation[id_existing].levels;
-
           assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-          capture_by_piece_at_end_of_line(King,sq_departure);
-          motivation[id_existing].levels = save_levels;
+          capture_by_king_at_end_of_line(sq_departure);
         }
         else if (being_solved.king_square[trait[nbply]]==initsquare)
         {
@@ -5029,16 +5042,10 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
           }
           else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
           {
-            Flags const flags_existing = being_solved.spec[sq_departure];
-            PieceIdType const id_existing = GetPieceId(flags_existing);
-            decision_levels_type const save_levels = motivation[id_existing].levels;
-
             assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
             SETFLAG(being_solved.spec[sq_departure],Royal);
-            REPORT_DECISION_SQUARE('>',sq_departure);
-            capture_by_piece_at_end_of_line(King,sq_departure);
+            capture_by_king_at_end_of_line(sq_departure);
             CLRFLAG(being_solved.spec[sq_departure],Royal);
-            motivation[id_existing].levels = save_levels;
           }
 
           being_solved.king_square[trait[nbply]] = initsquare;
