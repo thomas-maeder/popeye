@@ -4546,6 +4546,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   // TODO first test allocation, then taboo?
 
+  REPORT_DECISION_WALK('>',walk_capturing);
+  ++curr_decision_level;
+
   if (was_taboo(sq_departure) || is_taboo(sq_departure,side_playing))
   {
     REPORT_DECISION_OUTCOME("%s","capturer can't be placed on taboo square");
@@ -4626,6 +4629,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
     current_consumption = save_consumption;
   }
+
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4903,32 +4908,24 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
          is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
          sq_departure += vec[kcurr])
     {
-      max_decision_level = decision_level_latest;
       if (first_taboo_violation==nullsquare)
       {
         motivation[id_inserted].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
 
-        assert(curr_decision_level<=max_decision_level);
+        max_decision_level = decision_level_latest;
 
         {
-          max_decision_level = decision_level_latest;
           motivation[id_inserted].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',walk_rider);
-          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
-          --curr_decision_level;
         }
 
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
           motivation[id_inserted].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',Queen);
-          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(Queen,sq_departure);
-          --curr_decision_level;
         }
 
         --curr_decision_level;
@@ -5027,11 +5024,8 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
           {
             assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
             SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-            REPORT_DECISION_SQUARE('>',sq_departure);
-            ++curr_decision_level;
             flesh_out_capture_by_inserted_invisible(King,sq_departure);
             CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-            --curr_decision_level;
           }
           else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
           {
@@ -5090,12 +5084,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
         max_decision_level = decision_level_latest;
 
         if (is_square_empty(sq_departure))
-        {
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
           flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-          --curr_decision_level;
-        }
         else
         {
           Flags const flags_existing = being_solved.spec[sq_departure];
@@ -5141,13 +5130,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(square first_
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
-      {
-        max_decision_level = decision_level_latest;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-        --curr_decision_level;
-      }
       else
       {
         Flags const flags_existing = being_solved.spec[sq_departure];
