@@ -4794,6 +4794,9 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
                                             square sq_departure)
 {
+  Flags const flags_existing = being_solved.spec[sq_departure];
+  PieceIdType const id_existing = GetPieceId(flags_existing);
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
@@ -4803,12 +4806,13 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
   TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
   TraceEOL();
 
+  motivation[id_existing].levels.from = curr_decision_level;
+  REPORT_DECISION_WALK('>',walk_capturing);
+  ++curr_decision_level;
+
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
   {
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
              || motivation[id_existing].last.purpose==purpose_capturer)
@@ -4863,6 +4867,8 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
       max_decision_level = motivation[id_existing].levels.from;
     }
   }
+
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4943,23 +4949,12 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
 
-        {
-          max_decision_level = decision_level_latest;
-          motivation[id_existing].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',walk_rider);
-          ++curr_decision_level;
-          capture_by_piece_at_end_of_line(walk_rider,sq_departure);
-          --curr_decision_level;
-        }
+        capture_by_piece_at_end_of_line(walk_rider,sq_departure);
 
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
-          motivation[id_existing].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',Queen);
-          ++curr_decision_level;
           capture_by_piece_at_end_of_line(Queen,sq_departure);
-          --curr_decision_level;
         }
 
         --curr_decision_level;
@@ -5003,13 +4998,15 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
          ++kcurr)
     {
       square const sq_departure = sq_arrival+vec[kcurr];
-      max_decision_level = decision_level_latest;
+
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
         move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
         move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
         move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
         move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+        max_decision_level = decision_level_latest;
 
         if (get_walk_of_piece_on_square(sq_departure)==King
             && sq_departure==being_solved.king_square[trait[nbply]])
@@ -5018,12 +5015,8 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
           PieceIdType const id_existing = GetPieceId(flags_existing);
           decision_levels_type const save_levels = motivation[id_existing].levels;
 
-          motivation[id_existing].levels.from = curr_decision_level;
           assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
           capture_by_piece_at_end_of_line(King,sq_departure);
-          --curr_decision_level;
           motivation[id_existing].levels = save_levels;
         }
         else if (being_solved.king_square[trait[nbply]]==initsquare)
@@ -5046,13 +5039,10 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
             PieceIdType const id_existing = GetPieceId(flags_existing);
             decision_levels_type const save_levels = motivation[id_existing].levels;
 
-            motivation[id_existing].levels.from = curr_decision_level;
             assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
             SETFLAG(being_solved.spec[sq_departure],Royal);
             REPORT_DECISION_SQUARE('>',sq_departure);
-            ++curr_decision_level;
             capture_by_piece_at_end_of_line(King,sq_departure);
-            --curr_decision_level;
             CLRFLAG(being_solved.spec[sq_departure],Royal);
             motivation[id_existing].levels = save_levels;
           }
@@ -5112,11 +5102,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
           PieceIdType const id_existing = GetPieceId(flags_existing);
           decision_levels_type const save_levels = motivation[id_existing].levels;
 
-          motivation[id_existing].levels.from = curr_decision_level;
-          REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
           capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
-          --curr_decision_level;
           motivation[id_existing].levels = save_levels;
         }
       }
@@ -5161,10 +5147,11 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
       TraceSquare(sq_departure);TraceEOL();
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        max_decision_level = decision_level_latest;
         if (!TSTFLAG(sq_spec[sq_departure],basesq)
             && !TSTFLAG(sq_spec[sq_departure],promsq))
         {
+          max_decision_level = decision_level_latest;
+
           if (is_square_empty(sq_departure))
           {
             max_decision_level = decision_level_latest;
@@ -5179,11 +5166,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
             PieceIdType const id_existing = GetPieceId(flags_existing);
             decision_levels_type const save_levels = motivation[id_existing].levels;
 
-            motivation[id_existing].levels.from = curr_decision_level;
-            REPORT_DECISION_SQUARE('>',sq_departure);
-            ++curr_decision_level;
             capture_by_piece_at_end_of_line(Pawn,sq_departure);
-            --curr_decision_level;
             motivation[id_existing].levels = save_levels;
           }
         }
@@ -5195,12 +5178,12 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
       square sq_departure = sq_capture+dir_vert+dir_right;
       if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
       {
-        max_decision_level = decision_level_latest;
         if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
         {
+          max_decision_level = decision_level_latest;
+
           if (is_square_empty(sq_departure))
           {
-            max_decision_level = decision_level_latest;
             REPORT_DECISION_SQUARE('>',sq_departure);
             ++curr_decision_level;
             flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
@@ -5212,11 +5195,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
             PieceIdType const id_existing = GetPieceId(flags_existing);
             decision_levels_type const save_levels = motivation[id_existing].levels;
 
-            motivation[id_existing].levels.from = curr_decision_level;
-            REPORT_DECISION_SQUARE('>',sq_departure);
-            ++curr_decision_level;
             capture_by_piece_at_end_of_line(Pawn,sq_departure);
-            --curr_decision_level;
             motivation[id_existing].levels = save_levels;
           }
         }
