@@ -4880,8 +4880,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
 }
 
 static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk_rider,
-                                                            vec_index_type kcurr, vec_index_type kend,
-                                                            square first_taboo_violation)
+                                                            vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -4896,7 +4895,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
   TraceWalk(walk_rider);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);TraceEOL();
@@ -4908,56 +4906,50 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
          is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
          sq_departure += vec[kcurr])
     {
-      if (first_taboo_violation==nullsquare)
+      motivation[id_inserted].levels.from = curr_decision_level;
+      REPORT_DECISION_SQUARE('>',sq_departure);
+      ++curr_decision_level;
+
+      max_decision_level = decision_level_latest;
+
       {
-        motivation[id_inserted].levels.from = curr_decision_level;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
-
-        max_decision_level = decision_level_latest;
-
-        {
-          motivation[id_inserted].levels.walk = curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
-        }
-
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          motivation[id_inserted].levels.walk = curr_decision_level;
-          flesh_out_capture_by_inserted_invisible(Queen,sq_departure);
-        }
-
-        --curr_decision_level;
+        motivation[id_inserted].levels.walk = curr_decision_level;
+        flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
       }
+
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
+        motivation[id_inserted].levels.walk = curr_decision_level;
+        flesh_out_capture_by_inserted_invisible(Queen,sq_departure);
+      }
+
+      --curr_decision_level;
     }
 
     if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
     {
-      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+      Flags const flags_existing = being_solved.spec[sq_departure];
+      PieceIdType const id_existing = GetPieceId(flags_existing);
+      decision_levels_type const save_levels = motivation[id_existing].levels;
+
+      max_decision_level = decision_level_latest;
+
+      motivation[id_existing].levels.from = curr_decision_level;
+      REPORT_DECISION_SQUARE('>',sq_departure);
+      ++curr_decision_level;
+
+      capture_by_piece_at_end_of_line(walk_rider,sq_departure);
+
+      if (curr_decision_level<=max_decision_level)
       {
-        Flags const flags_existing = being_solved.spec[sq_departure];
-        PieceIdType const id_existing = GetPieceId(flags_existing);
-        decision_levels_type const save_levels = motivation[id_existing].levels;
-
         max_decision_level = decision_level_latest;
-
-        motivation[id_existing].levels.from = curr_decision_level;
-        REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
-
-        capture_by_piece_at_end_of_line(walk_rider,sq_departure);
-
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          capture_by_piece_at_end_of_line(Queen,sq_departure);
-        }
-
-        --curr_decision_level;
-
-        motivation[id_existing].levels = save_levels;
+        capture_by_piece_at_end_of_line(Queen,sq_departure);
       }
+
+      --curr_decision_level;
+
+      motivation[id_existing].levels = save_levels;
     }
   }
 
@@ -4983,10 +4975,9 @@ static void capture_by_king_at_end_of_line(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_king_inserted_or_existing(square first_taboo_violation)
+static void capture_by_invisible_king_inserted_or_existing(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   if (curr_decision_level<=max_decision_level)
@@ -5014,45 +5005,42 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
     {
       square const sq_departure = sq_arrival+vec[kcurr];
 
-      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+      max_decision_level = decision_level_latest;
+
+      if (get_walk_of_piece_on_square(sq_departure)==King
+          && sq_departure==being_solved.king_square[trait[nbply]])
       {
-        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-        max_decision_level = decision_level_latest;
-
-        if (get_walk_of_piece_on_square(sq_departure)==King
-            && sq_departure==being_solved.king_square[trait[nbply]])
-        {
-          assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-          capture_by_king_at_end_of_line(sq_departure);
-        }
-        else if (being_solved.king_square[trait[nbply]]==initsquare)
-        {
-          being_solved.king_square[trait[nbply]] = sq_departure;
-
-          if (is_square_empty(sq_departure))
-          {
-            assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
-            SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-            flesh_out_capture_by_inserted_invisible(King,sq_departure);
-            CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-          }
-          else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
-          {
-            assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
-            SETFLAG(being_solved.spec[sq_departure],Royal);
-            capture_by_king_at_end_of_line(sq_departure);
-            CLRFLAG(being_solved.spec[sq_departure],Royal);
-          }
-
-          being_solved.king_square[trait[nbply]] = initsquare;
-        }
-
-        move_effect_journal[king_square_movement].type = move_effect_none;
+        assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
+        capture_by_king_at_end_of_line(sq_departure);
       }
+      else if (being_solved.king_square[trait[nbply]]==initsquare)
+      {
+        being_solved.king_square[trait[nbply]] = sq_departure;
+
+        if (is_square_empty(sq_departure))
+        {
+          assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
+          SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+          flesh_out_capture_by_inserted_invisible(King,sq_departure);
+          CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+        }
+        else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
+        {
+          assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
+          SETFLAG(being_solved.spec[sq_departure],Royal);
+          capture_by_king_at_end_of_line(sq_departure);
+          CLRFLAG(being_solved.spec[sq_departure],Royal);
+        }
+
+        being_solved.king_square[trait[nbply]] = initsquare;
+      }
+
+      move_effect_journal[king_square_movement].type = move_effect_none;
     }
 
     --curr_decision_level;
@@ -5063,14 +5051,12 @@ static void capture_by_invisible_king_inserted_or_existing(square first_taboo_vi
 }
 
 static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type walk_leaper,
-                                                             vec_index_type kcurr, vec_index_type kend,
-                                                             square first_taboo_violation)
+                                                             vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   if (curr_decision_level<=max_decision_level)
@@ -5086,21 +5072,19 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
     {
       square const sq_departure = sq_arrival+vec[kcurr];
-      if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+
+      max_decision_level = decision_level_latest;
+
+      if (is_square_empty(sq_departure))
+        flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+      else
       {
-        max_decision_level = decision_level_latest;
+        Flags const flags_existing = being_solved.spec[sq_departure];
+        PieceIdType const id_existing = GetPieceId(flags_existing);
+        decision_levels_type const save_levels = motivation[id_existing].levels;
 
-        if (is_square_empty(sq_departure))
-          flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-        else
-        {
-          Flags const flags_existing = being_solved.spec[sq_departure];
-          PieceIdType const id_existing = GetPieceId(flags_existing);
-          decision_levels_type const save_levels = motivation[id_existing].levels;
-
-          capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
-          motivation[id_existing].levels = save_levels;
-        }
+        capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
+        motivation[id_existing].levels = save_levels;
       }
     }
 
@@ -5111,8 +5095,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_pawn_inserted_or_existing_one_dir(square first_taboo_violation,
-                                                                   int dir_horiz)
+static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -5123,30 +5106,26 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(square first_
   square const sq_departure = sq_capture+dir_vert+dir_horiz;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceValue("%d",dir_horiz);
   TraceFunctionParamListEnd();
 
   // TODO en passant capture
   TraceSquare(sq_departure);TraceEOL();
-  if (first_taboo_violation==nullsquare || first_taboo_violation==sq_departure)
+  if (!TSTFLAG(sq_spec[sq_departure],basesq)
+      && !TSTFLAG(sq_spec[sq_departure],promsq))
   {
-    if (!TSTFLAG(sq_spec[sq_departure],basesq)
-        && !TSTFLAG(sq_spec[sq_departure],promsq))
+    max_decision_level = decision_level_latest;
+
+    if (is_square_empty(sq_departure))
+      flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+    else
     {
-      max_decision_level = decision_level_latest;
+      Flags const flags_existing = being_solved.spec[sq_departure];
+      PieceIdType const id_existing = GetPieceId(flags_existing);
+      decision_levels_type const save_levels = motivation[id_existing].levels;
 
-      if (is_square_empty(sq_departure))
-        flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-      else
-      {
-        Flags const flags_existing = being_solved.spec[sq_departure];
-        PieceIdType const id_existing = GetPieceId(flags_existing);
-        decision_levels_type const save_levels = motivation[id_existing].levels;
-
-        capture_by_piece_at_end_of_line(Pawn,sq_departure);
-        motivation[id_existing].levels = save_levels;
-      }
+      capture_by_piece_at_end_of_line(Pawn,sq_departure);
+      motivation[id_existing].levels = save_levels;
     }
   }
 
@@ -5154,10 +5133,9 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(square first_
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_violation)
+static void capture_by_invisible_pawn_inserted_or_existing(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   if (curr_decision_level<=max_decision_level)
@@ -5173,10 +5151,10 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
 
     assert(curr_decision_level<=max_decision_level);
 
-    capture_by_invisible_pawn_inserted_or_existing_one_dir(first_taboo_violation,dir_left);
+    capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_left);
 
     if (curr_decision_level<=max_decision_level)
-      capture_by_invisible_pawn_inserted_or_existing_one_dir(first_taboo_violation,dir_right);
+      capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_right);
 
     --curr_decision_level;
   }
@@ -5185,8 +5163,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(square first_taboo_vi
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_inserted_or_existing(square first_taboo_violation,
-                                                      can_invisible_capture can_capture)
+static void capture_by_invisible_inserted_or_existing(can_invisible_capture can_capture)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5201,7 +5178,6 @@ static void capture_by_invisible_inserted_or_existing(square first_taboo_violati
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceValue("%u",can_capture);
   TraceFunctionParamListEnd();
 
@@ -5212,14 +5188,14 @@ static void capture_by_invisible_inserted_or_existing(square first_taboo_violati
   motivation[id_inserted].levels.walk = curr_decision_level;
   motivation[id_inserted].levels.from = curr_decision_level+1;
 
-  capture_by_invisible_king_inserted_or_existing(first_taboo_violation);
+  capture_by_invisible_king_inserted_or_existing();
 
   if (can_capture==capture_by_any_possible)
   {
-    capture_by_invisible_pawn_inserted_or_existing(first_taboo_violation);
-    capture_by_invisible_leaper_inserted_or_existing(Knight,vec_knight_start,vec_knight_end,first_taboo_violation);
-    capture_by_invisible_rider_inserted_or_existing(Bishop,vec_bishop_start,vec_bishop_end,first_taboo_violation);
-    capture_by_invisible_rider_inserted_or_existing(Rook,vec_rook_start,vec_rook_end,first_taboo_violation);
+    capture_by_invisible_pawn_inserted_or_existing();
+    capture_by_invisible_leaper_inserted_or_existing(Knight,vec_knight_start,vec_knight_end);
+    capture_by_invisible_rider_inserted_or_existing(Bishop,vec_bishop_start,vec_bishop_end);
+    capture_by_invisible_rider_inserted_or_existing(Rook,vec_rook_start,vec_rook_end);
   }
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
@@ -5570,6 +5546,9 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
+  if (first_taboo_violation!=nullsquare)
+    flesh_out_capture_by_invisible_on(first_taboo_violation,false);
+  else
   {
     consumption_type const save_consumption = current_consumption;
 
@@ -5577,7 +5556,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     {
       current_consumption = save_consumption;
       /* no problem - we can simply insert a capturer */
-      capture_by_invisible_inserted_or_existing(first_taboo_violation,capture_by_any_possible);
+      capture_by_invisible_inserted_or_existing(capture_by_any_possible);
     }
     else
     {
@@ -5608,7 +5587,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
         motivation[id_inserted].levels.walk = curr_decision_level;
         motivation[id_inserted].levels.from = curr_decision_level+1;
 
-        capture_by_invisible_king_inserted_or_existing(first_taboo_violation);
+        capture_by_invisible_king_inserted_or_existing();
 
         move_effect_journal[movement].u.piece_movement.from = save_from;
         move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -5617,7 +5596,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
         motivation[id_inserted].levels = levels_inserted;
       }
 
-      if (first_taboo_violation==nullsquare)
       {
         PieceIdType id;
         for (id = top_visible_piece_id+1;
@@ -5626,9 +5604,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
           flesh_out_capture_by_invisible_on(motivation[id].last.on,
                                             can_king_be_fleshed_out);
       }
-      else
-        flesh_out_capture_by_invisible_on(first_taboo_violation,
-                                          can_king_be_fleshed_out);
     }
   }
 
