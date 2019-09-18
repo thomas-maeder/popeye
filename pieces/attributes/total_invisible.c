@@ -4981,21 +4981,12 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
 static void capture_by_king_at_end_of_line(square sq_departure)
 {
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-  decision_levels_type const save_levels = motivation[id_existing].levels;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-  motivation[id_existing].levels.from = curr_decision_level;
-  REPORT_DECISION_WALK('>',King);
-  ++curr_decision_level;
   capture_by_piece_at_end_of_line(King,sq_departure);
-  --curr_decision_level;
-  motivation[id_existing].levels = save_levels;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -5027,13 +5018,20 @@ static void capture_by_invisible_king_inserted_or_existing(void)
        ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+    decision_levels_type const save_levels = motivation[id_existing].levels;
+
+    max_decision_level = decision_level_latest;
+
+    motivation[id_existing].levels.from = curr_decision_level;
+    REPORT_DECISION_SQUARE('>',sq_departure);
+    ++curr_decision_level;
 
     move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
     move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
     move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
     move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-    max_decision_level = decision_level_latest;
 
     if (get_walk_of_piece_on_square(sq_departure)==King
         && sq_departure==being_solved.king_square[trait[nbply]])
@@ -5064,6 +5062,9 @@ static void capture_by_invisible_king_inserted_or_existing(void)
     }
 
     move_effect_journal[king_square_movement].type = move_effect_none;
+
+    --curr_decision_level;
+    motivation[id_existing].levels = save_levels;
   }
 
   --curr_decision_level;
