@@ -2320,8 +2320,20 @@ static void backward_fleshout_random_move_by_invisible(void)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
+      consumption_type const save_consumption = current_consumption;
+
       TraceText("stick to random move by unplaced invisible\n");
-      restart_from_scratch();
+      current_consumption.claimed[trait[nbply]] = true;
+      TraceConsumption();TraceEOL();
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+      {
+        REPORT_DECISION_MOVE('>','-');
+        ++curr_decision_level;
+        restart_from_scratch();
+        --curr_decision_level;
+      }
+      current_consumption = save_consumption;
+      TraceConsumption();TraceEOL();
     }
 
     current_consumption = save_consumption;
@@ -4063,7 +4075,7 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
     else
     {
       PieceIdType const id_captured = GetPieceId(being_solved.spec[sq_arrival]);
-      motivation_type const save_motivation = motivation[id_captured];
+      action_type const save_last = motivation[id_captured].last;
 
       motivation[id_captured].last.purpose = purpose_none;
 
@@ -4077,7 +4089,7 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
-      motivation[id_captured] = save_motivation;
+      motivation[id_captured].last = save_last;
     }
   }
 
