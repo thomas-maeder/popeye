@@ -4305,7 +4305,6 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 {
   Side const side_playing = trait[nbply];
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
-  Flags const flags_on_square = being_solved.spec[sq_departure];
   Flags const save_flags = being_solved.spec[sq_departure];
 
   TraceFunctionEntry(__func__);
@@ -4413,14 +4412,12 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     }
 
     current_consumption = save_consumption;
+
+    replace_walk(sq_departure,walk_on_square);
+    being_solved.spec[sq_departure] = save_flags;
   }
   else
     flesh_out_random_move_by_existing_invisible_from(sq_departure);
-
-  replace_walk(sq_departure,walk_on_square);
-  being_solved.spec[sq_departure] = flags_on_square;
-
-  being_solved.spec[sq_departure] = save_flags;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
