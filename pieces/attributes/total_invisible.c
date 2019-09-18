@@ -5313,7 +5313,7 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
           /* Don't reduce curr_decision_level yet; if posteriority asks for a
            * different walk, Queen won't do. */
-          // TODO is this correct when we detect revelations?
+          // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
 
           if (curr_decision_level<=max_decision_level)
           {
@@ -5338,7 +5338,7 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
             /* Don't reduce curr_decision_level yet; if posteriority asks for a
              * different walk, Queen won't do. */
-            // TODO is this correct when we detect revelations?
+            // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
 
             if (curr_decision_level<=max_decision_level)
             {
