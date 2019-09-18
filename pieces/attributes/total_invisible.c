@@ -2327,7 +2327,7 @@ static void backward_fleshout_random_move_by_invisible(void)
       TraceConsumption();TraceEOL();
       if (nr_total_invisbles_consumed()<=total_invisible_number)
       {
-        REPORT_DECISION_MOVE('>','-');
+        REPORT_DECISION_MOVE('<','-');
         ++curr_decision_level;
         restart_from_scratch();
         --curr_decision_level;
