@@ -4570,9 +4570,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   // TODO first test allocation, then taboo?
 
-  REPORT_DECISION_WALK('>',walk_capturing);
-  ++curr_decision_level;
-
   if (was_taboo(sq_departure) || is_taboo(sq_departure,side_playing))
   {
     REPORT_DECISION_OUTCOME("%s","capturer can't be placed on taboo square");
@@ -4653,8 +4650,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
     current_consumption = save_consumption;
   }
-
-  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -4935,13 +4930,19 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
       max_decision_level = decision_level_latest;
       motivation[id_inserted].levels.walk = curr_decision_level;
+      REPORT_DECISION_WALK('>',walk_rider);
+      ++curr_decision_level;
       flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
+      --curr_decision_level;
 
       if (curr_decision_level<=max_decision_level)
       {
         max_decision_level = decision_level_latest;
         motivation[id_inserted].levels.walk = curr_decision_level;
+        REPORT_DECISION_WALK('>',Queen);
+        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(Queen,sq_departure);
+        --curr_decision_level;
       }
 
       --curr_decision_level;
