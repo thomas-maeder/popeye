@@ -5447,19 +5447,31 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id = GetPieceId(flags_existing);
+  PieceIdType const id_existing = GetPieceId(flags_existing);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceValue("%u",is_king_dealt_with);
   TraceFunctionParamListEnd();
 
-  if (GetPieceId(flags_existing)==id
-      && motivation[id].last.purpose!=purpose_none
+  TraceValue("%u",nbply);
+  TraceValue("%x",flags_existing);
+  TraceEOL();
+
+  TraceValue("%u",id_existing);
+  TraceValue("%u",motivation[id_existing].first.purpose);
+  TraceValue("%u",motivation[id_existing].first.acts_when);
+  TraceSquare(motivation[id_existing].first.on);
+  TraceValue("%u",motivation[id_existing].last.purpose);
+  TraceValue("%u",motivation[id_existing].last.acts_when);
+  TraceSquare(motivation[id_existing].last.on);
+  TraceWalk(get_walk_of_piece_on_square(motivation[id_existing].last.on));
+  TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
+  TraceEOL();
+  if (motivation[id_existing].last.purpose!=purpose_none
       && TSTFLAG(flags_existing,trait[nbply]))
   {
     piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
-    PieceIdType const id_existing = GetPieceId(flags_existing);
 
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
@@ -5545,8 +5557,8 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
       max_decision_level = motivation[id_existing].levels.from;
     }
   }
-  else if (motivation[id].first.acts_when==nbply
-           && motivation[id].first.purpose==purpose_interceptor)
+  else if (motivation[id_existing].first.acts_when==nbply
+           && motivation[id_existing].first.purpose==purpose_interceptor)
   {
     // TODO how can this happen, and how should we deal with it?
     REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
@@ -5573,14 +5585,20 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     {
       current_consumption = save_consumption;
       /* no problem - we can simply insert a capturer */
+      TraceText("we can insert a capturer if needed\n");
       capture_by_invisible_inserted_or_existing(capture_by_any_possible);
     }
     else
     {
-      boolean const can_king_be_fleshed_out = (being_solved.king_square[trait[nbply]]==initsquare
-                                               && current_consumption.claimed[trait[nbply]]);
+      boolean can_king_be_fleshed_out;
 
       current_consumption = save_consumption;
+
+      can_king_be_fleshed_out = (being_solved.king_square[trait[nbply]]==initsquare
+                                 && current_consumption.claimed[trait[nbply]]);
+
+      TraceText("we can't just insert a capturer\n");
+      TraceValue("%u",can_king_be_fleshed_out);TraceEOL();
 
       if (can_king_be_fleshed_out)
       {
