@@ -334,8 +334,8 @@ static unsigned long prev_report_decision_counter;
 #define REPORT_DECISION_CONTEXT(context) \
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
-  printf(" - %d",__LINE__); \
-  printf(" - %lu",report_decision_counter); \
+  printf(" - L:%d",__LINE__); \
+  printf(" - D:%lu",report_decision_counter); \
   printf(" - %lu",report_decision_counter-prev_report_decision_counter); \
   prev_report_decision_counter = report_decision_counter; \
   ++report_decision_counter; \
@@ -343,7 +343,7 @@ static unsigned long prev_report_decision_counter;
   fflush(stdout);
 
 #define REPORT_END_LINE \
-    printf(" (!:%u+%u DU:%u+%u F:%u+%u)" \
+    printf(" (!:%u+%u ?:%u+%u F:%u+%u)" \
            , current_consumption.claimed[White] \
            , current_consumption.claimed[Black] \
            , current_consumption.placed_not_fleshed_out[White] \
@@ -351,8 +351,8 @@ static unsigned long prev_report_decision_counter;
            , current_consumption.placed_fleshed_out[White] \
            , current_consumption.placed_fleshed_out[Black] \
            ); \
-    printf(" - %d",__LINE__); \
-    printf(" - %lu\n",report_decision_counter++); \
+    printf(" - L:%d",__LINE__); \
+    printf(" - D:%lu\n",report_decision_counter++); \
     fflush(stdout);
 
 #define REPORT_DECISION_MOVE(direction,action) \
@@ -414,6 +414,7 @@ static unsigned long prev_report_decision_counter;
 #define REPORT_DECISION_OUTCOME(format, ...) \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf(format,__VA_ARGS__); \
+    printf(" - L:%d",__LINE__); \
     printf("\n"); \
     fflush(stdout);
 
@@ -4661,14 +4662,13 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
   if (is_square_uninterceptably_attacked(side_in_check,king_pos))
   {
-    Flags const flags_existing = being_solved.spec[sq_departure];
     PieceIdType const id_existing = GetPieceId(flags_existing);
 
     REPORT_DECISION_OUTCOME("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
 
     max_decision_level = motivation[id_existing].levels.walk;
-  }
+ }
   else
   {
     move_effect_journal_index_type const precapture = effects_base;
@@ -5304,17 +5304,15 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
           flesh_out_walk_for_capture(Bishop,sq_departure);
 
-          /* don't reduce curr_decision_level yet; if Bishop
-           * wasn't acceptable, then Queen wouldn't be either */
+          /* Don't reduce curr_decision_level yet; if posteriority asks for a
+           * different walk, Queen won't do. */
+          // TODO is this correct when we detect revelations?
 
           if (curr_decision_level<=max_decision_level)
           {
             max_decision_level = decision_level_latest;
-            motivation[id_existing].levels.walk = curr_decision_level;
             REPORT_DECISION_WALK('>',Queen);
-            ++curr_decision_level;
             flesh_out_walk_for_capture(Queen,sq_departure);
-            --curr_decision_level;
           }
 
           --curr_decision_level;
@@ -5331,17 +5329,15 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
             flesh_out_walk_for_capture(Rook,sq_departure);
 
-            /* don't reduce curr_decision_level yet; if Rook
-             * wasn't acceptable, then Queen wouldn't be either */
+            /* Don't reduce curr_decision_level yet; if posteriority asks for a
+             * different walk, Queen won't do. */
+            // TODO is this correct when we detect revelations?
 
             if (curr_decision_level<=max_decision_level)
             {
               max_decision_level = decision_level_latest;
-              motivation[id_existing].levels.walk = curr_decision_level;
               REPORT_DECISION_WALK('>',Queen);
-              ++curr_decision_level;
               flesh_out_walk_for_capture(Queen,sq_departure);
-              --curr_decision_level;
             }
 
             --curr_decision_level;
