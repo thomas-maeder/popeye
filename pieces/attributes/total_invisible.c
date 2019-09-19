@@ -322,7 +322,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_EXIT
 
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)
 
