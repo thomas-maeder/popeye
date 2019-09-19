@@ -322,7 +322,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_EXIT
 
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)
 
@@ -4990,6 +4990,8 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -4999,6 +5001,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',King);
   ++curr_decision_level;
 
@@ -5017,6 +5020,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
+    motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
     motivation[id_existing].levels.from = curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
     ++curr_decision_level;
@@ -5070,6 +5074,11 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
                                                              vec_index_type kcurr, vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -5079,6 +5088,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
+  motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',Knight);
   ++curr_decision_level;
 
@@ -5096,6 +5106,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
       PieceIdType const id_existing = GetPieceId(flags_existing);
       decision_levels_type const save_levels = motivation[id_existing].levels;
 
+      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
       motivation[id_existing].levels.from = curr_decision_level;
       REPORT_DECISION_WALK('>',walk_leaper);
       ++curr_decision_level;
@@ -5114,6 +5125,11 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
   int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
@@ -5139,6 +5155,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
       max_decision_level = decision_level_latest;
 
+      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
       motivation[id_existing].levels.from = curr_decision_level;
       REPORT_DECISION_SQUARE('>',sq_departure);
       ++curr_decision_level;
@@ -5159,9 +5176,16 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
 static void capture_by_invisible_pawn_inserted_or_existing(void)
 {
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',Pawn);
   ++curr_decision_level;
 
@@ -5199,9 +5223,6 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   max_decision_level = decision_level_latest;
-
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  motivation[id_inserted].levels.from = curr_decision_level+1;
 
   capture_by_invisible_king_inserted_or_existing();
 
