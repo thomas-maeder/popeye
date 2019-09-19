@@ -2984,16 +2984,9 @@ static void validate_king_placements(void)
   TraceFunctionResultEnd();
 }
 
-typedef enum
+static boolean is_capture_by_invisible_possible(ply ply)
 {
-  capture_impossible,
-  capture_only_by_king_possible,
-  capture_by_any_possible
-} can_invisible_capture;
-
-static can_invisible_capture is_capture_by_invisible_possible(ply ply)
-{
-  can_invisible_capture result;
+  boolean result;
   consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
@@ -3003,7 +2996,7 @@ static can_invisible_capture is_capture_by_invisible_possible(ply ply)
   if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
   {
     /* no problem - we can simply insert a capturer */
-    result = capture_by_any_possible;
+    result = true;
   }
   else
   {
@@ -3018,7 +3011,7 @@ static can_invisible_capture is_capture_by_invisible_possible(ply ply)
     if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
     {
       /* no problem - we can simply insert a capturing king */
-      result = capture_only_by_king_possible;
+      result = true;
     }
     else
     {
@@ -3029,7 +3022,7 @@ static can_invisible_capture is_capture_by_invisible_possible(ply ply)
       PieceIdType id;
 
       /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
-      result = capture_impossible; /* not until we have proved it */
+      result = false; /* not until we have proved it */
 
       for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
       {
@@ -3063,7 +3056,7 @@ static can_invisible_capture is_capture_by_invisible_possible(ply ply)
       }
 
       for (id = top_visible_piece_id+1;
-           result==capture_impossible && id<=top_invisible_piece_id;
+           !result && id<=top_invisible_piece_id;
            ++id)
       {
         square const on = motivation[id].last.on;
@@ -3080,37 +3073,37 @@ static can_invisible_capture is_capture_by_invisible_possible(ply ply)
             {
               case King:
                 if (CheckDir[Queen][diff]==diff)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Queen:
                 if (CheckDir[Queen][diff]!=0)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Rook:
                 if (CheckDir[Rook][diff]!=0)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Bishop:
                 if (CheckDir[Bishop][diff]!=0)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Knight:
                 if (CheckDir[Knight][diff]==diff)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Pawn:
                 if (CheckDir[Bishop][diff]==diff)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               case Dummy:
                 if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-                  result = capture_by_any_possible;
+                  result = true;
                 break;
 
               default:
@@ -3153,7 +3146,7 @@ static void done_testing_and_execute_revelations(void)
       && sq_departure>=capture_by_invisible
       && is_on_board(sq_arrival))
   {
-    if (is_capture_by_invisible_possible(nbply+1)!=capture_impossible)
+    if (is_capture_by_invisible_possible(nbply+1))
       start_iteration();
     else
     {
@@ -5185,7 +5178,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_inserted_or_existing(can_invisible_capture can_capture)
+static void capture_by_invisible_inserted_or_existing(boolean can_capture)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -5212,7 +5205,7 @@ static void capture_by_invisible_inserted_or_existing(can_invisible_capture can_
 
   capture_by_invisible_king_inserted_or_existing();
 
-  if (can_capture==capture_by_any_possible)
+  if (can_capture)
   {
     capture_by_invisible_pawn_inserted_or_existing();
     capture_by_invisible_leaper_inserted_or_existing(Knight,vec_knight_start,vec_knight_end);
@@ -5587,7 +5580,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
       current_consumption = save_consumption;
       /* no problem - we can simply insert a capturer */
       TraceText("we can insert a capturer if needed\n");
-      capture_by_invisible_inserted_or_existing(capture_by_any_possible);
+      capture_by_invisible_inserted_or_existing(true);
     }
     else
     {
