@@ -5296,7 +5296,13 @@ static void flesh_out_dummy_for_capture(square sq_departure,
   if (!is_king_dealt_with
       && CheckDir[Queen][move_square_diff]==move_square_diff
       && being_solved.king_square[trait[nbply]]==initsquare)
+  {
+    motivation[id_existing].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',King);
+    ++curr_decision_level;
     flesh_out_king_for_capture(sq_departure);
+    --curr_decision_level;
+  }
 
   if (curr_decision_level<=max_decision_level)
   {
@@ -5309,7 +5315,7 @@ static void flesh_out_dummy_for_capture(square sq_departure,
       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
         motivation[id_existing].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',King);
+        REPORT_DECISION_WALK('>',Pawn);
         ++curr_decision_level;
         flesh_out_walk_for_capture(Pawn,sq_departure);
         --curr_decision_level;
