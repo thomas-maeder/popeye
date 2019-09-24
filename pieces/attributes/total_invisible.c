@@ -134,7 +134,7 @@ static unsigned int nr_placeable_invisibles_for_side(Side side)
 static boolean allocate_placement_of_claimed_fleshed_out(Side side)
 {
   ++current_consumption.placed_fleshed_out[side];
-  current_consumption.claimed[side] = false;
+  current_consumption.claimed[side] = being_solved.king_square[side]==initsquare && current_consumption.placed_not_fleshed_out[side]==0;
   TraceConsumption();TraceEOL();
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
@@ -6969,7 +6969,15 @@ static void make_revelations(void)
   play_phase = play_detecting_revelations;
   max_decision_level = decision_level_latest;
   REPORT_DECISION_CONTEXT(__func__);
+
+  current_consumption.claimed[White] = being_solved.king_square[White]==initsquare;
+  current_consumption.claimed[Black] = being_solved.king_square[Black]==initsquare;
+
   apply_knowledge(0,&start_iteration);
+
+  current_consumption.claimed[Black] = false;
+  current_consumption.claimed[White] = false;
+
   play_phase = play_unwinding;
   unrewind_effects();
   play_phase = play_regular;
@@ -7039,7 +7047,13 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = play_rewinding;
     rewind_effects();
 
+    current_consumption.claimed[White] = being_solved.king_square[White]==initsquare;
+    current_consumption.claimed[Black] = being_solved.king_square[Black]==initsquare;
+
     apply_knowledge(0,&validate_and_test);
+
+    current_consumption.claimed[Black] = false;
+    current_consumption.claimed[White] = false;
 
     play_phase = play_unwinding;
     unrewind_effects();
