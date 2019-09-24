@@ -135,7 +135,6 @@ static boolean allocate_placement_of_claimed_fleshed_out(Side side)
 {
   ++current_consumption.placed_fleshed_out[side];
   current_consumption.claimed[side] = being_solved.king_square[side]==initsquare && current_consumption.placed_not_fleshed_out[side]==0;
-  TraceConsumption();TraceEOL();
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
@@ -150,7 +149,6 @@ static boolean allocate_placement_of_claimed_not_fleshed_out(Side side)
 {
   ++current_consumption.placed_not_fleshed_out[side];
   current_consumption.claimed[side] = false;
-  TraceConsumption();TraceEOL();
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
@@ -163,7 +161,6 @@ static boolean allocate_placement_of_claimed_not_fleshed_out(Side side)
 static boolean allocate_placement_of_unclaimed_fleshed_out(Side side)
 {
   ++current_consumption.placed_fleshed_out[side];
-  TraceConsumption();TraceEOL();
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
@@ -5611,17 +5608,18 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     }
     else
     {
-      boolean can_king_be_fleshed_out;
+      boolean can_king_be_inserted;
+
+      TraceText("we can't just insert a capturer\n");
 
       current_consumption = save_consumption;
 
-      can_king_be_fleshed_out = (being_solved.king_square[trait[nbply]]==initsquare
-                                 && current_consumption.claimed[trait[nbply]]);
+      can_king_be_inserted = (being_solved.king_square[trait[nbply]]==initsquare
+                              && current_consumption.claimed[trait[nbply]]);
 
-      TraceText("we can't just insert a capturer\n");
-      TraceValue("%u",can_king_be_fleshed_out);TraceEOL();
+      TraceValue("%u",can_king_be_inserted);TraceEOL();
 
-      if (can_king_be_fleshed_out)
+      if (can_king_be_inserted)
       {
         /* no problem - we can simply insert a capturing king */
         move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -5658,7 +5656,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
              id<=top_invisible_piece_id && curr_decision_level<=max_decision_level;
              ++id)
           flesh_out_capture_by_invisible_on(motivation[id].last.on,
-                                            can_king_be_fleshed_out);
+                                            can_king_be_inserted);
       }
     }
   }
