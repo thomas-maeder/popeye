@@ -5105,7 +5105,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionParamListEnd();
 
   motivation[id_inserted].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',Knight);
+  REPORT_DECISION_WALK('>',walk_leaper);
   ++curr_decision_level;
 
   for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
@@ -5124,7 +5124,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
       motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_WALK('>',walk_leaper);
+      REPORT_DECISION_SQUARE('>',sq_departure);
       ++curr_decision_level;
       capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
       --curr_decision_level;
