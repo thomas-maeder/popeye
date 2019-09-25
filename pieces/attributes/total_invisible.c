@@ -39,6 +39,7 @@ typedef struct
 {
     unsigned int fleshed_out[nr_sides];
     unsigned int placed[nr_sides];
+    unsigned int pawn_victims[nr_sides];
     boolean claimed[nr_sides];
 } consumption_type;
 
@@ -62,6 +63,24 @@ static unsigned int nr_total_invisbles_consumed(void)
       && current_consumption.placed[Black]==0
       && being_solved.king_square[Black]==initsquare)
     ++result;
+
+  if (current_consumption.pawn_victims[White]
+      >(current_consumption.placed[White]
+        +current_consumption.fleshed_out[White]
+        +current_consumption.claimed[White]))
+    result += (current_consumption.pawn_victims[White]
+               -(current_consumption.placed[White]
+                 +current_consumption.fleshed_out[White]
+                 +current_consumption.claimed[White]));
+
+  if (current_consumption.pawn_victims[Black]
+      >(current_consumption.placed[Black]
+        +current_consumption.fleshed_out[Black]
+        +current_consumption.claimed[Black]))
+    result += (current_consumption.pawn_victims[Black]
+               -(current_consumption.placed[Black]
+                 +current_consumption.fleshed_out[Black]
+                 +current_consumption.claimed[Black]));
 
   return result;
 }
@@ -345,8 +364,8 @@ static unsigned long prev_report_decision_counter;
            , current_consumption.claimed[Black] \
            , current_consumption.placed[White] \
            , current_consumption.placed[Black] \
-           , current_consumption.placed_fleshed_out[White] \
-           , current_consumption.placed_fleshed_out[Black] \
+           , current_consumption.fleshed_out[White] \
+           , current_consumption.fleshed_out[Black] \
            ); \
     printf(" - L:%d",__LINE__); \
     printf(" - D:%lu\n",report_decision_counter++); \
@@ -5517,9 +5536,18 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
       switch (walk_existing)
       {
         case King:
-          if (!is_king_dealt_with
-              && CheckDir[Queen][move_square_diff]==move_square_diff)
+          if (is_king_dealt_with)
+          {
+            REPORT_DECISION_OUTCOME("%s","the king has already been dealt with");
+            REPORT_DEADEND;
+          }
+          else if (CheckDir[Queen][move_square_diff]==move_square_diff)
             capture_by_invisible_king(sq_departure);
+          else
+          {
+            REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
+            REPORT_DEADEND;
+          }
           break;
 
         case Queen:
@@ -5529,12 +5557,22 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           int const dir = CheckDir[walk_existing][move_square_diff];
           if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
             capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
+          else
+          {
+            REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
+            REPORT_DEADEND;
+          }
           break;
         }
 
         case Knight:
           if (CheckDir[Knight][move_square_diff]==move_square_diff)
             capture_by_invisible_with_defined_walk(Knight,sq_departure);
+          else
+          {
+            REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
+            REPORT_DEADEND;
+          }
           break;
 
         case Pawn:
@@ -5548,6 +5586,11 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
               capture_by_invisible_with_defined_walk(Pawn,sq_departure);
             // TODO en passant capture
           }
+          else
+          {
+            REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
+            REPORT_DEADEND;
+          }
           break;
 
         case Dummy:
@@ -5556,10 +5599,15 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
             flesh_out_dummy_for_capture(sq_departure,sq_arrival,
                                         id_existing,
                                         is_king_dealt_with);
+          else
+          {
+            REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
+            REPORT_DEADEND;
+          }
           break;
 
         default:
-          // TODO assert(0);?
+          assert(0);
           break;
       }
 
@@ -7975,7 +8023,15 @@ void total_invisible_special_moves_player_solve(slice_index si)
             /* No adjustment of current_consumption.placed here! Another invisible may
              * have moved to sq_capture and serve as a victim.
              */
-            pipe_solve_delegate(si);
+
+            ++current_consumption.pawn_victims[side_victim];
+
+            if (nr_total_invisbles_consumed()<=total_invisible_number)
+              pipe_solve_delegate(si);
+            else
+              solve_result = this_move_is_illegal;
+
+            --current_consumption.pawn_victims[side_victim];
 
             motivation[top_invisible_piece_id] = motivation_null;
             --top_invisible_piece_id;
