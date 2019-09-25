@@ -5240,7 +5240,8 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
 
   max_decision_level = decision_level_latest;
 
-  capture_by_invisible_king_inserted_or_existing();
+  if (being_solved.king_square[trait[nbply]]==initsquare)
+    capture_by_invisible_king_inserted_or_existing();
 
   if (can_capture)
   {
