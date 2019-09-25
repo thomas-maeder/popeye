@@ -5126,7 +5126,19 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
+    {
+      Flags const flags_existing = being_solved.spec[sq_departure];
+      PieceIdType const id_existing = GetPieceId(flags_existing);
+      decision_levels_type const save_levels = motivation[id_existing].levels;
+
+      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
+      motivation[id_existing].levels.from = curr_decision_level;
+      REPORT_DECISION_SQUARE('>',sq_departure);
+      ++curr_decision_level;
       flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+      --curr_decision_level;
+      motivation[id_existing].levels = save_levels;
+    }
     else
     {
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
