@@ -37,8 +37,8 @@ unsigned int total_invisible_number;
 
 typedef struct
 {
-    unsigned int placed_fleshed_out[nr_sides];
-    unsigned int placed_not_fleshed_out[nr_sides];
+    unsigned int fleshed_out[nr_sides];
+    unsigned int placed[nr_sides];
     boolean claimed[nr_sides];
 } consumption_type;
 
@@ -46,20 +46,20 @@ static consumption_type current_consumption = { 0 };
 
 static unsigned int nr_total_invisbles_consumed(void)
 {
-  unsigned int result = (current_consumption.placed_fleshed_out[White]
-                         + current_consumption.placed_fleshed_out[Black]
-                         + current_consumption.placed_not_fleshed_out[White]
-                         + current_consumption.placed_not_fleshed_out[Black]
+  unsigned int result = (current_consumption.fleshed_out[White]
+                         + current_consumption.fleshed_out[Black]
+                         + current_consumption.placed[White]
+                         + current_consumption.placed[Black]
                          + current_consumption.claimed[White]
                          + current_consumption.claimed[Black]);
 
   if (!current_consumption.claimed[White]
-      && current_consumption.placed_not_fleshed_out[White]==0
+      && current_consumption.placed[White]==0
       && being_solved.king_square[White]==initsquare)
     ++result;
 
   if (!current_consumption.claimed[Black]
-      && current_consumption.placed_not_fleshed_out[Black]==0
+      && current_consumption.placed[Black]==0
       && being_solved.king_square[Black]==initsquare)
     ++result;
 
@@ -68,10 +68,10 @@ static unsigned int nr_total_invisbles_consumed(void)
 
 static void TraceConsumption(void)
 {
-  TraceValue("%u",current_consumption.placed_fleshed_out[White]);
-  TraceValue("%u",current_consumption.placed_fleshed_out[Black]);
-  TraceValue("%u",current_consumption.placed_not_fleshed_out[White]);
-  TraceValue("%u",current_consumption.placed_not_fleshed_out[Black]);
+  TraceValue("%u",current_consumption.fleshed_out[White]);
+  TraceValue("%u",current_consumption.fleshed_out[Black]);
+  TraceValue("%u",current_consumption.placed[White]);
+  TraceValue("%u",current_consumption.placed[Black]);
   TraceValue("%u",current_consumption.claimed[White]);
   TraceValue("%u",current_consumption.claimed[Black]);
 }
@@ -82,19 +82,19 @@ static void TraceConsumption(void)
 static unsigned int nr_placeable_invisibles_for_both_sides(void)
 {
   assert(total_invisible_number
-         >=(current_consumption.placed_fleshed_out[White]
-            +current_consumption.placed_fleshed_out[Black]
-            +current_consumption.placed_not_fleshed_out[White]
-            +current_consumption.placed_not_fleshed_out[Black]
+         >=(current_consumption.fleshed_out[White]
+            +current_consumption.fleshed_out[Black]
+            +current_consumption.placed[White]
+            +current_consumption.placed[Black]
             + (current_consumption.claimed[White] && current_consumption.claimed[Black])
            )
         );
 
   return (total_invisible_number
-          - ((current_consumption.placed_fleshed_out[White]
-              +current_consumption.placed_fleshed_out[Black])
-              +current_consumption.placed_not_fleshed_out[White]
-              +current_consumption.placed_not_fleshed_out[Black]
+          - ((current_consumption.fleshed_out[White]
+              +current_consumption.fleshed_out[Black])
+              +current_consumption.placed[White]
+              +current_consumption.placed[Black]
              + (current_consumption.claimed[White] && current_consumption.claimed[Black])
             )
          );
@@ -107,19 +107,19 @@ static unsigned int nr_placeable_invisibles_for_both_sides(void)
 static unsigned int nr_placeable_invisibles_for_side(Side side)
 {
   assert(total_invisible_number
-         >= (current_consumption.placed_fleshed_out[White]
-             +current_consumption.placed_fleshed_out[Black]
-             +current_consumption.placed_not_fleshed_out[White]
-             +current_consumption.placed_not_fleshed_out[Black]
+         >= (current_consumption.fleshed_out[White]
+             +current_consumption.fleshed_out[Black]
+             +current_consumption.placed[White]
+             +current_consumption.placed[Black]
              +current_consumption.claimed[advers(side)]
             )
         );
 
   return (total_invisible_number
-          - ((current_consumption.placed_fleshed_out[White]
-              +current_consumption.placed_fleshed_out[Black]
-              +current_consumption.placed_not_fleshed_out[White]
-              +current_consumption.placed_not_fleshed_out[Black])
+          - ((current_consumption.fleshed_out[White]
+              +current_consumption.fleshed_out[Black]
+              +current_consumption.placed[White]
+              +current_consumption.placed[Black])
               +current_consumption.claimed[advers(side)]
             )
          );
@@ -131,10 +131,10 @@ static unsigned int nr_placeable_invisibles_for_side(Side side)
  * @note modifies bookkeeping even on failure
  *       so restore bookkeeping after both success and failure
  */
-static boolean allocate_placement_of_claimed_fleshed_out(Side side)
+static boolean allocate_flesh_out_unplaced(Side side)
 {
-  ++current_consumption.placed_fleshed_out[side];
-  current_consumption.claimed[side] = being_solved.king_square[side]==initsquare && current_consumption.placed_not_fleshed_out[side]==0;
+  ++current_consumption.fleshed_out[side];
+  current_consumption.claimed[side] = being_solved.king_square[side]==initsquare && current_consumption.placed[side]==0;
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
@@ -145,9 +145,9 @@ static boolean allocate_placement_of_claimed_fleshed_out(Side side)
  * @note modifies bookkeeping even on failure
  *       so restore bookkeeping after both success and failure
  */
-static boolean allocate_placement_of_claimed_not_fleshed_out(Side side)
+static boolean allocate_placed(Side side)
 {
-  ++current_consumption.placed_not_fleshed_out[side];
+  ++current_consumption.placed[side];
   current_consumption.claimed[side] = false;
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
@@ -158,19 +158,19 @@ static boolean allocate_placement_of_claimed_not_fleshed_out(Side side)
  * @note modifies bookkeeping even on failure
  *       so restore bookkeeping after both success and failure
  */
-static boolean allocate_placement_of_unclaimed_fleshed_out(Side side)
+static boolean allocate_flesh_out_unclaimed(Side side)
 {
-  ++current_consumption.placed_fleshed_out[side];
+  ++current_consumption.fleshed_out[side];
 
   return nr_total_invisbles_consumed()<=total_invisible_number;
 }
 
 /* Adapt bookkeeping to the fleshing out of an invisible of a side */
-static void reallocate_fleshing_out(Side side)
+static void allocate_flesh_out_placed(Side side)
 {
-  assert(current_consumption.placed_not_fleshed_out[side]>0);
-  --current_consumption.placed_not_fleshed_out[side];
-  ++current_consumption.placed_fleshed_out[side];
+  assert(current_consumption.placed[side]>0);
+  --current_consumption.placed[side];
+  ++current_consumption.fleshed_out[side];
 }
 
 static ply top_ply_of_regular_play;
@@ -343,8 +343,8 @@ static unsigned long prev_report_decision_counter;
     printf(" (!:%u+%u ?:%u+%u F:%u+%u)" \
            , current_consumption.claimed[White] \
            , current_consumption.claimed[Black] \
-           , current_consumption.placed_not_fleshed_out[White] \
-           , current_consumption.placed_not_fleshed_out[Black] \
+           , current_consumption.placed[White] \
+           , current_consumption.placed[Black] \
            , current_consumption.placed_fleshed_out[White] \
            , current_consumption.placed_fleshed_out[Black] \
            ); \
@@ -940,9 +940,9 @@ static vec_index_type is_rider_check_uninterceptable(Side side_checking, square 
 static boolean can_interceptor_be_allocated(void)
 {
   consumption_type const save_consumption = current_consumption;
-  boolean result = allocate_placement_of_claimed_fleshed_out(White);
+  boolean result = allocate_flesh_out_unplaced(White);
   current_consumption = save_consumption;
-  result = result || allocate_placement_of_claimed_fleshed_out(Black);
+  result = result || allocate_flesh_out_unplaced(Black);
   current_consumption = save_consumption;
   return result;
 }
@@ -2467,7 +2467,7 @@ static void place_mating_piece_attacker(Side side_attacking,
 
   if (!has_been_taboo_since_random_move(s))
   {
-    if (allocate_placement_of_claimed_fleshed_out(side_attacking))
+    if (allocate_flesh_out_unplaced(side_attacking))
     {
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,++top_invisible_piece_id);
@@ -2953,11 +2953,11 @@ static void validate_king_placements(void)
     if (nr_placeable_invisibles_for_side(side_to_be_mated)==0)
     {
       being_solved.king_square[side_to_be_mated] = initsquare;
-      if (current_consumption.placed_not_fleshed_out[side_to_be_mated]>0)
+      if (current_consumption.placed[side_to_be_mated]>0)
       {
         consumption_type const save_consumption = current_consumption;
 
-        reallocate_fleshing_out(side_to_be_mated);
+        allocate_flesh_out_placed(side_to_be_mated);
         nominate_king_invisible_by_invisible();
         current_consumption = save_consumption;
       }
@@ -2990,7 +2990,7 @@ static boolean is_capture_by_invisible_possible(ply ply)
   TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
-  if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
+  if (allocate_flesh_out_unplaced(trait[ply]))
   {
     /* no problem - we can simply insert a capturer */
     result = true;
@@ -3005,7 +3005,7 @@ static boolean is_capture_by_invisible_possible(ply ply)
 
     current_consumption = save_consumption;
 
-    if (allocate_placement_of_claimed_fleshed_out(trait[ply]))
+    if (allocate_flesh_out_unplaced(trait[ply]))
     {
       /* no problem - we can simply insert a capturing king */
       result = true;
@@ -3897,7 +3897,7 @@ static void adapt_pre_capture_effect(void)
         {
           consumption_type const save_consumption = current_consumption;
 
-          if (allocate_placement_of_claimed_fleshed_out(advers(trait[nbply])))
+          if (allocate_flesh_out_unplaced(advers(trait[nbply])))
           {
             square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
             piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
@@ -4347,7 +4347,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
     assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
 
-    reallocate_fleshing_out(side_playing);
+    allocate_flesh_out_placed(side_playing);
 
     if (curr_decision_level<=max_decision_level)
     {
@@ -4569,7 +4569,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   else
   {
     consumption_type const save_consumption = current_consumption;
-    if (allocate_placement_of_claimed_fleshed_out(side_playing))
+    if (allocate_flesh_out_unplaced(side_playing))
     {
       Side const side_in_check = trait[nbply-1];
       square const king_pos = being_solved.king_square[side_in_check];
@@ -4711,7 +4711,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     update_nr_taboos_for_current_move_in_ply(+1);
 
-    reallocate_fleshing_out(trait[nbply]);
+    allocate_flesh_out_placed(trait[nbply]);
 
     restart_from_scratch();
 
@@ -5599,7 +5599,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   {
     consumption_type const save_consumption = current_consumption;
 
-    if (allocate_placement_of_claimed_fleshed_out(trait[nbply]))
+    if (allocate_flesh_out_unplaced(trait[nbply]))
     {
       current_consumption = save_consumption;
       /* no problem - we can simply insert a capturer */
@@ -6187,7 +6187,7 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   being_solved.king_square[side] = pos;
 
   /* ... and thus allows this to succeed: */
-  if (allocate_placement_of_claimed_fleshed_out(side))
+  if (allocate_flesh_out_unplaced(side))
   {
     Flags const spec = BIT(side)|BIT(Royal)|BIT(Chameleon);
     walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King,spec);
@@ -6225,7 +6225,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
   {
     consumption_type const save_consumption = current_consumption;
 
-    if (allocate_placement_of_claimed_fleshed_out(side))
+    if (allocate_flesh_out_unplaced(side))
     {
       Flags const spec = BIT(side)|BIT(Chameleon);
 
@@ -6349,7 +6349,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
     CLRFLAG(being_solved.spec[s],advers(side));
 
-    if (allocate_placement_of_claimed_not_fleshed_out(side))
+    if (allocate_placed(side))
     {
       REPORT_DECISION_COLOUR('>',BIT(side));
       ++curr_decision_level;
@@ -6814,7 +6814,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
     TraceEOL();
 
     if ((knowledge[idx_knowledge].is_allocated
-         || allocate_placement_of_claimed_not_fleshed_out(side))
+         || allocate_placed(side))
         && !is_taboo(sq_first_on,side))
     {
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
@@ -7326,10 +7326,10 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
         --nr_revealed_unplaced_invisibles[White];
       if (current_consumption.claimed[Black] && nr_revealed_unplaced_invisibles[Black]>0)
         --nr_revealed_unplaced_invisibles[Black];
-      if ((current_consumption.placed_fleshed_out[White]
-           +current_consumption.placed_fleshed_out[Black]
-           +current_consumption.placed_not_fleshed_out[White]
-           +current_consumption.placed_not_fleshed_out[Black]
+      if ((current_consumption.fleshed_out[White]
+           +current_consumption.fleshed_out[Black]
+           +current_consumption.placed[White]
+           +current_consumption.placed[Black]
            +nr_revealed_unplaced_invisibles[White]
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
@@ -7826,7 +7826,7 @@ static void play_castling_with_invisible_partner(slice_index si,
   if (is_square_empty(sq_departure_partner))
   {
     consumption_type const save_consumption = current_consumption;
-    if (allocate_placement_of_unclaimed_fleshed_out(trait[nbply]))
+    if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
       Flags spec = BIT(side)|BIT(Chameleon);
       SetPieceId(spec,++top_invisible_piece_id);
