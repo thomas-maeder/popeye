@@ -40,6 +40,7 @@ typedef struct
     unsigned int fleshed_out[nr_sides];
     unsigned int placed[nr_sides];
     unsigned int pawn_victims[nr_sides];
+    boolean king[nr_sides];
     boolean claimed[nr_sides];
 } consumption_type;
 
@@ -54,33 +55,36 @@ static unsigned int nr_total_invisbles_consumed(void)
                          + current_consumption.claimed[White]
                          + current_consumption.claimed[Black]);
 
-  if (!current_consumption.claimed[White]
-      && current_consumption.placed[White]==0
-      && being_solved.king_square[White]==initsquare)
-    ++result;
-
-  if (!current_consumption.claimed[Black]
-      && current_consumption.placed[Black]==0
-      && being_solved.king_square[Black]==initsquare)
-    ++result;
-
-  if (current_consumption.pawn_victims[White]
+  // TODO simplify
+  if ((current_consumption.pawn_victims[White]
+       +current_consumption.king[White])
       >(current_consumption.placed[White]
         +current_consumption.fleshed_out[White]
         +current_consumption.claimed[White]))
-    result += (current_consumption.pawn_victims[White]
+    result += ((current_consumption.pawn_victims[White]
+                +current_consumption.king[White])
                -(current_consumption.placed[White]
                  +current_consumption.fleshed_out[White]
                  +current_consumption.claimed[White]));
+  else if (!current_consumption.claimed[White]
+           && current_consumption.placed[White]==0
+           && being_solved.king_square[White]==initsquare)
+    ++result;
 
-  if (current_consumption.pawn_victims[Black]
+  if ((current_consumption.pawn_victims[Black]
+       +current_consumption.king[Black])
       >(current_consumption.placed[Black]
         +current_consumption.fleshed_out[Black]
         +current_consumption.claimed[Black]))
-    result += (current_consumption.pawn_victims[Black]
+    result += ((current_consumption.pawn_victims[Black]
+                +current_consumption.king[Black])
                -(current_consumption.placed[Black]
                  +current_consumption.fleshed_out[Black]
                  +current_consumption.claimed[Black]));
+  else if (!current_consumption.claimed[Black]
+           && current_consumption.placed[Black]==0
+           && being_solved.king_square[Black]==initsquare)
+    ++result;
 
   return result;
 }
@@ -93,6 +97,10 @@ static void TraceConsumption(void)
   TraceValue("%u",current_consumption.placed[Black]);
   TraceValue("%u",current_consumption.claimed[White]);
   TraceValue("%u",current_consumption.claimed[Black]);
+  TraceValue("%u",current_consumption.pawn_victims[White]);
+  TraceValue("%u",current_consumption.pawn_victims[Black]);
+  TraceValue("%u",current_consumption.king[White]);
+  TraceValue("%u",current_consumption.king[Black]);
 }
 
 /* Determine the maximum number of placement allocations possible for both sides
@@ -359,7 +367,11 @@ static unsigned long prev_report_decision_counter;
   fflush(stdout);
 
 #define REPORT_END_LINE \
-    printf(" (!:%u+%u ?:%u+%u F:%u+%u)" \
+    printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u)" \
+           , current_consumption.king[White] \
+           , current_consumption.king[Black] \
+           , current_consumption.pawn_victims[White] \
+           , current_consumption.pawn_victims[Black] \
            , current_consumption.claimed[White] \
            , current_consumption.claimed[Black] \
            , current_consumption.placed[White] \
@@ -6418,6 +6430,8 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
                                                 square s,
                                                 Side side)
 {
+  consumption_type const save_consumption = current_consumption;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
@@ -6426,36 +6440,39 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
   assert(nr_check_vectors>0);
 
-  if (is_taboo(s,side))
+  REPORT_DECISION_COLOUR('>',BIT(side));
+  ++curr_decision_level;
+
+  if (allocate_placed(side))
   {
-    REPORT_DECISION_OUTCOME("%s","taboo violation");
-    REPORT_DEADEND;
-  }
-  else
-  {
-    consumption_type const save_consumption = current_consumption;
-
-    TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
-
-    CLRFLAG(being_solved.spec[s],advers(side));
-
-    if (allocate_placed(side))
+    if (is_taboo(s,side))
     {
-      REPORT_DECISION_COLOUR('>',BIT(side));
-      ++curr_decision_level;
+      REPORT_DECISION_OUTCOME("%s","taboo violation");
+      REPORT_DEADEND;
+    }
+    else
+    {
+      TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
+
+      CLRFLAG(being_solved.spec[s],advers(side));
 
       if (nr_check_vectors==1)
         done_intercepting_illegal_checks();
       else
         place_interceptor_on_line(check_vectors,nr_check_vectors-1);
 
-      --curr_decision_level;
+      SETFLAG(being_solved.spec[s],advers(side));
     }
-
-    current_consumption = save_consumption;
-
-    SETFLAG(being_solved.spec[s],advers(side));
   }
+  else
+  {
+    REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+    REPORT_DEADEND;
+  }
+
+  --curr_decision_level;
+
+  current_consumption = save_consumption;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -7058,7 +7075,13 @@ static void make_revelations(void)
   max_decision_level = decision_level_latest;
   REPORT_DECISION_CONTEXT(__func__);
 
+  current_consumption.king[White] = being_solved.king_square[White]==initsquare;
+  current_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
+
   apply_knowledge(0,&start_iteration);
+
+  current_consumption.king[White] = false;
+  current_consumption.king[Black] = false;
 
   play_phase = play_unwinding;
   unrewind_effects();
@@ -7129,7 +7152,13 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = play_rewinding;
     rewind_effects();
 
+    current_consumption.king[White] = being_solved.king_square[White]==initsquare;
+    current_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
+
     apply_knowledge(0,&validate_and_test);
+
+    current_consumption.king[White] = false;
+    current_consumption.king[Black] = false;
 
     play_phase = play_unwinding;
     unrewind_effects();
