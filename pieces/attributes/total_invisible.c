@@ -4945,50 +4945,46 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
     if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
     {
-      Flags const flags_existing = being_solved.spec[sq_departure];
-      PieceIdType const id_existing = GetPieceId(flags_existing);
-      decision_levels_type const save_levels = motivation[id_existing].levels;
-
-      motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_SQUARE('>',sq_departure);
-      ++curr_decision_level;
-
-      max_decision_level = decision_level_latest;
-      motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_WALK('>',walk_rider);
-      ++curr_decision_level;
-
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
       TraceEOL();
 
       if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
           && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-        capture_by_piece_at_end_of_line(walk_rider,sq_departure);
-
-      --curr_decision_level;
-
-      if (curr_decision_level<=max_decision_level)
       {
-        max_decision_level = decision_level_latest;
+        Flags const flags_existing = being_solved.spec[sq_departure];
+        PieceIdType const id_existing = GetPieceId(flags_existing);
+        decision_levels_type const save_levels = motivation[id_existing].levels;
+
         motivation[id_existing].levels.from = curr_decision_level;
-        REPORT_DECISION_WALK('>',Queen);
+        REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
 
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-        TraceEOL();
+        max_decision_level = decision_level_latest;
+        motivation[id_existing].levels.from = curr_decision_level;
+        REPORT_DECISION_WALK('>',walk_rider);
+        ++curr_decision_level;
 
-        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-          capture_by_piece_at_end_of_line(Queen,sq_departure);
+        capture_by_piece_at_end_of_line(walk_rider,sq_departure);
 
         --curr_decision_level;
+
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
+          motivation[id_existing].levels.from = curr_decision_level;
+          REPORT_DECISION_WALK('>',Queen);
+          ++curr_decision_level;
+
+          capture_by_piece_at_end_of_line(Queen,sq_departure);
+
+          --curr_decision_level;
+        }
+
+        --curr_decision_level;
+
+        motivation[id_existing].levels = save_levels;
       }
-
-      --curr_decision_level;
-
-      motivation[id_existing].levels = save_levels;
     }
   }
 
