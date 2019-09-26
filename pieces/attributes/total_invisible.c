@@ -346,7 +346,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_EXIT
 
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)
 
@@ -4707,7 +4707,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     REPORT_DEADEND;
 
     max_decision_level = motivation[id_existing].levels.walk;
- }
+  }
   else
   {
     move_effect_journal_index_type const precapture = effects_base;
@@ -5449,7 +5449,9 @@ static void flesh_out_dummy_for_capture(square sq_departure,
             {
               max_decision_level = decision_level_latest;
               REPORT_DECISION_WALK('>',Queen);
+              ++curr_decision_level;
               flesh_out_walk_for_capture(Queen,sq_departure);
+              --curr_decision_level;
             }
 
             --curr_decision_level;
