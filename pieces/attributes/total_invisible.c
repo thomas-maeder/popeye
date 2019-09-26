@@ -5559,13 +5559,19 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   TraceWalk(get_walk_of_piece_on_square(motivation[id_existing].last.on));
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
+
   if (motivation[id_existing].last.purpose!=purpose_none
       && TSTFLAG(flags_existing,trait[nbply]))
   {
     piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
+    motivation_type const motivation_existing = motivation[id_existing];
 
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
+
+    motivation[id_existing].levels.from = curr_decision_level;
+    REPORT_DECISION_SQUARE('>',sq_departure);
+    ++curr_decision_level;
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -5574,16 +5580,10 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     {
       int const move_square_diff = sq_departure-sq_arrival;
 
-      motivation_type const motivation_existing = motivation[id_existing];
-
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
       motivation[id_existing].last.purpose = purpose_none;
       motivation[id_existing].levels = motivation[id_random].levels;
-
-      motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_SQUARE('>',sq_departure);
-      ++curr_decision_level;
 
       max_decision_level = decision_level_latest;
 
@@ -5664,10 +5664,6 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           assert(0);
           break;
       }
-
-      motivation[id_existing] = motivation_existing;
-
-      --curr_decision_level;
     }
     else
     {
@@ -5676,12 +5672,19 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
       REPORT_DEADEND;
       max_decision_level = motivation[id_existing].levels.from;
     }
+
+    motivation[id_existing] = motivation_existing;
+
+    --curr_decision_level;
   }
   else if (motivation[id_existing].first.acts_when==nbply
            && motivation[id_existing].first.purpose==purpose_interceptor)
   {
     // TODO how can this happen, and how should we deal with it?
+    REPORT_DECISION_SQUARE('>',sq_departure);
+    ++curr_decision_level;
     REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
+    --curr_decision_level;
     REPORT_DEADEND;
   }
 
