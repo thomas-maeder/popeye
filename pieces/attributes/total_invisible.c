@@ -346,7 +346,7 @@ static void report_deadend(char const *s, unsigned int lineno)
 #define REPORT_EXIT
 
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)
 
@@ -5558,6 +5558,10 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   TraceValue("%u",motivation[id_existing].last.purpose);
   TraceValue("%u",motivation[id_existing].last.acts_when);
   TraceSquare(motivation[id_existing].last.on);
+  TraceValue("%u",motivation[id_existing].levels.from);
+  TraceValue("%u",motivation[id_existing].levels.to);
+  TraceValue("%u",motivation[id_existing].levels.side);
+  TraceValue("%u",motivation[id_existing].levels.walk);
   TraceWalk(get_walk_of_piece_on_square(motivation[id_existing].last.on));
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
@@ -5659,6 +5663,17 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           {
             REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
+            // TODO do motivation[id_existing].levels = motivation[id_random].levels later
+            // so that we can use motivation[id_existing] here?
+            if (current_consumption.king[advers(trait[nbply])]+current_consumption.pawn_victims[advers(trait[nbply])]+1
+                >=total_invisible_number)
+            {
+              /* move our single piece to a different square
+               * or let another piece be our single piece */
+              max_decision_level = motivation_existing.levels.to;
+              if (max_decision_level<motivation_existing.levels.side)
+                max_decision_level = motivation_existing.levels.side;
+            }
           }
           break;
 
