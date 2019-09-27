@@ -46,47 +46,35 @@ typedef struct
 
 static consumption_type current_consumption = { 0 };
 
-static unsigned int nr_total_invisbles_consumed(void)
+static unsigned int nr_total_invisbles_consumed_for_side(Side side)
 {
-  unsigned int result = (current_consumption.fleshed_out[White]
-                         + current_consumption.fleshed_out[Black]
-                         + current_consumption.placed[White]
-                         + current_consumption.placed[Black]
-                         + current_consumption.claimed[White]
-                         + current_consumption.claimed[Black]);
+  unsigned int result = (current_consumption.fleshed_out[side]
+                         + current_consumption.placed[side]
+                         + current_consumption.claimed[side]);
 
   // TODO simplify
-  if ((current_consumption.pawn_victims[White]
-       +current_consumption.king[White])
-      >(current_consumption.placed[White]
-        +current_consumption.fleshed_out[White]
-        +current_consumption.claimed[White]))
-    result += ((current_consumption.pawn_victims[White]
-                +current_consumption.king[White])
-               -(current_consumption.placed[White]
-                 +current_consumption.fleshed_out[White]
-                 +current_consumption.claimed[White]));
-  else if (!current_consumption.claimed[White]
-           && current_consumption.placed[White]==0
-           && being_solved.king_square[White]==initsquare)
-    ++result;
-
-  if ((current_consumption.pawn_victims[Black]
-       +current_consumption.king[Black])
-      >(current_consumption.placed[Black]
-        +current_consumption.fleshed_out[Black]
-        +current_consumption.claimed[Black]))
-    result += ((current_consumption.pawn_victims[Black]
-                +current_consumption.king[Black])
-               -(current_consumption.placed[Black]
-                 +current_consumption.fleshed_out[Black]
-                 +current_consumption.claimed[Black]));
-  else if (!current_consumption.claimed[Black]
-           && current_consumption.placed[Black]==0
-           && being_solved.king_square[Black]==initsquare)
+  if ((current_consumption.pawn_victims[side]
+       +current_consumption.king[side])
+      >(current_consumption.placed[side]
+        +current_consumption.fleshed_out[side]
+        +current_consumption.claimed[side]))
+    result += ((current_consumption.pawn_victims[side]
+                +current_consumption.king[side])
+               -(current_consumption.placed[side]
+                 +current_consumption.fleshed_out[side]
+                 +current_consumption.claimed[side]));
+  else if (!current_consumption.claimed[side]
+           && current_consumption.placed[side]==0
+           && being_solved.king_square[side]==initsquare)
     ++result;
 
   return result;
+}
+
+static unsigned int nr_total_invisbles_consumed(void)
+{
+  return (nr_total_invisbles_consumed_for_side(White)
+          +nr_total_invisbles_consumed_for_side(Black));
 }
 
 static void TraceConsumption(void)
