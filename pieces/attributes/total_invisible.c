@@ -37,14 +37,20 @@ unsigned int total_invisible_number;
 
 typedef struct
 {
-    unsigned int fleshed_out[nr_sides];
-    unsigned int placed[nr_sides];
     unsigned int pawn_victims[nr_sides];
     boolean king[nr_sides];
-    boolean claimed[nr_sides];
-} consumption_type;
+} static_consumption_type;
 
-static consumption_type current_consumption = { 0 };
+static static_consumption_type static_consumption = { 0 };
+
+typedef struct
+{
+    unsigned int fleshed_out[nr_sides];
+    unsigned int placed[nr_sides];
+    boolean claimed[nr_sides];
+} dynamic_consumption_type;
+
+static dynamic_consumption_type current_consumption = { 0 };
 
 static unsigned int nr_total_invisbles_consumed_for_side(Side side)
 {
@@ -57,9 +63,9 @@ static unsigned int nr_total_invisbles_consumed_for_side(Side side)
       && being_solved.king_square[side]==initsquare)
     ++result;
 
-  if ((current_consumption.pawn_victims[side]+current_consumption.king[side])
+  if ((static_consumption.pawn_victims[side]+static_consumption.king[side])
       >result)
-    result = (current_consumption.pawn_victims[side]+current_consumption.king[side]);
+    result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
 
   return result;
 }
@@ -82,10 +88,10 @@ static void TraceConsumption(void)
   TraceValue("%u",current_consumption.placed[Black]);
   TraceValue("%u",current_consumption.claimed[White]);
   TraceValue("%u",current_consumption.claimed[Black]);
-  TraceValue("%u",current_consumption.pawn_victims[White]);
-  TraceValue("%u",current_consumption.pawn_victims[Black]);
-  TraceValue("%u",current_consumption.king[White]);
-  TraceValue("%u",current_consumption.king[Black]);
+  TraceValue("%u",static_consumption.pawn_victims[White]);
+  TraceValue("%u",static_consumption.pawn_victims[Black]);
+  TraceValue("%u",static_consumption.king[White]);
+  TraceValue("%u",static_consumption.king[Black]);
 }
 
 /* Determine the maximum number of placement allocations possible for both sides
@@ -353,10 +359,10 @@ static unsigned long prev_report_decision_counter;
 
 #define REPORT_END_LINE \
     printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u)" \
-           , current_consumption.king[White] \
-           , current_consumption.king[Black] \
-           , current_consumption.pawn_victims[White] \
-           , current_consumption.pawn_victims[Black] \
+           , static_consumption.king[White] \
+           , static_consumption.king[Black] \
+           , static_consumption.pawn_victims[White] \
+           , static_consumption.pawn_victims[Black] \
            , current_consumption.claimed[White] \
            , current_consumption.claimed[Black] \
            , current_consumption.placed[White] \
@@ -955,7 +961,7 @@ static vec_index_type is_rider_check_uninterceptable(Side side_checking, square 
 
 static boolean can_interceptor_be_allocated(void)
 {
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
   boolean result = allocate_flesh_out_unplaced(White);
   current_consumption = save_consumption;
   result = result || allocate_flesh_out_unplaced(Black);
@@ -2328,13 +2334,13 @@ static void backward_fleshout_random_move_by_invisible(void)
   }
   else
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     current_consumption.claimed[trait[nbply]] = true;
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      consumption_type const save_consumption = current_consumption;
+      dynamic_consumption_type const save_consumption = current_consumption;
 
       TraceText("stick to random move by unplaced invisible\n");
       current_consumption.claimed[trait[nbply]] = true;
@@ -2472,7 +2478,7 @@ static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
                                         piece_walk_type walk)
 {
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
   Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
   TraceFunctionEntry(__func__);
@@ -2971,7 +2977,7 @@ static void validate_king_placements(void)
       being_solved.king_square[side_to_be_mated] = initsquare;
       if (current_consumption.placed[side_to_be_mated]>0)
       {
-        consumption_type const save_consumption = current_consumption;
+        dynamic_consumption_type const save_consumption = current_consumption;
 
         allocate_flesh_out_placed(side_to_be_mated);
         nominate_king_invisible_by_invisible();
@@ -3000,7 +3006,7 @@ static void validate_king_placements(void)
 static boolean is_capture_by_invisible_possible(ply ply)
 {
   boolean result;
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",ply);
@@ -3911,7 +3917,7 @@ static void adapt_pre_capture_effect(void)
         else if (!is_taboo(to,advers(trait[nbply]))
                  && !has_been_taboo_since_random_move(to))
         {
-          consumption_type const save_consumption = current_consumption;
+          dynamic_consumption_type const save_consumption = current_consumption;
 
           if (allocate_flesh_out_unplaced(advers(trait[nbply])))
           {
@@ -4356,7 +4362,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     Side const side_playing = trait[nbply];
     Side const side_under_attack = advers(side_playing);
     square const king_pos = being_solved.king_square[side_under_attack];
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     assert(play_phase==play_validating_mate);
 
@@ -4526,7 +4532,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     // * fleshing it out
     // * option for activating fleshing out
 
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     TraceText("random move by unplaced invisible\n");
 
@@ -4584,7 +4590,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   }
   else
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
     if (allocate_flesh_out_unplaced(side_playing))
     {
       Side const side_in_check = trait[nbply-1];
@@ -4705,7 +4711,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     motivation_type const motivation_random = motivation[id_random];
 
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
@@ -5650,7 +5656,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
             REPORT_DEADEND;
             // TODO do motivation[id_existing].levels = motivation[id_random].levels later
             // so that we can use motivation[id_existing] here?
-            if (current_consumption.king[advers(trait[nbply])]+current_consumption.pawn_victims[advers(trait[nbply])]+1
+            if (static_consumption.king[advers(trait[nbply])]+static_consumption.pawn_victims[advers(trait[nbply])]+1
                 >=total_invisible_number)
             {
               /* move our single piece to a different square
@@ -5704,7 +5710,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
     flesh_out_capture_by_invisible_on(first_taboo_violation,false);
   else
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     if (allocate_flesh_out_unplaced(trait[nbply]))
     {
@@ -6282,7 +6288,7 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
                                   Side side,
                                   square pos)
 {
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -6330,7 +6336,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
 
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
 
     if (allocate_flesh_out_unplaced(side))
     {
@@ -6435,7 +6441,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
                                                 square s,
                                                 Side side)
 {
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -6910,7 +6916,7 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
     (*next_step)();
   else
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
     square const sq_first_on = knowledge[idx_knowledge].first_on;
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
@@ -7080,13 +7086,13 @@ static void make_revelations(void)
   max_decision_level = decision_level_latest;
   REPORT_DECISION_CONTEXT(__func__);
 
-  current_consumption.king[White] = being_solved.king_square[White]==initsquare;
-  current_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
+  static_consumption.king[White] = being_solved.king_square[White]==initsquare;
+  static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
   apply_knowledge(0,&start_iteration);
 
-  current_consumption.king[White] = false;
-  current_consumption.king[Black] = false;
+  static_consumption.king[White] = false;
+  static_consumption.king[Black] = false;
 
   play_phase = play_unwinding;
   unrewind_effects();
@@ -7157,13 +7163,13 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     play_phase = play_rewinding;
     rewind_effects();
 
-    current_consumption.king[White] = being_solved.king_square[White]==initsquare;
-    current_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
+    static_consumption.king[White] = being_solved.king_square[White]==initsquare;
+    static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
     apply_knowledge(0,&validate_and_test);
 
-    current_consumption.king[White] = false;
-    current_consumption.king[Black] = false;
+    static_consumption.king[White] = false;
+    static_consumption.king[Black] = false;
 
     play_phase = play_unwinding;
     unrewind_effects();
@@ -7194,7 +7200,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  */
 void total_invisible_reveal_after_mating_move(slice_index si)
 {
-  consumption_type const save_consumption = current_consumption;
+  dynamic_consumption_type const save_consumption = current_consumption;
   PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
   knowledge_index_type const save_size_knowledge = size_knowledge;
 
@@ -7937,7 +7943,7 @@ static void play_castling_with_invisible_partner(slice_index si,
 
   if (is_square_empty(sq_departure_partner))
   {
-    consumption_type const save_consumption = current_consumption;
+    dynamic_consumption_type const save_consumption = current_consumption;
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
       Flags spec = BIT(side)|BIT(Chameleon);
@@ -8100,14 +8106,14 @@ void total_invisible_special_moves_player_solve(slice_index si)
              * have moved to sq_capture and serve as a victim.
              */
 
-            ++current_consumption.pawn_victims[side_victim];
+            ++static_consumption.pawn_victims[side_victim];
 
             if (nr_total_invisbles_consumed()<=total_invisible_number)
               pipe_solve_delegate(si);
             else
               solve_result = this_move_is_illegal;
 
-            --current_consumption.pawn_victims[side_victim];
+            --static_consumption.pawn_victims[side_victim];
 
             motivation[top_invisible_piece_id] = motivation_null;
             --top_invisible_piece_id;
