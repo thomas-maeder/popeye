@@ -52,21 +52,26 @@ static unsigned int nr_total_invisbles_consumed_for_side(Side side)
                          + current_consumption.placed[side]
                          + current_consumption.claimed[side]);
 
+  if (!current_consumption.claimed[side]
+      && current_consumption.placed[side]==0
+      && being_solved.king_square[side]==initsquare)
+    ++result;
+
   if ((current_consumption.pawn_victims[side]+current_consumption.king[side])
       >result)
     result = (current_consumption.pawn_victims[side]+current_consumption.king[side]);
-  else if (!current_consumption.claimed[side]
-           && current_consumption.placed[side]==0
-           && being_solved.king_square[side]==initsquare)
-    ++result;
 
   return result;
 }
 
 static unsigned int nr_total_invisbles_consumed(void)
 {
-  return (nr_total_invisbles_consumed_for_side(White)
-          +nr_total_invisbles_consumed_for_side(Black));
+  unsigned int result;
+
+  result = (nr_total_invisbles_consumed_for_side(White)
+            +nr_total_invisbles_consumed_for_side(Black));
+
+  return result;
 }
 
 static void TraceConsumption(void)
