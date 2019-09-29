@@ -39,6 +39,7 @@ typedef struct
 {
     unsigned int pawn_victims[nr_sides];
     boolean king[nr_sides];
+    boolean move_after_victing[nr_sides];
 } static_consumption_type;
 
 static static_consumption_type static_consumption = { 0 };
@@ -66,6 +67,10 @@ static unsigned int nr_total_invisbles_consumed_for_side(Side side)
   if ((static_consumption.pawn_victims[side]+static_consumption.king[side])
       >result)
     result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
+
+  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side])
+      >result)
+    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side]);
 
   return result;
 }
@@ -8011,11 +8016,23 @@ void total_invisible_special_moves_player_solve(slice_index si)
     TraceEOL();
 
     if (sq_departure==move_by_invisible)
-      pipe_solve_delegate(si);
+    {
+      Side const side = trait[nbply];
+      boolean const save_move_after_victim = static_consumption.move_after_victing[side];
+
+      static_consumption.move_after_victing[side] = true;
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+        pipe_solve_delegate(si);
+      else
+        solve_result = this_move_is_illegal;
+      static_consumption.move_after_victing[side] = save_move_after_victim;
+    }
     else if (sq_departure>=capture_by_invisible)
     {
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
+      boolean const save_move_after_victim = static_consumption.move_after_victing[side];
+
       ++top_invisible_piece_id;
       SetPieceId(spec,top_invisible_piece_id);
       TraceValue("%u",top_invisible_piece_id);TraceEOL();
@@ -8031,11 +8048,19 @@ void total_invisible_special_moves_player_solve(slice_index si)
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
-      /* No adjustment of current_consumption.placed here!
-       * The capture may be done by an existing invisible. We can only do the
-       * adjustment when we flesh out this capture by inserting a new invisible.
-       */
-      pipe_solve_delegate(si);
+      static_consumption.move_after_victing[side] = true;
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+      {
+        /* No adjustment of current_consumption.placed here!
+         * The capture may be done by an existing invisible. We can only do the
+         * adjustment when we flesh out this capture by inserting a new invisible.
+         */
+        pipe_solve_delegate(si);
+      }
+      else
+        solve_result = this_move_is_illegal;
+
+      static_consumption.move_after_victing[side] = save_move_after_victim;
 
       motivation[top_invisible_piece_id] = motivation_null;
       --top_invisible_piece_id;
@@ -8087,6 +8112,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
           {
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
+            boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];
 
             ++top_invisible_piece_id;
             SetPieceId(spec,top_invisible_piece_id);
@@ -8107,12 +8133,14 @@ void total_invisible_special_moves_player_solve(slice_index si)
              */
 
             ++static_consumption.pawn_victims[side_victim];
+            static_consumption.move_after_victing[side_victim] = false;
 
             if (nr_total_invisbles_consumed()<=total_invisible_number)
               pipe_solve_delegate(si);
             else
               solve_result = this_move_is_illegal;
 
+            static_consumption.move_after_victing[side_victim] = save_move_after_victim;
             --static_consumption.pawn_victims[side_victim];
 
             motivation[top_invisible_piece_id] = motivation_null;
