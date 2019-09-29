@@ -4344,6 +4344,117 @@ static void flesh_out_random_move_by_existing_invisible_from(square sq_departure
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square sq_departure)
+{
+  Side const side_playing = trait[nbply];
+  Side const side_under_attack = advers(side_playing);
+  square const king_pos = being_solved.king_square[side_under_attack];
+
+  PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
+  decision_level_type const save_level = motivation[id_moving].levels.walk;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  {
+    SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
+    SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
+    if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
+    {
+      motivation[id_moving].levels.walk = curr_decision_level;
+      REPORT_DECISION_WALK('>',Pawn);
+      ++curr_decision_level;
+
+      ++being_solved.number_of_pieces[side_playing][Pawn];
+      replace_walk(sq_departure,Pawn);
+      if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
+        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+      --being_solved.number_of_pieces[side_playing][Pawn];
+
+      --curr_decision_level;
+    }
+  }
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+
+    motivation[id_moving].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',Knight);
+    ++curr_decision_level;
+
+    ++being_solved.number_of_pieces[side_playing][Knight];
+    replace_walk(sq_departure,Knight);
+    if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
+      flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+    --being_solved.number_of_pieces[side_playing][Knight];
+
+    --curr_decision_level;
+  }
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+
+    motivation[id_moving].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',Bishop);
+    ++curr_decision_level;
+
+    ++being_solved.number_of_pieces[side_playing][Bishop];
+    replace_walk(sq_departure,Bishop);
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_bishop_start,vec_bishop_end,
+                                        Bishop))
+      flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+    --being_solved.number_of_pieces[side_playing][Bishop];
+
+    --curr_decision_level;
+  }
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+
+    motivation[id_moving].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',Rook);
+    ++curr_decision_level;
+
+    ++being_solved.number_of_pieces[side_playing][Rook];
+    replace_walk(sq_departure,Rook);
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_rook_start,vec_rook_end,
+                                        Rook))
+      flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+    --being_solved.number_of_pieces[side_playing][Rook];
+
+    --curr_decision_level;
+  }
+
+  if (curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+
+    motivation[id_moving].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',Queen);
+    ++curr_decision_level;
+
+    ++being_solved.number_of_pieces[side_playing][Queen];
+    replace_walk(sq_departure,Queen);
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_queen_start,vec_queen_end,
+                                        Queen))
+      flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+    --being_solved.number_of_pieces[side_playing][Queen];
+
+    --curr_decision_level;
+  }
+
+  motivation[id_moving].levels.walk = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 static void flesh_out_random_move_by_specific_invisible_from(square sq_departure)
 {
   Side const side_playing = trait[nbply];
@@ -4368,6 +4479,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
     Side const side_under_attack = advers(side_playing);
     square const king_pos = being_solved.king_square[side_under_attack];
     dynamic_consumption_type const save_consumption = current_consumption;
+    PieceIdType const id_moving = GetPieceId(save_flags);
 
     assert(play_phase==play_validating_mate);
 
@@ -4376,83 +4488,44 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     allocate_flesh_out_placed(side_playing);
 
-    if (curr_decision_level<=max_decision_level)
+    if (being_solved.king_square[side_playing]==initsquare)
     {
-      if (being_solved.king_square[side_playing]==initsquare)
+      boolean are_allocations_exhausted;
+
+      being_solved.king_square[side_playing] = sq_departure;
+
+      are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
+
+      ++being_solved.number_of_pieces[side_playing][King];
+      replace_walk(sq_departure,King);
+      SETFLAG(being_solved.spec[sq_departure],Royal);
+      if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+      {
+        decision_level_type const save_level = motivation[id_moving].levels.walk;
+
+        motivation[id_moving].levels.walk = curr_decision_level;
+        REPORT_DECISION_WALK('>',King);
+        ++curr_decision_level;
+
+        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
+
+        --curr_decision_level;
+
+        motivation[id_moving].levels.walk = save_level;
+      }
+      CLRFLAG(being_solved.spec[sq_departure],Royal);
+      --being_solved.number_of_pieces[side_playing][King];
+      being_solved.king_square[side_playing] = initsquare;
+
+      if (curr_decision_level<=max_decision_level
+          && !are_allocations_exhausted)
       {
         max_decision_level = decision_level_latest;
-        being_solved.king_square[side_playing] = sq_departure;
-        ++being_solved.number_of_pieces[side_playing][King];
-        replace_walk(sq_departure,King);
-        SETFLAG(being_solved.spec[sq_departure],Royal);
-        if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
-          flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-        CLRFLAG(being_solved.spec[sq_departure],Royal);
-        --being_solved.number_of_pieces[side_playing][King];
-        being_solved.king_square[side_playing] = initsquare;
+        flesh_out_random_move_by_existing_invisible_as_non_king_from(sq_departure);
       }
     }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
-      SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
-      if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
-      {
-        max_decision_level = decision_level_latest;
-        ++being_solved.number_of_pieces[side_playing][Pawn];
-        replace_walk(sq_departure,Pawn);
-        if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
-          flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-        --being_solved.number_of_pieces[side_playing][Pawn];
-      }
-    }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      ++being_solved.number_of_pieces[side_playing][Knight];
-      replace_walk(sq_departure,Knight);
-      if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
-        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-      --being_solved.number_of_pieces[side_playing][Knight];
-    }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      ++being_solved.number_of_pieces[side_playing][Bishop];
-      replace_walk(sq_departure,Bishop);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_bishop_start,vec_bishop_end,
-                                          Bishop))
-        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-      --being_solved.number_of_pieces[side_playing][Bishop];
-    }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      ++being_solved.number_of_pieces[side_playing][Rook];
-      replace_walk(sq_departure,Rook);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_rook_start,vec_rook_end,
-                                          Rook))
-        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-      --being_solved.number_of_pieces[side_playing][Rook];
-    }
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      ++being_solved.number_of_pieces[side_playing][Queen];
-      replace_walk(sq_departure,Queen);
-      if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                          vec_queen_start,vec_queen_end,
-                                          Queen))
-        flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-      --being_solved.number_of_pieces[side_playing][Queen];
-    }
+    else
+      flesh_out_random_move_by_existing_invisible_as_non_king_from(sq_departure);
 
     current_consumption = save_consumption;
 
