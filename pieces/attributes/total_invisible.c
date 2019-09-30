@@ -2374,7 +2374,7 @@ static void backward_fleshout_random_move_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static void undo_relevation_effects(move_effect_journal_index_type curr)
+static void undo_revelation_effects(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -2394,10 +2394,17 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
 
     if (is_random_move_by_invisible(nbply))
       backward_fleshout_random_move_by_invisible();
-    else if (curr_decision_level<=max_decision_level)
+    else
     {
-      max_decision_level = decision_level_latest;
-      restart_from_scratch();
+      // TODO WHEN IS curr_decision_level<=max_decision_level?
+      TraceValue("%u",curr_decision_level);
+      TraceValue("%u",max_decision_level);
+      TraceEOL();
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
+        restart_from_scratch();
+      }
     }
 
     move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
@@ -2412,7 +2419,7 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
       case move_effect_revelation_of_new_invisible:
       {
         unreveal_new(entry);
-        undo_relevation_effects(curr-1);
+        undo_revelation_effects(curr-1);
         reveal_new(entry);
         break;
       }
@@ -2420,7 +2427,7 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
       case move_effect_revelation_of_placed_invisible:
       {
         undo_revelation_of_placed_invisible(entry);
-        undo_relevation_effects(curr-1);
+        undo_revelation_effects(curr-1);
         redo_revelation_of_placed_invisible(entry);
         break;
       }
@@ -2431,7 +2438,7 @@ static void undo_relevation_effects(move_effect_journal_index_type curr)
 
         undo_revelation_of_castling_partner(entry);
         motivation[id].last.purpose = purpose_castling_partner;
-        undo_relevation_effects(curr-1);
+        undo_revelation_effects(curr-1);
         motivation[id].last.purpose = purpose_none;
         redo_revelation_of_castling_partner(entry);
         break;
@@ -2471,7 +2478,7 @@ static void restart_from_scratch(void)
   else
   {
     --nbply;
-    undo_relevation_effects(move_effect_journal_base[nbply+1]);
+    undo_revelation_effects(move_effect_journal_base[nbply+1]);
     ++nbply;
   }
 
@@ -5453,6 +5460,8 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
       if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
       {
+        max_decision_level = decision_level_latest;
+
         motivation[id_existing].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',Pawn);
         ++curr_decision_level;
@@ -5467,6 +5476,8 @@ static void flesh_out_dummy_for_capture(square sq_departure,
     {
       if (CheckDir[Knight][move_square_diff]==move_square_diff)
       {
+        max_decision_level = decision_level_latest;
+
         motivation[id_existing].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',Knight);
         ++curr_decision_level;
@@ -5479,6 +5490,8 @@ static void flesh_out_dummy_for_capture(square sq_departure,
         int const dir = CheckDir[Bishop][move_square_diff];
         if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
         {
+          max_decision_level = decision_level_latest;
+
           motivation[id_existing].levels.walk = curr_decision_level;
           REPORT_DECISION_WALK('>',Bishop);
           ++curr_decision_level;
@@ -5492,8 +5505,11 @@ static void flesh_out_dummy_for_capture(square sq_departure,
           if (curr_decision_level<=max_decision_level)
           {
             max_decision_level = decision_level_latest;
+
             REPORT_DECISION_WALK('>',Queen);
+            ++curr_decision_level;
             flesh_out_walk_for_capture(Queen,sq_departure);
+            --curr_decision_level;
           }
 
           --curr_decision_level;
@@ -5504,6 +5520,8 @@ static void flesh_out_dummy_for_capture(square sq_departure,
           int const dir = CheckDir[Rook][move_square_diff];
           if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
           {
+            max_decision_level = decision_level_latest;
+
             motivation[id_existing].levels.walk = curr_decision_level;
             REPORT_DECISION_WALK('>',Rook);
             ++curr_decision_level;
@@ -5517,6 +5535,7 @@ static void flesh_out_dummy_for_capture(square sq_departure,
             if (curr_decision_level<=max_decision_level)
             {
               max_decision_level = decision_level_latest;
+
               REPORT_DECISION_WALK('>',Queen);
               ++curr_decision_level;
               flesh_out_walk_for_capture(Queen,sq_departure);
