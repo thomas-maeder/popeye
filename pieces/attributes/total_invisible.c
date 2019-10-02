@@ -620,9 +620,14 @@ static boolean is_taboo(square s, Side side)
 
       TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
 
-      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible
-          || move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
         break;
+      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
+      {
+        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
+        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+          break;
+      }
     }
     else
     {
