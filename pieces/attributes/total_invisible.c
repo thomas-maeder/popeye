@@ -605,16 +605,23 @@ static boolean is_taboo(square s, Side side)
   {
     TraceValue("%u",ply);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+    TraceEnumerator(Side,trait[ply]);
     TraceEOL();
 
-    if (nr_taboos_for_current_move_in_ply[ply][side][s])
+    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
     {
       result = true;
       break;
     }
     else if (side==trait[ply])
     {
-      if (is_random_move_by_invisible(ply))
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible
+          || move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
         break;
     }
     else
