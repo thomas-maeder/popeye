@@ -4692,6 +4692,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         REPORT_DECISION_OUTCOME("%s","capturer would deliver uninterceptable check");
         REPORT_DEADEND;
         max_decision_level = motivation[id_added].levels.from;
+        if (max_decision_level<motivation[id_added].levels.walk)
+          max_decision_level = motivation[id_added].levels.walk;
       }
       else
       {
@@ -5425,10 +5427,9 @@ static void flesh_out_king_for_capture(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_dummy_for_capture(square sq_departure,
-                                        square sq_arrival,
-                                        PieceIdType id_existing,
-                                        boolean is_king_dealt_with)
+static void flesh_out_dummy_for_capture_non_king(square sq_departure,
+                                                 square sq_arrival,
+                                                 PieceIdType id_existing)
 {
   int const move_square_diff = sq_departure-sq_arrival;
 
@@ -5436,67 +5437,81 @@ static void flesh_out_dummy_for_capture(square sq_departure,
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceValue("%u",id_existing);
-  TraceValue("%u",is_king_dealt_with);
   TraceFunctionParamListEnd();
 
-  if (!is_king_dealt_with
-      && CheckDir[Queen][move_square_diff]==move_square_diff
-      && being_solved.king_square[trait[nbply]]==initsquare)
+  if (CheckDir[Bishop][move_square_diff]==move_square_diff
+      && (trait[nbply]==White ? sq_departure<sq_arrival : sq_departure>sq_arrival))
   {
-    motivation[id_existing].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',King);
-    ++curr_decision_level;
-    flesh_out_king_for_capture(sq_departure);
-    --curr_decision_level;
+    SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+    SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+    if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+    {
+      motivation[id_existing].levels.walk = curr_decision_level;
+      REPORT_DECISION_WALK('>',Pawn);
+      ++curr_decision_level;
+      flesh_out_walk_for_capture(Pawn,sq_departure);
+      --curr_decision_level;
+    }
+
+    // TODO en passant capture
   }
 
   if (curr_decision_level<=max_decision_level)
   {
-    if (CheckDir[Bishop][move_square_diff]==move_square_diff
-        && (trait[nbply]==White ? sq_departure<sq_arrival : sq_departure>sq_arrival))
+    if (CheckDir[Knight][move_square_diff]==move_square_diff)
     {
-      SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-      SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+      max_decision_level = decision_level_latest;
 
-      if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
-      {
-        max_decision_level = decision_level_latest;
-
-        motivation[id_existing].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',Pawn);
-        ++curr_decision_level;
-        flesh_out_walk_for_capture(Pawn,sq_departure);
-        --curr_decision_level;
-      }
-
-      // TODO en passant capture
+      motivation[id_existing].levels.walk = curr_decision_level;
+      REPORT_DECISION_WALK('>',Knight);
+      ++curr_decision_level;
+      flesh_out_walk_for_capture(Knight,sq_departure);
+      --curr_decision_level;
     }
 
     if (curr_decision_level<=max_decision_level)
     {
-      if (CheckDir[Knight][move_square_diff]==move_square_diff)
+      int const dir = CheckDir[Bishop][move_square_diff];
+      if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
         max_decision_level = decision_level_latest;
 
         motivation[id_existing].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',Knight);
+        REPORT_DECISION_WALK('>',Bishop);
         ++curr_decision_level;
-        flesh_out_walk_for_capture(Knight,sq_departure);
+
+        flesh_out_walk_for_capture(Bishop,sq_departure);
+
+        /* Don't reduce curr_decision_level yet; if posteriority asks for a
+         * different walk, Queen won't do. */
+        // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
+
+        if (curr_decision_level<=max_decision_level)
+        {
+          max_decision_level = decision_level_latest;
+
+          REPORT_DECISION_WALK('>',Queen);
+          ++curr_decision_level;
+          flesh_out_walk_for_capture(Queen,sq_departure);
+          --curr_decision_level;
+        }
+
         --curr_decision_level;
       }
 
       if (curr_decision_level<=max_decision_level)
       {
-        int const dir = CheckDir[Bishop][move_square_diff];
+        int const dir = CheckDir[Rook][move_square_diff];
         if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
         {
           max_decision_level = decision_level_latest;
 
           motivation[id_existing].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',Bishop);
+          REPORT_DECISION_WALK('>',Rook);
           ++curr_decision_level;
 
-          flesh_out_walk_for_capture(Bishop,sq_departure);
+          flesh_out_walk_for_capture(Rook,sq_departure);
 
           /* Don't reduce curr_decision_level yet; if posteriority asks for a
            * different walk, Queen won't do. */
@@ -5514,39 +5529,45 @@ static void flesh_out_dummy_for_capture(square sq_departure,
 
           --curr_decision_level;
         }
-
-        if (curr_decision_level<=max_decision_level)
-        {
-          int const dir = CheckDir[Rook][move_square_diff];
-          if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
-          {
-            max_decision_level = decision_level_latest;
-
-            motivation[id_existing].levels.walk = curr_decision_level;
-            REPORT_DECISION_WALK('>',Rook);
-            ++curr_decision_level;
-
-            flesh_out_walk_for_capture(Rook,sq_departure);
-
-            /* Don't reduce curr_decision_level yet; if posteriority asks for a
-             * different walk, Queen won't do. */
-            // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
-
-            if (curr_decision_level<=max_decision_level)
-            {
-              max_decision_level = decision_level_latest;
-
-              REPORT_DECISION_WALK('>',Queen);
-              ++curr_decision_level;
-              flesh_out_walk_for_capture(Queen,sq_departure);
-              --curr_decision_level;
-            }
-
-            --curr_decision_level;
-          }
-        }
       }
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
+                                                         square sq_arrival,
+                                                         PieceIdType id_existing)
+{
+  int const move_square_diff = sq_departure-sq_arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceValue("%u",id_existing);
+  TraceFunctionParamListEnd();
+
+  assert(being_solved.king_square[trait[nbply]]==initsquare);
+
+  if (CheckDir[Queen][move_square_diff]==move_square_diff)
+  {
+    motivation[id_existing].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',King);
+    ++curr_decision_level;
+    flesh_out_king_for_capture(sq_departure);
+    --curr_decision_level;
+  }
+
+  assert(current_consumption.placed[trait[nbply]]>0);
+
+  if (curr_decision_level<=max_decision_level
+      && !(nr_total_invisbles_consumed()==total_invisible_number
+           && current_consumption.placed[trait[nbply]]==1))
+  {
+    max_decision_level = decision_level_latest;
+    flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
   }
 
   TraceFunctionExit(__func__);
@@ -5744,9 +5765,13 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
         case Dummy:
           if (CheckDir[Queen][move_square_diff]!=0
               || CheckDir[Knight][move_square_diff]==move_square_diff)
-            flesh_out_dummy_for_capture(sq_departure,sq_arrival,
-                                        id_existing,
-                                        is_king_dealt_with);
+          {
+            if (is_king_dealt_with
+                || being_solved.king_square[trait[nbply]]!=initsquare)
+              flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
+            else
+              flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
+          }
           else
           {
             REPORT_DECISION_OUTCOME("%s","the piece on the departure square can't reach the arrival square");
