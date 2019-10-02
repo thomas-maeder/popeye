@@ -6637,11 +6637,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
     motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
 
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
-    }
+    place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
     if (curr_decision_level<=max_decision_level)
     {
