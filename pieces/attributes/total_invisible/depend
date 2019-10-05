@@ -143,3 +143,53 @@ debugging/trace.h:
 optimisations/orthodox_check_directions.h:
 
 debugging/assert.h:
+pieces/attributes/total_invisible/uninterceptable_check$(OBJ_SUFFIX): \
+ pieces/attributes/total_invisible/uninterceptable_check.c \
+ pieces/attributes/total_invisible/uninterceptable_check.h \
+ position/position.h position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/side.enum position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h pieces/attributes/total_invisible/taboo.h \
+ solving/ply.h pieces/attributes/total_invisible/consumption.h \
+ optimisations/orthodox_square_observation.h debugging/trace.h
+
+pieces/attributes/total_invisible/uninterceptable_check.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+pieces/attributes/total_invisible/taboo.h:
+
+solving/ply.h:
+
+pieces/attributes/total_invisible/consumption.h:
+
+optimisations/orthodox_square_observation.h:
+
+debugging/trace.h:
