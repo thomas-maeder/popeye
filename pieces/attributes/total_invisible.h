@@ -1,6 +1,7 @@
 #if !defined(PIECES_ATTRIBUTES_TOTAL_INVISIBLE_H)
 #define PIECES_ATTRIBUTES_TOTAL_INVISIBLE_H
 
+#include "position/pieceid.h"
 #include "stipulation/stipulation.h"
 
 extern unsigned int total_invisible_number;
@@ -235,32 +236,6 @@ typedef enum
   purpose_attacker
 } purpose_type;
 
-typedef struct action_type
-{
-    purpose_type purpose;
-    ply acts_when;
-    square on;
-} action_type;
-
-typedef struct
-{
-    square first_on;
-    piece_walk_type walk;
-    Flags spec;
-    action_type first;
-    action_type last;
-} revelation_status_type;
-
-typedef struct
-{
-    square revealed_on;
-    square first_on;
-    action_type last;
-    piece_walk_type walk;
-    Flags spec;
-    boolean is_allocated;
-} knowledge_type;
-
 typedef unsigned int decision_level_type;
 
 enum
@@ -278,6 +253,23 @@ typedef struct
     decision_level_type to;
 } decision_levels_type;
 
+typedef struct action_type
+{
+    purpose_type purpose;
+    ply acts_when;
+    square on;
+} action_type;
+
+typedef struct
+{
+    square revealed_on;
+    square first_on;
+    action_type last;
+    piece_walk_type walk;
+    Flags spec;
+    boolean is_allocated;
+} knowledge_type;
+
 typedef struct
 {
     action_type first;
@@ -286,7 +278,16 @@ typedef struct
 } motivation_type;
 
 boolean is_random_move_by_invisible(ply ply);
-ply top_ply_of_regular_play;
+
+extern ply top_ply_of_regular_play;
+extern play_phase_type play_phase;
+extern PieceIdType top_invisible_piece_id;
+extern motivation_type motivation[MaxPieceId+1];
+// TODO what is a good size for this?
+extern knowledge_type knowledge[MaxPieceId];
+
+typedef unsigned int knowledge_index_type;
+extern knowledge_index_type size_knowledge;
 
 void report_deadend(char const *s, unsigned int lineno);
 
