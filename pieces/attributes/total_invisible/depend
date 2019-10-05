@@ -9,7 +9,7 @@ pieces/attributes/total_invisible/consumption$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum debugging/trace.h debugging/assert.h
+ output/mode.enum solving/ply.h debugging/trace.h debugging/assert.h
 
 pieces/attributes/total_invisible/consumption.h:
 
@@ -58,6 +58,8 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
+
+solving/ply.h:
 
 debugging/trace.h:
 

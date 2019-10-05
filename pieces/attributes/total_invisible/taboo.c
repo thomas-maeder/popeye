@@ -390,3 +390,31 @@ void update_taboo(int delta)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+boolean was_taboo(square s)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][White][s]);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][Black][s]);
+    TraceEOL();
+    if (nr_taboos_for_current_move_in_ply[ply][White][s]>0 || nr_taboos_for_current_move_in_ply[ply][Black][s]>0)
+    {
+      result = true;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

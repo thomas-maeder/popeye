@@ -122,34 +122,6 @@ void total_invisible_write_flesh_out_history(void)
   }
 }
 
-static boolean was_taboo(square s)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceFunctionParamListEnd();
-
-  for (ply = ply_retro_move+1; ply<nbply; ++ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][White][s]);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][Black][s]);
-    TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][White][s]>0 || nr_taboos_for_current_move_in_ply[ply][Black][s]>0)
-    {
-      result = true;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean is_random_move_by_invisible(ply ply)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
