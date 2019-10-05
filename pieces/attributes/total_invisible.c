@@ -44,110 +44,26 @@ static ply ply_replayed;
 
 static stip_length_type combined_result;
 
-typedef enum
-{
-  play_regular,
-  play_rewinding,
-  play_detecting_revelations,
-  play_validating_mate,
-  play_testing_mate,
-  play_attacking_mating_piece,
-  play_initialising_replay,
-  play_replay_validating,
-  play_replay_testing,
-  play_finalising_replay,
-  play_unwinding,
-  play_testing_goal
-} play_phase_type;
-
 static play_phase_type play_phase = play_regular;
-
-typedef enum
-{
-  no_mate,
-  mate_attackable,
-  mate_defendable_by_interceptors,
-  mate_with_2_uninterceptable_doublechecks,
-  mate_unvalidated
-} mate_validation_type;
 
 static mate_validation_type mate_validation_result;
 static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
-typedef enum
-{
-  purpose_none,
-  purpose_victim,
-  purpose_interceptor,
-  purpose_random_mover,
-  purpose_capturer,
-  purpose_castling_partner,
-  purpose_attacker
-} purpose_type;
-
-typedef unsigned int decision_level_type;
-
 static decision_level_type curr_decision_level = 2;
-enum
-{
-  decision_level_uninitialised = 0,
-  decision_level_forever = 1,
-  decision_level_latest = UINT_MAX
-};
+
 static decision_level_type max_decision_level = decision_level_latest;
-
-typedef struct action_type
-{
-    purpose_type purpose;
-    ply acts_when;
-    square on;
-} action_type;
-
-typedef struct
-{
-    square first_on;
-    piece_walk_type walk;
-    Flags spec;
-    action_type first;
-    action_type last;
-} revelation_status_type;
 
 static boolean revelation_status_is_uninitialised;
 static unsigned int nr_potential_revelations;
 static revelation_status_type revelation_status[nr_squares_on_board];
-
-typedef struct
-{
-    square revealed_on;
-    square first_on;
-    action_type last;
-    piece_walk_type walk;
-    Flags spec;
-    boolean is_allocated;
-} knowledge_type;
 
 // TODO what is a good size for this?
 static knowledge_type knowledge[MaxPieceId];
 
 typedef unsigned int knowledge_index_type;
 static knowledge_index_type size_knowledge;
-
-typedef struct
-{
-    decision_level_type side;
-    decision_level_type walk;
-    decision_level_type from;
-    decision_level_type to;
-} decision_levels_type;
-
-typedef struct
-{
-    action_type first;
-    action_type last;
-    decision_levels_type levels;
-} motivation_type;
 
 static motivation_type const motivation_null = {
     { purpose_none },
@@ -167,7 +83,7 @@ static move_effect_journal_index_type top_before_relevations[maxply+1];
 static ply uninterceptable_check_delivered_in_ply = ply_nil;
 static square uninterceptable_check_delivered_from = initsquare;
 
-static void report_deadend(char const *s, unsigned int lineno)
+void report_deadend(char const *s, unsigned int lineno)
 {
   printf("%s;%u;%u\n",s,lineno,play_phase);
 }

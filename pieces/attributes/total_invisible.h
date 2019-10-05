@@ -198,7 +198,96 @@ void solving_instrument_total_invisible(slice_index si);
 void total_invisible_write_flesh_out_history(void);
 
 #include "solving/ply.h"
+
+typedef enum
+{
+  play_regular,
+  play_rewinding,
+  play_detecting_revelations,
+  play_validating_mate,
+  play_testing_mate,
+  play_attacking_mating_piece,
+  play_initialising_replay,
+  play_replay_validating,
+  play_replay_testing,
+  play_finalising_replay,
+  play_unwinding,
+  play_testing_goal
+} play_phase_type;
+
+typedef enum
+{
+  no_mate,
+  mate_attackable,
+  mate_defendable_by_interceptors,
+  mate_with_2_uninterceptable_doublechecks,
+  mate_unvalidated
+} mate_validation_type;
+
+typedef enum
+{
+  purpose_none,
+  purpose_victim,
+  purpose_interceptor,
+  purpose_random_mover,
+  purpose_capturer,
+  purpose_castling_partner,
+  purpose_attacker
+} purpose_type;
+
+typedef struct action_type
+{
+    purpose_type purpose;
+    ply acts_when;
+    square on;
+} action_type;
+
+typedef struct
+{
+    square first_on;
+    piece_walk_type walk;
+    Flags spec;
+    action_type first;
+    action_type last;
+} revelation_status_type;
+
+typedef struct
+{
+    square revealed_on;
+    square first_on;
+    action_type last;
+    piece_walk_type walk;
+    Flags spec;
+    boolean is_allocated;
+} knowledge_type;
+
+typedef unsigned int decision_level_type;
+
+enum
+{
+  decision_level_uninitialised = 0,
+  decision_level_forever = 1,
+  decision_level_latest = UINT_MAX
+};
+
+typedef struct
+{
+    decision_level_type side;
+    decision_level_type walk;
+    decision_level_type from;
+    decision_level_type to;
+} decision_levels_type;
+
+typedef struct
+{
+    action_type first;
+    action_type last;
+    decision_levels_type levels;
+} motivation_type;
+
 boolean is_random_move_by_invisible(ply ply);
 ply top_ply_of_regular_play;
+
+void report_deadend(char const *s, unsigned int lineno);
 
 #endif
