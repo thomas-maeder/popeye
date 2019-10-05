@@ -1,0 +1,64 @@
+pieces/attributes/total_invisible/consumption$(OBJ_SUFFIX): \
+ pieces/attributes/total_invisible/consumption.c \
+ pieces/attributes/total_invisible/consumption.h position/position.h \
+ position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/side.enum position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h pieces/attributes/total_invisible.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum debugging/trace.h debugging/assert.h
+
+pieces/attributes/total_invisible/consumption.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+pieces/attributes/total_invisible.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+debugging/trace.h:
+
+debugging/assert.h:

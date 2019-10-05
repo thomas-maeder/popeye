@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = consumption.c
+
+INCLUDES = consumption.h
+
+include makefile.rules $(CURRPWD)depend

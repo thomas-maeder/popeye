@@ -683,7 +683,7 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
  optimisations/orthodox_square_observation.h \
  optimisations/orthodox_check_directions.h options/movenumbers.h \
- debugging/assert.h
+ debugging/assert.h pieces/attributes/total_invisible/consumption.h
 
 pieces/attributes/total_invisible.h:
 
@@ -822,3 +822,5 @@ optimisations/orthodox_check_directions.h:
 options/movenumbers.h:
 
 debugging/assert.h:
+
+pieces/attributes/total_invisible/consumption.h:
