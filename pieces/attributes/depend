@@ -655,13 +655,13 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
+ output/mode.h output/mode.enum.h output/mode.enum solving/ply.h \
  pieces/walks/classification.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
  position/move_diff_code.h position/effects/piece_readdition.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  position/effects/piece_movement.h position/effects/null_move.h \
  position/effects/walk_change.h position/effects/flags_change.h \
  position/effects/king_square.h stipulation/structure_traversal.h \
@@ -683,7 +683,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
  optimisations/orthodox_square_observation.h \
  optimisations/orthodox_check_directions.h options/movenumbers.h \
- debugging/assert.h pieces/attributes/total_invisible/consumption.h
+ debugging/assert.h pieces/attributes/total_invisible/consumption.h \
+ pieces/attributes/total_invisible/taboo.h
 
 pieces/attributes/total_invisible.h:
 
@@ -717,6 +718,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+solving/ply.h:
+
 pieces/walks/classification.h:
 
 position/position.h:
@@ -744,8 +747,6 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 position/effects/piece_movement.h:
 
@@ -824,3 +825,5 @@ options/movenumbers.h:
 debugging/assert.h:
 
 pieces/attributes/total_invisible/consumption.h:
+
+pieces/attributes/total_invisible/taboo.h:

@@ -197,4 +197,8 @@ void solving_instrument_total_invisible(slice_index si);
 
 void total_invisible_write_flesh_out_history(void);
 
+#include "solving/ply.h"
+boolean is_random_move_by_invisible(ply ply);
+ply top_ply_of_regular_play;
+
 #endif
