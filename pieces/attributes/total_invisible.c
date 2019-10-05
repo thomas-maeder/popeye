@@ -52,10 +52,6 @@ static mate_validation_type combined_validation_result;
 
 static square sq_mating_piece_to_be_attacked = initsquare;
 
-static decision_level_type curr_decision_level = 2;
-
-static decision_level_type max_decision_level = decision_level_latest;
-
 // TODO what is a good size for this?
 knowledge_type knowledge[MaxPieceId];
 knowledge_index_type size_knowledge;
@@ -715,61 +711,6 @@ static void attack_mating_piece(Side side_attacking,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void do_revelation_bookkeeping(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
-  TraceText("Updating revelation candidates\n");
-  if (revelation_status_is_uninitialised)
-  {
-    initialise_revelations();
-    REPORT_DECISION_OUTCOME("initialised revelation candidates."
-                            " %u found",
-                            nr_potential_revelations);
-  }
-  else
-  {
-    update_revelations();
-    REPORT_DECISION_OUTCOME("updated revelation candidates."
-                            " %u of %u left",
-                            nr_potential_revelations,
-                            prev_nr_potential_revelations);
-  }
-
-  {
-    decision_level_type max_level = decision_level_forever;
-    unsigned int i;
-    TraceValue("%u",nr_potential_revelations);TraceEOL();
-    for (i = 0; i!=nr_potential_revelations; ++i)
-    {
-      PieceIdType const id = GetPieceId(revelation_status[i].spec);
-
-      TraceValue("%u",i);
-      TraceWalk(revelation_status[i].walk);
-      TraceSquare(revelation_status[i].last.on);
-      TraceValue("%x",revelation_status[i].spec);
-      TraceValue("%u",id);
-      TraceValue("%u",motivation[id].levels.side);
-      TraceValue("%u",motivation[id].levels.walk);
-      TraceEOL();
-      assert(motivation[id].levels.side!=decision_level_uninitialised);
-      assert(motivation[id].levels.walk!=decision_level_uninitialised);
-      if (motivation[id].levels.side>max_level)
-        max_level = motivation[id].levels.side;
-      if (motivation[id].levels.walk>max_level)
-        max_level = motivation[id].levels.walk;
-    }
-    TraceValue("%u",max_level);TraceEOL();
-    max_decision_level = max_level;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-
 }
 
 static void done_validating_king_placements(void)

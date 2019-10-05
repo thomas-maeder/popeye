@@ -206,7 +206,8 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
  output/mode.enum solving/ply.h solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- pieces/attributes/total_invisible/consumption.h debugging/assert.h
+ pieces/attributes/total_invisible/consumption.h \
+ pieces/attributes/total_invisible/decisions.h debugging/assert.h
 
 pieces/attributes/total_invisible/revelations.h:
 
@@ -267,5 +268,7 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 pieces/attributes/total_invisible/consumption.h:
+
+pieces/attributes/total_invisible/decisions.h:
 
 debugging/assert.h:

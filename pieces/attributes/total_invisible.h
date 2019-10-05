@@ -236,23 +236,6 @@ typedef enum
   purpose_attacker
 } purpose_type;
 
-typedef unsigned int decision_level_type;
-
-enum
-{
-  decision_level_uninitialised = 0,
-  decision_level_forever = 1,
-  decision_level_latest = UINT_MAX
-};
-
-typedef struct
-{
-    decision_level_type side;
-    decision_level_type walk;
-    decision_level_type from;
-    decision_level_type to;
-} decision_levels_type;
-
 typedef struct action_type
 {
     purpose_type purpose;
@@ -270,19 +253,11 @@ typedef struct
     boolean is_allocated;
 } knowledge_type;
 
-typedef struct
-{
-    action_type first;
-    action_type last;
-    decision_levels_type levels;
-} motivation_type;
-
 boolean is_random_move_by_invisible(ply ply);
 
 extern ply top_ply_of_regular_play;
 extern play_phase_type play_phase;
 extern PieceIdType top_invisible_piece_id;
-extern motivation_type motivation[MaxPieceId+1];
 // TODO what is a good size for this?
 extern knowledge_type knowledge[MaxPieceId];
 

@@ -1,5 +1,6 @@
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -8,6 +9,8 @@
 boolean revelation_status_is_uninitialised;
 unsigned int nr_potential_revelations;
 revelation_status_type revelation_status[nr_squares_on_board];
+decision_level_type curr_decision_level = 2;
+decision_level_type max_decision_level = decision_level_latest;
 
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,
@@ -1084,4 +1087,59 @@ void evaluate_revelations(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void do_revelation_bookkeeping(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
+  TraceText("Updating revelation candidates\n");
+  if (revelation_status_is_uninitialised)
+  {
+    initialise_revelations();
+    REPORT_DECISION_OUTCOME("initialised revelation candidates."
+                            " %u found",
+                            nr_potential_revelations);
+  }
+  else
+  {
+    update_revelations();
+    REPORT_DECISION_OUTCOME("updated revelation candidates."
+                            " %u of %u left",
+                            nr_potential_revelations,
+                            prev_nr_potential_revelations);
+  }
+
+  {
+    decision_level_type max_level = decision_level_forever;
+    unsigned int i;
+    TraceValue("%u",nr_potential_revelations);TraceEOL();
+    for (i = 0; i!=nr_potential_revelations; ++i)
+    {
+      PieceIdType const id = GetPieceId(revelation_status[i].spec);
+
+      TraceValue("%u",i);
+      TraceWalk(revelation_status[i].walk);
+      TraceSquare(revelation_status[i].last.on);
+      TraceValue("%x",revelation_status[i].spec);
+      TraceValue("%u",id);
+      TraceValue("%u",motivation[id].levels.side);
+      TraceValue("%u",motivation[id].levels.walk);
+      TraceEOL();
+      assert(motivation[id].levels.side!=decision_level_uninitialised);
+      assert(motivation[id].levels.walk!=decision_level_uninitialised);
+      if (motivation[id].levels.side>max_level)
+        max_level = motivation[id].levels.side;
+      if (motivation[id].levels.walk>max_level)
+        max_level = motivation[id].levels.walk;
+    }
+    TraceValue("%u",max_level);TraceEOL();
+    max_decision_level = max_level;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
 }
