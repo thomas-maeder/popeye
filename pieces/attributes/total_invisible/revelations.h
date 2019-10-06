@@ -41,6 +41,7 @@ typedef struct
     decision_levels_type levels;
 } motivation_type;
 extern motivation_type motivation[MaxPieceId+1];
+extern motivation_type const motivation_null;
 
 extern boolean revelation_status_is_uninitialised;
 extern unsigned int nr_potential_revelations;

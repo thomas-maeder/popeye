@@ -12,6 +12,13 @@ revelation_status_type revelation_status[nr_squares_on_board];
 decision_level_type curr_decision_level = 2;
 decision_level_type max_decision_level = decision_level_latest;
 move_effect_journal_index_type top_before_relevations[maxply+1];
+motivation_type motivation[MaxPieceId+1];
+
+motivation_type const motivation_null = {
+    { purpose_none },
+    { purpose_none },
+    { 0 }
+};
 
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,

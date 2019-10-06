@@ -544,3 +544,101 @@ solving/move_effect_journal.h:
 solving/move_generator.h:
 
 solving/pipe.h:
+pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
+ pieces/attributes/total_invisible/move_player.c \
+ pieces/attributes/total_invisible/move_player.h \
+ pieces/attributes/total_invisible/consumption.h position/position.h \
+ position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/side.enum position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h \
+ pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h output/mode.enum solving/ply.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ position/effects/piece_readdition.h position/effects/null_move.h \
+ solving/pipe.h solving/move_generator.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ debugging/assert.h
+
+pieces/attributes/total_invisible/move_player.h:
+
+pieces/attributes/total_invisible/consumption.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+pieces/attributes/total_invisible/revelations.h:
+
+pieces/attributes/total_invisible.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+position/effects/piece_readdition.h:
+
+position/effects/null_move.h:
+
+solving/pipe.h:
+
+solving/move_generator.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
+debugging/assert.h:
