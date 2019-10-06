@@ -1224,3 +1224,236 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static void done_testing_and_execute_revelations(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (nbply+1<=top_ply_of_regular_play
+      && sq_departure>=capture_by_invisible
+      && is_on_board(sq_arrival))
+  {
+    if (is_capture_by_invisible_possible(nbply+1))
+      start_iteration();
+    else
+    {
+      REPORT_DECISION_OUTCOME("capture by invisible in ply %u will not be possible",nbply+1);
+      REPORT_DEADEND;
+    }
+  }
+  else
+    start_iteration();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void test_and_execute_revelations(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+  if (curr==move_effect_journal_base[nbply+1])
+  {
+    if (nbply<=flesh_out_move_highwater)
+    {
+      ++nbply;
+      TraceValue("%u",nbply);TraceEOL();
+      done_testing_and_execute_revelations();
+      --nbply;
+    }
+    else
+    {
+      ply const save_highwater = flesh_out_move_highwater;
+      flesh_out_move_highwater = nbply;
+      ++nbply;
+      TraceValue("%u",nbply);TraceEOL();
+      done_testing_and_execute_revelations();
+      flesh_out_move_highwater = save_highwater;
+      --nbply;
+    }
+  }
+  else
+  {
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
+    switch (entry->type)
+    {
+      case move_effect_revelation_of_new_invisible:
+      {
+        square const on = entry->u.piece_addition.added.on;
+        piece_walk_type const walk = entry->u.piece_addition.added.walk;
+        Flags const spec = entry->u.piece_addition.added.flags;
+        Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
+
+        if (is_square_empty(on))
+        {
+          TraceText("revelation expected, but square is empty - aborting\n");
+          REPORT_DECISION_OUTCOME("%s","revelation expected, but square is empty - aborting");
+          REPORT_DEADEND;
+        }
+        else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
+        {
+          if (TSTFLAG(spec,Royal)
+              && walk==King
+              && being_solved.king_square[side_revealed]!=initsquare)
+          {
+            // TODO can we avoid this situation?
+            TraceText("revelation of king - but king has already been placed - aborting\n");
+            REPORT_DECISION_OUTCOME("%s","revelation of king - but king has already been placed - aborting");
+            REPORT_DEADEND;
+          }
+          else if (TSTFLAG(being_solved.spec[on],side_revealed))
+          {
+            square const on = entry->u.piece_addition.added.on;
+            Flags const spec_on_board = being_solved.spec[on];
+            PieceIdType const id_on_board = GetPieceId(spec_on_board);
+            purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
+
+            Flags const spec_added = entry->u.piece_addition.added.flags;
+            PieceIdType const id_added = GetPieceId(spec_added);
+            purpose_type const purpose_added = motivation[id_added].last.purpose;
+
+            reveal_new(entry);
+            motivation[id_on_board].last.purpose = purpose_none;
+            motivation[id_added].last.purpose = purpose_none;
+            test_and_execute_revelations(curr+1);
+            motivation[id_added].last.purpose = purpose_added;
+            motivation[id_on_board].last.purpose = purpose_on_board;
+            unreveal_new(entry);
+          }
+          else
+          {
+            TraceText("revealed piece belongs to different side than actual piece\n");
+            REPORT_DECISION_OUTCOME("%s","revealed piece belongs to different side than actual piece");
+            REPORT_DEADEND;
+          }
+        }
+        else if (get_walk_of_piece_on_square(on)==walk
+                 && TSTFLAG(being_solved.spec[on],side_revealed))
+        {
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
+
+          PieceIdType const id_revealed = GetPieceId(spec);
+          purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
+
+          TraceText("treat revelation of new invisible as revelation of placed invisible\n");
+
+          assert(id_on_board!=id_revealed);
+
+          entry->type = move_effect_revelation_of_placed_invisible;
+          entry->u.revelation_of_placed_piece.on = on;
+          entry->u.revelation_of_placed_piece.walk_original = get_walk_of_piece_on_square(on);
+          entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
+          entry->u.revelation_of_placed_piece.walk_revealed = walk;
+          entry->u.revelation_of_placed_piece.flags_revealed = spec;
+
+          adapt_id_of_existing_to_revealed(entry);
+
+          motivation[id_on_board].last.purpose = purpose_none;
+          motivation[id_revealed].last.purpose = purpose_none;
+
+          test_and_execute_revelations(curr+1);
+
+          motivation[id_revealed].last.purpose = purpose_revealed;
+          motivation[id_on_board].last.purpose = purpose_on_board;
+
+          unadapt_id_of_existing_to_revealed(entry);
+
+          entry->type = move_effect_revelation_of_new_invisible;
+          entry->u.piece_addition.added.on = on;
+          entry->u.piece_addition.added.walk = walk;
+          entry->u.piece_addition.added.flags = spec;
+        }
+        else
+        {
+          TraceText("revelation expected - but walk of present piece is different - aborting\n");
+          REPORT_DECISION_OUTCOME("%s","revelation expected - but walk of present piece is different - aborting");
+          REPORT_DEADEND;
+        }
+        break;
+      }
+
+      case move_effect_revelation_of_placed_invisible:
+      {
+        square const on = entry->u.revelation_of_placed_piece.on;
+        piece_walk_type const walk_revealed = entry->u.revelation_of_placed_piece.walk_revealed;
+        Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+        Side const side_revealed = TSTFLAG(flags_revealed,White) ? White : Black;
+
+        TraceEnumerator(Side,side_revealed);
+        TraceWalk(walk_revealed);
+        TraceSquare(on);
+        TraceEOL();
+
+        if (is_square_empty(on))
+        {
+          TraceText("the revealed piece isn't here (any more?)\n");
+          REPORT_DECISION_OUTCOME("%s","the revealed piece isn't here (any more?)");
+          REPORT_DEADEND;
+        }
+        else if (get_walk_of_piece_on_square(on)==walk_revealed
+                 && TSTFLAG(being_solved.spec[on],side_revealed))
+        {
+          PieceIdType const id_revealed = GetPieceId(flags_revealed);
+          purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
+
+          PieceIdType const id_original = GetPieceId(entry->u.revelation_of_placed_piece.flags_original);
+          purpose_type const purpose_original = motivation[id_original].last.purpose;
+
+          reveal_placed(entry);
+
+          motivation[id_revealed].last.purpose = purpose_none;
+
+          /* the following distinction isn't strictly necessary, but it clarifies nicely
+           * that the two ids may be, but aren't necessarily equal */
+          if (id_revealed==id_original)
+            test_and_execute_revelations(curr+1);
+          else
+          {
+            motivation[id_original].last.purpose = purpose_none;
+            test_and_execute_revelations(curr+1);
+            motivation[id_original].last.purpose = purpose_original;
+          }
+
+          motivation[id_revealed].last.purpose = purpose_revealed;
+
+          unreveal_placed(entry);
+        }
+        else
+        {
+          TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
+          REPORT_DECISION_OUTCOME("%s","the revelation has been violated - terminating redoing effects with this ply");
+          REPORT_DEADEND;
+        }
+        break;
+      }
+
+      case move_effect_revelation_of_castling_partner:
+      {
+        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
+
+        redo_revelation_of_castling_partner(entry);
+        motivation[id].last.purpose = purpose_none;
+        test_and_execute_revelations(curr+1);
+        motivation[id].last.purpose = purpose_castling_partner;
+        undo_revelation_of_castling_partner(entry);
+        break;
+      }
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

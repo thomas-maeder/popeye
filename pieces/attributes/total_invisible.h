@@ -254,6 +254,7 @@ typedef struct
 } knowledge_type;
 
 boolean is_random_move_by_invisible(ply ply);
+boolean is_capture_by_invisible_possible(ply ply);
 
 extern ply top_ply_of_regular_play;
 extern play_phase_type play_phase;
@@ -264,8 +265,17 @@ extern knowledge_type knowledge[MaxPieceId];
 typedef unsigned int knowledge_index_type;
 extern knowledge_index_type size_knowledge;
 
+extern ply flesh_out_move_highwater;
+
 void report_deadend(char const *s, unsigned int lineno);
 void restart_from_scratch(void);
+void start_iteration(void);
 void backward_fleshout_random_move_by_invisible(void);
+
+//#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
+//#define REPORT_EXIT report_deadend("EXIT",__LINE__)
+
+#define REPORT_DEADEND
+#define REPORT_EXIT
 
 #endif
