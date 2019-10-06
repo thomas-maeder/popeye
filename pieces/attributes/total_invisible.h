@@ -265,5 +265,7 @@ typedef unsigned int knowledge_index_type;
 extern knowledge_index_type size_knowledge;
 
 void report_deadend(char const *s, unsigned int lineno);
+void restart_from_scratch(void);
+void backward_fleshout_random_move_by_invisible(void);
 
 #endif

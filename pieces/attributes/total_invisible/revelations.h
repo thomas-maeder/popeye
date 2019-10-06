@@ -47,6 +47,7 @@ extern unsigned int nr_potential_revelations;
 extern revelation_status_type revelation_status[nr_squares_on_board];
 extern decision_level_type curr_decision_level;
 extern decision_level_type max_decision_level;
+extern move_effect_journal_index_type top_before_relevations[maxply+1];
 
 void reveal_new(move_effect_journal_entry_type const *entry);
 void unreveal_new(move_effect_journal_entry_type const *entry);
@@ -74,5 +75,7 @@ void update_revelations(void);
 void evaluate_revelations(void);
 
 void do_revelation_bookkeeping(void);
+
+void undo_revelation_effects(move_effect_journal_index_type curr);
 
 #endif

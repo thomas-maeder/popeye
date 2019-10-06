@@ -11,6 +11,7 @@ unsigned int nr_potential_revelations;
 revelation_status_type revelation_status[nr_squares_on_board];
 decision_level_type curr_decision_level = 2;
 decision_level_type max_decision_level = decision_level_latest;
+move_effect_journal_index_type top_before_relevations[maxply+1];
 
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,
@@ -1142,4 +1143,84 @@ void do_revelation_bookkeeping(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 
+}
+
+void undo_revelation_effects(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceValue("%u",top_before_relevations[nbply]);
+  TraceEOL();
+
+  if (curr==top_before_relevations[nbply])
+  {
+    move_effect_journal_index_type const save_top = move_effect_journal_base[nbply+1];
+
+    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
+    undo_move_effects();
+    move_effect_journal_base[nbply+1] = save_top;
+
+    if (is_random_move_by_invisible(nbply))
+      backward_fleshout_random_move_by_invisible();
+    else
+    {
+      // TODO WHEN IS curr_decision_level<=max_decision_level?
+      TraceValue("%u",curr_decision_level);
+      TraceValue("%u",max_decision_level);
+      TraceEOL();
+      if (curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
+        restart_from_scratch();
+      }
+    }
+
+    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
+    redo_move_effects();
+    move_effect_journal_base[nbply+1] = save_top;
+  }
+  else
+  {
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
+    switch (entry->type)
+    {
+      case move_effect_revelation_of_new_invisible:
+      {
+        unreveal_new(entry);
+        undo_revelation_effects(curr-1);
+        reveal_new(entry);
+        break;
+      }
+
+      case move_effect_revelation_of_placed_invisible:
+      {
+        undo_revelation_of_placed_invisible(entry);
+        undo_revelation_effects(curr-1);
+        redo_revelation_of_placed_invisible(entry);
+        break;
+      }
+
+      case move_effect_revelation_of_castling_partner:
+      {
+        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
+
+        undo_revelation_of_castling_partner(entry);
+        motivation[id].last.purpose = purpose_castling_partner;
+        undo_revelation_effects(curr-1);
+        motivation[id].last.purpose = purpose_none;
+        redo_revelation_of_castling_partner(entry);
+        break;
+      }
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
