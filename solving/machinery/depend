@@ -1207,6 +1207,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/goal_validation.h \
+ pieces/attributes/total_invisible/move_player.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
  pieces/walks/pawns/promotion.h position/effects/king_square.h \
@@ -1839,6 +1840,8 @@ pieces/attributes/total_invisible/revelations.h:
 pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible/goal_validation.h:
+
+pieces/attributes/total_invisible/move_player.h:
 
 pieces/attributes/uncapturable.h:
 
