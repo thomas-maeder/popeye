@@ -244,6 +244,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/total_invisible.h"
+#include "pieces/attributes/total_invisible/move_generation.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/walks/generate_moves.h"

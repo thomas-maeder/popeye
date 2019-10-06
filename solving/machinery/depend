@@ -2,9 +2,10 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/machinery/solvers.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- output/mode.enum solving/machinery/twin.h solving/move_effect_journal.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/twin.h solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  options/options.h conditions/conditions.h position/position.h \
@@ -130,6 +131,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -1199,13 +1202,14 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
- pieces/attributes/total_invisible.h pieces/attributes/uncapturable.h \
- pieces/attributes/kamikaze/kamikaze.h pieces/walks/generate_moves.h \
- pieces/walks/pawns/en_passant.h pieces/walks/pawns/promotion.h \
- position/effects/king_square.h retro/retro.h stipulation/proxy.h \
- stipulation/whitetoplay.h stipulation/battle_play/branch.h \
- solving/machinery/slack_length.h solving/avoid_unsolvable.h \
- solving/battle_play/attack_adapter.h \
+ pieces/attributes/total_invisible.h \
+ pieces/attributes/total_invisible/move_generation.h \
+ pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
+ pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
+ pieces/walks/pawns/promotion.h position/effects/king_square.h \
+ retro/retro.h stipulation/proxy.h stipulation/whitetoplay.h \
+ stipulation/battle_play/branch.h solving/machinery/slack_length.h \
+ solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -1824,6 +1828,8 @@ pieces/attributes/chameleon.h:
 pieces/attributes/jigger.h:
 
 pieces/attributes/total_invisible.h:
+
+pieces/attributes/total_invisible/move_generation.h:
 
 pieces/attributes/uncapturable.h:
 
