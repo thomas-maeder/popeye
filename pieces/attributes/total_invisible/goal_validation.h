@@ -3,6 +3,18 @@
 
 #include "stipulation/stipulation.h"
 
+typedef enum
+{
+  no_mate,
+  mate_attackable,
+  mate_defendable_by_interceptors,
+  mate_with_2_uninterceptable_doublechecks,
+  mate_unvalidated
+} mate_validation_type;
+
+extern mate_validation_type combined_validation_result;
+extern mate_validation_type mate_validation_result;
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

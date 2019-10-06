@@ -10,6 +10,22 @@
 
 typedef struct
 {
+    square revealed_on;
+    square first_on;
+    action_type last;
+    piece_walk_type walk;
+    Flags spec;
+    boolean is_allocated;
+} knowledge_type;
+
+// TODO what is a good size for this?
+extern knowledge_type knowledge[MaxPieceId];
+
+typedef unsigned int knowledge_index_type;
+extern knowledge_index_type size_knowledge;
+
+typedef struct
+{
     square first_on;
     piece_walk_type walk;
     Flags spec;
@@ -24,6 +40,7 @@ typedef struct
     action_type last;
     decision_levels_type levels;
 } motivation_type;
+
 extern motivation_type motivation[MaxPieceId+1];
 extern motivation_type const motivation_null;
 

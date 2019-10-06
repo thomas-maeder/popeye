@@ -8,6 +8,8 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
+square sq_mating_piece_to_be_attacked = initsquare;
+
 static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
                                         piece_walk_type walk)

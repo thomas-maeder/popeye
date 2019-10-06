@@ -3,6 +3,8 @@
 
 #include "position/position.h"
 
+extern square sq_mating_piece_to_be_attacked;
+
 void attack_mating_piece(Side side_attacking,
                          square sq_mating_piece);
 

@@ -2,6 +2,7 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "pieces/attributes/total_invisible/attack_mating_piece.h"
 #include "pieces/attributes/total_invisible.h"
 #include "position/position.h"
 #include "solving/machinery/solve.h"
@@ -9,6 +10,9 @@
 #include "solving/pipe.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
+
+mate_validation_type mate_validation_result;
+mate_validation_type combined_validation_result;
 
 static unsigned int find_nr_interceptors_needed(Side side_checking,
                                                 square potential_flight,

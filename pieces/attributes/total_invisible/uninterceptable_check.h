@@ -3,6 +3,10 @@
 
 #include "position/position.h"
 #include "stipulation/stipulation.h"
+#include "solving/ply.h"
+
+extern square uninterceptable_check_delivered_from;
+extern ply uninterceptable_check_delivered_in_ply;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

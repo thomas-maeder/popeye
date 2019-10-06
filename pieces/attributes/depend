@@ -656,12 +656,12 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
- solving/ply.h pieces/walks/classification.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h \
- position/move_diff_code.h position/effects/piece_readdition.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h pieces/attributes/total_invisible/goal_validation.h \
+ pieces/walks/classification.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h position/move_diff_code.h \
+ position/effects/piece_readdition.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  position/effects/piece_movement.h position/effects/null_move.h \
  position/effects/walk_change.h position/effects/flags_change.h \
  position/effects/king_square.h stipulation/structure_traversal.h \
@@ -729,6 +729,8 @@ output/mode.enum.h:
 output/mode.enum:
 
 solving/ply.h:
+
+pieces/attributes/total_invisible/goal_validation.h:
 
 pieces/walks/classification.h:
 

@@ -25,6 +25,10 @@ motivation_type const motivation_null = {
     { 0 }
 };
 
+// TODO what is a good size for this?
+knowledge_type knowledge[MaxPieceId];
+knowledge_index_type size_knowledge;
+
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,
                                            piece_walk_type walk,

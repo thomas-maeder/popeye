@@ -9,7 +9,9 @@ pieces/attributes/total_invisible/consumption$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/ply.h debugging/trace.h debugging/assert.h
+ output/mode.enum solving/ply.h \
+ pieces/attributes/total_invisible/goal_validation.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/attributes/total_invisible/consumption.h:
 
@@ -61,6 +63,8 @@ output/mode.enum:
 
 solving/ply.h:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 debugging/trace.h:
 
 debugging/assert.h:
@@ -77,8 +81,10 @@ pieces/attributes/total_invisible/taboo$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/walks/classification.h optimisations/orthodox_check_directions.h \
  debugging/assert.h
@@ -137,6 +143,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -162,13 +170,15 @@ pieces/attributes/total_invisible/uninterceptable_check$(OBJ_SUFFIX): \
  position/castling_rights.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum \
- pieces/attributes/total_invisible/taboo.h solving/ply.h \
+ output/mode.enum.h output/mode.enum solving/ply.h \
+ pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible/decisions.h \
- pieces/attributes/total_invisible.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ pieces/attributes/total_invisible.h \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h \
  optimisations/orthodox_square_observation.h debugging/assert.h
@@ -219,9 +229,9 @@ output/mode.enum.h:
 
 output/mode.enum:
 
-pieces/attributes/total_invisible/taboo.h:
-
 solving/ply.h:
+
+pieces/attributes/total_invisible/taboo.h:
 
 pieces/attributes/total_invisible/consumption.h:
 
@@ -230,6 +240,8 @@ pieces/attributes/total_invisible/revelations.h:
 pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible.h:
+
+pieces/attributes/total_invisible/goal_validation.h:
 
 solving/move_effect_journal.h:
 
@@ -262,6 +274,7 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/ply.h \
+ pieces/attributes/total_invisible/goal_validation.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/consumption.h \
@@ -323,6 +336,8 @@ output/mode.enum:
 
 solving/ply.h:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -363,8 +378,10 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  optimisations/orthodox_check_directions.h debugging/assert.h
 
@@ -426,6 +443,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -452,8 +471,10 @@ pieces/attributes/total_invisible/random_move_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
@@ -514,6 +535,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -545,7 +568,8 @@ pieces/attributes/total_invisible/move_generation$(OBJ_SUFFIX): \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  pieces/attributes/total_invisible/taboo.h solving/ply.h \
- pieces/attributes/total_invisible.h solving/castling.h \
+ pieces/attributes/total_invisible.h \
+ pieces/attributes/total_invisible/goal_validation.h solving/castling.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h solving/move_generator.h solving/pipe.h
 
@@ -603,6 +627,8 @@ solving/ply.h:
 
 pieces/attributes/total_invisible.h:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/castling.h:
 
 solving/machinery/solve.h:
@@ -630,6 +656,7 @@ pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h solving/ply.h \
+ pieces/attributes/total_invisible/goal_validation.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  position/effects/piece_readdition.h position/effects/null_move.h \
@@ -693,6 +720,8 @@ pieces/attributes/total_invisible.h:
 
 solving/ply.h:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -730,8 +759,10 @@ pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
@@ -793,6 +824,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -825,8 +858,10 @@ pieces/attributes/total_invisible/attack_mating_piece$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum debugging/assert.h
 
@@ -888,6 +923,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -916,8 +953,10 @@ pieces/attributes/total_invisible/king_placement$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/ply.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum solving/ply.h \
+ pieces/attributes/total_invisible/goal_validation.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/attack_mating_piece.h \
  pieces/attributes/total_invisible/consumption.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
@@ -977,6 +1016,8 @@ output/mode.enum:
 
 solving/ply.h:
 
+pieces/attributes/total_invisible/goal_validation.h:
+
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -1009,6 +1050,7 @@ pieces/attributes/total_invisible/goal_validation$(OBJ_SUFFIX): \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  solving/ply.h pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
+ pieces/attributes/total_invisible/attack_mating_piece.h \
  pieces/attributes/total_invisible.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
@@ -1067,6 +1109,8 @@ solving/ply.h:
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/uninterceptable_check.h:
+
+pieces/attributes/total_invisible/attack_mating_piece.h:
 
 pieces/attributes/total_invisible.h:
 

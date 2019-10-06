@@ -51,22 +51,10 @@ stip_length_type combined_result;
 
 play_phase_type play_phase = play_regular;
 
-mate_validation_type mate_validation_result;
-mate_validation_type combined_validation_result;
-
-square sq_mating_piece_to_be_attacked = initsquare;
-
-// TODO what is a good size for this?
-knowledge_type knowledge[MaxPieceId];
-knowledge_index_type size_knowledge;
-
 ply flesh_out_move_highwater = ply_retro_move;
 
 PieceIdType top_visible_piece_id;
 PieceIdType top_invisible_piece_id;
-
-ply uninterceptable_check_delivered_in_ply = ply_nil;
-square uninterceptable_check_delivered_from = initsquare;
 
 void report_deadend(char const *s, unsigned int lineno)
 {

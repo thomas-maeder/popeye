@@ -18,4 +18,9 @@
  */
 void total_invisible_generate_moves_by_invisible(slice_index si);
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void total_invisible_generate_special_moves(slice_index si);
+
 #endif
