@@ -1,6 +1,25 @@
 #if !defined(PIECES_ATTRIBUTES_TOTAL_INVISIBLE_DECISIONS_H)
 #define PIECES_ATTRIBUTES_TOTAL_INVISIBLE_DECISIONS_H
 
+#include <limits.h>
+
+typedef unsigned int decision_level_type;
+
+enum
+{
+  decision_level_uninitialised = 0,
+  decision_level_forever = 1,
+  decision_level_latest = UINT_MAX
+};
+
+typedef struct
+{
+    decision_level_type side;
+    decision_level_type walk;
+    decision_level_type from;
+    decision_level_type to;
+} decision_levels_type;
+
 //#define REPORT_DECISIONS
 
 #if defined(REPORT_DECISIONS)

@@ -4,6 +4,7 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "pieces/attributes/total_invisible/capture_by_invisible.h"
 #include "solving/move_effect_journal.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "debugging/assert.h"

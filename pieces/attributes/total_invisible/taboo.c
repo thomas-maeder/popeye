@@ -1,6 +1,7 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/decisions.h"
+#include "pieces/attributes/total_invisible/random_move_by_invisible.h"
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "solving/move_effect_journal.h"

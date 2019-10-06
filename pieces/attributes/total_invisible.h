@@ -240,6 +240,11 @@ extern ply uninterceptable_check_delivered_in_ply;
 
 extern stip_length_type combined_result;
 
+extern mate_validation_type combined_validation_result;
+extern mate_validation_type mate_validation_result;
+
+extern square sq_mating_piece_to_be_attacked;
+
 void report_deadend(char const *s, unsigned int lineno);
 void restart_from_scratch(void);
 void recurse_into_child_ply(void);

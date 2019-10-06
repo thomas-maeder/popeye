@@ -73,12 +73,13 @@ pieces/attributes/total_invisible/taboo$(OBJ_SUFFIX): \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
  position/castling_rights.h solving/ply.h \
  pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- pieces/attributes/total_invisible/decisions.h \
+ pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/walks/classification.h optimisations/orthodox_check_directions.h \
  debugging/assert.h
 
@@ -116,6 +117,8 @@ solving/ply.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
+pieces/attributes/total_invisible/decisions.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -142,7 +145,7 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-pieces/attributes/total_invisible/decisions.h:
+pieces/attributes/total_invisible/random_move_by_invisible.h:
 
 pieces/walks/classification.h:
 
@@ -206,14 +209,14 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h pieces/attributes/total_invisible.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum output/mode.h output/mode.enum.h \
- output/mode.enum solving/ply.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ position/castling_rights.h pieces/attributes/total_invisible/decisions.h \
+ pieces/attributes/total_invisible.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h output/mode.enum solving/ply.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/consumption.h \
- pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/capture_by_invisible.h solving/pipe.h \
@@ -250,6 +253,8 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
+pieces/attributes/total_invisible/decisions.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -279,8 +284,6 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 pieces/attributes/total_invisible/consumption.h:
-
-pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible/taboo.h:
 
@@ -397,15 +400,16 @@ pieces/attributes/total_invisible/random_move_by_invisible$(OBJ_SUFFIX): \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
  position/castling_rights.h solving/ply.h \
  pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
+ pieces/attributes/total_invisible/capture_by_invisible.h \
  optimisations/orthodox_square_observation.h debugging/assert.h
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
@@ -442,6 +446,8 @@ solving/ply.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
+pieces/attributes/total_invisible/decisions.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -468,13 +474,13 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-pieces/attributes/total_invisible/decisions.h:
-
 pieces/attributes/total_invisible/taboo.h:
 
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/uninterceptable_check.h:
+
+pieces/attributes/total_invisible/capture_by_invisible.h:
 
 optimisations/orthodox_square_observation.h:
 
@@ -572,6 +578,7 @@ pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
  position/castling_rights.h \
  pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
@@ -616,6 +623,8 @@ pieces/walks/vectors.h:
 position/castling_rights.h:
 
 pieces/attributes/total_invisible/revelations.h:
+
+pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible.h:
 
@@ -670,13 +679,13 @@ pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
  position/castling_rights.h solving/ply.h \
  pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
- pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/consumption.h debugging/assert.h
@@ -717,6 +726,8 @@ solving/ply.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
+pieces/attributes/total_invisible/decisions.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -745,8 +756,6 @@ debugging/trace.h:
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
 
-pieces/attributes/total_invisible/decisions.h:
-
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
 pieces/attributes/total_invisible/uninterceptable_check.h:
@@ -765,6 +774,7 @@ pieces/attributes/total_invisible/attack_mating_piece$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/taboo.h solving/ply.h \
  pieces/attributes/total_invisible/revelations.h \
+ pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
@@ -811,6 +821,8 @@ solving/ply.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
+pieces/attributes/total_invisible/decisions.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -836,6 +848,99 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
+debugging/assert.h:
+pieces/attributes/total_invisible/king_placement$(OBJ_SUFFIX): \
+ pieces/attributes/total_invisible/king_placement.c \
+ pieces/attributes/total_invisible/king_placement.h \
+ pieces/attributes/total_invisible/decisions.h \
+ pieces/attributes/total_invisible/revelations.h position/position.h \
+ position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/side.enum position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h pieces/attributes/total_invisible.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum solving/ply.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ pieces/attributes/total_invisible/attack_mating_piece.h \
+ pieces/attributes/total_invisible/consumption.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum debugging/assert.h
+
+pieces/attributes/total_invisible/king_placement.h:
+
+pieces/attributes/total_invisible/decisions.h:
+
+pieces/attributes/total_invisible/revelations.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+pieces/attributes/total_invisible.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+pieces/attributes/total_invisible/attack_mating_piece.h:
+
+pieces/attributes/total_invisible/consumption.h:
 
 solving/has_solution_type.h:
 

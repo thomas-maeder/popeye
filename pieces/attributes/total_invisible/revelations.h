@@ -2,6 +2,7 @@
 #define PIECES_ATTRIBUTES_TOTAL_INVISIBLE_REVELATIONS_H
 
 #include "position/position.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible.h"
 #include "solving/move_effect_journal.h"
 
@@ -15,23 +16,6 @@ typedef struct
     action_type first;
     action_type last;
 } revelation_status_type;
-
-typedef unsigned int decision_level_type;
-
-enum
-{
-  decision_level_uninitialised = 0,
-  decision_level_forever = 1,
-  decision_level_latest = UINT_MAX
-};
-
-typedef struct
-{
-    decision_level_type side;
-    decision_level_type walk;
-    decision_level_type from;
-    decision_level_type to;
-} decision_levels_type;
 
 // TODO this doesn't belong here
 typedef struct
