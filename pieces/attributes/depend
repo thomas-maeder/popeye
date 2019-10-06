@@ -683,13 +683,15 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
  optimisations/orthodox_square_observation.h \
  optimisations/orthodox_check_directions.h options/movenumbers.h \
- debugging/assert.h pieces/attributes/total_invisible/consumption.h \
+ pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
- pieces/attributes/total_invisible/random_move_by_invisible.h
+ pieces/attributes/total_invisible/random_move_by_invisible.h \
+ pieces/attributes/total_invisible/intercept_illegal_checks.h \
+ debugging/assert.h
 
 pieces/attributes/total_invisible.h:
 
@@ -827,8 +829,6 @@ optimisations/orthodox_check_directions.h:
 
 options/movenumbers.h:
 
-debugging/assert.h:
-
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/taboo.h:
@@ -842,3 +842,7 @@ pieces/attributes/total_invisible/revelations.h:
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
+
+pieces/attributes/total_invisible/intercept_illegal_checks.h:
+
+debugging/assert.h:

@@ -238,6 +238,9 @@ extern knowledge_index_type size_knowledge;
 
 extern ply flesh_out_move_highwater;
 
+extern square uninterceptable_check_delivered_from;
+extern ply uninterceptable_check_delivered_in_ply;
+
 void report_deadend(char const *s, unsigned int lineno);
 void restart_from_scratch(void);
 void recurse_into_child_ply(void);
@@ -246,6 +249,9 @@ void backward_fleshout_random_move_by_invisible(void);
 
 void rewind_effects(void);
 void unrewind_effects(void);
+
+void adapt_pre_capture_effect(void);
+void validate_king_placements(void);
 
 void apply_knowledge(knowledge_index_type idx_knowledge,
                      void (*next_step)(void));

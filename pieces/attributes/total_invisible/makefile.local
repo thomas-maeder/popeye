@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = consumption.c taboo.c uninterceptable_check.c revelations.c capture_by_invisible.c random_move_by_invisible.c move_generation.c move_player.c
+SRC_CFILES = consumption.c taboo.c uninterceptable_check.c revelations.c capture_by_invisible.c random_move_by_invisible.c move_generation.c move_player.c intercept_illegal_checks.c
 
-INCLUDES = consumption.h taboo.h decisions.h uninterceptable_check.h revelations.h capture_by_invisible.h random_move_by_invisible.h move_generation.h move_player.h
+INCLUDES = consumption.h taboo.h decisions.h uninterceptable_check.h revelations.h capture_by_invisible.h random_move_by_invisible.h move_generation.h move_player.h intercept_illegal_checks.h
 
 include makefile.rules $(CURRPWD)depend
