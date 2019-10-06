@@ -70,6 +70,10 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
 
 void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to, ply up_to_ply);
 
+
+void apply_knowledge(knowledge_index_type idx_knowledge,
+                     void (*next_step)(void));
+
 void setup_revelations(void);
 void initialise_revelations(void);
 void update_revelations(void);

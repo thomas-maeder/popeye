@@ -217,7 +217,8 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/capture_by_invisible.h solving/pipe.h \
- debugging/assert.h
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum debugging/assert.h
 
 pieces/attributes/total_invisible/revelations.h:
 
@@ -288,6 +289,12 @@ pieces/attributes/total_invisible/random_move_by_invisible.h:
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
 solving/pipe.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
