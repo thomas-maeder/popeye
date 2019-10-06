@@ -17,4 +17,8 @@ void update_nr_taboos_for_current_move_in_ply(int delta);
 
 void update_taboo(int delta);
 
+boolean is_taboo_violation_acceptable(square first_taboo_violation);
+
+square find_taboo_violation(void);
+
 #endif

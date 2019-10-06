@@ -72,13 +72,15 @@ pieces/attributes/total_invisible/taboo$(OBJ_SUFFIX): \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
  position/castling_rights.h solving/ply.h \
+ pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum pieces/walks/classification.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
- optimisations/orthodox_check_directions.h debugging/assert.h
+ output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ pieces/attributes/total_invisible/decisions.h \
+ pieces/walks/classification.h optimisations/orthodox_check_directions.h \
+ debugging/assert.h
 
 pieces/attributes/total_invisible/taboo.h:
 
@@ -112,6 +114,8 @@ position/castling_rights.h:
 
 solving/ply.h:
 
+pieces/attributes/total_invisible/revelations.h:
+
 pieces/attributes/total_invisible.h:
 
 stipulation/stipulation.h:
@@ -130,8 +134,6 @@ output/mode.enum.h:
 
 output/mode.enum:
 
-pieces/walks/classification.h:
-
 solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
@@ -139,6 +141,10 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+pieces/attributes/total_invisible/decisions.h:
+
+pieces/walks/classification.h:
 
 optimisations/orthodox_check_directions.h:
 

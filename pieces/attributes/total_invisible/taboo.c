@@ -1,4 +1,6 @@
 #include "pieces/attributes/total_invisible/taboo.h"
+#include "pieces/attributes/total_invisible/revelations.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "solving/move_effect_journal.h"
@@ -410,6 +412,277 @@ boolean was_taboo(square s)
     {
       result = true;
       break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square find_taboo_violation_rider(move_effect_journal_index_type movement,
+                                         piece_walk_type walk)
+{
+  square result = nullsquare;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+  int const diff_move = sq_arrival - sq_departure;
+  int const dir_move = CheckDir[walk][diff_move];
+
+  square s;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",movement);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_arrival);
+  TraceWalk(get_walk_of_piece_on_square(sq_arrival));
+  TraceValue("%x",being_solved.spec[sq_arrival]);
+  TraceEOL();
+
+  if (!is_square_empty(sq_arrival)
+      && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
+  {
+    TraceText("arrival square blocked\n");
+    result = sq_arrival;
+  }
+  else
+  {
+    assert(dir_move!=0);
+    for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
+      if (!is_square_empty (s))
+      {
+        TraceText("movement is intercepted\n");
+        result = s;
+        break;
+      }
+  }
+
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square find_taboo_violation_leaper(move_effect_journal_index_type movement)
+{
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  square result = nullsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",movement);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_arrival);
+  TraceWalk(get_walk_of_piece_on_square(sq_arrival));
+  TraceValue("%x",being_solved.spec[sq_arrival]);
+  TraceEOL();
+  if (!is_square_empty(sq_arrival)
+      && !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
+  {
+    TraceText("arrival square blocked\n");
+    result = sq_arrival;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
+                                        move_effect_journal_index_type movement)
+{
+  square result = nullsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",capture);
+  TraceFunctionParam("%u",movement);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+  {
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    Flags const spec = move_effect_journal[movement].u.piece_movement.movingspec;
+    int const dir_move = TSTFLAG(spec,White) ? dir_up : dir_down;
+    square s = sq_departure;
+
+    do
+    {
+      s += dir_move;
+      if (!is_square_empty(s))
+      {
+        TraceText("non-capturing move blocked\n");
+        result = s;
+        break;
+      }
+    }
+    while (s!=sq_arrival);
+  }
+  else
+    result = find_taboo_violation_leaper(movement);
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+square find_taboo_violation(void)
+{
+  square result = nullsquare;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = base; curr!=top && result==nullsquare; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    {
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+
+      if (sq_departure!=move_by_invisible
+          && sq_departure<capture_by_invisible)
+      {
+        if (is_rider(walk))
+          result = find_taboo_violation_rider(movement,walk);
+        else if (walk==King)
+        {
+          if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
+            /* faking a rook movement by the king */
+            result = find_taboo_violation_rider(movement,Rook);
+          else
+            result = find_taboo_violation_leaper(movement);
+        }
+        else if (is_leaper(walk))
+          result = find_taboo_violation_leaper(movement);
+        else if (is_pawn(walk))
+          result = find_taboo_violation_pawn(capture,movement);
+        else
+          assert(0);
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean is_taboo_violation_acceptable(square first_taboo_violation)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(first_taboo_violation);
+  TraceFunctionParamListEnd();
+
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+    PieceIdType const id = GetPieceId(being_solved.spec[first_taboo_violation]);
+    TraceValue("%x",being_solved.spec[first_taboo_violation]);
+    TraceValue("%u",id);
+    TraceValue("%u",motivation[id].last.acts_when);
+    TraceSquare(motivation[id].last.on);
+    TraceValue("%u",motivation[id].last.purpose);
+    TraceEOL();
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_interceptor)
+      /* 6:f4-e5 7:~-~ 8:~-~ 9:b2-d4 - 6:Kf4-e5 7:.~-~ 8:.~-~ 9:Qb2-d4
+       * 1. an interceptor of side s was placed as interceptor on square sq
+       * 2. advers(s) made a random move that might have accidentally captured on sq but didn't
+       * 3. Side s moves to sq and is blocked by 1
+       */
+      // TODO is item 2 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tigthen the if()?
+    {
+//      if (move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure==move_by_invisible
+//          && move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].arrival==move_by_invisible)
+      REPORT_DECISION_OUTCOME("%s","move is blocked by interceptor");
+      REPORT_DEADEND;
+      result = true;
+    }
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_random_mover
+        && motivation[id].last.on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to!=first_taboo_violation)
+      /* 6:.~-~(iPg7-g6) 7:.~-~(iSd5-b6) 8:.~-~(iRf3-b3) 9:Rh6-f6
+       * 1. an invisible piece of side s was placed
+       * 2. a random move of s placed it on square sq
+       * 3. s made a random move that could have left sq but didn't
+       * 4. the current move is intercepted on sq
+       */
+      // TODO is item 3 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tighten the if()?
+    {
+      REPORT_DECISION_OUTCOME("%s","move is intercepted by interceptor");
+      REPORT_DEADEND;
+      result = true;
+    }
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_random_mover
+        && motivation[id].last.on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to==first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.moving!=Pawn)
+    /* 6:~-~(Bf3-e4) 7:~-~(Pe3-d4) 8:~-b7(Be4-b7) 9:e5-d4(Ke5-d4)
+     * 1. an invisible piece of side s was placed
+     * 2. a random move of side s placed it on square sq
+     * 3. advers(s) dit *not* make a move that could have captured on sq
+     * 4. the current pawn move is blocked on sq
+     */
+    {
+      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
+      REPORT_DEADEND;
+      result = true;
+    }
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_random_mover
+        && motivation[id].last.on!=first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.to==first_taboo_violation
+        && move_effect_journal[movement].u.piece_movement.moving==Pawn)
+      /* 6:.~-~(iRd4-c4) 7:.~-~(iRe4-d4) 8:.~-~(iPe3-e2) 9:c2-c4
+       * 1. an invisible piece of side s was placed
+       * 2. a random move of side s placed it on square sq
+       * 3. s made a random move that could have left sq but didn't
+       * 4. the current pawn move is blocked on sq
+       */
+      // TODO is item 3 relevant for this case? do we miss it even if there is
+      // no such random move? I.e. should we tigthen the if()?
+    {
+      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
+      REPORT_DEADEND;
+      result = true;
+    }
+
+    if (motivation[id].last.acts_when<nbply
+        && motivation[id].last.purpose==purpose_random_mover
+        && motivation[id].last.on==first_taboo_violation)
+      /* 6:Bh8-f6 7:~-~(Sd5-b6) 8:Bf6-h4  first_taboo_violation:g5
+       * 1. an invisible piece of side s was placed on square sq
+       * 2. s made a random move that could have left sq but didn't
+       * 3. the current move is intercepted on sq
+       * 4. the revelation would only happen after the current move
+       */
+    {
+      REPORT_DECISION_OUTCOME("%s","move is intercepted by invisible piece");
+      REPORT_DEADEND;
+      result = true;
     }
   }
 
