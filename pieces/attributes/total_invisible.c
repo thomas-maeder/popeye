@@ -2046,7 +2046,7 @@ static void test_mate(void)
   TraceFunctionResultEnd();
 }
 
-static void rewind_effects(void)
+void rewind_effects(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2064,7 +2064,7 @@ static void rewind_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void unrewind_effects(void)
+void unrewind_effects(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2080,9 +2080,6 @@ static void unrewind_effects(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static void apply_knowledge(knowledge_index_type idx_knowledge,
-                            void (*next_step)(void));
 
 static void apply_royal_knowledge(knowledge_index_type idx_knowledge,
                                   void (*next_step)(void))
@@ -2111,8 +2108,8 @@ static void apply_royal_knowledge(knowledge_index_type idx_knowledge,
   TraceFunctionResultEnd();
 }
 
-static void apply_knowledge(knowledge_index_type idx_knowledge,
-                            void (*next_step)(void))
+void apply_knowledge(knowledge_index_type idx_knowledge,
+                     void (*next_step)(void))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",idx_knowledge);
@@ -2281,35 +2278,6 @@ static void apply_knowledge(knowledge_index_type idx_knowledge,
   TraceFunctionResultEnd();
 }
 
-static void make_revelations(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  top_ply_of_regular_play = nbply;
-  setup_revelations();
-  play_phase = play_rewinding;
-  rewind_effects();
-  play_phase = play_detecting_revelations;
-  max_decision_level = decision_level_latest;
-  REPORT_DECISION_CONTEXT(__func__);
-
-  static_consumption.king[White] = being_solved.king_square[White]==initsquare;
-  static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
-
-  apply_knowledge(0,&start_iteration);
-
-  static_consumption.king[White] = false;
-  static_consumption.king[Black] = false;
-
-  play_phase = play_unwinding;
-  unrewind_effects();
-  play_phase = play_regular;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void validate_and_test(void)
 {
   TraceFunctionEntry(__func__);
@@ -2388,57 +2356,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
   update_nr_taboos_for_current_move_in_ply(-1);
   update_taboo(-1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void total_invisible_reveal_after_mating_move(slice_index si)
-{
-  dynamic_consumption_type const save_consumption = current_consumption;
-  PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
-  knowledge_index_type const save_size_knowledge = size_knowledge;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  update_taboo(+1);
-  update_nr_taboos_for_current_move_in_ply(+1);
-  make_revelations();
-  update_nr_taboos_for_current_move_in_ply(-1);
-  update_taboo(-1);
-
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
-
-  if (!revelation_status_is_uninitialised)
-    evaluate_revelations();
-
-  pipe_solve_delegate(si);
-
-  size_knowledge = save_size_knowledge;
-  current_consumption = save_consumption;
-
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
-
-  assert(top_invisible_piece_id>=save_next_invisible_piece_id);
-  while (top_invisible_piece_id>save_next_invisible_piece_id)
-  {
-    motivation[top_invisible_piece_id] = motivation_null;
-    --top_invisible_piece_id;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

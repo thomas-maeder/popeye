@@ -1,6 +1,8 @@
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/decisions.h"
+#include "pieces/attributes/total_invisible/taboo.h"
+#include "solving/pipe.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -1097,6 +1099,35 @@ void evaluate_revelations(void)
   TraceFunctionResultEnd();
 }
 
+void make_revelations(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  top_ply_of_regular_play = nbply;
+  setup_revelations();
+  play_phase = play_rewinding;
+  rewind_effects();
+  play_phase = play_detecting_revelations;
+  max_decision_level = decision_level_latest;
+  REPORT_DECISION_CONTEXT(__func__);
+
+  static_consumption.king[White] = being_solved.king_square[White]==initsquare;
+  static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
+
+  apply_knowledge(0,&start_iteration);
+
+  static_consumption.king[White] = false;
+  static_consumption.king[Black] = false;
+
+  play_phase = play_unwinding;
+  unrewind_effects();
+  play_phase = play_regular;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void do_revelation_bookkeeping(void)
 {
   TraceFunctionEntry(__func__);
@@ -1452,6 +1483,57 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         assert(0);
         break;
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void total_invisible_reveal_after_mating_move(slice_index si)
+{
+  dynamic_consumption_type const save_consumption = current_consumption;
+  PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
+  knowledge_index_type const save_size_knowledge = size_knowledge;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  update_taboo(+1);
+  update_nr_taboos_for_current_move_in_ply(+1);
+  make_revelations();
+  update_nr_taboos_for_current_move_in_ply(-1);
+  update_taboo(-1);
+
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
+
+  if (!revelation_status_is_uninitialised)
+    evaluate_revelations();
+
+  pipe_solve_delegate(si);
+
+  size_knowledge = save_size_knowledge;
+  current_consumption = save_consumption;
+
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
+
+  assert(top_invisible_piece_id>=save_next_invisible_piece_id);
+  while (top_invisible_piece_id>save_next_invisible_piece_id)
+  {
+    motivation[top_invisible_piece_id] = motivation_null;
+    --top_invisible_piece_id;
   }
 
   TraceFunctionExit(__func__);
