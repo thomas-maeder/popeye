@@ -1306,3 +1306,236 @@ void flesh_out_capture_by_invisible(square first_taboo_violation)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+boolean is_capture_by_invisible_possible(ply ply)
+{
+  boolean result;
+  dynamic_consumption_type const save_consumption = current_consumption;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
+  TraceFunctionParamListEnd();
+
+  if (allocate_flesh_out_unplaced(trait[ply]))
+  {
+    /* no problem - we can simply insert a capturer */
+    result = true;
+  }
+  else
+  {
+    square const save_king_square = being_solved.king_square[trait[ply]];
+
+    /* pretend that the king is placed; necessary if only aptures by the invisble king
+     * are possisble */
+    being_solved.king_square[trait[ply]] = square_a1;
+
+    current_consumption = save_consumption;
+
+    if (allocate_flesh_out_unplaced(trait[ply]))
+    {
+      /* no problem - we can simply insert a capturing king */
+      result = true;
+    }
+    else
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      PieceIdType id;
+
+      /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
+      result = false; /* not until we have proved it */
+
+      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+      {
+        TraceValue("%u",id);
+
+        TraceValue("%u",motivation[id].first.purpose);
+        TraceValue("%u",motivation[id].first.acts_when);
+        TraceSquare(motivation[id].first.on);
+
+        TraceValue("%u",motivation[id].last.purpose);
+        TraceValue("%u",motivation[id].last.acts_when);
+        TraceSquare(motivation[id].last.on);
+
+        TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
+        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+        TraceEOL();
+      }
+
+      if (ply==nbply)
+      {
+        for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+        {
+          TraceValue("%u",id);TraceEOL();
+          assert((motivation[id].first.acts_when>ply) // active in the future
+                 || (motivation[id].first.acts_when==ply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
+                 || (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
+                 || (motivation[id].first.acts_when<ply && motivation[id].last.acts_when>ply) // in action
+                 || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<ply) // put on hold by a revelation or capture
+                 || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
+        }
+      }
+
+      for (id = top_visible_piece_id+1;
+           !result && id<=top_invisible_piece_id;
+           ++id)
+      {
+        square const on = motivation[id].last.on;
+        Flags const spec = being_solved.spec[motivation[id].last.on];
+
+        if (GetPieceId(spec)==id)
+        {
+          if (TSTFLAG(spec,trait[ply]))
+          {
+            piece_walk_type const walk = get_walk_of_piece_on_square(on);
+            int const diff = sq_arrival-on;
+
+            switch (walk)
+            {
+              case King:
+                if (CheckDir[Queen][diff]==diff)
+                  result = true;
+                break;
+
+              case Queen:
+                if (CheckDir[Queen][diff]!=0)
+                  result = true;
+                break;
+
+              case Rook:
+                if (CheckDir[Rook][diff]!=0)
+                  result = true;
+                break;
+
+              case Bishop:
+                if (CheckDir[Bishop][diff]!=0)
+                  result = true;
+                break;
+
+              case Knight:
+                if (CheckDir[Knight][diff]==diff)
+                  result = true;
+                break;
+
+              case Pawn:
+                if (CheckDir[Bishop][diff]==diff)
+                  result = true;
+                break;
+
+              case Dummy:
+                if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+                  result = true;
+                break;
+
+              default:
+                // TODO assert(0);?
+                break;
+            }
+          }
+        }
+        else if (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor)
+        {
+          REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
+          REPORT_DEADEND;
+          break;
+        }
+      }
+    }
+
+    being_solved.king_square[trait[ply]] = save_king_square;
+  }
+
+  current_consumption = save_consumption;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+void fake_capture_by_invisible(void)
+{
+  ply const save_ply = uninterceptable_check_delivered_in_ply;
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_entry_type const save_movement_entry = move_effect_journal[movement];
+
+  Side const side = trait[nbply];
+  Flags spec = BIT(side)|BIT(Chameleon);
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(!is_square_empty(uninterceptable_check_delivered_from));
+
+  ++top_invisible_piece_id;
+  SetPieceId(spec,top_invisible_piece_id);
+  TraceValue("%u",top_invisible_piece_id);TraceEOL();
+
+  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  motivation[top_invisible_piece_id].first.purpose = purpose_capturer;
+  motivation[top_invisible_piece_id].first.acts_when = nbply;
+  motivation[top_invisible_piece_id].first.on = capture_by_invisible;
+  motivation[top_invisible_piece_id].last.purpose = purpose_capturer;
+  motivation[top_invisible_piece_id].last.acts_when = nbply;
+  motivation[top_invisible_piece_id].last.on = capture_by_invisible;
+
+  assert(move_effect_journal[precapture].type==move_effect_none);
+  move_effect_journal[precapture].type = move_effect_piece_readdition;
+  move_effect_journal[precapture].u.piece_addition.added.on = capture_by_invisible;
+  move_effect_journal[precapture].u.piece_addition.added.walk = Dummy;
+  move_effect_journal[precapture].u.piece_addition.added.flags = spec;
+  move_effect_journal[precapture].u.piece_addition.for_side = side;
+
+  assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
+  move_effect_journal[capture].type = move_effect_piece_removal;
+  move_effect_journal[capture].u.piece_removal.on = uninterceptable_check_delivered_from;
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(uninterceptable_check_delivered_from);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[uninterceptable_check_delivered_from];
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  move_effect_journal[movement].type = move_effect_piece_movement;
+  move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = uninterceptable_check_delivered_from;
+  move_effect_journal[movement].u.piece_movement.moving = Dummy;
+  move_effect_journal[movement].u.piece_movement.movingspec = spec;
+
+  ++being_solved.number_of_pieces[trait[nbply]][Dummy];
+  occupy_square(capture_by_invisible,Dummy,spec);
+
+  uninterceptable_check_delivered_from = initsquare;
+  uninterceptable_check_delivered_in_ply = ply_nil;
+
+  flesh_out_capture_by_invisible(nullsquare);
+
+  uninterceptable_check_delivered_in_ply = save_ply;
+  uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;
+
+  empty_square(capture_by_invisible);
+  --being_solved.number_of_pieces[trait[nbply]][Dummy];
+
+  move_effect_journal[movement] = save_movement_entry;
+  move_effect_journal[capture].type = move_effect_no_piece_removal;
+  move_effect_journal[precapture].type = move_effect_none;
+
+  motivation[top_invisible_piece_id] = motivation_null;
+  --top_invisible_piece_id;
+
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no invisible piece found that could capture the uninterceptable check deliverer");
+    REPORT_DEADEND;
+  }
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

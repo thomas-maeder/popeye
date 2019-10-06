@@ -2,6 +2,8 @@
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/taboo.h"
+#include "pieces/attributes/total_invisible/random_move_by_invisible.h"
+#include "pieces/attributes/total_invisible/capture_by_invisible.h"
 #include "solving/pipe.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"

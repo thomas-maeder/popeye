@@ -223,9 +223,6 @@ typedef struct
     boolean is_allocated;
 } knowledge_type;
 
-boolean is_random_move_by_invisible(ply ply);
-boolean is_capture_by_invisible_possible(ply ply);
-
 extern ply top_ply_of_regular_play;
 extern play_phase_type play_phase;
 extern PieceIdType top_invisible_piece_id;
@@ -245,7 +242,6 @@ void report_deadend(char const *s, unsigned int lineno);
 void restart_from_scratch(void);
 void recurse_into_child_ply(void);
 void start_iteration(void);
-void backward_fleshout_random_move_by_invisible(void);
 
 void rewind_effects(void);
 void unrewind_effects(void);

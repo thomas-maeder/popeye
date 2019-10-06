@@ -214,7 +214,9 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/decisions.h \
- pieces/attributes/total_invisible/taboo.h solving/pipe.h \
+ pieces/attributes/total_invisible/taboo.h \
+ pieces/attributes/total_invisible/random_move_by_invisible.h \
+ pieces/attributes/total_invisible/capture_by_invisible.h solving/pipe.h \
  debugging/assert.h
 
 pieces/attributes/total_invisible/revelations.h:
@@ -281,6 +283,10 @@ pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible/taboo.h:
 
+pieces/attributes/total_invisible/random_move_by_invisible.h:
+
+pieces/attributes/total_invisible/capture_by_invisible.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -291,10 +297,10 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h \
+ position/castling_rights.h solving/ply.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/decisions.h \
- pieces/attributes/total_invisible/taboo.h solving/ply.h \
+ pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
@@ -334,13 +340,13 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
+solving/ply.h:
+
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/decisions.h:
 
 pieces/attributes/total_invisible/taboo.h:
-
-solving/ply.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
@@ -382,14 +388,13 @@ pieces/attributes/total_invisible/random_move_by_invisible$(OBJ_SUFFIX): \
  position/side.enum.h position/side.enum position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h \
+ position/castling_rights.h solving/ply.h \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/ply.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ output/mode.enum.h output/mode.enum solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/consumption.h \
@@ -426,6 +431,8 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
+solving/ply.h:
+
 pieces/attributes/total_invisible/revelations.h:
 
 pieces/attributes/total_invisible.h:
@@ -445,8 +452,6 @@ output/mode.h:
 output/mode.enum.h:
 
 output/mode.enum:
-
-solving/ply.h:
 
 solving/move_effect_journal.h:
 

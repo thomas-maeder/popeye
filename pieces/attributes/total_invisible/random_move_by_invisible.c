@@ -974,3 +974,144 @@ void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+boolean is_random_move_by_invisible(ply ply)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+  result = move_effect_journal[movement].u.piece_movement.from==move_by_invisible;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square const *find_next_backward_mover(square const *start_square)
+{
+  Side const side_playing = trait[nbply];
+  square const *result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  for (result = start_square; *result; ++result)
+    if (TSTFLAG(being_solved.spec[*result],Chameleon)
+        && TSTFLAG(being_solved.spec[*result],side_playing))
+    {
+      PieceIdType const id = GetPieceId(being_solved.spec[*result]);
+      if (motivation[id].first.acts_when>nbply)
+        break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(*result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+void retract_random_move_by_invisible(square const *start_square)
+{
+  square const *s;
+
+  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(*start_square);
+  TraceFunctionParamListEnd();
+
+  // TODO retract pawn captures?
+
+  s = find_next_backward_mover(start_square);
+
+  if (*s)
+  {
+    PieceIdType const id = GetPieceId(being_solved.spec[*s]);
+    ply const save_when = motivation[id].first.acts_when;
+
+    motivation[id].first.acts_when = nbply;
+
+    flesh_out_random_move_by_specific_invisible_to(*s);
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      retract_random_move_by_invisible(s+1);
+    }
+
+    motivation[id].first.acts_when = save_when;
+  }
+
+#if defined(REPORT_DECISIONS)
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+    REPORT_DEADEND;
+  }
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void backward_fleshout_random_move_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+
+  if (uninterceptable_check_delivered_from!=initsquare
+      && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+  {
+    // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      fake_capture_by_invisible();
+    }
+  }
+  else
+  {
+    dynamic_consumption_type const save_consumption = current_consumption;
+
+    current_consumption.claimed[trait[nbply]] = true;
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      dynamic_consumption_type const save_consumption = current_consumption;
+
+      TraceText("stick to random move by unplaced invisible\n");
+      current_consumption.claimed[trait[nbply]] = true;
+      TraceConsumption();TraceEOL();
+      if (nr_total_invisbles_consumed()<=total_invisible_number)
+      {
+        REPORT_DECISION_MOVE('<','-');
+        ++curr_decision_level;
+        restart_from_scratch();
+        --curr_decision_level;
+      }
+      current_consumption = save_consumption;
+      TraceConsumption();TraceEOL();
+    }
+
+    current_consumption = save_consumption;
+
+    if (curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      retract_random_move_by_invisible(boardnum);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
