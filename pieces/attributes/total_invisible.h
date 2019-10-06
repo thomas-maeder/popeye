@@ -259,6 +259,7 @@ boolean is_capture_by_invisible_possible(ply ply);
 extern ply top_ply_of_regular_play;
 extern play_phase_type play_phase;
 extern PieceIdType top_invisible_piece_id;
+extern PieceIdType top_visible_piece_id;
 // TODO what is a good size for this?
 extern knowledge_type knowledge[MaxPieceId];
 
@@ -269,6 +270,7 @@ extern ply flesh_out_move_highwater;
 
 void report_deadend(char const *s, unsigned int lineno);
 void restart_from_scratch(void);
+void recurse_into_child_ply(void);
 void start_iteration(void);
 void backward_fleshout_random_move_by_invisible(void);
 
