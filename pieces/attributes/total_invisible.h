@@ -256,6 +256,8 @@ void validate_king_placements(void);
 void apply_knowledge(knowledge_index_type idx_knowledge,
                      void (*next_step)(void));
 
+void replay_fleshed_out_move_sequence(play_phase_type phase_replay);
+
 //#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
 //#define REPORT_EXIT report_deadend("EXIT",__LINE__)
 
