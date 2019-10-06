@@ -1167,15 +1167,8 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
       backward_fleshout_random_move_by_invisible();
     else
     {
-      // TODO WHEN IS curr_decision_level<=max_decision_level?
-      TraceValue("%u",curr_decision_level);
-      TraceValue("%u",max_decision_level);
-      TraceEOL();
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        restart_from_scratch();
-      }
+      max_decision_level = decision_level_latest;
+      restart_from_scratch();
     }
 
     move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
