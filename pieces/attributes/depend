@@ -688,7 +688,8 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/revelations.h \
- pieces/attributes/total_invisible/capture_by_invisible.h
+ pieces/attributes/total_invisible/capture_by_invisible.h \
+ pieces/attributes/total_invisible/random_move_by_invisible.h
 
 pieces/attributes/total_invisible.h:
 
@@ -839,3 +840,5 @@ pieces/attributes/total_invisible/uninterceptable_check.h:
 pieces/attributes/total_invisible/revelations.h:
 
 pieces/attributes/total_invisible/capture_by_invisible.h:
+
+pieces/attributes/total_invisible/random_move_by_invisible.h:
