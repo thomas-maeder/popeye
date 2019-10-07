@@ -15,9 +15,6 @@ static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
                                         piece_walk_type walk)
 {
-  dynamic_consumption_type const save_consumption = current_consumption;
-  Flags spec = BIT(side_attacking)|BIT(Chameleon);
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_attacking);
   TraceSquare(s);
@@ -26,8 +23,12 @@ static void place_mating_piece_attacker(Side side_attacking,
 
   if (!has_been_taboo_since_random_move(s))
   {
+    dynamic_consumption_type const save_consumption = current_consumption;
+
     if (allocate_flesh_out_unplaced(side_attacking))
     {
+      Flags spec = BIT(side_attacking)|BIT(Chameleon);
+
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,++top_invisible_piece_id);
       assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
@@ -47,10 +48,10 @@ static void place_mating_piece_attacker(Side side_attacking,
       --top_invisible_piece_id;
       --being_solved.number_of_pieces[side_attacking][walk];
     }
-  }
 
-  current_consumption = save_consumption;
-  TraceConsumption();TraceEOL();
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
