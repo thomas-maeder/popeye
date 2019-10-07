@@ -366,13 +366,12 @@ debugging/assert.h:
 pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/capture_by_invisible.c \
  pieces/attributes/total_invisible/capture_by_invisible.h \
- position/position.h position/board.h utilities/bitmask.h position/side.h \
- position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h \
- pieces/attributes/total_invisible/consumption.h \
- pieces/attributes/total_invisible/decisions.h \
+ utilities/boolean.h solving/ply.h position/side.h position/side.enum.h \
+ position/side.enum pieces/attributes/total_invisible/consumption.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/pieces.h pieces/walks/vectors.h \
+ position/castling_rights.h pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
@@ -387,17 +386,23 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
 
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
-position/position.h:
+utilities/boolean.h:
 
-position/board.h:
-
-utilities/bitmask.h:
+solving/ply.h:
 
 position/side.h:
 
 position/side.enum.h:
 
 position/side.enum:
+
+pieces/attributes/total_invisible/consumption.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
 
 position/color.h:
 
@@ -409,15 +414,9 @@ position/pieceid.h:
 
 pieces/pieces.h:
 
-utilities/boolean.h:
-
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
-
-solving/ply.h:
-
-pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/decisions.h:
 

@@ -1182,15 +1182,11 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_violation)
+static void flesh_out_capture_by_invisible_walk_by_walk(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
-  if (first_taboo_violation!=nullsquare)
-    flesh_out_capture_by_invisible_on(first_taboo_violation,false);
-  else
   {
     dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -1260,7 +1256,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(square first_taboo_viola
   TraceFunctionResultEnd();
 }
 
-void flesh_out_capture_by_invisible(square first_taboo_violation)
+void flesh_out_capture_by_invisible(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -1276,7 +1272,6 @@ void flesh_out_capture_by_invisible(square first_taboo_violation)
   REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(first_taboo_violation);
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_capture);TraceEOL();
@@ -1288,7 +1283,7 @@ void flesh_out_capture_by_invisible(square first_taboo_violation)
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
-  flesh_out_capture_by_invisible_walk_by_walk(first_taboo_violation);
+  flesh_out_capture_by_invisible_walk_by_walk();
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
@@ -1513,7 +1508,7 @@ void fake_capture_by_invisible(void)
   uninterceptable_check_delivered_from = initsquare;
   uninterceptable_check_delivered_in_ply = ply_nil;
 
-  flesh_out_capture_by_invisible(nullsquare);
+  flesh_out_capture_by_invisible();
 
   uninterceptable_check_delivered_in_ply = save_ply;
   uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;

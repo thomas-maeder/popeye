@@ -24,7 +24,6 @@ static void done_intercepting_illegal_checks(void)
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    square const first_taboo_violation = find_taboo_violation();
 
     TraceValue("%u",nbply);
     TraceValue("%u",top_ply_of_regular_play);
@@ -73,18 +72,19 @@ static void done_intercepting_illegal_checks(void)
 
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
-    {
-      assert(first_taboo_violation==nullsquare);
       flesh_out_random_move_by_invisible();
-    }
     else if (sq_departure>=capture_by_invisible
              && is_on_board(sq_arrival))
-      flesh_out_capture_by_invisible(first_taboo_violation);
-    else if (first_taboo_violation==nullsquare)
-      adapt_pre_capture_effect();
-    // TODO review
-//    else
-//      assert(is_taboo_violation_acceptable(first_taboo_violation));
+      flesh_out_capture_by_invisible();
+    else
+    {
+      square const first_taboo_violation = find_taboo_violation();
+      if (first_taboo_violation==nullsquare)
+        adapt_pre_capture_effect();
+      // TODO review
+//      else
+//        assert(is_taboo_violation_acceptable(first_taboo_violation));
+    }
   }
   else
     validate_king_placements();
