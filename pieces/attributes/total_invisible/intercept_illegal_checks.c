@@ -83,12 +83,6 @@ static void done_intercepting_illegal_checks(void)
         adapt_pre_capture_effect();
       else
       {
-        Flags const spec_violator = being_solved.spec[first_taboo_violation];
-        PieceIdType const id_violator = GetPieceId(spec_violator);
-
-        max_decision_level = motivation[id_violator].levels.to;
-        if (max_decision_level<motivation[id_violator].levels.side)
-          max_decision_level = motivation[id_violator].levels.side;
         // TODO review
 //        assert(is_taboo_violation_acceptable(first_taboo_violation));
       }
