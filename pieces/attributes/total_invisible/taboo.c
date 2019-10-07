@@ -552,26 +552,25 @@ square find_taboo_violation(void)
       piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
-      if (sq_departure!=move_by_invisible
-          && sq_departure<capture_by_invisible)
+      assert(sq_departure!=move_by_invisible);
+      assert(sq_departure<capture_by_invisible);
+
+      if (is_rider(walk))
+        result = find_taboo_violation_rider(movement,walk);
+      else if (walk==King)
       {
-        if (is_rider(walk))
-          result = find_taboo_violation_rider(movement,walk);
-        else if (walk==King)
-        {
-          if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
-            /* faking a rook movement by the king */
-            result = find_taboo_violation_rider(movement,Rook);
-          else
-            result = find_taboo_violation_leaper(movement);
-        }
-        else if (is_leaper(walk))
-          result = find_taboo_violation_leaper(movement);
-        else if (is_pawn(walk))
-          result = find_taboo_violation_pawn(capture,movement);
+        if (move_effect_journal[curr].reason==move_effect_reason_castling_king_movement)
+          /* faking a rook movement by the king */
+          result = find_taboo_violation_rider(movement,Rook);
         else
-          assert(0);
+          result = find_taboo_violation_leaper(movement);
       }
+      else if (is_leaper(walk))
+        result = find_taboo_violation_leaper(movement);
+      else if (is_pawn(walk))
+        result = find_taboo_violation_pawn(capture,movement);
+      else
+        assert(0);
     }
 
   TraceFunctionExit(__func__);
