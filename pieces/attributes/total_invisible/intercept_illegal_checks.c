@@ -6,6 +6,7 @@
 #include "pieces/attributes/total_invisible/capture_by_invisible.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/king_placement.h"
 #include "pieces/attributes/total_invisible.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"

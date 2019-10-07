@@ -692,6 +692,7 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/intercept_illegal_checks.h \
  pieces/attributes/total_invisible/attack_mating_piece.h \
+ pieces/attributes/total_invisible/replay_fleshed_out.h \
  debugging/assert.h
 
 pieces/attributes/total_invisible.h:
@@ -849,5 +850,7 @@ pieces/attributes/total_invisible/random_move_by_invisible.h:
 pieces/attributes/total_invisible/intercept_illegal_checks.h:
 
 pieces/attributes/total_invisible/attack_mating_piece.h:
+
+pieces/attributes/total_invisible/replay_fleshed_out.h:
 
 debugging/assert.h:

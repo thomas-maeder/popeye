@@ -3,6 +3,7 @@
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/attack_mating_piece.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/replay_fleshed_out.h"
 #include "pieces/attributes/total_invisible.h"
 #include "position/position.h"
 #include "solving/has_solution_type.h"

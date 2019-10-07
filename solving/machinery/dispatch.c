@@ -249,6 +249,7 @@
 #include "pieces/attributes/total_invisible/goal_validation.h"
 #include "pieces/attributes/total_invisible/move_player.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "pieces/attributes/total_invisible/replay_fleshed_out.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/walks/generate_moves.h"
