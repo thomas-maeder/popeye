@@ -297,13 +297,8 @@ void adapt_pre_capture_effect(void)
 
       if (is_square_empty(to))
       {
-        if (nbply<=flesh_out_move_highwater)
-        {
-          TraceText("victim was placed in previous iteration\n");
-          adapt_capture_effect();
-        }
-        else if (!is_taboo(to,advers(trait[nbply]))
-                 && !has_been_taboo_since_random_move(to))
+        if (!is_taboo(to,advers(trait[nbply]))
+            && !has_been_taboo_since_random_move(to))
         {
           dynamic_consumption_type const save_consumption = current_consumption;
 
