@@ -115,8 +115,6 @@ extern play_phase_type play_phase;
 extern PieceIdType top_invisible_piece_id;
 extern PieceIdType top_visible_piece_id;
 
-extern ply flesh_out_move_highwater;
-
 extern stip_length_type combined_result;
 
 extern slice_index tester_slice;

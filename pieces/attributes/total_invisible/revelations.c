@@ -1497,23 +1497,10 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
 
   if (curr==move_effect_journal_base[nbply+1])
   {
-    if (nbply<=flesh_out_move_highwater)
-    {
-      ++nbply;
-      TraceValue("%u",nbply);TraceEOL();
-      done_testing_and_execute_revelations();
-      --nbply;
-    }
-    else
-    {
-      ply const save_highwater = flesh_out_move_highwater;
-      flesh_out_move_highwater = nbply;
-      ++nbply;
-      TraceValue("%u",nbply);TraceEOL();
-      done_testing_and_execute_revelations();
-      flesh_out_move_highwater = save_highwater;
-      --nbply;
-    }
+    ++nbply;
+    TraceValue("%u",nbply);TraceEOL();
+    done_testing_and_execute_revelations();
+    --nbply;
   }
   else
   {

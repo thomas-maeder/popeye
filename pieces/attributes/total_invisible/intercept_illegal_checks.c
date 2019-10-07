@@ -77,17 +77,6 @@ static void done_intercepting_illegal_checks(void)
       assert(first_taboo_violation==nullsquare);
       flesh_out_random_move_by_invisible();
     }
-    else if (nbply<=flesh_out_move_highwater)
-    {
-      if (first_taboo_violation==nullsquare)
-        adapt_pre_capture_effect();
-      else
-      {
-        TraceText("can't resolve taboo violation\n");
-        REPORT_DECISION_OUTCOME("%s","can't resolve taboo violation");
-        REPORT_DEADEND;
-      }
-    }
     else if (sq_departure>=capture_by_invisible
              && is_on_board(sq_arrival))
       flesh_out_capture_by_invisible(first_taboo_violation);
