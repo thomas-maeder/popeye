@@ -33,10 +33,10 @@ static void place_mating_piece_attacker(Side side_attacking,
       SetPieceId(spec,++top_invisible_piece_id);
       assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
       motivation[top_invisible_piece_id].first.purpose = purpose_attacker;
-      motivation[top_invisible_piece_id].first.acts_when = top_ply_of_regular_play;
+      motivation[top_invisible_piece_id].first.acts_when = nbply;
       motivation[top_invisible_piece_id].first.on = s;
       motivation[top_invisible_piece_id].last.purpose = purpose_attacker;
-      motivation[top_invisible_piece_id].last.acts_when = top_ply_of_regular_play;
+      motivation[top_invisible_piece_id].last.acts_when = nbply;
       motivation[top_invisible_piece_id].last.on = s;
       TraceValue("%u",top_invisible_piece_id);
       TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
