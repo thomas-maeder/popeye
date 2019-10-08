@@ -31,19 +31,12 @@ static void play_castling_with_invisible_partner(slice_index si,
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
       Flags spec = BIT(side)|BIT(Chameleon);
-      SetPieceId(spec,++top_invisible_piece_id);
+
+      SetPieceId(spec,initialise_motivation(purpose_castling_partner,sq_departure_partner,sq_arrival_partner));
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                               sq_departure_partner,Rook,spec,side);
-      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-      motivation[top_invisible_piece_id].first.purpose = purpose_castling_partner;
-      motivation[top_invisible_piece_id].first.acts_when = nbply;
-      motivation[top_invisible_piece_id].first.on = sq_departure_partner;
-      motivation[top_invisible_piece_id].last.purpose = purpose_castling_partner;
-      motivation[top_invisible_piece_id].last.acts_when = nbply;
-      motivation[top_invisible_piece_id].last.on = sq_arrival_partner;
       pipe_solve_delegate(si);
-      motivation[top_invisible_piece_id] = motivation_null;
-      --top_invisible_piece_id;
+      uninitialise_motivation();
     }
     else
     {
@@ -112,16 +105,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
       Flags spec = BIT(side)|BIT(Chameleon);
       boolean const save_move_after_victim = static_consumption.move_after_victing[side];
 
-      ++top_invisible_piece_id;
-      SetPieceId(spec,top_invisible_piece_id);
-      TraceValue("%u",top_invisible_piece_id);TraceEOL();
-      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-      motivation[top_invisible_piece_id].first.purpose = purpose_capturer;
-      motivation[top_invisible_piece_id].first.acts_when = nbply;
-      motivation[top_invisible_piece_id].first.on = sq_departure;
-      motivation[top_invisible_piece_id].last.purpose = purpose_capturer;
-      motivation[top_invisible_piece_id].last.acts_when = nbply;
-      motivation[top_invisible_piece_id].last.on = sq_departure;
+      SetPieceId(spec,initialise_motivation(purpose_capturer,sq_departure,sq_departure));
       motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
       motivation[top_invisible_piece_id].levels.from = decision_level_latest;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
@@ -141,8 +125,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
       static_consumption.move_after_victing[side] = save_move_after_victim;
 
-      motivation[top_invisible_piece_id] = motivation_null;
-      --top_invisible_piece_id;
+      uninitialise_motivation();
     }
     else
       switch (sq_capture)
@@ -193,17 +176,10 @@ void total_invisible_special_moves_player_solve(slice_index si)
             Flags spec = BIT(side_victim)|BIT(Chameleon);
             boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];
 
-            ++top_invisible_piece_id;
-            SetPieceId(spec,top_invisible_piece_id);
-            assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-            motivation[top_invisible_piece_id].first.purpose = purpose_victim;
-            motivation[top_invisible_piece_id].first.acts_when = nbply;
-            motivation[top_invisible_piece_id].first.on = sq_capture;
-            motivation[top_invisible_piece_id].last.purpose = purpose_victim;
-            motivation[top_invisible_piece_id].last.acts_when = nbply;
-            motivation[top_invisible_piece_id].last.on = sq_capture;
+            SetPieceId(spec,initialise_motivation(purpose_victim,sq_capture,sq_capture));
             motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
             motivation[top_invisible_piece_id].levels.from = decision_level_latest;
+
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);
 
@@ -222,8 +198,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             static_consumption.move_after_victing[side_victim] = save_move_after_victim;
             --static_consumption.pawn_victims[side_victim];
 
-            motivation[top_invisible_piece_id] = motivation_null;
-            --top_invisible_piece_id;
+            uninitialise_motivation();
           }
           else
           {

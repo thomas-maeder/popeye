@@ -1470,17 +1470,7 @@ void fake_capture_by_invisible(void)
 
   assert(!is_square_empty(uninterceptable_check_delivered_from));
 
-  ++top_invisible_piece_id;
-  SetPieceId(spec,top_invisible_piece_id);
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
-
-  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-  motivation[top_invisible_piece_id].first.purpose = purpose_capturer;
-  motivation[top_invisible_piece_id].first.acts_when = nbply;
-  motivation[top_invisible_piece_id].first.on = capture_by_invisible;
-  motivation[top_invisible_piece_id].last.purpose = purpose_capturer;
-  motivation[top_invisible_piece_id].last.acts_when = nbply;
-  motivation[top_invisible_piece_id].last.on = capture_by_invisible;
+  SetPieceId(spec,initialise_motivation(purpose_capturer,capture_by_invisible,capture_by_invisible));
 
   assert(move_effect_journal[precapture].type==move_effect_none);
   move_effect_journal[precapture].type = move_effect_piece_readdition;
@@ -1520,8 +1510,7 @@ void fake_capture_by_invisible(void)
   move_effect_journal[capture].type = move_effect_no_piece_removal;
   move_effect_journal[precapture].type = move_effect_none;
 
-  motivation[top_invisible_piece_id] = motivation_null;
-  --top_invisible_piece_id;
+  uninitialise_motivation();
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)

@@ -30,22 +30,17 @@ static void place_mating_piece_attacker(Side side_attacking,
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
       ++being_solved.number_of_pieces[side_attacking][walk];
-      SetPieceId(spec,++top_invisible_piece_id);
-      assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-      motivation[top_invisible_piece_id].first.purpose = purpose_attacker;
-      motivation[top_invisible_piece_id].first.acts_when = nbply;
-      motivation[top_invisible_piece_id].first.on = s;
-      motivation[top_invisible_piece_id].last.purpose = purpose_attacker;
-      motivation[top_invisible_piece_id].last.acts_when = nbply;
-      motivation[top_invisible_piece_id].last.on = s;
-      TraceValue("%u",top_invisible_piece_id);
-      TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
-      TraceEOL();
+
+      SetPieceId(spec,initialise_motivation(purpose_attacker,s,s));
+
       occupy_square(s,walk,spec);
+
       restart_from_scratch();
+
       empty_square(s);
-      motivation[top_invisible_piece_id] = motivation_null;
-      --top_invisible_piece_id;
+
+      uninitialise_motivation();
+
       --being_solved.number_of_pieces[side_attacking][walk];
     }
 

@@ -25,6 +25,43 @@ motivation_type const motivation_null = {
     { 0 }
 };
 
+PieceIdType initialise_motivation(purpose_type purpose, square sq_first, square sq_last)
+{
+  PieceIdType const result = ++top_invisible_piece_id;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",purpose);
+  TraceSquare(sq_first);
+  TraceSquare(sq_last);
+  TraceFunctionParamListEnd();
+
+  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  motivation[result].first.purpose = purpose;
+  motivation[result].first.acts_when = nbply;
+  motivation[result].first.on = sq_first;
+  motivation[result].last.purpose = purpose;
+  motivation[result].last.acts_when = nbply;
+  motivation[result].last.on = sq_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+void uninitialise_motivation(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(top_invisible_piece_id>top_visible_piece_id);
+  motivation[top_invisible_piece_id] = motivation_null;
+  --top_invisible_piece_id;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 // TODO what is a good size for this?
 knowledge_type knowledge[MaxPieceId];
 knowledge_index_type size_knowledge;
@@ -1722,10 +1759,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   assert(top_invisible_piece_id>=save_next_invisible_piece_id);
   while (top_invisible_piece_id>save_next_invisible_piece_id)
-  {
-    motivation[top_invisible_piece_id] = motivation_null;
-    --top_invisible_piece_id;
-  }
+    uninitialise_motivation();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

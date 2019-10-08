@@ -457,16 +457,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
 
   assert(nr_check_vectors>0);
 
-  ++top_invisible_piece_id;
-
-  TraceValue("%u",top_invisible_piece_id);
-  TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
-  TraceEOL();
-  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-  motivation[top_invisible_piece_id].first.purpose = purpose_interceptor;
-  motivation[top_invisible_piece_id].first.acts_when = nbply;
-  motivation[top_invisible_piece_id].last.purpose = purpose_interceptor;
-  motivation[top_invisible_piece_id].last.acts_when = nbply;
+  initialise_motivation(purpose_interceptor,nullsquare,nullsquare);
   motivation[top_invisible_piece_id].levels.to = curr_decision_level;
 
   {
@@ -513,8 +504,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
 
     TraceSquare(s);TraceEOL();
 
-    motivation[top_invisible_piece_id] = motivation_null;
-    --top_invisible_piece_id;
+    uninitialise_motivation();
 
 #if defined(REPORT_DECISIONS)
     if (report_decision_counter==save_counter)

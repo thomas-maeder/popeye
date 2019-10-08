@@ -235,10 +235,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 
         assert(top_invisible_piece_id>=save_next_invisible_piece_id);
         while (top_invisible_piece_id>save_next_invisible_piece_id)
-        {
-          motivation[top_invisible_piece_id] = motivation_null;
-          --top_invisible_piece_id;
-        }
+          uninitialise_motivation();
 
         size_knowledge = save_size_knowledge;
       }

@@ -1069,7 +1069,6 @@ void backward_fleshout_random_move_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-
   if (uninterceptable_check_delivered_from!=initsquare
       && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
   {
