@@ -1342,43 +1342,12 @@ boolean is_capture_by_invisible_possible(ply ply)
       /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
       result = false; /* not until we have proved it */
 
-      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
-      {
-        TraceValue("%u",id);
-
-        TraceValue("%u",motivation[id].first.purpose);
-        TraceValue("%u",motivation[id].first.acts_when);
-        TraceSquare(motivation[id].first.on);
-
-        TraceValue("%u",motivation[id].last.purpose);
-        TraceValue("%u",motivation[id].last.acts_when);
-        TraceSquare(motivation[id].last.on);
-
-        TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
-        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
-        TraceEOL();
-      }
-
-      if (ply==nbply)
-      {
-        for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
-        {
-          TraceValue("%u",id);TraceEOL();
-          assert((motivation[id].first.acts_when>ply) // active in the future
-                 || (motivation[id].first.acts_when==ply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
-                 || (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
-                 || (motivation[id].first.acts_when<ply && motivation[id].last.acts_when>ply) // in action
-                 || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<ply) // put on hold by a revelation or capture
-                 || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
-        }
-      }
-
       for (id = top_visible_piece_id+1;
            !result && id<=top_invisible_piece_id;
            ++id)
       {
         square const on = motivation[id].last.on;
-        Flags const spec = being_solved.spec[motivation[id].last.on];
+        Flags const spec = being_solved.spec[on];
 
         if (GetPieceId(spec)==id)
         {
@@ -1426,7 +1395,7 @@ boolean is_capture_by_invisible_possible(ply ply)
                 break;
 
               default:
-                // TODO assert(0);?
+                assert(0);
                 break;
             }
           }
