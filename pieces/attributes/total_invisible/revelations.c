@@ -1088,21 +1088,32 @@ void update_revelations(void)
   TraceFunctionResultEnd();
 }
 
-void evaluate_revelations(void)
+void evaluate_revelations(slice_index si,
+                          unsigned int nr_potential_revelations)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_potential_revelations);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_potential_revelations; ++i)
+  if (nr_potential_revelations==0)
+    pipe_solve_delegate(si);
+  else
   {
+    unsigned int const i = nr_potential_revelations-1;
     square const s = revelation_status[i].first_on;
-    TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
+
+    TraceSquare(s);
+    TraceWalk(revelation_status[i].walk);
+    TraceEOL();
+
     if (revelation_status[i].walk!=Empty)
     {
       PieceIdType const id_new = add_revelation_effect(s,i);
-      TraceSquare(revelation_status[i].first.on);TraceEOL();
+
+      TraceSquare(revelation_status[i].first.on);
+      TraceEOL();
+
       if (revelation_status[i].first.on!=initsquare)
       {
         PieceIdType const id = GetPieceId(being_solved.spec[s]);
@@ -1133,8 +1144,17 @@ void evaluate_revelations(void)
         TraceEOL();
 
         ++size_knowledge;
+        evaluate_revelations(si,i);
+        --size_knowledge;
       }
+      else
+        evaluate_revelations(si,i);
+
+      if (id_new!=NullPieceId)
+        uninitialise_motivation(id_new);
     }
+    else
+      evaluate_revelations(si,i);
   }
 
   TraceFunctionExit(__func__);
@@ -1744,21 +1764,10 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   else
   {
     dynamic_consumption_type const save_consumption = current_consumption;
-    PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
-    knowledge_index_type const save_size_knowledge = size_knowledge;
 
-    evaluate_revelations();
+    evaluate_revelations(si,nr_potential_revelations);
 
-    pipe_solve_delegate(si);
-
-    size_knowledge = save_size_knowledge;
     current_consumption = save_consumption;
-
-    TraceValue("%u",top_invisible_piece_id);TraceEOL();
-
-    assert(top_invisible_piece_id>=save_next_invisible_piece_id);
-    while (top_invisible_piece_id>save_next_invisible_piece_id)
-      uninitialise_motivation(top_invisible_piece_id);
   }
 
   TraceFunctionExit(__func__);

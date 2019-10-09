@@ -225,20 +225,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
            +nr_revealed_unplaced_invisibles[White]
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
-      {
-        knowledge_index_type const save_size_knowledge = size_knowledge;
-        PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
-
-        evaluate_revelations();
-        pipe_solve_delegate(si);
-        TraceConsumption();TraceEOL();
-
-        assert(top_invisible_piece_id>=save_next_invisible_piece_id);
-        while (top_invisible_piece_id>save_next_invisible_piece_id)
-          uninitialise_motivation(top_invisible_piece_id);
-
-        size_knowledge = save_size_knowledge;
-      }
+        evaluate_revelations(si,nr_potential_revelations);
     }
 
     update_nr_taboos_for_current_move_in_ply(-1);

@@ -82,7 +82,7 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
 void setup_revelations(void);
 void initialise_revelations(void);
 void update_revelations(void);
-void evaluate_revelations(void);
+void evaluate_revelations(slice_index si, unsigned int nr_potential_revelations);
 void make_revelations(void);
 
 void do_revelation_bookkeeping(void);
