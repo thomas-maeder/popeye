@@ -27,7 +27,7 @@ static void place_mating_piece_attacker(Side side_attacking,
 
     if (allocate_flesh_out_unplaced(side_attacking))
     {
-      PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,s);
+      PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,purpose_attacker,s);
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
       REPORT_DECISION_SQUARE('>',s);

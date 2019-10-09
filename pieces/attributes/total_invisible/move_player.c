@@ -30,7 +30,8 @@ static void play_castling_with_invisible_partner(slice_index si,
     dynamic_consumption_type const save_consumption = current_consumption;
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
-      PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,sq_arrival_partner);
+      PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,
+                                                           purpose_castling_partner,sq_arrival_partner);
       Flags spec = BIT(side)|BIT(Chameleon);
 
       SetPieceId(spec,id_partner);
@@ -102,7 +103,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
     }
     else if (sq_departure>=capture_by_invisible)
     {
-      PieceIdType const id_capturer = initialise_motivation(purpose_capturer,sq_departure,sq_departure);
+      PieceIdType const id_capturer = initialise_motivation(purpose_capturer,sq_departure,
+                                                            purpose_capturer,sq_departure);
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
       boolean const save_move_after_victim = static_consumption.move_after_victing[side];
@@ -174,7 +176,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
           /* pawn captures total invisible? */
           if (is_square_empty(sq_capture))
           {
-            PieceIdType const id_victim = initialise_motivation(purpose_victim,sq_capture,sq_capture);
+            PieceIdType const id_victim = initialise_motivation(purpose_victim,sq_capture,
+                                                                purpose_victim,sq_capture);
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
             boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];

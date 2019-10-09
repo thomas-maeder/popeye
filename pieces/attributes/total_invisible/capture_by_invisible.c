@@ -1453,7 +1453,8 @@ boolean is_capture_by_invisible_possible(ply ply)
 
 void fake_capture_by_invisible(void)
 {
-  PieceIdType const id_capturer = initialise_motivation(purpose_capturer,capture_by_invisible,capture_by_invisible);
+  PieceIdType const id_capturer = initialise_motivation(purpose_capturer,capture_by_invisible,
+                                                        purpose_capturer,capture_by_invisible);
   ply const save_ply = uninterceptable_check_delivered_in_ply;
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];

@@ -25,21 +25,23 @@ motivation_type const motivation_null = {
     { 0 }
 };
 
-PieceIdType initialise_motivation(purpose_type purpose, square sq_first, square sq_last)
+PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
+                                  purpose_type purpose_last, square sq_last)
 {
   PieceIdType const result = ++top_invisible_piece_id;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",purpose);
+  TraceFunctionParam("%u",purpose_first);
   TraceSquare(sq_first);
+  TraceFunctionParam("%u",purpose_last);
   TraceSquare(sq_last);
   TraceFunctionParamListEnd();
 
   assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-  motivation[result].first.purpose = purpose;
+  motivation[result].first.purpose = purpose_first;
   motivation[result].first.acts_when = nbply;
   motivation[result].first.on = sq_first;
-  motivation[result].last.purpose = purpose;
+  motivation[result].last.purpose = purpose_last;
   motivation[result].last.acts_when = nbply;
   motivation[result].last.on = sq_last;
 
@@ -915,23 +917,12 @@ static void add_revelation_effect(square s, unsigned int idx)
     TraceConsumption();TraceEOL();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
-    ++top_invisible_piece_id;
-    TraceValue("%u",top_invisible_piece_id);TraceEOL();
+    PieceIdType const id_revealed = initialise_motivation(revelation_status[idx].first.purpose,
+                                                          revelation_status[idx].first.on,
+                                                          revelation_status[idx].last.purpose,
+                                                          revelation_status[idx].last.on);
 
-    motivation[top_invisible_piece_id].first = revelation_status[idx].first;
-    motivation[top_invisible_piece_id].first.acts_when = nbply;
-    motivation[top_invisible_piece_id].last = revelation_status[idx].last;
-    motivation[top_invisible_piece_id].last.acts_when = nbply;
-
-    TraceValue("%u",motivation[top_invisible_piece_id].first.purpose);
-    TraceValue("%u",motivation[top_invisible_piece_id].first.acts_when);
-    TraceSquare(motivation[top_invisible_piece_id].first.on);
-    TraceValue("%u",motivation[top_invisible_piece_id].last.purpose);
-    TraceValue("%u",motivation[top_invisible_piece_id].last.acts_when);
-    TraceSquare(motivation[top_invisible_piece_id].last.on);
-    TraceEOL();
-
-    SetPieceId(spec,top_invisible_piece_id);
+    SetPieceId(spec,id_revealed);
     do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                    s,revelation_status[idx].walk,spec);
   }

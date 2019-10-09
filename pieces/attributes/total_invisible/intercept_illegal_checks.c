@@ -477,7 +477,8 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         TraceEOL();
         if (!was_taboo(s))
         {
-          PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,s);
+          PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+                                                              purpose_interceptor,s);
           motivation[id_placed].levels.from = decision_level_latest;
           motivation[id_placed].levels.to = curr_decision_level;
 
