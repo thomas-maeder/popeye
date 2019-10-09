@@ -1762,13 +1762,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   if (revelation_status_is_uninitialised)
     pipe_solve_delegate(si);
   else
-  {
-    dynamic_consumption_type const save_consumption = current_consumption;
-
     evaluate_revelations(si,nr_potential_revelations);
-
-    current_consumption = save_consumption;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
