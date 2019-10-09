@@ -102,23 +102,19 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
                                       unsigned int nr_check_vectors,
                                       Side side,
                                       square pos,
-                                      piece_walk_type walk,
-                                      Flags spec)
+                                      piece_walk_type walk)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceWalk(walk);
-  TraceValue("%x",spec);
   TraceFunctionParamListEnd();
 
   ++being_solved.number_of_pieces[side][walk];
 
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
-
-  SetPieceId(spec,top_invisible_piece_id);
-  occupy_square(pos,walk,spec);
+  assert(get_walk_of_piece_on_square(pos)==Dummy);
+  replace_walk(pos,walk);
   REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
 
@@ -154,7 +150,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
   TraceWalk(walk);
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==walk);
-  empty_square(pos);
+  replace_walk(pos,Dummy);
   --being_solved.number_of_pieces[side][walk];
 
   TracePosition(being_solved.board,being_solved.spec);
@@ -166,8 +162,7 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
 static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                   unsigned int nr_check_vectors,
                                   Side side,
-                                  square pos,
-                                  Flags spec)
+                                  square pos)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
@@ -176,7 +171,6 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
-  TraceValue("%x",spec);
   TraceFunctionParamListEnd();
 
   if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
@@ -185,7 +179,7 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
     REPORT_DEADEND;
   }
   else
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn,spec);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -210,12 +204,9 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   /* ... and thus allows this to succeed: */
   if (allocate_flesh_out_unplaced(side))
   {
-    Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
-
-    CLRFLAG(spec,advers(side));
-    SETFLAG(spec,Royal);
-
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King,spec);
+    SETFLAG(being_solved.spec[pos],Royal);
+    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King);
+    CLRFLAG(being_solved.spec[pos],Royal);
   }
 
   current_consumption = save_consumption;
@@ -240,7 +231,6 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
 
   TraceSquare(being_solved.king_square[side]);
   TraceEOL();
-  assert(is_square_empty(pos));
 
   motivation[top_invisible_piece_id].levels.walk = curr_decision_level;
 
@@ -252,12 +242,10 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
 
     if (allocate_flesh_out_unplaced(side))
     {
-      Flags const spec = BIT(side)|BIT(Chameleon);
-
       if (curr_decision_level<=max_decision_level)
       {
         max_decision_level = decision_level_latest;
-        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos,spec);
+        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos);
       }
 
       if (side==trait[nbply])
@@ -265,7 +253,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
-          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight,spec);
+          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight);
         }
 
         if (curr_decision_level<=max_decision_level)
@@ -276,9 +264,9 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
           max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
-            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop,spec);
+            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop);
           else
-            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Rook,spec);
+            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Rook);
         }
       }
       else
@@ -289,7 +277,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
              ++walk)
         {
           max_decision_level = decision_level_latest;
-          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk,spec);
+          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk);
         }
       }
     }
@@ -325,7 +313,11 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
       max_decision_level = decision_level_latest;
       REPORT_DECISION_COLOUR('>',BIT(preferred_side));
       ++curr_decision_level;
+
+      CLRFLAG(being_solved.spec[pos],advers(preferred_side));
       walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
+      SETFLAG(being_solved.spec[pos],advers(preferred_side));
+
       --curr_decision_level;
     }
   }
@@ -337,7 +329,11 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
       max_decision_level = decision_level_latest;
       REPORT_DECISION_COLOUR('>',BIT(advers(preferred_side)));
       ++curr_decision_level;
+
+      CLRFLAG(being_solved.spec[pos],preferred_side);
       walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
+      SETFLAG(being_solved.spec[pos],preferred_side);
+
       --curr_decision_level;
     }
   }
@@ -403,28 +399,26 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
 static void place_interceptor_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                         unsigned int nr_check_vectors,
-                                        square s)
+                                        square s,
+                                        PieceIdType id_placed)
 {
+  Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
+  TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
 
-  motivation[top_invisible_piece_id].first.on = s;
-  motivation[top_invisible_piece_id].last.on = s;
+  SetPieceId(spec,id_placed);
+  occupy_square(s,Dummy,spec);
 
-  motivation[top_invisible_piece_id].levels.from = decision_level_latest;
-  motivation[top_invisible_piece_id].levels.side = curr_decision_level;
+  motivation[id_placed].levels.side = curr_decision_level;
 
   if (play_phase==play_validating_mate)
   {
-    Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
-
-    SetPieceId(spec,top_invisible_piece_id);
-    occupy_square(s,Dummy,spec);
-
     motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
 
     place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
@@ -436,11 +430,11 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     }
 
     TraceConsumption();TraceEOL();
-
-    empty_square(s);
   }
   else
     colour_interceptor(check_vectors,nr_check_vectors,s);
+
+  empty_square(s);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -460,9 +454,6 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
-
-  initialise_motivation(purpose_interceptor,nullsquare,nullsquare);
-  motivation[top_invisible_piece_id].levels.to = curr_decision_level;
 
   {
     square s;
@@ -486,12 +477,18 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         TraceEOL();
         if (!was_taboo(s))
         {
+          PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,s);
+          motivation[id_placed].levels.from = decision_level_latest;
+          motivation[id_placed].levels.to = curr_decision_level;
+
           // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
           // curr_decision_level outside of the loop
           REPORT_DECISION_SQUARE('>',s);
           ++curr_decision_level;
-          place_interceptor_on_square(check_vectors,nr_check_vectors,s);
+          place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
           --curr_decision_level;
+
+          uninitialise_motivation();
         }
       }
       ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];
@@ -507,8 +504,6 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
     }
 
     TraceSquare(s);TraceEOL();
-
-    uninitialise_motivation();
 
 #if defined(REPORT_DECISIONS)
     if (report_decision_counter==save_counter)
