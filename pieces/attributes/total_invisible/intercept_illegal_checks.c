@@ -210,7 +210,11 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   /* ... and thus allows this to succeed: */
   if (allocate_flesh_out_unplaced(side))
   {
-    Flags const spec = BIT(side)|BIT(Royal)|BIT(Chameleon);
+    Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+
+    CLRFLAG(spec,advers(side));
+    SETFLAG(spec,Royal);
+
     walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King,spec);
   }
 

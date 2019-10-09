@@ -67,6 +67,21 @@ void done_placing_mating_piece_attacker(void)
   TraceFunctionResultEnd();
 }
 
+static void use_accidental_attack_on_mating_piece(square s)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  REPORT_DECISION_SQUARE('>',s);
+  ++curr_decision_level;
+  done_placing_mating_piece_attacker();
+  --curr_decision_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_mating_piece_attacking_rider(Side side_attacking,
                                                square sq_mating_piece,
                                                piece_walk_type walk_rider,
@@ -100,12 +115,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
         if ((get_walk_of_piece_on_square(s)==walk_rider
             || get_walk_of_piece_on_square(s)==Queen)
             && TSTFLAG(being_solved.spec[s],side_attacking))
-        {
-          REPORT_DECISION_SQUARE('>',s);
-          ++curr_decision_level;
-          done_placing_mating_piece_attacker();
-          --curr_decision_level;
-        }
+          use_accidental_attack_on_mating_piece(s);
 
         break;
       }
@@ -141,12 +151,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==walk_leaper
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      REPORT_DECISION_SQUARE('>',s);
-      ++curr_decision_level;
-      done_placing_mating_piece_attacker();
-      --curr_decision_level;
-    }
+      use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
              && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,walk_leaper);
@@ -176,12 +181,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      REPORT_DECISION_SQUARE('>',s);
-      ++curr_decision_level;
-      done_placing_mating_piece_attacker();
-      --curr_decision_level;
-    }
+      use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
         && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
@@ -199,12 +199,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 
     if (get_walk_of_piece_on_square(s)==Pawn
         && TSTFLAG(being_solved.spec[s],side_attacking))
-    {
-      REPORT_DECISION_SQUARE('>',s);
-      ++curr_decision_level;
-      done_placing_mating_piece_attacker();
-      --curr_decision_level;
-    }
+      use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
              && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
       place_mating_piece_attacker(side_attacking,s,Pawn);
