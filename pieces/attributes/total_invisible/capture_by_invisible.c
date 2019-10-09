@@ -1415,7 +1415,8 @@ boolean is_capture_by_invisible_possible(ply ply)
                 break;
 
               case Pawn:
-                if (CheckDir[Bishop][diff]==diff)
+                if (CheckDir[Bishop][diff]==diff
+                    && (trait[nbply]==White ? diff>0 : diff<0))
                   result = true;
                 break;
 
