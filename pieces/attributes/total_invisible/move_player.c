@@ -30,13 +30,14 @@ static void play_castling_with_invisible_partner(slice_index si,
     dynamic_consumption_type const save_consumption = current_consumption;
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
+      PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,sq_arrival_partner);
       Flags spec = BIT(side)|BIT(Chameleon);
 
-      SetPieceId(spec,initialise_motivation(purpose_castling_partner,sq_departure_partner,sq_arrival_partner));
+      SetPieceId(spec,id_partner);
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                               sq_departure_partner,Rook,spec,side);
       pipe_solve_delegate(si);
-      uninitialise_motivation();
+      uninitialise_motivation(id_partner);
     }
     else
     {
@@ -101,11 +102,12 @@ void total_invisible_special_moves_player_solve(slice_index si)
     }
     else if (sq_departure>=capture_by_invisible)
     {
+      PieceIdType const id_capturer = initialise_motivation(purpose_capturer,sq_departure,sq_departure);
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
       boolean const save_move_after_victim = static_consumption.move_after_victing[side];
 
-      SetPieceId(spec,initialise_motivation(purpose_capturer,sq_departure,sq_departure));
+      SetPieceId(spec,id_capturer);
       motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
       motivation[top_invisible_piece_id].levels.from = decision_level_latest;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
@@ -125,7 +127,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
 
       static_consumption.move_after_victing[side] = save_move_after_victim;
 
-      uninitialise_motivation();
+      uninitialise_motivation(id_capturer);
     }
     else
       switch (sq_capture)
@@ -172,11 +174,12 @@ void total_invisible_special_moves_player_solve(slice_index si)
           /* pawn captures total invisible? */
           if (is_square_empty(sq_capture))
           {
+            PieceIdType const id_victim = initialise_motivation(purpose_victim,sq_capture,sq_capture);
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);
             boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];
 
-            SetPieceId(spec,initialise_motivation(purpose_victim,sq_capture,sq_capture));
+            SetPieceId(spec,id_victim);
             motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
             motivation[top_invisible_piece_id].levels.from = decision_level_latest;
 
@@ -198,7 +201,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             static_consumption.move_after_victing[side_victim] = save_move_after_victim;
             --static_consumption.pawn_victims[side_victim];
 
-            uninitialise_motivation();
+            uninitialise_motivation(id_victim);
           }
           else
           {

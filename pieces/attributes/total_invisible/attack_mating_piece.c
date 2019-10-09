@@ -27,17 +27,18 @@ static void place_mating_piece_attacker(Side side_attacking,
 
     if (allocate_flesh_out_unplaced(side_attacking))
     {
+      PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,s);
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
       REPORT_DECISION_SQUARE('>',s);
       ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_attacking][walk];
-      SetPieceId(spec,initialise_motivation(purpose_attacker,s,s));
+      SetPieceId(spec,id_placed);
       occupy_square(s,walk,spec);
       restart_from_scratch();
       empty_square(s);
-      uninitialise_motivation();
+      uninitialise_motivation(id_placed);
       --being_solved.number_of_pieces[side_attacking][walk];
 
       --curr_decision_level;

@@ -49,11 +49,13 @@ PieceIdType initialise_motivation(purpose_type purpose, square sq_first, square 
   return result;
 }
 
-void uninitialise_motivation(void)
+void uninitialise_motivation(PieceIdType id_uninitialised)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",id_uninitialised);
   TraceFunctionParamListEnd();
 
+  assert(top_invisible_piece_id==id_uninitialised);
   assert(top_invisible_piece_id>top_visible_piece_id);
   motivation[top_invisible_piece_id] = motivation_null;
   --top_invisible_piece_id;
@@ -1759,7 +1761,7 @@ void total_invisible_reveal_after_mating_move(slice_index si)
 
   assert(top_invisible_piece_id>=save_next_invisible_piece_id);
   while (top_invisible_piece_id>save_next_invisible_piece_id)
-    uninitialise_motivation();
+    uninitialise_motivation(top_invisible_piece_id);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

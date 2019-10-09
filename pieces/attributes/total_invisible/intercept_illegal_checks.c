@@ -488,7 +488,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
           place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
           --curr_decision_level;
 
-          uninitialise_motivation();
+          uninitialise_motivation(id_placed);
         }
       }
       ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];

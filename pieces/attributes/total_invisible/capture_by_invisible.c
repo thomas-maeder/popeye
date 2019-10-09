@@ -1452,6 +1452,7 @@ boolean is_capture_by_invisible_possible(ply ply)
 
 void fake_capture_by_invisible(void)
 {
+  PieceIdType const id_capturer = initialise_motivation(purpose_capturer,capture_by_invisible,capture_by_invisible);
   ply const save_ply = uninterceptable_check_delivered_in_ply;
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -1470,7 +1471,7 @@ void fake_capture_by_invisible(void)
 
   assert(!is_square_empty(uninterceptable_check_delivered_from));
 
-  SetPieceId(spec,initialise_motivation(purpose_capturer,capture_by_invisible,capture_by_invisible));
+  SetPieceId(spec,id_capturer);
 
   assert(move_effect_journal[precapture].type==move_effect_none);
   move_effect_journal[precapture].type = move_effect_piece_readdition;
@@ -1510,7 +1511,7 @@ void fake_capture_by_invisible(void)
   move_effect_journal[capture].type = move_effect_no_piece_removal;
   move_effect_journal[precapture].type = move_effect_none;
 
-  uninitialise_motivation();
+  uninitialise_motivation(id_capturer);
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
