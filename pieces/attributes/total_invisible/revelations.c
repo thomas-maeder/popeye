@@ -897,8 +897,9 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
   TraceFunctionResultEnd();
 }
 
-static void add_revelation_effect(square s, unsigned int idx)
+static PieceIdType add_revelation_effect(square s, unsigned int idx)
 {
+  PieceIdType result = NullPieceId;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   Flags spec = revelation_status[idx].spec;
 
@@ -917,14 +918,16 @@ static void add_revelation_effect(square s, unsigned int idx)
     TraceConsumption();TraceEOL();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
-    PieceIdType const id_revealed = initialise_motivation(revelation_status[idx].first.purpose,
-                                                          revelation_status[idx].first.on,
-                                                          revelation_status[idx].last.purpose,
-                                                          revelation_status[idx].last.on);
+    {
+      result = initialise_motivation(revelation_status[idx].first.purpose,
+                                     revelation_status[idx].first.on,
+                                     revelation_status[idx].last.purpose,
+                                     revelation_status[idx].last.on);
 
-    SetPieceId(spec,id_revealed);
-    do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
-                                   s,revelation_status[idx].walk,spec);
+      SetPieceId(spec,result);
+      do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
+                                     s,revelation_status[idx].walk,spec);
+    }
   }
   else
   {
@@ -952,7 +955,9 @@ static void add_revelation_effect(square s, unsigned int idx)
   assert(!TSTFLAG(being_solved.spec[s],Chameleon));
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 void setup_revelations(void)
@@ -1096,7 +1101,7 @@ void evaluate_revelations(void)
     TraceSquare(s);TraceWalk(revelation_status[i].walk);TraceEOL();
     if (revelation_status[i].walk!=Empty)
     {
-      add_revelation_effect(s,i);
+      PieceIdType const id_new = add_revelation_effect(s,i);
       TraceSquare(revelation_status[i].first.on);TraceEOL();
       if (revelation_status[i].first.on!=initsquare)
       {
@@ -1725,10 +1730,6 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
  */
 void total_invisible_reveal_after_mating_move(slice_index si)
 {
-  dynamic_consumption_type const save_consumption = current_consumption;
-  PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
-  knowledge_index_type const save_size_knowledge = size_knowledge;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -1738,21 +1739,27 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   update_nr_taboos_for_current_move_in_ply(-1);
   update_taboo(-1);
 
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
+  if (revelation_status_is_uninitialised)
+    pipe_solve_delegate(si);
+  else
+  {
+    dynamic_consumption_type const save_consumption = current_consumption;
+    PieceIdType const save_next_invisible_piece_id = top_invisible_piece_id;
+    knowledge_index_type const save_size_knowledge = size_knowledge;
 
-  if (!revelation_status_is_uninitialised)
     evaluate_revelations();
 
-  pipe_solve_delegate(si);
+    pipe_solve_delegate(si);
 
-  size_knowledge = save_size_knowledge;
-  current_consumption = save_consumption;
+    size_knowledge = save_size_knowledge;
+    current_consumption = save_consumption;
 
-  TraceValue("%u",top_invisible_piece_id);TraceEOL();
+    TraceValue("%u",top_invisible_piece_id);TraceEOL();
 
-  assert(top_invisible_piece_id>=save_next_invisible_piece_id);
-  while (top_invisible_piece_id>save_next_invisible_piece_id)
-    uninitialise_motivation(top_invisible_piece_id);
+    assert(top_invisible_piece_id>=save_next_invisible_piece_id);
+    while (top_invisible_piece_id>save_next_invisible_piece_id)
+      uninitialise_motivation(top_invisible_piece_id);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
