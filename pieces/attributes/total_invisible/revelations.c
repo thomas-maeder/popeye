@@ -1116,17 +1116,15 @@ void evaluate_revelations(slice_index si,
 
       if (revelation_status[i].first.on!=initsquare)
       {
-        PieceIdType const id = GetPieceId(being_solved.spec[s]);
-
         knowledge[size_knowledge].revealed_on = s;
         knowledge[size_knowledge].first_on = revelation_status[i].first.on;
         knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
-        knowledge[size_knowledge].is_allocated = motivation[id].first.purpose==purpose_castling_partner;
+        knowledge[size_knowledge].is_allocated = motivation[id_new].first.purpose==purpose_castling_partner;
 
         /* if we revealed a so far unplaced invisible piece, the id will have changed */
-        SetPieceId(knowledge[size_knowledge].spec,id);
+        SetPieceId(knowledge[size_knowledge].spec,id_new);
 
         TraceValue("%u",revelation_status[i].last.acts_when);
         TraceSquare(revelation_status[i].last.on);
