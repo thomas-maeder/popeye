@@ -30,7 +30,6 @@ static void done_intercepting_illegal_checks(void)
     TraceSquare(sq_departure);
     TraceValue("%u",sq_departure);
     TraceValue("%u",capture_by_invisible);
-    TraceValue("%u",flesh_out_move_highwater);
     TraceSquare(sq_arrival);
     TraceValue("%u",sq_arrival);
     TraceValue("%u",move_by_invisible);
