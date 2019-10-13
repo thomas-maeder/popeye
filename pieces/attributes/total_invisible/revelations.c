@@ -1527,7 +1527,7 @@ static void done_testing_and_execute_revelations(void)
       && sq_departure>=capture_by_invisible
       && is_on_board(sq_arrival))
   {
-    if (is_capture_by_invisible_possible(nbply+1))
+    if (is_capture_by_invisible_possible())
       start_iteration();
     else
     {

@@ -1302,38 +1302,39 @@ void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-boolean is_capture_by_invisible_possible(ply ply)
+boolean is_capture_by_invisible_possible(void)
 {
+  ply const ply_capture = nbply+1;
   boolean result;
   dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",ply);
+  TraceValue("%u",ply_capture);
   TraceFunctionParamListEnd();
 
-  if (allocate_flesh_out_unplaced(trait[ply]))
+  if (allocate_flesh_out_unplaced(trait[ply_capture]))
   {
     /* no problem - we can simply insert a capturer */
     result = true;
   }
   else
   {
-    square const save_king_square = being_solved.king_square[trait[ply]];
+    square const save_king_square = being_solved.king_square[trait[ply_capture]];
 
-    /* pretend that the king is placed; necessary if only aptures by the invisble king
+    /* pretend that the king is placed; necessary if only captures by the invisble king
      * are possisble */
-    being_solved.king_square[trait[ply]] = square_a1;
+    being_solved.king_square[trait[ply_capture]] = square_a1;
 
     current_consumption = save_consumption;
 
-    if (allocate_flesh_out_unplaced(trait[ply]))
+    if (allocate_flesh_out_unplaced(trait[ply_capture]))
     {
       /* no problem - we can simply insert a capturing king */
       result = true;
     }
     else
     {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply_capture];
 
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -1341,7 +1342,7 @@ boolean is_capture_by_invisible_possible(ply ply)
 
       TraceSquare(sq_arrival);
       TraceValue("%u",nbply);
-      TraceValue("%u",ply);
+      TraceValue("%u",ply_capture);
       TraceEOL();
 
       /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
@@ -1397,7 +1398,7 @@ boolean is_capture_by_invisible_possible(ply ply)
 //          }
           assert(GetPieceId(spec)==id);
 
-          if (TSTFLAG(spec,trait[ply]))
+          if (TSTFLAG(spec,trait[ply_capture]))
           {
             piece_walk_type const walk = get_walk_of_piece_on_square(on);
             int const diff = sq_arrival-on;
@@ -1449,7 +1450,7 @@ boolean is_capture_by_invisible_possible(ply ply)
       }
     }
 
-    being_solved.king_square[trait[ply]] = save_king_square;
+    being_solved.king_square[trait[ply_capture]] = save_king_square;
   }
 
   current_consumption = save_consumption;

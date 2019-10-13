@@ -2,11 +2,10 @@
 #define PIECES_ATTRIBUTES_TOTAL_INVISIBLE_CAPTURE_BY_INVISIBLE_H
 
 #include "utilities/boolean.h"
-#include "solving/ply.h"
 
 void flesh_out_capture_by_invisible(void);
 
-boolean is_capture_by_invisible_possible(ply ply);
+boolean is_capture_by_invisible_possible(void);
 
 void fake_capture_by_invisible(void);
 
