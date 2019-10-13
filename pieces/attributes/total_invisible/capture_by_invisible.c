@@ -1368,12 +1368,12 @@ boolean is_capture_by_invisible_possible(void)
 
               || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply && motivation[id].last.purpose==purpose_interceptor)
 
-              || (motivation[id].last.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
-              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_victim)
               || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
-              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_random_mover)
-              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_capturer)
-              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_castling_partner)
+              || (motivation[id].last.acts_when==nbply && motivation[id].last.purpose!=purpose_interceptor)
+              || (motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose!=purpose_interceptor)
+              || (motivation[id].last.acts_when>ply_capture)
+
+              || (motivation[id].last.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
              )
            )
         {
