@@ -1361,14 +1361,15 @@ boolean is_capture_by_invisible_possible(ply ply)
         TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
         TraceEOL();
 
-        if (!((motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_victim)
-              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_capturer)
-              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
+        if (!(
               // this is related to revelation - it seems that first.on should never be ==initsquare
-              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
+              (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
 
-              || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
               || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply && motivation[id].last.purpose==purpose_interceptor)
+
+              || (motivation[id].last.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
+              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_victim)
+              || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
               || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_random_mover)
               || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_capturer)
               || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_castling_partner)
@@ -1378,6 +1379,22 @@ boolean is_capture_by_invisible_possible(ply ply)
           square const on = motivation[id].last.on;
           Flags const spec = being_solved.spec[on];
 
+//          if (GetPieceId(spec)!=id)
+//          {
+//            TraceSetMaxLevel(UINT_MAX);
+//            TraceSquare(sq_arrival);
+//            TraceValue("%u",nbply);
+//            TraceValue("%u",ply);
+//            TraceValue("%u",id);
+//            TraceValue("%u",motivation[id].first.acts_when);
+//            TraceValue("%u",motivation[id].first.purpose);
+//            TraceSquare(motivation[id].first.on);
+//            TraceValue("%u",motivation[id].last.acts_when);
+//            TraceValue("%u",motivation[id].last.purpose);
+//            TraceSquare(motivation[id].last.on);
+//            TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+//            TraceEOL();
+//          }
           assert(GetPieceId(spec)==id);
 
           if (TSTFLAG(spec,trait[ply]))
