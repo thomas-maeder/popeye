@@ -1339,6 +1339,11 @@ boolean is_capture_by_invisible_possible(ply ply)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       PieceIdType id;
 
+      TraceSquare(sq_arrival);
+      TraceValue("%u",nbply);
+      TraceValue("%u",ply);
+      TraceEOL();
+
       /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
       result = false; /* not until we have proved it */
 
@@ -1346,11 +1351,35 @@ boolean is_capture_by_invisible_possible(ply ply)
            !result && id<=top_invisible_piece_id;
            ++id)
       {
-        square const on = motivation[id].last.on;
-        Flags const spec = being_solved.spec[on];
+        TraceValue("%u",id);
+        TraceValue("%u",motivation[id].first.acts_when);
+        TraceValue("%u",motivation[id].first.purpose);
+        TraceSquare(motivation[id].first.on);
+        TraceValue("%u",motivation[id].last.acts_when);
+        TraceValue("%u",motivation[id].last.purpose);
+        TraceSquare(motivation[id].last.on);
+        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+        TraceEOL();
 
-        if (GetPieceId(spec)==id)
+        if (!((motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_victim)
+              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_capturer)
+              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
+              // this is related to revelation - it seems that first.on should never be ==initsquare
+              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
+
+              || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
+              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply && motivation[id].last.purpose==purpose_interceptor)
+              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_random_mover)
+              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_capturer)
+              || (motivation[id].last.acts_when>=nbply && motivation[id].last.purpose==purpose_castling_partner)
+             )
+           )
         {
+          square const on = motivation[id].last.on;
+          Flags const spec = being_solved.spec[on];
+
+          assert(GetPieceId(spec)==id);
+
           if (TSTFLAG(spec,trait[ply]))
           {
             piece_walk_type const walk = get_walk_of_piece_on_square(on);
@@ -1399,12 +1428,6 @@ boolean is_capture_by_invisible_possible(ply ply)
                 break;
             }
           }
-        }
-        else if (motivation[id].first.acts_when==ply && motivation[id].first.purpose==purpose_interceptor)
-        {
-          REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
-          REPORT_DEADEND;
-          break;
         }
       }
     }
