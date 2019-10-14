@@ -1305,6 +1305,7 @@ void flesh_out_capture_by_invisible(void)
 boolean is_capture_by_invisible_possible(void)
 {
   ply const ply_capture = nbply+1;
+  Side const side_capturing = trait[ply_capture];
   boolean result;
   dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -1362,18 +1363,22 @@ boolean is_capture_by_invisible_possible(void)
         TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
         TraceEOL();
 
-        if (!(
+        if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
+            || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
+        {
+          /* piece belongs to wrong side */
+        }
+        else if (!(
               // this is related to revelation - it seems that first.on should never be ==initsquare
               (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
+              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
 
-              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>nbply && motivation[id].last.purpose==purpose_interceptor)
+              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose==purpose_interceptor)
 
               || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
               || (motivation[id].last.acts_when==nbply && motivation[id].last.purpose!=purpose_interceptor)
               || (motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose!=purpose_interceptor)
               || (motivation[id].last.acts_when>ply_capture)
-
-              || (motivation[id].last.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover)
              )
            )
         {
@@ -1385,7 +1390,7 @@ boolean is_capture_by_invisible_possible(void)
 //            TraceSetMaxLevel(UINT_MAX);
 //            TraceSquare(sq_arrival);
 //            TraceValue("%u",nbply);
-//            TraceValue("%u",ply);
+//            TraceValue("%u",ply_capture);
 //            TraceValue("%u",id);
 //            TraceValue("%u",motivation[id].first.acts_when);
 //            TraceValue("%u",motivation[id].first.purpose);
