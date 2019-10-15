@@ -1343,17 +1343,18 @@ static boolean is_viable_capturer(PieceIdType id)
     /* piece will be active after the capture */
     result = false;
   }
-  else if (!(
-        (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
-        || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
-       )
-     )
+  else if (motivation[id].first.acts_when==ply_capture && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
+  {
+    // TODO how can there be a random mover in the ply when we are capturing????
+    result = false;
+  }
+  else if (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
   {
     // TODO this is related to revelation - it seems that first.on should never be ==initsquare
-    result = true;
+    result = false;
   }
   else
-    result = false;
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
