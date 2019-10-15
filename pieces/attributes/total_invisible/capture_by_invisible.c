@@ -1327,20 +1327,31 @@ static boolean is_viable_capturer(PieceIdType id)
     /* piece belongs to wrong side */
     result = false;
   }
+  else if (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
+  {
+    /* piece was captured or merged into a capturer from regular play */
+    result = false;
+  }
+  else if ((motivation[id].last.acts_when==nbply || motivation[id].last.acts_when==ply_capture)
+           && motivation[id].last.purpose!=purpose_interceptor)
+  {
+    /* piece is active for another purpose */
+    result = false;
+  }
+  else if (motivation[id].last.acts_when>ply_capture)
+  {
+    /* piece will be active after the capture */
+    result = false;
+  }
   else if (!(
-        // this is related to revelation - it seems that first.on should never be ==initsquare
         (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
         || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
-
-        || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose==purpose_interceptor)
-
-        || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
-        || (motivation[id].last.acts_when==nbply && motivation[id].last.purpose!=purpose_interceptor)
-        || (motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose!=purpose_interceptor)
-        || (motivation[id].last.acts_when>ply_capture)
        )
      )
+  {
+    // TODO this is related to revelation - it seems that first.on should never be ==initsquare
     result = true;
+  }
   else
     result = false;
 
