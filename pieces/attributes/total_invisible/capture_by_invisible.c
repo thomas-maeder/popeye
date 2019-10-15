@@ -1302,16 +1302,64 @@ void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-boolean is_capture_by_invisible_possible(void)
+static boolean is_viable_capturer(PieceIdType id)
 {
   ply const ply_capture = nbply+1;
   Side const side_capturing = trait[ply_capture];
   boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",id);
+  TraceValue("%u",motivation[id].first.acts_when);
+  TraceValue("%u",motivation[id].first.purpose);
+  TraceSquare(motivation[id].first.on);
+  TraceValue("%u",motivation[id].last.acts_when);
+  TraceValue("%u",motivation[id].last.purpose);
+  TraceSquare(motivation[id].last.on);
+  TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+  TraceEOL();
+
+  if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
+      || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
+  {
+    /* piece belongs to wrong side */
+    result = false;
+  }
+  else if (!(
+        // this is related to revelation - it seems that first.on should never be ==initsquare
+        (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
+        || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
+
+        || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose==purpose_interceptor)
+
+        || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
+        || (motivation[id].last.acts_when==nbply && motivation[id].last.purpose!=purpose_interceptor)
+        || (motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose!=purpose_interceptor)
+        || (motivation[id].last.acts_when>ply_capture)
+       )
+     )
+    result = true;
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean is_capture_by_invisible_possible(void)
+{
+  ply const ply_capture = nbply+1;
+  boolean result;
   dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",ply_capture);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",ply_capture);TraceEOL();
 
   if (allocate_flesh_out_unplaced(trait[ply_capture]))
   {
@@ -1352,35 +1400,7 @@ boolean is_capture_by_invisible_possible(void)
       for (id = top_visible_piece_id+1;
            !result && id<=top_invisible_piece_id;
            ++id)
-      {
-        TraceValue("%u",id);
-        TraceValue("%u",motivation[id].first.acts_when);
-        TraceValue("%u",motivation[id].first.purpose);
-        TraceSquare(motivation[id].first.on);
-        TraceValue("%u",motivation[id].last.acts_when);
-        TraceValue("%u",motivation[id].last.purpose);
-        TraceSquare(motivation[id].last.on);
-        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
-        TraceEOL();
-
-        if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
-            || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
-        {
-          /* piece belongs to wrong side */
-        }
-        else if (!(
-              // this is related to revelation - it seems that first.on should never be ==initsquare
-              (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_interceptor && motivation[id].first.on==initsquare)
-              || (motivation[id].first.acts_when>=nbply && motivation[id].first.purpose==purpose_random_mover && motivation[id].first.on==initsquare)
-
-              || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose==purpose_interceptor)
-
-              || (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
-              || (motivation[id].last.acts_when==nbply && motivation[id].last.purpose!=purpose_interceptor)
-              || (motivation[id].last.acts_when==ply_capture && motivation[id].last.purpose!=purpose_interceptor)
-              || (motivation[id].last.acts_when>ply_capture)
-             )
-           )
+        if (is_viable_capturer(id))
         {
           square const on = motivation[id].last.on;
           Flags const spec = being_solved.spec[on];
@@ -1452,7 +1472,6 @@ boolean is_capture_by_invisible_possible(void)
             }
           }
         }
-      }
     }
 
     being_solved.king_square[trait[ply_capture]] = save_king_square;
