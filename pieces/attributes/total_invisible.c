@@ -52,9 +52,6 @@ play_phase_type play_phase = play_regular;
 
 ply flesh_out_move_highwater = ply_retro_move;
 
-PieceIdType top_visible_piece_id;
-PieceIdType top_invisible_piece_id;
-
 void report_deadend(char const *s, unsigned int lineno)
 {
   printf("%s;%u;%u\n",s,lineno,play_phase);
@@ -894,8 +891,7 @@ void total_invisible_invisibles_allocator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  top_visible_piece_id = being_solved.currPieceId;
-  top_invisible_piece_id = top_visible_piece_id;
+  initialise_invisible_piece_ids(being_solved.currPieceId);
 
   being_solved.currPieceId += total_invisible_number;
 

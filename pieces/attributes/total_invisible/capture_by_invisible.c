@@ -1243,8 +1243,8 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
 
       {
         PieceIdType id;
-        for (id = top_visible_piece_id+1;
-             id<=top_invisible_piece_id && curr_decision_level<=max_decision_level;
+        for (id = get_top_visible_piece_id()+1;
+             id<=get_top_invisible_piece_id() && curr_decision_level<=max_decision_level;
              ++id)
           flesh_out_capture_by_invisible_on(motivation[id].last.on,
                                             can_king_be_inserted);
@@ -1424,8 +1424,8 @@ boolean is_capture_by_invisible_possible(void)
         /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
         result = false; /* not until we have proved it */
 
-        for (id = top_visible_piece_id+1;
-             !result && id<=top_invisible_piece_id;
+        for (id = get_top_visible_piece_id()+1;
+             !result && id<=get_top_invisible_piece_id();
              ++id)
           if (is_viable_capturer(id))
           {

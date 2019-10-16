@@ -25,6 +25,25 @@ motivation_type const motivation_null = {
     { 0 }
 };
 
+PieceIdType top_visible_piece_id;
+PieceIdType top_invisible_piece_id;
+
+void initialise_invisible_piece_ids(PieceIdType last_visible_piece_id)
+{
+  top_visible_piece_id = last_visible_piece_id;
+  top_invisible_piece_id = top_visible_piece_id;
+}
+
+PieceIdType get_top_visible_piece_id(void)
+{
+  return top_visible_piece_id;
+}
+
+PieceIdType get_top_invisible_piece_id(void)
+{
+  return top_invisible_piece_id;
+}
+
 PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
                                   purpose_type purpose_last, square sq_last)
 {
@@ -56,12 +75,8 @@ PieceIdType initialise_motivation_from_revelation(revelation_status_type const *
   PieceIdType const result = ++top_invisible_piece_id;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",acts_when_first);
-  TraceFunctionParam("%u",purpose_first);
-  TraceSquare(sq_first);
-  TraceFunctionParam("%u",acts_when_last);
-  TraceFunctionParam("%u",purpose_last);
-  TraceSquare(sq_last);
+  TraceAction(&revelation->first);
+  TraceAction(&revelation->last);
   TraceFunctionParamListEnd();
 
   assert(motivation[result].last.purpose==purpose_none);

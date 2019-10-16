@@ -51,6 +51,11 @@ extern decision_level_type curr_decision_level;
 extern decision_level_type max_decision_level;
 extern move_effect_journal_index_type top_before_relevations[maxply+1];
 
+void initialise_invisible_piece_ids(PieceIdType last_visible_piece_id);
+
+PieceIdType get_top_visible_piece_id(void);
+PieceIdType get_top_invisible_piece_id(void);
+
 PieceIdType initialise_motivation(purpose_type purpose, square sq_first,
                                   purpose_type purpose_last, square sq_last);
 PieceIdType initialise_motivation_from_revelation(revelation_status_type const *revelation);

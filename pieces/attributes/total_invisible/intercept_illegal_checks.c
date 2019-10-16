@@ -37,7 +37,7 @@ static void done_intercepting_illegal_checks(void)
 
     {
       PieceIdType id;
-      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
+      for (id = get_top_visible_piece_id()+1; id<=get_top_invisible_piece_id(); ++id)
       {
         TraceValue("%u",id);TraceEOL();
         TraceAction(&motivation[id].first);TraceEOL();

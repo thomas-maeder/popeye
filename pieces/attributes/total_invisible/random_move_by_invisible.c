@@ -59,14 +59,9 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
   {
     PieceIdType const id_victim = GetPieceId(being_solved.spec[sq_arrival]);
 
-    TraceValue("%u",id_victim);
-    TraceValue("%u",motivation[id_victim].first.purpose);
-    TraceValue("%u",motivation[id_victim].first.acts_when);
-    TraceSquare(motivation[id_victim].first.on);
-    TraceValue("%u",motivation[id_victim].last.purpose);
-    TraceValue("%u",motivation[id_victim].last.acts_when);
-    TraceSquare(motivation[id_victim].last.on);
-    TraceEOL();
+    TraceValue("%u",id_victim);TraceEOL();
+    TraceAction(&motivation[id_victim].first);TraceEOL();
+    TraceAction(&motivation[id_victim].last);TraceEOL();
 
     assert(motivation[id_victim].first.purpose!=purpose_none);
     assert(motivation[id_victim].last.purpose!=purpose_none);
@@ -149,17 +144,25 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
     if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_right;
-      max_decision_level = decision_level_latest;
-      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      flesh_out_accidental_capture_by_invisible(is_dummy_moving);
+
+      if (!is_taboo(sq_arrival,trait[nbply]))
+      {
+        max_decision_level = decision_level_latest;
+        move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+        flesh_out_accidental_capture_by_invisible(is_dummy_moving);
+      }
     }
 
     if (curr_decision_level<=max_decision_level)
     {
       square const sq_arrival = sq_singlestep+dir_left;
-      max_decision_level = decision_level_latest;
-      move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-      flesh_out_accidental_capture_by_invisible(is_dummy_moving);
+
+      if (!is_taboo(sq_arrival,trait[nbply]))
+      {
+        max_decision_level = decision_level_latest;
+        move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+        flesh_out_accidental_capture_by_invisible(is_dummy_moving);
+      }
     }
   }
 
