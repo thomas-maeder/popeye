@@ -53,6 +53,8 @@ extern move_effect_journal_index_type top_before_relevations[maxply+1];
 
 PieceIdType initialise_motivation(purpose_type purpose, square sq_first,
                                   purpose_type purpose_last, square sq_last);
+PieceIdType initialise_motivation2(ply acts_when_first, purpose_type purpose_first, square sq_first,
+                                   ply acts_when_last, purpose_type purpose_last, square sq_last);
 void uninitialise_motivation(PieceIdType id_uninitialised);
 
 void reveal_new(move_effect_journal_entry_type const *entry);

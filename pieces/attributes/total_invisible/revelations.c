@@ -51,6 +51,34 @@ PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
   return result;
 }
 
+PieceIdType initialise_motivation2(ply acts_when_first, purpose_type purpose_first, square sq_first,
+                                   ply acts_when_last, purpose_type purpose_last, square sq_last)
+{
+  PieceIdType const result = ++top_invisible_piece_id;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",acts_when_first);
+  TraceFunctionParam("%u",purpose_first);
+  TraceSquare(sq_first);
+  TraceFunctionParam("%u",acts_when_last);
+  TraceFunctionParam("%u",purpose_last);
+  TraceSquare(sq_last);
+  TraceFunctionParamListEnd();
+
+  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  motivation[result].first.purpose = purpose_first;
+  motivation[result].first.acts_when = acts_when_first;
+  motivation[result].first.on = sq_first;
+  motivation[result].last.purpose = purpose_last;
+  motivation[result].last.acts_when = acts_when_last;
+  motivation[result].last.on = sq_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void uninitialise_motivation(PieceIdType id_uninitialised)
 {
   TraceFunctionEntry(__func__);
@@ -905,9 +933,12 @@ static PieceIdType add_revelation_effect(square s, unsigned int idx)
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParamListEnd();
+
   TraceWalk(revelation_status[idx].walk);
   TraceFunctionParam("%x",revelation_status[idx].spec);
-  TraceFunctionParamListEnd();
+  TraceEOL();
 
   assert(TSTFLAG(spec,Chameleon));
   CLRFLAG(spec,Chameleon);
@@ -919,10 +950,12 @@ static PieceIdType add_revelation_effect(square s, unsigned int idx)
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     {
-      result = initialise_motivation(revelation_status[idx].first.purpose,
-                                     revelation_status[idx].first.on,
-                                     revelation_status[idx].last.purpose,
-                                     revelation_status[idx].last.on);
+      result = initialise_motivation2(revelation_status[idx].first.acts_when,
+                                      revelation_status[idx].first.purpose,
+                                      revelation_status[idx].first.on,
+                                      revelation_status[idx].last.acts_when,
+                                      revelation_status[idx].last.purpose,
+                                      revelation_status[idx].last.on);
 
       SetPieceId(spec,result);
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
@@ -1010,15 +1043,23 @@ void initialise_revelations(void)
     else
     {
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
+
+      TraceValue("%u",i);
       TraceSquare(s);
-      TraceWalk(walk);
+      TraceWalk(get_walk_of_piece_on_square(s));
       TraceValue("%x",being_solved.spec[s]);
-      TraceEOL();
+      TraceValue("%u",id);TraceEOL();
+      TraceAction(&motivation[id].first);TraceEOL();
+      TraceAction(&motivation[id].last);TraceEOL();
+
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
       revelation_status[i].first = motivation[id].first;
       revelation_status[i].first.on = initsquare;
       revelation_status[i].last = motivation[id].last;
+      TraceAction(&revelation_status[i].first);TraceEOL();
+      TraceAction(&revelation_status[i].last);TraceEOL();
+
       ++i;
     }
   }
@@ -1056,16 +1097,6 @@ void update_revelations(void)
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
       square const first_on = motivation[id].first.on;
 
-      TraceValue("%u",i);
-      TraceSquare(s);
-      TraceValue("%x",being_solved.spec[s]);
-      TraceValue("%u",id);
-      TraceSquare(motivation[id].last.on);
-      TraceValue("%u",motivation[id].last.acts_when);
-      TraceValue("%x",revelation_status[i].spec);
-      TraceValue("%u",revelation_status[i].last.acts_when);
-      TraceEOL();
-
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));
 
@@ -1075,10 +1106,29 @@ void update_revelations(void)
       {
         if (motivation[id].last.on!=revelation_status[i].last.on)
           revelation_status[i].last.acts_when = ply_nil;
-        else if (motivation[id].last.acts_when<revelation_status[i].last.acts_when)
-          // TODO this looks a little dubious
-          revelation_status[i].last.acts_when = motivation[id].last.acts_when;
+        else
+        {
+          if (motivation[id].last.acts_when>revelation_status[i].last.acts_when)
+            revelation_status[i].last = motivation[id].last;
+          if (motivation[id].first.acts_when<revelation_status[i].first.acts_when)
+          {
+            // TODO leaving .first.on == initsquare
+            revelation_status[i].first.acts_when = motivation[id].first.acts_when;
+            revelation_status[i].first.purpose = motivation[id].first.purpose;
+          }
+        }
       }
+
+      TraceValue("%u",i);
+      TraceSquare(s);
+      TraceWalk(get_walk_of_piece_on_square(s));
+      TraceValue("%x",being_solved.spec[s]);
+      TraceValue("%u",id);TraceEOL();
+      TraceAction(&motivation[id].first);TraceEOL();
+      TraceAction(&motivation[id].last);TraceEOL();
+      TraceValue("%x",revelation_status[i].spec);TraceEOL();
+      TraceAction(&revelation_status[i].first);TraceEOL();
+      TraceAction(&revelation_status[i].last);TraceEOL();
 
       ++i;
     }
@@ -1104,15 +1154,13 @@ void evaluate_revelations(slice_index si,
     square const s = revelation_status[i].first_on;
 
     TraceSquare(s);
-    TraceWalk(revelation_status[i].walk);
-    TraceEOL();
+    TraceWalk(revelation_status[i].walk);TraceEOL();
+    TraceAction(&revelation_status[i].first);TraceEOL();
+    TraceAction(&revelation_status[i].last);TraceEOL();
 
     if (revelation_status[i].walk!=Empty)
     {
       PieceIdType const id_new = add_revelation_effect(s,i);
-
-      TraceSquare(revelation_status[i].first.on);
-      TraceEOL();
 
       if (revelation_status[i].first.on!=initsquare)
       {
@@ -1126,16 +1174,9 @@ void evaluate_revelations(slice_index si,
         /* if we revealed a so far unplaced invisible piece, the id will have changed */
         SetPieceId(knowledge[size_knowledge].spec,id_new);
 
-        TraceValue("%u",revelation_status[i].last.acts_when);
-        TraceSquare(revelation_status[i].last.on);
-        TraceValue("%u",revelation_status[i].last.purpose);
-        TraceValue("%u",id_new);
-        TraceValue("%u",motivation[id_new].first.acts_when);
-        TraceValue("%u",motivation[id_new].first.purpose);
-        TraceSquare(motivation[id_new].first.on);
-        TraceValue("%u",motivation[id_new].last.acts_when);
-        TraceValue("%u",motivation[id_new].last.purpose);
-        TraceSquare(motivation[id_new].last.on);
+        TraceValue("%u",id_new);TraceEOL();
+        TraceAction(&motivation[id_new].first);TraceEOL();
+        TraceAction(&motivation[id_new].last);TraceEOL();
         TraceWalk(knowledge[size_knowledge].walk);
         TraceSquare(knowledge[size_knowledge].first_on);
         TraceValue("%x",knowledge[size_knowledge].spec);
@@ -1515,28 +1556,10 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
 
 static void done_testing_and_execute_revelations(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply+1<=top_ply_of_regular_play
-      && sq_departure>=capture_by_invisible
-      && is_on_board(sq_arrival))
-  {
-    if (is_capture_by_invisible_possible())
-      start_iteration();
-    else
-    {
-      REPORT_DECISION_OUTCOME("capture by invisible in ply %u will not be possible",nbply+1);
-      REPORT_DEADEND;
-    }
-  }
-  else
-    start_iteration();
+  start_iteration();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

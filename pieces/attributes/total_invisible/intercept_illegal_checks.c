@@ -39,52 +39,39 @@ static void done_intercepting_illegal_checks(void)
       PieceIdType id;
       for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
       {
-        TraceValue("%u",id);
-
-        TraceValue("%u",motivation[id].first.purpose);
-        TraceValue("%u",motivation[id].first.acts_when);
-        TraceSquare(motivation[id].first.on);
-
-        TraceValue("%u",motivation[id].last.purpose);
-        TraceValue("%u",motivation[id].last.acts_when);
-        TraceSquare(motivation[id].last.on);
-
+        TraceValue("%u",id);TraceEOL();
+        TraceAction(&motivation[id].first);TraceEOL();
+        TraceAction(&motivation[id].last);TraceEOL();
         TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
         TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
         TraceEOL();
       }
     }
 
+    if (is_capture_by_invisible_possible())
     {
-      PieceIdType id;
-      for (id = top_visible_piece_id+1; id<=top_invisible_piece_id; ++id)
-      {
-        TraceValue("%u",id);TraceEOL();
-        assert((motivation[id].first.acts_when>nbply) // active in the future
-               || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose!=purpose_interceptor) // to become active later in this ply
-               || (motivation[id].first.acts_when==nbply && motivation[id].first.purpose==purpose_interceptor) // revealed interceptor - not necessarly present
-               || (motivation[id].first.acts_when<nbply && motivation[id].last.acts_when>=nbply) // in action
-               || (motivation[id].last.purpose==purpose_none && motivation[id].last.acts_when<nbply) // put on hold by a revelation or capture
-               || (GetPieceId(being_solved.spec[motivation[id].last.on])==id));
-      }
-    }
-
-    if (sq_departure==move_by_invisible
-        && sq_arrival==move_by_invisible)
-      flesh_out_random_move_by_invisible();
-    else if (sq_departure>=capture_by_invisible
-             && is_on_board(sq_arrival))
-      flesh_out_capture_by_invisible();
-    else
-    {
-      square const first_taboo_violation = find_taboo_violation();
-      if (first_taboo_violation==nullsquare)
-        adapt_pre_capture_effect();
+      if (sq_departure==move_by_invisible
+          && sq_arrival==move_by_invisible)
+        flesh_out_random_move_by_invisible();
+      else if (sq_departure>=capture_by_invisible
+               && is_on_board(sq_arrival))
+        flesh_out_capture_by_invisible();
       else
       {
-        // TODO review
+        square const first_taboo_violation = find_taboo_violation();
+        if (first_taboo_violation==nullsquare)
+          adapt_pre_capture_effect();
+        else
+        {
+          // TODO review
 //        assert(is_taboo_violation_acceptable(first_taboo_violation));
+        }
       }
+    }
+    else
+    {
+      REPORT_DECISION_OUTCOME("capture by invisible in ply %u will not be possible",nbply+1);
+      REPORT_DEADEND;
     }
   }
   else

@@ -5,6 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/ply.h"
 #include "pieces/attributes/total_invisible/goal_validation.h"
+#include "debugging/trace.h"
 
 extern unsigned int total_invisible_number;
 
@@ -108,6 +109,11 @@ typedef struct action_type
     ply acts_when;
     square on;
 } action_type;
+
+#define TraceAction(action) \
+    TraceValue("%u",(action)->acts_when); \
+    TraceSquare((action)->on); \
+    TraceValue("%u",(action)->purpose);
 
 
 extern ply top_ply_of_regular_play;
