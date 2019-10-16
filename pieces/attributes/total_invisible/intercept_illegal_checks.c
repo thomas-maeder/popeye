@@ -207,18 +207,20 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
 static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                              unsigned int nr_check_vectors,
                              Side side,
-                             square pos)
+                             square pos,
+                             PieceIdType id_placed)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
+  TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
   TraceSquare(being_solved.king_square[side]);
   TraceEOL();
 
-  motivation[top_invisible_piece_id].levels.walk = curr_decision_level;
+  motivation[id_placed].levels.walk = curr_decision_level;
 
   if (being_solved.king_square[side]==initsquare)
     walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
@@ -283,13 +285,15 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
 
 static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                unsigned int nr_check_vectors,
-                               square pos)
+                               square pos,
+                               PieceIdType id_placed)
 {
   Side const preferred_side = trait[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(pos);
+  TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
   if (curr_decision_level<=max_decision_level)
@@ -301,7 +305,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
       ++curr_decision_level;
 
       CLRFLAG(being_solved.spec[pos],advers(preferred_side));
-      walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos);
+      walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos,id_placed);
       SETFLAG(being_solved.spec[pos],advers(preferred_side));
 
       --curr_decision_level;
@@ -317,7 +321,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
       ++curr_decision_level;
 
       CLRFLAG(being_solved.spec[pos],preferred_side);
-      walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos);
+      walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos,id_placed);
       SETFLAG(being_solved.spec[pos],preferred_side);
 
       --curr_decision_level;
@@ -405,7 +409,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
   if (play_phase==play_validating_mate)
   {
-    motivation[top_invisible_piece_id].levels.walk = decision_level_latest;
+    motivation[id_placed].levels.walk = decision_level_latest;
 
     place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
@@ -418,7 +422,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     TraceConsumption();TraceEOL();
   }
   else
-    colour_interceptor(check_vectors,nr_check_vectors,s);
+    colour_interceptor(check_vectors,nr_check_vectors,s,id_placed);
 
   empty_square(s);
 
