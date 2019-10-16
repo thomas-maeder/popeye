@@ -51,8 +51,7 @@ PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
   return result;
 }
 
-PieceIdType initialise_motivation2(ply acts_when_first, purpose_type purpose_first, square sq_first,
-                                   ply acts_when_last, purpose_type purpose_last, square sq_last)
+PieceIdType initialise_motivation_from_revelation(revelation_status_type const *revelation)
 {
   PieceIdType const result = ++top_invisible_piece_id;
 
@@ -66,12 +65,8 @@ PieceIdType initialise_motivation2(ply acts_when_first, purpose_type purpose_fir
   TraceFunctionParamListEnd();
 
   assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
-  motivation[result].first.purpose = purpose_first;
-  motivation[result].first.acts_when = acts_when_first;
-  motivation[result].first.on = sq_first;
-  motivation[result].last.purpose = purpose_last;
-  motivation[result].last.acts_when = acts_when_last;
-  motivation[result].last.on = sq_last;
+  motivation[result].first = revelation->first;
+  motivation[result].last = revelation->last;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -950,12 +945,7 @@ static PieceIdType add_revelation_effect(square s, unsigned int idx)
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     {
-      result = initialise_motivation2(revelation_status[idx].first.acts_when,
-                                      revelation_status[idx].first.purpose,
-                                      revelation_status[idx].first.on,
-                                      revelation_status[idx].last.acts_when,
-                                      revelation_status[idx].last.purpose,
-                                      revelation_status[idx].last.on);
+      result = initialise_motivation_from_revelation(&revelation_status[idx]);
 
       SetPieceId(spec,result);
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
