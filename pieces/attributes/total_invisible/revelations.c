@@ -1554,17 +1554,6 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void done_testing_and_execute_revelations(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  start_iteration();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void test_and_execute_revelations(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
@@ -1575,7 +1564,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
   {
     ++nbply;
     TraceValue("%u",nbply);TraceEOL();
-    done_testing_and_execute_revelations();
+    start_iteration();
     --nbply;
   }
   else
