@@ -37,7 +37,7 @@ PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
   TraceSquare(sq_last);
   TraceFunctionParamListEnd();
 
-  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  assert(motivation[result].last.purpose==purpose_none);
   motivation[result].first.purpose = purpose_first;
   motivation[result].first.acts_when = nbply;
   motivation[result].first.on = sq_first;
@@ -64,7 +64,7 @@ PieceIdType initialise_motivation_from_revelation(revelation_status_type const *
   TraceSquare(sq_last);
   TraceFunctionParamListEnd();
 
-  assert(motivation[top_invisible_piece_id].last.purpose==purpose_none);
+  assert(motivation[result].last.purpose==purpose_none);
   motivation[result].first = revelation->first;
   motivation[result].last = revelation->last;
 
