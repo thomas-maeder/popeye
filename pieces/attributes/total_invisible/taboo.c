@@ -404,7 +404,7 @@ boolean was_taboo(square s, Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  for (ply = ply_retro_move+1; ply<nbply; ++ply)
+  for (ply = nbply-1; ply>ply_retro_move; --ply)
   {
     TraceValue("%u",ply);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
