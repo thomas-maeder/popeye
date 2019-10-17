@@ -51,18 +51,11 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
       nbply = top_ply_of_regular_play+1;
 
       for (s = potential_flight+vec[k]; s!=end; s += vec[k])
-      {
-        TraceSquare(s);
-        TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
-        TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
-        TraceEOL();
-
         if (!was_taboo(s,White) || !was_taboo(s,Black))
         {
           ++result;
           break;
         }
-      }
 
       nbply = save_nbply;
 
