@@ -27,7 +27,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
   // TODO first test allocation, then taboo?
 
-  if (was_taboo(sq_departure) || is_taboo(sq_departure,side_playing))
+  if (was_taboo(sq_departure,White) || was_taboo(sq_departure,Black) || is_taboo(sq_departure,side_playing))
   {
     REPORT_DECISION_OUTCOME("%s","capturer can't be placed on taboo square");
     REPORT_DEADEND;

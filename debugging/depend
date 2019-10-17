@@ -6,7 +6,8 @@ debugging/assert$(OBJ_SUFFIX): debugging/assert.c debugging/assert.h \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/move_generator.h pieces/attributes/total_invisible.h
+ solving/move_generator.h pieces/attributes/total_invisible.h \
+ position/pieceid.h pieces/attributes/total_invisible/goal_validation.h
 
 debugging/assert.h:
 
@@ -53,6 +54,10 @@ solving/ply.h:
 solving/move_generator.h:
 
 pieces/attributes/total_invisible.h:
+
+position/pieceid.h:
+
+pieces/attributes/total_invisible/goal_validation.h:
 debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \

@@ -394,22 +394,22 @@ void update_taboo(int delta)
   TraceFunctionResultEnd();
 }
 
-boolean was_taboo(square s)
+boolean was_taboo(square s, Side side)
 {
   boolean result = false;
   ply ply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   for (ply = ply_retro_move+1; ply<nbply; ++ply)
   {
     TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][White][s]);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][Black][s]);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
     TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][White][s]>0 || nr_taboos_for_current_move_in_ply[ply][Black][s]>0)
+    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
     {
       result = true;
       break;

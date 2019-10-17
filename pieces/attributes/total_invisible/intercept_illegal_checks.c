@@ -465,7 +465,8 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
         TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
         TraceEOL();
-        if (!was_taboo(s))
+        // TODO should we test one side after the other (also above in the if statement)?
+        if (!was_taboo(s,White) && !was_taboo(s,Black))
         {
           PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                               purpose_interceptor,s);

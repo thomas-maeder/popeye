@@ -645,7 +645,8 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  if (!was_taboo(move_effect_journal[movement].u.piece_movement.from))
+  if (!(was_taboo(move_effect_journal[movement].u.piece_movement.from,White)
+        || was_taboo(move_effect_journal[movement].u.piece_movement.from,Black)))
   {
     Side const side_attacked = advers(side_moving);
     square const king_pos = being_solved.king_square[side_attacked];

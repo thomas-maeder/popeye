@@ -359,7 +359,7 @@ void adapt_pre_capture_effect(void)
         adapt_capture_effect();
         move_effect_journal[pre_capture].type = move_effect_piece_readdition;
       }
-      else if (was_taboo(sq_addition))
+      else if (was_taboo(sq_addition,White) || was_taboo(sq_addition,Black))
       {
         TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
         REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
