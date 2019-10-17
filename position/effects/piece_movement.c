@@ -66,7 +66,7 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_movement(move_effect_journal_entry_type const *entry)
+void undo_piece_movement(move_effect_journal_entry_type const *entry)
 {
   square const from = entry->u.piece_movement.from;
   square const to = entry->u.piece_movement.to;
@@ -86,6 +86,7 @@ static void undo_piece_movement(move_effect_journal_entry_type const *entry)
   {
     assert(get_walk_of_piece_on_square(to)==entry->u.piece_movement.moving);
     assert(being_solved.spec[to]==entry->u.piece_movement.movingspec);
+    assert(is_square_empty(from));
     occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
     empty_square(to);
   }
@@ -94,7 +95,7 @@ static void undo_piece_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_movement(move_effect_journal_entry_type const *entry)
+void redo_piece_movement(move_effect_journal_entry_type const *entry)
 {
   square const from = entry->u.piece_movement.from;
   square const to = entry->u.piece_movement.to;

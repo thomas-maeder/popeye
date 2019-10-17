@@ -9,6 +9,9 @@
 #include "stipulation/stipulation.h"
 #include "solving/move_effect_journal.h"
 
+void undo_king_square_movement(move_effect_journal_entry_type const *entry);
+void redo_king_square_movement(move_effect_journal_entry_type const *entry);
+
 /* Update the king squares according to the effects since king_square_horizon
  * @note Updates king_square_horizon; solvers invoking this function should
  *       reset king_square_horizon to its previous value before returning

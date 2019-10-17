@@ -56,7 +56,7 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_walk_change(move_effect_journal_entry_type const *entry)
+void undo_walk_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_walk_change.on;
   piece_walk_type const from = entry->u.piece_walk_change.from;
@@ -71,7 +71,7 @@ static void undo_walk_change(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-static void redo_walk_change(move_effect_journal_entry_type const *entry)
+void redo_walk_change(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.piece_walk_change.on;
   piece_walk_type const from = entry->u.piece_walk_change.from;

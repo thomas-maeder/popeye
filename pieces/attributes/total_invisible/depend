@@ -280,9 +280,14 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
- pieces/attributes/total_invisible/capture_by_invisible.h solving/pipe.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum debugging/assert.h
+ pieces/attributes/total_invisible/capture_by_invisible.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h \
+ position/effects/piece_removal.h position/effects/piece_movement.h \
+ position/effects/walk_change.h position/effects/king_square.h \
+ solving/pipe.h solving/castling.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ debugging/assert.h
 
 pieces/attributes/total_invisible/revelations.h:
 
@@ -354,7 +359,25 @@ pieces/attributes/total_invisible/random_move_by_invisible.h:
 
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
+pieces/walks/pawns/en_passant.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
+solving/fork.h:
+
+position/effects/piece_removal.h:
+
+position/effects/piece_movement.h:
+
+position/effects/walk_change.h:
+
+position/effects/king_square.h:
+
 solving/pipe.h:
+
+solving/castling.h:
 
 solving/has_solution_type.h:
 
@@ -1146,13 +1169,13 @@ pieces/attributes/total_invisible/replay_fleshed_out$(OBJ_SUFFIX): \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
  solving/ply.h pieces/attributes/total_invisible/goal_validation.h \
- debugging/trace.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h \
- position/castling_rights.h solving/pipe.h solving/move_generator.h \
- solving/castling.h position/position.h position/color.h \
+ debugging/trace.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum debugging/assert.h
+ position/castling_rights.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h solving/pipe.h \
+ solving/move_generator.h solving/castling.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ debugging/assert.h
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 
@@ -1196,20 +1219,6 @@ pieces/attributes/total_invisible/goal_validation.h:
 
 debugging/trace.h:
 
-solving/move_effect_journal.h:
-
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-position/castling_rights.h:
-
-solving/pipe.h:
-
-solving/move_generator.h:
-
-solving/castling.h:
-
 position/position.h:
 
 position/color.h:
@@ -1219,6 +1228,20 @@ position/color.enum.h:
 position/color.enum:
 
 pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+solving/pipe.h:
+
+solving/move_generator.h:
+
+solving/castling.h:
 
 solving/has_solution_type.h:
 

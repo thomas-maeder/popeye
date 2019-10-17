@@ -64,7 +64,7 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_removal(move_effect_journal_entry_type const *entry)
+void undo_piece_removal(move_effect_journal_entry_type const *entry)
 {
   square const from = entry->u.piece_removal.on;
   piece_walk_type const removed = entry->u.piece_removal.walk;
@@ -90,7 +90,7 @@ static void undo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_removal(move_effect_journal_entry_type const *entry)
+void redo_piece_removal(move_effect_journal_entry_type const *entry)
 {
   square const from = entry->u.piece_removal.on;
 

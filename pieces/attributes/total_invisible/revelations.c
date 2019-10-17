@@ -4,7 +4,13 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/random_move_by_invisible.h"
 #include "pieces/attributes/total_invisible/capture_by_invisible.h"
+#include "pieces/walks/pawns/en_passant.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/king_square.h"
 #include "solving/pipe.h"
+#include "solving/castling.h"
 #include "solving/has_solution_type.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
@@ -1496,14 +1502,8 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   TraceValue("%u",top_before_relevations[nbply]);
   TraceEOL();
 
-  if (curr==top_before_relevations[nbply])
+  if (curr==move_effect_journal_base[nbply])
   {
-    move_effect_journal_index_type const save_top = move_effect_journal_base[nbply+1];
-
-    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
-    undo_move_effects();
-    move_effect_journal_base[nbply+1] = save_top;
-
     if (is_random_move_by_invisible(nbply))
       backward_fleshout_random_move_by_invisible();
     else
@@ -1511,31 +1511,76 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
       max_decision_level = decision_level_latest;
       restart_from_scratch();
     }
-
-    move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
-    redo_move_effects();
-    move_effect_journal_base[nbply+1] = save_top;
   }
   else
   {
-    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
+    move_effect_journal_entry_type const * const entry = &move_effect_journal[curr-1];
+
+    TraceValue("%u",entry->type);TraceEOL();
     switch (entry->type)
     {
+      case move_effect_none:
+      case move_effect_no_piece_removal:
+        undo_revelation_effects(curr-1);
+        break;
+
+      case move_effect_piece_removal:
+        undo_piece_removal(entry);
+        undo_revelation_effects(curr-1);
+        redo_piece_removal(entry);
+        break;
+
+      case move_effect_piece_movement:
+        /* we may have added an interceptor on the square evacuated here, but failed to move
+         * it to our departure square in a random move
+         */
+        if (is_square_empty(entry->u.piece_movement.from))
+        {
+          undo_piece_movement(entry);
+          undo_revelation_effects(curr-1);
+          redo_piece_movement(entry);
+        }
+        else
+        {
+          // TODO backtrack how far? placement of the blocker? or rather "non-removal" of it (i.e. the last random move of its side)?
+        }
+        break;
+
+      case move_effect_walk_change:
+        undo_walk_change(entry);
+        undo_revelation_effects(curr-1);
+        redo_walk_change(entry);
+        break;
+
+      case move_effect_king_square_movement:
+        undo_king_square_movement(entry);
+        undo_revelation_effects(curr-1);
+        redo_king_square_movement(entry);
+        break;
+
+      case move_effect_disable_castling_right:
+        move_effect_journal_undo_disabling_castling_right(entry);
+        undo_revelation_effects(curr-1);
+        move_effect_journal_redo_disabling_castling_right(entry);
+        break;
+
+      case move_effect_remember_ep_capture_potential:
+        move_effect_journal_undo_remember_ep(entry);
+        undo_revelation_effects(curr-1);
+        move_effect_journal_redo_remember_ep(entry);
+        break;
+
       case move_effect_revelation_of_new_invisible:
-      {
         unreveal_new(entry);
         undo_revelation_effects(curr-1);
         reveal_new(entry);
         break;
-      }
 
       case move_effect_revelation_of_placed_invisible:
-      {
         undo_revelation_of_placed_invisible(entry);
         undo_revelation_effects(curr-1);
         redo_revelation_of_placed_invisible(entry);
         break;
-      }
 
       case move_effect_revelation_of_castling_partner:
       {

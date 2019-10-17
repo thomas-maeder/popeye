@@ -26,7 +26,7 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_checking);
   TraceSquare(potential_flight);
-  TraceValue("%u",nr_placeable_invisibles_for_side);
+  TraceValue("%u",nr_interceptors_available);
   TraceValue("%u",start);
   TraceValue("%u",end);
   TraceWalk(walk_rider);
@@ -37,15 +37,34 @@ static unsigned int find_nr_interceptors_needed(Side side_checking,
     square const end = find_end_of_line(potential_flight,vec[k]);
     piece_walk_type const walk = get_walk_of_piece_on_square(end);
     Flags const flags = being_solved.spec[end];
+
+    TraceSquare(end);
+    TraceWalk(walk);
+    TraceValue("%x",flags);
+    TraceEOL();
+
     if ((walk==Queen || walk==walk_rider) && TSTFLAG(flags,side_checking))
     {
+      ply const save_nbply = nbply;
       square s;
+
+      nbply = top_ply_of_regular_play+1;
+
       for (s = potential_flight+vec[k]; s!=end; s += vec[k])
-        if (nr_taboos_accumulated_until_ply[White][s]==0 || nr_taboos_accumulated_until_ply[Black][s]==0)
+      {
+        TraceSquare(s);
+        TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
+        TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
+        TraceEOL();
+
+        if (!was_taboo(s,White) || !was_taboo(s,Black))
         {
           ++result;
           break;
         }
+      }
+
+      nbply = save_nbply;
 
       if (s==end)
       {
@@ -138,6 +157,8 @@ static boolean make_a_flight(void)
     TraceValue("%x",flags);
     TraceEOL();
 
+    ++nr_taboos_for_current_move_in_ply[top_ply_of_regular_play][White][king_pos];
+    ++nr_taboos_for_current_move_in_ply[top_ply_of_regular_play][Black][king_pos];
     empty_square(king_pos);
 
     for (dir_vert = dir_down; dir_vert<=dir_up && !result; dir_vert += dir_up)
@@ -152,6 +173,8 @@ static boolean make_a_flight(void)
       }
 
     occupy_square(king_pos,walk,flags);
+    --nr_taboos_for_current_move_in_ply[top_ply_of_regular_play][Black][king_pos];
+    --nr_taboos_for_current_move_in_ply[top_ply_of_regular_play][White][king_pos];
   }
 
   TraceFunctionExit(__func__);

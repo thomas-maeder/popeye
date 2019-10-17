@@ -169,9 +169,22 @@ void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
   if (nbply>ply_retro_move+1)
   {
     --nbply;
-    undo_move_effects();
-    replay_fleshed_out_move_sequence(phase_replay);
-    redo_move_effects();
+    {
+      move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+
+      // TODO what if we have added an invisible on the departure square of the castling partner?
+      if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+      {
+        undo_move_effects();
+        replay_fleshed_out_move_sequence(phase_replay);
+        redo_move_effects();
+      }
+      else
+        // TODO backtrack how far? placement of the blocker? or rather "non-removal" of it (i.e. the last random move of its side)?
+        // TODO move this to our caller?
+        mate_validation_result = mate_unvalidated;
+    }
     ++nbply;
   }
   else

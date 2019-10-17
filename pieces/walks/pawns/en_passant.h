@@ -126,6 +126,9 @@ square en_passant_find_potential(square sq_multistep_departure);
  */
 boolean en_passant_is_ep_capture(square sq_capture);
 
+void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry);
+void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

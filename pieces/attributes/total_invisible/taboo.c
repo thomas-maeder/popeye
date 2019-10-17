@@ -414,6 +414,22 @@ boolean was_taboo(square s, Side side)
       result = true;
       break;
     }
+    else if (side==trait[ply])
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
+        break;
+      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
+      {
+        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
+        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+          break;
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
