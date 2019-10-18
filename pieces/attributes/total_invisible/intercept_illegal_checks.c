@@ -354,7 +354,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
   if (allocate_placed(side))
   {
-    if (is_taboo(s,side))
+    if (is_taboo2(s,side))
     {
       REPORT_DECISION_OUTCOME("%s","taboo violation");
       REPORT_DEADEND;
@@ -411,12 +411,35 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   {
     motivation[id_placed].levels.walk = decision_level_latest;
 
-    place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+    TraceSquare(s);
+    TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
+    TraceEOL();
+
+    if (!was_taboo(s,White))
+    {
+      ++nr_taboos_for_current_move_in_ply[nbply][White][s];
+      ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
+      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+      --nr_taboos_for_current_move_in_ply[nbply][White][s];
+      --nr_taboos_for_current_move_in_ply[nbply][Black][s];
+    }
 
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+
+      TraceSquare(s);
+      TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
+      TraceEOL();
+
+      if (!was_taboo(s,Black))
+      {
+        ++nr_taboos_for_current_move_in_ply[nbply][White][s];
+        ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
+        place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+        --nr_taboos_for_current_move_in_ply[nbply][White][s];
+        --nr_taboos_for_current_move_in_ply[nbply][Black][s];
+      }
     }
 
     TraceConsumption();TraceEOL();
@@ -453,45 +476,43 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
     {
       max_decision_level = decision_level_latest;
 
+      TraceSquare(s);
+      TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
+      TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
+      TraceEOL();
+
       /* use the taboo machinery to avoid attempting to intercept on the same
        * square in different iterations.
-       * nbply minus 1 is correct - this taboo is equivalent to those deduced from
-       * the previous move.
        */
-      if (nr_taboos_for_current_move_in_ply[nbply-1][White][s]==0
-          && nr_taboos_for_current_move_in_ply[nbply-1][Black][s]==0)
+      if (nr_taboos_for_current_move_in_ply[nbply][White][s]==0
+          || nr_taboos_for_current_move_in_ply[nbply][Black][s]==0)
       {
-        TraceSquare(s);
-        TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
-        TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
-        TraceEOL();
-        // TODO should we test one side after the other (also above in the if statement)?
-        if (!was_taboo(s,White) && !was_taboo(s,Black))
-        {
-          PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
-                                                              purpose_interceptor,s);
-          motivation[id_placed].levels.from = decision_level_latest;
-          motivation[id_placed].levels.to = curr_decision_level;
+        PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+                                                            purpose_interceptor,s);
 
-          // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
-          // curr_decision_level outside of the loop
-          REPORT_DECISION_SQUARE('>',s);
-          ++curr_decision_level;
-          place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
-          --curr_decision_level;
+        motivation[id_placed].levels.from = decision_level_latest;
+        motivation[id_placed].levels.to = curr_decision_level;
 
-          uninitialise_motivation(id_placed);
-        }
+        // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
+        // curr_decision_level outside of the loop
+        REPORT_DECISION_SQUARE('>',s);
+        ++curr_decision_level;
+        place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
+        --curr_decision_level;
+
+        uninitialise_motivation(id_placed);
       }
-      ++nr_taboos_for_current_move_in_ply[nbply-1][White][s];
-      ++nr_taboos_for_current_move_in_ply[nbply-1][Black][s];
+
+      ++nr_taboos_for_current_move_in_ply[nbply][White][s];
+      ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
     }
+    // TODO would this be simpler if we used recursion to iterate over the squares and sides?
     {
       square s2;
       for (s2 = king_pos+vec[kcurr]; s2!=s; s2 += vec[kcurr])
       {
-        --nr_taboos_for_current_move_in_ply[nbply-1][White][s2];
-        --nr_taboos_for_current_move_in_ply[nbply-1][Black][s2];
+        --nr_taboos_for_current_move_in_ply[nbply][White][s2];
+        --nr_taboos_for_current_move_in_ply[nbply][Black][s2];
       }
     }
 
