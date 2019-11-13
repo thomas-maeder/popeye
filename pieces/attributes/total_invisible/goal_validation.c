@@ -14,101 +14,6 @@
 mate_validation_type mate_validation_result;
 mate_validation_type combined_validation_result;
 
-static unsigned int find_nr_interceptors_needed(Side side_checking,
-                                                square potential_flight,
-                                                unsigned int nr_interceptors_available,
-                                                vec_index_type start, vec_index_type end,
-                                                piece_walk_type walk_rider)
-{
-  unsigned int result = 0;
-  vec_index_type k;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_checking);
-  TraceSquare(potential_flight);
-  TraceValue("%u",nr_interceptors_available);
-  TraceValue("%u",start);
-  TraceValue("%u",end);
-  TraceWalk(walk_rider);
-  TraceFunctionParamListEnd();
-
-  for (k = start; k<=end && result<=nr_interceptors_available; ++k)
-  {
-    square const end = find_end_of_line(potential_flight,vec[k]);
-    piece_walk_type const walk = get_walk_of_piece_on_square(end);
-    Flags const flags = being_solved.spec[end];
-
-    TraceSquare(end);
-    TraceWalk(walk);
-    TraceValue("%x",flags);
-    TraceEOL();
-
-    if ((walk==Queen || walk==walk_rider) && TSTFLAG(flags,side_checking))
-    {
-      ply const save_nbply = nbply;
-      square s;
-
-      nbply = top_ply_of_regular_play+1;
-
-      for (s = potential_flight+vec[k]; s!=end; s += vec[k])
-        if (!was_taboo(s,White) || !was_taboo(s,Black))
-        {
-          ++result;
-          break;
-        }
-
-      nbply = save_nbply;
-
-      if (s==end)
-      {
-        /* line can't be intercepted - all guard are not interceptable */
-        result = nr_interceptors_available+1;
-        break;
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean are_all_guards_interceptable(Side side_in_check, square potential_flight)
-{
-  Side const side_checking = advers(side_in_check);
-  unsigned int nr_available;
-  unsigned int nr_interceptors_needed;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_in_check);
-  TraceSquare(potential_flight);
-  TraceFunctionParamListEnd();
-
-  nr_available = nr_placeable_invisibles_for_side(side_in_check);
-  TraceConsumption();
-  TraceValue("%u",nr_available);
-  TraceEOL();
-
-  nr_interceptors_needed = find_nr_interceptors_needed(side_checking,
-                                                       potential_flight,
-                                                       nr_available,
-                                                       vec_rook_start,vec_rook_end,
-                                                       Rook);
-
-  if (nr_interceptors_needed<=nr_available)
-    nr_interceptors_needed += find_nr_interceptors_needed(side_checking,
-                                                          potential_flight,
-                                                          nr_available-nr_interceptors_needed,
-                                                          vec_bishop_start,vec_bishop_end,
-                                                          Bishop);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",(nr_interceptors_needed<=nr_available));
-  TraceFunctionResultEnd();
-  return nr_interceptors_needed<=nr_available;
-}
-
 static boolean make_flight(Side side_in_check, square s)
 {
   boolean result = false;
@@ -120,8 +25,7 @@ static boolean make_flight(Side side_in_check, square s)
 
   if ((is_square_empty(s)
       || TSTFLAG(being_solved.spec[s],advers(side_in_check)))
-      && !is_square_uninterceptably_attacked(side_in_check,s)
-      && are_all_guards_interceptable(side_in_check,s))
+      && !is_square_uninterceptably_attacked(side_in_check,s))
     result = true;
 
   TraceFunctionExit(__func__);

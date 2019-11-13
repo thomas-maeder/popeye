@@ -431,10 +431,10 @@ solution finished.
   1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
   1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
   1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
-  add_to_move_generation_stack:     1621304
-                     play_move:     5583833
+  add_to_move_generation_stack:     1621289
+                     play_move:     5583806
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1192292
+ is_black_king_square_attacked:     1192274
 
 solution finished.
 
@@ -579,10 +579,10 @@ solution finished.
 
   1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
   1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
-  add_to_move_generation_stack:     2188291
-                     play_move:     6310365
+  add_to_move_generation_stack:     2188267
+                     play_move:     6310329
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1584775
+ is_black_king_square_attacked:     1584748
 
 solution finished.
 
@@ -615,10 +615,10 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3391858
-                     play_move:     5907113
+  add_to_move_generation_stack:     3391825
+                     play_move:     5907084
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2075506
+ is_black_king_square_attacked:     2075483
 
 b) wSb5-->d7  
 
@@ -866,10 +866,10 @@ b) wKc2-->g6
   1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
   1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
   1.Ke4-f3 Kg6-f5   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
-  add_to_move_generation_stack:      622091
-                     play_move:     1167506
+  add_to_move_generation_stack:      621502
+                     play_move:     1166806
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      344619
+ is_black_king_square_attacked:      344012
 
 solution finished.
 
