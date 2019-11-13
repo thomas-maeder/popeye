@@ -415,14 +415,11 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
     TraceEOL();
 
+    ++nr_taboos_for_current_move_in_ply[nbply][White][s];
+    ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
+
     if (!was_taboo(s,White))
-    {
-      ++nr_taboos_for_current_move_in_ply[nbply][White][s];
-      ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
-      --nr_taboos_for_current_move_in_ply[nbply][White][s];
-      --nr_taboos_for_current_move_in_ply[nbply][Black][s];
-    }
 
     if (curr_decision_level<=max_decision_level)
     {
@@ -433,14 +430,11 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
       TraceEOL();
 
       if (!was_taboo(s,Black))
-      {
-        ++nr_taboos_for_current_move_in_ply[nbply][White][s];
-        ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
         place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-        --nr_taboos_for_current_move_in_ply[nbply][White][s];
-        --nr_taboos_for_current_move_in_ply[nbply][Black][s];
-      }
     }
+
+    --nr_taboos_for_current_move_in_ply[nbply][White][s];
+    --nr_taboos_for_current_move_in_ply[nbply][Black][s];
 
     TraceConsumption();TraceEOL();
   }
