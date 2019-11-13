@@ -185,7 +185,14 @@ static void attack_checks(void)
     Side const side_delivering_check = trait[nbply];
     Side const side_in_check = advers(side_delivering_check);
     square const king_pos = being_solved.king_square[side_in_check];
-    vec_index_type const k = is_square_uninterceptably_attacked(side_in_check,king_pos);
+    ply const save_nbply = nbply;
+    vec_index_type k;
+
+    // TODO should we do this in our caller?
+    nbply = top_ply_of_regular_play+1;
+    k = is_square_uninterceptably_attacked(side_in_check,king_pos);
+    nbply = save_nbply;
+
     if (k==0)
     {
       if (are_all_guards_interceptable(side_in_check,king_pos))
