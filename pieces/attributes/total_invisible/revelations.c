@@ -1475,6 +1475,7 @@ void do_revelation_bookkeeping(void)
       TraceValue("%u",id);
       TraceValue("%u",motivation[id].levels.side);
       TraceValue("%u",motivation[id].levels.walk);
+      TraceValue("%u",motivation[id].levels.to);
       TraceEOL();
       assert(motivation[id].levels.side!=decision_level_uninitialised);
       assert(motivation[id].levels.walk!=decision_level_uninitialised);
@@ -1482,6 +1483,8 @@ void do_revelation_bookkeeping(void)
         max_level = motivation[id].levels.side;
       if (motivation[id].levels.walk>max_level)
         max_level = motivation[id].levels.walk;
+      if (motivation[id].levels.to>max_level)
+        max_level = motivation[id].levels.to;
     }
     TraceValue("%u",max_level);TraceEOL();
     max_decision_level = max_level;

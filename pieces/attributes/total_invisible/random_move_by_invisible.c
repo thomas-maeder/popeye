@@ -22,6 +22,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
 
+  motivation[id].levels.to = curr_decision_level;
   REPORT_DECISION_MOVE('>','-');
   ++curr_decision_level;
 
