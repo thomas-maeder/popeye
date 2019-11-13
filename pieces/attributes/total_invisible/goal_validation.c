@@ -195,18 +195,8 @@ static void attack_checks(void)
 
     if (k==0)
     {
-      if (are_all_guards_interceptable(side_in_check,king_pos))
-      {
-        TraceText("interceptable check\n");
-        /* the king square can be made a "flight" */
-        mate_validation_result = no_mate;
-        solve_result = previous_move_has_not_solved;
-      }
-      else
-      {
-        TraceText("mate can be refuted by interceptors or free TIs (if any)\n");
-        mate_validation_result = mate_defendable_by_interceptors;
-      }
+      mate_validation_result = no_mate;
+      solve_result = previous_move_has_not_solved;
     }
     else if (k==UINT_MAX)
     {
