@@ -127,7 +127,7 @@ boolean is_taboo(square s, Side side)
   return result;
 }
 
-boolean is_taboo2(square s, Side side)
+boolean will_be_taboo(square s, Side side)
 {
   boolean result = false;
   ply ply;

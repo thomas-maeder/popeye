@@ -112,7 +112,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
     TraceSquare(sq_singlestep);TraceEOL();
     if (is_square_empty(sq_singlestep))
     {
-      if (!is_taboo2(sq_singlestep,side))
+      if (!will_be_taboo(sq_singlestep,side))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         // TODO promotion
@@ -128,7 +128,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (!is_taboo2(sq_doublestep,side))
+            if (!will_be_taboo(sq_doublestep,side))
             {
               max_decision_level = decision_level_latest;
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
@@ -145,7 +145,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
     {
       square const sq_arrival = sq_singlestep+dir_right;
 
-      if (!is_taboo2(sq_arrival,trait[nbply]))
+      if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
         max_decision_level = decision_level_latest;
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -157,7 +157,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
     {
       square const sq_arrival = sq_singlestep+dir_left;
 
-      if (!is_taboo2(sq_arrival,trait[nbply]))
+      if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
         max_decision_level = decision_level_latest;
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -204,12 +204,12 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
        */
       if (is_square_empty(sq_arrival))
       {
-        if (!is_taboo2(sq_arrival,trait[nbply]))
+        if (!will_be_taboo(sq_arrival,trait[nbply]))
           done_fleshing_out_random_move_by_invisible_from(is_dummy_moving);
       }
       else
       {
-        if (!is_taboo2(sq_arrival,trait[nbply]))
+        if (!will_be_taboo(sq_arrival,trait[nbply]))
           flesh_out_accidental_capture_by_invisible(is_dummy_moving);
         break;
       }
@@ -242,7 +242,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
   for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    if (!is_taboo2(sq_arrival,trait[nbply]))
+    if (!will_be_taboo(sq_arrival,trait[nbply]))
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */

@@ -354,7 +354,7 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
   if (allocate_placed(side))
   {
-    if (is_taboo2(s,side))
+    if (will_be_taboo(s,side))
     {
       REPORT_DECISION_OUTCOME("%s","taboo violation");
       REPORT_DEADEND;
