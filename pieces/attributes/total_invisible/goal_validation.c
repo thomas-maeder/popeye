@@ -188,7 +188,7 @@ static void attack_checks(void)
     ply const save_nbply = nbply;
     vec_index_type k;
 
-    // TODO should we do this in our caller?
+    // TODO make sure that the appropriate taboos are applied - can we do this more elegantly?
     nbply = top_ply_of_regular_play+1;
     k = is_square_uninterceptably_attacked(side_in_check,king_pos);
     nbply = save_nbply;
