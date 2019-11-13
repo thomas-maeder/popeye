@@ -219,7 +219,6 @@ static void attack_checks(void)
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
       assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
       CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
-      // TODO haven't we just done this above?
       if (is_square_uninterceptably_attacked(side_in_check,king_pos))
       {
         TraceText("mate can not be defended\n");
