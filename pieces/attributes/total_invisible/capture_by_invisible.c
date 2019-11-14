@@ -411,6 +411,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         ++curr_decision_level;
 
         max_decision_level = decision_level_latest;
+        // TODO something is wrong here
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_WALK('>',walk_rider);
         ++curr_decision_level;
@@ -422,6 +423,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
+          // TODO something is wrong here
           motivation[id_existing].levels.from = curr_decision_level;
           REPORT_DECISION_WALK('>',Queen);
           ++curr_decision_level;
@@ -1053,6 +1055,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
              || motivation[id_existing].last.purpose==purpose_capturer)
             && motivation[id_existing].last.acts_when<=nbply))
     {
+      // TODO this is confusing - arrival-departure would be more intuitive
       int const move_square_diff = sq_departure-sq_arrival;
 
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -1105,7 +1108,8 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           break;
 
         case Pawn:
-          if (CheckDir[Bishop][move_square_diff]==move_square_diff)
+          if ((trait[nbply]==White ? move_square_diff<0 : move_square_diff>0)
+              && CheckDir[Bishop][move_square_diff]==move_square_diff)
           {
             SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
             SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
