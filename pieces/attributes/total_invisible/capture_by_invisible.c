@@ -1055,8 +1055,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
              || motivation[id_existing].last.purpose==purpose_capturer)
             && motivation[id_existing].last.acts_when<=nbply))
     {
-      // TODO this is confusing - arrival-departure would be more intuitive
-      int const move_square_diff = sq_departure-sq_arrival;
+      int const move_square_diff = sq_arrival-sq_departure;
 
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
@@ -1087,7 +1086,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
         case Bishop:
         {
           int const dir = CheckDir[walk_existing][move_square_diff];
-          if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
+          if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,-dir))
             capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
           else
           {
@@ -1108,7 +1107,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           break;
 
         case Pawn:
-          if ((trait[nbply]==White ? move_square_diff<0 : move_square_diff>0)
+          if ((trait[nbply]==White ? move_square_diff>0 : move_square_diff<0)
               && CheckDir[Bishop][move_square_diff]==move_square_diff)
           {
             SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
