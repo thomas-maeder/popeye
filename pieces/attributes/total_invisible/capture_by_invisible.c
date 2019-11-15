@@ -411,8 +411,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         ++curr_decision_level;
 
         max_decision_level = decision_level_latest;
-        // TODO something is wrong here
-        motivation[id_existing].levels.from = curr_decision_level;
+        motivation[id_existing].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',walk_rider);
         ++curr_decision_level;
 
@@ -423,8 +422,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
-          // TODO something is wrong here
-          motivation[id_existing].levels.from = curr_decision_level;
+          motivation[id_existing].levels.walk = curr_decision_level;
           REPORT_DECISION_WALK('>',Queen);
           ++curr_decision_level;
 
