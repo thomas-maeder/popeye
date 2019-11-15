@@ -380,16 +380,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
       --curr_decision_level;
 
-      if (curr_decision_level<=max_decision_level)
-      {
-        max_decision_level = decision_level_latest;
-        motivation[id_inserted].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',Queen);
-        ++curr_decision_level;
-        flesh_out_capture_by_inserted_invisible(Queen,sq_departure);
-        --curr_decision_level;
-      }
-
       --curr_decision_level;
     }
 
@@ -418,18 +408,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         capture_by_piece_at_end_of_line(walk_rider,sq_departure);
 
         --curr_decision_level;
-
-        if (curr_decision_level<=max_decision_level)
-        {
-          max_decision_level = decision_level_latest;
-          motivation[id_existing].levels.walk = curr_decision_level;
-          REPORT_DECISION_WALK('>',Queen);
-          ++curr_decision_level;
-
-          capture_by_piece_at_end_of_line(Queen,sq_departure);
-
-          --curr_decision_level;
-        }
 
         --curr_decision_level;
 
@@ -744,6 +722,7 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
     capture_by_invisible_leaper_inserted_or_existing(Knight,vec_knight_start,vec_knight_end);
     capture_by_invisible_rider_inserted_or_existing(Bishop,vec_bishop_start,vec_bishop_end);
     capture_by_invisible_rider_inserted_or_existing(Rook,vec_rook_start,vec_rook_end);
+    capture_by_invisible_rider_inserted_or_existing(Queen,vec_queen_start,vec_queen_end);
   }
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
