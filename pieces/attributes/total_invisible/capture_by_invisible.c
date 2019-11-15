@@ -456,7 +456,20 @@ static void capture_by_king_at_end_of_line(square sq_departure)
 
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+    move_effect_journal_index_type const precapture = effects_base;
+    Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+    PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
+    Flags const flags_existing = being_solved.spec[sq_departure];
+    PieceIdType const id_existing = GetPieceId(flags_existing);
+
+    motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
+
     capture_by_piece_at_end_of_line(King,sq_departure);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -497,7 +510,6 @@ static void capture_by_invisible_king_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
-    motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
     motivation[id_existing].levels.from = curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
     ++curr_decision_level;
@@ -576,19 +588,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
-    {
-      Flags const flags_existing = being_solved.spec[sq_departure];
-      PieceIdType const id_existing = GetPieceId(flags_existing);
-      decision_levels_type const save_levels = motivation[id_existing].levels;
-
-      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
-      motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_SQUARE('>',sq_departure);
-      ++curr_decision_level;
       flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-      --curr_decision_level;
-      motivation[id_existing].levels = save_levels;
-    }
     else
     {
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
@@ -603,6 +603,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
         decision_levels_type const save_levels = motivation[id_existing].levels;
 
         motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
+
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
         ++curr_decision_level;
@@ -648,16 +649,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
     if (!TSTFLAG(sq_spec[sq_departure],basesq)
         && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
-      Flags const flags_existing = being_solved.spec[sq_departure];
-      PieceIdType const id_existing = GetPieceId(flags_existing);
-      decision_levels_type const save_levels = motivation[id_existing].levels;
-
       max_decision_level = decision_level_latest;
-
-      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
-      motivation[id_existing].levels.from = curr_decision_level;
-      REPORT_DECISION_SQUARE('>',sq_departure);
-      ++curr_decision_level;
 
       if (is_square_empty(sq_departure))
         flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
@@ -669,11 +661,23 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
         if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
             && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-          capture_by_piece_at_end_of_line(Pawn,sq_departure);
-      }
+        {
+          Flags const flags_existing = being_solved.spec[sq_departure];
+          PieceIdType const id_existing = GetPieceId(flags_existing);
+          decision_levels_type const save_levels = motivation[id_existing].levels;
 
-      --curr_decision_level;
-      motivation[id_existing].levels = save_levels;
+          motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
+
+          motivation[id_existing].levels.from = curr_decision_level;
+          REPORT_DECISION_SQUARE('>',sq_departure);
+          ++curr_decision_level;
+
+          capture_by_piece_at_end_of_line(Pawn,sq_departure);
+
+          --curr_decision_level;
+          motivation[id_existing].levels = save_levels;
+        }
+      }
     }
   }
 
