@@ -362,6 +362,10 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
   TraceSquare(sq_arrival);TraceEOL();
 
+  ++curr_decision_level;
+  motivation[id_inserted].levels.walk = curr_decision_level;
+  REPORT_DECISION_WALK('>',walk_rider);
+
   for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
     square sq_departure;
@@ -374,12 +378,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       ++curr_decision_level;
 
       max_decision_level = decision_level_latest;
-      motivation[id_inserted].levels.walk = curr_decision_level;
-      REPORT_DECISION_WALK('>',walk_rider);
-      ++curr_decision_level;
       flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
-      --curr_decision_level;
-
       --curr_decision_level;
     }
 
@@ -401,13 +400,9 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         ++curr_decision_level;
 
         max_decision_level = decision_level_latest;
-        motivation[id_existing].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',walk_rider);
-        ++curr_decision_level;
+        motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
         capture_by_piece_at_end_of_line(walk_rider,sq_departure);
-
-        --curr_decision_level;
 
         --curr_decision_level;
 
@@ -415,6 +410,8 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       }
     }
   }
+
+  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -469,9 +466,9 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  ++curr_decision_level;
   motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',King);
-  ++curr_decision_level;
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -555,9 +552,9 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
+  ++curr_decision_level;
   motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_leaper);
-  ++curr_decision_level;
 
   for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
   {
@@ -566,7 +563,15 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
+    {
+      ++curr_decision_level;
+      motivation[id_inserted].levels.from = curr_decision_level;
+      REPORT_DECISION_SQUARE('>',sq_departure);
+
       flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+
+      --curr_decision_level;
+    }
     else
     {
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
@@ -674,9 +679,9 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  ++curr_decision_level;
   motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',Pawn);
-  ++curr_decision_level;
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);

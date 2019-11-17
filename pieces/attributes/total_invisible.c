@@ -128,15 +128,15 @@ void recurse_into_child_ply(void)
   assert(sq_departure==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
-  move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
-  assert(top_before_relevations[nbply]>move_effect_journal_base[nbply]);
+  move_effect_journal_base[nbply+1] = top_before_revelations[nbply];
+  assert(top_before_revelations[nbply]>move_effect_journal_base[nbply]);
   redo_move_effects();
   move_effect_journal_base[nbply+1] = save_top;
 
-  test_and_execute_revelations(top_before_relevations[nbply]);
+  test_and_execute_revelations(top_before_revelations[nbply]);
 
-  move_effect_journal_base[nbply+1] = top_before_relevations[nbply];
-  assert(top_before_relevations[nbply]>move_effect_journal_base[nbply]);
+  move_effect_journal_base[nbply+1] = top_before_revelations[nbply];
+  assert(top_before_revelations[nbply]>move_effect_journal_base[nbply]);
   undo_move_effects();
   move_effect_journal_base[nbply+1] = save_top;
 
@@ -580,7 +580,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     top_ply_of_regular_play = nbply;
     tester_slice = si;
 
-    top_before_relevations[nbply] = move_effect_journal_base[nbply+1];
+    top_before_revelations[nbply] = move_effect_journal_base[nbply+1];
 
     play_phase = play_rewinding;
     rewind_effects();

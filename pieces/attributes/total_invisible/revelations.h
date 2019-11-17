@@ -49,7 +49,7 @@ extern unsigned int nr_potential_revelations;
 extern revelation_status_type revelation_status[nr_squares_on_board];
 extern decision_level_type curr_decision_level;
 extern decision_level_type max_decision_level;
-extern move_effect_journal_index_type top_before_relevations[maxply+1];
+extern move_effect_journal_index_type top_before_revelations[maxply+1];
 
 void initialise_invisible_piece_ids(PieceIdType last_visible_piece_id);
 

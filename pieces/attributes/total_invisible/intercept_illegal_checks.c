@@ -558,9 +558,15 @@ void deal_with_illegal_checks(void)
 
       uninterceptable_check_delivered_from = king_pos+dir_check;
       checkerSpec = being_solved.spec[uninterceptable_check_delivered_from];
+
+      TraceSquare(uninterceptable_check_delivered_from);
+      TraceValue("%x",checkerSpec);
+      TraceEOL();
+
       if (TSTFLAG(checkerSpec,Chameleon))
       {
         PieceIdType const id_checker = GetPieceId(checkerSpec);
+
         assert(uninterceptable_check_delivered_in_ply==ply_nil);
         uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
 

@@ -22,7 +22,7 @@ unsigned int nr_potential_revelations;
 revelation_status_type revelation_status[nr_squares_on_board];
 decision_level_type curr_decision_level = 2;
 decision_level_type max_decision_level = decision_level_latest;
-move_effect_journal_index_type top_before_relevations[maxply+1];
+move_effect_journal_index_type top_before_revelations[maxply+1];
 motivation_type motivation[MaxPieceId+1];
 
 motivation_type const motivation_null = {
@@ -810,12 +810,23 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       break;
 
     case play_rewinding:
+    {
+      Side const side_revealed = TSTFLAG(flags_revealed,White) ? White : Black;
+      Side const side_original = TSTFLAG(flags_original,White) ? White : Black;
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       taint_history_of_placed_piece(entry-&move_effect_journal[0]);
       assert(!is_square_empty(on));
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
       SETFLAG(being_solved.spec[on],Chameleon);
+      assert(TSTFLAG(being_solved.spec[on],side_revealed));
+      if (side_revealed!=side_original)
+      {
+        /* a move by invisible must have captured the original piece,
+         * thereby changing the colour of the piece on square on! */
+        CLRFLAG(being_solved.spec[on],side_revealed);
+        SETFLAG(being_solved.spec[on],side_original);
+      }
       if (TSTFLAG(being_solved.spec[on],Royal))
       {
         Side const side = TSTFLAG(flags_revealed,White) ? White : Black;
@@ -825,6 +836,7 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
         CLRFLAG(being_solved.spec[on],Royal);
       }
       break;
+    }
 
     case play_detecting_revelations:
     case play_validating_mate:
@@ -1502,7 +1514,7 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",move_effect_journal_base[nbply+1]);
-  TraceValue("%u",top_before_relevations[nbply]);
+  TraceValue("%u",top_before_revelations[nbply]);
   TraceEOL();
 
   if (curr==move_effect_journal_base[nbply])

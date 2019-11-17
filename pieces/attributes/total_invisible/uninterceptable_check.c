@@ -187,7 +187,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
     update_taboo(+1);
     update_nr_taboos_for_current_move_in_ply(+1);
 
-    top_before_relevations[nbply] = move_effect_journal_base[nbply+1];
+    top_before_revelations[nbply] = move_effect_journal_base[nbply+1];
 
     make_revelations();
 
