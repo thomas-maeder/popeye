@@ -13,29 +13,42 @@ unsigned int nr_taboos_accumulated_until_ply[nr_sides][maxsquare];
 
 unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
 
-boolean has_been_taboo_since_random_move(square s)
+boolean was_taboo(square s, Side side)
 {
   boolean result = false;
   ply ply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   for (ply = nbply-1; ply>ply_retro_move; --ply)
   {
     TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][White][s]);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][Black][s]);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
     TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][White][s]>0
-        || nr_taboos_for_current_move_in_ply[ply][Black][s]>0)
+    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
     {
       result = true;
       break;
     }
-    else if (is_random_move_by_invisible(ply))
-      break;
+    else if (side==trait[ply])
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
+
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
+        break;
+      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
+      {
+        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
+        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+          break;
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -465,50 +478,6 @@ void update_taboo(int delta)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-boolean was_taboo(square s, Side side)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  for (ply = nbply-1; ply>ply_retro_move; --ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-    TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
-    {
-      result = true;
-      break;
-    }
-    else if (side==trait[ply])
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
-
-      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
-        break;
-      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
-      {
-        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
-        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
-          break;
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static square find_taboo_violation_rider(move_effect_journal_index_type movement,

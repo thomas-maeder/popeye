@@ -21,7 +21,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  if (!has_been_taboo_since_random_move(s))
+  if (!was_taboo(s,side_attacking))
   {
     dynamic_consumption_type const save_consumption = current_consumption;
 
