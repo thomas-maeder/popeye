@@ -559,7 +559,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
   TraceValue("%u",nbply-ply_retro_move);TraceEOL();
 
-  update_taboo(+1);
   update_nr_taboos_for_current_move_in_ply(+1);
 
   /* necessary for detecting checks by pawns and leapers */
@@ -601,7 +600,6 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   }
 
   update_nr_taboos_for_current_move_in_ply(-1);
-  update_taboo(-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -846,27 +844,7 @@ void total_invisible_instrumenter_solve(slice_index si)
     slice_insertion_insert(si,&prototype,1);
   }
 
-  {
-    square const *s;
-    for (s = boardnum; *s; ++s)
-      if (!is_square_empty(*s))
-      {
-        ++nr_taboos_accumulated_until_ply[White][*s];
-        ++nr_taboos_accumulated_until_ply[Black][*s];
-      }
-  }
-
   pipe_solve_delegate(si);
-
-  {
-    square const *s;
-    for (s = boardnum; *s; ++s)
-      if (!is_square_empty(*s))
-      {
-        --nr_taboos_accumulated_until_ply[White][*s];
-        --nr_taboos_accumulated_until_ply[Black][*s];
-      }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

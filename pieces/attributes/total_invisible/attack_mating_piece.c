@@ -108,7 +108,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
         TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
         TraceEOL();
 
-        if (nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+        if (!was_taboo(s,side_attacking))
           place_mating_piece_attacker(side_attacking,s,walk_rider);
       }
       else
@@ -154,7 +154,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
         && TSTFLAG(being_solved.spec[s],side_attacking))
       use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
-             && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+             && !was_taboo(s,side_attacking))
       place_mating_piece_attacker(side_attacking,s,walk_leaper);
   }
 
@@ -184,7 +184,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
         && TSTFLAG(being_solved.spec[s],side_attacking))
       use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
-        && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+             && !was_taboo(s,side_attacking))
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 
@@ -202,7 +202,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
         && TSTFLAG(being_solved.spec[s],side_attacking))
       use_accidental_attack_on_mating_piece(s);
     else if (is_square_empty(s)
-             && nr_taboos_accumulated_until_ply[side_attacking][s]==0)
+             && !was_taboo(s,side_attacking))
       place_mating_piece_attacker(side_attacking,s,Pawn);
   }
 

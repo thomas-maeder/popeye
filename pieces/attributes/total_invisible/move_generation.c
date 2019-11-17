@@ -118,7 +118,7 @@ static void prepare_king_side_castling_generation(slice_index si)
 
   if ((nr_total_invisbles_consumed()<total_invisible_number)
       && is_square_empty(square_h)
-      && nr_taboos_accumulated_until_ply[side][square_h]==0)
+      && !was_taboo(square_h,side))
   {
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_h,Rook,BIT(side)|BIT(Chameleon));
@@ -146,7 +146,7 @@ static void prepare_queen_side_castling_generation(slice_index si)
 
   if ((nr_total_invisbles_consumed()<total_invisible_number)
       && is_square_empty(square_a)
-      && nr_taboos_accumulated_until_ply[side][square_a]==0)
+      && !was_taboo(square_a,side))
   {
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_a,Rook,BIT(side)|BIT(Chameleon));

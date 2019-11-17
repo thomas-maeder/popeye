@@ -1828,11 +1828,9 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  update_taboo(+1);
   update_nr_taboos_for_current_move_in_ply(+1);
   make_revelations();
   update_nr_taboos_for_current_move_in_ply(-1);
-  update_taboo(-1);
 
   if (revelation_status_is_uninitialised)
     pipe_solve_delegate(si);

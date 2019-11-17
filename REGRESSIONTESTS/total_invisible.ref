@@ -615,10 +615,10 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3391825
-                     play_move:     5907100
+  add_to_move_generation_stack:     3391317
+                     play_move:     5906678
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2075487
+ is_black_king_square_attacked:     2075065
 
 b) wSb5-->d7  
 
@@ -659,18 +659,18 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:     6865676
-                     play_move:    14011563
+  add_to_move_generation_stack:     6863616
+                     play_move:    14010127
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5758010
+ is_black_king_square_attacked:     5756574
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:     6631520
-                     play_move:    12340213
+  add_to_move_generation_stack:     6630162
+                     play_move:    12338984
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5643099
+ is_black_king_square_attacked:     5641870
 
 solution finished.
 
@@ -767,7 +767,7 @@ solution finished.
   1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4[a4=wS] #
   1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4[a4=wS] #
   1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3[e3=wB] #
-  add_to_move_generation_stack:      127308
+  add_to_move_generation_stack:      127313
                      play_move:      272995
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       62422

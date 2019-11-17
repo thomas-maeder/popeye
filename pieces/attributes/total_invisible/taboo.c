@@ -424,62 +424,6 @@ void update_nr_taboos_for_current_move_in_ply(int delta)
   TraceFunctionResultEnd();
 }
 
-void update_taboo(int delta)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",delta);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceWalk(walk);
-  TraceEOL();
-
-  if (sq_departure==move_by_invisible
-      || sq_departure>=capture_by_invisible)
-  {
-    /* no taboos! */
-  }
-  else
-  {
-    if (is_rider(walk))
-      update_taboo_piece_movement_rider(delta,movement,&nr_taboos_accumulated_until_ply);
-    else if (is_pawn(walk))
-    {
-      if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-        update_taboo_piece_movement_pawn_no_capture(delta,movement,&nr_taboos_accumulated_until_ply);
-      else
-        update_taboo_piece_movement_pawn_capture(delta,movement,&nr_taboos_accumulated_until_ply);
-    }
-    else
-    {
-      if (walk==King
-          && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
-        update_taboo_piece_movement_castling(delta,movement,&nr_taboos_accumulated_until_ply);
-      else
-        update_taboo_piece_movement_leaper(delta,movement,&nr_taboos_accumulated_until_ply);
-    }
-
-    {
-      move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-      move_effect_journal_index_type idx;
-
-      for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
-        if (move_effect_journal[idx].type==move_effect_piece_movement
-            && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-          update_taboo_piece_movement_castling(delta,idx,&nr_taboos_accumulated_until_ply);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static square find_taboo_violation_rider(move_effect_journal_index_type movement,
                                          piece_walk_type walk)
 {
