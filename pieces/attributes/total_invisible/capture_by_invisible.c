@@ -424,26 +424,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
   TraceFunctionResultEnd();
 }
 
-static void capture_by_king_at_end_of_line(square sq_departure)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-
-  TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-  TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-  TraceEOL();
-
-  if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-      && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-    capture_by_piece_at_end_of_line(King,sq_departure);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void capture_by_invisible_king_inserted_or_existing(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -473,53 +453,85 @@ static void capture_by_invisible_king_inserted_or_existing(void)
        ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-    decision_levels_type const save_levels = motivation[id_existing].levels;
 
     max_decision_level = decision_level_latest;
 
-    ++curr_decision_level;
-    motivation[id_existing].levels.from = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',sq_departure);
-
-    move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-    move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-    move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-    move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-    if (get_walk_of_piece_on_square(sq_departure)==King
-        && sq_departure==being_solved.king_square[trait[nbply]])
+    if (is_square_empty(sq_departure))
     {
-      assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-      capture_by_king_at_end_of_line(sq_departure);
-    }
-    else if (being_solved.king_square[trait[nbply]]==initsquare)
-    {
-      being_solved.king_square[trait[nbply]] = sq_departure;
-
-      if (is_square_empty(sq_departure))
+      if (being_solved.king_square[trait[nbply]]==initsquare)
       {
+        being_solved.king_square[trait[nbply]] = sq_departure;
+
+        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+
+        ++curr_decision_level;
+        motivation[id_inserted].levels.from = curr_decision_level;
+        REPORT_DECISION_SQUARE('>',sq_departure);
+
         flesh_out_capture_by_inserted_invisible(King,sq_departure);
+
+        --curr_decision_level;
+
         CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-      }
-      else if (get_walk_of_piece_on_square(sq_departure)==Dummy)
-      {
-        assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
-        SETFLAG(being_solved.spec[sq_departure],Royal);
-        capture_by_king_at_end_of_line(sq_departure);
-        CLRFLAG(being_solved.spec[sq_departure],Royal);
-      }
 
-      being_solved.king_square[trait[nbply]] = initsquare;
+        being_solved.king_square[trait[nbply]] = initsquare;
+
+        move_effect_journal[king_square_movement].type = move_effect_none;
+      }
     }
+    else
+    {
+      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
+      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
+      TraceEOL();
 
-    move_effect_journal[king_square_movement].type = move_effect_none;
+      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+      {
+        Flags const flags_existing = being_solved.spec[sq_departure];
+        PieceIdType const id_existing = GetPieceId(flags_existing);
+        decision_levels_type const save_levels = motivation[id_existing].levels;
 
-    --curr_decision_level;
-    motivation[id_existing].levels = save_levels;
+        ++curr_decision_level;
+        motivation[id_existing].levels.from = curr_decision_level;
+        REPORT_DECISION_SQUARE('>',sq_departure);
+
+        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+        if (get_walk_of_piece_on_square(sq_departure)==King
+            && sq_departure==being_solved.king_square[trait[nbply]])
+        {
+          assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
+          capture_by_piece_at_end_of_line(King,sq_departure);
+        }
+        else if (get_walk_of_piece_on_square(sq_departure)==Dummy
+                 && being_solved.king_square[trait[nbply]]==initsquare)
+        {
+          being_solved.king_square[trait[nbply]] = sq_departure;
+
+          assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
+          SETFLAG(being_solved.spec[sq_departure],Royal);
+          capture_by_piece_at_end_of_line(King,sq_departure);
+          CLRFLAG(being_solved.spec[sq_departure],Royal);
+
+          being_solved.king_square[trait[nbply]] = initsquare;
+        }
+
+        move_effect_journal[king_square_movement].type = move_effect_none;
+
+        --curr_decision_level;
+        motivation[id_existing].levels = save_levels;
+      }
+    }
   }
 
   --curr_decision_level;
@@ -623,7 +635,19 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
+      {
+        move_effect_journal_index_type const precapture = effects_base;
+        Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+        PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
+        ++curr_decision_level;
+        motivation[id_inserted].levels.from = curr_decision_level;
+        REPORT_DECISION_SQUARE('>',sq_departure);
+
         flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+
+        --curr_decision_level;
+      }
       else
       {
         TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
