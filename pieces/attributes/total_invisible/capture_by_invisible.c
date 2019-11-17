@@ -18,7 +18,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
   Flags const flags_added = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_added = GetPieceId(flags_added);
+  PieceIdType const id_inserted = GetPieceId(flags_added);
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
@@ -31,7 +31,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   {
     REPORT_DECISION_OUTCOME("%s","capturer can't be placed on taboo square");
     REPORT_DEADEND;
-    max_decision_level = motivation[id_added].levels.from;
+    max_decision_level = motivation[id_inserted].levels.from;
   }
   else
   {
@@ -51,15 +51,15 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       {
         REPORT_DECISION_OUTCOME("%s","capturer would deliver uninterceptable check");
         REPORT_DEADEND;
-        max_decision_level = motivation[id_added].levels.from;
-        if (max_decision_level<motivation[id_added].levels.walk)
-          max_decision_level = motivation[id_added].levels.walk;
+        max_decision_level = motivation[id_inserted].levels.from;
+        if (max_decision_level<motivation[id_inserted].levels.walk)
+          max_decision_level = motivation[id_inserted].levels.walk;
       }
       else
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        motivation_type const save_motivation = motivation[id_added];
+        motivation_type const save_motivation = motivation[id_inserted];
 
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
@@ -73,13 +73,13 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         move_effect_journal[precapture].type = move_effect_none;
 
         /* these were set in regular play already: */
-        assert(motivation[id_added].first.acts_when==nbply);
-        assert(motivation[id_added].first.purpose==purpose_capturer);
-        assert(motivation[id_added].last.acts_when==nbply);
-        assert(motivation[id_added].last.purpose==purpose_capturer);
+        assert(motivation[id_inserted].first.acts_when==nbply);
+        assert(motivation[id_inserted].first.purpose==purpose_capturer);
+        assert(motivation[id_inserted].last.acts_when==nbply);
+        assert(motivation[id_inserted].last.purpose==purpose_capturer);
         /* fill in the rest: */
-        motivation[id_added].first.on = sq_departure;
-        motivation[id_added].last.on = sq_arrival;
+        motivation[id_inserted].first.on = sq_departure;
+        motivation[id_inserted].last.on = sq_arrival;
 
         move_effect_journal[movement].u.piece_movement.from = sq_departure;
         /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
@@ -90,7 +90,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         restart_from_scratch();
         update_nr_taboos_for_current_move_in_ply(-1);
 
-        motivation[id_added] = save_motivation;
+        motivation[id_inserted] = save_motivation;
 
         move_effect_journal[precapture].type = move_effect_piece_readdition;
       }
@@ -104,7 +104,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     {
       REPORT_DECISION_OUTCOME("%s","capturer can't be allocated");
       REPORT_DEADEND;
-      max_decision_level = motivation[id_added].levels.from;
+      max_decision_level = motivation[id_inserted].levels.from;
     }
 
     current_consumption = save_consumption;
@@ -321,9 +321,17 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
     }
     else if (walk_on_board==Dummy)
     {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+      move_effect_journal_index_type const precapture = effects_base;
+      Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+      PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
       TraceWalk(get_walk_of_piece_on_square(sq_departure));
       TraceValue("%x",being_solved.spec[sq_departure]);
       TraceEOL();
+
+      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
       flesh_out_walk_for_capture(walk_capturing,sq_departure);
     }
@@ -400,7 +408,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         REPORT_DECISION_SQUARE('>',sq_departure);
 
         max_decision_level = decision_level_latest;
-        motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
         capture_by_piece_at_end_of_line(walk_rider,sq_departure);
 
@@ -431,20 +438,7 @@ static void capture_by_king_at_end_of_line(square sq_departure)
 
   if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
       && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-  {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-    move_effect_journal_index_type const precapture = effects_base;
-    Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-    PieceIdType const id_inserted = GetPieceId(flags_inserted);
-
-    Flags const flags_existing = being_solved.spec[sq_departure];
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-
-    motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
-
     capture_by_piece_at_end_of_line(King,sq_departure);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -585,8 +579,6 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
         PieceIdType const id_existing = GetPieceId(flags_existing);
         decision_levels_type const save_levels = motivation[id_existing].levels;
 
-        motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
-
         ++curr_decision_level;
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
@@ -608,10 +600,6 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
@@ -648,8 +636,6 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
           Flags const flags_existing = being_solved.spec[sq_departure];
           PieceIdType const id_existing = GetPieceId(flags_existing);
           decision_levels_type const save_levels = motivation[id_existing].levels;
-
-          motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
           ++curr_decision_level;
           motivation[id_existing].levels.from = curr_decision_level;
