@@ -373,9 +373,9 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
          is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
          sq_departure += vec[kcurr])
     {
+      ++curr_decision_level;
       motivation[id_inserted].levels.from = curr_decision_level;
       REPORT_DECISION_SQUARE('>',sq_departure);
-      ++curr_decision_level;
 
       max_decision_level = decision_level_latest;
       flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
@@ -395,9 +395,9 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         PieceIdType const id_existing = GetPieceId(flags_existing);
         decision_levels_type const save_levels = motivation[id_existing].levels;
 
+        ++curr_decision_level;
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
 
         max_decision_level = decision_level_latest;
         motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
@@ -485,9 +485,9 @@ static void capture_by_invisible_king_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
+    ++curr_decision_level;
     motivation[id_existing].levels.from = curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
 
     move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
     move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
@@ -587,9 +587,9 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
         motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
+        ++curr_decision_level;
         motivation[id_existing].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
-        ++curr_decision_level;
 
         capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
 
@@ -651,9 +651,9 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
           motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
 
+          ++curr_decision_level;
           motivation[id_existing].levels.from = curr_decision_level;
           REPORT_DECISION_SQUARE('>',sq_departure);
-          ++curr_decision_level;
 
           capture_by_piece_at_end_of_line(Pawn,sq_departure);
 
@@ -795,9 +795,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
+      ++curr_decision_level;
       motivation[id_existing].levels.walk = curr_decision_level;
       REPORT_DECISION_WALK('>',Pawn);
-      ++curr_decision_level;
       flesh_out_walk_for_capture(Pawn,sq_departure);
       --curr_decision_level;
     }
@@ -811,9 +811,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     {
       max_decision_level = decision_level_latest;
 
+      ++curr_decision_level;
       motivation[id_existing].levels.walk = curr_decision_level;
       REPORT_DECISION_WALK('>',Knight);
-      ++curr_decision_level;
       flesh_out_walk_for_capture(Knight,sq_departure);
       --curr_decision_level;
     }
@@ -825,9 +825,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       {
         max_decision_level = decision_level_latest;
 
+        ++curr_decision_level;
         motivation[id_existing].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',Bishop);
-        ++curr_decision_level;
 
         flesh_out_walk_for_capture(Bishop,sq_departure);
 
@@ -839,8 +839,8 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          REPORT_DECISION_WALK('>',Queen);
           ++curr_decision_level;
+          REPORT_DECISION_WALK('>',Queen);
           flesh_out_walk_for_capture(Queen,sq_departure);
           --curr_decision_level;
         }
@@ -855,9 +855,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
+          ++curr_decision_level;
           motivation[id_existing].levels.walk = curr_decision_level;
           REPORT_DECISION_WALK('>',Rook);
-          ++curr_decision_level;
 
           flesh_out_walk_for_capture(Rook,sq_departure);
 
@@ -869,8 +869,8 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           {
             max_decision_level = decision_level_latest;
 
-            REPORT_DECISION_WALK('>',Queen);
             ++curr_decision_level;
+            REPORT_DECISION_WALK('>',Queen);
             flesh_out_walk_for_capture(Queen,sq_departure);
             --curr_decision_level;
           }
@@ -901,9 +901,9 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
+    ++curr_decision_level;
     motivation[id_existing].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',King);
-    ++curr_decision_level;
     flesh_out_king_for_capture(sq_departure);
     --curr_decision_level;
   }
@@ -940,9 +940,9 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
+  ++curr_decision_level;
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_capturer);
-  ++curr_decision_level;
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 
@@ -1032,9 +1032,9 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
+    ++curr_decision_level;
     motivation[id_existing].levels.from = curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
-    ++curr_decision_level;
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -1160,8 +1160,8 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
            && motivation[id_existing].first.purpose==purpose_interceptor)
   {
     // TODO how can this happen, and how should we deal with it?
-    REPORT_DECISION_SQUARE('>',sq_departure);
     ++curr_decision_level;
+    REPORT_DECISION_SQUARE('>',sq_departure);
     REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
     --curr_decision_level;
     REPORT_DEADEND;
