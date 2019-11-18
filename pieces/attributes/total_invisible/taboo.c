@@ -87,59 +87,6 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
   return result;
 }
 
-boolean is_taboo(square s, Side side)
-{
-  boolean result = false;
-  ply ply;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(s);
-  TraceEnumerator(Side,side);
-  TraceFunctionParamListEnd();
-
-  for (ply = nbply; ply<=top_ply_of_regular_play; ++ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-    TraceEnumerator(Side,trait[ply]);
-    TraceEOL();
-
-    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
-    {
-      result = true;
-      break;
-    }
-    else if (side==trait[ply])
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
-
-      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
-        break;
-      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
-      {
-        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
-        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
-          break;
-      }
-    }
-    else
-    {
-      if (is_taboo_candidate_captured(ply,s))
-        break;
-    }
-  }
-  // TODO what if two taboos have to be lifted in the same ply?
-  // TODO what about captures by invisible?
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean will_be_taboo(square s, Side side)
 {
   boolean result = false;
