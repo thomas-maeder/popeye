@@ -411,9 +411,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   {
     motivation[id_placed].levels.walk = decision_level_latest;
 
-    TraceSquare(s);
-    TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
-    TraceEOL();
+    TraceSquare(s);TraceEOL();
 
     ++nr_taboos_for_current_move_in_ply[nbply][White][s];
     ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
@@ -425,9 +423,7 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
     {
       max_decision_level = decision_level_latest;
 
-      TraceSquare(s);
-      TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
-      TraceEOL();
+      TraceSquare(s);TraceEOL();
 
       if (!was_taboo(s,Black))
         place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);

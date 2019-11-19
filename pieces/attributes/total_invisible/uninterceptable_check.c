@@ -39,8 +39,6 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
     }
     TraceSquare(s);
     TraceValue("%u",is_square_empty(s));
-    TraceValue("%u",nr_taboos_accumulated_until_ply[White][s]);
-    TraceValue("%u",nr_taboos_accumulated_until_ply[Black][s]);
     TraceEOL();
   }
 

@@ -104,9 +104,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
       max_decision_level = decision_level_latest;
       if (is_square_empty(s))
       {
-        TraceSquare(s);
-        TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
-        TraceEOL();
+        TraceSquare(s);TraceEOL();
 
         if (!was_taboo(s,side_attacking))
           place_mating_piece_attacker(side_attacking,s,walk_rider);
@@ -144,9 +142,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   {
     square const s = sq_mating_piece+vec[kcurr];
 
-    TraceSquare(s);
-    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
-    TraceEOL();
+    TraceSquare(s);TraceEOL();
 
     max_decision_level = decision_level_latest;
 
@@ -174,9 +170,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   {
     square s = sq_mating_piece+dir_up+dir_left;
 
-    TraceSquare(s);
-    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
-    TraceEOL();
+    TraceSquare(s);TraceEOL();
 
     max_decision_level = decision_level_latest;
 
@@ -192,9 +186,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   {
     square s = sq_mating_piece+dir_up+dir_right;
 
-    TraceSquare(s);
-    TraceValue("%u",nr_taboos_accumulated_until_ply[side_attacking][s]);
-    TraceEOL();
+    TraceSquare(s);TraceEOL();
 
     max_decision_level = decision_level_latest;
 

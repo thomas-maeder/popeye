@@ -905,7 +905,7 @@ static void flesh_out_random_move_by_specific_invisible_to_according_to_walk(squ
   TraceFunctionResultEnd();
 }
 
-void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
+static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
 
@@ -1017,7 +1017,7 @@ static square const *find_next_backward_mover(square const *start_square)
   return result;
 }
 
-void retract_random_move_by_invisible(square const *start_square)
+static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
