@@ -201,7 +201,7 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
 
       /* "factoring out" the invokations of is_taboo() is tempting, but we
        * want to break the loop if sq_arrival is not empty whether or not
-       * that square is nr_taboos_accumulated_until_ply!
+       * that square is taboo!
        */
       if (is_square_empty(sq_arrival))
       {
