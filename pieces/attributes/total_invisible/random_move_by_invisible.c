@@ -445,6 +445,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 static void flesh_out_random_move_by_specific_invisible_from(square sq_departure)
 {
   Side const side_playing = trait[nbply];
@@ -1084,23 +1085,15 @@ void backward_fleshout_random_move_by_invisible(void)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      dynamic_consumption_type const save_consumption = current_consumption;
-
       TraceText("stick to random move by unplaced invisible\n");
-      current_consumption.claimed[trait[nbply]] = true;
-      TraceConsumption();TraceEOL();
-      if (nr_total_invisbles_consumed()<=total_invisible_number)
-      {
-        REPORT_DECISION_MOVE('<','-');
-        ++curr_decision_level;
-        restart_from_scratch();
-        --curr_decision_level;
-      }
-      current_consumption = save_consumption;
-      TraceConsumption();TraceEOL();
+      REPORT_DECISION_MOVE('<','-');
+      ++curr_decision_level;
+      restart_from_scratch();
+      --curr_decision_level;
     }
 
     current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
 
     if (curr_decision_level<=max_decision_level)
     {
