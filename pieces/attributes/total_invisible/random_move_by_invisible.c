@@ -1018,6 +1018,9 @@ static square const *find_next_backward_mover(square const *start_square)
   return result;
 }
 
+/* This function is recursive so that we remember which invisibles have already been
+ * visited
+ */
 static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
@@ -1049,6 +1052,34 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = save_when;
   }
+  else if (curr_decision_level<=max_decision_level)
+  {
+    // TODO Strictly speaking, there is no guarantee that such a move exists
+    // but we probably save a lot of time by not fleshing it out. As long as we
+    // restrict ourselves to h#n, the risk is printing some wrong cooks.
+    // Options:
+    // * find out how hight the cost would be
+    // * fleshing it out
+    // * option for activating fleshing out
+
+    dynamic_consumption_type const save_consumption = current_consumption;
+
+    max_decision_level = decision_level_latest;
+
+    current_consumption.claimed[trait[nbply]] = true;
+
+    if (nr_total_invisbles_consumed()<=total_invisible_number)
+    {
+      TraceText("stick to random move by unplaced invisible\n");
+      REPORT_DECISION_MOVE('<','-');
+      ++curr_decision_level;
+      restart_from_scratch();
+      --curr_decision_level;
+    }
+
+    current_consumption = save_consumption;
+    TraceConsumption();TraceEOL();
+  }
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
@@ -1078,29 +1109,7 @@ void backward_fleshout_random_move_by_invisible(void)
     }
   }
   else
-  {
-    dynamic_consumption_type const save_consumption = current_consumption;
-
-    current_consumption.claimed[trait[nbply]] = true;
-
-    if (nr_total_invisbles_consumed()<=total_invisible_number)
-    {
-      TraceText("stick to random move by unplaced invisible\n");
-      REPORT_DECISION_MOVE('<','-');
-      ++curr_decision_level;
-      restart_from_scratch();
-      --curr_decision_level;
-    }
-
-    current_consumption = save_consumption;
-    TraceConsumption();TraceEOL();
-
-    if (curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      retract_random_move_by_invisible(boardnum);
-    }
-  }
+    retract_random_move_by_invisible(boardnum);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
