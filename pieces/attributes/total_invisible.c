@@ -294,7 +294,8 @@ void adapt_pre_capture_effect(void)
 
       if (is_square_empty(to))
       {
-        if (!will_be_taboo(to,advers(trait[nbply]))
+        if (!is_taboo(to,advers(trait[nbply]))
+            && !will_be_taboo(to,advers(trait[nbply]))
             && !was_taboo(to,advers(trait[nbply])))
         {
           dynamic_consumption_type const save_consumption = current_consumption;
