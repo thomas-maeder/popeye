@@ -615,10 +615,10 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3396027
-                     play_move:     5908531
+  add_to_move_generation_stack:     3398010
+                     play_move:     5910969
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2075673
+ is_black_king_square_attacked:     2077739
 
 b) wSb5-->d7  
 

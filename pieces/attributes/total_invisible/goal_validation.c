@@ -17,16 +17,21 @@ mate_validation_type combined_validation_result;
 static boolean make_flight(Side side_in_check, square s)
 {
   boolean result = false;
+  ply const save_nbply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
+  nbply = top_ply_of_regular_play+1;
+
   if ((is_square_empty(s)
       || TSTFLAG(being_solved.spec[s],advers(side_in_check)))
       && !is_square_uninterceptably_attacked(side_in_check,s))
     result = true;
+
+  nbply = save_nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -113,6 +118,7 @@ static void attack_checks(void)
       TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
       assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
       CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
+      nbply = top_ply_of_regular_play+1;
       if (is_square_uninterceptably_attacked(side_in_check,king_pos))
       {
         TraceText("mate can not be defended\n");
@@ -124,6 +130,7 @@ static void attack_checks(void)
         mate_validation_result = mate_attackable;
         sq_mating_piece_to_be_attacked = sq_attacker;
       }
+      nbply = save_nbply;
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     }
     else
