@@ -298,7 +298,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
 
   if (curr_decision_level<=max_decision_level)
   {
-    if (!will_be_taboo(pos,preferred_side))
+    if (!(is_taboo(pos,preferred_side) || was_taboo(pos,preferred_side) || will_be_taboo(pos,preferred_side)))
     {
       max_decision_level = decision_level_latest;
       REPORT_DECISION_COLOUR('>',BIT(preferred_side));
@@ -314,7 +314,7 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
 
   if (curr_decision_level<=max_decision_level)
   {
-    if (!will_be_taboo(pos,advers(preferred_side)))
+    if (!(is_taboo(pos,advers(preferred_side)) || was_taboo(pos,advers(preferred_side)) || will_be_taboo(pos,advers(preferred_side))))
     {
       max_decision_level = decision_level_latest;
       REPORT_DECISION_COLOUR('>',BIT(advers(preferred_side)));
