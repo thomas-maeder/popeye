@@ -88,63 +88,56 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
 boolean will_be_taboo(square s, Side side)
 {
   boolean result = false;
-  ply ply;
+  ply ply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  if (side!=trait[nbply]
-      && s==move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to)
+  while (true)
   {
-    TraceText("captured pieces don't violate taboos\n");
-  }
-  else
-    // TODO we should be able to start at ply nbply and get rid of the ugly if above
-    for (ply = nbply+1; ply<=top_ply_of_regular_play; ++ply)
+    if (side!=trait[ply] && is_taboo_candidate_captured(ply,s))
     {
-      TraceValue("%u",ply);
-      TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-      TraceEnumerator(Side,trait[ply]);
+      TraceText("captured pieces don't violate taboos\n");
+      break;
+    }
+
+    ++ply;
+
+    if (ply>top_ply_of_regular_play)
+      break;
+
+    TraceValue("%u",ply);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+    TraceEnumerator(Side,trait[ply]);
+    TraceEOL();
+
+    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+    {
+      result = true;
+      break;
+    }
+
+    if (side==trait[ply])
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+      TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+      TraceSquare(move_effect_journal[movement].u.piece_movement.to);
       TraceEOL();
 
-      if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
-      {
-        result = true;
+      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
         break;
-      }
-      else
+      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
       {
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-        TraceSquare(move_effect_journal[movement].u.piece_movement.from);
-        TraceSquare(move_effect_journal[movement].u.piece_movement.to);
-        TraceEOL();
-
-        if (side==trait[ply])
-        {
-          if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
-            break;
-          else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
-          {
-            int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
-            if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
-              break;
-          }
-        }
-        else if (s==move_effect_journal[movement].u.piece_movement.to)
-        {
-          TraceText("captured pieces don't violate taboos\n");
-        }
-        else
-        {
-          if (is_taboo_candidate_captured(ply,s))
-            break;
-        }
+        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
+        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+          break;
       }
     }
+  }
 
   // TODO what if two taboos have to be lifted in the same ply?
   // TODO what about captures by invisible?
