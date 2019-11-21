@@ -296,20 +296,17 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  if (curr_decision_level<=max_decision_level)
+  if (!(is_taboo(pos,preferred_side) || was_taboo(pos,preferred_side) || will_be_taboo(pos,preferred_side)))
   {
-    if (!(is_taboo(pos,preferred_side) || was_taboo(pos,preferred_side) || will_be_taboo(pos,preferred_side)))
-    {
-      max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR('>',BIT(preferred_side));
-      ++curr_decision_level;
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
+    ++curr_decision_level;
 
-      CLRFLAG(being_solved.spec[pos],advers(preferred_side));
-      walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos,id_placed);
-      SETFLAG(being_solved.spec[pos],advers(preferred_side));
+    CLRFLAG(being_solved.spec[pos],advers(preferred_side));
+    walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos,id_placed);
+    SETFLAG(being_solved.spec[pos],advers(preferred_side));
 
-      --curr_decision_level;
-    }
+    --curr_decision_level;
   }
 
   if (curr_decision_level<=max_decision_level)
