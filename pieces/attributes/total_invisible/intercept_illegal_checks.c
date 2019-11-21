@@ -339,27 +339,22 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
                                                 square s,
                                                 Side side)
 {
-  dynamic_consumption_type const save_consumption = current_consumption;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  assert(nr_check_vectors>0);
-
-  REPORT_DECISION_COLOUR('>',BIT(side));
-  ++curr_decision_level;
-
-  if (allocate_placed(side))
+  if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
-    if (will_be_taboo(s,side))
-    {
-      REPORT_DECISION_OUTCOME("%s","taboo violation");
-      REPORT_DEADEND;
-    }
-    else
+    dynamic_consumption_type const save_consumption = current_consumption;
+
+    assert(nr_check_vectors>0);
+
+    REPORT_DECISION_COLOUR('>',BIT(side));
+    ++curr_decision_level;
+
+    if (allocate_placed(side))
     {
       TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
@@ -372,16 +367,16 @@ static void place_interceptor_of_side_on_square(vec_index_type const check_vecto
 
       SETFLAG(being_solved.spec[s],advers(side));
     }
-  }
-  else
-  {
-    REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
-    REPORT_DEADEND;
-  }
+    else
+    {
+      REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+      REPORT_DEADEND;
+    }
 
-  --curr_decision_level;
+    --curr_decision_level;
 
-  current_consumption = save_consumption;
+    current_consumption = save_consumption;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -410,20 +405,12 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
   if (play_phase==play_validating_mate)
   {
     motivation[id_placed].levels.walk = decision_level_latest;
-
-    TraceSquare(s);TraceEOL();
-
-    if (!was_taboo(s,White))
-      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+    place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
     if (curr_decision_level<=max_decision_level)
     {
       max_decision_level = decision_level_latest;
-
-      TraceSquare(s);TraceEOL();
-
-      if (!was_taboo(s,Black))
-        place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+      place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
     }
 
     TraceConsumption();TraceEOL();
