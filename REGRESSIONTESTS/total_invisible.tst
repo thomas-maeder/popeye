@@ -56,10 +56,10 @@ solution finished.
   1...Rb1-b8   2.TI~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:        7040
-                     play_move:       18096
+  add_to_move_generation_stack:        7070
+                     play_move:       18144
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5533
+ is_black_king_square_attacked:        5569
 
 solution finished.
 
@@ -125,10 +125,10 @@ solution finished.
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
-  add_to_move_generation_stack:        5587
-                     play_move:       13750
+  add_to_move_generation_stack:        5637
+                     play_move:       13830
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4864
+ is_black_king_square_attacked:        4924
 
 solution finished.
 

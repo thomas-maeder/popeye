@@ -413,9 +413,6 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
 
     TraceSquare(s);TraceEOL();
 
-    ++nr_taboos_for_current_move_in_ply[nbply][White][s];
-    ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
-
     if (!was_taboo(s,White))
       place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
@@ -428,9 +425,6 @@ static void place_interceptor_on_square(vec_index_type const check_vectors[vec_q
       if (!was_taboo(s,Black))
         place_interceptor_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
     }
-
-    --nr_taboos_for_current_move_in_ply[nbply][White][s];
-    --nr_taboos_for_current_move_in_ply[nbply][Black][s];
 
     TraceConsumption();TraceEOL();
   }
@@ -491,18 +485,6 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
         --curr_decision_level;
 
         uninitialise_motivation(id_placed);
-      }
-
-      ++nr_taboos_for_current_move_in_ply[nbply][White][s];
-      ++nr_taboos_for_current_move_in_ply[nbply][Black][s];
-    }
-    // TODO would this be simpler if we used recursion to iterate over the squares and sides?
-    {
-      square s2;
-      for (s2 = king_pos+vec[kcurr]; s2!=s; s2 += vec[kcurr])
-      {
-        --nr_taboos_for_current_move_in_ply[nbply][White][s2];
-        --nr_taboos_for_current_move_in_ply[nbply][Black][s2];
       }
     }
 

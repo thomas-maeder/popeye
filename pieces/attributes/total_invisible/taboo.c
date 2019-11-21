@@ -9,8 +9,6 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-unsigned int nr_taboos_accumulated_until_ply[nr_sides][maxsquare];
-
 unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
 
 boolean was_taboo(square s, Side side)
@@ -150,6 +148,23 @@ boolean will_be_taboo(square s, Side side)
 
   // TODO what if two taboos have to be lifted in the same ply?
   // TODO what about captures by invisible?
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean is_taboo(square s, Side side)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  result = nr_taboos_for_current_move_in_ply[nbply][side][s]>0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

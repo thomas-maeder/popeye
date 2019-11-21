@@ -8,6 +8,7 @@ extern unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsqu
 
 boolean will_be_taboo(square s, Side side);
 boolean was_taboo(square s, Side side);
+boolean is_taboo(square s, Side side);
 
 void update_nr_taboos_for_current_move_in_ply(int delta);
 
