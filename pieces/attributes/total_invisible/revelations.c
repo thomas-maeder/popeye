@@ -1280,7 +1280,7 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
 
     if ((knowledge[idx_knowledge].is_allocated
          || allocate_placed(side))
-        && !will_be_taboo(sq_first_on,side))
+        && !(is_taboo(sq_first_on,side) || will_be_taboo(sq_first_on,side)))
     {
       ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
       occupy_square(knowledge[idx_knowledge].first_on,
