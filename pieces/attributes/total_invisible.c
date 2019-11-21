@@ -348,6 +348,9 @@ void adapt_pre_capture_effect(void)
     {
       square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
       piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+      Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+      Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+
       TraceText("addition of a castling partner - must have happened at diagram setup time\n");
       if (!is_square_empty(sq_addition)
           && sq_addition==knowledge[0].first_on
@@ -360,7 +363,7 @@ void adapt_pre_capture_effect(void)
         adapt_capture_effect();
         move_effect_journal[pre_capture].type = move_effect_piece_readdition;
       }
-      else if (was_taboo(sq_addition,White) || was_taboo(sq_addition,Black))
+      else if (was_taboo(sq_addition,side_added))
       {
         TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
         REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
@@ -368,8 +371,6 @@ void adapt_pre_capture_effect(void)
       }
       else
       {
-        Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-        Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
         PieceIdType const id = GetPieceId(flags_added);
         decision_levels_type const save_levels = motivation[id].levels;
 
