@@ -449,11 +449,6 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
       TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
       TraceEOL();
 
-      /* use the taboo machinery to avoid attempting to intercept on the same
-       * square in different iterations.
-       */
-      if (nr_taboos_for_current_move_in_ply[nbply][White][s]==0
-          || nr_taboos_for_current_move_in_ply[nbply][Black][s]==0)
       {
         PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                             purpose_interceptor,s);
