@@ -11,6 +11,41 @@
 
 unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
 
+static boolean is_move_by_invisible(square from, Side side, ply ply)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceEnumerator(Side,side);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  if (side==trait[ply])
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+    TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+    TraceSquare(move_effect_journal[movement].u.piece_movement.to);
+    TraceEOL();
+
+    if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
+      result = true;
+    else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
+    {
+      int const square_diff = from-move_effect_journal[movement].u.piece_movement.to;
+      if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+        result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean was_taboo(square s, Side side)
 {
   boolean result = false;
@@ -31,22 +66,8 @@ boolean was_taboo(square s, Side side)
       result = true;
       break;
     }
-    else if (side==trait[ply])
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-      TraceSquare(move_effect_journal[movement].u.piece_movement.from);TraceEOL();
-
-      if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
-        break;
-      else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
-      {
-        int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
-        if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
-          break;
-      }
-    }
+    else if (is_move_by_invisible(s,side,ply))
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -125,24 +146,8 @@ boolean will_be_taboo(square s, Side side)
           result = true;
           break;
         }
-        else if (side==trait[ply])
-        {
-          move_effect_journal_index_type const effects_base = move_effect_journal_base[ply];
-          move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
-          TraceSquare(move_effect_journal[movement].u.piece_movement.from);
-          TraceSquare(move_effect_journal[movement].u.piece_movement.to);
-          TraceEOL();
-
-          if (move_effect_journal[movement].u.piece_movement.from==move_by_invisible)
-            break;
-          else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
-          {
-            int const square_diff = s-move_effect_journal[movement].u.piece_movement.to;
-            if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
-              break;
-          }
-        }
+        else if (is_move_by_invisible(s,side,ply))
+          break;
       }
     }
 
