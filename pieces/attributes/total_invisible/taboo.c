@@ -9,7 +9,7 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
+static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
 
 static boolean is_move_by_invisible(square from, Side side, ply ply)
 {
@@ -187,6 +187,22 @@ typedef unsigned int (*taboo_type)[nr_sides][maxsquare];
   assert(((DELTA)>0) || ((TABOO)>0)), \
   (TABOO) += (DELTA);
 #endif
+
+void update_nr_taboos_on_square(square s, int delta, ply ply)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[ply][White][s],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[ply][Black][s],delta);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+}
 
 static void update_taboo_piece_movement_rider(int delta,
                                               move_effect_journal_index_type const movement,
