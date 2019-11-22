@@ -177,8 +177,6 @@ boolean is_taboo(square s, Side side)
   return result;
 }
 
-typedef unsigned int (*taboo_type)[nr_sides][maxsquare];
-
 #if defined(NDEBUG)
 #define ADJUST_TABOO(TABOO,DELTA) \
   (TABOO) += (DELTA);
@@ -205,8 +203,7 @@ void update_nr_taboos_on_square(square s, int delta, ply ply)
 }
 
 static void update_taboo_piece_movement_rider(int delta,
-                                              move_effect_journal_index_type const movement,
-                                              taboo_type taboo)
+                                              move_effect_journal_index_type const movement)
 {
   piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
@@ -225,30 +222,29 @@ static void update_taboo_piece_movement_rider(int delta,
   TraceSquare(sq_arrival);
   TraceEOL();
 
-  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
-  TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);TraceEOL();
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure]);TraceEOL();
 
   assert(dir_move!=0);
   for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
     TraceSquare(s);
-    ADJUST_TABOO((*taboo)[White][s],delta);
-    TraceValue("%u",(*taboo)[White][s]);
-    ADJUST_TABOO((*taboo)[Black][s],delta);
-    TraceValue("%u",(*taboo)[Black][s]);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
     TraceEOL();
   }
 
-  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
-  TraceValue("%u",(*taboo)[trait[nbply]][sq_arrival]);TraceEOL();
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
+  TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void update_taboo_piece_movement_leaper(int delta,
-                                               move_effect_journal_index_type const movement,
-                                               taboo_type taboo)
+                                               move_effect_journal_index_type const movement)
 {
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -257,16 +253,15 @@ static void update_taboo_piece_movement_leaper(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
-  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void update_taboo_piece_movement_pawn_no_capture(int delta,
-                                                        move_effect_journal_index_type const movement,
-                                                        taboo_type taboo)
+                                                        move_effect_journal_index_type const movement)
 {
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -277,25 +272,24 @@ static void update_taboo_piece_movement_pawn_no_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
 
   for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
-    ADJUST_TABOO((*taboo)[White][s],delta);
-    ADJUST_TABOO((*taboo)[Black][s],delta);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
   }
 
   /* arrival square must not be blocked by either side */
-  ADJUST_TABOO((*taboo)[White][sq_arrival],delta);
-  ADJUST_TABOO((*taboo)[Black][sq_arrival],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][sq_arrival],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void update_taboo_piece_movement_pawn_capture(int delta,
-                                                     move_effect_journal_index_type const movement,
-                                                     taboo_type taboo)
+                                                     move_effect_journal_index_type const movement)
 {
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -304,16 +298,15 @@ static void update_taboo_piece_movement_pawn_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
-  ADJUST_TABOO((*taboo)[trait[nbply]][sq_arrival],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void update_taboo_piece_movement_castling(int delta,
-                                                 move_effect_journal_index_type const movement,
-                                                 taboo_type taboo)
+                                                 move_effect_journal_index_type const movement)
 {
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -327,17 +320,17 @@ static void update_taboo_piece_movement_castling(int delta,
 
   TraceEnumerator(Side,trait[nbply]);
   TraceSquare(sq_departure);
-  ADJUST_TABOO((*taboo)[advers(trait[nbply])][sq_departure],delta);
+  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
   TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);
   TraceEOL();
 
   for (s = sq_departure+dir_movement; s!=sq_arrival; s += dir_movement)
   {
     TraceSquare(s);
-    ADJUST_TABOO((*taboo)[White][s],delta);
-    TraceValue("%u",(*taboo)[White][s]);
-    ADJUST_TABOO((*taboo)[Black][s],delta);
-    TraceValue("%u",(*taboo)[Black][s]);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
+    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
     TraceEOL();
   }
 
@@ -372,21 +365,21 @@ void update_nr_taboos_for_current_move_in_ply(int delta)
     assert(walk!=Empty);
 
     if (is_rider(walk))
-      update_taboo_piece_movement_rider(delta,movement,&nr_taboos_for_current_move_in_ply[nbply]);
+      update_taboo_piece_movement_rider(delta,movement);
     else if (is_pawn(walk))
     {
       if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-        update_taboo_piece_movement_pawn_no_capture(delta,movement,&nr_taboos_for_current_move_in_ply[nbply]);
+        update_taboo_piece_movement_pawn_no_capture(delta,movement);
       else
-        update_taboo_piece_movement_pawn_capture(delta,movement,&nr_taboos_for_current_move_in_ply[nbply]);
+        update_taboo_piece_movement_pawn_capture(delta,movement);
     }
     else
     {
       if (walk==King
           && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
-        update_taboo_piece_movement_castling(delta,movement,&nr_taboos_for_current_move_in_ply[nbply]);
+        update_taboo_piece_movement_castling(delta,movement);
       else
-        update_taboo_piece_movement_leaper(delta,movement,&nr_taboos_for_current_move_in_ply[nbply]);
+        update_taboo_piece_movement_leaper(delta,movement);
     }
 
     {
@@ -396,7 +389,7 @@ void update_nr_taboos_for_current_move_in_ply(int delta)
       for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
         if (move_effect_journal[idx].type==move_effect_piece_movement
             && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-          update_taboo_piece_movement_castling(delta,idx,&nr_taboos_for_current_move_in_ply[nbply]);
+          update_taboo_piece_movement_castling(delta,idx);
     }
 
     ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply+1][White][sq_departure],delta);
