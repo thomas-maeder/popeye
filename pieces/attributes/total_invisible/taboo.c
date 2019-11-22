@@ -177,14 +177,11 @@ boolean is_taboo(square s, Side side)
   return result;
 }
 
-#if defined(NDEBUG)
-#define ADJUST_TABOO(TABOO,DELTA) \
-  (TABOO) += (DELTA);
-#else
-#define ADJUST_TABOO(TABOO,DELTA) \
-  assert(((DELTA)>0) || ((TABOO)>0)), \
-  (TABOO) += (DELTA);
-#endif
+static void adjust_taboo(square s, int delta, ply ply, Side side)
+{
+  assert(delta>0 || nr_taboos_for_current_move_in_ply[ply][side][s]>0);
+  nr_taboos_for_current_move_in_ply[ply][side][s] += delta;
+}
 
 void update_nr_taboos_on_square(square s, int delta, ply ply)
 {
@@ -194,8 +191,8 @@ void update_nr_taboos_on_square(square s, int delta, ply ply)
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[ply][White][s],delta);
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[ply][Black][s],delta);
+  adjust_taboo(s,delta,ply,White);
+  adjust_taboo(s,delta,ply,Black);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -222,21 +219,21 @@ static void update_taboo_piece_movement_rider(int delta,
   TraceSquare(sq_arrival);
   TraceEOL();
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
   TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure]);TraceEOL();
 
   assert(dir_move!=0);
   for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
     TraceSquare(s);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
+    adjust_taboo(s,delta,nbply,White);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
+    adjust_taboo(s,delta,nbply,Black);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
     TraceEOL();
   }
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
+  adjust_taboo(sq_arrival,delta,nbply,trait[nbply]);
   TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival]);TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -253,8 +250,8 @@ static void update_taboo_piece_movement_leaper(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
+  adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
+  adjust_taboo(sq_arrival,delta,nbply,trait[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -272,17 +269,17 @@ static void update_taboo_piece_movement_pawn_no_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
 
   for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
   {
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
+    adjust_taboo(s,delta,nbply,White);
+    adjust_taboo(s,delta,nbply,Black);
   }
 
   /* arrival square must not be blocked by either side */
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][sq_arrival],delta);
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][sq_arrival],delta);
+  adjust_taboo(sq_arrival,delta,nbply,White);
+  adjust_taboo(sq_arrival,delta,nbply,Black);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -298,8 +295,8 @@ static void update_taboo_piece_movement_pawn_capture(int delta,
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][trait[nbply]][sq_arrival],delta);
+  adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
+  adjust_taboo(sq_arrival,delta,nbply,trait[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -320,16 +317,16 @@ static void update_taboo_piece_movement_castling(int delta,
 
   TraceEnumerator(Side,trait[nbply]);
   TraceSquare(sq_departure);
-  ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure],delta);
+  adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
   TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);
   TraceEOL();
 
   for (s = sq_departure+dir_movement; s!=sq_arrival; s += dir_movement)
   {
     TraceSquare(s);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][White][s],delta);
+    adjust_taboo(s,delta,nbply,White);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply][Black][s],delta);
+    adjust_taboo(s,delta,nbply,Black);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
     TraceEOL();
   }
@@ -392,8 +389,8 @@ void update_nr_taboos_for_current_move_in_ply(int delta)
           update_taboo_piece_movement_castling(delta,idx);
     }
 
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply+1][White][sq_departure],delta);
-    ADJUST_TABOO(nr_taboos_for_current_move_in_ply[nbply+1][Black][sq_departure],delta);
+    adjust_taboo(sq_departure,delta,nbply+1,White);
+    adjust_taboo(sq_departure,delta,nbply+1,Black);
   }
 
   TraceFunctionExit(__func__);
