@@ -490,15 +490,134 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
   TraceFunctionResultEnd();
 }
 
-void deal_with_illegal_checks(void)
+static void deal_with_uninterceptable_illegal_check(vec_index_type k)
 {
-  vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
-  unsigned int nr_check_vectors = 0;
-  vec_index_type kcurr;
+  Side const side_in_check = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_in_check];
+  numvec const dir_check = vec[k];
+  Flags checkerSpec;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",k);
+  TraceFunctionParamListEnd();
+
+  uninterceptable_check_delivered_from = king_pos+dir_check;
+  checkerSpec = being_solved.spec[uninterceptable_check_delivered_from];
+
+  TraceSquare(uninterceptable_check_delivered_from);
+  TraceValue("%x",checkerSpec);
+  TraceEOL();
+
+  if (TSTFLAG(checkerSpec,Chameleon))
+  {
+    PieceIdType const id_checker = GetPieceId(checkerSpec);
+
+    assert(uninterceptable_check_delivered_in_ply==ply_nil);
+    uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
+
+    REPORT_DECISION_OUTCOME("uninterceptable illegal check"
+                            " from dir:%d"
+                            " by id:%u"
+                            " delivered in ply:%u",
+                            dir_check,
+                            id_checker,
+                            uninterceptable_check_delivered_in_ply);
+
+    TraceValue("%u",nbply);TraceEOL();
+    if (nbply==ply_retro_move+1)
+    {
+      REPORT_DEADEND;
+    }
+    else
+      restart_from_scratch();
+
+    uninterceptable_check_delivered_in_ply = ply_nil;
+  }
+  else
+  {
+    REPORT_DECISION_OUTCOME("%s","uninterceptable check by visible piece");
+    REPORT_DEADEND;
+  }
+
+  uninterceptable_check_delivered_from = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void deal_with_interceptable_illegal_checks()
+{
   Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
   unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
+  vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
+  unsigned int nr_check_vectors = 0;
+  vec_index_type kcurr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* there are only interceptable checks - deal with them */
+  for (kcurr = vec_rook_start;
+       kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
+       ++kcurr)
+  {
+    int const dir = vec[kcurr];
+    square const sq_end = find_end_of_line(king_pos,dir);
+    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+    TraceValue("%d",dir);
+    TraceSquare(sq_end);
+    TraceWalk(walk_at_end);
+    TraceEOL();
+
+    if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+        && (walk_at_end==Queen || walk_at_end==Rook))
+      check_vectors[nr_check_vectors++] = kcurr;
+  }
+
+  for (kcurr = vec_bishop_start;
+       kcurr<=vec_bishop_end && nr_available>=nr_check_vectors;
+       ++kcurr)
+  {
+    int const dir = vec[kcurr];
+    square const sq_end = find_end_of_line(king_pos,dir);
+    piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
+
+    TraceValue("%d",dir);
+    TraceSquare(sq_end);
+    TraceWalk(walk_at_end);
+    TraceEOL();
+
+    if (TSTFLAG(being_solved.spec[sq_end],side_checking)
+        && (walk_at_end==Queen || walk_at_end==Bishop))
+      check_vectors[nr_check_vectors++] = kcurr;
+  }
+
+  TraceValue("%u",nr_available);
+  TraceValue("%u",nr_check_vectors);
+  TraceEOL();
+
+  if (nr_check_vectors==0)
+    done_intercepting_illegal_checks();
+  else if (nr_available>=nr_check_vectors)
+    place_interceptor_on_line(check_vectors,nr_check_vectors);
+  else
+  {
+    TraceText("not enough available invisibles for intercepting all illegal checks\n");
+    REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+    REPORT_DEADEND;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void deal_with_illegal_checks(void)
+{
+  Side const side_in_check = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -507,106 +626,14 @@ void deal_with_illegal_checks(void)
     done_intercepting_illegal_checks();
   else
   {
+    Side const side_in_check = trait[nbply-1];
+    square const king_pos = being_solved.king_square[side_in_check];
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_pos);
+
     if (k!=0)
-    {
-      int const dir_check = vec[k];
-      Flags checkerSpec;
-
-      uninterceptable_check_delivered_from = king_pos+dir_check;
-      checkerSpec = being_solved.spec[uninterceptable_check_delivered_from];
-
-      TraceSquare(uninterceptable_check_delivered_from);
-      TraceValue("%x",checkerSpec);
-      TraceEOL();
-
-      if (TSTFLAG(checkerSpec,Chameleon))
-      {
-        PieceIdType const id_checker = GetPieceId(checkerSpec);
-
-        assert(uninterceptable_check_delivered_in_ply==ply_nil);
-        uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
-
-        REPORT_DECISION_OUTCOME("uninterceptable illegal check"
-                                " from dir:%d"
-                                " by id:%u"
-                                " delivered in ply:%u",
-                                dir_check,
-                                id_checker,
-                                uninterceptable_check_delivered_in_ply);
-
-        TraceValue("%u",nbply);TraceEOL();
-        if (nbply==ply_retro_move+1)
-        {
-          REPORT_DEADEND;
-        }
-        else
-          restart_from_scratch();
-
-        uninterceptable_check_delivered_in_ply = ply_nil;
-      }
-      else
-      {
-        REPORT_DECISION_OUTCOME("%s","uninterceptable check by visible piece");
-        REPORT_DEADEND;
-      }
-
-      uninterceptable_check_delivered_from = initsquare;
-    }
+      deal_with_uninterceptable_illegal_check(k);
     else
-    {
-      /* there are only interceptable checks - deal with them */
-      for (kcurr = vec_rook_start;
-           kcurr<=vec_rook_end && nr_available>=nr_check_vectors;
-           ++kcurr)
-      {
-        int const dir = vec[kcurr];
-        square const sq_end = find_end_of_line(king_pos,dir);
-        piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-        TraceValue("%d",dir);
-        TraceSquare(sq_end);
-        TraceWalk(walk_at_end);
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[sq_end],side_checking)
-            && (walk_at_end==Queen || walk_at_end==Rook))
-          check_vectors[nr_check_vectors++] = kcurr;
-      }
-
-      for (kcurr = vec_bishop_start;
-           kcurr<=vec_bishop_end && nr_available>=nr_check_vectors;
-           ++kcurr)
-      {
-        int const dir = vec[kcurr];
-        square const sq_end = find_end_of_line(king_pos,dir);
-        piece_walk_type const walk_at_end = get_walk_of_piece_on_square(sq_end);
-
-        TraceValue("%d",dir);
-        TraceSquare(sq_end);
-        TraceWalk(walk_at_end);
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[sq_end],side_checking)
-            && (walk_at_end==Queen || walk_at_end==Bishop))
-          check_vectors[nr_check_vectors++] = kcurr;
-      }
-
-      TraceValue("%u",nr_available);
-      TraceValue("%u",nr_check_vectors);
-      TraceEOL();
-
-      if (nr_check_vectors==0)
-        done_intercepting_illegal_checks();
-      else if (nr_available>=nr_check_vectors)
-        place_interceptor_on_line(check_vectors,nr_check_vectors);
-      else
-      {
-        TraceText("not enough available invisibles for intercepting all illegal checks\n");
-        REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
-        REPORT_DEADEND;
-      }
-    }
+      deal_with_interceptable_illegal_checks();
   }
 
   TraceFunctionExit(__func__);
