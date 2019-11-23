@@ -428,6 +428,7 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   int const dir = vec[kcurr];
+  square s;
   REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
 
   TraceFunctionEntry(__func__);
@@ -436,55 +437,43 @@ static void place_interceptor_on_line(vec_index_type const check_vectors[vec_que
 
   assert(nr_check_vectors>0);
 
+  for (s = king_pos+dir;
+       is_square_empty(s) && curr_decision_level<=max_decision_level;
+       s += dir)
   {
-    square s;
-    for (s = king_pos+dir;
-         is_square_empty(s) && curr_decision_level<=max_decision_level;
-         s += dir)
-    {
-      max_decision_level = decision_level_latest;
+    PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+                                                        purpose_interceptor,s);
 
-      TraceSquare(s);
-      TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][White][s]);
-      TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][Black][s]);
-      TraceEOL();
+    max_decision_level = decision_level_latest;
 
-      {
-        PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
-                                                            purpose_interceptor,s);
+    motivation[id_placed].levels.from = decision_level_latest;
+    motivation[id_placed].levels.to = curr_decision_level;
 
-        motivation[id_placed].levels.from = decision_level_latest;
-        motivation[id_placed].levels.to = curr_decision_level;
+    // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
+    // curr_decision_level outside of the loop
+    REPORT_DECISION_SQUARE('>',s);
+    ++curr_decision_level;
+    place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
+    --curr_decision_level;
 
-        // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
-        // curr_decision_level outside of the loop
-        REPORT_DECISION_SQUARE('>',s);
-        ++curr_decision_level;
-        place_interceptor_on_square(check_vectors,nr_check_vectors,s,id_placed);
-        --curr_decision_level;
-
-        uninitialise_motivation(id_placed);
-      }
-    }
-
-    TraceSquare(s);TraceEOL();
+    uninitialise_motivation(id_placed);
+  }
 
 #if defined(REPORT_DECISIONS)
-    if (report_decision_counter==save_counter)
-    {
-      REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
-      REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
-      REPORT_DECISION_OUTCOME("no available square found where to intercept check"
-                              " from dir:%d"
-                              " by id:%u"
-                              " in ply:%u",
-                              dir,
-                              id_checker,
-                              ply_check);
-      REPORT_DEADEND;
-    }
-#endif
+  if (report_decision_counter==save_counter)
+  {
+    REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
+    REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
+    REPORT_DECISION_OUTCOME("no available square found where to intercept check"
+                            " from dir:%d"
+                            " by id:%u"
+                            " in ply:%u",
+                            dir,
+                            id_checker,
+                            ply_check);
+    REPORT_DEADEND;
   }
+#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
