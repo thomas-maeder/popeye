@@ -547,7 +547,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
 
 static void collect_interceptable_illegal_checks(vec_index_type start, vec_index_type end,
                                                  piece_walk_type walk_checker,
-                                                 vec_index_type check_vectors[],
+                                                 vec_index_type check_vectors[vec_queen_end-vec_queen_start+1],
                                                  unsigned int *nr_check_vectors)
 {
   Side const side_in_check = trait[nbply-1];
