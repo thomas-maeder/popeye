@@ -126,6 +126,17 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     }
 
     current_consumption = save_consumption;
+
+    if (side==White && curr_decision_level<=max_decision_level)
+    {
+      max_decision_level = decision_level_latest;
+      place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+    }
+  }
+  else if (side==White && curr_decision_level<=max_decision_level)
+  {
+    max_decision_level = decision_level_latest;
+    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
   }
 
   TraceFunctionExit(__func__);
@@ -154,12 +165,6 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
   motivation[id_placed].levels.walk = decision_level_latest;
   place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White);
-
-  if (curr_decision_level<=max_decision_level)
-  {
-    max_decision_level = decision_level_latest;
-    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-  }
 
   TraceConsumption();TraceEOL();
 
