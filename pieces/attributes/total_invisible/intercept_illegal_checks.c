@@ -118,19 +118,24 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       SETFLAG(being_solved.spec[s],advers(side));
 
       --curr_decision_level;
+
+      current_consumption = save_consumption;
+
+      if (side==White && curr_decision_level<=max_decision_level)
+      {
+        max_decision_level = decision_level_latest;
+        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+      }
     }
     else
     {
       REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
-    }
 
-    current_consumption = save_consumption;
+      current_consumption = save_consumption;
 
-    if (side==White && curr_decision_level<=max_decision_level)
-    {
-      max_decision_level = decision_level_latest;
-      place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+      if (side==White)
+        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
     }
   }
   else if (side==White)
