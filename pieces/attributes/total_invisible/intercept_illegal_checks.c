@@ -133,11 +133,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
     }
   }
-  else if (side==White && curr_decision_level<=max_decision_level)
-  {
-    max_decision_level = decision_level_latest;
+  else if (side==White)
     place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
