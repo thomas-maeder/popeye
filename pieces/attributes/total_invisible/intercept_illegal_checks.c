@@ -244,11 +244,11 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
 static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                     unsigned int nr_check_vectors);
 
-static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                      unsigned int nr_check_vectors,
-                                      Side side,
-                                      square pos,
-                                      piece_walk_type walk)
+static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                                      unsigned int nr_check_vectors,
+                                                      Side side,
+                                                      square pos,
+                                                      piece_walk_type walk)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -305,10 +305,10 @@ static void walk_interceptor_any_walk(vec_index_type const check_vectors[vec_que
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                  unsigned int nr_check_vectors,
-                                  Side side,
-                                  square pos)
+static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                         unsigned int nr_check_vectors,
+                                         Side side,
+                                         square pos)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
@@ -325,16 +325,16 @@ static void walk_interceptor_pawn(vec_index_type const check_vectors[vec_queen_e
     REPORT_DEADEND;
   }
   else
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Pawn);
+    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                  unsigned int nr_check_vectors,
-                                  Side side,
-                                  square pos)
+static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                         unsigned int nr_check_vectors,
+                                         Side side,
+                                         square pos)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -351,7 +351,7 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   if (allocate_flesh_out_unplaced(side))
   {
     SETFLAG(being_solved.spec[pos],Royal);
-    walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,King);
+    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,King);
     CLRFLAG(being_solved.spec[pos],Royal);
   }
 
@@ -364,11 +364,11 @@ static void walk_interceptor_king(vec_index_type const check_vectors[vec_queen_e
   TraceFunctionResultEnd();
 }
 
-static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                             unsigned int nr_check_vectors,
-                             Side side,
-                             square pos,
-                             PieceIdType id_placed)
+static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                          unsigned int nr_check_vectors,
+                                          Side side,
+                                          square pos,
+                                          PieceIdType id_placed)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -383,7 +383,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
   motivation[id_placed].levels.walk = curr_decision_level;
 
   if (being_solved.king_square[side]==initsquare)
-    walk_interceptor_king(check_vectors,nr_check_vectors,side,pos);
+    place_king_of_side_on_square(check_vectors,nr_check_vectors,side,pos);
 
   {
     dynamic_consumption_type const save_consumption = current_consumption;
@@ -393,7 +393,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
       if (curr_decision_level<=max_decision_level)
       {
         max_decision_level = decision_level_latest;
-        walk_interceptor_pawn(check_vectors,nr_check_vectors,side,pos);
+        place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos);
       }
 
       if (side==trait[nbply])
@@ -401,7 +401,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
-          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Knight);
+          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Knight);
         }
 
         if (curr_decision_level<=max_decision_level)
@@ -412,9 +412,9 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
           max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
-            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Bishop);
+            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Bishop);
           else
-            walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,Rook);
+            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Rook);
         }
       }
       else
@@ -425,7 +425,7 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
              ++walk)
         {
           max_decision_level = decision_level_latest;
-          walk_interceptor_any_walk(check_vectors,nr_check_vectors,side,pos,walk);
+          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,walk);
         }
       }
     }
@@ -438,6 +438,37 @@ static void walk_interceptor(vec_index_type const check_vectors[vec_queen_end-ve
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                              unsigned int nr_check_vectors,
+                                              square pos,
+                                              Side side,
+                                              PieceIdType id_placed)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_check_vectors);
+  TraceSquare(pos);
+  TraceEnumerator(Side,side);
+  TraceFunctionParam("%u",id_placed);
+  TraceFunctionParamListEnd();
+
+  if (!(is_taboo(pos,side) || was_taboo(pos,side) || will_be_taboo(pos,side)))
+  {
+    max_decision_level = decision_level_latest;
+    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
+    ++curr_decision_level;
+
+    CLRFLAG(being_solved.spec[pos],advers(side));
+    place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
+    SETFLAG(being_solved.spec[pos],advers(side));
+
+    --curr_decision_level;
+  }
+
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -456,36 +487,10 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  if (!(is_taboo(pos,preferred_side) || was_taboo(pos,preferred_side) || will_be_taboo(pos,preferred_side)))
-  {
-    max_decision_level = decision_level_latest;
-    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
-    ++curr_decision_level;
-
-    CLRFLAG(being_solved.spec[pos],advers(preferred_side));
-    walk_interceptor(check_vectors,nr_check_vectors,preferred_side,pos,id_placed);
-    SETFLAG(being_solved.spec[pos],advers(preferred_side));
-
-    --curr_decision_level;
-  }
+  place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,preferred_side,id_placed);
 
   if (curr_decision_level<=max_decision_level)
-  {
-    if (!(is_taboo(pos,advers(preferred_side)) || was_taboo(pos,advers(preferred_side)) || will_be_taboo(pos,advers(preferred_side))))
-    {
-      max_decision_level = decision_level_latest;
-      REPORT_DECISION_COLOUR('>',BIT(advers(preferred_side)));
-      ++curr_decision_level;
-
-      CLRFLAG(being_solved.spec[pos],preferred_side);
-      walk_interceptor(check_vectors,nr_check_vectors,advers(preferred_side),pos,id_placed);
-      SETFLAG(being_solved.spec[pos],preferred_side);
-
-      --curr_decision_level;
-    }
-  }
-
-  TracePosition(being_solved.board,being_solved.spec);
+    place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,advers(preferred_side),id_placed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
