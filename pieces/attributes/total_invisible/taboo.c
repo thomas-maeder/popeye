@@ -183,16 +183,16 @@ static void adjust_taboo(square s, int delta, ply ply, Side side)
   nr_taboos_for_current_move_in_ply[ply][side][s] += delta;
 }
 
-void update_nr_taboos_on_square(square s, int delta, ply ply)
+void update_nr_taboos_on_square(square s, int delta, Side side, ply ply)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParam("%d",delta);
+  TraceEnumerator(Side,side);
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  adjust_taboo(s,delta,ply,White);
-  adjust_taboo(s,delta,ply,Black);
+  adjust_taboo(s,delta,ply,side);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

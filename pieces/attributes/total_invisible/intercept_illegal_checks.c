@@ -103,6 +103,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     if (allocate_placed(side))
     {
+      update_nr_taboos_on_square(s,+1,side,nbply);
+
       REPORT_DECISION_COLOUR('>',BIT(side));
       ++curr_decision_level;
 
@@ -126,6 +128,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
         max_decision_level = decision_level_latest;
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
       }
+
+      update_nr_taboos_on_square(s,-1,side,nbply);
     }
     else
     {

@@ -10,7 +10,7 @@ boolean is_taboo(square s, Side side);
 
 void update_nr_taboos_for_current_move_in_ply(int delta);
 
-void update_nr_taboos_on_square(square s, int delta, ply ply);
+void update_nr_taboos_on_square(square s, int delta, Side side, ply ply);
 
 boolean is_taboo_violation_acceptable(square first_taboo_violation);
 

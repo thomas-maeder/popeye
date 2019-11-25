@@ -59,7 +59,8 @@ static boolean make_a_flight(void)
     TraceValue("%x",flags);
     TraceEOL();
 
-    update_nr_taboos_on_square(king_pos,+1,top_ply_of_regular_play);
+    update_nr_taboos_on_square(king_pos,+1,White,top_ply_of_regular_play);
+    update_nr_taboos_on_square(king_pos,+1,Black,top_ply_of_regular_play);
     empty_square(king_pos);
 
     for (dir_vert = dir_down; dir_vert<=dir_up && !result; dir_vert += dir_up)
@@ -74,7 +75,8 @@ static boolean make_a_flight(void)
       }
 
     occupy_square(king_pos,walk,flags);
-    update_nr_taboos_on_square(king_pos,-1,top_ply_of_regular_play);
+    update_nr_taboos_on_square(king_pos,-1,Black,top_ply_of_regular_play);
+    update_nr_taboos_on_square(king_pos,-1,White,top_ply_of_regular_play);
   }
 
   TraceFunctionExit(__func__);
