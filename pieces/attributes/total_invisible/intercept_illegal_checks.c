@@ -147,10 +147,12 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
 static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                   unsigned int nr_check_vectors,
-                                  square s,
-                                  PieceIdType id_placed)
+                                  square s)
 {
   Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+
+  PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+                                                      purpose_interceptor,s);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -159,6 +161,16 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
+
+  max_decision_level = decision_level_latest;
+
+  motivation[id_placed].levels.from = decision_level_latest;
+  motivation[id_placed].levels.to = curr_decision_level;
+
+  // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
+  // curr_decision_level outside of the loop
+  REPORT_DECISION_SQUARE('>',s);
+  ++curr_decision_level;
 
   SetPieceId(spec,id_placed);
   occupy_square(s,Dummy,spec);
@@ -171,6 +183,10 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
   TraceConsumption();TraceEOL();
 
   empty_square(s);
+
+  --curr_decision_level;
+
+  uninitialise_motivation(id_placed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -195,24 +211,7 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
   for (s = king_pos+dir;
        is_square_empty(s) && curr_decision_level<=max_decision_level;
        s += dir)
-  {
-    PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
-                                                        purpose_interceptor,s);
-
-    max_decision_level = decision_level_latest;
-
-    motivation[id_placed].levels.from = decision_level_latest;
-    motivation[id_placed].levels.to = curr_decision_level;
-
-    // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
-    // curr_decision_level outside of the loop
-    REPORT_DECISION_SQUARE('>',s);
-    ++curr_decision_level;
-    place_dummy_on_square(check_vectors,nr_check_vectors,s,id_placed);
-    --curr_decision_level;
-
-    uninitialise_motivation(id_placed);
-  }
+    place_dummy_on_square(check_vectors,nr_check_vectors,s);
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
