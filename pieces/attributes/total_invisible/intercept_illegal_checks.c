@@ -449,6 +449,8 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
                                               Side side,
                                               PieceIdType id_placed)
 {
+  Side const preferred_side = trait[nbply-1];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(pos);
@@ -467,29 +469,11 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     SETFLAG(being_solved.spec[pos],advers(side));
 
     --curr_decision_level;
+
+    if (side==preferred_side && curr_decision_level<=max_decision_level)
+      place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,advers(preferred_side),id_placed);
   }
-
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                               unsigned int nr_check_vectors,
-                               square pos,
-                               PieceIdType id_placed)
-{
-  Side const preferred_side = trait[nbply-1];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_check_vectors);
-  TraceSquare(pos);
-  TraceFunctionParam("%u",id_placed);
-  TraceFunctionParamListEnd();
-
-  place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,preferred_side,id_placed);
-
-  if (curr_decision_level<=max_decision_level)
+  else if (side==preferred_side)
     place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,advers(preferred_side),id_placed);
 
   TraceFunctionExit(__func__);
@@ -498,10 +482,12 @@ static void colour_interceptor(vec_index_type const check_vectors[vec_queen_end-
 
 static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors,
-                                      square s,
-                                      PieceIdType id_placed)
+                                      square s)
 {
+  Side const preferred_side = trait[nbply-1];
   Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+  PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+                                                      purpose_interceptor,s);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -511,22 +497,36 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
   assert(nr_check_vectors>0);
 
+  max_decision_level = decision_level_latest;
+
+  motivation[id_placed].levels.from = decision_level_latest;
+  motivation[id_placed].levels.to = curr_decision_level;
+
+  // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
+  // curr_decision_level outside of the loop
+  REPORT_DECISION_SQUARE('>',s);
+  ++curr_decision_level;
   SetPieceId(spec,id_placed);
+
   occupy_square(s,Dummy,spec);
 
   motivation[id_placed].levels.side = curr_decision_level;
 
   assert(play_phase!=play_validating_mate);
-  colour_interceptor(check_vectors,nr_check_vectors,s,id_placed);
+  place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,preferred_side,id_placed);
 
   empty_square(s);
+
+  --curr_decision_level;
+
+  uninitialise_motivation(id_placed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                      unsigned int nr_check_vectors)
+                                    unsigned int nr_check_vectors)
 {
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
@@ -544,24 +544,7 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
   for (s = king_pos+dir;
        is_square_empty(s) && curr_decision_level<=max_decision_level;
        s += dir)
-  {
-    PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
-                                                        purpose_interceptor,s);
-
-    max_decision_level = decision_level_latest;
-
-    motivation[id_placed].levels.from = decision_level_latest;
-    motivation[id_placed].levels.to = curr_decision_level;
-
-    // TODO if REPORT_DECISION_SQUARE() faked level 1 less, we could adjust
-    // curr_decision_level outside of the loop
-    REPORT_DECISION_SQUARE('>',s);
-    ++curr_decision_level;
-    place_non_dummy_on_square(check_vectors,nr_check_vectors,s,id_placed);
-    --curr_decision_level;
-
-    uninitialise_motivation(id_placed);
-  }
+    place_non_dummy_on_square(check_vectors,nr_check_vectors,s);
 
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
