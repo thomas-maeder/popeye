@@ -133,6 +133,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     }
     else
     {
+      update_nr_taboos_on_square(s,+1,side,nbply);
+
       REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
 
@@ -140,6 +142,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       if (side==White)
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+
+      update_nr_taboos_on_square(s,-1,side,nbply);
     }
   }
   else if (side==White)
