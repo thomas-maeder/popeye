@@ -442,7 +442,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
 static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                               unsigned int nr_check_vectors,
-                                              square pos,
+                                              square s,
                                               Side side,
                                               PieceIdType id_placed)
 {
@@ -450,28 +450,32 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
-  TraceSquare(pos);
+  TraceSquare(s);
   TraceEnumerator(Side,side);
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  if (!(is_taboo(pos,side) || was_taboo(pos,side) || will_be_taboo(pos,side)))
+  if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
+    update_nr_taboos_on_square(s,+1,side,nbply);
+
     max_decision_level = decision_level_latest;
     REPORT_DECISION_COLOUR('>',BIT(preferred_side));
     ++curr_decision_level;
 
-    CLRFLAG(being_solved.spec[pos],advers(side));
-    place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
-    SETFLAG(being_solved.spec[pos],advers(side));
+    CLRFLAG(being_solved.spec[s],advers(side));
+    place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
+    SETFLAG(being_solved.spec[s],advers(side));
 
     --curr_decision_level;
 
     if (side==preferred_side && curr_decision_level<=max_decision_level)
-      place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,advers(preferred_side),id_placed);
+      place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
+
+    update_nr_taboos_on_square(s,-1,side,nbply);
   }
   else if (side==preferred_side)
-    place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,pos,advers(preferred_side),id_placed);
+    place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
