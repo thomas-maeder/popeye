@@ -184,7 +184,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
     solve_result = previous_move_is_illegal;
   else if (nbply>ply_retro_move)
   {
-    update_nr_taboos_for_current_move_in_ply(+1);
+    remember_taboos_for_current_move();
 
     top_before_revelations[nbply] = move_effect_journal_base[nbply+1];
 
@@ -227,7 +227,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
         evaluate_revelations(si,nr_potential_revelations);
     }
 
-    update_nr_taboos_for_current_move_in_ply(-1);
+    forget_taboos_for_current_move();
   }
   else
     pipe_solve_delegate(si);

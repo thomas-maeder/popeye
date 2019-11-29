@@ -92,9 +92,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
         move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
-        update_nr_taboos_for_current_move_in_ply(+1);
+        remember_taboos_for_current_move();
         restart_from_scratch();
-        update_nr_taboos_for_current_move_in_ply(-1);
+        forget_taboos_for_current_move();
 
         motivation[id_inserted] = save_motivation;
 
@@ -186,7 +186,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     move_effect_journal[movement].u.piece_movement.from = sq_departure;
     /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
 
-    update_nr_taboos_for_current_move_in_ply(+1);
+    remember_taboos_for_current_move();
 
     allocate_flesh_out_placed(trait[nbply]);
 
@@ -194,7 +194,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
 
     current_consumption = save_consumption;
 
-    update_nr_taboos_for_current_move_in_ply(-1);
+    forget_taboos_for_current_move();
 
     move_effect_journal[movement].u.piece_movement.moving = save_moving;
     move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
@@ -248,7 +248,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
   move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
 
-  update_nr_taboos_for_current_move_in_ply(+1);
+  remember_taboos_for_current_move();
 
   TraceValue("%u",id_random);
   TraceValue("%u",motivation[id_random].first.purpose);
@@ -270,7 +270,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   motivation[id_random] = motivation_random;
 
-  update_nr_taboos_for_current_move_in_ply(-1);
+  forget_taboos_for_current_move();
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
 

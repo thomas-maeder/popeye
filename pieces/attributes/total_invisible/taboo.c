@@ -46,6 +46,12 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
   return result;
 }
 
+/* Would moving a piece of a particular side to a particular square have violated a taboo
+ * in the past (i.e. before ply nbply)?
+ * @param s the square
+ * @param side the side
+ * @return true iff a taboo will be violated
+ */
 boolean was_taboo(square s, Side side)
 {
   boolean result = false;
@@ -106,6 +112,12 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
   return result;
 }
 
+/* Will moving a piece of a particular side to a particular square violate a taboo in the
+ * future (i.e. after ply nbply)?
+ * @param s the square
+ * @param side the side
+ * @return true iff a taboo will be violated
+ */
 boolean will_be_taboo(square s, Side side)
 {
   boolean result = false;
@@ -160,6 +172,12 @@ boolean will_be_taboo(square s, Side side)
   return result;
 }
 
+/* Does moving a piece of a particular side to a particular square violate a taboo currently
+ * (i.e. in ply nbply)?
+ * @param s the square
+ * @param side the side
+ * @return true iff a taboo will be violated
+ */
 boolean is_taboo(square s, Side side)
 {
   boolean result = false;
@@ -335,7 +353,7 @@ static void update_taboo_piece_movement_castling(int delta,
   TraceFunctionResultEnd();
 }
 
-void update_nr_taboos_for_current_move_in_ply(int delta)
+static void update_nr_taboos_for_current_move_in_ply(int delta)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -392,6 +410,32 @@ void update_nr_taboos_for_current_move_in_ply(int delta)
     adjust_taboo(sq_departure,delta,nbply+1,White);
     adjust_taboo(sq_departure,delta,nbply+1,Black);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* remember taboos so that the move to be played in ply nbply won't be obstructed
+ */
+void remember_taboos_for_current_move(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  update_nr_taboos_for_current_move_in_ply(+1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* forget taboos so that the move to be played in ply nbply won't be obstructed
+ */
+void forget_taboos_for_current_move(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  update_nr_taboos_for_current_move_in_ply(-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

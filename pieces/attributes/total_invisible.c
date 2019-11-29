@@ -561,7 +561,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
 
   TraceValue("%u",nbply-ply_retro_move);TraceEOL();
 
-  update_nr_taboos_for_current_move_in_ply(+1);
+  remember_taboos_for_current_move();
 
   /* necessary for detecting checks by pawns and leapers */
   if (is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
@@ -601,7 +601,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
   }
 
-  update_nr_taboos_for_current_move_in_ply(-1);
+  forget_taboos_for_current_move();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

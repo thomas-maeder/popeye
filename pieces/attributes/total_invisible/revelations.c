@@ -1335,13 +1335,13 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
             move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
 
             nbply = knowledge[idx_knowledge].last.acts_when;
-            update_nr_taboos_for_current_move_in_ply(+1);
+            remember_taboos_for_current_move();
             nbply = save_nbply;
 
             apply_royal_knowledge(idx_knowledge,next_step);
 
             nbply = knowledge[idx_knowledge].last.acts_when;
-            update_nr_taboos_for_current_move_in_ply(-1);
+            forget_taboos_for_current_move();
             nbply = save_nbply;
 
             move_effect_journal[movement] = save_movement;
@@ -1828,9 +1828,9 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  update_nr_taboos_for_current_move_in_ply(+1);
+  remember_taboos_for_current_move();
   make_revelations();
-  update_nr_taboos_for_current_move_in_ply(-1);
+  forget_taboos_for_current_move();
 
   if (revelation_status_is_uninitialised)
     pipe_solve_delegate(si);

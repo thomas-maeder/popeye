@@ -28,12 +28,12 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
 
   motivation[id].last.on = sq_arrival;
 
-  update_nr_taboos_for_current_move_in_ply(+1);
+  remember_taboos_for_current_move();
   if (is_dummy_moving)
     restart_from_scratch();
   else
     recurse_into_child_ply();
-  update_nr_taboos_for_current_move_in_ply(-1);
+  forget_taboos_for_current_move();
 
   motivation[id] = save_motivation;
 
@@ -669,13 +669,13 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.on = move_effect_journal[movement].u.piece_movement.from;
       motivation[id].first.acts_when = nbply;
 
-      update_nr_taboos_for_current_move_in_ply(+1);
+      remember_taboos_for_current_move();
       REPORT_DECISION_MOVE('<','-');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
 
-      update_nr_taboos_for_current_move_in_ply(-1);
+      forget_taboos_for_current_move();
 
       motivation[id] = save_motivation;
     }
