@@ -201,20 +201,44 @@ static void adjust_taboo(square s, int delta, ply ply, Side side)
   nr_taboos_for_current_move_in_ply[ply][side][s] += delta;
 }
 
-void update_nr_taboos_on_square(square s, int delta, Side side, ply ply)
+/* remember a taboo on a particular square so that no other piece of side side
+ * is added on or moves to s when the move of ply ply is to be played
+ * @param s the taboo square
+ * @param side the side for which to remember a taboo
+ * @param ply the taboo applies before the move of this ply
+ */
+void remember_taboo_on_square(square s, Side side, ply ply)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(s);
-  TraceFunctionParam("%d",delta);
   TraceEnumerator(Side,side);
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  adjust_taboo(s,delta,ply,side);
+  adjust_taboo(s,+1,ply,side);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
 
+/* forget a taboo on a particular square so that no other piece of side side
+ * is added on or moves to s when the move of ply ply is to be played
+ * @param s the taboo square
+ * @param side the side for which to forget a taboo
+ * @param ply the taboo applies before the move of this ply
+ */
+void forget_taboo_on_square(square s, Side side, ply ply)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceEnumerator(Side,side);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  adjust_taboo(s,-1,ply,side);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void update_taboo_piece_movement_rider(int delta,

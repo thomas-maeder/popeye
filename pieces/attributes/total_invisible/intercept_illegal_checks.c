@@ -103,7 +103,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     if (allocate_placed(side))
     {
-      update_nr_taboos_on_square(s,+1,side,nbply);
+      remember_taboo_on_square(s,side,nbply);
 
       REPORT_DECISION_COLOUR('>',BIT(side));
       ++curr_decision_level;
@@ -129,11 +129,11 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
       }
 
-      update_nr_taboos_on_square(s,-1,side,nbply);
+      forget_taboo_on_square(s,side,nbply);
     }
     else
     {
-      update_nr_taboos_on_square(s,+1,side,nbply);
+      remember_taboo_on_square(s,side,nbply);
 
       REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
@@ -143,7 +143,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       if (side==White)
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
 
-      update_nr_taboos_on_square(s,-1,side,nbply);
+      forget_taboo_on_square(s,side,nbply);
     }
   }
   else if (side==White)
@@ -457,7 +457,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
-    update_nr_taboos_on_square(s,+1,side,nbply);
+    remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
     REPORT_DECISION_COLOUR('>',BIT(preferred_side));
@@ -472,7 +472,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     if (side==preferred_side && curr_decision_level<=max_decision_level)
       place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
-    update_nr_taboos_on_square(s,-1,side,nbply);
+    forget_taboo_on_square(s,side,nbply);
   }
   else if (side==preferred_side)
     place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
