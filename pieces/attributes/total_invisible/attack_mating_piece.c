@@ -210,7 +210,7 @@ void attack_mating_piece(Side side_attacking,
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
 
-  REPORT_DECISION_WALK('>',walk_Bishop);
+  REPORT_DECISION_WALK('>',Bishop);
   ++curr_decision_level;
   place_mating_piece_attacking_rider(side_attacking,
                                      sq_mating_piece,

@@ -140,4 +140,6 @@ void report_deadend(char const *s, unsigned int lineno);
 #define REPORT_DEADEND
 #define REPORT_EXIT
 
+void write_history_recursive(ply ply);
+
 #endif

@@ -3,7 +3,8 @@
 SRC_CFILES = consumption.c taboo.c uninterceptable_check.c revelations.c \
   capture_by_invisible.c random_move_by_invisible.c move_generation.c \
   move_player.c intercept_illegal_checks.c attack_mating_piece.c \
-  king_placement.c goal_validation.c replay_fleshed_out.c
+  king_placement.c goal_validation.c replay_fleshed_out.c \
+  decisions.c
 
 INCLUDES = consumption.h taboo.h decisions.h uninterceptable_check.h \
   revelations.h capture_by_invisible.h random_move_by_invisible.h \

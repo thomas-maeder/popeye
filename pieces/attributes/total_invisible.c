@@ -57,7 +57,7 @@ void report_deadend(char const *s, unsigned int lineno)
   printf("%s;%u;%u\n",s,lineno,play_phase);
 }
 
-static void write_history_recursive(ply ply)
+void write_history_recursive(ply ply)
 {
   if (parent_ply[ply]>ply_retro_move)
     write_history_recursive(parent_ply[ply]);

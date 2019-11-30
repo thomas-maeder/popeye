@@ -1451,10 +1451,11 @@ void make_revelations(void)
 
 void do_revelation_bookkeeping(void)
 {
+  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
   TraceText("Updating revelation candidates\n");
   if (revelation_status_is_uninitialised)
   {

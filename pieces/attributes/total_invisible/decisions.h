@@ -24,8 +24,13 @@ typedef struct
 
 #if defined(REPORT_DECISIONS)
 
-static unsigned long report_decision_counter;
-static unsigned long prev_report_decision_counter;
+#include "output/plaintext/pieces.h"
+#include "output/plaintext/plaintext.h"
+#include "pieces/attributes/total_invisible.h"
+#include "options/movenumbers.h"
+
+extern unsigned long report_decision_counter;
+extern unsigned long prev_report_decision_counter;
 
 #define REPORT_DECISION_DECLARE(x) x
 

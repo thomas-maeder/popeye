@@ -221,6 +221,7 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
+    REPORT_DECISION_DECLARE(square const s = find_end_of_line(king_pos,dir));
     REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
     REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
     REPORT_DECISION_OUTCOME("no available square found where to intercept check"
@@ -547,6 +548,7 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
 #if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
+    REPORT_DECISION_DECLARE(square const s = find_end_of_line(king_pos,dir));
     REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
     REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
     REPORT_DECISION_OUTCOME("no available square found where to intercept check"
