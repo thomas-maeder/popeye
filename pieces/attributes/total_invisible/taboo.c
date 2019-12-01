@@ -360,7 +360,7 @@ static void update_taboo_piece_movement_castling(int delta,
   TraceEnumerator(Side,trait[nbply]);
   TraceSquare(sq_departure);
   adjust_taboo(sq_departure,delta,nbply,advers(trait[nbply]));
-  TraceValue("%u",(*taboo)[advers(trait[nbply])][sq_departure]);
+  TraceValue("%u",nr_taboos_for_current_move_in_ply[nbply][advers(trait[nbply])][sq_departure]);
   TraceEOL();
 
   for (s = sq_departure+dir_movement; s!=sq_arrival; s += dir_movement)
