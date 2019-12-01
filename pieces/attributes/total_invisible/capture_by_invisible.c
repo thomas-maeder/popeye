@@ -1289,16 +1289,16 @@ static boolean is_viable_capturer(PieceIdType id)
   return result;
 }
 
-static boolean is_capture_by_invisible(void)
+static boolean is_capture_by_invisible(ply ply_capture)
 {
   boolean result;
-  ply const ply_capture = nbply+1;
   move_effect_journal_index_type const base = move_effect_journal_base[ply_capture];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_capture);
   TraceFunctionParamListEnd();
 
   if (ply_capture<=top_ply_of_regular_play
@@ -1314,16 +1314,101 @@ static boolean is_capture_by_invisible(void)
   return result;
 }
 
+static boolean is_capture_by_existing_invisible_possible(ply ply_capture)
+{
+  /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
+  boolean result = false; /* not until we have proved it */
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply_capture];
+
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  PieceIdType id;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_capture);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_arrival);
+  TraceValue("%u",nbply);
+  TraceEOL();
+
+  for (id = get_top_visible_piece_id()+1;
+       !result && id<=get_top_invisible_piece_id();
+       ++id)
+    if (is_viable_capturer(id))
+    {
+      square const on = motivation[id].last.on;
+      Flags const spec = being_solved.spec[on];
+
+      assert(GetPieceId(spec)==id);
+
+      if (TSTFLAG(spec,trait[ply_capture]))
+      {
+        piece_walk_type const walk = get_walk_of_piece_on_square(on);
+        int const diff = sq_arrival-on;
+
+        switch (walk)
+        {
+          case King:
+            if (CheckDir[Queen][diff]==diff)
+              result = true;
+            break;
+
+          case Queen:
+            if (CheckDir[Queen][diff]!=0)
+              result = true;
+            break;
+
+          case Rook:
+            if (CheckDir[Rook][diff]!=0)
+              result = true;
+            break;
+
+          case Bishop:
+            if (CheckDir[Bishop][diff]!=0)
+              result = true;
+            break;
+
+          case Knight:
+            if (CheckDir[Knight][diff]==diff)
+              result = true;
+            break;
+
+          case Pawn:
+            if (CheckDir[Bishop][diff]==diff
+                && (trait[nbply]==White ? diff>0 : diff<0))
+              result = true;
+            break;
+
+          case Dummy:
+            if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+              result = true;
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean is_capture_by_invisible_possible(void)
 {
+  ply const ply_capture = nbply+1;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_capture_by_invisible())
+  if (is_capture_by_invisible(ply_capture))
   {
-    ply const ply_capture = nbply+1;
     dynamic_consumption_type const save_consumption = current_consumption;
 
     if (allocate_flesh_out_unplaced(trait[ply_capture]))
@@ -1345,81 +1430,7 @@ boolean is_capture_by_invisible_possible(void)
         /* no problem - we can simply insert a capturing king */
       }
       else
-      {
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[ply_capture];
-
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        PieceIdType id;
-
-        TraceSquare(sq_arrival);
-        TraceValue("%u",nbply);
-        TraceValue("%u",ply_capture);
-        TraceEOL();
-
-        /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
-        result = false; /* not until we have proved it */
-
-        for (id = get_top_visible_piece_id()+1;
-             !result && id<=get_top_invisible_piece_id();
-             ++id)
-          if (is_viable_capturer(id))
-          {
-            square const on = motivation[id].last.on;
-            Flags const spec = being_solved.spec[on];
-
-            assert(GetPieceId(spec)==id);
-
-            if (TSTFLAG(spec,trait[ply_capture]))
-            {
-              piece_walk_type const walk = get_walk_of_piece_on_square(on);
-              int const diff = sq_arrival-on;
-
-              switch (walk)
-              {
-                case King:
-                  if (CheckDir[Queen][diff]==diff)
-                    result = true;
-                  break;
-
-                case Queen:
-                  if (CheckDir[Queen][diff]!=0)
-                    result = true;
-                  break;
-
-                case Rook:
-                  if (CheckDir[Rook][diff]!=0)
-                    result = true;
-                  break;
-
-                case Bishop:
-                  if (CheckDir[Bishop][diff]!=0)
-                    result = true;
-                  break;
-
-                case Knight:
-                  if (CheckDir[Knight][diff]==diff)
-                    result = true;
-                  break;
-
-                case Pawn:
-                  if (CheckDir[Bishop][diff]==diff
-                      && (trait[nbply]==White ? diff>0 : diff<0))
-                    result = true;
-                  break;
-
-                case Dummy:
-                  if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-                    result = true;
-                  break;
-
-                default:
-                  assert(0);
-                  break;
-              }
-            }
-          }
-      }
+        result = is_capture_by_existing_invisible_possible(ply_capture);
 
       being_solved.king_square[trait[ply_capture]] = save_king_square;
     }
