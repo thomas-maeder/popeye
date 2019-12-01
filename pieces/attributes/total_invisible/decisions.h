@@ -28,6 +28,9 @@ typedef struct
 #include "output/plaintext/plaintext.h"
 #include "pieces/attributes/total_invisible.h"
 #include "options/movenumbers.h"
+#include <string.h>
+
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 extern unsigned long report_decision_counter;
 extern unsigned long prev_report_decision_counter;
@@ -37,7 +40,7 @@ extern unsigned long prev_report_decision_counter;
 #define REPORT_DECISION_CONTEXT(context) \
   printf("\n!%s",context); \
   write_history_recursive(top_ply_of_regular_play); \
-  printf(" - L:%d",__LINE__); \
+  printf(" - %s:#%d",__FILENAME__,__LINE__); \
   printf(" - D:%lu",report_decision_counter); \
   printf(" - %lu",report_decision_counter-prev_report_decision_counter); \
   prev_report_decision_counter = report_decision_counter; \
@@ -58,7 +61,7 @@ extern unsigned long prev_report_decision_counter;
            , current_consumption.fleshed_out[White] \
            , current_consumption.fleshed_out[Black] \
            ); \
-    printf(" - L:%d",__LINE__); \
+    printf(" - %s:#%d",__FILENAME__,__LINE__); \
     printf(" - D:%lu\n",report_decision_counter++); \
     fflush(stdout);
 
@@ -122,7 +125,7 @@ extern unsigned long prev_report_decision_counter;
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf("%u ",nbply); \
     printf(format,__VA_ARGS__); \
-    printf(" - L:%d",__LINE__); \
+    printf(" - %s:#%d",__FILENAME__,__LINE__); \
     printf("\n"); \
     fflush(stdout);
 
