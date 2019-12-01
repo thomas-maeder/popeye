@@ -352,9 +352,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
+      ++curr_decision_level;
       motivation[id_moving].levels.walk = curr_decision_level;
       REPORT_DECISION_WALK('>',Pawn);
-      ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
@@ -370,9 +370,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
+    ++curr_decision_level;
     motivation[id_moving].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',Knight);
-    ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Knight];
     replace_walk(sq_departure,Knight);
@@ -387,9 +387,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
+    ++curr_decision_level;
     motivation[id_moving].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',Bishop);
-    ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
@@ -406,9 +406,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
+    ++curr_decision_level;
     motivation[id_moving].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',Rook);
-    ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
@@ -425,9 +425,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
+    ++curr_decision_level;
     motivation[id_moving].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',Queen);
-    ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
@@ -494,9 +494,9 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       {
         decision_level_type const save_level = motivation[id_moving].levels.walk;
 
+        ++curr_decision_level;
         motivation[id_moving].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',King);
-        ++curr_decision_level;
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
 
@@ -578,8 +578,8 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    REPORT_DECISION_SQUARE('>',*s);
     ++curr_decision_level;
+    REPORT_DECISION_SQUARE('>',*s);
     flesh_out_random_move_by_specific_invisible_from(*s);
     --curr_decision_level;
 
@@ -610,8 +610,8 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      REPORT_DECISION_MOVE('>','-');
       ++curr_decision_level;
+      REPORT_DECISION_MOVE('>','-');
       recurse_into_child_ply();
       --curr_decision_level;
     }
@@ -670,8 +670,8 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
-      REPORT_DECISION_MOVE('<','-');
       ++curr_decision_level;
+      REPORT_DECISION_MOVE('<','-');
       restart_from_scratch();
       --curr_decision_level;
 
@@ -943,8 +943,8 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       {
         max_decision_level = decision_level_latest;
 
-        REPORT_DECISION_WALK('<',walk);
         ++curr_decision_level;
+        REPORT_DECISION_WALK('<',walk);
 
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
@@ -1070,8 +1070,8 @@ static void retract_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
-      REPORT_DECISION_MOVE('<','-');
       ++curr_decision_level;
+      REPORT_DECISION_MOVE('<','-');
       restart_from_scratch();
       --curr_decision_level;
     }

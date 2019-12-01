@@ -105,8 +105,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     {
       remember_taboo_on_square(s,side,nbply);
 
-      REPORT_DECISION_COLOUR('>',BIT(side));
       ++curr_decision_level;
+      REPORT_DECISION_COLOUR('>',BIT(side));
 
       TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
@@ -174,10 +174,10 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     max_decision_level = decision_level_latest;
 
     motivation[id_placed].levels.from = decision_level_latest;
-    motivation[id_placed].levels.to = curr_decision_level;
 
-    REPORT_DECISION_SQUARE('>',s);
     ++curr_decision_level;
+    motivation[id_placed].levels.to = curr_decision_level;
+    REPORT_DECISION_SQUARE('>',s);
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
@@ -259,8 +259,8 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  REPORT_DECISION_WALK('>',walk);
   ++curr_decision_level;
+  REPORT_DECISION_WALK('>',walk);
 
   {
     Side const side_attacked = advers(side);
@@ -461,8 +461,8 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
     ++curr_decision_level;
+    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
@@ -504,8 +504,8 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     motivation[id_placed].levels.from = decision_level_latest;
     motivation[id_placed].levels.to = curr_decision_level;
 
-    REPORT_DECISION_SQUARE('>',s);
     ++curr_decision_level;
+    REPORT_DECISION_SQUARE('>',s);
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
