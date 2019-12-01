@@ -1238,13 +1238,13 @@ void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static boolean is_viable_capturer(PieceIdType id)
+static boolean is_viable_capturer(PieceIdType id, ply ply_capture)
 {
-  ply const ply_capture = nbply+1;
   Side const side_capturing = trait[ply_capture];
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_capture);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",id);TraceEOL();
@@ -1336,7 +1336,7 @@ static boolean is_capture_by_existing_invisible_possible(ply ply_capture)
   for (id = get_top_visible_piece_id()+1;
        !result && id<=get_top_invisible_piece_id();
        ++id)
-    if (is_viable_capturer(id))
+    if (is_viable_capturer(id,ply_capture))
     {
       square const on = motivation[id].last.on;
       Flags const spec = being_solved.spec[on];
