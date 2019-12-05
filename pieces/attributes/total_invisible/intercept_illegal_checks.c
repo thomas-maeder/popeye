@@ -98,15 +98,17 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
     dynamic_consumption_type const save_consumption = current_consumption;
+    PieceIdType const id_placed = GetPieceId(being_solved.spec[s]);
 
     assert(nr_check_vectors>0);
+
+    ++curr_decision_level;
+    motivation[id_placed].levels.side = curr_decision_level;
+    REPORT_DECISION_COLOUR('>',BIT(side));
 
     if (allocate_placed(side))
     {
       remember_taboo_on_square(s,side,nbply);
-
-      ++curr_decision_level;
-      REPORT_DECISION_COLOUR('>',BIT(side));
 
       TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
 
@@ -119,9 +121,9 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       SETFLAG(being_solved.spec[s],advers(side));
 
-      --curr_decision_level;
-
       current_consumption = save_consumption;
+
+      --curr_decision_level;
 
       if (side==White && curr_decision_level<=max_decision_level)
       {
@@ -137,6 +139,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       REPORT_DECISION_OUTCOME("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
       REPORT_DEADEND;
+
+      --curr_decision_level;
 
       current_consumption = save_consumption;
 
@@ -182,7 +186,6 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    motivation[id_placed].levels.side = curr_decision_level;
     motivation[id_placed].levels.walk = decision_level_latest;
 
     place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White);
