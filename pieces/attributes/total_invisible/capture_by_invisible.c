@@ -370,55 +370,64 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
 static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk_rider,
                                                             vec_index_type kcurr, vec_index_type kend)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
   TraceFunctionEntry(__func__);
   TraceWalk(walk_rider);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_arrival);TraceEOL();
-
-  ++curr_decision_level;
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',walk_rider);
-
-  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+  if (curr_decision_level<=max_decision_level)
   {
-    square sq_departure;
-    for (sq_departure = sq_arrival+vec[kcurr];
-         is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
-         sq_departure += vec[kcurr])
-    {
-      max_decision_level = decision_level_latest;
-      flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
-    }
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-    if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
-    {
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-      TraceEOL();
+    move_effect_journal_index_type const precapture = effects_base;
+    Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+    PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
-      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+    max_decision_level = decision_level_latest;
+
+    TraceSquare(sq_arrival);TraceEOL();
+
+    motivation[id_inserted].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',walk_rider);
+    ++curr_decision_level;
+
+    TraceValue("%u",curr_decision_level);
+    TraceValue("%u",max_decision_level);
+    TraceEOL();
+
+    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    {
+      square sq_departure;
+      for (sq_departure = sq_arrival+vec[kcurr];
+           is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
+           sq_departure += vec[kcurr])
       {
         max_decision_level = decision_level_latest;
+        flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
+      }
 
-        capture_by_piece_at_end_of_line(walk_rider,sq_departure);
+      if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
+      {
+        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
+        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
+        TraceEOL();
+
+        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+        {
+          max_decision_level = decision_level_latest;
+
+          capture_by_piece_at_end_of_line(walk_rider,sq_departure);
+        }
       }
     }
-  }
 
-  --curr_decision_level;
+    --curr_decision_level;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -443,6 +452,10 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   ++curr_decision_level;
   motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',King);
+
+  TraceValue("%u",curr_decision_level);
+  TraceValue("%u",max_decision_level);
+  TraceEOL();
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -526,46 +539,55 @@ static void capture_by_invisible_king_inserted_or_existing(void)
 static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type walk_leaper,
                                                              vec_index_type kcurr, vec_index_type kend)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
   TraceFunctionParam("%u",kcurr);
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',walk_leaper);
-
-  for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+  if (curr_decision_level<=max_decision_level)
   {
-    square const sq_departure = sq_arrival+vec[kcurr];
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+    move_effect_journal_index_type const precapture = effects_base;
+    Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+    PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
     max_decision_level = decision_level_latest;
 
-    if (is_square_empty(sq_departure))
-      flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-    else
+    motivation[id_inserted].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',walk_leaper);
+    ++curr_decision_level;
+
+    TraceValue("%u",curr_decision_level);
+    TraceValue("%u",max_decision_level);
+    TraceEOL();
+
+    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
     {
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-      TraceEOL();
+      square const sq_departure = sq_arrival+vec[kcurr];
 
-      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-        capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
+      max_decision_level = decision_level_latest;
+
+      if (is_square_empty(sq_departure))
+        flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+      else
+      {
+        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
+        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
+        TraceEOL();
+
+        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+          capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
+      }
     }
-  }
 
-  --curr_decision_level;
+    --curr_decision_level;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -588,26 +610,23 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
   // TODO en passant capture
 
-  if (curr_decision_level<=max_decision_level)
+  TraceSquare(sq_departure);TraceEOL();
+  if (!TSTFLAG(sq_spec[sq_departure],basesq)
+      && !TSTFLAG(sq_spec[sq_departure],promsq))
   {
-    TraceSquare(sq_departure);TraceEOL();
-    if (!TSTFLAG(sq_spec[sq_departure],basesq)
-        && !TSTFLAG(sq_spec[sq_departure],promsq))
+    max_decision_level = decision_level_latest;
+
+    if (is_square_empty(sq_departure))
+      flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+    else
     {
-      max_decision_level = decision_level_latest;
+      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
+      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
+      TraceEOL();
 
-      if (is_square_empty(sq_departure))
-        flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-      else
-      {
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-          capture_by_piece_at_end_of_line(Pawn,sq_departure);
-      }
+      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+        capture_by_piece_at_end_of_line(Pawn,sq_departure);
     }
   }
 
@@ -617,27 +636,34 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
 static void capture_by_invisible_pawn_inserted_or_existing(void)
 {
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  REPORT_DECISION_WALK('>',Pawn);
+  if (curr_decision_level<=max_decision_level)
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  TraceValue("%u",curr_decision_level);
-  TraceValue("%u",max_decision_level);
-  TraceEOL();
+    move_effect_journal_index_type const precapture = effects_base;
+    Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+    PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
-  capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_left);
-  capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_right);
+    max_decision_level = decision_level_latest;
 
-  --curr_decision_level;
+    motivation[id_inserted].levels.walk = curr_decision_level;
+    REPORT_DECISION_WALK('>',Pawn);
+    ++curr_decision_level;
+
+    TraceValue("%u",curr_decision_level);
+    TraceValue("%u",max_decision_level);
+    TraceEOL();
+
+    capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_left);
+
+    if (curr_decision_level<=max_decision_level)
+      capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_right);
+
+    --curr_decision_level;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -662,8 +688,6 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-  max_decision_level = decision_level_latest;
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
     capture_by_invisible_king_inserted_or_existing();
