@@ -291,58 +291,7 @@ void adapt_pre_capture_effect(void)
     if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
     {
       TraceText("capture of invisible victim added for the purpose\n");
-
-      if (is_square_empty(to))
-      {
-        if (!is_taboo(to,advers(trait[nbply]))
-            && !will_be_taboo(to,advers(trait[nbply]))
-            && !was_taboo(to,advers(trait[nbply])))
-        {
-          dynamic_consumption_type const save_consumption = current_consumption;
-
-          if (allocate_flesh_out_unplaced(advers(trait[nbply])))
-          {
-            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-
-            assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
-            move_effect_journal[pre_capture].type = move_effect_none;
-            occupy_square(sq_addition,walk_added,flags_added);
-            restart_from_scratch();
-            empty_square(sq_addition);
-            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-          }
-          else
-          {
-            TraceText("no invisible left for placing it as victim\n");
-            REPORT_DECISION_OUTCOME("%s","no invisible left for placing it as victim");
-            REPORT_DEADEND;
-          }
-
-          current_consumption = save_consumption;
-          TraceConsumption();TraceEOL();
-        }
-        else
-        {
-          TraceText("we should add a victim, but we can't because of how we have fleshed out earlier moves\n");
-          REPORT_DECISION_OUTCOME("%s","we should add a victim, but we can't because of how we have fleshed out earlier moves");
-          REPORT_DEADEND;
-        }
-      }
-      else
-      {
-        PieceIdType const id = GetPieceId(being_solved.spec[to]);
-        purpose_type const save_purpose = motivation[id].last.purpose;
-
-        TraceText("another total invisible has appeared on the arrival square - "
-                  "no need for addition any more!\n");
-        move_effect_journal[pre_capture].type = move_effect_none;
-        motivation[id].last.purpose = purpose_none;
-        adapt_capture_effect();
-        motivation[id].last.purpose = save_purpose;
-        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-      }
+      assert(0);
     }
     else
     {
@@ -351,32 +300,26 @@ void adapt_pre_capture_effect(void)
       Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
       Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
 
-      TraceText("addition of a castling partner - must have happened at diagram setup time\n");
       if (!is_square_empty(sq_addition)
           && sq_addition==knowledge[0].first_on
           && walk_added==knowledge[0].walk
           && knowledge[0].is_allocated)
       {
-        // TODO this will always be the case once we fully use our knowledge
-        TraceText("castling partner was added as part of applying our knowledge\n");
-        move_effect_journal[pre_capture].type = move_effect_none;
-        adapt_capture_effect();
-        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        TraceText("addition of a castling partner - must have happened at diagram setup time\n");
+        assert(0);
       }
       else if (was_taboo(sq_addition,side_added))
       {
         TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
-        REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
-        REPORT_DEADEND;
+        assert(0);
       }
       else
       {
         PieceIdType const id = GetPieceId(flags_added);
         decision_levels_type const save_levels = motivation[id].levels;
 
-        assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+        TraceText("addition of an invisible capturer\n");
         move_effect_journal[pre_capture].type = move_effect_none;
-        // TODO can we do better here? the rook has ben here FOREVER
         motivation[id].levels.side = curr_decision_level;
         motivation[id].levels.walk = curr_decision_level;
         ++being_solved.number_of_pieces[side_added][walk_added];
@@ -401,12 +344,149 @@ void adapt_pre_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
+void adapt_pre_capture_effect2(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (nbply>top_ply_of_regular_play)
+  {
+    TraceText("there are no post-play pre-capture effects\n");
+    deal_with_illegal_checks();
+  }
+  else
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const pre_capture = effects_base;
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const to = move_effect_journal[movement].u.piece_movement.to;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",move_effect_journal[pre_capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
+    {
+      if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
+      {
+        TraceText("capture of invisible victim added for the purpose\n");
+
+        if (is_square_empty(to))
+        {
+          if (!is_taboo(to,advers(trait[nbply]))
+              && !will_be_taboo(to,advers(trait[nbply]))
+              && !was_taboo(to,advers(trait[nbply])))
+          {
+            dynamic_consumption_type const save_consumption = current_consumption;
+
+            if (allocate_flesh_out_unplaced(advers(trait[nbply])))
+            {
+              square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+              piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+              Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+
+              assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
+              move_effect_journal[pre_capture].type = move_effect_none;
+              occupy_square(sq_addition,walk_added,flags_added);
+              restart_from_scratch();
+              empty_square(sq_addition);
+              move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+              current_consumption = save_consumption;
+              TraceConsumption();TraceEOL();
+            }
+            else
+            {
+              TraceText("no invisible left for placing it as victim\n");
+              REPORT_DECISION_OUTCOME("%s","no invisible left for placing it as victim");
+              REPORT_DEADEND;
+              current_consumption = save_consumption;
+              TraceConsumption();TraceEOL();
+            }
+          }
+          else
+          {
+            TraceText("we should add a victim, but we can't because of how we have fleshed out earlier moves\n");
+            REPORT_DECISION_OUTCOME("%s","we should add a victim, but we can't because of how we have fleshed out earlier moves");
+            REPORT_DEADEND;
+          }
+        }
+        else
+        {
+          PieceIdType const id = GetPieceId(being_solved.spec[to]);
+          purpose_type const save_purpose = motivation[id].last.purpose;
+
+          TraceText("another total invisible has appeared on the arrival square - "
+                    "no need for addition any more!\n");
+          move_effect_journal[pre_capture].type = move_effect_none;
+          motivation[id].last.purpose = purpose_none;
+          deal_with_illegal_checks();
+          motivation[id].last.purpose = save_purpose;
+          move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        }
+      }
+      else
+      {
+        square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+        piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+        Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+        Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+
+        if (!is_square_empty(sq_addition)
+            && sq_addition==knowledge[0].first_on
+            && walk_added==knowledge[0].walk
+            && knowledge[0].is_allocated)
+        {
+          TraceText("addition of a castling partner - must have happened at diagram setup time\n");
+          // TODO this will always be the case once we fully use our knowledge
+          TraceText("castling partner was added as part of applying our knowledge\n");
+          move_effect_journal[pre_capture].type = move_effect_none;
+          deal_with_illegal_checks();
+          move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        }
+        else if (was_taboo(sq_addition,side_added))
+        {
+          TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
+          REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
+          REPORT_DEADEND;
+        }
+        else
+        {
+          TraceText("addition of an invisible capturer\n");
+          deal_with_illegal_checks();
+  //        PieceIdType const id = GetPieceId(flags_added);
+  //        decision_levels_type const save_levels = motivation[id].levels;
+  //
+  //        move_effect_journal[pre_capture].type = move_effect_none;
+  //        motivation[id].levels.side = curr_decision_level;
+  //        motivation[id].levels.walk = curr_decision_level;
+  //        ++being_solved.number_of_pieces[side_added][walk_added];
+  //        occupy_square(sq_addition,walk_added,flags_added);
+  //        restart_from_scratch();
+  //        empty_square(sq_addition);
+  //        --being_solved.number_of_pieces[side_added][walk_added];
+  //        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+  //
+  //        motivation[id].levels = save_levels;
+        }
+      }
+    }
+    else
+    {
+      TraceText("no piece addition to be adapted\n");
+      deal_with_illegal_checks();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void start_iteration(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  deal_with_illegal_checks();
+  adapt_pre_capture_effect2();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
