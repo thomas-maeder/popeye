@@ -130,7 +130,7 @@ void start_iteration(void);
 void rewind_effects(void);
 void unrewind_effects(void);
 
-void adapt_pre_capture_effect(void);
+void insert_invisible_capturer(void);
 
 void report_deadend(char const *s, unsigned int lineno);
 

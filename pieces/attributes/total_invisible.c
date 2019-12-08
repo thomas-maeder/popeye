@@ -276,7 +276,7 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-void adapt_pre_capture_effect(void)
+void insert_invisible_capturer(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const pre_capture = effects_base;
@@ -303,7 +303,6 @@ void adapt_pre_capture_effect(void)
       assert(is_square_empty(sq_addition));
       assert(!was_taboo(sq_addition,side_added));
 
-      TraceText("addition of an invisible capturer\n");
       move_effect_journal[pre_capture].type = move_effect_none;
       motivation[id].levels.side = curr_decision_level;
       motivation[id].levels.walk = curr_decision_level;
@@ -320,8 +319,7 @@ void adapt_pre_capture_effect(void)
     }
 
     case move_effect_none:
-      TraceText("no piece addition to be adapted, or piece addition adapted earlier\n");
-      assert(move_effect_journal[pre_capture].type==move_effect_none);
+      TraceText("no capturer to be inserted\n");
       adapt_capture_effect();
       break;
 
@@ -334,7 +332,7 @@ void adapt_pre_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-void adapt_pre_capture_effect2(void)
+void adapt_pre_capture_effect(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -348,8 +346,6 @@ void adapt_pre_capture_effect2(void)
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const pre_capture = effects_base;
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    square const to = move_effect_journal[movement].u.piece_movement.to;
 
     TraceValue("%u",nbply);
     TraceValue("%u",move_effect_journal[pre_capture].type);
@@ -357,6 +353,9 @@ void adapt_pre_capture_effect2(void)
 
     if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
     {
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      square const to = move_effect_journal[movement].u.piece_movement.to;
+
       if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
       {
         TraceText("capture of invisible victim added for the purpose\n");
@@ -462,7 +461,7 @@ void start_iteration(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  adapt_pre_capture_effect2();
+  adapt_pre_capture_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

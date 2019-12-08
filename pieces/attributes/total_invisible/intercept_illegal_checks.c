@@ -60,7 +60,7 @@ static void done_intercepting_illegal_checks(void)
       {
         square const first_taboo_violation = find_taboo_violation();
         if (first_taboo_violation==nullsquare)
-          adapt_pre_capture_effect();
+          insert_invisible_capturer();
         else
         {
           // TODO review
