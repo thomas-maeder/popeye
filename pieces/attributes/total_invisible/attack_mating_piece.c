@@ -30,8 +30,8 @@ static void place_mating_piece_attacker(Side side_attacking,
       PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,purpose_attacker,s);
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
-      ++curr_decision_level;
       REPORT_DECISION_SQUARE('>',s);
+      ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,id_placed);
@@ -74,8 +74,8 @@ static void use_accidental_attack_on_mating_piece(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
   REPORT_DECISION_SQUARE('>',s);
+  ++curr_decision_level;
   done_placing_mating_piece_attacker();
   --curr_decision_level;
 
@@ -210,32 +210,32 @@ void attack_mating_piece(Side side_attacking,
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
   REPORT_DECISION_WALK('>',Bishop);
+  ++curr_decision_level;
   place_mating_piece_attacking_rider(side_attacking,
                                      sq_mating_piece,
                                      Bishop,
                                      vec_bishop_start,vec_bishop_end);
   --curr_decision_level;
 
-  ++curr_decision_level;
   REPORT_DECISION_WALK('>',Rook);
+  ++curr_decision_level;
   place_mating_piece_attacking_rider(side_attacking,
                                      sq_mating_piece,
                                      Rook,
                                      vec_rook_start,vec_rook_end);
   --curr_decision_level;
 
-  ++curr_decision_level;
   REPORT_DECISION_WALK('>',Knight);
+  ++curr_decision_level;
   place_mating_piece_attacking_leaper(side_attacking,
                                       sq_mating_piece,
                                       Knight,
                                       vec_knight_start,vec_knight_end);
   --curr_decision_level;
 
-  ++curr_decision_level;
   REPORT_DECISION_WALK('>',Rook);
+  ++curr_decision_level;
   place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
   --curr_decision_level;
 

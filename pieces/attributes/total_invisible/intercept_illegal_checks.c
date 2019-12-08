@@ -102,9 +102,9 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     assert(nr_check_vectors>0);
 
-    ++curr_decision_level;
     motivation[id_placed].levels.side = curr_decision_level;
     REPORT_DECISION_COLOUR('>',BIT(side));
+    ++curr_decision_level;
 
     if (allocate_placed(side))
     {
@@ -179,9 +179,9 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     motivation[id_placed].levels.from = decision_level_latest;
 
-    ++curr_decision_level;
     motivation[id_placed].levels.to = curr_decision_level;
     REPORT_DECISION_SQUARE('>',s);
+    ++curr_decision_level;
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
@@ -262,8 +262,8 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  ++curr_decision_level;
   REPORT_DECISION_WALK('>',walk);
+  ++curr_decision_level;
 
   {
     Side const side_attacked = advers(side);
@@ -464,8 +464,8 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    ++curr_decision_level;
     REPORT_DECISION_COLOUR('>',BIT(preferred_side));
+    ++curr_decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
@@ -507,8 +507,8 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     motivation[id_placed].levels.from = decision_level_latest;
     motivation[id_placed].levels.to = curr_decision_level;
 
-    ++curr_decision_level;
     REPORT_DECISION_SQUARE('>',s);
+    ++curr_decision_level;
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);

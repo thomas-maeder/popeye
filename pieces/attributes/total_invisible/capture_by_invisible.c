@@ -65,9 +65,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-        ++curr_decision_level;
         motivation[id_inserted].levels.from = curr_decision_level;
         REPORT_DECISION_SQUARE('>',sq_departure);
+        ++curr_decision_level;
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
          * we have to make sure that there was no illegal check from it before this
@@ -293,9 +293,9 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
   motivation[id_existing].levels.from = curr_decision_level;
   REPORT_DECISION_SQUARE('>',sq_departure);
+  ++curr_decision_level;
 
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -449,9 +449,9 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
   motivation[id_inserted].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',King);
+  ++curr_decision_level;
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
@@ -766,9 +766,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
-      ++curr_decision_level;
       motivation[id_existing].levels.walk = curr_decision_level;
       REPORT_DECISION_WALK('>',Pawn);
+      ++curr_decision_level;
       flesh_out_walk_for_capture(Pawn,sq_departure);
       --curr_decision_level;
     }
@@ -782,9 +782,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     {
       max_decision_level = decision_level_latest;
 
-      ++curr_decision_level;
       motivation[id_existing].levels.walk = curr_decision_level;
       REPORT_DECISION_WALK('>',Knight);
+      ++curr_decision_level;
       flesh_out_walk_for_capture(Knight,sq_departure);
       --curr_decision_level;
     }
@@ -796,9 +796,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       {
         max_decision_level = decision_level_latest;
 
-        ++curr_decision_level;
         motivation[id_existing].levels.walk = curr_decision_level;
         REPORT_DECISION_WALK('>',Bishop);
+        ++curr_decision_level;
 
         flesh_out_walk_for_capture(Bishop,sq_departure);
 
@@ -810,8 +810,8 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          ++curr_decision_level;
           REPORT_DECISION_WALK('>',Queen);
+          ++curr_decision_level;
           flesh_out_walk_for_capture(Queen,sq_departure);
           --curr_decision_level;
         }
@@ -826,9 +826,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          ++curr_decision_level;
           motivation[id_existing].levels.walk = curr_decision_level;
           REPORT_DECISION_WALK('>',Rook);
+          ++curr_decision_level;
 
           flesh_out_walk_for_capture(Rook,sq_departure);
 
@@ -840,8 +840,8 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           {
             max_decision_level = decision_level_latest;
 
-            ++curr_decision_level;
             REPORT_DECISION_WALK('>',Queen);
+            ++curr_decision_level;
             flesh_out_walk_for_capture(Queen,sq_departure);
             --curr_decision_level;
           }
@@ -872,9 +872,9 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
-    ++curr_decision_level;
     motivation[id_existing].levels.walk = curr_decision_level;
     REPORT_DECISION_WALK('>',King);
+    ++curr_decision_level;
     flesh_out_king_for_capture(sq_departure);
     --curr_decision_level;
   }
@@ -911,9 +911,9 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  ++curr_decision_level;
   motivation[id_existing].levels.walk = curr_decision_level;
   REPORT_DECISION_WALK('>',walk_capturer);
+  ++curr_decision_level;
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 
@@ -1003,9 +1003,9 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    ++curr_decision_level;
     motivation[id_existing].levels.from = curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
+    ++curr_decision_level;
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -1131,9 +1131,9 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
            && motivation[id_existing].first.purpose==purpose_interceptor)
   {
     // TODO how can this happen, and how should we deal with it?
-    ++curr_decision_level;
     REPORT_DECISION_SQUARE('>',sq_departure);
     REPORT_DECISION_OUTCOME("%s","revelation of interceptor is violated");
+    ++curr_decision_level;
     --curr_decision_level;
     REPORT_DEADEND;
   }
