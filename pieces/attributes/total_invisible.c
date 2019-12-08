@@ -451,22 +451,8 @@ void adapt_pre_capture_effect2(void)
         }
         else
         {
-          TraceText("addition of an invisible capturer\n");
+          TraceText("possible addition of an invisible capturer - details to be clarified later\n");
           deal_with_illegal_checks();
-  //        PieceIdType const id = GetPieceId(flags_added);
-  //        decision_levels_type const save_levels = motivation[id].levels;
-  //
-  //        move_effect_journal[pre_capture].type = move_effect_none;
-  //        motivation[id].levels.side = curr_decision_level;
-  //        motivation[id].levels.walk = curr_decision_level;
-  //        ++being_solved.number_of_pieces[side_added][walk_added];
-  //        occupy_square(sq_addition,walk_added,flags_added);
-  //        restart_from_scratch();
-  //        empty_square(sq_addition);
-  //        --being_solved.number_of_pieces[side_added][walk_added];
-  //        move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-  //
-  //        motivation[id].levels = save_levels;
         }
       }
     }
