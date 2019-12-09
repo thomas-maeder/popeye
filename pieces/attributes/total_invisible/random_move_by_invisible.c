@@ -1081,7 +1081,7 @@ static void retract_random_move_by_invisible(square const *start_square)
   }
 
 #if defined(REPORT_DECISIONS)
-  if (report_decision_counter==save_counter)
+  if (start_square==boardnum && report_decision_counter==save_counter)
   {
     REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
     REPORT_DEADEND;

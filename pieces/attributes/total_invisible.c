@@ -358,8 +358,6 @@ void adapt_pre_capture_effect(void)
 
       if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
       {
-        TraceText("capture of invisible victim added for the purpose\n");
-
         if (is_square_empty(to))
         {
           if (!is_taboo(to,advers(trait[nbply]))
@@ -374,6 +372,7 @@ void adapt_pre_capture_effect(void)
               piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
               Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
 
+              REPORT_DECISION_OUTCOME("%s","adding victim of capture by pawn");
               assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
               move_effect_journal[pre_capture].type = move_effect_none;
               occupy_square(sq_addition,walk_added,flags_added);
@@ -385,7 +384,7 @@ void adapt_pre_capture_effect(void)
             }
             else
             {
-              TraceText("no invisible left for placing it as victim\n");
+              TraceText("no invisible left for placing it as victim of capture by pawn\n");
               REPORT_DECISION_OUTCOME("%s","no invisible left for placing it as victim");
               REPORT_DEADEND;
               current_consumption = save_consumption;
@@ -394,8 +393,7 @@ void adapt_pre_capture_effect(void)
           }
           else
           {
-            TraceText("we should add a victim, but we can't because of how we have fleshed out earlier moves\n");
-            REPORT_DECISION_OUTCOME("%s","we should add a victim, but we can't because of how we have fleshed out earlier moves");
+            REPORT_DECISION_OUTCOME("%s","can't add victim of capture by pawn because of taboos");
             REPORT_DEADEND;
           }
         }
@@ -404,8 +402,7 @@ void adapt_pre_capture_effect(void)
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
 
-          TraceText("another total invisible has appeared on the arrival square - "
-                    "no need for addition any more!\n");
+          REPORT_DECISION_OUTCOME("%s","no need to add victim of capture by pawn any more");
           move_effect_journal[pre_capture].type = move_effect_none;
           motivation[id].last.purpose = purpose_none;
           deal_with_illegal_checks();
