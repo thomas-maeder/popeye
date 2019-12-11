@@ -1461,6 +1461,62 @@ boolean is_capture_by_invisible_possible(void)
 
     current_consumption = save_consumption;
   }
+  else
+  {
+    if (ply_capture<=top_ply_of_regular_play)
+    {
+      move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
+
+      move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
+      square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
+
+      move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
+      piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
+
+      TraceValue("%u",ply_capture);TraceEOL();
+
+      if (move_effect_journal[capture_capture].type==move_effect_piece_removal
+          && capturer==Pawn
+          && is_square_empty(sq_capture_capture))
+      {
+        dynamic_consumption_type const save_consumption = current_consumption;
+
+        TraceText("pawn capture in next move - no victimg to be seen yet\n");
+
+        if (allocate_flesh_out_unplaced(trait[nbply]))
+        {
+          TraceText("allocation of a victim in the next move still possible\n");
+        }
+        else
+        {
+          move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
+
+          move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
+          square const sq_departure_now = move_effect_journal[movement_now].u.piece_movement.from;
+          square const sq_arrival_now = move_effect_journal[movement_now].u.piece_movement.to;
+
+          TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice\n");
+
+          if (sq_departure_now==move_by_invisible
+              && sq_arrival_now==move_by_invisible)
+          {
+            TraceText("hopefully, we'll find a sacrifice by an invisible\n");
+          }
+          else if (sq_arrival_now==sq_capture_capture)
+          {
+            TraceText("this move sacrifices a visible\n");
+          }
+          else
+          {
+            TraceText("no sacrifice in this move\n");
+            result = false;
+          }
+        }
+
+        current_consumption = save_consumption;
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
