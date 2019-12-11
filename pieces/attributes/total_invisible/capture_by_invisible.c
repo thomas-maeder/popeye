@@ -4,6 +4,7 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "pieces/attributes/total_invisible/random_move_by_invisible.h"
 #include "pieces/attributes/total_invisible.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"
@@ -1473,15 +1474,20 @@ boolean is_capture_by_invisible_possible(void)
       move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
       piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
 
-      TraceValue("%u",ply_capture);TraceEOL();
+      TraceValue("%u",ply_capture);
+      TraceSquare(sq_capture_capture);
+      TraceWalk(capturer);
+      TraceEOL();
 
       if (move_effect_journal[capture_capture].type==move_effect_piece_removal
           && capturer==Pawn
-          && is_square_empty(sq_capture_capture))
+          && (is_square_empty(sq_capture_capture)
+              || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
       {
+        boolean const is_sacrifice_capture = !is_square_empty(sq_capture_capture);
         dynamic_consumption_type const save_consumption = current_consumption;
 
-        TraceText("pawn capture in next move - no victimg to be seen yet\n");
+        TraceText("pawn capture in next move - no victim to be seen yet\n");
 
         if (allocate_flesh_out_unplaced(trait[nbply]))
         {
@@ -1500,7 +1506,80 @@ boolean is_capture_by_invisible_possible(void)
           if (sq_departure_now==move_by_invisible
               && sq_arrival_now==move_by_invisible)
           {
-            TraceText("hopefully, we'll find a sacrifice by an invisible\n");
+            square const *curr;
+
+            TraceText("try to find a potential sacrifice by an invisible\n");
+
+            result = false;
+
+            for (curr = find_next_forward_mover(boardnum);
+                 !result && *curr;
+                 curr = find_next_forward_mover(curr+1))
+            {
+              piece_walk_type const walk = get_walk_of_piece_on_square(*curr);
+              int const diff = sq_capture_capture-*curr;
+
+              TraceSquare(*curr);
+              TraceWalk(walk);
+              TraceValue("%d",diff);
+              TraceEOL();
+
+              switch (walk)
+              {
+                case King:
+                  if (CheckDir[Queen][diff]==diff)
+                    result = true;
+                  break;
+
+                case Queen:
+                  if (CheckDir[Queen][diff]!=0)
+                    result = true;
+                  break;
+
+                case Rook:
+                  if (CheckDir[Rook][diff]!=0)
+                    result = true;
+                  break;
+
+                case Bishop:
+                  if (CheckDir[Bishop][diff]!=0)
+                    result = true;
+                  break;
+
+                case Knight:
+                  if (CheckDir[Knight][diff]==diff)
+                    result = true;
+                  break;
+
+                case Pawn:
+                  if (is_sacrifice_capture)
+                  {
+                    if (CheckDir[Bishop][diff]==diff
+                        && (trait[nbply]==White ? diff>0 : diff<0))
+                      result = true;
+                  }
+                  else
+                  {
+                    if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
+                        && (trait[nbply]==White ? diff>0 : diff<0))
+                      result = true;
+                  }
+                  break;
+
+                case Dummy:
+                  if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+                    result = true;
+                  break;
+
+                default:
+                  assert(0);
+                  break;
+              }
+            }
+
+            TraceText(result
+                      ? "found a potential sacrifice by an invisible\n"
+                      : "couldn't find a potential sacrifice by an invisible\n");
           }
           else if (sq_arrival_now==sq_capture_capture)
           {

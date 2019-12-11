@@ -530,7 +530,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
   TraceFunctionResultEnd();
 }
 
-static square const *find_next_forward_mover(square const *start_square)
+square const *find_next_forward_mover(square const *start_square)
 {
   Side const side_playing = trait[nbply];
   square const *result;
@@ -539,7 +539,7 @@ static square const *find_next_forward_mover(square const *start_square)
   TraceSquare(*start_square);
   TraceFunctionParamListEnd();
 
-  for (result = boardnum; *result; ++result)
+  for (result = start_square; *result; ++result)
     if (TSTFLAG(being_solved.spec[*result],Chameleon)
         && TSTFLAG(being_solved.spec[*result],side_playing))
     {

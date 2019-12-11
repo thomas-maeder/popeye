@@ -10,4 +10,6 @@ boolean is_random_move_by_invisible(ply ply);
 
 void backward_fleshout_random_move_by_invisible(void);
 
+square const *find_next_forward_mover(square const *start_square);
+
 #endif

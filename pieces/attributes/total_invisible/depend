@@ -405,6 +405,7 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
+ pieces/attributes/total_invisible/random_move_by_invisible.h \
  optimisations/orthodox_check_directions.h debugging/assert.h
 
 pieces/attributes/total_invisible/capture_by_invisible.h:
@@ -476,6 +477,8 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 pieces/attributes/total_invisible/uninterceptable_check.h:
+
+pieces/attributes/total_invisible/random_move_by_invisible.h:
 
 optimisations/orthodox_check_directions.h:
 
