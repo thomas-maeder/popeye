@@ -22,6 +22,19 @@ typedef struct
 
 //#define REPORT_DECISIONS
 
+extern decision_level_type curr_decision_level;
+extern decision_level_type max_decision_level;
+
+enum
+{
+  decision_level_dir_capacity = 100
+};
+
+extern char decision_level_dir[decision_level_dir_capacity];
+
+#define REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction) \
+    decision_level_dir[curr_decision_level] = direction;
+
 #if defined(REPORT_DECISIONS)
 
 #include "output/plaintext/pieces.h"
@@ -66,21 +79,23 @@ extern unsigned long prev_report_decision_counter;
     fflush(stdout);
 
 #define REPORT_DECISION_MOVE(direction,action) \
-  printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
-  printf("%c%u ",direction,nbply); \
-  WriteWalk(&output_plaintext_engine, \
-            stdout, \
-            move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.moving); \
-  WriteSquare(&output_plaintext_engine, \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction); \
+    printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
+    printf("%c%u ",direction,nbply); \
+    WriteWalk(&output_plaintext_engine, \
               stdout, \
-              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.from); \
-  printf("%c",action); \
-  WriteSquare(&output_plaintext_engine, \
-              stdout, \
-              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
-  REPORT_END_LINE;
+              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.moving); \
+    WriteSquare(&output_plaintext_engine, \
+                stdout, \
+                move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.from); \
+    printf("%c",action); \
+    WriteSquare(&output_plaintext_engine, \
+                stdout, \
+                move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to); \
+    REPORT_END_LINE;
 
 #define REPORT_DECISION_SQUARE(direction,pos) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction); \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf("%c%u ",direction,nbply); \
     WriteSquare(&output_plaintext_engine, \
@@ -89,6 +104,7 @@ extern unsigned long prev_report_decision_counter;
     REPORT_END_LINE;
 
 #define REPORT_DECISION_COLOUR(direction,colourspec) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction); \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf("%c%u ",direction,nbply); \
     WriteSpec(&output_plaintext_engine, \
@@ -99,6 +115,7 @@ extern unsigned long prev_report_decision_counter;
     REPORT_END_LINE;
 
 #define REPORT_DECISION_WALK(direction,walk) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction); \
     printf("!%*s%d ",curr_decision_level,"",curr_decision_level); \
     printf("%c%u ",direction,nbply); \
     WriteWalk(&output_plaintext_engine, \
@@ -133,10 +150,14 @@ extern unsigned long prev_report_decision_counter;
 
 #define REPORT_DECISION_DECLARE(x)
 #define REPORT_DECISION_CONTEXT(context)
-#define REPORT_DECISION_MOVE(direction,action)
-#define REPORT_DECISION_SQUARE(direction,pos)
-#define REPORT_DECISION_COLOUR(direction,colourspec)
-#define REPORT_DECISION_WALK(direction,walk)
+#define REPORT_DECISION_MOVE(direction,action) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction);
+#define REPORT_DECISION_SQUARE(direction,pos) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction);
+#define REPORT_DECISION_COLOUR(direction,colourspec) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction);
+#define REPORT_DECISION_WALK(direction,walk) \
+    REMEMBER_LAST_FORWARD_DECISION_FOR_PLY(direction);
 #define REPORT_DECISION_KING_NOMINATION(pos)
 #define REPORT_DECISION_OUTCOME(format, ...)
 
