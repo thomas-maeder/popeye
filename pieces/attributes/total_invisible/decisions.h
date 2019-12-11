@@ -20,7 +20,7 @@ typedef struct
     decision_level_type to;
 } decision_levels_type;
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 extern decision_level_type curr_decision_level;
 extern decision_level_type max_decision_level;

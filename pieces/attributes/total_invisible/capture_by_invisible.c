@@ -1597,6 +1597,13 @@ boolean is_capture_by_invisible_possible(void)
     }
   }
 
+  if (!result)
+  {
+    max_decision_level = curr_decision_level-1;
+    while (decision_level_dir[max_decision_level]=='<')
+      --max_decision_level;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
