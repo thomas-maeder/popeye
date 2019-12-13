@@ -67,7 +67,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
         motivation[id_inserted].levels.from = curr_decision_level;
-        REPORT_DECISION_SQUARE('>',sq_departure);
+        /* allow backtracking from some deadends to backtrack further, skipping over the remainder of the current vector */
+        REPORT_DECISION_SQUARE('<',sq_departure);
         ++curr_decision_level;
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
@@ -403,6 +404,12 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
     {
       square sq_departure;
+
+      decision_level_dir[curr_decision_level] = '>';
+      ++curr_decision_level;
+
+      max_decision_level = decision_level_latest;
+
       for (sq_departure = sq_arrival+vec[kcurr];
            is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
            sq_departure += vec[kcurr])
@@ -411,18 +418,33 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
         flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
       }
 
-      if (is_on_board(sq_departure) && curr_decision_level<=max_decision_level)
+      --curr_decision_level;
+
+      TraceValue("%u",curr_decision_level);
+      TraceValue("%u",max_decision_level);
+      TraceEOL();
+
+      if (curr_decision_level<=max_decision_level)
       {
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+        while (is_square_empty(sq_departure))
         {
-          max_decision_level = decision_level_latest;
+          sq_departure += vec[kcurr];
+          TraceSquare(sq_departure);TraceEOL();
+        }
 
-          capture_by_piece_at_end_of_line(walk_rider,sq_departure);
+        if (is_on_board(sq_departure))
+        {
+          TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
+          TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
+          TraceEOL();
+
+          if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
+              && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
+          {
+            max_decision_level = decision_level_latest;
+
+            capture_by_piece_at_end_of_line(walk_rider,sq_departure);
+          }
         }
       }
     }
@@ -484,7 +506,10 @@ static void capture_by_invisible_king_inserted_or_existing(void)
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
+        decision_level_dir[curr_decision_level] = '>';
+        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(King,sq_departure);
+        --curr_decision_level;
 
         CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
@@ -574,7 +599,12 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
+      {
+        decision_level_dir[curr_decision_level] = '>';
+        ++curr_decision_level;
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+        --curr_decision_level;
+      }
       else
       {
         TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
@@ -618,7 +648,12 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
+    {
+      decision_level_dir[curr_decision_level] = '>';
+      ++curr_decision_level;
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+      --curr_decision_level;
+    }
     else
     {
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
@@ -1605,6 +1640,8 @@ boolean is_capture_by_invisible_possible(void)
     max_decision_level = curr_decision_level-1;
     while (decision_level_dir[max_decision_level]=='<')
       --max_decision_level;
+    // TODO optimise more aggressively?
+    // this will stop at line pieces' vectors - can we rule out all moves by inserted piece?
   }
 
   TraceFunctionExit(__func__);
