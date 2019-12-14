@@ -828,8 +828,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          record_decision_walk('>',Queen);
-          ++curr_decision_level;
+          push_decision_walk('>',id_existing,Queen);
           flesh_out_walk_for_capture(Queen,sq_departure);
           --curr_decision_level;
         }
@@ -856,8 +855,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           {
             max_decision_level = decision_level_latest;
 
-            record_decision_walk('>',Queen);
-            ++curr_decision_level;
+            push_decision_walk('>',id_existing,Queen);
             flesh_out_walk_for_capture(Queen,sq_departure);
             --curr_decision_level;
           }
