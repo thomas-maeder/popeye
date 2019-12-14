@@ -49,7 +49,7 @@ void record_decision_walk_impl(char const *file, unsigned int line, char directi
 void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
-#define record_decision_context(context) \
+#define record_decision_context() \
     record_decision_context_impl(__FILE__,__LINE__,__func__)
 
 #define record_decision_move(direction,action) \
