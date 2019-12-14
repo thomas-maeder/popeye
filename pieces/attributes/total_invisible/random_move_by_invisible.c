@@ -670,10 +670,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
-      record_decision_move('<','-');
-      ++curr_decision_level;
       restart_from_scratch();
-      --curr_decision_level;
 
       forget_taboos_for_current_move();
 
@@ -931,19 +928,12 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       piece_walk_type walk;
       decision_levels_type const save_levels = motivation[id].levels;
 
-      TraceValue("%u",id);
-      TraceValue("%u",motivation[id].levels.walk);
-      TraceEOL();
-      assert(motivation[id].levels.walk==decision_level_latest);
-      assert(motivation[id].levels.from==decision_level_latest);
-      motivation[id].levels.walk = curr_decision_level;
-      motivation[id].levels.from = curr_decision_level+1;
-
       for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
       {
         max_decision_level = decision_level_latest;
 
         record_decision_walk('<',walk);
+        motivation[id].levels.walk = curr_decision_level;
         ++curr_decision_level;
 
         ++being_solved.number_of_pieces[side_playing][walk];
@@ -1041,7 +1031,13 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = nbply;
 
+    motivation[id].levels.from = curr_decision_level;
+    record_decision_square('>',*s);
+    ++curr_decision_level;
+
     flesh_out_random_move_by_specific_invisible_to(*s);
+
+    --curr_decision_level;
 
     if (curr_decision_level<=max_decision_level)
     {
