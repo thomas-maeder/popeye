@@ -102,7 +102,6 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     assert(nr_check_vectors>0);
 
-    motivation[id_placed].levels.side = curr_decision_level;
     push_decision_side('>',id_placed,side);
 
     if (allocate_placed(side))
