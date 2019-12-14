@@ -103,7 +103,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     assert(nr_check_vectors>0);
 
     motivation[id_placed].levels.side = curr_decision_level;
-    record_decision_colour('>',BIT(side));
+    record_decision_side('>',side);
     ++curr_decision_level;
 
     if (allocate_placed(side))
@@ -460,7 +460,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    record_decision_colour('>',BIT(preferred_side));
+    record_decision_side('>',preferred_side);
     ++curr_decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));

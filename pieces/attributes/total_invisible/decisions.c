@@ -86,7 +86,7 @@ void record_decision_square_impl(char const *file, unsigned int line, char direc
 #endif
 }
 
-void record_decision_colour_impl(char const *file, unsigned int line, char direction, Flags colourspec)
+void record_decision_side_impl(char const *file, unsigned int line, char direction, Side side)
 {
   decision_level_dir[curr_decision_level] = direction;
 
@@ -95,7 +95,7 @@ void record_decision_colour_impl(char const *file, unsigned int line, char direc
   printf("%c%u ",direction,nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
-            colourspec,
+            BIT(side),
             initsquare,
             true);
   report_endline(file,line);

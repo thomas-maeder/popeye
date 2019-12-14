@@ -44,7 +44,7 @@ extern unsigned long prev_record_decision_counter;
 void record_decision_context_impl(char const *file, unsigned int line, char const *context);
 void record_decision_random_move_impl(char const *file, unsigned int line, char direction);
 void record_decision_square_impl(char const *file, unsigned int line, char direction, square pos);
-void record_decision_colour_impl(char const *file, unsigned int line, char direction, Flags colourspec);
+void record_decision_side_impl(char const *file, unsigned int line, char direction, Side side);
 void record_decision_walk_impl(char const *file, unsigned int line, char direction, piece_walk_type walk);
 void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
@@ -55,8 +55,8 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define record_decision_random_move(direction) \
     record_decision_random_move_impl(__FILE__,__LINE__,direction)
 
-#define record_decision_colour(direction,colourspec) \
-    record_decision_colour_impl(__FILE__,__LINE__,direction,colourspec)
+#define record_decision_side(direction,side) \
+    record_decision_side_impl(__FILE__,__LINE__,direction,side)
 
 #define record_decision_walk(direction,walk) \
     record_decision_walk_impl(__FILE__,__LINE__,direction,walk)
