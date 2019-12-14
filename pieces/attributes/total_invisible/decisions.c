@@ -14,8 +14,8 @@ decision_level_type max_decision_level = decision_level_latest;
 
 char decision_level_dir[decision_level_dir_capacity];
 
-unsigned long report_decision_counter;
-unsigned long prev_report_decision_counter;
+unsigned long record_decision_counter;
+unsigned long prev_record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
 
@@ -40,28 +40,28 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[Black]
          );
   printf(" - %s:#%d",basename(file),line);
-  printf(" - D:%lu\n",report_decision_counter++);
+  printf(" - D:%lu\n",record_decision_counter++);
   fflush(stdout);
 }
 
 #endif
 
-void report_decision_context_impl(char const *file, unsigned int line, char const *context)
+void record_decision_context_impl(char const *file, unsigned int line, char const *context)
 {
 #if defined(REPORT_DECISIONS)
   printf("\n!%s",context);
   write_history_recursive(top_ply_of_regular_play);
   printf(" - %s:#%d",basename(file),line);
-  printf(" - D:%lu",report_decision_counter);
-  printf(" - %lu",report_decision_counter-prev_report_decision_counter);
-  prev_report_decision_counter = report_decision_counter;
-  ++report_decision_counter;
+  printf(" - D:%lu",record_decision_counter);
+  printf(" - %lu",record_decision_counter-prev_record_decision_counter);
+  prev_record_decision_counter = record_decision_counter;
+  ++record_decision_counter;
   move_numbers_write_history(top_ply_of_regular_play+1);
   fflush(stdout);
 #endif
 }
 
-void report_decision_move_impl(char const *file, unsigned int line, char direction, char action)
+void record_decision_move_impl(char const *file, unsigned int line, char direction, char action)
 {
   decision_level_dir[curr_decision_level] = direction;
 
@@ -82,7 +82,7 @@ void report_decision_move_impl(char const *file, unsigned int line, char directi
 #endif
 }
 
-void report_decision_square_impl(char const *file, unsigned int line, char direction, square pos)
+void record_decision_square_impl(char const *file, unsigned int line, char direction, square pos)
 {
   decision_level_dir[curr_decision_level] = direction;
 
@@ -96,7 +96,7 @@ void report_decision_square_impl(char const *file, unsigned int line, char direc
 #endif
 }
 
-void report_decision_colour_impl(char const *file, unsigned int line, char direction, Flags colourspec)
+void record_decision_colour_impl(char const *file, unsigned int line, char direction, Flags colourspec)
 {
   decision_level_dir[curr_decision_level] = direction;
 
@@ -112,7 +112,7 @@ void report_decision_colour_impl(char const *file, unsigned int line, char direc
 #endif
 }
 
-void report_decision_walk_impl(char const *file, unsigned int line, char direction, piece_walk_type walk)
+void record_decision_walk_impl(char const *file, unsigned int line, char direction, piece_walk_type walk)
 {
   decision_level_dir[curr_decision_level] = direction;
 
@@ -126,7 +126,7 @@ void report_decision_walk_impl(char const *file, unsigned int line, char directi
 #endif
 }
 
-void report_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
+void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -145,7 +145,7 @@ void report_decision_king_nomination_impl(char const *file, unsigned int line, s
 #endif
 }
 
-void report_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)
+void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)
 {
 #if defined(REPORT_DECISIONS)
   va_list args;

@@ -30,7 +30,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,purpose_attacker,s);
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
-      report_decision_square('>',s);
+      record_decision_square('>',s);
       ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_attacking][walk];
@@ -74,7 +74,7 @@ static void use_accidental_attack_on_mating_piece(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  report_decision_square('>',s);
+  record_decision_square('>',s);
   ++curr_decision_level;
   done_placing_mating_piece_attacker();
   --curr_decision_level;
@@ -210,7 +210,7 @@ void attack_mating_piece(Side side_attacking,
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
 
-  report_decision_walk('>',Bishop);
+  record_decision_walk('>',Bishop);
   ++curr_decision_level;
   place_mating_piece_attacking_rider(side_attacking,
                                      sq_mating_piece,
@@ -218,7 +218,7 @@ void attack_mating_piece(Side side_attacking,
                                      vec_bishop_start,vec_bishop_end);
   --curr_decision_level;
 
-  report_decision_walk('>',Rook);
+  record_decision_walk('>',Rook);
   ++curr_decision_level;
   place_mating_piece_attacking_rider(side_attacking,
                                      sq_mating_piece,
@@ -226,7 +226,7 @@ void attack_mating_piece(Side side_attacking,
                                      vec_rook_start,vec_rook_end);
   --curr_decision_level;
 
-  report_decision_walk('>',Knight);
+  record_decision_walk('>',Knight);
   ++curr_decision_level;
   place_mating_piece_attacking_leaper(side_attacking,
                                       sq_mating_piece,
@@ -234,7 +234,7 @@ void attack_mating_piece(Side side_attacking,
                                       vec_knight_start,vec_knight_end);
   --curr_decision_level;
 
-  report_decision_walk('>',Rook);
+  record_decision_walk('>',Rook);
   ++curr_decision_level;
   place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
   --curr_decision_level;

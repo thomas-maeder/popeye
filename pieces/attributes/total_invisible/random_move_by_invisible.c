@@ -23,7 +23,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParamListEnd();
 
   motivation[id].levels.to = curr_decision_level;
-  report_decision_move('>','-');
+  record_decision_move('>','-');
   ++curr_decision_level;
 
   motivation[id].last.on = sq_arrival;
@@ -69,7 +69,7 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
     if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");
-      report_decision_outcome("%s","the planned victim was added to later act from its current square");
+      record_decision_outcome("%s","the planned victim was added to later act from its current square");
       REPORT_DEADEND;
     }
     else
@@ -353,7 +353,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
       motivation[id_moving].levels.walk = curr_decision_level;
-      report_decision_walk('>',Pawn);
+      record_decision_walk('>',Pawn);
       ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
@@ -371,7 +371,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    report_decision_walk('>',Knight);
+    record_decision_walk('>',Knight);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Knight];
@@ -388,7 +388,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    report_decision_walk('>',Bishop);
+    record_decision_walk('>',Bishop);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
@@ -407,7 +407,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    report_decision_walk('>',Rook);
+    record_decision_walk('>',Rook);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Rook];
@@ -426,7 +426,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    report_decision_walk('>',Queen);
+    record_decision_walk('>',Queen);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Queen];
@@ -495,7 +495,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
         decision_level_type const save_level = motivation[id_moving].levels.walk;
 
         motivation[id_moving].levels.walk = curr_decision_level;
-        report_decision_walk('>',King);
+        record_decision_walk('>',King);
         ++curr_decision_level;
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
@@ -578,7 +578,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    report_decision_square('>',*s);
+    record_decision_square('>',*s);
     ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
     --curr_decision_level;
@@ -610,7 +610,7 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      report_decision_move('>','-');
+      record_decision_move('>','-');
       ++curr_decision_level;
       recurse_into_child_ply();
       --curr_decision_level;
@@ -670,7 +670,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
-      report_decision_move('<','-');
+      record_decision_move('<','-');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
@@ -943,7 +943,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       {
         max_decision_level = decision_level_latest;
 
-        report_decision_walk('<',walk);
+        record_decision_walk('<',walk);
         ++curr_decision_level;
 
         ++being_solved.number_of_pieces[side_playing][walk];
@@ -965,7 +965,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   else
   {
     TraceText("the piece has already moved\n");
-    report_decision_outcome("%s","the piece has already moved");
+    record_decision_outcome("%s","the piece has already moved");
     REPORT_DEADEND;
   }
 
@@ -1024,7 +1024,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
-  unsigned int const save_counter = report_decision_counter;
+  unsigned int const save_counter = record_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
@@ -1070,7 +1070,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
-      report_decision_move('<','-');
+      record_decision_move('<','-');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
@@ -1080,9 +1080,9 @@ static void retract_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
   }
 
-  if (start_square==boardnum && report_decision_counter==save_counter)
+  if (start_square==boardnum && record_decision_counter==save_counter)
   {
-    report_decision_outcome("%s","no retractable random move found - TODO we don't retract pawn captures");
+    record_decision_outcome("%s","no retractable random move found - TODO we don't retract pawn captures");
     REPORT_DEADEND;
   }
 
