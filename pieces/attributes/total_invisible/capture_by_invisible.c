@@ -1030,8 +1030,15 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
 
-  if (motivation[id_existing].last.purpose!=purpose_none
-      && TSTFLAG(flags_existing,trait[nbply]))
+  if (!TSTFLAG(flags_existing,trait[nbply]))
+  {
+    /* candidate belongs to wrong side */
+  }
+  else if (motivation[id_existing].last.purpose==purpose_none)
+  {
+    /* piece was replaced, e.g. by a revelation */
+  }
+  else
   {
     piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
     motivation_type const motivation_existing = motivation[id_existing];
@@ -1165,16 +1172,6 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     motivation[id_existing] = motivation_existing;
 
     --curr_decision_level;
-  }
-  else if (motivation[id_existing].first.acts_when==nbply
-           && motivation[id_existing].first.purpose==purpose_interceptor)
-  {
-    // TODO how can this happen, and how should we deal with it?
-    record_decision_square('>',sq_departure);
-    record_decision_outcome("%s","revelation of interceptor is violated");
-    ++curr_decision_level;
-    --curr_decision_level;
-    REPORT_DEADEND;
   }
 
   TraceFunctionExit(__func__);
