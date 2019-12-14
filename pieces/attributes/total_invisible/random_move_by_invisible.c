@@ -350,9 +350,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
-      motivation[id_moving].levels.walk = curr_decision_level;
-      record_decision_walk('>',Pawn);
-      ++curr_decision_level;
+      push_decision_walk('>',id_moving,Pawn);
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
@@ -368,9 +366,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
-    motivation[id_moving].levels.walk = curr_decision_level;
-    record_decision_walk('>',Knight);
-    ++curr_decision_level;
+    push_decision_walk('>',id_moving,Knight);
 
     ++being_solved.number_of_pieces[side_playing][Knight];
     replace_walk(sq_departure,Knight);
@@ -385,9 +381,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
-    motivation[id_moving].levels.walk = curr_decision_level;
-    record_decision_walk('>',Bishop);
-    ++curr_decision_level;
+    push_decision_walk('>',id_moving,Bishop);
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
@@ -404,9 +398,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
-    motivation[id_moving].levels.walk = curr_decision_level;
-    record_decision_walk('>',Rook);
-    ++curr_decision_level;
+    push_decision_walk('>',id_moving,Rook);
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
@@ -492,9 +484,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       {
         decision_level_type const save_level = motivation[id_moving].levels.walk;
 
-        motivation[id_moving].levels.walk = curr_decision_level;
-        record_decision_walk('>',King);
-        ++curr_decision_level;
+        push_decision_walk('>',id_moving,King);
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
 
@@ -929,9 +919,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       {
         max_decision_level = decision_level_latest;
 
-        record_decision_walk('<',walk);
-        motivation[id].levels.walk = curr_decision_level;
-        ++curr_decision_level;
+        push_decision_walk('<',id,walk);
 
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
