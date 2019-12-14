@@ -611,7 +611,7 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      record_decision_move('>','-');
+      record_decision_random_move('>');
       ++curr_decision_level;
       recurse_into_child_ply();
       --curr_decision_level;
@@ -1067,7 +1067,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
-      record_decision_move('<','-');
+      record_decision_random_move('<');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;

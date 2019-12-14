@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 decision_level_type curr_decision_level = 2;
 decision_level_type max_decision_level = decision_level_latest;
@@ -61,23 +61,13 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void record_decision_move_impl(char const *file, unsigned int line, char direction, char action)
+void record_decision_random_move_impl(char const *file, unsigned int line, char direction)
 {
   decision_level_dir[curr_decision_level] = direction;
 
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
-  WriteWalk(&output_plaintext_engine,
-            stdout,
-            move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.moving);
-  WriteSquare(&output_plaintext_engine,
-              stdout,
-              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.from);
-  printf("%c",action);
-  WriteSquare(&output_plaintext_engine,
-              stdout,
-              move_effect_journal[move_effect_journal_base[nbply]+move_effect_journal_index_offset_movement].u.piece_movement.to);
+  printf("%c%u TI~-~",direction,nbply);
   report_endline(file,line);
 #endif
 }
