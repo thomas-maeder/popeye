@@ -70,7 +70,7 @@ static void done_intercepting_illegal_checks(void)
     }
     else
     {
-      REPORT_DECISION_OUTCOME("capture by invisible in ply %u will not be possible",nbply+1);
+      report_decision_outcome("capture by invisible in ply %u will not be possible",nbply+1);
       REPORT_DEADEND;
     }
   }
@@ -103,7 +103,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     assert(nr_check_vectors>0);
 
     motivation[id_placed].levels.side = curr_decision_level;
-    REPORT_DECISION_COLOUR('>',BIT(side));
+    report_decision_colour('>',BIT(side));
     ++curr_decision_level;
 
     if (allocate_placed(side))
@@ -137,7 +137,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     {
       remember_taboo_on_square(s,side,nbply);
 
-      REPORT_DECISION_OUTCOME("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
+      report_decision_outcome("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
       REPORT_DEADEND;
 
       --curr_decision_level;
@@ -180,7 +180,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     motivation[id_placed].levels.from = decision_level_latest;
 
     motivation[id_placed].levels.to = curr_decision_level;
-    REPORT_DECISION_SQUARE('>',s);
+    report_decision_square('>',s);
     ++curr_decision_level;
 
     SetPieceId(spec,id_placed);
@@ -211,7 +211,7 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   numvec const dir = vec[kcurr];
-  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+  unsigned int const save_counter = report_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -221,13 +221,12 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
 
   place_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir);
 
-#if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
-    REPORT_DECISION_DECLARE(square const s = find_end_of_line(king_pos,dir));
-    REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
-    REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
-    REPORT_DECISION_OUTCOME("no available square found where to intercept check"
+    square const s = find_end_of_line(king_pos,dir);
+    PieceIdType const id_checker = GetPieceId(being_solved.spec[s]);
+    ply const ply_check = motivation[id_checker].last.acts_when;
+    report_decision_outcome("no available square found where to intercept check"
                             " from dir:%d"
                             " by id:%u"
                             " in ply:%u",
@@ -236,7 +235,6 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
                             ply_check);
     REPORT_DEADEND;
   }
-#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -262,7 +260,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  REPORT_DECISION_WALK('>',walk);
+  report_decision_walk('>',walk);
   ++curr_decision_level;
 
   {
@@ -273,7 +271,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
     if (k==UINT_MAX)
     {
       // TODO accept uninterceptable check if not illegal
-      REPORT_DECISION_OUTCOME("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
+      report_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
     }
     else if (k==0 || king_pos+vec[k]!=pos)
@@ -286,7 +284,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
     else
     {
       // TODO accept uninterceptable check if not illegal
-      REPORT_DECISION_OUTCOME("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
+      report_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
     }
   }
@@ -322,7 +320,7 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
 
   if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
   {
-    REPORT_DECISION_OUTCOME("%s","pawn is placed on impossible square");
+    report_decision_outcome("%s","pawn is placed on impossible square");
     REPORT_DEADEND;
   }
   else
@@ -432,7 +430,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
     }
     else
     {
-      REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+      report_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
     }
 
@@ -464,7 +462,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_COLOUR('>',BIT(preferred_side));
+    report_decision_colour('>',BIT(preferred_side));
     ++curr_decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
@@ -507,7 +505,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     motivation[id_placed].levels.from = decision_level_latest;
     motivation[id_placed].levels.to = curr_decision_level;
 
-    REPORT_DECISION_SQUARE('>',s);
+    report_decision_square('>',s);
     ++curr_decision_level;
 
     SetPieceId(spec,id_placed);
@@ -538,7 +536,7 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   numvec const dir = vec[kcurr];
-  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+  unsigned int const save_counter = report_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -548,13 +546,13 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
 
   place_non_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir);
 
-#if defined(REPORT_DECISIONS)
   if (report_decision_counter==save_counter)
   {
-    REPORT_DECISION_DECLARE(square const s = find_end_of_line(king_pos,dir));
-    REPORT_DECISION_DECLARE(PieceIdType const id_checker = GetPieceId(being_solved.spec[s]));
-    REPORT_DECISION_DECLARE(ply const ply_check = motivation[id_checker].last.acts_when);
-    REPORT_DECISION_OUTCOME("no available square found where to intercept check"
+    square const s = find_end_of_line(king_pos,dir);
+    PieceIdType const id_checker = GetPieceId(being_solved.spec[s]);
+    ply const ply_check = motivation[id_checker].last.acts_when;
+
+    report_decision_outcome("no available square found where to intercept check"
                             " from dir:%d"
                             " by id:%u"
                             " in ply:%u",
@@ -563,7 +561,6 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
                             ply_check);
     REPORT_DEADEND;
   }
-#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -643,7 +640,7 @@ static void deal_with_interceptable_illegal_checks()
     max_decision_level = curr_decision_level-1;
     while (decision_level_dir[max_decision_level]=='<')
       --max_decision_level;
-    REPORT_DECISION_OUTCOME("%s","not enough available invisibles for intercepting all illegal checks");
+    report_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
     REPORT_DEADEND;
   }
 
@@ -676,7 +673,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
     assert(uninterceptable_check_delivered_in_ply==ply_nil);
     uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
 
-    REPORT_DECISION_OUTCOME("uninterceptable illegal check"
+    report_decision_outcome("uninterceptable illegal check"
                             " from dir:%d"
                             " by id:%u"
                             " delivered in ply:%u",
@@ -696,7 +693,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
   }
   else
   {
-    REPORT_DECISION_OUTCOME("%s","uninterceptable check by visible piece");
+    report_decision_outcome("%s","uninterceptable check by visible piece");
     REPORT_DEADEND;
   }
 

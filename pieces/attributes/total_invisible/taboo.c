@@ -654,7 +654,7 @@ boolean is_taboo_violation_acceptable(square first_taboo_violation)
     {
 //      if (move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure==move_by_invisible
 //          && move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].arrival==move_by_invisible)
-      REPORT_DECISION_OUTCOME("%s","move is blocked by interceptor");
+      report_decision_outcome("%s","move is blocked by interceptor");
       REPORT_DEADEND;
       result = true;
     }
@@ -672,7 +672,7 @@ boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tighten the if()?
     {
-      REPORT_DECISION_OUTCOME("%s","move is intercepted by interceptor");
+      report_decision_outcome("%s","move is intercepted by interceptor");
       REPORT_DEADEND;
       result = true;
     }
@@ -689,7 +689,7 @@ boolean is_taboo_violation_acceptable(square first_taboo_violation)
      * 4. the current pawn move is blocked on sq
      */
     {
-      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
+      report_decision_outcome("%s","pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -708,7 +708,7 @@ boolean is_taboo_violation_acceptable(square first_taboo_violation)
       // TODO is item 3 relevant for this case? do we miss it even if there is
       // no such random move? I.e. should we tigthen the if()?
     {
-      REPORT_DECISION_OUTCOME("%s","pawn move is blocked by invisible piece");
+      report_decision_outcome("%s","pawn move is blocked by invisible piece");
       REPORT_DEADEND;
       result = true;
     }
@@ -723,7 +723,7 @@ boolean is_taboo_violation_acceptable(square first_taboo_violation)
        * 4. the revelation would only happen after the current move
        */
     {
-      REPORT_DECISION_OUTCOME("%s","move is intercepted by invisible piece");
+      report_decision_outcome("%s","move is intercepted by invisible piece");
       REPORT_DEADEND;
       result = true;
     }

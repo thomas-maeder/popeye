@@ -26,7 +26,7 @@ static void done_validating_king_placements(void)
       break;
 
     case play_validating_mate:
-      REPORT_DECISION_OUTCOME("%s","Replaying moves for validation");
+      report_decision_outcome("%s","Replaying moves for validation");
       play_phase = play_initialising_replay;
       replay_fleshed_out_move_sequence(play_replay_validating);
       play_phase = play_validating_mate;
@@ -51,7 +51,7 @@ static void done_validating_king_placements(void)
       }
       else
       {
-        REPORT_DECISION_OUTCOME("%s","replaying moves for testing");
+        report_decision_outcome("%s","replaying moves for testing");
         play_phase = play_initialising_replay;
         replay_fleshed_out_move_sequence(play_replay_testing);
         play_phase = play_testing_mate;
@@ -68,7 +68,7 @@ static void done_validating_king_placements(void)
       break;
 
     case play_attacking_mating_piece:
-      REPORT_DECISION_OUTCOME("%s","placed mating piece attacker");
+      report_decision_outcome("%s","placed mating piece attacker");
       done_placing_mating_piece_attacker();
       break;
 
@@ -148,7 +148,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
         max_decision_level = decision_level_latest;
-        REPORT_DECISION_KING_NOMINATION(*s);
+        report_decision_king_nomination(*s);
         ++curr_decision_level;
         restart_from_scratch();
         --curr_decision_level;
@@ -173,7 +173,7 @@ static void indistinct_king_placement_validation(void)
 
   being_solved.king_square[side_to_be_mated] = initsquare;
   TraceText("The king to be mated can be anywhere\n");
-  REPORT_DECISION_OUTCOME("%s","The king to be mated can be anywhere");
+  report_decision_outcome("%s","The king to be mated can be anywhere");
   REPORT_DEADEND;
 
   switch (play_phase)
@@ -207,7 +207,7 @@ static void impossible_king_placement_validation(void)
 
   being_solved.king_square[side_to_be_mated] = initsquare;
   TraceText("The king to be mated can't be placed\n");
-  REPORT_DECISION_OUTCOME("%s","The king to be mated can't be placed");
+  report_decision_outcome("%s","The king to be mated can't be placed");
   REPORT_DEADEND;
 
   TraceFunctionExit(__func__);
@@ -257,7 +257,7 @@ void validate_king_placements(void)
            && nr_total_invisbles_consumed()==total_invisible_number)
   {
     combined_result = previous_move_is_illegal;
-    REPORT_DECISION_OUTCOME("%s","The king of the mating side can't be placed");
+    report_decision_outcome("%s","The king of the mating side can't be placed");
     REPORT_DEADEND;
   }
   else

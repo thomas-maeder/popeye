@@ -23,7 +23,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParamListEnd();
 
   motivation[id].levels.to = curr_decision_level;
-  REPORT_DECISION_MOVE('>','-');
+  report_decision_move('>','-');
   ++curr_decision_level;
 
   motivation[id].last.on = sq_arrival;
@@ -69,7 +69,7 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
     if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");
-      REPORT_DECISION_OUTCOME("%s","the planned victim was added to later act from its current square");
+      report_decision_outcome("%s","the planned victim was added to later act from its current square");
       REPORT_DEADEND;
     }
     else
@@ -353,7 +353,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
       motivation[id_moving].levels.walk = curr_decision_level;
-      REPORT_DECISION_WALK('>',Pawn);
+      report_decision_walk('>',Pawn);
       ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
@@ -371,7 +371,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',Knight);
+    report_decision_walk('>',Knight);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Knight];
@@ -388,7 +388,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',Bishop);
+    report_decision_walk('>',Bishop);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
@@ -407,7 +407,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',Rook);
+    report_decision_walk('>',Rook);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Rook];
@@ -426,7 +426,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     max_decision_level = decision_level_latest;
 
     motivation[id_moving].levels.walk = curr_decision_level;
-    REPORT_DECISION_WALK('>',Queen);
+    report_decision_walk('>',Queen);
     ++curr_decision_level;
 
     ++being_solved.number_of_pieces[side_playing][Queen];
@@ -495,7 +495,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
         decision_level_type const save_level = motivation[id_moving].levels.walk;
 
         motivation[id_moving].levels.walk = curr_decision_level;
-        REPORT_DECISION_WALK('>',King);
+        report_decision_walk('>',King);
         ++curr_decision_level;
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
@@ -578,7 +578,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    REPORT_DECISION_SQUARE('>',*s);
+    report_decision_square('>',*s);
     ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
     --curr_decision_level;
@@ -610,7 +610,7 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
-      REPORT_DECISION_MOVE('>','-');
+      report_decision_move('>','-');
       ++curr_decision_level;
       recurse_into_child_ply();
       --curr_decision_level;
@@ -670,7 +670,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
-      REPORT_DECISION_MOVE('<','-');
+      report_decision_move('<','-');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
@@ -943,7 +943,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       {
         max_decision_level = decision_level_latest;
 
-        REPORT_DECISION_WALK('<',walk);
+        report_decision_walk('<',walk);
         ++curr_decision_level;
 
         ++being_solved.number_of_pieces[side_playing][walk];
@@ -965,7 +965,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
   else
   {
     TraceText("the piece has already moved\n");
-    REPORT_DECISION_OUTCOME("%s","the piece has already moved");
+    report_decision_outcome("%s","the piece has already moved");
     REPORT_DEADEND;
   }
 
@@ -1024,7 +1024,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
-  REPORT_DECISION_DECLARE(unsigned int const save_counter = report_decision_counter);
+  unsigned int const save_counter = report_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
@@ -1070,7 +1070,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
-      REPORT_DECISION_MOVE('<','-');
+      report_decision_move('<','-');
       ++curr_decision_level;
       restart_from_scratch();
       --curr_decision_level;
@@ -1080,13 +1080,11 @@ static void retract_random_move_by_invisible(square const *start_square)
     TraceConsumption();TraceEOL();
   }
 
-#if defined(REPORT_DECISIONS)
   if (start_square==boardnum && report_decision_counter==save_counter)
   {
-    REPORT_DECISION_OUTCOME("%s","no retractable random move found - TODO we don't retract pawn captures");
+    report_decision_outcome("%s","no retractable random move found - TODO we don't retract pawn captures");
     REPORT_DEADEND;
   }
-#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

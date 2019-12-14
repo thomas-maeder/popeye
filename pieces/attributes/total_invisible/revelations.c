@@ -1407,7 +1407,7 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
     {
       combined_result = previous_move_has_not_solved;
       TraceText("allocation for application of knowledge not possible\n");
-      REPORT_DECISION_OUTCOME("%s","allocation for application of knowledge not possible");
+      report_decision_outcome("%s","allocation for application of knowledge not possible");
       REPORT_DEADEND;
     }
 
@@ -1429,7 +1429,7 @@ void make_revelations(void)
   rewind_effects();
   play_phase = play_detecting_revelations;
   max_decision_level = decision_level_latest;
-  REPORT_DECISION_CONTEXT(__func__);
+  report_decision_context(__func__);
 
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
@@ -1449,7 +1449,7 @@ void make_revelations(void)
 
 void do_revelation_bookkeeping(void)
 {
-  REPORT_DECISION_DECLARE(unsigned int const prev_nr_potential_revelations = nr_potential_revelations);
+  unsigned int const prev_nr_potential_revelations = nr_potential_revelations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1458,14 +1458,14 @@ void do_revelation_bookkeeping(void)
   if (revelation_status_is_uninitialised)
   {
     initialise_revelations();
-    REPORT_DECISION_OUTCOME("initialised revelation candidates."
+    report_decision_outcome("initialised revelation candidates."
                             " %u found",
                             nr_potential_revelations);
   }
   else
   {
     update_revelations();
-    REPORT_DECISION_OUTCOME("updated revelation candidates."
+    report_decision_outcome("updated revelation candidates."
                             " %u of %u left",
                             nr_potential_revelations,
                             prev_nr_potential_revelations);
@@ -1646,7 +1646,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("revelation expected, but square is empty - aborting\n");
-          REPORT_DECISION_OUTCOME("%s","revelation expected, but square is empty - aborting");
+          report_decision_outcome("%s","revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
         }
         else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
@@ -1657,7 +1657,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           {
             // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
-            REPORT_DECISION_OUTCOME("%s","revelation of king - but king has already been placed - aborting");
+            report_decision_outcome("%s","revelation of king - but king has already been placed - aborting");
             REPORT_DEADEND;
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
@@ -1682,7 +1682,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           else
           {
             TraceText("revealed piece belongs to different side than actual piece\n");
-            REPORT_DECISION_OUTCOME("%s","revealed piece belongs to different side than actual piece");
+            report_decision_outcome("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
           }
         }
@@ -1726,7 +1726,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
-          REPORT_DECISION_OUTCOME("%s","revelation expected - but walk of present piece is different - aborting");
+          report_decision_outcome("%s","revelation expected - but walk of present piece is different - aborting");
           REPORT_DEADEND;
         }
         break;
@@ -1747,7 +1747,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         if (is_square_empty(on))
         {
           TraceText("the revealed piece isn't here (any more?)\n");
-          REPORT_DECISION_OUTCOME("%s","the revealed piece isn't here (any more?)");
+          report_decision_outcome("%s","the revealed piece isn't here (any more?)");
           REPORT_DEADEND;
         }
         else if (get_walk_of_piece_on_square(on)==walk_revealed
@@ -1781,7 +1781,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         else
         {
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
-          REPORT_DECISION_OUTCOME("%s","the revelation has been violated - terminating redoing effects with this ply");
+          report_decision_outcome("%s","the revelation has been violated - terminating redoing effects with this ply");
           REPORT_DEADEND;
         }
         break;

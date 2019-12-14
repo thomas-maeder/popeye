@@ -96,7 +96,7 @@ void restart_from_scratch(void)
       && (uninterceptable_check_delivered_in_ply>=nbply
           || nbply==ply_retro_move+1))
   {
-    REPORT_DECISION_OUTCOME("%s","piece delivering uninterceptable check can't be captured by random move");
+    report_decision_outcome("%s","piece delivering uninterceptable check can't be captured by random move");
     REPORT_DEADEND;
   }
   else if (nbply==ply_retro_move+1)
@@ -219,7 +219,7 @@ static void adapt_capture_effect(void)
       else
       {
         TraceText("move is now blocked\n");
-        REPORT_DECISION_OUTCOME("%s","move is now blocked");
+        report_decision_outcome("%s","move is now blocked");
         REPORT_DEADEND;
       }
     }
@@ -230,7 +230,7 @@ static void adapt_capture_effect(void)
     if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
     {
       TraceText("bad idea if the capturer is a pawn!\n");
-      REPORT_DECISION_OUTCOME("%s","bad idea if the capturer is a pawn!");
+      report_decision_outcome("%s","bad idea if the capturer is a pawn!");
       REPORT_DEADEND;
     }
     else
@@ -372,7 +372,7 @@ void adapt_pre_capture_effect(void)
               piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
               Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
 
-              REPORT_DECISION_OUTCOME("%s","adding victim of capture by pawn");
+              report_decision_outcome("%s","adding victim of capture by pawn");
               assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
               move_effect_journal[pre_capture].type = move_effect_none;
               occupy_square(sq_addition,walk_added,flags_added);
@@ -385,7 +385,7 @@ void adapt_pre_capture_effect(void)
             else
             {
               TraceText("no invisible left for placing it as victim of capture by pawn\n");
-              REPORT_DECISION_OUTCOME("%s","no invisible left for placing it as victim");
+              report_decision_outcome("%s","no invisible left for placing it as victim");
               REPORT_DEADEND;
               current_consumption = save_consumption;
               TraceConsumption();TraceEOL();
@@ -393,7 +393,7 @@ void adapt_pre_capture_effect(void)
           }
           else
           {
-            REPORT_DECISION_OUTCOME("%s","can't add victim of capture by pawn because of taboos");
+            report_decision_outcome("%s","can't add victim of capture by pawn because of taboos");
             REPORT_DEADEND;
           }
         }
@@ -402,7 +402,7 @@ void adapt_pre_capture_effect(void)
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
 
-          REPORT_DECISION_OUTCOME("%s","no need to add victim of capture by pawn any more");
+          report_decision_outcome("%s","no need to add victim of capture by pawn any more");
           move_effect_journal[pre_capture].type = move_effect_none;
           motivation[id].last.purpose = purpose_none;
           deal_with_illegal_checks();
@@ -432,7 +432,7 @@ void adapt_pre_capture_effect(void)
         else if (was_taboo(sq_addition,side_added))
         {
           TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
-          REPORT_DECISION_OUTCOME("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
+          report_decision_outcome("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
           REPORT_DEADEND;
         }
         else
@@ -490,7 +490,7 @@ static void validate_mate(void)
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
     max_decision_level = decision_level_latest;
-    REPORT_DECISION_CONTEXT(__func__);
+    report_decision_context(__func__);
     start_iteration();
   }
 
@@ -521,7 +521,7 @@ static void test_mate(void)
     case mate_defendable_by_interceptors:
       max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
-      REPORT_DECISION_CONTEXT(__func__);
+      report_decision_context(__func__);
       start_iteration();
       break;
 
@@ -529,7 +529,7 @@ static void test_mate(void)
       /* we only replay moves for TI revelation */
       max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
-      REPORT_DECISION_CONTEXT(__func__);
+      report_decision_context(__func__);
       start_iteration();
       assert(combined_result==previous_move_has_solved);
       break;
