@@ -31,6 +31,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
       record_decision_square('>',s);
+      motivation[id_placed].levels.from = curr_decision_level;
       ++curr_decision_level;
 
       ++being_solved.number_of_pieces[side_attacking][walk];
@@ -74,10 +75,8 @@ static void use_accidental_attack_on_mating_piece(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  record_decision_square('>',s);
-  ++curr_decision_level;
+  record_decision_outcome("%s","use accidental attack on mating piece");
   done_placing_mating_piece_attacker();
-  --curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
