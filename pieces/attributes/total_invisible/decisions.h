@@ -77,4 +77,8 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
     motivation[id].levels.to = curr_decision_level; \
     ++curr_decision_level;
 
+#define push_decision_side(direction,id,side) \
+    record_decision_side_impl(__FILE__,__LINE__,direction,side); \
+    ++curr_decision_level;
+
 #endif
