@@ -55,9 +55,6 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define record_decision_random_move(direction) \
     record_decision_random_move_impl(__FILE__,__LINE__,direction)
 
-#define record_decision_square(direction,pos) \
-    record_decision_square_impl(__FILE__,__LINE__,direction,pos)
-
 #define record_decision_colour(direction,colourspec) \
     record_decision_colour_impl(__FILE__,__LINE__,direction,colourspec)
 
@@ -69,5 +66,15 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 #define record_decision_outcome(format, ...) \
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
+
+#define push_decision_departure(direction,id,sq_departure) \
+    record_decision_square_impl(__FILE__,__LINE__,direction,sq_departure); \
+    motivation[id].levels.from = curr_decision_level; \
+    ++curr_decision_level;
+
+#define push_decision_arrival(direction,id,sq_arrival) \
+    record_decision_square_impl(__FILE__,__LINE__,direction,sq_arrival); \
+    motivation[id].levels.to = curr_decision_level; \
+    ++curr_decision_level;
 
 #endif

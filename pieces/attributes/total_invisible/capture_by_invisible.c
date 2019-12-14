@@ -66,10 +66,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-        motivation[id_inserted].levels.from = curr_decision_level;
         /* allow backtracking from some deadends to backtrack further, skipping over the remainder of the current vector */
-        record_decision_square('<',sq_departure);
-        ++curr_decision_level;
+        push_decision_departure('<',id_inserted,sq_departure);
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
          * we have to make sure that there was no illegal check from it before this
@@ -295,9 +293,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  motivation[id_existing].levels.from = curr_decision_level;
-  record_decision_square('>',sq_departure);
-  ++curr_decision_level;
+  push_decision_departure('>',id_existing,sq_departure);
 
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -1046,9 +1042,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    motivation[id_existing].levels.from = curr_decision_level;
-    record_decision_square('>',sq_departure);
-    ++curr_decision_level;
+    push_decision_departure('>',id_existing,sq_departure);
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor

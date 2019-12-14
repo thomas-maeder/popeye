@@ -30,9 +30,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       PieceIdType const id_placed = initialise_motivation(purpose_attacker,s,purpose_attacker,s);
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
-      record_decision_square('>',s);
-      motivation[id_placed].levels.from = curr_decision_level;
-      ++curr_decision_level;
+      push_decision_departure('>',id_placed,s);
 
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,id_placed);
