@@ -23,7 +23,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParamListEnd();
 
   motivation[id].levels.to = curr_decision_level;
-  record_decision_move('>','-');
+  record_decision_square('>',sq_arrival);
   ++curr_decision_level;
 
   motivation[id].last.on = sq_arrival;
@@ -578,6 +578,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
+    motivation[id].levels.from = curr_decision_level;
     record_decision_square('>',*s);
     ++curr_decision_level;
     flesh_out_random_move_by_specific_invisible_from(*s);
