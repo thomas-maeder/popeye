@@ -415,9 +415,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   {
     max_decision_level = decision_level_latest;
 
-    motivation[id_moving].levels.walk = curr_decision_level;
-    record_decision_walk('>',Queen);
-    ++curr_decision_level;
+    push_decision_walk('>',id_moving,Queen);
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);

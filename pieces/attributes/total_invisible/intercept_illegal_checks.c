@@ -243,6 +243,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
                                                       unsigned int nr_check_vectors,
                                                       Side side,
                                                       square pos,
+                                                      PieceIdType id_placed,
                                                       piece_walk_type walk)
 {
   TraceFunctionEntry(__func__);
@@ -256,8 +257,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  record_decision_walk('>',walk);
-  ++curr_decision_level;
+  push_decision_walk('>',id_placed,walk);
 
   {
     Side const side_attacked = advers(side);
@@ -303,7 +303,8 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                          unsigned int nr_check_vectors,
                                          Side side,
-                                         square pos)
+                                         square pos,
+                                         PieceIdType id_placed)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
@@ -320,7 +321,7 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
     REPORT_DEADEND;
   }
   else
-    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Pawn);
+    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -329,7 +330,8 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
 static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                          unsigned int nr_check_vectors,
                                          Side side,
-                                         square pos)
+                                         square pos,
+                                         PieceIdType id_placed)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -346,7 +348,7 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
   if (allocate_flesh_out_unplaced(side))
   {
     SETFLAG(being_solved.spec[pos],Royal);
-    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,King);
+    place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,King);
     CLRFLAG(being_solved.spec[pos],Royal);
   }
 
@@ -375,10 +377,8 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
   TraceSquare(being_solved.king_square[side]);
   TraceEOL();
 
-  motivation[id_placed].levels.walk = curr_decision_level;
-
   if (being_solved.king_square[side]==initsquare)
-    place_king_of_side_on_square(check_vectors,nr_check_vectors,side,pos);
+    place_king_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
 
   {
     dynamic_consumption_type const save_consumption = current_consumption;
@@ -388,7 +388,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
       if (curr_decision_level<=max_decision_level)
       {
         max_decision_level = decision_level_latest;
-        place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos);
+        place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
       }
 
       if (side==trait[nbply])
@@ -396,7 +396,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
         if (curr_decision_level<=max_decision_level)
         {
           max_decision_level = decision_level_latest;
-          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Knight);
+          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Knight);
         }
 
         if (curr_decision_level<=max_decision_level)
@@ -407,9 +407,9 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
           max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
-            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Bishop);
+            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
           else
-            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,Rook);
+            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
         }
       }
       else
@@ -420,7 +420,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
              ++walk)
         {
           max_decision_level = decision_level_latest;
-          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,walk);
+          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
         }
       }
     }
