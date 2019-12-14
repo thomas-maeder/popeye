@@ -1032,7 +1032,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     motivation[id].first.acts_when = nbply;
 
     motivation[id].levels.from = curr_decision_level;
-    record_decision_square('>',*s);
+    record_decision_square('<',*s);
     ++curr_decision_level;
 
     flesh_out_random_move_by_specific_invisible_to(*s);
