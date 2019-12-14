@@ -389,9 +389,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    motivation[id_inserted].levels.walk = curr_decision_level;
-    record_decision_walk('>',walk_rider);
-    ++curr_decision_level;
+    push_decision_walk('>',id_inserted,walk_rider);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -468,9 +466,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  motivation[id_inserted].levels.walk = curr_decision_level;
-  record_decision_walk('>',King);
-  ++curr_decision_level;
+  push_decision_walk('>',id_inserted,King);
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
@@ -580,9 +576,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
     max_decision_level = decision_level_latest;
 
-    motivation[id_inserted].levels.walk = curr_decision_level;
-    record_decision_walk('>',walk_leaper);
-    ++curr_decision_level;
+    push_decision_walk('>',id_inserted,walk_leaper);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -681,9 +675,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
-    motivation[id_inserted].levels.walk = curr_decision_level;
-    record_decision_walk('>',Pawn);
-    ++curr_decision_level;
+    push_decision_walk('>',id_inserted,Pawn);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -798,9 +790,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
-      motivation[id_existing].levels.walk = curr_decision_level;
-      record_decision_walk('>',Pawn);
-      ++curr_decision_level;
+      push_decision_walk('>',id_existing,Pawn);
       flesh_out_walk_for_capture(Pawn,sq_departure);
       --curr_decision_level;
     }
@@ -814,9 +804,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     {
       max_decision_level = decision_level_latest;
 
-      motivation[id_existing].levels.walk = curr_decision_level;
-      record_decision_walk('>',Knight);
-      ++curr_decision_level;
+      push_decision_walk('>',id_existing,Knight);
       flesh_out_walk_for_capture(Knight,sq_departure);
       --curr_decision_level;
     }
@@ -828,9 +816,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       {
         max_decision_level = decision_level_latest;
 
-        motivation[id_existing].levels.walk = curr_decision_level;
-        record_decision_walk('>',Bishop);
-        ++curr_decision_level;
+        push_decision_walk('>',id_existing,Bishop);
 
         flesh_out_walk_for_capture(Bishop,sq_departure);
 
@@ -858,9 +844,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          motivation[id_existing].levels.walk = curr_decision_level;
-          record_decision_walk('>',Rook);
-          ++curr_decision_level;
+          push_decision_walk('>',id_existing,Rook);
 
           flesh_out_walk_for_capture(Rook,sq_departure);
 
@@ -904,9 +888,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
-    motivation[id_existing].levels.walk = curr_decision_level;
-    record_decision_walk('>',King);
-    ++curr_decision_level;
+    push_decision_walk('>',id_existing,King);
     flesh_out_king_for_capture(sq_departure);
     --curr_decision_level;
   }
@@ -943,9 +925,7 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  motivation[id_existing].levels.walk = curr_decision_level;
-  record_decision_walk('>',walk_capturer);
-  ++curr_decision_level;
+  push_decision_walk('>',id_existing,walk_capturer);
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 

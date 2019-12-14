@@ -79,4 +79,9 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
     motivation[id].levels.side = curr_decision_level; \
     ++curr_decision_level;
 
+#define push_decision_walk(direction,id,the_walk) \
+    motivation[id].levels.walk = curr_decision_level; \
+    record_decision_walk(direction,the_walk); \
+    ++curr_decision_level;
+
 #endif
