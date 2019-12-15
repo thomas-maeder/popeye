@@ -52,9 +52,6 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define record_decision_context() \
     record_decision_context_impl(__FILE__,__LINE__,__func__)
 
-#define record_decision_king_nomination(pos) \
-    record_decision_king_nomination_impl(__FILE__,__LINE__,pos)
-
 #define record_decision_outcome(format, ...) \
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
 
@@ -80,6 +77,10 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define push_decision_walk(direction,id,the_walk) \
     record_decision_walk_impl(__FILE__,__LINE__,direction,the_walk); \
     motivation[id].levels.walk = curr_decision_level; \
+    ++curr_decision_level;
+
+#define push_decision_king_nomination(pos) \
+    record_decision_king_nomination_impl(__FILE__,__LINE__,pos); \
     ++curr_decision_level;
 
 #endif
