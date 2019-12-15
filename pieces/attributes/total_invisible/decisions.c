@@ -48,6 +48,19 @@ static void report_endline(char const *file, unsigned int line)
 
 #endif
 
+void record_decision_for_inserted_capturer(PieceIdType id)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",id);
+  TraceFunctionParamListEnd();
+
+  decision_levels[id].side = curr_decision_level;
+  decision_levels[id].walk = curr_decision_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void record_decision_context_impl(char const *file, unsigned int line, char const *context)
 {
 #if defined(REPORT_DECISIONS)

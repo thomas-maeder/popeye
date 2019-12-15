@@ -92,19 +92,6 @@ PieceIdType initialise_motivation_from_revelation(revelation_status_type const *
   return result;
 }
 
-void initialise_motivation_of_inserted_capturer(PieceIdType id)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",id);
-  TraceFunctionParamListEnd();
-
-  decision_levels[id].side = curr_decision_level;
-  decision_levels[id].walk = curr_decision_level;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void uninitialise_motivation(PieceIdType id_uninitialised)
 {
   TraceFunctionEntry(__func__);

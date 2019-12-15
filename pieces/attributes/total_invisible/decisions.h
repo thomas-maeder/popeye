@@ -43,6 +43,8 @@ extern char decision_level_dir[decision_level_dir_capacity];
 extern unsigned long record_decision_counter;
 extern unsigned long prev_record_decision_counter;
 
+void record_decision_for_inserted_capturer(PieceIdType id);
+
 void record_decision_context_impl(char const *file, unsigned int line, char const *context);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
