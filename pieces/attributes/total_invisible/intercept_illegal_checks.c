@@ -504,8 +504,6 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    motivation[id_placed].levels.side = curr_decision_level;
-
     place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,preferred_side,id_placed);
 
     empty_square(s);
