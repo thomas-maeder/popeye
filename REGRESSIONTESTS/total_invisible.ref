@@ -165,10 +165,10 @@ Sake tourney 2018, 1st prize, b) cooked
   1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8[g3=wR] #
   1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8[g3=wR] #
   1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
-  add_to_move_generation_stack:     1203604
-                     play_move:     2812408
+  add_to_move_generation_stack:     1203596
+                     play_move:     2812407
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      683639
+ is_black_king_square_attacked:      683638
 
 solution finished.
 
@@ -209,10 +209,10 @@ a)
 b) 
 
   1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
-  add_to_move_generation_stack:     1055600
-                     play_move:     2469851
+  add_to_move_generation_stack:     1055592
+                     play_move:     2469850
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      599375
+ is_black_king_square_attacked:      599374
 
 solution finished.
 
@@ -615,10 +615,10 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3397846
-                     play_move:     5910762
+  add_to_move_generation_stack:     3398039
+                     play_move:     5910953
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2077544
+ is_black_king_square_attacked:     2077723
 
 b) wSb5-->d7  
 
@@ -819,10 +819,10 @@ a)
   1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
   1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
   1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5[h5=wR] #
-  add_to_move_generation_stack:      725950
-                     play_move:     1380019
+  add_to_move_generation_stack:      725939
+                     play_move:     1380010
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      412104
+ is_black_king_square_attacked:      412095
 
 b) wKc2-->g6  
 

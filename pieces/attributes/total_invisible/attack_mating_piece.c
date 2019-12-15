@@ -16,6 +16,8 @@ static void place_mating_piece_attacker(Side side_attacking,
                                         PieceIdType id_placed,
                                         piece_walk_type walk)
 {
+  dynamic_consumption_type const save_consumption = current_consumption;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_attacking);
   TraceSquare(s);
@@ -23,24 +25,31 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  if (!was_taboo(s,side_attacking))
+  /* only now that we have decided not to use an accidental attack! */
+  if (allocate_flesh_out_unplaced(side_attacking))
   {
-    Flags spec = BIT(side_attacking)|BIT(Chameleon);
+    if (!was_taboo(s,side_attacking))
+    {
+      Flags spec = BIT(side_attacking)|BIT(Chameleon);
 
-    motivation[id_placed].first.on = s;
-    motivation[id_placed].last.on = s;
+      motivation[id_placed].first.on = s;
+      motivation[id_placed].last.on = s;
 
-    push_decision_departure('>',id_placed,s);
+      push_decision_departure('>',id_placed,s);
 
-    ++being_solved.number_of_pieces[side_attacking][walk];
-    SetPieceId(spec,id_placed);
-    occupy_square(s,walk,spec);
-    restart_from_scratch();
-    empty_square(s);
-    --being_solved.number_of_pieces[side_attacking][walk];
+      ++being_solved.number_of_pieces[side_attacking][walk];
+      SetPieceId(spec,id_placed);
+      occupy_square(s,walk,spec);
+      restart_from_scratch();
+      empty_square(s);
+      --being_solved.number_of_pieces[side_attacking][walk];
 
-    --curr_decision_level;
+      --curr_decision_level;
+    }
   }
+
+  current_consumption = save_consumption;
+  TraceConsumption();TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -222,35 +231,27 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 void attack_mating_piece(Side side_attacking,
                          square sq_mating_piece)
 {
-  dynamic_consumption_type const save_consumption = current_consumption;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_attacking);
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
 
-  if (allocate_flesh_out_unplaced(side_attacking))
-  {
-    place_mating_piece_attacking_rider(side_attacking,
-                                       sq_mating_piece,
-                                       Bishop,
-                                       vec_bishop_start,vec_bishop_end);
+  place_mating_piece_attacking_rider(side_attacking,
+                                     sq_mating_piece,
+                                     Bishop,
+                                     vec_bishop_start,vec_bishop_end);
 
-    place_mating_piece_attacking_rider(side_attacking,
-                                       sq_mating_piece,
-                                       Rook,
-                                       vec_rook_start,vec_rook_end);
+  place_mating_piece_attacking_rider(side_attacking,
+                                     sq_mating_piece,
+                                     Rook,
+                                     vec_rook_start,vec_rook_end);
 
-    place_mating_piece_attacking_leaper(side_attacking,
-                                        sq_mating_piece,
-                                        Knight,
-                                        vec_knight_start,vec_knight_end);
+  place_mating_piece_attacking_leaper(side_attacking,
+                                      sq_mating_piece,
+                                      Knight,
+                                      vec_knight_start,vec_knight_end);
 
-    place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
-  }
-
-  current_consumption = save_consumption;
-  TraceConsumption();TraceEOL();
+  place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

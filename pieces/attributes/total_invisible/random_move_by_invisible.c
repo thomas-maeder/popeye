@@ -588,13 +588,12 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
-    TraceText("random move by unplaced invisible\n");
-
     current_consumption.claimed[trait[nbply]] = true;
     TraceConsumption();TraceEOL();
 
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
+      TraceText("stick to random move by unplaced invisible\n");
       record_decision_random_move('>');
       ++curr_decision_level;
       recurse_into_child_ply();
@@ -1043,7 +1042,6 @@ static void retract_random_move_by_invisible(square const *start_square)
     max_decision_level = decision_level_latest;
 
     current_consumption.claimed[trait[nbply]] = true;
-
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
