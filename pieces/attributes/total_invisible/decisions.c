@@ -62,7 +62,7 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void record_decision_random_move_impl(char const *file, unsigned int line, char direction)
+void push_decision_random_move_impl(char const *file, unsigned int line, char direction)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -74,7 +74,7 @@ void record_decision_random_move_impl(char const *file, unsigned int line, char 
   ++curr_decision_level;
 }
 
-void record_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
+void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -90,7 +90,7 @@ void record_decision_departure_impl(char const *file, unsigned int line, char di
   ++curr_decision_level;
 }
 
-void record_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
+void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -106,7 +106,7 @@ void record_decision_arrival_impl(char const *file, unsigned int line, char dire
   ++curr_decision_level;
 }
 
-void record_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side)
+void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -124,7 +124,7 @@ void record_decision_side_impl(char const *file, unsigned int line, char directi
   ++curr_decision_level;
 }
 
-void record_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk)
+void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -140,7 +140,7 @@ void record_decision_walk_impl(char const *file, unsigned int line, char directi
   ++curr_decision_level;
 }
 
-void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
+void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);

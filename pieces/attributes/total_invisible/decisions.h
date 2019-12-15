@@ -42,13 +42,14 @@ extern unsigned long record_decision_counter;
 extern unsigned long prev_record_decision_counter;
 
 void record_decision_context_impl(char const *file, unsigned int line, char const *context);
-void record_decision_random_move_impl(char const *file, unsigned int line, char direction);
-void record_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
-void record_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
-void record_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
-void record_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk);
-void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
+
+void push_decision_random_move_impl(char const *file, unsigned int line, char direction);
+void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
+void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
+void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
+void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk);
+void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
 #define record_decision_context() \
     record_decision_context_impl(__FILE__,__LINE__,__func__)
@@ -57,22 +58,22 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
 
 #define push_decision_random_move(direction) \
-    record_decision_random_move_impl(__FILE__,__LINE__,direction);
+    push_decision_random_move_impl(__FILE__,__LINE__,direction);
 
 #define push_decision_departure(direction,id,sq_departure) \
-    record_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure);
+    push_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure);
 
 #define push_decision_arrival(direction,id,sq_arrival) \
-    record_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival);
+    push_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival);
 
 #define push_decision_side(direction,id,side) \
-    record_decision_side_impl(__FILE__,__LINE__,direction,id,side);
+    push_decision_side_impl(__FILE__,__LINE__,direction,id,side);
 
 #define push_decision_walk(direction,id,walk) \
-    record_decision_walk_impl(__FILE__,__LINE__,direction,id,walk);
+    push_decision_walk_impl(__FILE__,__LINE__,direction,id,walk);
 
 #define push_decision_king_nomination(pos) \
-    record_decision_king_nomination_impl(__FILE__,__LINE__,pos);
+    push_decision_king_nomination_impl(__FILE__,__LINE__,pos);
 
 void pop_decision(void);
 
