@@ -498,8 +498,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        decision_level_dir[curr_decision_level] = '>';
-        ++curr_decision_level;
+        push_decision_departure('>',id_inserted,sq_departure);
         flesh_out_capture_by_inserted_invisible(King,sq_departure);
         pop_decision();
 
@@ -1196,9 +1195,6 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
         max_decision_level = decision_level_latest;
-
-        motivation[id_inserted].levels.walk = curr_decision_level;
-        motivation[id_inserted].levels.from = curr_decision_level+1;
 
         capture_by_invisible_king_inserted_or_existing();
 
