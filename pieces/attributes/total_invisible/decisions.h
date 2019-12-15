@@ -55,9 +55,6 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define record_decision_random_move(direction) \
     record_decision_random_move_impl(__FILE__,__LINE__,direction)
 
-#define record_decision_walk(direction,walk) \
-    record_decision_walk_impl(__FILE__,__LINE__,direction,walk)
-
 #define record_decision_king_nomination(pos) \
     record_decision_king_nomination_impl(__FILE__,__LINE__,pos)
 
@@ -80,8 +77,8 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
     ++curr_decision_level;
 
 #define push_decision_walk(direction,id,the_walk) \
+    record_decision_walk_impl(__FILE__,__LINE__,direction,the_walk); \
     motivation[id].levels.walk = curr_decision_level; \
-    record_decision_walk(direction,the_walk); \
     ++curr_decision_level;
 
 #endif
