@@ -90,6 +90,12 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
   ++curr_decision_level;
 }
 
+void push_decision_move_vector_impl(char const *file, unsigned int line, char direction, PieceIdType id, int dir)
+{
+  decision_level_dir[curr_decision_level] = direction;
+  ++curr_decision_level;
+}
+
 void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)

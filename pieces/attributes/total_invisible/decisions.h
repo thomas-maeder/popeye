@@ -46,6 +46,7 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void push_decision_random_move_impl(char const *file, unsigned int line, char direction);
 void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
+void push_decision_move_vector_impl(char const *file, unsigned int line, char direction, PieceIdType id, int dir);
 void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
 void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
 void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk);
@@ -62,6 +63,9 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 #define push_decision_departure(direction,id,sq_departure) \
     push_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure);
+
+#define push_decision_move_vector(direction,id,dir) \
+    push_decision_move_vector_impl(__FILE__,__LINE__,direction,id,dir);
 
 #define push_decision_arrival(direction,id,sq_arrival) \
     push_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival);

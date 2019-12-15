@@ -398,8 +398,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     {
       square sq_departure;
 
-      decision_level_dir[curr_decision_level] = '>';
-      ++curr_decision_level;
+      push_decision_move_vector('>',id_inserted,kcurr)
 
       max_decision_level = decision_level_latest;
 
@@ -588,8 +587,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       if (is_square_empty(sq_departure))
       {
-        decision_level_dir[curr_decision_level] = '>';
-        ++curr_decision_level;
+        push_decision_move_vector('>',id_inserted,kcurr)
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
         pop_decision();
       }
@@ -612,15 +610,17 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz)
+static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType id_inserted, int dir_horiz)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
   int const dir_vert = trait[nbply]==White ? -dir_up : -dir_down;
   SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
   square const sq_departure = sq_capture+dir_vert+dir_horiz;
 
   TraceFunctionEntry(__func__);
@@ -637,8 +637,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(int dir_horiz
 
     if (is_square_empty(sq_departure))
     {
-      decision_level_dir[curr_decision_level] = '>';
-      ++curr_decision_level;
+      push_decision_move_vector('>',id_inserted,dir_horiz)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
       pop_decision();
     }
@@ -679,10 +678,10 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
     TraceValue("%u",max_decision_level);
     TraceEOL();
 
-    capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_left);
+    capture_by_invisible_pawn_inserted_or_existing_one_dir(id_inserted,dir_left);
 
     if (can_decision_level_be_continued())
-      capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_right);
+      capture_by_invisible_pawn_inserted_or_existing_one_dir(id_inserted,dir_right);
 
     pop_decision();
   }
