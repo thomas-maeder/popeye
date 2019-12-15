@@ -175,14 +175,14 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     max_decision_level = decision_level_latest;
 
-    motivation[id_placed].levels.from = decision_level_latest;
+    decision_levels[id_placed].from = decision_level_latest;
 
     push_decision_arrival('>',id_placed,s);
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    motivation[id_placed].levels.walk = decision_level_latest;
+    decision_levels[id_placed].walk = decision_level_latest;
 
     place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
@@ -497,7 +497,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     max_decision_level = decision_level_latest;
 
-    motivation[id_placed].levels.from = decision_level_latest;
+    decision_levels[id_placed].from = decision_level_latest;
 
     push_decision_arrival('>',id_placed,s);
 

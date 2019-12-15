@@ -53,9 +53,9 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       {
         record_decision_outcome("%s","capturer would deliver uninterceptable check");
         REPORT_DEADEND;
-        max_decision_level = motivation[id_inserted].levels.from;
-        if (max_decision_level<motivation[id_inserted].levels.walk)
-          max_decision_level = motivation[id_inserted].levels.walk;
+        max_decision_level = decision_levels[id_inserted].from;
+        if (max_decision_level<decision_levels[id_inserted].walk)
+          max_decision_level = decision_levels[id_inserted].walk;
       }
       else
       {
@@ -111,7 +111,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
     {
       record_decision_outcome("%s","capturer can't be allocated");
       REPORT_DEADEND;
-      max_decision_level = motivation[id_inserted].levels.from;
+      max_decision_level = decision_levels[id_inserted].from;
     }
 
     current_consumption = save_consumption;
@@ -151,7 +151,7 @@ static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
     record_decision_outcome("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
 
-    max_decision_level = motivation[id_existing].levels.walk;
+    max_decision_level = decision_levels[id_existing].walk;
   }
   else
   {
@@ -285,7 +285,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
 {
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
-  decision_levels_type const save_levels = motivation[id_existing].levels;
+  decision_levels_type const save_levels = decision_levels[id_existing];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
@@ -318,7 +318,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    motivation[id_existing].levels = motivation[id_random].levels;
+    decision_levels[id_existing] = decision_levels[id_random];
     motivation[id_existing].last.purpose = purpose_none;
 
     if (walk_on_board==walk_capturing)
@@ -341,7 +341,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
       TraceValue("%x",being_solved.spec[sq_departure]);
       TraceEOL();
 
-      motivation[id_existing].levels.walk = motivation[id_inserted].levels.walk;
+      decision_levels[id_existing].walk = decision_levels[id_inserted].walk;
 
       flesh_out_walk_for_capture(walk_capturing,sq_departure);
     }
@@ -353,12 +353,12 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
     TraceText("the piece was added to later act from its current square\n");
     record_decision_outcome("%s","the piece was added to later act from its current square");
     REPORT_DEADEND;
-    max_decision_level = motivation[id_existing].levels.from;
+    max_decision_level = decision_levels[id_existing].from;
   }
 
   pop_decision();
 
-  motivation[id_existing].levels = save_levels;
+  decision_levels[id_existing] = save_levels;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -697,7 +697,7 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
   move_effect_journal_index_type const precapture = effects_base;
   Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
   PieceIdType const id_inserted = GetPieceId(flags_inserted);
-  decision_levels_type const levels_inserted = motivation[id_inserted].levels;
+  decision_levels_type const levels_inserted = decision_levels[id_inserted];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
@@ -726,7 +726,7 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
-  motivation[id_inserted].levels = levels_inserted;
+  decision_levels[id_inserted] = levels_inserted;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -993,10 +993,10 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   TraceValue("%u",motivation[id_existing].last.purpose);
   TraceValue("%u",motivation[id_existing].last.acts_when);
   TraceSquare(motivation[id_existing].last.on);
-  TraceValue("%u",motivation[id_existing].levels.from);
-  TraceValue("%u",motivation[id_existing].levels.to);
-  TraceValue("%u",motivation[id_existing].levels.side);
-  TraceValue("%u",motivation[id_existing].levels.walk);
+  TraceValue("%u",decision_levels[id_existing].from);
+  TraceValue("%u",decision_levels[id_existing].to);
+  TraceValue("%u",decision_levels[id_existing].side);
+  TraceValue("%u",decision_levels[id_existing].walk);
   TraceWalk(get_walk_of_piece_on_square(motivation[id_existing].last.on));
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
@@ -1013,6 +1013,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
   {
     piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
     motivation_type const motivation_existing = motivation[id_existing];
+    decision_levels_type const decisions_existing = decision_levels[id_existing];
 
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
@@ -1027,10 +1028,10 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
       int const move_square_diff = sq_arrival-sq_departure;
 
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-      decision_level_type const save_level_walk = motivation[id_existing].levels.walk;
+      decision_level_type const save_level_walk = decision_levels[id_existing].walk;
 
       motivation[id_existing].last.purpose = purpose_none;
-      motivation[id_random].levels.walk = motivation[id_existing].levels.walk;
+      decision_levels[id_random].walk = decision_levels[id_existing].walk;
 
       max_decision_level = decision_level_latest;
 
@@ -1109,16 +1110,16 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
-            // TODO do motivation[id_existing].levels = motivation[id_random].levels later
+            // TODO do decision_levels[id_existing] = motivation[id_random] later
             // so that we can use motivation[id_existing] here?
             if (static_consumption.king[advers(trait[nbply])]+static_consumption.pawn_victims[advers(trait[nbply])]+1
                 >=total_invisible_number)
             {
               /* move our single piece to a different square
                * or let another piece be our single piece */
-              max_decision_level = motivation_existing.levels.to;
-              if (max_decision_level<motivation_existing.levels.side)
-                max_decision_level = motivation_existing.levels.side;
+              max_decision_level = decisions_existing.to;
+              if (max_decision_level<decisions_existing.side)
+                max_decision_level = decisions_existing.side;
             }
           }
           break;
@@ -1128,14 +1129,14 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           break;
       }
 
-      motivation[id_random].levels.walk = save_level_walk;
+      decision_levels[id_random].walk = save_level_walk;
     }
     else
     {
       TraceText("the piece was added to later act from its current square\n");
       record_decision_outcome("%s","the piece was added to later act from its current square");
       REPORT_DEADEND;
-      max_decision_level = motivation[id_existing].levels.from;
+      max_decision_level = decision_levels[id_existing].from;
     }
 
     motivation[id_existing] = motivation_existing;
@@ -1183,7 +1184,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
         move_effect_journal_index_type const precapture = effects_base;
         Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
         PieceIdType const id_inserted = GetPieceId(flags_inserted);
-        decision_levels_type const levels_inserted = motivation[id_inserted].levels;
+        decision_levels_type const levels_inserted = decision_levels[id_inserted];
 
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const save_from = move_effect_journal[movement].u.piece_movement.from;
@@ -1200,7 +1201,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
         move_effect_journal[movement].u.piece_movement.moving = save_moving;
         move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
-        motivation[id_inserted].levels = levels_inserted;
+        decision_levels[id_inserted] = levels_inserted;
       }
 
       {
@@ -1229,7 +1230,7 @@ void flesh_out_capture_by_invisible(void)
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
   Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
   PieceIdType const id_inserted = GetPieceId(flags);
-  decision_levels_type const save_levels = motivation[id_inserted].levels;
+  decision_levels_type const save_levels = decision_levels[id_inserted];
 
   unsigned int const save_counter = record_decision_counter;
 
@@ -1239,8 +1240,8 @@ void flesh_out_capture_by_invisible(void)
   TraceSquare(sq_capture);TraceEOL();
   assert(!is_square_empty(sq_capture));
 
-  motivation[id_inserted].levels.side = decision_level_forever;
-  motivation[id_inserted].levels.to = decision_level_forever;
+  decision_levels[id_inserted].side = decision_level_forever;
+  decision_levels[id_inserted].to = decision_level_forever;
 
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
@@ -1256,7 +1257,7 @@ void flesh_out_capture_by_invisible(void)
     REPORT_DEADEND;
   }
 
-  motivation[id_inserted].levels = save_levels;
+  decision_levels[id_inserted] = save_levels;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

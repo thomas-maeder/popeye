@@ -294,7 +294,7 @@ void insert_invisible_capturer(void)
       Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
 
       PieceIdType const id = GetPieceId(flags_added);
-      decision_levels_type const save_levels = motivation[id].levels;
+      decision_levels_type const save_levels = decision_levels[id];
 
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       square const to = move_effect_journal[movement].u.piece_movement.to;
@@ -312,7 +312,7 @@ void insert_invisible_capturer(void)
       --being_solved.number_of_pieces[side_added][walk_added];
       move_effect_journal[pre_capture].type = move_effect_piece_readdition;
 
-      motivation[id].levels = save_levels;
+      decision_levels[id] = save_levels;
 
       break;
     }

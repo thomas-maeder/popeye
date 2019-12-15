@@ -25,8 +25,7 @@ motivation_type motivation[MaxPieceId+1];
 
 motivation_type const motivation_null = {
     { purpose_none },
-    { purpose_none },
-    { 0 }
+    { purpose_none }
 };
 
 PieceIdType top_visible_piece_id;
@@ -99,8 +98,8 @@ void initialise_motivation_of_inserted_capturer(PieceIdType id)
   TraceFunctionParam("%u",id);
   TraceFunctionParamListEnd();
 
-  motivation[id].levels.side = curr_decision_level;
-  motivation[id].levels.walk = curr_decision_level;
+  decision_levels[id].side = curr_decision_level;
+  decision_levels[id].walk = curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1497,18 +1496,18 @@ void do_revelation_bookkeeping(void)
       TraceSquare(revelation_status[i].last.on);
       TraceValue("%x",revelation_status[i].spec);
       TraceValue("%u",id);
-      TraceValue("%u",motivation[id].levels.side);
-      TraceValue("%u",motivation[id].levels.walk);
-      TraceValue("%u",motivation[id].levels.to);
+      TraceValue("%u",decision_levels[id].side);
+      TraceValue("%u",decision_levels[id].walk);
+      TraceValue("%u",decision_levels[id].to);
       TraceEOL();
-      assert(motivation[id].levels.side!=decision_level_uninitialised);
-      assert(motivation[id].levels.walk!=decision_level_uninitialised);
-      if (motivation[id].levels.side>max_level)
-        max_level = motivation[id].levels.side;
-      if (motivation[id].levels.walk>max_level)
-        max_level = motivation[id].levels.walk;
-      if (motivation[id].levels.to>max_level)
-        max_level = motivation[id].levels.to;
+      assert(decision_levels[id].side!=decision_level_uninitialised);
+      assert(decision_levels[id].walk!=decision_level_uninitialised);
+      if (decision_levels[id].side>max_level)
+        max_level = decision_levels[id].side;
+      if (decision_levels[id].walk>max_level)
+        max_level = decision_levels[id].walk;
+      if (decision_levels[id].to>max_level)
+        max_level = decision_levels[id].to;
     }
     TraceValue("%u",max_level);TraceEOL();
     max_decision_level = max_level;

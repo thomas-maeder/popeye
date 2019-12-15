@@ -1,6 +1,7 @@
 #include "pieces/attributes/total_invisible/move_player.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/revelations.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible.h"
 #include "stipulation/stipulation.h"
 #include "position/position.h"
@@ -110,8 +111,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
       boolean const save_move_after_victim = static_consumption.move_after_victing[side];
 
       SetPieceId(spec,id_capturer);
-      motivation[id_capturer].levels.walk = decision_level_latest;
-      motivation[id_capturer].levels.from = decision_level_latest;
+      decision_levels[id_capturer].walk = decision_level_latest;
+      decision_levels[id_capturer].from = decision_level_latest;
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -183,8 +184,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
             boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];
 
             SetPieceId(spec,id_victim);
-            motivation[id_victim].levels.walk = decision_level_latest;
-            motivation[id_victim].levels.from = decision_level_latest;
+            decision_levels[id_victim].walk = decision_level_latest;
+            decision_levels[id_victim].from = decision_level_latest;
 
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);

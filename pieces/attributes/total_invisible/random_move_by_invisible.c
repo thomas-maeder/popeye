@@ -339,7 +339,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   square const king_pos = being_solved.king_square[side_under_attack];
 
   PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
-  decision_level_type const save_level = motivation[id_moving].levels.walk;
+  decision_level_type const save_level = decision_levels[id_moving].walk;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -428,7 +428,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     pop_decision();
   }
 
-  motivation[id_moving].levels.walk = save_level;
+  decision_levels[id_moving].walk = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -480,7 +480,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       SETFLAG(being_solved.spec[sq_departure],Royal);
       if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
       {
-        decision_level_type const save_level = motivation[id_moving].levels.walk;
+        decision_level_type const save_level = decision_levels[id_moving].walk;
 
         push_decision_walk('>',id_moving,King);
 
@@ -488,7 +488,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
         pop_decision();
 
-        motivation[id_moving].levels.walk = save_level;
+        decision_levels[id_moving].walk = save_level;
       }
       CLRFLAG(being_solved.spec[sq_departure],Royal);
       --being_solved.number_of_pieces[side_playing][King];
@@ -909,7 +909,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     {
       Side const side_playing = trait[nbply];
       piece_walk_type walk;
-      decision_levels_type const save_levels = motivation[id].levels;
+      decision_levels_type const save_levels = decision_levels[id];
 
       for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
       {
@@ -928,7 +928,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
         pop_decision();
       }
 
-      motivation[id].levels = save_levels;
+      decision_levels[id] = save_levels;
     }
     else
       flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);

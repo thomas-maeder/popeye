@@ -2,7 +2,6 @@
 #define PIECES_ATTRIBUTES_TOTAL_INVISIBLE_REVELATIONS_H
 
 #include "position/position.h"
-#include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible.h"
 #include "solving/move_effect_journal.h"
 
@@ -38,7 +37,6 @@ typedef struct
 {
     action_type first;
     action_type last;
-    decision_levels_type levels;
 } motivation_type;
 
 extern motivation_type motivation[MaxPieceId+1];

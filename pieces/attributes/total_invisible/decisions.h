@@ -28,6 +28,8 @@ typedef struct
     decision_level_type to;
 } decision_levels_type;
 
+extern decision_levels_type decision_levels[MaxPieceId+1];
+
 extern decision_level_type curr_decision_level;
 extern decision_level_type max_decision_level;
 

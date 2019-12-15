@@ -1,6 +1,5 @@
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/consumption.h"
-#include "pieces/attributes/total_invisible/revelations.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/assert.h"
@@ -12,6 +11,8 @@
 
 decision_level_type curr_decision_level = 2;
 decision_level_type max_decision_level = decision_level_latest;
+
+decision_levels_type decision_levels[MaxPieceId+1];
 
 char decision_level_dir[decision_level_dir_capacity];
 
@@ -86,7 +87,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
 #endif
 
   decision_level_dir[curr_decision_level] = direction;
-  motivation[id].levels.from = curr_decision_level;
+  decision_levels[id].from = curr_decision_level;
   ++curr_decision_level;
 }
 
@@ -115,7 +116,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, char direct
 #endif
 
   decision_level_dir[curr_decision_level] = direction;
-  motivation[id].levels.to = curr_decision_level;
+  decision_levels[id].to = curr_decision_level;
   ++curr_decision_level;
 }
 
@@ -133,7 +134,7 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
 #endif
 
   decision_level_dir[curr_decision_level] = direction;
-  motivation[id].levels.side = curr_decision_level;
+  decision_levels[id].side = curr_decision_level;
   ++curr_decision_level;
 }
 
@@ -149,7 +150,7 @@ void push_decision_walk_impl(char const *file, unsigned int line, char direction
 #endif
 
   decision_level_dir[curr_decision_level] = direction;
-  motivation[id].levels.walk = curr_decision_level;
+  decision_levels[id].walk = curr_decision_level;
   ++curr_decision_level;
 }
 

@@ -3,6 +3,7 @@
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/replay_fleshed_out.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible.h"
 #include "solving/has_solution_type.h"
 #include "position/position.h"
