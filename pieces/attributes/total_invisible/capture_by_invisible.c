@@ -34,7 +34,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   {
     record_decision_outcome("%s","capturer can't be placed on taboo square");
     REPORT_DEADEND;
-    max_decision_level = curr_decision_level;
   }
   else
   {
