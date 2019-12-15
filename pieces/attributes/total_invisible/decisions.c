@@ -92,6 +92,13 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
 
 void push_decision_move_vector_impl(char const *file, unsigned int line, char direction, PieceIdType id, int dir)
 {
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+  printf("%c%u ",direction,nbply);
+  printf("dir:%d",dir);
+  report_endline(file,line);
+#endif
+
   decision_level_dir[curr_decision_level] = direction;
   ++curr_decision_level;
 }
