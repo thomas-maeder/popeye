@@ -1,5 +1,6 @@
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/revelations.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/assert.h"
@@ -63,19 +64,18 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 
 void record_decision_random_move_impl(char const *file, unsigned int line, char direction)
 {
-  decision_level_dir[curr_decision_level] = direction;
-
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
   printf("%c%u TI~-~",direction,nbply);
   report_endline(file,line);
 #endif
+
+  decision_level_dir[curr_decision_level] = direction;
+  ++curr_decision_level;
 }
 
-void record_decision_square_impl(char const *file, unsigned int line, char direction, square pos)
+void record_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
 {
-  decision_level_dir[curr_decision_level] = direction;
-
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
   printf("%c%u ",direction,nbply);
@@ -84,12 +84,30 @@ void record_decision_square_impl(char const *file, unsigned int line, char direc
               pos);
   report_endline(file,line);
 #endif
+
+  decision_level_dir[curr_decision_level] = direction;
+  motivation[id].levels.from = curr_decision_level;
+  ++curr_decision_level;
 }
 
-void record_decision_side_impl(char const *file, unsigned int line, char direction, Side side)
+void record_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
 {
-  decision_level_dir[curr_decision_level] = direction;
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+  printf("%c%u ",direction,nbply);
+  WriteSquare(&output_plaintext_engine,
+              stdout,
+              pos);
+  report_endline(file,line);
+#endif
 
+  decision_level_dir[curr_decision_level] = direction;
+  motivation[id].levels.to = curr_decision_level;
+  ++curr_decision_level;
+}
+
+void record_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side)
+{
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
   printf("%c%u ",direction,nbply);
@@ -100,12 +118,14 @@ void record_decision_side_impl(char const *file, unsigned int line, char directi
             true);
   report_endline(file,line);
 #endif
+
+  decision_level_dir[curr_decision_level] = direction;
+  motivation[id].levels.side = curr_decision_level;
+  ++curr_decision_level;
 }
 
-void record_decision_walk_impl(char const *file, unsigned int line, char direction, piece_walk_type walk)
+void record_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk)
 {
-  decision_level_dir[curr_decision_level] = direction;
-
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
   printf("%c%u ",direction,nbply);
@@ -114,6 +134,10 @@ void record_decision_walk_impl(char const *file, unsigned int line, char directi
             walk);
   report_endline(file,line);
 #endif
+
+  decision_level_dir[curr_decision_level] = direction;
+  motivation[id].levels.walk = curr_decision_level;
+  ++curr_decision_level;
 }
 
 void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
@@ -133,6 +157,8 @@ void record_decision_king_nomination_impl(char const *file, unsigned int line, s
               pos);
   report_endline(file,line);
 #endif
+
+  ++curr_decision_level;
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)

@@ -43,9 +43,10 @@ extern unsigned long prev_record_decision_counter;
 
 void record_decision_context_impl(char const *file, unsigned int line, char const *context);
 void record_decision_random_move_impl(char const *file, unsigned int line, char direction);
-void record_decision_square_impl(char const *file, unsigned int line, char direction, square pos);
-void record_decision_side_impl(char const *file, unsigned int line, char direction, Side side);
-void record_decision_walk_impl(char const *file, unsigned int line, char direction, piece_walk_type walk);
+void record_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
+void record_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
+void record_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
+void record_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk);
 void record_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
@@ -56,31 +57,21 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
 
 #define push_decision_random_move(direction) \
-    record_decision_random_move_impl(__FILE__,__LINE__,direction); \
-    ++curr_decision_level;
+    record_decision_random_move_impl(__FILE__,__LINE__,direction);
 
 #define push_decision_departure(direction,id,sq_departure) \
-    record_decision_square_impl(__FILE__,__LINE__,direction,sq_departure); \
-    motivation[id].levels.from = curr_decision_level; \
-    ++curr_decision_level;
+    record_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure);
 
 #define push_decision_arrival(direction,id,sq_arrival) \
-    record_decision_square_impl(__FILE__,__LINE__,direction,sq_arrival); \
-    motivation[id].levels.to = curr_decision_level; \
-    ++curr_decision_level;
+    record_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival);
 
-#define push_decision_side(direction,id,the_side) \
-    record_decision_side_impl(__FILE__,__LINE__,direction,the_side); \
-    motivation[id].levels.side = curr_decision_level; \
-    ++curr_decision_level;
+#define push_decision_side(direction,id,side) \
+    record_decision_side_impl(__FILE__,__LINE__,direction,id,side);
 
-#define push_decision_walk(direction,id,the_walk) \
-    record_decision_walk_impl(__FILE__,__LINE__,direction,the_walk); \
-    motivation[id].levels.walk = curr_decision_level; \
-    ++curr_decision_level;
+#define push_decision_walk(direction,id,walk) \
+    record_decision_walk_impl(__FILE__,__LINE__,direction,id,walk);
 
 #define push_decision_king_nomination(pos) \
-    record_decision_king_nomination_impl(__FILE__,__LINE__,pos); \
-    ++curr_decision_level;
+    record_decision_king_nomination_impl(__FILE__,__LINE__,pos);
 
 #endif

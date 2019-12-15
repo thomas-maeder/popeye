@@ -1352,6 +1352,7 @@ pieces/attributes/total_invisible/decisions$(OBJ_SUFFIX): \
  output/plaintext/plaintext.h options/movenumbers.h \
  solving/machinery/solve.h solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/consumption.h \
+ pieces/attributes/total_invisible/revelations.h \
  solving/move_effect_journal.h debugging/assert.h
 
 pieces/attributes/total_invisible/decisions.h:
@@ -1421,6 +1422,8 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 pieces/attributes/total_invisible/consumption.h:
+
+pieces/attributes/total_invisible/revelations.h:
 
 solving/move_effect_journal.h:
 
