@@ -121,7 +121,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       current_consumption = save_consumption;
 
-      --curr_decision_level;
+      pop_decision();
 
       if (side==White && curr_decision_level<=max_decision_level)
       {
@@ -138,7 +138,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       record_decision_outcome("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
       REPORT_DEADEND;
 
-      --curr_decision_level;
+      pop_decision();
 
       current_consumption = save_consumption;
 
@@ -188,7 +188,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     empty_square(s);
 
-    --curr_decision_level;
+    pop_decision();
 
     uninitialise_motivation(id_placed);
 
@@ -285,7 +285,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
     }
   }
 
-  --curr_decision_level;
+  pop_decision();
 
   TraceWalk(get_walk_of_piece_on_square(pos));
   TraceWalk(walk);
@@ -464,7 +464,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
     SETFLAG(being_solved.spec[s],advers(side));
 
-    --curr_decision_level;
+    pop_decision();
 
     if (side==preferred_side && curr_decision_level<=max_decision_level)
       place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
@@ -510,7 +510,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     empty_square(s);
 
-    --curr_decision_level;
+    pop_decision();
 
     uninitialise_motivation(id_placed);
 

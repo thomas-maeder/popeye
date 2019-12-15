@@ -74,4 +74,6 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #define push_decision_king_nomination(pos) \
     record_decision_king_nomination_impl(__FILE__,__LINE__,pos);
 
+void pop_decision(void);
+
 #endif

@@ -44,7 +44,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       empty_square(s);
       --being_solved.number_of_pieces[side_attacking][walk];
 
-      --curr_decision_level;
+      pop_decision();
     }
   }
 
@@ -123,7 +123,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
       }
     }
 
-    --curr_decision_level;
+    pop_decision();
 
     uninitialise_motivation(id_placed);
   }
@@ -166,7 +166,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
         place_mating_piece_attacker(side_attacking,s,id_placed,walk_leaper);
     }
 
-    --curr_decision_level;
+    pop_decision();
 
     uninitialise_motivation(id_placed);
   }
@@ -219,7 +219,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
         place_mating_piece_attacker(side_attacking,s,id_placed,Pawn);
     }
 
-    --curr_decision_level;
+    pop_decision();
 
     uninitialise_motivation(id_placed);
   }

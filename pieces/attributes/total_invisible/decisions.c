@@ -177,3 +177,8 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
   va_end(args);
 #endif
 }
+
+void pop_decision(void)
+{
+  --curr_decision_level;
+}

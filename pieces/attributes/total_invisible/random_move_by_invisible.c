@@ -35,7 +35,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
 
   motivation[id] = save_motivation;
 
-  --curr_decision_level;
+  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -358,7 +358,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
       --being_solved.number_of_pieces[side_playing][Pawn];
 
-      --curr_decision_level;
+      pop_decision();
     }
   }
 
@@ -374,7 +374,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
       flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
     --being_solved.number_of_pieces[side_playing][Knight];
 
-    --curr_decision_level;
+    pop_decision();
   }
 
   if (curr_decision_level<=max_decision_level)
@@ -391,7 +391,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
       flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
     --being_solved.number_of_pieces[side_playing][Bishop];
 
-    --curr_decision_level;
+    pop_decision();
   }
 
   if (curr_decision_level<=max_decision_level)
@@ -408,7 +408,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
       flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
     --being_solved.number_of_pieces[side_playing][Rook];
 
-    --curr_decision_level;
+    pop_decision();
   }
 
   if (curr_decision_level<=max_decision_level)
@@ -425,7 +425,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
       flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
     --being_solved.number_of_pieces[side_playing][Queen];
 
-    --curr_decision_level;
+    pop_decision();
   }
 
   motivation[id_moving].levels.walk = save_level;
@@ -486,7 +486,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
 
-        --curr_decision_level;
+        pop_decision();
 
         motivation[id_moving].levels.walk = save_level;
       }
@@ -566,7 +566,7 @@ static void forward_random_move_by_invisible(square const *start_square)
 
     push_decision_departure('>',id,*s);
     flesh_out_random_move_by_specific_invisible_from(*s);
-    --curr_decision_level;
+    pop_decision();
 
     if (curr_decision_level<=max_decision_level)
     {
@@ -596,7 +596,7 @@ static void forward_random_move_by_invisible(square const *start_square)
       TraceText("stick to random move by unplaced invisible\n");
       push_decision_random_move('>');
       recurse_into_child_ply();
-      --curr_decision_level;
+      pop_decision();
     }
 
     current_consumption = save_consumption;
@@ -925,7 +925,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
         replace_walk(sq_arrival,Dummy);
         --being_solved.number_of_pieces[side_playing][walk];
 
-        --curr_decision_level;
+        pop_decision();
       }
 
       motivation[id].levels = save_levels;
@@ -1016,7 +1016,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     flesh_out_random_move_by_specific_invisible_to(*s);
 
-    --curr_decision_level;
+    pop_decision();
 
     if (curr_decision_level<=max_decision_level)
     {
@@ -1046,7 +1046,7 @@ static void retract_random_move_by_invisible(square const *start_square)
       TraceText("stick to random move by unplaced invisible\n");
       push_decision_random_move('<');
       restart_from_scratch();
-      --curr_decision_level;
+      pop_decision();
     }
 
     current_consumption = save_consumption;

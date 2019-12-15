@@ -150,7 +150,7 @@ static void nominate_king_invisible_by_invisible(void)
         max_decision_level = decision_level_latest;
         push_decision_king_nomination(*s);
         restart_from_scratch();
-        --curr_decision_level;
+        pop_decision();
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
