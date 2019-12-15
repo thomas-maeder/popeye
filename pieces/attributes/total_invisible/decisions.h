@@ -76,4 +76,6 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void pop_decision(void);
 
+boolean can_decision_level_be_continued(void);
+
 #endif

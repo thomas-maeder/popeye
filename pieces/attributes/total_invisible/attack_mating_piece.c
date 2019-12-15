@@ -103,10 +103,10 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
 
     push_decision_walk('>',id_placed,walk_rider);
 
-    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square s;
-      for (s = sq_mating_piece+vec[kcurr]; curr_decision_level<=max_decision_level; s += vec[kcurr])
+      for (s = sq_mating_piece+vec[kcurr]; can_decision_level_be_continued(); s += vec[kcurr])
       {
         max_decision_level = decision_level_latest;
         if (is_square_empty(s))
@@ -151,7 +151,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
 
     push_decision_walk('>',id_placed,walk_leaper);
 
-    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square const s = sq_mating_piece+vec[kcurr];
 
@@ -189,7 +189,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
 
     push_decision_walk('>',id_placed,Pawn);
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       square s = sq_mating_piece+dir_up+dir_left;
 
@@ -204,7 +204,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
         place_mating_piece_attacker(side_attacking,s,id_placed,Pawn);
     }
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       square s = sq_mating_piece+dir_up+dir_right;
 

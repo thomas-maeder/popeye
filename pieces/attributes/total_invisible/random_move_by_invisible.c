@@ -118,7 +118,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
         done_fleshing_out_random_move_by_invisible_from(is_dummy_moving);
       }
 
-      if (curr_decision_level<=max_decision_level)
+      if (can_decision_level_be_continued())
       {
         SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
         if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublstepsq))
@@ -140,7 +140,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
 
     // TODO add capture victim if arrival square empty and nr_total...>0
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       square const sq_arrival = sq_singlestep+dir_right;
 
@@ -152,7 +152,7 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
       }
     }
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       square const sq_arrival = sq_singlestep+dir_left;
 
@@ -185,11 +185,11 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
   TraceFunctionParamListEnd();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
+  for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     square sq_arrival;
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
-         curr_decision_level<=max_decision_level;
+         can_decision_level_be_continued();
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
@@ -238,7 +238,7 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
 
   assert(kstart<=kend);
-  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
+  for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
     if (!will_be_taboo(sq_arrival,trait[nbply]))
@@ -362,7 +362,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     }
   }
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     max_decision_level = decision_level_latest;
 
@@ -377,7 +377,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     pop_decision();
   }
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     max_decision_level = decision_level_latest;
 
@@ -394,7 +394,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     pop_decision();
   }
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     max_decision_level = decision_level_latest;
 
@@ -411,7 +411,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     pop_decision();
   }
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     max_decision_level = decision_level_latest;
 
@@ -494,7 +494,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       --being_solved.number_of_pieces[side_playing][King];
       being_solved.king_square[side_playing] = initsquare;
 
-      if (curr_decision_level<=max_decision_level
+      if (can_decision_level_be_continued()
           && !are_allocations_exhausted)
       {
         max_decision_level = decision_level_latest;
@@ -568,7 +568,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     flesh_out_random_move_by_specific_invisible_from(*s);
     pop_decision();
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       max_decision_level = decision_level_latest;
       forward_random_move_by_invisible(s+1);
@@ -684,13 +684,13 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
+  for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
-    while (curr_decision_level<=max_decision_level
+    while (can_decision_level_be_continued()
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
       max_decision_level = decision_level_latest;
@@ -721,7 +721,7 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
   move_effect_journal[king_square_movement].u.king_square_movement.to = move_effect_journal[movement].u.piece_movement.to;
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-  for (k = vec_queen_start; k<=vec_queen_end && curr_decision_level<=max_decision_level; ++k)
+  for (k = vec_queen_start; k<=vec_queen_end && can_decision_level_be_continued(); ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -757,7 +757,7 @@ static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  for (k = kstart; k<=kend && curr_decision_level<=max_decision_level; ++k)
+  for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -799,7 +799,7 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
   {
     done_fleshing_out_random_move_by_specific_invisible_to();
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       SquareFlags const doublestepsq = side_moving==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
@@ -911,7 +911,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       piece_walk_type walk;
       decision_levels_type const save_levels = motivation[id].levels;
 
-      for (walk = Pawn; walk<=Bishop && curr_decision_level<=max_decision_level; ++walk)
+      for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
       {
         max_decision_level = decision_level_latest;
 
@@ -1018,7 +1018,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     pop_decision();
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       max_decision_level = decision_level_latest;
       retract_random_move_by_invisible(s+1);
@@ -1026,7 +1026,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = save_when;
   }
-  else if (curr_decision_level<=max_decision_level)
+  else if (can_decision_level_be_continued())
   {
     // TODO Strictly speaking, there is no guarantee that such a move exists
     // but we probably save a lot of time by not fleshing it out. As long as we
@@ -1072,7 +1072,7 @@ void backward_fleshout_random_move_by_invisible(void)
       && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
   {
     // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       max_decision_level = decision_level_latest;
       fake_capture_by_invisible();

@@ -123,7 +123,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       pop_decision();
 
-      if (side==White && curr_decision_level<=max_decision_level)
+      if (side==White && can_decision_level_be_continued())
       {
         max_decision_level = decision_level_latest;
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
@@ -192,7 +192,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     uninitialise_motivation(id_placed);
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
       place_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir);
   }
 
@@ -385,7 +385,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
     if (allocate_flesh_out_unplaced(side))
     {
-      if (curr_decision_level<=max_decision_level)
+      if (can_decision_level_be_continued())
       {
         max_decision_level = decision_level_latest;
         place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
@@ -393,13 +393,13 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
       if (side==trait[nbply])
       {
-        if (curr_decision_level<=max_decision_level)
+        if (can_decision_level_be_continued())
         {
           max_decision_level = decision_level_latest;
           place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Knight);
         }
 
-        if (curr_decision_level<=max_decision_level)
+        if (can_decision_level_be_continued())
         {
           vec_index_type const k = check_vectors[nr_check_vectors-1];
           boolean const is_check_orthogonal = k<=vec_rook_end;
@@ -416,7 +416,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
       {
         piece_walk_type walk;
         for (walk = Queen;
-             walk<=Bishop && curr_decision_level<=max_decision_level;
+             walk<=Bishop && can_decision_level_be_continued();
              ++walk)
         {
           max_decision_level = decision_level_latest;
@@ -466,7 +466,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
     pop_decision();
 
-    if (side==preferred_side && curr_decision_level<=max_decision_level)
+    if (side==preferred_side && can_decision_level_be_continued())
       place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
     forget_taboo_on_square(s,side,nbply);
@@ -514,7 +514,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     uninitialise_motivation(id_placed);
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
       place_non_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir);
   }
 

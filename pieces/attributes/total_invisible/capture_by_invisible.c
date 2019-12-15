@@ -374,7 +374,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -395,7 +395,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     TraceValue("%u",max_decision_level);
     TraceEOL();
 
-    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square sq_departure;
 
@@ -405,7 +405,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       max_decision_level = decision_level_latest;
 
       for (sq_departure = sq_arrival+vec[kcurr];
-           is_square_empty(sq_departure) && curr_decision_level<=max_decision_level;
+           is_square_empty(sq_departure) && can_decision_level_be_continued();
            sq_departure += vec[kcurr])
       {
         max_decision_level = decision_level_latest;
@@ -418,7 +418,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       TraceValue("%u",max_decision_level);
       TraceEOL();
 
-      if (curr_decision_level<=max_decision_level)
+      if (can_decision_level_be_continued())
       {
         while (is_square_empty(sq_departure))
         {
@@ -477,7 +477,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
   for (kcurr = vec_queen_start;
-       kcurr<=vec_queen_end && curr_decision_level<=max_decision_level;
+       kcurr<=vec_queen_end && can_decision_level_be_continued();
        ++kcurr)
   {
     square const sq_departure = sq_arrival+vec[kcurr];
@@ -563,7 +563,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -582,7 +582,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     TraceValue("%u",max_decision_level);
     TraceEOL();
 
-    for (; kcurr<=kend && curr_decision_level<=max_decision_level; ++kcurr)
+    for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square const sq_departure = sq_arrival+vec[kcurr];
 
@@ -665,7 +665,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -683,7 +683,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
 
     capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_left);
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
       capture_by_invisible_pawn_inserted_or_existing_one_dir(dir_right);
 
     pop_decision();
@@ -798,7 +798,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     // TODO en passant capture
   }
 
-  if (curr_decision_level<=max_decision_level)
+  if (can_decision_level_be_continued())
   {
     if (CheckDir[Knight][move_square_diff]==move_square_diff)
     {
@@ -809,7 +809,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       pop_decision();
     }
 
-    if (curr_decision_level<=max_decision_level)
+    if (can_decision_level_be_continued())
     {
       int const dir = CheckDir[Bishop][move_square_diff];
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
@@ -824,7 +824,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
          * different walk, Queen won't do. */
         // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
 
-        if (curr_decision_level<=max_decision_level)
+        if (can_decision_level_be_continued())
         {
           max_decision_level = decision_level_latest;
 
@@ -836,7 +836,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         pop_decision();
       }
 
-      if (curr_decision_level<=max_decision_level)
+      if (can_decision_level_be_continued())
       {
         int const dir = CheckDir[Rook][move_square_diff];
         if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
@@ -851,7 +851,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
            * different walk, Queen won't do. */
           // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
 
-          if (curr_decision_level<=max_decision_level)
+          if (can_decision_level_be_continued())
           {
             max_decision_level = decision_level_latest;
 
@@ -893,7 +893,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   assert(current_consumption.placed[trait[nbply]]>0);
 
-  if (curr_decision_level<=max_decision_level
+  if (can_decision_level_be_continued()
       && !(nr_total_invisbles_consumed()==total_invisible_number
            && current_consumption.placed[trait[nbply]]==1))
   {
@@ -1212,7 +1212,7 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
       {
         PieceIdType id;
         for (id = get_top_visible_piece_id()+1;
-             id<=get_top_invisible_piece_id() && curr_decision_level<=max_decision_level;
+             id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
              ++id)
           flesh_out_capture_by_invisible_on(motivation[id].last.on,
                                             can_king_be_inserted);

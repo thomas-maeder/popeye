@@ -136,7 +136,7 @@ static void nominate_king_invisible_by_invisible(void)
   {
     square const *s;
     TraceText("Try to make one of the placed invisibles the king to be mated\n");
-    for (s = boardnum; *s && curr_decision_level<=max_decision_level; ++s)
+    for (s = boardnum; *s && can_decision_level_be_continued(); ++s)
       if (get_walk_of_piece_on_square(*s)==Dummy
           && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
       {
