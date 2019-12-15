@@ -104,16 +104,16 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
   ++curr_decision_level;
 }
 
-void push_decision_move_vector_impl(char const *file, unsigned int line, char direction, PieceIdType id, int dir)
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
+  printf("%c%u ",'|',nbply);
   printf("dir:%d",dir);
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_dir[curr_decision_level] = '|';
   ++curr_decision_level;
 }
 
@@ -213,8 +213,25 @@ void pop_decision(void)
 void backtrack_through_backward_decisions(void)
 {
   max_decision_level = curr_decision_level-1;
-  while (decision_level_dir[max_decision_level]=='<')
-    --max_decision_level;
+
+  if (max_decision_level>=2)
+    while (decision_level_dir[max_decision_level]=='<')
+    {
+      assert(max_decision_level>0);
+      --max_decision_level;
+    }
+}
+
+void backtrack_through_non_forward_decisions(void)
+{
+  max_decision_level = curr_decision_level-1;
+
+  if (max_decision_level>=2)
+    while (decision_level_dir[max_decision_level]!='>')
+    {
+      assert(max_decision_level>0);
+      --max_decision_level;
+    }
 }
 
 boolean can_decision_level_be_continued(void)

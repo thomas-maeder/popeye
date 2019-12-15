@@ -398,7 +398,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     {
       square sq_departure;
 
-      push_decision_move_vector('>',id_inserted,kcurr)
+      push_decision_move_vector(id_inserted,kcurr)
 
       max_decision_level = decision_level_latest;
 
@@ -587,7 +587,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       if (is_square_empty(sq_departure))
       {
-        push_decision_move_vector('>',id_inserted,kcurr)
+        push_decision_move_vector(id_inserted,kcurr)
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
         pop_decision();
       }
@@ -637,7 +637,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
 
     if (is_square_empty(sq_departure))
     {
-      push_decision_move_vector('>',id_inserted,dir_horiz)
+      push_decision_move_vector(id_inserted,dir_horiz)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
       pop_decision();
     }
@@ -1600,9 +1600,7 @@ boolean is_capture_by_invisible_possible(void)
   }
 
   if (!result)
-    // TODO optimise more aggressively?
-    // this will stop at line pieces' vectors - can we rule out all moves by inserted piece?
-    backtrack_through_backward_decisions();
+    backtrack_through_non_forward_decisions();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
