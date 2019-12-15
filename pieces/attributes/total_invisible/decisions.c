@@ -183,6 +183,13 @@ void pop_decision(void)
   --curr_decision_level;
 }
 
+void backtrack_through_backward_decisions(void)
+{
+  max_decision_level = curr_decision_level-1;
+  while (decision_level_dir[max_decision_level]=='<')
+    --max_decision_level;
+}
+
 boolean can_decision_level_be_continued(void)
 {
   return curr_decision_level<=max_decision_level;

@@ -1464,6 +1464,8 @@ boolean is_capture_by_invisible_possible(void)
   }
   else
   {
+    // TODO this part is not about captures *by* invisibles, but by captures *of* invisibles by pawns
+
     if (ply_capture<=top_ply_of_regular_play)
     {
       move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
@@ -1598,13 +1600,9 @@ boolean is_capture_by_invisible_possible(void)
   }
 
   if (!result)
-  {
-    max_decision_level = curr_decision_level-1;
-    while (decision_level_dir[max_decision_level]=='<')
-      --max_decision_level;
     // TODO optimise more aggressively?
     // this will stop at line pieces' vectors - can we rule out all moves by inserted piece?
-  }
+    backtrack_through_backward_decisions();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

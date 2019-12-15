@@ -77,6 +77,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 void pop_decision(void);
 
+void backtrack_through_backward_decisions(void);
+
 boolean can_decision_level_be_continued(void);
 
 #endif
