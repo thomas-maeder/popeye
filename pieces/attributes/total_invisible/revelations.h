@@ -57,6 +57,7 @@ PieceIdType get_top_invisible_piece_id(void);
 PieceIdType initialise_motivation(purpose_type purpose, square sq_first,
                                   purpose_type purpose_last, square sq_last);
 PieceIdType initialise_motivation_from_revelation(revelation_status_type const *revelation);
+void initialise_motivation_of_inserted_capturer(PieceIdType id);
 void uninitialise_motivation(PieceIdType id_uninitialised);
 
 void reveal_new(move_effect_journal_entry_type const *entry);

@@ -304,8 +304,7 @@ void insert_invisible_capturer(void)
       assert(!was_taboo(sq_addition,side_added));
 
       move_effect_journal[pre_capture].type = move_effect_none;
-      motivation[id].levels.side = curr_decision_level;
-      motivation[id].levels.walk = curr_decision_level;
+      initialise_motivation_of_inserted_capturer(id);
       ++being_solved.number_of_pieces[side_added][walk_added];
       occupy_square(sq_addition,walk_added,flags_added);
       restart_from_scratch();
