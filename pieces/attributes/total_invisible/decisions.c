@@ -15,6 +15,7 @@ decision_level_type max_decision_level = decision_level_latest;
 decision_levels_type decision_levels[MaxPieceId+1];
 
 char decision_level_dir[decision_level_dir_capacity];
+boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
 unsigned long prev_record_decision_counter;
@@ -210,7 +211,7 @@ void pop_decision(void)
   --curr_decision_level;
 }
 
-void backtrack_through_backward_decisions(void)
+void backtrack_from_failure_to_intercept_illegal_checks(void)
 {
   max_decision_level = curr_decision_level-1;
 
@@ -222,16 +223,22 @@ void backtrack_through_backward_decisions(void)
     }
 }
 
-void backtrack_through_non_forward_decisions(void)
+void backtrack_from_failed_capture_by_invisible(void)
 {
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
     while (decision_level_dir[max_decision_level]!='>')
-    {
-      assert(max_decision_level>0);
       --max_decision_level;
-    }
+}
+
+void backtrack_from_failed_capture_of_invisible_by_pawn(void)
+{
+  max_decision_level = curr_decision_level-1;
+
+  while (max_decision_level>0
+         && (decision_level_dir[max_decision_level]!='>' || selection_of_walk_of_capturing_invisible[max_decision_level]))
+    --max_decision_level;
 }
 
 boolean can_decision_level_be_continued(void)

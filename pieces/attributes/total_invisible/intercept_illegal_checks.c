@@ -628,7 +628,7 @@ static void deal_with_interceptable_illegal_checks()
   else
   {
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
-    backtrack_through_backward_decisions();
+    backtrack_from_failure_to_intercept_illegal_checks();
     record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
     REPORT_DEADEND;
   }

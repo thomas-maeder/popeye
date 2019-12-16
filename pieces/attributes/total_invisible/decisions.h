@@ -38,7 +38,9 @@ enum
   decision_level_dir_capacity = 100
 };
 
+// TODO there has to be a more elegant way to do this
 extern char decision_level_dir[decision_level_dir_capacity];
+extern boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
 
 extern unsigned long record_decision_counter;
 extern unsigned long prev_record_decision_counter;
@@ -85,8 +87,9 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 void pop_decision(void);
 
-void backtrack_through_backward_decisions(void);
-void backtrack_through_non_forward_decisions(void);
+void backtrack_from_failure_to_intercept_illegal_checks(void);
+void backtrack_from_failed_capture_by_invisible(void);
+void backtrack_from_failed_capture_of_invisible_by_pawn(void);
 
 boolean can_decision_level_be_continued(void);
 
