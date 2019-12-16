@@ -995,8 +995,6 @@ static void retract_random_move_by_invisible(square const *start_square)
 {
   square const *s;
 
-  unsigned int const save_counter = record_decision_counter;
-
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
   TraceFunctionParamListEnd();
@@ -1009,6 +1007,7 @@ static void retract_random_move_by_invisible(square const *start_square)
   {
     PieceIdType const id = GetPieceId(being_solved.spec[*s]);
     ply const save_when = motivation[id].first.acts_when;
+    unsigned int const save_counter = record_decision_counter;
 
     motivation[id].first.acts_when = nbply;
 
@@ -1025,6 +1024,12 @@ static void retract_random_move_by_invisible(square const *start_square)
     }
 
     motivation[id].first.acts_when = save_when;
+
+    if (start_square==boardnum && record_decision_counter<=save_counter+1)
+    {
+      record_decision_outcome("%s","no retractable random move found - TODO we don't retract pawn captures");
+      REPORT_DEADEND;
+    }
   }
   else if (can_decision_level_be_continued())
   {
@@ -1051,12 +1056,6 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     current_consumption = save_consumption;
     TraceConsumption();TraceEOL();
-  }
-
-  if (start_square==boardnum && record_decision_counter==save_counter)
-  {
-    record_decision_outcome("%s","no retractable random move found - TODO we don't retract pawn captures");
-    REPORT_DEADEND;
   }
 
   TraceFunctionExit(__func__);
