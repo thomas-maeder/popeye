@@ -637,7 +637,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
 
     if (is_square_empty(sq_departure))
     {
-      push_decision_move_vector(id_inserted,dir_horiz)
+      push_decision_move_vector(id_inserted,dir_vert+dir_horiz)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
       pop_decision();
     }
