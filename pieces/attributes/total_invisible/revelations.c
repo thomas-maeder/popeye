@@ -1607,6 +1607,10 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
         break;
       }
 
+      case move_effect_enable_castling_right:
+        undo_revelation_effects(curr-1);
+        break;
+
       default:
         assert(0);
         break;
