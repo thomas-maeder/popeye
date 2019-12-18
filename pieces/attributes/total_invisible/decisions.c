@@ -94,7 +94,7 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void push_decision_random_move_impl(char const *file, unsigned int line, char direction)
+void push_decision_random_move_impl(char const *file, unsigned int line, char direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -104,7 +104,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
 
   decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
-  decision_level_properties[curr_decision_level].purpose = decision_purpose_random_mover;
+  decision_level_properties[curr_decision_level].purpose = purpose;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -268,7 +268,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].direction=='<'
+    while (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
            || (decision_level_properties[max_decision_level].object==decision_object_departure
                && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
     {
@@ -282,7 +282,9 @@ void backtrack_from_failed_capture_by_invisible(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].direction!='>'
+    while (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
+           || (decision_level_properties[max_decision_level].object==decision_object_move_vector
+               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
            || (decision_level_properties[max_decision_level].object==decision_object_departure
                && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
     {
