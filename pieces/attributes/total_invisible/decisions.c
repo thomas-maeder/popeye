@@ -17,7 +17,7 @@ decision_levels_type decision_levels[MaxPieceId+1];
 typedef struct
 {
     char direction;
-    boolean selection_of_walk_of_capturing_invisible;
+    decision_purpose_type purpose;
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
@@ -177,7 +177,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].selection_of_walk_of_capturing_invisible = (purpose==decision_purpose_invisible_capturer);
+  decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].direction = direction;
   decision_levels[id].walk = curr_decision_level;
   ++curr_decision_level;
@@ -228,7 +228,7 @@ void pop_decision(void)
   assert(curr_decision_level>0);
   --curr_decision_level;
 
-  decision_level_properties[curr_decision_level].selection_of_walk_of_capturing_invisible = false;
+  decision_level_properties[curr_decision_level].purpose = nr_decision_purposes;
 }
 
 void backtrack_from_failure_to_intercept_illegal_checks(void)
@@ -258,7 +258,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(void)
 
   while (max_decision_level>0
          && (decision_level_properties[max_decision_level].direction!='>'
-             || decision_level_properties[max_decision_level].selection_of_walk_of_capturing_invisible))
+             || decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
     --max_decision_level;
 }
 
