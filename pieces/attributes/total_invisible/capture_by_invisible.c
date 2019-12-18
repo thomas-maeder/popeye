@@ -65,8 +65,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
 
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-        /* allow backtracking from some deadends to backtrack further, skipping over the remainder of the current vector */
-        push_decision_departure('<',id_inserted,sq_departure,decision_purpose_invisible_capturer);
+        push_decision_departure('>',id_inserted,sq_departure,decision_purpose_invisible_capturer);
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
          * we have to make sure that there was no illegal check from it before this

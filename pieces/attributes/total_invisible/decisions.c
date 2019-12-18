@@ -104,6 +104,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
 
   decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
+  decision_level_properties[curr_decision_level].purpose = decision_purpose_random_mover;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -267,7 +268,9 @@ void backtrack_from_failure_to_intercept_illegal_checks(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].direction=='<')
+    while (decision_level_properties[max_decision_level].direction=='<'
+           || (decision_level_properties[max_decision_level].object==decision_object_departure
+               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
     {
       assert(max_decision_level>0);
       --max_decision_level;
@@ -279,8 +282,13 @@ void backtrack_from_failed_capture_by_invisible(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].direction!='>')
+    while (decision_level_properties[max_decision_level].direction!='>'
+           || (decision_level_properties[max_decision_level].object==decision_object_departure
+               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
+    {
+      assert(max_decision_level>0);
       --max_decision_level;
+    }
 }
 
 void backtrack_from_failed_capture_of_invisible_by_pawn(void)
@@ -289,9 +297,14 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(void)
 
   while (max_decision_level>0
          && (decision_level_properties[max_decision_level].direction!='>'
+             || (decision_level_properties[max_decision_level].object==decision_object_departure
+                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
              || (decision_level_properties[max_decision_level].object==decision_object_walk
                  && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)))
+  {
+    assert(max_decision_level>0);
     --max_decision_level;
+  }
 }
 
 boolean can_decision_level_be_continued(void)
