@@ -87,6 +87,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
 
   decision_level_dir[curr_decision_level] = direction;
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
@@ -103,6 +104,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
   decision_level_dir[curr_decision_level] = direction;
   decision_levels[id].from = curr_decision_level;
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir)
@@ -116,6 +118,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 
   decision_level_dir[curr_decision_level] = '|';
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
@@ -132,6 +135,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, char direct
   decision_level_dir[curr_decision_level] = direction;
   decision_levels[id].to = curr_decision_level;
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side)
@@ -150,6 +154,7 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
   decision_level_dir[curr_decision_level] = direction;
   decision_levels[id].side = curr_decision_level;
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_walk_impl(char const *file, unsigned int line,
@@ -172,6 +177,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   decision_level_dir[curr_decision_level] = direction;
   decision_levels[id].walk = curr_decision_level;
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
@@ -193,6 +199,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #endif
 
   ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)
@@ -214,7 +221,9 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void pop_decision(void)
 {
+  assert(curr_decision_level>0);
   --curr_decision_level;
+
   selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
 }
 
