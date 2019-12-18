@@ -30,9 +30,10 @@ typedef struct
 
 typedef enum
 {
-  decision_purpose_unspecified,
   decision_purpose_invisible_capturer,
-  decision_purpose_mating_piece_attacker
+  decision_purpose_mating_piece_attacker,
+  decision_purpose_illegal_check_interceptor,
+  decision_purpose_random_mover
 } decision_purpose_type;
 
 extern decision_levels_type decision_levels[MaxPieceId+1];
