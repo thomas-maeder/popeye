@@ -36,7 +36,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       motivation[id_placed].first.on = s;
       motivation[id_placed].last.on = s;
 
-      push_decision_departure('>',id_placed,s);
+      push_decision_departure('>',id_placed,s,decision_purpose_mating_piece_attacker);
 
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,id_placed);

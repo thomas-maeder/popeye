@@ -102,7 +102,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     assert(nr_check_vectors>0);
 
-    push_decision_side('>',id_placed,side);
+    push_decision_side('>',id_placed,side,decision_purpose_illegal_check_interceptor);
 
     if (allocate_placed(side))
     {
@@ -177,7 +177,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     decision_levels[id_placed].from = decision_level_latest;
 
-    push_decision_arrival('>',id_placed,s);
+    push_decision_arrival('>',id_placed,s,decision_purpose_illegal_check_interceptor);
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
@@ -458,7 +458,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    push_decision_side('>',id_placed,preferred_side);
+    push_decision_side('>',id_placed,preferred_side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
@@ -499,7 +499,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     decision_levels[id_placed].from = decision_level_latest;
 
-    push_decision_arrival('>',id_placed,s);
+    push_decision_arrival('>',id_placed,s,decision_purpose_illegal_check_interceptor);
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);

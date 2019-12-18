@@ -56,10 +56,10 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
 void push_decision_random_move_impl(char const *file, unsigned int line, char direction);
-void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir);
-void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
-void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
+void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose);
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir, decision_purpose_type purpose);
+void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose);
+void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side, decision_purpose_type purpose);
 void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose);
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
@@ -72,17 +72,17 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #define push_decision_random_move(direction) \
     push_decision_random_move_impl(__FILE__,__LINE__,direction);
 
-#define push_decision_departure(direction,id,sq_departure) \
-    push_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure);
+#define push_decision_departure(direction,id,sq_departure,purpose) \
+    push_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure,purpose);
 
-#define push_decision_move_vector(id,dir) \
-    push_decision_move_vector_impl(__FILE__,__LINE__,id,dir);
+#define push_decision_move_vector(id,dir,purpose) \
+    push_decision_move_vector_impl(__FILE__,__LINE__,id,dir,purpose);
 
-#define push_decision_arrival(direction,id,sq_arrival) \
-    push_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival);
+#define push_decision_arrival(direction,id,sq_arrival,purpose) \
+    push_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival,purpose);
 
-#define push_decision_side(direction,id,side) \
-    push_decision_side_impl(__FILE__,__LINE__,direction,id,side);
+#define push_decision_side(direction,id,side,purpose) \
+    push_decision_side_impl(__FILE__,__LINE__,direction,id,side,purpose);
 
 #define push_decision_walk(direction,id,walk,purpose) \
     push_decision_walk_impl(__FILE__,__LINE__,direction,id,walk,purpose);

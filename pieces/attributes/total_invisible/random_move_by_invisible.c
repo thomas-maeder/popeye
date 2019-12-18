@@ -22,7 +22,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_arrival('>',id,sq_arrival);
+  push_decision_arrival('>',id,sq_arrival,decision_purpose_random_mover);
 
   motivation[id].last.on = sq_arrival;
 
@@ -564,7 +564,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    push_decision_departure('>',id,*s);
+    push_decision_departure('>',id,*s,decision_purpose_random_mover);
     flesh_out_random_move_by_specific_invisible_from(*s);
     pop_decision();
 
@@ -1011,7 +1011,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = nbply;
 
-    push_decision_departure('<',id,*s);
+    push_decision_departure('<',id,*s,decision_purpose_random_mover);
 
     flesh_out_random_move_by_specific_invisible_to(*s);
 

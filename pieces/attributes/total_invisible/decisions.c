@@ -108,7 +108,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
+void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -121,12 +121,15 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
 
   decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+
   decision_levels[id].from = curr_decision_level;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction)
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -137,11 +140,13 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 
   decision_level_properties[curr_decision_level].direction = '|';
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos)
+void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -153,12 +158,15 @@ void push_decision_arrival_impl(char const *file, unsigned int line, char direct
 #endif
 
   decision_level_properties[curr_decision_level].direction = direction;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+
   decision_levels[id].to = curr_decision_level;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side)
+void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -173,7 +181,10 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
 
   decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_side;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+
   decision_levels[id].side = curr_decision_level;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }

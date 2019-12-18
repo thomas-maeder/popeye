@@ -66,7 +66,7 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
         /* allow backtracking from some deadends to backtrack further, skipping over the remainder of the current vector */
-        push_decision_departure('<',id_inserted,sq_departure);
+        push_decision_departure('<',id_inserted,sq_departure,decision_purpose_invisible_capturer);
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
          * we have to make sure that there was no illegal check from it before this
@@ -292,7 +292,7 @@ static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  push_decision_departure('>',id_existing,sq_departure);
+  push_decision_departure('>',id_existing,sq_departure,decision_purpose_invisible_capturer);
 
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -398,7 +398,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     {
       square sq_departure;
 
-      push_decision_move_vector(id_inserted,kcurr)
+      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer)
 
       max_decision_level = decision_level_latest;
 
@@ -496,7 +496,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        push_decision_departure('>',id_inserted,sq_departure);
+        push_decision_departure('>',id_inserted,sq_departure,decision_purpose_invisible_capturer);
         flesh_out_capture_by_inserted_invisible(King,sq_departure);
         pop_decision();
 
@@ -587,7 +587,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       if (is_square_empty(sq_departure))
       {
-        push_decision_move_vector(id_inserted,kcurr)
+        push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer)
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
         pop_decision();
       }
@@ -637,7 +637,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
 
     if (is_square_empty(sq_departure))
     {
-      push_decision_move_vector(id_inserted,dir_vert+dir_horiz)
+      push_decision_move_vector(id_inserted,dir_vert+dir_horiz,decision_purpose_invisible_capturer)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
       pop_decision();
     }
@@ -1018,7 +1018,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    push_decision_departure('>',id_existing,sq_departure);
+    push_decision_departure('>',id_existing,sq_departure,decision_purpose_invisible_capturer);
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
