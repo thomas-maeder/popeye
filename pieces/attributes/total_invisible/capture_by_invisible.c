@@ -388,8 +388,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-    push_decision_walk('>',id_inserted,walk_rider);
+    push_decision_walk('>',id_inserted,walk_rider,decision_purpose_invisible_capturer);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -443,7 +442,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
     }
 
     pop_decision();
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
   }
 
   TraceFunctionExit(__func__);
@@ -466,7 +464,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk('>',id_inserted,King);
+  push_decision_walk('>',id_inserted,King,decision_purpose_unspecified);
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
@@ -575,8 +573,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
     max_decision_level = decision_level_latest;
 
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-    push_decision_walk('>',id_inserted,walk_leaper);
+    push_decision_walk('>',id_inserted,walk_leaper,decision_purpose_invisible_capturer);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -607,7 +604,6 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
     }
 
     pop_decision();
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
   }
 
   TraceFunctionExit(__func__);
@@ -676,7 +672,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
-    push_decision_walk('>',id_inserted,Pawn);
+    push_decision_walk('>',id_inserted,Pawn,decision_purpose_unspecified);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -791,11 +787,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
-      selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-      push_decision_walk('>',id_existing,Pawn);
+      push_decision_walk('>',id_existing,Pawn,decision_purpose_invisible_capturer);
       flesh_out_walk_for_capture(Pawn,sq_departure);
       pop_decision();
-      selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
     }
 
     // TODO en passant capture
@@ -807,11 +801,9 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     {
       max_decision_level = decision_level_latest;
 
-      selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-      push_decision_walk('>',id_existing,Knight);
+      push_decision_walk('>',id_existing,Knight,decision_purpose_invisible_capturer);
       flesh_out_walk_for_capture(Knight,sq_departure);
       pop_decision();
-      selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
     }
 
     if (can_decision_level_be_continued())
@@ -821,8 +813,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       {
         max_decision_level = decision_level_latest;
 
-        selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-        push_decision_walk('>',id_existing,Bishop);
+        push_decision_walk('>',id_existing,Bishop,decision_purpose_invisible_capturer);
 
         flesh_out_walk_for_capture(Bishop,sq_departure);
 
@@ -834,15 +825,12 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-          push_decision_walk('>',id_existing,Queen);
+          push_decision_walk('>',id_existing,Queen,decision_purpose_invisible_capturer);
           flesh_out_walk_for_capture(Queen,sq_departure);
           pop_decision();
-          selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
         }
 
         pop_decision();
-        selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
       }
 
       if (can_decision_level_be_continued())
@@ -852,8 +840,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-          push_decision_walk('>',id_existing,Rook);
+          push_decision_walk('>',id_existing,Rook,decision_purpose_invisible_capturer);
 
           flesh_out_walk_for_capture(Rook,sq_departure);
 
@@ -865,15 +852,12 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           {
             max_decision_level = decision_level_latest;
 
-            selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-            push_decision_walk('>',id_existing,Queen);
+            push_decision_walk('>',id_existing,Queen,decision_purpose_invisible_capturer);
             flesh_out_walk_for_capture(Queen,sq_departure);
             pop_decision();
-            selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
           }
 
           pop_decision();
-          selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
         }
       }
     }
@@ -899,11 +883,9 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-    push_decision_walk('>',id_existing,King);
+    push_decision_walk('>',id_existing,King,decision_purpose_invisible_capturer);
     flesh_out_king_for_capture(sq_departure);
     pop_decision();
-    selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
   }
 
   assert(current_consumption.placed[trait[nbply]]>0);
@@ -938,8 +920,7 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  selection_of_walk_of_capturing_invisible[curr_decision_level] = true;
-  push_decision_walk('>',id_existing,walk_capturer);
+  push_decision_walk('>',id_existing,walk_capturer,decision_purpose_invisible_capturer);
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 
@@ -948,7 +929,6 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   move_effect_journal[movement].u.piece_movement.from = save_from;
 
   pop_decision();
-  selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

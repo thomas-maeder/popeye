@@ -28,6 +28,12 @@ typedef struct
     decision_level_type to;
 } decision_levels_type;
 
+typedef enum
+{
+  decision_purpose_unspecified,
+  decision_purpose_invisible_capturer
+} decision_purpose_type;
+
 extern decision_levels_type decision_levels[MaxPieceId+1];
 
 extern decision_level_type curr_decision_level;
@@ -37,9 +43,6 @@ enum
 {
   decision_level_dir_capacity = 100
 };
-
-// TODO there has to be a more elegant way to do this
-extern boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
 
 extern unsigned long record_decision_counter;
 extern unsigned long prev_record_decision_counter;
@@ -54,7 +57,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir);
 void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos);
 void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side);
-void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk);
+void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose);
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
 #define record_decision_context() \
@@ -78,8 +81,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #define push_decision_side(direction,id,side) \
     push_decision_side_impl(__FILE__,__LINE__,direction,id,side);
 
-#define push_decision_walk(direction,id,walk) \
-    push_decision_walk_impl(__FILE__,__LINE__,direction,id,walk);
+#define push_decision_walk(direction,id,walk,purpose) \
+    push_decision_walk_impl(__FILE__,__LINE__,direction,id,walk,purpose);
 
 #define push_decision_king_nomination(pos) \
     push_decision_king_nomination_impl(__FILE__,__LINE__,pos);

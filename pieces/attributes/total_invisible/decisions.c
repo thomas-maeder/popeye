@@ -15,7 +15,7 @@ decision_level_type max_decision_level = decision_level_latest;
 decision_levels_type decision_levels[MaxPieceId+1];
 
 static char decision_level_dir[decision_level_dir_capacity];
-boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
+static boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
 unsigned long prev_record_decision_counter;
@@ -152,7 +152,11 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
   ++curr_decision_level;
 }
 
-void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk)
+void push_decision_walk_impl(char const *file, unsigned int line,
+                             char direction,
+                             PieceIdType id,
+                             piece_walk_type walk,
+                             decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -162,6 +166,8 @@ void push_decision_walk_impl(char const *file, unsigned int line, char direction
             walk);
   report_endline(file,line);
 #endif
+
+  selection_of_walk_of_capturing_invisible[curr_decision_level] = (purpose==decision_purpose_invisible_capturer);
 
   decision_level_dir[curr_decision_level] = direction;
   decision_levels[id].walk = curr_decision_level;
@@ -209,6 +215,7 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 void pop_decision(void)
 {
   --curr_decision_level;
+  selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
 }
 
 void backtrack_from_failure_to_intercept_illegal_checks(void)

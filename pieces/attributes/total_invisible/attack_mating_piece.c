@@ -102,7 +102,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,walk_rider);
+    push_decision_walk('>',id_placed,walk_rider,decision_purpose_unspecified);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -150,7 +150,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,walk_leaper);
+    push_decision_walk('>',id_placed,walk_leaper,decision_purpose_unspecified);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -188,7 +188,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,Pawn);
+    push_decision_walk('>',id_placed,Pawn,decision_purpose_unspecified);
 
     if (can_decision_level_be_continued())
     {

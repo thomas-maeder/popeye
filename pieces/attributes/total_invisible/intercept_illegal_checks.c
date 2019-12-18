@@ -257,7 +257,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  push_decision_walk('>',id_placed,walk);
+  push_decision_walk('>',id_placed,walk,decision_purpose_unspecified);
 
   {
     Side const side_attacked = advers(side);
