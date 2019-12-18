@@ -464,7 +464,7 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk('>',id_inserted,King,decision_purpose_unspecified);
+  push_decision_walk('>',id_inserted,King,decision_purpose_invisible_capturer);
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
@@ -672,7 +672,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
 
     max_decision_level = decision_level_latest;
 
-    push_decision_walk('>',id_inserted,Pawn,decision_purpose_unspecified);
+    push_decision_walk('>',id_inserted,Pawn,decision_purpose_invisible_capturer);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
