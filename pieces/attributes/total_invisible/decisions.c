@@ -14,8 +14,13 @@ decision_level_type max_decision_level = decision_level_latest;
 
 decision_levels_type decision_levels[MaxPieceId+1];
 
-static char decision_level_dir[decision_level_dir_capacity];
-static boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
+typedef struct
+{
+    char direction;
+    boolean selection_of_walk_of_capturing_invisible;
+} decision_level_property_type;
+
+static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
 unsigned long prev_record_decision_counter;
@@ -85,7 +90,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_properties[curr_decision_level].direction = direction;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -101,22 +106,22 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_properties[curr_decision_level].direction = direction;
   decision_levels[id].from = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir)
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
   printf("%c%u ",'|',nbply);
-  printf("dir:%d",dir);
+  printf("direction:%d",direction);
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = '|';
+  decision_level_properties[curr_decision_level].direction = '|';
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -132,7 +137,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, char direct
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_properties[curr_decision_level].direction = direction;
   decision_levels[id].to = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -151,7 +156,7 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
   report_endline(file,line);
 #endif
 
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_properties[curr_decision_level].direction = direction;
   decision_levels[id].side = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -172,9 +177,8 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
-  selection_of_walk_of_capturing_invisible[curr_decision_level] = (purpose==decision_purpose_invisible_capturer);
-
-  decision_level_dir[curr_decision_level] = direction;
+  decision_level_properties[curr_decision_level].selection_of_walk_of_capturing_invisible = (purpose==decision_purpose_invisible_capturer);
+  decision_level_properties[curr_decision_level].direction = direction;
   decision_levels[id].walk = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -224,7 +228,7 @@ void pop_decision(void)
   assert(curr_decision_level>0);
   --curr_decision_level;
 
-  selection_of_walk_of_capturing_invisible[curr_decision_level] = false;
+  decision_level_properties[curr_decision_level].selection_of_walk_of_capturing_invisible = false;
 }
 
 void backtrack_from_failure_to_intercept_illegal_checks(void)
@@ -232,7 +236,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_dir[max_decision_level]=='<')
+    while (decision_level_properties[max_decision_level].direction=='<')
     {
       assert(max_decision_level>0);
       --max_decision_level;
@@ -244,7 +248,7 @@ void backtrack_from_failed_capture_by_invisible(void)
   max_decision_level = curr_decision_level-1;
 
   if (max_decision_level>=2)
-    while (decision_level_dir[max_decision_level]!='>')
+    while (decision_level_properties[max_decision_level].direction!='>')
       --max_decision_level;
 }
 
@@ -253,7 +257,8 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(void)
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>0
-         && (decision_level_dir[max_decision_level]!='>' || selection_of_walk_of_capturing_invisible[max_decision_level]))
+         && (decision_level_properties[max_decision_level].direction!='>'
+             || decision_level_properties[max_decision_level].selection_of_walk_of_capturing_invisible))
     --max_decision_level;
 }
 
