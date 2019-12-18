@@ -14,9 +14,21 @@ decision_level_type max_decision_level = decision_level_latest;
 
 decision_levels_type decision_levels[MaxPieceId+1];
 
+typedef enum
+{
+  decision_object_side,
+  decision_object_random_move,
+  decision_object_walk,
+  decision_object_move_vector,
+  decision_object_departure,
+  decision_object_arrival,
+  decision_object_king_nomination
+} decision_object_type;
+
 typedef struct
 {
     char direction;
+    decision_object_type object;
     decision_purpose_type purpose;
 } decision_level_property_type;
 
@@ -91,6 +103,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, char di
 #endif
 
   decision_level_properties[curr_decision_level].direction = direction;
+  decision_level_properties[curr_decision_level].object = decision_object_random_move;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -107,6 +120,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, char dire
 #endif
 
   decision_level_properties[curr_decision_level].direction = direction;
+  decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_levels[id].from = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -122,6 +136,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 #endif
 
   decision_level_properties[curr_decision_level].direction = '|';
+  decision_level_properties[curr_decision_level].object = decision_object_move_vector;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -157,6 +172,7 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
 #endif
 
   decision_level_properties[curr_decision_level].direction = direction;
+  decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_levels[id].side = curr_decision_level;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -177,9 +193,12 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].direction = direction;
+  decision_level_properties[curr_decision_level].object = decision_object_walk;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+
   decision_levels[id].walk = curr_decision_level;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -202,6 +221,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -258,7 +278,8 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(void)
 
   while (max_decision_level>0
          && (decision_level_properties[max_decision_level].direction!='>'
-             || decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
+             || (decision_level_properties[max_decision_level].object==decision_object_walk
+                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)))
     --max_decision_level;
 }
 
