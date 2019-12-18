@@ -14,7 +14,7 @@ decision_level_type max_decision_level = decision_level_latest;
 
 decision_levels_type decision_levels[MaxPieceId+1];
 
-char decision_level_dir[decision_level_dir_capacity];
+static char decision_level_dir[decision_level_dir_capacity];
 boolean selection_of_walk_of_capturing_invisible[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
