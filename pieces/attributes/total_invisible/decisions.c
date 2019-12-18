@@ -27,7 +27,6 @@ typedef enum
 
 typedef struct
 {
-    char direction;
     decision_object_type object;
     decision_purpose_type purpose;
 } decision_level_property_type;
@@ -38,6 +37,14 @@ unsigned long record_decision_counter;
 unsigned long prev_record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
+
+static char const purpose_symbols[] = {
+    'X' // decision_purpose_invisible_capturer
+    , '#' // decision_purpose_mating_piece_attacker
+    , '+' // decision_purpose_illegal_check_interceptor
+    , '>'  // decision_purpose_random_mover_forward
+    , '<'// decision_purpose_random_mover_backward
+};
 
 /* the Posix compliant version of this function strangely works with non-const character arrays */
 static char const *basename(char const *path)
@@ -94,33 +101,31 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void push_decision_random_move_impl(char const *file, unsigned int line, char direction, decision_purpose_type purpose)
+void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u TI~-~",direction,nbply);
+  printf("%c%u TI~-~",purpose_symbol[purpose],nbply);
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
   decision_level_properties[curr_decision_level].purpose = purpose;
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
+  printf("%c%u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_level_properties[curr_decision_level].purpose = purpose;
 
@@ -139,7 +144,6 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = '|';
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
   decision_level_properties[curr_decision_level].purpose = purpose;
 
@@ -147,18 +151,17 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
+  printf("%c%u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].purpose = purpose;
 
   decision_levels[id].to = curr_decision_level;
@@ -167,11 +170,11 @@ void push_decision_arrival_impl(char const *file, unsigned int line, char direct
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
-void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side, decision_purpose_type purpose)
+void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
+  printf("%c%u ",purpose_symbol[purpose],nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
             BIT(side),
@@ -180,7 +183,6 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_level_properties[curr_decision_level].purpose = purpose;
 
@@ -191,21 +193,19 @@ void push_decision_side_impl(char const *file, unsigned int line, char direction
 }
 
 void push_decision_walk_impl(char const *file, unsigned int line,
-                             char direction,
                              PieceIdType id,
                              piece_walk_type walk,
                              decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",direction,nbply);
+  printf("%c%u ",purpose_symbol[purpose],nbply);
   WriteWalk(&output_plaintext_engine,
             stdout,
             walk);
   report_endline(file,line);
 #endif
 
-  decision_level_properties[curr_decision_level].direction = direction;
   decision_level_properties[curr_decision_level].object = decision_object_walk;
   decision_level_properties[curr_decision_level].purpose = purpose;
 
@@ -259,8 +259,6 @@ void pop_decision(void)
 {
   assert(curr_decision_level>0);
   --curr_decision_level;
-
-  decision_level_properties[curr_decision_level].purpose = nr_decision_purposes;
 }
 
 void backtrack_from_failure_to_intercept_illegal_checks(void)
@@ -298,7 +296,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(void)
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>0
-         && (decision_level_properties[max_decision_level].direction!='>'
+         && (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
+             || (decision_level_properties[max_decision_level].object==decision_object_move_vector
+                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
              || (decision_level_properties[max_decision_level].object==decision_object_departure
                  && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
              || (decision_level_properties[max_decision_level].object==decision_object_walk

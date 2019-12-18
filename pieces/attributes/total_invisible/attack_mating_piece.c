@@ -36,7 +36,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       motivation[id_placed].first.on = s;
       motivation[id_placed].last.on = s;
 
-      push_decision_departure('>',id_placed,s,decision_purpose_mating_piece_attacker);
+      push_decision_departure(id_placed,s,decision_purpose_mating_piece_attacker);
 
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,id_placed);
@@ -102,7 +102,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,walk_rider,decision_purpose_mating_piece_attacker);
+    push_decision_walk(id_placed,walk_rider,decision_purpose_mating_piece_attacker);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -150,7 +150,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,walk_leaper,decision_purpose_mating_piece_attacker);
+    push_decision_walk(id_placed,walk_leaper,decision_purpose_mating_piece_attacker);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -188,7 +188,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
     PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
-    push_decision_walk('>',id_placed,Pawn,decision_purpose_mating_piece_attacker);
+    push_decision_walk(id_placed,Pawn,decision_purpose_mating_piece_attacker);
 
     if (can_decision_level_be_continued())
     {

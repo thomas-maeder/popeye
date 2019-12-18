@@ -34,8 +34,7 @@ typedef enum
   decision_purpose_mating_piece_attacker,
   decision_purpose_illegal_check_interceptor,
   decision_purpose_random_mover_forward,
-  decision_purpose_random_mover_backward,
-  nr_decision_purposes
+  decision_purpose_random_mover_backward
 } decision_purpose_type;
 
 extern decision_levels_type decision_levels[MaxPieceId+1];
@@ -56,12 +55,12 @@ void record_decision_for_inserted_capturer(PieceIdType id);
 void record_decision_context_impl(char const *file, unsigned int line, char const *context);
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
-void push_decision_random_move_impl(char const *file, unsigned int line, char direction, decision_purpose_type purpose);
-void push_decision_departure_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose);
+void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose);
+void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir, decision_purpose_type purpose);
-void push_decision_arrival_impl(char const *file, unsigned int line, char direction, PieceIdType id, square pos, decision_purpose_type purpose);
-void push_decision_side_impl(char const *file, unsigned int line, char direction, PieceIdType id, Side side, decision_purpose_type purpose);
-void push_decision_walk_impl(char const *file, unsigned int line, char direction, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose);
+void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
+void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose);
+void push_decision_walk_impl(char const *file, unsigned int line, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose);
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
 #define record_decision_context() \
@@ -70,23 +69,23 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #define record_decision_outcome(format, ...) \
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
 
-#define push_decision_random_move(direction,purpose) \
-    push_decision_random_move_impl(__FILE__,__LINE__,direction,purpose);
+#define push_decision_random_move(purpose) \
+    push_decision_random_move_impl(__FILE__,__LINE__,purpose);
 
-#define push_decision_departure(direction,id,sq_departure,purpose) \
-    push_decision_departure_impl(__FILE__,__LINE__,direction,id,sq_departure,purpose);
+#define push_decision_departure(id,sq_departure,purpose) \
+    push_decision_departure_impl(__FILE__,__LINE__,id,sq_departure,purpose);
 
 #define push_decision_move_vector(id,dir,purpose) \
     push_decision_move_vector_impl(__FILE__,__LINE__,id,dir,purpose);
 
-#define push_decision_arrival(direction,id,sq_arrival,purpose) \
-    push_decision_arrival_impl(__FILE__,__LINE__,direction,id,sq_arrival,purpose);
+#define push_decision_arrival(id,sq_arrival,purpose) \
+    push_decision_arrival_impl(__FILE__,__LINE__,id,sq_arrival,purpose);
 
-#define push_decision_side(direction,id,side,purpose) \
-    push_decision_side_impl(__FILE__,__LINE__,direction,id,side,purpose);
+#define push_decision_side(id,side,purpose) \
+    push_decision_side_impl(__FILE__,__LINE__,id,side,purpose);
 
-#define push_decision_walk(direction,id,walk,purpose) \
-    push_decision_walk_impl(__FILE__,__LINE__,direction,id,walk,purpose);
+#define push_decision_walk(id,walk,purpose) \
+    push_decision_walk_impl(__FILE__,__LINE__,id,walk,purpose);
 
 #define push_decision_king_nomination(pos) \
     push_decision_king_nomination_impl(__FILE__,__LINE__,pos);
