@@ -34,7 +34,8 @@ typedef enum
   decision_purpose_mating_piece_attacker,
   decision_purpose_illegal_check_interceptor,
   decision_purpose_random_mover_forward,
-  decision_purpose_random_mover_backward
+  decision_purpose_random_mover_backward,
+  decision_purpose_king_nomination
 } decision_purpose_type;
 
 extern decision_levels_type decision_levels[MaxPieceId+1];
@@ -92,9 +93,9 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 void pop_decision(void);
 
-void backtrack_from_failure_to_intercept_illegal_checks(void);
-void backtrack_from_failed_capture_by_invisible(void);
-void backtrack_from_failed_capture_of_invisible_by_pawn(void);
+void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
+void backtrack_from_failed_capture_by_invisible(Side side_capturing);
+void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing);
 
 boolean can_decision_level_be_continued(void);
 

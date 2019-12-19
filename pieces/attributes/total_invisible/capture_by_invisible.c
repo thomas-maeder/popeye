@@ -586,6 +586,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       if (is_square_empty(sq_departure))
       {
+        // TODO is this still necessary?
         push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer)
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
         pop_decision();
@@ -636,6 +637,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
 
     if (is_square_empty(sq_departure))
     {
+      // TODO is this still necessary?
       push_decision_move_vector(id_inserted,dir_vert+dir_horiz,decision_purpose_invisible_capturer)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
       pop_decision();
@@ -1462,7 +1464,7 @@ boolean is_capture_by_invisible_possible(void)
     current_consumption = save_consumption;
 
     if (!result)
-      backtrack_from_failed_capture_by_invisible();
+      backtrack_from_failed_capture_by_invisible(trait[ply_capture]);
   }
   else
   {
@@ -1601,7 +1603,7 @@ boolean is_capture_by_invisible_possible(void)
     }
 
     if (!result)
-      backtrack_from_failed_capture_of_invisible_by_pawn();
+      backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture]);
   }
 
   TraceFunctionExit(__func__);

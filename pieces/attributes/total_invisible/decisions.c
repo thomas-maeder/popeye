@@ -29,6 +29,8 @@ typedef struct
 {
     decision_object_type object;
     decision_purpose_type purpose;
+    PieceIdType id;
+    Side side;
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
@@ -38,8 +40,8 @@ unsigned long prev_record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
 
-static char const purpose_symbols[] = {
-    'X' // decision_purpose_invisible_capturer
+static char const purpose_symbol[] = {
+    'x' // decision_purpose_invisible_capturer
     , '#' // decision_purpose_mating_piece_attacker
     , '+' // decision_purpose_illegal_check_interceptor
     , '>'  // decision_purpose_random_mover_forward
@@ -105,7 +107,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u TI~-~",purpose_symbol[purpose],nbply);
+  printf("%c %u TI~-~",purpose_symbol[purpose],nbply);
   report_endline(file,line);
 #endif
 
@@ -119,7 +121,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",purpose_symbol[purpose],nbply);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
@@ -128,6 +130,18 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
 
   decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+
+  if (purpose==decision_purpose_illegal_check_interceptor)
+  {
+    assert(curr_decision_level>0);
+    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
+    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
+    assert(decision_level_properties[curr_decision_level-1].id==id);
+    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
+  }
+  else
+    decision_level_properties[curr_decision_level].side = trait[nbply];
 
   decision_levels[id].from = curr_decision_level;
 
@@ -139,13 +153,25 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",'|',nbply);
+  printf("%c %u ",'^',nbply);
   printf("direction:%d",direction);
   report_endline(file,line);
 #endif
 
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
   decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+
+  if (purpose==decision_purpose_illegal_check_interceptor)
+  {
+    assert(curr_decision_level>0);
+    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
+    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
+    assert(decision_level_properties[curr_decision_level-1].id==id);
+    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
+  }
+  else
+    decision_level_properties[curr_decision_level].side = trait[nbply];
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -155,7 +181,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",purpose_symbol[purpose],nbply);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
@@ -163,6 +189,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
 #endif
 
   decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
 
   decision_levels[id].to = curr_decision_level;
 
@@ -174,7 +201,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",purpose_symbol[purpose],nbply);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
             BIT(side),
@@ -185,6 +212,8 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
 
   decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+  decision_level_properties[curr_decision_level].side = side;
 
   decision_levels[id].side = curr_decision_level;
 
@@ -199,7 +228,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c%u ",purpose_symbol[purpose],nbply);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteWalk(&output_plaintext_engine,
             stdout,
             walk);
@@ -208,6 +237,18 @@ void push_decision_walk_impl(char const *file, unsigned int line,
 
   decision_level_properties[curr_decision_level].object = decision_object_walk;
   decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+
+  if (purpose==decision_purpose_illegal_check_interceptor)
+  {
+    assert(curr_decision_level>0);
+    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
+    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
+    assert(decision_level_properties[curr_decision_level-1].id==id);
+    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
+  }
+  else
+    decision_level_properties[curr_decision_level].side = trait[nbply];
 
   decision_levels[id].walk = curr_decision_level;
 
@@ -234,6 +275,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #endif
 
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
+  decision_level_properties[curr_decision_level].object = decision_purpose_king_nomination;
+
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -257,55 +300,108 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void pop_decision(void)
 {
+  decision_level_properties[curr_decision_level].side = no_side;
   assert(curr_decision_level>0);
   --curr_decision_level;
 }
 
-void backtrack_from_failure_to_intercept_illegal_checks(void)
+void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 {
   max_decision_level = curr_decision_level-1;
 
-  if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
-           || (decision_level_properties[max_decision_level].object==decision_object_departure
-               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
-    {
-      assert(max_decision_level>0);
-      --max_decision_level;
-    }
-}
-
-void backtrack_from_failed_capture_by_invisible(void)
-{
-  max_decision_level = curr_decision_level-1;
-
-  if (max_decision_level>=2)
-    while (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
-           || (decision_level_properties[max_decision_level].object==decision_object_move_vector
-               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
-           || (decision_level_properties[max_decision_level].object==decision_object_departure
-               && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer))
-    {
-      assert(max_decision_level>0);
-      --max_decision_level;
-    }
-}
-
-void backtrack_from_failed_capture_of_invisible_by_pawn(void)
-{
-  max_decision_level = curr_decision_level-1;
-
-  while (max_decision_level>0
-         && (decision_level_properties[max_decision_level].purpose==decision_purpose_random_mover_backward
-             || (decision_level_properties[max_decision_level].object==decision_object_move_vector
-                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
-             || (decision_level_properties[max_decision_level].object==decision_object_departure
-                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)
-             || (decision_level_properties[max_decision_level].object==decision_object_walk
-                 && decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer)))
+  while (max_decision_level>0)
   {
-    assert(max_decision_level>0);
-    --max_decision_level;
+    boolean skip = false;
+
+    TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].purpose);
+    TraceValue("%u",decision_level_properties[max_decision_level].object);
+    TraceEOL();
+
+    switch (decision_level_properties[max_decision_level].purpose)
+    {
+      case decision_purpose_random_mover_backward:
+        skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer:
+        assert(decision_level_properties[max_decision_level].object==decision_object_arrival
+               || decision_level_properties[max_decision_level].side!=no_side);
+        if (decision_level_properties[max_decision_level].object==decision_object_departure)
+          skip = true;
+        break;
+
+      default:
+        break;
+    }
+
+    if (skip)
+      --max_decision_level;
+    else
+      break;
+  }
+}
+
+void backtrack_from_failed_capture_by_invisible(Side side_capturing)
+{
+  max_decision_level = curr_decision_level-1;
+
+  while (max_decision_level>0)
+  {
+    boolean skip = false;
+
+    switch (decision_level_properties[max_decision_level].purpose)
+    {
+      case decision_purpose_random_mover_backward:
+        skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        if (decision_level_properties[max_decision_level].side!=side_capturing
+            || decision_level_properties[max_decision_level].object==decision_object_move_vector
+            || decision_level_properties[max_decision_level].object==decision_object_departure)
+          skip = true;
+        break;
+
+      default:
+        break;
+    }
+
+    if (skip)
+      --max_decision_level;
+    else
+      break;
+  }
+}
+
+void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
+{
+  max_decision_level = curr_decision_level-1;
+
+  while (max_decision_level>0)
+  {
+    boolean skip = false;
+
+    switch (decision_level_properties[max_decision_level].purpose)
+    {
+      case decision_purpose_random_mover_backward:
+        skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        skip = true;
+        break;
+
+      default:
+        break;
+    }
+
+    if (skip)
+      --max_decision_level;
+    else
+      break;
   }
 }
 
