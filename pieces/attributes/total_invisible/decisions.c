@@ -410,8 +410,15 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         break;
 
       case decision_purpose_random_mover_forward:
-        if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+        if (decision_level_properties[max_decision_level].object==decision_object_departure)
         {
+          assert(decision_level_properties[max_decision_level].side!=no_side);
+          if (decision_level_properties[max_decision_level].side==side_capturing)
+            skip = true;
+        }
+        else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+        {
+          // TODO is this correct? what if we evacuate so that a pawn can sacrifice itself to the pawn?
           assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].side==side_capturing)
             skip = true;
