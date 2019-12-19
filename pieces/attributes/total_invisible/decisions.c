@@ -416,7 +416,8 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
           if (decision_level_properties[max_decision_level].side==side_capturing)
             skip = true;
         }
-        else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
+        else if (decision_level_properties[max_decision_level].object==decision_object_random_move
+                 || decision_level_properties[max_decision_level].object==decision_object_walk)
           skip = true;
         break;
 

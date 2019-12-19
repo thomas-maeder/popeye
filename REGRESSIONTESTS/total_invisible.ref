@@ -388,9 +388,9 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
   1.Bh8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
   1.Bh8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
   add_to_move_generation_stack:     3556073
-                     play_move:     5510779
+                     play_move:     5510763
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      953872
+ is_black_king_square_attacked:      953868
 
 solution finished.
 
@@ -545,9 +545,9 @@ Sake tourney 2018, 3rd HM, corrected
   1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] TI~-~[e7=bK][f5=wS] #
   1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] TI~-~[g6=bK][e5=wS] #
   add_to_move_generation_stack:     3285582
-                     play_move:     6332830
+                     play_move:     6332806
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1056300
+ is_black_king_square_attacked:     1056294
 
 solution finished.
 
