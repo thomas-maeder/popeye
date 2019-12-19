@@ -153,7 +153,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-  printf("%c %u ",'^',nbply);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("direction:%d",direction);
   report_endline(file,line);
 #endif
@@ -188,8 +188,12 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].object = decision_object_arrival;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
+
+  if (purpose==decision_purpose_random_mover_forward)
+    decision_level_properties[curr_decision_level].side = trait[nbply];
 
   decision_levels[id].to = curr_decision_level;
 
@@ -377,11 +381,22 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
 {
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_capturing);
+  TraceFunctionParamListEnd();
+
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>0)
   {
     boolean skip = false;
+
+    TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].purpose);
+    TraceValue("%u",decision_level_properties[max_decision_level].object);
+    TraceValue("%u",decision_level_properties[max_decision_level].id);
+    TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
+    TraceEOL();
 
     switch (decision_level_properties[max_decision_level].purpose)
     {
@@ -394,6 +409,17 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         skip = true;
         break;
 
+      case decision_purpose_random_mover_forward:
+        if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+        {
+          assert(decision_level_properties[max_decision_level].side!=no_side);
+          if (decision_level_properties[max_decision_level].side==side_capturing)
+            skip = true;
+        }
+        else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
+          skip = true;
+        break;
+
       default:
         break;
     }
@@ -403,6 +429,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
     else
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean can_decision_level_be_continued(void)

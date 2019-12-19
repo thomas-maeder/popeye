@@ -70,7 +70,7 @@ static void done_intercepting_illegal_checks(void)
     }
     else
     {
-      record_decision_outcome("capture by invisible in ply %u will not be possible",nbply+1);
+      record_decision_outcome("capture in ply %u will not be possible",nbply+1);
       REPORT_DEADEND;
     }
   }
