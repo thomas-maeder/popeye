@@ -30,7 +30,8 @@ typedef struct
 
 typedef enum
 {
-  decision_purpose_invisible_capturer,
+  decision_purpose_invisible_capturer_existing,
+  decision_purpose_invisible_capturer_inserted,
   decision_purpose_mating_piece_attacker,
   decision_purpose_illegal_check_interceptor,
   decision_purpose_random_mover_forward,

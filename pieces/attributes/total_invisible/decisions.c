@@ -41,7 +41,8 @@ unsigned long prev_record_decision_counter;
 #if defined(REPORT_DECISIONS)
 
 static char const purpose_symbol[] = {
-    'x' // decision_purpose_invisible_capturer
+    'x' // decision_purpose_invisible_capturer_existing
+    , 'X' // decision_purpose_invisible_capturer_inserted
     , '#' // decision_purpose_mating_piece_attacker
     , '+' // decision_purpose_illegal_check_interceptor
     , '>'  // decision_purpose_random_mover_forward
@@ -336,9 +337,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         skip = true;
         break;
 
-      case decision_purpose_invisible_capturer:
-        assert(decision_level_properties[max_decision_level].object==decision_object_arrival
-               || decision_level_properties[max_decision_level].side!=no_side);
+      case decision_purpose_invisible_capturer_inserted:
         if (decision_level_properties[max_decision_level].object==decision_object_walk)
         {
           if (nr_compound_decisions==0)
@@ -347,6 +346,16 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         }
         else if (decision_level_properties[max_decision_level].object==decision_object_move_vector)
           ;
+        else
+          skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer_existing:
+        assert(decision_level_properties[max_decision_level].object!=decision_object_move_vector);
+        if (decision_level_properties[max_decision_level].object==decision_object_walk)
+        {
+          /* a dummy was fleshed out */
+        }
         else
           skip = true;
         break;
@@ -394,10 +403,18 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
         skip = true;
         break;
 
-      case decision_purpose_invisible_capturer:
+      case decision_purpose_invisible_capturer_inserted:
         assert(decision_level_properties[max_decision_level].side!=no_side);
         if (decision_level_properties[max_decision_level].side!=side_capturing
             || decision_level_properties[max_decision_level].object==decision_object_move_vector
+            || decision_level_properties[max_decision_level].object==decision_object_departure)
+          skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer_existing:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        assert(decision_level_properties[max_decision_level].object!=decision_object_move_vector);
+        if (decision_level_properties[max_decision_level].side!=side_capturing
             || decision_level_properties[max_decision_level].object==decision_object_departure)
           skip = true;
         break;
@@ -441,7 +458,12 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         skip = true;
         break;
 
-      case decision_purpose_invisible_capturer:
+      case decision_purpose_invisible_capturer_inserted:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        skip = true;
+        break;
+
+      case decision_purpose_invisible_capturer_existing:
         assert(decision_level_properties[max_decision_level].side!=no_side);
         skip = true;
         break;

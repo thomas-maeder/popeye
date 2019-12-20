@@ -46,7 +46,7 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
       TraceConsumption();TraceEOL();
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
-      push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer);
+      push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags_inserted);
@@ -303,7 +303,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer);
+    push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -313,7 +313,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
     {
       square sq_departure;
 
-      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer)
+      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer_inserted)
 
       max_decision_level = decision_level_latest;
 
@@ -351,7 +351,7 @@ static void capture_by_inserted_invisible_king(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer);
+  push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted);
 
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
@@ -383,7 +383,7 @@ static void capture_by_inserted_invisible_king(void)
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer);
+        push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
         capture_by_invisible_inserted_on(King,sq_departure);
         pop_decision();
 
@@ -424,7 +424,7 @@ static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
 
     max_decision_level = decision_level_latest;
 
-    push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer);
+    push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -495,7 +495,7 @@ static void capture_by_invisible_pawn_inserted(void)
 
     max_decision_level = decision_level_latest;
 
-    push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer);
+    push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted);
 
     TraceValue("%u",curr_decision_level);
     TraceValue("%u",max_decision_level);
@@ -607,7 +607,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
-      push_decision_walk(id_existing,Pawn,decision_purpose_invisible_capturer);
+      push_decision_walk(id_existing,Pawn,decision_purpose_invisible_capturer_existing);
       flesh_out_dummy_for_capture_as(Pawn,sq_departure);
       pop_decision();
     }
@@ -621,7 +621,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     {
       max_decision_level = decision_level_latest;
 
-      push_decision_walk(id_existing,Knight,decision_purpose_invisible_capturer);
+      push_decision_walk(id_existing,Knight,decision_purpose_invisible_capturer_existing);
       flesh_out_dummy_for_capture_as(Knight,sq_departure);
       pop_decision();
     }
@@ -633,7 +633,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       {
         max_decision_level = decision_level_latest;
 
-        push_decision_walk(id_existing,Bishop,decision_purpose_invisible_capturer);
+        push_decision_walk(id_existing,Bishop,decision_purpose_invisible_capturer_existing);
 
         flesh_out_dummy_for_capture_as(Bishop,sq_departure);
 
@@ -645,7 +645,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer);
+          push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
           flesh_out_dummy_for_capture_as(Queen,sq_departure);
           pop_decision();
         }
@@ -660,7 +660,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
         {
           max_decision_level = decision_level_latest;
 
-          push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer);
+          push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer_existing);
 
           flesh_out_dummy_for_capture_as(Rook,sq_departure);
 
@@ -672,7 +672,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           {
             max_decision_level = decision_level_latest;
 
-            push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer);
+            push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
             flesh_out_dummy_for_capture_as(Queen,sq_departure);
             pop_decision();
           }
@@ -703,7 +703,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
-    push_decision_walk(id_existing,King,decision_purpose_invisible_capturer);
+    push_decision_walk(id_existing,King,decision_purpose_invisible_capturer_existing);
     flesh_out_dummy_for_capture_king(sq_departure);
     pop_decision();
   }
@@ -740,7 +740,7 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  push_decision_walk(id_existing,walk_capturer,decision_purpose_invisible_capturer);
+  push_decision_walk(id_existing,walk_capturer,decision_purpose_invisible_capturer_existing);
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 
@@ -836,7 +836,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
 
-    push_decision_departure(id_existing,sq_departure,decision_purpose_invisible_capturer);
+    push_decision_departure(id_existing,sq_departure,decision_purpose_invisible_capturer_existing);
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
