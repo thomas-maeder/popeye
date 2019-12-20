@@ -46,6 +46,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
       TraceConsumption();TraceEOL();
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
+      push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer);
+
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags_inserted);
 
@@ -64,8 +66,6 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         motivation_type const save_motivation = motivation[id_inserted];
 
         assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-
-        push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer);
 
         /* adding the total invisible in the pre-capture effect sounds tempting, but
          * we have to make sure that there was no illegal check from it before this
@@ -97,12 +97,12 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
         motivation[id_inserted] = save_motivation;
 
         move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-        pop_decision();
       }
 
       empty_square(sq_departure);
       --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+      pop_decision();
 
       TraceConsumption();TraceEOL();
     }
@@ -585,12 +585,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
-      {
-        // TODO is this still necessary?
-        push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer)
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-        pop_decision();
-      }
       else
       {
         TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
@@ -636,12 +631,7 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
-    {
-      // TODO is this still necessary?
-      push_decision_move_vector(id_inserted,dir_vert+dir_horiz,decision_purpose_invisible_capturer)
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-      pop_decision();
-    }
     else
     {
       TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
