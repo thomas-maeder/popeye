@@ -12,8 +12,8 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturing,
-                                                    square sq_departure)
+static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
+                                             square sq_departure)
 {
   Side const side_playing = trait[nbply];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -120,8 +120,8 @@ static void flesh_out_capture_by_inserted_invisible(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_walk_for_capture(piece_walk_type walk_capturing,
-                                       square sq_departure)
+static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
+                                           square sq_departure)
 {
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
@@ -322,7 +322,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
            sq_departure += vec[kcurr])
       {
         max_decision_level = decision_level_latest;
-        flesh_out_capture_by_inserted_invisible(walk_rider,sq_departure);
+        capture_by_invisible_inserted_on(walk_rider,sq_departure);
       }
 
       pop_decision();
@@ -335,7 +335,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_king_inserted(void)
+static void capture_by_inserted_invisible_king(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -384,7 +384,7 @@ static void capture_by_invisible_king_inserted(void)
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
         push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer);
-        flesh_out_capture_by_inserted_invisible(King,sq_departure);
+        capture_by_invisible_inserted_on(King,sq_departure);
         pop_decision();
 
         CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
@@ -437,7 +437,7 @@ static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
       max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_departure))
-        flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
+        capture_by_invisible_inserted_on(walk_leaper,sq_departure);
     }
 
     pop_decision();
@@ -473,7 +473,7 @@ static void capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_inserted, 
     max_decision_level = decision_level_latest;
 
     if (is_square_empty(sq_departure))
-      flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
+      capture_by_invisible_inserted_on(Pawn,sq_departure);
   }
 
   TraceFunctionExit(__func__);
@@ -513,7 +513,7 @@ static void capture_by_invisible_pawn_inserted(void)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_inserted(void)
+static void capture_by_inserted_invisible_all_walks(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -534,7 +534,7 @@ static void capture_by_invisible_inserted(void)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
-    capture_by_invisible_king_inserted();
+    capture_by_inserted_invisible_king();
 
   capture_by_invisible_pawn_inserted();
   capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
@@ -552,7 +552,7 @@ static void capture_by_invisible_inserted(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_king_for_capture(square sq_departure)
+static void flesh_out_dummy_for_capture_king(square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -576,7 +576,7 @@ static void flesh_out_king_for_capture(square sq_departure)
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
   SETFLAG(being_solved.spec[sq_departure],Royal);
-  flesh_out_walk_for_capture(King,sq_departure);
+  flesh_out_dummy_for_capture_as(King,sq_departure);
   CLRFLAG(being_solved.spec[sq_departure],Royal);
 
   being_solved.king_square[trait[nbply]] = initsquare;
@@ -608,7 +608,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
     {
       push_decision_walk(id_existing,Pawn,decision_purpose_invisible_capturer);
-      flesh_out_walk_for_capture(Pawn,sq_departure);
+      flesh_out_dummy_for_capture_as(Pawn,sq_departure);
       pop_decision();
     }
 
@@ -622,7 +622,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       max_decision_level = decision_level_latest;
 
       push_decision_walk(id_existing,Knight,decision_purpose_invisible_capturer);
-      flesh_out_walk_for_capture(Knight,sq_departure);
+      flesh_out_dummy_for_capture_as(Knight,sq_departure);
       pop_decision();
     }
 
@@ -635,7 +635,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
         push_decision_walk(id_existing,Bishop,decision_purpose_invisible_capturer);
 
-        flesh_out_walk_for_capture(Bishop,sq_departure);
+        flesh_out_dummy_for_capture_as(Bishop,sq_departure);
 
         /* Don't reduce curr_decision_level yet; if posteriority asks for a
          * different walk, Queen won't do. */
@@ -646,7 +646,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
           max_decision_level = decision_level_latest;
 
           push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer);
-          flesh_out_walk_for_capture(Queen,sq_departure);
+          flesh_out_dummy_for_capture_as(Queen,sq_departure);
           pop_decision();
         }
 
@@ -662,7 +662,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
           push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer);
 
-          flesh_out_walk_for_capture(Rook,sq_departure);
+          flesh_out_dummy_for_capture_as(Rook,sq_departure);
 
           /* Don't reduce curr_decision_level yet; if posteriority asks for a
            * different walk, Queen won't do. */
@@ -673,7 +673,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
             max_decision_level = decision_level_latest;
 
             push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer);
-            flesh_out_walk_for_capture(Queen,sq_departure);
+            flesh_out_dummy_for_capture_as(Queen,sq_departure);
             pop_decision();
           }
 
@@ -704,7 +704,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
     push_decision_walk(id_existing,King,decision_purpose_invisible_capturer);
-    flesh_out_king_for_capture(sq_departure);
+    flesh_out_dummy_for_capture_king(sq_departure);
     pop_decision();
   }
 
@@ -786,7 +786,7 @@ static void capture_by_invisible_king(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_on(square sq_departure)
+static void capture_by_existing_invisible_on(square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -960,68 +960,68 @@ static void flesh_out_capture_by_invisible_on(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_walk_by_walk(void)
+static void capture_by_existing_invisible(void)
 {
+  PieceIdType id;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  for (id = get_top_visible_piece_id()+1;
+       id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
+       ++id)
+    capture_by_existing_invisible_on(motivation[id].last.on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void capture_by_inserted_invisible(void)
+{
+  dynamic_consumption_type const save_consumption = current_consumption;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (allocate_flesh_out_unplaced(trait[nbply]))
   {
-    PieceIdType id;
-    for (id = get_top_visible_piece_id()+1;
-         id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
-         ++id)
-      flesh_out_capture_by_invisible_on(motivation[id].last.on);
+    current_consumption = save_consumption;
+    /* no problem - we can simply insert a capturer */
+    capture_by_inserted_invisible_all_walks();
   }
-
+  else
   {
-    dynamic_consumption_type const save_consumption = current_consumption;
+    TraceText("we can't just insert a capturer\n");
 
-    if (allocate_flesh_out_unplaced(trait[nbply]))
+    current_consumption = save_consumption;
+
+    if (being_solved.king_square[trait[nbply]]==initsquare
+        && current_consumption.claimed[trait[nbply]])
     {
-      current_consumption = save_consumption;
-      /* no problem - we can simply insert a capturer */
-      capture_by_invisible_inserted();
-    }
-    else
-    {
-      boolean can_king_be_inserted;
+      /* no problem - we can simply insert a capturing king */
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-      TraceText("we can't just insert a capturer\n");
+      move_effect_journal_index_type const precapture = effects_base;
+      Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+      PieceIdType const id_inserted = GetPieceId(flags_inserted);
+      decision_levels_type const levels_inserted = decision_levels[id_inserted];
 
-      current_consumption = save_consumption;
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      square const save_from = move_effect_journal[movement].u.piece_movement.from;
+      piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
+      Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-      can_king_be_inserted = (being_solved.king_square[trait[nbply]]==initsquare
-                              && current_consumption.claimed[trait[nbply]]);
+      assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-      TraceValue("%u",can_king_be_inserted);TraceEOL();
+      max_decision_level = decision_level_latest;
 
-      if (can_king_be_inserted)
-      {
-        /* no problem - we can simply insert a capturing king */
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      capture_by_inserted_invisible_king();
 
-        move_effect_journal_index_type const precapture = effects_base;
-        Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-        PieceIdType const id_inserted = GetPieceId(flags_inserted);
-        decision_levels_type const levels_inserted = decision_levels[id_inserted];
+      move_effect_journal[movement].u.piece_movement.from = save_from;
+      move_effect_journal[movement].u.piece_movement.moving = save_moving;
+      move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        square const save_from = move_effect_journal[movement].u.piece_movement.from;
-        piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-        Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
-
-        assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-        max_decision_level = decision_level_latest;
-
-        capture_by_invisible_king_inserted();
-
-        move_effect_journal[movement].u.piece_movement.from = save_from;
-        move_effect_journal[movement].u.piece_movement.moving = save_moving;
-        move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-        decision_levels[id_inserted] = levels_inserted;
-      }
+      decision_levels[id_inserted] = levels_inserted;
     }
   }
 
@@ -1056,7 +1056,8 @@ void flesh_out_capture_by_invisible(void)
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
-  flesh_out_capture_by_invisible_walk_by_walk();
+  capture_by_existing_invisible();
+  capture_by_inserted_invisible();
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
