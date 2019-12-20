@@ -279,92 +279,8 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
-static void capture_by_piece_at_end_of_line(piece_walk_type walk_capturing,
-                                            square sq_departure)
-{
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-  decision_levels_type const save_levels = decision_levels[id_existing];
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(walk_capturing);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  push_decision_departure(id_existing,sq_departure,decision_purpose_invisible_capturer);
-
-  if (motivation[id_existing].last.acts_when<nbply
-      || ((motivation[id_existing].last.purpose==purpose_interceptor
-           || motivation[id_existing].last.purpose==purpose_capturer)
-          && motivation[id_existing].last.acts_when<=nbply))
-  {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-    PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-
-    motivation_type const motivation_existing = motivation[id_existing];
-    piece_walk_type const walk_on_board = get_walk_of_piece_on_square(sq_departure);
-
-    TraceValue("%u",id_existing);
-    TraceValue("%u",motivation[id_existing].first.purpose);
-    TraceValue("%u",motivation[id_existing].first.acts_when);
-    TraceSquare(motivation[id_existing].first.on);
-    TraceValue("%u",motivation[id_existing].last.purpose);
-    TraceValue("%u",motivation[id_existing].last.acts_when);
-    TraceSquare(motivation[id_existing].last.on);
-    TraceEOL();
-
-    assert(motivation[id_existing].first.purpose!=purpose_none);
-    assert(motivation[id_existing].last.purpose!=purpose_none);
-
-    decision_levels[id_existing] = decision_levels[id_random];
-    motivation[id_existing].last.purpose = purpose_none;
-
-    if (walk_on_board==walk_capturing)
-    {
-      TraceWalk(get_walk_of_piece_on_square(sq_departure));
-      TraceValue("%x",being_solved.spec[sq_departure]);
-      TraceEOL();
-
-      capture_by_invisible_with_matching_walk(walk_capturing,sq_departure);
-    }
-    else if (walk_on_board==Dummy)
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-      move_effect_journal_index_type const precapture = effects_base;
-      Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-      PieceIdType const id_inserted = GetPieceId(flags_inserted);
-
-      TraceWalk(get_walk_of_piece_on_square(sq_departure));
-      TraceValue("%x",being_solved.spec[sq_departure]);
-      TraceEOL();
-
-      decision_levels[id_existing].walk = decision_levels[id_inserted].walk;
-
-      flesh_out_walk_for_capture(walk_capturing,sq_departure);
-    }
-
-    motivation[id_existing] = motivation_existing;
-  }
-  else
-  {
-    TraceText("the piece was added to later act from its current square\n");
-    record_decision_outcome("%s","the piece was added to later act from its current square");
-    REPORT_DEADEND;
-    max_decision_level = decision_levels[id_existing].from;
-  }
-
-  pop_decision();
-
-  decision_levels[id_existing] = save_levels;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk_rider,
-                                                            vec_index_type kcurr, vec_index_type kend)
+static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
+                                                vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceWalk(walk_rider);
@@ -410,34 +326,6 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
       }
 
       pop_decision();
-
-      TraceValue("%u",curr_decision_level);
-      TraceValue("%u",max_decision_level);
-      TraceEOL();
-
-      if (can_decision_level_be_continued())
-      {
-        while (is_square_empty(sq_departure))
-        {
-          sq_departure += vec[kcurr];
-          TraceSquare(sq_departure);TraceEOL();
-        }
-
-        if (is_on_board(sq_departure))
-        {
-          TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-          TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-          TraceEOL();
-
-          if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-              && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-          {
-            max_decision_level = decision_level_latest;
-
-            capture_by_piece_at_end_of_line(walk_rider,sq_departure);
-          }
-        }
-      }
     }
 
     pop_decision();
@@ -447,7 +335,7 @@ static void capture_by_invisible_rider_inserted_or_existing(piece_walk_type walk
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_king_inserted_or_existing(void)
+static void capture_by_invisible_king_inserted(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -506,42 +394,6 @@ static void capture_by_invisible_king_inserted_or_existing(void)
         move_effect_journal[king_square_movement].type = move_effect_none;
       }
     }
-    else
-    {
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-      TraceEOL();
-
-      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-      {
-        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-        if (get_walk_of_piece_on_square(sq_departure)==King
-            && sq_departure==being_solved.king_square[trait[nbply]])
-        {
-          assert(TSTFLAG(being_solved.spec[sq_departure],Royal));
-          capture_by_piece_at_end_of_line(King,sq_departure);
-        }
-        else if (get_walk_of_piece_on_square(sq_departure)==Dummy
-                 && being_solved.king_square[trait[nbply]]==initsquare)
-        {
-          being_solved.king_square[trait[nbply]] = sq_departure;
-
-          assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
-          SETFLAG(being_solved.spec[sq_departure],Royal);
-          capture_by_piece_at_end_of_line(King,sq_departure);
-          CLRFLAG(being_solved.spec[sq_departure],Royal);
-
-          being_solved.king_square[trait[nbply]] = initsquare;
-        }
-
-        move_effect_journal[king_square_movement].type = move_effect_none;
-      }
-    }
   }
 
   pop_decision();
@@ -550,8 +402,8 @@ static void capture_by_invisible_king_inserted_or_existing(void)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type walk_leaper,
-                                                             vec_index_type kcurr, vec_index_type kend)
+static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
+                                                 vec_index_type kcurr, vec_index_type kend)
 {
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
@@ -586,16 +438,6 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
 
       if (is_square_empty(sq_departure))
         flesh_out_capture_by_inserted_invisible(walk_leaper,sq_departure);
-      else
-      {
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-        TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-        TraceEOL();
-
-        if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-            && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-          capture_by_piece_at_end_of_line(walk_leaper,sq_departure);
-      }
     }
 
     pop_decision();
@@ -605,7 +447,7 @@ static void capture_by_invisible_leaper_inserted_or_existing(piece_walk_type wal
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType id_inserted, int dir_horiz)
+static void capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_inserted, int dir_horiz)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -632,23 +474,13 @@ static void capture_by_invisible_pawn_inserted_or_existing_one_dir(PieceIdType i
 
     if (is_square_empty(sq_departure))
       flesh_out_capture_by_inserted_invisible(Pawn,sq_departure);
-    else
-    {
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],Chameleon));
-      TraceValue("%u",TSTFLAG(being_solved.spec[sq_departure],trait[nbply]));
-      TraceEOL();
-
-      if (TSTFLAG(being_solved.spec[sq_departure],Chameleon)
-          && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
-        capture_by_piece_at_end_of_line(Pawn,sq_departure);
-    }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_pawn_inserted_or_existing(void)
+static void capture_by_invisible_pawn_inserted(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -669,10 +501,10 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
     TraceValue("%u",max_decision_level);
     TraceEOL();
 
-    capture_by_invisible_pawn_inserted_or_existing_one_dir(id_inserted,dir_left);
+    capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
     if (can_decision_level_be_continued())
-      capture_by_invisible_pawn_inserted_or_existing_one_dir(id_inserted,dir_right);
+      capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
 
     pop_decision();
   }
@@ -681,7 +513,7 @@ static void capture_by_invisible_pawn_inserted_or_existing(void)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_inserted_or_existing(boolean can_capture)
+static void capture_by_invisible_inserted(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -702,16 +534,13 @@ static void capture_by_invisible_inserted_or_existing(boolean can_capture)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
-    capture_by_invisible_king_inserted_or_existing();
+    capture_by_invisible_king_inserted();
 
-  if (can_capture)
-  {
-    capture_by_invisible_pawn_inserted_or_existing();
-    capture_by_invisible_leaper_inserted_or_existing(Knight,vec_knight_start,vec_knight_end);
-    capture_by_invisible_rider_inserted_or_existing(Bishop,vec_bishop_start,vec_bishop_end);
-    capture_by_invisible_rider_inserted_or_existing(Rook,vec_rook_start,vec_rook_end);
-    capture_by_invisible_rider_inserted_or_existing(Queen,vec_queen_start,vec_queen_end);
-  }
+  capture_by_invisible_pawn_inserted();
+  capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
+  capture_by_invisible_rider_inserted(Bishop,vec_bishop_start,vec_bishop_end);
+  capture_by_invisible_rider_inserted(Rook,vec_rook_start,vec_rook_end);
+  capture_by_invisible_rider_inserted(Queen,vec_queen_start,vec_queen_end);
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -957,8 +786,7 @@ static void capture_by_invisible_king(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_capture_by_invisible_on(square sq_departure,
-                                              boolean is_king_dealt_with)
+static void flesh_out_capture_by_invisible_on(square sq_departure)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -970,7 +798,6 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceValue("%u",is_king_dealt_with);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
@@ -1029,12 +856,7 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
       switch (walk_existing)
       {
         case King:
-          if (is_king_dealt_with)
-          {
-            record_decision_outcome("%s","the king has already been dealt with");
-            REPORT_DEADEND;
-          }
-          else if (CheckDir[Queen][move_square_diff]==move_square_diff)
+          if (CheckDir[Queen][move_square_diff]==move_square_diff)
             capture_by_invisible_king(sq_departure);
           else
           {
@@ -1091,11 +913,10 @@ static void flesh_out_capture_by_invisible_on(square sq_departure,
           if (CheckDir[Queen][move_square_diff]!=0
               || CheckDir[Knight][move_square_diff]==move_square_diff)
           {
-            if (is_king_dealt_with
-                || being_solved.king_square[trait[nbply]]!=initsquare)
-              flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
-            else
+            if (being_solved.king_square[trait[nbply]]==initsquare)
               flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
+            else
+              flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
           }
           else
           {
@@ -1145,14 +966,21 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
   TraceFunctionParamListEnd();
 
   {
+    PieceIdType id;
+    for (id = get_top_visible_piece_id()+1;
+         id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
+         ++id)
+      flesh_out_capture_by_invisible_on(motivation[id].last.on);
+  }
+
+  {
     dynamic_consumption_type const save_consumption = current_consumption;
 
     if (allocate_flesh_out_unplaced(trait[nbply]))
     {
       current_consumption = save_consumption;
       /* no problem - we can simply insert a capturer */
-      TraceText("we can insert a capturer if needed\n");
-      capture_by_invisible_inserted_or_existing(true);
+      capture_by_invisible_inserted();
     }
     else
     {
@@ -1186,22 +1014,13 @@ static void flesh_out_capture_by_invisible_walk_by_walk(void)
 
         max_decision_level = decision_level_latest;
 
-        capture_by_invisible_king_inserted_or_existing();
+        capture_by_invisible_king_inserted();
 
         move_effect_journal[movement].u.piece_movement.from = save_from;
         move_effect_journal[movement].u.piece_movement.moving = save_moving;
         move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
         decision_levels[id_inserted] = levels_inserted;
-      }
-
-      {
-        PieceIdType id;
-        for (id = get_top_visible_piece_id()+1;
-             id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
-             ++id)
-          flesh_out_capture_by_invisible_on(motivation[id].last.on,
-                                            can_king_be_inserted);
       }
     }
   }

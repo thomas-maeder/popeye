@@ -279,7 +279,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #endif
 
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
-  decision_level_properties[curr_decision_level].object = decision_purpose_king_nomination;
+  decision_level_properties[curr_decision_level].purpose = decision_purpose_king_nomination;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -311,6 +311,8 @@ void pop_decision(void)
 
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 {
+  unsigned int nr_compound_decisions = 0;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
@@ -338,7 +340,19 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         assert(decision_level_properties[max_decision_level].object==decision_object_arrival
                || decision_level_properties[max_decision_level].side!=no_side);
         if (decision_level_properties[max_decision_level].object==decision_object_walk)
+        {
+          if (nr_compound_decisions==0)
+            skip = true;
+          ++nr_compound_decisions;
+        }
+        else if (decision_level_properties[max_decision_level].object==decision_object_move_vector)
+          ;
+        else
           skip = true;
+        break;
+
+      case decision_purpose_king_nomination:
+        ++nr_compound_decisions;
         break;
 
       default:
