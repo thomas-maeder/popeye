@@ -1057,7 +1057,9 @@ void flesh_out_capture_by_invisible(void)
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
   capture_by_existing_invisible();
-  capture_by_inserted_invisible();
+
+  if (can_decision_level_be_continued())
+    capture_by_inserted_invisible();
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
