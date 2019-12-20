@@ -311,6 +311,10 @@ void pop_decision(void)
 
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 {
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>0)
@@ -320,6 +324,8 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     TraceValue("%u",max_decision_level);
     TraceValue("%u",decision_level_properties[max_decision_level].purpose);
     TraceValue("%u",decision_level_properties[max_decision_level].object);
+    TraceValue("%u",decision_level_properties[max_decision_level].id);
+    TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
     TraceEOL();
 
     switch (decision_level_properties[max_decision_level].purpose)
@@ -346,15 +352,29 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     else
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 {
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_capturing);
+  TraceFunctionParamListEnd();
+
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>0)
   {
     boolean skip = false;
+
+    TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].purpose);
+    TraceValue("%u",decision_level_properties[max_decision_level].object);
+    TraceValue("%u",decision_level_properties[max_decision_level].id);
+    TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
+    TraceEOL();
 
     switch (decision_level_properties[max_decision_level].purpose)
     {
@@ -379,6 +399,9 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
     else
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
