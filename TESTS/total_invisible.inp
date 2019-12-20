@@ -30,5 +30,10 @@ pieces TotalInvisible 1 white ke1 se3 black kh3 ph5
 stipulation h#1.5
 twin condition hole h2
 
-end
+next
 
+origin this doesn't work if we overdo it with optimisations
+pieces TotalInvisible 2 white kh6 black kh8 rg8h1 bh5 pd6
+stipulation h#1.5
+
+end

@@ -175,3 +175,36 @@ b)
 solution finished.
 
 
+
+this doesn't work if we overdo it with optimisations
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -R  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                1 + 5 + 2 TI
+
+  1...TI~*d6   2.Bh5-f7 TI~*f7[f7=wS] #
+  add_to_move_generation_stack:        4934
+                     play_move:        9082
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        4143
+
+solution finished.
+
+
