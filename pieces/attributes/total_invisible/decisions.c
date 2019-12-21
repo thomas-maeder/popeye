@@ -359,7 +359,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         break;
 
       case decision_purpose_random_mover_forward:
-        // TODO should we distinguish betwen forawd moves by existing vs. inserted pieces?
+        // TODO should we distinguish betwen forward moves by existing vs. inserted pieces?
         if (decision_level_properties[max_decision_level].ply>=nbply)
           skip = true;
         break;
@@ -405,11 +405,21 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceFunctionResultEnd();
 }
 
+/* Reduce max_decision_level to a value as low as possible considering that we have
+ * reached a position where we won't able to execute the planned capture by an invisble
+ * in the subsequent move because
+ * - no existing invisible of the relevant side can reach the capture square
+ * - no invisible of the relevant side can be inserted
+ * @param side_capturing the side that is supposed to capture
+ */
 void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_capturing);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+  TraceEOL();
 
   max_decision_level = curr_decision_level-1;
 
@@ -431,6 +441,19 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
     {
       case decision_purpose_random_mover_backward:
         skip = true;
+        break;
+
+      case decision_purpose_random_mover_forward:
+        if (decision_level_properties[max_decision_level].ply<=nbply)
+        {
+          /* try harder.
+           * the current decision may have captured or intercepted a capturer
+           * future decisions may cause an eventual capturer to get in position
+           */
+        }
+        else
+          // TODO should we distinguish betwen forward moves by existing vs. inserted pieces?
+          skip = true;
         break;
 
       case decision_purpose_invisible_capturer_inserted:
