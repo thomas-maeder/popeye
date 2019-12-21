@@ -94,7 +94,13 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 void pop_decision(void);
 
+/* Reduce max_decision_level to a value as low as possible considering that we have
+ * reached a position where we aren't able to intercept all illegal checks by inserting
+ * invisibles.
+ * @param side_in_check the side that is in too many illegal checks
+ */
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
+
 void backtrack_from_failed_capture_by_invisible(Side side_capturing);
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing);
 

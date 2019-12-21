@@ -27,6 +27,7 @@ typedef enum
 
 typedef struct
 {
+    ply ply;
     decision_object_type object;
     decision_purpose_type purpose;
     PieceIdType id;
@@ -112,6 +113,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
   decision_level_properties[curr_decision_level].purpose = purpose;
   ++curr_decision_level;
@@ -129,6 +131,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -159,6 +162,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -189,6 +193,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_arrival;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -215,6 +220,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -240,6 +246,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_walk;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -279,6 +286,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
   report_endline(file,line);
 #endif
 
+  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
   decision_level_properties[curr_decision_level].purpose = decision_purpose_king_nomination;
 
@@ -305,11 +313,17 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void pop_decision(void)
 {
+  decision_level_properties[curr_decision_level].ply = 0;
   decision_level_properties[curr_decision_level].side = no_side;
   assert(curr_decision_level>0);
   --curr_decision_level;
 }
 
+/* Reduce max_decision_level to a value as low as possible considering that we have
+ * reached a position where we aren't able to intercept all illegal checks by inserting
+ * invisibles.
+ * @param side_in_check the side that is in too many illegal checks
+ */
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 {
   unsigned int nr_compound_decisions = 0;
@@ -320,21 +334,25 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 
   max_decision_level = curr_decision_level-1;
 
-  while (max_decision_level>0)
+  while (max_decision_level>1)
   {
     boolean skip = false;
 
     TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].ply);
     TraceValue("%u",decision_level_properties[max_decision_level].purpose);
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
     TraceEOL();
 
+    assert(decision_level_properties[max_decision_level].ply!=0);
+
     switch (decision_level_properties[max_decision_level].purpose)
     {
       case decision_purpose_random_mover_backward:
-        skip = true;
+        if (decision_level_properties[max_decision_level].ply<nbply)
+          skip = true;
         break;
 
       case decision_purpose_invisible_capturer_inserted:
@@ -386,16 +404,19 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 
   max_decision_level = curr_decision_level-1;
 
-  while (max_decision_level>0)
+  while (max_decision_level>1)
   {
     boolean skip = false;
 
     TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].ply);
     TraceValue("%u",decision_level_properties[max_decision_level].purpose);
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
     TraceEOL();
+
+    assert(decision_level_properties[max_decision_level].ply!=0);
 
     switch (decision_level_properties[max_decision_level].purpose)
     {
@@ -441,16 +462,19 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
 
   max_decision_level = curr_decision_level-1;
 
-  while (max_decision_level>0)
+  while (max_decision_level>1)
   {
     boolean skip = false;
 
     TraceValue("%u",max_decision_level);
+    TraceValue("%u",decision_level_properties[max_decision_level].ply);
     TraceValue("%u",decision_level_properties[max_decision_level].purpose);
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
     TraceEOL();
+
+    assert(decision_level_properties[max_decision_level].ply!=0);
 
     switch (decision_level_properties[max_decision_level].purpose)
     {
