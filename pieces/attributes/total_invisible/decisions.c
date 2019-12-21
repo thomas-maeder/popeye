@@ -42,12 +42,12 @@ unsigned long prev_record_decision_counter;
 #if defined(REPORT_DECISIONS)
 
 static char const purpose_symbol[] = {
-    'x' // decision_purpose_invisible_capturer_existing
-    , 'X' // decision_purpose_invisible_capturer_inserted
-    , '#' // decision_purpose_mating_piece_attacker
-    , '+' // decision_purpose_illegal_check_interceptor
-    , '>'  // decision_purpose_random_mover_forward
-    , '<'// decision_purpose_random_mover_backward
+    'x' /* decision_purpose_invisible_capturer_existing */
+    , 'X' /* decision_purpose_invisible_capturer_inserted */
+    , '#' /* decision_purpose_mating_piece_attacker */
+    , '+' /* decision_purpose_illegal_check_interceptor */
+    , '>' /* decision_purpose_random_mover_forward */
+    , '<' /* decision_purpose_random_mover_backward */
 };
 
 /* the Posix compliant version of this function strangely works with non-const character arrays */
@@ -332,6 +332,9 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceEOL();
+
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>1)
@@ -352,6 +355,12 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     {
       case decision_purpose_random_mover_backward:
         if (decision_level_properties[max_decision_level].ply<nbply)
+          skip = true;
+        break;
+
+      case decision_purpose_random_mover_forward:
+        // TODO should we distinguish betwen forawd moves by existing vs. inserted pieces?
+        if (decision_level_properties[max_decision_level].ply>=nbply)
           skip = true;
         break;
 
