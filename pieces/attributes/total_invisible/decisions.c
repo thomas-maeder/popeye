@@ -424,8 +424,11 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         break;
 
       case decision_purpose_invisible_capturer_existing:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
         assert(decision_level_properties[max_decision_level].object!=decision_object_move_vector);
-        if (decision_level_properties[max_decision_level].object==decision_object_walk)
+        if (decision_level_properties[max_decision_level].side==side_in_check)
+          skip = true;
+        else if (decision_level_properties[max_decision_level].object==decision_object_walk)
         {
           /* a dummy was fleshed out */
         }
