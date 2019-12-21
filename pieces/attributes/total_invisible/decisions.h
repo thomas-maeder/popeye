@@ -102,7 +102,7 @@ void pop_decision(void);
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
 
 /* Reduce max_decision_level to a value as low as possible considering that we have
- * reached a position where we won't able to execute the planned capture by an invisble
+ * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because
  * - no existing invisible of the relevant side can reach the capture square
  * - no invisible of the relevant side can be inserted
@@ -110,6 +110,13 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
  */
 void backtrack_from_failed_capture_by_invisible(Side side_capturing);
 
+/* Reduce max_decision_level to a value as low as possible considering that we have
+ * reached a position where we won't able to execute the planned capture of an invisible
+ * by a pawn in the subsequent move because
+ * - no existing invisible of the relevant side can sacrifice itself on the capture square
+ * - no invisible of the relevant side can be inserted
+ * @param side_capturing the side that is supposed to capture
+ */
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing);
 
 boolean can_decision_level_be_continued(void);
