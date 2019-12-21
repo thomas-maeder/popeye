@@ -1214,7 +1214,7 @@ static boolean is_capture_by_existing_invisible_possible(ply ply_capture)
 
           case Pawn:
             if (CheckDir[Bishop][diff]==diff
-                && (trait[nbply]==White ? diff>0 : diff<0))
+                && (trait[ply_capture]==White ? diff>0 : diff<0))
               result = true;
             break;
 
