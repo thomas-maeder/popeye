@@ -458,7 +458,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     remember_taboo_on_square(s,side,nbply);
 
     max_decision_level = decision_level_latest;
-    push_decision_side(id_placed,preferred_side,decision_purpose_illegal_check_interceptor);
+    push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
