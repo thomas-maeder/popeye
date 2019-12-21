@@ -528,7 +528,6 @@ static void capture_by_inserted_invisible_all_walks(void)
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",can_capture);
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
