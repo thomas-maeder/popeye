@@ -623,6 +623,8 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   Side const side_moving = trait[nbply];
 
   TraceFunctionEntry(__func__);
@@ -630,26 +632,28 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  if (!was_taboo(move_effect_journal[movement].u.piece_movement.from,side_moving))
+  if (!was_taboo(sq_departure,side_moving))
   {
     Side const side_attacked = advers(side_moving);
     square const king_pos = being_solved.king_square[side_attacked];
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+
+    push_decision_departure(id,sq_departure,decision_purpose_random_mover_backward);
 
     /* we can't do undo_move_effects() because we might inadvertently undo a piece
      * revelation!
      */
-    empty_square(move_effect_journal[movement].u.piece_movement.to);
-    occupy_square(move_effect_journal[movement].u.piece_movement.from,
+    empty_square(sq_arrival);
+    occupy_square(sq_departure,
                   move_effect_journal[movement].u.piece_movement.moving,
                   move_effect_journal[movement].u.piece_movement.movingspec);
 
     if (!is_square_uninterceptably_attacked(side_attacked,king_pos))
     {
-      PieceIdType const id = GetPieceId(being_solved.spec[move_effect_journal[movement].u.piece_movement.from]);
       motivation_type const save_motivation = motivation[id];
 
       motivation[id].first.purpose = purpose_random_mover;
-      motivation[id].first.on = move_effect_journal[movement].u.piece_movement.from;
+      motivation[id].first.on = sq_departure;
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
@@ -660,10 +664,12 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
       motivation[id] = save_motivation;
     }
 
-    empty_square(move_effect_journal[movement].u.piece_movement.from);
-    occupy_square(move_effect_journal[movement].u.piece_movement.to,
+    empty_square(sq_departure);
+    occupy_square(sq_arrival,
                   move_effect_journal[movement].u.piece_movement.moving,
                   move_effect_journal[movement].u.piece_movement.movingspec);
+
+    pop_decision();
   }
 
   TraceFunctionExit(__func__);
@@ -1011,7 +1017,7 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     motivation[id].first.acts_when = nbply;
 
-    push_decision_departure(id,*s,decision_purpose_random_mover_backward);
+    push_decision_arrival(id,*s,decision_purpose_random_mover_backward);
 
     flesh_out_random_move_by_specific_invisible_to(*s);
 
