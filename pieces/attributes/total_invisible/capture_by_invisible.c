@@ -1078,6 +1078,11 @@ void flesh_out_capture_by_invisible(void)
 static boolean is_viable_capturer(PieceIdType id, ply ply_capture)
 {
   Side const side_capturing = trait[ply_capture];
+
+  move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
+  PieceIdType const id_moving_now = GetPieceId(move_effect_journal[movement_now].u.piece_movement.movingspec);
+
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -1090,8 +1095,13 @@ static boolean is_viable_capturer(PieceIdType id, ply ply_capture)
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
   TraceEOL();
 
-  if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
-      || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
+  if (id==id_moving_now)
+  {
+    /* a piece moving now can't capture in the next move */
+    result = false;
+  }
+  else if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
+           || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
   {
     /* piece belongs to wrong side */
     result = false;
@@ -1157,9 +1167,9 @@ static boolean is_capture_by_existing_invisible_possible(ply ply_capture)
   boolean result = false; /* not until we have proved it */
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[ply_capture];
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
   PieceIdType id;
 
   TraceFunctionEntry(__func__);
