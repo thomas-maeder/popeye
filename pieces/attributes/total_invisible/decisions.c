@@ -367,16 +367,60 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         break;
 
       case decision_purpose_invisible_capturer_inserted:
-        if (decision_level_properties[max_decision_level].object==decision_object_walk)
+        if (decision_level_properties[max_decision_level].ply>=nbply)
         {
-          if (nr_compound_decisions==0)
-            skip = true;
-          ++nr_compound_decisions;
+          if (decision_level_properties[max_decision_level].side==side_in_check)
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            {
+              /* try harder - the future capturer may intercept the check */
+            }
+            else
+              skip = true;
+          }
+          else
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            {
+              // TODO skip if we are not delivering the check?
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_move_vector)
+              ;
+            else
+              skip = true;
+          }
         }
-        else if (decision_level_properties[max_decision_level].object==decision_object_move_vector)
-          ;
         else
-          skip = true;
+        {
+          if (decision_level_properties[max_decision_level].side==side_in_check)
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            {
+              if (nr_compound_decisions==0)
+                skip = true;
+              else
+              {
+                /* the capturer may capture again, saving an invisible that can
+                 * be later inserted to intercept the check
+                 */
+                // TOOD is there a less clumsy approach than nr_compound_decisions?
+                // TODO apply this logic to the other backtrackings?
+              }
+              ++nr_compound_decisions;
+            }
+            else
+              skip = true;
+          }
+          else
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            {
+              // TODO skip if this piece is not the one delivering the check?
+            }
+            else
+              skip = true;
+          }
+        }
         break;
 
       case decision_purpose_invisible_capturer_existing:
