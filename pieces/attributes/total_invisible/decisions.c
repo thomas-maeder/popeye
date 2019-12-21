@@ -532,6 +532,8 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         {
           if (decision_level_properties[max_decision_level].side==side_capturing)
             skip = true;
+          else if (decision_level_properties[max_decision_level].ply>=nbply)
+            skip = true;
         }
         else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
         {
