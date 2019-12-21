@@ -636,7 +636,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
   {
     Side const side_attacked = advers(side_moving);
     square const king_pos = being_solved.king_square[side_attacked];
-    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
 
     push_decision_departure(id,sq_departure,decision_purpose_random_mover_backward);
 
