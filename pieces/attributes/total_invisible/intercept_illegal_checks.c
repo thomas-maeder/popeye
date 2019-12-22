@@ -275,8 +275,9 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
     if (k==UINT_MAX)
     {
       // TODO accept uninterceptable check if not illegal
-      record_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
+      record_decision_outcome("%s","can't allocate necessary interceptor");
       REPORT_DEADEND;
+      backtrack_from_failure_to_intercept_illegal_checks(side_attacked);
     }
     else if (k==0 || king_pos+vec[k]!=pos)
     {
@@ -290,6 +291,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
       // TODO accept uninterceptable check if not illegal
       record_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
+      backtrack_from_failure_to_intercept_illegal_checks(side_attacked);
     }
   }
 
