@@ -200,8 +200,17 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
 
-  if (purpose==decision_purpose_random_mover_forward)
+  if (purpose==decision_purpose_random_mover_forward
+      || purpose==decision_purpose_random_mover_backward)
     decision_level_properties[curr_decision_level].side = trait[nbply];
+  else if (purpose==decision_purpose_illegal_check_interceptor)
+  {
+    assert(curr_decision_level>0);
+    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
+    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
+    assert(decision_level_properties[curr_decision_level-1].id==id);
+    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
+  }
 
   decision_levels[id].to = curr_decision_level;
 
@@ -441,6 +450,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         break;
 
       default:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
         break;
     }
 
@@ -522,6 +532,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
         break;
 
       default:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
         break;
     }
 
@@ -570,6 +581,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
     switch (decision_level_properties[max_decision_level].purpose)
     {
       case decision_purpose_random_mover_backward:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
         skip = true;
         break;
 
@@ -600,6 +612,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         break;
 
       default:
+        assert(decision_level_properties[max_decision_level].side!=no_side);
         break;
     }
 
