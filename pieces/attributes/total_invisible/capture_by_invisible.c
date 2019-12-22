@@ -979,8 +979,16 @@ static void capture_by_inserted_invisible(void)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
 
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {
@@ -998,11 +1006,6 @@ static void capture_by_inserted_invisible(void)
         && current_consumption.claimed[trait[nbply]])
     {
       /* no problem - we can simply insert a capturing king */
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-      move_effect_journal_index_type const precapture = effects_base;
-      Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-      PieceIdType const id_inserted = GetPieceId(flags_inserted);
       decision_levels_type const levels_inserted = decision_levels[id_inserted];
 
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -1023,6 +1026,8 @@ static void capture_by_inserted_invisible(void)
       decision_levels[id_inserted] = levels_inserted;
     }
   }
+
+  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

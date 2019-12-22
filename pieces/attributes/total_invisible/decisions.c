@@ -17,6 +17,7 @@ decision_levels_type decision_levels[MaxPieceId+1];
 typedef enum
 {
   decision_object_side,
+  decision_object_insertion,
   decision_object_random_move,
   decision_object_walk,
   decision_object_move_vector,
@@ -243,6 +244,27 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
+void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+{
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
+  printf("I");
+  report_endline(file,line);
+#endif
+
+  decision_level_properties[curr_decision_level].ply = nbply;
+  decision_level_properties[curr_decision_level].object = decision_object_insertion;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+  decision_level_properties[curr_decision_level].side = side;
+
+  decision_levels[id].side = curr_decision_level;
+
+  ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
+}
+
 void push_decision_walk_impl(char const *file, unsigned int line,
                              PieceIdType id,
                              piece_walk_type walk,
@@ -454,6 +476,9 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         break;
     }
 
+    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
+      skip = true;
+
     if (skip)
       --max_decision_level;
     else
@@ -536,6 +561,9 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
         break;
     }
 
+    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
+      skip = true;
+
     if (skip)
       --max_decision_level;
     else
@@ -615,6 +643,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         assert(decision_level_properties[max_decision_level].side!=no_side);
         break;
     }
+
+    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
+      skip = true;
 
     if (skip)
       --max_decision_level;
