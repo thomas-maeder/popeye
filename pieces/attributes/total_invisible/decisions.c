@@ -481,6 +481,8 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
  */
 void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 {
+  boolean try_to_avoid_insertion[nr_sides] = { false, false };
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_capturing);
   TraceFunctionParamListEnd();
@@ -500,51 +502,83 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
+    TraceValue("%u",try_to_avoid_insertion[White]);
+    TraceValue("%u",try_to_avoid_insertion[Black]);
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
-
-    switch (decision_level_properties[max_decision_level].purpose)
-    {
-      case decision_purpose_random_mover_backward:
-        skip = true;
-        break;
-
-      case decision_purpose_random_mover_forward:
-        if (decision_level_properties[max_decision_level].ply<=nbply)
-        {
-          /* try harder.
-           * the current decision may have captured or intercepted a capturer
-           * future decisions may cause an eventual capturer to get in position
-           */
-        }
-        else
-          skip = true;
-        break;
-
-      case decision_purpose_invisible_capturer_inserted:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        if (decision_level_properties[max_decision_level].side!=side_capturing
-            || decision_level_properties[max_decision_level].object==decision_object_move_vector
-            || decision_level_properties[max_decision_level].object==decision_object_departure)
-          skip = true;
-        break;
-
-      case decision_purpose_invisible_capturer_existing:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        assert(decision_level_properties[max_decision_level].object!=decision_object_move_vector);
-        if (decision_level_properties[max_decision_level].side!=side_capturing
-            || decision_level_properties[max_decision_level].object==decision_object_departure)
-          skip = true;
-        break;
-
-      default:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        break;
-    }
+    assert(decision_level_properties[max_decision_level].side!=no_side);
 
     if (decision_level_properties[max_decision_level].object==decision_object_insertion)
+    {
       skip = true;
+
+      /* remember which side may save an insertion */
+      try_to_avoid_insertion[decision_level_properties[max_decision_level].side] = true;
+
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+        try_to_avoid_insertion[advers(decision_level_properties[max_decision_level].side)] = true;
+    }
+    else
+    {
+      switch (decision_level_properties[max_decision_level].purpose)
+      {
+        case decision_purpose_random_mover_backward:
+          skip = true;
+          break;
+
+        case decision_purpose_random_mover_forward:
+          if (decision_level_properties[max_decision_level].ply<=nbply)
+          {
+            /* try harder.
+             * the current decision may have captured a viable capturer
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_purpose_invisible_capturer_existing:
+        case decision_purpose_invisible_capturer_inserted:
+          if (decision_level_properties[max_decision_level].side==side_capturing)
+          {
+            if (decision_level_properties[max_decision_level].ply<=nbply)
+            {
+              if (decision_level_properties[max_decision_level].object==decision_object_departure)
+                skip = true;
+              else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              {
+                /* try the walk that allows this piece to reach the capture square */
+              }
+            }
+            else
+            {
+              if (decision_level_properties[max_decision_level].object==decision_object_walk)
+                skip = true;
+              else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              {
+                /* try a different capturer, leaving this one for the failed capture that we are
+                 * recovering from
+                 */
+              }
+            }
+          }
+          else
+            skip = true;
+          break;
+
+        default:
+          break;
+      }
+
+      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      {
+        if (decision_level_properties[max_decision_level].object==decision_object_departure
+          || decision_level_properties[max_decision_level].object==decision_object_arrival
+          || decision_level_properties[max_decision_level].object==decision_object_walk)
+          skip = false;
+      }
+    }
 
     if (skip)
       --max_decision_level;
