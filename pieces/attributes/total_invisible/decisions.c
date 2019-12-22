@@ -156,6 +156,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   assert(curr_decision_level<decision_level_dir_capacity);
 }
 
+// TODO  do we still need to do record decisions regarding move vectors?
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
@@ -322,6 +323,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
   decision_level_properties[curr_decision_level].purpose = decision_purpose_king_nomination;
+  decision_level_properties[curr_decision_level].side = TSTFLAG(being_solved.spec[pos],White) ? White : Black;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -359,7 +361,7 @@ void pop_decision(void)
  */
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 {
-  unsigned int nr_compound_decisions = 0;
+  boolean try_to_avoid_insertion[nr_sides] = { false, false };
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -380,104 +382,85 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
+    TraceValue("%u",try_to_avoid_insertion[White]);
+    TraceValue("%u",try_to_avoid_insertion[Black]);
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
+    assert(decision_level_properties[max_decision_level].side!=no_side);
 
-    switch (decision_level_properties[max_decision_level].purpose)
+    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
     {
-      case decision_purpose_random_mover_backward:
-        if (decision_level_properties[max_decision_level].ply<nbply)
-          skip = true;
-        break;
+      skip = true;
 
-      case decision_purpose_random_mover_forward:
-        // TODO should we distinguish betwen forward moves by existing vs. inserted pieces?
-        if (decision_level_properties[max_decision_level].ply>=nbply)
-          skip = true;
-        break;
+      /* remember which side may save an insertion */
+      try_to_avoid_insertion[decision_level_properties[max_decision_level].side] = true;
 
-      case decision_purpose_invisible_capturer_inserted:
-        if (decision_level_properties[max_decision_level].ply>=nbply)
-        {
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+        try_to_avoid_insertion[advers(decision_level_properties[max_decision_level].side)] = true;
+    }
+    else
+    {
+      /* skip over decisions that are not related to delivering the check */
+      switch (decision_level_properties[max_decision_level].purpose)
+      {
+        case decision_purpose_random_mover_backward:
+        case decision_purpose_random_mover_forward:
+        case decision_purpose_invisible_capturer_inserted:
+        case decision_purpose_invisible_capturer_existing:
           if (decision_level_properties[max_decision_level].side==side_in_check)
+            skip = true;
+          else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+          {
+            // TODO skip if this piece are not delivering the check?
+          }
+          else
+            skip = true;
+          break;
+
+        default:
+          break;
+      }
+
+      /* don't skip over potential interceptions */
+      switch (decision_level_properties[max_decision_level].purpose)
+      {
+        case decision_purpose_invisible_capturer_inserted:
+        case decision_purpose_invisible_capturer_existing:
+        case decision_purpose_random_mover_backward:
+          if (decision_level_properties[max_decision_level].ply>=nbply)
           {
             if (decision_level_properties[max_decision_level].object==decision_object_departure)
             {
-              /* try harder - the future capturer may intercept the check */
+              /* random mover may intercept the check depending on its departure square */
+              skip = false;
             }
-            else
-              skip = true;
           }
-          else
-          {
-            if (decision_level_properties[max_decision_level].object==decision_object_walk)
-            {
-              // TODO skip if we are not delivering the check?
-            }
-            else if (decision_level_properties[max_decision_level].object==decision_object_move_vector)
-              ;
-            else
-              skip = true;
-          }
-        }
-        else
-        {
-          if (decision_level_properties[max_decision_level].side==side_in_check)
-          {
-            if (decision_level_properties[max_decision_level].object==decision_object_walk)
-            {
-              if (nr_compound_decisions==0)
-                skip = true;
-              else
-              {
-                /* the capturer may capture again, saving an invisible that can
-                 * be later inserted to intercept the check
-                 */
-                // TOOD is there a less clumsy approach than nr_compound_decisions?
-                // TODO apply this logic to the other backtrackings?
-              }
-              ++nr_compound_decisions;
-            }
-            else
-              skip = true;
-          }
-          else
-          {
-            if (decision_level_properties[max_decision_level].object==decision_object_walk)
-            {
-              // TODO skip if this piece is not the one delivering the check?
-            }
-            else
-              skip = true;
-          }
-        }
-        break;
+          break;
 
-      case decision_purpose_invisible_capturer_existing:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        assert(decision_level_properties[max_decision_level].object!=decision_object_move_vector);
-        if (decision_level_properties[max_decision_level].side==side_in_check)
-          skip = true;
-        else if (decision_level_properties[max_decision_level].object==decision_object_walk)
-        {
-          /* a dummy was fleshed out */
-        }
-        else
-          skip = true;
-        break;
+        case decision_purpose_random_mover_forward:
+          if (decision_level_properties[max_decision_level].ply<nbply)
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+            {
+              /* random mover may intercept the check depending on its arrival square */
+              skip = false;
+            }
+          }
+          break;
 
-      case decision_purpose_king_nomination:
-        ++nr_compound_decisions;
-        break;
+        default:
+          break;
+      }
 
-      default:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        break;
+      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      {
+        if (decision_level_properties[max_decision_level].object==decision_object_departure
+          || decision_level_properties[max_decision_level].object==decision_object_arrival
+          || decision_level_properties[max_decision_level].object==decision_object_walk)
+          skip = false;
+      }
     }
-
-    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
-      skip = true;
 
     if (skip)
       --max_decision_level;
@@ -536,7 +519,6 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
            */
         }
         else
-          // TODO should we distinguish betwen forward moves by existing vs. inserted pieces?
           skip = true;
         break;
 
