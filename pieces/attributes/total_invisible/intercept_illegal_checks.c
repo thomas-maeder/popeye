@@ -460,9 +460,13 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     max_decision_level = decision_level_latest;
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
+    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
+
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
     SETFLAG(being_solved.spec[s],advers(side));
+
+    pop_decision();
 
     pop_decision();
 
@@ -499,16 +503,12 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     decision_levels[id_placed].from = decision_level_latest;
 
-    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
-
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
     place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,preferred_side,id_placed);
 
     empty_square(s);
-
-    pop_decision();
 
     uninitialise_motivation(id_placed);
 

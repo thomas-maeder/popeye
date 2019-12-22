@@ -256,7 +256,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   if (purpose==decision_purpose_illegal_check_interceptor)
   {
     assert(curr_decision_level>0);
-    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
+    assert(decision_level_properties[curr_decision_level-1].object==decision_object_arrival);
     assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
     assert(decision_level_properties[curr_decision_level-1].id==id);
     decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
