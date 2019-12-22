@@ -599,6 +599,8 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
  */
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
 {
+  boolean try_to_avoid_insertion[nr_sides] = { false, false };
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_capturing);
   TraceFunctionParamListEnd();
@@ -618,50 +620,111 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
     TraceValue("%u",decision_level_properties[max_decision_level].object);
     TraceValue("%u",decision_level_properties[max_decision_level].id);
     TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
+    TraceValue("%u",try_to_avoid_insertion[White]);
+    TraceValue("%u",try_to_avoid_insertion[Black]);
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
-
-    switch (decision_level_properties[max_decision_level].purpose)
-    {
-      case decision_purpose_random_mover_backward:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        skip = true;
-        break;
-
-      case decision_purpose_random_mover_forward:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        if (decision_level_properties[max_decision_level].object==decision_object_departure
-            || decision_level_properties[max_decision_level].object==decision_object_arrival
-            || decision_level_properties[max_decision_level].object==decision_object_walk)
-        {
-          // TODO is this correct? what if we evacuate so that a pawn can sacrifice itself to the pawn?
-          if (decision_level_properties[max_decision_level].side==side_capturing)
-            skip = true;
-          else if (decision_level_properties[max_decision_level].ply>nbply)
-            skip = true;
-        }
-        else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
-          skip = true;
-        break;
-
-      case decision_purpose_invisible_capturer_inserted:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        skip = true;
-        break;
-
-      case decision_purpose_invisible_capturer_existing:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        skip = true;
-        break;
-
-      default:
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        break;
-    }
+    assert(decision_level_properties[max_decision_level].side!=no_side);
 
     if (decision_level_properties[max_decision_level].object==decision_object_insertion)
+    {
       skip = true;
+
+      /* remember which side may save an insertion */
+      try_to_avoid_insertion[decision_level_properties[max_decision_level].side] = true;
+
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+        try_to_avoid_insertion[advers(decision_level_properties[max_decision_level].side)] = true;
+    }
+    else
+    {
+      switch (decision_level_properties[max_decision_level].purpose)
+      {
+        case decision_purpose_random_mover_backward:
+        case decision_purpose_invisible_capturer_inserted:
+        case decision_purpose_invisible_capturer_existing:
+          skip = true;
+          break;
+
+        case decision_purpose_random_mover_forward:
+          if (decision_level_properties[max_decision_level].side==side_capturing)
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            {
+              if (decision_level_properties[max_decision_level].ply<nbply)
+              {
+                /* we may be evacuating the capture square so that a pawn can sacrifice itself */
+                // TODO is the capture square blocked by the capturing side so that a pawn can't sacrifice itself?
+              }
+              else
+                skip = true;
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+            {
+              if (decision_level_properties[max_decision_level].ply<nbply)
+              {
+                /* we may be blocking the capture square so that a pawn can't sacrifice itself */
+                // TODO are we blocking the capture square so that a pawn can't sacrifice itself?
+              }
+              else
+                skip = true;
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              skip = true;
+            else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
+              /* backward or forward */
+              skip = true;
+          }
+          else
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            {
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+              {
+                /* try harder - this move may have moved a potential victim */
+                // TODO has this move moved a potential victim?
+              }
+              else
+                skip = true;
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+            {
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+              {
+                /* try harder - this move might bring a potential victim */
+              }
+              else
+                skip = true;
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            {
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+              {
+                /* try harder - the moving piece may reach the capture square in a future move
+                 * to serve as victim if it has a different walk
+                 */
+              }
+              else
+                skip = true;
+            }
+            else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
+              skip = true;
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      {
+        if (decision_level_properties[max_decision_level].object==decision_object_departure
+          || decision_level_properties[max_decision_level].object==decision_object_arrival
+          || decision_level_properties[max_decision_level].object==decision_object_walk)
+          skip = false;
+      }
+    }
 
     if (skip)
       --max_decision_level;

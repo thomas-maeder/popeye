@@ -1305,6 +1305,7 @@ boolean is_capture_by_invisible_possible(void)
 
       move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
       piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
+      Flags const capturer_flags = move_effect_journal[movement_capture].u.piece_movement.movingspec;
 
       TraceValue("%u",ply_capture);
       TraceSquare(sq_capture_capture);
@@ -1312,7 +1313,7 @@ boolean is_capture_by_invisible_possible(void)
       TraceEOL();
 
       if (move_effect_journal[capture_capture].type==move_effect_piece_removal
-          && capturer==Pawn
+          && capturer==Pawn && !TSTFLAG(capturer_flags,Chameleon)
           && (is_square_empty(sq_capture_capture)
               || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
       {
