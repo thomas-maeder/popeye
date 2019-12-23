@@ -569,6 +569,18 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
             skip = true;
           break;
 
+        case decision_purpose_illegal_check_interceptor:
+          if (decision_level_properties[max_decision_level].side!=side_capturing)
+          {
+            /* decision concerning the other side can't contribute to being able for this side
+             * to capture ...
+             * ... but we still have to make sure that this side is examined too!
+             */
+            if (decision_level_properties[max_decision_level].object!=decision_object_side)
+              skip = true;
+          }
+          break;
+
         default:
           break;
       }
