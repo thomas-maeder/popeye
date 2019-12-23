@@ -422,11 +422,24 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
         }
       }
-      else
+      else if (can_decision_level_be_continued())
       {
+        extern boolean capture_by_invisible_falied_with_this_walk[decision_level_dir_capacity];
+        piece_walk_type end_walk = Bishop;
+
+        capture_by_invisible_falied_with_this_walk[curr_decision_level] = false;
+
+        max_decision_level = decision_level_latest;
+        place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
+
+        if (capture_by_invisible_falied_with_this_walk[curr_decision_level])
+        {
+          end_walk = Knight;
+        }
+
         piece_walk_type walk;
-        for (walk = Queen;
-             walk<=Bishop && can_decision_level_be_continued();
+        for (walk = Queen+1;
+             walk<=end_walk && can_decision_level_be_continued();
              ++walk)
         {
           max_decision_level = decision_level_latest;
