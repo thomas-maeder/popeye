@@ -395,14 +395,14 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
     if (allocate_flesh_out_unplaced(side))
     {
-      if (can_decision_level_be_continued())
-      {
-        max_decision_level = decision_level_latest;
-        place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
-      }
-
       if (side==trait[nbply])
       {
+        if (can_decision_level_be_continued())
+        {
+          max_decision_level = decision_level_latest;
+          place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
+        }
+
         if (can_decision_level_be_continued())
         {
           max_decision_level = decision_level_latest;
@@ -422,28 +422,47 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
         }
       }
-      else if (can_decision_level_be_continued())
+      else
       {
-        extern boolean capture_by_invisible_falied_with_this_walk[decision_level_dir_capacity];
-        piece_walk_type end_walk = Bishop;
-
-        capture_by_invisible_falied_with_this_walk[curr_decision_level] = false;
-
-        max_decision_level = decision_level_latest;
-        place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
-
-        if (capture_by_invisible_falied_with_this_walk[curr_decision_level])
+        if (can_decision_level_be_continued())
         {
-          end_walk = Knight;
-        }
+          piece_walk_type const walk_order_after_queen[] =
+          {
+              Pawn,
+              Knight,
+              Rook,
+              Bishop
+          };
+          enum { nr_walks = sizeof walk_order_after_queen / sizeof walk_order_after_queen[0] };
 
-        piece_walk_type walk;
-        for (walk = Queen+1;
-             walk<=end_walk && can_decision_level_be_continued();
-             ++walk)
-        {
+          boolean walk_ruled_out[Bishop+1] = { false };
+
+          capture_by_invisible_falied_with_this_walk[curr_decision_level] = false;
+
           max_decision_level = decision_level_latest;
-          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
+          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
+
+          if (capture_by_invisible_falied_with_this_walk[curr_decision_level])
+          {
+            walk_ruled_out[Pawn] = true;
+            walk_ruled_out[Rook] = true;
+            walk_ruled_out[Bishop] = true;
+          }
+
+          {
+            unsigned int i;
+            for (i = 0;
+                 i<nr_walks && can_decision_level_be_continued();
+                 ++i)
+            {
+              piece_walk_type const walk = walk_order_after_queen[i];
+              if (!walk_ruled_out[walk])
+              {
+                max_decision_level = decision_level_latest;
+                place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
+              }
+            }
+          }
         }
       }
     }

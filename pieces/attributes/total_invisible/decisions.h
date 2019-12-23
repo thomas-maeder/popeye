@@ -105,6 +105,8 @@ void pop_decision(void);
  */
 void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
 
+extern boolean capture_by_invisible_falied_with_this_walk[decision_level_dir_capacity];
+
 /* Reduce max_decision_level to a value as low as possible considering that we have
  * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because
