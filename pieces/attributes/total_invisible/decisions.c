@@ -673,73 +673,40 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
               skip = true;
           }
           else
-            skip = true;
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            {
+              /* we may be able to sacrifice ourselves, either to the capturing pawn or
+               * a pawn sacrificing itself to the capturing pawn
+               * - by staying where we are (and let another piece move)
+               * - by moving away to allow a pawn to sacrifice itself
+               */
+            }
+            else
+              skip = true;
+          }
           break;
 
         case decision_purpose_random_mover_forward:
-          if (decision_level_properties[max_decision_level].side==side_capturing)
+          if (decision_level_properties[max_decision_level].object==decision_object_departure
+              || decision_level_properties[max_decision_level].object==decision_object_arrival
+              || decision_level_properties[max_decision_level].object==decision_object_walk)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            if (decision_level_properties[max_decision_level].ply<nbply)
             {
-              if (decision_level_properties[max_decision_level].ply<nbply)
-              {
-                /* we may be evacuating the capture square so that a pawn can sacrifice itself */
-                // TODO is the capture square blocked by the capturing side so that a pawn can't sacrifice itself?
-              }
-              else
-                skip = true;
+              /* we may be able to sacrifice ourselves, either to the capturing pawn or
+               * a pawn sacrificing itself to the capturing pawn
+               * - by staying where we are (and let another piece move)
+               * - by moving away to allow a pawn to sacrifice itself
+               * - by moving to the capture square
+               * - by selecting a walk that allows us to eventually move the the capture square
+               */
             }
-            else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
-            {
-              if (decision_level_properties[max_decision_level].ply<nbply)
-              {
-                /* we may be blocking the capture square so that a pawn can't sacrifice itself */
-                // TODO are we blocking the capture square so that a pawn can't sacrifice itself?
-              }
-              else
-                skip = true;
-            }
-            else if (decision_level_properties[max_decision_level].object==decision_object_walk)
-              skip = true;
-            else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
-              /* backward or forward */
+            else
               skip = true;
           }
-          else
-          {
-            if (decision_level_properties[max_decision_level].object==decision_object_departure)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder - this move may have moved a potential victim */
-                // TODO has this move moved a potential victim?
-              }
-              else
-                skip = true;
-            }
-            else if (decision_level_properties[max_decision_level].object==decision_object_arrival)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder - this move might bring a potential victim */
-              }
-              else
-                skip = true;
-            }
-            else if (decision_level_properties[max_decision_level].object==decision_object_walk)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder - the moving piece may reach the capture square in a future move
-                 * to serve as victim if it has a different walk
-                 */
-              }
-              else
-                skip = true;
-            }
-            else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
-              skip = true;
-          }
+          else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
+            skip = true;
           break;
 
         default:
