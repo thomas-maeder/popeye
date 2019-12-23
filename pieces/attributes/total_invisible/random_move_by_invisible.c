@@ -1014,6 +1014,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     PieceIdType const id = GetPieceId(being_solved.spec[*s]);
     ply const save_when = motivation[id].first.acts_when;
     unsigned int const save_counter = record_decision_counter;
+    decision_levels_type const save_levels = decision_levels[id];
 
     motivation[id].first.acts_when = nbply;
 
@@ -1023,12 +1024,15 @@ static void retract_random_move_by_invisible(square const *start_square)
 
     pop_decision();
 
+    decision_levels[id] = save_levels;
+
     if (can_decision_level_be_continued())
     {
       max_decision_level = decision_level_latest;
       retract_random_move_by_invisible(s+1);
     }
 
+    /* only now - this prevents trying to retract random moves by the same piece in nested levels */
     motivation[id].first.acts_when = save_when;
 
     if (start_square==boardnum && record_decision_counter<=save_counter+1)
