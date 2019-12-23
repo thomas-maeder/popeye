@@ -472,7 +472,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceFunctionResultEnd();
 }
 
-boolean capture_by_invisible_falied_with_this_walk[decision_level_dir_capacity];
+boolean capture_by_invisible_failed_with_this_walk[decision_level_dir_capacity];
 
 /* Reduce max_decision_level to a value as low as possible considering that we have
  * reached a position where we won't able to execute the planned capture by an invisble
@@ -601,7 +601,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   }
 
   if (decision_level_properties[max_decision_level].side==side_capturing)
-    capture_by_invisible_falied_with_this_walk[max_decision_level] = true;
+    capture_by_invisible_failed_with_this_walk[max_decision_level] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -661,7 +661,19 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         case decision_purpose_random_mover_backward:
         case decision_purpose_invisible_capturer_inserted:
         case decision_purpose_invisible_capturer_existing:
-          skip = true;
+          if (decision_level_properties[max_decision_level].ply<nbply)
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            {
+              /* depending on the walk, this piece may eventually sacrifice itself
+               * to allow the capture by pawn
+               */
+            }
+            else
+              skip = true;
+          }
+          else
+            skip = true;
           break;
 
         case decision_purpose_random_mover_forward:
@@ -748,6 +760,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
     else
       break;
   }
+
+  if (decision_level_properties[max_decision_level].side!=side_capturing)
+    capture_by_invisible_failed_with_this_walk[max_decision_level] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
