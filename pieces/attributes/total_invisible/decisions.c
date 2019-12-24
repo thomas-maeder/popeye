@@ -557,7 +557,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
             {
               if (decision_level_properties[max_decision_level].object==decision_object_walk)
                 skip = true;
-              else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              else if (decision_level_properties[max_decision_level].object==decision_object_departure)
               {
                 /* try a different capturer, leaving this one for the failed capture that we are
                  * recovering from
