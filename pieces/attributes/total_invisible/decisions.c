@@ -292,8 +292,6 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   else
     decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  decision_levels[id].walk = curr_decision_level;
-
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
