@@ -47,6 +47,7 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
       push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
+      decision_levels[id_inserted].from = curr_decision_level;
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags_inserted);
@@ -383,9 +384,7 @@ static void capture_by_inserted_invisible_king(void)
         assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
         SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
         capture_by_invisible_inserted_on(King,sq_departure);
-        pop_decision();
 
         CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 

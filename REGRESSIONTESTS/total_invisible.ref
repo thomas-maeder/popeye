@@ -615,18 +615,18 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3423664
-                     play_move:     5927543
+  add_to_move_generation_stack:     3423678
+                     play_move:     5927554
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2093641
+ is_black_king_square_attacked:     2093655
 
 b) wSb5-->d7  
 
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
-  add_to_move_generation_stack:     2979324
-                     play_move:     5859199
+  add_to_move_generation_stack:     2979381
+                     play_move:     5859273
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1755747
+ is_black_king_square_attacked:     1755775
 
 solution finished.
 
@@ -659,18 +659,18 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:     6915272
-                     play_move:    14050662
+  add_to_move_generation_stack:     6914009
+                     play_move:    14049633
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5797794
+ is_black_king_square_attacked:     5796901
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:     6655228
-                     play_move:    12362263
+  add_to_move_generation_stack:     6654854
+                     play_move:    12362023
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5663683
+ is_black_king_square_attacked:     5663491
 
 solution finished.
 
@@ -1008,10 +1008,10 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
 
   1...TI~*h3   2.[+wTIf1]nPg2*f1=nR nRf1-f3   3.[+wTIg3]f4*g3 TI~*g3[g3=wR] #
   1...nQh1-g1   2.nQg1-c5 [+wRa1]0-0-0[d1=wR]   3.[+wTIg3]f4*g3 Rd1-d4 #
-  add_to_move_generation_stack:    14785350
-                     play_move:    25177631
- is_white_king_square_attacked:     2176499
- is_black_king_square_attacked:     4412581
+  add_to_move_generation_stack:    14785419
+                     play_move:    25177583
+ is_white_king_square_attacked:     2176488
+ is_black_king_square_attacked:     4412607
 
 solution finished.
 

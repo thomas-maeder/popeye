@@ -640,6 +640,7 @@ static void done_fleshing_out_random_move_by_specific_invisible_to(void)
     PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
 
     push_decision_departure(id,sq_departure,decision_purpose_random_mover_backward);
+    decision_levels[id].from = curr_decision_level;
 
     /* we can't do undo_move_effects() because we might inadvertently undo a piece
      * revelation!
