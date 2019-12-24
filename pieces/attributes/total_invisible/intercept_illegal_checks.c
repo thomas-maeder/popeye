@@ -102,14 +102,14 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     assert(nr_check_vectors>0);
 
+    decision_levels[id_placed].side = curr_decision_level;
     push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
-    decision_levels[id_placed].side = curr_decision_level;
 
+    decision_levels[id_placed].side = curr_decision_level;
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
-    decision_levels[id_placed].side = curr_decision_level;
 
-    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
     decision_levels[id_placed].to = curr_decision_level;
+    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     if (allocate_placed(side))
     {
@@ -268,8 +268,8 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor);
   decision_levels[id_placed].walk = curr_decision_level;
+  push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor);
 
   {
     Side const side_attacked = advers(side);
@@ -505,14 +505,14 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
     max_decision_level = decision_level_latest;
 
+    decision_levels[id_placed].side = curr_decision_level;
     push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
-    decision_levels[id_placed].side = curr_decision_level;
 
+    decision_levels[id_placed].side = curr_decision_level;
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
-    decision_levels[id_placed].side = curr_decision_level;
 
-    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
     decision_levels[id_placed].to = curr_decision_level;
+    push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
