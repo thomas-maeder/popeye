@@ -577,27 +577,27 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
           {
             if (decision_level_properties[max_decision_level].ply<=nbply)
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_departure)
-                skip = true;
-              else if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              if (decision_level_properties[max_decision_level].object==decision_object_walk)
               {
                 /* try harder.
                  * a future decision may
                  * - select a better walk
                  */
               }
+              else
+                skip = true;
             }
             else
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_walk)
-                skip = true;
-              else if (decision_level_properties[max_decision_level].object==decision_object_departure)
+              if (decision_level_properties[max_decision_level].object==decision_object_departure)
               {
                 /* try harder.
                  * a future decision may
                  * - select a mover that can't eventually do the capture
                  */
               }
+              else
+                skip = true;
             }
           }
           else
