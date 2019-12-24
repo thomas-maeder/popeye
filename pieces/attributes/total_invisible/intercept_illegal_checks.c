@@ -103,8 +103,10 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     assert(nr_check_vectors>0);
 
     push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].side = curr_decision_level;
 
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].side = curr_decision_level;
 
     push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
     decision_levels[id_placed].to = curr_decision_level;
@@ -504,8 +506,10 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     max_decision_level = decision_level_latest;
 
     push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].side = curr_decision_level;
 
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].side = curr_decision_level;
 
     push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
     decision_levels[id_placed].to = curr_decision_level;

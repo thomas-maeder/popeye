@@ -998,6 +998,7 @@ static void capture_by_inserted_invisible(void)
   TraceFunctionParamListEnd();
 
   push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+  decision_levels[id_inserted].side = curr_decision_level;
 
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {

@@ -235,8 +235,6 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = side;
 
-  decision_levels[id].side = curr_decision_level;
-
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }
@@ -255,8 +253,6 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = side;
-
-  decision_levels[id].side = curr_decision_level;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
