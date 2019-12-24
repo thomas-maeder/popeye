@@ -214,8 +214,6 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
     decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
   }
 
-  decision_levels[id].to = curr_decision_level;
-
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
 }

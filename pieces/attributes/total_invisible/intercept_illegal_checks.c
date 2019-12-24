@@ -107,6 +107,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].to = curr_decision_level;
 
     if (allocate_placed(side))
     {
@@ -506,6 +507,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].to = curr_decision_level;
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);

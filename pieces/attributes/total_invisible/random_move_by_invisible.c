@@ -23,6 +23,7 @@ static void done_fleshing_out_random_move_by_invisible_from(boolean is_dummy_mov
   TraceFunctionParamListEnd();
 
   push_decision_arrival(id,sq_arrival,decision_purpose_random_mover_forward);
+  decision_levels[id].to = curr_decision_level;
 
   motivation[id].last.on = sq_arrival;
 
