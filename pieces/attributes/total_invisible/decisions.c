@@ -526,18 +526,61 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
       switch (decision_level_properties[max_decision_level].purpose)
       {
         case decision_purpose_random_mover_backward:
-          skip = true;
-          break;
-
-        case decision_purpose_random_mover_forward:
-          if (decision_level_properties[max_decision_level].ply<=nbply)
+          if (decision_level_properties[max_decision_level].side==side_capturing)
           {
-            /* try harder.
-             * the current decision may have captured a viable capturer
-             */
+            if (decision_level_properties[max_decision_level].ply<=nbply)
+            {
+              if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              {
+                /* try harder.
+                 * a future decision may
+                 * - select a better walk
+                 */
+              }
+              else
+                skip = true;
+            }
+            else
+              skip = true;
           }
           else
             skip = true;
+          break;
+
+        case decision_purpose_random_mover_forward:
+          if (decision_level_properties[max_decision_level].side==side_capturing)
+          {
+            if (decision_level_properties[max_decision_level].ply<=nbply)
+            {
+              if (decision_level_properties[max_decision_level].object==decision_object_departure
+                  || decision_level_properties[max_decision_level].object==decision_object_walk
+                  || decision_level_properties[max_decision_level].object==decision_object_arrival)
+              {
+                /* try harder.
+                 * a future decision may
+                 * - select a better walk
+                 * - select a better arrival square
+                 * - select a mover that can't eventually do the capture
+                 */
+              }
+              else
+                skip = true;
+            }
+            else
+              skip = true;
+          }
+          else
+          {
+            if (decision_level_properties[max_decision_level].ply<=nbply)
+            {
+              /* try harder.
+               * a future decision may
+               * - avoid capturing a viable capturer
+               */
+            }
+            else
+              skip = true;
+          }
           break;
 
         case decision_purpose_invisible_capturer_existing:
@@ -550,7 +593,10 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
               else if (decision_level_properties[max_decision_level].object==decision_object_walk)
               {
-                /* try the walk that allows this piece to reach the capture square */
+                /* try harder.
+                 * a future decision may
+                 * - select a better walk
+                 */
               }
             }
             else
@@ -559,8 +605,9 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
               else if (decision_level_properties[max_decision_level].object==decision_object_departure)
               {
-                /* try a different capturer, leaving this one for the failed capture that we are
-                 * recovering from
+                /* try harder.
+                 * a future decision may
+                 * - select a mover that can't eventually do the capture
                  */
               }
             }
@@ -700,6 +747,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
                * - by moving away to allow a pawn to sacrifice itself
                * - by moving to the capture square
                * - by selecting a walk that allows us to eventually move the the capture square
+               * - by not accidentally capturing a piece that can eventually sacrifice itself
                */
             }
             else
