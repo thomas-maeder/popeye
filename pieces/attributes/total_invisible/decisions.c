@@ -394,7 +394,6 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
       switch (decision_level_properties[max_decision_level].purpose)
       {
         case decision_purpose_random_mover_backward:
-        case decision_purpose_invisible_capturer_inserted:
         case decision_purpose_invisible_capturer_existing:
         case decision_purpose_random_mover_forward:
           if (decision_level_properties[max_decision_level].ply<nbply)
@@ -404,9 +403,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
             {
               /* try harder.
                * a future decision may select
-               * - a walk that doesn't deliver check
-               * - a walk that allows us to intercept a check
-               * - an arrival square where the check is intercepted
+               * - a walk that allows us to eventually intercept the check
                * - an arrival square from where the check can be intercepted
                */
             }
@@ -427,6 +424,49 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
           }
           break;
 
+        case decision_purpose_invisible_capturer_inserted:
+          if (decision_level_properties[max_decision_level].object==decision_object_walk)
+          {
+            if (decision_level_properties[max_decision_level].side==side_in_check)
+            {
+              // TODO rather than calculating nbply-3, we should backtrack to the last random move of the side
+              if (decision_level_properties[max_decision_level].ply<nbply-3)
+              {
+                /* try harder.
+                 * a future decision may select
+                 * - a walk that allows us to eventually intercept the check
+                 */
+              }
+              else
+                skip = true;
+            }
+            else
+            {
+              /* try harder.
+               * a future decision may select
+               * - a walk that doesn't deliver check
+               *   - from the departure square (if the capture was after nbply)
+               *   - from the arrival square (if the capture was before nbply)
+               */
+            }
+          }
+          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
+          {
+            if (decision_level_properties[max_decision_level].ply>nbply
+                && decision_level_properties[max_decision_level].side!=side_in_check)
+            {
+              /* try harder.
+               * a future decision may select
+               * - a square from where we don't deliver check
+               */
+            }
+            else
+              skip = true;
+          }
+          else
+            skip = true;
+          break;
+
         default:
           break;
       }
@@ -436,7 +476,17 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         if (decision_level_properties[max_decision_level].object==decision_object_departure
           || decision_level_properties[max_decision_level].object==decision_object_arrival
           || decision_level_properties[max_decision_level].object==decision_object_walk)
-          skip = false;
+        {
+          if (skip)
+          {
+#if defined(REPORT_DECISIONS)
+            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+            printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
+#endif
+
+            skip = false;
+          }
+        }
       }
     }
 
@@ -615,7 +665,17 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
         if (decision_level_properties[max_decision_level].object==decision_object_departure
           || decision_level_properties[max_decision_level].object==decision_object_arrival
           || decision_level_properties[max_decision_level].object==decision_object_walk)
-          skip = false;
+        {
+          if (skip)
+          {
+#if defined(REPORT_DECISIONS)
+            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+            printf("trying to avoid an insertion so that we can insert a capturer\n");
+#endif
+
+            skip = false;
+          }
+        }
       }
     }
 
@@ -744,7 +804,17 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         if (decision_level_properties[max_decision_level].object==decision_object_departure
           || decision_level_properties[max_decision_level].object==decision_object_arrival
           || decision_level_properties[max_decision_level].object==decision_object_walk)
-          skip = false;
+        {
+          if (skip)
+          {
+#if defined(REPORT_DECISIONS)
+            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+            printf("trying to avoid an insertion so that we can insert a victim\n");
+#endif
+
+            skip = false;
+          }
+        }
       }
     }
 
