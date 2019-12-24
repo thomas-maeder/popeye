@@ -401,51 +401,39 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     }
     else
     {
-      /* skip over decisions that are not related to delivering the check */
       switch (decision_level_properties[max_decision_level].purpose)
       {
         case decision_purpose_random_mover_backward:
-        case decision_purpose_random_mover_forward:
         case decision_purpose_invisible_capturer_inserted:
         case decision_purpose_invisible_capturer_existing:
-          if (decision_level_properties[max_decision_level].side==side_in_check)
-            skip = true;
-          else if (decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            // TODO skip if this piece are not delivering the check?
-          }
-          else
-            skip = true;
-          break;
-
-        default:
-          break;
-      }
-
-      /* don't skip over potential interceptions */
-      switch (decision_level_properties[max_decision_level].purpose)
-      {
-        case decision_purpose_invisible_capturer_inserted:
-        case decision_purpose_invisible_capturer_existing:
-        case decision_purpose_random_mover_backward:
-          if (decision_level_properties[max_decision_level].ply>=nbply)
-          {
-            if (decision_level_properties[max_decision_level].object==decision_object_departure)
-            {
-              /* random mover may intercept the check depending on its departure square */
-              skip = false;
-            }
-          }
-          break;
-
         case decision_purpose_random_mover_forward:
           if (decision_level_properties[max_decision_level].ply<nbply)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_arrival)
+            if (decision_level_properties[max_decision_level].object==decision_object_walk
+                || decision_level_properties[max_decision_level].object==decision_object_arrival)
             {
-              /* random mover may intercept the check depending on its arrival square */
-              skip = false;
+              /* try harder.
+               * a future decision may select
+               * - a walk that doesn't deliver check
+               * - a walk that allows us to intercept a check
+               * - an arrival square where the check is intercepted
+               * - an arrival square from where the check can be intercepted
+               */
             }
+            else
+              skip = true;
+          }
+          else
+          {
+            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            {
+              /* try harder.
+               * a future decision may
+               * - select a departure square where this piece intercepts the check
+               */
+            }
+            else
+              skip = true;
           }
           break;
 
