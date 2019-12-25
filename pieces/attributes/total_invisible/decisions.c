@@ -609,7 +609,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
             }
           }
-          else
+          else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
           {
             if (decision_level_properties[max_decision_level].side==side_capturing)
               skip = true;
@@ -626,6 +626,8 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
             }
           }
+          else
+            assert(0);
           break;
 
         case decision_purpose_invisible_capturer_existing:
