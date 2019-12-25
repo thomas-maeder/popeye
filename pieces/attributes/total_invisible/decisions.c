@@ -396,10 +396,10 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         case decision_purpose_random_mover_backward:
         case decision_purpose_invisible_capturer_existing:
         case decision_purpose_random_mover_forward:
-          if (decision_level_properties[max_decision_level].ply<nbply)
+          if (decision_level_properties[max_decision_level].object==decision_object_walk
+              || decision_level_properties[max_decision_level].object==decision_object_arrival)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_walk
-                || decision_level_properties[max_decision_level].object==decision_object_arrival)
+            if (decision_level_properties[max_decision_level].ply<nbply)
             {
               /* try harder.
                * a future decision may select
@@ -410,18 +410,20 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
             else
               skip = true;
           }
-          else
+          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            if (decision_level_properties[max_decision_level].ply<nbply)
+              skip = true;
+            else
             {
               /* try harder.
                * a future decision may
                * - select a departure square where this piece intercepts the check
                */
             }
-            else
-              skip = true;
           }
+          else
+            skip = true;
           break;
 
         case decision_purpose_invisible_capturer_inserted:
