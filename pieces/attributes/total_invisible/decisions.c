@@ -772,9 +772,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         case decision_purpose_random_mover_backward:
         case decision_purpose_invisible_capturer_inserted:
         case decision_purpose_invisible_capturer_existing:
-          if (decision_level_properties[max_decision_level].ply<nbply)
+          if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_walk)
+            if (decision_level_properties[max_decision_level].ply<nbply)
             {
               /* depending on the walk, this piece may eventually sacrifice itself
                * to allow the capture by pawn
@@ -783,9 +783,11 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
             else
               skip = true;
           }
-          else
+          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
           {
-            if (decision_level_properties[max_decision_level].object==decision_object_departure)
+            if (decision_level_properties[max_decision_level].ply<nbply)
+              skip = true;
+            else
             {
               /* we may be able to sacrifice ourselves, either to the capturing pawn or
                * a pawn sacrificing itself to the capturing pawn
@@ -793,9 +795,9 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
                * - by moving away to allow a pawn to sacrifice itself
                */
             }
-            else
-              skip = true;
           }
+          else
+            skip = true;
           break;
 
         case decision_purpose_random_mover_forward:
