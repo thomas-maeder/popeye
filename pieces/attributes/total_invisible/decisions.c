@@ -630,11 +630,11 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 
         case decision_purpose_invisible_capturer_existing:
         case decision_purpose_invisible_capturer_inserted:
-          if (decision_level_properties[max_decision_level].side==side_capturing)
+          if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
-            if (decision_level_properties[max_decision_level].ply<=nbply)
+            if (decision_level_properties[max_decision_level].side==side_capturing)
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              if (decision_level_properties[max_decision_level].ply<=nbply)
               {
                 /* try harder.
                  * a future decision may
@@ -645,17 +645,24 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
             }
             else
+              skip = true;
+          }
+          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
+          {
+            if (decision_level_properties[max_decision_level].side==side_capturing)
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_departure)
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+                skip = true;
+              else
               {
                 /* try harder.
                  * a future decision may
                  * - select a mover that can't eventually do the capture
                  */
               }
-              else
-                skip = true;
             }
+            else
+              skip = true;
           }
           else
             skip = true;
