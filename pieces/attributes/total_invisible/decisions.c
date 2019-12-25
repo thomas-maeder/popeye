@@ -556,11 +556,11 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
       switch (decision_level_properties[max_decision_level].purpose)
       {
         case decision_purpose_random_mover_backward:
-          if (decision_level_properties[max_decision_level].side==side_capturing)
+          if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
-            if (decision_level_properties[max_decision_level].ply<=nbply)
+            if (decision_level_properties[max_decision_level].side==side_capturing)
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_walk)
+              if (decision_level_properties[max_decision_level].ply<=nbply)
               {
                 /* try harder.
                  * a future decision may
