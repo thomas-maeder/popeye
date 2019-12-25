@@ -578,13 +578,13 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
           break;
 
         case decision_purpose_random_mover_forward:
-          if (decision_level_properties[max_decision_level].side==side_capturing)
+          if (decision_level_properties[max_decision_level].object==decision_object_departure
+              || decision_level_properties[max_decision_level].object==decision_object_walk
+              || decision_level_properties[max_decision_level].object==decision_object_arrival)
           {
-            if (decision_level_properties[max_decision_level].ply<=nbply)
+            if (decision_level_properties[max_decision_level].side==side_capturing)
             {
-              if (decision_level_properties[max_decision_level].object==decision_object_departure
-                  || decision_level_properties[max_decision_level].object==decision_object_walk
-                  || decision_level_properties[max_decision_level].object==decision_object_arrival)
+              if (decision_level_properties[max_decision_level].ply<=nbply)
               {
                 /* try harder.
                  * a future decision may
@@ -597,19 +597,34 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
                 skip = true;
             }
             else
-              skip = true;
+            {
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+              {
+                /* try harder.
+                 * a future decision may
+                 * - avoid capturing a viable capturer
+                 */
+              }
+              else
+                skip = true;
+            }
           }
           else
           {
-            if (decision_level_properties[max_decision_level].ply<=nbply)
-            {
-              /* try harder.
-               * a future decision may
-               * - avoid capturing a viable capturer
-               */
-            }
-            else
+            if (decision_level_properties[max_decision_level].side==side_capturing)
               skip = true;
+            else
+            {
+              if (decision_level_properties[max_decision_level].ply<=nbply)
+              {
+                /* try harder.
+                 * a future decision may
+                 * - avoid capturing a viable capturer
+                 */
+              }
+              else
+                skip = true;
+            }
           }
           break;
 
