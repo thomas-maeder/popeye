@@ -130,7 +130,6 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
           {
             if (!will_be_taboo(sq_doublestep,side))
             {
-              max_decision_level = decision_level_latest;
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               done_fleshing_out_random_move_by_invisible_from(is_dummy_moving);
             }
@@ -147,7 +146,6 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
 
       if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
-        max_decision_level = decision_level_latest;
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         flesh_out_accidental_capture_by_invisible(is_dummy_moving);
       }
@@ -159,7 +157,6 @@ static void flesh_out_random_move_by_invisible_pawn_from(boolean is_dummy_moving
 
       if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
-        max_decision_level = decision_level_latest;
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         flesh_out_accidental_capture_by_invisible(is_dummy_moving);
       }
@@ -195,8 +192,6 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
     {
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-
-      max_decision_level = decision_level_latest;
 
       /* "factoring out" the invokations of is_taboo() is tempting, but we
        * want to break the loop if sq_arrival is not empty whether or not
@@ -247,8 +242,6 @@ static void flesh_out_random_move_by_invisible_leaper_from(vec_index_type kstart
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-
-      max_decision_level = decision_level_latest;
 
       if (is_square_empty(sq_arrival))
         done_fleshing_out_random_move_by_invisible_from(is_dummy_moving);
@@ -366,8 +359,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    max_decision_level = decision_level_latest;
-
     decision_levels[id_moving].walk = curr_decision_level;
     push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward);
 
@@ -382,8 +373,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    max_decision_level = decision_level_latest;
-
     decision_levels[id_moving].walk = curr_decision_level;
     push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward);
 
@@ -400,8 +389,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    max_decision_level = decision_level_latest;
-
     decision_levels[id_moving].walk = curr_decision_level;
     push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward);
 
@@ -418,8 +405,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    max_decision_level = decision_level_latest;
-
     decision_levels[id_moving].walk = curr_decision_level;
     push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward);
 
@@ -503,10 +488,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
       if (can_decision_level_be_continued()
           && !are_allocations_exhausted)
-      {
-        max_decision_level = decision_level_latest;
         flesh_out_random_move_by_existing_invisible_as_non_king_from(sq_departure);
-      }
     }
     else
       flesh_out_random_move_by_existing_invisible_as_non_king_from(sq_departure);
@@ -576,10 +558,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     pop_decision();
 
     if (can_decision_level_be_continued())
-    {
-      max_decision_level = decision_level_latest;
       forward_random_move_by_invisible(s+1);
-    }
 
     motivation[id].last = save_last;
   }
@@ -707,7 +686,6 @@ static void flesh_out_random_move_by_specific_invisible_rider_to(vec_index_type 
     while (can_decision_level_be_continued()
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
-      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
       move_effect_journal[movement].u.piece_movement.from -= vec[k];
     }
@@ -743,7 +721,6 @@ static void flesh_out_random_move_by_specific_invisible_king_to(void)
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
-      max_decision_level = decision_level_latest;
       being_solved.king_square[trait[nbply]] = move_effect_journal[movement].u.piece_movement.from;
       move_effect_journal[king_square_movement].u.king_square_movement.from = move_effect_journal[movement].u.piece_movement.from;
       done_fleshing_out_random_move_by_specific_invisible_to();
@@ -778,10 +755,7 @@ static void flesh_out_random_move_by_specific_invisible_leaper_to(vec_index_type
     TraceEOL();
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
-    {
-      max_decision_level = decision_level_latest;
       done_fleshing_out_random_move_by_specific_invisible_to();
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -820,10 +794,7 @@ static void flesh_out_random_move_by_specific_invisible_pawn_to(void)
       move_effect_journal[movement].u.piece_movement.from -= dir;
       if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublestepsq)
           && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
-      {
-        max_decision_level = decision_level_latest;
         done_fleshing_out_random_move_by_specific_invisible_to();
-      }
     }
   }
 
@@ -927,8 +898,6 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
       for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
       {
-        max_decision_level = decision_level_latest;
-
         decision_levels[id].walk = curr_decision_level;
         push_decision_walk(id,walk,decision_purpose_random_mover_backward);
 
@@ -1036,10 +1005,7 @@ static void retract_random_move_by_invisible(square const *start_square)
     decision_levels[id] = save_levels;
 
     if (can_decision_level_be_continued())
-    {
-      max_decision_level = decision_level_latest;
       retract_random_move_by_invisible(s+1);
-    }
 
     /* only now - this prevents trying to retract random moves by the same piece in nested levels */
     motivation[id].first.acts_when = save_when;
@@ -1061,8 +1027,6 @@ static void retract_random_move_by_invisible(square const *start_square)
     // * option for activating fleshing out
 
     dynamic_consumption_type const save_consumption = current_consumption;
-
-    max_decision_level = decision_level_latest;
 
     current_consumption.claimed[trait[nbply]] = true;
     if (nr_total_invisbles_consumed()<=total_invisible_number)
@@ -1091,10 +1055,7 @@ void backward_fleshout_random_move_by_invisible(void)
   {
     // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
     if (can_decision_level_be_continued())
-    {
-      max_decision_level = decision_level_latest;
       fake_capture_by_invisible();
-    }
   }
   else
     retract_random_move_by_invisible(boardnum);

@@ -134,6 +134,8 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   report_endline(file,line);
 #endif
 
+  max_decision_level = decision_level_latest;
+
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_level_properties[curr_decision_level].purpose = purpose;
@@ -195,6 +197,8 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   report_endline(file,line);
 #endif
 
+  max_decision_level = decision_level_latest;
+
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_arrival;
   decision_level_properties[curr_decision_level].purpose = purpose;
@@ -229,6 +233,8 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   report_endline(file,line);
 #endif
 
+  max_decision_level = decision_level_latest;
+
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_level_properties[curr_decision_level].purpose = purpose;
@@ -247,6 +253,8 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
   printf("I");
   report_endline(file,line);
 #endif
+
+  max_decision_level = decision_level_latest;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_insertion;
@@ -271,6 +279,8 @@ void push_decision_walk_impl(char const *file, unsigned int line,
             walk);
   report_endline(file,line);
 #endif
+
+  max_decision_level = decision_level_latest;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_walk;
@@ -309,6 +319,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
               pos);
   report_endline(file,line);
 #endif
+
+  max_decision_level = decision_level_latest;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;

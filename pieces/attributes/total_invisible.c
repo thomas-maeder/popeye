@@ -526,7 +526,6 @@ static void test_mate(void)
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
-      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
       record_decision_context();
       start_iteration();

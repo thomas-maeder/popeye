@@ -135,10 +135,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       pop_decision();
 
       if (side==White && can_decision_level_be_continued())
-      {
-        max_decision_level = decision_level_latest;
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
-      }
 
       forget_taboo_on_square(s,side,nbply);
     }
@@ -187,8 +184,6 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
-
-    max_decision_level = decision_level_latest;
 
     decision_levels[id_placed].from = decision_level_latest;
 
@@ -402,23 +397,15 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
       if (side==trait[nbply])
       {
         if (can_decision_level_be_continued())
-        {
-          max_decision_level = decision_level_latest;
           place_pawn_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
-        }
 
         if (can_decision_level_be_continued())
-        {
-          max_decision_level = decision_level_latest;
           place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Knight);
-        }
 
         if (can_decision_level_be_continued())
         {
           vec_index_type const k = check_vectors[nr_check_vectors-1];
           boolean const is_check_orthogonal = k<=vec_rook_end;
-
-          max_decision_level = decision_level_latest;
 
           if (is_check_orthogonal)
             place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
@@ -443,7 +430,6 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
           capture_by_invisible_failed_with_this_walk[curr_decision_level] = false;
 
-          max_decision_level = decision_level_latest;
           place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
 
           if (capture_by_invisible_failed_with_this_walk[curr_decision_level])
@@ -461,10 +447,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             {
               piece_walk_type const walk = walk_order_after_queen[i];
               if (!walk_ruled_out[walk])
-              {
-                max_decision_level = decision_level_latest;
                 place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
-              }
             }
           }
         }
@@ -502,8 +485,6 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
     remember_taboo_on_square(s,side,nbply);
-
-    max_decision_level = decision_level_latest;
 
     decision_levels[id_placed].side = curr_decision_level;
     push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
@@ -552,8 +533,6 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
-
-    max_decision_level = decision_level_latest;
 
     decision_levels[id_placed].from = decision_level_latest;
 

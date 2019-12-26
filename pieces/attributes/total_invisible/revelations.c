@@ -1520,10 +1520,7 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
     if (is_random_move_by_invisible(nbply))
       backward_fleshout_random_move_by_invisible();
     else
-    {
-      max_decision_level = decision_level_latest;
       restart_from_scratch();
-    }
   }
   else
   {

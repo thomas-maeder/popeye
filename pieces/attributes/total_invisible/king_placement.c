@@ -147,7 +147,6 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        max_decision_level = decision_level_latest;
         push_decision_king_nomination(*s);
         restart_from_scratch();
         pop_decision();
