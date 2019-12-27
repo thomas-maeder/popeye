@@ -425,13 +425,13 @@ void adapt_pre_capture_effect(void)
         TraceValue("%u",move_effect_journal[pre_capture].reason);
         TraceEOL();
 
+        // TODO is this always the knowledge record at index 0?
         if (!is_square_empty(sq_addition)
             && sq_addition==knowledge[0].first_on
             && walk_added==knowledge[0].walk
             && knowledge[0].is_allocated)
         {
           TraceText("addition of a castling partner - must have happened at diagram setup time\n");
-          // TODO this will always be the case once we fully use our knowledge
           TraceText("castling partner was added as part of applying our knowledge\n");
           move_effect_journal[pre_capture].type = move_effect_none;
           deal_with_illegal_checks();
