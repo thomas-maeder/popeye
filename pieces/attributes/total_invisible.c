@@ -416,6 +416,15 @@ void adapt_pre_capture_effect(void)
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
         Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
 
+        TraceSquare(sq_addition);
+        TraceValue("%u",is_square_empty(sq_addition));
+        TraceSquare(knowledge[0].first_on);
+        TraceWalk(walk_added);
+        TraceWalk(knowledge[0].walk);
+        TraceValue("%u",knowledge[0].is_allocated);
+        TraceValue("%u",move_effect_journal[pre_capture].reason);
+        TraceEOL();
+
         if (!is_square_empty(sq_addition)
             && sq_addition==knowledge[0].first_on
             && walk_added==knowledge[0].walk
@@ -426,6 +435,26 @@ void adapt_pre_capture_effect(void)
           TraceText("castling partner was added as part of applying our knowledge\n");
           move_effect_journal[pre_capture].type = move_effect_none;
           deal_with_illegal_checks();
+          move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        }
+        else if (is_square_empty(sq_addition)
+                 && move_effect_journal[pre_capture].reason==move_effect_reason_castling_partner)
+        {
+          square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+          piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+          Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+          PieceIdType const id_added = GetPieceId(flags_added);
+
+          TraceText("addition of a castling partner during revelation detection - must have happened at diagram setup time\n");
+          record_decision_outcome("%s","adding castling partner");
+          move_effect_journal[pre_capture].type = move_effect_none;
+          decision_levels[id_added].side = decision_level_forever;
+          decision_levels[id_added].to = decision_level_forever;
+          ++being_solved.number_of_pieces[trait[nbply]][walk_added];
+          occupy_square(sq_addition,walk_added,flags_added);
+          restart_from_scratch();
+          empty_square(sq_addition);
+          --being_solved.number_of_pieces[trait[nbply]][walk_added];
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
         }
         else if (was_taboo(sq_addition,side_added))

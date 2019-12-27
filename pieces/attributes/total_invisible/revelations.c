@@ -1488,6 +1488,7 @@ void do_revelation_bookkeeping(void)
       TraceEOL();
       assert(decision_levels[id].side!=decision_level_uninitialised);
       assert(decision_levels[id].walk!=decision_level_uninitialised);
+      assert(decision_levels[id].to!=decision_level_uninitialised);
       if (decision_levels[id].side>max_level)
         max_level = decision_levels[id].side;
       if (decision_levels[id].walk>max_level)
