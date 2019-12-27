@@ -78,20 +78,7 @@ static void report_endline(char const *file, unsigned int line)
 
 #endif
 
-void record_decision_for_inserted_capturer(PieceIdType id)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",id);
-  TraceFunctionParamListEnd();
-
-  decision_levels[id].side = curr_decision_level;
-  decision_levels[id].walk = curr_decision_level;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void record_decision_context_impl(char const *file, unsigned int line, char const *context)
+void initialise_decision_context_impl(char const *file, unsigned int line, char const *context)
 {
 #if defined(REPORT_DECISIONS)
   printf("\n!%s",context);
@@ -104,6 +91,21 @@ void record_decision_context_impl(char const *file, unsigned int line, char cons
   move_numbers_write_history(top_ply_of_regular_play+1);
   fflush(stdout);
 #endif
+
+  max_decision_level = decision_level_latest;
+}
+
+void record_decision_for_inserted_capturer(PieceIdType id)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",id);
+  TraceFunctionParamListEnd();
+
+  decision_levels[id].side = curr_decision_level;
+  decision_levels[id].walk = curr_decision_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)

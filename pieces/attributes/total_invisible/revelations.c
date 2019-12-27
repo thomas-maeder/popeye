@@ -1427,8 +1427,7 @@ void make_revelations(void)
   play_phase = play_rewinding;
   rewind_effects();
   play_phase = play_detecting_revelations;
-  max_decision_level = decision_level_latest;
-  record_decision_context();
+  initialise_decision_context();
 
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;

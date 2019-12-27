@@ -54,7 +54,8 @@ extern unsigned long prev_record_decision_counter;
 
 void record_decision_for_inserted_capturer(PieceIdType id);
 
-void record_decision_context_impl(char const *file, unsigned int line, char const *context);
+void initialise_decision_context_impl(char const *file, unsigned int line, char const *context);
+
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...);
 
 void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose);
@@ -66,8 +67,8 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
 void push_decision_walk_impl(char const *file, unsigned int line, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose);
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
-#define record_decision_context() \
-    record_decision_context_impl(__FILE__,__LINE__,__func__)
+#define initialise_decision_context() \
+    initialise_decision_context_impl(__FILE__,__LINE__,__func__)
 
 #define record_decision_outcome(format, ...) \
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)

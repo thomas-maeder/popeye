@@ -488,8 +488,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     combined_result = previous_move_is_illegal;
-    max_decision_level = decision_level_latest;
-    record_decision_context();
+    initialise_decision_context();
     start_iteration();
   }
 
@@ -518,16 +517,15 @@ static void test_mate(void)
 
     case mate_attackable:
     case mate_defendable_by_interceptors:
-      max_decision_level = decision_level_latest;
       combined_result = previous_move_is_illegal;
-      record_decision_context();
+      initialise_decision_context();
       start_iteration();
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       combined_result = previous_move_is_illegal;
-      record_decision_context();
+      initialise_decision_context();
       start_iteration();
       assert(combined_result==previous_move_has_solved);
       break;
