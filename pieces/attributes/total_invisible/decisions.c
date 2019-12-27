@@ -875,6 +875,14 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   TraceFunctionResultEnd();
 }
 
+/* Reduce max_decision_level to a value as low as possible considering that we have
+ * determined that the current move sequence has definitively failed
+ */
+void backtrack_after_definitive_failure(void)
+{
+  max_decision_level = decision_level_forever;
+}
+
 boolean can_decision_level_be_continued(void)
 {
   return curr_decision_level<=max_decision_level;

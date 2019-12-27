@@ -67,7 +67,7 @@ void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
-    max_decision_level = decision_level_forever;
+    backtrack_after_definitive_failure();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
