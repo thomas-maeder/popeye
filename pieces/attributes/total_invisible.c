@@ -425,14 +425,16 @@ void adapt_pre_capture_effect(void)
         TraceValue("%u",move_effect_journal[pre_capture].reason);
         TraceEOL();
 
-        // TODO is this always the knowledge record at index 0?
         if (!is_square_empty(sq_addition)
             && sq_addition==knowledge[0].first_on
             && walk_added==knowledge[0].walk
             && knowledge[0].is_allocated)
         {
-          TraceText("addition of a castling partner - must have happened at diagram setup time\n");
+          TraceText("addition of a castling partner\n");
           TraceText("castling partner was added as part of applying our knowledge\n");
+          // TODO this path is never taken - has it ever been?
+          // TODO why would the knowledge record always be at index 0?
+          assert(0);
           move_effect_journal[pre_capture].type = move_effect_none;
           deal_with_illegal_checks();
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
@@ -445,7 +447,7 @@ void adapt_pre_capture_effect(void)
           Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
           PieceIdType const id_added = GetPieceId(flags_added);
 
-          TraceText("addition of a castling partner during revelation detection - must have happened at diagram setup time\n");
+          TraceText("addition of a castling partner\n");
           record_decision_outcome("%s","adding castling partner");
           move_effect_journal[pre_capture].type = move_effect_none;
           decision_levels[id_added].side = curr_decision_level;
