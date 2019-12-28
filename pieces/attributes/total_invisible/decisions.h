@@ -50,7 +50,6 @@ enum
 };
 
 extern unsigned long record_decision_counter;
-extern unsigned long prev_record_decision_counter;
 
 void record_decision_for_inserted_capturer(PieceIdType id);
 

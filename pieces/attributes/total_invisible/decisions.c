@@ -38,7 +38,6 @@ typedef struct
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
-unsigned long prev_record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
 

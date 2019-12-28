@@ -604,6 +604,8 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
   if (can_decision_level_be_continued())
   {
+    boolean try_queen = false;
+
     if (CheckDir[Knight][move_square_diff]==move_square_diff)
     {
       decision_levels[id_existing].walk = curr_decision_level;
@@ -611,8 +613,6 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       flesh_out_dummy_for_capture_as(Knight,sq_departure);
       pop_decision();
     }
-
-    boolean try_queen = false;
 
     if (can_decision_level_be_continued())
     {
