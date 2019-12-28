@@ -94,7 +94,7 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   max_decision_level = decision_level_latest;
 }
 
-void record_decision_for_inserted_capturer(PieceIdType id)
+void record_decision_for_inserted_invisible(PieceIdType id)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",id);
@@ -102,6 +102,7 @@ void record_decision_for_inserted_capturer(PieceIdType id)
 
   decision_levels[id].side = curr_decision_level;
   decision_levels[id].walk = curr_decision_level;
+  decision_levels[id].to = curr_decision_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

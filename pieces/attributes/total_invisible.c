@@ -304,7 +304,7 @@ void insert_invisible_capturer(void)
       assert(!was_taboo(sq_addition,side_added));
 
       move_effect_journal[pre_capture].type = move_effect_none;
-      record_decision_for_inserted_capturer(id);
+      record_decision_for_inserted_invisible(id);
       ++being_solved.number_of_pieces[side_added][walk_added];
       occupy_square(sq_addition,walk_added,flags_added);
       restart_from_scratch();
@@ -450,9 +450,7 @@ void adapt_pre_capture_effect(void)
           TraceText("addition of a castling partner\n");
           record_decision_outcome("%s","adding castling partner");
           move_effect_journal[pre_capture].type = move_effect_none;
-          decision_levels[id_added].side = curr_decision_level;
-          decision_levels[id_added].to = curr_decision_level;
-          decision_levels[id_added].walk = curr_decision_level;
+          record_decision_for_inserted_invisible(id_added);
           ++being_solved.number_of_pieces[trait[nbply]][walk_added];
           occupy_square(sq_addition,walk_added,flags_added);
           restart_from_scratch();

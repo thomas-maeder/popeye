@@ -51,7 +51,7 @@ enum
 
 extern unsigned long record_decision_counter;
 
-void record_decision_for_inserted_capturer(PieceIdType id);
+void record_decision_for_inserted_invisible(PieceIdType id);
 
 void initialise_decision_context_impl(char const *file, unsigned int line, char const *context);
 
