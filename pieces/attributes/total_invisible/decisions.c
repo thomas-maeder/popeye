@@ -878,14 +878,53 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
 }
 
 /* Reduce max_decision_level to a value as low as possible considering that we have
- * determined that the current move sequence has definitively failed
+ * determined that the we are done testing the current move sequence
  */
-void backtrack_after_definitive_failure(void)
+void backtrack_definitively(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   max_decision_level = decision_level_forever;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* To be invoked after backtrack_definitively(), possibly multiple times, to make that "definititively"
+ * a bit more relative.
+ * @param level level to which to backtrack at most
+ */
+void backtrack_no_further_than(decision_level_type level)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",level);
+  TraceFunctionParamListEnd();
+
+  assert(level!=decision_level_uninitialised);
+
+  if (level>max_decision_level)
+    max_decision_level = level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean can_decision_level_be_continued(void)
 {
-  return curr_decision_level<=max_decision_level;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",curr_decision_level);
+  TraceValue("%u",max_decision_level);
+  TraceEOL();
+
+  result = curr_decision_level<=max_decision_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

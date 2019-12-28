@@ -67,7 +67,7 @@ void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
-    backtrack_after_definitive_failure();
+    backtrack_definitively();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

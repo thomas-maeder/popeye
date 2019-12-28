@@ -194,7 +194,10 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
       pipe_solve_delegate(si);
     else
     {
+      // TODO move to separate slice implemented in the revelations module
+
       unsigned int nr_revealed_unplaced_invisibles[nr_sides] = { 0, 0 };
+
       {
         unsigned int i;
         for (i = 0; i!=nr_potential_revelations; ++i)
@@ -212,6 +215,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
           }
         }
       }
+
       // TODO there must be a simpler, understandable way to do this
       if (current_consumption.claimed[White] && nr_revealed_unplaced_invisibles[White]>0)
         --nr_revealed_unplaced_invisibles[White];

@@ -1469,10 +1469,12 @@ void do_revelation_bookkeeping(void)
                             prev_nr_potential_revelations);
   }
 
+  backtrack_definitively();
+
+  TraceValue("%u",nr_potential_revelations);TraceEOL();
+  if (nr_potential_revelations>0)
   {
-    decision_level_type max_level = decision_level_forever;
     unsigned int i;
-    TraceValue("%u",nr_potential_revelations);TraceEOL();
     for (i = 0; i!=nr_potential_revelations; ++i)
     {
       PieceIdType const id = GetPieceId(revelation_status[i].spec);
@@ -1482,25 +1484,12 @@ void do_revelation_bookkeeping(void)
       TraceSquare(revelation_status[i].last.on);
       TraceValue("%x",revelation_status[i].spec);
       TraceValue("%u",id);
-      TraceValue("%u",decision_levels[id].side);
-      TraceValue("%u",decision_levels[id].walk);
-      TraceValue("%u",decision_levels[id].to);
       TraceEOL();
-      assert(decision_levels[id].side!=decision_level_uninitialised);
-      assert(decision_levels[id].walk!=decision_level_uninitialised);
-      assert(decision_levels[id].to!=decision_level_uninitialised);
-      if (decision_levels[id].side>max_level)
-        max_level = decision_levels[id].side;
-      if (decision_levels[id].walk>max_level)
-        max_level = decision_levels[id].walk;
-      if (decision_levels[id].to>max_level)
-        max_level = decision_levels[id].to;
+
+      backtrack_no_further_than(decision_levels[id].side);
+      backtrack_no_further_than(decision_levels[id].walk);
+      backtrack_no_further_than(decision_levels[id].to);
     }
-    TraceValue("%u",max_decision_level);
-    TraceValue("%u",max_level);
-    TraceEOL();
-    assert(max_decision_level>max_level);
-    max_decision_level = max_level;
   }
 
   TraceFunctionExit(__func__);
