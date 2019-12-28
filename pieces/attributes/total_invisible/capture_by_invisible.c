@@ -669,6 +669,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
   {
+    decision_levels[id_existing].walk = curr_decision_level;
     push_decision_walk(id_existing,King,decision_purpose_invisible_capturer_existing);
     flesh_out_dummy_for_capture_king(sq_departure);
     pop_decision();
