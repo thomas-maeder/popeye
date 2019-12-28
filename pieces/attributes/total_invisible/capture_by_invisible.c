@@ -146,13 +146,8 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
   if (is_square_uninterceptably_attacked(side_in_check,king_pos))
   {
-    PieceIdType const id_existing = GetPieceId(flags_existing);
-
     record_decision_outcome("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
-
-    backtrack_definitively();
-    backtrack_no_further_than(decision_levels[id_existing].walk);
   }
   else
   {
@@ -167,6 +162,9 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
     motivation_type const motivation_random = motivation[id_random];
 
     dynamic_consumption_type const save_consumption = current_consumption;
+
+    decision_levels[id_existing].walk = curr_decision_level;
+    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing);
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
@@ -205,6 +203,8 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
     motivation[id_random] = motivation_random;
 
     replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+
+    pop_decision();
   }
 
   replace_walk(sq_departure,Dummy);
@@ -538,7 +538,8 @@ static void capture_by_inserted_invisible_all_walks(void)
   TraceFunctionResultEnd();
 }
 
-static void flesh_out_dummy_for_capture_king(square sq_departure)
+static void flesh_out_dummy_for_capture_king(square sq_departure,
+                                             PieceIdType id_existing)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -548,6 +549,7 @@ static void flesh_out_dummy_for_capture_king(square sq_departure)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
+  TraceFunctionParam("%u",id_existing);
   TraceFunctionParamListEnd();
 
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -568,6 +570,7 @@ static void flesh_out_dummy_for_capture_king(square sq_departure)
   being_solved.king_square[trait[nbply]] = initsquare;
 
   move_effect_journal[king_square_movement].type = move_effect_none;
+
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -592,12 +595,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
     if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
-    {
-      decision_levels[id_existing].walk = curr_decision_level;
-      push_decision_walk(id_existing,Pawn,decision_purpose_invisible_capturer_existing);
       flesh_out_dummy_for_capture_as(Pawn,sq_departure);
-      pop_decision();
-    }
 
     // TODO en passant capture
   }
@@ -607,12 +605,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     boolean try_queen = false;
 
     if (CheckDir[Knight][move_square_diff]==move_square_diff)
-    {
-      decision_levels[id_existing].walk = curr_decision_level;
-      push_decision_walk(id_existing,Knight,decision_purpose_invisible_capturer_existing);
       flesh_out_dummy_for_capture_as(Knight,sq_departure);
-      pop_decision();
-    }
 
     if (can_decision_level_be_continued())
     {
@@ -620,10 +613,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
         try_queen = true;
-        decision_levels[id_existing].walk = curr_decision_level;
-        push_decision_walk(id_existing,Bishop,decision_purpose_invisible_capturer_existing);
         flesh_out_dummy_for_capture_as(Bishop,sq_departure);
-        pop_decision();
       }
     }
 
@@ -633,20 +623,12 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
         try_queen = true;
-        decision_levels[id_existing].walk = curr_decision_level;
-        push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer_existing);
         flesh_out_dummy_for_capture_as(Rook,sq_departure);
-        pop_decision();
       }
     }
 
     if (can_decision_level_be_continued() && try_queen)
-    {
-      decision_levels[id_existing].walk = curr_decision_level;
-      push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
       flesh_out_dummy_for_capture_as(Queen,sq_departure);
-      pop_decision();
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -668,12 +650,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
   assert(being_solved.king_square[trait[nbply]]==initsquare);
 
   if (CheckDir[Queen][move_square_diff]==move_square_diff)
-  {
-    decision_levels[id_existing].walk = curr_decision_level;
-    push_decision_walk(id_existing,King,decision_purpose_invisible_capturer_existing);
-    flesh_out_dummy_for_capture_king(sq_departure);
-    pop_decision();
-  }
+    flesh_out_dummy_for_capture_king(sq_departure,id_existing);
 
   assert(current_consumption.placed[trait[nbply]]>0);
 
