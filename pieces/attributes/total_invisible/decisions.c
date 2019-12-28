@@ -128,7 +128,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
   ++record_decision_counter;
 }
 
-void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+decision_level_type push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -161,10 +161,12 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
 // TODO  do we still need to do record decisions regarding move vectors?
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
+decision_level_type push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -193,9 +195,11 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
-void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -229,9 +233,11 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
-void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+decision_level_type push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -256,9 +262,11 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
-void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+decision_level_type push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -279,12 +287,14 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
-void push_decision_walk_impl(char const *file, unsigned int line,
-                             PieceIdType id,
-                             piece_walk_type walk,
-                             decision_purpose_type purpose)
+decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
+                                            PieceIdType id,
+                                            piece_walk_type walk,
+                                            decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -317,6 +327,8 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
