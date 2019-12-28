@@ -1496,7 +1496,10 @@ void do_revelation_bookkeeping(void)
       if (decision_levels[id].to>max_level)
         max_level = decision_levels[id].to;
     }
-    TraceValue("%u",max_level);TraceEOL();
+    TraceValue("%u",max_decision_level);
+    TraceValue("%u",max_level);
+    TraceEOL();
+    assert(max_decision_level>max_level);
     max_decision_level = max_level;
   }
 

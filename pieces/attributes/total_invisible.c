@@ -448,8 +448,9 @@ void adapt_pre_capture_effect(void)
           TraceText("addition of a castling partner during revelation detection - must have happened at diagram setup time\n");
           record_decision_outcome("%s","adding castling partner");
           move_effect_journal[pre_capture].type = move_effect_none;
-          decision_levels[id_added].side = decision_level_forever;
-          decision_levels[id_added].to = decision_level_forever;
+          decision_levels[id_added].side = curr_decision_level;
+          decision_levels[id_added].to = curr_decision_level;
+          decision_levels[id_added].walk = curr_decision_level;
           ++being_solved.number_of_pieces[trait[nbply]][walk_added];
           occupy_square(sq_addition,walk_added,flags_added);
           restart_from_scratch();

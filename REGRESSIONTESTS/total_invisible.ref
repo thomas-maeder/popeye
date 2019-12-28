@@ -623,7 +623,7 @@ a)
 b) wSb5-->d7  
 
   1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
-  add_to_move_generation_stack:     2979222
+  add_to_move_generation_stack:     2979221
                      play_move:     5858909
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1755645

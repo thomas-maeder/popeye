@@ -116,6 +116,8 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
   report_endline(file,line);
 #endif
 
+  max_decision_level = decision_level_latest;
+
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
   decision_level_properties[curr_decision_level].purpose = purpose;
