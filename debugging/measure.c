@@ -57,6 +57,9 @@ void solving_insert_move_counters(slice_index si)
     protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
   }
 
+extern unsigned int total_invisible_number;
+extern unsigned long record_decision_counter;
+
 void counters_writer_solve(slice_index si)
 {
   RESET_COUNTER(add_to_move_generation_stack);
@@ -70,6 +73,11 @@ void counters_writer_solve(slice_index si)
   WRITE_COUNTER(play_move);
   WRITE_COUNTER(is_white_king_square_attacked);
   WRITE_COUNTER(is_black_king_square_attacked);
+  if (total_invisible_number>0)
+  {
+    protocol_fprintf(stdout,"%30s:%12lu\n","TI decisions",record_decision_counter);
+    record_decision_counter = 0;
+  }
 }
 
 #endif
