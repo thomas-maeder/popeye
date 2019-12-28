@@ -17,6 +17,7 @@ enum
 {
   decision_level_uninitialised = 0,
   decision_level_forever = 1,
+  decision_level_initial,
   decision_level_latest = UINT_MAX
 };
 

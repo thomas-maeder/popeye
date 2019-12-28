@@ -612,56 +612,40 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
       pop_decision();
     }
 
+    boolean try_queen = false;
+
     if (can_decision_level_be_continued())
     {
       int const dir = CheckDir[Bishop][move_square_diff];
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
+        try_queen = true;
         decision_levels[id_existing].walk = curr_decision_level;
         push_decision_walk(id_existing,Bishop,decision_purpose_invisible_capturer_existing);
-
         flesh_out_dummy_for_capture_as(Bishop,sq_departure);
-
-        /* Don't reduce curr_decision_level yet; if posteriority asks for a
-         * different walk, Queen won't do. */
-        // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
-
-        if (can_decision_level_be_continued())
-        {
-          decision_levels[id_existing].walk = curr_decision_level;
-          push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
-          flesh_out_dummy_for_capture_as(Queen,sq_departure);
-          pop_decision();
-        }
-
         pop_decision();
       }
+    }
 
-      if (can_decision_level_be_continued())
+    if (can_decision_level_be_continued())
+    {
+      int const dir = CheckDir[Rook][move_square_diff];
+      if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
-        int const dir = CheckDir[Rook][move_square_diff];
-        if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
-        {
-          decision_levels[id_existing].walk = curr_decision_level;
-          push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer_existing);
-
-          flesh_out_dummy_for_capture_as(Rook,sq_departure);
-
-          /* Don't reduce curr_decision_level yet; if posteriority asks for a
-           * different walk, Queen won't do. */
-          // TODO is this correct when we detect revelations? cf. capture_by_invisible_rider_inserted_or_existing()
-
-          if (can_decision_level_be_continued())
-          {
-            decision_levels[id_existing].walk = curr_decision_level;
-            push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
-            flesh_out_dummy_for_capture_as(Queen,sq_departure);
-            pop_decision();
-          }
-
-          pop_decision();
-        }
+        try_queen = true;
+        decision_levels[id_existing].walk = curr_decision_level;
+        push_decision_walk(id_existing,Rook,decision_purpose_invisible_capturer_existing);
+        flesh_out_dummy_for_capture_as(Rook,sq_departure);
+        pop_decision();
       }
+    }
+
+    if (can_decision_level_be_continued() && try_queen)
+    {
+      decision_levels[id_existing].walk = curr_decision_level;
+      push_decision_walk(id_existing,Queen,decision_purpose_invisible_capturer_existing);
+      flesh_out_dummy_for_capture_as(Queen,sq_departure);
+      pop_decision();
     }
   }
 
