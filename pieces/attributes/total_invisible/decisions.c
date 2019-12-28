@@ -10,7 +10,7 @@
 //#define REPORT_DECISIONS
 
 decision_level_type curr_decision_level = 2;
-decision_level_type max_decision_level = decision_level_latest;
+static decision_level_type max_decision_level = decision_level_latest;
 
 decision_levels_type decision_levels[MaxPieceId+1];
 

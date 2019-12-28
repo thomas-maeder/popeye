@@ -56,9 +56,8 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
       {
         record_decision_outcome("%s","capturer would deliver uninterceptable check");
         REPORT_DEADEND;
-        max_decision_level = decision_levels[id_inserted].from;
-        if (max_decision_level<decision_levels[id_inserted].walk)
-          max_decision_level = decision_levels[id_inserted].walk;
+        backtrack_definitively();
+        backtrack_no_further_than(decision_levels[id_inserted].from);
       }
       else
       {
@@ -111,7 +110,8 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
     {
       record_decision_outcome("%s","capturer can't be allocated");
       REPORT_DEADEND;
-      max_decision_level = decision_levels[id_inserted].from;
+      backtrack_definitively();
+      backtrack_no_further_than(decision_levels[id_inserted].from);
     }
 
     current_consumption = save_consumption;
@@ -151,7 +151,8 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
     record_decision_outcome("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
 
-    max_decision_level = decision_levels[id_existing].walk;
+    backtrack_definitively();
+    backtrack_no_further_than(decision_levels[id_existing].walk);
   }
   else
   {
@@ -905,9 +906,9 @@ static void capture_by_existing_invisible_on(square sq_departure)
             {
               /* move our single piece to a different square
                * or let another piece be our single piece */
-              max_decision_level = decisions_existing.to;
-              if (max_decision_level<decisions_existing.side)
-                max_decision_level = decisions_existing.side;
+              backtrack_definitively();
+              backtrack_no_further_than(decisions_existing.to);
+              backtrack_no_further_than(decisions_existing.side);
             }
           }
           break;
@@ -924,7 +925,8 @@ static void capture_by_existing_invisible_on(square sq_departure)
       TraceText("the piece was added to later act from its current square\n");
       record_decision_outcome("%s","the piece was added to later act from its current square");
       REPORT_DEADEND;
-      max_decision_level = decision_levels[id_existing].from;
+      backtrack_definitively();
+      backtrack_no_further_than(decision_levels[id_existing].from);
     }
 
     motivation[id_existing] = motivation_existing;
