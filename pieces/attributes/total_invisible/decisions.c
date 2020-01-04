@@ -382,10 +382,20 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 
 void pop_decision(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   decision_level_properties[curr_decision_level].ply = 0;
   decision_level_properties[curr_decision_level].side = no_side;
   assert(curr_decision_level>0);
   --curr_decision_level;
+
+  TraceValue("%u",curr_decision_level);
+  TraceValue("%u",capture_by_invisible_failed_with_this_walk[curr_decision_level]);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Reduce max_decision_level to a value as low as possible considering that we have

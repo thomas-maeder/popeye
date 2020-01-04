@@ -1044,9 +1044,9 @@ pieces/attributes/total_invisible/king_placement$(OBJ_SUFFIX): \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
  solving/ply.h pieces/attributes/total_invisible/goal_validation.h \
- debugging/trace.h output/plaintext/pieces.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h output/output.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h output/plaintext/pieces.h output/output.h \
  output/plaintext/plaintext.h options/movenumbers.h \
  solving/machinery/solve.h solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/revelations.h \
@@ -1101,8 +1101,6 @@ pieces/attributes/total_invisible/goal_validation.h:
 
 debugging/trace.h:
 
-output/plaintext/pieces.h:
-
 position/position.h:
 
 position/color.h:
@@ -1114,6 +1112,8 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+output/plaintext/pieces.h:
 
 output/output.h:
 
@@ -1244,13 +1244,13 @@ pieces/attributes/total_invisible/replay_fleshed_out$(OBJ_SUFFIX): \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
  solving/ply.h pieces/attributes/total_invisible/goal_validation.h \
- debugging/trace.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h \
- position/castling_rights.h solving/pipe.h solving/move_generator.h \
- solving/castling.h position/position.h position/color.h \
+ debugging/trace.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum debugging/assert.h
+ position/castling_rights.h solving/move_effect_journal.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h solving/pipe.h \
+ solving/move_generator.h solving/castling.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ debugging/assert.h
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 
@@ -1294,20 +1294,6 @@ pieces/attributes/total_invisible/goal_validation.h:
 
 debugging/trace.h:
 
-solving/move_effect_journal.h:
-
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-position/castling_rights.h:
-
-solving/pipe.h:
-
-solving/move_generator.h:
-
-solving/castling.h:
-
 position/position.h:
 
 position/color.h:
@@ -1317,6 +1303,20 @@ position/color.enum.h:
 position/color.enum:
 
 pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+solving/pipe.h:
+
+solving/move_generator.h:
+
+solving/castling.h:
 
 solving/has_solution_type.h:
 
@@ -1335,9 +1335,9 @@ pieces/attributes/total_invisible/decisions$(OBJ_SUFFIX): \
  stipulation/slice_type.enum position/side.h position/side.enum.h \
  position/side.enum output/mode.h output/mode.enum.h output/mode.enum \
  solving/ply.h pieces/attributes/total_invisible/goal_validation.h \
- debugging/trace.h output/plaintext/pieces.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h position/castling_rights.h output/output.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ position/castling_rights.h output/plaintext/pieces.h output/output.h \
  output/plaintext/plaintext.h options/movenumbers.h \
  solving/machinery/solve.h solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/consumption.h \
@@ -1385,8 +1385,6 @@ pieces/attributes/total_invisible/goal_validation.h:
 
 debugging/trace.h:
 
-output/plaintext/pieces.h:
-
 position/position.h:
 
 position/color.h:
@@ -1398,6 +1396,8 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
+
+output/plaintext/pieces.h:
 
 output/output.h:
 

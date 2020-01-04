@@ -303,10 +303,6 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
 
     decision_levels[id_inserted].walk = push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted);
 
-    TraceValue("%u",curr_decision_level);
-    TraceValue("%u",max_decision_level);
-    TraceEOL();
-
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square sq_departure;
@@ -345,10 +341,6 @@ static void capture_by_inserted_invisible_king(void)
   TraceFunctionParamListEnd();
 
   decision_levels[id_inserted].walk = push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted);
-
-  TraceValue("%u",curr_decision_level);
-  TraceValue("%u",max_decision_level);
-  TraceEOL();
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -413,10 +405,6 @@ static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
 
     decision_levels[id_inserted].walk = push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted);
 
-    TraceValue("%u",curr_decision_level);
-    TraceValue("%u",max_decision_level);
-    TraceEOL();
-
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square const sq_departure = sq_arrival+vec[kcurr];
@@ -477,10 +465,6 @@ static void capture_by_invisible_pawn_inserted(void)
     PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
     decision_levels[id_inserted].walk = push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted);
-
-    TraceValue("%u",curr_decision_level);
-    TraceValue("%u",max_decision_level);
-    TraceEOL();
 
     capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
