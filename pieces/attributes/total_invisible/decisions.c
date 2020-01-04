@@ -41,6 +41,8 @@ unsigned long record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
 
+static unsigned long prev_record_decision_counter;
+
 static char const purpose_symbol[] = {
     'x' /* decision_purpose_invisible_capturer_existing */
     , 'X' /* decision_purpose_invisible_capturer_inserted */
@@ -89,6 +91,8 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   ++record_decision_counter;
   move_numbers_write_history(top_ply_of_regular_play+1);
   fflush(stdout);
+
+  prev_record_decision_counter = record_decision_counter;
 #endif
 
   max_decision_level = decision_level_latest;
