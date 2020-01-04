@@ -39,6 +39,14 @@ static decision_level_property_type decision_level_properties[decision_level_dir
 
 unsigned long record_decision_counter;
 
+typedef enum
+{
+  backtrack_none,
+  backtrack_until_level
+} backtrack_type;
+
+static backtrack_type current_backtracking = backtrack_none;
+
 #if defined(REPORT_DECISIONS)
 
 static unsigned long prev_record_decision_counter;
@@ -96,6 +104,7 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 }
 
 void record_decision_for_inserted_invisible(PieceIdType id)
@@ -121,6 +130,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
@@ -145,6 +155,7 @@ decision_level_type push_decision_departure_impl(char const *file, unsigned int 
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
@@ -179,6 +190,9 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
   printf("direction:%d",direction);
   report_endline(file,line);
 #endif
+
+  max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
@@ -216,6 +230,7 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_arrival;
@@ -256,6 +271,7 @@ decision_level_type push_decision_side_impl(char const *file, unsigned int line,
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_side;
@@ -281,6 +297,7 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_insertion;
@@ -311,6 +328,7 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_walk;
@@ -355,6 +373,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 #endif
 
   max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
 
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
@@ -418,6 +437,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceValue("%u",nbply);
   TraceEOL();
 
+  current_backtracking = backtrack_until_level;
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>1)
@@ -580,6 +600,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
+  current_backtracking = backtrack_until_level;
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>1)
@@ -796,6 +817,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
+  current_backtracking = backtrack_until_level;
   max_decision_level = curr_decision_level-1;
 
   while (max_decision_level>1)
@@ -927,6 +949,7 @@ void backtrack_definitively(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  current_backtracking = backtrack_until_level;
   max_decision_level = decision_level_forever;
 
   TraceFunctionExit(__func__);
@@ -944,6 +967,7 @@ void backtrack_no_further_than(decision_level_type level)
   TraceFunctionParamListEnd();
 
   assert(level!=decision_level_uninitialised);
+  current_backtracking = backtrack_until_level;
 
   if (level>max_decision_level)
     max_decision_level = level;
@@ -959,11 +983,28 @@ boolean can_decision_level_be_continued(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",current_backtracking);
   TraceValue("%u",curr_decision_level);
   TraceValue("%u",max_decision_level);
   TraceEOL();
 
-  result = curr_decision_level<=max_decision_level;
+  switch (current_backtracking)
+  {
+    case backtrack_none:
+      assert(max_decision_level==decision_level_latest);
+      result = true;
+      break;
+
+    case backtrack_until_level:
+      assert(max_decision_level<decision_level_latest);
+      result = curr_decision_level<=max_decision_level;
+      break;
+
+    default:
+      assert(0);
+      result = true;
+      break;
+  };
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -865,8 +865,11 @@ static void capture_by_existing_invisible_on(square sq_departure)
       TraceText("the piece was added to later act from its current square\n");
       record_decision_outcome("%s","the piece was added to later act from its current square");
       REPORT_DEADEND;
-      backtrack_definitively();
-      backtrack_no_further_than(decision_levels[id_existing].from);
+      if (decision_levels[id_existing].from<decision_level_latest)
+      {
+        backtrack_definitively();
+        backtrack_no_further_than(decision_levels[id_existing].from);
+      }
     }
 
     motivation[id_existing] = motivation_existing;
