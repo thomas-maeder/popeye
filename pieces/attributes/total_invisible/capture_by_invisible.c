@@ -868,7 +868,69 @@ static void capture_by_existing_invisible_on(square sq_departure)
       REPORT_DEADEND;
       if (decision_levels[id_existing].from<decision_level_latest)
       {
+        /*
+            Kjell Widlert
+      Sake tourney 2018, 5th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .  -K   .   B   .   Q   5
+|                                   |
+4   .   .   .   .  -Q   .   .   .   4
+|                                   |
+3   .   P   .   S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 4 TI
+
+a)
+ 6:~-~ 7:~-e4 8:~-~ - 6:Pc5-c4 7:Pf3-e4 8:TI~-e4 9:Pb3-c4
+
+!validate_mate 6:TI~-~ 7:TI~-e4 8:TI~-~ 9:Pb3-c4 - total_invisible.c:#521 - D:67 - 42
+use option start 1:2:0:3 to replay
+!  2 > 6 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:0+0) - random_move_by_invisible.c:#576 - D:68
+!   3 X 7 I (K:0+0 x:0+1 !:0+1 ?:0+0 F:0+0) - capture_by_invisible.c:#915 - D:70
+!    4 X 7 P (K:0+0 x:0+1 !:0+1 ?:0+0 F:0+0) - capture_by_invisible.c:#467 - D:72
+!     5 X 7 f3 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:74
+!      6 < 6 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+0) - random_move_by_invisible.c:#1026 - D:76
+!       7 > 6 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+0) - random_move_by_invisible.c:#576 - D:78
+!        8 > 8 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+0) - random_move_by_invisible.c:#576 - D:80
+!         9 9 adding victim of capture by pawn - total_invisible.c:#374
+!         9 < 8 c4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#990 - D:82
+!          10 < 8 P (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#893 - D:84
+...
+!          10 < 8 B (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#893 - D:15222
+!         9 < 8 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#1026 - D:15224
+!          10 < 6 c4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#990 - D:15226
+!           11 < 6 P (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#893 - D:15228
+!            12 < 6 c5 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#620 - D:15230
+!             13 > 8 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#576 - D:15232
+!              14 9 uninterceptable illegal check from dir:-23 by id:9 delivered in ply:7 - intercept_illegal_checks.c:#697
+!              14 x 8 c4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - capture_by_invisible.c:#758 - D:15234
+!               15 8 the piece was added to later act from its current square - capture_by_invisible.c:#867
+
+HERE
+
+!           11 < 6 Q (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#893 - D:15236
+!            12 < 6 b4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#620 - D:15238
+!             13 > 8 TI~-~ (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - random_move_by_invisible.c:#576 - D:15240
+!              14 9 uninterceptable illegal check from dir:-23 by id:9 delivered in ply:7 - intercept_illegal_checks.c:#697
+!              14 x 8 c4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - capture_by_invisible.c:#758 - D:15242
+!               15 8 the piece was added to later act from its current square - capture_by_invisible.c:#867
+         */
+        // TODO optimise more aggressively - the failed capturer's walk is not relevant
         backtrack_definitively();
+        // TODO why this special treatment for the from field?
         backtrack_no_further_than(decision_levels[id_existing].from);
       }
     }
