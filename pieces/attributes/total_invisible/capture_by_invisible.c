@@ -897,6 +897,60 @@ static void capture_by_existing_invisible_on(square sq_departure)
             {
               /* move our single piece to a different square
                * or let another piece be our single piece */
+              /* e.g.
+begin
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces TotalInvisible 1 white kb8 qh1 black ka1 sb1e7
+stipulation h#2
+option movenum start 3:0:5:1
+end
+
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K  -S   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 1 TI
+
+  3  (Ka1-b2    Time = 0.048 s)
+
+!validate_mate 6:Ka1-b2 7:TI~-~ 8:Kb2-c1 9:TI~-e7 - total_invisible.c:#521 - D:31 - 26
+use option start 3:0:5:1 to replay
+!  2 > 7 TI~-~ (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - random_move_by_invisible.c:#576 - D:32
+!   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:34
+!    4 + 9 w (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#107 - D:36
+!     5 + 9 d1 (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#109 - D:38
+!      6 x 9 d1 (K:0+0 x:0+0 !:0+0 ?:1+0 F:0+0) - capture_by_invisible.c:#808 - D:40
+!       7 9 the piece on the departure square can't reach the arrival square - capture_by_invisible.c:#891
+
+HERE
+
+!   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:42
+!    4 + 9 b (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#107 - D:44
+!     5 + 9 d1 (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#109 - D:46
+!      6 9 not enough available invisibles of side Black for intercepting all illegal checks - intercept_illegal_checks.c:#143
+!   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:48
+...
+               */
               backtrack_definitively();
               backtrack_no_further_than(decisions_existing.to);
               backtrack_no_further_than(decisions_existing.side);
