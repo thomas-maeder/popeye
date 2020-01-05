@@ -157,6 +157,8 @@ HERE
     {
       record_decision_outcome("%s","capturer can't be allocated");
       REPORT_DEADEND;
+      /* we don't have an example */
+      // TODO remove this test?
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
