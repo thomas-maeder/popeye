@@ -759,7 +759,8 @@ static void capture_by_existing_invisible_on(square sq_departure)
 
     if (motivation[id_existing].last.acts_when<nbply
         || ((motivation[id_existing].last.purpose==purpose_interceptor
-             || motivation[id_existing].last.purpose==purpose_capturer)
+             || motivation[id_existing].last.purpose==purpose_capturer
+             || motivation[id_existing].last.purpose==purpose_random_mover) /* if invoked by fake_capture_by_invisible () */
             && motivation[id_existing].last.acts_when<=nbply))
     {
       int const move_square_diff = sq_arrival-sq_departure;
