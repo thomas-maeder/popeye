@@ -55,6 +55,54 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
       {
         record_decision_outcome("%s","capturer would deliver uninterceptable check");
         REPORT_DEADEND;
+        /* e.g.
+begin
+pieces TotalInvisible 1 white kc4 ra1b1 pa5 black ka6
+stipulation h#1.5
+option movenum start 2:2
+end
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                4 + 1 + 1 TI
+
+  2  (Ra1-a4    Time = 0.037 s)
+
+!make_revelations 6:Ra1-a4 7:TI~-a4 - revelations.c:#1430 - D:1 - 0
+use option start 2:2 to replay
+!  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1051 - D:2
+!   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#468 - D:4
+!    4 X 7 b5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#49 - D:6
+!     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
+
+HERE
+
+!   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#444 - D:8
+!    4 X 7 b6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#49 - D:10
+!     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
+!    4 X 7 c5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#49 - D:12
+!     5 8 initialised revelation candidates. 1 found - revelations.c:#1461
+!   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#342 - D:14
+...
+         */
+
         backtrack_definitively();
         backtrack_no_further_than(decision_levels[id_inserted].from);
       }
