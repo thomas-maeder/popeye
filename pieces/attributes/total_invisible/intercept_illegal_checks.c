@@ -476,8 +476,6 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
   {
     remember_taboo_on_square(s,side,nbply);
 
-    decision_levels[id_placed].side = push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
-
     decision_levels[id_placed].side = push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].to = push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
@@ -485,8 +483,6 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
     SETFLAG(being_solved.spec[s],advers(side));
-
-    pop_decision();
 
     pop_decision();
 
