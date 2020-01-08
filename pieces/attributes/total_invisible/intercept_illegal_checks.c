@@ -102,8 +102,6 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     assert(nr_check_vectors>0);
 
-    decision_levels[id_placed].side = push_decision_insertion(id_placed,side,decision_purpose_illegal_check_interceptor);
-
     decision_levels[id_placed].side = push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].to = push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
@@ -129,8 +127,6 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       pop_decision();
 
-      pop_decision();
-
       if (side==White && can_decision_level_be_continued())
         place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
 
@@ -142,8 +138,6 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       record_decision_outcome("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
       REPORT_DEADEND;
-
-      pop_decision();
 
       pop_decision();
 
