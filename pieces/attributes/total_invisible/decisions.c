@@ -241,13 +241,7 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
       || purpose==decision_purpose_random_mover_backward)
     decision_level_properties[curr_decision_level].side = trait[nbply];
   else if (purpose==decision_purpose_illegal_check_interceptor)
-  {
-    assert(curr_decision_level>0);
-    assert(decision_level_properties[curr_decision_level-1].object==decision_object_side);
-    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
-    assert(decision_level_properties[curr_decision_level-1].id==id);
-    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
-  }
+    decision_level_properties[curr_decision_level].side = no_side;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);
@@ -446,10 +440,11 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
-    assert(decision_level_properties[max_decision_level].side!=no_side);
 
     if (decision_level_properties[max_decision_level].object==decision_object_insertion)
     {
+      assert(decision_level_properties[max_decision_level].side!=no_side);
+
       skip = true;
 
       /* remember which side may save an insertion */
@@ -465,6 +460,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
         case decision_purpose_random_mover_backward:
         case decision_purpose_invisible_capturer_existing:
         case decision_purpose_random_mover_forward:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_walk
               || decision_level_properties[max_decision_level].object==decision_object_arrival)
           {
@@ -496,6 +492,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
           break;
 
         case decision_purpose_invisible_capturer_inserted:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
             if (decision_level_properties[max_decision_level].side==side_in_check)
@@ -542,20 +539,45 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
           break;
       }
 
-      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_illegal_check_interceptor)
       {
-        if (decision_level_properties[max_decision_level].object==decision_object_departure
-          || decision_level_properties[max_decision_level].object==decision_object_arrival
-          || decision_level_properties[max_decision_level].object==decision_object_walk)
+        if (decision_level_properties[max_decision_level].object==decision_object_side
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
         {
-          if (skip)
+          assert(decision_level_properties[max_decision_level].side!=no_side);
+          if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
           {
+            if (skip)
+            {
 #if defined(REPORT_DECISIONS)
-            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-            printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can insert a victim\n");
 #endif
 
-            skip = false;
+              skip = false;
+            }
+          }
+        }
+      }
+      else
+      {
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        assert(decision_level_properties[max_decision_level].object!=decision_object_side);
+        if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+        {
+          if (decision_level_properties[max_decision_level].object==decision_object_departure
+            || decision_level_properties[max_decision_level].object==decision_object_arrival
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
+          {
+            if (skip)
+            {
+#if defined(REPORT_DECISIONS)
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
+#endif
+
+              skip = false;
+            }
           }
         }
       }
@@ -609,10 +631,11 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
-    assert(decision_level_properties[max_decision_level].side!=no_side);
 
     if (decision_level_properties[max_decision_level].object==decision_object_insertion)
     {
+      assert(decision_level_properties[max_decision_level].side!=no_side);
+
       skip = true;
 
       /* remember which side may save an insertion */
@@ -626,6 +649,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
       switch (decision_level_properties[max_decision_level].purpose)
       {
         case decision_purpose_random_mover_backward:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
             if (decision_level_properties[max_decision_level].side==side_capturing)
@@ -648,6 +672,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
           break;
 
         case decision_purpose_random_mover_forward:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_departure
               || decision_level_properties[max_decision_level].object==decision_object_walk
               || decision_level_properties[max_decision_level].object==decision_object_arrival)
@@ -702,6 +727,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 
         case decision_purpose_invisible_capturer_existing:
         case decision_purpose_invisible_capturer_inserted:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
             if (decision_level_properties[max_decision_level].side==side_capturing)
@@ -758,20 +784,45 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
           break;
       }
 
-      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_illegal_check_interceptor)
       {
-        if (decision_level_properties[max_decision_level].object==decision_object_departure
-          || decision_level_properties[max_decision_level].object==decision_object_arrival
-          || decision_level_properties[max_decision_level].object==decision_object_walk)
+        if (decision_level_properties[max_decision_level].object==decision_object_side
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
         {
-          if (skip)
+          assert(decision_level_properties[max_decision_level].side!=no_side);
+          if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
           {
+            if (skip)
+            {
 #if defined(REPORT_DECISIONS)
-            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-            printf("trying to avoid an insertion so that we can insert a capturer\n");
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can insert a victim\n");
 #endif
 
-            skip = false;
+              skip = false;
+            }
+          }
+        }
+      }
+      else
+      {
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        assert(decision_level_properties[max_decision_level].object!=decision_object_side);
+        if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+        {
+          if (decision_level_properties[max_decision_level].object==decision_object_departure
+            || decision_level_properties[max_decision_level].object==decision_object_arrival
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
+          {
+            if (skip)
+            {
+#if defined(REPORT_DECISIONS)
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can insert a capturer\n");
+#endif
+
+              skip = false;
+            }
           }
         }
       }
@@ -826,10 +877,11 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
     TraceEOL();
 
     assert(decision_level_properties[max_decision_level].ply!=0);
-    assert(decision_level_properties[max_decision_level].side!=no_side);
 
     if (decision_level_properties[max_decision_level].object==decision_object_insertion)
     {
+      assert(decision_level_properties[max_decision_level].side!=no_side);
+
       skip = true;
 
       /* remember which side may save an insertion */
@@ -845,6 +897,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
         case decision_purpose_random_mover_backward:
         case decision_purpose_invisible_capturer_inserted:
         case decision_purpose_invisible_capturer_existing:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_walk)
           {
             if (decision_level_properties[max_decision_level].ply<nbply)
@@ -874,6 +927,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
           break;
 
         case decision_purpose_random_mover_forward:
+          assert(decision_level_properties[max_decision_level].side!=no_side);
           if (decision_level_properties[max_decision_level].object==decision_object_departure
               || decision_level_properties[max_decision_level].object==decision_object_arrival
               || decision_level_properties[max_decision_level].object==decision_object_walk)
@@ -900,20 +954,45 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
           break;
       }
 
-      if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+      if (decision_level_properties[max_decision_level].purpose==decision_purpose_illegal_check_interceptor)
       {
-        if (decision_level_properties[max_decision_level].object==decision_object_departure
-          || decision_level_properties[max_decision_level].object==decision_object_arrival
-          || decision_level_properties[max_decision_level].object==decision_object_walk)
+        if (decision_level_properties[max_decision_level].object==decision_object_side
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
         {
-          if (skip)
+          assert(decision_level_properties[max_decision_level].side!=no_side);
+          if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
           {
+            if (skip)
+            {
 #if defined(REPORT_DECISIONS)
-            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-            printf("trying to avoid an insertion so that we can insert a victim\n");
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can insert a victim\n");
 #endif
 
-            skip = false;
+              skip = false;
+            }
+          }
+        }
+      }
+      else
+      {
+        assert(decision_level_properties[max_decision_level].side!=no_side);
+        assert(decision_level_properties[max_decision_level].object!=decision_object_side);
+        if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
+        {
+          if (decision_level_properties[max_decision_level].object==decision_object_departure
+            || decision_level_properties[max_decision_level].object==decision_object_arrival
+            || decision_level_properties[max_decision_level].object==decision_object_walk)
+          {
+            if (skip)
+            {
+#if defined(REPORT_DECISIONS)
+              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+              printf("trying to avoid an insertion so that we can insert a victim\n");
+#endif
+
+              skip = false;
+            }
           }
         }
       }
