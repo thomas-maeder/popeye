@@ -343,7 +343,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
-      decision_levels[id_moving].walk = push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward);
+      decision_levels[id_moving].walk = push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
@@ -357,7 +357,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    decision_levels[id_moving].walk = push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward);
+    decision_levels[id_moving].walk = push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Knight];
     replace_walk(sq_departure,Knight);
@@ -370,7 +370,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    decision_levels[id_moving].walk = push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward);
+    decision_levels[id_moving].walk = push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
@@ -385,7 +385,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    decision_levels[id_moving].walk = push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward);
+    decision_levels[id_moving].walk = push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
@@ -400,7 +400,7 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 
   if (can_decision_level_be_continued())
   {
-    decision_levels[id_moving].walk = push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward);
+    decision_levels[id_moving].walk = push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
@@ -467,7 +467,7 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       {
         decision_level_type const save_level = decision_levels[id_moving].walk;
 
-        decision_levels[id_moving].walk = push_decision_walk(id_moving,King,decision_purpose_random_mover_forward);
+        decision_levels[id_moving].walk = push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
 
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
 
@@ -890,7 +890,7 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
       for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
       {
-        decision_levels[id].walk = push_decision_walk(id,walk,decision_purpose_random_mover_backward);
+        decision_levels[id].walk = push_decision_walk(id,walk,decision_purpose_random_mover_backward,trait[nbply]);
 
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);

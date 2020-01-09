@@ -316,7 +316,8 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
 decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
                                             PieceIdType id,
                                             piece_walk_type walk,
-                                            decision_purpose_type purpose)
+                                            decision_purpose_type purpose,
+                                            Side side)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -334,17 +335,7 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
   decision_level_properties[curr_decision_level].object = decision_object_walk;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
-
-  if (purpose==decision_purpose_illegal_check_interceptor)
-  {
-    assert(curr_decision_level>0);
-    assert(decision_level_properties[curr_decision_level-1].object==decision_object_arrival);
-    assert(decision_level_properties[curr_decision_level-1].purpose==decision_purpose_illegal_check_interceptor);
-    assert(decision_level_properties[curr_decision_level-1].id==id);
-    decision_level_properties[curr_decision_level].side = decision_level_properties[curr_decision_level-1].side;
-  }
-  else
-    decision_level_properties[curr_decision_level].side = trait[nbply];
+  decision_level_properties[curr_decision_level].side = side;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);

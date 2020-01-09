@@ -104,7 +104,7 @@ static void place_mating_piece_attacking_rider(Side side_attacking,
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  decision_levels[id_placed].walk = push_decision_walk(id_placed,walk_rider,decision_purpose_mating_piece_attacker);
+  decision_levels[id_placed].walk = push_decision_walk(id_placed,walk_rider,decision_purpose_mating_piece_attacker,side_attacking);
 
   for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
   {
@@ -146,7 +146,7 @@ static void place_mating_piece_attacking_leaper(Side side_attacking,
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  decision_levels[id_placed].walk = push_decision_walk(id_placed,walk_leaper,decision_purpose_mating_piece_attacker);
+  decision_levels[id_placed].walk = push_decision_walk(id_placed,walk_leaper,decision_purpose_mating_piece_attacker,side_attacking);
 
   for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
   {
@@ -177,7 +177,7 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  decision_levels[id_placed].walk = push_decision_walk(id_placed,Pawn,decision_purpose_mating_piece_attacker);
+  decision_levels[id_placed].walk = push_decision_walk(id_placed,Pawn,decision_purpose_mating_piece_attacker,side_attacking);
 
   if (can_decision_level_be_continued())
   {
