@@ -168,7 +168,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
 
-    decision_levels[id_placed].to = push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].to = push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_latest;
 
@@ -509,7 +509,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
 
-    decision_levels[id_placed].to = push_decision_arrival(id_placed,s,decision_purpose_illegal_check_interceptor);
+    decision_levels[id_placed].to = push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_latest;
 

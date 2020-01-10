@@ -23,6 +23,7 @@ typedef enum
   decision_object_move_vector,
   decision_object_departure,
   decision_object_arrival,
+  decision_object_placement,
   decision_object_king_nomination
 } decision_object_type;
 
@@ -232,16 +233,44 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
   max_decision_level = decision_level_latest;
   current_backtracking = backtrack_none;
 
+  assert(purpose==decision_purpose_random_mover_forward
+         || purpose==decision_purpose_random_mover_backward);
+
   decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_arrival;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
+  decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  if (purpose==decision_purpose_random_mover_forward
-      || purpose==decision_purpose_random_mover_backward)
-    decision_level_properties[curr_decision_level].side = trait[nbply];
-  else if (purpose==decision_purpose_illegal_check_interceptor)
-    decision_level_properties[curr_decision_level].side = no_side;
+  ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
+
+  ++record_decision_counter;
+
+  return curr_decision_level-1;
+}
+
+decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+{
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+  printf("%c %u ",purpose_symbol[purpose],nbply);
+  WriteSquare(&output_plaintext_engine,
+              stdout,
+              pos);
+  report_endline(file,line);
+#endif
+
+  max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
+
+  assert(purpose==decision_purpose_illegal_check_interceptor);
+
+  decision_level_properties[curr_decision_level].ply = nbply;
+  decision_level_properties[curr_decision_level].object = decision_object_placement;
+  decision_level_properties[curr_decision_level].purpose = purpose;
+  decision_level_properties[curr_decision_level].id = id;
+  decision_level_properties[curr_decision_level].side = no_side;
 
   ++curr_decision_level;
   assert(curr_decision_level<decision_level_dir_capacity);

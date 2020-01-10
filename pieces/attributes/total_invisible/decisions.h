@@ -63,6 +63,7 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
 decision_level_type push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 decision_level_type push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir, decision_purpose_type purpose);
 decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
+decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 decision_level_type push_decision_walk_impl(char const *file, unsigned int line, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose, Side side);
 void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
@@ -89,6 +90,9 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 #define push_decision_arrival(id,sq_arrival,purpose) \
     push_decision_arrival_impl(__FILE__,__LINE__,id,sq_arrival,purpose);
+
+#define push_decision_placement(id,sq_placement,purpose) \
+    push_decision_placement_impl(__FILE__,__LINE__,id,sq_placement,purpose);
 
 #define push_decision_walk(id,walk,purpose,side) \
     push_decision_walk_impl(__FILE__,__LINE__,id,walk,purpose,side);
