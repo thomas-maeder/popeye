@@ -252,33 +252,10 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
   replace_walk(pos,walk);
   decision_levels[id_placed].walk = push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
 
-  {
-    Side const side_attacked = advers(side);
-    square const king_pos = being_solved.king_square[side_attacked];
-    vec_index_type const k = is_square_uninterceptably_attacked(side_attacked,
-                                                                king_pos);
-    if (k==UINT_MAX)
-    {
-      // TODO accept uninterceptable check if not illegal
-      record_decision_outcome("%s","can't allocate necessary interceptor");
-      REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_attacked);
-    }
-    else if (k==0 || king_pos+vec[k]!=pos)
-    {
-      if (nr_check_vectors==1)
-        restart_from_scratch();
-      else
-        place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
-    }
-    else
-    {
-      // TODO accept uninterceptable check if not illegal
-      record_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
-      REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_attacked);
-    }
-  }
+  if (nr_check_vectors==1)
+    restart_from_scratch();
+  else
+    place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
 
   pop_decision();
 
