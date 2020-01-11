@@ -517,6 +517,87 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   switch (decision_level_properties[curr_level].purpose)
   {
     case decision_purpose_random_mover_backward:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
+        {
+          /* try harder.
+           * a future decision may select
+           * - a walk that allows us to eventually intercept the check
+           */
+        }
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_departure)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
+        {
+          skip = true;
+          /* e.g.
+begin
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
+stipulation h#2
+option movenum start  1:1:5:17
+end
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-f6 - total_invisible.c:#521 - D:3365 - 2414
+use option start 1:1:5:17 to replay
+!  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
+!   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
+!    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
+!     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
+!      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
+!       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
+!        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
+!         9 > 7 d5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3380
+!          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3382
+!           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3384
+!            12 + 8 d4 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3386
+!            12 + 8 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3388
+!             13 8 not enough available invisibles of side White for intercepting all illegal checks - intercept_illegal_checks.c:#135
+!             13 + 8 b (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - intercept_illegal_checks.c:#107 - D:3390
+!              14 x 8 c3 (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#808 - D:3392
+!               15 x 8 K (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#215 - D:3394
+!                16 < 6 c3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3396
+!                 17 < 6 b3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3398
+!                  18 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
+
+HERE! no need to try other departure squares
+
+!              14 X 8 I (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#1154 - D:3400
+           */
+        }
+      }
+      break;
+
     case decision_purpose_invisible_capturer_existing:
     case decision_purpose_random_mover_forward:
       assert(decision_level_properties[curr_level].side!=no_side);
