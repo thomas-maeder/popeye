@@ -767,13 +767,83 @@ Here! BTW: ply_skip-3 would be too strong
       }
       else if (decision_level_properties[curr_level].object==decision_object_departure)
       {
-        if (decision_level_properties[curr_level].ply>ply_failure
-            && decision_level_properties[curr_level].side!=side_failure)
+        if (decision_level_properties[curr_level].ply>ply_failure)
         {
-          /* try harder.
-           * a future decision may select
-           * - a square from where we don't deliver check
-           */
+          if (decision_level_properties[curr_level].side!=side_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - a square from where we don't deliver check
+             */
+          }
+          else if (decision_level_properties[curr_level].side==side_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - a square where we aren't in check
+             *
+             * e.g.
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:2960009 - 16400
+use option start 1:1:5:15 to replay
+
+!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:3365 - 2414
+use option start 1:1:5:15 to replay
+!  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
+!   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
+!    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
+!     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
+!      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
+!       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
+!        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
+...
+!        8 > 7 B (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#376 - D:3670
+!         9 > 7 c5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3672
+...
+!         9 > 7 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3816
+!          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3818
+!           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3820
+!            12 X 8 I (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#1154 - D:3822
+!             13 X 8 K (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#393 - D:3824
+!              14 X 8 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3826
+!               15 < 6 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3828
+!                16 < 6 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3830
+!                 17 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
+
+HERE
+
+!              14 X 8 b2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3700
+...
+!              14 X 8 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3736
+
+             */
+          }
+          else
+            skip = true;
         }
         else
           skip = true;
