@@ -44,7 +44,9 @@ typedef enum
 {
   backtrack_none,
   backtrack_until_level,
-  backtrack_failure_to_intercept_illegal_checks
+  backtrack_failure_to_intercept_illegal_checks,
+  backtrack_failture_to_capture_by_invisible,
+  backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
 
 static backtrack_type current_backtracking = backtrack_none;
@@ -419,6 +421,7 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 }
 
 static boolean try_to_avoid_insertion[nr_sides] = { false, false };
+static Side side_failed_capture;
 
 void pop_decision(void)
 {
@@ -431,27 +434,61 @@ void pop_decision(void)
   --curr_decision_level;
 
   TraceValue("%u",curr_decision_level);
+  TraceValue("%u",max_decision_level);
   TraceValue("%u",decision_level_properties[curr_decision_level].ply);
   TraceValue("%u",decision_level_properties[curr_decision_level].purpose);
   TraceValue("%u",decision_level_properties[curr_decision_level].object);
+  TraceEnumerator(Side,decision_level_properties[curr_decision_level].side);
   TraceValue("%u",current_backtracking);
-  TraceValue("%u",capture_by_invisible_failed_with_this_walk[curr_decision_level]);
   TraceEOL();
 
-  if (current_backtracking==backtrack_failure_to_intercept_illegal_checks
-      && decision_level_properties[curr_decision_level].object==decision_object_insertion)
+  switch (current_backtracking)
   {
-    assert(decision_level_properties[curr_decision_level].side!=no_side);
+    case backtrack_failure_to_intercept_illegal_checks:
+      if (decision_level_properties[curr_decision_level].object==decision_object_insertion)
+      {
+        assert(decision_level_properties[curr_decision_level].side!=no_side);
 
-    /* remember which side may save an insertion */
-    try_to_avoid_insertion[decision_level_properties[curr_decision_level].side] = true;
+        /* remember which side may save an insertion */
+        try_to_avoid_insertion[decision_level_properties[curr_decision_level].side] = true;
 
-    if (decision_level_properties[curr_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
-      try_to_avoid_insertion[advers(decision_level_properties[curr_decision_level].side)] = true;
+        if (decision_level_properties[curr_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+          try_to_avoid_insertion[advers(decision_level_properties[curr_decision_level].side)] = true;
+      }
+      break;
+
+    default:
+      break;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+boolean has_decision_failed_capture(void)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  switch (current_backtracking)
+  {
+    case backtrack_failture_to_capture_by_invisible:
+    case backtrack_failture_to_capture_invisible_by_pawn:
+      TraceEnumerator(Side,side_failed_capture);TraceEOL();
+      if (decision_level_properties[max_decision_level].side==side_failed_capture)
+        result = true;
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static ply ply_check_with_failed_interception;
@@ -827,8 +864,6 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceFunctionResultEnd();
 }
 
-boolean capture_by_invisible_failed_with_this_walk[decision_level_dir_capacity];
-
 /* Reduce max_decision_level to a value as low as possible considering that we have
  * reached a position where we won't able to execute the planned capture by an invisble
  * in the subsequent move because
@@ -847,8 +882,10 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  current_backtracking = backtrack_until_level;
+  current_backtracking = backtrack_failture_to_capture_by_invisible;
   max_decision_level = curr_decision_level-1;
+
+  side_failed_capture = side_capturing;
 
   while (max_decision_level>1)
   {
@@ -1068,9 +1105,6 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
       break;
   }
 
-  if (decision_level_properties[max_decision_level].side==side_capturing)
-    capture_by_invisible_failed_with_this_walk[max_decision_level] = true;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1093,8 +1127,10 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  current_backtracking = backtrack_until_level;
+  current_backtracking = backtrack_failture_to_capture_invisible_by_pawn;
   max_decision_level = curr_decision_level-1;
+
+  side_failed_capture = advers(side_capturing);
 
   while (max_decision_level>1)
   {
@@ -1238,9 +1274,6 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
       break;
   }
 
-  if (decision_level_properties[max_decision_level].side!=side_capturing)
-    capture_by_invisible_failed_with_this_walk[max_decision_level] = true;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1300,6 +1333,8 @@ boolean can_decision_level_be_continued(void)
       break;
 
     case backtrack_until_level:
+    case backtrack_failture_to_capture_by_invisible:
+    case backtrack_failture_to_capture_invisible_by_pawn:
       assert(max_decision_level<decision_level_latest);
       result = curr_decision_level<=max_decision_level;
       break;

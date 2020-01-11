@@ -414,11 +414,9 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
           boolean walk_ruled_out[Bishop+1] = { false };
 
-          capture_by_invisible_failed_with_this_walk[curr_decision_level] = false;
-
           place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
 
-          if (capture_by_invisible_failed_with_this_walk[curr_decision_level])
+          if (has_decision_failed_capture())
           {
             walk_ruled_out[Pawn] = true;
             walk_ruled_out[Rook] = true;
