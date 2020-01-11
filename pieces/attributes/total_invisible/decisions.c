@@ -421,7 +421,8 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 }
 
 static boolean try_to_avoid_insertion[nr_sides] = { false, false };
-static Side side_failed_capture;
+static ply ply_failure;
+static Side side_failure;
 
 void pop_decision(void)
 {
@@ -477,7 +478,7 @@ boolean has_decision_failed_capture(void)
     case backtrack_failture_to_capture_by_invisible:
     case backtrack_failture_to_capture_invisible_by_pawn:
       TraceEnumerator(Side,side_failed_capture);TraceEOL();
-      if (decision_level_properties[max_decision_level].side==side_failed_capture)
+      if (decision_level_properties[max_decision_level].side==side_failure)
         result = true;
       break;
 
@@ -491,9 +492,6 @@ boolean has_decision_failed_capture(void)
   return result;
 }
 
-static ply ply_check_with_failed_interception;
-static Side side_in_check_with_failed_interception;
-
 static boolean failure_to_intercept_illegal_checks_continue_level(decision_level_type curr_level)
 {
   boolean skip = false;
@@ -503,8 +501,8 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   TraceFunctionParamListEnd();
 
   TraceValue("%u",curr_level);
-  TraceValue("%u",ply_check_with_failed_interception);
-  TraceEnumerator(Side,side_in_check_with_failed_interception);
+  TraceValue("%u",ply_failure);
+  TraceEnumerator(Side,side_failure);
   TraceValue("%u",decision_level_properties[curr_level].ply);
   TraceValue("%u",decision_level_properties[curr_level].purpose);
   TraceValue("%u",decision_level_properties[curr_level].object);
@@ -526,7 +524,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
         if (decision_level_properties[curr_level].object==decision_object_walk
             || decision_level_properties[curr_level].object==decision_object_arrival)
         {
-          if (decision_level_properties[curr_level].ply<ply_check_with_failed_interception)
+          if (decision_level_properties[curr_level].ply<ply_failure)
           {
             /* try harder.
              * a future decision may select
@@ -539,7 +537,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
         }
         else if (decision_level_properties[curr_level].object==decision_object_departure)
         {
-          if (decision_level_properties[curr_level].ply<ply_check_with_failed_interception)
+          if (decision_level_properties[curr_level].ply<ply_failure)
           {
             /* try harder.
              * a future decision may
@@ -607,10 +605,10 @@ HERE
           skip = true;
         else if (decision_level_properties[curr_level].object==decision_object_walk)
         {
-          if (decision_level_properties[curr_level].side==side_in_check_with_failed_interception)
+          if (decision_level_properties[curr_level].side==side_failure)
           {
             // TODO rather than calculating nbply-3, we should backtrack to the last random move of the side
-            if (decision_level_properties[curr_level].ply<ply_check_with_failed_interception-2)
+            if (decision_level_properties[curr_level].ply<ply_failure-2)
             {
               /* try harder.
                * a future decision may select
@@ -689,8 +687,8 @@ Here! BTW: ply_skip-3 would be too strong
         }
         else if (decision_level_properties[curr_level].object==decision_object_departure)
         {
-          if (decision_level_properties[curr_level].ply>ply_check_with_failed_interception
-              && decision_level_properties[curr_level].side!=side_in_check_with_failed_interception)
+          if (decision_level_properties[curr_level].ply>ply_failure
+              && decision_level_properties[curr_level].side!=side_failure)
           {
             /* try harder.
              * a future decision may select
@@ -702,8 +700,8 @@ Here! BTW: ply_skip-3 would be too strong
         }
         else if (decision_level_properties[curr_level].object==decision_object_move_vector)
         {
-          if (decision_level_properties[curr_level].ply>ply_check_with_failed_interception
-              && decision_level_properties[curr_level].side!=side_in_check_with_failed_interception)
+          if (decision_level_properties[curr_level].ply>ply_failure
+              && decision_level_properties[curr_level].side!=side_failure)
           {
             /* try harder.
              * a future decision may select
@@ -857,8 +855,8 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
-  ply_check_with_failed_interception = nbply;
-  side_in_check_with_failed_interception = side_in_check;
+  ply_failure = nbply;
+  side_failure = side_in_check;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -885,7 +883,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   current_backtracking = backtrack_failture_to_capture_by_invisible;
   max_decision_level = curr_decision_level-1;
 
-  side_failed_capture = side_capturing;
+  side_failure = side_capturing;
 
   while (max_decision_level>1)
   {
@@ -1130,7 +1128,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   current_backtracking = backtrack_failture_to_capture_invisible_by_pawn;
   max_decision_level = curr_decision_level-1;
 
-  side_failed_capture = advers(side_capturing);
+  side_failure = advers(side_capturing);
 
   while (max_decision_level>1)
   {
