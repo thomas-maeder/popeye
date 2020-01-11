@@ -477,7 +477,7 @@ boolean has_decision_failed_capture(void)
   {
     case backtrack_failture_to_capture_by_invisible:
     case backtrack_failture_to_capture_invisible_by_pawn:
-      TraceEnumerator(Side,side_failed_capture);TraceEOL();
+      TraceEnumerator(Side,side_failure);TraceEOL();
       if (decision_level_properties[max_decision_level].side==side_failure)
         result = true;
       break;
@@ -514,36 +514,35 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
   assert(decision_level_properties[curr_level].ply!=0);
 
+  switch (decision_level_properties[curr_level].purpose)
   {
-    switch (decision_level_properties[curr_level].purpose)
-    {
-      case decision_purpose_random_mover_backward:
-      case decision_purpose_invisible_capturer_existing:
-      case decision_purpose_random_mover_forward:
-        assert(decision_level_properties[curr_level].side!=no_side);
-        if (decision_level_properties[curr_level].object==decision_object_walk
-            || decision_level_properties[curr_level].object==decision_object_arrival)
+    case decision_purpose_random_mover_backward:
+    case decision_purpose_invisible_capturer_existing:
+    case decision_purpose_random_mover_forward:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_walk
+          || decision_level_properties[curr_level].object==decision_object_arrival)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
         {
-          if (decision_level_properties[curr_level].ply<ply_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - a walk that allows us to eventually intercept the check
-             * - an arrival square from where the check can be intercepted
-             */
-          }
-          else
-            skip = true;
+          /* try harder.
+           * a future decision may select
+           * - a walk that allows us to eventually intercept the check
+           * - an arrival square from where the check can be intercepted
+           */
         }
-        else if (decision_level_properties[curr_level].object==decision_object_departure)
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_departure)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
         {
-          if (decision_level_properties[curr_level].ply<ply_failure)
-          {
-            /* try harder.
-             * a future decision may
-             * - select a piece that can intercept the check
-             *
-             * e.g.
+          /* try harder.
+           * a future decision may
+           * - select a piece that can intercept the check
+           *
+           * e.g.
            Michel Caillaud
 Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
 
@@ -585,36 +584,36 @@ use option start 1:1:1:1 to replay
 HERE
 
 !        8 > 6 g7
-             */
-          }
-          else
-          {
-            /* try harder.
-             * a future decision may
-             * - select a departure square where this piece intercepts the check
-             */
-          }
+           */
         }
         else
-          skip = true;
-        break;
-
-      case decision_purpose_invisible_capturer_inserted:
-        assert(decision_level_properties[curr_level].side!=no_side);
-        if (decision_level_properties[curr_level].object==decision_object_insertion)
-          skip = true;
-        else if (decision_level_properties[curr_level].object==decision_object_walk)
         {
-          if (decision_level_properties[curr_level].side==side_failure)
+          /* try harder.
+           * a future decision may
+           * - select a departure square where this piece intercepts the check
+           */
+        }
+      }
+      else
+        skip = true;
+      break;
+
+    case decision_purpose_invisible_capturer_inserted:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_insertion)
+        skip = true;
+      else if (decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          // TODO rather than calculating nbply-3, we should backtrack to the last random move of the side
+          if (decision_level_properties[curr_level].ply<ply_failure-2)
           {
-            // TODO rather than calculating nbply-3, we should backtrack to the last random move of the side
-            if (decision_level_properties[curr_level].ply<ply_failure-2)
-            {
-              /* try harder.
-               * a future decision may select
-               * - a walk that allows us to eventually intercept the check
-               */
-              /* e.g.
+            /* try harder.
+             * a future decision may select
+             * - a walk that allows us to eventually intercept the check
+             */
+            /* e.g.
 
 begin
 author Michel Caillaud
@@ -669,45 +668,45 @@ Here! BTW: ply_skip-3 would be too strong
 ...
 !   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
 ...
-               */
-            }
-            else
-              skip = true;
-          }
-          else
-          {
-            /* try harder.
-             * a future decision may select
-             * - a walk that doesn't deliver check
-             *   - from the departure square (if the capture was after nbply)
-             *   - from the arrival square (if the capture was before nbply)
-             */
-          }
-          break;
-        }
-        else if (decision_level_properties[curr_level].object==decision_object_departure)
-        {
-          if (decision_level_properties[curr_level].ply>ply_failure
-              && decision_level_properties[curr_level].side!=side_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - a square from where we don't deliver check
              */
           }
           else
             skip = true;
         }
-        else if (decision_level_properties[curr_level].object==decision_object_move_vector)
+        else
         {
-          if (decision_level_properties[curr_level].ply>ply_failure
-              && decision_level_properties[curr_level].side!=side_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - a move vector from where we don't deliver check
-             *
-             * e.g.
+          /* try harder.
+           * a future decision may select
+           * - a walk that doesn't deliver check
+           *   - from the departure square (if the capture was after nbply)
+           *   - from the arrival square (if the capture was before nbply)
+           */
+        }
+        break;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_departure)
+      {
+        if (decision_level_properties[curr_level].ply>ply_failure
+            && decision_level_properties[curr_level].side!=side_failure)
+        {
+          /* try harder.
+           * a future decision may select
+           * - a square from where we don't deliver check
+           */
+        }
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_move_vector)
+      {
+        if (decision_level_properties[curr_level].ply>ply_failure
+            && decision_level_properties[curr_level].side!=side_failure)
+        {
+          /* try harder.
+           * a future decision may select
+           * - a move vector from where we don't deliver check
+           *
+           * e.g.
 begin
 author Michel Caillaud
 origin Sake tourney 2018, 2nd HM, cooked
@@ -768,63 +767,62 @@ HERE
 !     5 X 9 e1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:58
 !      6 10 Replaying moves for validation - king_placement.c:#29
              */
-          }
-          else
-            skip = true;
         }
         else
           skip = true;
-        break;
+      }
+      else
+        skip = true;
+      break;
 
-      case decision_purpose_mating_piece_attacker:
-        assert(decision_level_properties[curr_level].side!=no_side);
-        if (decision_level_properties[curr_level].object==decision_object_insertion)
-          skip = true;
-        break;
+    case decision_purpose_mating_piece_attacker:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_insertion)
+        skip = true;
+      break;
 
-      default:
-        break;
-    }
+    default:
+      break;
+  }
 
-    if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
+  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
+  {
+    if (decision_level_properties[curr_level].object==decision_object_side
+        || decision_level_properties[curr_level].object==decision_object_walk)
     {
-      if (decision_level_properties[curr_level].object==decision_object_side
-          || decision_level_properties[curr_level].object==decision_object_walk)
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
       {
-        assert(decision_level_properties[curr_level].side!=no_side);
-        if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+        if (skip)
         {
-          if (skip)
-          {
 #if defined(REPORT_DECISIONS)
-            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-            printf("trying to avoid an insertion so that we can insert a victim\n");
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can insert a victim\n");
 #endif
 
-            skip = false;
-          }
+          skip = false;
         }
       }
     }
-    else
+  }
+  else
+  {
+    assert(decision_level_properties[curr_level].side!=no_side);
+    assert(decision_level_properties[curr_level].object!=decision_object_side);
+    if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
     {
-      assert(decision_level_properties[curr_level].side!=no_side);
-      assert(decision_level_properties[curr_level].object!=decision_object_side);
-      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+      if (decision_level_properties[curr_level].object==decision_object_departure
+        || decision_level_properties[curr_level].object==decision_object_arrival
+        || decision_level_properties[curr_level].object==decision_object_walk)
       {
-        if (decision_level_properties[curr_level].object==decision_object_departure
-          || decision_level_properties[curr_level].object==decision_object_arrival
-          || decision_level_properties[curr_level].object==decision_object_walk)
+        if (skip)
         {
-          if (skip)
-          {
 #if defined(REPORT_DECISIONS)
-            printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-            printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
-            skip = false;
-          }
+          skip = false;
         }
       }
     }
@@ -862,6 +860,333 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   TraceFunctionResultEnd();
 }
 
+static boolean failure_to_capture_by_invisible_continue_level(decision_level_type curr_level)
+{
+  boolean skip = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr_level);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",curr_level);
+  TraceValue("%u",ply_failure);
+  TraceEnumerator(Side,side_failure);
+  TraceValue("%u",decision_level_properties[curr_level].ply);
+  TraceValue("%u",decision_level_properties[curr_level].purpose);
+  TraceValue("%u",decision_level_properties[curr_level].object);
+  TraceValue("%u",decision_level_properties[curr_level].id);
+  TraceEnumerator(Side,decision_level_properties[curr_level].side);
+  TraceValue("%u",try_to_avoid_insertion[White]);
+  TraceValue("%u",try_to_avoid_insertion[Black]);
+  TraceEOL();
+
+  assert(decision_level_properties[curr_level].ply!=0);
+
+  switch (decision_level_properties[curr_level].purpose)
+  {
+    case decision_purpose_random_mover_backward:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - select a better walk
+             */
+          }
+          else
+            skip = true;
+        }
+        else
+          skip = true;
+      }
+      else
+        skip = true;
+      break;
+
+    case decision_purpose_random_mover_forward:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_departure
+          || decision_level_properties[curr_level].object==decision_object_walk
+          || decision_level_properties[curr_level].object==decision_object_arrival)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - select a better walk
+             * - select a better arrival square
+             * - select a mover that can't eventually do the capture
+             */
+          }
+          else
+            skip = true;
+        }
+        else
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - avoid capturing a viable capturer
+             */
+          }
+          else
+            skip = true;
+        }
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_random_move)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+          skip = true;
+        else
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - avoid capturing a viable capturer
+             */
+          }
+          else
+            skip = true;
+        }
+      }
+      else
+        assert(0);
+      break;
+
+    case decision_purpose_invisible_capturer_existing:
+    case decision_purpose_invisible_capturer_inserted:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - select a better walk
+             */
+          }
+          else
+            skip = true;
+        }
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_departure)
+      {
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          if (decision_level_properties[curr_level].ply<=ply_failure)
+            skip = true;
+          else
+          {
+            /* try harder.
+             * a future decision may
+             * - select a mover that can't eventually do the capture
+             */
+          }
+        }
+        else
+          skip = true;
+      }
+      else
+        skip = true;
+      break;
+
+    case decision_purpose_illegal_check_interceptor:
+      if (decision_level_properties[curr_level].object!=decision_object_side
+          && decision_level_properties[curr_level].object!=decision_object_placement
+          && decision_level_properties[curr_level].object!=decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].side!=side_failure)
+        {
+          /* decision concerning the other side can't contribute to being able for this side
+           * to capture ...
+           * ... but we still have to make sure that this side is examined too!
+           */
+          skip = true;
+        }
+      }
+      /* placement:
+begin
+author Ken Kousaka
+origin Sake tourney 2018, announcement
+pieces TotalInvisible 1 white kb8 qh1 black ka1 sb1e7
+stipulation h#2
+option movenum start 10:3:7:1
+end
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K  -S   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 1 TI
+
+!test_mate 6:Se7-f5 7:Qh1-a8 8:Sf5-d4 9:TI~-d4 - total_invisible.c:#551 - D:54 - 42
+use option start 10:3:7:1 to replay
+!  2 + 9 a2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#510 - D:55
+!   3 + 9 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#473 - D:57
+!    4 9 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#442
+!   3 + 9 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#473 - D:59
+!    4 + 9 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#253 - D:61
+!     5 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#73
+!    4 + 9 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#253 - D:63
+!     5 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#73
+!    4 + 9 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#253 - D:65
+!     5 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#73
+
+HERE!
+
+!  2 + 9 a3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#510 - D:67
+       */
+      /* walk:
+begin
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
+stipulation h#2
+option movenum start 17:46:23:1
+end
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+>   1.Bf1-a6 Qh8-c8   2.Rb4-b1 TI~*a6[a6=wS][c3=bK] #
+
+Das schwarze Ding auf der e-Linie kann verstellen!
+
+!test_mate 6:Bf1-a6 7:Qh8-c8 8:Rb4-b1 9:TI~-a6 - total_invisible.c:#551 - D:2060 - 1990
+use option start 17:46:23:1 to replay
+!  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#510 - D:2061
+...
+!  2 + 6 c3 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#510 - D:2385
+!   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#473 - D:2387
+...
+!   3 + 6 b (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#473 - D:2585
+!    4 + 6 K (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#253 - D:2587
+!     5 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#510 - D:2589
+!      6 + 6 w (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#473 - D:2591
+...
+!      6 + 6 b (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#473 - D:2859
+!       7 + 6 P (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:2861
+!        8 + 9 c4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#510 - D:2863
+...
+!        8 + 9 c7 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#510 - D:2895
+!         9 + 9 b (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#473 - D:2897
+!          10 9 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#442
+!         9 + 9 w (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#473 - D:2899
+!          10 + 9 P (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+2) - intercept_illegal_checks.c:#253 - D:2901
+...
+!          10 + 9 B (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+2) - intercept_illegal_checks.c:#253 - D:2911
+!           11 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#73
+
+HERE
+
+!       7 + 6 S (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:3133
+       */
+      break;
+
+    default:
+      break;
+  }
+
+  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
+  {
+    if (decision_level_properties[curr_level].object==decision_object_side
+        || decision_level_properties[curr_level].object==decision_object_walk)
+    {
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+      {
+        if (skip)
+        {
+#if defined(REPORT_DECISIONS)
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can insert a victim\n");
+#endif
+
+          skip = false;
+        }
+      }
+    }
+  }
+  else
+  {
+    assert(decision_level_properties[curr_level].side!=no_side);
+    assert(decision_level_properties[curr_level].object!=decision_object_side);
+    if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+    {
+      if (decision_level_properties[curr_level].object==decision_object_departure
+        || decision_level_properties[curr_level].object==decision_object_arrival
+        || decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (skip)
+        {
+#if defined(REPORT_DECISIONS)
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can insert a capturer\n");
+#endif
+
+          skip = false;
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",skip);
+  TraceFunctionResultEnd();
+  return skip;
+}
+
 /* Reduce max_decision_level to a value as low as possible considering that we have
  * reached a position where we won't able to execute the planned capture by an invisble
  * in the subsequent move because
@@ -871,8 +1196,6 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
  */
 void backtrack_from_failed_capture_by_invisible(Side side_capturing)
 {
-  boolean try_to_avoid_insertion[nr_sides] = { false, false };
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_capturing);
   TraceFunctionParamListEnd();
@@ -883,225 +1206,10 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   current_backtracking = backtrack_failture_to_capture_by_invisible;
   max_decision_level = curr_decision_level-1;
 
+  try_to_avoid_insertion[Black] = false;
+  try_to_avoid_insertion[White] = false;
+  ply_failure = nbply;
   side_failure = side_capturing;
-
-  while (max_decision_level>1)
-  {
-    boolean skip = false;
-
-    TraceValue("%u",max_decision_level);
-    TraceValue("%u",decision_level_properties[max_decision_level].ply);
-    TraceValue("%u",decision_level_properties[max_decision_level].purpose);
-    TraceValue("%u",decision_level_properties[max_decision_level].object);
-    TraceValue("%u",decision_level_properties[max_decision_level].id);
-    TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
-    TraceValue("%u",try_to_avoid_insertion[White]);
-    TraceValue("%u",try_to_avoid_insertion[Black]);
-    TraceEOL();
-
-    assert(decision_level_properties[max_decision_level].ply!=0);
-
-    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
-    {
-      assert(decision_level_properties[max_decision_level].side!=no_side);
-
-      skip = true;
-
-      /* remember which side may save an insertion */
-      try_to_avoid_insertion[decision_level_properties[max_decision_level].side] = true;
-
-      if (decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
-        try_to_avoid_insertion[advers(decision_level_properties[max_decision_level].side)] = true;
-    }
-    else
-    {
-      switch (decision_level_properties[max_decision_level].purpose)
-      {
-        case decision_purpose_random_mover_backward:
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (decision_level_properties[max_decision_level].side==side_capturing)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder.
-                 * a future decision may
-                 * - select a better walk
-                 */
-              }
-              else
-                skip = true;
-            }
-            else
-              skip = true;
-          }
-          else
-            skip = true;
-          break;
-
-        case decision_purpose_random_mover_forward:
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (decision_level_properties[max_decision_level].object==decision_object_departure
-              || decision_level_properties[max_decision_level].object==decision_object_walk
-              || decision_level_properties[max_decision_level].object==decision_object_arrival)
-          {
-            if (decision_level_properties[max_decision_level].side==side_capturing)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder.
-                 * a future decision may
-                 * - select a better walk
-                 * - select a better arrival square
-                 * - select a mover that can't eventually do the capture
-                 */
-              }
-              else
-                skip = true;
-            }
-            else
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder.
-                 * a future decision may
-                 * - avoid capturing a viable capturer
-                 */
-              }
-              else
-                skip = true;
-            }
-          }
-          else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
-          {
-            if (decision_level_properties[max_decision_level].side==side_capturing)
-              skip = true;
-            else
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder.
-                 * a future decision may
-                 * - avoid capturing a viable capturer
-                 */
-              }
-              else
-                skip = true;
-            }
-          }
-          else
-            assert(0);
-          break;
-
-        case decision_purpose_invisible_capturer_existing:
-        case decision_purpose_invisible_capturer_inserted:
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (decision_level_properties[max_decision_level].side==side_capturing)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-              {
-                /* try harder.
-                 * a future decision may
-                 * - select a better walk
-                 */
-              }
-              else
-                skip = true;
-            }
-            else
-              skip = true;
-          }
-          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
-          {
-            if (decision_level_properties[max_decision_level].side==side_capturing)
-            {
-              if (decision_level_properties[max_decision_level].ply<=nbply)
-                skip = true;
-              else
-              {
-                /* try harder.
-                 * a future decision may
-                 * - select a mover that can't eventually do the capture
-                 */
-              }
-            }
-            else
-              skip = true;
-          }
-          else
-            skip = true;
-          break;
-
-        case decision_purpose_illegal_check_interceptor:
-          if (decision_level_properties[max_decision_level].object!=decision_object_side)
-          {
-            if (decision_level_properties[max_decision_level].side!=side_capturing)
-            {
-              /* decision concerning the other side can't contribute to being able for this side
-               * to capture ...
-               * ... but we still have to make sure that this side is examined too!
-               */
-              skip = true;
-            }
-          }
-          break;
-
-        default:
-          break;
-      }
-
-      if (decision_level_properties[max_decision_level].purpose==decision_purpose_illegal_check_interceptor)
-      {
-        if (decision_level_properties[max_decision_level].object==decision_object_side
-            || decision_level_properties[max_decision_level].object==decision_object_walk)
-        {
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
-          {
-            if (skip)
-            {
-#if defined(REPORT_DECISIONS)
-              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-              printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-              skip = false;
-            }
-          }
-        }
-      }
-      else
-      {
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        assert(decision_level_properties[max_decision_level].object!=decision_object_side);
-        if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
-        {
-          if (decision_level_properties[max_decision_level].object==decision_object_departure
-            || decision_level_properties[max_decision_level].object==decision_object_arrival
-            || decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (skip)
-            {
-#if defined(REPORT_DECISIONS)
-              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-              printf("trying to avoid an insertion so that we can insert a capturer\n");
-#endif
-
-              skip = false;
-            }
-          }
-        }
-      }
-    }
-
-    if (skip)
-      --max_decision_level;
-    else
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1331,7 +1439,6 @@ boolean can_decision_level_be_continued(void)
       break;
 
     case backtrack_until_level:
-    case backtrack_failture_to_capture_by_invisible:
     case backtrack_failture_to_capture_invisible_by_pawn:
       assert(max_decision_level<decision_level_latest);
       result = curr_decision_level<=max_decision_level;
@@ -1340,6 +1447,11 @@ boolean can_decision_level_be_continued(void)
     case backtrack_failure_to_intercept_illegal_checks:
       assert(max_decision_level<decision_level_latest);
       result = !failure_to_intercept_illegal_checks_continue_level(curr_decision_level);
+      break;
+
+    case backtrack_failture_to_capture_by_invisible:
+      assert(max_decision_level<decision_level_latest);
+      result = !failure_to_capture_by_invisible_continue_level(curr_decision_level);
       break;
 
     default:
