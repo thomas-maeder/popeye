@@ -1215,6 +1215,139 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   TraceFunctionResultEnd();
 }
 
+static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_level_type curr_level)
+{
+  boolean skip = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr_level);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",curr_level);
+  TraceValue("%u",ply_failure);
+  TraceEnumerator(Side,side_failure);
+  TraceValue("%u",decision_level_properties[curr_level].ply);
+  TraceValue("%u",decision_level_properties[curr_level].purpose);
+  TraceValue("%u",decision_level_properties[curr_level].object);
+  TraceValue("%u",decision_level_properties[curr_level].id);
+  TraceEnumerator(Side,decision_level_properties[curr_level].side);
+  TraceValue("%u",try_to_avoid_insertion[White]);
+  TraceValue("%u",try_to_avoid_insertion[Black]);
+  TraceEOL();
+
+  assert(decision_level_properties[curr_level].ply!=0);
+
+  switch (decision_level_properties[curr_level].purpose)
+  {
+    case decision_purpose_random_mover_backward:
+    case decision_purpose_invisible_capturer_inserted:
+    case decision_purpose_invisible_capturer_existing:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
+        {
+          /* depending on the walk, this piece may eventually sacrifice itself
+           * to allow the capture by pawn
+           */
+        }
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_departure)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
+          skip = true;
+        else
+        {
+          /* we may be able to sacrifice ourselves, either to the capturing pawn or
+           * a pawn sacrificing itself to the capturing pawn
+           * - by staying where we are (and let another piece move)
+           * - by moving away to allow a pawn to sacrifice itself
+           */
+        }
+      }
+      else
+        skip = true;
+      break;
+
+    case decision_purpose_random_mover_forward:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (decision_level_properties[curr_level].object==decision_object_departure
+          || decision_level_properties[curr_level].object==decision_object_arrival
+          || decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (decision_level_properties[curr_level].ply<ply_failure)
+        {
+          /* we may be able to sacrifice ourselves, either to the capturing pawn or
+           * a pawn sacrificing itself to the capturing pawn
+           * - by staying where we are (and let another piece move)
+           * - by moving away to allow a pawn to sacrifice itself
+           * - by moving to the capture square
+           * - by selecting a walk that allows us to eventually move the the capture square
+           * - by not accidentally capturing a piece that can eventually sacrifice itself
+           */
+        }
+        else
+          skip = true;
+      }
+      else if (decision_level_properties[curr_level].object==decision_object_random_move)
+        skip = true;
+      break;
+
+    default:
+      break;
+  }
+
+  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
+  {
+    if (decision_level_properties[curr_level].object==decision_object_side
+        || decision_level_properties[curr_level].object==decision_object_walk)
+    {
+      assert(decision_level_properties[curr_level].side!=no_side);
+      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+      {
+        if (skip)
+        {
+#if defined(REPORT_DECISIONS)
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can insert a victim\n");
+#endif
+
+          skip = false;
+        }
+      }
+    }
+  }
+  else
+  {
+    assert(decision_level_properties[curr_level].side!=no_side);
+    assert(decision_level_properties[curr_level].object!=decision_object_side);
+    if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
+    {
+      if (decision_level_properties[curr_level].object==decision_object_departure
+        || decision_level_properties[curr_level].object==decision_object_arrival
+        || decision_level_properties[curr_level].object==decision_object_walk)
+      {
+        if (skip)
+        {
+#if defined(REPORT_DECISIONS)
+          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+          printf("trying to avoid an insertion so that we can insert a victim\n");
+#endif
+
+          skip = false;
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",skip);
+  TraceFunctionResultEnd();
+  return skip;
+}
+
 /* Reduce max_decision_level to a value as low as possible considering that we have
  * reached a position where we won't able to execute the planned capture of an invisible
  * by a pawn in the subsequent move because
@@ -1224,8 +1357,6 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
  */
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
 {
-  boolean try_to_avoid_insertion[nr_sides] = { false, false };
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_capturing);
   TraceFunctionParamListEnd();
@@ -1236,149 +1367,10 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   current_backtracking = backtrack_failture_to_capture_invisible_by_pawn;
   max_decision_level = curr_decision_level-1;
 
+  try_to_avoid_insertion[Black] = false;
+  try_to_avoid_insertion[White] = false;
+  ply_failure = nbply;
   side_failure = advers(side_capturing);
-
-  while (max_decision_level>1)
-  {
-    boolean skip = false;
-
-    TraceValue("%u",max_decision_level);
-    TraceValue("%u",decision_level_properties[max_decision_level].ply);
-    TraceValue("%u",decision_level_properties[max_decision_level].purpose);
-    TraceValue("%u",decision_level_properties[max_decision_level].object);
-    TraceValue("%u",decision_level_properties[max_decision_level].id);
-    TraceEnumerator(Side,decision_level_properties[max_decision_level].side);
-    TraceValue("%u",try_to_avoid_insertion[White]);
-    TraceValue("%u",try_to_avoid_insertion[Black]);
-    TraceEOL();
-
-    assert(decision_level_properties[max_decision_level].ply!=0);
-
-    if (decision_level_properties[max_decision_level].object==decision_object_insertion)
-    {
-      assert(decision_level_properties[max_decision_level].side!=no_side);
-
-      skip = true;
-
-      /* remember which side may save an insertion */
-      try_to_avoid_insertion[decision_level_properties[max_decision_level].side] = true;
-
-      if (decision_level_properties[max_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
-        try_to_avoid_insertion[advers(decision_level_properties[max_decision_level].side)] = true;
-    }
-    else
-    {
-      switch (decision_level_properties[max_decision_level].purpose)
-      {
-        case decision_purpose_random_mover_backward:
-        case decision_purpose_invisible_capturer_inserted:
-        case decision_purpose_invisible_capturer_existing:
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (decision_level_properties[max_decision_level].ply<nbply)
-            {
-              /* depending on the walk, this piece may eventually sacrifice itself
-               * to allow the capture by pawn
-               */
-            }
-            else
-              skip = true;
-          }
-          else if (decision_level_properties[max_decision_level].object==decision_object_departure)
-          {
-            if (decision_level_properties[max_decision_level].ply<nbply)
-              skip = true;
-            else
-            {
-              /* we may be able to sacrifice ourselves, either to the capturing pawn or
-               * a pawn sacrificing itself to the capturing pawn
-               * - by staying where we are (and let another piece move)
-               * - by moving away to allow a pawn to sacrifice itself
-               */
-            }
-          }
-          else
-            skip = true;
-          break;
-
-        case decision_purpose_random_mover_forward:
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (decision_level_properties[max_decision_level].object==decision_object_departure
-              || decision_level_properties[max_decision_level].object==decision_object_arrival
-              || decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (decision_level_properties[max_decision_level].ply<nbply)
-            {
-              /* we may be able to sacrifice ourselves, either to the capturing pawn or
-               * a pawn sacrificing itself to the capturing pawn
-               * - by staying where we are (and let another piece move)
-               * - by moving away to allow a pawn to sacrifice itself
-               * - by moving to the capture square
-               * - by selecting a walk that allows us to eventually move the the capture square
-               * - by not accidentally capturing a piece that can eventually sacrifice itself
-               */
-            }
-            else
-              skip = true;
-          }
-          else if (decision_level_properties[max_decision_level].object==decision_object_random_move)
-            skip = true;
-          break;
-
-        default:
-          break;
-      }
-
-      if (decision_level_properties[max_decision_level].purpose==decision_purpose_illegal_check_interceptor)
-      {
-        if (decision_level_properties[max_decision_level].object==decision_object_side
-            || decision_level_properties[max_decision_level].object==decision_object_walk)
-        {
-          assert(decision_level_properties[max_decision_level].side!=no_side);
-          if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
-          {
-            if (skip)
-            {
-#if defined(REPORT_DECISIONS)
-              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-              printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-              skip = false;
-            }
-          }
-        }
-      }
-      else
-      {
-        assert(decision_level_properties[max_decision_level].side!=no_side);
-        assert(decision_level_properties[max_decision_level].object!=decision_object_side);
-        if (try_to_avoid_insertion[decision_level_properties[max_decision_level].side])
-        {
-          if (decision_level_properties[max_decision_level].object==decision_object_departure
-            || decision_level_properties[max_decision_level].object==decision_object_arrival
-            || decision_level_properties[max_decision_level].object==decision_object_walk)
-          {
-            if (skip)
-            {
-#if defined(REPORT_DECISIONS)
-              printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-              printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-              skip = false;
-            }
-          }
-        }
-      }
-    }
-
-    if (skip)
-      --max_decision_level;
-    else
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1439,7 +1431,6 @@ boolean can_decision_level_be_continued(void)
       break;
 
     case backtrack_until_level:
-    case backtrack_failture_to_capture_invisible_by_pawn:
       assert(max_decision_level<decision_level_latest);
       result = curr_decision_level<=max_decision_level;
       break;
@@ -1452,6 +1443,11 @@ boolean can_decision_level_be_continued(void)
     case backtrack_failture_to_capture_by_invisible:
       assert(max_decision_level<decision_level_latest);
       result = !failure_to_capture_by_invisible_continue_level(curr_decision_level);
+      break;
+
+    case backtrack_failture_to_capture_invisible_by_pawn:
+      assert(max_decision_level<decision_level_latest);
+      result = !failure_to_capture_invisible_by_pawn_continue_level(curr_decision_level);
       break;
 
     default:

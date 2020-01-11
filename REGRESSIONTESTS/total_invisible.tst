@@ -60,7 +60,7 @@ solution finished.
                      play_move:       18144
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5569
-                  TI decisions:       10975
+                  TI decisions:        8815
 
 solution finished.
 
@@ -131,7 +131,7 @@ solution finished.
                      play_move:       13830
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4924
-                  TI decisions:        9013
+                  TI decisions:        7337
 
 solution finished.
 
