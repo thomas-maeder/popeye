@@ -109,7 +109,7 @@ static void attack_checks(void)
     }
     else if (k==UINT_MAX)
     {
-      TraceText("mate can be refuted by interceptors - no free TI avaliable\n");
+      TraceText("mate can be refuted by interceptors - no free TI available\n");
       mate_validation_result = mate_defendable_by_interceptors;
     }
     else if (nr_placeable_invisibles_for_side(side_in_check)>0)
