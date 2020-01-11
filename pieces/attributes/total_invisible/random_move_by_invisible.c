@@ -185,8 +185,11 @@ static void flesh_out_random_move_by_invisible_rider_from(vec_index_type kstart,
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     square sq_arrival;
+
+    TraceValue("%u",k);TraceValue("%d",vec[k]);TraceEOL();
+
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
-         can_decision_level_be_continued();
+         is_on_board(sq_arrival) && can_decision_level_be_continued();
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
