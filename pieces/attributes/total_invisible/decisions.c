@@ -44,7 +44,8 @@ typedef enum
 {
   backtrack_none,
   backtrack_until_level,
-  backtrack_failure_to_intercept_illegal_checks,
+  backtrack_failure_to_intercept_illegal_checks_by_invisible,
+  backtrack_failure_to_intercept_illegal_checks_by_visible,
   backtrack_failture_to_capture_by_invisible,
   backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
@@ -445,7 +446,7 @@ void pop_decision(void)
 
   switch (current_backtracking)
   {
-    case backtrack_failure_to_intercept_illegal_checks:
+    case backtrack_failure_to_intercept_illegal_checks_by_invisible:
       if (decision_level_properties[curr_decision_level].object==decision_object_insertion)
       {
         assert(decision_level_properties[curr_decision_level].side!=no_side);
@@ -985,12 +986,12 @@ HERE
   return skip;
 }
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
  * reached a position where we aren't able to intercept all illegal checks by inserting
  * invisibles.
  * @param side_in_check the side that is in too many illegal checks
  */
-void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
+void backtrack_from_failure_to_intercept_illegal_check_by_invisible(Side side_in_check)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -999,7 +1000,33 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check)
   assert(current_backtracking==backtrack_none);
   assert(max_decision_level==decision_level_latest);
 
-  current_backtracking = backtrack_failure_to_intercept_illegal_checks;
+  current_backtracking = backtrack_failure_to_intercept_illegal_checks_by_invisible;
+  max_decision_level = curr_decision_level-1;
+
+  try_to_avoid_insertion[Black] = false;
+  try_to_avoid_insertion[White] = false;
+  ply_failure = nbply;
+  side_failure = side_in_check;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Optimise backtracking considering that we have
+ * reached a position where we aren't able to intercept all illegal checks delived by
+ * visibles by inserting invisibles.
+ * @param side_in_check the side that is in too many illegal checks
+ */
+void backtrack_from_failure_to_intercept_illegal_check_by_visible(Side side_in_check)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  assert(current_backtracking==backtrack_none);
+  assert(max_decision_level==decision_level_latest);
+
+  current_backtracking = backtrack_failure_to_intercept_illegal_checks_by_visible;
   max_decision_level = curr_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
@@ -1338,7 +1365,7 @@ HERE
   return skip;
 }
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture by an invisble
  * in the subsequent move because
  * - no existing invisible of the relevant side can reach the capture square
@@ -1499,7 +1526,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
   return skip;
 }
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture of an invisible
  * by a pawn in the subsequent move because
  * - no existing invisible of the relevant side can sacrifice itself on the capture square
@@ -1586,8 +1613,14 @@ boolean can_decision_level_be_continued(void)
       result = curr_decision_level<=max_decision_level;
       break;
 
-    case backtrack_failure_to_intercept_illegal_checks:
+    case backtrack_failure_to_intercept_illegal_checks_by_invisible:
       assert(max_decision_level<decision_level_latest);
+      result = !failure_to_intercept_illegal_checks_continue_level(curr_decision_level);
+      break;
+
+    case backtrack_failure_to_intercept_illegal_checks_by_visible:
+      assert(max_decision_level<decision_level_latest);
+      // TODO do we need separate handling for checks by visibles?
       result = !failure_to_intercept_illegal_checks_continue_level(curr_decision_level);
       break;
 

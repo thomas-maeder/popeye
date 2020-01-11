@@ -102,14 +102,21 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
 
 void pop_decision(void);
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
- * reached a position where we aren't able to intercept all illegal checks by inserting
- * invisibles.
+/* Optimise backtracking considering that we have
+ * reached a position where we aren't able to intercept all illegal checks delived by
+ * invisibles by inserting invisibles.
  * @param side_in_check the side that is in too many illegal checks
  */
-void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
+void backtrack_from_failure_to_intercept_illegal_check_by_invisible(Side side_in_check);
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
+ * reached a position where we aren't able to intercept all illegal checks delived by
+ * visibles by inserting invisibles.
+ * @param side_in_check the side that is in too many illegal checks
+ */
+void backtrack_from_failure_to_intercept_illegal_check_by_visible(Side side_in_check);
+
+/* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because
  * - no existing invisible of the relevant side can reach the capture square
@@ -118,7 +125,7 @@ void backtrack_from_failure_to_intercept_illegal_checks(Side side_in_check);
  */
 void backtrack_from_failed_capture_by_invisible(Side side_capturing);
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture of an invisible
  * by a pawn in the subsequent move because
  * - no existing invisible of the relevant side can sacrifice itself on the capture square
@@ -127,7 +134,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing);
  */
 void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing);
 
-/* Reduce max_decision_level to a value as low as possible considering that we have
+/* Optimise backtracking considering that we have
  * determined that the we are done testing the current move sequence
  */
 void backtrack_definitively(void);

@@ -262,7 +262,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
       // TODO accept uninterceptable check if not illegal
       record_decision_outcome("%s","can't allocate necessary interceptor");
       REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_checks(side_attacked);
+      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_attacked);
     }
     else if (k==0 || king_pos+vec[k]!=pos)
     {
@@ -276,7 +276,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
       // TODO accept uninterceptable check if not illegal
       record_decision_outcome("%s","interceptor delivers uninterceptable check - TODO: not necessarily a deadend");
       REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_checks(side_attacked);
+      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_attacked);
     }
   }
 
@@ -638,7 +638,7 @@ static void deal_with_interceptable_illegal_checks()
   else
   {
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
-    backtrack_from_failure_to_intercept_illegal_checks(trait[nbply-1]);
+    backtrack_from_failure_to_intercept_illegal_check_by_invisible(trait[nbply-1]);
     record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
     REPORT_DEADEND;
   }
@@ -694,6 +694,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
   {
     record_decision_outcome("%s","uninterceptable check by visible piece");
     REPORT_DEADEND;
+    backtrack_from_failure_to_intercept_illegal_check_by_visible(side_in_check);
   }
 
   uninterceptable_check_delivered_from = initsquare;
