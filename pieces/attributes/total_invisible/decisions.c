@@ -1097,7 +1097,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
              * a future decision may
              * - select a better walk
              * - select a better arrival square
-             * - select a mover that can't eventually do the capture
+             * - leave alone the mover that can eventually do the capture
              */
           }
           else
@@ -1111,6 +1111,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
              * a future decision may
              * - avoid capturing a viable capturer
              */
+            // TODO doesn't this only apply to decision_object_arrival?
           }
           else
             skip = true;
@@ -1167,7 +1168,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
           {
             /* try harder.
              * a future decision may
-             * - select a mover that can't eventually do the capture
+             * - leave alone the mover that can eventually do the capture
              */
           }
         }
