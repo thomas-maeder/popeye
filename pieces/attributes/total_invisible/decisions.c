@@ -623,8 +623,8 @@ HERE! no need to try other departure squares
           /* try harder.
            * a future decision may
            * - select a piece that can intercept the check
-           *
-           * e.g.
+           */
+           /* e.g.
            Michel Caillaud
 Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
 
@@ -672,7 +672,7 @@ HERE
         {
           /* try harder.
            * a future decision may
-           * - select a departure square where this piece intercepts the check
+           * - select a departure square where this piece intercepted the check before moving
            */
         }
       }
@@ -688,7 +688,7 @@ HERE
       {
         if (decision_level_properties[curr_level].side==side_failure)
         {
-          // TODO rather than calculating nbply-3, we should backtrack to the last random move of the side
+          // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
           if (decision_level_properties[curr_level].ply<ply_failure-2)
           {
             /* try harder.
@@ -760,8 +760,8 @@ Here! BTW: ply_skip-3 would be too strong
           /* try harder.
            * a future decision may select
            * - a walk that doesn't deliver check
-           *   - from the departure square (if the capture was after nbply)
-           *   - from the arrival square (if the capture was before nbply)
+           *   - from the departure square (if the capture was after ply_failure)
+           *   - from the arrival square (if the capture was before ply_failure)
            */
         }
         break;
@@ -770,20 +770,13 @@ Here! BTW: ply_skip-3 would be too strong
       {
         if (decision_level_properties[curr_level].ply>ply_failure)
         {
-          if (decision_level_properties[curr_level].side!=side_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - a square from where we don't deliver check
-             */
-          }
-          else if (decision_level_properties[curr_level].side==side_failure)
+          if (decision_level_properties[curr_level].side==side_failure)
           {
             /* try harder.
              * a future decision may select
              * - a square where we aren't in check
-             *
-             * e.g.
+             */
+             /* e.g.
 
              Ofer Comay
 Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
@@ -844,7 +837,12 @@ HERE
              */
           }
           else
-            skip = true;
+          {
+            /* try harder.
+             * a future decision may select
+             * - a square from where we don't deliver check
+             */
+          }
         }
         else
           skip = true;
@@ -857,8 +855,8 @@ HERE
           /* try harder.
            * a future decision may select
            * - a move vector from where we don't deliver check
-           *
-           * e.g.
+           */
+           /* e.g.
 begin
 author Michel Caillaud
 origin Sake tourney 2018, 2nd HM, cooked
