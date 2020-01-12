@@ -1020,45 +1020,21 @@ HERE! no need to try other departure squares
       break;
   }
 
-  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
-  {
-    if (decision_level_properties[curr_level].object==decision_object_side
-        || decision_level_properties[curr_level].object==decision_object_walk)
-    {
-      assert(decision_level_properties[curr_level].side!=no_side);
-      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
-      {
-        if (skip)
-        {
-#if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-          skip = false;
-        }
-      }
-    }
-  }
-  else
+  if (decision_level_properties[curr_level].object==decision_object_departure
+    || decision_level_properties[curr_level].object==decision_object_arrival
+    || decision_level_properties[curr_level].object==decision_object_walk)
   {
     assert(decision_level_properties[curr_level].side!=no_side);
-    assert(decision_level_properties[curr_level].object!=decision_object_side);
     if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
     {
-      if (decision_level_properties[curr_level].object==decision_object_departure
-        || decision_level_properties[curr_level].object==decision_object_arrival
-        || decision_level_properties[curr_level].object==decision_object_walk)
+      if (skip)
       {
-        if (skip)
-        {
 #if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
+        printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+        printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
-          skip = false;
-        }
+        skip = false;
       }
     }
   }
@@ -1400,45 +1376,21 @@ HERE
       break;
   }
 
-  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
-  {
-    if (decision_level_properties[curr_level].object==decision_object_side
-        || decision_level_properties[curr_level].object==decision_object_walk)
-    {
-      assert(decision_level_properties[curr_level].side!=no_side);
-      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
-      {
-        if (skip)
-        {
-#if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-          skip = false;
-        }
-      }
-    }
-  }
-  else
+  if (decision_level_properties[curr_level].object==decision_object_departure
+    || decision_level_properties[curr_level].object==decision_object_arrival
+    || decision_level_properties[curr_level].object==decision_object_walk)
   {
     assert(decision_level_properties[curr_level].side!=no_side);
-    assert(decision_level_properties[curr_level].object!=decision_object_side);
     if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
     {
-      if (decision_level_properties[curr_level].object==decision_object_departure
-        || decision_level_properties[curr_level].object==decision_object_arrival
-        || decision_level_properties[curr_level].object==decision_object_walk)
+      if (skip)
       {
-        if (skip)
-        {
 #if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can insert a capturer\n");
+        printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+        printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
-          skip = false;
-        }
+        skip = false;
       }
     }
   }
@@ -1561,45 +1513,21 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
       break;
   }
 
-  if (decision_level_properties[curr_level].purpose==decision_purpose_illegal_check_interceptor)
-  {
-    if (decision_level_properties[curr_level].object==decision_object_side
-        || decision_level_properties[curr_level].object==decision_object_walk)
-    {
-      assert(decision_level_properties[curr_level].side!=no_side);
-      if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
-      {
-        if (skip)
-        {
-#if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can insert a victim\n");
-#endif
-
-          skip = false;
-        }
-      }
-    }
-  }
-  else
+  if (decision_level_properties[curr_level].object==decision_object_departure
+    || decision_level_properties[curr_level].object==decision_object_arrival
+    || decision_level_properties[curr_level].object==decision_object_walk)
   {
     assert(decision_level_properties[curr_level].side!=no_side);
-    assert(decision_level_properties[curr_level].object!=decision_object_side);
     if (try_to_avoid_insertion[decision_level_properties[curr_level].side])
     {
-      if (decision_level_properties[curr_level].object==decision_object_departure
-        || decision_level_properties[curr_level].object==decision_object_arrival
-        || decision_level_properties[curr_level].object==decision_object_walk)
+      if (skip)
       {
-        if (skip)
-        {
 #if defined(REPORT_DECISIONS)
-          printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
-          printf("trying to avoid an insertion so that we can insert a victim\n");
+        printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
+        printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
-          skip = false;
-        }
+        skip = false;
       }
     }
   }
