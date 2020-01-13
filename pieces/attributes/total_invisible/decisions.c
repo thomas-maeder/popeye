@@ -519,8 +519,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   {
     case decision_purpose_invisible_capturer_existing:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk
-          || decision_level_properties[curr_level].object==decision_object_arrival)
+      if (decision_level_properties[curr_level].object==decision_object_walk)
       {
         if (decision_level_properties[curr_level].ply<ply_failure)
         {
