@@ -526,7 +526,6 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           /* try harder.
            * a future decision may select
            * - a walk that allows us to eventually intercept the check
-           * - an arrival square from where the check can be intercepted
            */
         }
         else
