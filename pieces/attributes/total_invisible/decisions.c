@@ -519,331 +519,347 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   {
     case decision_purpose_invisible_capturer_existing:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* try harder.
-           * a future decision may select
-           * - a walk that allows us to eventually intercept the check
-           */
-        }
-        else
-          skip = true;
-      }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* try harder.
-           * a future decision may
-           * - select a piece that can intercept the check
-           */
-           /* e.g.
-           Michel Caillaud
-Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .  -R   .  -R  -B   8
-|                                   |
-7   .   .   .  -B   .   .   .   .   7
-|                                   |
-6   .   .   .   P  -K   .   .   R   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   P   .   .   K   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   B   .   .  -P  -Q   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  5 + 7 + 3 TI
-
->   1.TI~-~ TI~-~   2.TI~-~[d5=bR][f3=wR] TI~-~[g7=wP] #
-
-!test_mate 6:TI~-~ 7:TI~-~ 8:TI~-~ 9:TI~-~ - total_invisible.c:#551 - D:50211 - 38436
-use option start 1:1:1:1 to replay
-!  2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#512 - D:50212
-!   3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#475 - D:62222
-!    4 + 6 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#253 - D:70672
-!     5 + 6 g7 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#512 - D:87214
-!      6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#475 - D:88572
-!       7 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:88574
-!        8 > 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#552 - D:88576
-!         9 > 6 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#25 - D:88862
-!          10 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-
-HERE
-
-!        8 > 6 g7
-           */
-        }
-        else
-        {
-          /* try harder.
-           * a future decision may
-           * - select a departure square where this piece intercepted the check before moving
-           */
-        }
-      }
-      else
-        skip = true;
-      break;
-
-    case decision_purpose_invisible_capturer_inserted:
-      assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_insertion)
-        skip = true;
-      else if (decision_level_properties[curr_level].object==decision_object_walk)
-      {
-        if (decision_level_properties[curr_level].side==side_failure)
-        {
-          // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
-          if (decision_level_properties[curr_level].ply<ply_failure-2)
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply<ply_failure)
           {
             /* try harder.
              * a future decision may select
              * - a walk that allows us to eventually intercept the check
              */
-            /* e.g.
-
-begin
-author Michel Caillaud
-origin Sake tourney 2018, 1st prize, corrected
-pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
-stipulation h#2
-option movenum start 4:4:4:21
-end
-
-           Michel Caillaud
-Sake tourney 2018, 1st prize, corrected
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .  -P   .   .   5
-|                                   |
-4   .   .   .   .  -P  -K   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .  -P   3
-|                                   |
-2   .   Q   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   K  -B   .   .  -R   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  2 + 6 + 2 TI
-
-!validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
-use option start 4:4:4:21 to replay
-!  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
-!   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
-...
-!   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
-!    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
-!     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
-!    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
-!     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
-!     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
-!     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
-!      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
-!       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-
-Here! BTW: ply_skip-3 would be too strong
-
-!   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
-...
-!   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
-...
-             */
           }
           else
             skip = true;
-        }
-        else
-        {
-          /* try harder.
-           * a future decision may select
-           * - a walk that doesn't deliver check
-           *   - from the departure square (if the capture was after ply_failure)
-           *   - from the arrival square (if the capture was before ply_failure)
-           */
-        }
-        break;
-      }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].ply>ply_failure)
-        {
-          if (decision_level_properties[curr_level].side==side_failure)
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply<ply_failure)
           {
             /* try harder.
-             * a future decision may select
-             * - a square where we aren't in check
+             * a future decision may
+             * - select a piece that can intercept the check
              */
              /* e.g.
+             Michel Caillaud
+  Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
 
-             Ofer Comay
-Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .  -R   .  -R  -B   8
+  |                                   |
+  7   .   .   .  -B   .   .   .   .   7
+  |                                   |
+  6   .   .   .   P  -K   .   .   R   6
+  |                                   |
+  5   .   .   .   .   .   .   .   .   5
+  |                                   |
+  4   .   .   .   P   .   .   K   .   4
+  |                                   |
+  3   .   .   .   .   .   .   .   .   3
+  |                                   |
+  2   B   .   .  -P  -Q   .   .   .   2
+  |                                   |
+  1   .   .   .   .   .   .   .   .   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  5 + 7 + 3 TI
 
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   Q   8
-|                                   |
-7   .   P   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   K   .   .   .   5
-|                                   |
-4   .  -R   .   .   .   .   .   P   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   P   .   .  -S   .   .   2
-|                                   |
-1  -B   .   B   .  -R  -B   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  6 + 5 + 3 TI
+  >   1.TI~-~ TI~-~   2.TI~-~[d5=bR][f3=wR] TI~-~[g7=wP] #
 
-!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:2960009 - 16400
-use option start 1:1:5:15 to replay
+  !test_mate 6:TI~-~ 7:TI~-~ 8:TI~-~ 9:TI~-~ - total_invisible.c:#551 - D:50211 - 38436
+  use option start 1:1:1:1 to replay
+  !  2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#512 - D:50212
+  !   3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#475 - D:62222
+  !    4 + 6 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#253 - D:70672
+  !     5 + 6 g7 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#512 - D:87214
+  !      6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#475 - D:88572
+  !       7 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:88574
+  !        8 > 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#552 - D:88576
+  !         9 > 6 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#25 - D:88862
+  !          10 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
 
-!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:3365 - 2414
-use option start 1:1:5:15 to replay
-!  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
-!   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
-!    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
-!     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
-!      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
-!       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
-!        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
-...
-!        8 > 7 B (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#376 - D:3670
-!         9 > 7 c5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3672
-...
-!         9 > 7 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3816
-!          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3818
-!           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3820
-!            12 X 8 I (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#1154 - D:3822
-!             13 X 8 K (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#393 - D:3824
-!              14 X 8 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3826
-!               15 < 6 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3828
-!                16 < 6 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3830
-!                 17 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
+  HERE
 
-HERE
-
-!              14 X 8 b2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3700
-...
-!              14 X 8 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3736
-
+  !        8 > 6 g7
              */
           }
           else
           {
             /* try harder.
-             * a future decision may select
-             * - a square from where we don't deliver check
+             * a future decision may
+             * - select a departure square where this piece intercepted the check before moving
              */
           }
-        }
-        else
+          break;
+
+        default:
           skip = true;
+          break;
       }
-      else if (decision_level_properties[curr_level].object==decision_object_move_vector)
+      break;
+
+    case decision_purpose_invisible_capturer_inserted:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply>ply_failure
-            && decision_level_properties[curr_level].side!=side_failure)
-        {
-          /* try harder.
-           * a future decision may select
-           * - a move vector from where we don't deliver check
-           */
-           /* e.g.
-begin
-author Michel Caillaud
-origin Sake tourney 2018, 2nd HM, cooked
-pieces TotalInvisible 2 white kf6 rd3 bd2 sd6 pf2f5g5 black ka4 qh1
-stipulation h#2
-option movenum start 8:11:15:1
-end
-
-           Michel Caillaud
-  Sake tourney 2018, 2nd HM, cooked
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   S   .   K   .   .   6
-|                                   |
-5   .   .   .   .   .   P   P   .   5
-|                                   |
-4  -K   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   R   .   .   .   .   3
-|                                   |
-2   .   .   .   B   .   P   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .  -Q   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  7 + 2 + 2 TI
-
-!validate_mate 6:Qh1-a8 7:Pf2-g3 8:Qa8-e4 9:TI~-e4 - total_invisible.c:#521 - D:3 - 0
-use option start 8:11:15:1 to replay
-!  2 7 adding victim of capture by pawn - total_invisible.c:#374
-!  2 X 9 I (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#1154 - D:4
-!   3 X 9 P (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#517 - D:6
-!    4 9 capturer can't be placed on taboo square - capture_by_invisible.c:#35
-...
-!   3 X 9 R (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#354 - D:24
-!    4 X 9 direction:1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:26
-!     5 X 9 f4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:28
-!      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-!     5 X 9 g4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:30
-!      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-!     5 X 9 h4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:32
-!      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-
-HERE
-
-!    4 X 9 direction:2 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:34
-...
-!    4 X 9 direction:4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:52
-!     5 X 9 e3 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:54
-!      6 10 Replaying moves for validation - king_placement.c:#29
-!     5 X 9 e2 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:56
-!      6 10 Replaying moves for validation - king_placement.c:#29
-!     5 X 9 e1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:58
-!      6 10 Replaying moves for validation - king_placement.c:#29
-             */
-        }
-        else
+        case decision_object_insertion:
           skip = true;
+          break;
+
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].side==side_failure)
+          {
+            // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
+            if (decision_level_properties[curr_level].ply<ply_failure-2)
+            {
+              /* try harder.
+               * a future decision may select
+               * - a walk that allows us to eventually intercept the check
+               */
+              /* e.g.
+
+  begin
+  author Michel Caillaud
+  origin Sake tourney 2018, 1st prize, corrected
+  pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+  stipulation h#2
+  option movenum start 4:4:4:21
+  end
+
+             Michel Caillaud
+  Sake tourney 2018, 1st prize, corrected
+
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .   .   .   .   .   8
+  |                                   |
+  7   .   .   .   .   .   .   .   .   7
+  |                                   |
+  6   .   .   .   .   .   .   .   .   6
+  |                                   |
+  5   .   .   .   .   .  -P   .   .   5
+  |                                   |
+  4   .   .   .   .  -P  -K   .   .   4
+  |                                   |
+  3   .   .   .   .   .   .   .  -P   3
+  |                                   |
+  2   .   Q   .   .   .   .   .   .   2
+  |                                   |
+  1   .   .   .   K  -B   .   .  -R   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  2 + 6 + 2 TI
+
+  !validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
+  use option start 4:4:4:21 to replay
+  !  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
+  !   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
+  ...
+  !   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
+  !    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
+  !     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
+  !    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
+  !     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
+  !     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
+  !     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
+  !      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
+  !       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+
+  Here! BTW: ply_skip-3 would be too strong
+
+  !   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
+  ...
+  !   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
+  ...
+               */
+            }
+            else
+              skip = true;
+          }
+          else
+          {
+            /* try harder.
+             * a future decision may select
+             * - a walk that doesn't deliver check
+             *   - from the departure square (if the capture was after ply_failure)
+             *   - from the arrival square (if the capture was before ply_failure)
+             */
+          }
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply>ply_failure)
+          {
+            if (decision_level_properties[curr_level].side==side_failure)
+            {
+              /* try harder.
+               * a future decision may select
+               * - a square where we aren't in check
+               */
+               /* e.g.
+
+               Ofer Comay
+  Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .   .   .   .   Q   8
+  |                                   |
+  7   .   P   .   .   .   .   .   .   7
+  |                                   |
+  6   .   .   .   .   .   .   .   .   6
+  |                                   |
+  5   .   .   .   .   K   .   .   .   5
+  |                                   |
+  4   .  -R   .   .   .   .   .   P   4
+  |                                   |
+  3   .   .   .   .   .   .   .   .   3
+  |                                   |
+  2   .   .   P   .   .  -S   .   .   2
+  |                                   |
+  1  -B   .   B   .  -R  -B   .   .   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  6 + 5 + 3 TI
+
+  !validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:2960009 - 16400
+  use option start 1:1:5:15 to replay
+
+  !validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-d4 - total_invisible.c:#521 - D:3365 - 2414
+  use option start 1:1:5:15 to replay
+  !  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
+  !   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
+  !    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
+  !     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
+  !      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
+  !       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
+  !        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
+  ...
+  !        8 > 7 B (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#376 - D:3670
+  !         9 > 7 c5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3672
+  ...
+  !         9 > 7 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3816
+  !          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3818
+  !           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3820
+  !            12 X 8 I (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#1154 - D:3822
+  !             13 X 8 K (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - capture_by_invisible.c:#393 - D:3824
+  !              14 X 8 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3826
+  !               15 < 6 d2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3828
+  !                16 < 6 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3830
+  !                 17 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
+
+  HERE
+
+  !              14 X 8 b2 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3700
+  ...
+  !              14 X 8 d1 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - capture_by_invisible.c:#49 - D:3736
+
+               */
+            }
+            else
+            {
+              /* try harder.
+               * a future decision may select
+               * - a square from where we don't deliver check
+               */
+            }
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_move_vector:
+          if (decision_level_properties[curr_level].ply>ply_failure
+              && decision_level_properties[curr_level].side!=side_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - a move vector from where we don't deliver check
+             */
+             /* e.g.
+  begin
+  author Michel Caillaud
+  origin Sake tourney 2018, 2nd HM, cooked
+  pieces TotalInvisible 2 white kf6 rd3 bd2 sd6 pf2f5g5 black ka4 qh1
+  stipulation h#2
+  option movenum start 8:11:15:1
+  end
+
+             Michel Caillaud
+    Sake tourney 2018, 2nd HM, cooked
+
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .   .   .   .   .   8
+  |                                   |
+  7   .   .   .   .   .   .   .   .   7
+  |                                   |
+  6   .   .   .   S   .   K   .   .   6
+  |                                   |
+  5   .   .   .   .   .   P   P   .   5
+  |                                   |
+  4  -K   .   .   .   .   .   .   .   4
+  |                                   |
+  3   .   .   .   R   .   .   .   .   3
+  |                                   |
+  2   .   .   .   B   .   P   .   .   2
+  |                                   |
+  1   .   .   .   .   .   .   .  -Q   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  7 + 2 + 2 TI
+
+  !validate_mate 6:Qh1-a8 7:Pf2-g3 8:Qa8-e4 9:TI~-e4 - total_invisible.c:#521 - D:3 - 0
+  use option start 8:11:15:1 to replay
+  !  2 7 adding victim of capture by pawn - total_invisible.c:#374
+  !  2 X 9 I (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#1154 - D:4
+  !   3 X 9 P (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#517 - D:6
+  !    4 9 capturer can't be placed on taboo square - capture_by_invisible.c:#35
+  ...
+  !   3 X 9 R (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#354 - D:24
+  !    4 X 9 direction:1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:26
+  !     5 X 9 f4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:28
+  !      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+  !     5 X 9 g4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:30
+  !      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+  !     5 X 9 h4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:32
+  !      6 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+
+  HERE
+
+  !    4 X 9 direction:2 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:34
+  ...
+  !    4 X 9 direction:4 (K:0+0 x:0+1 !:0+0 ?:0+0 F:0+1) - capture_by_invisible.c:#360 - D:52
+  !     5 X 9 e3 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:54
+  !      6 10 Replaying moves for validation - king_placement.c:#29
+  !     5 X 9 e2 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:56
+  !      6 10 Replaying moves for validation - king_placement.c:#29
+  !     5 X 9 e1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:58
+  !      6 10 Replaying moves for validation - king_placement.c:#29
+               */
+          }
+          else
+            skip = true;
+          break;
+
+        default:
+          skip = true;
+          break;
       }
-      else
-        skip = true;
       break;
 
     case decision_purpose_mating_piece_attacker:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_insertion)
-        skip = true;
+      switch (decision_level_properties[curr_level].object)
+      {
+        case decision_object_insertion:
+          skip = true;
+          break;
+
+        default:
+          break;
+      }
       break;
 
     case decision_purpose_illegal_check_interceptor:
@@ -851,163 +867,171 @@ HERE
 
     case decision_purpose_random_mover_forward:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk
-          || decision_level_properties[curr_level].object==decision_object_arrival)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* try harder.
-           * a future decision may select
-           * - a walk that allows us to eventually intercept the check
-           * - an arrival square from where the check can be intercepted
-           */
-        }
-        else
+        case decision_object_walk:
+        case decision_object_arrival:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - a walk that allows us to eventually intercept the check
+             * - an arrival square from where the check can be intercepted
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* try harder.
+             * a future decision may
+             * - select a piece that can intercept the check
+             */
+             /* e.g.
+             Michel Caillaud
+  Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .  -R   .  -R  -B   8
+  |                                   |
+  7   .   .   .  -B   .   .   .   .   7
+  |                                   |
+  6   .   .   .   P  -K   .   .   R   6
+  |                                   |
+  5   .   .   .   .   .   .   .   .   5
+  |                                   |
+  4   .   .   .   P   .   .   K   .   4
+  |                                   |
+  3   .   .   .   .   .   .   .   .   3
+  |                                   |
+  2   B   .   .  -P  -Q   .   .   .   2
+  |                                   |
+  1   .   .   .   .   .   .   .   .   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  5 + 7 + 3 TI
+
+  >   1.TI~-~ TI~-~   2.TI~-~[d5=bR][f3=wR] TI~-~[g7=wP] #
+
+  !test_mate 6:TI~-~ 7:TI~-~ 8:TI~-~ 9:TI~-~ - total_invisible.c:#551 - D:50211 - 38436
+  use option start 1:1:1:1 to replay
+  !  2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#512 - D:50212
+  !   3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#475 - D:62222
+  !    4 + 6 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#253 - D:70672
+  !     5 + 6 g7 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#512 - D:87214
+  !      6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#475 - D:88572
+  !       7 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:88574
+  !        8 > 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#552 - D:88576
+  !         9 > 6 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#25 - D:88862
+  !          10 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+
+  HERE
+
+  !        8 > 6 g7
+             */
+          }
+          else
+          {
+            /* try harder.
+             * a future decision may
+             * - select a departure square where this piece intercepted the check before moving
+             */
+          }
+          break;
+
+        default:
           skip = true;
       }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* try harder.
-           * a future decision may
-           * - select a piece that can intercept the check
-           */
-           /* e.g.
-           Michel Caillaud
-Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .  -R   .  -R  -B   8
-|                                   |
-7   .   .   .  -B   .   .   .   .   7
-|                                   |
-6   .   .   .   P  -K   .   .   R   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   P   .   .   K   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   B   .   .  -P  -Q   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  5 + 7 + 3 TI
-
->   1.TI~-~ TI~-~   2.TI~-~[d5=bR][f3=wR] TI~-~[g7=wP] #
-
-!test_mate 6:TI~-~ 7:TI~-~ 8:TI~-~ 9:TI~-~ - total_invisible.c:#551 - D:50211 - 38436
-use option start 1:1:1:1 to replay
-!  2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#512 - D:50212
-!   3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#475 - D:62222
-!    4 + 6 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#253 - D:70672
-!     5 + 6 g7 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#512 - D:87214
-!      6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - intercept_illegal_checks.c:#475 - D:88572
-!       7 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - intercept_illegal_checks.c:#253 - D:88574
-!        8 > 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#552 - D:88576
-!         9 > 6 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+2) - random_move_by_invisible.c:#25 - D:88862
-!          10 7 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
-
-HERE
-
-!        8 > 6 g7
-           */
-        }
-        else
-        {
-          /* try harder.
-           * a future decision may
-           * - select a departure square where this piece intercepted the check before moving
-           */
-        }
-      }
-      else
-        skip = true;
       break;
 
     case decision_purpose_random_mover_backward:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* try harder.
-           * a future decision may select
-           * - a walk that allows us to eventually intercept the check
-           */
-        }
-        else
-          skip = true;
-      }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          skip = true;
-          /* e.g.
-begin
-author Ofer Comay
-origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
-pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
-stipulation h#2
-option movenum start  1:1:5:17
-end
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - a walk that allows us to eventually intercept the check
+             */
+          }
+          else
+            skip = true;
+          break;
 
-             Ofer Comay
-Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            skip = true;
+            /* e.g.
+  begin
+  author Ofer Comay
+  origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+  pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
+  stipulation h#2
+  option movenum start  1:1:5:17
+  end
 
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   Q   8
-|                                   |
-7   .   P   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   K   .   .   .   5
-|                                   |
-4   .  -R   .   .   .   .   .   P   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   P   .   .  -S   .   .   2
-|                                   |
-1  -B   .   B   .  -R  -B   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                  6 + 5 + 3 TI
+               Ofer Comay
+  Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
 
-!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-f6 - total_invisible.c:#521 - D:3365 - 2414
-use option start 1:1:5:17 to replay
-!  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
-!   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
-!    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
-!     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
-!      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
-!       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
-!        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
-!         9 > 7 d5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3380
-!          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3382
-!           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3384
-!            12 + 8 d4 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3386
-!            12 + 8 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3388
-!             13 8 not enough available invisibles of side White for intercepting all illegal checks - intercept_illegal_checks.c:#135
-!             13 + 8 b (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - intercept_illegal_checks.c:#107 - D:3390
-!              14 x 8 c3 (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#808 - D:3392
-!               15 x 8 K (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#215 - D:3394
-!                16 < 6 c3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3396
-!                 17 < 6 b3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3398
-!                  18 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
+  +---a---b---c---d---e---f---g---h---+
+  |                                   |
+  8   .   .   .   .   .   .   .   Q   8
+  |                                   |
+  7   .   P   .   .   .   .   .   .   7
+  |                                   |
+  6   .   .   .   .   .   .   .   .   6
+  |                                   |
+  5   .   .   .   .   K   .   .   .   5
+  |                                   |
+  4   .  -R   .   .   .   .   .   P   4
+  |                                   |
+  3   .   .   .   .   .   .   .   .   3
+  |                                   |
+  2   .   .   P   .   .  -S   .   .   2
+  |                                   |
+  1  -B   .   B   .  -R  -B   .   .   1
+  |                                   |
+  +---a---b---c---d---e---f---g---h---+
+    h#2                  6 + 5 + 3 TI
 
-HERE! no need to try other departure squares
+  !validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:Ke5-f6 - total_invisible.c:#521 - D:3365 - 2414
+  use option start 1:1:5:17 to replay
+  !  2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3366
+  !   3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3368
+  !    4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - intercept_illegal_checks.c:#171 - D:3370
+  !     5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - intercept_illegal_checks.c:#107 - D:3372
+  !      6 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#579 - D:3374
+  !       7 > 7 d4 (K:0+1 x:0+0 !:0+1 ?:2+0 F:0+0) - random_move_by_invisible.c:#552 - D:3376
+  !        8 > 7 P (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#349 - D:3378
+  !         9 > 7 d5 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#25 - D:3380
+  !          10 < 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#1029 - D:3382
+  !           11 > 6 TI~-~ (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - random_move_by_invisible.c:#579 - D:3384
+  !            12 + 8 d4 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3386
+  !            12 + 8 c3 (K:0+1 x:0+0 !:0+1 ?:1+0 F:1+0) - intercept_illegal_checks.c:#171 - D:3388
+  !             13 8 not enough available invisibles of side White for intercepting all illegal checks - intercept_illegal_checks.c:#135
+  !             13 + 8 b (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - intercept_illegal_checks.c:#107 - D:3390
+  !              14 x 8 c3 (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#808 - D:3392
+  !               15 x 8 K (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#215 - D:3394
+  !                16 < 6 c3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#993 - D:3396
+  !                 17 < 6 b3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:1+1) - random_move_by_invisible.c:#623 - D:3398
+  !                  18 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#642
 
-!              14 X 8 I (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#1154 - D:3400
-           */
-        }
+  HERE! no need to try other departure squares
+
+  !              14 X 8 I (K:0+1 x:0+0 !:0+0 ?:1+1 F:1+0) - capture_by_invisible.c:#1154 - D:3400
+             */
+          }
+          break;
+
+        default:
+          break;
       }
       break;
 
@@ -1121,136 +1145,153 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
   {
     case decision_purpose_random_mover_backward:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].side==side_failure)
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].side==side_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - select a better walk
-             */
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - select a better walk
+               */
+            }
+            else
+              skip = true;
           }
           else
             skip = true;
-        }
-        else
+          break;
+
+        default:
           skip = true;
+          break;
       }
-      else
-        skip = true;
       break;
 
     case decision_purpose_random_mover_forward:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_departure
-          || decision_level_properties[curr_level].object==decision_object_walk
-          || decision_level_properties[curr_level].object==decision_object_arrival)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].side==side_failure)
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
+        case decision_object_departure:
+        case decision_object_walk:
+        case decision_object_arrival:
+          if (decision_level_properties[curr_level].side==side_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - select a better walk
-             * - select a better arrival square
-             * - leave alone the mover that can eventually do the capture
-             */
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - select a better walk
+               * - select a better arrival square
+               * - leave alone the mover that can eventually do the capture
+               */
+            }
+            else
+              skip = true;
           }
           else
-            skip = true;
-        }
-        else
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - avoid capturing a viable capturer
-             */
-            // TODO doesn't this only apply to decision_object_arrival?
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - avoid capturing a viable capturer
+               */
+              // TODO doesn't this only apply to decision_object_arrival?
+            }
+            else
+              skip = true;
           }
-          else
+          break;
+
+        case decision_object_random_move:
+          if (decision_level_properties[curr_level].side==side_failure)
             skip = true;
-        }
+          else
+          {
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - avoid capturing a viable capturer
+               */
+            }
+            else
+              skip = true;
+          }
+          break;
+
+        default:
+          assert(0);
+          break;
       }
-      else if (decision_level_properties[curr_level].object==decision_object_random_move)
-      {
-        if (decision_level_properties[curr_level].side==side_failure)
-          skip = true;
-        else
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
-          {
-            /* try harder.
-             * a future decision may
-             * - avoid capturing a viable capturer
-             */
-          }
-          else
-            skip = true;
-        }
-      }
-      else
-        assert(0);
       break;
 
     case decision_purpose_invisible_capturer_existing:
     case decision_purpose_invisible_capturer_inserted:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].side==side_failure)
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].side==side_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - select a better walk
-             */
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - select a better walk
+               */
+            }
+            else
+              skip = true;
           }
           else
             skip = true;
-        }
-        else
-          skip = true;
-      }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].side==side_failure)
-        {
-          if (decision_level_properties[curr_level].ply<=ply_failure)
-            skip = true;
-          else
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].side==side_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - leave alone the mover that can eventually do the capture
-             */
+            if (decision_level_properties[curr_level].ply<=ply_failure)
+              skip = true;
+            else
+            {
+              /* try harder.
+               * a future decision may
+               * - leave alone the mover that can eventually do the capture
+               */
+            }
           }
-        }
-        else
+          else
+            skip = true;
+          break;
+
+        default:
           skip = true;
+          break;
       }
-      else
-        skip = true;
       break;
 
     case decision_purpose_illegal_check_interceptor:
-      if (decision_level_properties[curr_level].object!=decision_object_side
-          && decision_level_properties[curr_level].object!=decision_object_placement
-          && decision_level_properties[curr_level].object!=decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].side!=side_failure)
-        {
-          /* decision concerning the other side can't contribute to being able for this side
-           * to capture ...
-           * ... but we still have to make sure that this side is examined too!
-           */
-          skip = true;
-        }
+        case decision_object_side:
+        case decision_object_placement:
+        case decision_object_walk:
+          break;
+
+        default:
+          if (decision_level_properties[curr_level].side!=side_failure)
+          {
+            /* decision concerning the other side can't contribute to being able for this side
+             * to capture ...
+             * ... but we still have to make sure that this side is examined too!
+             */
+            skip = true;
+          }
+          break;
       }
       /* placement:
 begin
@@ -1455,56 +1496,67 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
     case decision_purpose_invisible_capturer_inserted:
     case decision_purpose_invisible_capturer_existing:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* depending on the walk, this piece may eventually sacrifice itself
-           * to allow the capture by pawn
-           */
-        }
-        else
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* depending on the walk, this piece may eventually sacrifice itself
+             * to allow the capture by pawn
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+            skip = true;
+          else
+          {
+            /* we may be able to sacrifice ourselves, either to the capturing pawn or
+             * a pawn sacrificing itself to the capturing pawn
+             * - by staying where we are (and let another piece move)
+             * - by moving away to allow a pawn to sacrifice itself
+             */
+          }
+          break;
+
+        default:
           skip = true;
+          break;
       }
-      else if (decision_level_properties[curr_level].object==decision_object_departure)
-      {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-          skip = true;
-        else
-        {
-          /* we may be able to sacrifice ourselves, either to the capturing pawn or
-           * a pawn sacrificing itself to the capturing pawn
-           * - by staying where we are (and let another piece move)
-           * - by moving away to allow a pawn to sacrifice itself
-           */
-        }
-      }
-      else
-        skip = true;
       break;
 
     case decision_purpose_random_mover_forward:
       assert(decision_level_properties[curr_level].side!=no_side);
-      if (decision_level_properties[curr_level].object==decision_object_departure
-          || decision_level_properties[curr_level].object==decision_object_arrival
-          || decision_level_properties[curr_level].object==decision_object_walk)
+      switch (decision_level_properties[curr_level].object)
       {
-        if (decision_level_properties[curr_level].ply<ply_failure)
-        {
-          /* we may be able to sacrifice ourselves, either to the capturing pawn or
-           * a pawn sacrificing itself to the capturing pawn
-           * - by staying where we are (and let another piece move)
-           * - by moving away to allow a pawn to sacrifice itself
-           * - by moving to the capture square
-           * - by selecting a walk that allows us to eventually move the the capture square
-           * - by not accidentally capturing a piece that can eventually sacrifice itself
-           */
-        }
-        else
+        case decision_object_departure:
+        case decision_object_arrival:
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* we may be able to sacrifice ourselves, either to the capturing pawn or
+             * a pawn sacrificing itself to the capturing pawn
+             * - by staying where we are (and let another piece move)
+             * - by moving away to allow a pawn to sacrifice itself
+             * - by moving to the capture square
+             * - by selecting a walk that allows us to eventually move the the capture square
+             * - by not accidentally capturing a piece that can eventually sacrifice itself
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_random_move:
           skip = true;
+          break;
+
+        default:
+          break;
       }
-      else if (decision_level_properties[curr_level].object==decision_object_random_move)
-        skip = true;
       break;
 
     default:
