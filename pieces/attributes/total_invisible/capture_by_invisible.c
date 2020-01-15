@@ -809,7 +809,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
       int const move_square_diff = sq_arrival-sq_departure;
 
       PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-      decision_level_type const save_level_walk = decision_levels[id_existing].walk;
+      decision_level_type const save_level_walk = decision_levels[id_random].walk;
 
       motivation[id_existing].last.purpose = purpose_none;
       decision_levels[id_random].walk = decision_levels[id_existing].walk;
