@@ -701,23 +701,16 @@ static void capture_by_invisible_with_defined_walk(piece_walk_type walk_capturer
   Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
 
-  Flags const flags_existing = being_solved.spec[sq_departure];
-  PieceIdType const id_existing = GetPieceId(flags_existing);
-
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturer);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  push_decision_walk(id_existing,walk_capturer,decision_purpose_invisible_capturer_existing,trait[nbply]);
 
   capture_by_invisible_with_matching_walk(walk_capturer,sq_departure);
 
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
   move_effect_journal[movement].u.piece_movement.from = save_from;
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
