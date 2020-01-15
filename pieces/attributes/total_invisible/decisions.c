@@ -870,17 +870,13 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
       switch (decision_level_properties[curr_level].object)
       {
         case decision_object_walk:
-        case decision_object_arrival:
-          if (decision_level_properties[curr_level].ply<ply_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - a walk that allows us to eventually intercept the check
-             * - an arrival square from where the check can be intercepted
-             */
-          }
-          else
-            skip = true;
+          /* try harder.
+           * a future decision may select
+           * - a walk that allows us to eventually intercept the check
+           * - a walk that doesn't deliver the check
+           */
+          // TODO distinguish between sides in the latter case?
+          // TODO take the checker's id into consideration in the latter case?
           break;
 
         case decision_object_departure:
@@ -941,6 +937,18 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
              * - select a departure square where this piece intercepted the check before moving
              */
           }
+          break;
+
+        case decision_object_arrival:
+          if (decision_level_properties[curr_level].ply<ply_failure)
+          {
+            /* try harder.
+             * a future decision may select
+             * - an arrival square from where the check can be intercepted
+             */
+          }
+          else
+            skip = true;
           break;
 
         default:

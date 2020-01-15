@@ -649,7 +649,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
     assert(uninterceptable_check_delivered_in_ply==ply_nil);
     uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
 
-    record_decision_outcome("uninterceptable illegal check"
+    record_decision_outcome("uninterceptable illegal check by invisible piece"
                             " from dir:%d"
                             " by id:%u"
                             " delivered in ply:%u",
@@ -661,6 +661,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
     if (nbply==ply_retro_move+1)
     {
       REPORT_DEADEND;
+      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_in_check);
     }
     else
       restart_from_scratch();
