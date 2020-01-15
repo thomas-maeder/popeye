@@ -1334,7 +1334,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
         case decision_object_departure:
           if (decision_level_properties[curr_level].side==side_failure)
           {
-            if (decision_level_properties[curr_level].ply<=ply_failure)
+            if (decision_level_properties[curr_level].ply<ply_failure)
               skip = true;
             else
             {

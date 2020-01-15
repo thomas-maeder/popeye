@@ -829,6 +829,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
+            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -843,6 +844,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
+            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
         }
@@ -854,6 +856,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
+            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -873,6 +876,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
+            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -950,9 +954,7 @@ HERE
 !   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:48
 ...
                */
-              backtrack_definitively();
-              backtrack_no_further_than(decisions_existing.to);
-              backtrack_no_further_than(decisions_existing.side);
+              backtrack_from_failed_capture_by_invisible(trait[nbply]);
             }
           }
           break;
