@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 decision_level_type curr_decision_level = decision_level_initial;
 static decision_level_type max_decision_level = decision_level_latest;
