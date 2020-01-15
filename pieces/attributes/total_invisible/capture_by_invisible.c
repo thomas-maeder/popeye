@@ -212,7 +212,10 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
+    decision_level_type const save_level_walk = decision_levels[id_random].walk;
+
     decision_levels[id_existing].walk = push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,trait[nbply]);
+    decision_levels[id_random].walk = decision_levels[id_existing].walk;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
 
@@ -252,6 +255,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
 
+    decision_levels[id_random].walk = save_level_walk;
     pop_decision();
   }
 
@@ -278,6 +282,8 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
 
+  decision_level_type const save_level_walk = decision_levels[id_random].walk;
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
@@ -285,6 +291,8 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   SetPieceId(being_solved.spec[sq_departure],id_random);
   replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+
+  decision_levels[id_random].walk = decision_levels[id_existing].walk;
 
   /* deactivate the pre-capture insertion of the moving total invisible since
    * that piece is already on the board
@@ -321,6 +329,8 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   forget_taboos_for_current_move();
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+  decision_levels[id_random].walk = save_level_walk;
 
   replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
   being_solved.spec[sq_departure] = flags_existing;
@@ -808,11 +818,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
     {
       int const move_square_diff = sq_arrival-sq_departure;
 
-      PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-      decision_level_type const save_level_walk = decision_levels[id_random].walk;
-
       motivation[id_existing].last.purpose = purpose_none;
-      decision_levels[id_random].walk = decision_levels[id_existing].walk;
 
       switch (walk_existing)
       {
@@ -955,8 +961,6 @@ HERE
           assert(0);
           break;
       }
-
-      decision_levels[id_random].walk = save_level_walk;
     }
     else
     {
