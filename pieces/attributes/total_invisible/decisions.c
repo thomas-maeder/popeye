@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 decision_level_type curr_decision_level = decision_level_initial;
 static decision_level_type max_decision_level = decision_level_latest;
@@ -888,6 +888,61 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
              * a future decision may select
              * - a walk that allows us to eventually intercept the check
              * - a walk that doesn't deliver the check
+             */
+            /*
+             * e.g. (walk that doesn't deliver the check)
+begin
+author Vlaicu Crisan, Eric Huber
+origin Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+pieces TotalInvisible 2 white ke1 qd3 pf2 black kg2
+stipulation h#2
+option movenum start 6:1:0:35
+end
+
+      Vlaicu Crisan, Eric Huber
+Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   Q   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P  -K   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 1 + 2 TI
+
+!validate_mate 6:Kg2-h3 7:Ke1-c1 8:TI~-~ 9:Qd3-g3 - total_invisible.c:#521 - D:55 - 22
+use option start 6:1:0:35 to replay
+!  2 7 adding castling partner - total_invisible.c:#451
+!  2 + 7 g3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:56
+...
+!  2 + 7 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:142
+!   3 + 7 b (K:0+0 x:0+0 !:0+0 ?:0+1 F:1+0) - intercept_illegal_checks.c:#107 - D:144
+!    4 > 8 f3 (K:0+0 x:0+0 !:0+0 ?:0+1 F:1+0) - random_move_by_invisible.c:#552 - D:146
+!     5 > 8 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#349 - D:148
+!     5 > 8 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#363 - D:150
+!      6 > 8 d4 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#25 - D:152
+!       7 6 uninterceptable illegal check by invisible piece from dir:49 by id:6 delivered in ply:8 - intercept_illegal_checks.c:#658
+
+HERE! bS delivers check from f3, but B and (more importantly) R don't
+
+!     5 > 8 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#376 - D:154
+...
+!     5 > 8 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#391 - D:176
+!      6 > 8 g3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - random_move_by_invisible.c:#25 - D:178
+!       7 10 Replaying moves for validation - king_placement.c:#29
              */
             // TODO take the checker's id into consideration to tell the cases apart?
             // TODO take the ply into consideration in the first case?
