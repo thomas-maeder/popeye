@@ -661,7 +661,9 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
     if (nbply==ply_retro_move+1)
     {
       REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_check_by_invisible(side_in_check);
+      backtrack_definitively();
+      backtrack_no_further_than(decision_levels[id_checker].walk);
+      backtrack_no_further_than(decision_levels[id_checker].to);
     }
     else
       restart_from_scratch();
@@ -672,7 +674,6 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
   {
     record_decision_outcome("%s","uninterceptable check by visible piece");
     REPORT_DEADEND;
-    backtrack_from_failure_to_intercept_illegal_check_by_visible(side_in_check);
   }
 
   uninterceptable_check_delivered_from = initsquare;

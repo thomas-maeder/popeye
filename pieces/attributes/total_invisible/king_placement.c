@@ -141,15 +141,19 @@ static void nominate_king_invisible_by_invisible(void)
           && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
       {
         Flags const save_flags = being_solved.spec[*s];
+        PieceIdType const id_king = GetPieceId(being_solved.spec[*s]);
+        decision_level_type const save_decision_walk = decision_levels[id_king].walk;
+
         CLRFLAG(being_solved.spec[*s],side_mating);
         SETFLAG(being_solved.spec[*s],Royal);
         ++being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        push_decision_king_nomination(*s);
+        decision_levels[id_king].walk = push_decision_king_nomination(*s);
         restart_from_scratch();
         pop_decision();
+        decision_levels[id_king].walk = save_decision_walk;
         being_solved.board[*s] = Dummy;
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;

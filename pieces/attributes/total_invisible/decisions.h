@@ -65,7 +65,7 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
 decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 decision_level_type push_decision_walk_impl(char const *file, unsigned int line, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose, Side side);
-void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
+decision_level_type push_decision_king_nomination_impl(char const *file, unsigned int line, square pos);
 
 #define initialise_decision_context() \
     initialise_decision_context_impl(__FILE__,__LINE__,__func__)

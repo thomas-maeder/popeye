@@ -372,7 +372,7 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
   return curr_decision_level-1;
 }
 
-void push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
+decision_level_type push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -402,6 +402,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, squ
   assert(curr_decision_level<decision_level_dir_capacity);
 
   ++record_decision_counter;
+
+  return curr_decision_level-1;
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)
