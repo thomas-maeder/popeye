@@ -191,7 +191,9 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
     make_revelations();
 
     if (revelation_status_is_uninitialised)
-      pipe_solve_delegate(si);
+    {
+      /* there is not a single way to flesh out the moves - no need to continue */
+    }
     else
     {
       // TODO move to separate slice implemented in the revelations module
