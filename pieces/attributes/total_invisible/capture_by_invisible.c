@@ -803,7 +803,6 @@ static void capture_by_existing_invisible_on(square sq_departure)
   {
     piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
     motivation_type const motivation_existing = motivation[id_existing];
-    decision_levels_type const decisions_existing = decision_levels[id_existing];
 
     assert(motivation[id_existing].first.purpose!=purpose_none);
     assert(motivation[id_existing].last.purpose!=purpose_none);
@@ -1150,13 +1149,17 @@ static void capture_by_inserted_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  decision_levels[id_inserted].side = push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
-
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {
     current_consumption = save_consumption;
+
     /* no problem - we can simply insert a capturer */
+
+    decision_levels[id_inserted].side = push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+
     capture_by_inserted_invisible_all_walks();
+
+    pop_decision();
   }
   else
   {
@@ -1168,8 +1171,6 @@ static void capture_by_inserted_invisible(void)
         && current_consumption.claimed[trait[nbply]])
     {
       /* no problem - we can simply insert a capturing king */
-      decision_levels_type const levels_inserted = decision_levels[id_inserted];
-
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       square const save_from = move_effect_journal[movement].u.piece_movement.from;
       piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -1177,17 +1178,17 @@ static void capture_by_inserted_invisible(void)
 
       assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
+      decision_levels[id_inserted].side = push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+
       capture_by_inserted_invisible_king();
 
       move_effect_journal[movement].u.piece_movement.from = save_from;
       move_effect_journal[movement].u.piece_movement.moving = save_moving;
       move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
-      decision_levels[id_inserted] = levels_inserted;
+      pop_decision();
     }
   }
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
