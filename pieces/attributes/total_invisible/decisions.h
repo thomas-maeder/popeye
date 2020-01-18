@@ -42,8 +42,6 @@ typedef enum
 
 extern decision_levels_type decision_levels[MaxPieceId+1];
 
-extern decision_level_type curr_decision_level;
-
 enum
 {
   decision_level_dir_capacity = 100

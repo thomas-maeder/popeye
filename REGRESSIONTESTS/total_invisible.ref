@@ -758,7 +758,7 @@ b) bKg1-->g2
                      play_move:      240134
  is_white_king_square_attacked:       24381
  is_black_king_square_attacked:       56325
-                  TI decisions:      238002
+                  TI decisions:      237995
 
 solution finished.
 
@@ -968,7 +968,7 @@ Michel Caillaud & Igor Vere\vs\vcagin
                      play_move:     1409711
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      451429
-                  TI decisions:      595985
+                  TI decisions:      595074
 
 solution finished.
 
@@ -1042,7 +1042,7 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
                      play_move:    22883333
  is_white_king_square_attacked:     1684958
  is_black_king_square_attacked:     4413167
-                  TI decisions:    57838693
+                  TI decisions:    57837894
 
 solution finished.
 
