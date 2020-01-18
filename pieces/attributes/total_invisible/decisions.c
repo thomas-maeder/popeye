@@ -126,7 +126,22 @@ void record_decision_for_inserted_invisible(PieceIdType id)
   TraceFunctionResultEnd();
 }
 
-void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
+static decision_level_type push_decision_common(void)
+{
+  decision_level_properties[curr_decision_level].ply = nbply;
+
+  max_decision_level = decision_level_latest;
+  current_backtracking = backtrack_none;
+
+  ++curr_decision_level;
+  assert(curr_decision_level<decision_level_dir_capacity);
+
+  ++record_decision_counter;
+
+  return curr_decision_level-1;
+}
+
+decision_level_type push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",curr_decision_level,"",curr_decision_level);
@@ -134,18 +149,11 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_random_move;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
@@ -159,10 +167,6 @@ decision_level_type push_decision_departure_impl(char const *file, unsigned int 
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_departure;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -178,12 +182,7 @@ decision_level_type push_decision_departure_impl(char const *file, unsigned int 
   else
     decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 // TODO  do we still need to do record decisions regarding move vectors?
@@ -196,10 +195,6 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_move_vector;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
@@ -215,12 +210,7 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
   else
     decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
@@ -234,24 +224,15 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
   assert(purpose==decision_purpose_random_mover_forward
          || purpose==decision_purpose_random_mover_backward);
 
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_arrival;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = trait[nbply];
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
@@ -265,23 +246,14 @@ decision_level_type push_decision_placement_impl(char const *file, unsigned int 
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
   assert(purpose==decision_purpose_illegal_check_interceptor);
 
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_placement;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = no_side;
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
@@ -297,21 +269,12 @@ decision_level_type push_decision_side_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_side;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = side;
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
@@ -323,21 +286,12 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_insertion;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = side;
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
@@ -355,21 +309,12 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_walk;
   decision_level_properties[curr_decision_level].purpose = purpose;
   decision_level_properties[curr_decision_level].id = id;
   decision_level_properties[curr_decision_level].side = side;
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 decision_level_type push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
@@ -390,20 +335,11 @@ decision_level_type push_decision_king_nomination_impl(char const *file, unsigne
   report_endline(file,line);
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
-
-  decision_level_properties[curr_decision_level].ply = nbply;
   decision_level_properties[curr_decision_level].object = decision_object_king_nomination;
   decision_level_properties[curr_decision_level].purpose = decision_purpose_king_nomination;
   decision_level_properties[curr_decision_level].side = TSTFLAG(being_solved.spec[pos],White) ? White : Black;
 
-  ++curr_decision_level;
-  assert(curr_decision_level<decision_level_dir_capacity);
-
-  ++record_decision_counter;
-
-  return curr_decision_level-1;
+  return push_decision_common();
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)

@@ -1472,7 +1472,7 @@ void do_revelation_bookkeeping(void)
   backtrack_definitively();
 
   TraceValue("%u",nr_potential_revelations);TraceEOL();
-  if (nr_potential_revelations>0)
+
   {
     unsigned int i;
     for (i = 0; i!=nr_potential_revelations; ++i)

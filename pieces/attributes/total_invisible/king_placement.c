@@ -23,6 +23,7 @@ static void done_validating_king_placements(void)
   {
     case play_detecting_revelations:
       do_revelation_bookkeeping();
+      combined_result = previous_move_has_solved;
       break;
 
     case play_validating_mate:
