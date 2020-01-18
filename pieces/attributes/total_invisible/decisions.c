@@ -368,7 +368,7 @@ void pop_decision(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  decision_level_properties[curr_decision_level].ply = 0;
+  decision_level_properties[curr_decision_level].ply = ply_nil;
   decision_level_properties[curr_decision_level].side = no_side;
   assert(curr_decision_level>0);
   --curr_decision_level;
