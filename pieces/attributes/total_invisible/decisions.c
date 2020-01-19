@@ -124,6 +124,8 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   decision_level_properties[next_decision_level-1].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_none;
   decision_level_properties[next_decision_level-1].backtracking.result = previous_move_is_illegal;
+
+  combined_result = previous_move_is_illegal;
 }
 
 void record_decision_for_inserted_invisible(PieceIdType id)
