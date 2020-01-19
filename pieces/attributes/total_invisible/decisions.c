@@ -383,6 +383,9 @@ void record_decision_result(void)
   assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
   decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
 
+  if (combined_result==previous_move_has_not_solved)
+    backtrack_definitively();
+
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d",next_decision_level," ",next_decision_level);
   printf(" - c==%u\n",combined_result);

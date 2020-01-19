@@ -192,13 +192,11 @@ static void indistinct_king_placement_validation(void)
     case play_validating_mate:
       combined_validation_result = no_mate;
       combined_result = previous_move_has_not_solved;
-      backtrack_definitively();
       record_decision_result();
       break;
 
     default:
       combined_result = previous_move_has_not_solved;
-      backtrack_definitively();
       record_decision_result();
       break;
   }

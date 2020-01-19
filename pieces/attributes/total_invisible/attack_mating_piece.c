@@ -72,7 +72,6 @@ void done_placing_mating_piece_attacker(void)
   if (solve_result==previous_move_has_not_solved)
   {
     combined_result = previous_move_has_not_solved;
-    backtrack_definitively();
     record_decision_result();
   }
 
