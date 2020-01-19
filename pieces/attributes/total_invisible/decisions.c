@@ -381,19 +381,22 @@ void record_decision_result(stip_length_type recorded_result)
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.recorded_result);
   TraceEOL();
 
-  combined_result = recorded_result;
+  if (recorded_result>combined_result)
+  {
+    combined_result = recorded_result;
 
-  assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
-  decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
+    assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
+    decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
 
-  if (combined_result==previous_move_has_not_solved)
-    backtrack_definitively();
+    if (combined_result==previous_move_has_not_solved)
+      backtrack_definitively();
 
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d",next_decision_level," ",next_decision_level);
-  printf(" - c==%u\n",combined_result);
-  fflush(stdout);
+    printf("!%*s%d",next_decision_level," ",next_decision_level);
+    printf(" - c==%u\n",combined_result);
+    fflush(stdout);
 #endif
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
