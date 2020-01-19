@@ -48,7 +48,7 @@ typedef struct
     {
         backtrack_type type;
         decision_level_type max_level;
-        stip_length_type result;
+        has_solution_type result;
     } backtracking;
 } decision_level_property_type;
 
@@ -366,7 +366,7 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void record_decision_result(stip_length_type recorded_result)
+void record_decision_result(has_solution_type recorded_result)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",recorded_result);
@@ -375,6 +375,8 @@ void record_decision_result(stip_length_type recorded_result)
   TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.recorded_result);
   TraceEOL();
+
+  assert(recorded_result<=previous_move_has_not_solved);
 
   if (recorded_result>decision_level_properties[next_decision_level-1].backtracking.result)
   {
@@ -395,9 +397,9 @@ void record_decision_result(stip_length_type recorded_result)
   TraceFunctionResultEnd();
 }
 
-stip_length_type get_decision_result(void)
+has_solution_type get_decision_result(void)
 {
-  stip_length_type const result = decision_level_properties[next_decision_level-1].backtracking.result;
+  has_solution_type const result = decision_level_properties[next_decision_level-1].backtracking.result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

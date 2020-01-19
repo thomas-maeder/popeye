@@ -86,6 +86,8 @@ pieces/attributes/total_invisible/taboo$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/walks/classification.h optimisations/orthodox_check_directions.h \
  debugging/assert.h
@@ -161,6 +163,12 @@ output/output.h:
 output/plaintext/plaintext.h:
 
 options/movenumbers.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
 
@@ -286,16 +294,15 @@ pieces/attributes/total_invisible/revelations$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
- pieces/attributes/total_invisible/taboo.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h \
  position/effects/piece_removal.h position/effects/piece_movement.h \
  position/effects/walk_change.h position/effects/king_square.h \
- solving/pipe.h solving/castling.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- debugging/assert.h
+ solving/pipe.h solving/castling.h debugging/assert.h
 
 pieces/attributes/total_invisible/revelations.h:
 
@@ -369,6 +376,12 @@ output/plaintext/plaintext.h:
 
 options/movenumbers.h:
 
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
 pieces/attributes/total_invisible/taboo.h:
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
@@ -395,12 +408,6 @@ solving/pipe.h:
 
 solving/castling.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
-
 debugging/assert.h:
 pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/capture_by_invisible.c \
@@ -418,7 +425,9 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/goal_validation.h debugging/trace.h \
  output/plaintext/pieces.h output/output.h output/plaintext/plaintext.h \
  options/movenumbers.h solving/machinery/solve.h \
- solving/machinery/dispatch.h pieces/attributes/total_invisible/taboo.h \
+ solving/machinery/dispatch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/revelations.h \
  solving/move_effect_journal.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
@@ -495,6 +504,12 @@ solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
 pieces/attributes/total_invisible/taboo.h:
 
 pieces/attributes/total_invisible/revelations.h:
@@ -526,7 +541,8 @@ pieces/attributes/total_invisible/random_move_by_invisible$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
- pieces/attributes/total_invisible/taboo.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum pieces/attributes/total_invisible/taboo.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
@@ -603,6 +619,12 @@ output/output.h:
 output/plaintext/plaintext.h:
 
 options/movenumbers.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 pieces/attributes/total_invisible/taboo.h:
 
@@ -720,9 +742,9 @@ pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
- position/effects/piece_readdition.h position/effects/null_move.h \
- solving/pipe.h solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum position/effects/piece_readdition.h \
+ position/effects/null_move.h solving/pipe.h solving/move_generator.h \
  debugging/assert.h
 
 pieces/attributes/total_invisible/move_player.h:
@@ -799,6 +821,12 @@ output/plaintext/plaintext.h:
 
 options/movenumbers.h:
 
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
 position/effects/piece_readdition.h:
 
 position/effects/null_move.h:
@@ -806,12 +834,6 @@ position/effects/null_move.h:
 solving/pipe.h:
 
 solving/move_generator.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
@@ -834,6 +856,8 @@ pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/random_move_by_invisible.h \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/consumption.h \
@@ -914,6 +938,12 @@ output/output.h:
 output/plaintext/plaintext.h:
 
 options/movenumbers.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
@@ -1049,13 +1079,14 @@ pieces/attributes/total_invisible/king_placement$(OBJ_SUFFIX): \
  pieces/walks/vectors.h position/castling_rights.h output/output.h \
  output/plaintext/plaintext.h options/movenumbers.h \
  solving/machinery/solve.h solving/machinery/dispatch.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum \
  pieces/attributes/total_invisible/revelations.h \
  solving/move_effect_journal.h \
  pieces/attributes/total_invisible/attack_mating_piece.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/replay_fleshed_out.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum debugging/assert.h
+ debugging/assert.h
 
 pieces/attributes/total_invisible/king_placement.h:
 
@@ -1125,6 +1156,12 @@ solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
 pieces/attributes/total_invisible/revelations.h:
 
 solving/move_effect_journal.h:
@@ -1134,12 +1171,6 @@ pieces/attributes/total_invisible/attack_mating_piece.h:
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/goal_validation$(OBJ_SUFFIX): \
@@ -1249,10 +1280,10 @@ pieces/attributes/total_invisible/replay_fleshed_out$(OBJ_SUFFIX): \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
  position/castling_rights.h output/output.h output/plaintext/plaintext.h \
  options/movenumbers.h solving/machinery/solve.h \
- solving/machinery/dispatch.h solving/move_effect_journal.h \
- solving/pipe.h solving/move_generator.h solving/castling.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum debugging/assert.h
+ solving/machinery/dispatch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/move_effect_journal.h solving/pipe.h solving/move_generator.h \
+ solving/castling.h debugging/assert.h
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 
@@ -1322,6 +1353,12 @@ solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
 solving/move_effect_journal.h:
 
 solving/pipe.h:
@@ -1329,12 +1366,6 @@ solving/pipe.h:
 solving/move_generator.h:
 
 solving/castling.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/decisions$(OBJ_SUFFIX): \
@@ -1352,10 +1383,10 @@ pieces/attributes/total_invisible/decisions$(OBJ_SUFFIX): \
  pieces/walks/vectors.h position/castling_rights.h output/output.h \
  output/plaintext/plaintext.h options/movenumbers.h \
  solving/machinery/solve.h solving/machinery/dispatch.h \
- pieces/attributes/total_invisible/consumption.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/move_effect_journal.h \
- debugging/assert.h
+ solving/has_solution_type.enum \
+ pieces/attributes/total_invisible/consumption.h \
+ solving/move_effect_journal.h debugging/assert.h
 
 pieces/attributes/total_invisible/decisions.h:
 
@@ -1423,13 +1454,13 @@ solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
-pieces/attributes/total_invisible/consumption.h:
-
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
+
+pieces/attributes/total_invisible/consumption.h:
 
 solving/move_effect_journal.h:
 

@@ -6,6 +6,7 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/plaintext.h"
 #include "options/movenumbers.h"
+#include "solving/has_solution_type.h"
 
 #include <string.h>
 #include <limits.h>
@@ -143,8 +144,8 @@ void backtrack_definitively(void);
  */
 void backtrack_no_further_than(decision_level_type level);
 
-void record_decision_result(stip_length_type recorded_result);
-stip_length_type get_decision_result(void);
+void record_decision_result(has_solution_type recorded_result);
+has_solution_type get_decision_result(void);
 
 boolean can_decision_level_be_continued(void);
 
