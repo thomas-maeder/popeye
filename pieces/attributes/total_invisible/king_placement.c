@@ -43,14 +43,10 @@ static void done_validating_king_placements(void)
       if (combined_validation_result==mate_attackable)
       {
         play_phase = play_attacking_mating_piece;
+        /* until we prove otherwise: */
+        record_decision_result(previous_move_has_solved);
         attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
-
-        if (combined_result==previous_move_is_illegal)
-        {
-          /* no legal placement found for a mating piece attacker */
-          record_decision_result(previous_move_has_solved);
-        }
       }
       else
       {
