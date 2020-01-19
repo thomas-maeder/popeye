@@ -53,6 +53,7 @@ typedef struct
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
+static stip_length_type combined_result;
 
 unsigned long record_decision_counter;
 
@@ -400,6 +401,21 @@ void record_decision_result(stip_length_type recorded_result)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+stip_length_type get_decision_result(void)
+{
+  stip_length_type const result = decision_level_properties[next_decision_level-1].backtracking.result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(combined_result==decision_level_properties[next_decision_level-1].backtracking.result);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 void pop_decision(void)

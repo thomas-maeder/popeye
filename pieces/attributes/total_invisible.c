@@ -46,8 +46,6 @@ unsigned int total_invisible_number;
 ply top_ply_of_regular_play;
 slice_index tester_slice;
 
-stip_length_type combined_result;
-
 play_phase_type play_phase = play_regular;
 
 ply flesh_out_move_highwater = ply_retro_move;
@@ -537,11 +535,11 @@ static void test_mate(void)
   switch (combined_validation_result)
   {
     case mate_unvalidated:
-      assert(combined_result==previous_move_is_illegal);
+      assert(get_decision_result()==previous_move_is_illegal);
       break;
 
     case no_mate:
-      assert(combined_result==previous_move_has_not_solved);
+      assert(get_decision_result()==previous_move_has_not_solved);
       break;
 
     case mate_attackable:
@@ -554,7 +552,7 @@ static void test_mate(void)
       /* we only replay moves for TI revelation */
       initialise_decision_context();
       start_iteration();
-      assert(combined_result==previous_move_has_solved);
+      assert(get_decision_result()==previous_move_has_solved);
       break;
 
     default:
@@ -673,7 +671,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     unrewind_effects();
     play_phase = play_regular;
 
-    solve_result = combined_result;
+    solve_result = get_decision_result();
   }
 
   forget_taboos_for_current_move();

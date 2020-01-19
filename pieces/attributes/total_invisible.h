@@ -119,8 +119,6 @@ typedef struct action_type
 extern ply top_ply_of_regular_play;
 extern play_phase_type play_phase;
 
-extern stip_length_type combined_result;
-
 extern slice_index tester_slice;
 
 void restart_from_scratch(void);
