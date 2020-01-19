@@ -31,6 +31,7 @@ typedef enum
 {
   backtrack_none,
   backtrack_until_level,
+  backtrack_revelation,
   backtrack_failure_to_intercept_illegal_checks_by_invisible,
   backtrack_failure_to_intercept_illegal_checks_by_visible,
   backtrack_failture_to_capture_by_invisible,
@@ -1792,6 +1793,21 @@ void backtrack_definitively(void)
   TraceFunctionResultEnd();
 }
 
+/* Optimise backtracking considering that we have
+ * updated the set of potential revelations
+ */
+void backtrack_from_revelation_update(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_revelation;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = decision_level_forever;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* To be invoked after backtrack_definitively(), possibly multiple times, to make that "definititively"
  * a bit more relative.
  * @param level level to which to backtrack at most
@@ -1803,7 +1819,6 @@ void backtrack_no_further_than(decision_level_type level)
   TraceFunctionParamListEnd();
 
   assert(level!=decision_level_uninitialised);
-  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_until_level;
 
   if (level>decision_level_properties[next_decision_level-1].backtracking.max_level)
     decision_level_properties[next_decision_level-1].backtracking.max_level = level;
@@ -1834,6 +1849,13 @@ boolean can_decision_level_be_continued(void)
     case backtrack_until_level:
       assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
+      break;
+
+    case backtrack_revelation:
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+      result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
+      if (decision_level_properties[next_decision_level-1].object==decision_object_move_vector)
+        result = false;
       break;
 
     case backtrack_failure_to_intercept_illegal_checks_by_invisible:

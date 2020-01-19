@@ -138,8 +138,13 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing);
  */
 void backtrack_definitively(void);
 
-/* To be invoked after backtrack_definitively(), possibly multiple times, to make that "definititively"
- * a bit more relative.
+/* Optimise backtracking considering that we have
+ * updated the set of potential revelations
+ */
+void backtrack_from_revelation_update(void);
+
+/* To be invoked after backtrack_definitively() or backtrack_from_revelation_update(),
+ * possibly multiple times, to make that "definititively" a bit more relative.
  * @param level level to which to backtrack at most
  */
 void backtrack_no_further_than(decision_level_type level);

@@ -1469,7 +1469,7 @@ void do_revelation_bookkeeping(void)
                             prev_nr_potential_revelations);
   }
 
-  backtrack_definitively();
+  backtrack_from_revelation_update();
 
   TraceValue("%u",nr_potential_revelations);TraceEOL();
 
