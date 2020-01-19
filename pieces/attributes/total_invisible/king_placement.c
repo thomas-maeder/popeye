@@ -36,7 +36,10 @@ static void done_validating_king_placements(void)
       if (mate_validation_result<combined_validation_result)
         combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
-        backtrack_definitively();
+      {
+        combined_result = previous_move_has_not_solved;
+        record_decision_result();
+      }
 
       break;
 
@@ -67,7 +70,10 @@ static void done_validating_king_placements(void)
          * E.g. mate by castling: if we attack the rook, the castling is not
          * even playable */
         if (solve_result==previous_move_has_not_solved)
-          backtrack_definitively();
+        {
+          combined_result = previous_move_has_not_solved;
+          record_decision_result();
+        }
       }
 
       break;
