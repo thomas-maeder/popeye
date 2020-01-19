@@ -528,10 +528,6 @@ static void test_mate(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",combined_result);
-  TraceValue("%u",combined_validation_result);
-  TraceEOL();
-
   switch (combined_validation_result)
   {
     case mate_unvalidated:

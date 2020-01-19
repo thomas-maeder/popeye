@@ -53,7 +53,6 @@ typedef struct
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
-static stip_length_type combined_result;
 
 unsigned long record_decision_counter;
 
@@ -94,9 +93,8 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
-  printf(" - r:%u c:%u t:%u m:%u",
+  printf(" - r:%u t:%u m:%u",
          decision_level_properties[next_decision_level].backtracking.result,
-         combined_result,
          decision_level_properties[next_decision_level].backtracking.type,
          decision_level_properties[next_decision_level].backtracking.max_level);
   printf(" - %s:#%d",basename(file),line);
@@ -125,8 +123,6 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   decision_level_properties[next_decision_level-1].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_none;
   decision_level_properties[next_decision_level-1].backtracking.result = previous_move_is_illegal;
-
-  combined_result = previous_move_is_illegal;
 }
 
 void record_decision_for_inserted_invisible(PieceIdType id)
@@ -150,7 +146,6 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
   decision_level_properties[next_decision_level].backtracking.result = previous_move_is_illegal;
-  combined_result = previous_move_is_illegal;
 
   ++record_decision_counter;
 
@@ -377,24 +372,21 @@ void record_decision_result(stip_length_type recorded_result)
   TraceFunctionParam("%u",recorded_result);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",combined_result);
   TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.recorded_result);
   TraceEOL();
 
-  if (recorded_result>combined_result)
+  if (recorded_result>decision_level_properties[next_decision_level-1].backtracking.result)
   {
-    combined_result = recorded_result;
+    decision_level_properties[next_decision_level-1].backtracking.result = recorded_result;
 
-    assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
-    decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
-
-    if (combined_result==previous_move_has_not_solved)
+    if (recorded_result==previous_move_has_not_solved)
       backtrack_definitively();
 
 #if defined(REPORT_DECISIONS)
     printf("!%*s%d",next_decision_level," ",next_decision_level);
-    printf(" - c==%u\n",combined_result);
+    printf(" - combined result:%u\n",
+           decision_level_properties[next_decision_level-1].backtracking.result);
     fflush(stdout);
 #endif
   }
@@ -409,8 +401,6 @@ stip_length_type get_decision_result(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  assert(combined_result==decision_level_properties[next_decision_level-1].backtracking.result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -436,8 +426,6 @@ void pop_decision(void)
 
   if (decision_level_properties[next_decision_level].backtracking.result>=decision_level_properties[next_decision_level-1].backtracking.result)
     decision_level_properties[next_decision_level-1].backtracking = decision_level_properties[next_decision_level].backtracking;
-
-  combined_result = decision_level_properties[next_decision_level-1].backtracking.result;
 
   TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level].ply);
@@ -469,9 +457,8 @@ void pop_decision(void)
 
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d",next_decision_level,"<",next_decision_level);
-  printf(" - r:%u c:%u t:%u m:%u\n",
+  printf(" - r:%u t:%u m:%u\n",
          decision_level_properties[next_decision_level-1].backtracking.result,
-         combined_result,
          decision_level_properties[next_decision_level-1].backtracking.type,
          decision_level_properties[next_decision_level-1].backtracking.max_level);
   fflush(stdout);
