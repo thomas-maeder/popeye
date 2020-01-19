@@ -489,8 +489,7 @@ boolean has_decision_failed_capture(void)
       break;
 
     case backtrack_failture_to_capture_invisible_by_pawn:
-      TraceEnumerator(Side,side_failure);TraceEOL();
-      if (decision_level_properties[decision_level_properties[next_decision_level-1].backtracking.max_level].side==side_failure)
+      if (decision_level_properties[next_decision_level-1].id==id_failure)
         result = true;
       break;
 
@@ -1767,12 +1766,12 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   TraceEOL();
 
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failture_to_capture_invisible_by_pawn;
-  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
   ply_failure = nbply;
   side_failure = advers(side_capturing);
+  id_failure = decision_level_properties[next_decision_level-1].id;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1854,7 +1853,7 @@ boolean can_decision_level_be_continued(void)
       break;
 
     case backtrack_failture_to_capture_invisible_by_pawn:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
       result = !failure_to_capture_invisible_by_pawn_continue_level(next_decision_level);
       break;
 
