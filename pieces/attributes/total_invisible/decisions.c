@@ -59,6 +59,7 @@ unsigned long record_decision_counter;
 static boolean try_to_avoid_insertion[nr_sides] = { false, false };
 static ply ply_failure;
 static Side side_failure;
+static PieceIdType id_failure;
 
 #if defined(REPORT_DECISIONS)
 
@@ -93,10 +94,11 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
-  printf(" - r:%u t:%u m:%u",
+  printf(" - r:%u t:%u m:%u i:%u",
          decision_level_properties[next_decision_level].backtracking.result,
          decision_level_properties[next_decision_level].backtracking.type,
-         decision_level_properties[next_decision_level].backtracking.max_level);
+         decision_level_properties[next_decision_level].backtracking.max_level,
+         decision_level_properties[next_decision_level].id);
   printf(" - %s:#%d",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter++);
   fflush(stdout);
@@ -477,9 +479,15 @@ boolean has_decision_failed_capture(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(decision_level_properties[next_decision_level-1].object==decision_object_side);
+
   switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
     case backtrack_failture_to_capture_by_invisible:
+      if (decision_level_properties[next_decision_level-1].id==id_failure)
+        result = true;
+      break;
+
     case backtrack_failture_to_capture_invisible_by_pawn:
       TraceEnumerator(Side,side_failure);TraceEOL();
       if (decision_level_properties[decision_level_properties[next_decision_level-1].backtracking.max_level].side==side_failure)
@@ -1611,12 +1619,12 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   TraceEOL();
 
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failture_to_capture_by_invisible;
-  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
   ply_failure = nbply;
   side_failure = side_capturing;
+  id_failure = decision_level_properties[next_decision_level-1].id;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1841,7 +1849,7 @@ boolean can_decision_level_be_continued(void)
       break;
 
     case backtrack_failture_to_capture_by_invisible:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
       result = !failure_to_capture_by_invisible_continue_level(next_decision_level);
       break;
 
