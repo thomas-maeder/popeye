@@ -673,7 +673,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     unrewind_effects();
     play_phase = play_regular;
 
-    solve_result = combined_result==immobility_on_next_move ? previous_move_has_not_solved : combined_result;
+    solve_result = combined_result;
   }
 
   forget_taboos_for_current_move();
