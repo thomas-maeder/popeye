@@ -1404,9 +1404,9 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
     }
     else
     {
-      combined_result = previous_move_has_not_solved;
       TraceText("allocation for application of knowledge not possible\n");
       record_decision_outcome("%s","allocation for application of knowledge not possible");
+      record_decision_result(previous_move_has_not_solved);
       REPORT_DEADEND;
     }
 
