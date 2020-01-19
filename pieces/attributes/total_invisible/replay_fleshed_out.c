@@ -202,10 +202,7 @@ void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
     pipe_solve_delegate(tester_slice);
 
     if (solve_result>combined_result)
-    {
-      combined_result = solve_result;
-      record_decision_result();
-    }
+      record_decision_result(solve_result);
     TracePosition(being_solved.board,being_solved.spec);
 
     play_phase = play_finalising_replay;

@@ -23,8 +23,7 @@ static void done_validating_king_placements(void)
   {
     case play_detecting_revelations:
       do_revelation_bookkeeping();
-      combined_result = previous_move_has_solved;
-      record_decision_result();
+      record_decision_result(previous_move_has_solved);
       break;
 
     case play_validating_mate:
@@ -36,10 +35,7 @@ static void done_validating_king_placements(void)
       if (mate_validation_result<combined_validation_result)
         combined_validation_result = mate_validation_result;
       if (mate_validation_result<=mate_attackable)
-      {
-        combined_result = previous_move_has_not_solved;
-        record_decision_result();
-      }
+        record_decision_result(previous_move_has_not_solved);
 
       break;
 
@@ -53,8 +49,7 @@ static void done_validating_king_placements(void)
         if (combined_result==previous_move_is_illegal)
         {
           /* no legal placement found for a mating piece attacker */
-          combined_result = previous_move_has_solved;
-          record_decision_result();
+          record_decision_result(previous_move_has_solved);
         }
       }
       else
@@ -70,10 +65,7 @@ static void done_validating_king_placements(void)
          * E.g. mate by castling: if we attack the rook, the castling is not
          * even playable */
         if (solve_result==previous_move_has_not_solved)
-        {
-          combined_result = previous_move_has_not_solved;
-          record_decision_result();
-        }
+          record_decision_result(previous_move_has_not_solved);
       }
 
       break;
@@ -197,13 +189,11 @@ static void indistinct_king_placement_validation(void)
 
     case play_validating_mate:
       combined_validation_result = no_mate;
-      combined_result = previous_move_has_not_solved;
-      record_decision_result();
+      record_decision_result(previous_move_has_not_solved);
       break;
 
     default:
-      combined_result = previous_move_has_not_solved;
-      record_decision_result();
+      record_decision_result(previous_move_has_not_solved);
       break;
   }
 

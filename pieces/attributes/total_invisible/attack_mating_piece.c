@@ -70,10 +70,7 @@ void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
-  {
-    combined_result = previous_move_has_not_solved;
-    record_decision_result();
-  }
+    record_decision_result(previous_move_has_not_solved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

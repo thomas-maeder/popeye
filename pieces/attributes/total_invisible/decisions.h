@@ -143,7 +143,7 @@ void backtrack_definitively(void);
  */
 void backtrack_no_further_than(decision_level_type level);
 
-void record_decision_result(void);
+void record_decision_result(stip_length_type recorded_result);
 
 boolean can_decision_level_be_continued(void);
 

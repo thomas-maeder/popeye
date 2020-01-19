@@ -370,15 +370,18 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-void record_decision_result(void)
+void record_decision_result(stip_length_type recorded_result)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",recorded_result);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",combined_result);
   TraceValue("%u",next_decision_level);
-  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.recorded_result);
   TraceEOL();
+
+  combined_result = recorded_result;
 
   assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
   decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
