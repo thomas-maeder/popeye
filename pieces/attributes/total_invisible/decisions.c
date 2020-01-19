@@ -1364,6 +1364,71 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
           if (decision_level_properties[curr_level].ply==ply_failure
               && being_solved.king_square[advers(side_failure)]!=initsquare)
             skip = true;
+          /* the test being_solved.king_square[advers(side_failure)]!=initsquare is relevant!
+           * E.g.
+begin
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
+stipulation h#2
+option movenum start 38:1:15:29
+end
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+!test_mate 6:Rb4-e4 7:TI~-e4 8:Bf1-g2 9:Pb7-c8 - total_invisible.c:#543 - D:376 - 230
+use option start 38:1:15:29 to replay
+! >2 + 6 d4 (K:0+1 x:0+1 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#487 - D:378
+! <2 - r:1 t:0 m:4294967295
+! >2 + 6 c3 (K:0+1 x:0+1 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#487 - D:380
+!  >3 + 6 w (K:0+1 x:0+1 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#450 - D:382
+!   >4 + 6 Q (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#253 - D:384
+...
+!   >4 + 6 B (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#253 - D:630
+!    >5 + 6 e4 (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#487 - D:632
+...
+!    >5 + 6 e2 (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#487 - D:650
+!     >6 + 6 w (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#450 - D:652
+!       7 6 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#419
+!     <6 - r:1 t:0 m:4294967295
+!     >6 + 6 b (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#450 - D:654
+!      >7 + 6 K (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#253 - D:656
+...
+!      >7 + 6 B (K:0+1 x:0+1 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#253 - D:662
+!        8 6 capture in ply 7 will not be possible - intercept_illegal_checks.c:#73
+!      <7 - r:1 t:4 m:7
+!     <6 - r:1 t:4 m:7
+!    <5 - r:1 t:4 m:7
+!   <4 - r:1 t:4 m:7
+!  <3 - r:1 t:4 m:7
+
+HERE
+
+!  >3 + 6 b (K:0+1 x:0+1 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#450 - D:664
+!   >4 + 6 K (K:0+1 x:0+1 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 - intercept_illegal_checks.c:#253 - D:666
+           */
         }
         break;
 
