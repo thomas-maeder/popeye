@@ -24,6 +24,7 @@ static void done_validating_king_placements(void)
     case play_detecting_revelations:
       do_revelation_bookkeeping();
       combined_result = previous_move_has_solved;
+      record_decision_result();
       break;
 
     case play_validating_mate:
@@ -47,8 +48,11 @@ static void done_validating_king_placements(void)
         play_phase = play_testing_mate;
 
         if (combined_result==previous_move_is_illegal)
+        {
           /* no legal placement found for a mating piece attacker */
           combined_result = previous_move_has_solved;
+          record_decision_result();
+        }
       }
       else
       {
@@ -189,11 +193,13 @@ static void indistinct_king_placement_validation(void)
       combined_validation_result = no_mate;
       combined_result = previous_move_has_not_solved;
       backtrack_definitively();
+      record_decision_result();
       break;
 
     default:
       combined_result = previous_move_has_not_solved;
       backtrack_definitively();
+      record_decision_result();
       break;
   }
 

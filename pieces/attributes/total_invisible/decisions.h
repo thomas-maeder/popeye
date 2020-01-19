@@ -143,6 +143,8 @@ void backtrack_definitively(void);
  */
 void backtrack_no_further_than(decision_level_type level);
 
+void record_decision_result(void);
+
 boolean can_decision_level_be_continued(void);
 
 boolean has_decision_failed_capture(void);

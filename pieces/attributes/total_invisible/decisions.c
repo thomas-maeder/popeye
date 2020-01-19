@@ -1,6 +1,7 @@
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "solving/ply.h"
+#include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/assert.h"
 
@@ -10,7 +11,6 @@
 //#define REPORT_DECISIONS
 
 static decision_level_type next_decision_level = decision_level_initial;
-static decision_level_type max_decision_level = decision_level_latest;
 
 decision_levels_type decision_levels[MaxPieceId+1];
 
@@ -27,19 +27,6 @@ typedef enum
   decision_object_king_nomination
 } decision_object_type;
 
-typedef struct
-{
-    ply ply;
-    decision_object_type object;
-    decision_purpose_type purpose;
-    PieceIdType id;
-    Side side;
-} decision_level_property_type;
-
-static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
-
-unsigned long record_decision_counter;
-
 typedef enum
 {
   backtrack_none,
@@ -50,7 +37,28 @@ typedef enum
   backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
 
-static backtrack_type current_backtracking = backtrack_none;
+typedef struct
+{
+    ply ply;
+    decision_object_type object;
+    decision_purpose_type purpose;
+    PieceIdType id;
+    Side side;
+    struct
+    {
+        backtrack_type type;
+        decision_level_type max_level;
+        stip_length_type result;
+    } backtracking;
+} decision_level_property_type;
+
+static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
+
+unsigned long record_decision_counter;
+
+static boolean try_to_avoid_insertion[nr_sides] = { false, false };
+static ply ply_failure;
+static Side side_failure;
 
 #if defined(REPORT_DECISIONS)
 
@@ -85,6 +93,11 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
+  printf(" - r:%u c:%u t:%u m:%u",
+         decision_level_properties[next_decision_level].backtracking.result,
+         combined_result,
+         decision_level_properties[next_decision_level].backtracking.type,
+         decision_level_properties[next_decision_level].backtracking.max_level);
   printf(" - %s:#%d",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter++);
   fflush(stdout);
@@ -108,8 +121,9 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   prev_record_decision_counter = record_decision_counter;
 #endif
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = decision_level_latest;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_none;
+  decision_level_properties[next_decision_level-1].backtracking.result = previous_move_is_illegal;
 }
 
 void record_decision_for_inserted_invisible(PieceIdType id)
@@ -126,16 +140,21 @@ void record_decision_for_inserted_invisible(PieceIdType id)
   TraceFunctionResultEnd();
 }
 
-static decision_level_type push_decision_common(void)
+static decision_level_type push_decision_common(char const *file, unsigned int line)
 {
   decision_level_properties[next_decision_level].ply = nbply;
 
-  max_decision_level = decision_level_latest;
-  current_backtracking = backtrack_none;
+  decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
+  decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
+  decision_level_properties[next_decision_level].backtracking.result = previous_move_is_illegal;
+  combined_result = previous_move_is_illegal;
 
   ++record_decision_counter;
 
   assert(next_decision_level<decision_level_dir_capacity);
+#if defined(REPORT_DECISIONS)
+  report_endline(file,line);
+#endif
 
   return next_decision_level++;
 }
@@ -143,27 +162,25 @@ static decision_level_type push_decision_common(void)
 decision_level_type push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u TI~-~",purpose_symbol[purpose],nbply);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_random_move;
   decision_level_properties[next_decision_level].purpose = purpose;
   decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_departure;
@@ -181,17 +198,16 @@ decision_level_type push_decision_departure_impl(char const *file, unsigned int 
   else
     decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 // TODO  do we still need to do record decisions regarding move vectors?
 decision_level_type push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("direction:%d",direction);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_move_vector;
@@ -209,18 +225,17 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
   else
     decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  report_endline(file,line);
 #endif
 
   assert(purpose==decision_purpose_random_mover_forward
@@ -231,18 +246,17 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  report_endline(file,line);
 #endif
 
   assert(purpose==decision_purpose_illegal_check_interceptor);
@@ -252,20 +266,19 @@ decision_level_type push_decision_placement_impl(char const *file, unsigned int 
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = no_side;
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
             BIT(side),
             initsquare,
             true);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_side;
@@ -273,16 +286,15 @@ decision_level_type push_decision_side_impl(char const *file, unsigned int line,
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("I");
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_insertion;
@@ -290,7 +302,7 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
@@ -300,12 +312,11 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
                                             Side side)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteWalk(&output_plaintext_engine,
             stdout,
             walk);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_walk;
@@ -313,13 +324,13 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 decision_level_type push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",next_decision_level,"",next_decision_level);
+  printf("!%*s%d ",next_decision_level,">",next_decision_level);
   WriteSpec(&output_plaintext_engine,
             stdout,
             being_solved.spec[pos],
@@ -331,14 +342,13 @@ decision_level_type push_decision_king_nomination_impl(char const *file, unsigne
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  report_endline(file,line);
 #endif
 
   decision_level_properties[next_decision_level].object = decision_object_king_nomination;
   decision_level_properties[next_decision_level].purpose = decision_purpose_king_nomination;
   decision_level_properties[next_decision_level].side = TSTFLAG(being_solved.spec[pos],White) ? White : Black;
 
-  return push_decision_common();
+  return push_decision_common(file,line);
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)
@@ -358,9 +368,28 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
 #endif
 }
 
-static boolean try_to_avoid_insertion[nr_sides] = { false, false };
-static ply ply_failure;
-static Side side_failure;
+void record_decision_result(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",combined_result);
+  TraceValue("%u",next_decision_level);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
+  TraceEOL();
+
+  assert(combined_result>=decision_level_properties[next_decision_level-1].backtracking.result);
+  decision_level_properties[next_decision_level-1].backtracking.result = combined_result;
+
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d",next_decision_level," ",next_decision_level);
+  printf(" - c==%u\n",combined_result);
+  fflush(stdout);
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 void pop_decision(void)
 {
@@ -374,15 +403,25 @@ void pop_decision(void)
   --next_decision_level;
 
   TraceValue("%u",next_decision_level);
-  TraceValue("%u",max_decision_level);
+  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.result);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
+  TraceEOL();
+
+  if (decision_level_properties[next_decision_level].backtracking.result>=decision_level_properties[next_decision_level-1].backtracking.result)
+    decision_level_properties[next_decision_level-1].backtracking = decision_level_properties[next_decision_level].backtracking;
+
+  combined_result = decision_level_properties[next_decision_level-1].backtracking.result;
+
+  TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level].ply);
   TraceValue("%u",decision_level_properties[next_decision_level].purpose);
   TraceValue("%u",decision_level_properties[next_decision_level].object);
   TraceEnumerator(Side,decision_level_properties[next_decision_level].side);
-  TraceValue("%u",current_backtracking);
+  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.type);
+  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.max_level);
   TraceEOL();
 
-  switch (current_backtracking)
+  switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
     case backtrack_failure_to_intercept_illegal_checks_by_invisible:
       if (decision_level_properties[next_decision_level].object==decision_object_insertion)
@@ -401,6 +440,16 @@ void pop_decision(void)
       break;
   }
 
+#if defined(REPORT_DECISIONS)
+  printf("!%*s%d",next_decision_level,"<",next_decision_level);
+  printf(" - r:%u c:%u t:%u m:%u\n",
+         decision_level_properties[next_decision_level-1].backtracking.result,
+         combined_result,
+         decision_level_properties[next_decision_level-1].backtracking.type,
+         decision_level_properties[next_decision_level-1].backtracking.max_level);
+  fflush(stdout);
+#endif
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -412,12 +461,12 @@ boolean has_decision_failed_capture(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  switch (current_backtracking)
+  switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
     case backtrack_failture_to_capture_by_invisible:
     case backtrack_failture_to_capture_invisible_by_pawn:
       TraceEnumerator(Side,side_failure);TraceEOL();
-      if (decision_level_properties[max_decision_level].side==side_failure)
+      if (decision_level_properties[decision_level_properties[next_decision_level-1].backtracking.max_level].side==side_failure)
         result = true;
       break;
 
@@ -1094,11 +1143,11 @@ void backtrack_from_failure_to_intercept_illegal_check_by_invisible(Side side_in
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
-  assert(current_backtracking==backtrack_none);
-  assert(max_decision_level==decision_level_latest);
+  assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_none);
+  assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
 
-  current_backtracking = backtrack_failure_to_intercept_illegal_checks_by_invisible;
-  max_decision_level = next_decision_level-1;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks_by_invisible;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1120,11 +1169,11 @@ void backtrack_from_failure_to_intercept_illegal_check_by_visible(Side side_in_c
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
-  assert(current_backtracking==backtrack_none);
-  assert(max_decision_level==decision_level_latest);
+  assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_none);
+  assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
 
-  current_backtracking = backtrack_failure_to_intercept_illegal_checks_by_visible;
-  max_decision_level = next_decision_level-1;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks_by_visible;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1294,6 +1343,14 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
       switch (decision_level_properties[curr_level].object)
       {
         case decision_object_side:
+        if (decision_level_properties[curr_level].side==side_failure)
+        {
+          if (decision_level_properties[curr_level].ply==ply_failure
+              && being_solved.king_square[advers(side_failure)]!=initsquare)
+            skip = true;
+        }
+        break;
+
         case decision_object_placement:
         case decision_object_walk:
           break;
@@ -1472,8 +1529,8 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  current_backtracking = backtrack_failture_to_capture_by_invisible;
-  max_decision_level = next_decision_level-1;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failture_to_capture_by_invisible;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1620,8 +1677,8 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   TraceValue("%u",nbply);
   TraceEOL();
 
-  current_backtracking = backtrack_failture_to_capture_invisible_by_pawn;
-  max_decision_level = next_decision_level-1;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failture_to_capture_invisible_by_pawn;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1640,8 +1697,8 @@ void backtrack_definitively(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  current_backtracking = backtrack_until_level;
-  max_decision_level = decision_level_forever;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_until_level;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = decision_level_forever;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1658,10 +1715,10 @@ void backtrack_no_further_than(decision_level_type level)
   TraceFunctionParamListEnd();
 
   assert(level!=decision_level_uninitialised);
-  current_backtracking = backtrack_until_level;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_until_level;
 
-  if (level>max_decision_level)
-    max_decision_level = level;
+  if (level>decision_level_properties[next_decision_level-1].backtracking.max_level)
+    decision_level_properties[next_decision_level-1].backtracking.max_level = level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1674,41 +1731,41 @@ boolean can_decision_level_be_continued(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",current_backtracking);
   TraceValue("%u",next_decision_level);
-  TraceValue("%u",max_decision_level);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.type);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.max_level);
   TraceEOL();
 
-  switch (current_backtracking)
+  switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
     case backtrack_none:
-      assert(max_decision_level==decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
       result = true;
       break;
 
     case backtrack_until_level:
-      assert(max_decision_level<decision_level_latest);
-      result = next_decision_level<=max_decision_level;
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+      result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
       break;
 
     case backtrack_failure_to_intercept_illegal_checks_by_invisible:
-      assert(max_decision_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
       break;
 
     case backtrack_failure_to_intercept_illegal_checks_by_visible:
-      assert(max_decision_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       // TODO do we need separate handling for checks by visibles?
       result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
       break;
 
     case backtrack_failture_to_capture_by_invisible:
-      assert(max_decision_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       result = !failure_to_capture_by_invisible_continue_level(next_decision_level);
       break;
 
     case backtrack_failture_to_capture_invisible_by_pawn:
-      assert(max_decision_level<decision_level_latest);
+      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       result = !failure_to_capture_invisible_by_pawn_continue_level(next_decision_level);
       break;
 

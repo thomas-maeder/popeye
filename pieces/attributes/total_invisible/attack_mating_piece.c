@@ -70,7 +70,11 @@ void done_placing_mating_piece_attacker(void)
   play_phase = play_attacking_mating_piece;
 
   if (solve_result==previous_move_has_not_solved)
+  {
+    combined_result = previous_move_has_not_solved;
     backtrack_definitively();
+    record_decision_result();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

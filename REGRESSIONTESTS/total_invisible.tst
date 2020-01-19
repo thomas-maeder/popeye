@@ -89,11 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8129
-                     play_move:       22113
+  add_to_move_generation_stack:        8101
+                     play_move:       22043
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6858
-                  TI decisions:      170145
+ is_black_king_square_attacked:        6816
+                  TI decisions:      173775
 
 solution finished.
 
@@ -206,10 +206,10 @@ this doesn't work if we overdo it with optimisations
 
   1...TI~*d6   2.Bh5-f7 TI~*f7[f7=wS] #
   add_to_move_generation_stack:        7114
-                     play_move:       11474
+                     play_move:       11468
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6385
-                  TI decisions:       11713
+ is_black_king_square_attacked:        6383
+                  TI decisions:       11634
 
 solution finished.
 

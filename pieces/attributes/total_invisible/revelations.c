@@ -1427,6 +1427,7 @@ void make_revelations(void)
   play_phase = play_rewinding;
   rewind_effects();
   play_phase = play_detecting_revelations;
+  combined_result = previous_move_is_illegal;
   initialise_decision_context();
 
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;

@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible/replay_fleshed_out.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 #include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
 #include "solving/move_generator.h"
@@ -201,7 +202,10 @@ void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
     pipe_solve_delegate(tester_slice);
 
     if (solve_result>combined_result)
+    {
       combined_result = solve_result;
+      record_decision_result();
+    }
     TracePosition(being_solved.board,being_solved.spec);
 
     play_phase = play_finalising_replay;
