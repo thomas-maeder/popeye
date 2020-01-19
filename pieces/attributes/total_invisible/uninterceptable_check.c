@@ -12,6 +12,7 @@
 #include <limits.h>
 
 ply uninterceptable_check_delivered_in_ply = ply_nil;
+decision_level_type uninterceptable_check_delivered_in_level = decision_level_uninitialised;
 square uninterceptable_check_delivered_from = initsquare;
 
 static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, square king_pos,

@@ -657,16 +657,85 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
                             id_checker,
                             uninterceptable_check_delivered_in_ply);
 
+    uninterceptable_check_delivered_in_level = decision_levels[id_checker].walk;
+    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].from
+        && decision_levels[id_checker].from<decision_level_latest)
+      uninterceptable_check_delivered_in_level = decision_levels[id_checker].from;
+    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].to)
+      uninterceptable_check_delivered_in_level = decision_levels[id_checker].to;
+
+    /* taking .from into consideration is relevant if the checker is inserted for a late ply,
+     * e.g. as a mating piece attacker:
+begin
+author Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+origin Sake tourney 2018, 6th HM
+pieces TotalInvisible 5 white kh1 rh6 bb7g5 sg3 pe2f2f4 black kg4 rd1e1 bb3g1 pe3e5
+stipulation h#2
+option movenum start 12:7:45:43
+end
+
+Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+      Sake tourney 2018, 6th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   R   6
+|                                   |
+5   .   .   .   .  -P   .   B   .   5
+|                                   |
+4   .   .   .   .   .   P  -K   .   4
+|                                   |
+3   .  -B   .   .  -P   .   S   .   3
+|                                   |
+2   .   .   .   .   P   P   .   .   2
+|                                   |
+1   .   .   .  -R  -R   .  -B   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  8 + 7 + 5 TI
+
+!test_mate 6:Rd1-d8 7:Kh1-g2 8:Rd8-a8 9:Bb7-f3 - total_invisible.c:#546 - D:4 - 0
+use option start 12:7:45:43 to replay
+!  2 - combined result:3
+! >2 # 10 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#107 - D:6
+! <2 - r:3 t:0 m:4294967295
+! >2 # 10 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#107 - D:8
+! <2 - r:3 t:0 m:4294967295
+! >2 # 10 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#149 - D:10
+!  >3 # 10 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#39 - D:12
+!   >4 # 10 h4 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#41 - D:14
+!     5 8 uninterceptable illegal check by invisible piece from dir:49 by id:16 delivered in ply:10 - intercept_illegal_checks.c:#658
+!     5 8 piece delivering uninterceptable check can't be captured by random move - total_invisible.c:#97
+!   <4 - r:1 t:1 m:4
+!  <3 - r:1 t:1 m:4
+
+HERE
+
+!  >3 # 10 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#39 - D:16
+!   >4 # 10 h2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 - attack_mating_piece.c:#41 - D:18
+!     5 10 placed mating piece attacker - king_placement.c:#70
+!     5 - combined result:5
+!   <4 - r:5 t:1 m:1
+!  <3 - r:5 t:1 m:1
+! <2 - r:5 t:1 m:1
+
+     */
+
     TraceValue("%u",nbply);TraceEOL();
     if (nbply==ply_retro_move+1)
     {
       REPORT_DEADEND;
       backtrack_definitively();
-      backtrack_no_further_than(decision_levels[id_checker].walk);
-      backtrack_no_further_than(decision_levels[id_checker].to);
+      backtrack_no_further_than(uninterceptable_check_delivered_in_level);
     }
     else
       restart_from_scratch();
+
+    uninterceptable_check_delivered_in_level = decision_level_uninitialised;
 
     uninterceptable_check_delivered_in_ply = ply_nil;
   }

@@ -4,9 +4,11 @@
 #include "position/position.h"
 #include "stipulation/stipulation.h"
 #include "solving/ply.h"
+#include "pieces/attributes/total_invisible/decisions.h"
 
 extern square uninterceptable_check_delivered_from;
 extern ply uninterceptable_check_delivered_in_ply;
+extern decision_level_type uninterceptable_check_delivered_in_level;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

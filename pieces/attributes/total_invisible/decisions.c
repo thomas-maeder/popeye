@@ -373,7 +373,7 @@ void record_decision_result(has_solution_type recorded_result)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",next_decision_level);
-  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.recorded_result);
+  TraceValue("%u",recorded_result);
   TraceEOL();
 
   assert(recorded_result<=previous_move_has_not_solved);
