@@ -259,8 +259,8 @@ void validate_king_placements(void)
   else if (being_solved.king_square[side_mating]==initsquare
            && nr_total_invisbles_consumed()==total_invisible_number)
   {
-    combined_result = previous_move_is_illegal;
     record_decision_outcome("%s","The king of the mating side can't be placed");
+    record_decision_result(previous_move_is_illegal);
     REPORT_DEADEND;
   }
   else
