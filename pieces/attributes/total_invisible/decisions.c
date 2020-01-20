@@ -160,7 +160,7 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   return next_decision_level++;
 }
 
-decision_level_type push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
+void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -171,10 +171,10 @@ decision_level_type push_decision_random_move_impl(char const *file, unsigned in
   decision_level_properties[next_decision_level].purpose = purpose;
   decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common(file,line);
+  push_decision_common(file,line);
 }
 
-decision_level_type push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -199,11 +199,11 @@ decision_level_type push_decision_departure_impl(char const *file, unsigned int 
   else
     decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common(file,line);
+  decision_levels[id].from = push_decision_common(file,line);
 }
 
 // TODO  do we still need to do record decisions regarding move vectors?
-decision_level_type push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -226,10 +226,10 @@ decision_level_type push_decision_move_vector_impl(char const *file, unsigned in
   else
     decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common(file,line);
+  push_decision_common(file,line);
 }
 
-decision_level_type push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -247,10 +247,10 @@ decision_level_type push_decision_arrival_impl(char const *file, unsigned int li
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = trait[nbply];
 
-  return push_decision_common(file,line);
+  decision_levels[id].to = push_decision_common(file,line);
 }
 
-decision_level_type push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -267,10 +267,10 @@ decision_level_type push_decision_placement_impl(char const *file, unsigned int 
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = no_side;
 
-  return push_decision_common(file,line);
+  decision_levels[id].to = push_decision_common(file,line);
 }
 
-decision_level_type push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -287,10 +287,10 @@ decision_level_type push_decision_side_impl(char const *file, unsigned int line,
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common(file,line);
+  decision_levels[id].side = push_decision_common(file,line);
 }
 
-decision_level_type push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -303,14 +303,14 @@ decision_level_type push_decision_insertion_impl(char const *file, unsigned int 
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common(file,line);
+  decision_levels[id].side = push_decision_common(file,line);
 }
 
-decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
-                                            PieceIdType id,
-                                            piece_walk_type walk,
-                                            decision_purpose_type purpose,
-                                            Side side)
+void push_decision_walk_impl(char const *file, unsigned int line,
+                             PieceIdType id,
+                             piece_walk_type walk,
+                             decision_purpose_type purpose,
+                             Side side)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -325,10 +325,10 @@ decision_level_type push_decision_walk_impl(char const *file, unsigned int line,
   decision_level_properties[next_decision_level].id = id;
   decision_level_properties[next_decision_level].side = side;
 
-  return push_decision_common(file,line);
+  decision_levels[id].walk = push_decision_common(file,line);
 }
 
-decision_level_type push_decision_king_nomination_impl(char const *file, unsigned int line, square pos)
+void push_decision_king_nomination_impl(char const *file, unsigned int line, PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d ",next_decision_level,">",next_decision_level);
@@ -349,7 +349,7 @@ decision_level_type push_decision_king_nomination_impl(char const *file, unsigne
   decision_level_properties[next_decision_level].purpose = decision_purpose_king_nomination;
   decision_level_properties[next_decision_level].side = TSTFLAG(being_solved.spec[pos],White) ? White : Black;
 
-  return push_decision_common(file,line);
+  decision_levels[id].walk = push_decision_common(file,line);
 }
 
 void record_decision_outcome_impl(char const *file, unsigned int line, char const *format, ...)

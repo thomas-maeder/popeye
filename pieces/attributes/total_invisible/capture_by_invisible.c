@@ -46,7 +46,7 @@ static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
       TraceConsumption();TraceEOL();
       assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
-      decision_levels[id_inserted].from = push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
+      push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
 
       ++being_solved.number_of_pieces[side_playing][walk_capturing];
       occupy_square(sq_departure,walk_capturing,flags_inserted);
@@ -214,7 +214,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     decision_level_type const save_level_walk = decision_levels[id_random].walk;
 
-    decision_levels[id_existing].walk = push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,trait[nbply]);
+    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,trait[nbply]);
     decision_levels[id_random].walk = decision_levels[id_existing].walk;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
@@ -361,7 +361,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    decision_levels[id_inserted].walk = push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -400,7 +400,7 @@ static void capture_by_inserted_invisible_king(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  decision_levels[id_inserted].walk = push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+  push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -463,7 +463,7 @@ static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-    decision_levels[id_inserted].walk = push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -524,7 +524,7 @@ static void capture_by_invisible_pawn_inserted(void)
     Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
     PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
-    decision_levels[id_inserted].walk = push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
@@ -1155,7 +1155,7 @@ static void capture_by_inserted_invisible(void)
 
     /* no problem - we can simply insert a capturer */
 
-    decision_levels[id_inserted].side = push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+    push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
     capture_by_inserted_invisible_all_walks();
 
@@ -1178,7 +1178,7 @@ static void capture_by_inserted_invisible(void)
 
       assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-      decision_levels[id_inserted].side = push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+      push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
       capture_by_inserted_invisible_king();
 

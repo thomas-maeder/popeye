@@ -149,7 +149,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.board[*s] = King;
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        decision_levels[id_king].walk = push_decision_king_nomination(*s);
+        push_decision_king_nomination(id_king,*s);
         restart_from_scratch();
         pop_decision();
         decision_levels[id_king].walk = save_decision_walk;

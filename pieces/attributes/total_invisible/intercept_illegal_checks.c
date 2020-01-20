@@ -104,7 +104,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
     if (allocate_placed(side))
     {
-      decision_levels[id_placed].side = push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+      push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
       remember_taboo_on_square(s,side,nbply);
 
@@ -168,7 +168,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
 
-    decision_levels[id_placed].to = push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
+    push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_latest;
 
@@ -250,7 +250,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
-  decision_levels[id_placed].walk = push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
+  push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
 
   if (nr_check_vectors==1)
     restart_from_scratch();
@@ -447,7 +447,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
   {
     remember_taboo_on_square(s,side,nbply);
 
-    decision_levels[id_placed].side = push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+    push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
@@ -484,7 +484,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
 
-    decision_levels[id_placed].to = push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
+    push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_latest;
 

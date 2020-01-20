@@ -89,11 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8117
-                     play_move:       22062
+  add_to_move_generation_stack:        8101
+                     play_move:       22043
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6819
-                  TI decisions:      176338
+ is_black_king_square_attacked:        6816
+                  TI decisions:      171921
 
 solution finished.
 
