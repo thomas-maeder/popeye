@@ -1854,7 +1854,7 @@ boolean can_decision_level_be_continued(void)
     case backtrack_revelation:
       assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
       result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
-      if (decision_level_properties[next_decision_level-1].object==decision_object_move_vector)
+      if (decision_level_properties[next_decision_level].object==decision_object_move_vector)
         result = false;
       break;
 
