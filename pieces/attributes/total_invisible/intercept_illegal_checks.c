@@ -544,10 +544,10 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
   TraceFunctionResultEnd();
 }
 
-static void collect_interceptable_illegal_checks(vec_index_type start, vec_index_type end,
-                                                 piece_walk_type walk_checker,
-                                                 vec_index_type check_vectors[vec_queen_end-vec_queen_start+1],
-                                                 unsigned int *nr_check_vectors)
+static void collect_illegal_checks_by_interceptable(vec_index_type start, vec_index_type end,
+                                                    piece_walk_type walk_checker,
+                                                    vec_index_type check_vectors[vec_queen_end-vec_queen_start+1],
+                                                    unsigned int *nr_check_vectors)
 {
   Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
@@ -583,7 +583,7 @@ static void collect_interceptable_illegal_checks(vec_index_type start, vec_index
   TraceFunctionResultEnd();
 }
 
-static void deal_with_interceptable_illegal_checks()
+static void deal_with_illegal_checks_by_interceptables(void)
 {
   unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
   vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
@@ -592,12 +592,12 @@ static void deal_with_interceptable_illegal_checks()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  collect_interceptable_illegal_checks(vec_rook_start,vec_rook_end,
-                                       Rook,
-                                       check_vectors,&nr_check_vectors);
-  collect_interceptable_illegal_checks(vec_bishop_start,vec_bishop_end,
-                                       Bishop,
-                                       check_vectors,&nr_check_vectors);
+  collect_illegal_checks_by_interceptable(vec_rook_start,vec_rook_end,
+                                          Rook,
+                                          check_vectors,&nr_check_vectors);
+  collect_illegal_checks_by_interceptable(vec_bishop_start,vec_bishop_end,
+                                          Bishop,
+                                          check_vectors,&nr_check_vectors);
 
   TraceValue("%u",nr_available);
   TraceValue("%u",nr_check_vectors);
@@ -624,7 +624,7 @@ static void deal_with_interceptable_illegal_checks()
   TraceFunctionResultEnd();
 }
 
-static void deal_with_uninterceptable_illegal_check(vec_index_type k)
+static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
 {
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
@@ -649,7 +649,7 @@ static void deal_with_uninterceptable_illegal_check(vec_index_type k)
     assert(uninterceptable_check_delivered_in_ply==ply_nil);
     uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
 
-    record_decision_outcome("uninterceptable illegal check by invisible piece"
+    record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
                             " by id:%u"
                             " delivered in ply:%u",
@@ -741,7 +741,7 @@ HERE
   }
   else
   {
-    record_decision_outcome("%s","uninterceptable check by visible piece");
+    record_decision_outcome("%s","check by uninterceptable visible piece");
     REPORT_DEADEND;
   }
 
@@ -768,9 +768,9 @@ void deal_with_illegal_checks(void)
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_pos);
 
     if (k!=0)
-      deal_with_uninterceptable_illegal_check(k);
+      deal_with_illegal_check_by_uninterceptable(k);
     else
-      deal_with_interceptable_illegal_checks();
+      deal_with_illegal_checks_by_interceptables();
   }
 
   TraceFunctionExit(__func__);
