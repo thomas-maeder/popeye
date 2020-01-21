@@ -335,7 +335,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
   square const king_pos = being_solved.king_square[side_under_attack];
 
   PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
-  decision_level_type const save_level = decision_levels[id_moving].walk;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -416,8 +415,6 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
     pop_decision();
   }
 
-  decision_levels[id_moving].walk = save_level;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -425,8 +422,9 @@ static void flesh_out_random_move_by_existing_invisible_as_non_king_from(square 
 static void flesh_out_random_move_by_specific_invisible_from(square sq_departure)
 {
   Side const side_playing = trait[nbply];
-  piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
-  Flags const save_flags = being_solved.spec[sq_departure];
+
+  piece_walk_type const save_walk_moving = get_walk_of_piece_on_square(sq_departure);
+  Flags const save_flags_moving = being_solved.spec[sq_departure];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -434,19 +432,18 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
   CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
-  TraceWalk(walk_on_square);
+  TraceWalk(save_walk_moving);
   TraceSquare(sq_departure);
   TraceEOL();
 
   // TODO use a sibling ply and the regular move generation machinery?
 
-  if (walk_on_square==Dummy)
+  if (save_walk_moving==Dummy)
   {
     Side const side_playing = trait[nbply];
     Side const side_under_attack = advers(side_playing);
     square const king_pos = being_solved.king_square[side_under_attack];
     dynamic_consumption_type const save_consumption = current_consumption;
-    PieceIdType const id_moving = GetPieceId(save_flags);
 
     assert(play_phase==play_validating_mate);
 
@@ -468,15 +465,10 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
       SETFLAG(being_solved.spec[sq_departure],Royal);
       if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
       {
-        decision_level_type const save_level = decision_levels[id_moving].walk;
-
+        PieceIdType const id_moving = GetPieceId(save_flags_moving);
         push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
-
         flesh_out_random_move_by_existing_invisible_from(sq_departure,true);
-
         pop_decision();
-
-        decision_levels[id_moving].walk = save_level;
       }
       CLRFLAG(being_solved.spec[sq_departure],Royal);
       --being_solved.number_of_pieces[side_playing][King];
@@ -491,8 +483,8 @@ static void flesh_out_random_move_by_specific_invisible_from(square sq_departure
 
     current_consumption = save_consumption;
 
-    replace_walk(sq_departure,walk_on_square);
-    being_solved.spec[sq_departure] = save_flags;
+    replace_walk(sq_departure,save_walk_moving);
+    being_solved.spec[sq_departure] = save_flags_moving;
   }
   else
     flesh_out_random_move_by_existing_invisible_from(sq_departure,false);
