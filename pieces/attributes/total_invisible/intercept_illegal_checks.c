@@ -170,12 +170,12 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
-    decision_levels[id_placed].from = decision_level_latest;
+    decision_levels[id_placed].from = decision_level_forever;
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    decision_levels[id_placed].walk = decision_level_latest;
+    decision_levels[id_placed].walk = decision_level_forever;
 
     place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White);
 
@@ -486,7 +486,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
     push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
 
-    decision_levels[id_placed].from = decision_level_latest;
+    decision_levels[id_placed].from = decision_level_forever;
 
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
@@ -658,8 +658,7 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
                             uninterceptable_check_delivered_in_ply);
 
     uninterceptable_check_delivered_in_level = decision_levels[id_checker].walk;
-    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].from
-        && decision_levels[id_checker].from<decision_level_latest)
+    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].from)
       uninterceptable_check_delivered_in_level = decision_levels[id_checker].from;
     if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].to)
       uninterceptable_check_delivered_in_level = decision_levels[id_checker].to;
