@@ -274,25 +274,23 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
+  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_movement.movingspec);
+  motivation_type const motivation_inserted = motivation[id_inserted];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-  motivation_type const motivation_random = motivation[id_random];
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
-
-  decision_level_type const save_level_walk = decision_levels[id_random].walk;
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  SetPieceId(being_solved.spec[sq_departure],id_random);
-  replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+  SetPieceId(being_solved.spec[sq_departure],id_inserted);
+  replace_moving_piece_ids_in_past_moves(id_existing,id_inserted,nbply-1);
 
-  decision_levels[id_random].walk = decision_levels[id_existing].walk;
+  decision_levels[id_inserted].walk = decision_levels[id_existing].walk;
 
   /* deactivate the pre-capture insertion of the moving total invisible since
    * that piece is already on the board
@@ -315,24 +313,22 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   TraceSquare(motivation[id_random].last.on);
   TraceEOL();
 
-  motivation[id_random].first = motivation[id_existing].first;
-  motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-  motivation[id_random].last.acts_when = nbply;
-  motivation[id_random].last.purpose = purpose_capturer;
+  motivation[id_inserted].first = motivation[id_existing].first;
+  motivation[id_inserted].last.on = move_effect_journal[movement].u.piece_movement.to;
+  motivation[id_inserted].last.acts_when = nbply;
+  motivation[id_inserted].last.purpose = purpose_capturer;
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
   recurse_into_child_ply();
 
-  motivation[id_random] = motivation_random;
+  motivation[id_inserted] = motivation_inserted;
 
   forget_taboos_for_current_move();
 
   move_effect_journal[precapture].type = move_effect_piece_readdition;
 
-  decision_levels[id_random].walk = save_level_walk;
-
-  replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+  replace_moving_piece_ids_in_past_moves(id_inserted,id_existing,nbply-1);
   being_solved.spec[sq_departure] = flags_existing;
 
   TraceFunctionExit(__func__);
