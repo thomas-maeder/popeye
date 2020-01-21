@@ -542,11 +542,6 @@ static void capture_by_inserted_invisible_all_walks(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
-  move_effect_journal_index_type const precapture = effects_base;
-  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags_inserted);
-  decision_levels_type const levels_inserted = decision_levels[id_inserted];
-
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const save_from = move_effect_journal[movement].u.piece_movement.from;
   piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -569,8 +564,6 @@ static void capture_by_inserted_invisible_all_walks(void)
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
-
-  decision_levels[id_inserted] = levels_inserted;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
