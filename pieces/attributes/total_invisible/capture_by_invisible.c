@@ -179,8 +179,9 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
   Flags const flags_existing = being_solved.spec[sq_departure];
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id_random = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+  move_effect_journal_index_type const precapture = effects_base;
+  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_addition.added.flags);
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_capturing);
@@ -188,7 +189,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
   TraceFunctionParamListEnd();
 
   CLRFLAG(being_solved.spec[sq_departure],advers(trait[nbply]));
-  SetPieceId(being_solved.spec[sq_departure],id_random);
+  SetPieceId(being_solved.spec[sq_departure],id_inserted);
 
   ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
   replace_walk(sq_departure,walk_capturing);
@@ -200,29 +201,27 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
   }
   else
   {
-    move_effect_journal_index_type const precapture = effects_base;
-
     PieceIdType const id_existing = GetPieceId(flags_existing);
+
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
     piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
     Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
     square const save_from = move_effect_journal[movement].u.piece_movement.from;
 
-    motivation_type const motivation_random = motivation[id_random];
+    motivation_type const motivation_inserted = motivation[id_inserted];
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
-    decision_level_type const save_level_walk = decision_levels[id_random].walk;
-
     push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,trait[nbply]);
-    decision_levels[id_random].walk = decision_levels[id_existing].walk;
+    decision_levels[id_inserted].walk = decision_levels[id_existing].walk;
 
-    replace_moving_piece_ids_in_past_moves(id_existing,id_random,nbply-1);
+    replace_moving_piece_ids_in_past_moves(id_existing,id_inserted,nbply-1);
 
-    motivation[id_random].first = motivation[id_existing].first;
-    motivation[id_random].last.on = move_effect_journal[movement].u.piece_movement.to;
-    motivation[id_random].last.acts_when = nbply;
-    motivation[id_random].last.purpose = purpose_capturer;
+    motivation[id_inserted].first = motivation[id_existing].first;
+    motivation[id_inserted].last.on = move_effect_journal[movement].u.piece_movement.to;
+    motivation[id_inserted].last.acts_when = nbply;
+    motivation[id_inserted].last.purpose = purpose_capturer;
 
     /* deactivate the pre-capture insertion of the moving total invisible since
      * that piece is already on the board
@@ -251,11 +250,10 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     move_effect_journal[precapture].type = move_effect_piece_readdition;
 
-    motivation[id_random] = motivation_random;
+    motivation[id_inserted] = motivation_inserted;
 
-    replace_moving_piece_ids_in_past_moves(id_random,id_existing,nbply-1);
+    replace_moving_piece_ids_in_past_moves(id_inserted,id_existing,nbply-1);
 
-    decision_levels[id_random].walk = save_level_walk;
     pop_decision();
   }
 
