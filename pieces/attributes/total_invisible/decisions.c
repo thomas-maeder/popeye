@@ -393,9 +393,6 @@ void record_decision_result(has_solution_type recorded_result)
   {
     decision_level_properties[next_decision_level-1].backtracking.result = recorded_result;
 
-    if (recorded_result==previous_move_has_not_solved)
-      backtrack_definitively();
-
 #if defined(REPORT_DECISIONS)
     printf("!%*s%d",next_decision_level," ",next_decision_level);
     printf(" - combined result:%u\n",
@@ -1847,51 +1844,54 @@ boolean can_decision_level_be_continued(void)
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.max_level);
   TraceEOL();
 
-  switch (decision_level_properties[next_decision_level-1].backtracking.type)
-  {
-    case backtrack_none:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
-      result = true;
-      break;
+  if (decision_level_properties[next_decision_level-1].backtracking.result==previous_move_has_not_solved)
+    result = false;
+  else
+    switch (decision_level_properties[next_decision_level-1].backtracking.type)
+    {
+      case backtrack_none:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
+        result = true;
+        break;
 
-    case backtrack_until_level:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-      result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
-      break;
+      case backtrack_until_level:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+        result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
+        break;
 
-    case backtrack_revelation:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-      result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
-      if (decision_level_properties[next_decision_level].object==decision_object_move_vector)
-        result = false;
-      break;
+      case backtrack_revelation:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+        result = next_decision_level<=decision_level_properties[next_decision_level-1].backtracking.max_level;
+        if (decision_level_properties[next_decision_level].object==decision_object_move_vector)
+          result = false;
+        break;
 
-    case backtrack_failure_to_intercept_illegal_checks_by_invisible:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-      result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
-      break;
+      case backtrack_failure_to_intercept_illegal_checks_by_invisible:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+        result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
+        break;
 
-    case backtrack_failure_to_intercept_illegal_checks_by_visible:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-      // TODO do we need separate handling for checks by visibles?
-      result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
-      break;
+      case backtrack_failure_to_intercept_illegal_checks_by_visible:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+        // TODO do we need separate handling for checks by visibles?
+        result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
+        break;
 
-    case backtrack_failture_to_capture_by_invisible:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
-      result = !failure_to_capture_by_invisible_continue_level(next_decision_level);
-      break;
+      case backtrack_failture_to_capture_by_invisible:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
+        result = !failure_to_capture_by_invisible_continue_level(next_decision_level);
+        break;
 
-    case backtrack_failture_to_capture_invisible_by_pawn:
-      assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
-      result = !failure_to_capture_invisible_by_pawn_continue_level(next_decision_level);
-      break;
+      case backtrack_failture_to_capture_invisible_by_pawn:
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
+        result = !failure_to_capture_invisible_by_pawn_continue_level(next_decision_level);
+        break;
 
-    default:
-      assert(0);
-      result = true;
-      break;
-  };
+      default:
+        assert(0);
+        result = true;
+        break;
+    };
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
