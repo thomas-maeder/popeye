@@ -111,8 +111,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
       boolean const save_move_after_victim = static_consumption.move_after_victing[side];
 
       SetPieceId(spec,id_capturer);
-      decision_levels[id_capturer].walk = decision_level_latest;
-      decision_levels[id_capturer].from = decision_level_latest;
+      decision_levels_init(id_capturer);
+
       move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                               sq_departure,Dummy,spec,side);
 
@@ -184,8 +184,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
             boolean const save_move_after_victim = static_consumption.move_after_victing[side_victim];
 
             SetPieceId(spec,id_victim);
-            decision_levels[id_victim].walk = decision_level_latest;
-            decision_levels[id_victim].from = decision_level_latest;
+            decision_levels_init(id_victim);
 
             move_effect_journal_do_piece_readdition(move_effect_reason_removal_of_invisible,
                                                     sq_capture,Dummy,spec,side_victim);

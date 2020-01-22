@@ -107,6 +107,14 @@ static void report_endline(char const *file, unsigned int line)
 
 #endif
 
+void decision_levels_init(PieceIdType id)
+{
+  decision_levels[id].side = decision_level_forever;
+  decision_levels[id].walk = decision_level_forever;
+  decision_levels[id].from = decision_level_forever;
+  decision_levels[id].to = decision_level_forever;
+}
+
 void initialise_decision_context_impl(char const *file, unsigned int line, char const *context)
 {
 #if defined(REPORT_DECISIONS)

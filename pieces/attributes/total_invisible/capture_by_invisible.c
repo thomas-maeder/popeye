@@ -302,13 +302,13 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   remember_taboos_for_current_move();
 
-  TraceValue("%u",id_random);
-  TraceValue("%u",motivation[id_random].first.purpose);
-  TraceValue("%u",motivation[id_random].first.acts_when);
-  TraceSquare(motivation[id_random].first.on);
-  TraceValue("%u",motivation[id_random].last.purpose);
-  TraceValue("%u",motivation[id_random].last.acts_when);
-  TraceSquare(motivation[id_random].last.on);
+  TraceValue("%u",id_inserted);
+  TraceValue("%u",motivation[id_inserted].first.purpose);
+  TraceValue("%u",motivation[id_inserted].first.acts_when);
+  TraceSquare(motivation[id_inserted].first.on);
+  TraceValue("%u",motivation[id_inserted].last.purpose);
+  TraceValue("%u",motivation[id_inserted].last.acts_when);
+  TraceSquare(motivation[id_inserted].last.on);
   TraceEOL();
 
   motivation[id_inserted].first = motivation[id_existing].first;
@@ -1135,8 +1135,8 @@ void flesh_out_capture_by_invisible(void)
   TraceSquare(sq_capture);TraceEOL();
   assert(!is_square_empty(sq_capture));
 
-  decision_levels[id_inserted].side = decision_level_forever;
-  decision_levels[id_inserted].to = decision_level_forever;
+  assert(decision_levels[id_inserted].side==decision_level_forever);
+  assert(decision_levels[id_inserted].to==decision_level_forever);
 
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
@@ -1543,6 +1543,8 @@ void fake_capture_by_invisible(void)
   assert(!is_square_empty(uninterceptable_check_delivered_from));
 
   SetPieceId(spec,id_capturer);
+
+  decision_levels_init(id_capturer);
 
   assert(move_effect_journal[precapture].type==move_effect_none);
   move_effect_journal[precapture].type = move_effect_piece_readdition;
