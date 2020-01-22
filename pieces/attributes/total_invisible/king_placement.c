@@ -55,13 +55,7 @@ static void done_validating_king_placements(void)
         replay_fleshed_out_move_sequence(play_replay_testing);
         play_phase = play_testing_mate;
 
-        /* This:
-         * assert(solve_result>=previous_move_has_solved);
-         * held surprisingly long, especially since it's wrong.
-         * E.g. mate by castling: if we attack the rook, the castling is not
-         * even playable */
-        if (solve_result==previous_move_has_not_solved)
-          record_decision_result(previous_move_has_not_solved);
+        record_decision_result(solve_result);
       }
 
       break;
