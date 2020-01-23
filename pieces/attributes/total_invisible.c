@@ -86,7 +86,7 @@ void restart_from_scratch(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(uninterceptable_check_delivered_from);
+  TraceSquare(check_by_uninterceptable_delivered_from);
   TraceValue("%u",check_by_uninterceptable_delivered_in_ply);
   TraceEOL();
 
