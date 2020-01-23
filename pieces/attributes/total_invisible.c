@@ -90,14 +90,11 @@ void restart_from_scratch(void)
   TraceValue("%u",uninterceptable_check_delivered_in_ply);
   TraceEOL();
 
-  if (uninterceptable_check_delivered_from!=initsquare
-      && (uninterceptable_check_delivered_in_ply>=nbply
-          || nbply==ply_retro_move+1))
+  if (uninterceptable_check_delivered_in_ply>=nbply)
   {
     record_decision_outcome("%s","piece delivering uninterceptable check can't be captured by random move");
     REPORT_DEADEND;
     backtrack_definitively();
-    assert(uninterceptable_check_delivered_in_level!=decision_level_uninitialised);
     backtrack_no_further_than(uninterceptable_check_delivered_in_level);
   }
   else if (nbply==ply_retro_move+1)
