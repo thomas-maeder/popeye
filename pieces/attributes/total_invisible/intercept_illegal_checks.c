@@ -658,10 +658,16 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
                             check_by_uninterceptable_delivered_in_ply);
 
     check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
-    if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
-      check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;
-    if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].to)
-      check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].to;
+    if (nbply<=check_by_uninterceptable_delivered_in_ply)
+    {
+      if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
+        check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;
+    }
+    else
+    {
+      if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].to)
+        check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].to;
+    }
 
     /* taking .from into consideration is relevant if the checker is inserted for a late ply,
      * e.g. as a mating piece attacker:
