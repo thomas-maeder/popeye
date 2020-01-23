@@ -635,10 +635,10 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
   TraceFunctionParam("%u",k);
   TraceFunctionParamListEnd();
 
-  uninterceptable_check_delivered_from = king_pos+dir_check;
-  checkerSpec = being_solved.spec[uninterceptable_check_delivered_from];
+  check_by_uninterceptable_delivered_from = king_pos+dir_check;
+  checkerSpec = being_solved.spec[check_by_uninterceptable_delivered_from];
 
-  TraceSquare(uninterceptable_check_delivered_from);
+  TraceSquare(check_by_uninterceptable_delivered_from);
   TraceValue("%x",checkerSpec);
   TraceEOL();
 
@@ -646,8 +646,8 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
   {
     PieceIdType const id_checker = GetPieceId(checkerSpec);
 
-    assert(uninterceptable_check_delivered_in_ply==ply_nil);
-    uninterceptable_check_delivered_in_ply = motivation[id_checker].last.acts_when;
+    assert(check_by_uninterceptable_delivered_in_ply==ply_nil);
+    check_by_uninterceptable_delivered_in_ply = motivation[id_checker].last.acts_when;
 
     record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
@@ -655,13 +655,13 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
                             " delivered in ply:%u",
                             dir_check,
                             id_checker,
-                            uninterceptable_check_delivered_in_ply);
+                            check_by_uninterceptable_delivered_in_ply);
 
-    uninterceptable_check_delivered_in_level = decision_levels[id_checker].walk;
-    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].from)
-      uninterceptable_check_delivered_in_level = decision_levels[id_checker].from;
-    if (uninterceptable_check_delivered_in_level<decision_levels[id_checker].to)
-      uninterceptable_check_delivered_in_level = decision_levels[id_checker].to;
+    check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
+    if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
+      check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;
+    if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].to)
+      check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].to;
 
     /* taking .from into consideration is relevant if the checker is inserted for a late ply,
      * e.g. as a mating piece attacker:
@@ -729,14 +729,14 @@ HERE
     {
       REPORT_DEADEND;
       backtrack_definitively();
-      backtrack_no_further_than(uninterceptable_check_delivered_in_level);
+      backtrack_no_further_than(check_by_uninterceptable_delivered_in_level);
     }
     else
       restart_from_scratch();
 
-    uninterceptable_check_delivered_in_level = decision_level_uninitialised;
+    check_by_uninterceptable_delivered_in_level = decision_level_uninitialised;
 
-    uninterceptable_check_delivered_in_ply = ply_nil;
+    check_by_uninterceptable_delivered_in_ply = ply_nil;
   }
   else
   {
@@ -744,7 +744,7 @@ HERE
     REPORT_DEADEND;
   }
 
-  uninterceptable_check_delivered_from = initsquare;
+  check_by_uninterceptable_delivered_from = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

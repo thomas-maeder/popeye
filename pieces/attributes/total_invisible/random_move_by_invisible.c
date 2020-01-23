@@ -1036,8 +1036,8 @@ void backward_fleshout_random_move_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (uninterceptable_check_delivered_from!=initsquare
-      && trait[uninterceptable_check_delivered_in_ply]!=trait[nbply])
+  if (check_by_uninterceptable_delivered_from!=initsquare
+      && trait[check_by_uninterceptable_delivered_in_ply]!=trait[nbply])
   {
     // TODO what about king flights? they can even occur before uninterceptable_check_delivered_in_ply
     if (can_decision_level_be_continued())

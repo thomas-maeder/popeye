@@ -1524,7 +1524,7 @@ void fake_capture_by_invisible(void)
 {
   PieceIdType const id_capturer = initialise_motivation(purpose_capturer,capture_by_invisible,
                                                         purpose_capturer,capture_by_invisible);
-  ply const save_ply = uninterceptable_check_delivered_in_ply;
+  ply const save_ply = check_by_uninterceptable_delivered_in_ply;
 
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
@@ -1540,7 +1540,7 @@ void fake_capture_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!is_square_empty(uninterceptable_check_delivered_from));
+  assert(!is_square_empty(check_by_uninterceptable_delivered_from));
 
   SetPieceId(spec,id_capturer);
 
@@ -1555,27 +1555,27 @@ void fake_capture_by_invisible(void)
 
   assert(move_effect_journal[capture].type==move_effect_no_piece_removal);
   move_effect_journal[capture].type = move_effect_piece_removal;
-  move_effect_journal[capture].u.piece_removal.on = uninterceptable_check_delivered_from;
-  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(uninterceptable_check_delivered_from);
-  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[uninterceptable_check_delivered_from];
+  move_effect_journal[capture].u.piece_removal.on = check_by_uninterceptable_delivered_from;
+  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(check_by_uninterceptable_delivered_from);
+  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[check_by_uninterceptable_delivered_from];
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   move_effect_journal[movement].type = move_effect_piece_movement;
   move_effect_journal[movement].u.piece_movement.from = capture_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = uninterceptable_check_delivered_from;
+  move_effect_journal[movement].u.piece_movement.to = check_by_uninterceptable_delivered_from;
   move_effect_journal[movement].u.piece_movement.moving = Dummy;
   move_effect_journal[movement].u.piece_movement.movingspec = spec;
 
   ++being_solved.number_of_pieces[trait[nbply]][Dummy];
   occupy_square(capture_by_invisible,Dummy,spec);
 
-  uninterceptable_check_delivered_from = initsquare;
-  uninterceptable_check_delivered_in_ply = ply_nil;
+  check_by_uninterceptable_delivered_from = initsquare;
+  check_by_uninterceptable_delivered_in_ply = ply_nil;
 
   flesh_out_capture_by_invisible();
 
-  uninterceptable_check_delivered_in_ply = save_ply;
-  uninterceptable_check_delivered_from = move_effect_journal[capture].u.piece_removal.on;
+  check_by_uninterceptable_delivered_in_ply = save_ply;
+  check_by_uninterceptable_delivered_from = move_effect_journal[capture].u.piece_removal.on;
 
   empty_square(capture_by_invisible);
   --being_solved.number_of_pieces[trait[nbply]][Dummy];

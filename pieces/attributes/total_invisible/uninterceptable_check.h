@@ -6,9 +6,9 @@
 #include "solving/ply.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 
-extern square uninterceptable_check_delivered_from;
-extern ply uninterceptable_check_delivered_in_ply;
-extern decision_level_type uninterceptable_check_delivered_in_level;
+extern square check_by_uninterceptable_delivered_from;
+extern ply check_by_uninterceptable_delivered_in_ply;
+extern decision_level_type check_by_uninterceptable_delivered_in_level;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
