@@ -51,6 +51,7 @@ typedef struct
         decision_level_type max_level;
         has_solution_type result;
     } backtracking;
+    boolean is_relevant;
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
@@ -153,6 +154,7 @@ void record_decision_for_inserted_invisible(PieceIdType id)
 static decision_level_type push_decision_common(char const *file, unsigned int line)
 {
   decision_level_properties[next_decision_level].ply = nbply;
+  decision_level_properties[next_decision_level].is_relevant = false;
 
   decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
@@ -449,15 +451,29 @@ void pop_decision(void)
   switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
     case backtrack_failure_to_intercept_illegal_checks_by_invisible:
-      if (decision_level_properties[next_decision_level].object==decision_object_insertion)
+      switch (decision_level_properties[next_decision_level].object)
       {
-        assert(decision_level_properties[next_decision_level].side!=no_side);
+        case decision_object_insertion:
+          assert(decision_level_properties[next_decision_level].side!=no_side);
 
-        /* remember which side may save an insertion */
-        try_to_avoid_insertion[decision_level_properties[next_decision_level].side] = true;
+          /* remember which side may save an insertion */
+          try_to_avoid_insertion[decision_level_properties[next_decision_level].side] = true;
 
-        if (decision_level_properties[next_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
-          try_to_avoid_insertion[advers(decision_level_properties[next_decision_level].side)] = true;
+          if (decision_level_properties[next_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+            try_to_avoid_insertion[advers(decision_level_properties[next_decision_level].side)] = true;
+          break;
+
+        case decision_object_arrival:
+          if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
+              && decision_level_properties[next_decision_level].side==side_failure)
+          {
+            PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
+            decision_level_properties[decision_levels[id_moving].walk].is_relevant = true;
+          }
+          break;
+
+        default:
+          break;
       }
       break;
 
@@ -879,6 +895,17 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
       break;
 
     case decision_purpose_illegal_check_interceptor:
+      switch (decision_level_properties[curr_level].object)
+      {
+        case decision_object_walk:
+          assert(decision_level_properties[curr_level].side!=no_side);
+          if (decision_level_properties[curr_level].side==side_failure)
+            skip = true;
+          break;
+
+        default:
+          break;
+      }
       break;
 
     case decision_purpose_random_mover_forward:
@@ -1846,6 +1873,8 @@ boolean can_decision_level_be_continued(void)
 
   if (decision_level_properties[next_decision_level-1].backtracking.result==previous_move_has_not_solved)
     result = false;
+  else if (decision_level_properties[next_decision_level].is_relevant)
+    result = true;
   else
     switch (decision_level_properties[next_decision_level-1].backtracking.type)
     {
