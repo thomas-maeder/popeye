@@ -104,18 +104,12 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
 void pop_decision(void);
 
 /* Optimise backtracking considering that we have
- * reached a position where we aren't able to intercept all illegal checks delived by
- * invisibles by inserting invisibles.
+ * reached a position where we aren't able to intercept all illegal checks by
+ * inserting invisibles.
  * @param side_in_check the side that is in too many illegal checks
  */
-void backtrack_from_failure_to_intercept_illegal_check_by_invisible(Side side_in_check);
-
-/* Optimise backtracking considering that we have
- * reached a position where we aren't able to intercept all illegal checks delived by
- * visibles by inserting invisibles.
- * @param side_in_check the side that is in too many illegal checks
- */
-void backtrack_from_failure_to_intercept_illegal_check_by_visible(Side side_in_check);
+void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
+                                                       unsigned int nr_check_vectors);
 
 /* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture by an invisible

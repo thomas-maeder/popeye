@@ -562,7 +562,7 @@ static void collect_illegal_checks_by_interceptable(vec_index_type start, vec_in
   TraceFunctionParamListEnd();
 
   for (kcurr = start;
-       kcurr<=end && nr_available>=*nr_check_vectors;
+       kcurr<=end && nr_available+1>=*nr_check_vectors;
        ++kcurr)
   {
     int const dir = vec[kcurr];
@@ -614,9 +614,10 @@ static void deal_with_illegal_checks_by_interceptables(void)
   }
   else
   {
+    Side const side_in_check = trait[nbply-1];
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
-    backtrack_from_failure_to_intercept_illegal_check_by_invisible(trait[nbply-1]);
-    record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
+    backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors);
+    record_decision_outcome("%s %d %s %d %s","only",nr_available,"available invisibles for intercepting",nr_check_vectors,"illegal checks");
     REPORT_DEADEND;
   }
 

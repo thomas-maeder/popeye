@@ -32,8 +32,7 @@ typedef enum
   backtrack_none,
   backtrack_until_level,
   backtrack_revelation,
-  backtrack_failure_to_intercept_illegal_checks_by_invisible,
-  backtrack_failure_to_intercept_illegal_checks_by_visible,
+  backtrack_failure_to_intercept_illegal_checks,
   backtrack_failture_to_capture_by_invisible,
   backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
@@ -51,6 +50,7 @@ typedef struct
         decision_level_type max_level;
         has_solution_type result;
     } backtracking;
+    unsigned int nr_check_vectors;
     boolean is_relevant;
 } decision_level_property_type;
 
@@ -96,10 +96,11 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
-  printf(" - r:%u t:%u m:%u i:%u",
+  printf(" - r:%u t:%u m:%d n:%u i:%u",
          decision_level_properties[next_decision_level].backtracking.result,
          decision_level_properties[next_decision_level].backtracking.type,
-         decision_level_properties[next_decision_level].backtracking.max_level,
+         (int)decision_level_properties[next_decision_level].backtracking.max_level,
+         decision_level_properties[next_decision_level].nr_check_vectors,
          decision_level_properties[next_decision_level].id);
   printf(" - %s:#%d",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter++);
@@ -159,6 +160,7 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
   decision_level_properties[next_decision_level].backtracking.result = previous_move_is_illegal;
+  decision_level_properties[next_decision_level].nr_check_vectors = UINT_MAX;
 
   ++record_decision_counter;
 
@@ -450,7 +452,7 @@ void pop_decision(void)
 
   switch (decision_level_properties[next_decision_level-1].backtracking.type)
   {
-    case backtrack_failure_to_intercept_illegal_checks_by_invisible:
+    case backtrack_failure_to_intercept_illegal_checks:
       switch (decision_level_properties[next_decision_level].object)
       {
         case decision_object_insertion:
@@ -463,7 +465,13 @@ void pop_decision(void)
             try_to_avoid_insertion[advers(decision_level_properties[next_decision_level].side)] = true;
           break;
 
+        case decision_object_departure:
+          if (decision_level_properties[next_decision_level-1].nr_check_vectors>decision_level_properties[next_decision_level].nr_check_vectors)
+            decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
+          break;
+
         case decision_object_arrival:
+          decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
           if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
               && decision_level_properties[next_decision_level].side==side_failure)
           {
@@ -563,10 +571,12 @@ MOVING THIS PIECE MAKES ITS WALK RELEVANT...
 
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d",next_decision_level,"<",next_decision_level);
-  printf(" - r:%u t:%u m:%u\n",
-         decision_level_properties[next_decision_level-1].backtracking.result,
-         decision_level_properties[next_decision_level-1].backtracking.type,
-         decision_level_properties[next_decision_level-1].backtracking.max_level);
+  printf(" - r:%u t:%u m:%u n:%u i:%u\n",
+         decision_level_properties[next_decision_level].backtracking.result,
+         decision_level_properties[next_decision_level].backtracking.type,
+         decision_level_properties[next_decision_level].backtracking.max_level,
+         decision_level_properties[next_decision_level].nr_check_vectors,
+         decision_level_properties[next_decision_level].id);
   fflush(stdout);
 #endif
 
@@ -1197,16 +1207,26 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           break;
 
         case decision_object_arrival:
-          if (decision_level_properties[curr_level].ply<ply_failure)
-          {
-            /* try harder.
-             * a future decision may select
-             * - an arrival square from where the check can be intercepted
-             */
-          }
-          else
+        {
+          if (decision_level_properties[curr_level-1].nr_check_vectors
+              >decision_level_properties[curr_level-2].nr_check_vectors
+              && decision_level_properties[curr_level].ply+1==ply_failure)
+            /* we are making things worse by moving the current piece! */
             skip = true;
+          else
+          {
+            if (decision_level_properties[curr_level].ply<ply_failure)
+            {
+              /* try harder.
+               * a future decision may select
+               * - an arrival square from where the check can be intercepted
+               */
+            }
+            else
+              skip = true;
+          }
           break;
+        }
 
         default:
           skip = true;
@@ -1333,46 +1353,23 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 }
 
 /* Optimise backtracking considering that we have
- * reached a position where we aren't able to intercept all illegal checks by inserting
- * invisibles.
+ * reached a position where we aren't able to intercept all illegal checks by
+ * inserting invisibles.
  * @param side_in_check the side that is in too many illegal checks
  */
-void backtrack_from_failure_to_intercept_illegal_check_by_invisible(Side side_in_check)
+void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
+                                                       unsigned int nr_check_vectors)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
+  TraceFunctionParam("%u",nr_check_vectors);
   TraceFunctionParamListEnd();
 
   assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_none);
   assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
 
-  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks_by_invisible;
-  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
-
-  try_to_avoid_insertion[Black] = false;
-  try_to_avoid_insertion[White] = false;
-  ply_failure = nbply;
-  side_failure = side_in_check;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Optimise backtracking considering that we have
- * reached a position where we aren't able to intercept all illegal checks delived by
- * visibles by inserting invisibles.
- * @param side_in_check the side that is in too many illegal checks
- */
-void backtrack_from_failure_to_intercept_illegal_check_by_visible(Side side_in_check)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_in_check);
-  TraceFunctionParamListEnd();
-
-  assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_none);
-  assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
-
-  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks_by_visible;
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks;
+  decision_level_properties[next_decision_level-1].nr_check_vectors = nr_check_vectors;
   decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
@@ -2039,14 +2036,8 @@ boolean can_decision_level_be_continued(void)
           result = false;
         break;
 
-      case backtrack_failure_to_intercept_illegal_checks_by_invisible:
+      case backtrack_failure_to_intercept_illegal_checks:
         assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-        result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
-        break;
-
-      case backtrack_failure_to_intercept_illegal_checks_by_visible:
-        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
-        // TODO do we need separate handling for checks by visibles?
         result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
         break;
 
