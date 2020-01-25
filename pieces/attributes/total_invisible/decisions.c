@@ -473,7 +473,8 @@ void pop_decision(void)
         case decision_object_arrival:
           decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
           if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
-              && decision_level_properties[next_decision_level].side==side_failure)
+              && decision_level_properties[next_decision_level].side==side_failure
+              && decision_level_properties[next_decision_level].nr_check_vectors<=decision_level_properties[next_decision_level-2].nr_check_vectors)
           {
             PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
             decision_level_properties[decision_levels[id_moving].walk].is_relevant = true;
