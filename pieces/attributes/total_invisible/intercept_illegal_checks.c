@@ -10,6 +10,7 @@
 #include "pieces/attributes/total_invisible.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -82,17 +83,20 @@ static void done_intercepting_illegal_checks(void)
 }
 
 static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                unsigned int nr_check_vectors);
+                                unsigned int nr_check_vectors,
+                                boolean inserted_fleshed_out);
 
 static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                           unsigned int nr_check_vectors,
                                           square s,
-                                          Side side)
+                                          Side side,
+                                          boolean inserted_fleshed_out)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceFunctionParam("%u",inserted_fleshed_out);
   TraceFunctionParamListEnd();
 
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
@@ -112,10 +116,46 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       CLRFLAG(being_solved.spec[s],advers(side));
 
-      if (nr_check_vectors==1)
-        done_intercepting_illegal_checks();
+      TraceEnumerator(Side,side);
+      TraceSquare(being_solved.king_square[side]);
+      TraceValue("%u",nr_total_invisbles_consumed());
+      TraceValue("%u",total_invisible_number);
+      TraceEOL();
+      if (being_solved.king_square[side]==initsquare
+          && nr_total_invisbles_consumed()>=total_invisible_number)
+      {
+        allocate_flesh_out_placed(side);
+
+        being_solved.king_square[side] = s;
+        replace_walk(s,King);
+        ++being_solved.number_of_pieces[side][King];
+        SETFLAG(being_solved.spec[s],Royal);
+
+        if (is_square_uninterceptably_observed_ortho(advers(side),s)==0)
+        {
+          if (nr_check_vectors==1)
+            restart_from_scratch();
+          else
+            place_dummy_on_line(check_vectors,nr_check_vectors-1,true);
+        }
+
+        CLRFLAG(being_solved.spec[s],Royal);
+        --being_solved.number_of_pieces[side][King];
+        replace_walk(s,Dummy);
+        being_solved.king_square[side] = initsquare;
+      }
       else
-        place_dummy_on_line(check_vectors,nr_check_vectors-1);
+      {
+        if (nr_check_vectors==1)
+        {
+          if (inserted_fleshed_out)
+            restart_from_scratch();
+          else
+            done_intercepting_illegal_checks();
+        }
+        else
+          place_dummy_on_line(check_vectors,nr_check_vectors-1,inserted_fleshed_out);
+      }
 
       SETFLAG(being_solved.spec[s],advers(side));
 
@@ -124,7 +164,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       current_consumption = save_consumption;
 
       if (side==White && can_decision_level_be_continued())
-        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
 
       forget_taboo_on_square(s,side,nbply);
     }
@@ -138,13 +178,13 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       current_consumption = save_consumption;
 
       if (side==White)
-        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
 
       forget_taboo_on_square(s,side,nbply);
     }
   }
   else if (side==White)
-    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black);
+    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -152,12 +192,14 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
 static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                   unsigned int nr_check_vectors,
-                                  square s, numvec dir)
+                                  square s, numvec dir,
+                                  boolean inserted_fleshed_out)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceFunctionParam("%d",dir);
+  TraceFunctionParam("%d",inserted_fleshed_out);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
@@ -177,7 +219,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     decision_levels[id_placed].walk = decision_level_forever;
 
-    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White);
+    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White,inserted_fleshed_out);
 
     empty_square(s);
 
@@ -186,7 +228,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     uninitialise_motivation(id_placed);
 
     if (can_decision_level_be_continued())
-      place_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir);
+      place_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir,inserted_fleshed_out);
   }
 
   TraceFunctionExit(__func__);
@@ -194,7 +236,8 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 }
 
 static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                unsigned int nr_check_vectors)
+                                unsigned int nr_check_vectors,
+                                boolean inserted_fleshed_out)
 {
   Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
@@ -204,11 +247,12 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
+  TraceFunctionParam("%u",inserted_fleshed_out);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
 
-  place_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir);
+  place_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir,inserted_fleshed_out);
 
   if (record_decision_counter==save_counter)
   {
@@ -608,7 +652,7 @@ static void deal_with_illegal_checks_by_interceptables(void)
   else if (nr_available>=nr_check_vectors)
   {
     if (play_phase==play_validating_mate)
-      place_dummy_on_line(check_vectors,nr_check_vectors);
+      place_dummy_on_line(check_vectors,nr_check_vectors,false);
     else
       place_non_dummy_on_line(check_vectors,nr_check_vectors);
   }

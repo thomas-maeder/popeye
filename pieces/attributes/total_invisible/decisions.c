@@ -103,7 +103,7 @@ static void report_endline(char const *file, unsigned int line)
          decision_level_properties[next_decision_level].nr_check_vectors,
          decision_level_properties[next_decision_level].id);
   printf(" - %s:#%d",basename(file),line);
-  printf(" - D:%lu\n",record_decision_counter++);
+  printf(" - D:%lu\n",record_decision_counter);
   fflush(stdout);
 }
 

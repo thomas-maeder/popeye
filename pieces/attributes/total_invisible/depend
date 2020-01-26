@@ -873,7 +873,8 @@ pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/consumption.h \
- pieces/attributes/total_invisible/king_placement.h debugging/assert.h
+ pieces/attributes/total_invisible/king_placement.h \
+ optimisations/orthodox_square_observation.h debugging/assert.h
 
 pieces/attributes/total_invisible/intercept_illegal_checks.h:
 
@@ -964,6 +965,8 @@ pieces/attributes/total_invisible/uninterceptable_check.h:
 pieces/attributes/total_invisible/consumption.h:
 
 pieces/attributes/total_invisible/king_placement.h:
+
+optimisations/orthodox_square_observation.h:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/attack_mating_piece$(OBJ_SUFFIX): \
