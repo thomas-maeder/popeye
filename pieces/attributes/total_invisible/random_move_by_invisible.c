@@ -857,6 +857,34 @@ static void flesh_out_random_move_by_specific_invisible_to_according_to_walk(squ
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_random_move_by_specific_invisible_as_non_king_to(square sq_arrival)
+{
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
+  Side const side_playing = trait[nbply];
+  piece_walk_type walk;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
+  {
+    push_decision_walk(id,walk,decision_purpose_random_mover_backward,side_playing);
+
+    ++being_solved.number_of_pieces[side_playing][walk];
+    replace_walk(sq_arrival,walk);
+
+    flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+
+    --being_solved.number_of_pieces[side_playing][walk];
+
+    pop_decision();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
@@ -876,35 +904,52 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
 
   if (motivation[id].first.on==sq_arrival)
   {
+    Flags const save_flags_moving = being_solved.spec[sq_arrival];
+
     TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
     {
-      dynamic_consumption_type const save_consumption = current_consumption;
-
       Side const side_playing = trait[nbply];
-      piece_walk_type walk;
+      Side const side_under_attack = advers(side_playing);
+      square const king_pos = being_solved.king_square[side_under_attack];
+      dynamic_consumption_type const save_consumption = current_consumption;
       decision_levels_type const save_levels = decision_levels[id];
 
       allocate_flesh_out_placed(side_playing);
 
-      for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
+      if (being_solved.king_square[side_playing]==initsquare)
       {
-        push_decision_walk(id,walk,decision_purpose_random_mover_backward,side_playing);
+        boolean are_allocations_exhausted;
 
-        ++being_solved.number_of_pieces[side_playing][walk];
-        replace_walk(sq_arrival,walk);
+        being_solved.king_square[side_playing] = sq_arrival;
 
-        flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+        are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
 
-        replace_walk(sq_arrival,Dummy);
-        --being_solved.number_of_pieces[side_playing][walk];
+        ++being_solved.number_of_pieces[side_playing][King];
+        replace_walk(sq_arrival,King);
+        SETFLAG(being_solved.spec[sq_arrival],Royal);
+        if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+        {
+          PieceIdType const id_moving = GetPieceId(save_flags_moving);
+          push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
+          flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+          pop_decision();
+        }
+        CLRFLAG(being_solved.spec[sq_arrival],Royal);
+        --being_solved.number_of_pieces[side_playing][King];
+        being_solved.king_square[side_playing] = initsquare;
 
-        pop_decision();
+        if (can_decision_level_be_continued()
+            && !are_allocations_exhausted)
+          flesh_out_random_move_by_specific_invisible_as_non_king_to(sq_arrival);
       }
+      else
+        flesh_out_random_move_by_specific_invisible_as_non_king_to(sq_arrival);
 
-      decision_levels[id] = save_levels;
+      replace_walk(sq_arrival,Dummy);
 
       current_consumption = save_consumption;
+      decision_levels[id] = save_levels;
     }
     else
       flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
