@@ -879,13 +879,17 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
     TraceWalk(get_walk_of_piece_on_square(sq_arrival));TraceEOL();
     if (get_walk_of_piece_on_square(sq_arrival)==Dummy)
     {
+      dynamic_consumption_type const save_consumption = current_consumption;
+
       Side const side_playing = trait[nbply];
       piece_walk_type walk;
       decision_levels_type const save_levels = decision_levels[id];
 
+      allocate_flesh_out_placed(side_playing);
+
       for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
       {
-        push_decision_walk(id,walk,decision_purpose_random_mover_backward,trait[nbply]);
+        push_decision_walk(id,walk,decision_purpose_random_mover_backward,side_playing);
 
         ++being_solved.number_of_pieces[side_playing][walk];
         replace_walk(sq_arrival,walk);
@@ -899,6 +903,8 @@ static void flesh_out_random_move_by_specific_invisible_to(square sq_arrival)
       }
 
       decision_levels[id] = save_levels;
+
+      current_consumption = save_consumption;
     }
     else
       flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);

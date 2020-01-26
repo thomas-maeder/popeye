@@ -360,7 +360,7 @@ void adapt_pre_capture_effect(void)
           {
             dynamic_consumption_type const save_consumption = current_consumption;
 
-            if (allocate_flesh_out_unplaced(advers(trait[nbply])))
+            if (allocate_placed(advers(trait[nbply])))
             {
               square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
               piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
