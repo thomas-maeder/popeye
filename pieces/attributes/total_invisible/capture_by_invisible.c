@@ -782,13 +782,13 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
 
-  if (!TSTFLAG(flags_existing,trait[nbply]))
+  if (!TSTFLAG(flags_existing,Chameleon))
+  {
+    /* candidate has been revealed */
+  }
+  else if (!TSTFLAG(flags_existing,trait[nbply]))
   {
     /* candidate belongs to wrong side */
-  }
-  else if (motivation[id_existing].last.purpose==purpose_none)
-  {
-    /* piece was replaced, e.g. by a revelation */
   }
   else
   {
@@ -1224,6 +1224,10 @@ static boolean is_viable_capturer(PieceIdType id, ply ply_capture)
   else if (motivation[id].last.acts_when>ply_capture)
   {
     /* piece will be active after the capture */
+    result = false;
+  }
+  else if (id!=GetPieceId(being_solved.spec[motivation[id].last.on]))
+  {
     result = false;
   }
   else if (motivation[id].first.on==initsquare)

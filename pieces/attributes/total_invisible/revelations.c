@@ -1747,14 +1747,16 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
                  && TSTFLAG(being_solved.spec[on],side_revealed))
         {
           PieceIdType const id_revealed = GetPieceId(flags_revealed);
-          purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
           PieceIdType const id_original = GetPieceId(entry->u.revelation_of_placed_piece.flags_original);
           purpose_type const purpose_original = motivation[id_original].last.purpose;
 
+          square const on = entry->u.revelation_of_placed_piece.on;
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+
           reveal_placed(entry);
 
-          motivation[id_revealed].last.purpose = purpose_none;
+          assert(id_revealed==id_on_board);
 
           /* the following distinction isn't strictly necessary, but it clarifies nicely
            * that the two ids may be, but aren't necessarily equal */
@@ -1766,8 +1768,6 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
             test_and_execute_revelations(curr+1);
             motivation[id_original].last.purpose = purpose_original;
           }
-
-          motivation[id_revealed].last.purpose = purpose_revealed;
 
           unreveal_placed(entry);
         }

@@ -256,7 +256,7 @@ a)
                      play_move:     5547052
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1196677
-                  TI decisions:    10520877
+                  TI decisions:    10520881
 
 b) -bPg5  
 
@@ -265,7 +265,7 @@ b) -bPg5
                      play_move:     5707072
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1234185
-                  TI decisions:    10874376
+                  TI decisions:    10874380
 
 solution finished.
 
@@ -404,7 +404,7 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
                      play_move:     3965180
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1116589
-                  TI decisions:    89224868
+                  TI decisions:    89230431
 
 solution finished.
 
@@ -1038,11 +1038,11 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
 
   1...TI~*h3   2.[+wTIf1]nPg2*f1=nR nRf1-f3   3.[+wTIg3]f4*g3 TI~*g3[g3=wR] #
   1...nQh1-g1   2.nQg1-c5 [+wRa1]0-0-0[d1=wR]   3.[+wTIg3]f4*g3 Rd1-d4 #
-  add_to_move_generation_stack:    11524149
-                     play_move:    22715158
+  add_to_move_generation_stack:    11524154
+                     play_move:    22715162
  is_white_king_square_attacked:     1545179
  is_black_king_square_attacked:     4407250
-                  TI decisions:    56698193
+                  TI decisions:    56710377
 
 solution finished.
 
