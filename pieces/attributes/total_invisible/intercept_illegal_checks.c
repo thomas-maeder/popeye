@@ -692,7 +692,7 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
     PieceIdType const id_checker = GetPieceId(checkerSpec);
 
     assert(check_by_uninterceptable_delivered_in_ply==ply_nil);
-    check_by_uninterceptable_delivered_in_ply = motivation[id_checker].last.acts_when;
+    check_by_uninterceptable_delivered_in_ply = nbply;
 
     record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
@@ -703,7 +703,7 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
                             check_by_uninterceptable_delivered_in_ply);
 
     check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
-    if (nbply<=check_by_uninterceptable_delivered_in_ply)
+    if (nbply<=motivation[id_checker].last.acts_when)
     {
       if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
         check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;

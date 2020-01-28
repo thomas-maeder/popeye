@@ -1626,6 +1626,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
   else
   {
     move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
+    TraceValue("%u",entry->type);TraceEOL();
     switch (entry->type)
     {
       case move_effect_revelation_of_new_invisible:

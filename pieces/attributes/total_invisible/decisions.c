@@ -974,15 +974,6 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
     case decision_purpose_mating_piece_attacker:
       assert(decision_level_properties[curr_level].side!=no_side);
-      switch (decision_level_properties[curr_level].object)
-      {
-        case decision_object_insertion:
-          skip = true;
-          break;
-
-        default:
-          break;
-      }
       break;
 
     case decision_purpose_illegal_check_interceptor:

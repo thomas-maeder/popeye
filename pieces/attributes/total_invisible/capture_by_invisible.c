@@ -745,8 +745,12 @@ static void capture_by_invisible_king(square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void capture_by_existing_invisible_on(square sq_departure)
+/*
+ * @return true iff the existing invisible can geometrically reach the capture square
+ */
+static boolean capture_by_existing_invisible_on(square sq_departure)
 {
+  boolean result = false;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -813,12 +817,14 @@ static void capture_by_existing_invisible_on(square sq_departure)
       {
         case King:
           if (CheckDir[Queen][move_square_diff]==move_square_diff)
+          {
             capture_by_invisible_king(sq_departure);
+            result = true;
+          }
           else
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
-            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -828,24 +834,28 @@ static void capture_by_existing_invisible_on(square sq_departure)
         {
           int const dir = CheckDir[walk_existing][move_square_diff];
           if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,-dir))
+          {
             capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
+            result = true;
+          }
           else
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
-            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
         }
 
         case Knight:
           if (CheckDir[Knight][move_square_diff]==move_square_diff)
+          {
             capture_by_invisible_with_defined_walk(Knight,sq_departure);
+            result = true;
+          }
           else
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
-            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -858,14 +868,16 @@ static void capture_by_existing_invisible_on(square sq_departure)
 
             if (!TSTFLAG(sq_spec[sq_departure],basesq)
                 && !TSTFLAG(sq_spec[sq_departure],promsq))
+            {
               capture_by_invisible_with_defined_walk(Pawn,sq_departure);
-            // TODO en passant capture
+              // TODO en passant capture
+              result = true;
+            }
           }
           else
           {
             record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
             REPORT_DEADEND;
-            backtrack_from_failed_capture_by_invisible(trait[nbply]);
           }
           break;
 
@@ -877,6 +889,7 @@ static void capture_by_existing_invisible_on(square sq_departure)
               flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
             else
               flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
+            result = true;
           }
           else
           {
@@ -943,7 +956,6 @@ HERE
 !   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:48
 ...
                */
-              backtrack_from_failed_capture_by_invisible(trait[nbply]);
             }
           }
           break;
@@ -1027,8 +1039,6 @@ HERE
 !               15 8 the piece was added to later act from its current square - capture_by_invisible.c:#867
          */
       // TODO optimise more aggressively - the failed capturer's walk is not relevant
-      backtrack_definitively();
-      backtrack_no_further_than(decision_levels[id_existing].from);
     }
 
     motivation[id_existing] = motivation_existing;
@@ -1037,12 +1047,18 @@ HERE
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_existing_invisible(void)
+/*
+ * @return number of existing invisibles that can geometrically reach the capture square
+ */
+static unsigned int capture_by_existing_invisible(void)
 {
   PieceIdType id;
+  unsigned int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1050,10 +1066,13 @@ static void capture_by_existing_invisible(void)
   for (id = get_top_visible_piece_id()+1;
        id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
        ++id)
-    capture_by_existing_invisible_on(motivation[id].last.on);
+    if (capture_by_existing_invisible_on(motivation[id].last.on))
+      ++result;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void capture_by_inserted_invisible(void)
@@ -1141,9 +1160,7 @@ void flesh_out_capture_by_invisible(void)
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
-  capture_by_existing_invisible();
-
-  if (can_decision_level_be_continued())
+  if (capture_by_existing_invisible()==0 || can_decision_level_be_continued())
     capture_by_inserted_invisible();
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
@@ -1153,6 +1170,7 @@ void flesh_out_capture_by_invisible(void)
   {
     record_decision_outcome("%s","no invisible piece found that could capture");
     REPORT_DEADEND;
+    backtrack_from_failed_capture_by_invisible(trait[nbply]);
   }
 
   decision_levels[id_inserted] = save_levels;

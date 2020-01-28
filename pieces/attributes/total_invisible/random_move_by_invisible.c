@@ -63,7 +63,7 @@ static void flesh_out_accidental_capture_by_invisible(boolean is_dummy_moving)
     TraceAction(&motivation[id_victim].last);TraceEOL();
 
     assert(motivation[id_victim].first.purpose!=purpose_none);
-    assert(motivation[id_victim].last.purpose!=purpose_none);
+//    assert(motivation[id_victim].last.purpose!=purpose_none);
     if (motivation[id_victim].last.acts_when>nbply)
     {
       TraceText("the planned victim was added to later act from its current square\n");

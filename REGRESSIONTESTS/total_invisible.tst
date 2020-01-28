@@ -56,11 +56,11 @@ solution finished.
   1...Rb1-b8   2.TI~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:        7017
-                     play_move:       18095
+  add_to_move_generation_stack:        7001
+                     play_move:       17793
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5569
-                  TI decisions:        8810
+ is_black_king_square_attacked:        5461
+                  TI decisions:        8488
 
 solution finished.
 
@@ -89,11 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8123
-                     play_move:       22077
+  add_to_move_generation_stack:        8107
+                     play_move:       22058
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6828
-                  TI decisions:      165650
+ is_black_king_square_attacked:        6825
+                  TI decisions:      161933
 
 solution finished.
 
@@ -128,10 +128,10 @@ solution finished.
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
   add_to_move_generation_stack:        5616
-                     play_move:       13811
+                     play_move:       13670
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4924
-                  TI decisions:        7324
+ is_black_king_square_attacked:        4877
+                  TI decisions:        7031
 
 solution finished.
 
@@ -163,19 +163,19 @@ no castling if the invisible rook would have delivered check
 a) 
 
   add_to_move_generation_stack:        2966
-                     play_move:        5947
+                     play_move:        5929
  is_white_king_square_attacked:         377
- is_black_king_square_attacked:        1533
-                  TI decisions:        1025
+ is_black_king_square_attacked:        1527
+                  TI decisions:        1013
 
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
   add_to_move_generation_stack:        3076
-                     play_move:        5381
+                     play_move:        5363
  is_white_king_square_attacked:         488
- is_black_king_square_attacked:        1393
-                  TI decisions:         908
+ is_black_king_square_attacked:        1387
+                  TI decisions:         896
 
 solution finished.
 
