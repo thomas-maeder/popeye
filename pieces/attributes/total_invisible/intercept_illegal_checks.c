@@ -696,11 +696,9 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
 
     record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
-                            " by id:%u"
-                            " delivered in ply:%u",
+                            " by id:%u",
                             dir_check,
-                            id_checker,
-                            check_by_uninterceptable_delivered_in_ply);
+                            id_checker);
 
     check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
     if (nbply<=motivation[id_checker].last.acts_when)
