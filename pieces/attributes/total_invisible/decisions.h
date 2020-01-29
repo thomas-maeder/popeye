@@ -150,6 +150,8 @@ has_solution_type get_decision_result(void);
 
 boolean can_decision_level_be_continued(void);
 
+void decision_make_relevant(decision_level_type level);
+
 boolean has_decision_failed_capture(void);
 
 #endif

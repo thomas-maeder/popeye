@@ -438,7 +438,14 @@ void pop_decision(void)
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
   TraceEOL();
 
-  if (decision_level_properties[next_decision_level].backtracking.result>=decision_level_properties[next_decision_level-1].backtracking.result)
+  // TODO define a hierarchy of backtracking types?
+  if (decision_level_properties[next_decision_level].backtracking.result>decision_level_properties[next_decision_level-1].backtracking.result
+      || (decision_level_properties[next_decision_level].backtracking.result==decision_level_properties[next_decision_level-1].backtracking.result
+          && !((decision_level_properties[next_decision_level].backtracking.type==backtrack_none
+                && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_none)
+               || (decision_level_properties[next_decision_level].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+                   && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_failure_to_intercept_illegal_checks
+                   && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_none))))
     decision_level_properties[next_decision_level-1].backtracking = decision_level_properties[next_decision_level].backtracking;
 
   TraceValue("%u",next_decision_level);
@@ -585,6 +592,18 @@ MOVING THIS PIECE MAKES ITS WALK RELEVANT...
   TraceFunctionResultEnd();
 }
 
+void decision_make_relevant(decision_level_type level)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",level);
+  TraceFunctionParamListEnd();
+
+  decision_level_properties[level].is_relevant = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 boolean has_decision_failed_capture(void)
 {
   boolean result = false;
@@ -609,6 +628,41 @@ boolean has_decision_failed_capture(void)
     default:
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean find_random_move_of_side_between_plies(ply ply_start,
+                                                      ply ply_failure,
+                                                      Side side_in_check)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_start);
+  TraceFunctionParam("%u",ply_failure);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  /* this copes with the case that ply_failure<ply_start */
+  for (ply = ply_start; ply<=ply_failure; ++ply)
+    if (trait[ply]==side_in_check)
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[ply];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      if (sq_departure==move_by_invisible
+          && sq_arrival==move_by_invisible)
+      {
+        result = true;
+        break;
+      }
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -983,8 +1037,100 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           assert(decision_level_properties[curr_level].side!=no_side);
           if (decision_level_properties[curr_level].side==side_failure)
           {
-            skip = true;
-            /* e.g.
+            if (find_random_move_of_side_between_plies(decision_level_properties[curr_level].ply,
+                    ply_failure,
+                    side_failure))
+            {
+              /* try harder
+               * a random move by invisible according to the selected walk may help us out
+               */
+              /* e.g.
+begin
+author Michel Caillaud
+origin Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+pieces TotalInvisible 3 white kg4 rh6 ba2 pd4d6 black ke6 qe2 re8g8 bd7h8 pd2
+stipulation h#2
+end
+
+           Michel Caillaud
+Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .  -R  -B   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   P  -K   .   .   R   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .  -P  -Q   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  5 + 7 + 3 TI
+
+!test_mate 6:Ke6-f6 7:TI~-~ 8:Rg8-g6 9:TI~-g6 - total_invisible.c:#539 - D:3280 - 584
+use option start 38:0:59:4 to replay
+! >2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#533 - D:3282
+!  >3 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#496 - D:3283
+!   >4 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#299 - D:3284
+...
+!   <4 - r:1 t:3 m:7 n:4294967295 i:14
+!   >4 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#299 - D:3513
+!    >5 + 6 g5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#533 - D:3514
+!     >6 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#496 - D:3515
+!      >7 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#299 - D:3516
+...
+!      >7 + 6 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#299 - D:3531
+!       >8 + 7 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:-1 n:4294967295 i:16 - intercept_illegal_checks.c:#533 - D:3532
+!        >9 + 7 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:-1 n:4294967295 i:16 - intercept_illegal_checks.c:#496 - D:3533
+!         >10 + 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:16 - intercept_illegal_checks.c:#299 - D:3534
+!          >11 > 7 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#544 - D:3535
+!           >12 > 7 f4 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:3536
+!             13 8 only 0 available invisibles for intercepting 2 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:2 i:14
+!          <11 - r:1 t:3 m:12 n:2 i:14
+!          >11 > 7 g5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#544 - D:3537
+!           >12 > 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3538
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!           >12 > 7 f5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3539
+!             13 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#74
+!           <12 - r:1 t:4 m:4294967295 n:4294967295 i:15
+!           >12 > 7 e5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3540
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!           >12 > 7 d5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3541
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!           >12 > 7 c5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3542
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!           >12 > 7 b5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3543
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!           >12 > 7 a5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:3544
+!             13 8 only 0 available invisibles for intercepting 1 illegal checks - intercept_illegal_checks.c:#666
+!           <12 - r:1 t:3 m:12 n:1 i:15
+!          <11 - r:1 t:3 m:12 n:1 i:15
+!          >11 > 7 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:-1 n:4294967295 i:16 - random_move_by_invisible.c:#544 - D:3545
+!          <11 - r:1 t:0 m:4294967295 n:4294967295 i:16
+!         <10 - r:1 t:3 m:12 n:1 i:16
+
+WE HAVE TO TRY OTHER WALKS - E.G. BISHOP TO ALLOW BG6-F5 IN PLY 7
+               */
+            }
+            else
+            {
+              skip = true;
+              /* e.g.
 begin
 origin 1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
 pieces TotalInvisible 2 white ka5 rh1 bh8 black ka1 pa2
@@ -1046,6 +1192,7 @@ use option start 1:2 to replay
 
 HERE - no need to try other walks on b2
              */
+            }
           }
           break;
 
@@ -1502,7 +1649,86 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
               skip = true;
           }
           else
-            skip = true;
+          {
+            if (decision_level_properties[curr_level].ply<ply_failure-1)
+            {
+              /* try harder
+               * a different walk may allow a capturer more possibilities
+               */
+              /* e.g.
+begin
+author Manfred Rittirsch
+origin Sake tourney 2018, 3rd prize, correction
+pieces TotalInvisible 2 white kf1 bd6 sb3 pc2d2g6h5 black ka4 pc3d7
+stipulation h#2
+option movenum
+end
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, correction
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   .   .   3
+|                                   |
+2   .   .   P   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 3 + 2 TI
+
+348,350c348,349
+<   1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7[d7=wB][g6=bQ] #
+
+!validate_mate 6:TI~-h5 7:Kf1-e2 8:TI~-g6 9:TI~-d7 - total_invisible.c:#514 - D:46 - 20
+use option start 4:4:1:1 to replay
+! >2 X 6 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#1097 - D:48
+!  >3 X 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#521 - D:49
+!  <3 - r:1 t:0 m:4294967295 n:4294967295 i:11
+!  >3 X 6 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#460 - D:50
+!   >4 X 6 f6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#49 - D:51
+!     5 7 capture in ply 8 will not be possible - intercept_illegal_checks.c:#74
+!   <4 - r:1 t:4 m:4294967295 n:4294967295 i:11
+!  <3 - r:1 t:4 m:4294967295 n:4294967295 i:11
+!  >3 X 6 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#358 - D:52
+!   >4 X 6 direction:5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#364 - D:53
+!   <4 - r:1 t:0 m:4294967295 n:4294967295 i:11
+!   >4 X 6 direction:6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#364 - D:54
+!   <4 - r:1 t:0 m:4294967295 n:4294967295 i:11
+!   >4 X 6 direction:7 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#364 - D:55
+!   <4 - r:1 t:0 m:4294967295 n:4294967295 i:11
+!   >4 X 6 direction:8 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#364 - D:56
+!    >5 X 6 g4 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:11 - capture_by_invisible.c:#49 - D:57
+!     >6 + 8 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#215 - D:58
+!      >7 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#111 - D:59
+!        8 8 capture in ply 9 will not be possible - intercept_illegal_checks.c:#74
+!      <7 - r:1 t:4 m:4294967295 n:4294967295 i:14
+!     <6 - r:1 t:4 m:4294967295 n:4294967295 i:14
+!     >6 + 8 g4 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#215 - D:60
+!     <6 - r:1 t:0 m:4294967295 n:4294967295 i:14
+!    <5 - r:1 t:4 m:4294967295 n:4294967295 i:11
+!   <4 - r:1 t:4 m:4294967295 n:4294967295 i:11
+!  <3 - r:1 t:4 m:4294967295 n:4294967295 i:11
+
+HERE - TRY ROOK AND QUEEN AS WELL
+
+! <2 - r:1 t:4 m:4294967295 n:4294967295 i:11
+               */
+            }
+            else
+              skip = true;
+          }
           break;
 
         case decision_object_departure:

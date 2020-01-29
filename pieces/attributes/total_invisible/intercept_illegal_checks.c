@@ -138,6 +138,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
           else
             place_dummy_on_line(check_vectors,nr_check_vectors-1,true);
         }
+        else
+          record_decision_outcome("%s","can't place king because of self-check by uninterceptable");
 
         CLRFLAG(being_solved.spec[s],Royal);
         --being_solved.number_of_pieces[side][King];
@@ -620,7 +622,18 @@ static void collect_illegal_checks_by_interceptable(vec_index_type start, vec_in
 
     if (TSTFLAG(being_solved.spec[sq_end],side_checking)
         && (walk_at_end==Queen || walk_at_end==walk_checker))
+    {
+      Flags const flags_checker = being_solved.spec[sq_end];
+
+      if (TSTFLAG(flags_checker,Chameleon))
+      {
+        PieceIdType const id_checker = GetPieceId(flags_checker);
+        decision_make_relevant(decision_levels[id_checker].to);
+        decision_make_relevant(decision_levels[id_checker].walk);
+      }
+
       check_vectors[(*nr_check_vectors)++] = kcurr;
+    }
   }
 
   TraceFunctionExit(__func__);

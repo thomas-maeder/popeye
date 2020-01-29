@@ -350,11 +350,11 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/castling.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h \
- optimisations/intelligent/intelligent.h \
+ solving/temporary_hacks.h solving/fork.h solving/castling.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -414,6 +414,8 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 solving/castling.h:
 
