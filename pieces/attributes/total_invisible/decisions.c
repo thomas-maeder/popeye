@@ -27,6 +27,9 @@ typedef enum
   decision_object_king_nomination
 } decision_object_type;
 
+/* the order of these enumerators is relevent in pop_decision() -
+ * take care when modifying!
+ */
 typedef enum
 {
   backtrack_none,
@@ -438,14 +441,9 @@ void pop_decision(void)
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
   TraceEOL();
 
-  // TODO define a hierarchy of backtracking types?
   if (decision_level_properties[next_decision_level].backtracking.result>decision_level_properties[next_decision_level-1].backtracking.result
       || (decision_level_properties[next_decision_level].backtracking.result==decision_level_properties[next_decision_level-1].backtracking.result
-          && !((decision_level_properties[next_decision_level].backtracking.type==backtrack_none
-                && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_none)
-               || (decision_level_properties[next_decision_level].backtracking.type==backtrack_failure_to_intercept_illegal_checks
-                   && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_failure_to_intercept_illegal_checks
-                   && decision_level_properties[next_decision_level-1].backtracking.type!=backtrack_none))))
+          && decision_level_properties[next_decision_level].backtracking.type>=decision_level_properties[next_decision_level-1].backtracking.type))
     decision_level_properties[next_decision_level-1].backtracking = decision_level_properties[next_decision_level].backtracking;
 
   TraceValue("%u",next_decision_level);
