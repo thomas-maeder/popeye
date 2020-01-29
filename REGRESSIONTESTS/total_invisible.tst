@@ -205,11 +205,11 @@ this doesn't work if we overdo it with optimisations
   h#1.5                1 + 5 + 2 TI
 
   1...TI~*d6   2.Bh5-f7 TI~*f7[f7=wS] #
-  add_to_move_generation_stack:        7114
-                     play_move:       11474
+  add_to_move_generation_stack:        6610
+                     play_move:       10907
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6385
-                  TI decisions:       12129
+ is_black_king_square_attacked:        5860
+                  TI decisions:       12092
 
 solution finished.
 
