@@ -861,13 +861,34 @@ static void flesh_out_random_move_by_specific_invisible_as_non_king_to(square sq
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
   Side const side_playing = trait[nbply];
+  SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
   piece_walk_type walk;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  for (walk = Pawn; walk<=Bishop && can_decision_level_be_continued(); ++walk)
+  if ((TSTFLAG(sq_spec[sq_arrival],basesq) || TSTFLAG(sq_spec[sq_arrival],promsq)))
+  {
+    record_decision_outcome("%s","pawn is placed on impossible square");
+    REPORT_DEADEND;
+  }
+  else
+  {
+    push_decision_walk(id,Pawn,decision_purpose_random_mover_backward,side_playing);
+
+    ++being_solved.number_of_pieces[side_playing][Pawn];
+    replace_walk(sq_arrival,Pawn);
+
+    flesh_out_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
+
+    --being_solved.number_of_pieces[side_playing][Pawn];
+
+    pop_decision();
+  }
+
+  for (walk = Pawn+1; walk<=Bishop && can_decision_level_be_continued(); ++walk)
   {
     push_decision_walk(id,walk,decision_purpose_random_mover_backward,side_playing);
 
