@@ -1075,7 +1075,7 @@ static unsigned int capture_by_existing_invisible(void)
   return result;
 }
 
-static void capture_by_inserted_invisible(void)
+static unsigned int capture_by_inserted_invisible(void)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -1084,6 +1084,7 @@ static void capture_by_inserted_invisible(void)
   move_effect_journal_index_type const precapture = effects_base;
   Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
   PieceIdType const id_inserted = GetPieceId(flags_inserted);
+  unsigned int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1099,6 +1100,8 @@ static void capture_by_inserted_invisible(void)
     capture_by_inserted_invisible_all_walks();
 
     pop_decision();
+
+    result = 1;
   }
   else
   {
@@ -1126,11 +1129,15 @@ static void capture_by_inserted_invisible(void)
       move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
       pop_decision();
+
+      result = 1;
     }
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 void flesh_out_capture_by_invisible(void)
@@ -1146,7 +1153,7 @@ void flesh_out_capture_by_invisible(void)
   PieceIdType const id_inserted = GetPieceId(flags);
   decision_levels_type const save_levels = decision_levels[id_inserted];
 
-  unsigned int const save_counter = record_decision_counter;
+  unsigned int nr_attempts;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1160,13 +1167,15 @@ void flesh_out_capture_by_invisible(void)
   move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
   move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
 
-  if (capture_by_existing_invisible()==0 || can_decision_level_be_continued())
-    capture_by_inserted_invisible();
+  nr_attempts = capture_by_existing_invisible();
+
+  if (nr_attempts==0 || can_decision_level_be_continued())
+    nr_attempts += capture_by_inserted_invisible();
 
   move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
   move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
 
-  if (record_decision_counter==save_counter)
+  if (nr_attempts==0)
   {
     record_decision_outcome("%s","no invisible piece found that could capture");
     REPORT_DEADEND;
