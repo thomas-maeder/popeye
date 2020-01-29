@@ -106,6 +106,12 @@ HERE
         backtrack_definitively();
         backtrack_no_further_than(decision_levels[id_inserted].from);
       }
+      else if (walk_capturing==King
+               && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
+      {
+        record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+        REPORT_DEADEND;
+      }
       else
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -408,26 +414,23 @@ static void capture_by_inserted_invisible_king(void)
 
     if (is_square_empty(sq_departure))
     {
-      if (being_solved.king_square[trait[nbply]]==initsquare)
-      {
-        being_solved.king_square[trait[nbply]] = sq_departure;
+      being_solved.king_square[trait[nbply]] = sq_departure;
 
-        move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-        move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-        move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-        move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-        assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
-        SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+      assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
+      SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        capture_by_invisible_inserted_on(King,sq_departure);
+      capture_by_invisible_inserted_on(King,sq_departure);
 
-        CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
+      CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-        being_solved.king_square[trait[nbply]] = initsquare;
+      being_solved.king_square[trait[nbply]] = initsquare;
 
-        move_effect_journal[king_square_movement].type = move_effect_none;
-      }
+      move_effect_journal[king_square_movement].type = move_effect_none;
     }
   }
 
