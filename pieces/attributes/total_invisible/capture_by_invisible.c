@@ -753,11 +753,16 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   boolean result = false;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
+  move_effect_journal_index_type const precapture = effects_base;
+  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_movement.movingspec);
+
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   Flags const flags_existing = being_solved.spec[sq_departure];
   PieceIdType const id_existing = GetPieceId(flags_existing);
+  motivation_type const motivation_existing = motivation[id_existing];
+  piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -782,127 +787,111 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id_existing].last.on]));
   TraceEOL();
 
-  if (!TSTFLAG(flags_existing,Chameleon))
+  assert(motivation[id_existing].first.purpose!=purpose_none);
+  assert(motivation[id_existing].last.purpose!=purpose_none);
+
+  push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
+
+  if (motivation[id_existing].last.acts_when<nbply
+      || ((motivation[id_existing].last.purpose==purpose_interceptor
+           || motivation[id_existing].last.purpose==purpose_capturer
+           || motivation[id_existing].last.purpose==purpose_random_mover) /* if invoked by fake_capture_by_invisible () */
+          && motivation[id_existing].last.acts_when<=nbply))
   {
-    /* candidate has been revealed */
-  }
-  else if (!TSTFLAG(flags_existing,trait[nbply]))
-  {
-    /* candidate belongs to wrong side */
-  }
-  else
-  {
-    move_effect_journal_index_type const precapture = effects_base;
-    PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_movement.movingspec);
+    int const move_square_diff = sq_arrival-sq_departure;
 
-    piece_walk_type const walk_existing = get_walk_of_piece_on_square(sq_departure);
-    motivation_type const motivation_existing = motivation[id_existing];
+    motivation[id_existing].last.purpose = purpose_none;
 
-    assert(motivation[id_existing].first.purpose!=purpose_none);
-    assert(motivation[id_existing].last.purpose!=purpose_none);
-
-    push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
-
-    if (motivation[id_existing].last.acts_when<nbply
-        || ((motivation[id_existing].last.purpose==purpose_interceptor
-             || motivation[id_existing].last.purpose==purpose_capturer
-             || motivation[id_existing].last.purpose==purpose_random_mover) /* if invoked by fake_capture_by_invisible () */
-            && motivation[id_existing].last.acts_when<=nbply))
+    switch (walk_existing)
     {
-      int const move_square_diff = sq_arrival-sq_departure;
-
-      motivation[id_existing].last.purpose = purpose_none;
-
-      switch (walk_existing)
-      {
-        case King:
-          if (CheckDir[Queen][move_square_diff]==move_square_diff)
-          {
-            capture_by_invisible_king(sq_departure);
-            result = true;
-          }
-          else
-          {
-            record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
-            REPORT_DEADEND;
-          }
-          break;
-
-        case Queen:
-        case Rook:
-        case Bishop:
+      case King:
+        if (CheckDir[Queen][move_square_diff]==move_square_diff)
         {
-          int const dir = CheckDir[walk_existing][move_square_diff];
-          if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,-dir))
-          {
-            capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
-            result = true;
-          }
-          else
-          {
-            record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
-            REPORT_DEADEND;
-          }
-          break;
+          capture_by_invisible_king(sq_departure);
+          result = true;
         }
+        else
+        {
+          record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
+          REPORT_DEADEND;
+        }
+        break;
 
-        case Knight:
-          if (CheckDir[Knight][move_square_diff]==move_square_diff)
+      case Queen:
+      case Rook:
+      case Bishop:
+      {
+        int const dir = CheckDir[walk_existing][move_square_diff];
+        if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,-dir))
+        {
+          capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
+          result = true;
+        }
+        else
+        {
+          record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
+          REPORT_DEADEND;
+        }
+        break;
+      }
+
+      case Knight:
+        if (CheckDir[Knight][move_square_diff]==move_square_diff)
+        {
+          capture_by_invisible_with_defined_walk(Knight,sq_departure);
+          result = true;
+        }
+        else
+        {
+          record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
+          REPORT_DEADEND;
+        }
+        break;
+
+      case Pawn:
+        if ((trait[nbply]==White ? move_square_diff>0 : move_square_diff<0)
+            && CheckDir[Bishop][move_square_diff]==move_square_diff)
+        {
+          SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
+          SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+          if (!TSTFLAG(sq_spec[sq_departure],basesq)
+              && !TSTFLAG(sq_spec[sq_departure],promsq))
           {
-            capture_by_invisible_with_defined_walk(Knight,sq_departure);
+            capture_by_invisible_with_defined_walk(Pawn,sq_departure);
+            // TODO en passant capture
             result = true;
           }
-          else
-          {
-            record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
-            REPORT_DEADEND;
-          }
-          break;
+        }
+        else
+        {
+          record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
+          REPORT_DEADEND;
+        }
+        break;
 
-        case Pawn:
-          if ((trait[nbply]==White ? move_square_diff>0 : move_square_diff<0)
-              && CheckDir[Bishop][move_square_diff]==move_square_diff)
-          {
-            SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
-            SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-
-            if (!TSTFLAG(sq_spec[sq_departure],basesq)
-                && !TSTFLAG(sq_spec[sq_departure],promsq))
-            {
-              capture_by_invisible_with_defined_walk(Pawn,sq_departure);
-              // TODO en passant capture
-              result = true;
-            }
-          }
+      case Dummy:
+        if (CheckDir[Queen][move_square_diff]!=0
+            || CheckDir[Knight][move_square_diff]==move_square_diff)
+        {
+          if (being_solved.king_square[trait[nbply]]==initsquare)
+            flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
           else
+            flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
+          result = true;
+        }
+        else
+        {
+          record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
+          REPORT_DEADEND;
+          // TODO do decision_levels[id_existing] = motivation[id_random] later
+          // so that we can use motivation[id_existing] here?
+          if (static_consumption.king[advers(trait[nbply])]+static_consumption.pawn_victims[advers(trait[nbply])]+1
+              >=total_invisible_number)
           {
-            record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
-            REPORT_DEADEND;
-          }
-          break;
-
-        case Dummy:
-          if (CheckDir[Queen][move_square_diff]!=0
-              || CheckDir[Knight][move_square_diff]==move_square_diff)
-          {
-            if (being_solved.king_square[trait[nbply]]==initsquare)
-              flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
-            else
-              flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
-            result = true;
-          }
-          else
-          {
-            record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
-            REPORT_DEADEND;
-            // TODO do decision_levels[id_existing] = motivation[id_random] later
-            // so that we can use motivation[id_existing] here?
-            if (static_consumption.king[advers(trait[nbply])]+static_consumption.pawn_victims[advers(trait[nbply])]+1
-                >=total_invisible_number)
-            {
-              /* move our single piece to a different square
-               * or let another piece be our single piece */
-              /* e.g.
+            /* move our single piece to a different square
+             * or let another piece be our single piece */
+            /* e.g.
 begin
 author Ken Kousaka
 origin Sake tourney 2018, announcement
@@ -912,8 +901,8 @@ option movenum start 3:0:5:1
 end
 
 
-             Ken Kousaka
-   Sake tourney 2018, announcement
+           Ken Kousaka
+ Sake tourney 2018, announcement
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -934,9 +923,9 @@ end
 1  -K  -S   .   .   .   .   .   Q   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#2                  2 + 3 + 1 TI
+h#2                  2 + 3 + 1 TI
 
-  3  (Ka1-b2    Time = 0.048 s)
+3  (Ka1-b2    Time = 0.048 s)
 
 !validate_mate 6:Ka1-b2 7:TI~-~ 8:Kb2-c1 9:TI~-e7 - total_invisible.c:#521 - D:31 - 26
 use option start 3:0:5:1 to replay
@@ -955,23 +944,23 @@ HERE
 !      6 9 not enough available invisibles of side Black for intercepting all illegal checks - intercept_illegal_checks.c:#143
 !   3 + 9 I (K:0+0 x:0+0 !:1+0 ?:0+0 F:0+0) - intercept_illegal_checks.c:#105 - D:48
 ...
-               */
-            }
+             */
           }
-          break;
+        }
+        break;
 
-        default:
-          assert(0);
-          break;
-      }
+      default:
+        assert(0);
+        break;
     }
-    else
-    {
-      TraceText("the piece was added to later act from its current square\n");
-      record_decision_outcome("%s","the piece was added to later act from its current square");
-      REPORT_DEADEND;
+  }
+  else
+  {
+    TraceText("the piece was added to later act from its current square\n");
+    record_decision_outcome("%s","the piece was added to later act from its current square");
+    REPORT_DEADEND;
 
-        /*
+      /*
 begin
 author Kjell Widlert
 origin Sake tourney 2018, 5th HM
@@ -980,8 +969,8 @@ stipulation h#2
 option movenum start 1:2:0:3
 end
 
-            Kjell Widlert
-      Sake tourney 2018, 5th HM
+          Kjell Widlert
+    Sake tourney 2018, 5th HM
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1002,7 +991,7 @@ end
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#2                  6 + 2 + 4 TI
+h#2                  6 + 2 + 4 TI
 
 a)
 
@@ -1037,14 +1026,71 @@ HERE
 !              14 9 uninterceptable illegal check from dir:-23 by id:9 delivered in ply:7 - intercept_illegal_checks.c:#697
 !              14 x 8 c4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - capture_by_invisible.c:#758 - D:15242
 !               15 8 the piece was added to later act from its current square - capture_by_invisible.c:#867
-         */
-      // TODO optimise more aggressively - the failed capturer's walk is not relevant
-    }
-
-    motivation[id_existing] = motivation_existing;
-
-    pop_decision();
+       */
+    // TODO optimise more aggressively - the failed capturer's walk is not relevant
   }
+
+  motivation[id_existing] = motivation_existing;
+
+  pop_decision();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_viable_capturer(PieceIdType id)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",id);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",id);TraceEOL();
+  TraceAction(&motivation[id].first);TraceEOL();
+  TraceAction(&motivation[id].last);TraceEOL();
+  TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+  TraceEOL();
+
+  if (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
+  {
+    /* piece was captured or merged into a capturer from regular play */
+    result = false;
+  }
+  else if ((motivation[id].last.acts_when==nbply || motivation[id].last.acts_when==nbply)
+           && motivation[id].last.purpose!=purpose_interceptor)
+  {
+    /* piece is active for another purpose */
+    result = false;
+  }
+  else if (motivation[id].last.acts_when>nbply)
+  {
+    /* piece will be active after the capture */
+    result = false;
+  }
+  else if (id!=GetPieceId(being_solved.spec[motivation[id].last.on]))
+  {
+    result = false;
+  }
+  else if (motivation[id].first.on==initsquare)
+  {
+    /* revealed piece - to be replaced by an "actual" piece */
+    result = false;
+  }
+  else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],trait[nbply]))
+  {
+    /* candidate belongs to wrong side */
+    result = false;
+  }
+  else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],Chameleon))
+  {
+    /* candidate has been revealed */
+    result = false;
+  }
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1066,7 +1112,8 @@ static unsigned int capture_by_existing_invisible(void)
   for (id = get_top_visible_piece_id()+1;
        id<=get_top_invisible_piece_id() && can_decision_level_be_continued();
        ++id)
-    if (capture_by_existing_invisible_on(motivation[id].last.on))
+    if (is_viable_capturer(id)
+        && capture_by_existing_invisible_on(motivation[id].last.on))
       ++result;
 
   TraceFunctionExit(__func__);
@@ -1188,181 +1235,6 @@ void flesh_out_capture_by_invisible(void)
   TraceFunctionResultEnd();
 }
 
-static boolean is_viable_capturer(PieceIdType id, ply ply_capture)
-{
-  Side const side_capturing = trait[ply_capture];
-
-  move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
-  PieceIdType const id_moving_now = GetPieceId(move_effect_journal[movement_now].u.piece_movement.movingspec);
-
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_capture);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",id);TraceEOL();
-  TraceAction(&motivation[id].first);TraceEOL();
-  TraceAction(&motivation[id].last);TraceEOL();
-  TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
-  TraceEOL();
-
-  if (id==id_moving_now)
-  {
-    /* a piece moving now can't capture in the next move */
-    result = false;
-  }
-  else if ((trait[motivation[id].first.acts_when]!=side_capturing && motivation[id].first.purpose==purpose_random_mover)
-           || (trait[motivation[id].last.acts_when]!=side_capturing && motivation[id].last.purpose==purpose_random_mover))
-  {
-    /* piece belongs to wrong side */
-    result = false;
-  }
-  else if (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
-  {
-    /* piece was captured or merged into a capturer from regular play */
-    result = false;
-  }
-  else if ((motivation[id].last.acts_when==nbply || motivation[id].last.acts_when==ply_capture)
-           && motivation[id].last.purpose!=purpose_interceptor)
-  {
-    /* piece is active for another purpose */
-    result = false;
-  }
-  else if (motivation[id].last.acts_when>ply_capture)
-  {
-    /* piece will be active after the capture */
-    result = false;
-  }
-  else if (id!=GetPieceId(being_solved.spec[motivation[id].last.on]))
-  {
-    result = false;
-  }
-  else if (motivation[id].first.on==initsquare)
-  {
-    /* revealed piece - to be replaced by an "actual" piece */
-    result = false;
-  }
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_capture_by_invisible(ply ply_capture)
-{
-  boolean result;
-  move_effect_journal_index_type const base = move_effect_journal_base[ply_capture];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_capture);
-  TraceFunctionParamListEnd();
-
-  if (ply_capture<=top_ply_of_regular_play
-      && sq_departure>=capture_by_invisible
-      && is_on_board(sq_arrival))
-    result = true;
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_capture_by_existing_invisible_possible(ply ply_capture)
-{
-  /* only captures by existing invisibles are viable - can one of them reach the arrival square at all? */
-  boolean result = false; /* not until we have proved it */
-
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[ply_capture];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-  PieceIdType id;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_capture);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(sq_arrival);
-  TraceValue("%u",nbply);
-  TraceEOL();
-
-  for (id = get_top_visible_piece_id()+1;
-       !result && id<=get_top_invisible_piece_id();
-       ++id)
-    if (is_viable_capturer(id,ply_capture))
-    {
-      square const on = motivation[id].last.on;
-      Flags const spec = being_solved.spec[on];
-
-      assert(GetPieceId(spec)==id);
-
-      if (TSTFLAG(spec,trait[ply_capture]))
-      {
-        piece_walk_type const walk = get_walk_of_piece_on_square(on);
-        int const diff = sq_arrival-on;
-
-        switch (walk)
-        {
-          case King:
-            if (CheckDir[Queen][diff]==diff)
-              result = true;
-            break;
-
-          case Queen:
-            if (CheckDir[Queen][diff]!=0)
-              result = true;
-            break;
-
-          case Rook:
-            if (CheckDir[Rook][diff]!=0)
-              result = true;
-            break;
-
-          case Bishop:
-            if (CheckDir[Bishop][diff]!=0)
-              result = true;
-            break;
-
-          case Knight:
-            if (CheckDir[Knight][diff]==diff)
-              result = true;
-            break;
-
-          case Pawn:
-            if (CheckDir[Bishop][diff]==diff
-                && (trait[ply_capture]==White ? diff>0 : diff<0))
-              result = true;
-            break;
-
-          case Dummy:
-            if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-              result = true;
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
-      }
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean is_capture_by_invisible_possible(void)
 {
   ply const ply_capture = nbply+1;
@@ -1371,40 +1243,6 @@ boolean is_capture_by_invisible_possible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_capture_by_invisible(ply_capture))
-  {
-    dynamic_consumption_type const save_consumption = current_consumption;
-
-    if (allocate_flesh_out_unplaced(trait[ply_capture]))
-    {
-      /* no problem - we can simply insert a capturer */
-    }
-    else
-    {
-      square const save_king_square = being_solved.king_square[trait[ply_capture]];
-
-      /* pretend that the king is placed; necessary if only captures by the invisble king
-       * are possisble */
-      being_solved.king_square[trait[ply_capture]] = square_a1;
-
-      current_consumption = save_consumption;
-
-      if (allocate_flesh_out_unplaced(trait[ply_capture]))
-      {
-        /* no problem - we can simply insert a capturing king */
-      }
-      else
-        result = is_capture_by_existing_invisible_possible(ply_capture);
-
-      being_solved.king_square[trait[ply_capture]] = save_king_square;
-    }
-
-    current_consumption = save_consumption;
-
-    if (!result)
-      backtrack_from_failed_capture_by_invisible(trait[ply_capture]);
-  }
-  else
   {
     // TODO this part is not about captures *by* invisibles, but by captures *of* invisibles by pawns
 
