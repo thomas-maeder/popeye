@@ -205,6 +205,12 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
     record_decision_outcome("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
   }
+  else if (walk_capturing==King
+           && is_square_attacked_by_uninterceptable(trait[nbply],sq_departure))
+  {
+    record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+    REPORT_DEADEND;
+  }
   else
   {
     PieceIdType const id_existing = GetPieceId(flags_existing);

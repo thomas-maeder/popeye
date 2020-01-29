@@ -396,7 +396,12 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,King);
 
-    if (king_check_ortho(trait[nbply],being_solved.king_square[advers(trait[nbply])])==0)
+    if (is_square_attacked_by_uninterceptable(side,pos))
+    {
+      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+      REPORT_DEADEND;
+    }
+    else if (king_check_ortho(trait[nbply],being_solved.king_square[advers(trait[nbply])])==0)
     {
       push_decision_walk(id_placed,King,decision_purpose_illegal_check_interceptor,side);
 
