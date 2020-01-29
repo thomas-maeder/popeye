@@ -40,6 +40,13 @@ typedef enum
   backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
 
+typedef enum
+{
+  relevance_unknown,
+  relevance_irrelevant,
+  relevance_relevant
+} relevance_type;
+
 typedef struct
 {
     ply ply;
@@ -54,7 +61,7 @@ typedef struct
         has_solution_type result;
     } backtracking;
     unsigned int nr_check_vectors;
-    boolean is_relevant;
+    relevance_type relevance;
 } decision_level_property_type;
 
 static decision_level_property_type decision_level_properties[decision_level_dir_capacity];
@@ -158,7 +165,7 @@ void record_decision_for_inserted_invisible(PieceIdType id)
 static decision_level_type push_decision_common(char const *file, unsigned int line)
 {
   decision_level_properties[next_decision_level].ply = nbply;
-  decision_level_properties[next_decision_level].is_relevant = false;
+  decision_level_properties[next_decision_level].relevance = relevance_unknown;
 
   decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
@@ -476,94 +483,176 @@ void pop_decision(void)
           break;
 
         case decision_object_arrival:
-          decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
           if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
-              && decision_level_properties[next_decision_level].side==side_failure
-              && decision_level_properties[next_decision_level].nr_check_vectors<=decision_level_properties[next_decision_level-2].nr_check_vectors)
+              && decision_level_properties[next_decision_level].side==side_failure)
           {
-            PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
-            decision_level_properties[decision_levels[id_moving].walk].is_relevant = true;
-            /* e.g.
+            if (decision_level_properties[next_decision_level].nr_check_vectors<=decision_level_properties[next_decision_level-2].nr_check_vectors)
+            {
+              PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
+              decision_level_properties[decision_levels[id_moving].walk].relevance = relevance_relevant;
+                /* e.g.
+    begin
+    author Michel Caillaud
+    origin Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+    pieces TotalInvisible 3 white kg4 rh6 ba2 pd4d6 black ke6 qe2 re8g8 bd7h8 pd2
+    stipulation h#2
+    option movenum start 51:9:31:0
+    end
+
+               Michel Caillaud
+    Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+
+    +---a---b---c---d---e---f---g---h---+
+    |                                   |
+    8   .   .   .   .  -R   .  -R  -B   8
+    |                                   |
+    7   .   .   .  -B   .   .   .   .   7
+    |                                   |
+    6   .   .   .   P  -K   .   .   R   6
+    |                                   |
+    5   .   .   .   .   .   .   .   .   5
+    |                                   |
+    4   .   .   .   P   .   .   K   .   4
+    |                                   |
+    3   .   .   .   .   .   .   .   .   3
+    |                                   |
+    2   B   .   .  -P  -Q   .   .   .   2
+    |                                   |
+    1   .   .   .   .   .   .   .   .   1
+    |                                   |
+    +---a---b---c---d---e---f---g---h---+
+      h#2                  5 + 7 + 3 TI
+
+    399,404c399,400
+    <   1.Rg8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
+
+    !test_mate 6:Rg8-g7 7:Ba2-c4 8:Ke6-f7 9:TI~-~ - total_invisible.c:#540 - D:417 - 250
+    use option start 51:9:31:0 to replay
+    ! >2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#487 - D:419
+    !  >3 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#450 - D:421
+    !   >4 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#253 - D:423
+    ...
+    !   <4 - r:1 t:3 m:7
+    !   >4 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#253 - D:555
+    !    >5 + 6 g5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#487 - D:557
+    ...
+    !    <5 - r:1 t:3 m:7
+    !    >5 + 6 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#487 - D:575
+    !     >6 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#450 - D:577
+    !      >7 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#253 - D:579
+    ...
+    !      >7 + 6 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#253 - D:589
+    !       >8 + 7 d5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#487 - D:591
+    !        >9 + 7 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#450 - D:593
+    ...
+    !        <9 - r:1 t:3 m:12
+    !        >9 + 7 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#450 - D:685
+    !         >10 + 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#253 - D:687
+    ...
+    !         <10 - r:1 t:1 m:10
+    !         >10 + 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#253 - D:689
+    !          >11 > 9 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:13 - random_move_by_invisible.c:#544 - D:691
+    ...
+    !          <11 - r:1 t:3 m:12
+    !          >11 > 9 d5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - random_move_by_invisible.c:#544 - D:695
+    !           >12 > 9 b6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - random_move_by_invisible.c:#25 - D:697
+    !             13 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#619
+    !           <12 - r:1 t:3 m:12
+    ...
+
+    MOVING THIS PIECE MAKES ITS WALK RELEVANT...
+
+    !          <11 - r:1 t:3 m:12
+    !          >11 > 9 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:14 - random_move_by_invisible.c:#544 - D:713
+    ...
+    !          <11 - r:1 t:3 m:12
+    !         <10 - r:1 t:3 m:12
+
+    ... SO LET'S TRY OTHER WALKS HERE - ROOK WILL WORK
+                 */
+            }
+            else if (decision_level_properties[next_decision_level].nr_check_vectors>decision_level_properties[next_decision_level-1].nr_check_vectors)
+            {
+              decision_level_properties[next_decision_level].relevance = relevance_irrelevant;
+              /* moves by this piece won't lead to a position where we can intercept all illegal checks */
+              /* e.g.
 begin
-author Michel Caillaud
-origin Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
-pieces TotalInvisible 3 white kg4 rh6 ba2 pd4d6 black ke6 qe2 re8g8 bd7h8 pd2
+author Ofer Comay
+origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+pieces TotalInvisible 3 white ke5 qh8 bc1 pb7c2h4 black rb4e1 ba1f1 sf2
 stipulation h#2
-option movenum start 51:9:31:0
+option movenum start 1:1:5:1
 end
 
-           Michel Caillaud
-Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
-8   .   .   .   .  -R   .  -R  -B   8
+8   .   .   .   .   .   .   .   Q   8
 |                                   |
-7   .   .   .  -B   .   .   .   .   7
+7   .   P   .   .   .   .   .   .   7
 |                                   |
-6   .   .   .   P  -K   .   .   R   6
+6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   .   .   .   .   .   .   .   5
+5   .   .   .   .   K   .   .   .   5
 |                                   |
-4   .   .   .   P   .   .   K   .   4
+4   .  -R   .   .   .   .   .   P   4
 |                                   |
 3   .   .   .   .   .   .   .   .   3
 |                                   |
-2   B   .   .  -P  -Q   .   .   .   2
+2   .   .   P   .   .  -S   .   .   2
 |                                   |
-1   .   .   .   .   .   .   .   .   1
+1  -B   .   B   .  -R  -B   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#2                  5 + 7 + 3 TI
+  h#2                  6 + 5 + 3 TI
 
-399,404c399,400
-<   1.Rg8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
+!validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:TI~-b4 - total_invisible.c:#514 - D:4080 - 3440
+use option start 1:1:5:1 to replay
+! >2 + 6 d4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#215 - D:4082
 
-!test_mate 6:Rg8-g7 7:Ba2-c4 8:Ke6-f7 9:TI~-~ - total_invisible.c:#540 - D:417 - 250
-use option start 51:9:31:0 to replay
-! >2 + 6 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#487 - D:419
-!  >3 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#450 - D:421
-!   >4 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#253 - D:423
-...
-!   <4 - r:1 t:3 m:7
-!   >4 + 6 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:13 - intercept_illegal_checks.c:#253 - D:555
-!    >5 + 6 g5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#487 - D:557
-...
-!    <5 - r:1 t:3 m:7
-!    >5 + 6 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#487 - D:575
-!     >6 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#450 - D:577
-!      >7 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#253 - D:579
-...
-!      >7 + 6 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:14 - intercept_illegal_checks.c:#253 - D:589
-!       >8 + 7 d5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#487 - D:591
-!        >9 + 7 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#450 - D:593
-...
-!        <9 - r:1 t:3 m:12
-!        >9 + 7 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:2+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#450 - D:685
-!         >10 + 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#253 - D:687
-...
-!         <10 - r:1 t:1 m:10
-!         >10 + 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - intercept_illegal_checks.c:#253 - D:689
-!          >11 > 9 f3 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:13 - random_move_by_invisible.c:#544 - D:691
-...
-!          <11 - r:1 t:3 m:12
-!          >11 > 9 d5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - random_move_by_invisible.c:#544 - D:695
-!           >12 > 9 b6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:15 - random_move_by_invisible.c:#25 - D:697
-!             13 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#619
-!           <12 - r:1 t:3 m:12
-...
+! >2 + 6 c3 (K:0+1 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#215 - D:19927
+!  >3 + 6 w (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:14 - intercept_illegal_checks.c:#111 - D:19928
+!   >4 + 6 e4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#215 - D:19929
 
-MOVING THIS PIECE MAKES ITS WALK RELEVANT...
+!   >4 + 6 e3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#215 - D:22675
+!    >5 + 6 w (K:0+1 x:0+0 !:0+0 ?:2+0 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#111 - D:22676
 
-!          <11 - r:1 t:3 m:12
-!          >11 > 9 g6 (K:0+0 x:0+0 !:0+0 ?:0+0 F:3+0) - r:1 t:0 m:4294967295 i:14 - random_move_by_invisible.c:#544 - D:713
-...
-!          <11 - r:1 t:3 m:12
-!         <10 - r:1 t:3 m:12
+!    >5 + 6 b (K:0+1 x:0+0 !:0+0 ?:1+1 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:15 - intercept_illegal_checks.c:#111 - D:23366
+!     >6 > 6 e3 (K:0+1 x:0+0 !:0+0 ?:1+1 F:0+0) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#544 - D:23367
+!      >7 > 6 K (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#469 - D:23368
 
-... SO LET'S TRY OTHER WALKS HERE - ROOK WILL WORK
-             */
+!      >7 > 6 B (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#375 - D:24793
+!       >8 > 6 d4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:24794
+
+!       >8 > 6 f4 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:15 - random_move_by_invisible.c:#25 - D:25123
+!        >9 > 7 c3 (K:0+1 x:0+0 !:0+0 ?:1+0 F:0+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#544 - D:25124
+!         >10 > 7 P (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#348 - D:25125
+!          >11 > 7 c4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:25126
+!            12 8 only 1 available invisibles for intercepting 3 illegal checks - intercept_illegal_checks.c:#770
+!          <11 - r:1 t:3 m:11 n:3 i:14
+!         <10 - r:1 t:3 m:11 n:3 i:14
+!         >10 > 7 S (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#362 - D:25127
+!          >11 > 7 a4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:25128
+!            12 8 only 1 available invisibles for intercepting 3 illegal checks - intercept_illegal_checks.c:#770
+!          <11 - r:1 t:3 m:11 n:3 i:14
+!          >11 > 7 b5 (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:25129
+!            12 8 only 1 available invisibles for intercepting 3 illegal checks - intercept_illegal_checks.c:#770
+!          <11 - r:1 t:3 m:11 n:3 i:14
+!          >11 > 7 d5 (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:25130
+!            12 8 only 1 available invisibles for intercepting 3 illegal checks - intercept_illegal_checks.c:#770
+!          <11 - r:1 t:3 m:11 n:3 i:14
+!          >11 > 7 e4 (K:0+1 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:-1 n:4294967295 i:14 - random_move_by_invisible.c:#25 - D:25131
+!            12 8 only 1 available invisibles for intercepting 2 illegal checks - intercept_illegal_checks.c:#770
+
+HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
+
+!          <11 - r:1 t:3 m:11 n:2 i:14
+               */
+            }
           }
+          decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
           break;
 
         default:
@@ -596,7 +685,7 @@ void decision_make_relevant(decision_level_type level)
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  decision_level_properties[level].is_relevant = true;
+  decision_level_properties[level].relevance = relevance_relevant;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2230,8 +2319,10 @@ boolean can_decision_level_be_continued(void)
 
   if (decision_level_properties[next_decision_level-1].backtracking.result==previous_move_has_not_solved)
     result = false;
-  else if (decision_level_properties[next_decision_level].is_relevant)
+  else if (decision_level_properties[next_decision_level].relevance==relevance_relevant)
     result = true;
+  else if (decision_level_properties[next_decision_level].relevance==relevance_irrelevant)
+    result = false;
   else
     switch (decision_level_properties[next_decision_level-1].backtracking.type)
     {
