@@ -439,6 +439,7 @@ void pop_decision(void)
 
   decision_level_properties[next_decision_level].ply = ply_nil;
   decision_level_properties[next_decision_level].side = no_side;
+  decision_level_properties[next_decision_level].relevance = relevance_unknown;
 
   assert(next_decision_level>0);
   --next_decision_level;
@@ -1604,6 +1605,13 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   ply_failure = nbply;
   side_failure = side_in_check;
 
+  if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_forward
+      && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
+  {
+    assert(decision_level_properties[next_decision_level-1].object==decision_object_arrival);
+    decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2316,6 +2324,7 @@ boolean can_decision_level_be_continued(void)
   TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.type);
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.max_level);
+  TraceValue("%u",decision_level_properties[next_decision_level].relevance);
   TraceEOL();
 
   if (decision_level_properties[next_decision_level-1].backtracking.result==previous_move_has_not_solved)
