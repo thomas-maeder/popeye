@@ -358,7 +358,6 @@ static void place_pawn_of_checking_side_on_square(vec_index_type const check_vec
     }
 
     TraceWalk(get_walk_of_piece_on_square(pos));
-    TraceWalk(walk);
     TraceEOL();
     assert(get_walk_of_piece_on_square(pos)==Pawn);
     replace_walk(pos,Dummy);
@@ -414,7 +413,6 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
     }
 
     TraceWalk(get_walk_of_piece_on_square(pos));
-    TraceWalk(walk);
     TraceEOL();
     assert(get_walk_of_piece_on_square(pos)==King);
     replace_walk(pos,Dummy);
@@ -462,7 +460,6 @@ static void place_knight_of_checking_side_on_square(vec_index_type const check_v
   }
 
   TraceWalk(get_walk_of_piece_on_square(pos));
-  TraceWalk(walk);
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==Knight);
   replace_walk(pos,Dummy);
