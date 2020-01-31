@@ -59,8 +59,8 @@ typedef struct
         backtrack_type type;
         decision_level_type max_level;
         has_solution_type result;
+        unsigned int nr_check_vectors;
     } backtracking;
-    unsigned int nr_check_vectors;
     relevance_type relevance;
 } decision_level_property_type;
 
@@ -110,7 +110,7 @@ static void report_endline(char const *file, unsigned int line)
          decision_level_properties[next_decision_level].backtracking.result,
          decision_level_properties[next_decision_level].backtracking.type,
          (int)decision_level_properties[next_decision_level].backtracking.max_level,
-         decision_level_properties[next_decision_level].nr_check_vectors,
+         decision_level_properties[next_decision_level].backtracking.nr_check_vectors,
          decision_level_properties[next_decision_level].id);
   printf(" - %s:#%d",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter);
@@ -170,7 +170,7 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   decision_level_properties[next_decision_level].backtracking.max_level = decision_level_latest;
   decision_level_properties[next_decision_level].backtracking.type = backtrack_none;
   decision_level_properties[next_decision_level].backtracking.result = previous_move_is_illegal;
-  decision_level_properties[next_decision_level].nr_check_vectors = UINT_MAX;
+  decision_level_properties[next_decision_level].backtracking.nr_check_vectors = UINT_MAX;
 
   ++record_decision_counter;
 
@@ -445,7 +445,11 @@ void pop_decision(void)
 
   TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[next_decision_level].backtracking.result);
+  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.type);
+  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.nr_check_vectors);
   TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.result);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.type);
+  TraceValue("%u",decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors);
   TraceEOL();
 
   if (decision_level_properties[next_decision_level].backtracking.result>decision_level_properties[next_decision_level-1].backtracking.result
@@ -458,13 +462,13 @@ void pop_decision(void)
   TraceValue("%u",decision_level_properties[next_decision_level].purpose);
   TraceValue("%u",decision_level_properties[next_decision_level].object);
   TraceEnumerator(Side,decision_level_properties[next_decision_level].side);
-  TraceValue("%u",decision_level_properties[next_decision_level].backtracking.type);
   TraceValue("%u",decision_level_properties[next_decision_level].backtracking.max_level);
   TraceEOL();
 
-  switch (decision_level_properties[next_decision_level-1].backtracking.type)
+  switch (decision_level_properties[next_decision_level].backtracking.type)
   {
     case backtrack_failure_to_intercept_illegal_checks:
+      assert(decision_level_properties[next_decision_level].backtracking.nr_check_vectors!=UINT_MAX);
       switch (decision_level_properties[next_decision_level].object)
       {
         case decision_object_insertion:
@@ -477,16 +481,12 @@ void pop_decision(void)
             try_to_avoid_insertion[advers(decision_level_properties[next_decision_level].side)] = true;
           break;
 
-        case decision_object_departure:
-          if (decision_level_properties[next_decision_level-1].nr_check_vectors>decision_level_properties[next_decision_level].nr_check_vectors)
-            decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
-          break;
-
         case decision_object_arrival:
           if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
               && decision_level_properties[next_decision_level].side==side_failure)
           {
-            if (decision_level_properties[next_decision_level].nr_check_vectors<=decision_level_properties[next_decision_level-2].nr_check_vectors)
+            if (decision_level_properties[next_decision_level].backtracking.nr_check_vectors
+                <=decision_level_properties[next_decision_level-2].backtracking.nr_check_vectors)
             {
               PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
               decision_level_properties[decision_levels[id_moving].walk].relevance = relevance_relevant;
@@ -571,8 +571,10 @@ void pop_decision(void)
     ... SO LET'S TRY OTHER WALKS HERE - ROOK WILL WORK
                  */
             }
-            else if (decision_level_properties[next_decision_level].nr_check_vectors>decision_level_properties[next_decision_level-1].nr_check_vectors)
+            else if (decision_level_properties[next_decision_level].backtracking.nr_check_vectors
+                     >decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors)
             {
+              assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_failure_to_intercept_illegal_checks);
               decision_level_properties[next_decision_level].relevance = relevance_irrelevant;
               /* moves by this piece won't lead to a position where we can intercept all illegal checks */
               /* e.g.
@@ -652,7 +654,6 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
                */
             }
           }
-          decision_level_properties[next_decision_level-1].nr_check_vectors = decision_level_properties[next_decision_level].nr_check_vectors;
           break;
 
         default:
@@ -670,7 +671,7 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
          decision_level_properties[next_decision_level].backtracking.result,
          decision_level_properties[next_decision_level].backtracking.type,
          decision_level_properties[next_decision_level].backtracking.max_level,
-         decision_level_properties[next_decision_level].nr_check_vectors,
+         decision_level_properties[next_decision_level].backtracking.nr_check_vectors,
          decision_level_properties[next_decision_level].id);
   fflush(stdout);
 #endif
@@ -1434,8 +1435,8 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 
         case decision_object_arrival:
         {
-          if (decision_level_properties[curr_level-1].nr_check_vectors
-              >decision_level_properties[curr_level-2].nr_check_vectors
+          if (decision_level_properties[curr_level-1].backtracking.nr_check_vectors
+              >decision_level_properties[curr_level-2].backtracking.nr_check_vectors
               && decision_level_properties[curr_level].ply+1==ply_failure)
             /* we are making things worse by moving the current piece! */
             skip = true;
@@ -1595,7 +1596,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
 
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks;
-  decision_level_properties[next_decision_level-1].nr_check_vectors = nr_check_vectors;
+  decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors = nr_check_vectors;
   decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
