@@ -1196,55 +1196,7 @@ static unsigned int capture_by_inserted_invisible(void)
   return result;
 }
 
-void flesh_out_capture_by_invisible(void)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-
-  move_effect_journal_index_type const precapture = effects_base;
-  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
-  piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
-  Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-  Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
-  PieceIdType const id_inserted = GetPieceId(flags);
-  decision_levels_type const save_levels = decision_levels[id_inserted];
-
-  unsigned int nr_attempts;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(sq_capture);TraceEOL();
-  assert(!is_square_empty(sq_capture));
-
-  assert(decision_levels[id_inserted].side==decision_level_forever);
-  assert(decision_levels[id_inserted].to==decision_level_forever);
-
-  move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
-  move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
-
-  nr_attempts = capture_by_existing_invisible();
-
-  if (nr_attempts==0 || can_decision_level_be_continued())
-    nr_attempts += capture_by_inserted_invisible();
-
-  move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
-  move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
-
-  if (nr_attempts==0)
-  {
-    record_decision_outcome("%s","no invisible piece found that could capture");
-    REPORT_DEADEND;
-    backtrack_from_failed_capture_by_invisible(trait[nbply]);
-  }
-
-  decision_levels[id_inserted] = save_levels;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-boolean is_capture_by_invisible_possible(void)
+static boolean is_capture_by_pawn_possible_after_capture_by_invisible(void)
 {
   ply const ply_capture = nbply+1;
   boolean result = true;
@@ -1252,150 +1204,120 @@ boolean is_capture_by_invisible_possible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (ply_capture<=top_ply_of_regular_play)
   {
-    // TODO this part is not about captures *by* invisibles, but by captures *of* invisibles by pawns
+    move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
 
-    if (ply_capture<=top_ply_of_regular_play)
+    move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
+    square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
+
+    move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
+    piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
+    Flags const capturer_flags = move_effect_journal[movement_capture].u.piece_movement.movingspec;
+
+    TraceValue("%u",ply_capture);
+    TraceSquare(sq_capture_capture);
+    TraceWalk(capturer);
+    TraceEOL();
+
+    if (move_effect_journal[capture_capture].type==move_effect_piece_removal
+        && capturer==Pawn && !TSTFLAG(capturer_flags,Chameleon)
+        && (is_square_empty(sq_capture_capture)
+            || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
     {
-      move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
+      dynamic_consumption_type const save_consumption = current_consumption;
 
-      move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
-      square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
+      TraceText("pawn capture in next move - no victim to be seen yet\n");
 
-      move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
-      piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
-      Flags const capturer_flags = move_effect_journal[movement_capture].u.piece_movement.movingspec;
-
-      TraceValue("%u",ply_capture);
-      TraceSquare(sq_capture_capture);
-      TraceWalk(capturer);
-      TraceEOL();
-
-      if (move_effect_journal[capture_capture].type==move_effect_piece_removal
-          && capturer==Pawn && !TSTFLAG(capturer_flags,Chameleon)
-          && (is_square_empty(sq_capture_capture)
-              || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
+      if (allocate_flesh_out_unplaced(trait[nbply]))
       {
-        boolean const is_sacrifice_capture = !is_square_empty(sq_capture_capture);
-        dynamic_consumption_type const save_consumption = current_consumption;
+        TraceText("allocation of a victim in the next move still possible\n");
+      }
+      else
+      {
+        move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
 
-        TraceText("pawn capture in next move - no victim to be seen yet\n");
+        move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
+        square const sq_arrival_now = move_effect_journal[movement_now].u.piece_movement.to;
 
-        if (allocate_flesh_out_unplaced(trait[nbply]))
+        TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice\n");
+
+        if (sq_arrival_now==sq_capture_capture)
         {
-          TraceText("allocation of a victim in the next move still possible\n");
+          TraceText("this move sacrifices a visible\n");
         }
         else
         {
-          move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
-
-          move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
-          square const sq_departure_now = move_effect_journal[movement_now].u.piece_movement.from;
-          square const sq_arrival_now = move_effect_journal[movement_now].u.piece_movement.to;
-
-          TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice\n");
-
-          if (sq_departure_now==move_by_invisible
-              && sq_arrival_now==move_by_invisible)
-          {
-            square const *curr;
-
-            TraceText("try to find a potential sacrifice by an invisible\n");
-
-            result = false;
-
-            for (curr = find_next_forward_mover(boardnum);
-                 !result && *curr;
-                 curr = find_next_forward_mover(curr+1))
-            {
-              piece_walk_type const walk = get_walk_of_piece_on_square(*curr);
-              int const diff = sq_capture_capture-*curr;
-
-              TraceSquare(*curr);
-              TraceWalk(walk);
-              TraceValue("%d",diff);
-              TraceEOL();
-
-              switch (walk)
-              {
-                case King:
-                  if (CheckDir[Queen][diff]==diff)
-                    result = true;
-                  break;
-
-                case Queen:
-                  if (CheckDir[Queen][diff]!=0)
-                    result = true;
-                  break;
-
-                case Rook:
-                  if (CheckDir[Rook][diff]!=0)
-                    result = true;
-                  break;
-
-                case Bishop:
-                  if (CheckDir[Bishop][diff]!=0)
-                    result = true;
-                  break;
-
-                case Knight:
-                  if (CheckDir[Knight][diff]==diff)
-                    result = true;
-                  break;
-
-                case Pawn:
-                  if (is_sacrifice_capture)
-                  {
-                    if (CheckDir[Bishop][diff]==diff
-                        && (trait[nbply]==White ? diff>0 : diff<0))
-                      result = true;
-                  }
-                  else
-                  {
-                    if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
-                        && (trait[nbply]==White ? diff>0 : diff<0))
-                      result = true;
-                  }
-                  break;
-
-                case Dummy:
-                  if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-                    result = true;
-                  break;
-
-                default:
-                  assert(0);
-                  break;
-              }
-            }
-
-            TraceText(result
-                      ? "found a potential sacrifice by an invisible\n"
-                      : "couldn't find a potential sacrifice by an invisible\n");
-          }
-          else if (sq_arrival_now==sq_capture_capture)
-          {
-            TraceText("this move sacrifices a visible\n");
-          }
-          else
-          {
-            TraceText("no sacrifice in this move\n");
-            result = false;
-          }
+          TraceText("no sacrifice in this move\n");
+          result = false;
+          backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture]);
         }
-
-        current_consumption = save_consumption;
       }
-    }
 
-    if (!result)
-      backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture]);
+      current_consumption = save_consumption;
+    }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+void flesh_out_capture_by_invisible(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (is_capture_by_pawn_possible_after_capture_by_invisible())
+  {
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+
+    move_effect_journal_index_type const precapture = effects_base;
+    move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+    piece_walk_type const save_removed_walk = move_effect_journal[capture].u.piece_removal.walk;
+    Flags const save_removed_spec = move_effect_journal[capture].u.piece_removal.flags;
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+    Flags const flags = move_effect_journal[precapture].u.piece_addition.added.flags;
+    PieceIdType const id_inserted = GetPieceId(flags);
+    decision_levels_type const save_levels = decision_levels[id_inserted];
+
+    unsigned int nr_attempts;
+
+    TraceSquare(sq_capture);TraceEOL();
+    assert(!is_square_empty(sq_capture));
+
+    assert(decision_levels[id_inserted].side==decision_level_forever);
+    assert(decision_levels[id_inserted].to==decision_level_forever);
+
+    move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_capture);
+    move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_capture];
+
+    nr_attempts = capture_by_existing_invisible();
+
+    if (nr_attempts==0 || can_decision_level_be_continued())
+      nr_attempts += capture_by_inserted_invisible();
+
+    move_effect_journal[capture].u.piece_removal.walk = save_removed_walk;
+    move_effect_journal[capture].u.piece_removal.flags = save_removed_spec;
+
+    if (nr_attempts==0)
+    {
+      record_decision_outcome("%s","no invisible piece found that could capture");
+      REPORT_DEADEND;
+      backtrack_from_failed_capture_by_invisible(trait[nbply]);
+    }
+
+    decision_levels[id_inserted] = save_levels;
+  }
+  else
+  {
+    record_decision_outcome("capture in ply %u will not be possible",nbply+1);
+    REPORT_DEADEND;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void fake_capture_by_invisible(void)

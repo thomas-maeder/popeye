@@ -7,6 +7,7 @@
 #include "pieces/attributes/total_invisible/capture_by_invisible.h"
 #include "solving/move_effect_journal.h"
 #include "optimisations/orthodox_square_observation.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -581,12 +582,147 @@ static void forward_random_move_by_invisible(square const *start_square)
   TraceFunctionResultEnd();
 }
 
+static boolean is_capture_by_pawn_possible_after_random_move(void)
+{
+  ply const ply_capture = nbply+1;
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (ply_capture<=top_ply_of_regular_play)
+  {
+    move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
+
+    move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
+    square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
+
+    move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
+    piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
+    Flags const capturer_flags = move_effect_journal[movement_capture].u.piece_movement.movingspec;
+
+    TraceValue("%u",ply_capture);
+    TraceSquare(sq_capture_capture);
+    TraceWalk(capturer);
+    TraceEOL();
+
+    if (move_effect_journal[capture_capture].type==move_effect_piece_removal
+        && capturer==Pawn && !TSTFLAG(capturer_flags,Chameleon)
+        && (is_square_empty(sq_capture_capture)
+            || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
+    {
+      boolean const is_sacrifice_capture = !is_square_empty(sq_capture_capture);
+      dynamic_consumption_type const save_consumption = current_consumption;
+
+      TraceText("pawn capture in next move - no victim to be seen yet\n");
+
+      if (allocate_flesh_out_unplaced(trait[nbply]))
+      {
+        TraceText("allocation of a victim in the next move still possible\n");
+      }
+      else
+      {
+        square const *curr;
+
+        TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice by an invisible\n");
+
+        result = false;
+
+        for (curr = find_next_forward_mover(boardnum);
+             !result && *curr;
+             curr = find_next_forward_mover(curr+1))
+        {
+          piece_walk_type const walk = get_walk_of_piece_on_square(*curr);
+          int const diff = sq_capture_capture-*curr;
+
+          TraceSquare(*curr);
+          TraceWalk(walk);
+          TraceValue("%d",diff);
+          TraceEOL();
+
+          switch (walk)
+          {
+            case King:
+              if (CheckDir[Queen][diff]==diff)
+                result = true;
+              break;
+
+            case Queen:
+              if (CheckDir[Queen][diff]!=0)
+                result = true;
+              break;
+
+            case Rook:
+              if (CheckDir[Rook][diff]!=0)
+                result = true;
+              break;
+
+            case Bishop:
+              if (CheckDir[Bishop][diff]!=0)
+                result = true;
+              break;
+
+            case Knight:
+              if (CheckDir[Knight][diff]==diff)
+                result = true;
+              break;
+
+            case Pawn:
+              if (is_sacrifice_capture)
+              {
+                if (CheckDir[Bishop][diff]==diff
+                    && (trait[nbply]==White ? diff>0 : diff<0))
+                  result = true;
+              }
+              else
+              {
+                if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
+                    && (trait[nbply]==White ? diff>0 : diff<0))
+                  result = true;
+              }
+              break;
+
+            case Dummy:
+              if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+                result = true;
+              break;
+
+            default:
+              assert(0);
+              break;
+          }
+        }
+
+        TraceText(result
+                  ? "found a potential sacrifice by an invisible\n"
+                  : "couldn't find a potential sacrifice by an invisible\n");
+      }
+
+      current_consumption = save_consumption;
+
+      if (!result)
+        backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture]);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void flesh_out_random_move_by_invisible(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  forward_random_move_by_invisible(boardnum);
+  if (is_capture_by_pawn_possible_after_random_move())
+    forward_random_move_by_invisible(boardnum);
+  else
+  {
+    record_decision_outcome("capture in ply %u will not be possible",nbply+1);
+    REPORT_DEADEND;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

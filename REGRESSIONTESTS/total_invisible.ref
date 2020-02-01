@@ -404,7 +404,7 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
                      play_move:     4307540
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1237859
-                  TI decisions:   104525197
+                  TI decisions:   104526635
 
 solution finished.
 
@@ -1042,7 +1042,7 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
                      play_move:    22910356
  is_white_king_square_attacked:     1523824
  is_black_king_square_attacked:     4456774
-                  TI decisions:    44750236
+                  TI decisions:    44749132
 
 solution finished.
 

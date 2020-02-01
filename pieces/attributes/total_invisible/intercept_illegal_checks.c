@@ -49,30 +49,22 @@ static void done_intercepting_illegal_checks(void)
       }
     }
 
-    if (is_capture_by_invisible_possible())
-    {
-      if (sq_departure==move_by_invisible
-          && sq_arrival==move_by_invisible)
-        flesh_out_random_move_by_invisible();
-      else if (sq_departure>=capture_by_invisible
-               && is_on_board(sq_arrival))
-        flesh_out_capture_by_invisible();
-      else
-      {
-        square const first_taboo_violation = find_taboo_violation();
-        if (first_taboo_violation==nullsquare)
-          insert_invisible_capturer();
-        else
-        {
-          // TODO review
-//        assert(is_taboo_violation_acceptable(first_taboo_violation));
-        }
-      }
-    }
+    if (sq_departure==move_by_invisible
+        && sq_arrival==move_by_invisible)
+      flesh_out_random_move_by_invisible();
+    else if (sq_departure>=capture_by_invisible
+             && is_on_board(sq_arrival))
+      flesh_out_capture_by_invisible();
     else
     {
-      record_decision_outcome("capture in ply %u will not be possible",nbply+1);
-      REPORT_DEADEND;
+      square const first_taboo_violation = find_taboo_violation();
+      if (first_taboo_violation==nullsquare)
+        insert_invisible_capturer();
+      else
+      {
+        // TODO review
+//        assert(is_taboo_violation_acceptable(first_taboo_violation));
+      }
     }
   }
   else

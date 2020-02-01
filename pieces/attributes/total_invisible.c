@@ -273,6 +273,74 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
+static boolean is_capture_of_invisible_by_pawn_possible(void)
+{
+  ply const ply_capture = nbply+1;
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (ply_capture<=top_ply_of_regular_play)
+  {
+    move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
+
+    move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
+    square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
+
+    move_effect_journal_index_type const movement_capture = effects_base_capture+move_effect_journal_index_offset_movement;
+    piece_walk_type const capturer = move_effect_journal[movement_capture].u.piece_movement.moving;
+    Flags const capturer_flags = move_effect_journal[movement_capture].u.piece_movement.movingspec;
+
+    TraceValue("%u",ply_capture);
+    TraceSquare(sq_capture_capture);
+    TraceWalk(capturer);
+    TraceEOL();
+
+    if (move_effect_journal[capture_capture].type==move_effect_piece_removal
+        && capturer==Pawn && !TSTFLAG(capturer_flags,Chameleon)
+        && (is_square_empty(sq_capture_capture)
+            || TSTFLAG(being_solved.spec[sq_capture_capture],advers(trait[nbply]))))
+    {
+      dynamic_consumption_type const save_consumption = current_consumption;
+
+      TraceText("pawn capture in next move - no victim to be seen yet\n");
+
+      if (allocate_flesh_out_unplaced(trait[nbply]))
+      {
+        TraceText("allocation of a victim in the next move still possible\n");
+      }
+      else
+      {
+        move_effect_journal_index_type const effects_base_now = move_effect_journal_base[nbply];
+
+        move_effect_journal_index_type const movement_now = effects_base_now+move_effect_journal_index_offset_movement;
+        square const sq_arrival_now = move_effect_journal[movement_now].u.piece_movement.to;
+
+        TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice\n");
+
+        if (sq_arrival_now==sq_capture_capture)
+        {
+          TraceText("this move sacrifices a visible\n");
+        }
+        else
+        {
+          TraceText("no sacrifice in this move\n");
+          result = false;
+          backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture]);
+        }
+      }
+
+      current_consumption = save_consumption;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void insert_invisible_capturer(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -313,7 +381,13 @@ void insert_invisible_capturer(void)
 
     case move_effect_none:
       TraceText("no capturer to be inserted\n");
-      adapt_capture_effect();
+      if (is_capture_of_invisible_by_pawn_possible())
+        adapt_capture_effect();
+      else
+      {
+        record_decision_outcome("capture in ply %u will not be possible",nbply+1);
+        REPORT_DEADEND;
+      }
       break;
 
     default:

@@ -5,7 +5,7 @@
 
 void flesh_out_capture_by_invisible(void);
 
-boolean is_capture_by_invisible_possible(void);
+boolean is_capture_by_pawn_possible(void);
 
 void fake_capture_by_invisible(void);
 

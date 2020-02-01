@@ -558,7 +558,8 @@ pieces/attributes/total_invisible/random_move_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
  pieces/attributes/total_invisible/capture_by_invisible.h \
- optimisations/orthodox_square_observation.h debugging/assert.h
+ optimisations/orthodox_square_observation.h \
+ optimisations/orthodox_check_directions.h debugging/assert.h
 
 pieces/attributes/total_invisible/random_move_by_invisible.h:
 
@@ -647,6 +648,8 @@ pieces/attributes/total_invisible/uninterceptable_check.h:
 pieces/attributes/total_invisible/capture_by_invisible.h:
 
 optimisations/orthodox_square_observation.h:
+
+optimisations/orthodox_check_directions.h:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/move_generation$(OBJ_SUFFIX): \
