@@ -36,6 +36,7 @@ typedef enum
   backtrack_until_level,
   backtrack_revelation,
   backtrack_failure_to_intercept_illegal_checks,
+  backtrack_failure_to_capture_uninterceptable_checker,
   backtrack_failture_to_capture_by_invisible,
   backtrack_failture_to_capture_invisible_by_pawn
 } backtrack_type;
@@ -483,7 +484,8 @@ void pop_decision(void)
           break;
 
         case decision_object_arrival:
-          if (decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
+          if (decision_level_properties[next_decision_level-2].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+              && decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
               && decision_level_properties[next_decision_level].side==side_failure)
           {
             if (decision_level_properties[next_decision_level].backtracking.nr_check_vectors
@@ -572,13 +574,14 @@ void pop_decision(void)
     ... SO LET'S TRY OTHER WALKS HERE - ROOK WILL WORK
                  */
             }
-            else if (decision_level_properties[next_decision_level].backtracking.nr_check_vectors
-                     >decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors)
-            {
-              assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_failure_to_intercept_illegal_checks);
-              decision_level_properties[next_decision_level].relevance = relevance_irrelevant;
-              /* moves by this piece won't lead to a position where we can intercept all illegal checks */
-              /* e.g.
+          }
+          if (decision_level_properties[next_decision_level-1].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+              && (decision_level_properties[next_decision_level].backtracking.nr_check_vectors
+                  >decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors))
+          {
+            decision_level_properties[next_decision_level].relevance = relevance_irrelevant;
+            /* moves by this piece won't lead to a position where we can intercept all illegal checks */
+            /* e.g.
 begin
 author Ofer Comay
 origin Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
@@ -587,7 +590,7 @@ stipulation h#2
 option movenum start 1:1:5:1
 end
 
-             Ofer Comay
+           Ofer Comay
 Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
 
 +---a---b---c---d---e---f---g---h---+
@@ -609,7 +612,7 @@ Sake tourney 2018, 3rd HM, cooked (and 1 authors solution doesnt deliver mate)
 1  -B   .   B   .  -R  -B   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#2                  6 + 5 + 3 TI
+h#2                  6 + 5 + 3 TI
 
 !validate_mate 6:TI~-~ 7:TI~-~ 8:TI~-c2 9:TI~-b4 - total_invisible.c:#514 - D:4080 - 3440
 use option start 1:1:5:1 to replay
@@ -652,8 +655,35 @@ use option start 1:1:5:1 to replay
 HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
 
 !          <11 - r:1 t:3 m:11 n:2 i:14
-               */
-            }
+             */
+          }
+          break;
+
+        default:
+          break;
+      }
+      break;
+
+    case backtrack_failure_to_capture_uninterceptable_checker:
+      switch (decision_level_properties[next_decision_level].object)
+      {
+        case decision_object_insertion:
+          assert(decision_level_properties[next_decision_level].side!=no_side);
+
+          /* remember which side may save an insertion */
+          try_to_avoid_insertion[decision_level_properties[next_decision_level].side] = true;
+
+          if (decision_level_properties[next_decision_level].purpose==decision_purpose_invisible_capturer_inserted)
+            try_to_avoid_insertion[advers(decision_level_properties[next_decision_level].side)] = true;
+          break;
+
+        case decision_object_arrival:
+          if (decision_level_properties[next_decision_level-2].backtracking.type==backtrack_failure_to_capture_uninterceptable_checker
+              && decision_level_properties[next_decision_level].purpose==decision_purpose_random_mover_forward
+              && decision_level_properties[next_decision_level].side==side_failure)
+          {
+            PieceIdType const id_moving = decision_level_properties[next_decision_level].id;
+            decision_level_properties[decision_levels[id_moving].walk].relevance = relevance_relevant;
           }
           break;
 
@@ -767,7 +797,6 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   TraceFunctionParam("%u",curr_level);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",curr_level);
   TraceValue("%u",ply_failure);
   TraceEnumerator(Side,side_failure);
   TraceValue("%u",decision_level_properties[curr_level].ply);
@@ -1436,11 +1465,20 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 
         case decision_object_arrival:
         {
-          if (decision_level_properties[curr_level-1].backtracking.nr_check_vectors
-              >decision_level_properties[curr_level-2].backtracking.nr_check_vectors
+          TraceValue("%u",decision_level_properties[curr_level-1].backtracking.type);
+          TraceValue("%u",decision_level_properties[curr_level-2].backtracking.type);
+          TraceValue("%u",decision_level_properties[curr_level-1].backtracking.nr_check_vectors);
+          TraceValue("%u",decision_level_properties[curr_level-2].backtracking.nr_check_vectors);
+          TraceEOL();
+          if (decision_level_properties[curr_level-1].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+              && decision_level_properties[curr_level-2].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+              && (decision_level_properties[curr_level-1].backtracking.nr_check_vectors
+                  >decision_level_properties[curr_level-2].backtracking.nr_check_vectors)
               && decision_level_properties[curr_level].ply+1==ply_failure)
+          {
             /* we are making things worse by moving the current piece! */
             skip = true;
+          }
           else
           {
             if (decision_level_properties[curr_level].ply<ply_failure)
@@ -1614,6 +1652,38 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_backward
       && decision_level_properties[next_decision_level-1].object==decision_object_departure
       && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
+    decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_check,
+                                                               unsigned int nr_check_vectors)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParam("%u",nr_check_vectors);
+  TraceFunctionParamListEnd();
+
+  assert(decision_level_properties[next_decision_level-1].backtracking.type==backtrack_none);
+  assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
+
+  decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_capture_uninterceptable_checker;
+  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
+
+  try_to_avoid_insertion[Black] = false;
+  try_to_avoid_insertion[White] = false;
+  ply_failure = nbply;
+  side_failure = side_in_check;
+
+  if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_forward
+      /* restrict this to fleshed out random moves */
+      && decision_level_properties[next_decision_level-1].object==decision_object_arrival)
+    decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+
+  if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_backward
+      && decision_level_properties[next_decision_level-1].object==decision_object_departure)
     decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
 
   TraceFunctionExit(__func__);
@@ -2358,6 +2428,7 @@ boolean can_decision_level_be_continued(void)
         break;
 
       case backtrack_failure_to_intercept_illegal_checks:
+      case backtrack_failure_to_capture_uninterceptable_checker:
         assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
         result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
         break;

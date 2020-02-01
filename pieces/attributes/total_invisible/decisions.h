@@ -111,6 +111,9 @@ void pop_decision(void);
 void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
                                                        unsigned int nr_check_vectors);
 
+void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_check,
+                                                               unsigned int nr_check_vectors);
+
 /* Optimise backtracking considering that we have
  * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because

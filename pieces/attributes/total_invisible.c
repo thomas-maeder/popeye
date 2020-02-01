@@ -94,7 +94,7 @@ void restart_from_scratch(void)
   {
     record_decision_outcome("%s","uninterceptable piece delivering check can't be captured by random move");
     REPORT_DEADEND;
-    backtrack_from_failure_to_intercept_illegal_check(advers(trait[check_by_uninterceptable_delivered_in_ply]),1);
+    backtrack_from_failure_to_capture_uninterceptable_checker(advers(trait[check_by_uninterceptable_delivered_in_ply]),1);
   }
   else if (nbply==ply_retro_move+1)
   {
