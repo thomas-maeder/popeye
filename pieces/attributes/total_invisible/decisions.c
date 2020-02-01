@@ -1611,6 +1611,11 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
       && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
     decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
 
+  if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_backward
+      && decision_level_properties[next_decision_level-1].object==decision_object_departure
+      && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
+    decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
