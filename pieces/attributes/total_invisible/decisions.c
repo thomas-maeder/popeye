@@ -889,7 +889,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           break;
 
         default:
-          skip = true;
+          assert(0);
           break;
       }
       break;
@@ -899,7 +899,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
       switch (decision_level_properties[curr_level].object)
       {
         case decision_object_insertion:
-          skip = true;
+          assert(0);
           break;
 
         case decision_object_walk:
@@ -1139,7 +1139,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           break;
 
         default:
-          skip = true;
+          assert(0);
           break;
       }
       break;
@@ -1495,7 +1495,8 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
         }
 
         default:
-          skip = true;
+          assert(0);
+          break;
       }
       break;
 
