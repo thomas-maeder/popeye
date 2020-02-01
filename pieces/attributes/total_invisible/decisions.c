@@ -1618,7 +1618,6 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_intercept_illegal_checks;
   decision_level_properties[next_decision_level-1].backtracking.nr_check_vectors = nr_check_vectors;
-  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1661,7 +1660,6 @@ void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_chec
   assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
 
   decision_level_properties[next_decision_level-1].backtracking.type = backtrack_failure_to_capture_uninterceptable_checker;
-  decision_level_properties[next_decision_level-1].backtracking.max_level = next_decision_level-1;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -2420,7 +2418,7 @@ boolean can_decision_level_be_continued(void)
 
       case backtrack_failure_to_intercept_illegal_checks:
       case backtrack_failure_to_capture_uninterceptable_checker:
-        assert(decision_level_properties[next_decision_level-1].backtracking.max_level<decision_level_latest);
+        assert(decision_level_properties[next_decision_level-1].backtracking.max_level==decision_level_latest);
         result = !failure_to_intercept_illegal_checks_continue_level(next_decision_level);
         break;
 
