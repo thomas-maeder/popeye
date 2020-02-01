@@ -1464,35 +1464,16 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           break;
 
         case decision_object_arrival:
-        {
-          TraceValue("%u",decision_level_properties[curr_level-1].backtracking.type);
-          TraceValue("%u",decision_level_properties[curr_level-2].backtracking.type);
-          TraceValue("%u",decision_level_properties[curr_level-1].backtracking.nr_check_vectors);
-          TraceValue("%u",decision_level_properties[curr_level-2].backtracking.nr_check_vectors);
-          TraceEOL();
-          if (decision_level_properties[curr_level-1].backtracking.type==backtrack_failure_to_intercept_illegal_checks
-              && decision_level_properties[curr_level-2].backtracking.type==backtrack_failure_to_intercept_illegal_checks
-              && (decision_level_properties[curr_level-1].backtracking.nr_check_vectors
-                  >decision_level_properties[curr_level-2].backtracking.nr_check_vectors)
-              && decision_level_properties[curr_level].ply+1==ply_failure)
+          if (decision_level_properties[curr_level].ply<ply_failure)
           {
-            /* we are making things worse by moving the current piece! */
-            skip = true;
+            /* try harder.
+             * a future decision may select
+             * - an arrival square from where the check can be intercepted
+             */
           }
           else
-          {
-            if (decision_level_properties[curr_level].ply<ply_failure)
-            {
-              /* try harder.
-               * a future decision may select
-               * - an arrival square from where the check can be intercepted
-               */
-            }
-            else
-              skip = true;
-          }
+            skip = true;
           break;
-        }
 
         default:
           assert(0);
@@ -1646,9 +1627,18 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 
   if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_forward
       /* restrict this to fleshed out random moves */
-      && decision_level_properties[next_decision_level-1].object==decision_object_arrival
-      && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
-    decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+      && decision_level_properties[next_decision_level-1].object==decision_object_arrival)
+  {
+    if (nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
+      /* the situation is hopeless */
+      decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+
+    if (decision_level_properties[next_decision_level-2].backtracking.type==backtrack_failure_to_intercept_illegal_checks
+        && (nr_check_vectors>decision_level_properties[next_decision_level-2].backtracking.nr_check_vectors)
+        && decision_level_properties[next_decision_level].ply+1==ply_failure)
+      /* moving the currently moving pieces makes the situation worse */
+      decision_level_properties[next_decision_level-1].relevance = relevance_irrelevant;
+  }
 
   if (decision_level_properties[next_decision_level-1].purpose==decision_purpose_random_mover_backward
       && decision_level_properties[next_decision_level-1].object==decision_object_departure
