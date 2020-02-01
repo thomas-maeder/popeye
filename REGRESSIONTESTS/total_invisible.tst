@@ -60,7 +60,7 @@ solution finished.
                      play_move:       17793
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5461
-                  TI decisions:        8553
+                  TI decisions:        8567
 
 solution finished.
 
@@ -89,11 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8129
-                     play_move:       22113
+  add_to_move_generation_stack:        8188
+                     play_move:       22269
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6858
-                  TI decisions:      155626
+ is_black_king_square_attacked:        6940
+                  TI decisions:      156986
 
 solution finished.
 
@@ -205,11 +205,11 @@ this doesn't work if we overdo it with optimisations
   h#1.5                1 + 5 + 2 TI
 
   1...TI~*d6   2.Bh5-f7 TI~*f7[f7=wS] #
-  add_to_move_generation_stack:        6610
-                     play_move:       10907
+  add_to_move_generation_stack:        6664
+                     play_move:       11081
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5860
-                  TI decisions:       12092
+ is_black_king_square_attacked:        5934
+                  TI decisions:       12247
 
 solution finished.
 

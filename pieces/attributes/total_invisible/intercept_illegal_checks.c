@@ -319,18 +319,20 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
   TraceFunctionResultEnd();
 }
 
-static void place_pawn_of_checking_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                                  unsigned int nr_check_vectors,
-                                                  square pos,
-                                                  PieceIdType id_placed)
+static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                         unsigned int nr_check_vectors,
+                                         square pos,
+                                         PieceIdType id_placed,
+                                         Side side)
 {
-  Side const side_checking = trait[nbply];
-  SquareFlags const promsq = side_checking==White ? WhPromSq : BlPromSq;
-  SquareFlags const basesq = side_checking==White ? WhBaseSq : BlBaseSq;
+  SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
+  SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(pos);
+  TraceFunctionParam("%u",id_placed);
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
@@ -340,14 +342,14 @@ static void place_pawn_of_checking_side_on_square(vec_index_type const check_vec
   }
   else
   {
-    ++being_solved.number_of_pieces[side_checking][Pawn];
+    ++being_solved.number_of_pieces[side][Pawn];
 
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,Pawn);
 
-    if (pawn_check_ortho(side_checking,being_solved.king_square[advers(side_checking)])==0)
+    if (pawn_check_ortho(side,being_solved.king_square[advers(side)])==0)
     {
-      push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side_checking);
+      push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
         restart_from_scratch();
@@ -361,7 +363,7 @@ static void place_pawn_of_checking_side_on_square(vec_index_type const check_vec
     TraceEOL();
     assert(get_walk_of_piece_on_square(pos)==Pawn);
     replace_walk(pos,Dummy);
-    --being_solved.number_of_pieces[side_checking][Pawn];
+    --being_solved.number_of_pieces[side][Pawn];
   }
 
   TraceFunctionExit(__func__);
@@ -496,7 +498,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
       if (side==trait[nbply])
       {
         if (can_decision_level_be_continued())
-          place_pawn_of_checking_side_on_square(check_vectors,nr_check_vectors,pos,id_placed);
+          place_pawn_of_side_on_square(check_vectors,nr_check_vectors,pos,id_placed,side);
 
         if (can_decision_level_be_continued())
           place_knight_of_checking_side_on_square(check_vectors,nr_check_vectors,pos,id_placed);
@@ -516,14 +518,13 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
       {
         if (can_decision_level_be_continued())
         {
-          piece_walk_type const walk_order_after_queen[] =
+          piece_walk_type const walk_order_after_pawn[] =
           {
-              Pawn,
               Knight,
               Rook,
               Bishop
           };
-          enum { nr_walks = sizeof walk_order_after_queen / sizeof walk_order_after_queen[0] };
+          enum { nr_walks = sizeof walk_order_after_pawn / sizeof walk_order_after_pawn[0] };
 
           boolean walk_ruled_out[Bishop+1] = { false };
 
@@ -531,18 +532,19 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
           if (has_decision_failed_capture())
           {
-            walk_ruled_out[Pawn] = true;
             walk_ruled_out[Rook] = true;
             walk_ruled_out[Bishop] = true;
           }
+          else
+            place_pawn_of_side_on_square(check_vectors,nr_check_vectors,pos,id_placed,side);
 
           {
             unsigned int i;
             for (i = 0;
-                 i<nr_walks && can_decision_level_be_continued();
+                 i!=nr_walks && can_decision_level_be_continued();
                  ++i)
             {
-              piece_walk_type const walk = walk_order_after_queen[i];
+              piece_walk_type const walk = walk_order_after_pawn[i];
               if (!walk_ruled_out[walk])
                 place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
             }
