@@ -618,6 +618,32 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   TraceFunctionResultEnd();
 }
 
+static void forward_random_move_by_invisible_king_to(square sq_arrival,
+                                                     square sq_departure)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const king_square_movement = movement+1;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[king_square_movement].type==move_effect_none);
+  move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+  move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+  move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+  move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+
+  forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,King);
+
+  move_effect_journal[king_square_movement].type = move_effect_none;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void forward_random_move_by_invisible_rider_to(square sq_arrival,
                                                       square sq_departure,
                                                       piece_walk_type walk_rider)
@@ -689,6 +715,8 @@ static void forward_random_move_by_pawn_singlestep_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
+  assert(!will_be_taboo(sq_arrival,trait[nbply]));
+
   // TODO promotion
   done_forward_random_move_by_invisible_from(false);
 
@@ -726,6 +754,8 @@ static void forward_random_move_by_pawn_doublestep_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
+  assert(!will_be_taboo(sq_arrival,trait[nbply]));
+
   done_forward_random_move_by_invisible_from(false);
 
   move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
@@ -761,6 +791,8 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.to = sq_arrival;
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   forward_accidental_capture_by_invisible(false);
 
@@ -817,20 +849,10 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         }
         else if (CheckDir[Queen][diff]==diff)
         {
-          move_effect_journal_index_type const king_square_movement = movement+1;
-
-          assert(move_effect_journal[king_square_movement].type==move_effect_none);
-          move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-          move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-          move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-          move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
-
-          forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,King);
+          forward_random_move_by_invisible_king_to(sq_arrival,sq_departure);
 
           move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
           move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
-
-          move_effect_journal[king_square_movement].type = move_effect_none;
 
           is_sq_arrival_reachable = true;
         }
@@ -912,6 +934,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
       }
 
       case Dummy:
+        assert(play_phase==play_validating_mate);
+
         if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff] == diff)
         {
           PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
@@ -921,7 +945,52 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
           motivation[id].last.purpose = purpose_random_mover;
 
           push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-          forward_random_move_by_specific_invisible_from(sq_departure);
+          {
+            Side const side_playing = trait[nbply];
+            Side const side_under_attack = advers(side_playing);
+            square const king_pos = being_solved.king_square[side_under_attack];
+            dynamic_consumption_type const save_consumption = current_consumption;
+
+            assert(TSTFLAG(being_solved.spec[sq_departure],side_playing));
+            assert(!TSTFLAG(being_solved.spec[sq_departure],side_under_attack));
+
+            allocate_flesh_out_placed(side_playing);
+
+            if (being_solved.king_square[side_playing]==initsquare && CheckDir[Queen][diff]==diff)
+            {
+              boolean are_allocations_exhausted;
+
+              being_solved.king_square[side_playing] = sq_departure;
+
+              are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
+
+              ++being_solved.number_of_pieces[side_playing][King];
+              replace_walk(sq_departure,King);
+              SETFLAG(being_solved.spec[sq_departure],Royal);
+
+              if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
+              {
+                forward_random_move_by_invisible_king_to(sq_arrival,sq_departure);
+
+                move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+                move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+              }
+
+              CLRFLAG(being_solved.spec[sq_departure],Royal);
+              --being_solved.number_of_pieces[side_playing][King];
+              being_solved.king_square[side_playing] = initsquare;
+
+              if (can_decision_level_be_continued()
+                  && !are_allocations_exhausted)
+                forward_random_move_by_existing_invisible_as_non_king_from(sq_departure);
+            }
+            else
+              forward_random_move_by_existing_invisible_as_non_king_from(sq_departure);
+
+            current_consumption = save_consumption;
+
+            replace_walk(sq_departure,Dummy);
+          }
           pop_decision();
 
           motivation[id].last = save_last;
