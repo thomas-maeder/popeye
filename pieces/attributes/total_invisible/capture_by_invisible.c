@@ -1244,7 +1244,7 @@ boolean need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
 
         if (sq_arrival_now==sq_capture_capture)
         {
-          TraceText("this move sacrifices a visible piece\n");
+          TraceText("this move sacrifices a piece (visible or invisible)\n");
         }
         else
         {
