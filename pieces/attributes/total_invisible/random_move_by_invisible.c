@@ -163,14 +163,13 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
     }
   }
 
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
-                                                          vec_index_type kend,
-                                                          boolean is_dummy_moving)
+                                                        vec_index_type kend,
+                                                        boolean is_dummy_moving)
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -258,7 +257,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
 }
 
 static void forward_random_move_by_existing_invisible_from(square sq_departure,
-                                                             boolean is_dummy_moving)
+                                                           boolean is_dummy_moving)
 {
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -422,16 +421,11 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
 static void forward_random_move_by_specific_invisible_from(square sq_departure)
 {
-  Side const side_playing = trait[nbply];
-
   piece_walk_type const save_walk_moving = get_walk_of_piece_on_square(sq_departure);
-  Flags const save_flags_moving = being_solved.spec[sq_departure];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
-
-  CLRFLAG(being_solved.spec[sq_departure],advers(side_playing));
 
   TraceWalk(save_walk_moving);
   TraceSquare(sq_departure);
@@ -466,7 +460,7 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
       SETFLAG(being_solved.spec[sq_departure],Royal);
       if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
       {
-        PieceIdType const id_moving = GetPieceId(save_flags_moving);
+        PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
         push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
         forward_random_move_by_existing_invisible_from(sq_departure,true);
         pop_decision();
@@ -485,7 +479,6 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
     current_consumption = save_consumption;
 
     replace_walk(sq_departure,save_walk_moving);
-    being_solved.spec[sq_departure] = save_flags_moving;
   }
   else
     forward_random_move_by_existing_invisible_from(sq_departure,false);
@@ -524,7 +517,7 @@ square const *find_next_forward_mover(square const *start_square)
 /* This function is recursive so that we remember which invisibles have already been
  * visited
  */
-static void forward_random_move_by_invisible(square const *start_square)
+static void forward_random_move_by_invisible_from(square const *start_square)
 {
   square const *s;
 
@@ -547,7 +540,7 @@ static void forward_random_move_by_invisible(square const *start_square)
     pop_decision();
 
     if (can_decision_level_be_continued())
-      forward_random_move_by_invisible(s+1);
+      forward_random_move_by_invisible_from(s+1);
 
     motivation[id].last = save_last;
   }
@@ -582,116 +575,346 @@ static void forward_random_move_by_invisible(square const *start_square)
   TraceFunctionResultEnd();
 }
 
-static boolean can_random_move_be_sacrifice(ply ply_capture_by_pawn,
-                                            square sq_required_sacrifice)
+static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
+                                                       square sq_departure,
+                                                       piece_walk_type walk_leaper)
 {
-  boolean result = false;
-
-  square const *curr;
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+  action_type const save_last = motivation[id].last;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_capture_by_pawn);
-  TraceSquare(sq_required_sacrifice);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceWalk(walk_leaper);
   TraceFunctionParamListEnd();
 
+  motivation[id].last.acts_when = nbply;
+  motivation[id].last.purpose = purpose_random_mover;
+
+  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  assert(!will_be_taboo(sq_arrival,trait[nbply]));
+
+  if (is_square_empty(sq_arrival))
+    done_forward_random_move_by_invisible_from(false);
+  else
+    forward_accidental_capture_by_invisible(false);
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+
+  pop_decision();
+
+  motivation[id].last = save_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forward_random_move_by_invisible_rider_to(square sq_arrival,
+                                                      square sq_departure,
+                                                      piece_walk_type walk_rider)
+{
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+  action_type const save_last = motivation[id].last;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  int const diff = sq_arrival-sq_departure;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceWalk(walk_rider);
+  TraceFunctionParamListEnd();
+
+  motivation[id].last.acts_when = nbply;
+  motivation[id].last.purpose = purpose_random_mover;
+
+  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  move_effect_journal[movement].u.piece_movement.moving = walk_rider;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  if (find_end_of_line(sq_departure,CheckDir[walk_rider][diff])==sq_arrival)
+  {
+    move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+
+    assert(!will_be_taboo(sq_arrival,trait[nbply]));
+
+    if (is_square_empty(sq_arrival))
+      done_forward_random_move_by_invisible_from(false);
+    else
+      forward_accidental_capture_by_invisible(false);
+  }
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+
+  pop_decision();
+
+  motivation[id].last = save_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sacrifice)
+{
+  boolean is_sq_arrival_reachable = false;
+  const square* curr;
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  piece_walk_type const save_walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const save_flags_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParam("%u",is_sacrifice);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+  assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+  // TODO why doesn't this hold?
+  //assert(move_effect_journal[movement].u.piece_movement.moving==Dummy);
+
   for (curr = find_next_forward_mover(boardnum);
-       !result && *curr;
+       *curr && can_decision_level_be_continued ();
        curr = find_next_forward_mover(curr+1))
   {
-    piece_walk_type const walk = get_walk_of_piece_on_square(*curr);
-    int const diff = sq_required_sacrifice-*curr;
+    square const sq_departure = *curr;
+    piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
+    int const diff = sq_arrival-sq_departure;
 
-    TraceSquare(*curr);
-    TraceWalk(walk);
-    TraceValue("%d",diff);
-    TraceEOL();
+    TraceSquare (sq_departure);
+    TraceWalk (walk);
+    TraceValue ("%d",diff);
+    TraceEOL ();
 
     switch (walk)
     {
       case King:
-        if (CheckDir[Queen][diff]==diff)
-          result = true;
-        break;
+        if (is_sacrifice)
+        {
+          TraceText("we don't sacrifice the king\n");
+        }
+        else if (CheckDir[Queen][diff]==diff)
+        {
+          move_effect_journal_index_type const king_square_movement = movement+1;
 
-      case Queen:
-        if (CheckDir[Queen][diff]!=0)
-          result = true;
-        break;
+          assert(move_effect_journal[king_square_movement].type==move_effect_none);
+          move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+          move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
+          move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+          move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-      case Rook:
-        if (CheckDir[Rook][diff]!=0)
-          result = true;
-        break;
+          forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,King);
 
-      case Bishop:
-        if (CheckDir[Bishop][diff]!=0)
-          result = true;
+          move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+          move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+          move_effect_journal[king_square_movement].type = move_effect_none;
+
+          is_sq_arrival_reachable = true;
+        }
         break;
 
       case Knight:
         if (CheckDir[Knight][diff]==diff)
-          result = true;
+        {
+          forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight);
+
+          move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+          move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+          is_sq_arrival_reachable = true;
+        }
+        break;
+
+      case Queen:
+      case Rook:
+      case Bishop:
+        if (CheckDir[walk][diff]!=0)
+        {
+          forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,walk);
+
+          move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+          move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+          is_sq_arrival_reachable = true;
+        }
         break;
 
       case Pawn:
-        if (is_square_empty(sq_required_sacrifice))
+      {
+        Side const side = trait[nbply];
+        int const dir_singlestep = side==White ? dir_up : dir_down;
+
+        assert(!will_be_taboo(sq_arrival,side));
+
+        if (is_square_empty(sq_arrival))
         {
-          if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
-              && (trait[nbply]==White ? diff>0 : diff<0))
-            result = true;
+          if (diff==dir_singlestep)
+          {
+            PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+            action_type const save_last = motivation[id].last;
+
+            motivation[id].last.acts_when = nbply;
+            motivation[id].last.purpose = purpose_random_mover;
+
+            push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+            move_effect_journal[movement].u.piece_movement.from = sq_departure;
+            move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+            move_effect_journal[movement].u.piece_movement.moving = Pawn;
+            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+            // TODO promotion
+            done_forward_random_move_by_invisible_from(false);
+
+            move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+            move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+            move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+            move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+            pop_decision();
+
+            motivation[id].last = save_last;
+
+            is_sq_arrival_reachable = true;
+          }
+          else if (diff==2*dir_singlestep)
+          {
+            square const sq_singlestep = sq_departure+dir_singlestep;
+            SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
+
+            if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
+            {
+              PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+              action_type const save_last = motivation[id].last;
+
+              motivation[id].last.acts_when = nbply;
+              motivation[id].last.purpose = purpose_random_mover;
+
+              push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+              move_effect_journal[movement].u.piece_movement.from = sq_departure;
+              move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+              move_effect_journal[movement].u.piece_movement.moving = Pawn;
+              move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+              done_forward_random_move_by_invisible_from(false);
+
+              move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+              move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+              move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+              move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+              pop_decision();
+
+              motivation[id].last = save_last;
+
+              is_sq_arrival_reachable = true;
+            }
+          }
         }
         else
         {
-          if (CheckDir[Bishop][diff]==diff
-              && (trait[nbply]==White ? diff>0 : diff<0))
-            result = true;
+          PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+          action_type const save_last = motivation[id].last;
+
+          if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
+          {
+            motivation[id].last.acts_when = nbply;
+            motivation[id].last.purpose = purpose_random_mover;
+
+            push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+            move_effect_journal[movement].u.piece_movement.from = sq_departure;
+            move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+            move_effect_journal[movement].u.piece_movement.moving = Pawn;
+            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+            forward_accidental_capture_by_invisible(false);
+
+            move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+            move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+            move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
+            move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+
+            pop_decision();
+
+            motivation[id].last = save_last;
+
+            is_sq_arrival_reachable = true;
+          }
+        }
+        break;
+      }
+
+      case Dummy:
+        if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff] == diff)
+        {
+          PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+          action_type const save_last = motivation[id].last;
+
+          motivation[id].last.acts_when = nbply;
+          motivation[id].last.purpose = purpose_random_mover;
+
+          push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+          forward_random_move_by_specific_invisible_from(sq_departure);
+          pop_decision();
+
+          motivation[id].last = save_last;
+
+          is_sq_arrival_reachable = true;
         }
         break;
 
-      case Dummy:
-        if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
-          result = true;
-        break;
-
       default:
-        assert(0);
+        assert (0);
         break;
     }
   }
 
-  TraceText(result
-            ? "found a potential sacrifice by an invisible\n"
-            : "couldn't find a potential sacrifice by an invisible\n");
+  if (is_sq_arrival_reachable)
+  {
+    TraceText ("found a potential sacrifice by an invisible\n");
+  }
+  else
+  {
+    TraceText ("couldn't find a potential sacrifice by an invisible\n");
+    record_decision_outcome ("capture in ply %u will not be possible",
+                             nbply + 1);
+    REPORT_DEADEND;
+    backtrack_from_failed_capture_of_invisible_by_pawn (advers(trait[nbply]));
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 void flesh_out_random_move_by_invisible(void)
 {
-  ply const ply_capture_by_pawn = nbply+1;
   square sq_required_sacrifice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  sq_required_sacrifice = need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn);
+  sq_required_sacrifice = need_existing_invisible_as_victim_for_capture_by_pawn(nbply+1);
 
   if (sq_required_sacrifice==initsquare)
-    forward_random_move_by_invisible(boardnum);
+    forward_random_move_by_invisible_from(boardnum);
   else
-  {
-    if (can_random_move_be_sacrifice(ply_capture_by_pawn,sq_required_sacrifice))
-      forward_random_move_by_invisible(boardnum);
-    else
-    {
-      record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
-      REPORT_DEADEND;
-      backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
-    }
-  }
+    forward_random_move_by_invisible_to(sq_required_sacrifice,true);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
