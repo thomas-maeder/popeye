@@ -666,6 +666,115 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   TraceFunctionResultEnd();
 }
 
+static void forward_random_move_by_pawn_singlestep_to(square sq_arrival,
+                                                      square sq_departure)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+  action_type const save_last = motivation[id].last;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  motivation[id].last.acts_when = nbply;
+  motivation[id].last.purpose = purpose_random_mover;
+
+  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+  move_effect_journal[movement].u.piece_movement.moving = Pawn;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  // TODO promotion
+  done_forward_random_move_by_invisible_from(false);
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+
+  pop_decision();
+
+  motivation[id].last = save_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forward_random_move_by_pawn_doublestep_to(square sq_arrival,
+                                                      square sq_departure)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+  action_type const save_last = motivation[id].last;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  motivation[id].last.acts_when = nbply;
+  motivation[id].last.purpose = purpose_random_mover;
+
+  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+  move_effect_journal[movement].u.piece_movement.moving = Pawn;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  done_forward_random_move_by_invisible_from(false);
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+
+  pop_decision();
+
+  motivation[id].last = save_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forward_random_move_by_pawn_capture_to(square sq_arrival,
+                                                   square sq_departure)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+  action_type const save_last = motivation[id].last;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  motivation[id].last.acts_when = nbply;
+  motivation[id].last.purpose = purpose_random_mover;
+
+  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
+  move_effect_journal[movement].u.piece_movement.from = sq_departure;
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+  move_effect_journal[movement].u.piece_movement.moving = Pawn;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+  forward_accidental_capture_by_invisible(false);
+
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
+
+  pop_decision();
+
+  motivation[id].last = save_last;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sacrifice)
 {
   boolean is_sq_arrival_reachable = false;
@@ -764,30 +873,10 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         {
           if (diff==dir_singlestep)
           {
-            PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-            action_type const save_last = motivation[id].last;
+            forward_random_move_by_pawn_singlestep_to(sq_arrival,sq_departure);
 
-            motivation[id].last.acts_when = nbply;
-            motivation[id].last.purpose = purpose_random_mover;
-
-            push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
-            move_effect_journal[movement].u.piece_movement.from = sq_departure;
-            move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-            move_effect_journal[movement].u.piece_movement.moving = Pawn;
-            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-            // TODO promotion
-            done_forward_random_move_by_invisible_from(false);
-
-            move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-            move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
             move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
             move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
-
-            pop_decision();
-
-            motivation[id].last = save_last;
 
             is_sq_arrival_reachable = true;
           }
@@ -798,29 +887,10 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
             {
-              PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-              action_type const save_last = motivation[id].last;
+              forward_random_move_by_pawn_doublestep_to(sq_arrival,sq_departure);
 
-              motivation[id].last.acts_when = nbply;
-              motivation[id].last.purpose = purpose_random_mover;
-
-              push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
-              move_effect_journal[movement].u.piece_movement.from = sq_departure;
-              move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-              move_effect_journal[movement].u.piece_movement.moving = Pawn;
-              move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-              done_forward_random_move_by_invisible_from(false);
-
-              move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-              move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
               move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
               move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
-
-              pop_decision();
-
-              motivation[id].last = save_last;
 
               is_sq_arrival_reachable = true;
             }
@@ -828,31 +898,12 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         }
         else
         {
-          PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-          action_type const save_last = motivation[id].last;
-
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
           {
-            motivation[id].last.acts_when = nbply;
-            motivation[id].last.purpose = purpose_random_mover;
+            forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure);
 
-            push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
-            move_effect_journal[movement].u.piece_movement.from = sq_departure;
-            move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-            move_effect_journal[movement].u.piece_movement.moving = Pawn;
-            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-            forward_accidental_capture_by_invisible(false);
-
-            move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-            move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
             move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
             move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
-
-            pop_decision();
-
-            motivation[id].last = save_last;
 
             is_sq_arrival_reachable = true;
           }
