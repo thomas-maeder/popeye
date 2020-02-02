@@ -1196,9 +1196,9 @@ static unsigned int capture_by_inserted_invisible(void)
   return result;
 }
 
-boolean need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
+square need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
 {
-  boolean result = false;
+  square result = initsquare;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_capture);
@@ -1249,7 +1249,7 @@ boolean need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
         else
         {
           TraceText("no sacrifice in this move\n");
-          result = true;
+          result = sq_capture_capture;
         }
       }
 
@@ -1258,7 +1258,7 @@ boolean need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -1270,13 +1270,7 @@ void flesh_out_capture_by_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn))
-  {
-    record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
-    REPORT_DEADEND;
-    backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
-  }
-  else
+  if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)==initsquare)
   {
     move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
@@ -1316,6 +1310,12 @@ void flesh_out_capture_by_invisible(void)
     }
 
     decision_levels[id_inserted] = save_levels;
+  }
+  else
+  {
+    record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
+    REPORT_DEADEND;
+    backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
   }
 
   TraceFunctionExit(__func__);

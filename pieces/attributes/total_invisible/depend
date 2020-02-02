@@ -425,8 +425,8 @@ pieces/attributes/total_invisible/capture_by_invisible$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/capture_by_invisible.c \
  pieces/attributes/total_invisible/capture_by_invisible.h \
  utilities/boolean.h solving/ply.h position/side.h position/side.enum.h \
- position/side.enum pieces/attributes/total_invisible/consumption.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/side.enum position/board.h utilities/bitmask.h \
+ pieces/attributes/total_invisible/consumption.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/pieces.h pieces/walks/vectors.h \
  position/castling_rights.h pieces/attributes/total_invisible/decisions.h \
@@ -458,13 +458,13 @@ position/side.enum.h:
 
 position/side.enum:
 
-pieces/attributes/total_invisible/consumption.h:
-
-position/position.h:
-
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/attributes/total_invisible/consumption.h:
+
+position/position.h:
 
 position/color.h:
 

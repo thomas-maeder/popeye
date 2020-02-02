@@ -582,36 +582,24 @@ static void forward_random_move_by_invisible(square const *start_square)
   TraceFunctionResultEnd();
 }
 
-static boolean can_random_move_be_sacrifice(void)
+static boolean can_random_move_be_sacrifice(ply ply_capture_by_pawn,
+                                            square sq_required_sacrifice)
 {
-  ply const ply_capture = nbply+1;
   boolean result = false;
-
-  move_effect_journal_index_type const effects_base_capture = move_effect_journal_base[ply_capture];
-
-  move_effect_journal_index_type const capture_capture = effects_base_capture+move_effect_journal_index_offset_capture;
-  square const sq_capture_capture = move_effect_journal[capture_capture].u.piece_removal.on;
-
-  boolean const is_sacrifice_capture = !is_square_empty(sq_capture_capture);
 
   square const *curr;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_capture_by_pawn);
+  TraceSquare(sq_required_sacrifice);
   TraceFunctionParamListEnd();
-
-  TraceValue("%u",ply_capture);
-  TraceSquare(sq_capture_capture);
-  TraceWalk(capturer);
-  TraceEOL();
-
-  TraceText("allocation of a victim in the next move impossible - test possibility of sacrifice by an invisible\n");
 
   for (curr = find_next_forward_mover(boardnum);
        !result && *curr;
        curr = find_next_forward_mover(curr+1))
   {
     piece_walk_type const walk = get_walk_of_piece_on_square(*curr);
-    int const diff = sq_capture_capture-*curr;
+    int const diff = sq_required_sacrifice-*curr;
 
     TraceSquare(*curr);
     TraceWalk(walk);
@@ -646,15 +634,15 @@ static boolean can_random_move_be_sacrifice(void)
         break;
 
       case Pawn:
-        if (is_sacrifice_capture)
+        if (is_square_empty(sq_required_sacrifice))
         {
-          if (CheckDir[Bishop][diff]==diff
+          if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
               && (trait[nbply]==White ? diff>0 : diff<0))
             result = true;
         }
         else
         {
-          if ((CheckDir[Rook][diff]==diff || CheckDir[Rook][diff]==diff/2)
+          if (CheckDir[Bishop][diff]==diff
               && (trait[nbply]==White ? diff>0 : diff<0))
             result = true;
         }
@@ -684,13 +672,18 @@ static boolean can_random_move_be_sacrifice(void)
 void flesh_out_random_move_by_invisible(void)
 {
   ply const ply_capture_by_pawn = nbply+1;
+  square sq_required_sacrifice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn))
+  sq_required_sacrifice = need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn);
+
+  if (sq_required_sacrifice==initsquare)
+    forward_random_move_by_invisible(boardnum);
+  else
   {
-    if (can_random_move_be_sacrifice())
+    if (can_random_move_be_sacrifice(ply_capture_by_pawn,sq_required_sacrifice))
       forward_random_move_by_invisible(boardnum);
     else
     {
@@ -699,8 +692,6 @@ void flesh_out_random_move_by_invisible(void)
       backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
     }
   }
-  else
-    forward_random_move_by_invisible(boardnum);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

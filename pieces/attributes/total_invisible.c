@@ -316,14 +316,14 @@ void insert_invisible_capturer(void)
       ply const ply_capture_by_pawn = nbply+1;
 
       TraceText("no capturer to be inserted\n");
-      if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn))
+      if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)==initsquare)
+        adapt_capture_effect();
+      else
       {
         record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
         REPORT_DEADEND;
         backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
       }
-      else
-        adapt_capture_effect();
       break;
     }
 

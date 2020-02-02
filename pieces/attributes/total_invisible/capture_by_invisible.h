@@ -3,10 +3,11 @@
 
 #include "utilities/boolean.h"
 #include "solving/ply.h"
+#include "position/board.h"
 
 void flesh_out_capture_by_invisible(void);
 
-boolean need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture);
+square need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture);
 
 void fake_capture_by_invisible(void);
 
