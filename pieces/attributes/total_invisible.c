@@ -393,6 +393,8 @@ void adapt_pre_capture_effect(void)
               REPORT_DEADEND;
               current_consumption = save_consumption;
               TraceConsumption();TraceEOL();
+              /* if we correctly flesh out random moves, we don't arrive here any more */
+              assert(0);
             }
           }
           else
