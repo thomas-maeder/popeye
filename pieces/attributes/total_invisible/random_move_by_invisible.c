@@ -598,6 +598,7 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
   move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   if (is_square_empty(sq_arrival))
     done_forward_random_move_by_invisible_from(is_dummy_moving);
@@ -662,6 +663,7 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
   move_effect_journal[movement].u.piece_movement.moving = walk_rider;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   if (find_end_of_line(sq_departure,CheckDir[walk_rider][diff])==sq_arrival)
   {
@@ -700,6 +702,7 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   // TODO promotion
   done_forward_random_move_by_invisible_from(is_dummy_moving);
@@ -733,6 +736,7 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
+  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   forward_accidental_capture_by_invisible(false);
 
@@ -905,7 +909,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
     TraceEOL ();
 
     move_effect_journal[movement].u.piece_movement.from = sq_departure;
-    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
     switch (walk)
     {
