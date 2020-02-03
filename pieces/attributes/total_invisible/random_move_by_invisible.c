@@ -597,20 +597,12 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
-  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
   move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-  assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   if (is_square_empty(sq_arrival))
     done_forward_random_move_by_invisible_from(is_dummy_moving);
   else
     forward_accidental_capture_by_invisible(is_dummy_moving);
-
-  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
 
   pop_decision();
 
@@ -669,24 +661,15 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
   move_effect_journal[movement].u.piece_movement.moving = walk_rider;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
   if (find_end_of_line(sq_departure,CheckDir[walk_rider][diff])==sq_arrival)
   {
-    move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-
-    assert(!will_be_taboo(sq_arrival,trait[nbply]));
-
     if (is_square_empty(sq_arrival))
       done_forward_random_move_by_invisible_from(is_dummy_moving);
     else
       forward_accidental_capture_by_invisible(is_dummy_moving);
   }
-
-  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
 
   pop_decision();
 
@@ -716,18 +699,10 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
-  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-  assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   // TODO promotion
   done_forward_random_move_by_invisible_from(is_dummy_moving);
-
-  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
 
   pop_decision();
 
@@ -757,17 +732,9 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
-  move_effect_journal[movement].u.piece_movement.from = sq_departure;
-  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
-  move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-  assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   forward_accidental_capture_by_invisible(false);
-
-  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
-  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
 
   pop_decision();
 
@@ -922,6 +889,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
   assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
+  move_effect_journal[movement].u.piece_movement.to = sq_arrival;
+
   for (curr = find_next_forward_mover(boardnum);
        *curr && can_decision_level_be_continued();
        curr = find_next_forward_mover(curr+1))
@@ -935,6 +904,9 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
     TraceValue ("%d",diff);
     TraceEOL ();
 
+    move_effect_journal[movement].u.piece_movement.from = sq_departure;
+    move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
     switch (walk)
     {
       case King:
@@ -945,7 +917,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         else if (CheckDir[Queen][diff]==diff)
         {
           forward_random_move_by_invisible_king_to(sq_arrival,sq_departure);
-
           is_sq_arrival_reachable = true;
         }
         break;
@@ -954,7 +925,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         if (CheckDir[Knight][diff]==diff)
         {
           forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,false);
-
           is_sq_arrival_reachable = true;
         }
         break;
@@ -965,7 +935,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         if (CheckDir[walk][diff]!=0)
         {
           forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,walk,false);
-
           is_sq_arrival_reachable = true;
         }
         break;
@@ -982,7 +951,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
           if (diff==dir_singlestep)
           {
             forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,false);
-
             is_sq_arrival_reachable = true;
           }
           else if (diff==2*dir_singlestep)
@@ -993,7 +961,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
             {
               forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,false);
-
               is_sq_arrival_reachable = true;
             }
           }
@@ -1003,7 +970,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
           {
             forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,false);
-
             is_sq_arrival_reachable = true;
           }
         }
@@ -1064,6 +1030,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
   move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_flags_moving;
+  move_effect_journal[movement].u.piece_movement.from = move_by_invisible;
+  move_effect_journal[movement].u.piece_movement.to = move_by_invisible;
 
   if (is_sq_arrival_reachable)
   {
