@@ -989,7 +989,9 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
           allocate_flesh_out_placed(side_playing);
 
-          if (being_solved.king_square[side_playing]==initsquare && CheckDir[Queen][diff]==diff)
+          if (!is_sacrifice
+              && being_solved.king_square[side_playing]==initsquare
+              && CheckDir[Queen][diff]==diff)
           {
             Side const side_under_attack = advers(side_playing);
             square const king_pos = being_solved.king_square[side_under_attack];
