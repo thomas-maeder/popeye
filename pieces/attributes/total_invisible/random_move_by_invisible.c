@@ -772,8 +772,6 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
 
     if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
     {
-      push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
-
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
 
@@ -782,26 +780,36 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
         if (is_square_empty(sq_arrival))
         {
           if (diff==dir_singlestep)
+          {
+            push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
             forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,true);
+            pop_decision();
+          }
           else if (diff==2*dir_singlestep)
           {
             square const sq_singlestep = sq_departure+dir_singlestep;
             SquareFlags const doublstepsq = side_playing==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
+            {
+              push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
               forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,true);
+              pop_decision();
+            }
           }
         }
         else
         {
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
+          {
+            push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
             forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,true);
+            pop_decision();
+          }
         }
       }
 
       --being_solved.number_of_pieces[side_playing][Pawn];
-
-      pop_decision();
     }
   }
 

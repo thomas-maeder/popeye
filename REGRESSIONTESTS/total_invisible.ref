@@ -136,7 +136,7 @@ Sake tourney 2018, announcement (solution that relies on retro not shown)
                      play_move:      491794
  is_white_king_square_attacked:       16166
  is_black_king_square_attacked:      112391
-                  TI decisions:      186141
+                  TI decisions:      186134
 
 solution finished.
 
@@ -303,7 +303,7 @@ a)
                      play_move:     1154486
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      243881
-                  TI decisions:     1589759
+                  TI decisions:     1589524
 
 b) wPg6-->d4  
 
@@ -313,7 +313,7 @@ b) wPg6-->d4
                      play_move:     1058401
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      222947
-                  TI decisions:     1372616
+                  TI decisions:     1372412
 
 solution finished.
 
@@ -350,7 +350,7 @@ a)
                      play_move:      842374
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      178064
-                  TI decisions:     1020321
+                  TI decisions:     1020169
 
 b) wPg6-->d4  
 
@@ -359,7 +359,7 @@ b) wPg6-->d4
                      play_move:      761256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      160419
-                  TI decisions:      913578
+                  TI decisions:      913440
 
 solution finished.
 
@@ -404,7 +404,7 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
                      play_move:     4311278
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1238981
-                  TI decisions:   103934467
+                  TI decisions:   103920495
 
 solution finished.
 
@@ -449,7 +449,7 @@ solution finished.
                      play_move:     5599247
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1203714
-                  TI decisions:     4148007
+                  TI decisions:     4147971
 
 solution finished.
 
@@ -528,7 +528,7 @@ Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
                      play_move:     7726949
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1622965
-                  TI decisions:   210836017
+                  TI decisions:   210817157
 
 solution finished.
 
@@ -564,7 +564,7 @@ Sake tourney 2018, 3rd HM, corrected
                      play_move:     5609087
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      860616
-                  TI decisions:   142434330
+                  TI decisions:   142391084
 
 solution finished.
 
@@ -600,7 +600,7 @@ solution finished.
                      play_move:     6520004
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1710287
-                  TI decisions:     4208664
+                  TI decisions:     4208554
 
 solution finished.
 
@@ -758,7 +758,7 @@ b) bKg1-->g2
                      play_move:      240207
  is_white_king_square_attacked:       22947
  is_black_king_square_attacked:       56856
-                  TI decisions:      207534
+                  TI decisions:      207532
 
 solution finished.
 
@@ -795,7 +795,7 @@ solution finished.
                      play_move:      272054
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       63847
-                  TI decisions:      443900
+                  TI decisions:      443809
 
 solution finished.
 
@@ -931,7 +931,7 @@ solution finished.
                      play_move:      185245
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       41090
-                  TI decisions:      703367
+                  TI decisions:      703365
 
 solution finished.
 
@@ -1042,7 +1042,7 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
                      play_move:    22910351
  is_white_king_square_attacked:     1523830
  is_black_king_square_attacked:     4456773
-                  TI decisions:    44749178
+                  TI decisions:    44749147
 
 solution finished.
 
