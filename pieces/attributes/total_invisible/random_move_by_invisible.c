@@ -581,7 +581,6 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
                                                        boolean is_dummy_moving)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-  action_type const save_last = motivation[id].last;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
@@ -591,9 +590,6 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   TraceWalk(walk_leaper);
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
-
-  motivation[id].last.acts_when = nbply;
-  motivation[id].last.purpose = purpose_random_mover;
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
@@ -605,8 +601,6 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
     forward_accidental_capture_by_invisible(is_dummy_moving);
 
   pop_decision();
-
-  motivation[id].last = save_last;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -644,7 +638,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
                                                       boolean is_dummy_moving)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-  action_type const save_last = motivation[id].last;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   int const diff = sq_arrival-sq_departure;
@@ -655,9 +648,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   TraceWalk(walk_rider);
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
-
-  motivation[id].last.acts_when = nbply;
-  motivation[id].last.purpose = purpose_random_mover;
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
@@ -673,8 +663,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
 
   pop_decision();
 
-  motivation[id].last = save_last;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -686,16 +674,12 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-  action_type const save_last = motivation[id].last;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
-
-  motivation[id].last.acts_when = nbply;
-  motivation[id].last.purpose = purpose_random_mover;
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
@@ -705,8 +689,6 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   done_forward_random_move_by_invisible_from(is_dummy_moving);
 
   pop_decision();
-
-  motivation[id].last = save_last;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -719,16 +701,12 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
-  action_type const save_last = motivation[id].last;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
   TraceFunctionParam("%u",is_dummy_moving);
   TraceFunctionParamListEnd();
-
-  motivation[id].last.acts_when = nbply;
-  motivation[id].last.purpose = purpose_random_mover;
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
@@ -737,8 +715,6 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   forward_accidental_capture_by_invisible(false);
 
   pop_decision();
-
-  motivation[id].last = save_last;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -906,6 +882,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
     square const sq_departure = *curr;
     piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
     int const diff = sq_arrival-sq_departure;
+    PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
+    action_type const save_last = motivation[id].last;
 
     TraceSquare (sq_departure);
     TraceWalk (walk);
@@ -914,6 +892,9 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
     move_effect_journal[movement].u.piece_movement.from = sq_departure;
     move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+    motivation[id].last.acts_when = nbply;
+    motivation[id].last.purpose = purpose_random_mover;
 
     switch (walk)
     {
@@ -1041,6 +1022,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         assert (0);
         break;
     }
+
+    motivation[id].last = save_last;
   }
 
   move_effect_journal[movement].u.piece_movement.moving = save_walk_moving;
