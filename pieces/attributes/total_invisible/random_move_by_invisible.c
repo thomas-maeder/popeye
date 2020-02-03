@@ -665,7 +665,7 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.moving = walk_rider;
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
-  if (find_end_of_line(sq_departure,CheckDir[walk_rider][diff])==sq_arrival)
+  if (find_end_of_line(sq_arrival,-CheckDir[walk_rider][diff])==sq_departure)
   {
     if (is_square_empty(sq_arrival))
       done_forward_random_move_by_invisible_from(is_dummy_moving);
