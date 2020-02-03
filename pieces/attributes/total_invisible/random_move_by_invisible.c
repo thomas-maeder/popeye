@@ -11,7 +11,7 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static void done_forward_random_move_by_invisible_from(boolean is_dummy_moving)
+static void done_forward_random_move_by_invisible_from(piece_walk_type walk_moving)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -20,7 +20,7 @@ static void done_forward_random_move_by_invisible_from(boolean is_dummy_moving)
   motivation_type const save_motivation = motivation[id];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   push_decision_arrival(id,sq_arrival,decision_purpose_random_mover_forward);
@@ -28,7 +28,7 @@ static void done_forward_random_move_by_invisible_from(boolean is_dummy_moving)
   motivation[id].last.on = sq_arrival;
 
   remember_taboos_for_current_move();
-  if (is_dummy_moving)
+  if (walk_moving==Dummy)
     restart_from_scratch();
   else
     recurse_into_child_ply();
@@ -42,7 +42,7 @@ static void done_forward_random_move_by_invisible_from(boolean is_dummy_moving)
   TraceFunctionResultEnd();
 }
 
-static void forward_accidental_capture_by_invisible(boolean is_dummy_moving)
+static void forward_accidental_capture_by_invisible(piece_walk_type walk_moving)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -50,7 +50,7 @@ static void forward_accidental_capture_by_invisible(boolean is_dummy_moving)
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   if (is_on_board(sq_arrival)
@@ -84,7 +84,7 @@ static void forward_accidental_capture_by_invisible(boolean is_dummy_moving)
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(sq_arrival);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[sq_arrival];
 
-      done_forward_random_move_by_invisible_from(is_dummy_moving);
+      done_forward_random_move_by_invisible_from(walk_moving);
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
@@ -96,7 +96,7 @@ static void forward_accidental_capture_by_invisible(boolean is_dummy_moving)
   TraceFunctionResultEnd();
 }
 
-static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
+static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_moving)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -104,7 +104,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
   int const dir = side==White ? dir_up : dir_down;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   {
@@ -116,7 +116,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
         // TODO promotion
-        done_forward_random_move_by_invisible_from(is_dummy_moving);
+        done_forward_random_move_by_invisible_from(walk_moving);
       }
 
       if (can_decision_level_be_continued())
@@ -131,7 +131,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
             if (!will_be_taboo(sq_doublestep,side))
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
-              done_forward_random_move_by_invisible_from(is_dummy_moving);
+              done_forward_random_move_by_invisible_from(walk_moving);
             }
           }
         }
@@ -147,7 +147,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
       if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-        forward_accidental_capture_by_invisible(is_dummy_moving);
+        forward_accidental_capture_by_invisible(walk_moving);
       }
     }
 
@@ -158,7 +158,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
       if (!will_be_taboo(sq_arrival,trait[nbply]))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-        forward_accidental_capture_by_invisible(is_dummy_moving);
+        forward_accidental_capture_by_invisible(walk_moving);
       }
     }
   }
@@ -169,7 +169,7 @@ static void forward_random_move_by_invisible_pawn_from(boolean is_dummy_moving)
 
 static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
                                                         vec_index_type kend,
-                                                        boolean is_dummy_moving)
+                                                        piece_walk_type walk_moving)
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -178,7 +178,7 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
   TraceFunctionEntry(__func__);
   TraceValue("%u",kstart);
   TraceValue("%u",kend);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   assert(kstart<=kend);
@@ -202,12 +202,12 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
       if (is_square_empty(sq_arrival))
       {
         if (!will_be_taboo(sq_arrival,trait[nbply]))
-          done_forward_random_move_by_invisible_from(is_dummy_moving);
+          done_forward_random_move_by_invisible_from(walk_moving);
       }
       else
       {
         if (!will_be_taboo(sq_arrival,trait[nbply]))
-          forward_accidental_capture_by_invisible(is_dummy_moving);
+          forward_accidental_capture_by_invisible(walk_moving);
         break;
       }
     }
@@ -219,7 +219,7 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
 
 static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
                                                            vec_index_type kend,
-                                                           boolean is_dummy_moving)
+                                                           piece_walk_type walk_moving)
 {
   vec_index_type k;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -230,7 +230,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",kstart);
   TraceFunctionParam("%u",kend);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
@@ -246,9 +246,9 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
       if (is_square_empty(sq_arrival))
-        done_forward_random_move_by_invisible_from(is_dummy_moving);
+        done_forward_random_move_by_invisible_from(walk_moving);
       else
-        forward_accidental_capture_by_invisible(is_dummy_moving);
+        forward_accidental_capture_by_invisible(walk_moving);
     }
   }
 
@@ -257,7 +257,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
 }
 
 static void forward_random_move_by_existing_invisible_from(square sq_departure,
-                                                           boolean is_dummy_moving)
+                                                           piece_walk_type walk_moving)
 {
   piece_walk_type const walk_on_square = get_walk_of_piece_on_square(sq_departure);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -268,7 +268,7 @@ static void forward_random_move_by_existing_invisible_from(square sq_departure,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   TraceWalk(walk_on_square);TraceEOL();
@@ -287,32 +287,32 @@ static void forward_random_move_by_existing_invisible_from(square sq_departure,
       move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
       move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
       forward_random_move_by_invisible_leaper_from(vec_queen_start,vec_queen_end,
-                                                   is_dummy_moving);
+                                                   walk_moving);
       move_effect_journal[king_square_movement].type = move_effect_none;
       break;
 
     case Queen:
       forward_random_move_by_invisible_rider_from(vec_queen_start,vec_queen_end,
-                                                  is_dummy_moving);
+                                                  walk_moving);
       break;
 
     case Rook:
       forward_random_move_by_invisible_rider_from(vec_rook_start,vec_rook_end,
-                                                  is_dummy_moving);
+                                                  walk_moving);
       break;
 
     case Bishop:
       forward_random_move_by_invisible_rider_from(vec_bishop_start,vec_bishop_end,
-                                                  is_dummy_moving);
+                                                  walk_moving);
       break;
 
     case Knight:
       forward_random_move_by_invisible_leaper_from(vec_knight_start,vec_knight_end,
-                                                   is_dummy_moving);
+                                                   walk_moving);
       break;
 
     case Pawn:
-      forward_random_move_by_invisible_pawn_from(is_dummy_moving);
+      forward_random_move_by_invisible_pawn_from(walk_moving);
       break;
 
     default:
@@ -350,7 +350,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
       if (!(king_pos!=initsquare && pawn_check_ortho(side_playing,king_pos)))
-        forward_random_move_by_existing_invisible_from(sq_departure,true);
+        forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
       --being_solved.number_of_pieces[side_playing][Pawn];
 
       pop_decision();
@@ -364,7 +364,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
     ++being_solved.number_of_pieces[side_playing][Knight];
     replace_walk(sq_departure,Knight);
     if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
-      forward_random_move_by_existing_invisible_from(sq_departure,true);
+      forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Knight];
 
     pop_decision();
@@ -379,7 +379,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
     if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                         vec_bishop_start,vec_bishop_end,
                                         Bishop))
-      forward_random_move_by_existing_invisible_from(sq_departure,true);
+      forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Bishop];
 
     pop_decision();
@@ -394,7 +394,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
     if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                         vec_rook_start,vec_rook_end,
                                         Rook))
-      forward_random_move_by_existing_invisible_from(sq_departure,true);
+      forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Rook];
 
     pop_decision();
@@ -409,7 +409,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
     if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                         vec_queen_start,vec_queen_end,
                                         Queen))
-      forward_random_move_by_existing_invisible_from(sq_departure,true);
+      forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Queen];
 
     pop_decision();
@@ -462,7 +462,7 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
       {
         PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
         push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
-        forward_random_move_by_existing_invisible_from(sq_departure,true);
+        forward_random_move_by_existing_invisible_from(sq_departure,save_walk_moving);
         pop_decision();
       }
       CLRFLAG(being_solved.spec[sq_departure],Royal);
@@ -481,7 +481,7 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
     replace_walk(sq_departure,save_walk_moving);
   }
   else
-    forward_random_move_by_existing_invisible_from(sq_departure,false);
+    forward_random_move_by_existing_invisible_from(sq_departure,save_walk_moving);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -578,7 +578,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
 static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
                                                        square sq_departure,
                                                        piece_walk_type walk_leaper,
-                                                       boolean is_dummy_moving)
+                                                       piece_walk_type walk_moving)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -588,7 +588,7 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
   TraceWalk(walk_leaper);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
@@ -596,9 +596,9 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
 
   if (is_square_empty(sq_arrival))
-    done_forward_random_move_by_invisible_from(is_dummy_moving);
+    done_forward_random_move_by_invisible_from(walk_moving);
   else
-    forward_accidental_capture_by_invisible(is_dummy_moving);
+    forward_accidental_capture_by_invisible(walk_moving);
 
   pop_decision();
 
@@ -624,7 +624,7 @@ static void forward_random_move_by_invisible_king_to(square sq_arrival,
   move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
-  forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,King,false);
+  forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,King,King);
 
   move_effect_journal[king_square_movement].type = move_effect_none;
 
@@ -635,7 +635,7 @@ static void forward_random_move_by_invisible_king_to(square sq_arrival,
 static void forward_random_move_by_invisible_rider_to(square sq_arrival,
                                                       square sq_departure,
                                                       piece_walk_type walk_rider,
-                                                      boolean is_dummy_moving)
+                                                      piece_walk_type walk_moving)
 {
   PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -646,7 +646,7 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
   TraceWalk(walk_rider);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
@@ -656,9 +656,9 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   if (find_end_of_line(sq_arrival,-CheckDir[walk_rider][diff])==sq_departure)
   {
     if (is_square_empty(sq_arrival))
-      done_forward_random_move_by_invisible_from(is_dummy_moving);
+      done_forward_random_move_by_invisible_from(walk_moving);
     else
-      forward_accidental_capture_by_invisible(is_dummy_moving);
+      forward_accidental_capture_by_invisible(walk_moving);
   }
 
   pop_decision();
@@ -669,7 +669,7 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
 
 static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
                                                       square sq_departure,
-                                                      boolean is_dummy_moving)
+                                                      piece_walk_type walk_moving)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -678,7 +678,7 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
@@ -686,7 +686,7 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
   // TODO promotion
-  done_forward_random_move_by_invisible_from(is_dummy_moving);
+  done_forward_random_move_by_invisible_from(walk_moving);
 
   pop_decision();
 
@@ -696,7 +696,7 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
 
 static void forward_random_move_by_pawn_capture_to(square sq_arrival,
                                                    square sq_departure,
-                                                   boolean is_dummy_moving)
+                                                   piece_walk_type walk_moving)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -705,14 +705,14 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceSquare(sq_departure);
-  TraceFunctionParam("%u",is_dummy_moving);
+  TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
   push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
 
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
-  forward_accidental_capture_by_invisible(false);
+  forward_accidental_capture_by_invisible(walk_moving);
 
   pop_decision();
 
@@ -754,7 +754,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
           if (diff==dir_singlestep)
           {
             push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
-            forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,true);
+            forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Dummy);
             pop_decision();
           }
           else if (diff==2*dir_singlestep)
@@ -765,7 +765,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
             {
               push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
-              forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,true);
+              forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Dummy);
               pop_decision();
             }
           }
@@ -775,7 +775,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
           {
             push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
-            forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,true);
+            forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,Dummy);
             pop_decision();
           }
         }
@@ -793,7 +793,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       replace_walk(sq_departure,Knight);
 
       if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
-        forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,true);
+        forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,Dummy);
 
       --being_solved.number_of_pieces[side_playing][Knight];
     }
@@ -809,7 +809,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
-        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Bishop,true);
+        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Bishop,Dummy);
 
       --being_solved.number_of_pieces[side_playing][Bishop];
     }
@@ -825,7 +825,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
-        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Rook,true);
+        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Rook,Dummy);
 
       --being_solved.number_of_pieces[side_playing][Rook];
     }
@@ -841,7 +841,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
-        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Queen,true);
+        forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Queen,Dummy);
 
       --being_solved.number_of_pieces[side_playing][Queen];
     }
@@ -913,7 +913,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
       case Knight:
         if (CheckDir[Knight][diff]==diff)
         {
-          forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,false);
+          forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,Knight);
           is_sq_arrival_reachable = true;
         }
         break;
@@ -923,7 +923,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
       case Bishop:
         if (CheckDir[walk][diff]!=0)
         {
-          forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,walk,false);
+          forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,walk,walk);
           is_sq_arrival_reachable = true;
         }
         break;
@@ -939,7 +939,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         {
           if (diff==dir_singlestep)
           {
-            forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,false);
+            forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Pawn);
             is_sq_arrival_reachable = true;
           }
           else if (diff==2*dir_singlestep)
@@ -949,7 +949,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
             {
-              forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,false);
+              forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Pawn);
               is_sq_arrival_reachable = true;
             }
           }
@@ -958,7 +958,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         {
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
           {
-            forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,false);
+            forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,Pawn);
             is_sq_arrival_reachable = true;
           }
         }
