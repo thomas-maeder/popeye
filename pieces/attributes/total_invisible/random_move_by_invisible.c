@@ -793,7 +793,11 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       replace_walk(sq_departure,Knight);
 
       if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
+      {
+        push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,Dummy);
+        pop_decision();
+      }
 
       --being_solved.number_of_pieces[side_playing][Knight];
     }
@@ -809,7 +813,11 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
+      {
+        push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Bishop,Dummy);
+        pop_decision();
+      }
 
       --being_solved.number_of_pieces[side_playing][Bishop];
     }
@@ -825,7 +833,11 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
+      {
+        push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Rook,Dummy);
+        pop_decision();
+      }
 
       --being_solved.number_of_pieces[side_playing][Rook];
     }
@@ -841,7 +853,11 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
       if (!is_rider_check_uninterceptable(side_playing,king_pos,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
+      {
+        push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Queen,Dummy);
+        pop_decision();
+      }
 
       --being_solved.number_of_pieces[side_playing][Queen];
     }
