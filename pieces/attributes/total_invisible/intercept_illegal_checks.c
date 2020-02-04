@@ -116,6 +116,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       if (being_solved.king_square[side]==initsquare
           && nr_total_invisbles_consumed()>=total_invisible_number)
       {
+        TraceText("the only walk that can be allocated is King\n");
         allocate_flesh_out_placed(side);
 
         being_solved.king_square[side] = s;
