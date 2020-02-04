@@ -151,6 +151,38 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
 
     if (!result && being_solved.number_of_pieces[side_checking][Knight]>0)
       result = knight_check_ortho(side_checking,sq_attacked);
+
+    if (!result && being_solved.number_of_pieces[side_checking][Rook]+being_solved.number_of_pieces[side_checking][Queen]>0)
+    {
+      vec_index_type k;
+      for (k = vec_rook_start; result==0 && k!=vec_rook_end; ++k)
+      {
+        square const sq_attacker = sq_attacked+vec[k];
+        piece_walk_type const walk_attacker = get_walk_of_piece_on_square(sq_attacker);
+        if ((walk_attacker==Queen || walk_attacker==Rook)
+            && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
+        {
+          result = k;
+          break;
+        }
+      }
+    }
+
+    if (!result && being_solved.number_of_pieces[side_checking][Bishop]+being_solved.number_of_pieces[side_checking][Queen]>0)
+    {
+      vec_index_type k;
+      for (k = vec_bishop_start; result==0 && k!=vec_bishop_end; ++k)
+      {
+        square const sq_attacker = sq_attacked+vec[k];
+        piece_walk_type const walk_attacker = get_walk_of_piece_on_square(sq_attacker);
+        if ((walk_attacker==Queen || walk_attacker==Bishop)
+            && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
+        {
+          result = k;
+          break;
+        }
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
