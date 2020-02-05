@@ -167,9 +167,6 @@ static void indistinct_king_placement_validation(void)
   TraceFunctionParamListEnd();
 
   being_solved.king_square[side_to_be_mated] = initsquare;
-  TraceText("The king to be mated can be anywhere\n");
-  record_decision_outcome("%s","The king to be mated can be anywhere");
-  REPORT_DEADEND;
 
   switch (play_phase)
   {
@@ -178,11 +175,17 @@ static void indistinct_king_placement_validation(void)
       break;
 
     case play_validating_mate:
+      TraceText("The king to be mated can be anywhere\n");
+      record_decision_outcome("%s","The king to be mated can be anywhere");
+      REPORT_DEADEND;
       combined_validation_result = no_mate;
       record_decision_result(previous_move_has_not_solved);
       break;
 
     default:
+      TraceText("The king to be mated can be anywhere\n");
+      record_decision_outcome("%s","The king to be mated can be anywhere");
+      REPORT_DEADEND;
       record_decision_result(previous_move_has_not_solved);
       break;
   }
