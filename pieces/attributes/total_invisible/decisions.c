@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 static decision_level_type next_decision_level = decision_level_initial;
 
