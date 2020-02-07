@@ -41,6 +41,7 @@ typedef struct
     decision_purpose_type purpose;
     PieceIdType id;
     Side side;
+    /* this is not part of the backtracking structure because its value shouldn't be copied upstream */
     relevance_type relevance;
 } decision_level_property_type;
 
