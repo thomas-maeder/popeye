@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define REPORT_DECISIONS
+#define REPORT_DECISIONS
 
 static decision_level_type decision_top = decision_level_forever;
 
@@ -189,12 +189,12 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
 
 void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
   #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u TI~-~",purpose_symbol[purpose],nbply);
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_random_move;
   decision_level_properties[decision_top].purpose = purpose;
@@ -203,15 +203,15 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
 
 void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
-  decision_levels[id].from = push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
 #endif
+
+  decision_levels[id].from = push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_departure;
   decision_level_properties[decision_top].purpose = purpose;
@@ -232,13 +232,13 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
 // TODO  do we still need to do record decisions regarding move vectors?
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
   #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("direction:%d",direction);
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_move_vector;
   decision_level_properties[decision_top].purpose = purpose;
@@ -258,15 +258,15 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 
 void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
 #endif
+
+  push_decision_common(file,line);
 
   assert(purpose==decision_purpose_random_mover_forward
          || purpose==decision_purpose_random_mover_backward);
@@ -281,15 +281,15 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
 
 void push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
 #endif
+
+  push_decision_common(file,line);
 
   assert(purpose==decision_purpose_illegal_check_interceptor);
 
@@ -303,10 +303,8 @@ void push_decision_placement_impl(char const *file, unsigned int line, PieceIdTy
 
 void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
@@ -314,6 +312,8 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
             initsquare,
             true);
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_side;
   decision_level_properties[decision_top].purpose = purpose;
@@ -325,13 +325,13 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
 
 void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("I");
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_insertion;
   decision_level_properties[decision_top].purpose = purpose;
@@ -347,15 +347,15 @@ void push_decision_walk_impl(char const *file, unsigned int line,
                              decision_purpose_type purpose,
                              Side side)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteWalk(&output_plaintext_engine,
             stdout,
             walk);
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_walk;
   decision_level_properties[decision_top].purpose = purpose;
@@ -367,10 +367,8 @@ void push_decision_walk_impl(char const *file, unsigned int line,
 
 void push_decision_king_nomination_impl(char const *file, unsigned int line, PieceIdType id, square pos)
 {
-  push_decision_common(file,line);
-
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top,">",decision_top);
+  printf("!%*s%d ",decision_top+1,">",decision_top+1);
   WriteSpec(&output_plaintext_engine,
             stdout,
             being_solved.spec[pos],
@@ -383,6 +381,8 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
               stdout,
               pos);
 #endif
+
+  push_decision_common(file,line);
 
   decision_level_properties[decision_top].object = decision_object_king_nomination;
   decision_level_properties[decision_top].purpose = decision_purpose_king_nomination;
@@ -724,7 +724,7 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
   }
 
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d",decision_top,"<",decision_top);
+  printf("!%*s%d",decision_top+1,"<",decision_top+1);
   printf(" - r:%u t:%u m:%u n:%u i:%u\n",
          backtracking[decision_top].result,
          backtracking[decision_top].type,
