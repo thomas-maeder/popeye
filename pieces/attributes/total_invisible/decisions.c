@@ -174,9 +174,9 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   backtracking[decision_top].type = backtrack_none;
   backtracking[decision_top].result = previous_move_is_illegal;
   backtracking[decision_top].nr_check_vectors = UINT_MAX;
-  backtracking[decision_top+1].ply_failure = ply_nil;
-  backtracking[decision_top+1].side_failure = no_side;
-  backtracking[decision_top+1].id_failure = NullPieceId;
+  backtracking[decision_top].ply_failure = ply_nil;
+  backtracking[decision_top].side_failure = no_side;
+  backtracking[decision_top].id_failure = NullPieceId;
 
   ++record_decision_counter;
 
