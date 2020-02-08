@@ -470,6 +470,8 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
                                           square pos,
                                           PieceIdType id_placed)
 {
+  unsigned long const save_counter = record_decision_counter;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
@@ -545,10 +547,12 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
         }
       }
     }
-    else
+
+    if (record_decision_counter==save_counter)
     {
       record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
+      backtrack_from_failure_to_intercept_illegal_check(trait[nbply-1],nr_check_vectors);
     }
 
     current_consumption = save_consumption;

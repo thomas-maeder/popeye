@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22269
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6940
-                  TI decisions:      156012
+                  TI decisions:      155892
 
 solution finished.
 

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 static decision_level_type decision_top = decision_level_forever;
 
@@ -106,12 +106,14 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
-  printf(" - r:%u t:%u m:%d n:%u i:%u",
-         backtracking[decision_top+1].result,
-         backtracking[decision_top+1].type,
-         (int)backtracking[decision_top+1].max_level,
-         backtracking[decision_top+1].nr_check_vectors,
-         decision_level_properties[decision_top+1].id);
+  printf(" - %u: r:%u t:%u m:%d n:%u p:%u i:%u",
+         decision_top-1,
+         backtracking[decision_top-1].result,
+         backtracking[decision_top-1].type,
+         (int)backtracking[decision_top-1].max_level,
+         backtracking[decision_top-1].nr_check_vectors,
+         backtracking[decision_top-1].ply_failure,
+         decision_level_properties[decision_top-1].id);
   printf(" - %s:#%d",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter);
   fflush(stdout);
@@ -725,11 +727,21 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
 
 #if defined(REPORT_DECISIONS)
   printf("!%*s%d",decision_top+1,"<",decision_top+1);
-  printf(" - r:%u t:%u m:%u n:%u i:%u\n",
+  printf(" - %u: r:%u t:%u m:%u n:%u p:%u i:%u",
+         decision_top+1,
+         backtracking[decision_top+1].result,
+         backtracking[decision_top+1].type,
+         backtracking[decision_top+1].max_level,
+         backtracking[decision_top+1].nr_check_vectors,
+         backtracking[decision_top+1].ply_failure,
+         decision_level_properties[decision_top].id);
+  printf(" -> %u: r:%u t:%u m:%u n:%u p:%u i:%u\n",
+         decision_top,
          backtracking[decision_top].result,
          backtracking[decision_top].type,
          backtracking[decision_top].max_level,
          backtracking[decision_top].nr_check_vectors,
+         backtracking[decision_top].ply_failure,
          decision_level_properties[decision_top].id);
   fflush(stdout);
 #endif
