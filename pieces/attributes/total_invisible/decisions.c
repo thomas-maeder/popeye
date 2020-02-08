@@ -724,13 +724,13 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
   }
 
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d",next_decision_level,"<",next_decision_level);
+  printf("!%*s%d",decision_top,"<",decision_top);
   printf(" - r:%u t:%u m:%u n:%u i:%u\n",
-         backtracking[decision_top+1].result,
-         backtracking[decision_top+1].type,
-         backtracking[decision_top+1].max_level,
-         backtracking[decision_top+1].nr_check_vectors,
-         decision_level_properties[decision_top+1].id);
+         backtracking[decision_top].result,
+         backtracking[decision_top].type,
+         backtracking[decision_top].max_level,
+         backtracking[decision_top].nr_check_vectors,
+         decision_level_properties[decision_top].id);
   fflush(stdout);
 #endif
 
@@ -1628,7 +1628,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",next_decision_level,"",next_decision_level);
+        printf("!%*s%d ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
@@ -2196,7 +2196,7 @@ HERE
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",next_decision_level,"",next_decision_level);
+        printf("!%*s%d ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
@@ -2347,7 +2347,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",next_decision_level,"",next_decision_level);
+        printf("!%*s%d ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
