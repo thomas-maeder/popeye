@@ -530,7 +530,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             walk_ruled_out[Rook] = true;
             walk_ruled_out[Bishop] = true;
           }
-          else
+          else if (can_decision_level_be_continued())
             place_pawn_of_side_on_square(check_vectors,nr_check_vectors,pos,id_placed,side);
 
           {

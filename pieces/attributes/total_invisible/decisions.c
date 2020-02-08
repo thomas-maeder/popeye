@@ -463,7 +463,7 @@ void pop_decision(void)
   assert(decision_top>0);
   --decision_top;
 
-  TraceValue("%u",next_decision_level);
+  TraceValue("%u",decision_top);
   TraceValue("%u",backtracking[decision_top+1].result);
   TraceValue("%u",backtracking[decision_top+1].type);
   TraceValue("%u",backtracking[decision_top+1].nr_check_vectors);
@@ -482,7 +482,6 @@ void pop_decision(void)
               >=backtracking[decision_top].ply_failure)))
     backtracking[decision_top] = backtracking[decision_top+1];
 
-  TraceValue("%u",next_decision_level);
   TraceValue("%u",decision_level_properties[decision_top+1].ply);
   TraceValue("%u",decision_level_properties[decision_top+1].purpose);
   TraceValue("%u",decision_level_properties[decision_top+1].object);
@@ -837,8 +836,6 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   TraceFunctionParam("%u",curr_level);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",ply_failure);
-  TraceEnumerator(Side,side_failure);
   TraceValue("%u",decision_level_properties[curr_level].ply);
   TraceValue("%u",decision_level_properties[curr_level].purpose);
   TraceValue("%u",decision_level_properties[curr_level].object);
@@ -1743,8 +1740,6 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
   TraceFunctionParamListEnd();
 
   TraceValue("%u",curr_level);
-  TraceValue("%u",ply_failure);
-  TraceEnumerator(Side,side_failure);
   TraceValue("%u",decision_level_properties[curr_level].ply);
   TraceValue("%u",decision_level_properties[curr_level].purpose);
   TraceValue("%u",decision_level_properties[curr_level].object);
@@ -2260,8 +2255,6 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
   TraceFunctionParamListEnd();
 
   TraceValue("%u",curr_level);
-  TraceValue("%u",ply_failure);
-  TraceEnumerator(Side,side_failure);
   TraceValue("%u",decision_level_properties[curr_level].ply);
   TraceValue("%u",decision_level_properties[curr_level].purpose);
   TraceValue("%u",decision_level_properties[curr_level].object);
@@ -2458,7 +2451,7 @@ boolean can_decision_level_be_continued(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",next_decision_level);
+  TraceValue("%u",decision_top);
   TraceValue("%u",backtracking[decision_top].type);
   TraceValue("%u",backtracking[decision_top].max_level);
   TraceValue("%u",decision_level_properties[decision_top+1].relevance);
