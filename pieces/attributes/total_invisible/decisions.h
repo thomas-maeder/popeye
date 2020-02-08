@@ -109,7 +109,8 @@ void pop_decision(void);
  * @param side_in_check the side that is in too many illegal checks
  */
 void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
-                                                       unsigned int nr_check_vectors);
+                                                       unsigned int nr_check_vectors,
+                                                       vec_index_type check_idx);
 
 void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_check,
                                                                unsigned int nr_check_vectors);

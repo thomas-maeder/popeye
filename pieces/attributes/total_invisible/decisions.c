@@ -67,6 +67,7 @@ static struct
     ply ply_failure;
     Side side_failure;
     PieceIdType id_failure;
+    vec_index_type check_idx;
 } backtracking[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
@@ -179,6 +180,7 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   backtracking[decision_top].ply_failure = ply_nil;
   backtracking[decision_top].side_failure = no_side;
   backtracking[decision_top].id_failure = NullPieceId;
+  backtracking[decision_top].check_idx = 0;
 
   ++record_decision_counter;
 
@@ -681,6 +683,13 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
 
 !          <11 - r:1 t:3 m:11 n:2 i:14
              */
+          }
+          if (backtracking[decision_top].nr_check_vectors==1)
+          {
+            extern Side side_in_check_to_be_intercepted;
+            extern vec_index_type check_vector_to_be_intercepted;
+            side_in_check_to_be_intercepted = backtracking[decision_top].side_failure;
+            check_vector_to_be_intercepted = backtracking[decision_top].check_idx;
           }
           break;
 
@@ -1658,11 +1667,13 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
  * @param side_in_check the side that is in too many illegal checks
  */
 void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
-                                                       unsigned int nr_check_vectors)
+                                                       unsigned int nr_check_vectors,
+                                                       vec_index_type check_idx)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
+  TraceFunctionParam("%u",check_idx);
   TraceFunctionParamListEnd();
 
   assert(backtracking[decision_top].type==backtrack_none);
@@ -1672,6 +1683,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   backtracking[decision_top].nr_check_vectors = nr_check_vectors;
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = side_in_check;
+  backtracking[decision_top].check_idx = check_idx;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -2420,6 +2432,7 @@ void backtrack_from_revelation_update(void)
 
   backtracking[decision_top].type = backtrack_revelation;
   backtracking[decision_top].max_level = decision_level_forever;
+  backtracking[decision_top].ply_failure = nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
