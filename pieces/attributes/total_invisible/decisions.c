@@ -832,7 +832,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   TraceValue("%u",decision_level_properties[curr_level].object);
   TraceValue("%u",decision_level_properties[curr_level].id);
   TraceEnumerator(Side,decision_level_properties[curr_level].side);
-  TraceValue("%u",backtracking[curr_level].ply_failure);
+  TraceValue("%u",backtracking[curr_level-1].ply_failure);
   TraceValue("%u",try_to_avoid_insertion[White]);
   TraceValue("%u",try_to_avoid_insertion[Black]);
   TraceEOL();
@@ -847,7 +847,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* try harder.
              * a future decision may select
@@ -860,7 +860,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* try harder.
              * a future decision may
@@ -935,11 +935,11 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
         case decision_object_walk:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
             if (decision_level_properties[curr_level].ply
-                <backtracking[curr_level].ply_failure-2)
+                <backtracking[curr_level-1].ply_failure-2)
             {
               /* try harder.
                * a future decision may select
@@ -1018,10 +1018,10 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
-              >backtracking[curr_level].ply_failure)
+              >backtracking[curr_level-1].ply_failure)
           {
             if (decision_level_properties[curr_level].side
-                ==backtracking[curr_level].side_failure)
+                ==backtracking[curr_level-1].side_failure)
             {
               /* try harder.
                * a future decision may select
@@ -1101,8 +1101,8 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
 
         case decision_object_move_vector:
           if ((decision_level_properties[curr_level].ply
-               >backtracking[curr_level].ply_failure)
-              && (decision_level_properties[curr_level].side!=backtracking[curr_level].side_failure))
+               >backtracking[curr_level-1].ply_failure)
+              && (decision_level_properties[curr_level].side!=backtracking[curr_level-1].side_failure))
           {
             /* try harder.
              * a future decision may select
@@ -1190,11 +1190,11 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
         case decision_object_walk:
           assert(decision_level_properties[curr_level].side!=no_side);
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (find_random_move_of_side_between_plies(decision_level_properties[curr_level].ply,
-                                                       backtracking[curr_level].ply_failure,
-                                                       backtracking[curr_level].side_failure))
+                                                       backtracking[curr_level-1].ply_failure,
+                                                       backtracking[curr_level-1].side_failure))
             {
               /* try harder
                * a random move by invisible according to the selected walk may help us out
@@ -1362,10 +1362,10 @@ HERE - no need to try other walks on b2
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (decision_level_properties[curr_level].ply
-                >backtracking[curr_level].ply_failure)
+                >backtracking[curr_level-1].ply_failure)
               skip = true;
             else
             {
@@ -1444,7 +1444,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* try harder.
              * a future decision may
@@ -1505,7 +1505,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 
         case decision_object_arrival:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* try harder.
              * a future decision may select
@@ -1528,7 +1528,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* try harder.
              * a future decision may select
@@ -1541,7 +1541,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             skip = true;
             /* e.g.
@@ -1752,10 +1752,10 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level].ply_failure)
+                <=backtracking[curr_level-1].ply_failure)
             {
               /* try harder.
                * a future decision may
@@ -1783,10 +1783,10 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
         case decision_object_walk:
         case decision_object_arrival:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level].ply_failure)
+                <=backtracking[curr_level-1].ply_failure)
             {
               /* try harder.
                * a future decision may
@@ -1801,7 +1801,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
           else
           {
             if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level].ply_failure)
+                <=backtracking[curr_level-1].ply_failure)
             {
               /* try harder.
                * a future decision may
@@ -1816,12 +1816,12 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
 
         case decision_object_random_move:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
             skip = true;
           else
           {
             if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level].ply_failure)
+                <=backtracking[curr_level-1].ply_failure)
             {
               /* try harder.
                * a future decision may
@@ -1846,10 +1846,10 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level].ply_failure)
+                <=backtracking[curr_level-1].ply_failure)
             {
               /* try harder.
                * a future decision may
@@ -1862,7 +1862,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
           else
           {
             if (decision_level_properties[curr_level].ply
-                <backtracking[curr_level].ply_failure-1)
+                <backtracking[curr_level-1].ply_failure-1)
             {
               /* try harder
                * a different walk may allow a capturer more possibilities
@@ -1945,10 +1945,10 @@ HERE - TRY ROOK AND QUEEN AS WELL
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level].side_failure)
+              ==backtracking[curr_level-1].side_failure)
           {
             if (decision_level_properties[curr_level].ply
-                <backtracking[curr_level].ply_failure)
+                <backtracking[curr_level-1].ply_failure)
               skip = true;
             else
             {
@@ -1973,11 +1973,11 @@ HERE - TRY ROOK AND QUEEN AS WELL
       {
         case decision_object_side:
         if (decision_level_properties[curr_level].side
-            ==backtracking[curr_level].side_failure)
+            ==backtracking[curr_level-1].side_failure)
         {
           if ((decision_level_properties[curr_level].ply
-               ==backtracking[curr_level].ply_failure)
-              && (being_solved.king_square[advers(backtracking[curr_level].side_failure)]
+               ==backtracking[curr_level-1].ply_failure)
+              && (being_solved.king_square[advers(backtracking[curr_level-1].side_failure)]
                   !=initsquare))
             skip = true;
           /* the test being_solved.king_square[advers(side_failure)]!=initsquare is relevant!
@@ -2054,7 +2054,7 @@ HERE
 
         default:
           if (decision_level_properties[curr_level].side
-              !=backtracking[curr_level].side_failure)
+              !=backtracking[curr_level-1].side_failure)
           {
             /* decision concerning the other side can't contribute to being able for this side
              * to capture ...
@@ -2271,7 +2271,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
       {
         case decision_object_walk:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* depending on the walk, this piece may eventually sacrifice itself
              * to allow the capture by pawn
@@ -2283,7 +2283,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
             skip = true;
           else
           {
@@ -2309,7 +2309,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
         case decision_object_arrival:
         case decision_object_walk:
           if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level].ply_failure)
+              <backtracking[curr_level-1].ply_failure)
           {
             /* we may be able to sacrifice ourselves, either to the capturing pawn or
              * a pawn sacrificing itself to the capturing pawn
