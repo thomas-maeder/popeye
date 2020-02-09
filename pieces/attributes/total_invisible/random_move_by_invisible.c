@@ -101,7 +101,6 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
                                                        piece_walk_type walk_leaper,
                                                        piece_walk_type walk_moving)
 {
-  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
@@ -112,16 +111,12 @@ static void forward_random_move_by_invisible_leaper_to(square sq_arrival,
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
   move_effect_journal[movement].u.piece_movement.moving = walk_leaper;
 
   if (is_square_empty(sq_arrival))
     done_forward_random_move_by_invisible(walk_moving);
   else
     forward_accidental_capture_by_invisible(walk_moving);
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -158,7 +153,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
                                                       piece_walk_type walk_rider,
                                                       piece_walk_type walk_moving)
 {
-  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   int const diff = sq_arrival-sq_departure;
@@ -170,8 +164,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
   move_effect_journal[movement].u.piece_movement.moving = walk_rider;
 
   if (find_end_of_line(sq_arrival,-CheckDir[walk_rider][diff])==sq_departure)
@@ -181,8 +173,6 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
     else
       forward_accidental_capture_by_invisible(walk_moving);
   }
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -194,7 +184,6 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
@@ -202,14 +191,10 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
   // TODO promotion
   done_forward_random_move_by_invisible(walk_moving);
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -221,7 +206,6 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  PieceIdType const id = GetPieceId(being_solved.spec[sq_departure]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
@@ -229,13 +213,9 @@ static void forward_random_move_by_pawn_capture_to(square sq_arrival,
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
-
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
   forward_accidental_capture_by_invisible(walk_moving);
-
-  pop_decision();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -433,6 +413,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
+    push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+
     switch (walk)
     {
       case King:
@@ -559,6 +541,8 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         assert (0);
         break;
     }
+
+    pop_decision();
 
     motivation[id].last = save_last;
   }

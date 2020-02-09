@@ -167,7 +167,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
     {
       remember_taboo_on_square(s,side,nbply);
 
-      record_decision_outcome("not enough available invisibles of side %s for intercepting all illegal checks",Side_names[side]);
+      record_decision_outcome("can't allocate an invisible of side %s for intercepting an illegal check",Side_names[side]);
       REPORT_DEADEND;
 
       current_consumption = save_consumption;
