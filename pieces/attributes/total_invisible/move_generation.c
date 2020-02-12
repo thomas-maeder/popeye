@@ -64,16 +64,16 @@ void total_invisible_generate_moves_by_invisible(slice_index si)
 
 static void generate_pawn_capture_right(slice_index si, int dir_vertical)
 {
+  Side const side_victim = advers(trait[nbply]);
   square const s = curr_generation->departure+dir_vertical+dir_right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  // TODO what kind of nr_taboos_accumulated_until_ply can we apply here?
-  if (is_square_empty(s))
+  if (is_square_empty(s) && !was_taboo(s,side_victim))
   {
-    occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    occupy_square(s,Dummy,BIT(side_victim)|BIT(Chameleon));
     pipe_move_generation_delegate(si);
     empty_square(s);
   }
@@ -86,16 +86,16 @@ static void generate_pawn_capture_right(slice_index si, int dir_vertical)
 
 static void generate_pawn_capture_left(slice_index si, int dir_vertical)
 {
+  Side const side_victim = advers(trait[nbply]);
   square const s = curr_generation->departure+dir_vertical+dir_left;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  // TODO what kind of nr_taboos_accumulated_until_ply can we apply here?
-  if (is_square_empty(s))
+  if (is_square_empty(s) && !was_taboo(s,side_victim))
   {
-    occupy_square(s,Dummy,BIT(White)|BIT(Black)|BIT(Chameleon));
+    occupy_square(s,Dummy,BIT(side_victim)|BIT(Chameleon));
     generate_pawn_capture_right(si,dir_vertical);
     empty_square(s);
   }
