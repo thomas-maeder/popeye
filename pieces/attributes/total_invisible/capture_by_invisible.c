@@ -12,9 +12,10 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static void capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
-                                             square sq_departure)
+static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_capturing,
+                                                     square sq_departure)
 {
+  unsigned int result = 0;
   Side const side_playing = trait[nbply];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const precapture = effects_base;
@@ -150,6 +151,8 @@ HERE
         motivation[id_inserted] = save_motivation;
 
         move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+        ++result;
       }
 
       empty_square(sq_departure);
@@ -173,7 +176,9 @@ HERE
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
@@ -345,9 +350,11 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   TraceFunctionResultEnd();
 }
 
-static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
-                                                vec_index_type kcurr, vec_index_type kend)
+static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
+                                                        vec_index_type kcurr, vec_index_type kend)
 {
+  unsigned int result = 0;
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_rider);
   TraceFunctionParam("%u",kcurr);
@@ -378,7 +385,7 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
       for (sq_departure = sq_arrival+vec[kcurr];
            is_square_empty(sq_departure) && can_decision_level_be_continued();
            sq_departure += vec[kcurr])
-        capture_by_invisible_inserted_on(walk_rider,sq_departure);
+        result += capture_by_invisible_inserted_on(walk_rider,sq_departure);
 
       pop_decision();
     }
@@ -387,11 +394,15 @@ static void capture_by_invisible_rider_inserted(piece_walk_type walk_rider,
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_inserted_invisible_king(void)
+static unsigned int capture_by_inserted_invisible_king(void)
 {
+  unsigned int result = 0;
+
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
@@ -430,7 +441,7 @@ static void capture_by_inserted_invisible_king(void)
       assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
       SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-      capture_by_invisible_inserted_on(King,sq_departure);
+      result += capture_by_invisible_inserted_on(King,sq_departure);
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
@@ -443,12 +454,16 @@ static void capture_by_inserted_invisible_king(void)
   pop_decision();
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
-                                                 vec_index_type kcurr, vec_index_type kend)
+static unsigned int capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
+                                                         vec_index_type kcurr, vec_index_type kend)
 {
+  unsigned int result = 0;
+
   TraceFunctionEntry(__func__);
   TraceWalk(walk_leaper);
   TraceFunctionParam("%u",kcurr);
@@ -473,18 +488,22 @@ static void capture_by_invisible_leaper_inserted(piece_walk_type walk_leaper,
       square const sq_departure = sq_arrival+vec[kcurr];
 
       if (is_square_empty(sq_departure))
-        capture_by_invisible_inserted_on(walk_leaper,sq_departure);
+        result += capture_by_invisible_inserted_on(walk_leaper,sq_departure);
     }
 
     pop_decision();
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_inserted, int dir_horiz)
+static unsigned int capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_inserted, int dir_horiz)
 {
+  unsigned int result = 0;
+
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -507,15 +526,19 @@ static void capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_inserted, 
       && !TSTFLAG(sq_spec[sq_departure],promsq))
   {
     if (is_square_empty(sq_departure))
-      capture_by_invisible_inserted_on(Pawn,sq_departure);
+      result += capture_by_invisible_inserted_on(Pawn,sq_departure);
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_invisible_pawn_inserted(void)
+static unsigned int capture_by_invisible_pawn_inserted(void)
 {
+  unsigned result = 0;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -529,20 +552,23 @@ static void capture_by_invisible_pawn_inserted(void)
 
     push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
-    capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
+    result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
     if (can_decision_level_be_continued())
-      capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
+      result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
 
     pop_decision();
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
-static void capture_by_inserted_invisible_all_walks(void)
+static unsigned int capture_by_inserted_invisible_all_walks(void)
 {
+  unsigned int result = 0;
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -556,20 +582,22 @@ static void capture_by_inserted_invisible_all_walks(void)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
-    capture_by_inserted_invisible_king();
+    result += capture_by_inserted_invisible_king();
 
-  capture_by_invisible_pawn_inserted();
-  capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
-  capture_by_invisible_rider_inserted(Bishop,vec_bishop_start,vec_bishop_end);
-  capture_by_invisible_rider_inserted(Rook,vec_rook_start,vec_rook_end);
-  capture_by_invisible_rider_inserted(Queen,vec_queen_start,vec_queen_end);
+  result += capture_by_invisible_pawn_inserted();
+  result += capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
+  result += capture_by_invisible_rider_inserted(Bishop,vec_bishop_start,vec_bishop_end);
+  result += capture_by_invisible_rider_inserted(Rook,vec_rook_start,vec_rook_end);
+  result += capture_by_invisible_rider_inserted(Queen,vec_queen_start,vec_queen_end);
 
   move_effect_journal[movement].u.piece_movement.from = save_from;
   move_effect_journal[movement].u.piece_movement.moving = save_moving;
   move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void flesh_out_dummy_for_capture_king(square sq_departure,
@@ -1153,11 +1181,9 @@ static unsigned int capture_by_inserted_invisible(void)
 
     push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
-    capture_by_inserted_invisible_all_walks();
+    result = capture_by_inserted_invisible_all_walks();
 
     pop_decision();
-
-    result = 1;
   }
   else
   {

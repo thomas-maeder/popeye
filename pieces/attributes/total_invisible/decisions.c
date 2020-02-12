@@ -1677,13 +1677,13 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   TraceFunctionParamListEnd();
 
   assert(backtracking[decision_top].type==backtrack_none);
-  assert(backtracking[decision_top].max_level==decision_level_latest);
 
   backtracking[decision_top].type = backtrack_failure_to_intercept_illegal_checks;
   backtracking[decision_top].nr_check_vectors = nr_check_vectors;
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = side_in_check;
   backtracking[decision_top].check_idx = check_idx;
+  backtracking[decision_top].max_level = decision_level_latest;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -1721,11 +1721,11 @@ void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_chec
   TraceFunctionParamListEnd();
 
   assert(backtracking[decision_top].type==backtrack_none);
-  assert(backtracking[decision_top].max_level==decision_level_latest);
 
   backtracking[decision_top].type = backtrack_failure_to_capture_uninterceptable_checker;
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = side_in_check;
+  backtracking[decision_top].max_level = decision_level_latest;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -2250,6 +2250,7 @@ void backtrack_from_failed_capture_by_invisible(Side side_capturing)
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = side_capturing;
   backtracking[decision_top].id_failure = decision_level_properties[decision_top].id;
+  backtracking[decision_top].max_level = decision_level_latest;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
@@ -2399,6 +2400,7 @@ void backtrack_from_failed_capture_of_invisible_by_pawn(Side side_capturing)
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = advers(side_capturing);
   backtracking[decision_top].id_failure = decision_level_properties[decision_top].id;
+  backtracking[decision_top].max_level = decision_level_latest;
 
   try_to_avoid_insertion[Black] = false;
   try_to_avoid_insertion[White] = false;
