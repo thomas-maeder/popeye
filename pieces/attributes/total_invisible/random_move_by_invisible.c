@@ -385,9 +385,6 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
-  // TODO why doesn't this hold?
-  //assert(move_effect_journal[movement].u.piece_movement.moving==Dummy);
-
   assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   move_effect_journal[movement].u.piece_movement.to = sq_arrival;
