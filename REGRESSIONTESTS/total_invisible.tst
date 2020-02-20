@@ -171,10 +171,10 @@ a)
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
-  add_to_move_generation_stack:        3076
-                     play_move:        5363
- is_white_king_square_attacked:         488
- is_black_king_square_attacked:        1387
+  add_to_move_generation_stack:        3058
+                     play_move:        5354
+ is_white_king_square_attacked:         482
+ is_black_king_square_attacked:        1384
                   TI decisions:         896
 
 solution finished.

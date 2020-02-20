@@ -122,6 +122,10 @@ void recurse_into_child_ply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
+  TraceValue("%u",GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec));
+  TraceEOL();
+
   assert(sq_departure==move_by_invisible
          || GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
 
@@ -439,9 +443,6 @@ void adapt_pre_capture_effect(void)
         {
           TraceText("addition of a castling partner\n");
           TraceText("castling partner was added as part of applying our knowledge\n");
-          // TODO this path is never taken - has it ever been?
-          // TODO why would the knowledge record always be at index 0?
-          assert(0);
           move_effect_journal[pre_capture].type = move_effect_none;
           deal_with_illegal_checks();
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
