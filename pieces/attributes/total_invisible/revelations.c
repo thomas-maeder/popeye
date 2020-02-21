@@ -1217,11 +1217,8 @@ void evaluate_revelations(slice_index si,
         knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
-        knowledge[size_knowledge].is_allocated = (id_new==NullPieceId);
 
-        /* if we revealed a so far unplaced invisible piece, the id will have changed */
-        if (id_new!=NullPieceId)
-          SetPieceId(knowledge[size_knowledge].spec,id_new);
+        assert(id_new==NullPieceId);
 
         TraceWalk(knowledge[size_knowledge].walk);
         TraceSquare(knowledge[size_knowledge].first_on);
@@ -1266,7 +1263,6 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
     move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
-    assert(knowledge[idx_knowledge].is_allocated);
     assert(knowledge[idx_knowledge].last.acts_when!=ply_nil);
 
     assert(move_effect_journal[movement].type==move_effect_piece_movement);

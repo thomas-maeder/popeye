@@ -438,8 +438,7 @@ void adapt_pre_capture_effect(void)
 
         if (!is_square_empty(sq_addition)
             && sq_addition==knowledge[0].first_on
-            && walk_added==knowledge[0].walk
-            && knowledge[0].is_allocated)
+            && walk_added==knowledge[0].walk)
         {
           TraceText("addition of a castling partner\n");
           TraceText("castling partner was added as part of applying our knowledge\n");

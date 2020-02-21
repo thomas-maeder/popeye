@@ -14,7 +14,6 @@ typedef struct
     action_type last;
     piece_walk_type walk;
     Flags spec;
-    boolean is_allocated;
 } knowledge_type;
 
 // TODO what is a good size for this?
