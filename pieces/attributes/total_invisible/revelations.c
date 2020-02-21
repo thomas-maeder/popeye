@@ -953,6 +953,13 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
   TraceFunctionResultEnd();
 }
 
+/* Create a piece revelation effect in the move effects journal
+ * @param s place of revelation
+ * @param ids identifies the revelation in revelation_status
+ * @return NullPieceId iff the revealed piece was already allocated
+ *         the id of the revealed piece allocated by this function otherwise
+ */
+// TODO pass the revelation_status_type * rather than its index
 static PieceIdType add_revelation_effect(square s, unsigned int idx)
 {
   PieceIdType result = NullPieceId;
@@ -1188,15 +1195,13 @@ void evaluate_revelations(slice_index si,
 
       if (revelation_status[i].first.on!=initsquare)
       {
-        PieceIdType const id_revealed = GetPieceId(revelation_status[i].spec);
-
         TraceValue("%u",size_knowledge);TraceEOL();
         knowledge[size_knowledge].revealed_on = s;
         knowledge[size_knowledge].first_on = revelation_status[i].first.on;
         knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
         knowledge[size_knowledge].spec = revelation_status[i].spec;
-        knowledge[size_knowledge].is_allocated = motivation[id_revealed].first.purpose==purpose_castling_partner;
+        knowledge[size_knowledge].is_allocated = (id_new==NullPieceId);
 
         /* if we revealed a so far unplaced invisible piece, the id will have changed */
         if (id_new!=NullPieceId)
