@@ -964,11 +964,11 @@ Michel Caillaud & Igor Vere\vs\vcagin
   1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6[c6=wS] #
   1.[+bRa8]0-0-0[d8=bR] Qh3-d7   2.Kc8-b8 Qd7*d8 #
   1.[+bRa8]0-0-0[d8=bR] Qh3-h7   2.Rd8-g8 TI~*g8[g8=wR] #
-  add_to_move_generation_stack:      888525
-                     play_move:     1400692
+  add_to_move_generation_stack:      891981
+                     play_move:     1403010
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      444920
-                  TI decisions:      572590
+ is_black_king_square_attacked:      446698
+                  TI decisions:      574634
 
 solution finished.
 

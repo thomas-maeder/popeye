@@ -1085,8 +1085,24 @@ void initialise_revelations(void)
       revelation_status[i].walk = walk;
       revelation_status[i].spec = being_solved.spec[s];
       revelation_status[i].first = motivation[id].first;
-      if (motivation[id].last.purpose!=purpose_castling_partner)
+
+      assert(motivation[id].first.acts_when<=motivation[id].last.acts_when);
+      if (motivation[id].first.acts_when<motivation[id].last.acts_when
+          || motivation[id].first.purpose==purpose_capturer
+          || motivation[id].first.purpose==purpose_interceptor)
+      {
+        /* we don't know where this invisible started its career */
         revelation_status[i].first.on = initsquare;
+      }
+      else if (motivation[id].first.purpose==purpose_castling_partner)
+      {
+        /* let's apply knowledge */
+      }
+      else
+      {
+        /* are there other cases? */
+        assert(0);
+      }
       revelation_status[i].last = motivation[id].last;
       TraceAction(&revelation_status[i].first);TraceEOL();
       TraceAction(&revelation_status[i].last);TraceEOL();
@@ -1207,9 +1223,6 @@ void evaluate_revelations(slice_index si,
         if (id_new!=NullPieceId)
           SetPieceId(knowledge[size_knowledge].spec,id_new);
 
-        TraceValue("%u",id_revealed);TraceEOL();
-        TraceAction(&motivation[id_revealed].first);TraceEOL();
-        TraceAction(&motivation[id_revealed].last);TraceEOL();
         TraceWalk(knowledge[size_knowledge].walk);
         TraceSquare(knowledge[size_knowledge].first_on);
         TraceValue("%x",knowledge[size_knowledge].spec);
