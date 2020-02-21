@@ -1246,33 +1246,6 @@ void evaluate_revelations(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void apply_royal_knowledge(knowledge_index_type idx_knowledge,
-                                  void (*next_step)(void))
-{
-  square const s = knowledge[idx_knowledge].first_on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx_knowledge);
-  TraceFunctionParamListEnd();
-
-  if (TSTFLAG(being_solved.spec[s],Royal))
-  {
-    Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
-    TraceSquare(being_solved.king_square[side]);
-    TraceWalk(get_walk_of_piece_on_square(being_solved.king_square[side]));
-    TraceEOL();
-    assert(being_solved.king_square[side]==initsquare);
-    being_solved.king_square[side] = s;
-    apply_knowledge(idx_knowledge+1,next_step);
-    being_solved.king_square[side] = initsquare;
-  }
-  else
-    apply_knowledge(idx_knowledge+1,next_step);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void apply_knowledge(knowledge_index_type idx_knowledge,
                      void (*next_step)(void))
 {
@@ -1286,194 +1259,41 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
     (*next_step)();
   else
   {
-    dynamic_consumption_type const save_consumption = current_consumption;
-    square const sq_first_on = knowledge[idx_knowledge].first_on;
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
-    TraceSquare(sq_first_on);
-    TraceSquare(knowledge[idx_knowledge].revealed_on);
-    TraceSquare(knowledge[idx_knowledge].first_on);
-    TraceWalk(knowledge[idx_knowledge].walk);
-    TraceValue("%x",knowledge[idx_knowledge].spec);
-    TraceEnumerator(Side,side);
-    TraceValue("%u",knowledge[idx_knowledge].is_allocated);
-    TraceValue("%u",knowledge[idx_knowledge].last.acts_when);
-    TraceValue("%u",knowledge[idx_knowledge].last.purpose);
-    TraceSquare(knowledge[idx_knowledge].last.on);
-    TraceEOL();
+    PieceIdType const id_on_board = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
+    motivation_type const save_motivation = motivation[id_on_board];
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 
-    TraceConsumption();
-    TraceEOL();
+    assert(knowledge[idx_knowledge].is_allocated);
+    assert(knowledge[idx_knowledge].last.acts_when!=ply_nil);
 
-    if ((knowledge[idx_knowledge].is_allocated
-         || allocate_placed(side))
-        && !(is_taboo(sq_first_on,side) || will_be_taboo(sq_first_on,side)))
-    {
-//      ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-//      occupy_square(knowledge[idx_knowledge].first_on,
-//                    knowledge[idx_knowledge].walk,
-//                    knowledge[idx_knowledge].spec);
+    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+    assert(knowledge[idx_knowledge].last.purpose==purpose_castling_partner);
 
-      TraceValue("%u",knowledge[idx_knowledge].last.acts_when);TraceEOL();
-      if (knowledge[idx_knowledge].last.acts_when!=ply_nil)
-      {
-        PieceIdType const id_on_board = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-        motivation_type const save_motivation = motivation[id_on_board];
-        move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
+    occupy_square(knowledge[idx_knowledge].first_on,
+                  knowledge[idx_knowledge].walk,
+                  knowledge[idx_knowledge].spec);
 
-        TraceWalk(move_effect_journal[movement].u.piece_movement.moving);
-        TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
-        TraceSquare(move_effect_journal[movement].u.piece_movement.from);
-        TraceSquare(move_effect_journal[movement].u.piece_movement.to);
-        TraceEOL();
+    motivation[id_on_board].first = knowledge[idx_knowledge].last;
+    motivation[id_on_board].first.on = knowledge[idx_knowledge].first_on;
+    motivation[id_on_board].first.acts_when = 0;
+    motivation[id_on_board].last = knowledge[idx_knowledge].last;
 
-        assert(move_effect_journal[movement].type==move_effect_piece_movement);
+    TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
 
-        if (knowledge[idx_knowledge].last.purpose==purpose_capturer)
-        {
-          /* applying this knowledge doesn't work if the revealed piece has
-           * moved before this capturing move */
-          PieceIdType const id_from_knowledge = GetPieceId(knowledge[idx_knowledge].spec);
-          if (id_on_board!=id_from_knowledge)
-          {
-            assert(0);
-            apply_knowledge(idx_knowledge+1,next_step);
-          }
-          else
-          {
-            assert(0);
-//            ply const save_nbply = nbply;
-//            move_effect_journal_index_type const precapture = effects_base;
-//            move_effect_journal_entry_type const save_movement = move_effect_journal[movement];
-//
-//            motivation[id_on_board].first = knowledge[idx_knowledge].last;
-//            motivation[id_on_board].first.on = sq_first_on;
-//            motivation[id_on_board].first.acts_when = 0;
-//            motivation[id_on_board].last = knowledge[idx_knowledge].last;
-//
-//            TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
-//
-//            assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-//            assert(move_effect_journal[movement].u.piece_movement.to==knowledge[idx_knowledge].revealed_on);
-//            assert(move_effect_journal[movement].u.piece_movement.from==capture_by_invisible);
-//
-//            TraceText("prevent searching for capturer - we know who did it\n");
-//
-//            TraceSquare(knowledge[idx_knowledge].first_on);
-//            TraceWalk(get_walk_of_piece_on_square(knowledge[idx_knowledge].first_on));
-//            TraceSquare(knowledge[idx_knowledge].last.on);
-//            TraceWalk(get_walk_of_piece_on_square(knowledge[idx_knowledge].last.on));
-//            TraceValue("%x",being_solved.spec[sq_first_on]);
-//            TraceEOL();
-//
-//            // TODO when is this 0 and when is it not?
-//            assert(GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)==NullPieceId);
-//            assert(GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec)!=NullPieceId);
-//
-//            move_effect_journal[precapture].type = move_effect_none;
-//            move_effect_journal[movement].u.piece_movement.from = knowledge[idx_knowledge].last.on;
-//            move_effect_journal[movement].u.piece_movement.moving = get_walk_of_piece_on_square(knowledge[idx_knowledge].first_on);
-//            move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_first_on];
-//            SetPieceId(move_effect_journal[movement].u.piece_movement.movingspec,++top_invisible_piece_id);
-//
-//            nbply = knowledge[idx_knowledge].last.acts_when;
-//            remember_taboos_for_current_move();
-//            nbply = save_nbply;
+    assert(move_effect_journal[movement].u.piece_movement.moving==King);
+    assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
+    assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
 
-            apply_royal_knowledge(idx_knowledge,next_step);
+    apply_knowledge(idx_knowledge+1,next_step);
 
-//            nbply = knowledge[idx_knowledge].last.acts_when;
-//            forget_taboos_for_current_move();
-//            nbply = save_nbply;
-//
-//            --top_invisible_piece_id;
-//
-//            move_effect_journal[movement] = save_movement;
-//            move_effect_journal[precapture].type = move_effect_piece_readdition;
-          }
-        }
-        else if (knowledge[idx_knowledge].last.purpose==purpose_castling_partner)
-        {
-          ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-          occupy_square(knowledge[idx_knowledge].first_on,
-                        knowledge[idx_knowledge].walk,
-                        knowledge[idx_knowledge].spec);
+    empty_square(knowledge[idx_knowledge].first_on);
+    --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
 
-          motivation[id_on_board].first = knowledge[idx_knowledge].last;
-          motivation[id_on_board].first.on = sq_first_on;
-          motivation[id_on_board].first.acts_when = 0;
-          motivation[id_on_board].last = knowledge[idx_knowledge].last;
-
-          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
-
-          assert(move_effect_journal[movement].u.piece_movement.moving==King);
-          assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
-          assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
-
-          apply_royal_knowledge(idx_knowledge,next_step);
-
-          assert(sq_first_on==knowledge[idx_knowledge].first_on);
-          empty_square(knowledge[idx_knowledge].first_on);
-          --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-        }
-        else if (knowledge[idx_knowledge].last.purpose==purpose_random_mover)
-        {
-          assert(0);
-//          motivation[id_on_board].first = knowledge[idx_knowledge].last;
-//          motivation[id_on_board].first.on = sq_first_on;
-//          motivation[id_on_board].first.acts_when = 0;
-//          motivation[id_on_board].last = knowledge[idx_knowledge].last;
-//
-//          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
-//
-//          // TODO can we restrict generation of random move to the revealed piece?
-//          assert(move_effect_journal[movement].u.piece_movement.moving==Empty);
-//          assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
-//          assert(move_effect_journal[movement].u.piece_movement.to==move_by_invisible);
-          apply_royal_knowledge(idx_knowledge,next_step);
-        }
-        else if (knowledge[idx_knowledge].last.purpose==purpose_interceptor)
-        {
-          assert(0);
-//          motivation[id_on_board].first = knowledge[idx_knowledge].last;
-//          motivation[id_on_board].first.on = sq_first_on;
-//          motivation[id_on_board].first.acts_when = 0;
-//          motivation[id_on_board].last = knowledge[idx_knowledge].last;
-
-          TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
-
-          // We no longer look for different insertion squares for pieces
-          // revealed after having been inserted to move to intercept an
-          // illegal check.
-          // This seems to have been useless knowledge anyway...
-//          assert(sq_first_on==knowledge[idx_knowledge].revealed_on);
-          apply_royal_knowledge(idx_knowledge,next_step);
-        }
-        else
-          assert(0);
-
-        motivation[id_on_board] = save_motivation;
-      }
-      else
-      {
-        assert(0);
-        apply_royal_knowledge(idx_knowledge,next_step);
-      }
-
-//      assert(sq_first_on==knowledge[idx_knowledge].first_on);
-//      empty_square(knowledge[idx_knowledge].first_on);
-//      --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-    }
-    else
-    {
-      TraceText("allocation for application of knowledge not possible\n");
-      record_decision_outcome("%s","allocation for application of knowledge not possible");
-      record_decision_result(previous_move_has_not_solved);
-      REPORT_DEADEND;
-    }
-
-    current_consumption = save_consumption;
+    motivation[id_on_board] = save_motivation;
   }
 
   TraceFunctionExit(__func__);
