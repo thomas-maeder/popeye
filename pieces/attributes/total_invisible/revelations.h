@@ -9,7 +9,6 @@
 
 typedef struct
 {
-    square revealed_on;
     square first_on;
     action_type last;
     piece_walk_type walk;

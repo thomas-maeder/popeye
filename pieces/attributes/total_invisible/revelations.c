@@ -1212,7 +1212,6 @@ void evaluate_revelations(slice_index si,
       if (revelation_status[i].first.on!=initsquare)
       {
         TraceValue("%u",size_knowledge);TraceEOL();
-        knowledge[size_knowledge].revealed_on = s;
         knowledge[size_knowledge].first_on = revelation_status[i].first.on;
         knowledge[size_knowledge].last = revelation_status[i].last;
         knowledge[size_knowledge].walk = revelation_status[i].walk;
