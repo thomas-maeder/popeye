@@ -1257,14 +1257,7 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
   {
     Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
 
-    PieceIdType const id_on_board = GetPieceId(being_solved.spec[knowledge[idx_knowledge].last.on]);
-    motivation_type const save_motivation = motivation[id_on_board];
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[knowledge[idx_knowledge].last.acts_when];
-    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-
     assert(knowledge[idx_knowledge].last.acts_when!=ply_nil);
-
-    assert(move_effect_journal[movement].type==move_effect_piece_movement);
     assert(knowledge[idx_knowledge].last.purpose==purpose_castling_partner);
 
     ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
@@ -1272,23 +1265,10 @@ void apply_knowledge(knowledge_index_type idx_knowledge,
                   knowledge[idx_knowledge].walk,
                   knowledge[idx_knowledge].spec);
 
-    motivation[id_on_board].first = knowledge[idx_knowledge].last;
-    motivation[id_on_board].first.on = knowledge[idx_knowledge].first_on;
-    motivation[id_on_board].first.acts_when = 0;
-    motivation[id_on_board].last = knowledge[idx_knowledge].last;
-
-    TraceValue("%u",motivation[id_on_board].last.purpose);TraceEOL();
-
-    assert(move_effect_journal[movement].u.piece_movement.moving==King);
-    assert(is_on_board(move_effect_journal[movement].u.piece_movement.from));
-    assert(is_on_board(move_effect_journal[movement].u.piece_movement.to));
-
     apply_knowledge(idx_knowledge+1,next_step);
 
     empty_square(knowledge[idx_knowledge].first_on);
     --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-
-    motivation[id_on_board] = save_motivation;
   }
 
   TraceFunctionExit(__func__);
