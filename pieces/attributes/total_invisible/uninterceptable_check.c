@@ -211,7 +211,6 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 
   top_ply_of_regular_play = nbply;
 
-  // TODO separate slice type for update nr_taboos_accumulated_until_ply?
   if (is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
     solve_result = previous_move_is_illegal;
   else if (nbply>ply_retro_move)
