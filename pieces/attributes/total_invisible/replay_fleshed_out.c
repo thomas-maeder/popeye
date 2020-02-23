@@ -21,6 +21,7 @@ static boolean is_move_still_playable(slice_index si)
   {
     Side const side = SLICE_STARTER(si);
     move_effect_journal_index_type const base = move_effect_journal_base[ply_replayed];
+    move_effect_journal_index_type const precapture = base;
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -32,7 +33,7 @@ static boolean is_move_still_playable(slice_index si)
     TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture);
     TraceEOL();
 
-    // TODO redo (and undo) the pre-capture effect?
+    assert(move_effect_journal[precapture].type==move_effect_none);
 
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
