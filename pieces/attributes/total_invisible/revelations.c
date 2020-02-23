@@ -992,19 +992,19 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
  *         the id of the revealed piece allocated by this function otherwise
  */
 // TODO pass the revelation_status_type * rather than its index
-static PieceIdType add_revelation_effect(square s, unsigned int idx)
+static PieceIdType add_revelation_effect(square s, revelation_status_type * const status)
 {
   PieceIdType result = NullPieceId;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  Flags spec = revelation_status[idx].spec;
+  Flags spec = status->spec;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
-  TraceWalk(revelation_status[idx].walk);
-  TraceFunctionParam("%x",revelation_status[idx].spec);
+  TraceWalk(status->walk);
+  TraceFunctionParam("%x",status->spec);
   TraceEOL();
 
   assert(TSTFLAG(spec,Chameleon));
@@ -1017,11 +1017,11 @@ static PieceIdType add_revelation_effect(square s, unsigned int idx)
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     {
-      result = initialise_motivation_from_revelation(&revelation_status[idx]);
+      result = initialise_motivation_from_revelation(status);
 
       SetPieceId(spec,result);
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
-                                     s,revelation_status[idx].walk,spec);
+                                     s,status->walk,spec);
     }
   }
   else
@@ -1036,14 +1036,14 @@ static PieceIdType add_revelation_effect(square s, unsigned int idx)
       CLRFLAG(being_solved.spec[s],Chameleon);
       assert(GetPieceId(spec)==GetPieceId(being_solved.spec[s]));
       do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
-                                        s,revelation_status[idx].walk,spec);
+                                        s,status->walk,spec);
     }
     else
     {
       TraceText("revelation of a placed invisible\n");
       SetPieceId(spec,GetPieceId(being_solved.spec[s]));
       do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
-                                        s,revelation_status[idx].walk,spec);
+                                        s,status->walk,spec);
     }
   }
 
@@ -1241,7 +1241,7 @@ void evaluate_revelations(slice_index si,
       evaluate_revelations(si,i);
     else
     {
-      PieceIdType const id_new = add_revelation_effect(s,i);
+      PieceIdType const id_new = add_revelation_effect(s,&revelation_status[i]);
 
       evaluate_revelations(si,i);
 
