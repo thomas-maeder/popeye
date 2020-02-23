@@ -176,7 +176,6 @@ boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay)
       move_effect_journal_index_type const top = move_effect_journal_base[nbply];
       move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
 
-      // TODO what if we have added an invisible on the departure square of the castling partner?
       if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
       {
         undo_move_effects();
