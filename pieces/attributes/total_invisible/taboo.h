@@ -37,12 +37,21 @@ void forget_taboo_on_square(square s, Side side, ply ply);
 boolean will_be_taboo(square s, Side side);
 
 /* Would moving a piece of a particular side to a particular square have violated a taboo
- * in the past (i.e. before ply nbply)?
+ * in the past (i.e. since the last ply where a move or capture by an invisible could
+ * have caused action on that square)?
  * @param s the square
  * @param side the side
  * @return true iff a taboo will be violated
  */
 boolean was_taboo(square s, Side side);
+
+/* Would moving a piece of a particular side to a particular square have violated a taboo
+ * in the past (i.e. since the start of play)?
+ * @param s the square
+ * @param side the side
+ * @return true iff a taboo will be violated
+ */
+boolean was_taboo_forever(square s, Side side);
 
 /* Does moving a piece of a particular side to a particular square violate a taboo currently
  * (i.e. in ply nbply)?

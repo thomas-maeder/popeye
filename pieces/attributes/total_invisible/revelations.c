@@ -110,10 +110,6 @@ void uninitialise_motivation(PieceIdType id_uninitialised)
   TraceFunctionResultEnd();
 }
 
-// TODO what is a good size for this?
-knowledge_type knowledge[MaxPieceId];
-knowledge_index_type size_knowledge;
-
 static void do_revelation_of_new_invisible(move_effect_reason_type reason,
                                            square on,
                                            piece_walk_type walk,
@@ -373,16 +369,37 @@ void undo_revelation_of_castling_partner(move_effect_journal_entry_type const *e
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",play_phase);
+  TraceEOL();
+
   switch (play_phase)
   {
     case play_regular:
-    case play_rewinding:
       TraceSquare(on);
+      TraceWalk(get_walk_of_piece_on_square(on));
       TraceValue("%x",being_solved.spec[on]);
       TraceEOL();
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       SETFLAG(being_solved.spec[on],Chameleon);
       break;
+
+    case play_rewinding:
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
+
+      /* there is no need to remove an inserted castling partner while rewinding */
+      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+      move_effect_journal[precapture].type = move_effect_none;
+
+      TraceSquare(on);
+      TraceWalk(get_walk_of_piece_on_square(on));
+      TraceValue("%x",being_solved.spec[on]);
+      TraceEOL();
+      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
+      SETFLAG(being_solved.spec[on],Chameleon);
+      break;
+    }
 
     case play_detecting_revelations:
     case play_validating_mate:
@@ -422,13 +439,28 @@ void redo_revelation_of_castling_partner(move_effect_journal_entry_type const *e
   switch (play_phase)
   {
     case play_regular:
-    case play_unwinding:
       TraceSquare(on);
       TraceValue("%x",being_solved.spec[on]);
       TraceEOL();
       assert(TSTFLAG(being_solved.spec[on],Chameleon));
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
+
+    case play_unwinding:
+    {
+      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const precapture = effects_base;
+
+      assert(move_effect_journal[precapture].type==move_effect_none);
+      move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+      TraceSquare(on);
+      TraceValue("%x",being_solved.spec[on]);
+      TraceEOL();
+      assert(TSTFLAG(being_solved.spec[on],Chameleon));
+      CLRFLAG(being_solved.spec[on],Chameleon);
+      break;
+    }
 
     case play_rewinding:
       assert(0);
@@ -1205,70 +1237,17 @@ void evaluate_revelations(slice_index si,
     TraceAction(&revelation_status[i].first);TraceEOL();
     TraceAction(&revelation_status[i].last);TraceEOL();
 
-    if (revelation_status[i].walk!=Empty)
+    if (revelation_status[i].walk==Empty)
+      evaluate_revelations(si,i);
+    else
     {
       PieceIdType const id_new = add_revelation_effect(s,i);
 
-      if (revelation_status[i].first.on!=initsquare)
-      {
-        TraceValue("%u",size_knowledge);TraceEOL();
-        knowledge[size_knowledge].first_on = revelation_status[i].first.on;
-        knowledge[size_knowledge].last = revelation_status[i].last;
-        knowledge[size_knowledge].walk = revelation_status[i].walk;
-        knowledge[size_knowledge].spec = revelation_status[i].spec;
-
-        assert(id_new==NullPieceId);
-
-        TraceWalk(knowledge[size_knowledge].walk);
-        TraceSquare(knowledge[size_knowledge].first_on);
-        TraceValue("%x",knowledge[size_knowledge].spec);
-        TraceEOL();
-
-        ++size_knowledge;
-        evaluate_revelations(si,i);
-        --size_knowledge;
-      }
-      else
-        evaluate_revelations(si,i);
+      evaluate_revelations(si,i);
 
       if (id_new!=NullPieceId)
         uninitialise_motivation(id_new);
     }
-    else
-      evaluate_revelations(si,i);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void apply_knowledge(knowledge_index_type idx_knowledge,
-                     void (*next_step)(void))
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",idx_knowledge);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",size_knowledge);TraceEOL();
-
-  if (idx_knowledge==size_knowledge)
-    (*next_step)();
-  else
-  {
-    Side const side = TSTFLAG(knowledge[idx_knowledge].spec,White) ? White : Black;
-
-    assert(knowledge[idx_knowledge].last.acts_when!=ply_nil);
-    assert(knowledge[idx_knowledge].last.purpose==purpose_castling_partner);
-
-    ++being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
-    occupy_square(knowledge[idx_knowledge].first_on,
-                  knowledge[idx_knowledge].walk,
-                  knowledge[idx_knowledge].spec);
-
-    apply_knowledge(idx_knowledge+1,next_step);
-
-    empty_square(knowledge[idx_knowledge].first_on);
-    --being_solved.number_of_pieces[side][knowledge[idx_knowledge].walk];
   }
 
   TraceFunctionExit(__func__);
@@ -1290,7 +1269,7 @@ void make_revelations(void)
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
-  apply_knowledge(0,&start_iteration);
+  start_iteration();
 
   static_consumption.king[White] = false;
   static_consumption.king[Black] = false;

@@ -423,53 +423,61 @@ void adapt_pre_capture_effect(void)
       else
       {
         square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-        piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
         Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
         Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
 
         TraceSquare(sq_addition);
         TraceValue("%u",is_square_empty(sq_addition));
-        TraceSquare(knowledge[0].first_on);
-        TraceWalk(walk_added);
-        TraceWalk(knowledge[0].walk);
-        TraceValue("%u",knowledge[0].is_allocated);
         TraceValue("%u",move_effect_journal[pre_capture].reason);
         TraceEOL();
 
-        if (!is_square_empty(sq_addition)
-            && sq_addition==knowledge[0].first_on
-            && walk_added==knowledge[0].walk)
+        if (move_effect_journal[pre_capture].reason==move_effect_reason_castling_partner)
         {
-          TraceText("addition of a castling partner\n");
-          TraceText("castling partner was added as part of applying our knowledge\n");
-          move_effect_journal[pre_capture].type = move_effect_none;
-          deal_with_illegal_checks();
-          move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-        }
-        else if (is_square_empty(sq_addition)
-                 && move_effect_journal[pre_capture].reason==move_effect_reason_castling_partner)
-        {
-          square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-          piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-          Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-          PieceIdType const id_added = GetPieceId(flags_added);
+          if (is_square_empty(sq_addition))
+          {
+            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+            PieceIdType const id_added = GetPieceId(flags_added);
 
-          TraceText("addition of a castling partner\n");
-          record_decision_outcome("%s","adding castling partner");
-          move_effect_journal[pre_capture].type = move_effect_none;
-          record_decision_for_inserted_invisible(id_added);
-          ++being_solved.number_of_pieces[trait[nbply]][walk_added];
-          occupy_square(sq_addition,walk_added,flags_added);
-          restart_from_scratch();
-          empty_square(sq_addition);
-          --being_solved.number_of_pieces[trait[nbply]][walk_added];
-          move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+            TraceText("addition of a castling partner - not yet revealed\n");
+            assert(play_phase==play_detecting_revelations /* going to be revealed now */
+                   || nbply==top_ply_of_regular_play);    /* going to be revealed if we have solved */
+            record_decision_outcome("%s","adding castling partner");
+            move_effect_journal[pre_capture].type = move_effect_none;
+            record_decision_for_inserted_invisible(id_added);
+            ++being_solved.number_of_pieces[trait[nbply]][walk_added];
+            occupy_square(sq_addition,walk_added,flags_added);
+            restart_from_scratch();
+            empty_square(sq_addition);
+            --being_solved.number_of_pieces[trait[nbply]][walk_added];
+            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+          }
+          else
+          {
+            PieceIdType const id_added = GetPieceId(flags_added);
+            PieceIdType const id_on_board = GetPieceId(being_solved.spec[sq_addition]);
+            if (id_added==id_on_board)
+            {
+              TraceText("addition of a castling partner\n");
+              TraceText("castling partner was added as part of applying our knowledge\n");
+              move_effect_journal[pre_capture].type = move_effect_none;
+              deal_with_illegal_checks();
+              move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+            }
+            else
+            {
+              TraceText("The departure square of the castling partner is occupied by somebody else\n");
+              TraceText("This should have been prevented by the taboo machinery\n");
+              assert(0);
+            }
+          }
         }
-        else if (was_taboo(sq_addition,side_added))
+        else if (was_taboo_forever(sq_addition,side_added))
         {
           TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
-          record_decision_outcome("%s","Hmm - some invisible piece must have traveled through the castling partner's square");
-          REPORT_DEADEND;
+          TraceText("This should have been prevented by the taboo machinery\n");
+          assert(0);
         }
         else
         {
@@ -667,7 +675,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
     static_consumption.king[White] = being_solved.king_square[White]==initsquare;
     static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
-    apply_knowledge(0,&validate_and_test);
+    validate_and_test();
 
     static_consumption.king[White] = false;
     static_consumption.king[Black] = false;

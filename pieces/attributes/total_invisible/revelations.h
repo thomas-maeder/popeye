@@ -10,20 +10,6 @@
 typedef struct
 {
     square first_on;
-    action_type last;
-    piece_walk_type walk;
-    Flags spec;
-} knowledge_type;
-
-// TODO what is a good size for this?
-extern knowledge_type knowledge[MaxPieceId];
-
-typedef unsigned int knowledge_index_type;
-extern knowledge_index_type size_knowledge;
-
-typedef struct
-{
-    square first_on;
     piece_walk_type walk;
     Flags spec;
     action_type first;
@@ -74,10 +60,6 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
 void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *entry);
 
 void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to, ply up_to_ply);
-
-
-void apply_knowledge(knowledge_index_type idx_knowledge,
-                     void (*next_step)(void));
 
 void setup_revelations(void);
 void initialise_revelations(void);

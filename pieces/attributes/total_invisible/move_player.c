@@ -2,6 +2,7 @@
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/decisions.h"
+#include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible.h"
 #include "stipulation/stipulation.h"
 #include "position/position.h"
@@ -34,11 +35,26 @@ static void play_castling_with_invisible_partner(slice_index si,
       PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,
                                                            purpose_castling_partner,sq_arrival_partner);
       Flags spec = BIT(side)|BIT(Chameleon);
+      ply ply_taboo;
 
       SetPieceId(spec,id_partner);
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
                                               sq_departure_partner,Rook,spec,side);
+
+      for (ply_taboo = ply_retro_move+1; ply_taboo<=nbply; ++ply_taboo)
+      {
+        remember_taboo_on_square(sq_departure_partner,White,ply_taboo);
+        remember_taboo_on_square(sq_departure_partner,Black,ply_taboo);
+      }
+
       pipe_solve_delegate(si);
+
+      for (ply_taboo = ply_retro_move+1; ply_taboo<=nbply; ++ply_taboo)
+      {
+        forget_taboo_on_square(sq_departure_partner,White,ply_taboo);
+        forget_taboo_on_square(sq_departure_partner,Black,ply_taboo);
+      }
+
       uninitialise_motivation(id_partner);
     }
     else

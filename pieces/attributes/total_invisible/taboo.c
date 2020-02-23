@@ -47,7 +47,8 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
 }
 
 /* Would moving a piece of a particular side to a particular square have violated a taboo
- * in the past (i.e. before ply nbply)?
+ * in the past (i.e. since the last ply where a move or capture by an invisible could
+ * have caused action on that square)?
  * @param s the square
  * @param side the side
  * @return true iff a taboo will be violated
@@ -74,6 +75,40 @@ boolean was_taboo(square s, Side side)
     }
     else if (is_move_by_invisible(s,side,ply))
       break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Would moving a piece of a particular side to a particular square have violated a taboo
+ * in the past (i.e. since the start of play)?
+ * @param s the square
+ * @param side the side
+ * @return true iff a taboo will be violated
+ */
+boolean was_taboo_forever(square s, Side side)
+{
+  boolean result = false;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  for (ply = nbply-1; ply>ply_retro_move; --ply)
+  {
+    TraceValue("%u",ply);
+    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+    TraceEOL();
+    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+    {
+      result = true;
+      break;
+    }
   }
 
   TraceFunctionExit(__func__);

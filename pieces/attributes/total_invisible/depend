@@ -758,9 +758,9 @@ pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum position/effects/piece_readdition.h \
- position/effects/null_move.h solving/pipe.h solving/move_generator.h \
- debugging/assert.h
+ solving/has_solution_type.enum pieces/attributes/total_invisible/taboo.h \
+ position/effects/piece_readdition.h position/effects/null_move.h \
+ solving/pipe.h solving/move_generator.h debugging/assert.h
 
 pieces/attributes/total_invisible/move_player.h:
 
@@ -841,6 +841,8 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
+
+pieces/attributes/total_invisible/taboo.h:
 
 position/effects/piece_readdition.h:
 
