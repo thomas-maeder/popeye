@@ -100,7 +100,6 @@ vec_index_type is_square_uninterceptably_attacked(Side side_under_attack, square
 
   if (can_interceptor_be_allocated())
   {
-    // TODO shouldn't we compare sq_attacked to initsquare?
     if (being_solved.king_square[side_under_attack]!=initsquare)
     {
       if (!result && being_solved.number_of_pieces[side_checking][King]>0)
