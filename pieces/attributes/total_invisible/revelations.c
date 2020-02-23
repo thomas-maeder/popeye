@@ -991,7 +991,6 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
  * @return NullPieceId iff the revealed piece was already allocated
  *         the id of the revealed piece allocated by this function otherwise
  */
-// TODO pass the revelation_status_type * rather than its index
 static PieceIdType add_revelation_effect(square s, revelation_status_type * const status)
 {
   PieceIdType result = NullPieceId;
