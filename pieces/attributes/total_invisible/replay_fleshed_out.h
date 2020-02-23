@@ -21,6 +21,13 @@ extern ply ply_replayed;
  */
 void total_invisible_move_repeater_solve(slice_index si);
 
-void replay_fleshed_out_move_sequence(play_phase_type phase_replay);
+/* Undo all moves, then replay the fleshed out move sequence to find out if it
+ * is replayable at all given the way we have fleshed out (eg have we made a
+ * castling impossible by guarding the intermediate square?) and if it reaches
+ * the goal
+ * @return false iff undoing failed (and therefore nothing was replayed)
+ * @note primarily communicates the result via mate_validation_result
+ */
+boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay);
 
 #endif

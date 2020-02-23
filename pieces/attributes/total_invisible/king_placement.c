@@ -27,17 +27,30 @@ static void done_validating_king_placements(void)
       break;
 
     case play_validating_mate:
+    {
+      boolean replay_result;
+
       record_decision_outcome("%s","Replaying moves for validation");
       play_phase = play_initialising_replay;
-      replay_fleshed_out_move_sequence(play_replay_validating);
+      replay_result = replay_fleshed_out_move_sequence(play_replay_validating);
       play_phase = play_validating_mate;
 
-      if (mate_validation_result<combined_validation_result)
-        combined_validation_result = mate_validation_result;
-      if (mate_validation_result<=mate_attackable)
-        record_decision_result(previous_move_has_not_solved);
+      if (!replay_result
+          && current_consumption.placed[White]+current_consumption.placed[Black]>0)
+      {
+        record_decision_outcome("ply %u: %s",nbply,"replaying failed - restarting from scratch");
+        restart_from_scratch();
+      }
+      else
+      {
+        if (mate_validation_result<combined_validation_result)
+          combined_validation_result = mate_validation_result;
+        if (mate_validation_result<=mate_attackable)
+          record_decision_result(previous_move_has_not_solved);
+      }
 
       break;
+    }
 
     case play_testing_mate:
       if (combined_validation_result==mate_attackable)

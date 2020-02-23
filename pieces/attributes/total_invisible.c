@@ -253,8 +253,6 @@ static void adapt_capture_effect(void)
 
     if (TSTFLAG(orig_flags_removed,Chameleon))
     {
-      // TODO always make sure we deal with an invisible before deactivating through motivation?
-      // or never?
       PieceIdType const id_removed = GetPieceId(orig_flags_removed);
       purpose_type const orig_purpose_removed = motivation[id_removed].last.purpose;
 

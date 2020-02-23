@@ -161,8 +161,10 @@ void total_invisible_move_repeater_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
+boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",phase_replay);
   TraceFunctionParamListEnd();
@@ -178,18 +180,21 @@ void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
       if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
       {
         undo_move_effects();
-        replay_fleshed_out_move_sequence(phase_replay);
+        result = replay_fleshed_out_move_sequence(phase_replay);
         redo_move_effects();
       }
       else
-        // TODO backtrack how far? placement of the blocker? or rather "non-removal" of it (i.e. the last random move of its side)?
-        // TODO move this to our caller?
+      {
+        record_decision_outcome("nbply %u: ply_replayed:%u %s",nbply,ply_replayed,"departure square not empty when retracting");
         mate_validation_result = mate_unvalidated;
+      }
     }
     ++nbply;
   }
   else
   {
+    result = true;
+
     ply_replayed = nbply;
     nbply = top_ply_of_regular_play;
 
@@ -211,5 +216,7 @@ void replay_fleshed_out_move_sequence(play_phase_type phase_replay)
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
