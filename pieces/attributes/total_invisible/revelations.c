@@ -999,7 +999,6 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
-  TraceFunctionParam("%u",idx);
   TraceFunctionParamListEnd();
 
   TraceWalk(status->walk);
@@ -1379,9 +1378,7 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
           redo_piece_movement(entry);
         }
         else
-        {
-          // TODO backtrack how far? placement of the blocker? or rather "non-removal" of it (i.e. the last random move of its side)?
-        }
+          record_decision_outcome("%s","an invisible was added on our departure square and not removed while retracting");
         break;
 
       case move_effect_walk_change:
