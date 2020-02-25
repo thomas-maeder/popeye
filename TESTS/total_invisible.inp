@@ -36,4 +36,10 @@ origin this doesn't work if we overdo it with optimisations
 pieces TotalInvisible 2 white kh6 black kh8 rg8h1 bh5 pd6
 stipulation h#1.5
 
+next
+
+origin capture by invisible pawn results in promotion
+pieces total 1 white kd6 sd8 black kb6 bb8a6 rb1h7 pa5a7
+stipulation h#2
+
 end

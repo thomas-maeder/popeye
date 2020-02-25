@@ -6,6 +6,7 @@
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
 #include "pieces/attributes/total_invisible/random_move_by_invisible.h"
 #include "pieces/attributes/total_invisible.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/ply.h"
 #include "solving/move_effect_journal.h"
 #include "optimisations/orthodox_check_directions.h"
@@ -218,6 +219,8 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
   }
   else
   {
+    Side const side_playing = trait[nbply];
+
     PieceIdType const id_existing = GetPieceId(flags_existing);
 
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -230,7 +233,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
-    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,trait[nbply]);
+    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,side_playing);
     decision_levels[id_inserted].walk = decision_levels[id_existing].walk;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_inserted,nbply-1);
@@ -253,9 +256,40 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     remember_taboos_for_current_move();
 
-    allocate_flesh_out_placed(trait[nbply]);
+    allocate_flesh_out_placed(side_playing);
 
-    restart_from_scratch();
+    TraceSquare(move_effect_journal[movement].u.piece_movement.to);
+    TraceValue("%u",ForwardPromSq(trait[nbply],move_effect_journal[movement].u.piece_movement.to));
+    TraceEOL();
+
+    if (walk_capturing==Pawn
+        && ForwardPromSq(side_playing,move_effect_journal[movement].u.piece_movement.to))
+    {
+      move_effect_journal_index_type const promotion = movement+1;
+      pieces_pawns_promotion_sequence_type sequence = {
+          pieces_pawns_promotee_chain_orthodox,
+          pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]
+      };
+
+      assert(move_effect_journal[promotion].type==move_effect_none);
+
+      move_effect_journal[promotion].type = move_effect_walk_change;
+      move_effect_journal[promotion].u.piece_walk_change.from = Pawn;
+      move_effect_journal[promotion].u.piece_walk_change.on = move_effect_journal[movement].u.piece_movement.to;
+
+      do
+      {
+        push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+        move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
+        restart_from_scratch();
+        pieces_pawns_continue_promotee_sequence(&sequence);
+        pop_decision();
+      } while (sequence.promotee!=Empty && can_decision_level_be_continued());
+
+      move_effect_journal[promotion].type = move_effect_none;
+    }
+    else
+      restart_from_scratch();
 
     current_consumption = save_consumption;
 
@@ -886,7 +920,10 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         break;
 
       case Pawn:
-        if ((trait[nbply]==White ? move_square_diff>0 : move_square_diff<0)
+      {
+        Side const side_playing = trait[nbply];
+
+        if ((side_playing==White ? move_square_diff>0 : move_square_diff<0)
             && CheckDir[Bishop][move_square_diff]==move_square_diff)
         {
           SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
@@ -895,7 +932,34 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
           if (!TSTFLAG(sq_spec[sq_departure],basesq)
               && !TSTFLAG(sq_spec[sq_departure],promsq))
           {
-            capture_by_invisible_with_defined_walk(Pawn,sq_departure);
+            square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+            if (ForwardPromSq(side_playing,sq_arrival))
+            {
+              move_effect_journal_index_type const promotion = movement+1;
+              pieces_pawns_promotion_sequence_type sequence = {
+                  pieces_pawns_promotee_chain_orthodox,
+                  pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]
+              };
+
+              assert(move_effect_journal[promotion].type==move_effect_none);
+
+              move_effect_journal[promotion].type = move_effect_walk_change;
+              move_effect_journal[promotion].u.piece_walk_change.from = Pawn;
+              move_effect_journal[promotion].u.piece_walk_change.on = sq_arrival;
+
+              do
+              {
+                push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+                move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
+                capture_by_invisible_with_defined_walk(Pawn,sq_departure);
+                pieces_pawns_continue_promotee_sequence(&sequence);
+                pop_decision();
+              } while (sequence.promotee!=Empty && can_decision_level_be_continued());
+
+              move_effect_journal[promotion].type = move_effect_none;
+            }
+            else
+              capture_by_invisible_with_defined_walk(Pawn,sq_departure);
             // TODO en passant capture
             result = true;
           }
@@ -906,6 +970,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
           REPORT_DEADEND;
         }
         break;
+      }
 
       case Dummy:
         if (CheckDir[Queen][move_square_diff]!=0

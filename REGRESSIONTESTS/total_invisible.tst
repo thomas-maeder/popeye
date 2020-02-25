@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22104
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6851
-                  TI decisions:      131008
+                  TI decisions:      131028
 
 solution finished.
 
@@ -210,6 +210,41 @@ this doesn't work if we overdo it with optimisations
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5860
                   TI decisions:       11316
+
+solution finished.
+
+
+
+capture by invisible pawn results in promotion
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -B   .   S   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .  -R   7
+|                                   |
+6  -B  -K   .   K   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 7 + 1 TI
+
+  1.Rb1-b5 TI~*b8   2.Rh7-c7 TI~*c7[c7=wB] #
+  1.Rb1-b5 TI~*b8   2.Rh7-d7 TI~*d7[d7=wS] #
+  add_to_move_generation_stack:      264070
+                     play_move:      575408
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:      146124
+                  TI decisions:      582746
 
 solution finished.
 
