@@ -5,6 +5,7 @@
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
 #include "pieces/attributes/total_invisible/capture_by_invisible.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/move_effect_journal.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "optimisations/orthodox_check_directions.h"
@@ -18,6 +19,7 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
   motivation_type const save_motivation = motivation[id];
+  Side const side = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk_moving);
@@ -28,10 +30,45 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
   motivation[id].last.on = sq_arrival;
 
   remember_taboos_for_current_move();
-  if (walk_moving==Dummy)
-    restart_from_scratch();
+
+  if (move_effect_journal[movement].u.piece_movement.moving==Pawn
+      && ForwardPromSq(side,sq_arrival))
+  {
+    PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    move_effect_journal_index_type const promotion = movement+1;
+    pieces_pawns_promotion_sequence_type sequence = {
+        pieces_pawns_promotee_chain_orthodox,
+        pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]
+    };
+
+    assert(move_effect_journal[promotion].type==move_effect_none);
+
+    move_effect_journal[promotion].type = move_effect_walk_change;
+    move_effect_journal[promotion].u.piece_walk_change.from = Pawn;
+    move_effect_journal[promotion].u.piece_walk_change.on = sq_arrival;
+
+    do
+    {
+      push_decision_walk(id,sequence.promotee,decision_purpose_invisible_capturer_existing,side);
+      move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
+      if (walk_moving==Dummy)
+        restart_from_scratch();
+      else
+        recurse_into_child_ply();
+      pieces_pawns_continue_promotee_sequence(&sequence);
+      pop_decision();
+    } while (sequence.promotee!=Empty && can_decision_level_be_continued());
+
+    move_effect_journal[promotion].type = move_effect_none;
+  }
   else
-    recurse_into_child_ply();
+  {
+    if (walk_moving==Dummy)
+      restart_from_scratch();
+    else
+      recurse_into_child_ply();
+  }
+
   forget_taboos_for_current_move();
 
   motivation[id] = save_motivation;
@@ -585,7 +622,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
       if (!will_be_taboo(sq_singlestep,side))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
-        // TODO promotion
+
         done_forward_random_move_by_invisible(walk_moving);
       }
 

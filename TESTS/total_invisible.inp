@@ -42,4 +42,11 @@ origin capture by invisible pawn results in promotion
 pieces total 1 white kd6 sd8 black kb6 bb8a6 rb1h7 pa5a7
 stipulation h#2
 
+next
+
+origin random move by invisible pawn results in promotion
+pieces total 1 white kf3 bf2h5 sf4 pe2e3 black kf1 bh1 
+stipulation h#2
+
 end
+
