@@ -1278,11 +1278,67 @@ static void done_backward_random_move_by_specific_invisible_to(void)
   TraceFunctionResultEnd();
 }
 
+static void unpromote_random_mover(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  Side const side_playing = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",kstart);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
+  if (ForwardPromSq(side_playing,sq_arrival))
+  {
+    int const dir = side_playing==White ? dir_up : dir_down;
+
+    move_effect_journal[movement].u.piece_movement.from = sq_arrival-dir;
+    TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+    TraceEOL();
+
+    if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
+    {
+      move_effect_journal_index_type const promotion = movement+1;
+
+      assert(move_effect_journal[promotion].type==move_effect_none);
+
+      move_effect_journal[promotion].type = move_effect_walk_change;
+      move_effect_journal[promotion].u.piece_walk_change.from = Pawn;
+      move_effect_journal[promotion].u.piece_walk_change.to = move_effect_journal[movement].u.piece_movement.moving;
+      move_effect_journal[promotion].u.piece_walk_change.on = sq_arrival;
+
+      move_effect_journal[movement].u.piece_movement.moving = Pawn;
+
+      push_decision_walk(GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec),
+                         Pawn,
+                         decision_purpose_random_mover_backward,
+                         side_playing);
+
+      replace_walk(sq_arrival,Pawn);
+      done_backward_random_move_by_specific_invisible_to();
+      replace_walk(sq_arrival,
+                   move_effect_journal[promotion].u.piece_walk_change.to);
+
+      pop_decision();
+
+      move_effect_journal[movement].u.piece_movement.moving = move_effect_journal[promotion].u.piece_walk_change.to;
+
+      move_effect_journal[promotion].type = move_effect_none;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void backward_random_move_by_specific_invisible_rider_to(vec_index_type kstart,
                                                                  vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   vec_index_type k;
 
   TraceFunctionEntry(__func__);
@@ -1294,7 +1350,7 @@ static void backward_random_move_by_specific_invisible_rider_to(vec_index_type k
 
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
-    move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
+    move_effect_journal[movement].u.piece_movement.from = sq_arrival-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
@@ -1305,6 +1361,9 @@ static void backward_random_move_by_specific_invisible_rider_to(vec_index_type k
       move_effect_journal[movement].u.piece_movement.from -= vec[k];
     }
   }
+
+  if (can_decision_level_be_continued())
+    unpromote_random_mover();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1350,10 +1409,11 @@ static void backward_random_move_by_specific_invisible_king_to(void)
 }
 
 static void backward_random_move_by_specific_invisible_leaper_to(vec_index_type kstart,
-                                                                  vec_index_type kend)
+                                                                 vec_index_type kend)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   vec_index_type k;
 
   TraceFunctionEntry(__func__);
@@ -1365,13 +1425,16 @@ static void backward_random_move_by_specific_invisible_leaper_to(vec_index_type 
 
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
-    move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
+    move_effect_journal[movement].u.piece_movement.from = sq_arrival-vec[k];
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
     if (is_square_empty(move_effect_journal[movement].u.piece_movement.from))
       done_backward_random_move_by_specific_invisible_to();
   }
+
+  if (can_decision_level_be_continued())
+    unpromote_random_mover();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
