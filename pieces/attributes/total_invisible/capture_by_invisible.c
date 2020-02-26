@@ -986,8 +986,6 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         {
           record_decision_outcome("%s","the piece on the departure square can't reach the arrival square");
           REPORT_DEADEND;
-          // TODO do decision_levels[id_existing] = motivation[id_random] later
-          // so that we can use motivation[id_existing] here?
           if (static_consumption.king[advers(trait[nbply])]+static_consumption.pawn_victims[advers(trait[nbply])]+1
               >=total_invisible_number)
           {
