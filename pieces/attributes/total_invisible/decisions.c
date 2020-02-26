@@ -234,7 +234,6 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
     decision_level_properties[decision_top].side = trait[nbply];
 }
 
-// TODO  do we still need to do record decisions regarding move vectors?
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
   #if defined(REPORT_DECISIONS)
