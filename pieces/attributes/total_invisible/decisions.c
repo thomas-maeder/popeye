@@ -1807,6 +1807,25 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
       {
         case decision_object_departure:
         case decision_object_walk:
+          if (decision_level_properties[curr_level].side
+              ==backtracking[curr_level-1].side_failure)
+          {
+            if (decision_level_properties[curr_level].ply
+                <=backtracking[curr_level-1].ply_failure)
+            {
+              /* try harder.
+               * a future decision may
+               * - select a walk that allows the capture
+               * - leave alone the mover that can eventually do the capture
+               */
+            }
+            else
+              skip = true;
+          }
+          else
+            skip = true;
+          break;
+
         case decision_object_arrival:
           if (decision_level_properties[curr_level].side
               ==backtracking[curr_level-1].side_failure)
@@ -1816,9 +1835,7 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
             {
               /* try harder.
                * a future decision may
-               * - select a better walk
-               * - select a better arrival square
-               * - leave alone the mover that can eventually do the capture
+               * - select an arrival square from where the piece can do the capture
                */
             }
             else
@@ -1833,7 +1850,6 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
                * a future decision may
                * - avoid capturing a viable capturer
                */
-              // TODO doesn't this only apply to decision_object_arrival?
             }
             else
               skip = true;
