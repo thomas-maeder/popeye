@@ -1481,7 +1481,6 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
               && walk==King
               && being_solved.king_square[side_revealed]!=initsquare)
           {
-            // TODO can we avoid this situation?
             TraceText("revelation of king - but king has already been placed - aborting\n");
             record_decision_outcome("%s","revelation of king - but king has already been placed - aborting");
             REPORT_DEADEND;
