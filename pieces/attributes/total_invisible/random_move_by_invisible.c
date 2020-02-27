@@ -1476,8 +1476,6 @@ static void backward_random_move_by_specific_invisible_pawn_to(void)
     }
   }
 
-  // TODO retract captures by pawn?
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1733,6 +1731,8 @@ static void backward_random_move_by_invisible_to(square const *start_square)
   TraceFunctionEntry(__func__);
   TraceSquare(*start_square);
   TraceFunctionParamListEnd();
+
+  // TODO should we retract accidental captures?
 
   s = find_next_backward_mover(start_square);
 
