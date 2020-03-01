@@ -33,7 +33,6 @@ void total_invisible_generate_moves_by_invisible(slice_index si)
 
   curr_generation->departure = capture_by_invisible;
 
-  // TODO refuse capturing a rook that has just castled
   for (s = boardnum; *s; ++s)
   {
     if (!is_square_empty(*s))
