@@ -1110,7 +1110,6 @@ HERE
 !              14 x 8 c4 (K:0+0 x:0+1 !:0+1 ?:0+0 F:1+1) - capture_by_invisible.c:#758 - D:15242
 !               15 8 the piece was added to later act from its current square - capture_by_invisible.c:#867
        */
-    // TODO optimise more aggressively - the failed capturer's walk is not relevant
   }
 
   motivation[id_existing] = motivation_existing;
