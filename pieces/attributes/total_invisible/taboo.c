@@ -198,8 +198,6 @@ boolean will_be_taboo(square s, Side side)
       }
     }
 
-  // TODO what if two taboos have to be lifted in the same ply?
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
