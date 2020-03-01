@@ -9,6 +9,4 @@ void flesh_out_capture_by_invisible(void);
 
 square need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture);
 
-void fake_capture_by_invisible(void);
-
 #endif
