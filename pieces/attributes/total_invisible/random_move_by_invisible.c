@@ -1764,7 +1764,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
       REPORT_DEADEND;
     }
   }
-  else if (can_decision_level_be_continued())
+  else
   {
     // TODO Strictly speaking, there is no guarantee that such a move exists
     // but we probably save a lot of time by not fleshing it out. As long as we
