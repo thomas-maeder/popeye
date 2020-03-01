@@ -230,7 +230,6 @@ static void forward_random_move_by_pawn_no_capture_to(square sq_arrival,
 
   move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
-  // TODO promotion
   done_forward_random_move_by_invisible(walk_moving);
 
   TraceFunctionExit(__func__);
