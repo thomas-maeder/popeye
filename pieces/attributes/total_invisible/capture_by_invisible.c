@@ -28,8 +28,6 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  // TODO first test allocation, then taboo?
-
   TraceValue("%u",id_inserted);TraceEOL();
 
   if (was_taboo(sq_departure,side_playing) || is_taboo(sq_departure,side_playing))
@@ -39,25 +37,22 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
   }
   else
   {
-    dynamic_consumption_type const save_consumption = current_consumption;
-    if (allocate_flesh_out_unplaced(side_playing))
+    Side const side_in_check = trait[nbply-1];
+    square const king_pos = being_solved.king_square[side_in_check];
+
+    TraceConsumption();TraceEOL();
+    assert(nr_total_invisbles_consumed()<=total_invisible_number);
+
+    push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
+
+    ++being_solved.number_of_pieces[side_playing][walk_capturing];
+    occupy_square(sq_departure,walk_capturing,flags_inserted);
+
+    if (is_square_uninterceptably_attacked(side_in_check,king_pos))
     {
-      Side const side_in_check = trait[nbply-1];
-      square const king_pos = being_solved.king_square[side_in_check];
-
-      TraceConsumption();TraceEOL();
-      assert(nr_total_invisbles_consumed()<=total_invisible_number);
-
-      push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
-
-      ++being_solved.number_of_pieces[side_playing][walk_capturing];
-      occupy_square(sq_departure,walk_capturing,flags_inserted);
-
-      if (is_square_uninterceptably_attacked(side_in_check,king_pos))
-      {
-        record_decision_outcome("%s","capturer would deliver uninterceptable check");
-        REPORT_DEADEND;
-        /* e.g.
+      record_decision_outcome("%s","capturer would deliver uninterceptable check");
+      REPORT_DEADEND;
+      /* e.g.
 begin
 pieces TotalInvisible 1 white kc4 ra1b1 pa5 black ka6
 stipulation h#1.5
@@ -83,9 +78,9 @@ end
 1   R   R   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#1.5                4 + 1 + 1 TI
+h#1.5                4 + 1 + 1 TI
 
-  2  (Ra1-a4    Time = 0.037 s)
+2  (Ra1-a4    Time = 0.037 s)
 
 !make_revelations 6:Ra1-a4 7:TI~-a4 - revelations.c:#1430 - D:1 - 0
 use option start 2:2 to replay
@@ -103,77 +98,65 @@ HERE
 !     5 8 initialised revelation candidates. 1 found - revelations.c:#1461
 !   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#342 - D:14
 ...
-         */
+       */
 
-        backtrack_definitively();
-        backtrack_no_further_than(decision_levels[id_inserted].from);
-      }
-      else if (walk_capturing==King
-               && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
-      {
-        record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
-        REPORT_DEADEND;
-      }
-      else
-      {
-        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        motivation_type const save_motivation = motivation[id_inserted];
-
-        assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
-
-        /* adding the total invisible in the pre-capture effect sounds tempting, but
-         * we have to make sure that there was no illegal check from it before this
-         * move!
-         * NB: this works with illegal checks both from the inserted piece and to
-         * the inserted king (afert we restart_from_scratch()).
-         */
-        assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-        move_effect_journal[precapture].type = move_effect_none;
-
-        /* these were set in regular play already: */
-        assert(motivation[id_inserted].first.acts_when==nbply);
-        assert(motivation[id_inserted].first.purpose==purpose_capturer);
-        assert(motivation[id_inserted].last.acts_when==nbply);
-        assert(motivation[id_inserted].last.purpose==purpose_capturer);
-        /* fill in the rest: */
-        motivation[id_inserted].first.on = sq_departure;
-        motivation[id_inserted].last.on = sq_arrival;
-
-        move_effect_journal[movement].u.piece_movement.from = sq_departure;
-        /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
-        move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
-        move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-
-        remember_taboos_for_current_move();
-        restart_from_scratch();
-        forget_taboos_for_current_move();
-
-        motivation[id_inserted] = save_motivation;
-
-        move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-        ++result;
-      }
-
-      empty_square(sq_departure);
-      --being_solved.number_of_pieces[side_playing][walk_capturing];
-
-      pop_decision();
-
-      TraceConsumption();TraceEOL();
-    }
-    else
-    {
-      record_decision_outcome("%s","capturer can't be allocated");
-      REPORT_DEADEND;
-      /* we don't have an example */
-      // TODO remove this test?
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
+    else if (walk_capturing==King
+             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
+    {
+      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+      REPORT_DEADEND;
+    }
+    else
+    {
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      motivation_type const save_motivation = motivation[id_inserted];
 
-    current_consumption = save_consumption;
+      assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
+
+      /* adding the total invisible in the pre-capture effect sounds tempting, but
+       * we have to make sure that there was no illegal check from it before this
+       * move!
+       * NB: this works with illegal checks both from the inserted piece and to
+       * the inserted king (afert we restart_from_scratch()).
+       */
+      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
+      move_effect_journal[precapture].type = move_effect_none;
+
+      /* these were set in regular play already: */
+      assert(motivation[id_inserted].first.acts_when==nbply);
+      assert(motivation[id_inserted].first.purpose==purpose_capturer);
+      assert(motivation[id_inserted].last.acts_when==nbply);
+      assert(motivation[id_inserted].last.purpose==purpose_capturer);
+      /* fill in the rest: */
+      motivation[id_inserted].first.on = sq_departure;
+      motivation[id_inserted].last.on = sq_arrival;
+
+      move_effect_journal[movement].u.piece_movement.from = sq_departure;
+      /* move_effect_journal[movement].u.piece_movement.to unchanged from regular play */
+      move_effect_journal[movement].u.piece_movement.moving = walk_capturing;
+      move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
+
+      remember_taboos_for_current_move();
+      restart_from_scratch();
+      forget_taboos_for_current_move();
+
+      motivation[id_inserted] = save_motivation;
+
+      move_effect_journal[precapture].type = move_effect_piece_readdition;
+
+      ++result;
+    }
+
+    empty_square(sq_departure);
+    --being_solved.number_of_pieces[side_playing][walk_capturing];
+
+    pop_decision();
+
+    TraceConsumption();TraceEOL();
   }
 
   TraceFunctionExit(__func__);
@@ -1238,8 +1221,6 @@ static unsigned int capture_by_inserted_invisible(void)
 
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {
-    current_consumption = save_consumption;
-
     /* no problem - we can simply insert a capturer */
 
     push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
@@ -1247,6 +1228,8 @@ static unsigned int capture_by_inserted_invisible(void)
     result = capture_by_inserted_invisible_all_walks();
 
     pop_decision();
+
+    current_consumption = save_consumption;
   }
   else
   {
@@ -1258,24 +1241,38 @@ static unsigned int capture_by_inserted_invisible(void)
         && current_consumption.claimed[trait[nbply]])
     {
       /* no problem - we can simply insert a capturing king */
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      square const save_from = move_effect_journal[movement].u.piece_movement.from;
-      piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
-      Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-      assert(move_effect_journal[movement].type==move_effect_piece_movement);
+      /* this helps us over the allocation - it will be overwritten with the actual square later */
+      being_solved.king_square[trait[nbply]] = square_a1;
 
-      push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+      if (allocate_flesh_out_unplaced(trait[nbply]))
+      {
+        move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+        square const save_from = move_effect_journal[movement].u.piece_movement.from;
+        piece_walk_type const save_moving = move_effect_journal[movement].u.piece_movement.moving;
+        Flags const save_moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-      capture_by_inserted_invisible_king();
+        assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-      move_effect_journal[movement].u.piece_movement.from = save_from;
-      move_effect_journal[movement].u.piece_movement.moving = save_moving;
-      move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+        push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
-      pop_decision();
+        capture_by_inserted_invisible_king();
 
-      result = 1;
+        move_effect_journal[movement].u.piece_movement.from = save_from;
+        move_effect_journal[movement].u.piece_movement.moving = save_moving;
+        move_effect_journal[movement].u.piece_movement.movingspec = save_moving_spec;
+
+        pop_decision();
+
+        result = 1;
+      }
+      else
+      {
+        TraceText("allocating the king to be placed should always be possible");
+        assert(0);
+      }
+
+      current_consumption = save_consumption;
     }
   }
 
