@@ -690,10 +690,6 @@ void replace_moving_piece_ids_in_past_moves(PieceIdType from, PieceIdType to, pl
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     PieceIdType const id_moving = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
-    // TODO what about other effects?
-    // castling partner movement
-    // piece removal
-
     TraceValue("%u",ply);
     TraceValue("%u",id_moving);
     TraceEOL();
