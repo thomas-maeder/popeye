@@ -585,8 +585,9 @@ solving/goals/target$(OBJ_SUFFIX): solving/goals/target.c solving/goals/target.h
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h position/effects/utils.h solving/pipe.h \
- debugging/assert.h
+ position/pieceid.h position/effects/utils.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h solving/pipe.h debugging/assert.h
 
 solving/goals/target.h:
 
@@ -637,6 +638,16 @@ position/castling_rights.h:
 position/pieceid.h:
 
 position/effects/utils.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+pieces/walks/vectors.h:
 
 solving/pipe.h:
 

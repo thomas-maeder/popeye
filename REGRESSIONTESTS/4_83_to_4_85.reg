@@ -1,0 +1,47 @@
+
+           Sergey Shumeiko
+     Julia's Fairies 2019, #1426
+Popeye didn't find solutions in Messigny Chess if the the goal was target and the last move an exchange since 4.65
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-hza16                   1 + 1
+            BichromChess
+            MessignyChess
+
+a) 
+
+  1.Kh2<->Kf1   2.Kf1-e1   3.Ke1-d1   4.Kd1-c1   5.Kc1-b1   6.Kb1<->Kh2 Kb1-a1 z
+  add_to_move_generation_stack:        1954
+                     play_move:         539
+ is_white_king_square_attacked:         245
+ is_black_king_square_attacked:         539
+
+b) ser-hzh86  
+
+  1.Kh2-h3   2.Kh3-h4   3.Kh4-h5   4.Kh5-h6   5.Kh6-h7   6.Kh7-h8 Kf1<->Kh8 z
+  add_to_move_generation_stack:        1954
+                     play_move:         539
+ is_white_king_square_attacked:         245
+ is_black_king_square_attacked:         539
+
+solution finished.
+
+
