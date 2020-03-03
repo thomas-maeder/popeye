@@ -6,6 +6,9 @@
 
 #include "solving/move_effect_journal.h"
 
+void undo_piece_removal(move_effect_journal_entry_type const *entry);
+void redo_piece_removal(move_effect_journal_entry_type const *entry);
+
 /* Add removing a piece to the current move of the current ply
  * @param reason reason for removing the piece
  * @param from current position of the piece

@@ -236,7 +236,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_king_square_movement(move_effect_journal_entry_type const *entry)
+void undo_king_square_movement(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.king_square_movement.side;
   square const from = entry->u.king_square_movement.from;
@@ -258,7 +258,7 @@ static void undo_king_square_movement(move_effect_journal_entry_type const *entr
   TraceFunctionResultEnd();
 }
 
-static void redo_king_square_movement(move_effect_journal_entry_type const *entry)
+void redo_king_square_movement(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.king_square_movement.side;
   square const to = entry->u.king_square_movement.to;

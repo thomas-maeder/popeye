@@ -9,8 +9,9 @@
  */
 
 #include "solving/machinery/solve.h"
+#include "solving/ply.h"
 
-void move_numbers_write_history(void);
+void move_numbers_write_history(ply top_ply);
 
 /* Reset the restart number setting.
  */

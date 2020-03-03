@@ -56,10 +56,11 @@ solution finished.
   1...Rb1-b8   2.TI~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:        7223
-                     play_move:       18385
+  add_to_move_generation_stack:        6997
+                     play_move:       17789
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5533
+ is_black_king_square_attacked:        5461
+                  TI decisions:        8515
 
 solution finished.
 
@@ -88,10 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8375
-                     play_move:       22514
+  add_to_move_generation_stack:        8126
+                     play_move:       22104
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6991
+ is_black_king_square_attacked:        6851
+                  TI decisions:      131908
 
 solution finished.
 
@@ -125,10 +127,11 @@ solution finished.
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
-  add_to_move_generation_stack:        5960
-                     play_move:       14343
+  add_to_move_generation_stack:        5612
+                     play_move:       13666
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5128
+ is_black_king_square_attacked:        4877
+                  TI decisions:        7022
 
 solution finished.
 
@@ -159,18 +162,123 @@ no castling if the invisible rook would have delivered check
 
 a) 
 
-  add_to_move_generation_stack:        3254
-                     play_move:        6320
- is_white_king_square_attacked:         476
- is_black_king_square_attacked:        1533
+  add_to_move_generation_stack:        2966
+                     play_move:        5929
+ is_white_king_square_attacked:         377
+ is_black_king_square_attacked:        1527
+                  TI decisions:        1013
 
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
-  add_to_move_generation_stack:        3271
-                     play_move:        5673
- is_white_king_square_attacked:         575
- is_black_king_square_attacked:        1390
+  add_to_move_generation_stack:        3076
+                     play_move:        5363
+ is_white_king_square_attacked:         488
+ is_black_king_square_attacked:        1387
+                  TI decisions:         896
+
+solution finished.
+
+
+
+this doesn't work if we overdo it with optimisations
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -R  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                1 + 5 + 2 TI
+
+  1...TI~*d6   2.Bh5-f7 TI~*f7[f7=wS] #
+  add_to_move_generation_stack:        6610
+                     play_move:       10907
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        5860
+                  TI decisions:       11316
+
+solution finished.
+
+
+
+capture by invisible pawn results in promotion
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -B   .   S   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .  -R   7
+|                                   |
+6  -B  -K   .   K   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 7 + 1 TI
+
+  1.Rb1-b5 TI~*b8   2.Rh7-c7 TI~*c7[c7=wB] #
+  1.Rb1-b5 TI~*b8   2.Rh7-d7 TI~*d7[d7=wS] #
+  add_to_move_generation_stack:      264433
+                     play_move:      575461
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:      146177
+                  TI decisions:      602329
+
+solution finished.
+
+
+
+random move by invisible pawn results in promotion
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   P   K   .   .   3
+|                                   |
+2   .   .   .   .   P   B   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 1 TI
+
+  1.TI~-~ Kf3-g3   2.TI~*e2[e2=bS] Bh5*e2 #
+  add_to_move_generation_stack:        2269
+                     play_move:        6145
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1091
+                  TI decisions:        8577
 
 solution finished.
 

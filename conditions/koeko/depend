@@ -9,9 +9,9 @@ conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  solving/move_effect_journal.h solving/ply.h position/effects/utils.h \
- solving/observation.h solving/temporary_hacks.h solving/pipe.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -83,6 +83,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/pipe.h:
 
 stipulation/move.h:
@@ -137,7 +139,8 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/grid.h \
  position/effects/utils.h solving/observation.h solving/temporary_hacks.h \
- solving/pipe.h stipulation/pipe.h stipulation/move.h debugging/assert.h
+ solving/fork.h solving/pipe.h stipulation/pipe.h stipulation/move.h \
+ debugging/assert.h
 
 conditions/koeko/contact_grid.h:
 
@@ -245,6 +248,8 @@ solving/observation.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/pipe.h:
 
 stipulation/pipe.h:
@@ -261,7 +266,7 @@ conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/ant
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h conditions/koeko/koeko.h \
  solving/observation.h pieces/walks/vectors.h solving/ply.h \
- solving/temporary_hacks.h solving/move_effect_journal.h \
+ solving/temporary_hacks.h solving/fork.h solving/move_effect_journal.h \
  position/castling_rights.h position/pieceid.h position/effects/utils.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h stipulation/move.h \
@@ -324,6 +329,8 @@ solving/ply.h:
 
 solving/temporary_hacks.h:
 
+solving/fork.h:
+
 solving/move_effect_journal.h:
 
 position/castling_rights.h:
@@ -374,7 +381,7 @@ conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h conditions/koeko/koeko.h \
  solving/observation.h pieces/walks/vectors.h solving/ply.h \
- solving/temporary_hacks.h solving/move_effect_journal.h \
+ solving/temporary_hacks.h solving/fork.h solving/move_effect_journal.h \
  position/castling_rights.h position/pieceid.h position/effects/utils.h \
  solving/move_generator.h solving/pipe.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -435,6 +442,8 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
+
+solving/fork.h:
 
 solving/move_effect_journal.h:
 

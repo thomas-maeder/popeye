@@ -225,6 +225,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
+    pieces/attributes/total_invisible \
     optimisations/orthodox_mating_moves \
     optimisations/intelligent \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
@@ -268,6 +269,7 @@ NESTEDLIBDIRS = \
     pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
+    pieces/attributes/total_invisible \
     DHT \
     stipulation/battle_play stipulation/help_play \
     stipulation/goals \

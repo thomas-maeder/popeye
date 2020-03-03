@@ -6,6 +6,9 @@
 
 #include "solving/move_effect_journal.h"
 
+void undo_walk_change(move_effect_journal_entry_type const *entry);
+void redo_walk_change(move_effect_journal_entry_type const *entry);
+
 /* Add changing the walk of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed

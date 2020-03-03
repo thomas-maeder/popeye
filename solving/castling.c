@@ -163,7 +163,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-static void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
+void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -180,7 +180,7 @@ static void move_effect_journal_undo_disabling_castling_right(move_effect_journa
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-static void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
+void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;

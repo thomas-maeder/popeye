@@ -9,7 +9,7 @@ void assert_impl(char const *assertion, const char *file, int line)
 {
   move_generator_write_history();
   total_invisible_write_flesh_out_history();
-  move_numbers_write_history();
+  move_numbers_write_history(nbply);
 
 #ifndef EMSCRIPTEN
 
