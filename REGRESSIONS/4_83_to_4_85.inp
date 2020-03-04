@@ -10,5 +10,13 @@ stipulation ser-hza16
 condition bichrom messigny
 twin stipulation ser-hzh86
 
-end
+next
 
+author Viktoras Paliulionis
+origin https://github.com/thomas-maeder/popeye/issues/258a
+remark reduced to the minimum by Thomas Maeder
+Stipulation h#1
+Pieces black Kd4 Rc3 Pc7e5e4 white Pd5 Bg8 Rd8 Ba7 Kc8
+option intelligent
+
+EndProblem

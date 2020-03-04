@@ -45,3 +45,38 @@ b) ser-hzh86
 solution finished.
 
 
+reduced to the minimum by Thomas Maeder
+
+        Viktoras Paliulionis
+https://github.com/thomas-maeder/popeye/issues/258a
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   R   .   .   B   .   8
+|                                   |
+7   B   .  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P  -P   .   .   .   5
+|                                   |
+4   .   .   .  -K  -P   .   .   .   4
+|                                   |
+3   .   .  -R   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 5
+
+  1.c7-c5 d5*c6 ep. #
+  add_to_move_generation_stack:          97
+                     play_move:          92
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:          38
+
+solution finished.
+
+

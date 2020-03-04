@@ -878,11 +878,13 @@ static unsigned int enpassant_find_capturee(square capturee_origin)
 
 static void en_passant_select_capturee(slice_index si,
                                        square via_capturee,
-                                       int dir_vertical)
+                                       int dir_vertical,
+                                       unsigned int capturer_index)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(via_capturee);
   TraceFunctionParam("%d",dir_vertical);
+  TraceFunctionParam("%u",capturer_index);
   TraceFunctionParamListEnd();
 
   TraceWalk(being_solved.board[via_capturee]);
@@ -895,11 +897,13 @@ static void en_passant_select_capturee(slice_index si,
         && black[index_capturee].type==Pawn
         && black[index_capturee].usage==piece_is_unused)
     {
+      occupy_square(via_capturee+dir_up,white[capturer_index].type,white[capturer_index].flags);
       ++nr_reasons_for_staying_empty[via_capturee];
       black[index_capturee].usage = piece_is_captured;
       en_passant_diagonal_check(si,via_capturee,dir_vertical);
       black[index_capturee].usage = piece_is_unused;
       --nr_reasons_for_staying_empty[via_capturee];
+      empty_square(via_capturee+dir_up);
     }
   }
 
@@ -933,8 +937,8 @@ static void en_passant(slice_index si,
                                                                      via_capturer))
         {
           white[capturer_index].usage = piece_gives_check;
-          en_passant_select_capturee(si,via_capturer+dir_left,dir_vertical);
-          en_passant_select_capturee(si,via_capturer+dir_right,dir_vertical);
+          en_passant_select_capturee(si,via_capturer+dir_left,dir_vertical,capturer_index);
+          en_passant_select_capturee(si,via_capturer+dir_right,dir_vertical,capturer_index);
           white[capturer_index].usage = piece_is_unused;
           intelligent_unreserve();
         }
