@@ -1285,8 +1285,6 @@ static void unpromote_random_mover(void)
   Side const side_playing = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",kstart);
-  TraceFunctionParam("%u",kend);
   TraceFunctionParamListEnd();
 
   if (ForwardPromSq(side_playing,sq_arrival))
