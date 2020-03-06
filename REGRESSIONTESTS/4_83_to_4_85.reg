@@ -49,6 +49,7 @@ reduced to the minimum by Thomas Maeder
 
         Viktoras Paliulionis
 https://github.com/thomas-maeder/popeye/issues/258a
+Intelligent mode didn't find solutions ending in an ep capture where the capturing pawn intercepted a check
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -76,6 +77,69 @@ https://github.com/thomas-maeder/popeye/issues/258a
                      play_move:          92
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          38
+
+solution finished.
+
+
+reduced to the minimum by Thomas Maeder
+
+          Francois Labelle
+             CPoisson-56
+Popeye always applied one or two optimisations too many when solving proof games with AntiCirce Clone
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   .   .   5
+|                                   |
+4   .   .   .   .   .   B   .   .   4
+|                                   |
+3   .   .   .   P   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   P   2
+|                                   |
+1   R   S   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     15 + 15
+           AntiCirce Clone
+
+ 29  (Bf4*d6[wBd6->Pd2] )
+  1.Bf4*d6[wBd6->Pd2] Bf5*d3[bBd3->Pd7] a=>b
+ 30  (Bf4-e5 )
+  add_to_move_generation_stack:          63
+                     play_move:          63
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           5
 
 solution finished.
 

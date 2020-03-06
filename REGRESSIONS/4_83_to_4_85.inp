@@ -12,6 +12,7 @@ twin stipulation ser-hzh86
 
 next
 
+title Intelligent mode didn't find solutions ending in an ep capture where the capturing pawn intercepted a check
 author Viktoras Paliulionis
 origin https://github.com/thomas-maeder/popeye/issues/258a
 remark reduced to the minimum by Thomas Maeder
@@ -19,4 +20,17 @@ Stipulation h#1
 Pieces black Kd4 Rc3 Pc7e5e4 white Pd5 Bg8 Rd8 Ba7 Kc8
 option intelligent
 
-EndProblem
+next
+
+title Popeye always applied one or two optimisations too many when solving proof games with AntiCirce Clone
+author Francois Labelle
+origin CPoisson-56
+remark reduced to the minimum by Thomas Maeder
+forsyth rs1qkbsr/ppp1pppp/3p4/5b2/5B2/3P4/PPP1PPPP/RS1QKBSR
+stip a=>b 1.0
+forsyth rs1qkbsr/pppppppp/8/8/8/8/PPPPPPPP/RS1QKBSR
+cond AntiCirce Clone
+option white movenum start 29
+
+end
+

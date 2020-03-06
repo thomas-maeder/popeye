@@ -738,12 +738,23 @@ static boolean FairyImpossible(void)
     if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton])
     {
       /* not enough time to capture the remaining pieces */
+      TraceValue("%u",Nbr[White]);
+      TraceValue("%u",Nbr[Black]);
+      TraceValue("%u",MovesLeft[Black]);
+      TraceValue("%u",ProofNbrPieces[White]);
+      TraceValue("%u",MovesLeft[White]);
+      TraceValue("%u",ProofNbrPieces[Black]);
+      TraceEOL();
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
           || Nbr[Black] > MovesLeft[White]+ProofNbrPieces[Black])
+      {
+        TraceText("true\n");
         return true;
+      }
     }
 
-    if (!CondFlag[sentinelles])
+    if (!CondFlag[sentinelles]
+        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone)
     {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
@@ -763,13 +774,27 @@ static boolean FairyImpossible(void)
         }
       }
 
+      TraceValue("%u",proofgames_target_position.number_of_pieces[White][Pawn]);
+      TraceValue("%u",being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]);
+      TraceValue("%u",proofgames_target_position.number_of_pieces[Black][Pawn]);
+      TraceValue("%u",being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black]);
+      TraceEOL();
+
       if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
           || proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
+      {
+        TraceText("true\n");
         return true;
+      }
     }
 
+    TraceValue("%u",CondFlag[anticirce]);
+    TraceValue("%u",anticirce_variant.determine_rebirth_square);
+    TraceValue("%u",circe_determine_rebirth_square_from_pas);
+    TraceEOL();
     if (CondFlag[anticirce]
-        && anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_from_pas)
+        && anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_from_pas
+        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone)
     {
       /* note, that we are in the !change_moving_piece section */
       unsigned int count= 0;
@@ -807,6 +832,10 @@ static boolean FairyImpossible(void)
       if (count%2 == 1)
         ++count;
 
+      TraceValue("%u",count);
+      TraceValue("%u",ProofNbrPieces[Black]);
+      TraceEOL();
+
       if (16-count < ProofNbrPieces[Black])
         return true;
 
@@ -839,6 +868,11 @@ static boolean FairyImpossible(void)
 
       if (count%2 == 1)
         ++count;
+
+      TraceValue("%u",count);
+      TraceValue("%u",ProofNbrPieces[White]);
+      TraceEOL();
+
       if (16-count < ProofNbrPieces[White])
         return true;
     }
