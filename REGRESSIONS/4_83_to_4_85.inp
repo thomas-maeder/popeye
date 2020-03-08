@@ -32,5 +32,14 @@ forsyth rs1qkbsr/pppppppp/8/8/8/8/PPPPPPPP/RS1QKBSR
 cond AntiCirce Clone
 option white movenum start 29
 
+next
+
+author Eric Huber
+origin Variantim 2019
+latex 4_83_to_4_85.tex
+stipulation h#2.5
+pieces white kg1 qc1 black kh3 rg4 pf4 total 4
+twin move h3 f3
+
 end
 
