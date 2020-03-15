@@ -151,7 +151,7 @@ static char *ParseTwinningRotate(void)
   SquareTransformation const rotation = detect_rotation(tok);
 
   if (rotation==nr_square_transformation)
-    output_plaintext_input_error_message(UnrecRotMirr,0);
+    output_plaintext_input_error_message(UnrecRotMirr);
   else
     move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                 rotation);
@@ -165,7 +165,7 @@ static char *ParseTwinningMirror(void)
   TwinningMirrorType indexx = GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
   if (indexx>TwinningMirrorCount)
-    output_plaintext_input_error_message(OptNotUniq,0);
+    output_plaintext_input_error_message(OptNotUniq);
   else
   {
     switch (indexx)
@@ -191,7 +191,7 @@ static char *ParseTwinningMirror(void)
         break;
 
       default:
-        output_plaintext_input_error_message(UnrecRotMirr,0);
+        output_plaintext_input_error_message(UnrecRotMirr);
         break;
     }
   }
@@ -311,7 +311,7 @@ static char *ParseTwinningRemove(void)
   char * const squares_tok = ReadNextTokStr();
   char *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
   if (tok==squares_tok)
-    output_plaintext_input_error_message(MissngSquareList,0);
+    output_plaintext_input_error_message(MissngSquareList);
   else if (*tok!=0)
     output_plaintext_error_message(WrongSquareList);
 
@@ -437,14 +437,14 @@ static char *ParseTwinningSubstitute(void)
   tok = ParsePieceWalkToken(tok,&p_old);
 
   if (p_old==nr_piece_walks)
-    output_plaintext_input_error_message(WrongPieceName,0);
+    output_plaintext_input_error_message(WrongPieceName);
   else
   {
     piece_walk_type p_new;
     tok = ParsePieceWalkToken(tok,&p_new);
 
     if (p_new==nr_piece_walks)
-      output_plaintext_input_error_message(WrongPieceName,0);
+      output_plaintext_input_error_message(WrongPieceName);
     else
     {
       /* we don't redo substitute twinnings */
@@ -545,7 +545,7 @@ static char *ParseTwinning(char *tok,
 
     if (twinning>TwinningCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (twinning==TwinningCount)
@@ -581,7 +581,7 @@ static char *ParseTwinning(char *tok,
             slice_index const stipulation_root_hook = input_find_stipulation(start);
             if (stipulation_root_hook==no_slice)
             {
-              output_plaintext_input_error_message(NoStipulation,0);
+              output_plaintext_input_error_message(NoStipulation);
               tok = 0;
             }
             else
@@ -599,7 +599,7 @@ static char *ParseTwinning(char *tok,
             slice_index const stipulation_root_hook = input_find_stipulation(start);
             if (stipulation_root_hook==no_slice)
             {
-              output_plaintext_input_error_message(NoStipulation,0);
+              output_plaintext_input_error_message(NoStipulation);
               tok = 0;
             }
             else
@@ -764,7 +764,7 @@ static char *ReadTrace(void)
     {
       FILE * const protocol = protocol_open(InputLine);
       if (protocol==0)
-        output_plaintext_input_error_message(WrOpenError,0);
+        output_plaintext_input_error_message(WrOpenError);
       else
         output_plaintext_print_version_info(protocol);
     }
@@ -856,16 +856,15 @@ static void ReadInitialTwin(slice_index start)
     result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>InitialTwinTokenCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (result==InitialTwinTokenCount)
     {
       if (GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok)==ProblemTokenCount
           && GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok)==EndTwinTokenCount)
-        output_plaintext_input_error_message(OffendingItem,0);
-
-      break;
+        output_plaintext_input_error_message(OffendingItem, tok);
+      tok = ReadNextTokStr();
     }
     else
       switch (result)
@@ -877,7 +876,7 @@ static void ReadInitialTwin(slice_index start)
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
-              output_plaintext_input_error_message(UnrecStip,0);
+              output_plaintext_input_error_message(UnrecStip);
           }
           break;
         }
@@ -889,7 +888,7 @@ static void ReadInitialTwin(slice_index start)
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
-              output_plaintext_input_error_message(UnrecStip,0);
+              output_plaintext_input_error_message(UnrecStip);
           }
           break;
         }
@@ -1002,7 +1001,7 @@ static char *ReadSubsequentTwin(char *tok, slice_index start, unsigned int twin_
     InitialTwinToken const result = GetUniqIndex(SubsequentTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>SubsequentTwinTokenCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (result==SubsequentTwinTokenCount)
@@ -1218,7 +1217,7 @@ static char *twins_handle(char *tok, slice_index si)
       EndTwinToken const endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
       if (endToken>EndTwinTokenCount)
-        output_plaintext_input_error_message(ComNotUniq,0);
+        output_plaintext_input_error_message(ComNotUniq);
       else
       {
         pipe_solve_delegate(si);
@@ -1297,7 +1296,7 @@ void input_plaintext_twins_handle(slice_index si)
       break;
 
     default:
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
       break;
   }
@@ -1320,7 +1319,7 @@ void input_plaintext_initial_twin_reader_solve(slice_index si)
   {
     slice_index const stipulation_root_hook = input_find_stipulation(si);
     if (stipulation_root_hook==no_slice)
-      output_plaintext_input_error_message(NoStipulation,0);
+      output_plaintext_input_error_message(NoStipulation);
     else
     {
       stipulation_modifiers_notify(si,stipulation_root_hook);

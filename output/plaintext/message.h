@@ -38,10 +38,10 @@ void output_plaintext_fatal_message(message_id_t id);
 
 /* Issue an input error message
  * @param id identifies the diagnostic message
- * @param val additional parameter according to the printf() conversion
+ * @param ... additional parameters according to the printf() conversion
  *            specifier in message id
  */
-void output_plaintext_input_error_message(message_id_t n, int val);
+void output_plaintext_input_error_message(message_id_t n, ...);
 
 /* Issue a solving time indication
  * @param header text printed before the time
