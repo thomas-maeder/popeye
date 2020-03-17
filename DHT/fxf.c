@@ -383,7 +383,7 @@ void fxfFree(void *ptr, size_t size) {
     TMDBG(printf(" BotFreePtr-ptr:%ld",BotFreePtr-(char *)ptr));
     if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%ld",TopFreePtr-BotFreePtr));
       sh->MallocCount-= 1;
     }
     else {
@@ -400,7 +400,7 @@ void fxfFree(void *ptr, size_t size) {
     TMDBG(printf(" ptr-TopFreePtr:%ld",(char *)ptr-TopFreePtr));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%ld",TopFreePtr-BotFreePtr));
       sh->MallocCount-= 1;
     }
     else {

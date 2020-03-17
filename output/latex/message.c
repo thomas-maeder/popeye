@@ -16,11 +16,11 @@
 void output_latex_message(FILE *file, message_id_t id, ...)
 {
   va_list args;
-  DBG((stderr, "Mesage(%d) = %s\n", id, output_message_get(id)));
+  DBG((stderr, "Mesage(%d) = %s\n", (int) id, output_message_get(id)));
   va_start(args,id);
   if (id<MsgCount)
     vfprintf(file,output_message_get(id),args);
   else
-    fprintf(file,output_message_get(InternalError),id);
+    fprintf(file,output_message_get(InternalError));
   va_end(args);
 }

@@ -988,7 +988,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," v%d%d1",column,row);
+      fprintf(file," v%u%u1",column,row);
     }
 
     if (row>0 && GridLegal(*bnp+dir_down,*bnp))
@@ -1000,7 +1000,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," h%d%d1",column,row);
+      fprintf(file," h%u%u1",column,row);
     }
   }
 
