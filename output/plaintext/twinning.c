@@ -452,7 +452,7 @@ slice_index output_plaintext_alloc_twin_intro_writer_builder(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+  result = alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder);
   SLICE_U(result).twinning_event_handler.handler = &handle_twinning_event;
 
   TraceFunctionExit(__func__);

@@ -8,6 +8,6 @@
 /* Set the priority of Popeye's main process to a level that causes
  * Popeye to "play" nicely.
  */
-void platform_set_nice_priority();
+void platform_set_nice_priority(void);
 
 #endif

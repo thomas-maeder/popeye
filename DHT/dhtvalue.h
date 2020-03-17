@@ -56,7 +56,7 @@ typedef enum {
 	dhtValueTypeCnt
 } dhtValueType;
 
-DATA char *dhtValueTypeToString[dhtValueTypeCnt]
+DATA char const *dhtValueTypeToString[dhtValueTypeCnt]
 #if defined(GDATA)
 	= { "dhtSimpleValue",
 	    "dhtStringValue",
