@@ -111,9 +111,11 @@ typedef struct action_type
 } action_type;
 
 #define TraceAction(action) \
-    TraceValue("%u",(action)->acts_when); \
-    TraceSquare((action)->on); \
-    TraceValue("%u",(action)->purpose);
+    do { \
+        TraceValue("%u",(action)->acts_when); \
+        TraceSquare((action)->on); \
+        TraceValue("%u",(action)->purpose); \
+    } while (0)
 
 
 extern ply top_ply_of_regular_play;

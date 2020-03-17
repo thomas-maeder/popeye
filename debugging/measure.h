@@ -23,10 +23,10 @@
 /* Increment a counter defined elsewhere
  */
 #define INCREMENT_COUNTER(name)         \
-  {                                     \
+  do {                                  \
     extern COUNTER_TYPE counter##name;  \
     ++counter##name;                    \
-  }
+  } while (0)
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

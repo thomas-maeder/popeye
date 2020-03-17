@@ -28,7 +28,7 @@ static void write_attack(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -56,7 +56,7 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;

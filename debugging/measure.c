@@ -44,18 +44,18 @@ void solving_insert_move_counters(slice_index si)
 /* Reset the value of a counter defined elsewhere
  */
 #define RESET_COUNTER(name)                       \
-  {                                               \
+  do {                                            \
     extern COUNTER_TYPE counter##name;            \
     counter##name = 0;                            \
-  }
+  } while (0)
 
 /* Write the value of a counter defined elsewhere
  */
 #define WRITE_COUNTER(name)                       \
-  {                                               \
+  do {                                            \
     extern COUNTER_TYPE counter##name;            \
     protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
-  }
+  } while (0)
 
 extern unsigned int total_invisible_number;
 extern unsigned long record_decision_counter;
