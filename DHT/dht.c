@@ -426,7 +426,7 @@ unsigned long dhtKeyCount(dht *h)
 
 char dhtError[128];
 
-char const *dhtErrorMsg()
+char const *dhtErrorMsg(void)
 {
   return dhtError;
 }

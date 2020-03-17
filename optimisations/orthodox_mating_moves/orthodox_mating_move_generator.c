@@ -465,7 +465,7 @@ static void bishop(square sq_king, Side side)
   }
 }
 
-static void generate_move_reaching_goal()
+static void generate_move_reaching_goal(void)
 {
   square square_a = square_a1;
   Side const side_at_move = trait[nbply];

@@ -14,7 +14,7 @@
 boolean PatienceB;
 static square sqdep[maxply+1];
 
-static boolean patience_legal()
+static boolean patience_legal(void)
 {
   square bl_last_vacated = initsquare;
   square wh_last_vacated = initsquare;

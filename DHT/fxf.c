@@ -423,7 +423,7 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   return nptr;
 }
 
-size_t fxfTotal() {
+size_t fxfTotal(void) {
   SizeHead const *hd = SizeData;
   size_t UsedBytes = 0;
   size_t FreeBytes = 0;
