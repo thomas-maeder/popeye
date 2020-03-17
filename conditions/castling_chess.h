@@ -1,5 +1,5 @@
 #if !defined(CONDITIONS_CASTLING_CHESS_H)
-#define CONDITIONS_CASTLING_CHESS__H
+#define CONDITIONS_CASTLING_CHESS_H
 
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
