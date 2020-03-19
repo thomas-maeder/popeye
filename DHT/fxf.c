@@ -355,10 +355,10 @@ void *fxfAlloc(size_t size) {
 #else /*SEGMENTED*/
       ptr= Nil(char);
 #endif /*!SEGMENTED*/
-      TMDBG(printf(" ptr:%p\n",ptr));
+      TMDBG(printf(" ptr:%p\n", (void *) ptr));
     }
   }
-  DBG((df, "%p\n", ptr));
+  DBG((df, "%p\n", (void *) ptr));
   return ptr;
 }
 
