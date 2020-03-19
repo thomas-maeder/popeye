@@ -21,6 +21,6 @@ void output_latex_message(FILE *file, message_id_t id, ...)
   if (id<MsgCount)
     vfprintf(file,output_message_get(id),args);
   else
-    fprintf(file,output_message_get(InternalError));
+    fputs(output_message_get(InternalError), file); /* fprintf(file,output_message_get(InternalError)); */
   va_end(args);
 }

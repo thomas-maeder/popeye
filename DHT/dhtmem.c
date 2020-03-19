@@ -25,8 +25,8 @@ typedef unsigned char uChar;
 
 static dhtHashValue HashMemoryValue(dhtConstValue v)
 {
-  uLong leng= ((MemVal*)v)->Leng;
-  uChar *s= ((MemVal*)v)->Data;
+  uLong leng= ((MemVal const *)v)->Leng;
+  uChar *s= ((MemVal const *)v)->Data;
   dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
@@ -41,9 +41,9 @@ static dhtHashValue HashMemoryValue(dhtConstValue v)
 }
 static int EqualMemoryValue(dhtConstValue v1, dhtConstValue v2)
 {
-  if (((MemVal*)v1)->Leng != ((MemVal*)v2)->Leng)
+  if (((MemVal const *)v1)->Leng != ((MemVal const *)v2)->Leng)
     return 0;
-  if (memcmp(((MemVal*)v1)->Data, ((MemVal*)v2)->Data, ((MemVal*)v1)->Leng))
+  if (memcmp(((MemVal const *)v1)->Data, ((MemVal const *)v2)->Data, ((MemVal const *)v1)->Leng))
     return 0;
   else
     return 1;
@@ -55,12 +55,12 @@ static dhtValue	DupMemoryValue(dhtConstValue v)
 
   mv= NewMemVal;
   if (mv) {
-    mv->Data= (unsigned char *)fxfAlloc(((MemVal*)v)->Leng);
+    mv->Data= (unsigned char *)fxfAlloc(((MemVal const *)v)->Leng);
     if (!mv->Data)
       FreeMemVal(mv);
     else {
-      mv->Leng= ((MemVal*)v)->Leng;
-      memcpy(mv->Data, ((MemVal*)v)->Data, mv->Leng);
+      mv->Leng= ((MemVal const *)v)->Leng;
+      memcpy(mv->Data, ((MemVal const *)v)->Data, mv->Leng);
       return (dhtValue)mv;
     }
   }
@@ -73,9 +73,9 @@ static void	FreeMemoryValue(dhtValue v)
 }
 static void	DumpMemoryValue(dhtConstValue v, FILE *f) {
   uLong i;
-  fprintf(f, "(%lu)", ((MemVal*)v)->Leng);
-  for (i=0; i<((MemVal*)v)->Leng; i++)
-    fprintf(f, "%02x", ((MemVal*)v)->Data[i] & 0xff);
+  fprintf(f, "(%lu)", ((MemVal const *)v)->Leng);
+  for (i=0; i<((MemVal const *)v)->Leng; i++)
+    fprintf(f, "%02x", ((MemVal const *)v)->Data[i] & 0xff);
   return;
 }
 
