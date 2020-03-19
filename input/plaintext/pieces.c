@@ -236,7 +236,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
         char * const squares_tok = ReadNextTokStr();
         tok = ParseSquareList(squares_tok,&HandleAddedPiece,&settings);
         if (tok==squares_tok)
-          output_plaintext_input_error_message(MissngSquareList,0);
+          output_plaintext_input_error_message(MissngSquareList);
         else if (*tok!=0)
           output_plaintext_error_message(WrongSquareList);
       }
@@ -264,7 +264,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
     {
       if (nr_walks_parsed==0)
       {
-        output_plaintext_input_error_message(WrongPieceName,0);
+        output_plaintext_input_error_message(WrongPieceName);
         tok = ReadNextTokStr();
       }
       else
@@ -291,12 +291,12 @@ Flags ParseColour(char *tok, boolean colour_is_mandatory)
   if (colour==nr_colours)
   {
     if (colour_is_mandatory)
-      output_plaintext_input_error_message(NoColourSpec,0);
+      output_plaintext_input_error_message(NoColourSpec);
     return 0;
   }
   else if (colour>nr_colours)
   {
-    output_plaintext_input_error_message(PieSpecNotUniq,0);
+    output_plaintext_input_error_message(PieSpecNotUniq);
     return 0;
   }
   else if (colour==colour_neutral)
@@ -324,7 +324,7 @@ char *ParsePieceFlags(Flags *flags)
       if (ps==nr_piece_flags-nr_sides)
         break;
       else if (ps>nr_piece_flags-nr_sides)
-        output_plaintext_input_error_message(PieSpecNotUniq,0);
+        output_plaintext_input_error_message(PieSpecNotUniq);
       else
         SETFLAG(*flags,ps+nr_sides);
     }
@@ -354,7 +354,7 @@ char *ParsePieces(char *tok)
         unsigned long const value = strtoul(tok,&end,10);
         if (end==tok)
         {
-          output_plaintext_input_error_message(WrongInt,0);
+          output_plaintext_input_error_message(WrongInt);
           break;
         }
         else
