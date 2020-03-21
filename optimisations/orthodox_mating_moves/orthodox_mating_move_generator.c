@@ -160,7 +160,7 @@ static void pawn(square sq_king, Side side)
 {
   SquareFlags const base_square = side==White ? WhBaseSq : BlBaseSq;
 
-  if (!TSTFLAG(sq_spec[curr_generation->departure],base_square))
+  if (!TSTFLAG(sq_spec(curr_generation->departure),base_square))
   {
     numvec const abs_dir_battery = detect_battery(sq_king,side);
 
