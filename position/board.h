@@ -223,10 +223,10 @@ enum
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
-#define sq_spec(n)         (zzzan[(n) - square_a1])
+#define sq_spec(n)      (zzzan[(n) - square_a1])
 
 extern int         zzzao[square_h8 - square_a1 + 1];
-#define sq_num          (zzzao - square_a1)
+#define sq_num(n)       (zzzao[(n) - square_a1])
 
 #define NoEdge(i)       TSTFLAG(sq_spec(i), NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec(i), SqColor)

@@ -1370,7 +1370,7 @@ byte *CommonEncode(byte *bp,
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       enum { nr_squares = nr_rows_on_board*nr_files_on_board };
-      *bp++= (byte)(sq_num[sq_departure]-sq_num[sq_arrival]+nr_squares);
+      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
     }
   }
 

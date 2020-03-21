@@ -1895,7 +1895,7 @@ void InitCond(void)
     int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
     CLEARFL(sq_spec(*bnp));
-    sq_num[*bnp]= (int)(bnp-boardnum);
+    sq_num(*bnp)= (int)(bnp-boardnum);
 
     /* initialise sq_spec and set grid number */
     sq_spec(*bnp) += ((file/2)+4*(row/2)) << Grid;
