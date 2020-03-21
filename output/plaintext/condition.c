@@ -609,7 +609,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeTab[ConditionType2]);
 
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], MagicSq))
+            if (TSTFLAG(sq_spec(i), MagicSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;

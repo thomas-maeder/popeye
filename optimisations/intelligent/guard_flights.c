@@ -452,7 +452,7 @@ static void unpromoted_pawn(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[guard_from],BIT(WhBaseSq)|BIT(WhPromSq))
+  if (!TSTFLAGMASK(sq_spec(guard_from),BIT(WhBaseSq)|BIT(WhPromSq))
       && GuardDir[Pawn-Pawn][guard_from].dir==guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))

@@ -279,7 +279,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
     SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
 
-    if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
+    if (!(TSTFLAG(sq_spec(sq_departure),basesq) || TSTFLAG(sq_spec(sq_departure),promsq)))
     {
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
@@ -299,7 +299,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
             square const sq_singlestep = sq_departure+dir_singlestep;
             SquareFlags const doublstepsq = side_playing==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
-            if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
+            if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec(sq_departure),doublstepsq))
             {
               push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
               forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Dummy);
@@ -499,7 +499,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
             square const sq_singlestep = sq_departure+dir_singlestep;
             SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
-            if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec[sq_departure],doublstepsq))
+            if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec(sq_departure),doublstepsq))
             {
               forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Pawn);
               is_sq_arrival_reachable = true;
@@ -628,7 +628,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
       if (can_decision_level_be_continued())
       {
         SquareFlags const doublstepsq = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
-        if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublstepsq))
+        if (TSTFLAG(sq_spec(move_effect_journal[movement].u.piece_movement.from),doublstepsq))
         {
           square const sq_doublestep = sq_singlestep+dir;
           TraceSquare(sq_doublestep);TraceEOL();
@@ -969,7 +969,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
   {
     SquareFlags const promsq = side_playing==White ? WhPromSq : BlPromSq;
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
-    if (!(TSTFLAG(sq_spec[sq_departure],basesq) || TSTFLAG(sq_spec[sq_departure],promsq)))
+    if (!(TSTFLAG(sq_spec(sq_departure),basesq) || TSTFLAG(sq_spec(sq_departure),promsq)))
     {
       push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
 
@@ -1459,8 +1459,8 @@ static void backward_random_move_by_specific_invisible_pawn_to(void)
   TraceEOL();
 
   if (is_square_empty(move_effect_journal[movement].u.piece_movement.from)
-      && !TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],basesq)
-      && !TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],promsq))
+      && !TSTFLAG(sq_spec(move_effect_journal[movement].u.piece_movement.from),basesq)
+      && !TSTFLAG(sq_spec(move_effect_journal[movement].u.piece_movement.from),promsq))
   {
     done_backward_random_move_by_specific_invisible_to();
 
@@ -1469,7 +1469,7 @@ static void backward_random_move_by_specific_invisible_pawn_to(void)
       SquareFlags const doublestepsq = side_moving==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
       move_effect_journal[movement].u.piece_movement.from -= dir;
-      if (TSTFLAG(sq_spec[move_effect_journal[movement].u.piece_movement.from],doublestepsq)
+      if (TSTFLAG(sq_spec(move_effect_journal[movement].u.piece_movement.from),doublestepsq)
           && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
         done_backward_random_move_by_specific_invisible_to();
     }
@@ -1559,7 +1559,7 @@ static void backward_random_move_by_specific_invisible_as_non_king_to(square sq_
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  if ((TSTFLAG(sq_spec[sq_arrival],basesq) || TSTFLAG(sq_spec[sq_arrival],promsq)))
+  if ((TSTFLAG(sq_spec(sq_arrival),basesq) || TSTFLAG(sq_spec(sq_arrival),promsq)))
   {
     record_decision_outcome("%s","pawn is placed on impossible square");
     REPORT_DEADEND;

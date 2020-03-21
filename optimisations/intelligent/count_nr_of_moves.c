@@ -130,7 +130,7 @@ static unsigned int black_pawn_no_promotion(square from_square, square to_square
      */
     result = maxply+1;
 
-  else if (TSTFLAG(sq_spec[from_square],BlPawnDoublestepSq) && diffrow-2 >= diffcol)
+  else if (TSTFLAG(sq_spec(from_square),BlPawnDoublestepSq) && diffrow-2 >= diffcol)
     result = diffrow-1;
   else
     result = diffrow;
@@ -154,7 +154,7 @@ static unsigned int white_pawn_no_promotion(square from_square,
   if (-diffrow<diffcol)
     result = maxply+1;
 
-  else  if (TSTFLAG(sq_spec[from_square],WhPawnDoublestepSq) && -diffrow-2 >= diffcol)
+  else  if (TSTFLAG(sq_spec(from_square),WhPawnDoublestepSq) && -diffrow-2 >= diffcol)
     /* double step */
     result = -diffrow-1;
 
@@ -449,12 +449,12 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
     /* A rough check whether it is worth thinking about promotions */
     unsigned int moves = pawn_comes_from/onerow - nr_of_slack_rows_below_board;
 
-    if (TSTFLAG(sq_spec[pawn_comes_from],BlPawnDoublestepSq))
+    if (TSTFLAG(sq_spec(pawn_comes_from),BlPawnDoublestepSq))
       --moves;
 
     assert(moves<=5);
 
-    if (!TSTFLAG(sq_spec[to_be_blocked],BlPromSq))
+    if (!TSTFLAG(sq_spec(to_be_blocked),BlPromSq))
       /* not promotion square -- 1 move necessary to get there */
       ++moves;
 
@@ -501,7 +501,7 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
         piece_walk_type const type = black[i].type;
         if (type==Pawn)
         {
-          if (!TSTFLAG(sq_spec[to_square],BlPromSq))
+          if (!TSTFLAG(sq_spec(to_square),BlPromSq))
           {
             unsigned int const time = black_pawn_no_promotion(from_square,
                                                               to_square);
@@ -665,7 +665,7 @@ boolean intelligent_can_promoted_white_pawn_theoretically_move_to(unsigned int i
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(sq_spec[to_square],WhPromSq))
+  if (!TSTFLAG(sq_spec(to_square),WhPromSq))
     ++min_nr_moves_by_p;
 
   result = reserve[curr_reserve].nr_remaining_moves[White]>=min_nr_moves_by_p;
@@ -693,7 +693,7 @@ boolean intelligent_can_promoted_black_pawn_theoretically_move_to(unsigned int i
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[placed_from],BlPawnDoublestepSq))
+  if (TSTFLAG(sq_spec(placed_from),BlPawnDoublestepSq))
     --min_nr_moves_by_p;
 
   assert(min_nr_moves_by_p<=5);

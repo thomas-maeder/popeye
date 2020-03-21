@@ -136,7 +136,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_pawn(get_walk_of_piece_on_square(sq_dep))
-      && TSTFLAG(sq_spec[sq_dep],flag))
+      && TSTFLAG(sq_spec(sq_dep),flag))
   {
     if (being_solved.number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
     {

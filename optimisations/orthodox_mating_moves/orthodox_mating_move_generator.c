@@ -127,7 +127,7 @@ static void pawn_no_capture(numvec dir_battery, square sq_king, Side side)
 
     {
       SquareFlags const double_step = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
-      if (TSTFLAG(sq_spec[sq_departure],double_step))
+      if (TSTFLAG(sq_spec(sq_departure),double_step))
       {
         curr_generation->arrival += dir_forward;
         if (is_square_empty(curr_generation->arrival)

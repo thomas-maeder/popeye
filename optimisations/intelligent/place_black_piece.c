@@ -252,16 +252,16 @@ static void place_rider(slice_index si,
 
     case rider_requires_interception:
     {
-      rider_interception_stack_elmt_type elmt = {
+      rider_interception_stack_elmt_type interception_elmt = {
           disturbance_by_rider_index_ranges[placed_type-Queen].start,
           disturbance_by_rider_index_ranges[placed_type-Queen].end,
           placed_on,
           rider_interception_top
       };
-      rider_interception_top = &elmt;
+      rider_interception_top = &interception_elmt;
       next_rider_interception(si);
-      assert(rider_interception_top==&elmt);
-      rider_interception_top = elmt.succ;
+      assert(rider_interception_top==&interception_elmt);
+      rider_interception_top = interception_elmt.succ;
 
       intelligent_pin_black_piece(si,placed_on,&rider_placed);
       break;
@@ -472,7 +472,7 @@ void intelligent_place_pinned_unpromoted_black_pawn(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(BlBaseSq)|BIT(BlPromSq))
+  if (!TSTFLAGMASK(sq_spec(placed_on),BIT(BlBaseSq)|BIT(BlPromSq))
       && !black_pawn_attacks_king(placed_on)
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
@@ -499,7 +499,7 @@ void intelligent_place_unpromoted_black_pawn(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(BlBaseSq)|BIT(BlPromSq))
+  if (!TSTFLAGMASK(sq_spec(placed_on),BIT(BlBaseSq)|BIT(BlPromSq))
       && !black_pawn_attacks_king(placed_on)
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))

@@ -22,8 +22,8 @@ typedef struct
     piece_walk_type promotee;
 } pieces_pawns_promotion_sequence_type;
 
-#define ForwardPromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
-#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
+#define ForwardPromSq(col,sq) (TSTFLAG(sq_spec(sq),(col)==White?WhPromSq:BlPromSq))
+#define ReversePromSq(col,sq) (TSTFLAG(sq_spec(sq),(col)==Black?WhPromSq:BlPromSq))
 
 extern boolean promonly[nr_piece_walks];
 

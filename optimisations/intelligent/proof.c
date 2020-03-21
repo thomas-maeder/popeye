@@ -216,7 +216,7 @@ static void PawnMovesFromTo(Side side,
     *moves = rank_to-rank_from;
     if (*moves<*captures || *captures>captallowed)
       *moves = current_length;
-    else if (TSTFLAG(sq_spec[from],pawn_doublestep_square) && *captures<*moves-1)
+    else if (TSTFLAG(sq_spec(from),pawn_doublestep_square) && *captures<*moves-1)
       /* double step possible */
       --*moves;
   }
@@ -234,7 +234,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
       && !(proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side)))
     return 0;
 
-  else if (TSTFLAG(sq_spec[sq],double_step))
+  else if (TSTFLAG(sq_spec(sq),double_step))
     /* there is no pawn at all that can enter this square */
     return current_length;
 
@@ -246,7 +246,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 
     /* double step */
     square const sq_double_step_departure = sq+2*dir_backward;
-    if (TSTFLAG(sq_spec[sq_double_step_departure],double_step)
+    if (TSTFLAG(sq_spec(sq_double_step_departure),double_step)
         && (get_walk_of_piece_on_square(sq_double_step_departure)==Pawn && TSTFLAG(being_solved.spec[sq_double_step_departure],side))
         && !(proofgames_target_position.board[sq_double_step_departure]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_double_step_departure],side)))
       return 1;

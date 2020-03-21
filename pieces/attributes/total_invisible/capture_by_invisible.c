@@ -539,8 +539,8 @@ static unsigned int capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_in
   // TODO en passant capture
 
   TraceSquare(sq_departure);TraceEOL();
-  if (!TSTFLAG(sq_spec[sq_departure],basesq)
-      && !TSTFLAG(sq_spec[sq_departure],promsq))
+  if (!TSTFLAG(sq_spec(sq_departure),basesq)
+      && !TSTFLAG(sq_spec(sq_departure),promsq))
   {
     if (is_square_empty(sq_departure))
       result += capture_by_invisible_inserted_on(Pawn,sq_departure);
@@ -673,7 +673,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
     SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
     SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-    if (!TSTFLAG(sq_spec[sq_departure],basesq) && !TSTFLAG(sq_spec[sq_departure],promsq))
+    if (!TSTFLAG(sq_spec(sq_departure),basesq) && !TSTFLAG(sq_spec(sq_departure),promsq))
       flesh_out_dummy_for_capture_as(Pawn,sq_departure);
 
     // TODO en passant capture
@@ -912,8 +912,8 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
           SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
           SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-          if (!TSTFLAG(sq_spec[sq_departure],basesq)
-              && !TSTFLAG(sq_spec[sq_departure],promsq))
+          if (!TSTFLAG(sq_spec(sq_departure),basesq)
+              && !TSTFLAG(sq_spec(sq_departure),promsq))
           {
             square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
             if (ForwardPromSq(side_playing,sq_arrival))

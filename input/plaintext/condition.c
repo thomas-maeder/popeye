@@ -489,13 +489,13 @@ static void HandleGridCell(square cell, void *param)
   unsigned int * const currentgridnum = param;
 
   ClearGridNum(cell);
-  sq_spec[cell] += *currentgridnum << Grid;
+  sq_spec(cell) += *currentgridnum << Grid;
 }
 
 static void HandleSquaresWithFlag(square sq, void *param)
 {
   SquareFlags * const flag = param;
-  SETFLAG(sq_spec[sq],*flag);
+  SETFLAG(sq_spec(sq),*flag);
 }
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
@@ -740,7 +740,7 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
     unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
     unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
     ClearGridNum(*bnp);
-    sq_spec[*bnp] += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
+    sq_spec(*bnp) += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
   }
 }
 
@@ -773,7 +773,7 @@ static char *ParseGridVariant(char *tok)
             unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
             unsigned int const rows_worth = nr_rows_on_board/2;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
+            sq_spec(*bnp) += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
           }
           grid_type = grid_vertical_shift;
           break;
@@ -787,7 +787,7 @@ static char *ParseGridVariant(char *tok)
             unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
+            sq_spec(*bnp) += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
           }
           grid_type = grid_horizontal_shift;
           break;
@@ -801,7 +801,7 @@ static char *ParseGridVariant(char *tok)
             unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
+            sq_spec(*bnp) += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
           }
           grid_type = grid_diagonal_shift;
           break;
@@ -1894,24 +1894,24 @@ void InitCond(void)
     int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
     int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
-    CLEARFL(sq_spec[*bnp]);
+    CLEARFL(sq_spec(*bnp));
     sq_num[*bnp]= (int)(bnp-boardnum);
 
     /* initialise sq_spec and set grid number */
-    sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
+    sq_spec(*bnp) += ((file/2)+4*(row/2)) << Grid;
     if (file!=0 && file!=nr_files_on_board-1
         && row!=0 && row!=nr_rows_on_board-1)
-      SETFLAG(sq_spec[*bnp], NoEdgeSq);
+      SETFLAG(sq_spec(*bnp), NoEdgeSq);
   }
 
   for (i= square_a1; i < square_h8; i+= onerow)
   {
     if (i > square_a1)
-      if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
-        SETFLAG(sq_spec[i], SqColor);
+      if (!TSTFLAG(sq_spec(i+dir_down), SqColor))
+        SETFLAG(sq_spec(i), SqColor);
     for (j= i+1; j < i+nr_files_on_board; j++)
-      if (!TSTFLAG(sq_spec[j+dir_left], SqColor))
-        SETFLAG(sq_spec[j], SqColor);
+      if (!TSTFLAG(sq_spec(j+dir_left), SqColor))
+        SETFLAG(sq_spec(j), SqColor);
   }
 
   for (i= 0; i < CondCount; ++i)
