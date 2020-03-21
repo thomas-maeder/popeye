@@ -213,7 +213,7 @@ enum
 
   move_by_invisible,
 
-  no_capture
+  no_capture /* This needs to be the last value. */
 };
 
 enum
