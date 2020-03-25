@@ -1763,7 +1763,7 @@ static void inithash(slice_index si)
 
   {
     piece_walk_type i;
-    for (i = nr_piece_walks-1; i>Empty; --i)
+    for (i = nr_piece_walks-1; i>=Empty; --i)
       if (piece_walk_may_exist[i])
         piece_nbr[i] = j++;
   }
