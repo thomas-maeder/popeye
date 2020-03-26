@@ -203,7 +203,7 @@ static void forward_random_move_by_invisible_rider_to(square sq_arrival,
 
   move_effect_journal[movement].u.piece_movement.moving = walk_rider;
 
-  if (find_end_of_line(sq_arrival,-CheckDir[walk_rider][diff])==sq_departure)
+  if (find_end_of_line(sq_arrival,-CheckDir(walk_rider)[diff])==sq_departure)
   {
     if (is_square_empty(sq_arrival))
       done_forward_random_move_by_invisible(walk_moving);
@@ -322,7 +322,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
     }
   }
 
-  if (CheckDir[Knight][diff]==diff)
+  if (CheckDir(Knight)[diff]==diff)
   {
     if (can_decision_level_be_continued())
     {
@@ -340,7 +340,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
     }
   }
 
-  if (CheckDir[Bishop][diff]!=0)
+  if (CheckDir(Bishop)[diff]!=0)
   {
     if (can_decision_level_be_continued())
     {
@@ -360,7 +360,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
     }
   }
 
-  if (CheckDir[Rook][diff]!=0)
+  if (CheckDir(Rook)[diff]!=0)
   {
     if (can_decision_level_be_continued())
     {
@@ -380,7 +380,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
     }
   }
 
-  if (CheckDir[Queen][diff]!=0)
+  if (CheckDir(Queen)[diff]!=0)
   {
     if (can_decision_level_be_continued())
     {
@@ -455,7 +455,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         {
           TraceText("we don't sacrifice the king\n");
         }
-        else if (CheckDir[Queen][diff]==diff)
+        else if (CheckDir(Queen)[diff]==diff)
         {
           forward_random_move_by_invisible_king_to(sq_arrival,sq_departure);
           is_sq_arrival_reachable = true;
@@ -463,7 +463,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         break;
 
       case Knight:
-        if (CheckDir[Knight][diff]==diff)
+        if (CheckDir(Knight)[diff]==diff)
         {
           forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,Knight);
           is_sq_arrival_reachable = true;
@@ -473,7 +473,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
       case Queen:
       case Rook:
       case Bishop:
-        if (CheckDir[walk][diff]!=0)
+        if (CheckDir(walk)[diff]!=0)
         {
           forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,walk,walk);
           is_sq_arrival_reachable = true;
@@ -520,7 +520,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
       case Dummy:
         assert(play_phase==play_validating_mate);
 
-        if (CheckDir[Queen][diff]!=0 || CheckDir[Knight][diff]==diff)
+        if (CheckDir(Queen)[diff]!=0 || CheckDir(Knight)[diff]==diff)
         {
           Side const side_playing = trait[nbply];
           dynamic_consumption_type const save_consumption = current_consumption;
@@ -529,7 +529,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
           if (!is_sacrifice
               && being_solved.king_square[side_playing]==initsquare
-              && CheckDir[Queen][diff]==diff)
+              && CheckDir(Queen)[diff]==diff)
           {
             Side const side_under_attack = advers(side_playing);
             square const king_pos = being_solved.king_square[side_under_attack];
@@ -689,7 +689,7 @@ static void consider_forward_random_move_by_invisible_rider_to(square sq_arrival
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[move_effect_journal[movement].u.piece_movement.moving][diff]!=0)
+  if (CheckDir(move_effect_journal[movement].u.piece_movement.moving)[diff]!=0)
   {
     move_effect_journal[movement].u.piece_movement.to = sq_arrival;
     if (!will_be_taboo(sq_arrival,trait[nbply]))
@@ -797,7 +797,7 @@ static void consider_forward_random_move_by_invisible_leaper_to(square sq_arriva
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[check_dir_index][diff]==diff)
+  if (CheckDir(check_dir_index)[diff]==diff)
   {
     move_effect_journal[movement].u.piece_movement.to = sq_arrival;
     if (!will_be_taboo(sq_arrival,trait[nbply]))

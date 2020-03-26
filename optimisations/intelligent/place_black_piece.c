@@ -35,7 +35,7 @@ static int find_interceptable_check_dir(piece_walk_type rider_type, square place
   else
   {
     int const diff = king_pos-placed_on;
-    result = CheckDir[rider_type][diff];
+    result = CheckDir(rider_type)[diff];
 
     if (result==diff)
       result = checkdir_uninterceptable;
@@ -124,7 +124,7 @@ static void rider_placed(slice_index si)
   else
   {
     int const check_diff = being_solved.king_square[White]-save_top->placed_on;
-    int const check_dir = CheckDir[get_walk_of_piece_on_square(save_top->placed_on)][check_diff];
+    int const check_dir = CheckDir(get_walk_of_piece_on_square(save_top->placed_on))[check_diff];
     assert(check_dir!=check_diff);
     if (check_dir!=0
         && is_line_empty(save_top->placed_on,being_solved.king_square[White],check_dir))
@@ -291,7 +291,7 @@ void intelligent_place_promoted_black_rider(slice_index si,
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = being_solved.king_square[White]-placed_on;
-  int const check_dir = CheckDir[promotee_type][check_diff];
+  int const check_dir = CheckDir(promotee_type)[check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -326,7 +326,7 @@ void intelligent_place_pinned_promoted_black_knight(slice_index si,
   TraceFunctionParamListEnd();
 
   if ((being_solved.king_square[White]==initsquare
-       || CheckDir[Knight][being_solved.king_square[White]-placed_on]==0)
+       || CheckDir(Knight)[being_solved.king_square[White]-placed_on]==0)
       && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
                                                                 Knight,
                                                                 placed_on))
@@ -354,7 +354,7 @@ void intelligent_place_promoted_black_knight(slice_index si,
   TraceFunctionParamListEnd();
 
   if ((being_solved.king_square[White]==initsquare
-       || CheckDir[Knight][being_solved.king_square[White]-placed_on]==0)
+       || CheckDir(Knight)[being_solved.king_square[White]-placed_on]==0)
       && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
                                                                 Knight,
                                                                 placed_on))
@@ -592,7 +592,7 @@ void intelligent_place_black_rider(slice_index si,
   piece_walk_type const intercepter_type = black[placed_index].type;
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = being_solved.king_square[White]-placed_on;
-  int const check_dir = CheckDir[intercepter_type][check_diff];
+  int const check_dir = CheckDir(intercepter_type)[check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -627,7 +627,7 @@ void intelligent_place_pinned_black_knight(slice_index si,
   TraceFunctionParamListEnd();
 
   if ((being_solved.king_square[White]==initsquare
-       || CheckDir[Knight][being_solved.king_square[White]-placed_on]==0)
+       || CheckDir(Knight)[being_solved.king_square[White]-placed_on]==0)
       && intelligent_reserve_officer_moves_from_to(Black,
                                                    placed_comes_from,
                                                    Knight,
@@ -656,7 +656,7 @@ void intelligent_place_black_knight(slice_index si,
   TraceFunctionParamListEnd();
 
   if ((being_solved.king_square[White]==initsquare
-       || CheckDir[Knight][being_solved.king_square[White]-placed_on]==0)
+       || CheckDir(Knight)[being_solved.king_square[White]-placed_on]==0)
       && intelligent_reserve_officer_moves_from_to(Black,
                                                    placed_comes_from,
                                                    Knight,

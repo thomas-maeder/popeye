@@ -196,7 +196,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   int const diff = sq_arrival-sq_departure;
-  int const dir = CheckDir[Queen][diff];
+  int const dir = CheckDir(Queen)[diff];
   if (diff==dir)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];

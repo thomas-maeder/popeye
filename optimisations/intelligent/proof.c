@@ -342,7 +342,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
         *moves= current_length;
       else
       {
-        dir= CheckDir[Bishop][sqdiff];
+        dir= CheckDir(Bishop)[sqdiff];
         if (dir)
         {
           do {
@@ -356,7 +356,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     case Rook:
-      dir= CheckDir[Rook][sqdiff];
+      dir= CheckDir(Rook)[sqdiff];
       if (dir)
       {
         do {
@@ -369,7 +369,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     case Queen:
-      dir= CheckDir[Queen][sqdiff];
+      dir= CheckDir(Queen)[sqdiff];
       if (dir)
       {
         do {

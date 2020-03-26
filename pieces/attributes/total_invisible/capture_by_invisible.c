@@ -667,7 +667,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
   TraceValue("%u",id_existing);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Bishop][move_square_diff]==move_square_diff
+  if (CheckDir(Bishop)[move_square_diff]==move_square_diff
       && (trait[nbply]==White ? sq_departure<sq_arrival : sq_departure>sq_arrival))
   {
     SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
@@ -683,12 +683,12 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
   {
     boolean try_queen = false;
 
-    if (CheckDir[Knight][move_square_diff]==move_square_diff)
+    if (CheckDir(Knight)[move_square_diff]==move_square_diff)
       flesh_out_dummy_for_capture_as(Knight,sq_departure);
 
     if (can_decision_level_be_continued())
     {
-      int const dir = CheckDir[Bishop][move_square_diff];
+      int const dir = CheckDir(Bishop)[move_square_diff];
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
         try_queen = true;
@@ -698,7 +698,7 @@ static void flesh_out_dummy_for_capture_non_king(square sq_departure,
 
     if (can_decision_level_be_continued())
     {
-      int const dir = CheckDir[Rook][move_square_diff];
+      int const dir = CheckDir(Rook)[move_square_diff];
       if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,dir))
       {
         try_queen = true;
@@ -728,7 +728,7 @@ static void flesh_out_dummy_for_capture_king_or_non_king(square sq_departure,
 
   assert(being_solved.king_square[trait[nbply]]==initsquare);
 
-  if (CheckDir[Queen][move_square_diff]==move_square_diff)
+  if (CheckDir(Queen)[move_square_diff]==move_square_diff)
     flesh_out_dummy_for_capture_king(sq_departure,id_existing);
 
   assert(current_consumption.placed[trait[nbply]]>0);
@@ -859,7 +859,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
     switch (walk_existing)
     {
       case King:
-        if (CheckDir[Queen][move_square_diff]==move_square_diff)
+        if (CheckDir(Queen)[move_square_diff]==move_square_diff)
         {
           capture_by_invisible_king(sq_departure);
           result = true;
@@ -875,7 +875,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
       case Rook:
       case Bishop:
       {
-        int const dir = CheckDir[walk_existing][move_square_diff];
+        int const dir = CheckDir(walk_existing)[move_square_diff];
         if (dir!=0 && sq_departure==find_end_of_line(sq_arrival,-dir))
         {
           capture_by_invisible_with_defined_walk(walk_existing,sq_departure);
@@ -890,7 +890,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
       }
 
       case Knight:
-        if (CheckDir[Knight][move_square_diff]==move_square_diff)
+        if (CheckDir(Knight)[move_square_diff]==move_square_diff)
         {
           capture_by_invisible_with_defined_walk(Knight,sq_departure);
           result = true;
@@ -907,7 +907,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         Side const side_playing = trait[nbply];
 
         if ((side_playing==White ? move_square_diff>0 : move_square_diff<0)
-            && CheckDir[Bishop][move_square_diff]==move_square_diff)
+            && CheckDir(Bishop)[move_square_diff]==move_square_diff)
         {
           SquareFlags const promsq = trait[nbply]==White ? WhPromSq : BlPromSq;
           SquareFlags const basesq = trait[nbply]==White ? WhBaseSq : BlBaseSq;
@@ -956,8 +956,8 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
       }
 
       case Dummy:
-        if (CheckDir[Queen][move_square_diff]!=0
-            || CheckDir[Knight][move_square_diff]==move_square_diff)
+        if (CheckDir(Queen)[move_square_diff]!=0
+            || CheckDir(Knight)[move_square_diff]==move_square_diff)
         {
           if (being_solved.king_square[trait[nbply]]==initsquare)
             flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
