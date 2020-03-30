@@ -99,7 +99,10 @@ static void store_solution(void)
   if (nr_stored_solutions>0)
   {
     size_t const size = (nr_stored_solutions+1) * sizeof *stored_solutions;
-    stored_solutions = realloc(stored_solutions,size);
+    void * tmp = realloc(stored_solutions,size);
+    if (tmp==NULL)
+      free(stored_solutions);
+    stored_solutions = tmp;
   }
   else
     stored_solutions = malloc(sizeof *stored_solutions);
