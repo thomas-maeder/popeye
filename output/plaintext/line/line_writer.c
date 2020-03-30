@@ -16,7 +16,7 @@
 #include "options/options.h"
 
 #ifdef _SE_
-#include "se.h"
+#include <se.h>
 #endif
 
 #include "debugging/assert.h"

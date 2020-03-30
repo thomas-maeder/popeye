@@ -5,7 +5,7 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 #ifdef _SE_
-#include "se.h"
+#include <se.h>
 #endif
 
 /* Try to solve in solve_nr_remaining half-moves.
