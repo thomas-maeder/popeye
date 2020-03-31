@@ -794,7 +794,7 @@ static boolean FindHoles(char HolesSqList[4*nr_files_on_board*nr_rows_on_board])
 
 static void WriteFairyWalk(FILE *file, Colour colour, piece_walk_type w)
 {
-  char const colour_short[] = { 'w', 'b', 'n' };
+  char const colour_short[] = { 'w', 'b', 'n', 'i' };
   fprintf(file,
           "\\%c%s =%s",
           colour_short[colour],
