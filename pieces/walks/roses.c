@@ -278,7 +278,7 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
         /* special case: king and rose lion are the only pieces on the
          * line -> king is hurdle, and what we thought to be the hurdle
          * is in fact the rose lion! */
-        if (EVALUATE_OBSERVATION(evaluate,sq_hurdle,sq_target,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_hurdle,sq_target))
           return true;
       }
 #endif
