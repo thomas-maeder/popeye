@@ -95,7 +95,7 @@ static char const *basename(char const *path)
 
 static void report_endline(char const *file, unsigned int line)
 {
-  printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u)"
+  printf(" (K:%d+%d x:%u+%u !:%d+%d ?:%u+%u F:%u+%u)"
          , static_consumption.king[White]
          , static_consumption.king[Black]
          , static_consumption.pawn_victims[White]
@@ -107,7 +107,7 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
          );
-  printf(" - %u: r:%u t:%u m:%d n:%u p:%u i:%u",
+  printf(" - %u: r:%d t:%d m:%d n:%u p:%u i:%u",
          decision_top-1,
          backtracking[decision_top-1].result,
          backtracking[decision_top-1].type,
@@ -115,7 +115,7 @@ static void report_endline(char const *file, unsigned int line)
          backtracking[decision_top-1].nr_check_vectors,
          backtracking[decision_top-1].ply_failure,
          decision_level_properties[decision_top-1].id);
-  printf(" - %s:#%d",basename(file),line);
+  printf(" - %s:#%u",basename(file),line);
   printf(" - D:%lu\n",record_decision_counter);
   fflush(stdout);
 }
@@ -135,7 +135,7 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
 #if defined(REPORT_DECISIONS)
   printf("\n!%s",context);
   write_history_recursive(top_ply_of_regular_play);
-  printf(" - %s:#%d",basename(file),line);
+  printf(" - %s:#%u",basename(file),line);
   printf(" - D:%lu",record_decision_counter);
   printf(" - %lu",record_decision_counter-prev_record_decision_counter);
   prev_record_decision_counter = record_decision_counter;
@@ -194,7 +194,7 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
 void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
 {
   #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u TI~-~",purpose_symbol[purpose],nbply);
 #endif
 
@@ -208,7 +208,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
 void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
@@ -237,7 +237,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
 void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
 {
   #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("direction:%d",direction);
   printf(" %u",id);
@@ -264,7 +264,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
 void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
@@ -288,7 +288,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
 void push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSquare(&output_plaintext_engine,
               stdout,
@@ -311,7 +311,7 @@ void push_decision_placement_impl(char const *file, unsigned int line, PieceIdTy
 void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteSpec(&output_plaintext_engine,
             stdout,
@@ -334,7 +334,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
 void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("I");
   printf(" %u",id);
@@ -357,7 +357,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
                              Side side)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   WriteWalk(&output_plaintext_engine,
             stdout,
@@ -378,7 +378,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
 void push_decision_king_nomination_impl(char const *file, unsigned int line, PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d ",decision_top+1,">",decision_top+1);
+  printf("!%*s%u ",decision_top+1,">",decision_top+1);
   WriteSpec(&output_plaintext_engine,
             stdout,
             being_solved.spec[pos],
@@ -408,10 +408,10 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
   va_list args;
   va_start(args,format);
 
-  printf("!%*s%d ",decision_top,"",decision_top);
+  printf("!%*s%u ",decision_top,"",decision_top);
   printf("%u ",nbply);
   vprintf(format,args);
-  printf(" - %s:#%d",basename(file),line);
+  printf(" - %s:#%u",basename(file),line);
   printf("\n");
   fflush(stdout);
 
@@ -436,8 +436,8 @@ void record_decision_result(has_solution_type recorded_result)
     backtracking[decision_top].result = recorded_result;
 
 #if defined(REPORT_DECISIONS)
-    printf("!%*s%d",decision_top," ",decision_top);
-    printf(" - combined result:%u\n",
+    printf("!%*s%u",decision_top," ",decision_top);
+    printf(" - combined result:%d\n",
            backtracking[decision_top].result);
     fflush(stdout);
 #endif
@@ -741,8 +741,8 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
   }
 
 #if defined(REPORT_DECISIONS)
-  printf("!%*s%d",decision_top+1,"<",decision_top+1);
-  printf(" - %u: r:%u t:%u m:%u n:%u p:%u i:%u",
+  printf("!%*s%u",decision_top+1,"<",decision_top+1);
+  printf(" - %u: r:%d t:%d m:%u n:%u p:%u i:%u",
          decision_top+1,
          backtracking[decision_top+1].result,
          backtracking[decision_top+1].type,
@@ -750,7 +750,7 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
          backtracking[decision_top+1].nr_check_vectors,
          backtracking[decision_top+1].ply_failure,
          decision_level_properties[decision_top].id);
-  printf(" -> %u: r:%u t:%u m:%u n:%u p:%u i:%u\n",
+  printf(" -> %u: r:%d t:%d m:%u n:%u p:%u i:%u\n",
          decision_top,
          backtracking[decision_top].result,
          backtracking[decision_top].type,
@@ -1653,7 +1653,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",decision_top,"",decision_top);
+        printf("!%*s%u ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
@@ -2238,7 +2238,7 @@ HERE
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",decision_top,"",decision_top);
+        printf("!%*s%u ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 
@@ -2388,7 +2388,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
       if (skip)
       {
 #if defined(REPORT_DECISIONS)
-        printf("!%*s%d ",decision_top,"",decision_top);
+        printf("!%*s%u ",decision_top,"",decision_top);
         printf("trying to avoid an insertion so that we can intercept the check with an insertion\n");
 #endif
 

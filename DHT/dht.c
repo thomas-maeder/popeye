@@ -441,24 +441,24 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 
   if (KeyType>=dhtValueTypeCnt)
     sprintf(dhtError,
-            "dhtCreate: invalid KeyType: numeric=%u\n", KeyType);
+            "dhtCreate: invalid KeyType: numeric=%d\n", KeyType);
   else if (dhtProcedures[KeyType]==Nil(dhtValueProcedures))
     sprintf(dhtError,
             "dhtCreate: no procedure registered for KeyType \"%s\"\n",
             dhtValueTypeToString[KeyType]);
   else if (DtaType>=dhtValueTypeCnt)
     sprintf(dhtError,
-            "dhtCreate: invalid DataType: numeric=%u\n", DtaType);
+            "dhtCreate: invalid DataType: numeric=%d\n", DtaType);
   else if (dhtProcedures[DtaType]==Nil(dhtValueProcedures))
     sprintf(dhtError,
             "dhtCreate: no procedure registered for DtaType \"%s\"\n",
             dhtValueTypeToString[DtaType]);
   else if (KeyPolicy!=dhtNoCopy && KeyPolicy!=dhtCopy)
     sprintf(dhtError,
-            "Sorry, unknown KeyPolicy: numeric=%u.", KeyPolicy);
+            "Sorry, unknown KeyPolicy: numeric=%d.", KeyPolicy);
   else if (DataPolicy!=dhtNoCopy && DataPolicy!=dhtCopy)
     sprintf(dhtError,
-            "Sorry, unknown DataPolicy: numeric=%u.", DataPolicy);
+            "Sorry, unknown DataPolicy: numeric=%d.", DataPolicy);
   else
   {
     dht * const ht = NewHashTable;

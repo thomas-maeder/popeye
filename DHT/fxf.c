@@ -217,7 +217,7 @@ int fxfInit(size_t Size) {
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %lu bytes\n",
-               myname, Size);
+               myname, (unsigned long int) Size);
     BotFreePtr= Arena;
     GlobalSize= 0;
     return -1;
@@ -297,7 +297,7 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  TMDBG(printf("fxfAlloc - size:%lu",size));
+  TMDBG(printf("fxfAlloc - size:%lu",(unsigned long int)size));
   DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
 
   if (size<fxfMINSIZE)
@@ -321,12 +321,12 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%ld MallocCount:%lu\n",sh->FreeCount,(char*)ptr-Arena,sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%ld MallocCount:%lu\n",sh->FreeCount,(long int)((char*)ptr-Arena),sh->MallocCount));
   }
   else {
     /* we have to allocate a new piece */
     size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
-    TMDBG(printf(" sizeCurrentSeg:%lu",sizeCurrentSeg));
+    TMDBG(printf(" sizeCurrentSeg:%lu",(unsigned long int)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
@@ -338,7 +338,7 @@ void *fxfAlloc(size_t size) {
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
-      TMDBG(printf(" current seg ptr-Arena:%ld MallocCount:%lu\n",(char*)ptr-Arena,sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena:%ld MallocCount:%lu\n",(long int)((char*)ptr-Arena),sh->MallocCount));
     }
     else
     {
@@ -366,7 +366,7 @@ void fxfFree(void *ptr, size_t size) {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(char*)ptr-Arena,size));
+  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(long int)((char*)ptr-Arena),size));
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
@@ -380,10 +380,10 @@ void fxfFree(void *ptr, size_t size) {
   sh= &SizeData[size];
   if (size&PTRMASK) {
     /* unaligned size */
-    TMDBG(printf(" BotFreePtr-ptr:%ld",BotFreePtr-(char *)ptr));
+    TMDBG(printf(" BotFreePtr-ptr:%ld",(long int)(BotFreePtr-(char *)ptr)));
     if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%ld",(long int)(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {
@@ -397,10 +397,10 @@ void fxfFree(void *ptr, size_t size) {
   }
   else {
     /* aligned size */
-    TMDBG(printf(" ptr-TopFreePtr:%ld",(char *)ptr-TopFreePtr));
+    TMDBG(printf(" ptr-TopFreePtr:%ld",(long int)((char *)ptr-TopFreePtr)));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%ld",(long int)(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {

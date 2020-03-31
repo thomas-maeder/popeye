@@ -332,9 +332,9 @@ static void TraceCurrentMove(void)
     output_plaintext_write_move(&output_plaintext_engine,
                                 stdout,
                                 &output_plaintext_symbol_table);
-    fprintf(stdout," CURRMOVE_OF_PLY(nbply):%d",CURRMOVE_OF_PLY(nbply));
+    fprintf(stdout," CURRMOVE_OF_PLY(nbply):%u",CURRMOVE_OF_PLY(nbply));
     fprintf(stdout," nr_ghosts:%u",nr_ghosts);
-    fprintf(stdout," current_ply:%d\n",nbply);
+    fprintf(stdout," current_ply:%u\n",nbply);
     fflush(stdout);
   }
 }
@@ -449,7 +449,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fprintf(stdout,"goal:%u ",SLICE_U(si).goal_handler.goal.type);
+  fprintf(stdout,"goal:%d ",SLICE_U(si).goal_handler.goal.type);
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -458,7 +458,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"goal:%u\n",SLICE_U(si).goal_handler.goal.type);
+  fprintf(stdout,"goal:%d\n",SLICE_U(si).goal_handler.goal.type);
 
   stip_traverse_structure_children(si,st);
 }
@@ -484,7 +484,7 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
 {
   trace_common(si,st);
   fprintf(stdout,
-          " mode:%s(%u)\n",
+          " mode:%s(%d)\n",
           output_mode_names[SLICE_U(si).output_mode_selector.mode],
           SLICE_U(si).output_mode_selector.mode);
 
@@ -494,7 +494,7 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
 static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
+  fprintf(stdout,"%d\n",SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -503,7 +503,7 @@ static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_tr
 {
   trace_common(si,st);
   trace_link("?",SLICE_NEXT2(si),"");
-  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
+  fprintf(stdout,"%d\n",SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
