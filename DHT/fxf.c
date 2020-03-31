@@ -45,7 +45,7 @@
 typedef long long int longest_int_t;
 #  define LONGEST_INT_MODIFIER "ll"
 #else /* We don't have long long integer types. */
-typedef long longest_int_t; 
+typedef long int longest_int_t; 
 #  define LONGEST_INT_MODIFIER "l"
 #endif
 
