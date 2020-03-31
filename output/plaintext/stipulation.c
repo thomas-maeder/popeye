@@ -126,8 +126,8 @@ static boolean is_help_reci(slice_index si)
   slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
   if (end!=no_slice)
   {
-    slice_index const and = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
-    return and!=no_slice;
+    slice_index const and_slice = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
+    return and_slice!=no_slice;
   }
   else
     return false;
