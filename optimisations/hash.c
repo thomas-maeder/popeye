@@ -1063,10 +1063,10 @@ void HashStats(unsigned int level, char *trailer)
     if (use_all > 0)
     {
       if (use_all < 10000)
-        fprintf(stdout,), " %ld/%ld = %ld%%",
+        fprintf(stdout, ", %ld/%ld = %ld%%",
                 use_pos, use_all, (use_pos*100) / use_all);
       else
-        fprintf(stdout,, " %ld/%ld = %ld%%",
+        fprintf(stdout, ", %ld/%ld = %ld%%",
                 use_pos, use_all, use_pos / (use_all/100));
     }
     else
