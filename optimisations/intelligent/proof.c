@@ -385,7 +385,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       fprintf(stderr,"error in %s - piece:",__func__);
       WriteWalk(&output_plaintext_engine,stderr,p);
       fputs("\n",stderr);
-      *moves = 70; /* This value will be used by the caller whether we like it or not.  Is there something better we can do? */
+      *moves = 10000; /* This value will be used by the caller whether we like it or not.  Is there something better we can do? */
       break;
   }
 }
