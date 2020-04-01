@@ -835,7 +835,7 @@ static char *ParsePlay(char *tok,
 
       if (result!=0)
       {
-        else if (length==2)
+        if (length==2)
         {
           pipe_link(proxy,SLICE_NEXT1(proxy_next));
           dealloc_slice(proxy_next);
