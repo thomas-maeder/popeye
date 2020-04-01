@@ -1061,7 +1061,7 @@ void WriteSquareFrames(FILE *file)
 
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (TSTFLAG(sq_spec[*bnp], MagicSq))
+      if (TSTFLAG(sq_spec(*bnp), MagicSq))
       {
         if (magic_piece_found)
           strcat(MagicSqList, ", ");

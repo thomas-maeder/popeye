@@ -170,7 +170,6 @@ void pipe_substitute(slice_index replaced, slice_index substitute)
 void pipe_append(slice_index pos, slice_index appended)
 {
   slice_index const next = SLICE_NEXT1(pos);
-  slice_index const next_prev = SLICE_PREV(next);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pos);
@@ -178,7 +177,7 @@ void pipe_append(slice_index pos, slice_index appended)
   TraceFunctionParamListEnd();
 
   pipe_link(pos,appended);
-  if (next_prev==pos)
+  if ((next != no_slice) && (SLICE_PREV(next)==pos))
     slice_set_predecessor(next,appended);
   pipe_set_successor(appended,next);
 
@@ -192,14 +191,16 @@ void pipe_append(slice_index pos, slice_index appended)
  */
 void pipe_remove(slice_index si)
 {
+  slice_index const next = SLICE_NEXT1(si);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (SLICE_PREV(SLICE_NEXT1(si))==si)
-    pipe_link(SLICE_PREV(si),SLICE_NEXT1(si));
+  if ((next != no_slice) && (SLICE_PREV(next)==si))
+    pipe_link(SLICE_PREV(si),next);
   else
-    pipe_set_successor(SLICE_PREV(si),SLICE_NEXT1(si));
+    pipe_set_successor(SLICE_PREV(si),next);
 
   dealloc_slice(si);
 
