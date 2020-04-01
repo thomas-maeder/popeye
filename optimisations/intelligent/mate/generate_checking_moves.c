@@ -151,7 +151,7 @@ static void fini_disturb_mate_dir(void)
 static void remember_mating_line(piece_walk_type checker_type, square const check_from, int delta)
 {
   int const diff = being_solved.king_square[Black]-check_from;
-  int const dir = CheckDir[checker_type][diff];
+  int const dir = CheckDir(checker_type)[diff];
 
   TraceFunctionEntry(__func__);
   TraceWalk(checker_type);
@@ -179,7 +179,7 @@ static void by_promoted_rider(slice_index si,
                               square const check_from)
 {
   int const diff = being_solved.king_square[Black]-check_from;
-  int const dir = CheckDir[promotee_type][diff];
+  int const dir = CheckDir(promotee_type)[diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -208,7 +208,7 @@ static void by_promoted_knight(slice_index si,
                                square const check_from)
 {
   int const diff = being_solved.king_square[Black]-check_from;
-  int const dir = CheckDir[Knight][diff];
+  int const dir = CheckDir(Knight)[diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -280,7 +280,7 @@ static void by_unpromoted_pawn(slice_index si,
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[check_from],prom_square)
+  if (!TSTFLAGMASK(sq_spec(check_from),prom_square)
       && GuardDir[Pawn-Pawn][check_from].dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
@@ -303,7 +303,7 @@ static void by_rider(slice_index si,
   piece_walk_type const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
   int const diff = being_solved.king_square[Black]-check_from;
-  int const dir = CheckDir[checker_type][diff];
+  int const dir = CheckDir(checker_type)[diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -331,7 +331,7 @@ static void by_knight(slice_index si,
                       square const check_from)
 {
   int const diff = being_solved.king_square[Black]-check_from;
-  int const dir = CheckDir[Knight][diff];
+  int const dir = CheckDir(Knight)[diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);

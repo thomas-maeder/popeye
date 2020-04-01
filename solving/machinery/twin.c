@@ -674,12 +674,12 @@ void verify_position(slice_index si)
     square i;
     if (!CondFlag[whprom_sq])
       for (i = 0; i<nr_files_on_board; ++i)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
+        SETFLAG(sq_spec(CondFlag[glasgow] ? square_h7-i : square_h8-i),
                 WhPromSq);
 
     if (!CondFlag[blprom_sq])
       for (i = 0; i<nr_files_on_board; ++i)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
+        SETFLAG(sq_spec(CondFlag[glasgow] ? square_a2+i : square_a1+i),
                 BlPromSq);
   }
 
@@ -687,24 +687,24 @@ void verify_position(slice_index si)
     unsigned int i;
     for (i = 0; i<nr_files_on_board; i++)
     {
-      SETFLAG(sq_spec[square_a1+i*dir_right],WhBaseSq);
-      SETFLAG(sq_spec[square_a2+i*dir_right],WhPawnDoublestepSq);
-      SETFLAG(sq_spec[square_a7+i*dir_right],BlPawnDoublestepSq);
-      SETFLAG(sq_spec[square_a8+i*dir_right],BlBaseSq);
+      SETFLAG(sq_spec(square_a1+i*dir_right),WhBaseSq);
+      SETFLAG(sq_spec(square_a2+i*dir_right),WhPawnDoublestepSq);
+      SETFLAG(sq_spec(square_a7+i*dir_right),BlPawnDoublestepSq);
+      SETFLAG(sq_spec(square_a8+i*dir_right),BlBaseSq);
 
-      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a8+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a3+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a4+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a5+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a6+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a7+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a8+i*dir_right),CapturableByWhPawnSq);
 
-      SETFLAG(sq_spec[square_a1+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a1+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a2+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a3+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a4+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a5+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a6+i*dir_right),CapturableByBlPawnSq);
 
       if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
           || CondFlag[normalp]
@@ -712,8 +712,8 @@ void verify_position(slice_index si)
           || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
           || CondFlag[wormholes])
       {
-        SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByWhPawnSq);
-        SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByBlPawnSq);
+        SETFLAG(sq_spec(square_a2+i*dir_right),CapturableByWhPawnSq);
+        SETFLAG(sq_spec(square_a7+i*dir_right),CapturableByBlPawnSq);
       }
     }
   }

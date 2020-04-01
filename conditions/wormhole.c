@@ -148,12 +148,12 @@ void wormhole_transferer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);
-  TraceValue("%u",TSTFLAG(sq_spec[sq_arrival],Wormhole));
+  TraceValue("%u",TSTFLAG(sq_spec(sq_arrival),Wormhole));
   TraceEOL();
 
   if (!post_move_am_i_iterating())
   {
-    if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
+    if (TSTFLAG(sq_spec(sq_arrival),Wormhole))
     {
       wormhole_next_transfer[nbply] = 0;
       advance_wormhole(sq_departure,sq_arrival);
@@ -189,9 +189,9 @@ static boolean is_move_allowed(numecoup n)
    * - they are hard to detect without having played them
    */
 
-  if (TSTFLAG(sq_spec[sq_departure],Wormhole))
+  if (TSTFLAG(sq_spec(sq_departure),Wormhole))
     result = true;
-  else if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
+  else if (TSTFLAG(sq_spec(sq_arrival),Wormhole))
   {
     unsigned int i;
     for (i = 0; i!=nr_wormholes; ++i)
@@ -308,7 +308,7 @@ void wormhole_initialse_solving(slice_index si)
   {
     square s;
     for (s = square_a1; s<=square_h8; ++s)
-      if (TSTFLAG(sq_spec[s],Wormhole))
+      if (TSTFLAG(sq_spec(s),Wormhole))
       {
         wormhole_positions[nr_wormholes] = s;
         ++nr_wormholes;

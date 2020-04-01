@@ -39,7 +39,7 @@ boolean superpawn_check(validator_id evaluate)
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-  if (!TSTFLAG(sq_spec[sq_target],base))
+  if (!TSTFLAG(sq_spec(sq_target),base))
   {
     numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
@@ -74,7 +74,7 @@ boolean superberolinapawn_check(validator_id evaluate)
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
-  if (!TSTFLAG(sq_spec[sq_target],base))
+  if (!TSTFLAG(sq_spec(sq_target),base))
   {
     numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
     square const sq_departure = find_end_of_line(sq_target,dir_backward);

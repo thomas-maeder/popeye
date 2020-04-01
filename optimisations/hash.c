@@ -418,12 +418,12 @@ static void init_slice_properties_attack_hashed(slice_index si,
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
   slice_properties[si].u.d.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskNoSucc = mask << sis->nrBitsLeft;
+  slice_properties[si].u.d.maskNoSucc = ((sis->nrBitsLeft < (CHAR_BIT * (sizeof mask))) ? (mask << sis->nrBitsLeft) : 0);
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
   slice_properties[si].u.d.offsetSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
+  slice_properties[si].u.d.maskSucc = ((sis->nrBitsLeft < (CHAR_BIT * (sizeof mask))) ? (mask << sis->nrBitsLeft) : 0);
 
   hash_slices[nr_hash_slices++] = si;
   stip_traverse_structure_children_pipe(si,st);
@@ -606,7 +606,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
                                        hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
-  unsigned int const bits = val << offset;
+  unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
   element_t * const e = &hue->e;
   TraceFunctionEntry(__func__);
@@ -634,7 +634,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
                                      hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
-  unsigned int const bits = val << offset;
+  unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
   element_t * const e = &hue->e;
 
@@ -1370,7 +1370,7 @@ byte *CommonEncode(byte *bp,
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       enum { nr_squares = nr_rows_on_board*nr_files_on_board };
-      *bp++= (byte)(sq_num[sq_departure]-sq_num[sq_arrival]+nr_squares);
+      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
     }
   }
 
@@ -1761,11 +1761,11 @@ static void inithash(slice_index si)
   /* check whether a piece can be coded in a single byte */
   j = 0;
 
+  for (piece_walk_type i = nr_piece_walks; i != Empty;)
   {
-    piece_walk_type i;
-    for (i = nr_piece_walks; i>Empty; --i)
-      if (piece_walk_may_exist[i])
-        piece_nbr[i] = j++;
+    --i;
+    if (piece_walk_may_exist[i])
+      piece_nbr[i] = j++;
   }
 
   if (CondFlag[haanerchess])

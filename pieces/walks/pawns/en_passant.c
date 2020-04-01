@@ -378,7 +378,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_forward
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
@@ -391,7 +391,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       numvec const v = sq_arrival-sq_multistep_departure;
       if ((v==2*dir_forward+2*dir_left || v==2*dir_forward+2*dir_right)
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
@@ -403,7 +403,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_backward
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }

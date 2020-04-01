@@ -190,8 +190,8 @@ boolean black_pawn_attacks_king(square from)
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  assert(!TSTFLAG(sq_spec[from],BlPromSq));
-  assert(!TSTFLAG(sq_spec[from],BlBaseSq));
+  assert(!TSTFLAG(sq_spec(from),BlPromSq));
+  assert(!TSTFLAG(sq_spec(from),BlBaseSq));
 
   if (being_solved.king_square[White]==initsquare)
     result = false;

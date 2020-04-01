@@ -29,7 +29,7 @@ static void remember_to_keep_checking_line_open(square from, square to,
     case Bishop:
     case Rook:
     case Queen:
-      remember_to_keep_rider_line_open(from,to,CheckDir[type][diff],delta);
+      remember_to_keep_rider_line_open(from,to,CheckDir(type)[diff],delta);
       break;
 
     case Knight:
@@ -61,7 +61,7 @@ static void front_check_by_rider_via(slice_index si,
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (is_square_empty(*bnp))
     {
-      int const dir = CheckDir[checker_type][being_solved.king_square[Black]-*bnp];
+      int const dir = CheckDir(checker_type)[being_solved.king_square[Black]-*bnp];
       if (dir!=0
           && is_line_empty(*bnp,being_solved.king_square[Black],dir)
           && intelligent_reserve_front_check_by_officer(checker_origin,
@@ -100,7 +100,7 @@ static void front_check_by_knight_via(slice_index si,
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (is_square_empty(*bnp)
-        && CheckDir[Knight][being_solved.king_square[Black]-*bnp]!=0
+        && CheckDir(Knight)[being_solved.king_square[Black]-*bnp]!=0
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
                                                       Knight,
@@ -140,7 +140,7 @@ static void front_check_by_promotee_rider(slice_index si,
     square to_square;
     for (to_square = via+dir; is_square_empty(to_square); to_square += dir)
     {
-      int const check_dir = CheckDir[promotee_type][being_solved.king_square[Black]-to_square];
+      int const check_dir = CheckDir(promotee_type)[being_solved.king_square[Black]-to_square];
       if (check_dir!=0)
       {
         if (is_line_empty(to_square,being_solved.king_square[Black],check_dir))
@@ -179,7 +179,7 @@ static void front_check_by_promotee_knight(slice_index si,
   {
     square const to_square = via+vec[i];
     if (is_square_empty(to_square)
-        && CheckDir[Knight][being_solved.king_square[Black]-to_square]!=0)
+        && CheckDir(Knight)[being_solved.king_square[Black]-to_square]!=0)
     {
       TraceSquare(to_square);TraceWalk(being_solved.board[to_square]);TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
@@ -320,7 +320,7 @@ static void front_check_by_pawn_promotion_with_capture(slice_index si,
     piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     {
-      int const dir = CheckDir[pp][being_solved.king_square[Black]-check_from];
+      int const dir = CheckDir(pp)[being_solved.king_square[Black]-check_from];
       if (dir!=0)
         switch (pp)
         {
@@ -372,7 +372,7 @@ static void front_check_by_pawn(slice_index si,
     front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_right);
   }
 
-  if (TSTFLAG(sq_spec[via+dir_up],WhPromSq))
+  if (TSTFLAG(sq_spec(via+dir_up),WhPromSq))
   {
     front_check_by_pawn_promotion_without_capture(si,index_of_checker,via,dir_up);
     front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_left);
@@ -441,7 +441,7 @@ static void generate_front_check_via(slice_index si,
 static void generate_front_check(slice_index si,
                                  square rear_pos)
 {
-  int const dir = CheckDir[Queen][being_solved.king_square[Black]-rear_pos];
+  int const dir = CheckDir(Queen)[being_solved.king_square[Black]-rear_pos];
   square const start = rear_pos+dir;
   boolean const diagonal = SquareCol(rear_pos)==SquareCol(start);
   Flags const mask = BIT(Black)|BIT(Royal);

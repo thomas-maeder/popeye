@@ -43,7 +43,7 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 typedef struct position
 {
     echiquier board;                     /* placement of the pieces */
-    Flags spec[maxsquare+5];      /* spec[s] contains flags for piece board[i]*/
+    Flags spec[1 + (int) no_capture];    /* spec[s] contains flags for piece board[i]*/
     square king_square[nr_sides];        /* placement of the kings */
     unsigned int number_of_imitators;    /* number of iterators */
     imarr isquare;                       /* placement of iterators */

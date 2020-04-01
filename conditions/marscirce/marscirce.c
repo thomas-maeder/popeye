@@ -336,7 +336,7 @@ void marscirce_is_square_observed(slice_index si)
   observation_result = false;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
-      || CheckDir[observing_walk[nbply]][sq_target-context->rebirth_square]!=0)
+      || CheckDir(observing_walk[nbply])[sq_target-context->rebirth_square]!=0)
   {
     if (is_square_empty(context->rebirth_square))
     {

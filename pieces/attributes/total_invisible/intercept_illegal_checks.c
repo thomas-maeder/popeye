@@ -328,7 +328,7 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  if ((TSTFLAG(sq_spec[pos],basesq) || TSTFLAG(sq_spec[pos],promsq)))
+  if ((TSTFLAG(sq_spec(pos),basesq) || TSTFLAG(sq_spec(pos),promsq)))
   {
     record_decision_outcome("%s","pawn is placed on impossible square");
     REPORT_DEADEND;
