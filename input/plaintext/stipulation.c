@@ -825,16 +825,15 @@ static char *ParsePlay(char *tok,
       stip_length_type min_length;
       result = ParseHelpLength(tok2,&length,&min_length,play_length);
 
-      if (length==1)
-      {
-        /* at least 2 half moves requried for a reciprocal stipulation */
-        output_plaintext_input_error_message(StipNotSupported,0);
-        result = 0;
-      }
-
       if (result!=0)
       {
-        if (length==2)
+        if (length==1)
+        {
+          /* at least 2 half moves requried for a reciprocal stipulation */
+          output_plaintext_input_error_message(StipNotSupported,0);
+          result = 0;
+        }
+        else if (length==2)
         {
           pipe_link(proxy,SLICE_NEXT1(proxy_next));
           dealloc_slice(proxy_next);

@@ -981,31 +981,33 @@ static char *ParseStructuredStip_branch(char *tok,
 
   tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
 
-  switch (tolower(tok[0]))
-  {
-    case 'd':
-      *type = expression_type_defense;
-      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,start,proxy,level);
-      break;
+  if (tok!=0)
+    switch (tolower(tok[0]))
+    {
+      case 'd':
+        *type = expression_type_defense;
+        tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 's':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 's':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 'a':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 'a':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 'h':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 'h':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    default:
-      break;
-  }
+      default:
+        tok = 0;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
