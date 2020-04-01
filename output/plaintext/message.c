@@ -98,15 +98,18 @@ void output_plaintext_verifie_message(message_id_t id)
 
 /* Issue an input error message
  * @param id identifies the diagnostic message
- * @param val additional parameter according to the printf() conversion
+ * @param ... additional parameters according to the printf() conversion
  *            specifier in message id
  */
-void output_plaintext_input_error_message(message_id_t n, int val)
+void output_plaintext_input_error_message(message_id_t n, ...)
 {
 #if !defined(QUIET)
+  va_list args;
   protocol_fflush(stdout);
-  output_plaintext_error_message(InputError,val);
-  output_plaintext_error_message(n);
+  output_plaintext_error_message(InputError);
+  va_start(args,n);
+  output_plaintext_error_message(n,args);
+  va_end(args);
   protocol_fputc('\n',stderr);
   output_plaintext_error_message(OffendingItem,InputLine);
   protocol_fputc('\n',stderr);

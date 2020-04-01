@@ -264,7 +264,7 @@ void LaTeXSetup(slice_index start)
 
     SLICE_U(file_owner).writer.file = fopen(InputLine,"w");
     if (SLICE_U(file_owner).writer.file==NULL)
-      output_plaintext_input_error_message(WrOpenError,0);
+      output_plaintext_input_error_message(WrOpenError);
     else
       WriteIntro(SLICE_U(file_owner).writer.file);
   }
