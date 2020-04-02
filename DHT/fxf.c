@@ -43,9 +43,11 @@
 
 #if defined(LLONG_MAX) /* We have long long integer types. */
 typedef long long int longest_int_t;
+typedef unsigned long long int longest_uint_t;
 #  define LONGEST_INT_MODIFIER "ll"
 #else /* We don't have long long integer types. */
 typedef long int longest_int_t; 
+typedef unsigned long int longest_uint_t; 
 #  define LONGEST_INT_MODIFIER "l"
 #endif
 
@@ -224,7 +226,7 @@ int fxfInit(size_t Size) {
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" LONGEST_INT_MODIFIER "u bytes\n",
-               myname, (unsigned longest_int_t) Size);
+               myname, (longest_uint_t) Size);
     BotFreePtr= Arena;
     GlobalSize= 0;
     return -1;
@@ -304,7 +306,7 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  TMDBG(printf("fxfAlloc - size:%" LONGEST_INT_MODIFIER "u",(unsigned longest_int_t)size));
+  TMDBG(printf("fxfAlloc - size:%" LONGEST_INT_MODIFIER "u",(longest_uint_t)size));
   DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
 
   if (size<fxfMINSIZE)
@@ -333,7 +335,7 @@ void *fxfAlloc(size_t size) {
   else {
     /* we have to allocate a new piece */
     size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
-    TMDBG(printf(" sizeCurrentSeg:%" LONGEST_INT_MODIFIER "u",(unsigned longest_int_t)sizeCurrentSeg));
+    TMDBG(printf(" sizeCurrentSeg:%" LONGEST_INT_MODIFIER "u",(longest_uint_t)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
@@ -373,7 +375,7 @@ void fxfFree(void *ptr, size_t size) {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%" LONGEST_INT_MODIFIER "d size:%" LONGEST_INT_MODIFIER "u",(longest_int_t)((char*)ptr-Arena),(unsigned longest_int_t)size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" LONGEST_INT_MODIFIER "d size:%" LONGEST_INT_MODIFIER "u",(longest_int_t)((char*)ptr-Arena),(longest_uint_t)size));
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
