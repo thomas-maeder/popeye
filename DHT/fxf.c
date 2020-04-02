@@ -373,7 +373,7 @@ void fxfFree(void *ptr, size_t size) {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%" LONGEST_INT_MODIFIER "d size:%lu",(longest_int_t)((char*)ptr-Arena),size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" LONGEST_INT_MODIFIER "d size:%" LONGEST_INT_MODIFIER "u",(longest_int_t)((char*)ptr-Arena),(unsigned longest_int_t)size));
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
