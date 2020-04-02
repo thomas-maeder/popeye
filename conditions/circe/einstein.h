@@ -1,5 +1,5 @@
 #if !defined(CONDITIONS_CIRCE_EINSTEIN_H)
-#define CONDITIONS_CIRCE_EINSTEIN_ANTI_H
+#define CONDITIONS_CIRCE_EINSTEIN_H
 
 #include "solving/machinery/solve.h"
 

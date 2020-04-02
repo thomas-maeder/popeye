@@ -35,7 +35,7 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
     else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
     {
       int const square_diff = from-move_effect_journal[movement].u.piece_movement.to;
-      if (CheckDir[Queen][square_diff]!=0 || CheckDir[Knight][square_diff]!=0)
+      if (CheckDir(Queen)[square_diff]!=0 || CheckDir(Knight)[square_diff]!=0)
         result = true;
     }
   }
@@ -280,7 +280,7 @@ static void update_taboo_piece_movement_rider(int delta,
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   int const diff_move = sq_arrival-sq_departure;
-  int const dir_move = CheckDir[walk][diff_move];
+  int const dir_move = CheckDir(walk)[diff_move];
   square s;
 
   TraceFunctionEntry(__func__);
@@ -382,7 +382,7 @@ static void update_taboo_piece_movement_castling(int delta,
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   int const diff_move = sq_arrival-sq_departure;
-  int const dir_movement = CheckDir[Rook][diff_move];
+  int const dir_movement = CheckDir(Rook)[diff_move];
   square s;
 
   TraceFunctionEntry(__func__);
@@ -505,7 +505,7 @@ static square find_taboo_violation_rider(move_effect_journal_index_type movement
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   int const diff_move = sq_arrival - sq_departure;
-  int const dir_move = CheckDir[walk][diff_move];
+  int const dir_move = CheckDir(walk)[diff_move];
 
   square s;
 

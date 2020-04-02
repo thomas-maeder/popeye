@@ -40,11 +40,13 @@ static void InitBoard(void)
   }
 
   /* dummy squares for various purposes -- must be empty */
+  empty_square(retro_capture_departure);
   empty_square(pawn_multistep);
   empty_square(messigny_exchange);
   empty_square(kingside_castling);
   empty_square(queenside_castling);
-  empty_square(retro_capture_departure);
+  empty_square(move_by_invisible);
+  empty_square(no_capture);
 
   for (bnp = boardnum; *bnp; bnp++)
     empty_square(*bnp);

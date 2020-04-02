@@ -13,7 +13,10 @@ static numvec const * const check_dir_impl[4] = {
     ortho_opt[Bishop-Queen]+(square_h8-square_a1)
 };
 
-numvec const * const * const CheckDir = check_dir_impl-Queen;
+numvec const * CheckDir(piece_walk_type t)
+{
+    return check_dir_impl[t-Queen];
+}
 
 static void InitCheckDir(void)
 {

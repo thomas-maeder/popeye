@@ -143,7 +143,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
         if (goal.target==initsquare)
         {
-          output_plaintext_input_error_message(MissngSquareList, 0);
+          output_plaintext_input_error_message(MissngSquareList);
           tok = 0;
         }
         else
@@ -283,7 +283,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
           if (goal.target==initsquare)
           {
-            output_plaintext_input_error_message(MissngSquareList, 0);
+            output_plaintext_input_error_message(MissngSquareList);
             tok = 0;
           }
           else

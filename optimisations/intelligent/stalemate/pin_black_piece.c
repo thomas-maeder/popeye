@@ -25,8 +25,8 @@ void intelligent_stalemate_pin_black_piece(slice_index si,
   if (dir!=0
       && pinned_type!=Queen /* queens cannot be pinned */
       /* bishops can only be pinned on rook lines and vice versa */
-      && !(CheckDir[Bishop][dir]!=0 && pinned_type==Bishop)
-      && !(CheckDir[Rook][dir]!=0 && pinned_type==Rook))
+      && !(CheckDir(Bishop)[dir]!=0 && pinned_type==Bishop)
+      && !(CheckDir(Rook)[dir]!=0 && pinned_type==Rook))
     intelligent_pin_pinnable_black_piece(si,
                                          position_of_trouble_maker,
                                          dir,

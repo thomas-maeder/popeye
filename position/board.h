@@ -213,7 +213,7 @@ enum
 
   move_by_invisible,
 
-  no_capture
+  no_capture /* This needs to be the last value. */
 };
 
 enum
@@ -223,15 +223,15 @@ enum
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
-#define sq_spec         (zzzan - square_a1)
+#define sq_spec(n)      (zzzan[(n) - square_a1])
 
 extern int         zzzao[square_h8 - square_a1 + 1];
-#define sq_num          (zzzao - square_a1)
+#define sq_num(n)       (zzzao[(n) - square_a1])
 
-#define NoEdge(i)       TSTFLAG(sq_spec[(i)], NoEdgeSq)
-#define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
-#define GridNum(s)      (sq_spec[(s)] >> Grid)
-#define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
+#define NoEdge(i)       TSTFLAG(sq_spec(i), NoEdgeSq)
+#define SquareCol(i)    TSTFLAG(sq_spec(i), SqColor)
+#define GridNum(s)      (sq_spec(s) >> Grid)
+#define ClearGridNum(s) (sq_spec(s) &= ((1<<Grid)-1))
 
 #define is_no_capture(sq_capture) ((sq_capture)>=pawn_multistep)
 

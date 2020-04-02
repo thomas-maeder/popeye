@@ -31,7 +31,7 @@ static void insert_sentinelle(Side trait_ply)
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
-  if (!TSTFLAGMASK(sq_spec[sq_departure],prom_square)
+  if (!TSTFLAGMASK(sq_spec(sq_departure),prom_square)
       && !is_pawn(pi_departing)
       && is_square_empty(sq_departure))
   {

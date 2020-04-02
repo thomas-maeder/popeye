@@ -142,7 +142,7 @@ static void pin_using_specific_piece_on(slice_index si,
 int intelligent_is_black_piece_pinnable(square piece_pos)
 {
   int const diff = piece_pos-being_solved.king_square[Black];
-  int result = CheckDir[Queen][diff];
+  int result = CheckDir(Queen)[diff];
 
   TraceFunctionEntry(__func__);
   TraceSquare(piece_pos);
