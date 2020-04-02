@@ -118,7 +118,6 @@ static void identify_straight_line(void)
     start += dir;
   } while (!is_square_blocked(start));
 
-  end = sq_observee;
   do
   {
     end -= dir;
