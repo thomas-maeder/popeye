@@ -43,7 +43,7 @@ int main( )
     OurTable= dhtCreate(dhtStringValue, dhtCopy,
 				dhtSimpleValue, dhtNoCopy);
     i= 0;
-    while (scanf("%127s%d%d", string_to_enter, &Age, &Room) != EOF) {
+    while (scanf("%*s%d%d", (int) ((sizeof string_to_enter) - 1), string_to_enter, &Age, &Room) != EOF) {
     	/* put info in structure */
     	info_to_enter= (struct info*)malloc(sizeof(struct info));
     	info_to_enter->age= Age;
@@ -54,7 +54,7 @@ int main( )
     }
 
     /* access table */
-    while (scanf("%127s", name_to_find) != EOF) {
+    while (scanf("%*s", (int) ((sizeof name_to_find) - 1), name_to_find) != EOF) {
 	he= dhtLookupElement(OurTable, (dhtValue)name_to_find);
 	if (he != dhtNilElement) {
 	    /* if item is in the table */
