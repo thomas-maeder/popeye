@@ -338,8 +338,12 @@ solution finished.
 solution finished.
 
 
-input-error:offending item: 
+input-error:offending item: 
 offending item: Xb1
+input-error:offending item: 
+offending item: black
+input-error:offending item: 
+offending item: Ke8
 
 
 +---a---b---c---d---e---f---g---h---+

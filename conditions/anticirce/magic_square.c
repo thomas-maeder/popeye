@@ -41,7 +41,7 @@ void magic_square_anticirce_relevant_side_adapter_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    if (TSTFLAG(sq_spec[pos],MagicSq))
+    if (TSTFLAG(sq_spec(pos),MagicSq))
     {
       context->relevant_side = SLICE_STARTER(si);
       context->rebirth_as = advers(context->rebirth_as);

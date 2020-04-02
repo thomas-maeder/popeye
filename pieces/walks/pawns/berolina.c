@@ -31,7 +31,7 @@ boolean berolina_pawn_check(validator_id evaluate)
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
-  if (TSTFLAG(sq_spec[sq_target],capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
+  if (TSTFLAG(sq_spec(sq_target),capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
   {
     numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
 

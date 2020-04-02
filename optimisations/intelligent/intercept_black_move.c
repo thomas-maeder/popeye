@@ -45,7 +45,7 @@ static void white_piece(slice_index si,
                         void (*go_on)(slice_index si))
 {
   int const diff = to-from;
-  int const dir = CheckDir[Queen][diff];
+  int const dir = CheckDir(Queen)[diff];
   square intercept_on;
 
   TraceFunctionEntry(__func__);
@@ -107,7 +107,7 @@ static void black_piece(slice_index si,
                         void (*go_on)(slice_index si))
 {
   int const diff = to-from;
-  int const dir = CheckDir[Queen][diff];
+  int const dir = CheckDir(Queen)[diff];
   square const start = from+dir;
   boolean const is_diagonal = SquareCol(from)==SquareCol(start);
   square intercept_on;

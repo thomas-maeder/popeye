@@ -264,7 +264,7 @@ void LaTeXSetup(slice_index start)
 
     SLICE_U(file_owner).writer.file = fopen(InputLine,"w");
     if (SLICE_U(file_owner).writer.file==NULL)
-      output_plaintext_input_error_message(WrOpenError,0);
+      output_plaintext_input_error_message(WrOpenError);
     else
       WriteIntro(SLICE_U(file_owner).writer.file);
   }
@@ -1061,7 +1061,7 @@ void WriteSquareFrames(FILE *file)
 
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (TSTFLAG(sq_spec[*bnp], MagicSq))
+      if (TSTFLAG(sq_spec(*bnp), MagicSq))
       {
         if (magic_piece_found)
           strcat(MagicSqList, ", ");

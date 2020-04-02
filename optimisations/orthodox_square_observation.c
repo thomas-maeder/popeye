@@ -106,7 +106,7 @@ vec_index_type pawn_check_ortho(Side side_checking, square sq_king)
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[sq_king],capturable))
+  if (TSTFLAG(sq_spec(sq_king),capturable))
   {
     numvec const dir_forward = side_checking==White ? dir_up : dir_down;
     numvec const dir_forward_right = dir_forward+dir_right;

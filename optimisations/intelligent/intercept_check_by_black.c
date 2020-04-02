@@ -152,7 +152,7 @@ static void black_piece_on(slice_index si,
                               intercepter_index,where_to_intercept,
                               is_diagonal,
                               go_on);
-          if (!TSTFLAGMASK(sq_spec[where_to_intercept],BIT(BlBaseSq)|BIT(BlPromSq)))
+          if (!TSTFLAGMASK(sq_spec(where_to_intercept),BIT(BlBaseSq)|BIT(BlPromSq)))
             intelligent_place_unpromoted_black_pawn(si,
                                                     intercepter_index,
                                                     where_to_intercept,

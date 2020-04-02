@@ -1196,7 +1196,7 @@ static Side ParseStructuredStip_starter(char *tok)
    * are initialised in terms of nr_sides */
   ps = GetUniqIndex(nr_sides,ColourTab,tok);
   if (ps>nr_sides)
-    output_plaintext_input_error_message(PieSpecNotUniq,0);
+    output_plaintext_input_error_message(PieSpecNotUniq);
   else if (ps<nr_sides)
     result = ps;
 

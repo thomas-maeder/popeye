@@ -1,4 +1,4 @@
-#if !defined(CONDITIONS_REVERSE_H)
+#if !defined(CONDITIONS_EINSTEIN_REVERSE_H)
 #define CONDITIONS_EINSTEIN_REVERSE_H
 
 #include "solving/machinery/solve.h"

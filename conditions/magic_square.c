@@ -15,7 +15,7 @@ ConditionNumberedVariantType magic_square_type;
 
 static void side_change_if_magic(square on, Flags changedspec)
 {
-  if (TSTFLAG(sq_spec[on],MagicSq)
+  if (TSTFLAG(sq_spec(on),MagicSq)
       && !TSTFLAG(changedspec,Royal)
       && !is_piece_neutral(changedspec)
       && !is_square_empty(on)

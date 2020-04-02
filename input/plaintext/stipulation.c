@@ -83,11 +83,11 @@ static char *ParseReciGoal(char *tok,
           }
         }
         else
-          output_plaintext_input_error_message(UnrecStip, 0);
+          output_plaintext_input_error_message(UnrecStip);
       }
     }
     else
-      output_plaintext_input_error_message(UnrecStip, 0);
+      output_plaintext_input_error_message(UnrecStip);
   }
   else
   {
@@ -156,7 +156,7 @@ static char *ParseLength(char *tok, stip_length_type *length)
 
   if (tok==end || tmp_length>UINT_MAX)
   {
-    output_plaintext_input_error_message(WrongInt,0);
+    output_plaintext_input_error_message(WrongInt);
     tok = 0;
   }
   else
@@ -182,7 +182,7 @@ static char *ParseBattleLength(char *tok, stip_length_type *length)
   {
     if (*length==0)
     {
-      output_plaintext_input_error_message(WrongInt,0);
+      output_plaintext_input_error_message(WrongInt);
       tok = 0;
     }
     else
@@ -399,7 +399,7 @@ static char *ParseSeriesLength(char *tok,
   {
     if (*length==0)
     {
-      output_plaintext_input_error_message(WrongInt,0);
+      output_plaintext_input_error_message(WrongInt);
       tok = 0;
     }
     else
@@ -544,7 +544,7 @@ static char *ParsePlay(char *tok,
     char *end;
     unsigned long const intro_len= strtoul(tok,&end,10);
     if (intro_len<1 || tok==end || end!=arrowpos)
-      output_plaintext_input_error_message(WrongInt, 0);
+      output_plaintext_input_error_message(WrongInt);
     else
     {
       result = ParsePlay(arrowpos+2,start,proxy_next,play_length);
@@ -829,7 +829,7 @@ static char *ParsePlay(char *tok,
         if (length==1)
         {
           /* at least 2 half moves requried for a reciprocal stipulation */
-          output_plaintext_input_error_message(StipNotSupported,0);
+          output_plaintext_input_error_message(StipNotSupported);
           result = 0;
         }
 
