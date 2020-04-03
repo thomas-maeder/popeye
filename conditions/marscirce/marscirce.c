@@ -341,7 +341,7 @@ void marscirce_is_square_observed(slice_index si)
 
   observation_result = false;
   context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
-  sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture
+  sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
       || CheckDir(observing_walk[nbply])[sq_target-context->rebirth_square]!=0)
