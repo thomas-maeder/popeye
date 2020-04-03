@@ -29,7 +29,7 @@ int main( )
     char	string_to_enter[128];
     char	name_to_find[128];
     struct info *info_to_enter;
-    int 	i, Age, Room;
+    int 	Age, Room;
     struct dht	*OurTable;
     dhtElement	*he;
 
@@ -42,7 +42,7 @@ int main( )
     /* create table */
     OurTable= dhtCreate(dhtStringValue, dhtCopy,
 				dhtSimpleValue, dhtNoCopy);
-    i= 0;
+
     while (scanf("%127s%d%d", string_to_enter, &Age, &Room) != EOF) {
     	/* put info in structure */
     	info_to_enter= (struct info*)malloc(sizeof(struct info));

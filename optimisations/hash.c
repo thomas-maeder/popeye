@@ -1053,12 +1053,10 @@ void DecHashRateLevel(void)
 void HashStats(unsigned int level, char *trailer)
 {
 #if defined(HASHRATE)
-  int pos=dhtKeyCount(pyhash);
-
   if (level<=HashRateLevel)
   {
+    int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
-    pos= dhtKeyCount(pyhash);
     Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
     {

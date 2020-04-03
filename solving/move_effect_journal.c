@@ -155,9 +155,9 @@ void redo_move_effects(void)
 void undo_move_effects(void)
 {
   move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
-  move_effect_journal_entry_type const *parent_top_entry = &move_effect_journal[parent_top-1];
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_entry_type const *entry;
+  move_effect_journal_entry_type *parent_top_entry;
+  move_effect_journal_index_type top;
+  move_effect_journal_entry_type *entry;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -168,7 +168,9 @@ void undo_move_effects(void)
   TraceEOL();
 
   assert(parent_top>0);
+  top = move_effect_journal_base[nbply+1];
   assert(top>=parent_top);
+  parent_top_entry = &move_effect_journal[parent_top-1];
 
   for (entry = &move_effect_journal[top-1]; entry!=parent_top_entry; --entry)
   {
