@@ -198,13 +198,15 @@ void marscirce_generate_from_rebirth_square(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_rebirth);
-  TraceFunctionParamListEnd();
 
   assert(circe_rebirth_context_stack_pointer>0);
+
   context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
   sq_departure = curr_generation->departure;
   sq_rebirth = context->rebirth_square;
+
+  TraceSquare(sq_rebirth);
+  TraceFunctionParamListEnd();
 
   curr_generation->departure = sq_rebirth;
 
@@ -294,6 +296,7 @@ boolean mars_enforce_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(circe_rebirth_context_stack_pointer>0);
+
   context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
   sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   sq_observer = context->rebirth_square;
