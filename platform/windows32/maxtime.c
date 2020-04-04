@@ -1,5 +1,5 @@
 #include "platform/maxtime_impl.h"
-#include "windows.h"
+#include <windows.h>
 #include "utilities/boolean.h"
 
 #include "debugging/assert.h"

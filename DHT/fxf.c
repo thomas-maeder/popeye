@@ -10,7 +10,7 @@
 #else
 #  include <memory.h>
 #  if defined(DBMALLOC)
-#    include "dbmalloc.h"
+#    include <dbmalloc.h>
 #  endif /*DBMALLOC*/
 #endif /*__TURBOC__*/
 
