@@ -133,7 +133,7 @@ char *ParseOpt(slice_index start)
     if (indexx>OptCount)
     {
       output_plaintext_input_error_message(OptNotUniq);
-      continue;
+      break;
     }
     OptFlag[indexx]= true;
     OptCnt++;
