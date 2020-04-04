@@ -293,7 +293,7 @@ NESTEDLIBDIRS = \
     optimisations/goals/chess81 optimisations/goals/capture \
     optimisations/goals/target \
     output \
-    output/latex output/latex/line output/latex/tree output/latex \
+    output/latex output/latex/line output/latex/tree \
     output/plaintext output/plaintext/tree output/plaintext/line \
     position position/effects \
     platform platform/$(PLATFORM) \
