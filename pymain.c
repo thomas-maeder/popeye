@@ -45,8 +45,6 @@ static void checkGlobalAssumptions(void)
   enforce_piecename_uniqueness();
 }
 
-void move_effect_journal_init_move_effect_doers(void);
-
 int main(int argc, char *argv[])
 {
   checkGlobalAssumptions();

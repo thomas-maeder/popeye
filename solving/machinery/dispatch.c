@@ -521,25 +521,16 @@ void dispatch(slice_index si)
       break;
 
     case STPiecesCounter:
-    {
-      void pieces_counter_solve(slice_index si);
       pieces_counter_solve(si);
       break;
-    }
 
     case STPiecesFlagsInitialiser:
-    {
-      void initialise_piece_flags_solve(slice_index si);
       initialise_piece_flags_solve(si);
       break;
-    }
 
     case STRoyalsLocator:
-    {
-      void royals_locator_solve(slice_index si);
       royals_locator_solve(si);
       break;
-    }
 
     case STProofgameVerifyUniqueGoal:
       proof_verify_unique_goal_solve(si);
@@ -554,11 +545,8 @@ void dispatch(slice_index si)
       break;
 
     case STInputVerification:
-    {
-      void verify_position(slice_index si);
       verify_position(si);
       break;
-    }
 
     case STMoveEffectsJournalReset:
       move_effect_journal_reset(si);
