@@ -148,6 +148,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
+#include "solving/machinery/intro.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "solving/post_move_iteration.h"

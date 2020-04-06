@@ -90,7 +90,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/battle_play/setplay.h solving/battle_play/min_length_guard.h \
  solving/boolean/and.h solving/goals/prerequisite_guards.h \
  solving/trivial_end_filter.h solving/avoid_unsolvable.h \
- solving/play_suppressor.h solving/castling.h \
+ solving/play_suppressor.h solving/castling.h solving/machinery/intro.h \
  pieces/walks/pawns/en_passant.h solving/post_move_iteration.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
@@ -523,6 +523,8 @@ solving/avoid_unsolvable.h:
 solving/play_suppressor.h:
 
 solving/castling.h:
+
+solving/machinery/intro.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -1213,9 +1215,11 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/total_invisible/goal_validation.h \
  pieces/attributes/total_invisible/move_generation.h \
  pieces/attributes/total_invisible/revelations.h \
- pieces/attributes/total_invisible/decisions.h \
  pieces/attributes/total_invisible/move_player.h \
  pieces/attributes/total_invisible/uninterceptable_check.h \
+ pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum \
  pieces/attributes/total_invisible/replay_fleshed_out.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
@@ -1242,9 +1246,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/king_capture_avoider.h solving/recursion_stopper.h \
  solving/proofgames.h solving/constraint.h solving/dead_end.h \
  solving/dummy_move.h solving/end_of_branch_goal.h \
- solving/end_of_branch.h solving/setplay_fork.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/goals/any.h \
+ solving/end_of_branch.h solving/setplay_fork.h solving/goals/any.h \
  solving/goals/capture.h solving/goals/castling.h solving/goals/chess81.h \
  solving/goals/check.h solving/goals/circuit.h \
  solving/goals/circuit_by_rebirth.h solving/goals/countermate.h \
@@ -1848,11 +1850,19 @@ pieces/attributes/total_invisible/move_generation.h:
 
 pieces/attributes/total_invisible/revelations.h:
 
-pieces/attributes/total_invisible/decisions.h:
-
 pieces/attributes/total_invisible/move_player.h:
 
 pieces/attributes/total_invisible/uninterceptable_check.h:
+
+pieces/attributes/total_invisible/decisions.h:
+
+output/plaintext/pieces.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 
@@ -1961,12 +1971,6 @@ solving/end_of_branch_goal.h:
 solving/end_of_branch.h:
 
 solving/setplay_fork.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
 
 solving/goals/any.h:
 

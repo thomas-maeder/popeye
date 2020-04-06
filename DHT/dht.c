@@ -677,7 +677,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 
 LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 {
-  static char *myname= "ExpandHashTable";
+  static char const *myname= "ExpandHashTable";
   /* Need to expand the directory */
   uLong oldp= ht->p;
   uLong newp= ht->maxp + ht->p;

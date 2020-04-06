@@ -4,7 +4,7 @@
 /* Functionality for bitmask fiddling
  */
 
-#define BIT(pos)                (1<<(pos))
+#define BIT(pos)                (1u<<(pos))
 #define TSTFLAG(bits,pos)       (((bits)&BIT(pos))!=0)
 #define CLRFLAG(bits,pos)       ((bits)&= ~BIT(pos))
 #define SETFLAG(bits,pos)       ((bits)|= BIT(pos))

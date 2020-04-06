@@ -3,7 +3,7 @@
 
 enum
 {
-  black_castling_rights_offset = 4
+  black_castling_rights_offset = 4u
 };
 
 /* symbols for bits and their combinations in castling rights */

@@ -279,11 +279,6 @@ typedef struct
  */
 void solving_insert_root_slices(slice_index si);
 
-/* Wrap the slices representing the initial moves of nested slices
- * @param si identifies slice where to start
- */
-void solving_insert_intro_slices(slice_index si);
-
 /* Attempt to add set play to the stipulation
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added

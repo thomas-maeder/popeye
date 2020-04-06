@@ -34,16 +34,18 @@ Side const PAS_sides[nr_squares_on_board] = {
 void initialise_game_array(position *pos)
 {
   unsigned int i;
-  piece_walk_type p;
   square const *bnp;
 
   pos->king_square[White] = square_e1;
   pos->king_square[Black] = square_e8;
 
-  for (p = 0; p<nr_piece_walks; ++p)
   {
-    pos->number_of_pieces[White][p] = 0;
-    pos->number_of_pieces[Black][p] = 0;
+    piece_walk_type p;
+    for (p = 0; p<nr_piece_walks; ++p)
+    {
+      pos->number_of_pieces[White][p] = 0;
+      pos->number_of_pieces[Black][p] = 0;
+    }
   }
 
   /* TODO avoid duplication with InitBoard()

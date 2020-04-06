@@ -51,7 +51,7 @@ ARCHIVE_INDEXER = ranlib
 # ================
 
 # Select warning level
-WARN=-W -Wall -pedantic -Wno-unused-parameter -Wdeclaration-after-statement -Werror=format-security
+WARN=-W -Wall -Wpedantic -pedantic-errors -Wall -Wextra -Walloc-zero -Walloca -Warray-bounds=2 -Wcast-qual -Wcast-align -Wconversion -Wduplicated-branches -Wduplicated-cond -Wfloat-equal -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Winvalid-pch -Wlogical-op -Wmissing-declarations -Wnull-dereference -Wredundant-decls -Wshadow -Wshift-negative-value -Wshift-overflow=2 -Wstrict-overflow -Wswitch-default -Wswitch-enum -Wsync-nand -Wundef -Wunknown-pragmas -Wunused-macros -Winit-self -Wbad-function-cast -Wwrite-strings -Wjump-misses-init -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wnested-externs
 
 # Select whether to produce an executable with debugging and profiling
 # info

@@ -175,8 +175,6 @@ extern char const * const *TwinningTab;
 extern char const * const *TwinningMirrorTab;
 extern char const * const *mummer_strictness_tab;
 
-extern char const * const *SentinellesVariantTypeTab;
-
 typedef enum
 {
   BretonAdverse,
