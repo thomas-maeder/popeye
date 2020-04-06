@@ -338,7 +338,7 @@ void insert_invisible_capturer(void)
   TraceFunctionResultEnd();
 }
 
-void adapt_pre_capture_effect(void)
+static void adapt_pre_capture_effect(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

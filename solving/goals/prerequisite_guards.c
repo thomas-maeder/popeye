@@ -16,9 +16,9 @@
 /* remember if the prerequistes for the relvant goals are met */
 unsigned int goal_preprequisites_met[maxply];
 
-boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
-                                                     goal_type goal,
-                                                     stip_traversal_context_type context)
+static boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
+                                                            goal_type goal,
+                                                            stip_traversal_context_type context)
 {
   boolean result;
 
@@ -63,7 +63,7 @@ boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
   return result;
 }
 
-boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
+static boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
 {
   boolean result;
 
@@ -95,7 +95,7 @@ boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
   return result;
 }
 
-boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
+static boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
 {
   boolean result;
 

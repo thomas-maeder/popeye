@@ -1049,7 +1049,7 @@ static void WriteGrid(FILE *file)
   TraceFunctionResultEnd();
 }
 
-void WriteSquareFrames(FILE *file)
+static void WriteSquareFrames(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

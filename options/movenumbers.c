@@ -50,11 +50,6 @@ void move_numbers_write_history(ply top_ply)
     fputs("\nuse option start 1:1 to get replay information\n",stdout);
 }
 
-void move_numbers_write_history2(ply top_ply)
-{
-  write_history_recursive(top_ply);
-}
-
 /* Reset the restart number setting.
  */
 void reset_restart_number(void)

@@ -164,7 +164,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-void remember_detector(slice_index si, stip_structure_traversal *st)
+static void remember_detector(slice_index si, stip_structure_traversal *st)
 {
   instrumentation_state_type * const state = st->param;
 

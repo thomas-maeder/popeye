@@ -78,17 +78,6 @@ void ProofRestoreStartPosition(void)
   TraceFunctionResultEnd();
 }
 
-void ProofRestoreTargetPosition(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  being_solved = proofgames_target_position;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static boolean compareProofPieces(void)
 {
   boolean result = true;

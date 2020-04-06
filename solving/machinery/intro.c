@@ -32,7 +32,7 @@ static void link_to_intro(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
+static void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
