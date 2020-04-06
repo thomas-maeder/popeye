@@ -166,7 +166,7 @@ void reveal_new(move_effect_journal_entry_type *entry)
 
   replace_walk(on,walk);
 
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.added.flags = being_solved.spec[on];
+  entry->u.piece_addition.added.flags = being_solved.spec[on];
   being_solved.spec[on] = spec;
 
   if (TSTFLAG(spec,Royal) && walk==King)
@@ -199,7 +199,7 @@ void unreveal_new(move_effect_journal_entry_type *entry)
   if (TSTFLAG(being_solved.spec[on],Royal) && walk==King)
     being_solved.king_square[side_revealed] = initsquare;
 
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.added.flags = being_solved.spec[on];
+  entry->u.piece_addition.added.flags = being_solved.spec[on];
   being_solved.spec[on] = spec;
 
   replace_walk(on,Dummy);
