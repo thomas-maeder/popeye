@@ -36,7 +36,7 @@ dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
 unsigned long dhtKeyCount	(struct dht *);
-char const   *dhtErrorMsg	();
+char const   *dhtErrorMsg	(void);
 
 extern char dhtError[];
 
