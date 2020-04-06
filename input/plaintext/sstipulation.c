@@ -1005,7 +1005,7 @@ static char *ParseStructuredStip_branch(char *tok,
         break;
 
       default:
-        tok = 0;
+        tok = 0; /* TODO: Should we do something here besides just signalling an error to the caller? */
         break;
     }
 
