@@ -131,7 +131,7 @@ static void WriteFixElement(FILE *file,
                             char const *name, char const *value,
                             unsigned int indentation)
 {
-  fprintf(file,"%*c%s{%s}%%\n",indentation+1,'\\',name,value);
+  fprintf(file,"%*c%s{%s}%%\n",(int)(indentation+1),'\\',name,value);
 }
 
 void WriteUserInputElement(FILE *file, char const *name, char const *value)
@@ -145,7 +145,7 @@ static void WriteUserInputSubElement(FILE *file,
                                      char const *name,
                                      unsigned value_length, char const *value)
 {
-  fprintf(file," \\%s{%.*s}%%\n",name,value_length,value);
+  fprintf(file," \\%s{%.*s}%%\n",name,(int)value_length,value);
 }
 
 static void WriteGeneratedElement(FILE *file,
@@ -988,7 +988,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," v%d%d1",column,row);
+      fprintf(file," v%u%u1",column,row);
     }
 
     if (row>0 && GridLegal(*bnp+dir_down,*bnp))
@@ -1000,7 +1000,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," h%d%d1",column,row);
+      fprintf(file," h%u%u1",column,row);
     }
   }
 

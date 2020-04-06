@@ -81,7 +81,7 @@ static void dump_spec_initialiser_to_stream(FILE *dest, Flags const spec[])
  */
 static void dump_royal_initialisers_to_stream(FILE *dest, square rb, square rn)
 {
-  fprintf(dest,"  { %u,%u } /* king positions */",rb,rn);
+  fprintf(dest,"  { %d,%d } /* king positions */",rb,rn);
 }
 
 /* Write imitator initialiser to output file
@@ -97,8 +97,8 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
   fprintf(dest,"  %u, ",inum);
   fputs("{ ",dest);
   for (i = 0; i+1<maxinum; ++i)
-    fprintf(dest,"%u,",isquare[i]);
-  fprintf(dest,"%u } /* imitators */",isquare[i]);
+    fprintf(dest,"%d,",isquare[i]);
+  fprintf(dest,"%d } /* imitators */",isquare[i]);
 }
 
 /* Write piece count initialiser to output file
