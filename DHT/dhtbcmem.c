@@ -24,7 +24,7 @@
 
 static dhtHashValue ConvertBCMemValue(dhtConstValue m)
 {
-  BCMemValue const * const toBeConverted = (BCMemValue *)m;
+  BCMemValue const * const toBeConverted = (BCMemValue const *)m;
   unsigned int leng = toBeConverted->Leng;
   unsigned char const *s = toBeConverted->Data;
   dhtHashValue hash = 0;
@@ -46,8 +46,8 @@ static dhtHashValue ConvertBCMemValue(dhtConstValue m)
 
 static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
 {
-  BCMemValue const * const value1 = (BCMemValue *)v1;
-  BCMemValue const * const value2 = (BCMemValue *)v2;
+  BCMemValue const * const value1 = (BCMemValue const *)v1;
+  BCMemValue const * const value2 = (BCMemValue const *)v2;
   size_t const size = sizeof *value1 - sizeof value1->Data + value1->Leng;
 
   return memcmp(value1,value2,size)==0;
@@ -55,7 +55,7 @@ static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
 
 static dhtValue DupBCMemValue(dhtConstValue v)
 {
-  BCMemValue const * const original = (BCMemValue *)v;
+  BCMemValue const * const original = (BCMemValue const *)v;
   size_t const size = (sizeof *original
                        - sizeof original->Data
                        + original->Leng);
@@ -76,7 +76,7 @@ static void FreeBCMemVal(dhtValue v)
 
 static void DumpBCMemValue(dhtConstValue v, FILE *f)
 {
-  BCMemValue const * const toBeDumped = (BCMemValue *)v;
+  BCMemValue const * const toBeDumped = (BCMemValue const *)v;
   unsigned int const length = toBeDumped->Leng;
   unsigned int i;
 

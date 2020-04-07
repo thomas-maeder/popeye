@@ -677,7 +677,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 
 LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 {
-  static char *myname= "ExpandHashTable";
+  static char const *myname= "ExpandHashTable";
   /* Need to expand the directory */
   uLong oldp= ht->p;
   uLong newp= ht->maxp + ht->p;
@@ -985,7 +985,7 @@ int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
   while (he!=Nil(dhtElement))
   {
     unsigned int len = 1;
-    InternHsElement *ihe = ((InternHsElement *)he)->Next;
+    InternHsElement *ihe = ((InternHsElement const *)he)->Next;
     while (ihe!=0)
     {
       ++len;
