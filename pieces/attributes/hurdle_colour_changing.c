@@ -222,6 +222,10 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
         case both:
           promote_to_both_non_changing_and_changing(si,idx_promotion);
           break;
+
+        default:
+          assert(0);
+          break;
       }
     }
   }

@@ -470,6 +470,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
         case CirceVariantParachute:
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
           break;
+
+        default:
+          assert(0);
+          break;
       }
     }
   }

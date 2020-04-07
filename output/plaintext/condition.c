@@ -777,6 +777,10 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
                 written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantIrregular]);
                 /* to do - write squares */
                 break;
+
+              default:
+                assert(0);
+                break;
             }
           break;
 

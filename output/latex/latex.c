@@ -396,6 +396,10 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
     case condition_end:
       CloseElement(file);
       break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -531,38 +535,42 @@ static void WriteSource(FILE *file)
       /* while (*(date-1) == ' ') date--; */
       switch (*(date-1))
       {
-      case '/':
-        /* format is either month/year or month-month/year */
-        --date;
-        while (*(date-1) == ' ')
-          date--;
-        tmp = date;
-        while (strchr("0123456789-", *(date-1)))
-          date--;
+        case '/':
+          /* format is either month/year or month-month/year */
+          --date;
+          while (*(date-1) == ' ')
+            date--;
+          tmp = date;
+          while (strchr("0123456789-", *(date-1)))
+            date--;
 
-        if (strchr(date,'-'))
-          fprintf(file, " \\months{%.*s}%%\n",(int)(tmp-date), date);
-        else
-          fprintf(file, " \\month{%.*s}%%\n",(int)(tmp-date), date);
+          if (strchr(date,'-'))
+            fprintf(file, " \\months{%.*s}%%\n",(int)(tmp-date), date);
+          else
+            fprintf(file, " \\month{%.*s}%%\n",(int)(tmp-date), date);
 
-        break;
+          break;
 
-      case '.':
-        /* format is either
-           day. month. year or day.-day. month. year
-        */
-        date--;
-        tmp= date;
-        while (strchr("0123456789", *(date-1)))
+        case '.':
+          /* format is either
+             day. month. year or day.-day. month. year
+          */
           date--;
-        fprintf(file, " \\month{%.*s}%%\n", (int)(tmp-date), date);
-        /* now parse day(s) */
-        while (*(--date) == ' ');
-        tmp= date;
-        while (strchr("0123456789-.", *(date-1)))
-          date--;
-        fprintf(file, " \\day{%.*s}%%\n", (int)(tmp-date), date);
-        break;
+          tmp= date;
+          while (strchr("0123456789", *(date-1)))
+            date--;
+          fprintf(file, " \\month{%.*s}%%\n", (int)(tmp-date), date);
+          /* now parse day(s) */
+          while (*(--date) == ' ');
+          tmp= date;
+          while (strchr("0123456789-.", *(date-1)))
+            date--;
+          fprintf(file, " \\day{%.*s}%%\n", (int)(tmp-date), date);
+          break;
+
+        default:
+          /* nothing */
+          break;
       }
     } /* month(s), day(s) */
 
@@ -1042,6 +1050,10 @@ static void WriteGrid(FILE *file)
       /* of course, WriteGridIrregular() could cover the above cases as well */
       case grid_irregular:
         WriteGridIrregular(file);
+        break;
+
+      default:
+        assert(0);
         break;
     }
 

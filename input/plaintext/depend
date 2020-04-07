@@ -284,9 +284,10 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  output/output.h output/latex/latex.h output/plaintext/plaintext.h \
  position/underworld.h position/effects/piece_creation.h \
  position/effects/piece_removal.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/total_invisible.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
- conditions/circe/parachute.h
+ pieces/attributes/total_invisible.h \
+ pieces/attributes/total_invisible/goal_validation.h \
+ pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
+ solving/fork.h conditions/circe/parachute.h
 
 input/plaintext/pieces.h:
 
@@ -427,6 +428,8 @@ position/effects/piece_removal.h:
 pieces/attributes/neutral/neutral.h:
 
 pieces/attributes/total_invisible.h:
+
+pieces/attributes/total_invisible/goal_validation.h:
 
 pieces/walks/hunters.h:
 
@@ -1509,9 +1512,10 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  input/plaintext/token.h input/plaintext/language.h output/output.h \
  options/options.h options/maxsolutions/maxsolutions.h \
  options/movenumbers.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h options/maxthreatlength.h \
- options/maxtime.h platform/maxtime.h options/degenerate_tree.h \
- options/maxflightsquares.h options/nontrivial.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ options/maxthreatlength.h options/maxtime.h platform/maxtime.h \
+ options/degenerate_tree.h options/maxflightsquares.h \
+ options/nontrivial.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  output/plaintext/language_dependant.h position/position.h \
@@ -1530,8 +1534,7 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/ply.h solving/machinery/twin.h \
- conditions/circe/rebirth_square_occupied.h \
+ solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -1595,6 +1598,8 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 options/maxthreatlength.h:
 
@@ -1665,8 +1670,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 

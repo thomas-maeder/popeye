@@ -139,6 +139,10 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
 
     case condition_end:
       break;
+
+    default:
+      assert(0);
+      break;
   }
 }
 

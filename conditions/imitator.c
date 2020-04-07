@@ -368,6 +368,10 @@ static boolean castlingimok(square sq_departure, square sq_arrival)
       empty_square(sq_departure+2*dir_left);
       occupy_square(sq_departure,p,flags);
       break;
+
+    default:
+      assert(0);
+      break;
   }
   return ret;
 }

@@ -3,6 +3,7 @@
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/fork.h"
+#include "debugging/assert.h"
 
 typedef enum
 {
@@ -36,6 +37,10 @@ static void utiubi_generate_moves_recursive(square step_departure,
           break;
 
         case ubiubi_taboo:
+          break;
+
+        default:
+          assert(0);
           break;
       }
   }
