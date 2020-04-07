@@ -32,7 +32,7 @@
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
-char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
+char const *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static char const CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -52,7 +52,7 @@ output_symbol_table_type const output_latex_symbol_table =
     "{\\00}"
 };
 
-char *LaTeXWalk(piece_walk_type walk)
+char const *LaTeXWalk(piece_walk_type walk)
 {
   if (walk > Bishop)
   {
