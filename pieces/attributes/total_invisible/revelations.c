@@ -146,7 +146,7 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-void reveal_new(move_effect_journal_entry_type const *entry)
+void reveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -166,7 +166,7 @@ void reveal_new(move_effect_journal_entry_type const *entry)
 
   replace_walk(on,walk);
 
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.added.flags = being_solved.spec[on];
+  entry->u.piece_addition.added.flags = being_solved.spec[on];
   being_solved.spec[on] = spec;
 
   if (TSTFLAG(spec,Royal) && walk==King)
@@ -182,7 +182,7 @@ void reveal_new(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void unreveal_new(move_effect_journal_entry_type const *entry)
+void unreveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -199,7 +199,7 @@ void unreveal_new(move_effect_journal_entry_type const *entry)
   if (TSTFLAG(being_solved.spec[on],Royal) && walk==King)
     being_solved.king_square[side_revealed] = initsquare;
 
-  ((move_effect_journal_entry_type *)entry)->u.piece_addition.added.flags = being_solved.spec[on];
+  entry->u.piece_addition.added.flags = being_solved.spec[on];
   being_solved.spec[on] = spec;
 
   replace_walk(on,Dummy);
@@ -1347,7 +1347,7 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   }
   else
   {
-    move_effect_journal_entry_type const * const entry = &move_effect_journal[curr-1];
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
 
     TraceValue("%u",entry->type);TraceEOL();
     switch (entry->type)

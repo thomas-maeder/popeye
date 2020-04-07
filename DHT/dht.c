@@ -426,7 +426,7 @@ unsigned long dhtKeyCount(dht *h)
 
 char dhtError[128];
 
-char const *dhtErrorMsg()
+char const *dhtErrorMsg(void)
 {
   return dhtError;
 }
@@ -985,7 +985,7 @@ int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
   while (he!=Nil(dhtElement))
   {
     unsigned int len = 1;
-    InternHsElement *ihe = ((InternHsElement *)he)->Next;
+    InternHsElement *ihe = ((InternHsElement const *)he)->Next;
     while (ihe!=0)
     {
       ++len;

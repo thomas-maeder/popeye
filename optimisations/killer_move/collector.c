@@ -9,7 +9,7 @@
 
 #include "debugging/assert.h"
 
-static void remember_killer_move()
+static void remember_killer_move(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
