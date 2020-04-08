@@ -41,14 +41,21 @@
 #  define WARN_LOG3(s,a,b,c)
 #endif /*!ERROR_LOGS*/
 
-#if defined(LLONG_MAX) /* We have long long integer types. */
-typedef long long int longest_int_t;
-typedef unsigned long long int longest_uint_t;
-#  define LONGEST_INT_MODIFIER "ll"
+#if __STDC_VERSION__ >= 199901L /* >= C99 -- We have printf ptrdiff_t/size_t specifiers. */
+#define PTRDIFF_T_PRINTF_SPECIFIER "td"
+#define PTRDIFF_T_TO_PRINTF_TYPE(x) (x)
+#define SIZE_T_PRINTF_SPECIFIER "zu"
+#define SIZE_T_TO_PRINTF_TYPE(x) (x)
+#elif defined(LLONG_MAX) /* We have long long integer types. */
+#define PTRDIFF_T_PRINTF_SPECIFIER "lld"
+#define PTRDIFF_T_TO_PRINTF_TYPE(x) ((long long int) (x))
+#define SIZE_T_PRINTF_SPECIFIER "llu"
+#define SIZE_T_TO_PRINTF_TYPE(x) ((unsigned long long int) (x))
 #else /* We don't have long long integer types. */
-typedef long int longest_int_t; 
-typedef unsigned long int longest_uint_t; 
-#  define LONGEST_INT_MODIFIER "l"
+#define PTRDIFF_T_PRINTF_SPECIFIER "ld"
+#define PTRDIFF_T_TO_PRINTF_TYPE(x) ((long int) x)
+#define SIZE_T_PRINTF_SPECIFIER "lu"
+#define SIZE_T_TO_PRINTF_TYPE(x) ((unsigned long int) x)
 #endif
 
 
@@ -225,8 +232,8 @@ int fxfInit(size_t Size) {
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
-    ERROR_LOG2("%s: Sorry, cannot allocate arena of %" LONGEST_INT_MODIFIER "u bytes\n",
-               myname, (longest_uint_t) Size);
+    ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
+               myname, SIZE_T_TO_PRINTF_TYPE(Size));
     BotFreePtr= Arena;
     GlobalSize= 0;
     return -1;
@@ -306,7 +313,7 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  TMDBG(printf("fxfAlloc - size:%" LONGEST_INT_MODIFIER "u",(longest_uint_t)size));
+  TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,SIZE_T_TO_PRINTF_TYPE(size)));
   DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
 
   if (size<fxfMINSIZE)
@@ -330,12 +337,12 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" LONGEST_INT_MODIFIER "d MallocCount:%lu\n",sh->FreeCount,(longest_int_t)((char*)ptr-Arena),sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER "  MallocCount:%lu\n",sh->FreeCount,PTRDIFF_T_TO_PRINTF_TYPE((char*)ptr-Arena),sh->MallocCount));
   }
   else {
     /* we have to allocate a new piece */
     size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
-    TMDBG(printf(" sizeCurrentSeg:%" LONGEST_INT_MODIFIER "u",(longest_uint_t)sizeCurrentSeg));
+    TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,SIZE_T_TO_PRINTF_TYPE(sizeCurrentSeg)));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
@@ -347,7 +354,7 @@ void *fxfAlloc(size_t size) {
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
-      TMDBG(printf(" current seg ptr-Arena:%" LONGEST_INT_MODIFIER "d MallocCount:%lu\n",(longest_int_t)((char*)ptr-Arena),sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",PTRDIFF_T_TO_PRINTF_TYPE((char*)ptr-Arena),sh->MallocCount));
     }
     else
     {
@@ -375,7 +382,7 @@ void fxfFree(void *ptr, size_t size) {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%" LONGEST_INT_MODIFIER "d size:%" LONGEST_INT_MODIFIER "u",(longest_int_t)((char*)ptr-Arena),(longest_uint_t)size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE((char*)ptr-Arena),SIZE_T_TO_PRINTF_TYPE(size)));
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
@@ -389,10 +396,10 @@ void fxfFree(void *ptr, size_t size) {
   sh= &SizeData[size];
   if (size&PTRMASK) {
     /* unaligned size */
-    TMDBG(printf(" BotFreePtr-ptr:%" LONGEST_INT_MODIFIER "d",(longest_int_t)(BotFreePtr-(char *)ptr)));
+    TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE(BotFreePtr-(char *)ptr)));
     if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" LONGEST_INT_MODIFIER "d",(longest_int_t)(TopFreePtr-BotFreePtr)));
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {
@@ -406,10 +413,10 @@ void fxfFree(void *ptr, size_t size) {
   }
   else {
     /* aligned size */
-    TMDBG(printf(" ptr-TopFreePtr:%" LONGEST_INT_MODIFIER "d",(longest_int_t)((char *)ptr-TopFreePtr)));
+    TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE((char *)ptr-TopFreePtr)));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" LONGEST_INT_MODIFIER "d",(longest_int_t)(TopFreePtr-BotFreePtr)));
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {
