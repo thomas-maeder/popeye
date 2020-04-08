@@ -67,9 +67,9 @@ static dhtValue DupBCMemValue(dhtConstValue v)
   return (dhtValue)result;
 }
 
-static void FreeBCMemVal(dhtValue v)
+static void FreeBCMemVal(dhtConstValue v)
 {
-  BCMemValue * const freed = (BCMemValue *)v;
+  BCMemValue const * const freed = (BCMemValue const *)v;
   size_t const size = sizeof *freed - sizeof freed->Data + freed->Leng;
   fxfFree(freed,size);
 }

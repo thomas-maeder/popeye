@@ -69,7 +69,7 @@ static dhtValue DupSimpleValue(dhtConstValue v)
   return (dhtValue)v;
 }
 
-static void FreeSimpleValue(dhtValue v)
+static void FreeSimpleValue(dhtConstValue v)
 {
   return;
 }

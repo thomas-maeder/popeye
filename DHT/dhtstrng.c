@@ -52,7 +52,7 @@ static dhtValue	DupString(dhtConstValue v)
 		strcpy(nv, (char const *)v);
 	return (dhtValue)nv;
 }
-static void	FreeString(dhtValue v)
+static void	FreeString(dhtConstValue v)
 {
 	fxfFree(v, strlen((char const *)v)+1);
 	return;

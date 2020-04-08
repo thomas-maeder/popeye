@@ -61,7 +61,7 @@ static dhtValue DupCompactMemoryValue(dhtConstValue v)
   return (dhtValue)cm;
 }
 
-static void FreeCompactMemoryValue(dhtValue v)
+static void FreeCompactMemoryValue(dhtConstValue v)
 {
   FreeCompactMemVal(v);
   return;

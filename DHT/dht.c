@@ -383,8 +383,8 @@ typedef struct
     int     (*Equal)(dhtConstValue, dhtConstValue);
     dhtValue    (*DupKey)(dhtConstValue);
     dhtValue    (*DupData)(dhtConstValue);
-    void        (*FreeKey)(dhtValue);
-    void        (*FreeData)(dhtValue);
+    void        (*FreeKey)(dhtConstValue);
+    void        (*FreeData)(dhtConstValue);
     void        (*DumpData)(dhtConstValue,FILE *);
     void        (*DumpKey)(dhtConstValue,FILE *);
 } Procedures;
@@ -808,7 +808,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   return phe;
 }
 
-void dhtRemoveElement(HashTable *ht, dhtValue key)
+void dhtRemoveElement(HashTable *ht, dhtConstValue key)
 {
   MYNAME(dhtRemoveElement)
   InternHsElement **phe, *he;
@@ -861,7 +861,8 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
 dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
 {
   InternHsElement **phe, *he;
-  dhtValue KeyV, DataV;
+  dhtConstValue KeyV;
+  dhtValue DataV;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",ht);

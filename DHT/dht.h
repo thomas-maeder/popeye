@@ -15,7 +15,7 @@ typedef enum {
 
 /* Now finally this is the HashElement */
 typedef struct {
-	dhtValue	Key;
+  dhtConstValue	Key;
 	dhtValue	Data;
 } dhtElement;
 #define dhtNilElement	(dhtElement *)0
@@ -31,7 +31,7 @@ int	      dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
 void	      dhtDestroy	(struct dht *);
 void	      dhtDump		(struct dht *, FILE *);
 void	      dhtDumpIndented	(int i, struct dht *, FILE *);
-void	      dhtRemoveElement	(struct dht *, dhtValue key);
+void	      dhtRemoveElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
