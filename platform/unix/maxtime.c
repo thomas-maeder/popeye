@@ -1,4 +1,5 @@
 #include "platform/maxtime_impl.h"
+#include "platform/platform.h"
 #include "utilities/boolean.h"
 #include <stdio.h>
 #include <stdlib.h>

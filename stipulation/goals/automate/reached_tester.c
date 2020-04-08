@@ -1,4 +1,4 @@
-#include "stipulation/goals/autostalemate/reached_tester.h"
+#include "stipulation/goals/automate/reached_tester.h"
 #include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"

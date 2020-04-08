@@ -1,8 +1,8 @@
 stipulation/goals/automate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/automate/reached_tester.c \
- stipulation/goals/autostalemate/reached_tester.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/goals/automate/reached_tester.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum stipulation/pipe.h \
@@ -21,7 +21,7 @@ stipulation/goals/automate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/check/reached_tester.h stipulation/boolean/true.h \
  debugging/trace.h
 
-stipulation/goals/autostalemate/reached_tester.h:
+stipulation/goals/automate/reached_tester.h:
 
 stipulation/stipulation.h:
 
