@@ -55,7 +55,7 @@ static dhtValue	DupMemoryValue(dhtConstValue v)
 
   mv= NewMemVal;
   if (mv) {
-    mv->Data= (unsigned char *)fxfAlloc(((MemVal*)v)->Leng);
+    mv->Data= (unsigned char *)fxfAlloc(((MemVal const *)v)->Leng);
     if (!mv->Data) {
       FreeMemVal(mv);
       mv = NilMemVal;
