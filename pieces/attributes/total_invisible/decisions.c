@@ -460,6 +460,11 @@ has_solution_type get_decision_result(void)
   return result;
 }
 
+// TOOD get rid of these
+// defined in random_move_by_invisible.c
+extern Side side_in_check_to_be_intercepted;
+extern vec_index_type check_vector_to_be_intercepted;
+
 void pop_decision(void)
 {
   TraceFunctionEntry(__func__);
@@ -693,8 +698,6 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
           }
           if (backtracking[decision_top].nr_check_vectors==1)
           {
-            extern Side side_in_check_to_be_intercepted;
-            extern vec_index_type check_vector_to_be_intercepted;
             side_in_check_to_be_intercepted = backtracking[decision_top].side_failure;
             check_vector_to_be_intercepted = backtracking[decision_top].check_idx;
           }
