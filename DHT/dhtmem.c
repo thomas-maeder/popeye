@@ -60,8 +60,8 @@ static dhtValue	DupMemoryValue(dhtConstValue v)
       FreeMemVal(mv);
       mv = NilMemVal;
     } else {
-      mv->Leng= ((MemVal*)v)->Leng;
-      memcpy(mv->Data, ((MemVal*)v)->Data, mv->Leng);
+      mv->Leng= ((MemVal const *)v)->Leng;
+      memcpy(mv->Data, ((MemVal const *)v)->Data, mv->Leng);
       return (dhtValue)mv;
     }
   }
