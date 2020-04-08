@@ -49,7 +49,7 @@ static int EqualMemoryValue(dhtConstValue v1, dhtConstValue v2)
     return 1;
 }
 
-static dhtValue	DupMemoryValue(dhtConstValue v)
+static dhtConstValue	DupMemoryValue(dhtConstValue v)
 {
   MemVal *mv;
 

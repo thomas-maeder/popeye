@@ -50,7 +50,7 @@ static int EqualCompactMemoryValue(dhtConstValue v1, dhtConstValue v2)
     return 1;
 }
 
-static dhtValue DupCompactMemoryValue(dhtConstValue v)
+static dhtConstValue DupCompactMemoryValue(dhtConstValue v)
 {
   CompactMemVal *cm= NewCompactMemVal(((CompactMemVal const *)v)->Leng);
   if (cm) {

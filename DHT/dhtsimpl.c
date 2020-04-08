@@ -64,9 +64,9 @@ static int EqualSimpleValue(dhtConstValue v1, dhtConstValue v2)
   return v1 == v2;
 }
 
-static dhtValue DupSimpleValue(dhtConstValue v)
+static dhtConstValue DupSimpleValue(dhtConstValue v)
 {
-  return (dhtValue)v;
+  return v;
 }
 
 static void FreeSimpleValue(dhtConstValue v)

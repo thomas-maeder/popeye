@@ -381,8 +381,8 @@ typedef struct
 {
     dhtHashValue (*Hash)(dhtConstValue);
     int     (*Equal)(dhtConstValue, dhtConstValue);
-    dhtValue    (*DupKey)(dhtConstValue);
-    dhtValue    (*DupData)(dhtConstValue);
+    dhtConstValue    (*DupKey)(dhtConstValue);
+    dhtConstValue    (*DupData)(dhtConstValue);
     void        (*FreeKey)(dhtConstValue);
     void        (*FreeData)(dhtConstValue);
     void        (*DumpData)(dhtConstValue,FILE *);
@@ -858,11 +858,11 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
   TraceFunctionResultEnd();
 }
 
-dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
+dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data)
 {
   InternHsElement **phe, *he;
   dhtConstValue KeyV;
-  dhtValue DataV;
+  dhtConstValue DataV;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",ht);

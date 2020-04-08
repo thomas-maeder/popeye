@@ -53,7 +53,7 @@ static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
   return memcmp(value1,value2,size)==0;
 }
 
-static dhtValue DupBCMemValue(dhtConstValue v)
+static dhtConstValue DupBCMemValue(dhtConstValue v)
 {
   BCMemValue const * const original = (BCMemValue const *)v;
   size_t const size = (sizeof *original

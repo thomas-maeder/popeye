@@ -44,7 +44,7 @@ static int EqualString(dhtConstValue v1, dhtConstValue v2)
 		return 1;
 }
 
-static dhtValue	DupString(dhtConstValue v)
+static dhtConstValue	DupString(dhtConstValue v)
 {
 	char *nv;
 	nv= (char *)fxfAlloc(strlen((char const *)v)+1);
