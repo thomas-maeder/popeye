@@ -338,7 +338,7 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER "  MallocCount:%lu\n",sh->FreeCount,PTRDIFF_T_TO_PRINTF_TYPE((char*)ptr-Arena),sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,PTRDIFF_T_TO_PRINTF_TYPE((char*)ptr-Arena),sh->MallocCount));
   }
   else {
     /* we have to allocate a new piece */
