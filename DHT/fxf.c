@@ -41,7 +41,8 @@
 #  define WARN_LOG3(s,a,b,c)
 #endif /*!ERROR_LOGS*/
 
-#if __STDC_VERSION__ >= 199901L /* >= C99 -- We have printf ptrdiff_t/size_t specifiers. */
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
+    (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
 #define PTRDIFF_T_PRINTF_SPECIFIER "td"
 #define PTRDIFF_T_TO_PRINTF_TYPE(x) (x)
 #define SIZE_T_PRINTF_SPECIFIER "zu"
