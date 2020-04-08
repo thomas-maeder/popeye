@@ -385,7 +385,7 @@ static void write_and(slice_index si, stip_structure_traversal *st)
   {
     state->nr_chars_written += fprintf(state->file,"%s","reci-h");
     write_reci_goal(si,st);
-    state->nr_chars_written += fprintf(state->file,"%u",1);
+    state->nr_chars_written += fprintf(state->file,"%u",1u);
   }
   else
     write_reci_goal(si,st);
