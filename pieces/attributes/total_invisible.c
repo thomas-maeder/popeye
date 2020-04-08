@@ -52,7 +52,7 @@ ply flesh_out_move_highwater = ply_retro_move;
 
 void report_deadend(char const *s, unsigned int lineno)
 {
-  printf("%s;%u;%d\n",s,lineno,play_phase);
+  printf("%s;%u;%u\n",s,lineno,(unsigned int)play_phase);
 }
 
 void write_history_recursive(ply ply)
