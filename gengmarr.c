@@ -37,7 +37,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
   fputs("  { /* board */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
-    fprintf(dest,"%2d,",board[i]);
+    fprintf(dest,"%2u,",(unsigned int)board[i]);
     ++column;
     if (column==onerow)
     {
@@ -45,7 +45,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
       column = 0;
     }
   }
-  fprintf(dest,"%2d\n",board[i]);
+  fprintf(dest,"%2u\n",(unsigned int)board[i]);
   fputs("  }",dest);
 }
 
