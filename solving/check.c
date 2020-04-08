@@ -116,8 +116,8 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
 }
 
 
-DEFINE_COUNTER(is_white_king_square_attacked)
-DEFINE_COUNTER(is_black_king_square_attacked)
+DEFINE_COUNTER(is_white_king_square_attacked);
+DEFINE_COUNTER(is_black_king_square_attacked);
 
 static boolean king_square_observation_tester_is_in_check(slice_index si,
                                                           Side side_king_attacked)

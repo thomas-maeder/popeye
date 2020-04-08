@@ -13,7 +13,7 @@
 
 #include "stipulation/move.h"
 
-DEFINE_COUNTER(play_move)
+DEFINE_COUNTER(play_move);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -44,21 +44,19 @@ void solving_insert_move_counters(slice_index si)
 /* Reset the value of a counter defined elsewhere
  */
 #define RESET_COUNTER(name)                       \
-  {                                               \
-    extern COUNTER_TYPE counter##name;            \
     counter##name = 0;                            \
-  }
 
 /* Write the value of a counter defined elsewhere
  */
 #define WRITE_COUNTER(name)                       \
-  {                                               \
-    extern COUNTER_TYPE counter##name;            \
     protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
-  }
 
 extern unsigned int total_invisible_number;
 extern unsigned long record_decision_counter;
+
+DECLARE_COUNTER(add_to_move_generation_stack);
+DECLARE_COUNTER(is_white_king_square_attacked);
+DECLARE_COUNTER(is_black_king_square_attacked);
 
 void counters_writer_solve(slice_index si)
 {

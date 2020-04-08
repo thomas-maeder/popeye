@@ -622,7 +622,7 @@ void pop_move(void)
   --current_move[nbply];
 }
 
-DEFINE_COUNTER(add_to_move_generation_stack)
+DEFINE_COUNTER(add_to_move_generation_stack);
 
 void push_move_no_capture(void)
 {
