@@ -79,8 +79,8 @@ typedef unsigned long dhtHashValue;
 typedef struct {
   dhtHashValue (*Hash)(dhtConstValue);
 	int		(*Equal)(dhtConstValue, dhtConstValue);
-	dhtValue	(*Dup)(dhtConstValue);
-	void		(*Free)(dhtValue);
+	dhtConstValue	(*Dup)(dhtConstValue);
+	void		(*Free)(dhtConstValue);
 	void		(*Dump)(dhtConstValue, FILE *);
 } dhtValueProcedures;
 
