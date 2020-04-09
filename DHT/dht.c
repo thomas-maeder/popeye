@@ -150,6 +150,11 @@ static void **accessAdr(dirTable *dt, uLong x)
       result = &(*dir)[DIR_INDEX(0,x)];
       TraceValue("%p",result);
       TraceEOL();
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
