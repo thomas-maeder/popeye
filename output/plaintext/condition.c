@@ -56,22 +56,22 @@ static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigne
     if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
     {
       if (PieceTab[walk][1]==' ')
-        result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
+        result += (unsigned int)sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
       else
-        result += sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
     }
     else
     {
       unsigned int const i = walk-Hunter0;
       if (PieceTab[huntertypes[i].away][1]==' ')
-        result += sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].away][0]));
+        result += (unsigned int)sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].away][0]));
       else
-        result += sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].away][0]),toupper(PieceTab[huntertypes[i].away][1]));
-      result += sprintf(pos+result,"%s","/");
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].away][0]),toupper(PieceTab[huntertypes[i].away][1]));
+      result += (unsigned int)sprintf(pos+result,"%s","/");
       if (PieceTab[huntertypes[i].home][1]==' ')
-        result += sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].home][0]));
+        result += (unsigned int)sprintf(pos+result, " %c",toupper(PieceTab[huntertypes[i].home][0]));
       else
-        result += sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].home][0]),toupper(PieceTab[huntertypes[i].home][1]));
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper(PieceTab[huntertypes[i].home][0]),toupper(PieceTab[huntertypes[i].home][1]));
     }
   }
 
@@ -90,7 +90,7 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-#define append_to_CondLine(line,pos,format,value) snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
+#define append_to_CondLine(line,pos,format,value) (unsigned int)snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
 
 static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
 {
