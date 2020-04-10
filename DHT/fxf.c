@@ -389,7 +389,7 @@ void fxfFree(void const *ptr, size_t size)
     }
     else {
       SetRange((char const *)ptr-Arena,size);
-      *(char * const *)ALIGN(ptr)= sh->FreeHead;
+      *(char **)ALIGN(ptr)= sh->FreeHead;
       sh->FreeHead= (void *)ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
@@ -406,7 +406,7 @@ void fxfFree(void const *ptr, size_t size)
     }
     else {
       SetRange((char const *)ptr-Arena,size);
-      *(char * const *)ptr= sh->FreeHead;
+      *(char **)ptr= sh->FreeHead;
       sh->FreeHead= (void *)ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
