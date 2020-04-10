@@ -7,7 +7,7 @@
 #include "optimisations/intelligent/intelligent.h"
 #include "utilities/boolean.h"
 
-extern int const minimum_number_knight_moves[];
+extern unsigned int const minimum_number_knight_moves[];
 
 /* Count the number of moves required for promotiong a white pawn
  * @param from_square start square of the pawn

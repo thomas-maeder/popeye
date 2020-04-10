@@ -206,14 +206,14 @@ static void PawnMovesFromTo(Side side,
   }
 
   /* calculate number of captures */
-  *captures= abs(to%onerow-from%onerow);
+  *captures = (unsigned int)abs(to%onerow-from%onerow);
 
   /* calculate number of moves */
   if (rank_to<rank_from)
     *moves = current_length;
   else
   {
-    *moves = rank_to-rank_from;
+    *moves = (unsigned int)(rank_to-rank_from);
     if (*moves<*captures || *captures>captallowed)
       *moves = current_length;
     else if (TSTFLAG(sq_spec(from),pawn_doublestep_square) && *captures<*moves-1)
@@ -306,7 +306,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
   switch (p)
   {
     case Knight:
-      *moves= minimum_number_knight_moves[abs(sqdiff)];
+      *moves = minimum_number_knight_moves[abs(sqdiff)];
+      assert(*moves!=UINT_MAX);
       if (*moves > 1)
       {
         square    sqi, sqj;
@@ -324,7 +325,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
               sqj= to+vec[j];
               if (!blocked_by_pawn(sqj) && !is_square_blocked(sqj))
               {
-                testmov= minimum_number_knight_moves[abs(sqi-sqj)]+2;
+                testmov = minimum_number_knight_moves[abs(sqi-sqj)]+2;
+                assert(testmov!=UINT_MAX);
                 if (testmov == *moves)
                   return;
                 if (testmov < testmin)

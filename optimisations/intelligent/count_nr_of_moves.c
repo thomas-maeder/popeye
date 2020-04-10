@@ -25,22 +25,22 @@ static reserve_elmt_type reserve[nr_squares_on_board];
 
 static unsigned int curr_reserve;
 
-int const minimum_number_knight_moves[square_h8-square_a1+1]=
+unsigned int const minimum_number_knight_moves[square_h8-square_a1+1]=
 {
   /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
-  /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies  8- 16 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
-  /* dummies 32- 40 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies 32- 40 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  41- 55 */     5,  4,  3,  2,  3,  4,  1,  2,  1, 4, 3, 2, 3, 4, 5,
-  /* dummies 56- 64 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies 56- 64 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  65- 79*/      4,  3,  4,  3,  2,  3,  2,  3,  2, 3, 2, 3, 4, 3, 4,
-  /* dummies 80- 88 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies 80- 88 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /*  89-103 */     5,  4,  3,  4,  3,  2,  3,  2,  3, 2, 3, 4, 3, 4, 5,
-  /* dummies104-112 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies104-112 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 113-127 */     4,  5,  4,  3,  4,  3,  4,  3,  4, 3, 4, 3, 4, 5, 4,
-  /* dummies128-136 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies128-136 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 137-151 */     5,  4,  5,  4,  3,  4,  3,  4,  3, 4, 3, 4, 5, 4, 5,
-  /* dummies152-160 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies152-160 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
 };
 
@@ -231,6 +231,7 @@ static unsigned int knight(square from_square, square to_square)
   TraceFunctionParamListEnd();
 
   result = minimum_number_knight_moves[abs(from_square-to_square)];
+  assert(result!=UINT_MAX);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
