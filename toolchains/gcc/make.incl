@@ -64,7 +64,7 @@ WARN=\
   -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral \
   -Winvalid-pch \
   -Wlogical-op \
-  -Wmissing-declarations -Wredundant-decls -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
+  -Wmissing-declarations -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
   -Wold-style-definition \
   -Wnull-dereference \
   -Wshift-negative-value -Wshift-overflow=2 \
@@ -73,14 +73,22 @@ WARN=\
   -Wsync-nand \
   -Wundef \
   -Wunknown-pragmas \
-  -Wunused-macros \
+  -Wno-unused-parameter \
   -Winit-self \
   -Wwrite-strings \
   -Wjump-misses-init
 
-# The following warnings are not activated (passively)...
+# We may consider (re-)activating the following warnings in the future:
+#   warning: unused parameter ‘abc’ [-Wunused-parameter]
+#     1. this is misleading for functions whose address is taken
+#     2. gcc tells us "To suppress this warning use the unused attribute" but this
+#        will require us to introduce a scaffolding around the peculiarities of different
+#        C implementations.
 #
-#  or deactivated (actively):
+#   declaration of ‘abc’ shadows a global declaration [-Wshadow]
+#     if this is a problem, the scope containing the declaration is probably too long
+
+# The following warnings are deactivated for good:
 #   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
 
 # Select whether to produce an executable with debugging and profiling
