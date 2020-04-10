@@ -1063,10 +1063,10 @@ void HashStats(unsigned int level, char *trailer)
     if (use_all > 0)
     {
       if (use_all < 10000)
-        fprintf(stdout,), " %ld/%ld = %ld%%",
+        fprintf(stdout, ", %lu/%lu = %lu%%",
                 use_pos, use_all, (use_pos*100) / use_all);
       else
-        fprintf(stdout,, " %ld/%ld = %ld%%",
+        fprintf(stdout, ", %lu/%lu = %lu%%",
                 use_pos, use_all, use_pos / (use_all/100));
     }
     else
@@ -1853,7 +1853,7 @@ static void closehash(void)
   fputs("calling closehash\n",stdout);
 
 #if defined(HASHRATE)
-  fprintf(stdout, "%ld enquiries out of %ld successful. ",use_pos,use_all);
+  fprintf(stdout, "%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
     fprintf(stdout,"Makes %.1f%%\n",(100.0 * use_pos) / use_all);
 #endif
@@ -1869,8 +1869,8 @@ static void closehash(void)
     {
       unsigned long const BytePerPos = (HashMem*100)/HashCount;
       fprintf(stdout,
-              "Memory for hash-table: %ld, "
-              "gives %ld.%02ld bytes per position\n",
+              "Memory for hash-table: %lu, "
+              "gives %lu.%02lu bytes per position\n",
               HashMem, BytePerPos/100, BytePerPos%100);
     }
     else

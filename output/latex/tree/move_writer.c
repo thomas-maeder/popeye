@@ -59,7 +59,7 @@ void output_latex_tree_move_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(SLICE_U(si).writer.file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
+  fprintf(SLICE_U(si).writer.file,"\n%*c%3u.",(int)(4*move_depth),' ',move_depth/2+1);
   if (move_depth%2==1)
     fputs("..",SLICE_U(si).writer.file);
 
