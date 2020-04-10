@@ -390,7 +390,7 @@ void fxfFree(void const *ptr, size_t size)
     else {
       SetRange((char const *)ptr-Arena,size);
       *(char **)ALIGN(ptr)= sh->FreeHead;
-      sh->FreeHead= (void const *)ptr;
+      sh->FreeHead= (void *)ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
@@ -407,7 +407,7 @@ void fxfFree(void const *ptr, size_t size)
     else {
       SetRange((char const *)ptr-Arena,size);
       *(char **)ptr= sh->FreeHead;
-      sh->FreeHead= (void const *)ptr;
+      sh->FreeHead= (void *)ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
