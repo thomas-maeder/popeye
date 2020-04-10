@@ -51,7 +51,54 @@ ARCHIVE_INDEXER = ranlib
 # ================
 
 # Select warning level
-WARN=-W -Wall -Wpedantic -pedantic-errors -Wall -Wextra -Walloc-zero -Walloca -Warray-bounds=2 -Wcast-qual -Wcast-align -Wconversion -Wduplicated-branches -Wduplicated-cond -Wfloat-equal -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Winvalid-pch -Wlogical-op -Wmissing-declarations -Wnull-dereference -Wredundant-decls -Wshadow -Wshift-negative-value -Wshift-overflow=2 -Wstrict-overflow -Wswitch-default -Wswitch -Wsync-nand -Wundef -Wunknown-pragmas -Wunused-macros -Winit-self -Wbad-function-cast -Wwrite-strings -Wjump-misses-init -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wnested-externs
+WARN=\
+  -W \
+  -Wall \
+  -Wextra \
+  -Wpedantic -pedantic-errors \
+  -Walloc-zero -Walloca \
+  -Warray-bounds=2 \
+  -Wcast-align -Wconversion -Wbad-function-cast -Wno-cast-qual \
+  -Wduplicated-branches -Wduplicated-cond \
+  -Wfloat-equal \
+  -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral -Wno-format-signedness \
+  -Winvalid-pch \
+  -Wlogical-op \
+  -Wmissing-declarations -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
+  -Wold-style-definition \
+  -Wshift-negative-value -Wshift-overflow=2 \
+  -Wswitch -Wswitch-default \
+  -Wsync-nand \
+  -Wundef \
+  -Wunknown-pragmas \
+  -Wno-unused-parameter \
+  -Winit-self \
+  -Wwrite-strings \
+  -Wjump-misses-init
+
+# We may consider (re-)activating the following warnings in the future:
+#   warning: unused parameter ‘abc’ [-Wunused-parameter]
+#     1. this is misleading for functions whose address is taken
+#     2. gcc tells us "To suppress this warning use the unused attribute" but this
+#        will require us to introduce a scaffolding around the peculiarities of different
+#        C implementations.
+#
+#   declaration of ‘abc’ shadows a global declaration [-Wshadow]
+#     if this is a problem, the scope containing the declaration is probably too long
+#
+#   warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+#     I haven't found a way to cast a void const * to a "pointer to array of 2 char const"
+#       without a false positive warning.
+#     This warning should be activated if someone finds such a way.
+
+# The following warnings are deactivated for good:
+#   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
+#   warning: field width specifier ‘*’ expects argument of type ‘int’, but argument 3 has type ‘unsigned int’ [-Wformat=]
+#     unfortunately, -Wno-format-signedness also disables the opposite warning
+#   warning: assuming signed overflow does not occur when simplifying conditional to constant [-Wstrict-overflow]
+#     impossible to understand, and the docs say: "this warning can easily give a false positive
+#   warning: potential null pointer dereference [-Wnull-dereference]
+#     too many false positives
 
 # Select whether to produce an executable with debugging and profiling
 # info

@@ -394,7 +394,7 @@ static void init_slice_properties_attack_hashed(slice_index si,
   stip_length_type const length = SLICE_U(si).branch.length;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2);
-  data_type const mask = (1<<size)-1;
+  data_type const mask = (1u<<size)-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -443,7 +443,7 @@ static void init_slice_property_help(slice_index si,
   stip_length_type const length = SLICE_U(si).branch.length;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2+1);
-  data_type const mask = (1<<size)-1;
+  data_type const mask = (1u<<size)-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1141,7 +1141,7 @@ static void ProofSmallEncodePiece(byte **bp,
 }
 
 static void ProofLargeEncodePiece(byte **bp,
-                                  int row, int col,
+                                  unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
   **bp = p;
@@ -1730,7 +1730,7 @@ boolean is_hashtable_allocated(void)
  */
 static void inithash(slice_index si)
 {
-  int j;
+  unsigned int j;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
