@@ -34,7 +34,7 @@
 
 #if defined(DEBUG_DHT)
 int dhtDebug= 0;
-#define MYNAME(m)   static char *myname = #m;
+#define MYNAME(m)   static char const *myname = #m;
 #define DEBUG_CODE(x)                           \
   do {                                          \
     if (dhtDebug) { x }                         \
