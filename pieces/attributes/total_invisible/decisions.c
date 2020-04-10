@@ -1830,33 +1830,17 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
           break;
 
         case decision_object_arrival:
-          if (decision_level_properties[curr_level].side
-              ==backtracking[curr_level-1].side_failure)
+          if (decision_level_properties[curr_level].ply
+              <=backtracking[curr_level-1].ply_failure)
           {
-            if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level-1].ply_failure)
-            {
-              /* try harder.
-               * a future decision may
-               * - select an arrival square from where the piece can do the capture
-               */
-            }
-            else
-              skip = true;
+            /* try harder.
+             * a future decision may
+             * - select an arrival square from where the piece can do the capture
+             * - avoid capturing a viable capturer
+             */
           }
           else
-          {
-            if (decision_level_properties[curr_level].ply
-                <=backtracking[curr_level-1].ply_failure)
-            {
-              /* try harder.
-               * a future decision may
-               * - avoid capturing a viable capturer
-               */
-            }
-            else
-              skip = true;
-          }
+            skip = true;
           break;
 
         case decision_object_random_move:

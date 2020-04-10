@@ -508,7 +508,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case BGL:
         {
-          char buf[12];
+          char buf[16];
 
           WriteBGLNumber(buf, BGL_values[White]);
           written += append_to_CondLine(&CondLine,written," %s", buf);

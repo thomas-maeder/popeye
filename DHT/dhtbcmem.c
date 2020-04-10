@@ -85,15 +85,6 @@ static void DumpBCMemValue(dhtConstValue v, FILE *f)
     fprintf(f, "%02x", toBeDumped->Data[i] & 0xff);
 }
 
-static BCMemValue *BCMemValueCreate(int n)
-{
-  BCMemValue * const result = fxfAlloc(sizeof *result
-                                       - sizeof result->Data
-                                       + n);
-  result->Leng= n;
-  return result;
-}
-
 dhtValueProcedures dhtBCMemoryProcs =
 {
   ConvertBCMemValue,
