@@ -241,10 +241,13 @@ static void maooa_rider_lion_generate_moves(numvec to_passed, numvec to_arrival)
   if (!is_square_blocked(sq_passed) && !is_square_blocked(curr_generation->arrival))
   {
     if (!is_square_empty(sq_passed))
+    {
       if  (is_square_empty(curr_generation->arrival))
         push_move_no_capture();
       else if (piece_belongs_to_opponent(curr_generation->arrival))
         push_move_regular_capture();
+    }
+
     if (is_square_empty(sq_passed) || is_square_empty(curr_generation->arrival))
     {
       sq_passed += to_arrival;
