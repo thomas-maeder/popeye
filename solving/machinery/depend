@@ -2050,7 +2050,8 @@ solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  stipulation/slice_functional_type.enum \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ debugging/assert.h
 
 solving/machinery/slack_length.h:
 
@@ -2121,3 +2122,5 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+debugging/assert.h:
