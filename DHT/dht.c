@@ -79,11 +79,11 @@ typedef void *ht_dir[PTR_PER_DIR];
 
 typedef struct {
     ht_dir *dir;     /* the last (partial) dir on this level */
-    int    valid;    /* the number of entries in partial dir */
+    unsigned int valid;    /* the number of entries in partial dir */
 } level_descr;
 
 typedef struct {
-    int     level;      /* this is the topmost level */
+    unsigned int level;      /* this is the topmost level */
     dht_index_t count;      /* total number of entries in table */
     level_descr ld[MAX_LEVEL];
 } dirTable;
@@ -138,18 +138,26 @@ static void **accessAdr(dirTable *dt, uLong x)
       dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 2:
       dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 1:
       dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 0:
       result = &(*dir)[DIR_INDEX(0,x)];
       TraceValue("%p",result);
       TraceEOL();
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -174,7 +182,7 @@ static void **accessAdr(dirTable *dt, uLong x)
  */
 static boolean appendDirTable_recursive(dirTable *dt,
                                         void *elmt_to_append,
-                                        int elmt_depth)
+                                        unsigned int elmt_depth)
 {
   boolean result = true;
 
@@ -203,7 +211,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   }
   else
   {
-    int const nr_valid = dt->ld[elmt_depth].valid;
+    unsigned int const nr_valid = dt->ld[elmt_depth].valid;
     TraceValue("%p",dt->ld[elmt_depth].dir);
     TraceValue("%d",dt->ld[elmt_depth].valid);
     TraceValue("%d",PTR_PER_DIR);
@@ -272,7 +280,7 @@ static boolean appendDirTable(dirTable *dt, void *elmt_to_append)
 /* TODO recursive implementation */
 static void shrinkDirTable(dirTable *dt)
 {
-  int const i = dt->ld[0].valid;
+  unsigned int const i = dt->ld[0].valid;
   if (i>1)
   {
     dt->ld[0].valid = i-1;
@@ -290,7 +298,7 @@ static void shrinkDirTable(dirTable *dt)
     }
     else
     {
-      int l = 0;
+      unsigned int l = 0;
       while (l<=dt->level)
       {
         --dt->ld[l].valid;
@@ -312,8 +320,9 @@ static void shrinkDirTable(dirTable *dt)
         freeDir(dt->ld[l+1].dir);
       }
 
-      while (--l>=0)
+      while (l>0)
       {
+        --l;
         dt->ld[l].dir= (*dt->ld[l+1].dir)[dt->ld[l+1].valid-1];
         dt->ld[l].valid= PTR_PER_DIR;
       }
@@ -570,7 +579,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
           ind, "", ht->KeyCount);
   fprintf(f, "%*sCurrentSize              = %6lu\n",
           ind, "", ht->CurrentSize);
-  fprintf(f, "%*sDirLevel                 = %6d\n",
+  fprintf(f, "%*sDirLevel                 = %6u\n",
           ind, "", ht->DirTab.level);
   hcnt=0;
 
@@ -687,7 +696,7 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
   TraceFunctionParam("%p",ht);
   TraceFunctionParamListEnd();
 
-  TMDBG(printf("ExpandHashTable() - ht->DirTab.ld[0].valid:%d\n",
+  TMDBG(printf("ExpandHashTable() - ht->DirTab.ld[0].valid:%u\n",
                ht->DirTab.ld[0].valid));
 
   if (appendDirTable(&ht->DirTab,0))
@@ -977,7 +986,7 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
   return result;
 }
 
-int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
+unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
 {
   unsigned int BucketCount = 0;
   dhtElement const *he = dhtGetFirstElement(ht);

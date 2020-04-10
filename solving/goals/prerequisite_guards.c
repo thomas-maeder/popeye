@@ -95,42 +95,6 @@ static boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goa
   return result;
 }
 
-static boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_doublemate:
-    {
-      pipe_append(si,alloc_doublemate_filter_slice());
-      result = true;
-      break;
-    }
-
-    case goal_countermate:
-    {
-      pipe_append(si,alloc_countermate_filter_slice());
-      result = true;
-      break;
-    }
-
-    default:
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Insert goal prerequisite guards for battle play
  * @param si identifies root of subtree
  * @param state address of structure representing insertion state
