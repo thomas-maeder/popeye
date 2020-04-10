@@ -138,14 +138,17 @@ static void **accessAdr(dirTable *dt, uLong x)
       dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 2:
       dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 1:
       dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
       TraceValue("%p",dir);
       TraceEOL();
+      /* FALLTHRU */
     case 0:
       result = &(*dir)[DIR_INDEX(0,x)];
       TraceValue("%p",result);
