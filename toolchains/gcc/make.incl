@@ -61,7 +61,7 @@ WARN=\
   -Wcast-qual -Wcast-align -Wconversion -Wbad-function-cast \
   -Wduplicated-branches -Wduplicated-cond \
   -Wfloat-equal \
-  -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral \
+  -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral -Wno-format-signedness \
   -Winvalid-pch \
   -Wlogical-op \
   -Wmissing-declarations -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
@@ -90,6 +90,8 @@ WARN=\
 
 # The following warnings are deactivated for good:
 #   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
+#   warning: field width specifier ‘*’ expects argument of type ‘int’, but argument 3 has type ‘unsigned int’ [-Wformat=]
+#     unfortunately, -Wno-format-signedness also disables the opposite warning
 
 # Select whether to produce an executable with debugging and profiling
 # info
