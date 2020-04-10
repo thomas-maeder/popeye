@@ -375,7 +375,7 @@ void *fxfAlloc(size_t size) {
       TMDBG(printf(" ptr:%p\n",(void *)ptr));
     }
   }
-  DBG((df, "%p\n", (void *)ptr));
+  DBG((df, "%p\n", (void *) ptr));
   return ptr;
 }
 
