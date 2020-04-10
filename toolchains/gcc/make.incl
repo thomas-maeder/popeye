@@ -66,9 +66,7 @@ WARN=\
   -Wlogical-op \
   -Wmissing-declarations -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
   -Wold-style-definition \
-  -Wnull-dereference \
   -Wshift-negative-value -Wshift-overflow=2 \
-  -Wstrict-overflow \
   -Wswitch -Wswitch-default \
   -Wsync-nand \
   -Wundef \
@@ -92,6 +90,10 @@ WARN=\
 #   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
 #   warning: field width specifier ‘*’ expects argument of type ‘int’, but argument 3 has type ‘unsigned int’ [-Wformat=]
 #     unfortunately, -Wno-format-signedness also disables the opposite warning
+#   warning: assuming signed overflow does not occur when simplifying conditional to constant [-Wstrict-overflow]
+#     impossible to understand, and the docs say: "this warning can easily give a false positive
+#   warning: potential null pointer dereference [-Wnull-dereference]
+#     too many false positives
 
 # Select whether to produce an executable with debugging and profiling
 # info
