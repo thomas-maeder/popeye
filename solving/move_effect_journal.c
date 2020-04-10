@@ -168,9 +168,9 @@ void undo_move_effects(void)
   TraceEOL();
 
   assert(parent_top>0);
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  top = move_effect_journal_base[nbply+1];
   assert(top>=parent_top);
-  move_effect_journal_entry_type const *parent_top_entry = &move_effect_journal[parent_top-1];
+  parent_top_entry = &move_effect_journal[parent_top-1];
 
 
   for (entry = &move_effect_journal[top-1]; entry!=parent_top_entry; --entry)
