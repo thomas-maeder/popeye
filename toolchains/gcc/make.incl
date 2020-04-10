@@ -58,7 +58,7 @@ WARN=\
   -Wpedantic -pedantic-errors \
   -Walloc-zero -Walloca \
   -Warray-bounds=2 \
-  -Wcast-qual -Wcast-align -Wconversion -Wbad-function-cast \
+  -Wcast-align -Wconversion -Wbad-function-cast -Wno-cast-qual \
   -Wduplicated-branches -Wduplicated-cond \
   -Wfloat-equal \
   -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral -Wno-format-signedness \
@@ -85,6 +85,11 @@ WARN=\
 #
 #   declaration of ‘abc’ shadows a global declaration [-Wshadow]
 #     if this is a problem, the scope containing the declaration is probably too long
+#
+#   warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+#     I haven't found a way to cast a void const * to a "pointer to array of 2 char const"
+#       without a false positive warning.
+#     This warning should be activated if someone finds such a way.
 
 # The following warnings are deactivated for good:
 #   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
