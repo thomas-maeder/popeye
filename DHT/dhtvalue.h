@@ -15,7 +15,7 @@
 #if defined(FXF)
 #include "fxf.h"
 #else
-#define	fxfAlloc		malloc
+#define	fxfAlloc(x)		malloc(x)
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
 
