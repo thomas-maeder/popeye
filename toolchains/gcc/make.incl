@@ -61,7 +61,7 @@ WARN=\
   -Wcast-qual -Wcast-align -Wconversion -Wbad-function-cast \
   -Wduplicated-branches -Wduplicated-cond \
   -Wfloat-equal \
-  -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 \
+  -Wformat=2 -Wformat-overflow=2 -Wformat-signedness -Wformat-truncation=2 -Wno-format-nonliteral \
   -Winvalid-pch \
   -Wlogical-op \
   -Wmissing-declarations -Wredundant-decls -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs \
@@ -77,6 +77,11 @@ WARN=\
   -Winit-self \
   -Wwrite-strings \
   -Wjump-misses-init
+
+# The following warnings are not activated (passively)...
+#
+#  or deactivated (actively):
+#   warning: format not a string literal, argument types not checked [-Wformat-nonliteral]
 
 # Select whether to produce an executable with debugging and profiling
 # info
