@@ -735,17 +735,17 @@ static char *ParseOrthogonalGridLines(char *tok,
 
   do
   {
-    char const c = tolower(*tok);
+    char const c = (char)tolower(*tok);
     if (c>='1' && c<='8')
     {
       unsigned int i;
-      for (i = (c-'1')+1; i<nr_rows_on_board; ++i)
+      for (i = (unsigned int)(c-'1')+1; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
     }
     else if (c>='a' && c<='h')
     {
       unsigned int i;
-      for (i = (c-'a')+1; i<nr_files_on_board; ++i)
+      for (i = (unsigned int)(c-'a')+1; i<nr_files_on_board; ++i)
         ++file_numbers[i];
     }
     else
@@ -764,8 +764,8 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
   square const *bnp;
   for (bnp = boardnum; *bnp; bnp++)
   {
-    unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-    unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+    unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+    unsigned int const rank = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
     ClearGridNum(*bnp);
     sq_spec(*bnp) += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
   }
@@ -796,8 +796,8 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const row = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2;
             ClearGridNum(*bnp);
             sq_spec(*bnp) += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
@@ -810,8 +810,8 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const row = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
             sq_spec(*bnp) += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
@@ -824,8 +824,8 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const rank = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
             sq_spec(*bnp) += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
@@ -876,15 +876,13 @@ static char *ParseGridVariant(char *tok)
         }
         case GridVariantExtraGridLines:
         {
-          grid_type = grid_irregular;
+          IntialiseIrregularGridLines();
 
-          numgridlines = 0;
-
-          while (numgridlines<100)
+          while (true)
             if (strlen(tok)==4)
             {
-              char const dir_char = tolower(tok[0]);
-              char const file_char = tolower(tok[1]);
+              char const dir_char = (char)tolower(tok[0]);
+              char const file_char = (char)tolower(tok[1]);
               char const row_char = tok[2];
               char const length_char = tok[3];
 
@@ -893,19 +891,15 @@ static char *ParseGridVariant(char *tok)
                   && (row_char>='1' && row_char<='8')
                   && (length_char>='1' && length_char<='8'))
               {
-                unsigned int const file = file_char-'a';
-                unsigned int const row = row_char-'1';
-                unsigned int const length = length_char-'0';
+                unsigned int const file = (unsigned int)(file_char-'a');
+                unsigned int const row = (unsigned int)(row_char-'1');
+                unsigned int const length = (unsigned int)(length_char-'0');
+                gridline_direction const dir = dir_char=='h' ? gridline_horizonal : gridline_vertical;
 
-                gridlines[numgridlines][0] = 2*file;
-                gridlines[numgridlines][1] = 2*row;
-                gridlines[numgridlines][2] = 2*file;
-                gridlines[numgridlines][3] = 2*row;
-                gridlines[numgridlines][dir_char=='h' ? 2 : 3] += 2*length;
-
-                ++numgridlines;
-
-                tok = ReadNextTokStr();
+                if (PushIrregularGridLine(file,row,length,dir))
+                  tok = ReadNextTokStr();
+                else
+                  break;
               }
               else
                 break;
@@ -1909,7 +1903,6 @@ void InitCond(void)
   sentinelle_walk = Pawn;
 
   grid_type = grid_normal;
-  numgridlines = 0;
 
   {
     PieceIdType id;

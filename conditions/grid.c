@@ -4,41 +4,76 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
 
 grid_type_type grid_type;
-int gridlines[112][4];
-int numgridlines;
+static unsigned int gridlines[112][4];
+static unsigned int numgridlines;
 
-boolean CrossesGridLines(square dep, square arr)
+void IntialiseIrregularGridLines(void)
 {
-  int i, x1, y1, x2, y2, X1, Y1, X2, Y2, dx, dy, dX, dY, u1, u2, v;
+  grid_type = grid_irregular;
+  numgridlines = 0;
+}
 
-  X1= ((dep<<1) -15) % 24;
-  Y1= ((dep/24)<<1) - 15;
-  X2= ((arr<<1) -15) % 24;
-  Y2= ((arr/24)<<1) - 15;
-  dX= X2-X1;
-  dY= Y2-Y1;
-  for (i= 0; i < numgridlines; i++)
+boolean PushIrregularGridLine(unsigned int file,
+                              unsigned int row,
+                              unsigned int length,
+                              gridline_direction dir)
+{
+  if (numgridlines<100)
   {
-    x1= gridlines[i][0];
-    y1= gridlines[i][1];
-    x2= gridlines[i][2];
-    y2= gridlines[i][3];
-    dx= x2-x1;
-    dy= y2-y1;
-    v=dY*dx-dX*dy;
-    if (!v)
-      continue;
-    u1= dX*(y1-Y1)-dY*(x1-X1);
-    if (v<0? (u1>0 || u1<v) : (u1<0 || u1>v))
-      continue;
-    u2= dx*(y1-Y1)-dy*(x1-X1);
-    if (v<0? (u2>0 || u2<v) : (u2<0 || u2>v))
-      continue;
+    gridlines[numgridlines][0] = 2*file;
+    gridlines[numgridlines][1] = 2*row;
+    gridlines[numgridlines][2] = 2*file;
+    gridlines[numgridlines][3] = 2*row;
+    gridlines[numgridlines][dir==gridline_horizonal ? 2 : 3] += 2*length;
+
+    ++numgridlines;
+
     return true;
   }
+  else
+    return false;
+}
+
+boolean CrossesGridLines(square sq_departure, square sq_arrival)
+{
+  unsigned int const X1 = (unsigned int)(2*(sq_departure-nr_of_slack_files_left_of_board) % onerow + 1);
+  unsigned int const Y1 = (unsigned int)(2*(sq_departure/onerow - nr_of_slack_rows_below_board) +1);
+  unsigned int const X2 = (unsigned int)(2*(sq_arrival-nr_of_slack_files_left_of_board) % onerow + 1);
+  unsigned int const Y2 = (unsigned int)(2*(sq_arrival/onerow - nr_of_slack_rows_below_board) +1);
+  int const dX = (int)X2-(int)X1;
+  int const dY = (int)Y2-(int)Y1;
+
+  {
+    unsigned int i;
+    for (i = 0; i<numgridlines; i++)
+    {
+      unsigned int const x1 = gridlines[i][0];
+      unsigned int const y1 = gridlines[i][1];
+      unsigned int const x2 = gridlines[i][2];
+      unsigned int const y2 = gridlines[i][3];
+      int const dx = (int)(x2-x1);
+      int const dy = (int)(y2-y1);
+
+      int const v = dY*dx-dX*dy;
+      if (v!=0)
+      {
+        int const diffx = (int)x1-(int)X1;
+        int const diffy = (int)y1-(int)Y1;
+        int const u1 = dX*diffy-dY*diffx;
+        if (v<0 ? (u1<=0 && u1>=v) : (u1>=0 && u1<=v))
+        {
+          int const u2 = dx*diffy-dy*diffx;
+          if (v<0 ? (u2<=0 && u2>=v) : (u2>=0 && u2<=v))
+            return true;
+        }
+      }
+    }
+  }
+
   return false;
 }
 
