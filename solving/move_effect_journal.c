@@ -156,7 +156,7 @@ void undo_move_effects(void)
 {
   move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
   move_effect_journal_entry_type const *parent_top_entry;
-  move_effect_journal_index_type const top;
+  move_effect_journal_index_type top;
   move_effect_journal_entry_type const *entry;
 
   TraceFunctionEntry(__func__);
