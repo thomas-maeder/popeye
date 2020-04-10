@@ -167,9 +167,9 @@ void marscirce_remember_rebirth(slice_index si)
  */
 void marscirce_remove_capturer_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * context;
-  square sq_departure;
-  piece_walk_type walk;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  square const sq_departure = context->rebirth_from;
+  piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
   Flags flags;
 
   TraceFunctionEntry(__func__);
@@ -178,9 +178,6 @@ void marscirce_remove_capturer_solve(slice_index si)
 
   assert(walk!=Empty);
 
-  context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  sq_departure = context->rebirth_from;
-  walk = get_walk_of_piece_on_square(sq_departure);
   flags = being_solved.spec[sq_departure];
 
   empty_square(sq_departure);
