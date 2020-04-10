@@ -90,7 +90,7 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-#define append_to_CondLine(line,pos,format,value) (unsigned int)snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
+#define append_to_CondLine(line,pos,format,value) snprintf(*(line)+(pos), (int)(sizeof *(line))-(pos),(format),(value))
 
 static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
 {
@@ -158,10 +158,10 @@ static int append_to_CondLine_chameleon_sequence(char (*line)[256],
   return result;
 }
 
-static unsigned int append_circe_variants(circe_variant_type const *variant,
-                                          char (*CondLine)[256],
-                                          unsigned int written,
-                                          CirceVariantType rex_default)
+static int append_circe_variants(circe_variant_type const *variant,
+                                 char (*CondLine)[256],
+                                 int written,
+                                 CirceVariantType rex_default)
 {
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
