@@ -167,16 +167,21 @@ void marscirce_remember_rebirth(slice_index si)
  */
 void marscirce_remove_capturer_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  square const sq_departure = context->rebirth_from;
-  piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
-  Flags const flags = being_solved.spec[sq_departure];
+  circe_rebirth_context_elmt_type * context;
+  square sq_departure;
+  piece_walk_type walk;
+  Flags flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(walk!=Empty);
+
+  context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  sq_departure = context->rebirth_from;
+  walk = get_walk_of_piece_on_square(sq_departure);
+  flags = being_solved.spec[sq_departure];
 
   empty_square(sq_departure);
   pipe_dispatch_delegate(si);
@@ -192,16 +197,21 @@ void marscirce_remove_capturer_solve(slice_index si)
  */
 void marscirce_generate_from_rebirth_square(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
-  square const sq_departure = curr_generation->departure;
-  square const sq_rebirth = context->rebirth_square;
+  circe_rebirth_context_elmt_type * context;
+  square sq_departure;
+  square sq_rebirth;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_rebirth);
-  TraceFunctionParamListEnd();
 
   assert(circe_rebirth_context_stack_pointer>0);
+
+  context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
+  sq_departure = curr_generation->departure;
+  sq_rebirth = context->rebirth_square;
+
+  TraceSquare(sq_rebirth);
+  TraceFunctionParamListEnd();
 
   curr_generation->departure = sq_rebirth;
 
@@ -281,9 +291,9 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
 
 boolean mars_enforce_observer(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
-  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_observer = context->rebirth_square;
+  circe_rebirth_context_elmt_type * context;
+  square sq_departure;
+  square sq_observer;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -291,6 +301,10 @@ boolean mars_enforce_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(circe_rebirth_context_stack_pointer>0);
+
+  context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
+  sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  sq_observer = context->rebirth_square;
 
   if (sq_observer==sq_departure)
   {
@@ -324,14 +338,17 @@ boolean mars_enforce_observer(slice_index si)
  */
 void marscirce_is_square_observed(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
-  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  circe_rebirth_context_elmt_type * context;
+  square sq_target;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
   assert(circe_rebirth_context_stack_pointer>0);
+
+  context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
+  sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   observation_result = false;
 

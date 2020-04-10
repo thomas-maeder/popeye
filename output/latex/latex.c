@@ -258,9 +258,9 @@ void LaTeXSetup(slice_index start)
     slice_index const writer = branch_find_slice(STOutputLaTeXProblemWriter,
                                                  start,
                                                  stip_traversal_context_intro);
-    slice_index const file_owner = SLICE_NEXT2(writer);
-
     assert(writer!=no_slice);
+
+    slice_index const file_owner = SLICE_NEXT2(writer);
 
     SLICE_U(file_owner).writer.file = fopen(InputLine,"w");
     if (SLICE_U(file_owner).writer.file==NULL)
@@ -802,7 +802,7 @@ static boolean FindHoles(char HolesSqList[4*nr_files_on_board*nr_rows_on_board])
 
 static void WriteFairyWalk(FILE *file, Colour colour, piece_walk_type w)
 {
-  char const colour_short[] = { 'w', 'b', 'n' };
+  char const colour_short[] = { 'w', 'b', 'n', 'i' };
   fprintf(file,
           "\\%c%s =%s",
           colour_short[colour],

@@ -121,13 +121,15 @@ void pipe_link(slice_index pipe, slice_index succ)
  */
 void pipe_unlink(slice_index pipe)
 {
-  slice_index * const succ = &SLICE_NEXT1(pipe);
+  slice_index * succ;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
   assert(pipe!=no_slice);
+
+  succ = &SLICE_NEXT1(pipe);
 
   if (SLICE_PREV(*succ)==pipe)
     SLICE_PREV(*succ) = no_slice;
