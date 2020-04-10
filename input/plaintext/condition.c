@@ -113,45 +113,68 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
 {
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
      in - and all other cases return infinity (no limit) */
-  char buf[12];
-  int res= BGL_infinity;
-  size_t len, dp;
-  char* dpp;
-  *endptr= inptr;
+
+  *endptr = inptr;
   while (**endptr && strchr("0123456789.,-", **endptr))
     /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
     (*endptr)++;
-  len= (*endptr-inptr);
-  if (len > 11)
-    return res;
-  strncpy(buf, inptr, len);
-  buf[len]= '\0';
-  if (len == 1 && buf[0] == '-')
-    return res;
-  for (dpp=buf; *dpp; dpp++)
-    if (*dpp == ',')  /* allow 3,45 notation */
-      *dpp= '.';
-  for (dpp=buf; *dpp && *dpp != '.'; dpp++);
-  dp= len-(dpp-buf);
-  if (!dp)
-    return 100*(long int)atoi(buf);
-  while ((size_t)(dpp-buf) < len) {
-    *dpp=*(dpp+1);
-    dpp++;
-  }
-  for (dpp=buf; *dpp; dpp++)
-    if (*dpp == '.')
-      return res;  /* 2 d.p. characters */
-  switch (dp) /* N.B> d.p. is part of count */
+
   {
-  case 1 :
-    return 100*(long int)atoi(buf);
-  case 2 :
-    return 10*(long int)atoi(buf);
-  case 3 :
-    return (long int)atoi(buf);
-  default :
-    return res;
+    size_t const len = (size_t)(*endptr-inptr);
+    assert(*endptr>=inptr);
+
+    if (len>11)
+      return BGL_infinity;
+    else
+    {
+      char buf[12];
+      strncpy(buf,inptr,len);
+      buf[len]= '\0';
+
+      if (len==1 && buf[0]=='-')
+        return BGL_infinity;
+      else
+      {
+        char* dpp;
+        for (dpp = buf; *dpp; dpp++)
+          if (*dpp==',')  /* allow 3,45 notation */
+            *dpp = '.';
+
+        for (dpp = buf; *dpp && *dpp!='.'; dpp++)
+        {
+        }
+
+        {
+          size_t const dp = len-(size_t)(dpp-buf);
+          if (dp==0)
+            return 100*(long int)atoi(buf);
+          else
+          {
+            while ((size_t)(dpp-buf)<len)
+            {
+              *dpp=*(dpp+1);
+              dpp++;
+            }
+
+            for (dpp = buf; *dpp; dpp++)
+              if (*dpp=='.')
+                return BGL_infinity;  /* 2 d.p. characters */
+
+            switch (dp) /* N.B> d.p. is part of count */
+            {
+              case 1 :
+                return 100*(long int)atoi(buf);
+              case 2 :
+                return 10*(long int)atoi(buf);
+              case 3 :
+                return (long int)atoi(buf);
+              default :
+                return BGL_infinity;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
