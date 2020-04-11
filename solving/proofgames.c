@@ -40,9 +40,9 @@ position proofgames_target_position;
 /* an array to store the position */
 static struct
 {
-    piece_walk_type type;
     Flags spec;
     square pos;
+    piece_walk_type type;
 } target_pieces[nr_squares_on_board];
 
 static unsigned int ProofNbrAllPieces;
