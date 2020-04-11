@@ -90,11 +90,11 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-#define append_to_CondLine(line,pos,format,value) snprintf(*(line)+(pos), (int)(sizeof *(line))-(pos),(format),(value))
+#define append_to_CondLine(line,pos,format,value) (unsigned int)snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
 
-static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
+static unsigned int append_to_CondLine_walk(char (*line)[256], unsigned int pos, piece_walk_type walk)
 {
-  int result = 0;
+  unsigned int result = 0;
 
   if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
   {
@@ -121,21 +121,23 @@ static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type w
   return result;
 }
 
-static int append_to_CondLine_square(char (*line)[256], int pos, square s)
+static unsigned int append_to_CondLine_square(char (*line)[256],
+                                              unsigned int pos,
+                                              square s)
 {
-  return snprintf(*line+pos, sizeof *line - pos,
-                  " %c%c",
-                  'a' - nr_files_on_board + s%onerow,
-                  '1' - nr_rows_on_board + s/onerow);
+  return (unsigned int)snprintf(*line+pos, sizeof *line - pos,
+                                " %c%c",
+                                'a' - nr_files_on_board + s%onerow,
+                                '1' - nr_rows_on_board + s/onerow);
 }
 
-static int append_to_CondLine_chameleon_sequence(char (*line)[256],
-                                                 int pos,
-                                                 chameleon_sequence_type const sequence)
+static unsigned int append_to_CondLine_chameleon_sequence(char (*line)[256],
+                                                          unsigned int pos,
+                                                          chameleon_sequence_type const sequence)
 {
   boolean already_written[nr_piece_walks] = { false };
   piece_walk_type p;
-  int result = 0;
+  unsigned int result = 0;
 
   result += append_to_CondLine(line,pos+result,"%s"," ");
 
@@ -158,10 +160,10 @@ static int append_to_CondLine_chameleon_sequence(char (*line)[256],
   return result;
 }
 
-static int append_circe_variants(circe_variant_type const *variant,
-                                 char (*CondLine)[256],
-                                 int written,
-                                 CirceVariantType rex_default)
+static unsigned int append_circe_variants(circe_variant_type const *variant,
+                                          char (*CondLine)[256],
+                                          unsigned int written,
+                                          CirceVariantType rex_default)
 {
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
