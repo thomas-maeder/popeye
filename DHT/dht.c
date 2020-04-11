@@ -201,7 +201,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
       result = false;
     else
     {
-      TraceValue("%p",(void *) dt->ld[elmt_depth-1].dir);
+      TraceValue("%p",(void *)dt->ld[elmt_depth-1].dir);
       TraceEOL();
       (*dt->ld[elmt_depth].dir)[0] = dt->ld[elmt_depth-1].dir;
       (*dt->ld[elmt_depth].dir)[1] = elmt_to_append;
@@ -212,7 +212,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   else
   {
     unsigned int const nr_valid = dt->ld[elmt_depth].valid;
-    TraceValue("%p",(void *) dt->ld[elmt_depth].dir);
+    TraceValue("%p",(void *)dt->ld[elmt_depth].dir);
     TraceValue("%d",dt->ld[elmt_depth].valid);
     TraceValue("%d",PTR_PER_DIR);
     TraceEOL();
@@ -376,7 +376,7 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
   }
   else
   {
-    TMDBG(printf("no further step\n"));
+    TMDBG(puts("no further step"));
     TraceText("returning address of end of table pseudo-element\n");
   }
 
@@ -770,7 +770,7 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   }
   ht->p--;
 
-  TMDBG(printf("ShrinkHashTable()\n"));
+  TMDBG(puts("ShrinkHashTable()"));
   new= (InternHsElement**)accessAdr(&ht->DirTab, ht->p);
   oldp= ht->p + ht->maxp;
   old= (InternHsElement**)accessAdr(&ht->DirTab, oldp);

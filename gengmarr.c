@@ -152,7 +152,7 @@ static void dump_castling_rights_initialiser_to_stream(FILE *dest, position cons
  */
 static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"#include \"position/position.h\"\n");
+  fputs("#include \"position/position.h\"\n",dest);
   fputs("position const game_array =\n",dest);
   fputs("{\n",dest);
   dump_board_initialiser_to_stream(dest,pos->board);

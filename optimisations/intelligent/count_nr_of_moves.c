@@ -1598,10 +1598,10 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
 void intelligent_dump_reservations(void)
 {
   unsigned int i = 0;
-  fputs("reservations:\n",stdout);
+  puts("reservations:");
   for (i = 0; i<=curr_reserve; ++i)
   {
-    fprintf(stdout,"%u  remaining moves:w:%u/b:%u  unused masses:w:%u/b:%u  mass usage:%s\n",
+    printf("%u  remaining moves:w:%u/b:%u  unused masses:w:%u/b:%u  mass usage:%s\n",
            i,
            reserve[i].nr_remaining_moves[White],
            reserve[i].nr_remaining_moves[Black],

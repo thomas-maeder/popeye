@@ -336,7 +336,7 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
-  printf("I");
+  putchar('I');
   printf(" %u",id);
 #endif
 
@@ -412,7 +412,7 @@ void record_decision_outcome_impl(char const *file, unsigned int line, char cons
   printf("%u ",nbply);
   vprintf(format,args);
   printf(" - %s:#%u",basename(file),line);
-  printf("\n");
+  putchar('\n');
   fflush(stdout);
 
   va_end(args);

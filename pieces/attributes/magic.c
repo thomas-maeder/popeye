@@ -714,13 +714,13 @@ static void WriteMagicViews(int ply)
   for (i= magictop[ply-1]; i < magictop[ply]; i++)
   {
     WriteSquare(stdout,magicviews[i].pos_viewed);
-    fputc(' ',stdout);
+    putchar(' ');
     WriteSquare(stdout,magicviews[i].viewedid);
-    fputc(' ',stdout);
+    putchar(' ');
     WriteSquare(stdout,magicviews[i].magicpieceid);
-    fputc(' ',stdout);
-    fprintf(stdout, "%i", magicviews[i].line_identifier);
-    fputc('\n',stdout);
+    putchar(' ');
+    printf("%i", magicviews[i].line_identifier);
+    putchar('\n');
   }
 }
 #endif

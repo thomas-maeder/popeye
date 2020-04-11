@@ -31,7 +31,7 @@ void stip_structure_visit_slice(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,SLICE_TYPE(si));
@@ -59,7 +59,7 @@ get_stip_structure_traversal_state(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
@@ -76,7 +76,7 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",st->context);
@@ -141,7 +141,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   if (SLICE_NEXT1(pipe)!=no_slice)
@@ -260,7 +260,7 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch_entry);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   if (SLICE_NEXT2(branch_entry)!=no_slice)
@@ -320,7 +320,7 @@ void stip_traverse_structure_binary_operand1(slice_index binary_slice,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(SLICE_NEXT1(binary_slice),st);
@@ -338,7 +338,7 @@ void stip_traverse_structure_binary_operand2(slice_index binary_slice,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(SLICE_NEXT2(binary_slice),st);
@@ -352,7 +352,7 @@ void stip_traverse_structure_children_binary(slice_index binary_slice,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_binary_operand1(binary_slice,st);
@@ -367,7 +367,7 @@ static void stip_traverse_structure_children_zigzag_jump(slice_index jump,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",jump);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_binary(jump,st);
@@ -438,7 +438,7 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",conditional_pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   assert(slice_type_get_contextual_type(SLICE_TYPE(conditional_pipe))
@@ -475,7 +475,7 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing_pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   assert(slice_type_get_contextual_type(SLICE_TYPE(testing_pipe))
@@ -498,7 +498,7 @@ static void stip_traverse_structure_children_testing_pipe(slice_index testing_pi
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing_pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(testing_pipe,st);

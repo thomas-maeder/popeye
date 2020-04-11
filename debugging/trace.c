@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #if defined(DOTRACE)
 #include "output/plaintext/pieces.h"
@@ -63,7 +64,7 @@ void TraceEOL(void)
 {
   if (level<=max_level)
   {
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -74,7 +75,7 @@ void TraceFunctionEntry(char const *name)
 
   if (level<=max_level)
   {
-    fprintf(stdout,"> #%lu %s ",level,name);
+    printf("> #%lu %s ",level,name);
     fflush(stdout);
   }
 
@@ -92,7 +93,7 @@ void TraceFunctionEntry(char const *name)
 void TraceFunctionParamListEnd(void)
 {
   if (level<=max_level)
-    fputs("\n",stdout);
+    putchar('\n');
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -111,7 +112,7 @@ void TraceFunctionExit(char const *name)
 
   if (level<=max_level)
   {
-    fprintf(stdout,"< #%lu %s",level,name);
+    printf("< #%lu %s",level,name);
     fflush(stdout);
   }
 
@@ -126,15 +127,20 @@ void TraceFunctionExit(char const *name)
   --level;
 }
 
-void TraceFunctionResultImpl(char const *prefix, char const *format, size_t value)
+void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
 {
+  va_list ap;
   if (level+1<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
-      fprintf(stdout,"...");
+      fputs("...",stdout);
     else
-      fprintf(stdout,format,value);
+    {
+      va_start(ap, format);
+      vprintf(format,ap);
+      va_end(ap);
+    }
     fflush(stdout);
   }
 
@@ -150,7 +156,7 @@ void TraceFunctionResultEnd(void)
 {
   if (level<=max_level)
   {
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 
@@ -161,15 +167,20 @@ void TraceFunctionResultEnd(void)
 #endif
 }
 
-void TraceValueImpl(char const *prefix, char const *format, size_t value)
+void TraceValueImpl(char const *prefix, char const *format, ...)
 {
+  va_list ap;
   if (level<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
-      fprintf(stdout,"...");
+      fputs("...",stdout);
     else
-      fprintf(stdout,format,value);
+    {
+      va_start(ap, format);
+      vprintf(format,value);
+      va_end(ap);
+    }
     fflush(stdout);
   }
 
@@ -185,7 +196,7 @@ void TraceText(char const *text)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,"  #%lu %s",level,text);
+    printf("  #%lu %s",level,text);
     fflush(stdout);
   }
 
@@ -204,7 +215,7 @@ void TraceEnumeratorImpl(char const *format,
 {
   if (level<=max_level)
   {
-    fprintf(stdout,format,enumerator_name,value);
+    printf(format,enumerator_name,value);
     fflush(stdout);
   }
 
@@ -328,13 +339,13 @@ static void TraceCurrentMove(void)
 {
   if (level<=max_level)
   {
-    fprintf(stdout," #%lu %lu ",level,move_counter++);
+    printf(" #%lu %lu ",level,move_counter++);
     output_plaintext_write_move(&output_plaintext_engine,
                                 stdout,
                                 &output_plaintext_symbol_table);
-    fprintf(stdout," CURRMOVE_OF_PLY(nbply):%u",CURRMOVE_OF_PLY(nbply));
-    fprintf(stdout," nr_ghosts:%u",nr_ghosts);
-    fprintf(stdout," current_ply:%u\n",nbply);
+    printf(" CURRMOVE_OF_PLY(nbply):%u",CURRMOVE_OF_PLY(nbply));
+    printf(" nr_ghosts:%u",nr_ghosts);
+    printf(" current_ply:%u\n",nbply);
     fflush(stdout);
   }
 }
@@ -346,10 +357,10 @@ void TraceCurrentHashBuffer(void)
     HashBuffer const *hb = &hashBuffers[nbply];
     unsigned int i;
 
-    fprintf(stdout," #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
+    printf(" #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
     for (i = 0; i<hb->cmv.Leng; ++i)
-      fprintf(stdout,"%02x ",(unsigned int)hb->cmv.Data[i]);
-    fputs("\n",stdout);
+      printf("%02x ",(unsigned int)hb->cmv.Data[i]);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -369,10 +380,10 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
                   stdout,
                   get_walk_of_piece_on_square(*bnp));
         WriteSquare(&output_plaintext_engine,stdout,*bnp);
-        fputs(" ",stdout);
+        putchar(' ');
       }
 
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -380,9 +391,9 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 static void trace_link(char const *prefix, slice_index si, char const *suffix)
 {
   if (si==no_slice)
-    fprintf(stdout,"%s----%s ",prefix,suffix);
+    printf("%s----%s ",prefix,suffix);
   else
-    fprintf(stdout,"%s%4u%s ",prefix,si,suffix);
+    printf("%s%4u%s ",prefix,si,suffix);
 }
 
 char const context_shortcuts[] = { 'I', 'A', 'D', 'H' };
@@ -390,14 +401,13 @@ char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
 static void trace_common(slice_index si, stip_structure_traversal *st)
 {
-  fprintf(stdout,"[%4u] ",si);
-  fprintf(stdout,"%-34s ",slice_type_names[SLICE_TYPE(si)]);
-  fprintf(stdout,
-          "%c%c%c%c ",
-          Side_names[SLICE_STARTER(si)][0],
-          level_shortcuts[st->level],
-          context_shortcuts[st->context],
-          st->activity==stip_traversal_activity_solving ? 'S' : 'T');
+  printf("[%4u] ",si);
+  printf("%-34s ",slice_type_names[SLICE_TYPE(si)]);
+  printf("%c%c%c%c ",
+         Side_names[SLICE_STARTER(si)][0],
+         level_shortcuts[st->level],
+         context_shortcuts[st->context],
+         st->activity==stip_traversal_activity_solving ? 'S' : 'T');
   trace_link("",SLICE_PREV(si),"<");
   trace_link(">",SLICE_NEXT1(si),"");
   trace_link("(",SLICE_TESTER(si),")");
@@ -406,9 +416,9 @@ static void trace_common(slice_index si, stip_structure_traversal *st)
 static void trace_branch(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%2u/",SLICE_U(si).branch.length);
-  fprintf(stdout,"%2u ",SLICE_U(si).branch.min_length);
-  fputs("\n",stdout);
+  printf("%2u/",SLICE_U(si).branch.length);
+  printf("%2u ",SLICE_U(si).branch.min_length);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -416,7 +426,7 @@ static void trace_branch(slice_index si, stip_structure_traversal *st)
 static void trace_pipe(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -425,7 +435,7 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -433,14 +443,14 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 static void trace_leaf(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fputs("\n",stdout);
+  putchar('\n');
 }
 
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("base:",SLICE_U(si).derived_pipe.base,"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -449,8 +459,8 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fprintf(stdout,"goal:%u ",(unsigned int)SLICE_U(si).goal_handler.goal.type);
-  fputs("\n",stdout);
+  printf("goal:%u ",(unsigned int)SLICE_U(si).goal_handler.goal.type);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -458,7 +468,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"goal:%u\n",(unsigned int)SLICE_U(si).goal_handler.goal.type);
+  printf("goal:%u\n",(unsigned int)SLICE_U(si).goal_handler.goal.type);
 
   stip_traverse_structure_children(si,st);
 }
@@ -467,7 +477,7 @@ static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fprintf(stdout,"threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
+  printf("threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
 
   stip_traverse_structure_children(si,st);
 }
@@ -475,7 +485,7 @@ static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st
 static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
+  printf("mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
 
   stip_traverse_structure_children(si,st);
 }
@@ -483,10 +493,9 @@ static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *s
 static void trace_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,
-          " mode:%s(%u)\n",
-          output_mode_names[SLICE_U(si).output_mode_selector.mode],
-          (unsigned int)SLICE_U(si).output_mode_selector.mode);
+  printf(" mode:%s(%u)\n",
+         output_mode_names[SLICE_U(si).output_mode_selector.mode],
+         (unsigned int)SLICE_U(si).output_mode_selector.mode);
 
   stip_traverse_structure_children(si,st);
 }
@@ -494,7 +503,7 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
 static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
+  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -503,7 +512,7 @@ static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_tr
 {
   trace_common(si,st);
   trace_link("?",SLICE_NEXT2(si),"");
-  fprintf(stdout,"%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
+  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -513,7 +522,7 @@ static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
   trace_common(si,st);
   trace_link("next2:",SLICE_NEXT2(si),"");
   trace_link("condition:",SLICE_U(si).if_then_else.condition,"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -556,7 +565,7 @@ void TraceStipulation(slice_index si)
     {
       trace_level const save_max_level = max_level;
       max_level = 0; /* avoid tracing during traversal */
-      fputs("stipulation structure:\n",stdout);
+      puts("stipulation structure:");
       stip_traverse_structure(si,&st);
       max_level = save_max_level;
     }

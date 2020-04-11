@@ -384,7 +384,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
     default:
       fprintf(stderr,"error in %s - piece:",__func__);
       WriteWalk(&output_plaintext_engine,stderr,p);
-      fputs("\n",stderr);
+      fputc('\n',stderr);
       break;
   }
 }

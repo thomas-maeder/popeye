@@ -161,7 +161,7 @@ static void OpenGeneratedElementOneLine(FILE *file, char const *name)
 
 static void CloseElementOneLine(FILE *file)
 {
-  fputs("}",file);
+  fputc('}',file);
 }
 
 static void CloseElement(FILE *file)
@@ -242,7 +242,7 @@ static void WriteIntro(FILE *file)
   WriteFixElement(file,"usepackage","diagram",0);
   if (UserLanguage==German)
     WriteFixElement(file,"usepackage","german",0);
-  fputs("\n",file);
+  fputc('\n',file);
   WriteFixElement(file,"begin","document",0);
 
   TraceFunctionExit(__func__);
@@ -346,7 +346,7 @@ void LaTeXCo(slice_index si, FILE *file)
     {
       fputs(" \\Co+%",file);
       output_plaintext_print_version_info(file);
-      fputs("\n",file);
+      fputc('\n',file);
     }
   }
 
@@ -1149,7 +1149,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
     if (tmp==0)
     {
       perror("error opening tmpfile for initial LaTeX stipulation");
-      fprintf(file,"%s","??");
+      fputs("??",file);
     }
     else
     {
@@ -1161,7 +1161,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
   }
 
   if (OptFlag[solapparent])
-    fputs("*",file);
+    fputc('*',file);
 
   if (OptFlag[whitetoplay])
     fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));

@@ -59,7 +59,7 @@ void hashtable_dimensioner_solve(slice_index si)
   if (dimensionHashtable())
     pipe_solve_delegate(si);
   else
-    fputs("Couldn't allocate the requested amount of memory\n",stdout);
+    puts("Couldn't allocate the requested amount of memory");
 }
 
 /* Retrieve amount of memory actually allocated

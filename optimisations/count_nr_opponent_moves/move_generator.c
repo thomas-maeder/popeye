@@ -150,7 +150,7 @@ static void remember_optimiser(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
@@ -166,7 +166,7 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);

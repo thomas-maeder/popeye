@@ -156,8 +156,8 @@ static void dump_hash_buffer(void)
   unsigned int const length = hashBuffers[nbply].cmv.Leng;
   unsigned int i;
   for (i = 0; i!=length; ++i)
-    fprintf(stdout,"%u ",(unsigned int)hashBuffers[nbply].cmv.Data[i]);
-  fputs("\n",stdout);
+    printf("%u ",(unsigned int)hashBuffers[nbply].cmv.Data[i]);
+  putchar('\n');
 }
 #endif
 
@@ -910,7 +910,7 @@ static void compresshash (void)
 
 #if defined(TESTHASH)
     unsigned long nrElementsVisitedInIteration = 0;
-    fprintf(stdout,"starting iteration: minimalElementValueAfterCompression: %u\n",
+    printf("starting iteration: minimalElementValueAfterCompression: %u\n",
            minimalElementValueAfterCompression);
     fflush(stdout);
 #endif  /* TESTHASH */
@@ -919,7 +919,7 @@ static void compresshash (void)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      fprintf(stdout,"%u\n",value_of_data(he));
+      printf("%u\n",value_of_data(he));
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
@@ -939,18 +939,17 @@ static void compresshash (void)
 #if defined(TESTHASH)
         if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
         {
-          fprintf(stdout,
-                  "dhtRemove failed on %lu-th element of iteration %lu. "
-                  "This was the %lu-th call to dhtRemoveElement.\n"
-                  "nrElementsRemovedInCompression=%lu "
-                  "dhtKeyCount=%lu "
-                  "nrElementsAtStartOfCompression=%lu\n",
-                  nrElementsVisitedInIteration,
-                  nrIterationsInCompression,
-                  nrElementsRemovedInAllCompressions,
-                  nrElementsRemovedInCompression,
-                  dhtKeyCount(pyhash),
-                  nrElementsAtStartOfCompression);
+          printf("dhtRemove failed on %lu-th element of iteration %lu. "
+                 "This was the %lu-th call to dhtRemoveElement.\n"
+                 "nrElementsRemovedInCompression=%lu "
+                 "dhtKeyCount=%lu "
+                 "nrElementsAtStartOfCompression=%lu\n",
+                 nrElementsVisitedInIteration,
+                 nrIterationsInCompression,
+                 nrElementsRemovedInAllCompressions,
+                 nrElementsRemovedInCompression,
+                 dhtKeyCount(pyhash),
+                 nrElementsAtStartOfCompression);
           exit(1);
         }
 #endif  /* TESTHASH */
@@ -963,7 +962,7 @@ static void compresshash (void)
 #if defined(TESTHASH)
     ++nrIterationsInCompression;
     assert(nrElementsAtStartOfCompression>=nrElementsVisitedInIteration);
-    fprintf(stdout,"iteration=%lu, nrElementsRemovedInCompression:%lu, missed:%lu\n",
+    printf("iteration=%lu, nrElementsRemovedInCompression:%lu, missed:%lu\n",
            nrIterationsInCompression,
            nrElementsRemovedInCompression,
            nrElementsAtStartOfCompression-nrElementsVisitedInIteration);
@@ -973,10 +972,10 @@ static void compresshash (void)
       unsigned long const KeyCount = dhtKeyCount(pyhash);
       dhtBucketStat(pyhash,counter,16);
       for (i=0; i<16; ++i)
-        fprintf(stdout, "%lu %u %u\n", KeyCount, i+1, counter[i]);
-      fputs("\n",stdout);
+        printf("%lu %u %u\n", KeyCount, i+1, counter[i]);
+      putchar('\n');
       if (nrIterationsInCompression>9)
-        fprintf(stdout,"nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
+        printf("nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
                nrElementsRemovedInAllCompressions);
       dhtDebug = nrIterationsInCompression==9;
     }
@@ -989,18 +988,18 @@ static void compresshash (void)
       ++minimalElementValueAfterCompression;
   }
 #if defined(TESTHASH)
-  fprintf(stdout,"%lu;",dhtKeyCount(pyhash));
+  printf("%lu;",dhtKeyCount(pyhash));
 #if defined(HASHRATE)
-  fprintf(stdout," usage: %lu", use_pos);
-  fprintf(stdout," / %lu", use_all);
-  fprintf(stdout," = %.1f%%", (100.0 * use_pos) / use_all);
+  printf(" usage: %lu", use_pos);
+  printf(" / %lu", use_all);
+  printf(" = %.1f%%", (100.0 * use_pos) / use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
 #endif /*FREEMAP*/
-  fputs("\n",stdout);
+  putchar('\n');
 #if defined(FXF)
-  fputs("\n after compression:\n",stdout);
+  puts("\n after compression:");
   fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
@@ -1063,11 +1062,11 @@ void HashStats(unsigned int level, char *trailer)
     if (use_all > 0)
     {
       if (use_all < 10000)
-        fprintf(stdout, ", %lu/%lu = %lu%%",
-                use_pos, use_all, (use_pos*100) / use_all);
+        printf(", %lu/%lu = %lu%%",
+               use_pos, use_all, (use_pos*100) / use_all);
       else
-        fprintf(stdout, ", %lu/%lu = %lu%%",
-                use_pos, use_all, use_pos / (use_all/100));
+        printf(", %lu/%lu = %lu%%",
+               use_pos, use_all, use_pos / (use_all/100));
     }
     else
       fputs(" -",stdout);
@@ -1077,7 +1076,7 @@ void HashStats(unsigned int level, char *trailer)
       unsigned long Seconds;
       StopTimer(&Seconds,&msec);
       if (Seconds > 0)
-        fprintf(stdout, ", %lu pos/s", use_all/Seconds);
+        printf(", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
       StdString2(stdout,trailer);
@@ -1646,9 +1645,8 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
 
   if (result==dhtNilElement)
   {
-    fprintf(stderr,
-            "Sorry, cannot enter more hashelements "
-            "despite compression\n");
+    puts("Sorry, cannot enter more hashelements "
+         "despite compression");
     exit(-2);
   }
 
@@ -1738,7 +1736,7 @@ static void inithash(slice_index si)
 
   assert(pyhash==0);
 
-  ifTESTHASH(fprintf(stdout,"calling inithash\n"));
+  ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
@@ -1812,7 +1810,7 @@ static void inithash(slice_index si)
                     (unsigned int)(hashtable_kilos/1024)));
 #else
   ifTESTHASH(
-      fprintf(stdout,"room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
+      printf("room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
 #endif /*FXF*/
 
 #if defined(TESTHASH) && defined(FXF)
@@ -1850,12 +1848,12 @@ static void closehash(void)
   assert(pyhash!=0);
 
 #if defined(TESTHASH)
-  fputs("calling closehash\n",stdout);
+  puts("calling closehash");
 
 #if defined(HASHRATE)
-  fprintf(stdout, "%lu enquiries out of %lu successful. ",use_pos,use_all);
+  printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
-    fprintf(stdout,"Makes %.1f%%\n",(100.0 * use_pos) / use_all);
+    printf("Makes %.1f%%\n",(100.0 * use_pos) / use_all);
 #endif
 #if defined(__unix)
   {
@@ -1868,13 +1866,12 @@ static void closehash(void)
     if (HashCount>0)
     {
       unsigned long const BytePerPos = (HashMem*100)/HashCount;
-      fprintf(stdout,
-              "Memory for hash-table: %lu, "
-              "gives %lu.%02lu bytes per position\n",
-              HashMem, BytePerPos/100, BytePerPos%100);
+      printf("Memory for hash-table: %lu, "
+             "gives %lu.%02lu bytes per position\n",
+             HashMem, BytePerPos/100, BytePerPos%100);
     }
     else
-      fputs("Nothing in hashtable\n",stdout);
+      puts("Nothing in hashtable");
   }
 #endif /*__unix*/
 #endif /*TESTHASH*/

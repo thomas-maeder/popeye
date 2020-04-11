@@ -64,10 +64,10 @@ void write_history_recursive(ply ply)
     move_effect_journal_index_type const base = move_effect_journal_base[ply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
-    fprintf(stdout," %u:",ply);
+    printf(" %u:",ply);
     WriteWalk(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.moving);
     WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.from);
-    fputs("-",stdout);
+    putchar('-');
     WriteSquare(&output_plaintext_engine,stdout,move_effect_journal[movement].u.piece_movement.to);
   }
 }
@@ -76,7 +76,7 @@ void total_invisible_write_flesh_out_history(void)
 {
   if (total_invisible_number>0 && nbply!=ply_nil)
   {
-    fprintf(stdout," -");
+    fputs(" -", stdout);
     write_history_recursive(top_ply_of_regular_play);
   }
 }
@@ -725,7 +725,7 @@ static void subsitute_generator(slice_index si,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);

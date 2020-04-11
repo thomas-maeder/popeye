@@ -32,10 +32,10 @@ static void write_history_recursive(ply ply)
   if (ply>ply_retro_move+1)
   {
     write_history_recursive(parent_ply[ply]);
-    fputs(":",stdout);
+    putchar(':');
   }
 
-  fprintf(stdout,"%u",MoveNbr[ply]-1);
+  printf("%u",MoveNbr[ply]-1);
 }
 
 void move_numbers_write_history(ply top_ply)
@@ -44,10 +44,10 @@ void move_numbers_write_history(ply top_ply)
   {
     fputs("\nuse option start ",stdout);
     write_history_recursive(top_ply-1);
-    fputs(" to replay\n",stdout);
+    puts(" to replay");
   }
   else
-    fputs("\nuse option start 1:1 to get replay information\n",stdout);
+    puts("\nuse option start 1:1 to get replay information");
 }
 
 /* Reset the restart number setting.
