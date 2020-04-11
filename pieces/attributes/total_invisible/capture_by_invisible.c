@@ -397,7 +397,7 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
     {
       square sq_departure;
 
-      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer_inserted)
+      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
 
       for (sq_departure = sq_arrival+vec[kcurr];
            is_square_empty(sq_departure) && can_decision_level_be_continued();
