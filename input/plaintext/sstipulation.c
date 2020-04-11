@@ -1010,7 +1010,7 @@ static char *ParseStructuredStip_branch(char *tok,
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",((tok==0)?"<NULL pointer>":tok));
+  TraceFunctionResult("%s",((tok==0)?"":tok));
   TraceFunctionResultEnd();
   return tok;
 }
