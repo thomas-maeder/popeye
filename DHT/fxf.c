@@ -384,7 +384,7 @@ void fxfFree(void const *ptr, size_t size) {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,PTRDIFF_T_TO_PRINTF_TYPE(((char const*)ptr)-Arena),(size_t_printf_type)size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
