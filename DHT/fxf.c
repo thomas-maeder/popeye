@@ -113,7 +113,7 @@ static char *TopFreePtr;
 #if defined(FREEMAP) && !defined(SEGMENTED)
 static unsigned int *FreeMap;
 #define  Bit(x)    (1<<((x)&31))
-#define  LeftMask(x)  (-1<<((x)&31))
+#define  LeftMask(x)  (-Bit(x))
 #define  SetFreeBit(x)  FreeMap[(x)>>5]|= Bit(x)
 #define ClrFreeBit(x)  FreeMap[(x)>>5]&= ~Bit(x)
 #define  MAC_SetRange(x,l)  do {                    \
