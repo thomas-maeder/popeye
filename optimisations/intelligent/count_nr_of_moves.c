@@ -46,8 +46,8 @@ unsigned int const minimum_number_knight_moves[square_h8-square_a1+1]=
 
 static unsigned int king_no_castling(square from, square to)
 {
-  unsigned int const diffcol = abs(from%onerow - to%onerow);
-  unsigned int const diffrow = abs(from/onerow - to/onerow);
+  unsigned int const diffcol = (unsigned int)abs(from%onerow - to%onerow);
+  unsigned int const diffrow = (unsigned int)abs(from/onerow - to/onerow);
 
   return diffcol>diffrow ? diffcol : diffrow;
 }
@@ -928,7 +928,7 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
 {
   boolean result;
   unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
   unsigned int nr_capturable_white_masses = reserve[curr_reserve].nr_unused_masses[White];
 
   TraceFunctionEntry(__func__);
@@ -973,7 +973,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
 {
   boolean result;
   unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1065,7 +1065,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
 
   if (from_square!=to_square)
   {
-    unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+    unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
     if (diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
     {
       unsigned int const nr_of_moves = white_pawn_no_promotion(from_square,
@@ -1188,7 +1188,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1234,7 +1234,7 @@ boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_squar
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1422,7 +1422,7 @@ boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
                                                              square to_square)
 {
   boolean result = false;
-  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1470,7 +1470,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
                                                                 square via)
 {
   boolean result = false;
-  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1533,7 +1533,7 @@ boolean intelligent_reserve_front_check_by_promotee(square from_square,
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1571,7 +1571,7 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
                                  : white_pawn_no_promotion(from_square,via));
     if (to_via+1<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
       if (diffcol+1<=reserve[curr_reserve].nr_unused_masses[Black])
       {
         push_reserve();
