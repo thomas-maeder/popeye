@@ -26,8 +26,7 @@
 
 /* Increment a counter defined elsewhere
  */
-#define INCREMENT_COUNTER(name)         \
-    ++counter##name;                    \
+#define INCREMENT_COUNTER(name) ++counter##name
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
