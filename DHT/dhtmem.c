@@ -66,7 +66,7 @@ static dhtConstValue	DupMemoryValue(dhtConstValue v)
   }
   return (dhtValue)mv;
 }
-static void	FreeMemoryValue(dhtConstValue v)
+static void	FreeMemoryValue(dhtValue v)
 {
   DeleteMemVal(v);
   return;
