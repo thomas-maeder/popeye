@@ -667,8 +667,8 @@ static char *ParseForsythPiece(char *tok,
     *colour_flags = BIT(islower((int)*tok) ? Black : White);
 
   {
-    char const char1 = tolower((int)*tok++);
-    char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
+    char const char1 = (char)tolower((int)*tok++);
+    char const char2 = nr_chars==1 ? ' ' : (char)tolower((int)*tok++);
 
     piece_walk_type const walk = GetPieNamIndex(char1,char2);
     if (walk!=nr_piece_walks)

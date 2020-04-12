@@ -140,7 +140,7 @@ static char *ParseReciEnd(char *tok, slice_index start, slice_index proxy)
 static char *ParseLength(char *tok, stip_length_type *length)
 {
   char *end;
-  unsigned long tmp_length;
+  unsigned int tmp_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -150,7 +150,7 @@ static char *ParseLength(char *tok, stip_length_type *length)
     /* allow white space before length, e.g. "dia 4" */
     tok = ReadNextTokStr();
 
-  tmp_length = strtoul(tok,&end,10);
+  tmp_length = (unsigned int)strtoul(tok,&end,10);
   TraceValue("%ld",tmp_length);
   TraceEOL();
 
@@ -542,7 +542,7 @@ static char *ParsePlay(char *tok,
   if (arrowpos!=0)
   {
     char *end;
-    unsigned long const intro_len= strtoul(tok,&end,10);
+    unsigned int const intro_len = (unsigned int)strtoul(tok,&end,10);
     if (intro_len<1 || tok==end || end!=arrowpos)
       output_plaintext_input_error_message(WrongInt);
     else

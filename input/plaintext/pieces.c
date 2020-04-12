@@ -351,7 +351,7 @@ char *ParsePieces(char *tok)
 
       {
         char *end;
-        unsigned long const value = strtoul(tok,&end,10);
+        unsigned int const value = (unsigned int)strtoul(tok,&end,10);
         if (end==tok)
         {
           output_plaintext_input_error_message(WrongInt);

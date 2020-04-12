@@ -608,7 +608,7 @@ static char *ParseMaximumPawn(unsigned int *result,
 
   {
     char *end;
-    unsigned long tmp = strtoul(tok,&end,10);
+    unsigned int tmp = (unsigned int)strtoul(tok,&end,10);
     if (tok==end || tmp>boundary)
       *result = defaultVal;
     else
@@ -1800,14 +1800,14 @@ char *ParseCond(char *tok)
         case strictSAT:
         {
           char *ptr;
-          SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
+          SAT_max_nr_allowed_flights[White] = (unsigned int)strtoul(tok,&ptr,10) + 1;
           if (tok == ptr) {
             SAT_max_nr_allowed_flights[White]= 1;
             SAT_max_nr_allowed_flights[Black]= 1;
             break;
           }
           tok = ReadNextTokStr();
-          SAT_max_nr_allowed_flights[Black] = strtoul(tok,&ptr,10) + 1;
+          SAT_max_nr_allowed_flights[Black] = (unsigned int)strtoul(tok,&ptr,10) + 1;
           if (tok == ptr)
             SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
           break;

@@ -113,7 +113,7 @@ static void NextChar(void)
       LastChar = ' ';
     else
     {
-      LastChar = ch;
+      LastChar = (char)ch;
       if (InputMirror!=Input)
         fputc(ch,InputMirror);
     }

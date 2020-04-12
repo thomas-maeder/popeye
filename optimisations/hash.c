@@ -1281,7 +1281,7 @@ static unsigned int TellLargeEncodePosLeng(void)
     }
 
   if (CondFlag[BGL])
-    len += sizeof BGL_values[White] + sizeof BGL_values[Black];
+    len += (unsigned int)(sizeof BGL_values[White] + sizeof BGL_values[Black]);
 
   len += nr_ghosts*bytes_per_piece;
 
