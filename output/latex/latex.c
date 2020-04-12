@@ -92,7 +92,7 @@ char *ParseLaTeXPieces(void)
   if (strlen(tok) < 3)
     while (true)
     {
-      walk = GetPieNamIndex(tolower(tok[0]), strlen(tok) == 1 ? ' ' : tolower(tok[1]));
+      walk = GetPieNamIndex((char)tolower(tok[0]), strlen(tok) == 1 ? ' ' : (char)tolower(tok[1]));
 
       if (walk==nr_piece_walks)
         return tok;
@@ -109,10 +109,10 @@ char *ParseLaTeXPieces(void)
       while (tok[i]) {
         /* to avoid compiler warnings below made "better readable" */
         /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= tolower(tok[i]) + 'A' - 'a';
+        LaTeXPiecesAbbr[walk][i]= (char)(tolower(tok[i]) + 'A' - 'a');
         i++;
       }
-      LaTeXPiecesAbbr[walk][i]= tolower(tok[i]);
+      LaTeXPiecesAbbr[walk][i]= (char)tolower(tok[i]);
 
       if (ReadToEndOfLine())
       {
@@ -619,7 +619,7 @@ static void WriteAward(FILE *file)
     *eol = '\0';
     if (tour)
     {
-      WriteUserInputSubElement(file,"award",tour-ActAward,ActAward);
+      WriteUserInputSubElement(file,"award",(unsigned int)(tour-ActAward),ActAward);
       do
       {
         ++tour;

@@ -842,7 +842,7 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       Side const side_revealed = TSTFLAG(flags_revealed,White) ? White : Black;
       Side const side_original = TSTFLAG(flags_original,White) ? White : Black;
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      taint_history_of_placed_piece(entry-&move_effect_journal[0]);
+      taint_history_of_placed_piece((unsigned int)(entry-&move_effect_journal[0]));
       assert(!is_square_empty(on));
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
@@ -962,7 +962,7 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       being_solved.spec[on] = flags_revealed;
       SetPieceId(being_solved.spec[on],id_on_board);
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      untaint_history_of_placed_piece(entry-&move_effect_journal[0]);
+      untaint_history_of_placed_piece((unsigned int)(entry-&move_effect_journal[0]));
       assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
       if (TSTFLAG(flags_revealed,Royal))
       {

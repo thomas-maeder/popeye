@@ -238,7 +238,7 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   numvec const dir = vec[kcurr];
-  unsigned int const save_counter = record_decision_counter;
+  unsigned long const save_counter = record_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -649,7 +649,7 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
   square const king_pos = being_solved.king_square[side_in_check];
   vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
   numvec const dir = vec[kcurr];
-  unsigned int const save_counter = record_decision_counter;
+  unsigned long const save_counter = record_decision_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);

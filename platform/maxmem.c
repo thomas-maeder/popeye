@@ -42,7 +42,7 @@ static boolean dimensionHashtable(void)
 
   if (amountMemoryRequested==nothing_requested)
   {
-    unsigned int const amountMemoryGuessed = platform_guess_reasonable_maxmemory();
+    maxmem_kilos_type amountMemoryGuessed = platform_guess_reasonable_maxmemory();
     amountMemoryAllocated = allochash(amountMemoryGuessed);
   }
   else
