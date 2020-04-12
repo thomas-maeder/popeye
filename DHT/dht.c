@@ -551,8 +551,8 @@ void dhtDestroy(HashTable *ht)
     while (b)
     {
       InternHsElement *tmp= b;
-      (ht->procs.FreeKey)(b->HsEl.Key);
-      (ht->procs.FreeData)(b->HsEl.Data);
+      (ht->procs.FreeKey)((dhtValue)b->HsEl.Key);
+      (ht->procs.FreeData)((dhtValue)b->HsEl.Data);
       b= b->Next;
       FreeInternHsElement(tmp);
     }
@@ -839,8 +839,8 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
       ht->NextStep= ht->NextStep->Next;
 
     *phe= he->Next;
-    (ht->procs.FreeData)(he->HsEl.Data);
-    (ht->procs.FreeKey)(he->HsEl.Key);
+    (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
+    (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
     FreeInternHsElement(he);
     ht->KeyCount--;
     if (ActualLoadFactor(ht) < ht->MinLoadFactor)
@@ -893,7 +893,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
   DataV = data==0 ? 0 : (ht->procs.DupData)(data);
   if (data!=0 && DataV==0)
   {
-    (ht->procs.FreeKey)(KeyV);
+    (ht->procs.FreeKey)((dhtValue)KeyV);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",dhtNilElement);
@@ -913,8 +913,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
     TraceEOL();
     if (he==0)
     {
-      (ht->procs.FreeKey)(KeyV);
-      (ht->procs.FreeData)(DataV);
+      (ht->procs.FreeKey)((dhtValue)KeyV);
+      (ht->procs.FreeData)((dhtValue)DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",dhtNilElement);
@@ -931,9 +931,9 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
   else
   {
     if (ht->DtaPolicy == dhtCopy)
-      (ht->procs.FreeData)(he->HsEl.Data);
+      (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
     if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKey)(he->HsEl.Key);
+      (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
   }
 
   he->HsEl.Key = KeyV;
