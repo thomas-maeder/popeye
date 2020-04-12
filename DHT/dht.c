@@ -392,8 +392,8 @@ typedef struct
     int     (*Equal)(dhtConstValue, dhtConstValue);
     dhtConstValue    (*DupKey)(dhtConstValue);
     dhtConstValue    (*DupData)(dhtConstValue);
-    void        (*FreeKey)(dhtConstValue);
-    void        (*FreeData)(dhtConstValue);
+    void        (*FreeKey)(dhtValue);
+    void        (*FreeData)(dhtValue);
     void        (*DumpData)(dhtConstValue,FILE *);
     void        (*DumpKey)(dhtConstValue,FILE *);
 } Procedures;
@@ -686,7 +686,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 
 LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 {
-  MYNAME(ExpandHashTable)
+  static char const * const myname = "ExpandHashTable";
   /* Need to expand the directory */
   uLong oldp= ht->p;
   uLong newp= ht->maxp + ht->p;
