@@ -125,7 +125,7 @@ typedef unsigned int hash_value_type;
 
 static struct dht *pyhash;
 
-static char    piece_nbr[nr_piece_walks];
+static byte piece_nbr[nr_piece_walks];
 static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
@@ -1402,7 +1402,7 @@ byte *CommonEncode(byte *bp,
 
       *bp++ = (byte)(from-square_a1);
       if (one_byte_hash)
-        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[removed]) << (CHAR_BIT/2));
+        *bp++ = (byte)(removedspec) + (piece_nbr[removed] << (CHAR_BIT/2));
       else
       {
         *bp++ = removed;
@@ -1450,7 +1450,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
                               piece_walk_type pienam, Flags pspec)
 {
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
@@ -1519,7 +1519,7 @@ byte *SmallEncodePiece(byte *bp,
 {
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
@@ -1730,8 +1730,6 @@ boolean is_hashtable_allocated(void)
  */
 static void inithash(slice_index si)
 {
-  unsigned int j;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1759,19 +1757,21 @@ static void inithash(slice_index si)
   ifHASHRATE(use_pos = use_all = 0);
 
   /* check whether a piece can be coded in a single byte */
-  j = 0;
-
-  for (piece_walk_type i = nr_piece_walks; i != Empty;)
   {
-    --i;
-    if (piece_walk_may_exist[i])
-      piece_nbr[i] = j++;
+    byte j = 0;
+
+    for (piece_walk_type i = nr_piece_walks; i != Empty;)
+    {
+      --i;
+      if (piece_walk_may_exist[i])
+        piece_nbr[i] = j++;
+    }
+
+    if (CondFlag[haanerchess])
+      piece_nbr[Invalid]= j++;
+
+    one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
   }
-
-  if (CondFlag[haanerchess])
-    piece_nbr[Invalid]= j++;
-
-  one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
 
   bytes_per_spec= 1;
   if ((some_pieces_flags >> CHAR_BIT) != 0)
