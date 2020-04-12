@@ -1645,8 +1645,8 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
 
   if (result==dhtNilElement)
   {
-    puts("Sorry, cannot enter more hashelements "
-         "despite compression");
+    fputs("Sorry, cannot enter more hashelements "
+          "despite compression\n", stderr);
     exit(-2);
   }
 
