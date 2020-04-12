@@ -34,7 +34,7 @@
 
 #if defined(DEBUG_DHT)
 int dhtDebug= 0;
-#define MYNAME(m)   static char const *myname = #m;
+#define MYNAME(m)   static char const * const myname = #m;
 #define DEBUG_CODE(x)                           \
   do {                                          \
     if (dhtDebug) { x }                         \
@@ -686,7 +686,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 
 LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 {
-  static char const *myname= "ExpandHashTable";
+  MYNAME(ExpandHashTable)
   /* Need to expand the directory */
   uLong oldp= ht->p;
   uLong newp= ht->maxp + ht->p;
