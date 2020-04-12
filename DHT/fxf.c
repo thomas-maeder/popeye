@@ -362,7 +362,7 @@ void *fxfAlloc(size_t size) {
   return ptr;
 }
 
-void fxfFree(void const *ptr, size_t size)
+void fxfFree(void *ptr, size_t size)
 {
   static char const * const myname= "fxfFree";
   SizeHead *sh;
@@ -382,15 +382,15 @@ void fxfFree(void const *ptr, size_t size)
   if (size&PTRMASK) {
     /* unaligned size */
     TMDBG(printf(" BotFreePtr-ptr:%ld",BotFreePtr-(char *)ptr));
-    if ((char const *)ptr+size == BotFreePtr) {
+    if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
       sh->MallocCount-= 1;
     }
     else {
-      SetRange((char const *)ptr-Arena,size);
+      SetRange((char *)ptr-Arena,size);
       *(char **)ALIGN(ptr)= sh->FreeHead;
-      sh->FreeHead= (void *)ptr;
+      sh->FreeHead= ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
@@ -399,15 +399,15 @@ void fxfFree(void const *ptr, size_t size)
   else {
     /* aligned size */
     TMDBG(printf(" ptr-TopFreePtr:%ld",(char *)ptr-TopFreePtr));
-    if ((char const *)ptr == TopFreePtr) {
+    if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
       TMDBG(printf(" TopFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
       sh->MallocCount-= 1;
     }
     else {
-      SetRange((char const *)ptr-Arena,size);
+      SetRange((char *)ptr-Arena,size);
       *(char **)ptr= sh->FreeHead;
-      sh->FreeHead= (void *)ptr;
+      sh->FreeHead= ptr;
       sh->FreeCount+= 1;
       sh->MallocCount-= 1;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
