@@ -19,6 +19,8 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdlib.h>
+
 /* magic pieces */
 enum
 {
@@ -148,7 +150,10 @@ static void identify_circular_line(void)
   do
   {
     sq_curr += vec[idx];
-    idx += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(idx>0 || sense>0);
+    idx += (unsigned int)sense;
 
     if (start>sq_curr)
     {

@@ -34,8 +34,11 @@ static int compare_nr_opponent_moves(void const *a, void const *b)
   move_generation_elmt const * const elmt_a = a;
   move_generation_elmt const * const elmt_b = b;
 
-  return (opponent_moves_few_moves_prioriser_table[elmt_b->id]
-          -opponent_moves_few_moves_prioriser_table[elmt_a->id]);
+  assert(opponent_moves_few_moves_prioriser_table[elmt_b->id]<=INT_MAX);
+  assert(opponent_moves_few_moves_prioriser_table[elmt_a->id]<=INT_MAX);
+
+  return ((int)opponent_moves_few_moves_prioriser_table[elmt_b->id]
+          -(int)opponent_moves_few_moves_prioriser_table[elmt_a->id]);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

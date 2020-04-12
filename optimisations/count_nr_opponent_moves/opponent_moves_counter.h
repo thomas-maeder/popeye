@@ -8,7 +8,7 @@
  * in STOpponentMovesCounter stipulation slices.
  */
 
-extern int opponent_moves_few_moves_prioriser_table[toppile+1];
+extern unsigned int opponent_moves_few_moves_prioriser_table[toppile+1];
 
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice

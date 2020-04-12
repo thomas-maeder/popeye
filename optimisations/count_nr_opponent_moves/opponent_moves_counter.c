@@ -9,7 +9,7 @@
 
 #include <limits.h>
 
-int opponent_moves_few_moves_prioriser_table[toppile + 1];
+unsigned int opponent_moves_few_moves_prioriser_table[toppile + 1];
 
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice

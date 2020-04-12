@@ -45,6 +45,7 @@
 
 #include "debugging/assert.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef unsigned int index_type;
 
@@ -146,7 +147,10 @@ void remember_to_keep_rider_line_open(square from, square to,
   for (s = from+dir; s!=to; s+=dir)
   {
     /*assert(is_square_empty(s)); doesn't work if there are holes! */
-    nr_reasons_for_staying_empty[s] += delta;
+    // TODO does this overflow work on all implementations?
+    assert(abs(delta)==1);
+    assert(nr_reasons_for_staying_empty[s]>0 || delta>0);
+    nr_reasons_for_staying_empty[s] += (unsigned int)delta;
   }
 
   TraceFunctionExit(__func__);

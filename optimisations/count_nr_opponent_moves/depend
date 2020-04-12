@@ -8,11 +8,8 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
  optimisations/count_nr_opponent_moves/prioriser.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -22,8 +19,8 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- solving/machinery/slack_length.h solving/fork_on_remaining.h \
- solving/temporary_hacks.h debugging/assert.h
+ stipulation/slice_insertion.h solving/machinery/slack_length.h \
+ solving/fork_on_remaining.h solving/temporary_hacks.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -65,22 +62,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -113,6 +94,8 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
+stipulation/slice_insertion.h:
+
 solving/machinery/slack_length.h:
 
 solving/fork_on_remaining.h:
@@ -129,12 +112,9 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/ply.h solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
+ solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -185,23 +165,9 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
+solving/move_generator.h:
 
 solving/ply.h:
-
-solving/move_generator.h:
 
 stipulation/pipe.h:
 
@@ -249,10 +215,8 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/ply.h solving/machinery/slack_length.h stipulation/binary.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/slack_length.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -265,7 +229,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/testing_pipe.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/move_generator.h solving/pipe.h debugging/assert.h
+ solving/move_generator.h solving/ply.h solving/pipe.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -305,22 +269,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
 solving/machinery/slack_length.h:
 
 stipulation/binary.h:
@@ -354,6 +302,8 @@ solving/testing_pipe.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 solving/move_generator.h:
+
+solving/ply.h:
 
 solving/pipe.h:
 

@@ -146,7 +146,7 @@ pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  output/mode.enum solving/machinery/dispatch.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h pieces/walks/locusts.h \
- solving/move_generator.h
+ solving/move_generator.h debugging/assert.h
 
 pieces/walks/roses.h:
 
@@ -211,6 +211,8 @@ solving/machinery/solve.h:
 pieces/walks/locusts.h:
 
 solving/move_generator.h:
+
+debugging/assert.h:
 pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h position/side.h position/side.enum.h \

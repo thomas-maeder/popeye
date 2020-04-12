@@ -9,6 +9,8 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
+#include <stdlib.h>
+
 static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
 
 static boolean is_move_by_invisible(square from, Side side, ply ply)
@@ -230,7 +232,10 @@ boolean is_taboo(square s, Side side)
 static void adjust_taboo(square s, int delta, ply ply, Side side)
 {
   assert(delta>0 || nr_taboos_for_current_move_in_ply[ply][side][s]>0);
-  nr_taboos_for_current_move_in_ply[ply][side][s] += delta;
+  // TODO does this overflow work on all implementations?
+  assert(abs(delta)==1);
+  assert(nr_taboos_for_current_move_in_ply[ply][side][s]>0 || delta>0);
+  nr_taboos_for_current_move_in_ply[ply][side][s] += (unsigned int)delta;
 }
 
 /* remember a taboo on a particular square so that no other piece of side side
