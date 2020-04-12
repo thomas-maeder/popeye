@@ -380,7 +380,8 @@ void *fxfAlloc(size_t size) {
   return ptr;
 }
 
-void fxfFree(void const *ptr, size_t size) {
+void fxfFree(void const *ptr, size_t size)
+{
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
