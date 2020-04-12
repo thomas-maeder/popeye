@@ -213,7 +213,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   decision_levels[id].from = push_decision_common(file,line);
@@ -240,7 +240,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   printf("direction:%d",direction);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -269,7 +269,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -293,7 +293,7 @@ void push_decision_placement_impl(char const *file, unsigned int line, PieceIdTy
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -318,7 +318,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
             BIT(side),
             initsquare,
             true);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -337,7 +337,7 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u ",purpose_symbol[purpose],nbply);
   putchar('I');
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -362,7 +362,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   WriteWalk(&output_plaintext_engine,
             stdout,
             walk);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
@@ -390,7 +390,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);
-  printf(" %u",id);
+  printf(" %lu",id);
 #endif
 
   push_decision_common(file,line);
