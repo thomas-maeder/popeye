@@ -222,12 +222,12 @@ void LaTeXStr(FILE *file, char const *line)
   }
 }
 
-void LaTeXCopyFile(FILE *src, FILE *dest, int size)
+void LaTeXCopyFile(FILE *src, FILE *dest, unsigned int size)
 {
   char * const buffer = malloc(size+1);
   if (buffer!=0)
   {
-    if (fgets(buffer,size+1,src))
+    if (fgets(buffer,(int)(size+1),src))
       LaTeXStr(dest,buffer);
     free(buffer);
   }
@@ -1153,7 +1153,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
     }
     else
     {
-      int const length = WriteStipulation(tmp,si);
+      unsigned int const length = WriteStipulation(tmp,si);
       rewind(tmp);
       LaTeXCopyFile(tmp,file,length);
       platform_close_tmpfile(tmp);
@@ -1181,7 +1181,7 @@ void LaTeXSStipulation(FILE *file, slice_index si)
 
   {
     FILE *tmp = platform_open_tmpfile();
-    int const length = WriteSStipulation(tmp,si);
+    unsigned int const length = WriteSStipulation(tmp,si);
     rewind(tmp);
     LaTeXCopyFile(tmp,file,length);
     platform_close_tmpfile(tmp);

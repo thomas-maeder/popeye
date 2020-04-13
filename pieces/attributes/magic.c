@@ -560,7 +560,7 @@ static void PushMagicViews(void)
   TraceFunctionResultEnd();
 }
 
-static boolean find_view(ply ply_id, int j)
+static boolean find_view(ply ply_id, unsigned int j)
 {
   PieceIdType const currid = magicviews[j].viewedid;
   PieceIdType const magicpieceid = magicviews[j].magicpieceid;
@@ -571,7 +571,7 @@ static boolean find_view(ply ply_id, int j)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
-  TraceFunctionParam("%d",j);
+  TraceFunctionParam("%u",j);
   TraceFunctionParamListEnd();
 
   for (k = magic_views_top[stack_pointer-2]; k<magic_views_top[stack_pointer-1]; ++k)

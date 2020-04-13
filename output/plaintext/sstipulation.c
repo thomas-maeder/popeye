@@ -25,7 +25,7 @@ typedef enum
 typedef struct
 {
     FILE *file;
-    int nr_chars_written;
+    unsigned int nr_chars_written;
     branch_position_state branch_position;
     play_type play;
 } state_type;
@@ -34,7 +34,7 @@ static void write_move_inverter(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
 
-  state->nr_chars_written += fprintf(state->file,"%s","-");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","-");
   stip_traverse_structure_children(si,st);
 }
 
@@ -45,13 +45,13 @@ static void write_attack(slice_index si, stip_structure_traversal *st)
 
   if (state->branch_position==write_state_begin)
   {
-    state->nr_chars_written += fprintf(state->file,
-                                       "%u",
-                                       SLICE_U(si).branch.length);
+    state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                     "%u",
+                                                     SLICE_U(si).branch.length);
     if (SLICE_U(si).branch.min_length>1)
-      state->nr_chars_written += fprintf(state->file,
-                                         ":%u",
-                                         SLICE_U(si).branch.min_length+1);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       ":%u",
+                                                       SLICE_U(si).branch.min_length+1);
   }
 
   state->play = play_attack;
@@ -88,14 +88,14 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
   if (state->branch_position==write_state_begin)
   {
     if (branch_find_slice(STPlaySuppressor,si,st->context)!=no_slice)
-      state->nr_chars_written += fprintf(state->file,"%s","/");
-    state->nr_chars_written += fprintf(state->file,
-                                       "%u",
-                                       SLICE_U(si).branch.length);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","/");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                     "%u",
+                                                     SLICE_U(si).branch.length);
     if (SLICE_U(si).branch.min_length>1)
-      state->nr_chars_written += fprintf(state->file,
-                                         ":%u",
-                                         SLICE_U(si).branch.min_length);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       ":%u",
+                                                       SLICE_U(si).branch.min_length);
   }
 
   state->play = play_defense;
@@ -134,24 +134,24 @@ static void write_help(slice_index si, stip_structure_traversal *st)
     slice_index const leg2 = branch_find_slice(STReadyForHelpMove,si,st->context);
     if (leg2==si)
     {
-      state->nr_chars_written += fprintf(state->file,
-                                         "%u",
-                                         (SLICE_U(si).branch.length+1)/2);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       "%u",
+                                                       (SLICE_U(si).branch.length+1)/2);
       if (SLICE_U(si).branch.min_length>1)
-        state->nr_chars_written += fprintf(state->file,
-                                           ":%u",
-                                           (SLICE_U(si).branch.min_length+1)/2);
+        state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                         ":%u",
+                                                         (SLICE_U(si).branch.min_length+1)/2);
       state->play = play_series;
     }
     else
     {
-      state->nr_chars_written += fprintf(state->file,
-                                         "%u",
-                                         SLICE_U(si).branch.length);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       "%u",
+                                                       SLICE_U(si).branch.length);
       if (SLICE_U(si).branch.min_length>1)
-        state->nr_chars_written += fprintf(state->file,
-                                           ":%u",
-                                           SLICE_U(si).branch.min_length);
+        state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                         ":%u",
+                                                         SLICE_U(si).branch.min_length);
       state->play = play_help;
     }
 
@@ -186,9 +186,9 @@ static void write_move(slice_index si, stip_structure_traversal *st)
   char const play2char[nr_plays] = { 'a','d','h','s' };
 
   assert(state->play<nr_plays);
-  state->nr_chars_written += fprintf(state->file,
-                                     "%c",
-                                     play2char[state->play]);
+  state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                   "%c",
+                                                   play2char[state->play]);
 
   stip_traverse_structure_children(si,st);
 }
@@ -200,7 +200,7 @@ static void write_next_branch(slice_index si, stip_structure_traversal *st,
   branch_position_state const save_state = state->branch_position;
   play_type const save_play = state->play;
 
-  state->nr_chars_written += fprintf(state->file,"%s",entry);
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s",entry);
 
   state->branch_position = write_state_begin;
   state->play = play_unknown;
@@ -208,7 +208,7 @@ static void write_next_branch(slice_index si, stip_structure_traversal *st,
   state->play = save_play;
   state->branch_position = save_state;
 
-  state->nr_chars_written += fprintf(state->file,"%s",exit);
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s",exit);
 }
 
 static void write_end_of_branch(slice_index si, stip_structure_traversal *st)
@@ -259,31 +259,31 @@ static void write_goal_reached_tester(slice_index si, stip_structure_traversal *
 static void write_mate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","#");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","#");
 }
 
 static void write_stalemate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","=");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","=");
 }
 
 static void write_doublestalemate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","==");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","==");
 }
 
 static void write_immobile(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","#=");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","#=");
 }
 
 static void write_check(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","+");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","+");
 }
 
 static void write_target(slice_index si, stip_structure_traversal *st)
@@ -291,100 +291,100 @@ static void write_target(slice_index si, stip_structure_traversal *st)
   state_type * const state = st->param;
   square const s = SLICE_U(si).goal_handler.goal.target;
 
-  state->nr_chars_written += fprintf(state->file,"%s","z");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","z");
   /* TODO avoid duplication with WriteSquare() */
-  state->nr_chars_written += fprintf(state->file,"%c",('a' - nr_files_on_board + s%onerow));
-  state->nr_chars_written += fprintf(state->file,"%c",('1' - nr_rows_on_board + s/onerow));
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",('a' - nr_files_on_board + s%onerow));
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",('1' - nr_rows_on_board + s/onerow));
 }
 
 static void write_capture(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","x");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","x");
 }
 
 static void write_castling(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","00");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","00");
 }
 
 static void write_steingewinn(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","%");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","%");
 }
 
 static void write_enpassant(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","ep");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","ep");
 }
 
 static void write_doublemate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","##");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","##");
 }
 
 static void write_countermate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","##!");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","##!");
 }
 
 static void write_autostalemate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","!=");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","!=");
 }
 
 static void write_automate(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","!#");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","!#");
 }
 
 static void write_circuit(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","ct");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","ct");
 }
 
 static void write_exchange(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","<>");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","<>");
 }
 
 static void write_any(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","~");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","~");
 }
 
 static void write_dia(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","dia");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","dia");
 }
 
 static void write_atob(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","a=>b");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","a=>b");
 }
 
 static void write_chess81(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","c81");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","c81");
 }
 
 static void write_kiss(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","k");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","k");
 }
 
 static void write_if_then_else(slice_index si, stip_structure_traversal *st)
@@ -394,7 +394,7 @@ static void write_if_then_else(slice_index si, stip_structure_traversal *st)
   stip_traversal_context_type const save_context = st->context;
   play_type const save_play = state->play;
 
-  state->nr_chars_written += fprintf(state->file,"%s","?");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","?");
   state->branch_position = write_state_begin;
   state->play = play_unknown;
   st->context = stip_traversal_context_intro;
@@ -402,7 +402,7 @@ static void write_if_then_else(slice_index si, stip_structure_traversal *st)
   st->context = save_context;
   state->play = save_play;
   state->branch_position = save_state;
-  state->nr_chars_written += fprintf(state->file,"%s","?");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","?");
 
   stip_traverse_structure_binary_operand1(si,st);
   stip_traverse_structure_binary_operand2(si,st);
@@ -411,7 +411,7 @@ static void write_if_then_else(slice_index si, stip_structure_traversal *st)
 static void write_not(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
-  state->nr_chars_written += fprintf(state->file,"%s","!");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","!");
   stip_traverse_structure_children_pipe(si,st);
 }
 
@@ -420,7 +420,7 @@ static void write_and(slice_index si, stip_structure_traversal *st)
   state_type * const state = st->param;
 
   stip_traverse_structure_binary_operand1(si,st);
-  state->nr_chars_written += fprintf(state->file,"%s","&");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","&");
   stip_traverse_structure_binary_operand2(si,st);
 }
 
@@ -429,7 +429,7 @@ static void write_or(slice_index si, stip_structure_traversal *st)
   state_type * const state = st->param;
 
   stip_traverse_structure_binary_operand1(si,st);
-  state->nr_chars_written += fprintf(state->file,"%s","|");
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","|");
   stip_traverse_structure_binary_operand2(si,st);
 }
 
@@ -481,7 +481,7 @@ enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-int WriteSStipulation(FILE *file, slice_index stipulation)
+unsigned int WriteSStipulation(FILE *file, slice_index stipulation)
 {
   Side const starter = SLICE_STARTER(stipulation);
   state_type state = { file, 0, write_state_begin, play_unknown };
@@ -492,7 +492,7 @@ int WriteSStipulation(FILE *file, slice_index stipulation)
 
   TraceStipulation(stipulation);
 
-  state.nr_chars_written += fprintf(file,"%s ",ColourTab[starter]);
+  state.nr_chars_written += (unsigned int)fprintf(file,"%s ",ColourTab[starter]);
 
   {
     stip_structure_traversal st;
