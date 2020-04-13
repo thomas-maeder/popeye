@@ -24,7 +24,7 @@ void StopTimer(unsigned long *seconds, unsigned long *msec)
   /* there are implementations with CLOCKS_PER_SEC of type double! */
   clock_t ticks_per_sec = (clock_t)CLOCKS_PER_SEC;
   clock_t ticks = stopClock-startClock;
-  *msec = (ticks%ticks_per_sec) * 1000 / ticks_per_sec;
+  *msec = (unsigned long)((ticks%ticks_per_sec) * 1000 / ticks_per_sec);
 
-  *seconds = stopTime-startTime;
+  *seconds = (unsigned long)(stopTime-startTime);
 }

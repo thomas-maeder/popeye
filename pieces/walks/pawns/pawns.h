@@ -22,6 +22,6 @@ void pawns_generate_capture_move(numvec dir);
 /* generates moves of a pawn in direction dir where steps single steps are
  * possible.
  */
-void pawns_generate_nocapture_moves(numvec dir, int steps);
+void pawns_generate_nocapture_moves(numvec dir, unsigned steps);
 
 #endif

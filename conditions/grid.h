@@ -17,13 +17,25 @@ typedef enum
 } grid_type_type;
 
 extern grid_type_type grid_type;
-extern int gridlines[112][4];
-extern int numgridlines;
 
-boolean CrossesGridLines(square i, square j);
+boolean CrossesGridLines(square sq_departure, square sq_arrival);
 
-#define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
-  (numgridlines && CrossesGridLines((sq1), (sq2))))
+void IntialiseIrregularGridLines(void);
+
+typedef enum
+{
+  gridline_horizonal,
+  gridline_vertical
+} gridline_direction;
+
+boolean PushIrregularGridLine(unsigned int file,
+                              unsigned int row,
+                              unsigned int length,
+                              gridline_direction dir);
+
+#define GridLegal(sq1,sq2) \
+    (GridNum(sq1)!=GridNum(sq2) \
+     || (grid_type==grid_irregular && CrossesGridLines((sq1), (sq2))))
 
 /* Validate the geometry of observation according to Grid Chess
  * @return true iff the observation is valid

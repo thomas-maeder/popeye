@@ -16,7 +16,7 @@
 char *ParseSquare(char *tok, square *s)
 {
   char *result = tok;
-  char const char_file = tolower(tok[0]);
+  char const char_file = (char)tolower(tok[0]);
 
   *s = initsquare;
 

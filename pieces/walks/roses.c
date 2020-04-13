@@ -3,7 +3,10 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
+
+#include <stdlib.h>
 
 static square generate_moves_on_circle_segment(square sq_base,
                                                vec_index_type *idx_curr_dir,
@@ -18,14 +21,20 @@ static square generate_moves_on_circle_segment(square sq_base,
   curr_generation->arrival = sq_base;
 
   curr_generation->arrival += vec[*idx_curr_dir];
-  *idx_curr_dir += sense;
+  // TODO does this overflow work on all implementations?
+  assert(abs(sense)==1);
+  assert(*idx_curr_dir>0 || sense>0);
+  *idx_curr_dir += (unsigned int)sense;
 
   while (curr_generation->arrival!=sq_base
          && is_square_empty(curr_generation->arrival))
   {
     push_move_no_capture();
     curr_generation->arrival += vec[*idx_curr_dir];
-    *idx_curr_dir += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(*idx_curr_dir>0 || sense>0);
+    *idx_curr_dir += (unsigned int)sense;
   }
 
   TraceFunctionExit(__func__);
@@ -50,7 +59,10 @@ static square find_end_of_circle_line(square sq_departure,
   do
   {
     sq_result += vec[*idx_curr_dir];
-    *idx_curr_dir += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(*idx_curr_dir>0 || sense>0);
+    *idx_curr_dir += (unsigned int)sense;
   } while (is_square_empty(sq_result));
 
   return sq_result;

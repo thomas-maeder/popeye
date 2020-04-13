@@ -15,7 +15,7 @@ mummer_length_type forced_squares_measure_length(void)
   SquareFlags const flag = trait[nbply]==White ? WhForcedSq : BlForcedSq;
 
   /* +1 so that consequent forced squares work correctly */
-  int const result = TSTFLAG(sq_spec(sq_arrival),flag)+1;
+  mummer_length_type const result = TSTFLAG(sq_spec(sq_arrival),flag)+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

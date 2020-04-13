@@ -19,6 +19,8 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdlib.h>
+
 /* magic pieces */
 enum
 {
@@ -148,7 +150,10 @@ static void identify_circular_line(void)
   do
   {
     sq_curr += vec[idx];
-    idx += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(idx>0 || sense>0);
+    idx += (unsigned int)sense;
 
     if (start>sq_curr)
     {
@@ -555,7 +560,7 @@ static void PushMagicViews(void)
   TraceFunctionResultEnd();
 }
 
-static boolean find_view(ply ply_id, int j)
+static boolean find_view(ply ply_id, unsigned int j)
 {
   PieceIdType const currid = magicviews[j].viewedid;
   PieceIdType const magicpieceid = magicviews[j].magicpieceid;
@@ -566,7 +571,7 @@ static boolean find_view(ply ply_id, int j)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
-  TraceFunctionParam("%d",j);
+  TraceFunctionParam("%u",j);
   TraceFunctionParamListEnd();
 
   for (k = magic_views_top[stack_pointer-2]; k<magic_views_top[stack_pointer-1]; ++k)

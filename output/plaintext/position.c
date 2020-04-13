@@ -121,9 +121,9 @@ static void WriteGrid(void)
          column<nr_files_on_board;
          column++, square += dir_right)
     {
-      char g = (GridNum(square))%100;
-      HLine[fileWidth*column+3]= g>9 ? (g/10)+'0' : ' ';
-      HLine[fileWidth*column+4]= (g%10)+'0';
+      unsigned char g = (unsigned char)((GridNum(square))%100);
+      HLine[fileWidth*column+3]= (char)(g>9 ? (g/10)+'0' : ' ');
+      HLine[fileWidth*column+4]= (char)((g%10)+'0');
     }
 
     protocol_fprintf(stdout,"%s",HLine);
@@ -212,7 +212,7 @@ static void DoPieceCounts(position const *pos,
   piece_per_colour[pseudocolour_totalinvisible] = total_invisible_number;
 }
 
-static int indentation = 0;
+static unsigned int indentation = 0;
 
 static void WritePieceCounts(position const *pos, unsigned int indentation)
 {
@@ -223,8 +223,8 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
   if (piece_per_colour[pseudocolour_totalinvisible]==0)
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn\n" : "%d + %d\n";
-    int const width = nr_files_on_board*fileWidth+4-indentation;
-    protocol_fprintf_r(stdout,width,format,
+    unsigned int const width = nr_files_on_board*fileWidth+4-indentation;
+    protocol_fprintf_r(stdout,(int)width,format,
                        piece_per_colour[colour_white],
                        piece_per_colour[colour_black],
                        piece_per_colour[colour_neutral]);
@@ -232,8 +232,8 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
   else
   {
     char const *format = "%d + %d + %d %s\n";
-    int const width = nr_files_on_board*fileWidth+4-indentation;
-    protocol_fprintf_r(stdout,width,format,
+    unsigned int const width = nr_files_on_board*fileWidth+4-indentation;
+    protocol_fprintf_r(stdout,(int)width,format,
                        piece_per_colour[colour_white],
                        piece_per_colour[colour_black],
                        piece_per_colour[pseudocolour_totalinvisible],
@@ -270,11 +270,11 @@ static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
   pos[0] = PieceTab[walk][1];
   if (pos[0]!=' ')
   {
-    pos[0] = toupper(pos[0]);
+    pos[0] = (char)toupper(pos[0]);
     --pos;
   }
 
-  pos[0] = toupper(PieceTab[walk][0]);
+  pos[0] = (char)toupper(PieceTab[walk][0]);
   --pos;
 
   return pos;
@@ -579,7 +579,9 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  indentation += protocol_fprintf(stdout,"%s","  ");
+  // TODO these printf functions may fail
+
+  indentation += (unsigned int)protocol_fprintf(stdout,"%s","  ");
   {
     move_effect_journal_index_type const base = move_effect_journal_base[ply_diagram_setup];
     move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
@@ -588,17 +590,17 @@ void output_plaintext_write_stipulation(slice_index si)
     for (i = base; i<top; ++i)
       if (move_effect_journal[i].type==move_effect_input_stipulation)
       {
-        indentation += protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += (unsigned int)protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
       else if (move_effect_journal[i].type==move_effect_input_sstipulation)
       {
-        indentation += protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += (unsigned int)protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
   }
 
-  indentation += WriteOptions(&being_solved);
+  indentation += (unsigned int)WriteOptions(&being_solved);
 
   pipe_solve_delegate(si);
 

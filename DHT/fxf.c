@@ -325,7 +325,7 @@ void *fxfAlloc(size_t size) {
   }
   else {
     /* we have to allocate a new piece */
-    size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
+    size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
     TMDBG(printf(" sizeCurrentSeg:%lu",sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
@@ -442,7 +442,7 @@ size_t fxfTotal(void) {
 
 void fxfInfo(FILE *f) {
   size_t const one_kilo = 1<<10;
-  size_t const sizeCurrentSeg = (TopFreePtr-BotFreePtr);
+  size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
   size_t const sizeArenaUsed =
           GlobalSize-sizeCurrentSeg
 #if defined(SEGMENTED)

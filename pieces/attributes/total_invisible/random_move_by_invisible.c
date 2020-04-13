@@ -1737,7 +1737,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
   {
     PieceIdType const id = GetPieceId(being_solved.spec[*s]);
     ply const save_when = motivation[id].first.acts_when;
-    unsigned int const save_counter = record_decision_counter;
+    unsigned long const save_counter = record_decision_counter;
     decision_levels_type const save_levels = decision_levels[id];
 
     motivation[id].first.acts_when = nbply;

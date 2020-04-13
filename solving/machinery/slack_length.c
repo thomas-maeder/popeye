@@ -2,6 +2,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/structure_traversal.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
 
 stip_length_type slack_length = 0;
@@ -9,7 +10,7 @@ stip_length_type slack_length = 0;
 
 static void adjust_branch(slice_index si, stip_structure_traversal *st)
 {
-  int const * const diff = st->param;
+  unsigned int const * const diff = st->param;
 
   stip_traverse_structure_children(si,st);
 
@@ -19,12 +20,14 @@ static void adjust_branch(slice_index si, stip_structure_traversal *st)
 
 void adjust_slack_length(slice_index si)
 {
-  int diff = previous_move_has_solved-slack_length;
+  unsigned int diff = previous_move_has_solved-slack_length;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(previous_move_has_solved>=slack_length);
 
   stip_structure_traversal_init(&st,&diff);
   stip_structure_traversal_override_by_structure(&st,

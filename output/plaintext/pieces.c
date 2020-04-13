@@ -103,8 +103,8 @@ void AppendSquare(char *List, square s)
   char    add[4];
 
   add[0]= ' ';
-  add[1]= 'a' - nr_files_on_board + s%onerow;
-  add[2]= '1' - nr_rows_on_board + s/onerow;
+  add[1]= (char)('a' - nr_files_on_board + s%onerow);
+  add[2]= (char)('1' - nr_rows_on_board + s/onerow);
   add[3]= '\0';
   strcat(List, add);
 }

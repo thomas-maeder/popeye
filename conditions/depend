@@ -5259,7 +5259,8 @@ conditions/grid$(OBJ_SUFFIX): conditions/grid.c conditions/grid.h \
  stipulation/slice_insertion.h solving/move_generator.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/fork.h solving/pipe.h
+ solving/temporary_hacks.h solving/fork.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/grid.h:
 
@@ -5340,6 +5341,8 @@ solving/temporary_hacks.h:
 solving/fork.h:
 
 solving/pipe.h:
+
+debugging/assert.h:
 conditions/patrol$(OBJ_SUFFIX): conditions/patrol.c conditions/patrol.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

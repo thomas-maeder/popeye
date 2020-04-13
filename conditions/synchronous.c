@@ -12,7 +12,7 @@
  */
 mummer_length_type synchronous_measure_length(void)
 {
-  int result;
+  mummer_length_type result;
   ply const parent = parent_ply[nbply];
   square const sq_parent_departure = move_effect_journal_get_departure_square(parent);
 
@@ -47,7 +47,7 @@ mummer_length_type synchronous_measure_length(void)
  */
 mummer_length_type antisynchronous_measure_length(void)
 {
-  int result;
+  mummer_length_type result;
   ply const parent = parent_ply[nbply];
   square const sq_parent_departure = move_effect_journal_get_departure_square(parent);
 

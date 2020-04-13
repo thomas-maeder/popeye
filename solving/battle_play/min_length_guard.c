@@ -10,8 +10,9 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
+#include <stdlib.h>
 
 /* Allocate a STMinLengthGuard slice
  * @param length maximum number of half-moves of slice (+ slack)
@@ -86,8 +87,19 @@ static void remember_defense_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->defense_length = SLICE_U(si).branch.length+delta;
-  state->defense_min_length = SLICE_U(si).branch.min_length+delta;
+  // TODO there is an integer underflow in some structured stipulations
+  // for some reason, it doesn't seem to harm, but we should
+  // eventually get rid of it and activate these assertions:
+
+//  // TODO does this overflow work on all implementations?
+//  assert(abs(delta)<=1);
+//  assert(SLICE_U(si).branch.length>0 || delta>=0);
+  state->defense_length = SLICE_U(si).branch.length+(unsigned int)delta;
+
+//  // TODO does this overflow work on all implementations?
+//  assert(abs(delta)<=1);
+//  assert(SLICE_U(si).branch.min_length>0 || delta>=0);
+  state->defense_min_length = SLICE_U(si).branch.min_length+(unsigned int)delta;
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -185,6 +197,18 @@ void solving_insert_min_length(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMove,
                                            &insert_nested_min_length);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchForced,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchTester,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STConstraintTester,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STConstraintSolver,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -22,7 +22,7 @@
 #include <string.h>
 
 static FILE *twinning = 0;
-static int twinning_pos = 0;
+static unsigned int twinning_pos = 0;
 
 static move_effect_journal_index_type last_horizon;
 
@@ -38,18 +38,18 @@ void LaTeXWriteOptions(void)
   {
     if (OptFlag[duplex])
     {
-      twinning_pos += fprintf(twinning, "%s", OptTab[duplex]);
-      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", OptTab[duplex]);
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\newline}");
     }
     else if (OptFlag[halfduplex])
     {
-      twinning_pos += fprintf(twinning, "%s", OptTab[halfduplex]);
-      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", OptTab[halfduplex]);
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\newline}");
     }
     if (OptFlag[quodlibet])
     {
-      twinning_pos += fprintf(twinning, "%s", OptTab[quodlibet]);
-      twinning_pos += fprintf(twinning, "%s", "{\\newline}");
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", OptTab[quodlibet]);
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\newline}");
     }
   }
 }
@@ -89,14 +89,14 @@ void LaTeXShutdownTwinning(void)
 static void BeginTwinning(unsigned int twin_number)
 {
   if (twin_number-twin_a<='z'-'a')
-    twinning_pos += fprintf(twinning, "%c) ", 'a'+twin_number-twin_a);
+    twinning_pos += (unsigned int)fprintf(twinning, "%c) ", 'a'+twin_number-twin_a);
   else
-    twinning_pos += fprintf(twinning, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
 static void EndTwinning(void)
 {
-  twinning_pos += fprintf(twinning,"%s","{\\newline}");
+  twinning_pos += (unsigned int)fprintf(twinning,"%s","{\\newline}");
 }
 
 static boolean find_removal(move_effect_journal_index_type base,
@@ -129,12 +129,12 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
   switch (rank)
   {
     case condition_first:
-      twinning_pos += fprintf(twinning, "%s", CondLine);
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", CondLine);
       break;
 
     case condition_subsequent:
-      twinning_pos += fprintf(twinning, "%s", ", ");
-      twinning_pos += fprintf(twinning, "%s", CondLine);
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", ", ");
+      twinning_pos += (unsigned int)fprintf(twinning, "%s", CondLine);
       break;
 
     case condition_end:
@@ -163,7 +163,7 @@ static void WritePieceCreation(move_effect_journal_index_type base,
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  twinning_pos += fprintf(twinning,
+  twinning_pos += (unsigned int)fprintf(twinning,
           "%s\\%c%s %c%c",
           find_removal(base,curr,entry->u.piece_addition.added.on) ? "" : "+",
           is_piece_neutral(entry->u.piece_addition.added.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.added.flags, White) ? 'w' : 's'),
@@ -180,13 +180,13 @@ static boolean WritePieceRemoval(move_effect_journal_index_type curr)
     return false;
   else
   {
-    twinning_pos += fprintf(twinning, "%s", " --");
-    twinning_pos += fprintf(twinning, "%s",
-           is_piece_neutral(entry->u.piece_removal.flags) ? "\\n" : (TSTFLAG(entry->u.piece_removal.flags, White) ? "\\w" : "\\s"));
-    twinning_pos += fprintf(twinning, "%s", LaTeXWalk(entry->u.piece_removal.walk));
-    twinning_pos += fprintf(twinning, " %c%c",
-            'a'-nr_files_on_board+entry->u.piece_removal.on%onerow,
-            '1'-nr_rows_on_board+entry->u.piece_removal.on/onerow);
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", " --");
+    twinning_pos += (unsigned int)fprintf(twinning, "%s",
+                                          is_piece_neutral(entry->u.piece_removal.flags) ? "\\n" : (TSTFLAG(entry->u.piece_removal.flags, White) ? "\\w" : "\\s"));
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", LaTeXWalk(entry->u.piece_removal.walk));
+    twinning_pos += (unsigned int)fprintf(twinning, " %c%c",
+                                          'a'-nr_files_on_board+entry->u.piece_removal.on%onerow,
+                                          '1'-nr_rows_on_board+entry->u.piece_removal.on/onerow);
     return true;
   }
 }
@@ -195,37 +195,37 @@ static void WritePieceMovement(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  twinning_pos += fprintf(twinning,
-                          "\\%c%s %c%c",
-                          is_piece_neutral(entry->u.piece_movement.movingspec) ? 'n' : (TSTFLAG(entry->u.piece_movement.movingspec, White) ? 'w' : 's'),
-                              LaTeXWalk(entry->u.piece_movement.moving),
-                              'a'-nr_of_slack_files_left_of_board+entry->u.piece_movement.from%onerow,
-                              '1'-nr_of_slack_rows_below_board+entry->u.piece_movement.from/onerow);
+  twinning_pos += (unsigned int)fprintf(twinning,
+                                        "\\%c%s %c%c",
+                                        is_piece_neutral(entry->u.piece_movement.movingspec) ? 'n' : (TSTFLAG(entry->u.piece_movement.movingspec, White) ? 'w' : 's'),
+                                            LaTeXWalk(entry->u.piece_movement.moving),
+                                            'a'-nr_of_slack_files_left_of_board+entry->u.piece_movement.from%onerow,
+                                            '1'-nr_of_slack_rows_below_board+entry->u.piece_movement.from/onerow);
 
-  twinning_pos += fprintf(twinning, "%s", "{\\ra}");
+  twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\ra}");
 
-  twinning_pos += fprintf(twinning, "%c%c",
-                          'a'-nr_files_on_board+entry->u.piece_movement.to%onerow,
-                          '1'-nr_rows_on_board+entry->u.piece_movement.to/onerow);
+  twinning_pos += (unsigned int)fprintf(twinning, "%c%c",
+                                        'a'-nr_files_on_board+entry->u.piece_movement.to%onerow,
+                                        '1'-nr_rows_on_board+entry->u.piece_movement.to/onerow);
 }
 
 static void WritePieceExchange(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  twinning_pos += fprintf(twinning, "\\%c%s %c%c",
-          is_piece_neutral(entry->u.piece_exchange.fromflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.fromflags, White) ? 'w' : 's'),
-          LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.to)),
-          'a'-nr_of_slack_files_left_of_board+entry->u.piece_exchange.from%onerow,
-          '1'-nr_of_slack_rows_below_board+entry->u.piece_exchange.from/onerow);
+  twinning_pos += (unsigned int)fprintf(twinning, "\\%c%s %c%c",
+                                        is_piece_neutral(entry->u.piece_exchange.fromflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.fromflags, White) ? 'w' : 's'),
+                                            LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.to)),
+                                            'a'-nr_of_slack_files_left_of_board+entry->u.piece_exchange.from%onerow,
+                                            '1'-nr_of_slack_rows_below_board+entry->u.piece_exchange.from/onerow);
 
-  twinning_pos += fprintf(twinning, "%s", "{\\lra}");
+  twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\lra}");
 
-  twinning_pos += fprintf(twinning,  "\\%c%s %c%c",
-          is_piece_neutral(entry->u.piece_exchange.toflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.toflags, White) ? 'w' : 's'),
-          LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.from)),
-          'a'-nr_files_on_board+entry->u.piece_exchange.to%onerow,
-          '1'-nr_rows_on_board+entry->u.piece_exchange.to/onerow);
+  twinning_pos += (unsigned int)fprintf(twinning,  "\\%c%s %c%c",
+                                        is_piece_neutral(entry->u.piece_exchange.toflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.toflags, White) ? 'w' : 's'),
+                                            LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.from)),
+                                            'a'-nr_files_on_board+entry->u.piece_exchange.to%onerow,
+                                            '1'-nr_rows_on_board+entry->u.piece_exchange.to/onerow);
 }
 
 static void WriteBoardTransformation(move_effect_journal_index_type curr)
@@ -235,25 +235,25 @@ static void WriteBoardTransformation(move_effect_journal_index_type curr)
   switch (entry->u.board_transformation.transformation)
   {
     case rot90:
-      twinning_pos += fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "90");
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "90");
       break;
     case rot180:
-      twinning_pos += fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "180");
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "180");
       break;
     case rot270:
-      twinning_pos += fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "270");
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s $%s^\\circ$", TwinningTab[TwinningRotate], "270");
       break;
     case mirra1h1:
-      twinning_pos += fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h1]);
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h1]);
       break;
     case mirra1a8:
-      twinning_pos += fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1a8]);
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1a8]);
       break;
     case mirra1h8:
-      twinning_pos += fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h8]);
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h8]);
       break;
     case mirra8h1:
-      twinning_pos += fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora8h1]);
+      twinning_pos += (unsigned int)fprintf(twinning,  "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora8h1]);
       break;
 
     default:
@@ -266,12 +266,12 @@ static void WriteShift(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  twinning_pos += fprintf(twinning,  "%s %c%c$\\Rightarrow$%c%c",
-          TwinningTab[TwinningShift],
-          'a'-nr_files_on_board+entry->u.twinning_shift.from%onerow,
-          '1'-nr_rows_on_board+entry->u.twinning_shift.from/onerow,
-          'a'-nr_files_on_board+entry->u.twinning_shift.to%onerow,
-          '1'-nr_rows_on_board+entry->u.twinning_shift.to/onerow);
+  twinning_pos += (unsigned int)fprintf(twinning,  "%s %c%c$\\Rightarrow$%c%c",
+                                        TwinningTab[TwinningShift],
+                                        'a'-nr_files_on_board+entry->u.twinning_shift.from%onerow,
+                                        '1'-nr_rows_on_board+entry->u.twinning_shift.from/onerow,
+                                        'a'-nr_files_on_board+entry->u.twinning_shift.to%onerow,
+                                        '1'-nr_rows_on_board+entry->u.twinning_shift.to/onerow);
 }
 
 static void WriteStip(move_effect_journal_index_type curr)
@@ -281,13 +281,13 @@ static void WriteStip(move_effect_journal_index_type curr)
   twinning_pos += WriteStipulation(twinning,stipulation);
 
   if (OptFlag[solapparent])
-    twinning_pos += fprintf(twinning, "%s", "*");
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", "*");
 
   if (OptFlag[whitetoplay])
   {
     char temp[10];        /* increased due to buffer overflow */
     sprintf(temp, " %c{\\ra}",tolower(*PieSpTab[White]));
-    twinning_pos += fprintf(twinning, "%s", temp);
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", temp);
   }
 }
 
@@ -298,28 +298,28 @@ static void WriteSStip(move_effect_journal_index_type curr)
   twinning_pos += WriteSStipulation(twinning,stipulation);
 
   if (OptFlag[solapparent])
-    twinning_pos += fprintf(twinning, "%s", "*");
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", "*");
 
   if (OptFlag[whitetoplay])
   {
     char temp[10];        /* increased due to buffer overflow */
     sprintf(temp, " %c{\\ra}",tolower(*PieSpTab[White]));
-    twinning_pos += fprintf(twinning, "%s", temp);
+    twinning_pos += (unsigned int)fprintf(twinning, "%s", temp);
   }
 }
 
 static void WritePolish(move_effect_journal_index_type curr)
 {
-  twinning_pos += fprintf(twinning, "%s", TwinningTab[TwinningPolish]);
+  twinning_pos += (unsigned int)fprintf(twinning, "%s", TwinningTab[TwinningPolish]);
 }
 
 static void WriteSubstitute(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  twinning_pos += fprintf(twinning, "{\\w%s} $\\Rightarrow$ \\w%s",
-          LaTeXWalk(entry->u.piece_walk_change.from),
-          LaTeXWalk(entry->u.piece_walk_change.to));
+  twinning_pos += (unsigned int)fprintf(twinning, "{\\w%s} $\\Rightarrow$ \\w%s",
+                                        LaTeXWalk(entry->u.piece_walk_change.from),
+                                        LaTeXWalk(entry->u.piece_walk_change.to));
 }
 
 static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
@@ -344,7 +344,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
     if (base<top)
     {
       if (continued)
-        twinning_pos += fprintf(twinning, "%s", "+");
+        twinning_pos += (unsigned int)fprintf(twinning, "%s", "+");
 
       BeginTwinning(twin_number);
 
@@ -353,7 +353,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
         {
           if (written_on_last_entry)
           {
-            twinning_pos += fprintf(twinning, "%s", ", ");
+            twinning_pos += (unsigned int)fprintf(twinning, "%s", ", ");
             written_on_last_entry = false;
           }
 

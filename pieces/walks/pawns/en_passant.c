@@ -19,7 +19,7 @@ square en_passant_multistep_over[maxply+1];
 
 unsigned int en_passant_top[maxply+1];
 
-unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+square en_passant_retro_squares[en_passant_retro_capacity];
 unsigned int en_passant_nr_retro_squares;
 
 /* Determine whether the retro information concernng en passant is consistent

@@ -18,7 +18,7 @@ enum
   en_passant_retro_min_squares = 3,
   en_passant_retro_capacity = 4
 };
-extern unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+extern square en_passant_retro_squares[en_passant_retro_capacity];
 extern unsigned int en_passant_nr_retro_squares;
 
 /* Determine whether the retro information concernng en passant is consistent
