@@ -58,9 +58,7 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
     stip_traverse_structure_children_pipe(si,st);
     next_starter = SLICE_STARTER(next);
     if (next_starter!=no_side)
-      SLICE_STARTER(si) = (next_starter==no_side
-                            ? no_side
-                            : advers(next_starter));
+      SLICE_STARTER(si) = advers(next_starter);
   }
 
   TraceValue("->%u",SLICE_STARTER(si));
