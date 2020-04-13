@@ -1141,7 +1141,7 @@ static boolean is_viable_capturer(PieceIdType id)
     /* piece was captured or merged into a capturer from regular play */
     result = false;
   }
-  else if ((motivation[id].last.acts_when==nbply || motivation[id].last.acts_when==nbply)
+  else if (motivation[id].last.acts_when==nbply
            && motivation[id].last.purpose!=purpose_interceptor)
   {
     /* piece is active for another purpose */
