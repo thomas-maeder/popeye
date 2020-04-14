@@ -432,7 +432,7 @@ static void update_nr_taboos_for_current_move_in_ply(int delta)
   TraceEOL();
 
   if (sq_departure==move_by_invisible
-      || sq_departure>=capture_by_invisible)
+      || sq_departure==capture_by_invisible)
   {
     /* no taboos! */
   }
@@ -633,7 +633,7 @@ square find_taboo_violation(void)
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
 
       assert(sq_departure!=move_by_invisible);
-      assert(sq_departure<capture_by_invisible);
+      assert(sq_departure!=capture_by_invisible);
 
       if (is_rider(walk))
         result = find_taboo_violation_rider(movement,walk);

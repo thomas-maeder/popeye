@@ -545,7 +545,7 @@ static void taint_history_of_placed_piece(move_effect_journal_index_type idx)
         if (id==GetPieceId(move_effect_journal[idx].u.piece_addition.added.flags))
         {
           assert(pos==move_effect_journal[idx].u.piece_addition.added.on);
-          if (pos>=capture_by_invisible)
+          if (pos==capture_by_invisible || pos==move_by_invisible)
           {
             TraceWalk(move_effect_journal[idx].u.piece_addition.added.walk);
             TraceEOL();

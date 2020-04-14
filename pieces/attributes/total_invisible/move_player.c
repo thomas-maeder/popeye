@@ -118,7 +118,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
         solve_result = this_move_is_illegal;
       static_consumption.move_after_victing[side] = save_move_after_victim;
     }
-    else if (sq_departure>=capture_by_invisible)
+    else if (sq_departure==capture_by_invisible)
     {
       PieceIdType const id_capturer = initialise_motivation(purpose_capturer,sq_departure,
                                                             purpose_capturer,sq_departure);

@@ -52,7 +52,7 @@ static void done_intercepting_illegal_checks(void)
     if (sq_departure==move_by_invisible
         && sq_arrival==move_by_invisible)
       flesh_out_random_move_by_invisible();
-    else if (sq_departure>=capture_by_invisible
+    else if (sq_departure==capture_by_invisible
              && is_on_board(sq_arrival))
       flesh_out_capture_by_invisible();
     else
