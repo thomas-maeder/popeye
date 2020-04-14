@@ -453,19 +453,19 @@ static void update_nr_taboos_for_current_move_in_ply(int delta)
     {
       if (walk==King
           && move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+      {
+        move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+        move_effect_journal_index_type idx;
+
+        for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
+          if (move_effect_journal[idx].type==move_effect_piece_movement
+              && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
+            update_taboo_piece_movement_castling(delta,idx);
+
         update_taboo_piece_movement_castling(delta,movement);
+      }
       else
         update_taboo_piece_movement_leaper(delta,movement);
-    }
-
-    {
-      move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-      move_effect_journal_index_type idx;
-
-      for (idx = base+move_effect_journal_index_offset_other_effects; idx!=top; ++idx)
-        if (move_effect_journal[idx].type==move_effect_piece_movement
-            && move_effect_journal[idx].reason==move_effect_reason_castling_partner)
-          update_taboo_piece_movement_castling(delta,idx);
     }
 
     adjust_taboo(sq_departure,delta,nbply+1,White);
