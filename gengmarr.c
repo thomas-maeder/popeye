@@ -20,7 +20,7 @@ static void write_generation_info(FILE *dest, char const *argv0)
   fprintf(dest,
           "This file is generated using the program %s -- DON'T CHANGE.\n",
           argv0);
-  fprintf(dest,"%s was compiled from " __FILE__ "\n",argv0,__FILE__);
+  fprintf(dest,"%s was compiled from " __FILE__ "\n",argv0);
   fputs("***********************************************/\n",dest);
 }
 
