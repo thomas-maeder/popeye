@@ -48,7 +48,10 @@ int main( )
     	info_to_enter= (struct info*)malloc(sizeof(struct info));
         if (!info_to_enter) {
             (void)fprintf(stderr,
-                         "no memory to store age = %d, room = %d; giving up\n",
+                         "no memory to store key = %s, "
+                         "age = %d, "
+                         "room = %d; giving up\n",
+                         string_to_enter,
                          Age,
                          Room);
             break;
