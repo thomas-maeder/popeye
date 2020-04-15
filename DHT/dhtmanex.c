@@ -47,7 +47,8 @@ int main( )
     	/* put info in structure */
     	info_to_enter= (struct info*)malloc(sizeof(struct info));
         if (!info_to_enter) {
-            (void)fprintf(stderr, "no memory to store age = %d, room = %d; giving up\n",
+            (void)fprintf(stderr,
+                         "no memory to store age = %d, room = %d; giving up\n",
                          Age,
                          Room);
             break;
