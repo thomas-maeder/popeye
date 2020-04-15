@@ -69,6 +69,8 @@ solution finished.
 
 input-error:wrong integer
 offending item: -1
+input-error:offending item: 
+offending item: -1
 
 erroneous maxflight numbers weren't completely ignored
 

@@ -130,11 +130,6 @@ char *ParseOpt(slice_index start)
     TraceValue("%u",indexx);
     TraceEOL();
 
-    if (indexx>OptCount)
-    {
-      output_plaintext_input_error_message(OptNotUniq);
-      continue;
-    }
     OptFlag[indexx]= true;
     OptCnt++;
 
@@ -384,9 +379,14 @@ char *ParseOpt(slice_index start)
         break;
     }
 
-    if (indexx<=OptCount)
+    if (indexx==OptCount)
+      break;
+    else
       tok = ReadNextTokStr();
   }
+
+  if (indexx>OptCount)
+    output_plaintext_input_error_message(OptNotUniq);
 
   if (OptCnt==0)
     output_plaintext_input_error_message(UnrecOption);
