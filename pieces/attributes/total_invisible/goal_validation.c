@@ -59,6 +59,8 @@ static boolean make_a_flight(void)
     TraceValue("%x",flags);
     TraceEOL();
 
+    assert(is_on_board(king_pos));
+
     remember_taboo_on_square(king_pos,White,top_ply_of_regular_play);
     remember_taboo_on_square(king_pos,Black,top_ply_of_regular_play);
     empty_square(king_pos);
@@ -67,7 +69,7 @@ static boolean make_a_flight(void)
       for (dir_horiz = dir_left; dir_horiz<=dir_right; dir_horiz += dir_right)
       {
         square const flight = king_pos+dir_vert+dir_horiz;
-        if (flight!=king_pos && make_flight(side_in_check,flight))
+        if (flight!=king_pos && is_on_board(flight) && make_flight(side_in_check,flight))
         {
           result = true;
           break;

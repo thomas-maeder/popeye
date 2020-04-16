@@ -36,7 +36,7 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
       result = true;
     else if (move_effect_journal[movement].u.piece_movement.from==capture_by_invisible)
     {
-      int const square_diff = from-move_effect_journal[movement].u.piece_movement.to;
+      int const square_diff = move_effect_journal[movement].u.piece_movement.to-from;
       if (CheckDir(Queen)[square_diff]!=0 || CheckDir(Knight)[square_diff]!=0)
         result = true;
     }
@@ -64,6 +64,8 @@ boolean was_taboo(square s, Side side)
   TraceSquare(s);
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
+
+  assert(is_on_board(s));
 
   for (ply = nbply-1; ply>ply_retro_move; --ply)
   {
@@ -172,6 +174,8 @@ boolean will_be_taboo(square s, Side side)
   TraceEOL();
 
   assert(nbply<=top_ply_of_regular_play+1);
+
+  assert(is_on_board(s));
 
   if (nbply<=top_ply_of_regular_play)
     while (true)

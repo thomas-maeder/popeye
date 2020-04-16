@@ -421,6 +421,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
+  assert(is_on_board(sq_arrival));
   assert(!will_be_taboo(sq_arrival,trait[nbply]));
 
   move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -616,6 +617,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
   {
     square const sq_singlestep = move_effect_journal[movement].u.piece_movement.from+dir;
     TraceSquare(sq_singlestep);TraceEOL();
+
     if (is_square_empty(sq_singlestep))
     {
       if (!will_be_taboo(sq_singlestep,side))
@@ -650,7 +652,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
     {
       square const sq_arrival = sq_singlestep+dir_right;
 
-      if (!will_be_taboo(sq_arrival,trait[nbply]))
+      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         forward_accidental_capture_by_invisible(walk_moving);
@@ -661,7 +663,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
     {
       square const sq_arrival = sq_singlestep+dir_left;
 
-      if (!will_be_taboo(sq_arrival,trait[nbply]))
+      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         forward_accidental_capture_by_invisible(walk_moving);
@@ -755,27 +757,36 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
           forward_accidental_capture_by_invisible(walk_moving);
         break;
       }
+
       if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
         break;
     }
+
     if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
       break;
   }
 
-  if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
+  if (side_in_check_to_be_intercepted!=no_side
+      && check_vector_to_be_intercepted!=0
+      && being_solved.king_square[side_in_check_to_be_intercepted]!=initsquare)
   {
     int const dir = vec[check_vector_to_be_intercepted];
     square sq_arrival = being_solved.king_square[side_in_check_to_be_intercepted]+dir;
 
-    do
+    if (is_square_empty(sq_arrival))
     {
-      if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
-        consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
-      sq_arrival += dir;
-    } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
+      do
+      {
+        if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
+          consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
+        sq_arrival += dir;
+      } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
 
-    if (TSTFLAG(sq_arrival,advers(trait[nbply])) && can_decision_level_be_continued())
-      consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
+      if (is_on_board(sq_arrival)
+          && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+          && can_decision_level_be_continued())
+        consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -796,6 +807,8 @@ static void consider_forward_random_move_by_invisible_leaper_to(square sq_arriva
   TraceSquare(sq_arrival);
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
+
+  assert(is_on_board(sq_arrival));
 
   if (CheckDir(check_dir_index)[diff]==diff)
   {
@@ -836,7 +849,8 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    if (!will_be_taboo(sq_arrival,trait[nbply]))
+
+    if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
@@ -859,6 +873,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
 
   if (side_in_check_to_be_intercepted!=no_side
       && check_vector_to_be_intercepted!=0
+      && being_solved.king_square[side_in_check_to_be_intercepted]!=initsquare
       && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
   {
     int const dir = vec[check_vector_to_be_intercepted];
@@ -874,7 +889,8 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
       sq_arrival += dir;
     } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
 
-    if (TSTFLAG(sq_arrival,advers(trait[nbply])) && can_decision_level_be_continued())
+    if (TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+        && can_decision_level_be_continued())
       consider_forward_random_move_by_invisible_leaper_to(sq_arrival,walk_moving);
   }
 
@@ -1002,9 +1018,10 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
-    if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                        vec_bishop_start,vec_bishop_end,
-                                        Bishop))
+    if (!(king_pos!=initsquare
+          && is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_bishop_start,vec_bishop_end,
+                                            Bishop)))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Bishop];
 
@@ -1017,9 +1034,10 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
-    if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                        vec_rook_start,vec_rook_end,
-                                        Rook))
+    if (!(king_pos!=initsquare
+          && is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_rook_start,vec_rook_end,
+                                            Rook)))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Rook];
 
@@ -1032,9 +1050,10 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
-    if (!is_rider_check_uninterceptable(side_playing,king_pos,
-                                        vec_queen_start,vec_queen_end,
-                                        Queen))
+    if (!(king_pos!=initsquare
+          && is_rider_check_uninterceptable(side_playing,king_pos,
+                                            vec_queen_start,vec_queen_end,
+                                            Queen)))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Queen];
 
@@ -1233,6 +1252,8 @@ static void done_backward_random_move_by_specific_invisible_to(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
+  assert(is_on_board(sq_departure));
+
   if (!was_taboo(sq_departure,side_moving))
   {
     Side const side_attacked = advers(side_moving);
@@ -1249,7 +1270,7 @@ static void done_backward_random_move_by_specific_invisible_to(void)
                   move_effect_journal[movement].u.piece_movement.moving,
                   move_effect_journal[movement].u.piece_movement.movingspec);
 
-    if (!is_square_uninterceptably_attacked(side_attacked,king_pos))
+    if (king_pos==initsquare || !is_square_uninterceptably_attacked(side_attacked,king_pos))
     {
       motivation_type const save_motivation = motivation[id];
 

@@ -362,6 +362,8 @@ static void adapt_pre_capture_effect(void)
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       square const to = move_effect_journal[movement].u.piece_movement.to;
 
+      assert(is_on_board(to));
+
       if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
       {
         if (is_square_empty(to))
@@ -648,7 +650,8 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
   remember_taboos_for_current_move();
 
   /* necessary for detecting checks by pawns and leapers */
-  if (is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
+  if (being_solved.king_square[trait[nbply]]!=initsquare
+      && is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
     solve_result = previous_move_is_illegal;
   else
   {

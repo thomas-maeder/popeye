@@ -29,6 +29,7 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
 
   {
     square s = king_pos+vec[k];
+
     while (is_square_empty(s)
            && (is_taboo(s,side_checking) || was_taboo(s,side_checking) || will_be_taboo(s,side_checking)))
       s += vec[k];
@@ -211,7 +212,8 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
 
   top_ply_of_regular_play = nbply;
 
-  if (is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
+  if (being_solved.king_square[trait[nbply]]!=initsquare
+      && is_square_uninterceptably_attacked(trait[nbply],being_solved.king_square[trait[nbply]]))
     solve_result = previous_move_is_illegal;
   else if (nbply>ply_retro_move)
   {

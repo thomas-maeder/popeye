@@ -91,6 +91,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
   TraceFunctionParam("%u",inserted_fleshed_out);
   TraceFunctionParamListEnd();
 
+  assert(is_on_board(s));
+
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {
     dynamic_consumption_type const save_consumption = current_consumption;
@@ -577,6 +579,8 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
   TraceEnumerator(Side,side);
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
+
+  assert(is_on_board(s));
 
   if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
   {

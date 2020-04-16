@@ -26,6 +26,8 @@ static void place_mating_piece_attacker(Side side_attacking,
   TraceWalk(walk);
   TraceFunctionParamListEnd();
 
+  assert(is_on_board(s));
+
   /* only now that we have decided not to use an accidental attack! */
   if (allocate_flesh_out_unplaced(side_attacking))
   {

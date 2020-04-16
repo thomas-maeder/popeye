@@ -30,6 +30,8 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
 
   TraceValue("%u",id_inserted);TraceEOL();
 
+  assert(is_on_board(sq_departure));
+
   if (was_taboo(sq_departure,side_playing) || is_taboo(sq_departure,side_playing))
   {
     record_decision_outcome("%s","capturer can't be placed on taboo square");
@@ -48,7 +50,7 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
     ++being_solved.number_of_pieces[side_playing][walk_capturing];
     occupy_square(sq_departure,walk_capturing,flags_inserted);
 
-    if (is_square_uninterceptably_attacked(side_in_check,king_pos))
+    if (king_pos!=initsquare && is_square_uninterceptably_attacked(side_in_check,king_pos))
     {
       record_decision_outcome("%s","capturer would deliver uninterceptable check");
       REPORT_DEADEND;
@@ -189,7 +191,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
   ++being_solved.number_of_pieces[trait[nbply]][walk_capturing];
   replace_walk(sq_departure,walk_capturing);
 
-  if (is_square_uninterceptably_attacked(side_in_check,king_pos))
+  if (king_pos!=initsquare && is_square_uninterceptably_attacked(side_in_check,king_pos))
   {
     record_decision_outcome("%s","uninterceptable check from the attempted departure square");
     REPORT_DEADEND;
