@@ -11,7 +11,7 @@
 
 #include <stdlib.h>
 
-static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare];
+static unsigned int nr_taboos_for_current_move_in_ply[maxply+1][nr_sides][maxsquare+1];
 
 static boolean is_move_by_invisible(square from, Side side, ply ply)
 {
@@ -106,6 +106,8 @@ boolean was_taboo_forever(square s, Side side)
     TraceValue("%u",ply);
     TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
     TraceEOL();
+    assert(s>=0);
+    assert(s<=maxsquare);
     if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
     {
       result = true;
