@@ -539,11 +539,15 @@ static unsigned int capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_in
   // TODO en passant capture
 
   TraceSquare(sq_departure);TraceEOL();
-  if (!TSTFLAG(sq_spec(sq_departure),basesq)
-      && !TSTFLAG(sq_spec(sq_departure),promsq))
+
+  if (is_on_board(sq_departure))
   {
-    if (is_square_empty(sq_departure))
-      result += capture_by_invisible_inserted_on(Pawn,sq_departure);
+      if (!TSTFLAG(sq_spec(sq_departure),basesq)
+        && !TSTFLAG(sq_spec(sq_departure),promsq))
+    {
+      if (is_square_empty(sq_departure))
+        result += capture_by_invisible_inserted_on(Pawn,sq_departure);
+    }
   }
 
   TraceFunctionExit(__func__);
