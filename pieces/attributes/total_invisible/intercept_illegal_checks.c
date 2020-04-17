@@ -236,11 +236,11 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
                                 unsigned int nr_check_vectors,
                                 boolean inserted_fleshed_out)
 {
-  Side const side_in_check = trait[nbply-1];
-  square const king_pos = being_solved.king_square[side_in_check];
-  vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
-  numvec const dir = vec[kcurr];
-  unsigned long const save_counter = record_decision_counter;
+  Side side_in_check;
+  square king_pos;
+  vec_index_type kcurr;
+  numvec dir;
+  unsigned long save_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
@@ -248,6 +248,12 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
+
+  side_in_check = trait[nbply-1];
+  king_pos = being_solved.king_square[side_in_check];
+  kcurr = check_vectors[nr_check_vectors-1];
+  dir = vec[kcurr];
+  save_counter = record_decision_counter;
 
   place_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir,inserted_fleshed_out);
 
@@ -649,17 +655,23 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                     unsigned int nr_check_vectors)
 {
-  Side const side_in_check = trait[nbply-1];
-  square const king_pos = being_solved.king_square[side_in_check];
-  vec_index_type const kcurr = check_vectors[nr_check_vectors-1];
-  numvec const dir = vec[kcurr];
-  unsigned long const save_counter = record_decision_counter;
+  Side side_in_check;
+  square king_pos;
+  vec_index_type kcurr;
+  numvec dir;
+  unsigned long save_counter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
+
+  side_in_check = trait[nbply-1];
+  king_pos = being_solved.king_square[side_in_check];
+  kcurr = check_vectors[nr_check_vectors-1];
+  dir = vec[kcurr];
+  save_counter = record_decision_counter;
 
   place_non_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir);
 

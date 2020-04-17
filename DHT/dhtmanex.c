@@ -46,6 +46,16 @@ int main( )
     while (scanf("%s%d%d", string_to_enter, &Age, &Room) != EOF) {
     	/* put info in structure */
     	info_to_enter= (struct info*)malloc(sizeof(struct info));
+        if (!info_to_enter) {
+            (void)fprintf(stderr,
+                         "no memory to store key = %s, "
+                         "age = %d, "
+                         "room = %d; giving up\n",
+                         string_to_enter,
+                         Age,
+                         Room);
+            break;
+        }
     	info_to_enter->age= Age;
     	info_to_enter->room= Room;
     	/* the string will be duplicated the info not */
