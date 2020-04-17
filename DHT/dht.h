@@ -18,10 +18,10 @@ typedef struct {
   dhtConstValue	Key;
   dhtConstValue	Data;
 } dhtElement;
-#define dhtNilElement	(dhtElement *)0
+#define dhtNilElement	((dhtElement *)0)
 
 struct dht;
-#define dhtNilHashTable			(struct dht *)0
+#define dhtNilHashTable			((struct dht *)0)
 
 /* procedures */
 struct dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,

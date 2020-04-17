@@ -45,9 +45,9 @@ int dhtDebug= 0;
 #endif /*DEBUG_DHT*/
 
 #if !defined(New)
-#  define New(type)    (type *)fxfAlloc(sizeof(type))
-#  define nNew(n,type) (type *)fxfAlloc((n)*sizeof(type))
-#  define Nil(type)    (type *)0
+#  define New(type)    ((type *)fxfAlloc(sizeof(type)))
+#  define nNew(n,type) ((type *)fxfAlloc((n)*sizeof(type))) /* TODO: Should we worry about the multiplication overflowing? */
+#  define Nil(type)    ((type *)0)
 #endif /*New*/
 
 /* The next three values are those you may want to change */
@@ -70,7 +70,7 @@ int dhtDebug= 0;
 #define DIR_SIZE     (PTR_PER_DIR*sizeof(void *))
 #define DIR_IDX_MASK (PTR_PER_DIR-1)
 
-#define DIR_INDEX(l,x)  (((x)>>(l*LD2_PTR_PER_DIR)) & DIR_IDX_MASK)
+#define DIR_INDEX(l,x)  (((x)>>((l)*LD2_PTR_PER_DIR)) & DIR_IDX_MASK)
 
 typedef unsigned long   dht_index_t;
 #define MAX_LEVEL   ((sizeof(dht_index_t)*8 + LD2_PTR_PER_DIR-1) / LD2_PTR_PER_DIR)
@@ -415,7 +415,7 @@ typedef struct dht {
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
-#define NewHashTable        (HashTable *)fxfAlloc(sizeof(dht))
+#define NewHashTable        ((HashTable *)fxfAlloc(sizeof(dht)))
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
 #define OVERFLOW_SAVE 1
 #if defined(OVERFLOW_SAVE)

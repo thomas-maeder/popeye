@@ -17,9 +17,9 @@
 #include "fxf.h"
 
 #if !defined(Nil) && !defined(New) && !defined(nNew)
-#  define Nil(type)      (type *)0
-#  define New(type)      (type *)malloc(sizeof(type))
-#  define nNew(n, type)  (type *)malloc((n)*sizeof(type))
+#  define Nil(type)      ((type *)0)
+#  define New(type)      ((type *)malloc(sizeof(type)))
+#  define nNew(n, type)  ((type *)malloc((n)*sizeof(type))) /* TODO: Should we worry about the multiplication overflowing? */
 #endif /*Nil*/
 
 /*#define DEBUG*/
@@ -80,9 +80,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  (size_t)1024
+#define fxfMAXSIZE  ((size_t)1024)
 #else
-#define fxfMAXSIZE  (size_t)2048  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  ((size_t)2048)  /* this is needed only when sizeof(void*)==8 */
 #endif
 
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -113,10 +113,10 @@ static char *TopFreePtr;
 #if defined(FREEMAP) && !defined(SEGMENTED)
 static unsigned int *FreeMap;
 #define  Bit(x)    (1<<((x)&31))
-#define  LeftMask(x)  (-1<<((x)&31))
+#define  LeftMask(x)  (-Bit(x))
 #define  SetFreeBit(x)  FreeMap[(x)>>5]|= Bit(x)
 #define ClrFreeBit(x)  FreeMap[(x)>>5]&= ~Bit(x)
-#define  MAC_SetRange(x,l)  {                       \
+#define  MAC_SetRange(x,l)  do {                    \
     int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
     if (xi==yi)                                     \
       FreeMap[xi]|= LeftMask(x) & (~LeftMask(y));   \
@@ -128,8 +128,8 @@ static unsigned int *FreeMap;
       for (i=xi+1; i<yi; i++)                       \
         FreeMap[i]= -1;                             \
     }                                               \
-  }
-#define  MAC_ClrRange(x,l)  {                       \
+  } while (0)
+#define  MAC_ClrRange(x,l)  do {                    \
     int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
     if (xi==yi)                                     \
       FreeMap[xi]&= (~LeftMask(x)) | LeftMask(y);   \
@@ -141,7 +141,7 @@ static unsigned int *FreeMap;
       for (i=xi+1; i<yi; i++)                       \
         FreeMap[i]= 0;                              \
     }                                               \
-  }
+  } while (0)
 
 void  SetRange(int x, int l)  {
   int xi= (x)>>5, y= x+l, yi= (y)>>5;
@@ -285,10 +285,10 @@ void fxfReset(void)
 #define ALIGNED_MINSIZE    (sizeof(char *)+PTRMASK)
 #define ALIGN(ptr)         (((size_t)ptr+PTRMASK) & (~PTRMASK))
 
-#define  GetNextPtr(ptr)       *(char **)ALIGN(ptr)
+#define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
 
-#define TMDBG(x) {}
+#define TMDBG(x) if (0) x
 
 void *fxfAlloc(size_t size) {
 #if defined(LOG) || defined(DEBUG)

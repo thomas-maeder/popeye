@@ -75,31 +75,31 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
     record_decision_outcome_impl(__FILE__,__LINE__,format,__VA_ARGS__)
 
 #define push_decision_random_move(purpose) \
-    push_decision_random_move_impl(__FILE__,__LINE__,purpose);
+    push_decision_random_move_impl(__FILE__,__LINE__,purpose)
 
 #define push_decision_side(id,side,purpose) \
-    push_decision_side_impl(__FILE__,__LINE__,id,side,purpose);
+    push_decision_side_impl(__FILE__,__LINE__,id,side,purpose)
 
 #define push_decision_insertion(id,side,purpose) \
-    push_decision_insertion_impl(__FILE__,__LINE__,id,side,purpose);
+    push_decision_insertion_impl(__FILE__,__LINE__,id,side,purpose)
 
 #define push_decision_departure(id,sq_departure,purpose) \
-    push_decision_departure_impl(__FILE__,__LINE__,id,sq_departure,purpose);
+    push_decision_departure_impl(__FILE__,__LINE__,id,sq_departure,purpose)
 
 #define push_decision_move_vector(id,dir,purpose) \
-    push_decision_move_vector_impl(__FILE__,__LINE__,id,dir,purpose);
+    push_decision_move_vector_impl(__FILE__,__LINE__,id,dir,purpose)
 
 #define push_decision_arrival(id,sq_arrival,purpose) \
-    push_decision_arrival_impl(__FILE__,__LINE__,id,sq_arrival,purpose);
+    push_decision_arrival_impl(__FILE__,__LINE__,id,sq_arrival,purpose)
 
 #define push_decision_placement(id,sq_placement,purpose) \
-    push_decision_placement_impl(__FILE__,__LINE__,id,sq_placement,purpose);
+    push_decision_placement_impl(__FILE__,__LINE__,id,sq_placement,purpose)
 
 #define push_decision_walk(id,walk,purpose,side) \
-    push_decision_walk_impl(__FILE__,__LINE__,id,walk,purpose,side);
+    push_decision_walk_impl(__FILE__,__LINE__,id,walk,purpose,side)
 
 #define push_decision_king_nomination(id,pos) \
-    push_decision_king_nomination_impl(__FILE__,__LINE__,id,pos);
+    push_decision_king_nomination_impl(__FILE__,__LINE__,id,pos)
 
 void pop_decision(void);
 
