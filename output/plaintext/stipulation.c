@@ -28,7 +28,7 @@ static void write_attack(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -56,7 +56,7 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -126,8 +126,8 @@ static boolean is_help_reci(slice_index si)
   slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
   if (end!=no_slice)
   {
-    slice_index const and = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
-    return and!=no_slice;
+    slice_index const and_slice = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
+    return and_slice!=no_slice;
   }
   else
     return false;

@@ -74,7 +74,7 @@ static void try_no_rebirth(slice_index si)
 
   post_move_iteration_solve_delegate(si);
   if (!post_move_iteration_is_locked())
-    post_move_iteration_end();;
+    post_move_iteration_end();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

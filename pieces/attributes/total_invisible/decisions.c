@@ -2528,7 +2528,7 @@ boolean can_decision_level_be_continued(void)
         assert(0);
         result = true;
         break;
-    };
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
