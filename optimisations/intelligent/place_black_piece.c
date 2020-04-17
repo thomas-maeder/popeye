@@ -591,15 +591,15 @@ void intelligent_place_black_rider(slice_index si,
 {
   piece_walk_type const intercepter_type = black[placed_index].type;
   square const placed_comes_from = black[placed_index].diagram_square;
-  int const check_diff = being_solved.king_square[White]-placed_on;
-  int const check_dir = CheckDir(intercepter_type)[check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (check_dir!=check_diff
+  if ((being_solved.king_square[White]==initsquare
+       || (CheckDir(intercepter_type)[being_solved.king_square[White]-placed_on]
+           !=being_solved.king_square[White]-placed_on))
       && intelligent_reserve_officer_moves_from_to(Black,
                                                    placed_comes_from,
                                                    intercepter_type,
