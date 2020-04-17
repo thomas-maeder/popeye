@@ -54,10 +54,13 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
 {
   boolean result;
   Side const side_attacking = trait[nbply];
+  square const sq_king = being_solved.king_square[side_attacking];
 
   TraceFunctionEntry(__func__);
   TraceWalk(walk);
   TraceFunctionParamListEnd();
+
+  assert(sq_king!=initsquare);
 
   if (transmuting_kings_testing_transmutation[side_attacking])
     result = false;
@@ -66,7 +69,7 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     transmuting_kings_testing_transmutation[side_attacking] = true;
 
     siblingply(advers(side_attacking));
-    push_observation_target(being_solved.king_square[side_attacking]);
+    push_observation_target(sq_king);
     observing_walk[nbply] = walk;
     result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
                                                      EVALUATE(observation));
@@ -91,19 +94,24 @@ boolean generate_moves_of_transmuting_king(slice_index si)
   boolean result = false;
   piece_walk_type const *ptrans;
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
+  Side const side_moving = trait[nbply];
+  square const sq_king = being_solved.king_square[side_moving];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
-    if (transmuting_kings_is_king_transmuting_as(*ptrans))
-    {
-      pipe_move_generation_different_walk_delegate(si,*ptrans);
-      result = true;
-    }
+  if (sq_king!=initsquare)
+  {
+    for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
+      if (transmuting_kings_is_king_transmuting_as(*ptrans))
+      {
+        pipe_move_generation_different_walk_delegate(si,*ptrans);
+        result = true;
+      }
 
-  remove_duplicate_moves_of_single_piece(save_current_move);
+    remove_duplicate_moves_of_single_piece(save_current_move);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -290,8 +298,13 @@ void transmuting_king_detect_non_transmutation(slice_index si)
     switch (is_king_transmuting_as_observing_walk[nbply])
     {
       case dont_know:
-        is_king_transmuting_as_any_walk[nbply] = transmuting_kings_is_king_transmuting_as(observing_walk[nbply]);
+      {
+        Side const side_transmuting = trait[nbply];
+        square const sq_king = being_solved.king_square[side_transmuting];
+
+        is_king_transmuting_as_any_walk[nbply] = sq_king!=initsquare && transmuting_kings_is_king_transmuting_as(observing_walk[nbply]);
         break;
+      }
 
       case does_not_transmute:
         break;
