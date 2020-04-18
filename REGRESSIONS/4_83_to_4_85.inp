@@ -49,5 +49,13 @@ stip dia 3.5
 forsyth rsbqkb1r/pppppppp/8/8/8/8/PPP1PPPP/RSBQKBSR
 cond FaceToFace
 
-end
+next
+
+author Bjorn Enemark
+origin GitHub, issue #257
+stipulation H#1
+pieces white Ke5 qh8 rh3 bf1 pg3h5 black Kf3 Sf4 pe3f2
+option intelligent
+
+End
 

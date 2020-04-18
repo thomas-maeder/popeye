@@ -68,10 +68,10 @@ the one that would give check without it
   1.Rh7-c7 b6*c7   2.Rh8-d8 c7*d8=Q #
   1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 #
   1.Rh7-e7 Rh6*h8   2.Kd6*e6 Rh8-h6 #
-  add_to_move_generation_stack:     1398974
-                     play_move:     1427923
- is_white_king_square_attacked:       38447
- is_black_king_square_attacked:      146198
+  add_to_move_generation_stack:     1524188
+                     play_move:     1554625
+ is_white_king_square_attacked:       41546
+ is_black_king_square_attacked:      171024
 
 solution finished.
 

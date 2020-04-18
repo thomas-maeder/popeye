@@ -142,8 +142,8 @@ static void unpromoted_pawn(slice_index si,
   if (guard_dir!=guard_dir_check_uninterceptable
       /* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
-      && !(index_of_intercepting_piece<index_of_guarding_piece
-           && guard_dir==guard_dir_guard_uninterceptable)
+//      && !(index_of_intercepting_piece<index_of_guarding_piece
+//           && guard_dir==guard_dir_guard_uninterceptable)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {

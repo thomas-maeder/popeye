@@ -1203,10 +1203,10 @@ H2032, The Problemist 15/12, 11/1996
   1...Sb1*c3   2.Sa3-b1 Sc3-d1   3.Sb1-c3 Sd1-b2 #
 
   1.Sa3-c4 Sb1-a3   2.Sc4*e5 Sa3-c4   3.Se5*g6 Sc4-e5 #
-  add_to_move_generation_stack:     3292865
-                     play_move:     3710620
- is_white_king_square_attacked:      173703
- is_black_king_square_attacked:      592096
+  add_to_move_generation_stack:     3293049
+                     play_move:     3710830
+ is_white_king_square_attacked:      173715
+ is_black_king_square_attacked:      592150
 
 Loesung beendet.
 
@@ -1793,18 +1793,18 @@ Loesung beendet.
 a) 
 
   1.Sb5-d4 Ld3-c2   2.De4-d3 Tg4-e4   3.Kf5*e4 Lc2*d3 #
-  add_to_move_generation_stack:      445396
-                     play_move:      431457
- is_white_king_square_attacked:       15866
- is_black_king_square_attacked:       73395
+  add_to_move_generation_stack:      459027
+                     play_move:      444745
+ is_white_king_square_attacked:       16403
+ is_black_king_square_attacked:       74829
 
 b) sKf5-->d4  
 
   1.Sd6-f5 Tg4-h4   2.De4-g4 Ld3-e4   3.Kd4*e4 Th4*g4 #
-  add_to_move_generation_stack:      694126
-                     play_move:      682406
- is_white_king_square_attacked:       27500
- is_black_king_square_attacked:       86372
+  add_to_move_generation_stack:      709967
+                     play_move:      697916
+ is_white_king_square_attacked:       28111
+ is_black_king_square_attacked:       87702
 
 Loesung beendet.
 
@@ -3288,18 +3288,18 @@ Loesung beendet.
 a) 
 
   1.Dh4-h8 Th3*h8   2.Tg8-a8 Th8*a8   3.a5-a4 Ta8*a4 #
-  add_to_move_generation_stack:     6625836
-                     play_move:     6621730
- is_white_king_square_attacked:      163621
- is_black_king_square_attacked:      394754
+  add_to_move_generation_stack:     6626022
+                     play_move:     6621907
+ is_white_king_square_attacked:      163627
+ is_black_king_square_attacked:      394790
 
 b) wBe2-->e3  
 
   1.Dh4-h6 Th3*h6   2.Tg6-d6 Th6*d6   3.d5-d4 Td6*d4 #
-  add_to_move_generation_stack:     9049919
-                     play_move:     9046285
- is_white_king_square_attacked:      233609
- is_black_king_square_attacked:      569460
+  add_to_move_generation_stack:     9057953
+                     play_move:     9054206
+ is_white_king_square_attacked:      233835
+ is_black_king_square_attacked:      569898
 
 Loesung beendet.
 
@@ -3866,10 +3866,10 @@ Loesung beendet.
 
   1.Kd5-c4 Td8*d6   2.Le6-d5 Td6*d5   3.De7-b4 e2*d3 #
   1.Kd5-d4 Lg8*e6   2.Td6-d5 Le6*d5   3.De7-c5 e2-e3 #
-  add_to_move_generation_stack:     4532293
-                     play_move:     4517893
- is_white_king_square_attacked:       97935
- is_black_king_square_attacked:      393663
+  add_to_move_generation_stack:     4535617
+                     play_move:     4521133
+ is_white_king_square_attacked:       97965
+ is_black_king_square_attacked:      393996
 
 Loesung beendet.
 
