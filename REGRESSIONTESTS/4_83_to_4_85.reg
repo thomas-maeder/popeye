@@ -193,6 +193,7 @@ solution finished.
 
           Francois Labelle
             CPoisson-226
+Popeye so far didn't support proof games in FaceToFace and related conditions
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -228,6 +229,7 @@ solution finished.
 
             Bjorn Enemark
          GitHub, issue #257
+the last versions of Popeye couldn't solve this
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -255,6 +257,42 @@ solution finished.
                      play_move:         977
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:         312
+
+solution finished.
+
+
+
+          Alexander George
+PS1499F The Problemist Supplement 03/2004 [PDB P1210963]
+       Popeye 4.83 would crash
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -Q   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   Q   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==2                        2 + 2
+           Circe Volcanic
+
+  1.Kc1-d1 Qh4-d8 +   2.Qa5*d8[+wQd1->v] + Ke8*d8[+bQd8->v] ==
+  add_to_move_generation_stack:      471674
+                     play_move:      209757
+ is_white_king_square_attacked:      196722
+ is_black_king_square_attacked:       13043
 
 solution finished.
 
