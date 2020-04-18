@@ -180,7 +180,7 @@ void intelligent_pin_pinnable_black_piece(slice_index si,
   {
     square pin_on = piece_pos+pin_dir;
 
-    if (pin_on >= square_a1)
+    if ((square_a1 <= pin_on) && (pin_on <= square_h8))
     {
       boolean const is_pin_on_diagonal = (SquareCol(pin_on)==SquareCol(piece_pos));
 
