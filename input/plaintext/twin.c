@@ -22,6 +22,7 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/total_invisible.h"
 #include "position/underworld.h"
 #include "position/effects/piece_creation.h"
 #include "position/effects/board_transformation.h"
@@ -917,6 +918,8 @@ static void ReadInitialTwin(slice_index start)
         {
           unsigned int ghost_idx = nr_ghosts;
 
+          total_invisible_number = 0;
+
           tok = ReadNextTokStr();
           tok = ParsePieces(tok);
 
@@ -976,6 +979,7 @@ static void ReadInitialTwin(slice_index start)
           break;
 
         case Forsyth:
+          total_invisible_number = 0;
           ParseForsyth();
           tok = ReadNextTokStr();
           break;

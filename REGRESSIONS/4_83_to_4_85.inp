@@ -41,5 +41,13 @@ stipulation h#2.5
 pieces white kg1 qc1 black kh3 rg4 pf4 total 4
 twin move h3 f3
 
+next
+
+author Francois Labelle
+origin CPoisson-226
+stip dia 3.5
+forsyth rsbqkb1r/pppppppp/8/8/8/8/PPP1PPPP/RSBQKBSR
+cond FaceToFace
+
 end
 

@@ -190,3 +190,38 @@ b) bKh3-->f3
 solution finished.
 
 
+
+          Francois Labelle
+            CPoisson-226
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.5                    15 + 15
+             FaceToFace
+
+  1.d2-d3 Sg8-h6   2.Bc1*h6 h7*d3   3.Bh6-d2 d3-h7   4.Bd2-c1 dia
+  add_to_move_generation_stack:    21592323
+                     play_move:    21597213
+ is_white_king_square_attacked:     1507094
+ is_black_king_square_attacked:      186795
+
+solution finished.
+
+
