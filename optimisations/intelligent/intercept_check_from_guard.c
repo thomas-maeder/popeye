@@ -142,6 +142,10 @@ static void unpromoted_pawn(slice_index si,
   if (guard_dir!=guard_dir_check_uninterceptable
       /* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
+      // TODO the following test is too ambitious, as issue #257 shows:
+      // Pg3 isn't used to intercept check from Rh3 because its index is lower
+      // than the rook's index.
+      // -> Try to find something more accurate
 //      && !(index_of_intercepting_piece<index_of_guarding_piece
 //           && guard_dir==guard_dir_guard_uninterceptable)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
