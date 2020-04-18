@@ -290,8 +290,6 @@ void intelligent_place_promoted_black_rider(slice_index si,
                                             void (*go_on)(slice_index si))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
-  int const check_diff = being_solved.king_square[White]-placed_on;
-  int const check_dir = CheckDir(promotee_type)[check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -299,7 +297,9 @@ void intelligent_place_promoted_black_rider(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (check_dir!=check_diff
+  if ((being_solved.king_square[White]==initsquare
+       || (CheckDir(promotee_type)[being_solved.king_square[White]-placed_on]
+           !=being_solved.king_square[White]-placed_on))
       && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
                                                                 promotee_type,
                                                                 placed_on))
