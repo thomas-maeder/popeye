@@ -130,6 +130,8 @@ static void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type r
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
 
+  assert(nr_ghosts>0);
+
   entry->u.handle_ghost.ghost.on = underworld[nr_ghosts-1].on;
   entry->u.handle_ghost.ghost.walk = underworld[nr_ghosts-1].walk;
   entry->u.handle_ghost.ghost.flags = underworld[nr_ghosts-1].flags;
@@ -148,6 +150,7 @@ static void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_ent
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(nr_ghosts>0);
   underworld[nr_ghosts-1] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
@@ -159,6 +162,7 @@ static void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_ent
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(nr_ghosts>0);
   underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(underworld[nr_ghosts-1].on);
   underworld[nr_ghosts-1].flags = being_solved.spec[underworld[nr_ghosts-1].on];
 
@@ -373,6 +377,8 @@ void circe_volcanic_initialise_solving(slice_index si,
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
+
+  haunted_chess_initialise_move_doers();
 
   move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
                                        &move_effect_journal_undo_circe_volcanic_remember,
