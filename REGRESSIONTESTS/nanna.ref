@@ -1,0 +1,60 @@
+last 11 half moves of a proof game
+
+           Nicolas Dupont
+        Julia's Fairies 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P   .  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   P   .   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2   P   P   P   P   P   .   .   P   2
+|                                   |
+1   R   S   B   Q   K   B   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .   .   .  -P   7
+|                                   |
+6   .   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2   P   P   P   P   P   P   .   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b5.5                   15 + 16
+             NannaChess
+
+  1.e4-d6 e7*d6   2.Se5-f7 Bf8-e7   3.Sf7-g5 Ke8-h5   4.g4-f2 Be7-f8   5.Sg5-h3 g7-g5   6.Sh3-g1 a=>b
+  add_to_move_generation_stack:   751660069
+                     play_move:   755619757
+ is_white_king_square_attacked:    57614213
+ is_black_king_square_attacked:    28949614
+
+solution finished.
+
+

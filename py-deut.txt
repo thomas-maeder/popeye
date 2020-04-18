@@ -221,6 +221,7 @@ Kommandos:
 	Masand
 	BGL
 	AnnanSchach
+	NannaSchach
 	NormalBauern
 	SchwarzSchaecher
 	GenferSchach

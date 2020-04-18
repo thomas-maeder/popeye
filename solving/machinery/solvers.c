@@ -743,6 +743,8 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[annan])
     annan_initialise_solving(si);
+  if (CondFlag[nanna])
+    nanna_initialise_solving(si);
 
   if (CondFlag[pointreflection])
     point_reflection_initialise_solving(si);

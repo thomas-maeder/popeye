@@ -2,13 +2,13 @@ input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/toke
  input/plaintext/language.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum output/output.h \
- output/plaintext/message.h output/message.h output/plaintext/protocol.h \
- solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum output/output.h output/plaintext/message.h \
+ output/message.h output/plaintext/protocol.h solving/pipe.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -36,8 +36,6 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
 
 position/side.h:
 

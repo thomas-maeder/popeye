@@ -81,7 +81,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || TSTFLAG(some_pieces_flags,ColourChange)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
-                || CondFlag[annan]
+                || CondFlag[annan] || CondFlag[nanna]
                 || CondFlag[pointreflection]
                 || CondFlag[glasgow]
                 || CondFlag[takemake] || CondFlag[maketake]

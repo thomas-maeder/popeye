@@ -1718,6 +1718,7 @@ char *ParseCond(char *tok)
           break;
 
         case annan:
+        case nanna:
           tok = ParseLetteredType(tok,&annan_type,ConditionTypeD);
           break;
 

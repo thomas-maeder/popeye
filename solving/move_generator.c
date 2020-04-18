@@ -62,6 +62,7 @@ static slice_index const slice_rank_order[] =
     STTotalInvisibleSpecialMoveGenerator,
     STCastlingGenerator,
     STAnnanMovesForPieceGenerator,
+    STNannaMovesForPieceGenerator,
     STPointReflectionMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
     STBackToBackMovesForPieceGenerator,

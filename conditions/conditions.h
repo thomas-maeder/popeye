@@ -227,8 +227,9 @@ typedef enum
   breton,                 /* 206 */
   maketake,               /* 207 */
   pointreflection,        /* 208 */
+  nanna,                  /* 209 */
 
-  CondCount               /* 209 */
+  CondCount               /* 210 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

@@ -735,6 +735,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           break;
 
         case annan:
+        case nanna:
           switch (annan_type)
           {
             case ConditionTypeA:

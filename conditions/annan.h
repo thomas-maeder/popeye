@@ -7,7 +7,7 @@
 #include "position/board.h"
 #include "pieces/pieces.h"
 
-/* This module implements the condition Annan Chess */
+/* This module implements the conditions Annan Chess and Nanna Chess */
 
 extern ConditionLetteredVariantType annan_type;
 
@@ -25,5 +25,20 @@ void annan_generate_moves_for_piece(slice_index si);
  * @param si identifies root slice of solving machinery
  */
 void annan_initialise_solving(slice_index si);
+
+/* Make sure that the observer has the expected walk - nannaised or originally
+ * @return true iff the observation is valid
+ */
+boolean nanna_enforce_observer_walk(slice_index si);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void nanna_generate_moves_for_piece(slice_index si);
+
+/* Inialise the solving machinery with Annan Chess
+ * @param si identifies root slice of solving machinery
+ */
+void nanna_initialise_solving(slice_index si);
 
 #endif

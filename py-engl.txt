@@ -216,6 +216,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Masand
 	BGL
 	AnnanChess
+	NannaChess
 	NormalPawn
 	BlackChecks
 	GenevaChess

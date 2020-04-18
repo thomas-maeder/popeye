@@ -2366,6 +2366,10 @@ void dispatch(slice_index si)
       annan_generate_moves_for_piece(si);
       break;
 
+    case STNannaMovesForPieceGenerator:
+      nanna_generate_moves_for_piece(si);
+      break;
+
     case STPointReflectionMovesForPieceGenerator:
       point_reflection_generate_moves_for_piece(si);
       break;

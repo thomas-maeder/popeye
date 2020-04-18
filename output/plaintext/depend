@@ -2,16 +2,16 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/plaintext/plaintext.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum output/output.h \
- output/plaintext/condition.h output/plaintext/pieces.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h output/plaintext/position.h \
- output/plaintext/protocol.h output/plaintext/tree/tree.h \
- output/plaintext/line/line.h output/plaintext/end_of_phase_writer.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum output/output.h output/plaintext/condition.h \
+ output/plaintext/pieces.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/walks/vectors.h position/castling_rights.h \
+ output/plaintext/position.h output/plaintext/protocol.h \
+ output/plaintext/tree/tree.h output/plaintext/line/line.h \
+ output/plaintext/end_of_phase_writer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h \
@@ -54,8 +54,6 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
 
 position/side.h:
 

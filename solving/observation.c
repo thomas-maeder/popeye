@@ -124,6 +124,10 @@ boolean validate_observation_recursive(slice_index si)
       result = annan_enforce_observer_walk(si);
       break;
 
+    case STNannaEnforceObserverWalk:
+      result = nanna_enforce_observer_walk(si);
+      break;
+
     case STPointReflectionEnforceObserverWalk:
       result = point_reflection_enforce_observer_walk(si);
       break;
@@ -355,6 +359,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STReflectiveKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
     STFaceToFaceEnforceObserverWalk,
@@ -381,6 +386,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STUndoOptimiseObservationsByQueen,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
@@ -397,6 +403,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMonochromeRemoveNonMonochromeMoves,

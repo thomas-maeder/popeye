@@ -815,7 +815,7 @@ void verify_position(slice_index si)
     if (flagveryfairy
         || flagsymmetricfairy
         || TSTFLAG(some_pieces_flags, Jigger)
-        || CondFlag[annan]
+        || CondFlag[annan] || CondFlag[nanna]
         || CondFlag[pointreflection]
         || CondFlag[newkoeko]
         || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
@@ -1588,7 +1588,7 @@ void verify_position(slice_index si)
   }
 
 
-  if (CondFlag[annan]+CondFlag[facetoface]+CondFlag[backtoback]+CondFlag[cheektocheek]+CondFlag[pointreflection]>1)
+  if (CondFlag[annan]+CondFlag[nanna]+CondFlag[facetoface]+CondFlag[backtoback]+CondFlag[cheektocheek]+CondFlag[pointreflection]>1)
   {
     output_plaintext_verifie_message(NonsenseCombination);
     return;
@@ -1600,7 +1600,7 @@ void verify_position(slice_index si)
   if (CondFlag[sentinelles])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[annan]
+  if (CondFlag[annan] || CondFlag[nanna]
       || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
       || CondFlag[pointreflection])
   {
