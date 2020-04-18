@@ -182,9 +182,9 @@ void intelligent_pin_pinnable_black_piece(slice_index si,
 
     if ((square_a1 <= pin_on) && (pin_on <= square_h8))
     {
-      boolean const is_pin_on_diagonal = (SquareCol(pin_on)==SquareCol(piece_pos));
-
       remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,+1);
+
+      boolean const is_pin_on_diagonal = (SquareCol(pin_on)==SquareCol(piece_pos));
 
       while (is_square_empty(pin_on))
       {
@@ -208,12 +208,12 @@ void intelligent_pin_pinnable_black_piece(slice_index si,
 
         pin_on += pin_dir;
       }
+
+      for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
+        --nr_reasons_for_staying_empty[pin_on];
+
+      remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,-1);
     }
-
-    for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
-      --nr_reasons_for_staying_empty[pin_on];
-
-    remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,-1);
 
     intelligent_unreserve();
   }
