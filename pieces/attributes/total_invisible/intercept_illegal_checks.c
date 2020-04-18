@@ -343,12 +343,15 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
   }
   else
   {
+    Side const side_under_attack = advers(side);
+    square const king_pos = being_solved.king_square[side_under_attack];
+
     ++being_solved.number_of_pieces[side][Pawn];
 
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,Pawn);
 
-    if (pawn_check_ortho(side,being_solved.king_square[advers(side)])==0)
+    if (king_pos==initsquare || pawn_check_ortho(side,king_pos)==0)
     {
       push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
 
