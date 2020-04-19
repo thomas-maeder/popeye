@@ -401,7 +401,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       fprintf(stderr,"error in %s - piece:",__func__);
       WriteWalk(&output_plaintext_engine,stderr,p);
       fputc('\n',stderr);
-      *moves = 10000; /* TODO: This (arbitrary) value will be used by the caller.  We should maybe do something more extreme here (like fail an assertion). */
+      *moves = current_length; /* TODO: This value will be used by the caller.  We should maybe do something more extreme here (like fail an assertion). */
       break;
   }
 }
