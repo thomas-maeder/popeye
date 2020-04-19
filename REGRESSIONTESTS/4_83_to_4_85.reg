@@ -334,3 +334,41 @@ Popeye up to 4.83 would castle with both kings after the rebirth on e1
 solution finished.
 
 
+
+          Bernd Schwarzkopf
+In Popeye 4.83, the number of "slices" would exhaust, causing weird things to be printed
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h007                        2 + 2
+                Circe
+           BlackMaximummer
+              AntiCirce
+           ChecklessChess
+
+  1.a7-a5 Kc8-c7   2.a5-a4 Kc7-c6   3.Ka8-b8 b6-b7   4.Kb8-a7 b7-b8=R   5.Ka7*b8[bKb8->e8][+wRa1] Kc6-b5   6.Ke8-f7 Kb5*a4[wKa4->e1][+bPa7]   7.a7-a5 0-0-0
+  add_to_move_generation_stack:      190377
+                     play_move:      179905
+ is_white_king_square_attacked:      133272
+ is_black_king_square_attacked:      149786
+
+solution finished.
+
+

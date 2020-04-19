@@ -76,5 +76,13 @@ pieces white Ke2f2 ra1h1 black Kc2
 stipulation h001.5
 condition royaldynasty Circe
 
+next
+
+title In Popeye 4.83, the number of "slices" would exhaust, causing weird things to be printed
+author Bernd Schwarzkopf
+pieces white Kc8 pb6 black Ka8 pa7
+stipulation h007
+condition Circe AntiCirce blackmaximummer ChecklessChess
+
 end
 
