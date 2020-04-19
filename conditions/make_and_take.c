@@ -83,13 +83,15 @@ boolean make_and_take_limit_move_generation_make_walk_is_in_check(slice_index si
   boolean result;
 
   piece_walk_type const save_max_victim = max_victim;
+  square const sq_king = being_solved.king_square[side_observed];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,side_observed);
   TraceFunctionParamListEnd();
 
-  max_victim = King;
+  assert(sq_king!=initsquare);
+  max_victim = get_walk_of_piece_on_square(sq_king);
 
   result = pipe_is_in_check_recursive_delegate(si,side_observed);
 

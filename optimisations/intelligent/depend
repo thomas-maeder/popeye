@@ -7,9 +7,10 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h stipulation/goals/goals.h \
  solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h optimisations/intelligent/piece_usage.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+ output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
@@ -80,6 +81,8 @@ stipulation/stipulation.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 output/mode.h:
 
