@@ -68,5 +68,13 @@ pieces white Ke8 qh4  black Kc1 qa5
 stipulation h==2
 condition Circe volcanic
 
+next
+
+title Popeye up to 4.83 would castle with both kings after the rebirth on e1
+author Bernd Schwarzkopf
+pieces white Ke2f2 ra1h1 black Kc2
+stipulation h001.5
+condition royaldynasty Circe
+
 end
 

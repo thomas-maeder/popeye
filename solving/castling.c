@@ -814,30 +814,34 @@ void generate_castling(void)
     square const square_g = square_a+file_g;
     square const square_h = square_a+file_h;
 
-    /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
-        && are_squares_empty(square_e,square_h,dir_right))
-       allowed_castlings |= rh_cancastle;
-
-    /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
-        && are_squares_empty(square_e,square_a,dir_left))
-      allowed_castlings |= ra_cancastle;
-
-    if (allowed_castlings!=0 && !is_in_check(side))
+    /* avoid castling with the wrong king in conditions like Royal dynasty */
+    if (curr_generation->departure==square_e)
     {
-      if ((allowed_castlings&rh_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_f))
-      {
-        curr_generation->arrival = square_g;
-        push_special_move(kingside_castling);
-      }
+      /* 0-0 */
+      if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
+          && are_squares_empty(square_e,square_h,dir_right))
+         allowed_castlings |= rh_cancastle;
 
-      if ((allowed_castlings&ra_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_d))
+      /* 0-0-0 */
+      if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
+          && are_squares_empty(square_e,square_a,dir_left))
+        allowed_castlings |= ra_cancastle;
+
+      if (allowed_castlings!=0 && !is_in_check(side))
       {
-        curr_generation->arrival = square_c;
-        push_special_move(queenside_castling);
+        if ((allowed_castlings&rh_cancastle)
+            && castling_is_intermediate_king_move_legal(side,square_f))
+        {
+          curr_generation->arrival = square_g;
+          push_special_move(kingside_castling);
+        }
+
+        if ((allowed_castlings&ra_cancastle)
+            && castling_is_intermediate_king_move_legal(side,square_d))
+        {
+          curr_generation->arrival = square_c;
+          push_special_move(queenside_castling);
+        }
       }
     }
   }
