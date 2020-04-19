@@ -1207,7 +1207,7 @@ void verify_position(slice_index si)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom])
+  if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom] || CondFlag[maketake])
   {
     if ((CondFlag[mars]||CondFlag[antimars])+CondFlag[plus]+CondFlag[phantom]>1)
     {
