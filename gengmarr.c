@@ -20,7 +20,7 @@ static void write_generation_info(FILE *dest, char const *argv0)
   fprintf(dest,
           "This file is generated using the program %s -- DON'T CHANGE.\n",
           argv0);
-  fprintf(dest,"%s was compiled from %s.\n",argv0,__FILE__);
+  fprintf(dest,"%s was compiled from " __FILE__ "\n",argv0);
   fputs("***********************************************/\n",dest);
 }
 
@@ -37,7 +37,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
   fputs("  { /* board */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
-    fprintf(dest,"%2u,",board[i]);
+    fprintf(dest,"%2u,",(unsigned int)board[i]);
     ++column;
     if (column==onerow)
     {
@@ -45,7 +45,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
       column = 0;
     }
   }
-  fprintf(dest,"%2u\n",board[i]);
+  fprintf(dest,"%2u\n",(unsigned int)board[i]);
   fputs("  }",dest);
 }
 
@@ -152,7 +152,7 @@ static void dump_castling_rights_initialiser_to_stream(FILE *dest, position cons
  */
 static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"#include \"position/position.h\"\n");
+  fputs("#include \"position/position.h\"\n",dest);
   fputs("position const game_array =\n",dest);
   fputs("{\n",dest);
   dump_board_initialiser_to_stream(dest,pos->board);

@@ -86,7 +86,7 @@ static void done_validating_king_placements(void)
 
 //  printf("%u:",play_phase);
 //  total_invisible_write_flesh_out_history();
-//  printf(" - ");
+//  fputs(" - ", stdout);
 //  {
 //    square const *bnp;
 //    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
@@ -105,12 +105,12 @@ static void done_validating_king_placements(void)
 //  switch (play_phase)
 //  {
 //    case play_detecting_revelations:
-//      printf("-");
+//      putchar('-');
 //      {
 //        unsigned int i;
 //        for (i = 0; i!=nr_potential_revelations; ++i)
 //        {
-//          printf(TSTFLAG(revelation_status[i].spec,White) ? " w" : " s");
+//          fputs((TSTFLAG(revelation_status[i].spec,White) ? " w" : " s"), stdout);
 //          WriteWalk(&output_plaintext_engine,
 //                    stdout,
 //                    revelation_status[i].walk);

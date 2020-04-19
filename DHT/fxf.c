@@ -16,6 +16,25 @@
 
 #include "fxf.h"
 
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
+    (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
+#  include <stddef.h>
+   typedef ptrdiff_t ptrdiff_t_printf_type;
+   typedef size_t size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "td"
+#  define SIZE_T_PRINTF_SPECIFIER "zu"
+#elif defined(LLONG_MAX) /* We have long long integer types. */
+   typedef long long int ptrdiff_t_printf_type;
+   typedef unsigned long long int size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "lld"
+#  define SIZE_T_PRINTF_SPECIFIER "llu"
+#else /* We don't have long long integer types. */
+   typedef long int ptrdiff_t_printf_type;
+   typedef unsigned long int size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "ld"
+#  define SIZE_T_PRINTF_SPECIFIER "lu"
+#endif
+
 #if !defined(Nil) && !defined(New) && !defined(nNew)
 #  define Nil(type)      ((type *)0)
 #  define New(type)      ((type *)malloc(sizeof(type)))
@@ -216,8 +235,8 @@ int fxfInit(size_t Size) {
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
-    ERROR_LOG2("%s: Sorry, cannot allocate arena of %lu bytes\n",
-               myname, Size);
+    ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
+               myname, (size_t_printf_type) Size);
     BotFreePtr= Arena;
     GlobalSize= 0;
     return -1;
@@ -297,18 +316,18 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  TMDBG(printf("fxfAlloc - size:%lu",size));
-  DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
+  TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
+  DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
 
   if (size<fxfMINSIZE)
     size = fxfMINSIZE;
 
   if (size>fxfMAXSIZE)
   {
-    ERROR_LOG3("%s: size=%u > %u\n",
+    ERROR_LOG3("%s: size=%" SIZE_T_PRINTF_SPECIFIER " > %" SIZE_T_PRINTF_SPECIFIER "\n",
                myname,
-               (unsigned int)size,
-               (unsigned int)fxfMAXSIZE);
+               (size_t_printf_type) size,
+               (size_t_printf_type) fxfMAXSIZE);
     return Nil(char);
   }
   if ( (size&PTRMASK) && size<ALIGNED_MINSIZE)
@@ -321,12 +340,12 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%ld MallocCount:%lu\n",sh->FreeCount,(char*)ptr-Arena,sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
   }
   else {
     /* we have to allocate a new piece */
     size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
-    TMDBG(printf(" sizeCurrentSeg:%lu",sizeCurrentSeg));
+    TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
@@ -338,13 +357,13 @@ void *fxfAlloc(size_t size) {
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
-      TMDBG(printf(" current seg ptr-Arena:%ld MallocCount:%lu\n",(char*)ptr-Arena,sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
     }
     else
     {
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
-        TMDBG(printf(" next seg"));
+        TMDBG(fputs(" next seg", stdout));
         CurrentSeg+= 1;
         BotFreePtr= Arena[CurrentSeg];
         TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
@@ -355,10 +374,10 @@ void *fxfAlloc(size_t size) {
 #else /*SEGMENTED*/
       ptr= Nil(char);
 #endif /*!SEGMENTED*/
-      TMDBG(printf(" ptr:%p\n",ptr));
+      TMDBG(printf(" ptr:%p\n",(void *)ptr));
     }
   }
-  DBG((df, "%p\n", ptr));
+  DBG((df, "%p\n", (void *) ptr));
   return ptr;
 }
 
@@ -367,11 +386,11 @@ void fxfFree(void const *ptr, size_t size)
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(char*)ptr-Arena,size));
-  DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
+  DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size > fxfMAXSIZE) {
-    fprintf(stderr, "%s: size=%u >= %u\n",
-            myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
+    fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
+            myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
   if (size < fxfMINSIZE)
@@ -381,10 +400,10 @@ void fxfFree(void const *ptr, size_t size)
   sh= &SizeData[size];
   if (size&PTRMASK) {
     /* unaligned size */
-    TMDBG(printf(" BotFreePtr-ptr:%ld",BotFreePtr-(char *)ptr));
+    TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
     if ((char const *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {
@@ -398,10 +417,10 @@ void fxfFree(void const *ptr, size_t size)
   }
   else {
     /* aligned size */
-    TMDBG(printf(" ptr-TopFreePtr:%ld",(char *)ptr-TopFreePtr));
+    TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-TopFreePtr)));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
       sh->MallocCount-= 1;
     }
     else {
@@ -414,7 +433,7 @@ void fxfFree(void const *ptr, size_t size)
     }
   }
   TMDBG(printf(" MallocCount:%lu",sh->MallocCount));
-  TMDBG(printf("\n"));
+  TMDBG(putchar('\n'));
 }
 
 void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
@@ -450,12 +469,12 @@ void fxfInfo(FILE *f) {
 #endif /*SEGMENTED*/
       ;
   assert(GlobalSize/one_kilo<=ULONG_MAX);
-  fprintf(f, "fxfArenaSize = %lu kB\n",
-          (unsigned long)(GlobalSize/one_kilo));
+  fprintf(f, "fxfArenaSize = %" SIZE_T_PRINTF_SPECIFIER " kB\n",
+          (size_t_printf_type) (GlobalSize/one_kilo));
   assert(sizeArenaUsed/one_kilo<=ULONG_MAX);
-  fprintf(f, "fxfArenaUsed = %lu kB\n",
-          (unsigned long)(sizeArenaUsed/one_kilo));
-  fprintf(f, "fxfMAXSIZE   = %u B\n", (unsigned int)fxfMAXSIZE);
+  fprintf(f, "fxfArenaUsed = %" SIZE_T_PRINTF_SPECIFIER " kB\n",
+          (size_t_printf_type) (sizeArenaUsed/one_kilo));
+  fprintf(f, "fxfMAXSIZE   = %" SIZE_T_PRINTF_SPECIFIER " B\n", (size_t_printf_type) fxfMAXSIZE);
 
   {
     SizeHead const *hd = SizeData;
@@ -478,9 +497,9 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
     assert(UsedBytes/one_kilo<=ULONG_MAX);
     assert(FreeBytes/one_kilo<=ULONG_MAX);
-    fprintf(f, "%12s  %10lu%10lu\n", "Total kB:",
-            (unsigned long)(UsedBytes/one_kilo),
-            (unsigned long)(FreeBytes/one_kilo));
+    fprintf(f, "%12s  %10" SIZE_T_PRINTF_SPECIFIER "%10" SIZE_T_PRINTF_SPECIFIER "\n", "Total kB:",
+            (size_t_printf_type) (UsedBytes/one_kilo),
+            (size_t_printf_type) (FreeBytes/one_kilo));
   }
 }
 

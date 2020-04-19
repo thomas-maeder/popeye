@@ -81,7 +81,7 @@ static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigne
 void WriteBGLNumber(char* buf, long int num)
 {
   if (num == BGL_infinity)
-    sprintf(buf, "-");
+    strcpy(buf, "-");
   else if (num % 100 == 0)
     sprintf(buf, "%i", (int) (num / 100));
   else if (num % 10 == 0)

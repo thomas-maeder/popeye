@@ -31,9 +31,9 @@ static void write_history_recursive(ply ply)
   if (parent_ply[ply]>ply_retro_move)
     write_history_recursive(parent_ply[ply]);
 
-  fprintf(stdout," %u:",ply);
+  printf(" %u:",ply);
   WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
-  fputs("-",stdout);
+  putchar('-');
   WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
 }
 
@@ -41,9 +41,9 @@ void move_generator_write_history(void)
 {
   if (nbply!=ply_nil)
   {
-//    fputs("\n",stdout);
+//    putchar('\n');
     write_history_recursive(nbply);
-//    fputs("\n",stdout);
+//    putchar('\n');
   }
 }
 

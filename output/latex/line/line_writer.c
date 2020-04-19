@@ -129,7 +129,7 @@ static void write_ply_history(FILE *file,
                                   file,
                                   &output_latex_symbol_table);
       write_potential_check(file);
-      fputs(" ",file);
+      fputc(' ',file);
     }
 
     if (is_end_of_intro_series[nbply])
@@ -216,7 +216,7 @@ void output_latex_line_line_writer_solve(slice_index si)
   output_latex_line_write_line(SLICE_U(si).goal_writer.file,
                                SLICE_U(si).goal_writer.goal.type);
   pipe_solve_delegate(si);
-  fputs("\n",SLICE_U(si).goal_writer.file);
+  fputc('\n',SLICE_U(si).goal_writer.file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

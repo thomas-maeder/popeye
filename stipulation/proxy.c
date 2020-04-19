@@ -33,7 +33,7 @@ static void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",*si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   while (*si!=no_slice
@@ -51,7 +51,7 @@ static void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);

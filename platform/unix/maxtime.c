@@ -125,7 +125,7 @@ static void ReDrawBoard(int sig)
      lead to this position.
   */
   ReDrawPly(nbply);
-  fputc('\n',stdout);
+  putchar('\n');
 
   signal(sig,&ReDrawBoard);
 }

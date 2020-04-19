@@ -284,7 +284,7 @@ void stip_traverse_moves_binary_operand1(slice_index binary_slice,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   if (SLICE_NEXT1(binary_slice)!=no_slice)
@@ -303,7 +303,7 @@ void stip_traverse_moves_binary_operand2(slice_index binary_slice,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   if (SLICE_NEXT2(binary_slice)!=no_slice)
@@ -370,7 +370,7 @@ static void stip_traverse_moves_conditional_pipe_tester(slice_index conditional_
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",conditional_pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   assert(slice_type_get_contextual_type(SLICE_TYPE(conditional_pipe))
@@ -389,7 +389,7 @@ static void stip_traverse_moves_conditional_pipe(slice_index conditional_pipe,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",conditional_pipe);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(conditional_pipe,st);
@@ -403,7 +403,7 @@ static void stop_recursion(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   st->remaining_watermark[si] = st->remaining+1;
@@ -607,7 +607,7 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",st->remaining);

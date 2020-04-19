@@ -89,7 +89,7 @@ void LaTeXShutdownTwinning(void)
 static void BeginTwinning(unsigned int twin_number)
 {
   if (twin_number-twin_a<='z'-'a')
-    twinning_pos += (unsigned int)fprintf(twinning, "%c) ", 'a'+twin_number-twin_a);
+    twinning_pos += (unsigned int)fprintf(twinning, "%c) ", (int)('a'+twin_number-twin_a));
   else
     twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
@@ -325,7 +325,7 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
 {
   if (twin_number-twin_a<='z'-'a')
-    fprintf(file, "%c)", 'a'+twin_number-twin_a);
+    fprintf(file, "%c)", (int)('a'+twin_number-twin_a));
   else
     fprintf(file, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }

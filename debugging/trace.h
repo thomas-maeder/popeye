@@ -59,7 +59,7 @@ void TraceFunctionExit(char const *name);
 /* Trace a function parameter
  */
 #define TraceFunctionParam(format,name) \
-  TraceValueImpl(" ->" #name ":", (format), (size_t)(name))
+  TraceValueImpl(" ->" #name ":", (format), (name))
 
 /* Trace end of function parameter list
  */
@@ -68,7 +68,7 @@ void TraceFunctionParamListEnd(void);
 /* Trace the value of some expression
  */
 #define TraceValue(format,name) \
-  TraceValueImpl(" " #name ":", (format), (size_t)(name))
+  TraceValueImpl(" " #name ":", (format), (name))
 
 /* Trace arbitrary text
  */
@@ -100,7 +100,7 @@ void TraceCurrentHashBuffer(void);
  * Works best in SESE style functions.
  */
 #define TraceFunctionResult(format,name) \
-  TraceFunctionResultImpl(" <- " #name ":", (format), (size_t)(name))
+  TraceFunctionResultImpl(" <- " #name ":", (format), (name))
 
 /* Trace end of function return value (if any)
  */
@@ -113,7 +113,7 @@ void TraceFunctionResultEnd(void);
 #define TraceEnumerator(type_name,name) \
   TraceEnumeratorImpl(" " #name ":%s(%u)", \
                       type_name##_names[(name)], \
-                      (name))
+                      (unsigned int) (name))
 
 /* Trace the current stipulation structure
  * @param start_slice identifies slice where to start tracing
@@ -127,8 +127,8 @@ void TraceCallStack(FILE *file);
 
 /* Helper functions
  */
-void TraceValueImpl(char const *prefix, char const *format, size_t value);
-void TraceFunctionResultImpl(char const *prefix, char const *format, size_t value);
+void TraceValueImpl(char const *prefix, char const *format, ...);
+void TraceFunctionResultImpl(char const *prefix, char const *format, ...);
 void TraceEnumeratorImpl(char const *format,
                          char const *enumerator_name,
                          unsigned int value);
