@@ -14,10 +14,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "dhtvalue.h"
 #include "dht.h"
 #include "dhtmem.h"
-#include <limits.h>
 
 int main(int argc, char *argv[]) {
 
