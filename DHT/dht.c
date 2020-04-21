@@ -422,7 +422,7 @@ typedef struct dht {
 #define ActualLoadFactor(h)                     \
   ( (h)->CurrentSize < 10000                    \
     ?  ((h)->KeyCount*100) / (h)->CurrentSize   \
-    :  (h)->KeyCount / ((h->CurrentSize/100))   \
+    :  (h)->KeyCount / (((h)->CurrentSize/100))   \
     )
 #else
 #define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)

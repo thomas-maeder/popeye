@@ -48,7 +48,7 @@ extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
 
 #define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1])
-#define SET_MOVEBASE_OF_PLY(ply,n) (current_move[(ply)-1] = n)
+#define SET_MOVEBASE_OF_PLY(ply,n) (current_move[(ply)-1] = (n))
 
 #define CURRMOVE_OF_PLY(ply) (current_move[(ply)])
 #define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm))

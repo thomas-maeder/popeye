@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
 	fxfInfo(stderr);
 #endif /*FXF*/
 
-#define BYT(x)	(uChar)(x&0xff)
+#define BYT(x)	(uChar)((x)&0xff)
 	while ((host=gethent(hostsfile))) {
 		unsigned long InetAddr;
 		char *h;

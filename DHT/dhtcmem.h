@@ -19,5 +19,5 @@ typedef struct CompactMemVal {
 } CompactMemVal;
 #define NilCompactMemVal	(CompactMemVal *)0
 #define NewCompactMemVal(n)	(CompactMemVal *)fxfAlloc(sizeof(CompactMemVal)+(n)*sizeof(uChar))
-#define FreeCompactMemVal(v)	fxfFree(v, sizeof(CompactMemVal)+((CompactMemVal const *)v)->Leng*sizeof(uChar))
+#define FreeCompactMemVal(v)	fxfFree(v, sizeof(CompactMemVal)+((CompactMemVal const *)(v))->Leng*sizeof(uChar))
 #endif /*DHTCMEM_INCLUDED*/
