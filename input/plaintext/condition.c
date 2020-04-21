@@ -55,6 +55,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 static char *ParseSquareLastCapture(char *tok)
 {
@@ -146,8 +147,12 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
 
         {
           size_t const dp = len-(size_t)(dpp-buf);
+          long int tmp;
           if (dp==0)
-            return 100*(long int)atoi(buf);
+          {
+            tmp = strtol(buf, NULL, 10);
+            return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : BGL_infinity);
+          }
           else
           {
             while ((size_t)(dpp-buf)<len)
@@ -163,11 +168,13 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
             switch (dp) /* N.B> d.p. is part of count */
             {
               case 1 :
-                return 100*(long int)atoi(buf);
+                tmp = strtol(buf, NULL, 10);
+                return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : BGL_infinity);
               case 2 :
-                return 10*(long int)atoi(buf);
+                tmp = strtol(buf, NULL, 10);
+                return (((tmp >= (LONG_MIN / 10)) && (tmp <= (LONG_MAX / 10))) ? (10 * tmp) : BGL_infinity);
               case 3 :
-                return (long int)atoi(buf);
+                return strtol(buf, NULL, 10);
               default :
                 return BGL_infinity;
             }

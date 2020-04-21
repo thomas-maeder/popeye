@@ -49,16 +49,16 @@ uLong inet_addr(char *cp) {
 	/* converts an inet-adr in dot-notation to long */
 	uLong addr;
 
-	addr=atoi(cp);
+	addr=(strtoul(cp,&cp,10) & 0xFFU);
 	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
-	if (!(cp=strchr(cp+1, '.')))
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
+	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
-	if (!(cp=strchr(cp+1, '.')))
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
+	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
 	return addr;
 }
 

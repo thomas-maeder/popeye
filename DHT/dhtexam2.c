@@ -17,10 +17,12 @@
 #include "dhtvalue.h"
 #include "dht.h"
 #include "dhtmem.h"
+#include <limits.h>
 
 int main(int argc, char *argv[]) {
 
 	int cnt, EntryCnt= 0;
+	long int tmp;
 
 	struct dummy {
 		long l1;
@@ -45,7 +47,8 @@ int main(int argc, char *argv[]) {
 	while (ac < argc) {
 		if (strcmp(*av, "-c") == 0) {
 			ac++; av++;
-			EntryCnt= atoi(*av);
+			tmp = strtol(*av, NULL, 10);
+			EntrCnt= ((tmp > INT_MAX) ? INT_MAX : ((tmp < INT_MIN) ? INT_MIN : tmp));
 			ac++; av++;
 			continue;
 		}
