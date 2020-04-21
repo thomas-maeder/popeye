@@ -222,7 +222,7 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  position/color.enum.h position/color.enum position/pieceid.h \
  pieces/walks/vectors.h position/castling_rights.h \
  solving/move_effect_journal.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
+ DHT/fxf.h pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h conditions/bgl.h \
  conditions/circe/circe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -323,6 +323,8 @@ DHT/dhtvalue.h:
 DHT/fxf.h:
 
 DHT/dht.h:
+
+DHT/fxf.h:
 
 pieces/walks/pawns/en_passant.h:
 
