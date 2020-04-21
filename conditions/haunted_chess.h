@@ -15,7 +15,7 @@ void move_effect_journal_do_remember_ghost(void);
 
 /* Forget a ghost "below" a square (typically because it is on the board now)
  */
-void move_effect_journal_do_forget_ghost(underworld_index_type const summoned);
+void move_effect_journal_do_forget_ghost(underworld_index_type summoned);
 
 /* Make sure the effects of remembering and forgetting ghosts are properly
  * undone and redone
