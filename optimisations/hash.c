@@ -88,6 +88,7 @@
 #include "solving/proofgames.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
+#include "DHT/fxf.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/circe.h"
