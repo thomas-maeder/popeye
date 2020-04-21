@@ -177,8 +177,8 @@ void TraceValueImpl(char const *prefix, char const *format, ...)
       fputs("...",stdout);
     else
     {
-      va_start(ap, format);
-      vprintf(format,value);
+      va_start(ap,format);
+      vprintf(format,ap);
       va_end(ap);
     }
     fflush(stdout);
@@ -575,8 +575,6 @@ void TraceStipulation(slice_index si)
 #include "pieces/pieces.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
-#include "debugging/assert.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
