@@ -31,7 +31,6 @@ static char *host_aliases[MAXALIASES];
 static char hostbuf[BUFSIZ+1];
 static FILE *hostf = NULL;
 static long hostaddr[MAXADDRS];
-char *strpbrk();
 
 
 typedef unsigned long uLong;
@@ -256,7 +255,7 @@ int main(int argc, char *argv[]) {
 
 		dhtRemoveElement(NameToInet, he->Key);
 		dhtRemoveElement(InetToName, he->Data);
-		printf("   Deleting and checking consistency (Load=%ld... ", dhtActualLoad(NameToInet));
+		printf("   Deleting and checking consistency (Load=%lu... ", dhtKeyCount(NameToInet));
 		i=0;
 		hhe= dhtGetFirstElement(NameToInet);
 		fputs("    ", stdout); fflush(stdout);

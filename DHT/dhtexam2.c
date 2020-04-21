@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 	for (cnt=0; cnt<EntryCnt; cnt++) {
 		dm.l1= cnt;
 		dm.l2= -cnt;
-		if (dhtEnterElement(ht, (dhtValue)&mv, (dhtValue)cnt) == dhtNilElement) {
+		if (dhtEnterElement(ht, (dhtValue)&mv, (dhtValue)&dm) == dhtNilElement) {
 			fprintf(stderr, "%s: Sorry, failed to enter %d-th element\n", argv[0], cnt);
 			exit(5);
 		}
