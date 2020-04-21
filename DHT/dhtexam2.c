@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 		if (strcmp(*av, "-c") == 0) {
 			ac++; av++;
 			tmp = strtol(*av, NULL, 10);
-			EntrCnt= ((tmp > INT_MAX) ? INT_MAX : ((tmp < INT_MIN) ? INT_MIN : tmp));
+			EntryCnt= ((tmp > INT_MAX) ? INT_MAX : ((tmp < INT_MIN) ? INT_MIN : tmp));
 			ac++; av++;
 			continue;
 		}
