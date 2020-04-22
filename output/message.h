@@ -140,6 +140,7 @@ typedef enum
   InconsistentRetroInformation                      = 119,
   InconsistentDuplexOption                          = 120,
   InconsistentProofTarget                           = 121,
+  InconsistentNullMoves                             = 122,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

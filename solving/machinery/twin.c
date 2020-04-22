@@ -749,6 +749,15 @@ void verify_position(slice_index si)
     return;
   }
 
+  if (OptFlag[nullmoves])
+  {
+    if (OptFlag[solapparent] || CondFlag[schwarzschacher])
+    {
+      output_plaintext_verifie_message(InconsistentNullMoves);
+      return;
+    }
+  }
+
   if (CondFlag[takemake])
   {
     if (CondFlag[sentinelles]
