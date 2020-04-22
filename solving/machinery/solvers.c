@@ -181,6 +181,7 @@
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
 #include "options/movenumbers.h"
+#include "options/nullmoves.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -329,6 +330,9 @@ void build_solvers1(slice_index si)
     strictsat_initialise_solving(si);
   else if (CondFlag[SAT])
     sat_initialise_solving(si);
+
+  if (OptFlag[nullmoves])
+    nullmoves_initialise_solving(si,no_side);
 
   if (CondFlag[schwarzschacher])
     blackchecks_initialise_solving(si);

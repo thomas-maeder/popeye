@@ -464,6 +464,8 @@ simples:
 			refutations considerees (cas special: defense 1
 			les essais sont ecrits comme d'habitude).
 	Apparent        Le jeux apparent sera affiche
+	CoupsVides	Permet le camp qui a le trait a y renoncer.
+			Sert a trouver les essais tempo.
 	ApparentSeul    Les blancs jouent aux mats aides (0.1.1...)
 	Menace          Pour le mode multi-coups: Cette option doit
 			etre suivie par un chiffre. L'adversaire est

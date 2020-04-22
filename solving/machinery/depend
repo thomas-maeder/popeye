@@ -111,6 +111,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  optimisations/ohneschach/immobility_tests_help.h options/maxtime.h \
  options/degenerate_tree.h options/maxthreatlength.h \
  options/maxflightsquares.h options/nontrivial.h options/movenumbers.h \
+ options/nullmoves.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -591,6 +592,8 @@ options/maxflightsquares.h:
 options/nontrivial.h:
 
 options/movenumbers.h:
+
+options/nullmoves.h:
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 

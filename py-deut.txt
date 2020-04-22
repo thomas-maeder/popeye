@@ -479,6 +479,8 @@ Kommandos:
 			Widerlegung 1 = es werden alle Verfuehrungen im 
 			herkoemmlichen Sinn berechnet).
 	Satzspiel       Satzspiel berechnen
+	NullZuege	Erlaubt der Seite am Zug, darauf zu verzichten.
+			Dient zur Ermittlung von Tempo-Versuchen.
 	Drohung         Fuer Mehrzuegermodus: Dieser Option muss eine
 			Zahl folgen. Die gegnerische Partei hat sich
 			verteidigt, falls es keine Drohung gibt, die

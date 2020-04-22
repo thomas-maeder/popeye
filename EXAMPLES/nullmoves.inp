@@ -1,0 +1,12 @@
+begin
+
+protocol nullmoves.ref
+
+author Thomas Maeder
+origin BCPS 1999, 1st prize
+pieces white Ka4 bc2 Sh6g8 black Kg7 Qf8 Sc6h8 Pc4h5e6 Rb5 Bd1a3
+stipulation h#3
+option nullmoves
+twin move f8 g5
+
+end

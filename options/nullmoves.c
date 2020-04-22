@@ -83,8 +83,6 @@ void null_move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(trait[nbply]==Black);
-
   push_null_move();
   pipe_solve_delegate(si);
 
@@ -205,6 +203,12 @@ void nullmoves_initialise_solving(slice_index si, Side side)
   stip_structure_traversal_override_single(&st,
                                            STLandingAfterMovingPieceMovement,
                                            &remember_landing);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchGoal,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchGoalImmobile,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

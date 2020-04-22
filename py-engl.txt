@@ -460,6 +460,8 @@ commands expect further parameters. Lets start with the simpler commands:
 			into consideration. For instance Defence 1 all
 			real tries are calculated.
 	SetPlay         calculate setplay.
+	NullMoves	Allows the moving side to play a null move.
+			Servers for finding tempo tries.
 	Threat          for moremovers: This option must be followed
 			by an integer. The opposit party has defended
 			when there is no threat in less or equal this

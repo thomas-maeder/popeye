@@ -648,7 +648,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "AjouteGrille",
   /*32*/  "RoquesMutuellementExclusifs",
   /*33*/  "ButEstFin",
-  /*34*/  "optionnonpubliee"
+  /*34*/  "optionnonpubliee",
+  /*35*/  "CoupsVides"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -685,7 +686,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "ZeichneGitter",
   /*32*/  "RochadenGegenseitigAusschliessend",
   /*33*/  "ZielIstEnde",
-  /*34*/  "nichtpublizierteoption"
+  /*34*/  "nichtpublizierteoption",
+  /*35*/  "NullZuege"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -722,7 +724,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "WriteGrid",
   /*32*/  "CastlingMutuallyExclusive",
   /*33*/  "GoalIsEnd",
-  /*34*/  "unpublishedoption"
+  /*34*/  "unpublishedoption",
+  /*35*/  "NullMoves"
   }
 };
 
