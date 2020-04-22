@@ -232,7 +232,7 @@ static slice_type const move_generator_slice_types[] =
     STOrthodoxMatingMoveGenerator,
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,
-    STBlackChecksNullMoveGenerator
+    STNullMoveGenerator
 };
 
 static slice_type const move_reordering_optimiser_slice_types[] =

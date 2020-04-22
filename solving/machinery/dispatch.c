@@ -189,6 +189,7 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "options/quodlibet.h"
 #include "options/goal_is_end.h"
+#include "options/nullmoves.h"
 #include "input/commandline.h"
 #include "input/plaintext/plaintext.h"
 #include "input/plaintext/problem.h"
@@ -2237,8 +2238,8 @@ void dispatch(slice_index si)
       castling_generate_test_departure(si);
       break;
 
-    case STBlackChecksNullMoveGenerator:
-      black_checks_null_move_generator_solve(si);
+    case STNullMoveGenerator:
+      null_move_generator_solve(si);
       break;
 
     case STTrue:

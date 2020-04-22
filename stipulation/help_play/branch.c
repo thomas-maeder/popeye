@@ -66,7 +66,7 @@ static slice_index const slice_rank_order[] =
   STExclusiveChessNestedExclusivityDetector,
   STMoveGenerator,
   STTotalInvisibleMovesByInvisibleGenerator,
-  STBlackChecksNullMoveGenerator,
+  STNullMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STOrthodoxMatingKingContactGenerator,
   STKingMoveGenerator,

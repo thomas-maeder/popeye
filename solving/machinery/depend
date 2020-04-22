@@ -1174,8 +1174,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  options/stoponshortsolutions/filter.h options/quodlibet.h \
- options/goal_is_end.h input/commandline.h input/plaintext/plaintext.h \
- input/plaintext/problem.h input/plaintext/twin.h input/plaintext/token.h \
+ options/goal_is_end.h options/nullmoves.h input/commandline.h \
+ input/plaintext/plaintext.h input/plaintext/problem.h \
+ input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/option.h \
  input/plaintext/condition.h output/output.h output/plaintext/plaintext.h \
  output/plaintext/end_of_phase_writer.h \
@@ -1727,6 +1728,8 @@ options/stoponshortsolutions/filter.h:
 options/quodlibet.h:
 
 options/goal_is_end.h:
+
+options/nullmoves.h:
 
 input/commandline.h:
 

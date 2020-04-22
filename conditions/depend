@@ -572,12 +572,9 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h conditions/mummer.h \
- solving/move_generator.h solving/ply.h position/effects/null_move.h \
- solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/check.h solving/pipe.h solving/fork.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/move_generator.h solving/ply.h solving/check.h solving/pipe.h \
+ options/nullmoves.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -586,9 +583,7 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/pipe.h stipulation/slice_insertion.h stipulation/move.h \
  debugging/assert.h
 
 conditions/blackchecks.h:
@@ -635,25 +630,11 @@ solving/move_generator.h:
 
 solving/ply.h:
 
-position/effects/null_move.h:
-
-solving/move_effect_journal.h:
-
-position/castling_rights.h:
-
-position/pieceid.h:
-
 solving/check.h:
 
 solving/pipe.h:
 
-solving/fork.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
+options/nullmoves.h:
 
 stipulation/structure_traversal.h:
 
@@ -679,21 +660,11 @@ stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
 
-stipulation/proxy.h:
-
 stipulation/pipe.h:
-
-stipulation/fork.h:
-
-stipulation/branch.h:
 
 stipulation/slice_insertion.h:
 
 stipulation/move.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
 
 debugging/assert.h:
 conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinction.h \

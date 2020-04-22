@@ -557,7 +557,7 @@
     ENUMERATOR(STImitatorMover),                                        \
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \
     ENUMERATOR(STImitatorDetectIllegalMoves),                           \
-    ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
+    ENUMERATOR(STNullMoveGenerator),                                    \
     ENUMERATOR(STTotalInvisibleMoveSequenceTester),                     \
     ENUMERATOR(STTotalInvisibleMoveSequenceMoveRepeater),               \
     ENUMERATOR(STTotalInvisibleInstrumenter),                           \
