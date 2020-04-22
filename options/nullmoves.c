@@ -33,37 +33,6 @@ slice_index alloc_null_move_player_slice(slice_index after_move)
   return result;
 }
 
-static void insert_null_move_handler(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const * const landing = st->param;
-  slice_index const proxy = alloc_proxy_slice();
-  slice_index const prototype = alloc_null_move_player_slice(proxy);
-
-  assert(*landing!=no_slice);
-  link_to_branch(proxy,*landing);
-
-  move_insert_slices(si,st->context,&prototype,1);
-}
-
-static void instrument_move_generator(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (SLICE_STARTER(si)==Black)
-  {
-    slice_index const prototype = alloc_pipe(STNullMoveGenerator);
-    slice_insertion_insert_contextually(si,st->context,&prototype,1);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -123,6 +92,45 @@ void null_move_generator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    slice_index landing;
+    Side side;
+} init_struct;
+
+static void insert_null_move_handler(slice_index si, stip_structure_traversal *st)
+{
+  init_struct * const initialiser = st->param;
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const prototype = alloc_null_move_player_slice(proxy);
+
+  assert(initialiser->landing!=no_slice);
+  link_to_branch(proxy,initialiser->landing);
+
+  move_insert_slices(si,st->context,&prototype,1);
+}
+
+static void instrument_move_generator(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  init_struct const * const initialiser = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (initialiser->side==no_side || initialiser->side==SLICE_STARTER(si))
+  {
+    slice_index const prototype = alloc_pipe(STNullMoveGenerator);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
@@ -131,22 +139,24 @@ static void insert_landing(slice_index si, stip_structure_traversal *st)
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
+  init_struct * const initialiser = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (SLICE_STARTER(si)==Black)
+  if (initialiser->side==no_side || initialiser->side==SLICE_STARTER(si))
   {
-    slice_index * const landing = st->param;
-    slice_index const save_landing = *landing;
+    init_struct * const initialiser = st->param;
+    slice_index const save_landing = initialiser->landing;
 
-    *landing = no_slice;
+    initialiser->landing = no_slice;
     insert_landing(si,st);
 
     stip_traverse_structure_children(si,st);
 
     insert_null_move_handler(si,st);
-    *landing = save_landing;
+    initialiser->landing = save_landing;
   }
   else
     stip_traverse_structure_children(si,st);
@@ -157,16 +167,16 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
 static void remember_landing(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const landing = st->param;
+  init_struct * const initialiser = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(*landing==no_slice);
+  assert(initialiser->landing==no_slice);
   stip_traverse_structure_children_pipe(si,st);
-  assert(*landing==no_slice);
-  *landing = si;
+  assert(initialiser->landing==no_slice);
+  initialiser->landing = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -174,17 +184,22 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
 
 /* Instrument the solving machinery for nullmoves
  * @param si identifies root slice of stipulation
+ * @param side which side may play null moves? pass no_side for both_sides
  */
-void nullmoves_initialise_solving(slice_index si)
+void nullmoves_initialise_solving(slice_index si, Side side)
 {
   stip_structure_traversal st;
-  slice_index landing = no_slice;
+  init_struct initialiser = {
+      no_slice,
+      side
+  };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&landing);
+  stip_structure_traversal_init(&st,&initialiser);
   stip_structure_traversal_override_single(&st,STGeneratingMoves,&instrument_move_generator);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_structure_traversal_override_single(&st,

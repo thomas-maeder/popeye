@@ -48,7 +48,7 @@ void blackchecks_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nullmoves_initialise_solving(si);
+  nullmoves_initialise_solving(si,Black);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STGoalReachedTester,&stip_structure_visitor_noop);

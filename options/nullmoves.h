@@ -43,7 +43,8 @@ void null_move_generator_solve(slice_index si);
 
 /* Instrument the solving machinery for nullmoves
  * @param si identifies root slice of stipulation
+ * @param side which side may play null moves? pass no_side for both_sides
  */
-void nullmoves_initialise_solving(slice_index si);
+void nullmoves_initialise_solving(slice_index si, Side side);
 
 #endif
