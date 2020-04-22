@@ -252,6 +252,9 @@ static void write_regular_move(output_plaintext_move_context_type *context)
              || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
       write_exchange(context,movement);
     }
+    else
+      /* null move */
+      (*context->engine->fprintf)(context->file,"%s"," ...");
   }
 }
 
