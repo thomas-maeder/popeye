@@ -164,11 +164,11 @@ void undo_move_effects(void)
 
   TraceValue("%u",nbply);
   TraceValue("%u",parent_top);
-  TraceValue("%u",top);
-  TraceEOL();
 
   assert(parent_top>0);
   top = move_effect_journal_base[nbply+1];
+  TraceValue("%u",top);
+  TraceEOL();
   assert(top>=parent_top);
   parent_top_entry = &move_effect_journal[parent_top-1];
 

@@ -475,6 +475,7 @@ static void PieceMovesFromTo(Side side,
   assert(TSTFLAG(proofgames_target_position.spec[to],side));
 
   *moves= current_length;
+  *captures= 0;
 
   switch (pto)
   {
@@ -487,7 +488,6 @@ static void PieceMovesFromTo(Side side,
       if (pfrom==pto)
       {
         OfficerMovesFromTo(pfrom, from, to, moves);
-        *captures= 0;
       }
       else if (pfrom==Pawn)
         PromPieceMovesFromTo(side,
