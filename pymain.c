@@ -33,13 +33,27 @@ static void checkGlobalAssumptions(void)
    * NB: There is no need for the analoguous check for digits, because
    * decimal digits are guaranteed by the language to be encoded
    * contiguously and in the natural order. */
-  assert('b'=='a'+1);
-  assert('c'=='b'+1);
-  assert('d'=='c'+1);
-  assert('e'=='d'+1);
-  assert('f'=='e'+1);
-  assert('g'=='f'+1);
-  assert('h'=='g'+1);
+#if 'b' != ('a' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'b' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'c' != ('b' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'c' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'd' != ('c' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'd' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'e' != ('d' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'e' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'f' != ('e' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'f' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'g' != ('f' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'g' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
+#if 'h' != ('g' + 1)
+    COMPILE-TIME ASSERTION FAILURE: 'h' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#endif
 
   check_hash_assumptions();
   enforce_piecename_uniqueness();
