@@ -311,19 +311,19 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                       "obs");
   else
   {
-    PieNam const pnam = abs(p);
+    int const pnam = abs((int) p);
 
     if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes))
-      remember_regular_piece(pnam);
+      remember_regular_piece((piece_walk_type) pnam);
     else
     {
       unsigned int const i = pnam-Hunter0;
       assert(i<maxnrhuntertypes);
-      remember_regular_piece(abs(huntertypes[i].away));
+      remember_regular_piece((piece_walk_type) abs(huntertypes[i].away));
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "/");
-      remember_regular_piece(abs(huntertypes[i].home));
+      remember_regular_piece((piece_walk_type) abs(huntertypes[i].home));
     }
   }
 #endif
