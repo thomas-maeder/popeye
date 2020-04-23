@@ -83,7 +83,9 @@ void null_move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  push_null_move();
+  if (!is_null_move(CURRMOVE_OF_PLY(parent_ply[nbply])))
+    push_null_move();
+
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
