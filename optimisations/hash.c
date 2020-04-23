@@ -166,8 +166,9 @@ static void dump_hash_buffer(void)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
 #include <unistd.h>
-static void *OldBreak;
+extern void *sbrk(intptr_t increment);
 extern int dhtDebug;
+static void *OldBreak;
 #endif /*__unix*/
 #else
 #define ifTESTHASH(x)
