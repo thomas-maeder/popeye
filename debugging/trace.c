@@ -20,6 +20,7 @@
 #include "solving/pipe.h"
 #if defined(DOTRACECALLSTACK)
 #include "output/plaintext/language_dependant.h"
+#include "pieces/walks/hunters.h"
 #endif
 
 static trace_level level;
