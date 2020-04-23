@@ -18,6 +18,9 @@
 #include "stipulation/move.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
+#if defined(DOTRACECALLSTACK)
+#include "output/plaintext/language_dependant.h"
+#endif
 
 static trace_level level;
 
