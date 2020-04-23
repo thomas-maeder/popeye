@@ -739,7 +739,7 @@ boolean is_null_move(numecoup curr)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
+  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
   result = (move_generation_stack[curr].departure==nullsquare
