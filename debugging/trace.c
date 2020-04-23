@@ -302,7 +302,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
-  if (p==vide)
+  if (p==0 /* vide */) /* TODO: Is 0 the correct value here? */
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "vide");
@@ -314,12 +314,12 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
   {
     int const pnam = abs((int) p);
 
-    if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes))
+    if (pnam<Hunter0 || pnam >= (Hunter0 + max_nr_hunter_walks))
       remember_regular_piece((piece_walk_type) pnam);
     else
     {
       unsigned int const i = pnam-Hunter0;
-      assert(i<maxnrhuntertypes);
+      assert(i<max_nr_hunter_walks);
       remember_regular_piece((piece_walk_type) abs(huntertypes[i].away));
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
