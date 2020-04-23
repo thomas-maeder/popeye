@@ -70,10 +70,10 @@ void patience_chess_legality_tester_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   /* don't call patience_legal if TypeB as obs > vide ! */
-  if (!PatienceB && !patience_legal())
-    solve_result = previous_move_is_illegal;
-  else
+  if (PatienceB || patience_legal())
     pipe_solve_delegate(si);
+  else
+    solve_result = previous_move_is_illegal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
