@@ -55,6 +55,6 @@ extern char dhtError[];
 
 #if defined(DEBUG_DHT) || defined(TESTHASH)
 int get_dhtDebug(void);
-int set_dhtDebug(int d);
+void set_dhtDebug(int d);
 #endif
 #endif /*DHT_INCLUDED*/

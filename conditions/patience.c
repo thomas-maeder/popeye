@@ -79,7 +79,7 @@ void patience_chess_legality_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/*
+#if 0
 verify_position
   if (!CondFlag[patience]) {
     PatienceB = false;
@@ -93,7 +93,7 @@ if (PatienceB) {
   being_solved.board[sq_departure]= obs;
   for (nply= nbply - 1 ; nply > 1 ; nply--) {
     if (trait[nply] == trait_ply) {
-      being_solved.board[sqdep[nply]]= vide;
+      being_solved.board[sqdep[nply]]= /* vide */ 0; /* TODO: Is 0 the correct value here?
     }
   }
 }
@@ -120,4 +120,4 @@ ParseCond
       case patience:
         tok = ParseVariant(&PatienceB, gpType);
         break;
- */
+#endif
