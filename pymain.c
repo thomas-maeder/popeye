@@ -34,25 +34,25 @@ static void checkGlobalAssumptions(void)
    * decimal digits are guaranteed by the language to be encoded
    * contiguously and in the natural order. */
 #if 'b' != ('a' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'b' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'b' != ('a' + 1); unable to compile."
 #endif
 #if 'c' != ('b' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'c' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'c' != ('b' + 1); unable to compile."
 #endif
 #if 'd' != ('c' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'd' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'd' != ('c' + 1); unable to compile."
 #endif
 #if 'e' != ('d' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'e' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'e' != ('d' + 1); unable to compile."
 #endif
 #if 'f' != ('e' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'f' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'f' != ('e' + 1); unable to compile."
 #endif
 #if 'g' != ('f' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'g' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'g' != ('f' + 1); unable to compile."
 #endif
 #if 'h' != ('g' + 1)
-    COMPILE-TIME ASSERTION FAILURE: 'h' != ('a' + 1); unable to compile. /* deliberate syntax error */
+#   error "COMPILE-TIME ASSERTION FAILURE: 'h' != ('g' + 1); unable to compile."
 #endif
 
   check_hash_assumptions();
