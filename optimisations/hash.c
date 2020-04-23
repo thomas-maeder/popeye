@@ -167,7 +167,6 @@ static void dump_hash_buffer(void)
 #if defined(__unix)
 #include <unistd.h>
 static void *OldBreak;
-extern int dhtDebug;
 #endif /*__unix*/
 #else
 #define ifTESTHASH(x)
@@ -983,7 +982,7 @@ static void compresshash (void)
       if (nrIterationsInCompression>9)
         printf("nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
                nrElementsRemovedInAllCompressions);
-      dhtDebug = nrIterationsInCompression==9;
+      set_dhtDebug(nrIterationsInCompression==9);
     }
     fflush(stdout);
 #endif  /* TESTHASH */
@@ -1028,7 +1027,7 @@ void IncHashRateLevel(void)
 {
   ++HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(IncrementHashRateLevel,HashRateLevel);
+  /* Message(IncrementHashRateLevel,HashRateLevel); */ printf("IncrementHashRateLevel = %u, HashRateLevel = %u\n", (unsigned int) IncrementHashRateLevel, HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1037,7 +1036,7 @@ void DecHashRateLevel(void)
   if (HashRateLevel>0)
     --HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(DecrementHashRateLevel,HashRateLevel);
+  /* Message(DecrementHashRateLevel,HashRateLevel); */ printf("DecrementHashRateLevel = %u, HashRateLevel = %u\n", (unsigned int) DecrementHashRateLevel, HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1062,7 +1061,7 @@ void HashStats(unsigned int level, char const *trailer)
   {
     int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
-    Message2(stdout,HashedPositions,pos);
+    /* Message2(stdout,HashedPositions,pos); */ printf("HashedPositions = %u, pos = %d\n", (unsigned int) HashedPositions, pos);
     if (use_all > 0)
     {
       if (use_all < 10000)
@@ -1083,7 +1082,7 @@ void HashStats(unsigned int level, char const *trailer)
         printf(", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
-      StdString2(stdout,trailer);
+      /* StdString2(stdout,trailer); */ puts(trailer);
   }
 #endif /*HASHRATE*/
 }
@@ -1741,7 +1740,7 @@ static void inithash(slice_index si)
   ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(0);
+  OldBreak= /* sbrk(0) */ NULL;
 #endif /*__unix,TESTHASH*/
 
   minimalElementValueAfterCompression = 2;
@@ -1864,7 +1863,7 @@ static void closehash(void)
 #if defined(FXF)
     unsigned long const HashMem = fxfTotal();
 #else
-    unsigned long const HashMem = sbrk(0)-OldBreak;
+    unsigned long const HashMem = /* sbrk(0)-OldBreak */ NULL;
 #endif /*FXF*/
     unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
     if (HashCount>0)

@@ -53,4 +53,8 @@ extern char dhtError[];
 #define	fDumpHashTable		dhtDump
 #endif /*OLD_NAMES*/
 
+#if defined(DEBUG_DHT) || defined(TESTHASH)
+int get_dhtDebug(void);
+int set_dhtDebug(int d);
+#endif
 #endif /*DHT_INCLUDED*/
