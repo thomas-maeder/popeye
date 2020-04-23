@@ -919,26 +919,31 @@ static void compresshash (void)
     fflush(stdout);
 #endif  /* TESTHASH */
 
-#if defined(TESTHASH)
+#if defined(TESTHASH)    
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      printf("%u\n",value_of_data(&he->d));
+    {
+      hashElement_union_t hue;
+      hue.d = he;
+      printf("%u\n",value_of_data(&hue));
+    }
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
     {
-      hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-      if (value_of_data(hue)<minimalElementValueAfterCompression)
+      hashElement_union_t hue;
+      hue.d = he;
+      if (value_of_data(&hue)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
         ++nrElementsRemovedInCompression;
         ++nrElementsRemovedInAllCompressions;
 #endif  /* TESTHASH */
 
-        dhtRemoveElement(pyhash, hue->d.Key);
+        dhtRemoveElement(pyhash, hue.d.Key);
 
 #if defined(TESTHASH)
         if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
