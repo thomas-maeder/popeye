@@ -734,6 +734,24 @@ void push_special_move(square sq_special)
   TraceFunctionResultEnd();
 }
 
+boolean is_null_move(numecoup curr)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  result = (move_generation_stack[curr].departure==nullsquare
+            && move_generation_stack[curr].arrival==nullsquare
+            && move_generation_stack[curr].capture==no_capture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void push_null_move(void)
 {
   TraceFunctionEntry(__func__);
