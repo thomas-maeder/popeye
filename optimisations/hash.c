@@ -83,6 +83,9 @@
 #include <limits.h>
 
 #include <memory.h>
+#if defined(__unix) && defined(TESTHASH)
+#include <unistd.h>
+#endif
 #include "optimisations/hash.h"
 #include "output/plaintext/message.h"
 #include "solving/proofgames.h"
@@ -920,7 +923,7 @@ static void compresshash (void)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      printf("%u\n",value_of_data(he));
+      printf("%u\n",value_of_data(&he->d));
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
