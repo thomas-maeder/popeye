@@ -93,7 +93,7 @@ if (PatienceB) {
   being_solved.board[sq_departure]= obs;
   for (nply= nbply - 1 ; nply > 1 ; nply--) {
     if (trait[nply] == trait_ply) {
-      being_solved.board[sqdep[nply]]= /* vide */ 0; /* TODO: Is 0 the correct value here?
+      being_solved.board[sqdep[nply]]= /* vide */ 0; /* TODO: Is 0 the correct value here? */
     }
   }
 }
