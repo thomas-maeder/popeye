@@ -83,9 +83,6 @@
 #include <limits.h>
 
 #include <memory.h>
-#if defined(__unix) && defined(TESTHASH)
-#include <unistd.h>
-#endif
 #include "optimisations/hash.h"
 #include "output/plaintext/message.h"
 #include "solving/proofgames.h"
@@ -1058,7 +1055,7 @@ void DecHashRateLevel(void)
 
 #endif
 
-void HashStats(unsigned int level, char *trailer)
+void HashStats(unsigned int level, char const *trailer)
 {
 #if defined(HASHRATE)
   if (level<=HashRateLevel)
@@ -1744,7 +1741,7 @@ static void inithash(slice_index si)
   ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(NULL);
+  OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
 
   minimalElementValueAfterCompression = 2;

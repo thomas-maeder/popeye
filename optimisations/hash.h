@@ -54,7 +54,7 @@ unsigned long allochash(unsigned long nr_kilos);
  */
 boolean is_hashtable_allocated(void);
 
-void HashStats(unsigned int level, char *trailer);
+void HashStats(unsigned int level, char const *trailer);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
