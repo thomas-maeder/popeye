@@ -1027,7 +1027,7 @@ void IncHashRateLevel(void)
 {
   ++HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(IncrementHashRateLevel,HashRateLevel);
+  Message(IncrementHashRateLevel,HashRateLevel); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
   HashStats(0, "\n");
 }
 
@@ -1036,7 +1036,7 @@ void DecHashRateLevel(void)
   if (HashRateLevel>0)
     --HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(DecrementHashRateLevel,HashRateLevel);
+  Message(DecrementHashRateLevel,HashRateLevel); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
   HashStats(0, "\n");
 }
 
@@ -1061,7 +1061,7 @@ void HashStats(unsigned int level, char const *trailer)
   {
     int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
-    Message2(stdout,HashedPositions,pos);
+    Message2(stdout,HashedPositions,pos); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
     if (use_all > 0)
     {
       if (use_all < 10000)
@@ -1082,7 +1082,7 @@ void HashStats(unsigned int level, char const *trailer)
         printf(", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
-      StdString2(stdout,trailer);
+      StdString2(stdout,trailer); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
   }
 #endif /*HASHRATE*/
 }
@@ -1740,7 +1740,7 @@ static void inithash(slice_index si)
   ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(0);
+  OldBreak= sbrk(0); /* TODO: sbrk may not be available.  Should we (somehow) check for it?  Should we do something else? */
 #endif /*__unix,TESTHASH*/
 
   minimalElementValueAfterCompression = 2;
@@ -1863,7 +1863,7 @@ static void closehash(void)
 #if defined(FXF)
     unsigned long const HashMem = fxfTotal();
 #else
-    unsigned long const HashMem = sbrk(0)-OldBreak;
+    unsigned long const HashMem = sbrk(0)-OldBreak; /* TODO: sbrk may not be available.  Should we (somehow) check for it?  Should we do something else? */
 #endif /*FXF*/
     unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
     if (HashCount>0)
