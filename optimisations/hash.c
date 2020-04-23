@@ -925,7 +925,7 @@ static void compresshash (void)
          he = dhtGetNextElement(pyhash))
     {
       hashElement_union_t hue;
-      hue.d = he;
+      hue.d = *he;
       printf("%u\n",value_of_data(&hue));
     }
 #endif  /* TESTHASH */
@@ -935,7 +935,7 @@ static void compresshash (void)
          he = dhtGetNextElement(pyhash))
     {
       hashElement_union_t hue;
-      hue.d = he;
+      hue.d = *he;
       if (value_of_data(&hue)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
@@ -1744,7 +1744,7 @@ static void inithash(slice_index si)
   ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(0);
+  OldBreak= sbrk(NULL);
 #endif /*__unix,TESTHASH*/
 
   minimalElementValueAfterCompression = 2;
