@@ -306,7 +306,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "vide");
-  else if (p==obs)
+  else if (p==1 /* obs */) /* TODO: Is 1 the correct value here? */
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "obs");
