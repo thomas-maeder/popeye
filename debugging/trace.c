@@ -145,10 +145,12 @@ void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
-                                  entry_length-entry_cursor[level],
-                                  format,
-                                  value);
+  va_start(ap, format);
+  entry_cursor[level] += vsnprintf(entries[level]+entry_cursor[level],
+                                   entry_length-entry_cursor[level],
+                                   format,
+                                   ap);
+  va_end(ap);
 #endif
 }
 
@@ -185,10 +187,12 @@ void TraceValueImpl(char const *prefix, char const *format, ...)
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    format,
-                                    value);
+  va_start(ap,format);
+  entry_cursor[level-1] += vsnprintf(entries[level-1]+entry_cursor[level-1],
+                                     entry_length-entry_cursor[level-1],
+                                     format,
+                                     ap);
+  va_end(ap);
 #endif
 }
 
