@@ -31,10 +31,10 @@ a)
   1.Rb5-g5 Sh6-f5 +   2.Kg7*g8 Ka4-b5   3.Rg5-g7 Sf5-h6 #
   1.Rb5-g5 Sh6-g4   2.Kg7*g8  ...   3.Rg5-g7 Sg4-h6 #
   1.Rb5-g5 Sh6-f7   2.Kg7*g8  ...   3.Rg5-g7 Sf7-h6 #
-  add_to_move_generation_stack:    51015768
-                     play_move:    44513908
- is_white_king_square_attacked:     2239714
- is_black_king_square_attacked:    44257096
+  add_to_move_generation_stack:    51011507
+                     play_move:    44509647
+ is_white_king_square_attacked:     2239674
+ is_black_king_square_attacked:    44252875
 
 b) bQf8-->g5  
 
@@ -42,10 +42,10 @@ b) bQf8-->g5
   1.Ba3-f8 Sg8-e7   2.Kg7*h6  ...   3.Bf8-g7 Se7-g8 #
   1.Ba3-f8 Sg8-e7   2.Kg7*h6 Ka4-a3   3.Bf8-g7 Se7-g8 #
   1.Ba3-f8 Sg8-f6   2.Kg7*h6  ...   3.Bf8-g7 Sf6-g8 #
-  add_to_move_generation_stack:    56294428
-                     play_move:    48892787
- is_white_king_square_attacked:     2377560
- is_black_king_square_attacked:    48612599
+  add_to_move_generation_stack:    56290201
+                     play_move:    48888560
+ is_white_king_square_attacked:     2377523
+ is_black_king_square_attacked:    48608409
 
 solution finished.
 
