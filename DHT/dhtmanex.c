@@ -79,7 +79,7 @@ int main( )
     /* now delete all struct info in the table */
     he= dhtGetFirstElement(OurTable);
     while (he) {
-    	free(he->Data);
+    	free((dhtValue)he->Data);
 	he= dhtGetNextElement(OurTable);
     }
     /* now destroy the whole table */
