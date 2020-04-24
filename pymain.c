@@ -17,11 +17,6 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-/* assert()s below this line must remain active even in "productive"
- * executables. */
-#undef NDEBUG
-#include <assert.h>
-
 /* Check assumptions made throughout the program. Abort if one of them
  * isn't met. */
 static void checkGlobalAssumptions(void)
