@@ -33,13 +33,17 @@ static void checkGlobalAssumptions(void)
    * NB: There is no need for the analoguous check for digits, because
    * decimal digits are guaranteed by the language to be encoded
    * contiguously and in the natural order. */
-  assert('b' == ('a' + 1));
-  assert('c' == ('b' + 1));
-  assert('d' == ('c' + 1));
-  assert('e' == ('d' + 1));
-  assert('f' == ('e' + 1));
-  assert('g' == ('f' + 1));
-  assert('h' == ('g' + 1));
+  {
+    enum {
+      ensure_b_equals_a_plus_1 = 1/('b' == ('a' + 1)),
+      ensure_c_equals_b_plus_1 = 1/('c' == ('b' + 1)),
+      ensure_d_equals_c_plus_1 = 1/('d' == ('c' + 1)),
+      ensure_e_equals_d_plus_1 = 1/('e' == ('d' + 1)),
+      ensure_f_equals_e_plus_1 = 1/('f' == ('e' + 1)),
+      ensure_g_equals_f_plus_1 = 1/('g' == ('f' + 1)),
+      ensure_h_equals_g_plus_1 = 1/('h' == ('g' + 1))
+    };
+  }
 
   check_hash_assumptions();
   enforce_piecename_uniqueness();
