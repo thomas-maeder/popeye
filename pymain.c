@@ -33,27 +33,13 @@ static void checkGlobalAssumptions(void)
    * NB: There is no need for the analoguous check for digits, because
    * decimal digits are guaranteed by the language to be encoded
    * contiguously and in the natural order. */
-#if 'b' != ('a' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'b' != ('a' + 1); unable to compile."
-#endif
-#if 'c' != ('b' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'c' != ('b' + 1); unable to compile."
-#endif
-#if 'd' != ('c' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'd' != ('c' + 1); unable to compile."
-#endif
-#if 'e' != ('d' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'e' != ('d' + 1); unable to compile."
-#endif
-#if 'f' != ('e' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'f' != ('e' + 1); unable to compile."
-#endif
-#if 'g' != ('f' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'g' != ('f' + 1); unable to compile."
-#endif
-#if 'h' != ('g' + 1)
-#   error "COMPILE-TIME ASSERTION FAILURE: 'h' != ('g' + 1); unable to compile."
-#endif
+  assert('b' == ('a' + 1));
+  assert('c' == ('b' + 1));
+  assert('d' == ('c' + 1));
+  assert('e' == ('d' + 1));
+  assert('f' == ('e' + 1));
+  assert('g' == ('f' + 1));
+  assert('h' == ('g' + 1));
 
   check_hash_assumptions();
   enforce_piecename_uniqueness();
