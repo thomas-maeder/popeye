@@ -102,7 +102,7 @@ static void store_solution(void)
     void * const tmp = realloc(stored_solutions,size);
     if (tmp==NULL)
     {
-      free(stored_solutions);
+      intelligent_duplicate_avoider_cleanup();
       nr_stored_solutions = 0;
     }
     stored_solutions = tmp;
