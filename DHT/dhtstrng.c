@@ -50,9 +50,9 @@ static dhtConstValue	DupString(dhtConstValue v)
 	nv= (char *)fxfAlloc(strlen((char const *)v)+1);
 	if (nv!=0)
 		strcpy(nv, (char const *)v);
-	return (dhtValue)nv;
+	return (dhtConstValue)nv;
 }
-static void	FreeString(dhtConstValue v)
+static void	FreeString(dhtValue v)
 {
 	fxfFree(v, strlen((char const *)v)+1);
 	return;

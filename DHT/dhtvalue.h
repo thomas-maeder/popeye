@@ -80,7 +80,7 @@ typedef struct {
   dhtHashValue (*Hash)(dhtConstValue);
 	int		(*Equal)(dhtConstValue, dhtConstValue);
 	dhtConstValue	(*Dup)(dhtConstValue);
-	void		(*Free)(dhtConstValue);
+	void		(*Free)(dhtValue);
 	void		(*Dump)(dhtConstValue, FILE *);
 } dhtValueProcedures;
 

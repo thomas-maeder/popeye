@@ -36,6 +36,9 @@
 static int dhtDebug= 0;
 int get_dhtDebug(void) {return dhtDebug;}
 void set_dhtDebug(int const d) {dhtDebug = d;}
+#endif /*DEBUG_DHT||TESTHASH*/
+
+#if defined(DEBUG_DHT)
 #define MYNAME(m)   static char const * const myname = #m;
 #define DEBUG_CODE(x)                           \
   do {                                          \
