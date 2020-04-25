@@ -404,7 +404,7 @@ static void trace_link(char const *prefix, slice_index si, char const *suffix)
     printf("%s%4u%s ",prefix,si,suffix);
 }
 
-char const context_shortcuts[] = { 'I', 'A', 'D', 'H' };
+char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
 char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
 static void trace_common(slice_index si, stip_structure_traversal *st)
