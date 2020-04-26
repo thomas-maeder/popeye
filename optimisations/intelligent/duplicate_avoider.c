@@ -72,7 +72,7 @@ static boolean alloc_room_for_solution(void)
   else
   {
     simplified_move_type ** const sol = stored_solutions+nr_stored_solutions;
-    *sol = calloc(nbply+1, sizeof **sol);
+    *sol = ((nbply < ((size_t)-1)) ? ((simplified_move_type *) calloc((nbply+(size_t)1), sizeof **sol)) : NULL);
     result = *sol!=NULL;
   }
 
@@ -96,19 +96,28 @@ static void store_solution(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nr_stored_solutions>0)
-  {
-    size_t const size = (nr_stored_solutions+1) * sizeof *stored_solutions;
-    void * const tmp = realloc(stored_solutions,size);
-    if (tmp==NULL)
+  if (nr_stored_solutions < (((size_t) -1) / (sizeof *stored_solutions)))
+    /* The new size won't overflow, so continue. */
+    if (nr_stored_solutions>0)
     {
-      intelligent_duplicate_avoider_cleanup();
-      nr_stored_solutions = 0;
+      size_t const size = (nr_stored_solutions+1) * sizeof *stored_solutions;
+      void * const tmp = realloc(stored_solutions,size);
+      if (tmp==NULL)
+      {
+        intelligent_duplicate_avoider_cleanup();
+        nr_stored_solutions = 0;
+      }
+      stored_solutions = (simplified_move_type **) tmp;
     }
-    stored_solutions = tmp;
-  }
+    else
+      stored_solutions = (simplified_move_type **) malloc(sizeof *stored_solutions);
   else
-    stored_solutions = malloc(sizeof *stored_solutions);
+  {
+    /* The new size will overflow, so give up. */
+    intelligent_duplicate_avoider_cleanup();
+    stored_solutions = NULL;
+    nr_stored_solutions = 0;
+  }
 
   if (!alloc_room_for_solution())
   {

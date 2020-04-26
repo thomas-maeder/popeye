@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
@@ -224,12 +225,16 @@ void LaTeXStr(FILE *file, char const *line)
 
 void LaTeXCopyFile(FILE *src, FILE *dest, unsigned int size)
 {
-  char * const buffer = malloc(size+1);
-  if (buffer!=0)
+  char * buffer;
+  if (size < INT_MAX)
   {
-    if (fgets(buffer,(int)(size+1),src))
-      LaTeXStr(dest,buffer);
-    free(buffer);
+    buffer = (char *) malloc(size+1);
+    if (buffer!=0)
+    {
+      if (fgets(buffer,(int)(size+1),src))
+        LaTeXStr(dest,buffer);
+      free(buffer);
+    }
   }
 }
 
