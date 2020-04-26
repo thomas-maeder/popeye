@@ -248,14 +248,14 @@ int fxfInit(size_t Size) {
 
 #if defined(FREEMAP) && !defined(SEGMENTED)
   free(FreeMap);
-  if ((!Size) || (((Size-1)>>5)>=(SIZE_MAX/sizeof(unsigned int))))
-    FreeMap= Nil(unsigned int);
-  else
+  if (Size && (((Size-1)>>5)<(SIZE_MAX/sizeof(unsigned int))))
   {
     FreeMap= nNew((1+((Size-1)>>5)), unsigned int);
     if (FreeMap != Nil(unsigned int))
       memset(FreeMap, 0, ((1+((Size-1)>>5))*sizeof(unsigned int)));
   }
+  else
+    FreeMap= Nil(unsigned int);
 #endif /*FREEMAP, !SEGMENTED*/
 
   memset(SizeData, '\0', sizeof(SizeData));
