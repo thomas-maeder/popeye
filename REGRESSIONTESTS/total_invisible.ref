@@ -180,7 +180,7 @@ solution finished.
 
 
            Michel Caillaud
-Sake tourney 2018, 1st prize, corrected
+Sake tourney 2018, 1st prize, corrected in Phenix 299, Sept 2019
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -192,34 +192,34 @@ Sake tourney 2018, 1st prize, corrected
 |                                   |
 5   .   .   .   .   .  -P   .   .   5
 |                                   |
-4   .   .   .   .  -P  -K   .   .   4
+4   .   .   .   Q  -P  -K   .   .   4
 |                                   |
-3   .   .   .   .   .   .   .  -P   3
+3   .   .   .   .   .   .   .   .   3
 |                                   |
-2   .   Q   .   .   .   .   .   .   2
+2   .   .   .   .   .   .   .   .   2
 |                                   |
 1   .   .   .   K  -B   .   .  -R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h#2                  2 + 6 + 2 TI
+  h#2                  2 + 5 + 2 TI
 
 a) 
 
-  1.Be1-g3 TI~*g3   2.Rh1-g1 Qb2-b8[g3=wR] #
-  add_to_move_generation_stack:     1021472
-                     play_move:     2304280
+  1.Be1-g3 TI~*g3   2.Rh1-g1 Qd4-d6[g3=wR] #
+  add_to_move_generation_stack:     1066049
+                     play_move:     2463213
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      567446
-                  TI decisions:     2157798
+ is_black_king_square_attacked:      600709
+                  TI decisions:     1598149
 
 b) 
 
-  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
-  add_to_move_generation_stack:     1066824
-                     play_move:     2466241
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qd4-f6 #
+  add_to_move_generation_stack:     1074912
+                     play_move:     2504944
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      608962
-                  TI decisions:     1978580
+ is_black_king_square_attacked:      610973
+                  TI decisions:     1468665
 
 solution finished.
 
