@@ -38,7 +38,7 @@
 #if !defined(Nil) && !defined(New) && !defined(nNew) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
 #  define New(type)      ((type *)malloc(sizeof(type)))
-#  define nNew(n, type)  ((type *)nNewImpl((n),sizeof(type)))
+#  define nNew(n, type)  ((type *)nNewImpl(n,sizeof(type)))
 static inline void * nNewImpl(size_t const nmemb, size_t const size) {
   return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : malloc(nmemb*size));
 }

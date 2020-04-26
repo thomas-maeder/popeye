@@ -51,7 +51,7 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
 #  define New(type)    ((type *)fxfAlloc(sizeof(type)))
-#  define nNew(n,type) ((type *)nNewImpl((n),sizeof(type)))
+#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type)))
 #  define Nil(type)    ((type *)0)
 static inline void * nNewImpl(size_t const nmemb, size_t const size) {
   return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAlloc(nmemb*size));
