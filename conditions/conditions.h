@@ -228,8 +228,9 @@ typedef enum
   maketake,               /* 207 */
   pointreflection,        /* 208 */
   nanna,                  /* 209 */
+  masand_generalised,     /* 210 */
 
-  CondCount               /* 210 */
+  CondCount               /* 211 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

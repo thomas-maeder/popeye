@@ -1015,6 +1015,10 @@ void dispatch(slice_index si)
       masand_recolorer_solve(si);
       break;
 
+    case STMasandGeneralisedRecolorer:
+      masand_generalised_recolorer_solve(si);
+      break;
+
     case STActuatedRevolvingCentre:
       actuated_revolving_centre_solve(si);
       break;

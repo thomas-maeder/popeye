@@ -944,7 +944,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*206*/ "Breton",
     /*207*/ "Make&TakeEchecs",
     /*208*/ "ReflexionCentrale",
-    /*209*/ "AnnanEchecs"
+    /*209*/ "AnnanEchecs",
+    /*210*/ "MasandGeneralise"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1156,7 +1157,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*206*/ "Breton",
     /*207*/ "Make&TakeSchach",
     /*208*/ "Punktspiegelung",
-    /*209*/ "Nannaschach"
+    /*209*/ "Nannaschach",
+    /*210*/ "MasandVerallgemeinert"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1368,7 +1370,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*206*/ "Breton",
     /*207*/ "Make&TakeChess",
     /*208*/ "PointReflection",
-    /*209*/ "NannaChess"
+    /*209*/ "NannaChess",
+    /*210*/ "MasandGeneralised"
   }
 };
 

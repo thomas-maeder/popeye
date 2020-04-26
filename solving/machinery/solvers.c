@@ -340,6 +340,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[masand])
     solving_insert_masand(si);
 
+  if (CondFlag[masand_generalised])
+    solving_insert_masand_generalised(si);
+
   if (CondFlag[dynasty])
     dynasty_initialise_solving(si);
 

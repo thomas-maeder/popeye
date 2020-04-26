@@ -14,22 +14,6 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void solving_insert_masand(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STMasandRecolorer);
-  stip_instrument_observation_validation(si,nr_sides,STMasandEnforceObserver);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static square current_observer_pos[maxply+1];
 
 /* Validate an observation or observer by making sure it's the checking piece
@@ -44,7 +28,7 @@ boolean masand_enforce_observer(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = ((sq_observer== initsquare || sq_observer==sq_departure)
+  result = ((sq_observer==initsquare || sq_observer==sq_departure)
             && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
@@ -125,6 +109,75 @@ void masand_recolorer_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void solving_insert_masand(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_instrument_moves(si,STMasandRecolorer);
+  stip_instrument_observation_validation(si,nr_sides,STMasandEnforceObserver);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void masand_generalised_recolorer_solve(slice_index si)
+{
+  Side const side_delivering_check = SLICE_STARTER(si);
+  Side const side_in_check = advers(side_delivering_check);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (is_in_check(side_in_check))
+  {
+    square const *pos;
+    for (pos = boardnum; *pos; ++pos)
+      if (TSTFLAG(being_solved.spec[*pos],side_delivering_check)
+          && observed(being_solved.king_square[side_in_check],*pos))
+        change_observed(*pos);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void solving_insert_masand_generalised(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_instrument_moves(si,STMasandGeneralisedRecolorer);
+  stip_instrument_observation_validation(si,nr_sides,STMasandEnforceObserver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

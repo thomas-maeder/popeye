@@ -101,6 +101,7 @@ static slice_type const move_slice_rank_order[] =
     STDynastyKingSquareUpdater,
     STStrictSATUpdater,
     STMasandRecolorer,
+    STMasandGeneralisedRecolorer,
     STLostPiecesRemover,
     STLandingAfterMovePlay,
     STMoveCounter,

@@ -214,6 +214,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	BlackAntiSynchronMover
 	WhiteAntiSynchronMover
 	Masand
+	MasandGeneralised
 	BGL
 	AnnanChess
 	NannaChess

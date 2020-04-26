@@ -219,6 +219,7 @@ Kommandos:
 	SchwarzerAntiSynchronZueger
 	WeisserAntiSynchronZueger
 	Masand
+	MasandVerallgemeinert
 	BGL
 	AnnanSchach
 	NannaSchach

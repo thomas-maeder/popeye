@@ -405,6 +405,8 @@
     ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMasandEnforceObserver),                                \
+    ENUMERATOR(STMasandGeneralisedRecolorer),                           \
+    ENUMERATOR(STMasandGeneralisedEnforceObserver),                     \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \

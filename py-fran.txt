@@ -216,6 +216,7 @@ simples:
 	NoirAntiSynchronCoup
 	BlancAntiSynchronCoup
 	Masand
+	MasandGeneralise
 	BGL
 	AnnanEchecs
 	NannaEchecs
