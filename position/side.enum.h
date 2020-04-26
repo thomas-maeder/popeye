@@ -1,3 +1,6 @@
+#if !defined(POSITION_SIDE_ENUM_H)
+#define POSITION_SIDE_ENUM_H
+
 typedef enum
 {
  White, Black, nr_sides, no_side = nr_sides
@@ -7,3 +10,5 @@ extern char const *Side_names[];
 #include "side.enum"
 #undef ENUMERATION_TYPENAME
 #undef ENUMERATORS
+
+#endif
