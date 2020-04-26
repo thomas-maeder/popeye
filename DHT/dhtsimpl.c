@@ -71,7 +71,6 @@ static dhtConstValue DupSimpleValue(dhtConstValue v)
 
 static void FreeSimpleValue(dhtValue v)
 {
-  return;
 }
 
 static void DumpSimpleValue(dhtConstValue v, FILE *f)

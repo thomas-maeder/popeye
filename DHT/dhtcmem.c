@@ -64,7 +64,6 @@ static dhtConstValue DupCompactMemoryValue(dhtConstValue v)
 static void FreeCompactMemoryValue(dhtValue v)
 {
   FreeCompactMemVal(v);
-  return;
 }
 
 static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
@@ -73,7 +72,6 @@ static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
   fprintf(f, "(%lu)", ((CompactMemVal const *)v)->Leng);
   for (i=0; i<((CompactMemVal const *)v)->Leng; i++)
     fprintf(f, "%02x", ((CompactMemVal const *)v)->Data[i] & 0xff);
-  return;
 }
 
 dhtValueProcedures dhtCompactMemoryProcs = {

@@ -33,7 +33,6 @@ void bouncy_knight_generate_moves(void)
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   bouncy_knight_generate_moves_recursive(curr_generation->departure,2);
   remove_duplicate_moves_of_single_piece(save_current_move);
-  return;
 }
 
 enum

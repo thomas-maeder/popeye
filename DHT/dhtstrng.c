@@ -55,12 +55,10 @@ static dhtConstValue	DupString(dhtConstValue v)
 static void	FreeString(dhtValue v)
 {
 	fxfFree(v, strlen((char const *)v)+1);
-	return;
 }
 static void	DumpString(dhtConstValue v, FILE *f)
 {
 	fputs((char const *)v,f);
-	return;
 }
 
 dhtValueProcedures dhtStringProcs = {

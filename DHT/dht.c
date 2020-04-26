@@ -352,7 +352,6 @@ static void freeDirTable(dirTable *dt)
   TraceValue("%p",(void *)dt->ld[0].dir);
   TraceEOL();
   freeDir(dt->ld[0].dir);
-  return;
 }
 
 #define TMDBG(x) if (0) x
@@ -792,7 +791,6 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   }
   ht->CurrentSize--;
   shrinkDirTable(&ht->DirTab);
-  return;
 }
 
 LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)

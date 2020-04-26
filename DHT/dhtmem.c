@@ -70,14 +70,12 @@ static dhtConstValue	DupMemoryValue(dhtConstValue v)
 static void	FreeMemoryValue(dhtValue v)
 {
   DeleteMemVal(v);
-  return;
 }
 static void	DumpMemoryValue(dhtConstValue v, FILE *f) {
   uLong i;
   fprintf(f, "(%lu)", ((MemVal const *)v)->Leng);
   for (i=0; i<((MemVal const *)v)->Leng; i++)
     fprintf(f, "%02x", ((MemVal const *)v)->Data[i] & 0xff);
-  return;
 }
 
 dhtValueProcedures dhtMemoryProcs = {
