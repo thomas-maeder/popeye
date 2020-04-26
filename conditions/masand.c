@@ -56,6 +56,27 @@ static boolean observed(square on_this, square by_that)
   return result;
 }
 
+static boolean is_recoloring_candidate(square observer_pos, square observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(on_this);
+  TraceSquare(by_that);
+  TraceFunctionParamListEnd();
+
+  result = (!is_square_empty(observee)
+            && !TSTFLAG(being_solved.spec[observee],Royal)
+            && observee!=observer_pos
+            && !is_piece_neutral(being_solved.spec[observee])
+            && observed(observee,observer_pos));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void change_observed(square observer_pos)
 {
   square const *bnp;
@@ -65,11 +86,7 @@ static void change_observed(square observer_pos)
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!is_square_empty(*bnp)
-        && !TSTFLAG(being_solved.spec[*bnp],Royal)
-        && *bnp!=observer_pos
-        && !is_piece_neutral(being_solved.spec[*bnp])
-        && observed(*bnp,observer_pos))
+    if (is_recoloring_candidate(observer_pos,*bnp))
       move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
 
   TraceFunctionExit(__func__);
@@ -130,6 +147,49 @@ void solving_insert_masand(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static boolean has_already_been_recolored(square s)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_side_change
+        && move_effect_journal[curr].reason==move_effect_reason_masand
+        && move_effect_journal[curr].u.side_change.on==s)
+    {
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void change_observed_once(square observer_pos)
+{
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(observer_pos);
+  TraceFunctionParamListEnd();
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (is_recoloring_candidate(observer_pos,*bnp)
+        && !has_already_been_recolored(*bnp))
+      move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -158,7 +218,7 @@ void masand_generalised_recolorer_solve(slice_index si)
     for (pos = boardnum; *pos; ++pos)
       if (TSTFLAG(being_solved.spec[*pos],side_delivering_check)
           && observed(being_solved.king_square[side_in_check],*pos))
-        change_observed(*pos);
+        change_observed_once(*pos);
   }
 
   pipe_solve_delegate(si);

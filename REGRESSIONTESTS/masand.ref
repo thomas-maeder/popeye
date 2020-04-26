@@ -494,10 +494,10 @@ solution finished.
           MasandGeneralised
 
   1.Bd5-f3[c5=w][b6=w][c7=w] + Kd4-c3   2.Sb4-c2 c7-c8=S   3.Qd6-d3[c2=w][f3=w][h7=w] + Kc3*d3 =
-  add_to_move_generation_stack:    45117408
-                     play_move:    19427674
- is_white_king_square_attacked:    19427678
- is_black_king_square_attacked:    25071614
+  add_to_move_generation_stack:    45488498
+                     play_move:    19594935
+ is_white_king_square_attacked:    19594939
+ is_black_king_square_attacked:    25292589
 
 solution finished.
 

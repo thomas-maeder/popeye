@@ -1,0 +1,11 @@
+begin
+
+protocol masand.tst
+
+title 1.Sc2-b4 must recolor the Pa2 once, not twice
+pieces white bb1 sc2 pa2 black kd3
+stipulation +1
+condition masandgeneralised
+option nowk
+
+end
