@@ -49,10 +49,13 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #  define MYNAME(m)
 #endif /*DEBUG_DHT*/
 
-#if !defined(New)
+#if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
 #  define New(type)    ((type *)fxfAlloc(sizeof(type)))
-#  define nNew(n,type) ((type *)fxfAlloc((n)*sizeof(type))) /* TODO: Should we worry about the multiplication overflowing? */
+#  define nNew(n,type) ((type *)nNewImpl((n),sizeof(type)))
 #  define Nil(type)    ((type *)0)
+static inline void * nNewImpl(size_t const nmemb, size_t const size) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAlloc(nmemb*size));
+}
 #endif /*New*/
 
 /* The next three values are those you may want to change */

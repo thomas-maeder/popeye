@@ -35,10 +35,13 @@
 #  define SIZE_T_PRINTF_SPECIFIER "lu"
 #endif
 
-#if !defined(Nil) && !defined(New) && !defined(nNew)
+#if !defined(Nil) && !defined(New) && !defined(nNew) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
 #  define New(type)      ((type *)malloc(sizeof(type)))
-#  define nNew(n, type)  ((type *)malloc((n)*sizeof(type))) /* TODO: Should we worry about the multiplication overflowing? */
+#  define nNew(n, type)  ((type *)nNewImpl((n),sizeof(type)))
+static inline void * nNewImpl(size_t const nmemb, size_t const size) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : malloc(nmemb*size));
+}
 #endif /*Nil*/
 
 /*#define DEBUG*/
@@ -251,17 +254,21 @@ int fxfInit(size_t Size) {
   {
     free(FreeMap);
   }
-  if (Size && (((Size-1)>>5)<(SIZE_MAX/sizeof(unsigned int))))
+
+  /* We aren't using Size again, so we can change it to the value we need here. */
+  if (Size > (((size_t)-1)-31))
   {
-    FreeMap= nNew((1+((Size-1)>>5)), unsigned int);
-    if (FreeMap)
-    {
-      memset(FreeMap, 0, ((1+((Size-1)>>5))*sizeof(unsigned int)));
-    }
+    Size = (1+(((size_t)-1)>>5));
   }
   else
   {
-    FreeMap= Nil(unsigned int);
+    Size = ((Size+31)>>5); 
+  }
+
+  FreeMap= nNew(Size, unsigned int); /* TODO: Can/Should we replace this allocation+memset with a call to calloc? */
+  if (FreeMap)
+  {
+    memset(FreeMap, '\0', Size*sizeof(unsigned int));
   }
 #endif /*FREEMAP, !SEGMENTED*/
 
