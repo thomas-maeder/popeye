@@ -122,6 +122,6 @@ DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt]
 #endif /*GDATA*/
 ;
 
-dhtStatus dhtRegisterValue(dhtValueType, char *, dhtValueProcedures *);
+dhtStatus dhtRegisterValue(dhtValueType, char const *, dhtValueProcedures *);
 
 #endif /*DHT_VALUE_INCLUDED*/

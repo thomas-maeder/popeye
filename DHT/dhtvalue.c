@@ -12,7 +12,7 @@
 #undef	GDATA
 #include "dht.h"
 
-dhtStatus dhtRegisterValue(dhtValueType t, char *ts, dhtValueProcedures *proc) {
+dhtStatus dhtRegisterValue(dhtValueType t, char const *ts, dhtValueProcedures *proc) {
     if (t >= dhtValueTypeCnt) {
     	sprintf(dhtError,
 	  "dhtRegisterValue: dhtValueType > dhtValueTypeCount (=%d).",
