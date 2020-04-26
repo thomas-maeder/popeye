@@ -250,7 +250,7 @@ int fxfInit(size_t Size) {
   if (FreeMap) {
     free(FreeMap);
   }
-  FreeMap= nNew((Size+31)>>5, unsigned int);
+  FreeMap= nNew(((Size>(SIZE_MAX-31)) ? (1+(SIZE_MAX>>5)) : ((Size+31)>>5)), unsigned int);
   memset(FreeMap, 0, Size>>3);
 #endif /*FREEMAP, !SEGMENTED*/
 
