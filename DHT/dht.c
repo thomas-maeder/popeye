@@ -64,11 +64,11 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size) {
 
 
 /* One problem in implementing dynamic hashing is the table to hold
- * the pointers to the hash elements. This table should dynamicly
- * expand and shrink. The naiv approach to use malloc/realloc bears
- * some problems. It may consume to much unused memory if realloc
+ * the pointers to the hash elements. This table should dynamically
+ * expand and shrink. The naive approach to use malloc/realloc bears
+ * some problems. It may consume too much unused memory if realloc
  * is called with too large increments, or if this increment is too
- * short to many calls to realloc may result in poor performance.
+ * short too many calls to realloc may result in poor performance.
  * We use another approach here, which results in fixed size chunks
  * of memory to be allocated and free'd.
  */

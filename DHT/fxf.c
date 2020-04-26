@@ -71,9 +71,9 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size) {
  * allocation/delallocation of fixed sized blocks of memory. For
  * each size of memory we keep a head pointer and all freed chunks
  * of memory is threaded on this list. If memory of this size
- * is requested, we drag it from the list, otherwise we carf it
+ * is requested, we drag it from the list, otherwise we carve it
  * from larger preallocated (via malloc) chunks of memory. If
- * the sizes between allocation and deallocation vary to often,
+ * the sizes between allocation and deallocation vary too often,
  * this package is lost in fragmented memory.
  */
 
