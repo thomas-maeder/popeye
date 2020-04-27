@@ -27,9 +27,9 @@ static void InitCheckDir(void)
       ensure_Queen_lt_Rook = 1/(Queen<Rook),
       ensure_Rook_minus_Queen_lt_4 = 1/((Rook-Queen)<4),
       ensure_Queen_lt_Bishop = 1/(Queen<Bishop),
-      ensure_Bishop_minus_Queen_lt_4 = 1/(Bishop-Queen<4),
+      ensure_Bishop_minus_Queen_lt_4 = 1/((Bishop-Queen)<4),
       ensure_Queen_lt_Knight = 1/(Queen<Knight),
-      ensure_Knight_minus_Queen_lt_r = 1/(Knight-Queen<4)
+      ensure_Knight_minus_Queen_lt_4 = 1/((Knight-Queen)<4)
     };
   }
 
