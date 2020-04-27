@@ -2501,13 +2501,18 @@ void hash_opener_solve(slice_index si)
  */
 void check_hash_assumptions(void)
 {
-  /* SmallEncode uses 1 byte for both row and file of a square */
-  assert(nr_rows_on_board<1<<(CHAR_BIT/2));
-  assert(nr_files_on_board<1<<(CHAR_BIT/2));
+  {
+    enum
+    {
+      /* SmallEncode uses 1 byte for both row and file of a square */
+      ensure_nr_rows_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_rows_on_board<(1<<(CHAR_BIT/2))),
+      ensure_nr_files_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_files_on_board<(1<<(CHAR_BIT/2))),
 
-  /* LargeEncode() uses 1 bit per square */
-  assert(nr_files_on_board<=CHAR_BIT);
+      /* LargeEncode() uses 1 bit per square */
+      ensure_nr_files_on_board_le_CHAR_BIT = 1/(nr_files_on_board<=CHAR_BIT),
 
-  /* the encoding functions encode Flags as 2 bytes */
-  assert(nr_piece_flags<=2*CHAR_BIT);
+      /* the encoding functions encode Flags as 2 bytes */
+      ensure_nr_piece_flags_le_two_times_CHAR_BIT = 1/(nr_piece_flags<=(2*CHAR_BIT))
+    };
+  }
 }

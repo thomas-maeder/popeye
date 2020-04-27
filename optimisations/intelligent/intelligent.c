@@ -943,16 +943,21 @@ void intelligent_mode_support_detector_or(slice_index si,
 
   if (state->support!=intelligent_not_supported)
   {
+    /* enumerators are ordered so that the weakest support has the
+     * lowest enumerator etc. */
+    {
+      enum
+      {
+        ensure_intelligent_not_supported_lt_intelligent_not_active_by_default = 1/(intelligent_not_supported<intelligent_not_active_by_default),
+        ensure_intelligent_not_active_by_default_lt_intelligent_active_by_default = 1/(intelligent_not_active_by_default<intelligent_active_by_default)
+      };
+    }
+
     stip_traverse_structure_binary_operand1(si,st);
     support1 = state->support;
 
     stip_traverse_structure_binary_operand2(si,st);
     support2 = state->support;
-
-    /* enumerators are ordered so that the weakest support has the
-     * lowest enumerator etc. */
-    assert(intelligent_not_supported<intelligent_not_active_by_default);
-    assert(intelligent_not_active_by_default<intelligent_active_by_default);
 
     state->support = support1<support2 ? support1 : support2;
   }

@@ -373,7 +373,10 @@ static void WriteBorder(void)
   unsigned int column;
   char letter;
 
-  assert(nr_files_on_board <= 'z'-'a');
+  assert(nr_files_on_board <= 'z'-'a'); /* TODO: Exactly why is this check here?
+                                                 Is this the correct upper bound?
+                                                 Can/Should this be checked at compile-time?
+                                                 Should this really be a fatal error? */
 
   protocol_fprintf(stdout,"%s","+--");
 
@@ -405,7 +408,10 @@ void WriteBoard(position const *pos)
   unsigned int row;
   square square_a;
 
-  assert(nr_rows_on_board<10);
+  assert(nr_rows_on_board<10); /* TODO: Exactly why is this check here?
+                                        Is this the correct upper bound?
+                                        Can/Should this be checked at compile-time?
+                                        Should this really be a fatal error? */
 
   protocol_fputc('\n',stdout);
   WriteBorder();
