@@ -375,6 +375,10 @@ static void WriteBorder(void)
 
   assert(nr_files_on_board <= 'z'-'a'); /* TODO: Exactly why is this check here?
                                                  Is this the correct upper bound?
+                                                     If we're assuming that the letters are sequential
+                                                     and we want to only allow columns a-z, then
+                                                         assert(nr_files_on_board <= (('z' - 'a') + 1))
+                                                     would be correct.
                                                  Can/Should this be checked at compile-time?
                                                  Should this really be a fatal error? */
 
