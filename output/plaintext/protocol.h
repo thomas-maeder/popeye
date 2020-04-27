@@ -6,7 +6,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-/* Remember for this run's proptocol (if any) to overwrite (rather than append
+/* Remember for this run's protocol (if any) to overwrite (rather than append
  * to) a previous run's protocol (if any)
  */
 void protocol_overwrite(void);
