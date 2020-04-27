@@ -114,8 +114,8 @@ static void WriteGrid(void)
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
        row++, square_a += dir_down) {
-    char const *digits="987654321";
-    sprintf(HLine, HorizL, (int) digits[row + (9-nr_rows_on_board)], (int) digits[row + (9-nr_rows_on_board)]);
+    char const *digits="123456789";
+    sprintf(HLine, HorizL, (int) digits[(nr_rows_on_board-1)-row], (int) digits[(nr_rows_on_board-1)-row]);
 
     for (column=0, square= square_a;
          column<nr_files_on_board;
