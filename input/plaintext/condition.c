@@ -743,16 +743,17 @@ static char *ParseOrthogonalGridLines(char *tok,
   do
   {
     char const c = (char)tolower(*tok);
-    if (c>='1' && c<='8')
+    void const * ptrToLabel;
+    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, (unsigned char)c, nr_rows_on_board)))
     {
       unsigned int i;
-      for (i = (unsigned int)(c-'1')+1; i<nr_rows_on_board; ++i)
+      for (i = (unsigned int)((char const *)ptrToLabel-BOARD_ROW_LABELS)+1; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
     }
-    else if (c>='a' && c<='h')
+    else if ((ptrToLabel = memchr(BOARD_FILE_LABELS, (unsigned char)c, nr_files_on_board)))
     {
       unsigned int i;
-      for (i = (unsigned int)(c-'a')+1; i<nr_files_on_board; ++i)
+      for (i = (unsigned int)((char const *)ptrToLabel-BOARD_FILE_LABELS)+1; i<nr_files_on_board; ++i)
         ++file_numbers[i];
     }
     else
