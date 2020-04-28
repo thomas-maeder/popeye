@@ -127,8 +127,8 @@ static unsigned int append_to_CondLine_square(char (*line)[256],
 {
   return (unsigned int)snprintf(*line+pos, sizeof *line - pos,
                                 " %c%c",
-                                'a' - nr_files_on_board + s%onerow,
-                                '1' - nr_rows_on_board + s/onerow);
+                                (int)BOARD_FILE_LABELS[(s%onerow) - nr_files_on_board],
+                                (int)BOARD_ROW_LABELS[(s/onerow) - nr_rows_on_board]);
 }
 
 static unsigned int append_to_CondLine_chameleon_sequence(char (*line)[256],

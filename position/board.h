@@ -3,6 +3,15 @@
 
 #include "utilities/bitmask.h"
 
+/* Declaration of the symbols we'll use to identify files on the board
+ */
+static char const BOARD_FILE_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+/* Declaration of the symbols we'll use to identify rows on the board
+ */
+static char const BOARD_ROW_LABELS[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
 /* Declarations of types and functions related to the chess board
  */
 
@@ -16,9 +25,11 @@ enum
   nr_of_slack_rows_below_board = 8,
 
   nr_files_on_board = 8,
-  nr_rows_on_board = 8,
+  nr_rows_on_board = 8/(nr_files_on_board<=((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS))),
+  /* The above division ensures that we have enough board file labels. */
 
-  bottom_row = nr_of_slack_rows_below_board,
+  bottom_row = nr_of_slack_rows_below_board/(nr_rows_on_board<=((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS))),
+  /* The above division ensures that we have enough board row labels. */
   top_row = bottom_row+nr_rows_on_board-1,
 
   left_file = nr_of_slack_files_left_of_board,

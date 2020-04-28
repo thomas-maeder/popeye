@@ -114,8 +114,7 @@ static void WriteGrid(void)
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
        row++, square_a += dir_down) {
-    char const *digits="123456789";
-    sprintf(HLine, HorizL, (int) digits[(nr_rows_on_board-1)-row], (int) digits[(nr_rows_on_board-1)-row]);
+    sprintf(HLine, HorizL, (int) BOARD_ROW_LABELS[(nr_rows_on_board-1)-row], (int) BOARD_ROW_LABELS[(nr_rows_on_board-1)-row]);
 
     for (column=0, square= square_a;
          column<nr_files_on_board;
@@ -371,23 +370,13 @@ static void WriteBaseCells(position const *pos, square square_a)
 static void WriteBorder(void)
 {
   unsigned int column;
-  char letter;
-
-  assert(nr_files_on_board <= 'z'-'a'); /* TODO: Exactly why is this check here?
-                                                 Is this the correct upper bound?
-                                                     If we're assuming that the letters are sequential
-                                                     and we want to only allow columns a-z, then
-                                                         assert(nr_files_on_board <= (('z' - 'a') + 1))
-                                                     would be correct.
-                                                 Can/Should this be checked at compile-time?
-                                                 Should this really be a fatal error? */
 
   protocol_fprintf(stdout,"%s","+--");
 
-  for (column = 0, letter = 'a'; column!=nr_files_on_board; ++column, ++letter)
+  for (column = 0; column<nr_files_on_board; ++column)
   {
     char cell[fileWidth+1];
-    snprintf(cell, sizeof cell, "-%c--", letter);
+    snprintf(cell, sizeof cell, "-%c--", (int)BOARD_FILE_LABELS[column]);
     protocol_fprintf(stdout,"%s",cell);
   }
 
@@ -411,11 +400,6 @@ void WriteBoard(position const *pos)
 {
   unsigned int row;
   square square_a;
-
-  assert(nr_rows_on_board<10); /* TODO: Exactly why is this check here?
-                                        Is this the correct upper bound?
-                                        Can/Should this be checked at compile-time?
-                                        Should this really be a fatal error? */
 
   protocol_fputc('\n',stdout);
   WriteBorder();

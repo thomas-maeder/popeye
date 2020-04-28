@@ -222,10 +222,10 @@ static void WriteTwinLetter(unsigned int twin_number, boolean continued)
   if (continued)
     protocol_fputc('+',stdout);
 
-  if (twin_number-twin_a<='z'-'a')
-    protocol_fprintf(stdout,"%c) ", 'a'+twin_number-twin_a);
+  if ((twin_number-twin_a)<NUM_TWIN_LABELS)
+    protocol_fprintf(stdout,"%c) ", (int)TWIN_LABELS[twin_number-twin_a]);
   else
-    protocol_fprintf(stdout,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    protocol_fprintf(stdout,"z%u) ", (unsigned int)((twin_number-twin_a)-(NUM_TWIN_LABELS-1)));
 }
 
 static void WriteTwinning(boolean continued)

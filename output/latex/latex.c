@@ -106,12 +106,11 @@ char *ParseLaTeXPieces(void)
 
       tok = ReadNextTokStr();
       LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      i= 0;
-      while (tok[i]) {
+      for (i = 0; tok[i]; ++i) {
         /* to avoid compiler warnings below made "better readable" */
         /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= (char)(tolower(tok[i]) + 'A' - 'a');
-        i++;
+        LaTeXPiecesAbbr[walk][i]= (char)toupper(tok[i]); /* previously (char)(tolower(tok[i]) + 'A' - 'a') which --
+                                                            like the current version -- isn't strictly equivalent to the above */
       }
       LaTeXPiecesAbbr[walk][i]= (char)tolower(tok[i]);
 
@@ -675,8 +674,8 @@ static void WritePieces(FILE *file)
       fprintf(file,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXWalk(p),
-              *bnp%onerow-200%onerow+'a',
-              *bnp/onerow-200/onerow+'1');
+              (int)BOARD_FILE_LABELS[(*bnp%onerow)-(200%onerow)],
+              (int)BOARD_ROW_LABELS[(*bnp/onerow)-(200/onerow)]);
     }
   }
 

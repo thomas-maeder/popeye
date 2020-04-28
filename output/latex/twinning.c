@@ -88,10 +88,10 @@ void LaTeXShutdownTwinning(void)
 
 static void BeginTwinning(unsigned int twin_number)
 {
-  if (twin_number-twin_a<='z'-'a')
-    twinning_pos += (unsigned int)fprintf(twinning, "%c) ", (int)('a'+twin_number-twin_a));
+  if ((twin_number-twin_a)<NUM_TWIN_LABELS)
+    twinning_pos += (unsigned int)fprintf(twinning, "%c) ", (int)TWIN_LABELS[twin_number-twin_a]);
   else
-    twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)((twin_number-twin_a)-(NUM_TWIN_LABELS-1)));
 }
 
 static void EndTwinning(void)
@@ -168,8 +168,8 @@ static void WritePieceCreation(move_effect_journal_index_type base,
           find_removal(base,curr,entry->u.piece_addition.added.on) ? "" : "+",
           is_piece_neutral(entry->u.piece_addition.added.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.added.flags, White) ? 'w' : 's'),
           LaTeXWalk(entry->u.piece_addition.added.walk),
-          'a'-nr_of_slack_files_left_of_board+entry->u.piece_addition.added.on%onerow,
-          '1'-nr_of_slack_rows_below_board+entry->u.piece_addition.added.on/onerow);
+          (int)BOARD_FILE_LABELS[(entry->u.piece_addition.added.on%onerow)-nr_of_slack_files_left_of_board],
+          (int)BOARD_ROW_LABELS[(entry->u.piece_addition.added.on/onerow)-nr_of_slack_rows_below_board]);
 }
 
 static boolean WritePieceRemoval(move_effect_journal_index_type curr)
@@ -185,8 +185,8 @@ static boolean WritePieceRemoval(move_effect_journal_index_type curr)
                                           is_piece_neutral(entry->u.piece_removal.flags) ? "\\n" : (TSTFLAG(entry->u.piece_removal.flags, White) ? "\\w" : "\\s"));
     twinning_pos += (unsigned int)fprintf(twinning, "%s", LaTeXWalk(entry->u.piece_removal.walk));
     twinning_pos += (unsigned int)fprintf(twinning, " %c%c",
-                                          'a'-nr_files_on_board+entry->u.piece_removal.on%onerow,
-                                          '1'-nr_rows_on_board+entry->u.piece_removal.on/onerow);
+                                          (int)BOARD_FILE_LABELS[(entry->u.piece_removal.on%onerow)-nr_files_on_board],
+                                          (int)BOARD_ROW_LABELS[(entry->u.piece_removal.on/onerow)-nr_rows_on_board]);
     return true;
   }
 }
@@ -199,14 +199,14 @@ static void WritePieceMovement(move_effect_journal_index_type curr)
                                         "\\%c%s %c%c",
                                         is_piece_neutral(entry->u.piece_movement.movingspec) ? 'n' : (TSTFLAG(entry->u.piece_movement.movingspec, White) ? 'w' : 's'),
                                             LaTeXWalk(entry->u.piece_movement.moving),
-                                            'a'-nr_of_slack_files_left_of_board+entry->u.piece_movement.from%onerow,
-                                            '1'-nr_of_slack_rows_below_board+entry->u.piece_movement.from/onerow);
+                                            (int)BOARD_FILE_LABELS[(entry->u.piece_movement.from%onerow)-nr_of_slack_files_left_of_board],
+                                            (int)BOARD_ROW_LABELS[(entry->u.piece_movement.from/onerow)-nr_of_slack_rows_below_board]);
 
   twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\ra}");
 
   twinning_pos += (unsigned int)fprintf(twinning, "%c%c",
-                                        'a'-nr_files_on_board+entry->u.piece_movement.to%onerow,
-                                        '1'-nr_rows_on_board+entry->u.piece_movement.to/onerow);
+                                        (int)BOARD_FILE_LABELS[(entry->u.piece_movement.to%onerow)-nr_files_on_board],
+                                        (int)BOARD_ROW_LABELS[(entry->u.piece_movement.to/onerow)-nr_rows_on_board]);
 }
 
 static void WritePieceExchange(move_effect_journal_index_type curr)
@@ -216,16 +216,16 @@ static void WritePieceExchange(move_effect_journal_index_type curr)
   twinning_pos += (unsigned int)fprintf(twinning, "\\%c%s %c%c",
                                         is_piece_neutral(entry->u.piece_exchange.fromflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.fromflags, White) ? 'w' : 's'),
                                             LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.to)),
-                                            'a'-nr_of_slack_files_left_of_board+entry->u.piece_exchange.from%onerow,
-                                            '1'-nr_of_slack_rows_below_board+entry->u.piece_exchange.from/onerow);
+                                            (int)BOARD_FILE_LABELS[(entry->u.piece_exchange.from%onerow)-nr_of_slack_files_left_of_board],
+                                            (int)BOARD_ROW_LABELS[(entry->u.piece_exchange.from/onerow)-nr_of_slack_rows_below_board]);
 
   twinning_pos += (unsigned int)fprintf(twinning, "%s", "{\\lra}");
 
   twinning_pos += (unsigned int)fprintf(twinning,  "\\%c%s %c%c",
                                         is_piece_neutral(entry->u.piece_exchange.toflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.toflags, White) ? 'w' : 's'),
                                             LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.from)),
-                                            'a'-nr_files_on_board+entry->u.piece_exchange.to%onerow,
-                                            '1'-nr_rows_on_board+entry->u.piece_exchange.to/onerow);
+                                            (int)BOARD_FILE_LABELS[(entry->u.piece_exchange.to%onerow)-nr_files_on_board],
+                                            (int)BOARD_ROW_LABELS[(entry->u.piece_exchange.to/onerow)-nr_rows_on_board]);
 }
 
 static void WriteBoardTransformation(move_effect_journal_index_type curr)
@@ -268,10 +268,10 @@ static void WriteShift(move_effect_journal_index_type curr)
 
   twinning_pos += (unsigned int)fprintf(twinning,  "%s %c%c$\\Rightarrow$%c%c",
                                         TwinningTab[TwinningShift],
-                                        'a'-nr_files_on_board+entry->u.twinning_shift.from%onerow,
-                                        '1'-nr_rows_on_board+entry->u.twinning_shift.from/onerow,
-                                        'a'-nr_files_on_board+entry->u.twinning_shift.to%onerow,
-                                        '1'-nr_rows_on_board+entry->u.twinning_shift.to/onerow);
+                                        (int)BOARD_FILE_LABELS[(entry->u.twinning_shift.from%onerow)-nr_files_on_board],
+                                        (int)BOARD_ROW_LABELS[(entry->u.twinning_shift.from/onerow)-nr_rows_on_board],
+                                        (int)BOARD_FILE_LABELS[(entry->u.twinning_shift.to%onerow)-nr_files_on_board],
+                                        (int)BOARD_ROW_LABELS[(entry->u.twinning_shift.to/onerow)-nr_rows_on_board]);
 }
 
 static void WriteStip(move_effect_journal_index_type curr)
@@ -324,10 +324,10 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 
 static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
 {
-  if (twin_number-twin_a<='z'-'a')
-    fprintf(file, "%c)", (int)('a'+twin_number-twin_a));
+  if ((twin_number-twin_a)<NUM_TWIN_LABELS)
+    fprintf(file, "%c)", (int)TWIN_LABELS[twin_number-twin_a]);
   else
-    fprintf(file, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    fprintf(file, "z%u)", (unsigned int)((twin_number-twin_a)-(NUM_TWIN_LABELS-1)));
 }
 
 static void WriteTwinning(unsigned int twin_number, boolean continued)
