@@ -117,7 +117,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
 
   *endptr = inptr;
   while (**endptr && strchr("0123456789.,-", **endptr))
-    /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
+    /* isdigit((unsigned char)**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
     (*endptr)++;
 
   {
@@ -742,7 +742,7 @@ static char *ParseOrthogonalGridLines(char *tok,
 
   do
   {
-    char const c = (char)tolower(*tok);
+    char const c = (char)tolower((unsigned char)*tok);
     if (c>='1' && c<='8')
     {
       unsigned int i;
@@ -888,8 +888,8 @@ static char *ParseGridVariant(char *tok)
           while (true)
             if (strlen(tok)==4)
             {
-              char const dir_char = (char)tolower(tok[0]);
-              char const file_char = (char)tolower(tok[1]);
+              char const dir_char = (char)tolower((unsigned char)tok[0]);
+              char const file_char = (char)tolower((unsigned char)tok[1]);
               char const row_char = tok[2];
               char const length_char = tok[3];
 

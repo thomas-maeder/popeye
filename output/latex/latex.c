@@ -93,7 +93,7 @@ char *ParseLaTeXPieces(void)
   if (strlen(tok) < 3)
     while (true)
     {
-      walk = GetPieNamIndex((char)tolower(tok[0]), strlen(tok) == 1 ? ' ' : (char)tolower(tok[1]));
+      walk = GetPieNamIndex((char)tolower((unsigned char)tok[0]), ((strlen(tok) == 1) ? ' ' : (char)tolower((unsigned char)tok[1])));
 
       if (walk==nr_piece_walks)
         return tok;
@@ -106,14 +106,12 @@ char *ParseLaTeXPieces(void)
 
       tok = ReadNextTokStr();
       LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      i= 0;
-      while (tok[i]) {
+      for (i = 0; tok[i]; ++i) {
         /* to avoid compiler warnings below made "better readable" */
         /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= (char)(tolower(tok[i]) + 'A' - 'a');
-        i++;
+        LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]);
       }
-      LaTeXPiecesAbbr[walk][i]= (char)tolower(tok[i]);
+      LaTeXPiecesAbbr[walk][i]= '\0';
 
       if (ReadToEndOfLine())
       {
@@ -1169,7 +1167,7 @@ void LaTeXStipulation(FILE *file, slice_index si)
     fputc('*',file);
 
   if (OptFlag[whitetoplay])
-    fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));
+    fprintf(file," %c{\\ra}", tolower((unsigned char)*PieSpTab[White]));
 
   CloseElement(file);
 

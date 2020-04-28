@@ -982,7 +982,7 @@ static char *ParseStructuredStip_branch(char *tok,
   tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
 
   if (tok!=0)
-    switch (tolower(tok[0]))
+    switch (tolower((unsigned char)tok[0]))
     {
       case 'd':
         *type = expression_type_defense;
@@ -1046,7 +1046,7 @@ static char *ParseStructuredStip_operand(char *tok,
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
     tok = ParseStructuredStip_move_inversion(tok,start,proxy,type,level);
-  else if (isdigit(tok[0]) && tok[0]!='0')
+  else if (isdigit((unsigned char)tok[0]) && tok[0]!='0')
     /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
     tok = ParseStructuredStip_branch(tok,start,proxy,type,level);
   else

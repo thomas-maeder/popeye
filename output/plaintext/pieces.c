@@ -19,7 +19,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
 
   if (is_piece_neutral(sp))
   {
-    (*engine->fputc)(tolower(ColourTab[colour_neutral][0]),file);
+    (*engine->fputc)(tolower((unsigned char)ColourTab[colour_neutral][0]),file);
     result = true;
   }
   else if (printcolours)
@@ -27,16 +27,16 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        (*engine->fputc)(tolower(ColourTab[colour_black][0]),file);
+        (*engine->fputc)(tolower((unsigned char)ColourTab[colour_black][0]),file);
       if (TSTFLAG(sp,Black))
-        (*engine->fputc)(tolower(ColourTab[colour_white][0]),file);
+        (*engine->fputc)(tolower((unsigned char)ColourTab[colour_white][0]),file);
     }
     else
     {
       if (TSTFLAG(sp,White))
-        (*engine->fputc)(tolower(ColourTab[colour_white][0]),file);
+        (*engine->fputc)(tolower((unsigned char)ColourTab[colour_white][0]),file);
       if (TSTFLAG(sp,Black))
-        (*engine->fputc)(tolower(ColourTab[colour_black][0]),file);
+        (*engine->fputc)(tolower((unsigned char)ColourTab[colour_black][0]),file);
     }
   }
 
@@ -53,8 +53,8 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
         char const *curr = PieSpTab[spname-nr_sides];
         while (*curr!=0)
         {
-          if (isupper(*curr))
-            (*engine->fputc)(tolower(*curr),file);
+          if (isupper((unsigned char)*curr))
+            (*engine->fputc)(tolower((unsigned char)*curr),file);
           ++curr;
         }
         result = true;
@@ -71,9 +71,9 @@ void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
   else if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
-    (*engine->fputc)(toupper(PieceTab[p][0]),file);
+    (*engine->fputc)(toupper((unsigned char)PieceTab[p][0]),file);
     if (p1!=' ')
-      (*engine->fputc)(toupper(p1),file);
+      (*engine->fputc)(toupper((unsigned char)p1),file);
   }
   else
   {

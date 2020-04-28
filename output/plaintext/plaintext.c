@@ -339,7 +339,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
       (*context->engine->fputc)('=',context->file);
-      (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
+      (*context->engine->fputc)(tolower((unsigned char)ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
       break;
 
     case move_effect_reason_magic_piece:
@@ -349,7 +349,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
       next_context(context,curr,"[","]");
       WriteSquare(context->engine,context->file,move_effect_journal[curr].u.side_change.on);
       (*context->engine->fputc)('=',context->file);
-      (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
+      (*context->engine->fputc)(tolower((unsigned char)ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
       break;
 
     default:
@@ -651,7 +651,7 @@ static void write_half_neutral_deneutralisation(output_plaintext_move_context_ty
                                                 move_effect_journal_index_type curr)
 {
   (*context->engine->fputc)('=',context->file);
-  (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),context->file);
+  (*context->engine->fputc)(tolower((unsigned char)ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),context->file);
   (*context->engine->fputc)('h',context->file);
 }
 

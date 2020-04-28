@@ -270,11 +270,11 @@ static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
   pos[0] = PieceTab[walk][1];
   if (pos[0]!=' ')
   {
-    pos[0] = (char)toupper(pos[0]);
+    pos[0] = (char)toupper((unsigned char)pos[0]);
     --pos;
   }
 
-  pos[0] = (char)toupper(PieceTab[walk][0]);
+  pos[0] = (char)toupper((unsigned char)PieceTab[walk][0]);
   --pos;
 
   return pos;

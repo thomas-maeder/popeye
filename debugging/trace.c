@@ -286,12 +286,12 @@ static void remember_regular_piece(piece_walk_type pnam)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "%c",
-                                    toupper(PieceTab[pnam][0]));
+                                    toupper((unsigned char)PieceTab[pnam][0]));
   if (p1!=' ')
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "%c",
-                                      toupper(p1));
+                                      toupper((unsigned char)p1));
 }
 #endif
 

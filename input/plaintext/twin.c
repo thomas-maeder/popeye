@@ -665,11 +665,11 @@ static char *ParseForsythPiece(char *tok,
                                square *pos)
 {
   if (*colour_flags==0)
-    *colour_flags = BIT(islower((int)*tok) ? Black : White);
+    *colour_flags = BIT(islower((unsigned char)*tok) ? Black : White);
 
   {
-    char const char1 = (char)tolower((int)*tok++);
-    char const char2 = nr_chars==1 ? ' ' : (char)tolower((int)*tok++);
+    char const char1 = (char)tolower((unsigned char)*tok++);
+    char const char2 = nr_chars==1 ? ' ' : (char)tolower((unsigned char)*tok++);
 
     piece_walk_type const walk = GetPieNamIndex(char1,char2);
     if (walk!=nr_piece_walks)
@@ -732,10 +732,10 @@ static void ParseForsyth(void)
   square sq = square_a8;
 
   while (sq && *tok)
-    if (isdigit((int)*tok))
+    if (isdigit((unsigned char)*tok))
     {
       int num = *tok++ - '0';
-      if (isdigit((int)*tok))
+      if (isdigit((unsigned char)*tok))
         num = 10*num + *tok++ - '0';
       for (; num && sq; num--)
         sq = NextSquare(sq);

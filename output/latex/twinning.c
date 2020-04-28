@@ -286,7 +286,7 @@ static void WriteStip(move_effect_journal_index_type curr)
   if (OptFlag[whitetoplay])
   {
     char temp[10];        /* increased due to buffer overflow */
-    sprintf(temp, " %c{\\ra}",tolower(*PieSpTab[White]));
+    sprintf(temp, " %c{\\ra}",tolower((unsigned char)*PieSpTab[White]));
     twinning_pos += (unsigned int)fprintf(twinning, "%s", temp);
   }
 }
@@ -303,7 +303,7 @@ static void WriteSStip(move_effect_journal_index_type curr)
   if (OptFlag[whitetoplay])
   {
     char temp[10];        /* increased due to buffer overflow */
-    sprintf(temp, " %c{\\ra}",tolower(*PieSpTab[White]));
+    sprintf(temp, " %c{\\ra}",tolower((unsigned char)*PieSpTab[White]));
     twinning_pos += (unsigned int)fprintf(twinning, "%s", temp);
   }
 }

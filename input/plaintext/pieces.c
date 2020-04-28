@@ -32,7 +32,7 @@ int GetPieNamIndex(char a, char b)
   for (indexx = 2;
        indexx<nr_piece_walks;
        ++indexx, ch += sizeof(PieceChar))
-    if (ch[0]==tolower(a) && ch[1]==tolower(b))
+    if ((unsigned char)ch[0]==tolower((unsigned char)a) && (unsigned char)ch[1]==tolower((unsigned char)b))
       break;
 
   return indexx;
