@@ -109,7 +109,8 @@ char *ParseLaTeXPieces(void)
       for (i = 0; tok[i]; ++i) {
         /* to avoid compiler warnings below made "better readable" */
         /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]);
+        LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]); /* previously (char)(tolower(tok[i]) + 'A' - 'a') which --
+                                                                           like the current version -- isn't strictly equivalent to the above */
       }
       LaTeXPiecesAbbr[walk][i]= '\0';
 
