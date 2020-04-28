@@ -23,7 +23,7 @@ char *ParseSquare(char *tok, square *s)
 
   *s = initsquare;
 
-  if ((ptrToLabel = memchr(BOARD_FILE_LABELS, char_file, nr_files_on_board))
+  if ((ptrToLabel = memchr(BOARD_FILE_LABELS, char_file, nr_files_on_board)))
   {
     int const fileIndex = (((char const *) ptrToLabel) - BOARD_FILE_LABELS);
 
@@ -31,7 +31,7 @@ char *ParseSquare(char *tok, square *s)
      * we might read past the end of a buffer!
      */
     unsigned char const char_row = tok[1];
-    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, char_row, nr_rows_on_board))
+    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, char_row, nr_rows_on_board)))
     {
       int const rowIndex = (((char const *) ptrToLabel) - BOARD_ROW_LABELS);
       *s = square_a1 + fileIndex*dir_right +rowIndex*dir_up;

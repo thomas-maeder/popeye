@@ -893,17 +893,29 @@ static char *ParseGridVariant(char *tok)
               char const file_char = (char)tolower(tok[1]);
               char const row_char = tok[2];
               char const length_char = tok[3];
-
-              if ((dir_char=='h' || dir_char=='v')
-                  && (file_char>='a' && file_char<='h')
-                  && (row_char>='1' && row_char<='8')
-                  && (length_char>='1' && length_char<='8'))
+              void const * ptrToFileLabel;
+              void const * ptrToRowLabel;
+              if (((dir_char=='h') || (dir_char=='v'))
+                  && ((ptrToFileLabel = memchr(BOARD_FILE_LABELS, (unsigned char)file_char, nr_files_on_board)))
+                  && ((ptrToRowLabel = memchr(BOARD_ROW_LABELS, (unsigned char)row_char, nr_rows_on_board)))
+                  && ((length_char>='1') && (length_char<='9')))
               {
-                unsigned int const file = (unsigned int)(file_char-'a');
-                unsigned int const row = (unsigned int)(row_char-'1');
                 unsigned int const length = (unsigned int)(length_char-'0');
-                gridline_direction const dir = dir_char=='h' ? gridline_horizonal : gridline_vertical;
-
+                gridline_direction dir;
+                if (dir_char == 'h')
+                {
+                  if (length > nr_files_on_board)
+                    break;
+                  dir = gridline_horizonal;
+                }
+                else
+                {
+                  if (length > nr_rows_on_board)
+                    break;
+                  dir = gridline_vertical;
+                }
+                unsigned int const file = (unsigned int)((char const *)ptrToFileLabel-BOARD_FILE_LABELS);
+                unsigned int const row = (unsigned int)((char const *)ptrToRowLabel-BOARD_ROW_LABELS);
                 if (PushIrregularGridLine(file,row,length,dir))
                   tok = ReadNextTokStr();
                 else
