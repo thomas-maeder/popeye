@@ -5,6 +5,10 @@
 
 /* This module provides implements the condition Bolero
  */
+/* Make sure that the observer has the expected walk - annanised or originally
+ * @return true iff the observation is valid
+ */
+boolean bolero_inverse_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.

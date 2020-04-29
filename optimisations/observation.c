@@ -314,7 +314,8 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   if (SLICE_STARTER(si)==*side)
   {
     if (CondFlag[whvault_king] || CondFlag[blvault_king]
-        || (CondFlag[singlebox] && SingleBoxType==ConditionType3))
+        || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
+        || CondFlag[bolero_inverse])
     {
       /* no optimisation */
     }
@@ -358,7 +359,7 @@ static void optimise_side(slice_index si, Side side)
         || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
         || CondFlag[whrefl_king] || CondFlag[blrefl_king]
         || CondFlag[eiffel]
-        || CondFlag[annan]
+        || CondFlag[annan] || CondFlag[bolero_inverse]
         || CondFlag[pointreflection]
         || CondFlag[amu]
         || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]

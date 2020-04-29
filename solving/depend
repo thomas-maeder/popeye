@@ -2293,10 +2293,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  solving/machinery/solve.h conditions/amu/attack_counter.h \
  conditions/backhome.h conditions/beamten.h conditions/bgl.h \
  solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h conditions/brunner.h conditions/central.h \
- conditions/disparate.h conditions/geneva.h conditions/circe/circe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/pieceid.h conditions/bolero.h conditions/brunner.h \
+ conditions/central.h conditions/disparate.h conditions/geneva.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -2392,6 +2392,8 @@ solving/move_effect_journal.h:
 position/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/bolero.h:
 
 conditions/brunner.h:
 
