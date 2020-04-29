@@ -258,6 +258,8 @@ Kommandos:
 	Rokagogo
 	Breton
 	Punktspiegelung
+	Bolero
+	BoleroInvers
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
