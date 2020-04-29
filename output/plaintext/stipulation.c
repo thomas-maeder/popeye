@@ -324,8 +324,8 @@ static unsigned int WriteSquare(FILE *file, square s)
   unsigned int result = 0;
 
   /* TODO avoid duplication with WriteSquare() */
-  result += (unsigned int)fprintf(file,"%c",(int)BOARD_FILE_LABELS[(s%onerow) - nr_files_on_board]);
-  result += (unsigned int)fprintf(file,"%c",(int)BOARD_ROW_LABELS[(s/onerow) - nr_rows_on_board]);
+  result += (unsigned int)fprintf(file,"%c",(int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+  result += (unsigned int)fprintf(file,"%c",(int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
 
   return result;
 }

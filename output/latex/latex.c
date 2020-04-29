@@ -674,8 +674,8 @@ static void WritePieces(FILE *file)
       fprintf(file,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXWalk(p),
-              (int)BOARD_FILE_LABELS[(*bnp%onerow)-(200%onerow)],
-              (int)BOARD_ROW_LABELS[(*bnp/onerow)-(200/onerow)]);
+              (int)getBoardFileLabel((*bnp%onerow)-(200%onerow)),
+              (int)getBoardRowLabel((*bnp/onerow)-(200/onerow)));
     }
   }
 

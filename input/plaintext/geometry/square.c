@@ -1,7 +1,6 @@
 #include "input/plaintext/geometry/square.h"
 #include "debugging/trace.h"
 
-#include <string.h>
 #include <ctype.h>
 
   enum
@@ -17,24 +16,21 @@
 char *ParseSquare(char *tok, square *s)
 {
   char *result = tok;
-  unsigned char const char_file = tolower(tok[0]);
-  int rowIndex;
-  void const * ptrToLabel;
+  board_label_type const char_file = (board_label_type)tolower(tok[0]);
 
   *s = initsquare;
 
-  if ((ptrToLabel = memchr(BOARD_FILE_LABELS, char_file, nr_files_on_board)))
+  unsigned int const fileIndex = getBoardFileIndex(char_file);
+  if (fileIndex < nr_files_on_board)
   {
-    int const fileIndex = (((char const *) ptrToLabel) - BOARD_FILE_LABELS);
-
     /* only know that we know that tok[0] is not the end of the string, or
      * we might read past the end of a buffer!
      */
-    unsigned char const char_row = tok[1];
-    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, char_row, nr_rows_on_board)))
+    board_label_type const char_row = (board_label_type)tok[1];
+    unsigned int const rowIndex = getBoardRowIndex(char_row);
+    if (rowIndex < nr_rows_on_board)
     {
-      int const rowIndex = (((char const *) ptrToLabel) - BOARD_ROW_LABELS);
-      *s = square_a1 + fileIndex*dir_right +rowIndex*dir_up;
+      *s = square_a1 + (int)fileIndex*dir_right +(int)rowIndex*dir_up;
       result += chars_per_square;
     }
   }

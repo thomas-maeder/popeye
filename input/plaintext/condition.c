@@ -736,21 +736,17 @@ static char *ParseOrthogonalGridLines(char *tok,
 
   do
   {
-    unsigned char const c = (unsigned char)tolower((unsigned char)*tok);
-    void const * ptrToLabel;
-    /* TODO: The below logic assumes that BOARD_ROW_LABELS and BOARD_FILE_LABELS are distinct
-             (or at least that the former possibility takes precedence).  Can/Should we try
-             to remove this restriction? */
-    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, c, nr_rows_on_board)))
-    {
-      for (unsigned int i = (unsigned int)((char const *)ptrToLabel-BOARD_ROW_LABELS)+1; i<nr_rows_on_board; ++i)
+    board_label_type const c = (board_label_type)tolower((unsigned char)*tok);
+    unsigned int i;
+    /* TODO: The below logic assumes that the row labels and file labels are distinct
+             (or at least that the former possibility takes precedence).  Can/Should
+             we try to remove this restriction? */
+    if ((i = getBoardRowIndex(c)) < nr_rows_on_board)
+      for (++i; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
-    }
-    else if ((ptrToLabel = memchr(BOARD_FILE_LABELS, c, nr_files_on_board)))
-    {
-      for (unsigned int i = (unsigned int)((char const *)ptrToLabel-BOARD_FILE_LABELS)+1; i<nr_files_on_board; ++i)
+    else if ((i = getBoardFileIndex(c)) < nr_files_on_board)
+      for (++i; i<nr_files_on_board; ++i)
         ++file_numbers[i];
-    }
     else
       /* return position within token to indicate failure */
       break;
@@ -781,14 +777,14 @@ static boolean pushedIrregularGridLine(char const * const tok)
   if (strlen(tok)==4)
   {
     char const dir_char = (char)tolower((unsigned char)tok[0]);
-    unsigned char const file_char = (unsigned char)tolower((unsigned char)tok[1]);
-    unsigned char const row_char = (unsigned char)tok[2];
+    board_label_type const file_char = (board_label_type)tolower((unsigned char)tok[1]);
+    board_label_type const row_char = (board_label_type)tok[2];
     char const length_char = tok[3];
-    void const * ptrToFileLabel;
-    void const * ptrToRowLabel;
+    unsigned int file;
+    unsigned int row;
     if (((dir_char=='h') || (dir_char=='v'))
-        && ((ptrToFileLabel = memchr(BOARD_FILE_LABELS, file_char, nr_files_on_board)))
-        && ((ptrToRowLabel = memchr(BOARD_ROW_LABELS, row_char, nr_rows_on_board)))
+        && ((file = getBoardFileIndex(file_char)) < nr_files_on_board)
+        && ((row = getBoardRowIndex(row_char)) < nr_rows_on_board)
         && ((length_char>='1') && (length_char<='9')))
     {
       unsigned int const length = (unsigned int)(length_char-'0');
@@ -805,8 +801,6 @@ static boolean pushedIrregularGridLine(char const * const tok)
           return false;
         dir = gridline_vertical;
       }
-      unsigned int const file = (unsigned int)((char const *)ptrToFileLabel-BOARD_FILE_LABELS);
-      unsigned int const row = (unsigned int)((char const *)ptrToRowLabel-BOARD_ROW_LABELS);
       return PushIrregularGridLine(file,row,length,dir);
     }
   }

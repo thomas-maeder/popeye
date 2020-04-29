@@ -3,19 +3,6 @@
 
 #include "utilities/bitmask.h"
 
-/* Declaration of the symbols we'll use to identify files on the board; these must all be distinct
- */
-static char const BOARD_FILE_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                                         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
-/* Declaration of the symbols we'll use to identify rows on the board; these must all be distinct
- */
-static char const BOARD_ROW_LABELS[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-/* NOTE: Code in input/plaintext/condition.c (at least) assumes that
-         BOARD_FILE_LABELS and BOARD_ROW_LABELS contain elements that
-         are distinct under the action of tolower(int) in ctype.h. */
-
 /* Declarations of types and functions related to the chess board
  */
 
@@ -29,11 +16,9 @@ enum
   nr_of_slack_rows_below_board = 8,
 
   nr_files_on_board = 8,
-  nr_rows_on_board = 8/(nr_files_on_board<=((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS))),
-  /* The above division ensures that we have enough board file labels. */
+  nr_rows_on_board = 8,
 
-  bottom_row = nr_of_slack_rows_below_board/(nr_rows_on_board<=((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS))),
-  /* The above division ensures that we have enough board row labels. */
+  bottom_row = nr_of_slack_rows_below_board,
   top_row = bottom_row+nr_rows_on_board-1,
 
   left_file = nr_of_slack_files_left_of_board,
@@ -264,5 +249,12 @@ square transformSquare(square sq, SquareTransformation transformation);
 /* 0 terminated sequence of the effective squares of the board
  */
 extern square const boardnum[65];
+
+typedef unsigned char board_label_type;
+
+extern board_label_type getBoardFileLabel(unsigned int index); /* index should be in [0, nr_files_on_board-1] */
+extern board_label_type getBoardRowLabel(unsigned int index); /* index should be in [0, nr_rows_on_board-1] */
+extern unsigned int getBoardFileIndex(board_label_type label); /* returns nr_files_on_board if label is invalid */
+extern unsigned int getBoardRowIndex(board_label_type label); /* returns nr_rows_on_board if label is invalid */
 
 #endif

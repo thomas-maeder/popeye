@@ -114,7 +114,7 @@ static void WriteGrid(void)
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
        row++, square_a += dir_down) {
-    sprintf(HLine, HorizL, (int) BOARD_ROW_LABELS[(nr_rows_on_board-1)-row], (int) BOARD_ROW_LABELS[(nr_rows_on_board-1)-row]);
+    sprintf(HLine, HorizL, (int) getBoardRowLabel((nr_rows_on_board-1)-row), (int) getBoardRowLabel((nr_rows_on_board-1)-row));
 
     for (column=0, square= square_a;
          column<nr_files_on_board;
@@ -376,7 +376,7 @@ static void WriteBorder(void)
   for (column = 0; column<nr_files_on_board; ++column)
   {
     char cell[fileWidth+1];
-    snprintf(cell, sizeof cell, "-%c--", (int)BOARD_FILE_LABELS[column]);
+    snprintf(cell, sizeof cell, "-%c--", (int)getBoardFileLabel(column));
     protocol_fprintf(stdout,"%s",cell);
   }
 

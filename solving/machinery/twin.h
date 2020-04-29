@@ -73,11 +73,10 @@ void initialise_piece_flags_solve(slice_index si);
 
 void pieces_counter_solve(slice_index si);
 
-static char const TWIN_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                                   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-enum
-{
-  NUM_TWIN_LABELS = ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS))
-};
+typedef unsigned char twin_label_type;
+
+unsigned int numTwinLabels(void);
+
+twin_label_type getTwinLabel(unsigned int index); /* index should be in [0, numTwinLabels()-1] */
 
 #endif

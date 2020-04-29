@@ -293,8 +293,8 @@ static void write_target(slice_index si, stip_structure_traversal *st)
 
   state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","z");
   /* TODO avoid duplication with WriteSquare() */
-  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",(int)BOARD_FILE_LABELS[(s%onerow)- nr_files_on_board]);
-  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",(int)BOARD_ROW_LABELS[(s/onerow) - nr_rows_on_board]);
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",(int)getBoardFileLabel((s%onerow)- nr_files_on_board));
+  state->nr_chars_written += (unsigned int)fprintf(state->file,"%c",(int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
 }
 
 static void write_capture(slice_index si, stip_structure_traversal *st)

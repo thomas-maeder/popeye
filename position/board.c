@@ -2,6 +2,72 @@
 
 #include "debugging/assert.h"
 
+/* Declaration of the symbols we'll use to identify files on the board; these must all be distinct
+ */
+static board_label_type const BOARD_FILE_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                                  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+/* Declaration of the symbols we'll use to identify rows on the board; these must all be distinct
+ */
+static board_label_type const BOARD_ROW_LABELS[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+/* NOTE: Code in input/plaintext/condition.c (at least) assumes that
+         BOARD_FILE_LABELS and BOARD_ROW_LABELS contain elements that
+         are distinct under the action of tolower(int) in ctype.h. */
+
+
+board_label_type getBoardFileLabel(unsigned int const index) /* index should be in [0, nr_files_on_board-1] */
+{
+  {
+    enum
+    {
+      ensure_we_have_enough_board_file_labels = 1/(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)))
+    };
+  }
+  assert(index < nr_files_on_board);
+  return BOARD_FILE_LABELS[index];
+}
+
+board_label_type getBoardRowLabel(unsigned int const index) /* index should be in [0, nr_rows_on_board-1] */
+{
+  {
+    enum
+    {
+      ensure_we_have_enough_board_row_labels = 1/(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)))
+    };
+  }
+  assert(index < nr_rows_on_board);
+  return BOARD_ROW_LABELS[index];
+}
+
+unsigned int getBoardFileIndex(board_label_type const label) /* returns nr_files_on_board if label is invalid */
+{
+  {
+    enum
+    {
+      ensure_we_have_enough_board_file_labels = 1/(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)))
+    };
+  }
+  unsigned int index;
+  for (index = 0; ((index < nr_files_on_board) && (BOARD_FILE_LABELS[index] != label)); ++index)
+    ; /* do nothing */
+  return index;
+}
+
+unsigned int getBoardRowIndex(board_label_type const label) /* returns nr_rows_on_board if label is invalid */
+{
+  {
+    enum
+    {
+      ensure_we_have_enough_board_row_labels = 1/(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)))
+    };
+  }
+  unsigned int index;
+  for (index = 0; ((index < nr_rows_on_board) && (BOARD_ROW_LABELS[index] != label)); ++index)
+    ; /* do nothing */
+  return index;
+}
+
 /* 0 terminated sequence of the effective squares of the board
  */
 square const boardnum[65] = {

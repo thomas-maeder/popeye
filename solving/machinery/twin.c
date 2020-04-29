@@ -1875,3 +1875,30 @@ slice_index input_find_stipulation(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
+static twin_label_type const TWIN_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+unsigned int numTwinLabels(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+  unsigned int const numLabels = ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS));
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",numLabels);
+  TraceFunctionResultEnd();
+  return numLabels;
+}
+
+twin_label_type getTwinLabel(unsigned int const index) /* index should be in [0, numTwinLabels()-1] */
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index);
+  TraceFunctionParamListEnd();
+  assert(index < numTwinLabels());
+  twin_label_type const label = TWIN_LABELS[index];
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%c",(int)label);
+  TraceFunctionResultEnd();
+  return label;
+}
