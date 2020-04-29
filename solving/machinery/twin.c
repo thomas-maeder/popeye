@@ -1609,7 +1609,7 @@ void verify_position(slice_index si)
   if (CondFlag[sentinelles])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[annan] || CondFlag[nanna] || CondFlag[bolero_inverse]
+  if (CondFlag[annan] || CondFlag[nanna] || CondFlag[bolero] || CondFlag[bolero_inverse]
       || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
       || CondFlag[pointreflection])
   {

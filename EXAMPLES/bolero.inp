@@ -27,5 +27,13 @@ stipulation #2
 condition boleroinverse
 option try vari set
 
+next
+
+author Petko A. Petkov
+origin Julia's Fairies 2019
+pieces white kh3 black ke8 sc1 neutral qf2 rc7
+stipulation h#2
+condition bolero
+
 end
 

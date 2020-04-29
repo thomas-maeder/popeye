@@ -27,10 +27,10 @@
 
   1...nPf2-f1=nQ   2.nPd7-d8=nR nRd8-b6 +   3.Kb7-a7 nQf1-a6 #
   1...nPf2-f1=nR   2.Kb7-a6 nRf1-b5   3.nPd7-d8=nQ + nQd8-a5 #
-  add_to_move_generation_stack:      406440
-                     play_move:       95178
- is_white_king_square_attacked:       92540
- is_black_king_square_attacked:       33381
+  add_to_move_generation_stack:      956447
+                     play_move:      357535
+ is_white_king_square_attacked:      354902
+ is_black_king_square_attacked:       40421
 
 solution finished.
 
@@ -207,6 +207,42 @@ solution finished.
                      play_move:        6582
  is_white_king_square_attacked:         861
  is_black_king_square_attacked:        6487
+
+solution finished.
+
+
+
+           Petko A. Petkov
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .  =R   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .  =Q   .   .   2
+|                                   |
+1   .   .  -S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 2 + 2n
+               Bolero
+
+  1.Sc1-h6 nQf2-d4   2.Sh6-h7 nQd4-h8 #
+  1.Sc1-a3 nQf2-b6   2.Sa3-a7 nQb6-a8 #
+  add_to_move_generation_stack:      319792
+                     play_move:      105499
+ is_white_king_square_attacked:       14927
+ is_black_king_square_attacked:      104799
 
 solution finished.
 
