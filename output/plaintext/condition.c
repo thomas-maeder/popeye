@@ -8,6 +8,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
@@ -831,6 +832,12 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case anticirce:
           written = append_circe_variants(&anticirce_variant,&CondLine,written,CirceVariantRexInclusive);
+          break;
+
+        case bolero:
+        case bolero_inverse:
+          if (bolero_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
 
         default:

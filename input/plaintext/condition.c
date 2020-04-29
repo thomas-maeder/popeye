@@ -12,6 +12,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
@@ -1857,6 +1858,11 @@ char *ParseCond(char *tok)
           break;
 
         case lostpieces:
+          break;
+
+        case bolero:
+        case bolero_inverse:
+          tok = ParseRexIncl(tok,&bolero_is_rex_inclusive,CirceVariantRexInclusive);
           break;
 
         default:
