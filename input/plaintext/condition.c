@@ -782,9 +782,11 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
 static boolean pushedIrregularGridLine(char const * const tok)
 {
   boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
+
   if (strlen(tok)==4)
   {
     char const dir_char = (char)tolower((unsigned char)tok[0]);
@@ -805,6 +807,7 @@ static boolean pushedIrregularGridLine(char const * const tok)
       result = PushIrregularGridLine(file,row,length,dir);
     }
   }
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",(unsigned int)result);
   TraceFunctionResultEnd();
