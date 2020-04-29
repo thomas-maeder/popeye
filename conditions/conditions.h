@@ -229,8 +229,9 @@ typedef enum
   pointreflection,        /* 208 */
   nanna,                  /* 209 */
   masand_generalised,     /* 210 */
+  bolero,                 /* 211 */
 
-  CondCount               /* 211 */
+  CondCount               /* 212 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

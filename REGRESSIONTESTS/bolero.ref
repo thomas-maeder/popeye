@@ -1,0 +1,73 @@
+
+          Claude Beaubestre
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  =P  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  =P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 1 + 2n
+               Bolero
+             HalfDuplex
+
+  1...nPf2-f1=nQ   2.nPd7-d8=nR nRd8-b6 +   3.Kb7-a7 nQf1-a6 #
+  1...nPf2-f1=nR   2.Kb7-a6 nRf1-b5   3.nPd7-d8=nQ + nQd8-a5 #
+  add_to_move_generation_stack:      406440
+                     play_move:       95178
+ is_white_king_square_attacked:       92540
+ is_black_king_square_attacked:       33381
+
+solution finished.
+
+
+first 5 moves of a proof game in 7.5 moves
+
+           Pierre Tritten
+             Phenix 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   R   .  -S   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      16 + 16
+               Bolero
+
+  1.Sg1-h3 d7-d6   2.Sh3-g3 Bc8-h3   3.Rh1-g1 Sb8-d7   4.Sg3-h1 Bh3-b3   5.Rg1-f3 Sd7-h3 dia
+  add_to_move_generation_stack:   353338806
+                     play_move:   179162048
+ is_white_king_square_attacked:     6195061
+ is_black_king_square_attacked:     8447343
+
+solution finished.
+
+

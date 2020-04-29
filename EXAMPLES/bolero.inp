@@ -1,0 +1,22 @@
+begin
+
+protocol bolero.ref
+
+author Claude Beaubestre
+origin Julia's Fairies 2019
+pieces white kb7 black ke7 neutral pd7f2
+stipulation h#2.5
+condition bolero
+option halfduplex
+
+next
+
+author Pierre Tritten
+origin Phenix 2019
+remark first 5 moves of a proof game in 7.5 moves
+forsyth r2qkbsr/ppp1pppp/3p4/8/8/1b3R1s/PPPPPPPP/RSBQKB1S
+stipulation dia5
+condition bolero
+
+end
+
