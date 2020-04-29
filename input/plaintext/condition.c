@@ -772,6 +772,12 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
 
 static boolean pushedIrregularGridLine(char const * const tok)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
   /* TODO: The below logic can only handle lengths in the range 1-9.
            Can/Should we try to remove this restriction? */
   if (strlen(tok)==4)
@@ -792,19 +798,24 @@ static boolean pushedIrregularGridLine(char const * const tok)
       if (dir_char == 'h')
       {
         if (length > nr_files_on_board)
-          return false;
+          goto DONE_PUSHING;
         dir = gridline_horizonal;
       }
       else
       {
         if (length > nr_rows_on_board)
-          return false;
+          goto DONE_PUSHING;
         dir = gridline_vertical;
       }
-      return PushIrregularGridLine(file,row,length,dir);
+      result = PushIrregularGridLine(file,row,length,dir);
     }
   }
-  return false;
+
+DONE_PUSHING:
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(unsigned int)result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static char *ParseGridVariant(char *tok)
@@ -911,14 +922,12 @@ static char *ParseGridVariant(char *tok)
           break;
         }
         case GridVariantExtraGridLines:
-        {
           IntialiseIrregularGridLines();
 
           while (pushedIrregularGridLine(tok))
             tok = ReadNextTokStr();
 
           break;
-        }
         default:
           output_plaintext_input_error_message(CondNotUniq);
           break;
