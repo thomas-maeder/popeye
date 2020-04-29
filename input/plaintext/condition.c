@@ -728,32 +728,27 @@ static char *ParseOrthogonalGridLines(char *tok,
 {
   assert(*tok!=0); /* we are at the start of a token */
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_files_on_board; i++)
-      file_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_files_on_board; i++)
+    file_numbers[i] = 0;
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_rows_on_board; i++)
-      row_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_rows_on_board; i++)
+    row_numbers[i] = 0;
 
   do
   {
-    char const c = (char)tolower(*tok);
+    unsigned char const c = (unsigned char)tolower((unsigned char)*tok);
     void const * ptrToLabel;
-    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, (unsigned char)c, nr_rows_on_board)))
+    /* TODO: The below logic assumes that BOARD_ROW_LABELS and BOARD_FILE_LABELS are distinct
+             (or at least that the former possibility takes precedence).  Can/Should we try
+             to remove this restriction? */
+    if ((ptrToLabel = memchr(BOARD_ROW_LABELS, c, nr_rows_on_board)))
     {
-      unsigned int i;
-      for (i = (unsigned int)((char const *)ptrToLabel-BOARD_ROW_LABELS)+1; i<nr_rows_on_board; ++i)
+      for (unsigned int i = (unsigned int)((char const *)ptrToLabel-BOARD_ROW_LABELS)+1; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
     }
-    else if ((ptrToLabel = memchr(BOARD_FILE_LABELS, (unsigned char)c, nr_files_on_board)))
+    else if ((ptrToLabel = memchr(BOARD_FILE_LABELS, c, nr_files_on_board)))
     {
-      unsigned int i;
-      for (i = (unsigned int)((char const *)ptrToLabel-BOARD_FILE_LABELS)+1; i<nr_files_on_board; ++i)
+      for (unsigned int i = (unsigned int)((char const *)ptrToLabel-BOARD_FILE_LABELS)+1; i<nr_files_on_board; ++i)
         ++file_numbers[i];
     }
     else
@@ -777,6 +772,45 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
     ClearGridNum(*bnp);
     sq_spec(*bnp) += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
   }
+}
+
+static boolean pushedIrregularGridLine(char const * const tok)
+{
+  /* TODO: The below logic can only handle lengths in the range 1-9.
+           Can/Should we try to remove this restriction? */
+  if (strlen(tok)==4)
+  {
+    char const dir_char = (char)tolower((unsigned char)tok[0]);
+    unsigned char const file_char = (unsigned char)tolower((unsigned char)tok[1]);
+    unsigned char const row_char = (unsigned char)tok[2];
+    char const length_char = tok[3];
+    void const * ptrToFileLabel;
+    void const * ptrToRowLabel;
+    if (((dir_char=='h') || (dir_char=='v'))
+        && ((ptrToFileLabel = memchr(BOARD_FILE_LABELS, file_char, nr_files_on_board)))
+        && ((ptrToRowLabel = memchr(BOARD_ROW_LABELS, row_char, nr_rows_on_board)))
+        && ((length_char>='1') && (length_char<='9')))
+    {
+      unsigned int const length = (unsigned int)(length_char-'0');
+      gridline_direction dir;
+      if (dir_char == 'h')
+      {
+        if (length > nr_files_on_board)
+          return false;
+        dir = gridline_horizonal;
+      }
+      else
+      {
+        if (length > nr_rows_on_board)
+          return false;
+        dir = gridline_vertical;
+      }
+      unsigned int const file = (unsigned int)((char const *)ptrToFileLabel-BOARD_FILE_LABELS);
+      unsigned int const row = (unsigned int)((char const *)ptrToRowLabel-BOARD_ROW_LABELS);
+      return PushIrregularGridLine(file,row,length,dir);
+    }
+  }
+  return false;
 }
 
 static char *ParseGridVariant(char *tok)
@@ -886,46 +920,8 @@ static char *ParseGridVariant(char *tok)
         {
           IntialiseIrregularGridLines();
 
-          while (true)
-            if (strlen(tok)==4)
-            {
-              char const dir_char = (char)tolower(tok[0]);
-              char const file_char = (char)tolower(tok[1]);
-              char const row_char = tok[2];
-              char const length_char = tok[3];
-              void const * ptrToFileLabel;
-              void const * ptrToRowLabel;
-              if (((dir_char=='h') || (dir_char=='v'))
-                  && ((ptrToFileLabel = memchr(BOARD_FILE_LABELS, (unsigned char)file_char, nr_files_on_board)))
-                  && ((ptrToRowLabel = memchr(BOARD_ROW_LABELS, (unsigned char)row_char, nr_rows_on_board)))
-                  && ((length_char>='1') && (length_char<='9')))
-              {
-                unsigned int const length = (unsigned int)(length_char-'0');
-                gridline_direction dir;
-                if (dir_char == 'h')
-                {
-                  if (length > nr_files_on_board)
-                    break;
-                  dir = gridline_horizonal;
-                }
-                else
-                {
-                  if (length > nr_rows_on_board)
-                    break;
-                  dir = gridline_vertical;
-                }
-                unsigned int const file = (unsigned int)((char const *)ptrToFileLabel-BOARD_FILE_LABELS);
-                unsigned int const row = (unsigned int)((char const *)ptrToRowLabel-BOARD_ROW_LABELS);
-                if (PushIrregularGridLine(file,row,length,dir))
-                  tok = ReadNextTokStr();
-                else
-                  break;
-              }
-              else
-                break;
-            }
-            else
-              break;
+          while (pushedIrregularGridLine(tok))
+            tok = ReadNextTokStr();
 
           break;
         }
