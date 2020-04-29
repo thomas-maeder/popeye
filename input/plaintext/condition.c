@@ -1910,6 +1910,7 @@ void InitCond(void)
   messigny_rex_inclusive = true;
   woozles_rex_inclusive = true;
   protean_is_rex_inclusive = true;
+  bolero_is_rex_inclusive = false;
 
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
