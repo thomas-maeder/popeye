@@ -61,8 +61,8 @@ static boolean is_recoloring_candidate(square observer_pos, square observee)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(on_this);
-  TraceSquare(by_that);
+  TraceSquare(observer_pos);
+  TraceSquare(observee);
   TraceFunctionParamListEnd();
 
   result = (!is_square_empty(observee)
