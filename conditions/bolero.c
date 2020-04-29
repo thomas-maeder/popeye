@@ -10,6 +10,8 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
+boolean bolero_is_rex_inclusive;
+
 static boolean is_walk_excluded(square s)
 {
   boolean result;
@@ -18,8 +20,11 @@ static boolean is_walk_excluded(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
+  TraceWalk(get_walk_of_piece_on_square(s));
+  TraceEOL();
+
   result = (is_pawn(get_walk_of_piece_on_square(s))
-            || TSTFLAG(being_solved.spec[s],Royal));
+            || (!bolero_is_rex_inclusive && TSTFLAG(being_solved.spec[s],Royal)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

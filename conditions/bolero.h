@@ -2,9 +2,13 @@
 #define CONDITIONS_BOLERO_H
 
 #include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* This module provides implements the condition Bolero
  */
+
+extern boolean bolero_is_rex_inclusive;
+
 /* Make sure that the observer has the expected walk - annanised or originally
  * @return true iff the observation is valid
  */

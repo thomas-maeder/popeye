@@ -876,7 +876,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  input/plaintext/condition.h pieces/walks/pawns/promotee_sequence.h \
  pieces/attributes/chameleon.h conditions/annan.h conditions/bgl.h \
- conditions/breton.h conditions/circe/april.h \
+ conditions/bolero.h conditions/breton.h conditions/circe/april.h \
  conditions/circe/rex_inclusive.h conditions/circe/chameleon.h \
  conditions/football.h conditions/geneva.h conditions/grid.h \
  conditions/imitator.h conditions/immune.h conditions/isardam.h \
@@ -1024,6 +1024,8 @@ pieces/attributes/chameleon.h:
 conditions/annan.h:
 
 conditions/bgl.h:
+
+conditions/bolero.h:
 
 conditions/breton.h:
 
