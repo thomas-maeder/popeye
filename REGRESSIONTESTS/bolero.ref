@@ -71,3 +71,143 @@ first 5 moves of a proof game in 7.5 moves
 solution finished.
 
 
+
+           Petko A. Petkov
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .  -P   .   P   .   5
+|                                   |
+4   .   .   .   .   .   P   .   B   4
+|                                   |
+3   .   P   .   P  -K   .   R   S   3
+|                                   |
+2   .   .   .   .   .   .   .   S   2
+|                                   |
+1   .   .   K   .  -B   .   R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 4
+            BoleroInverse
+
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...Ke3*d3
+          2.Rg3-e3 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+
+   1.Kc1-c2 ? zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Sh3-f2 #
+      1...Be1-c3
+          2.Sh3-f2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...e5*f4
+          2.Sh2-g4 #
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...Be1-b4 + !
+
+   1.Rg1-f1 ? zugzwang.
+      1...Be1*f1
+          2.Rg3*f1 #
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Rg3-g1 #
+      1...Be1-b4
+          2.Rg3-g1 #
+      1...Be1-c3
+          2.Rg3-g1 #
+      1...Ke3-f3
+          2.Rg3-g1 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...Be1-d2 + !
+
+   1.Sh2-g4 + ?
+      1...Ke3*d3
+          2.Rg3-e3 #
+    but
+      1...Ke3*f4 !
+
+   1.Rg3-g2 + ?
+    but
+      1...Ke3-f2 !
+
+   1.Rg3-g4 + ?
+    but
+      1...Ke3*f4 !
+
+   1.Sh3-f2 + ?
+      1...Ke3*d3
+          2.Sf2-e4 #
+          2.Rg3-e3 #
+    but
+      1...Be1*f2 !
+
+   1.Bb5-d7 ? zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Sh3-f2 #
+      1...Be1-b4
+          2.Sh3-f2 #
+      1...Be1-c3
+          2.Sh3-f2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...e5*f4
+          2.Sh2-g4 #
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...b6-b5 !
+
+   1.g5-g6 ! zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Rg3-g5 #
+      1...Be1-b4
+          2.Rg3-g5 #
+      1...Be1-c3
+          2.Rg3-g5 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...Ke3*d3
+          2.Rg3-e3 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+
+  add_to_move_generation_stack:       21890
+                     play_move:        6582
+ is_white_king_square_attacked:         861
+ is_black_king_square_attacked:        6487
+
+solution finished.
+
+

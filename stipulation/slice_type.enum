@@ -519,7 +519,8 @@
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
     ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
     ENUMERATOR(STMakeTakeMoveCastlingPartner),                          \
-    ENUMERATOR(STBoleroGenerateNonCapturesWalkByWalk),                  \
+    ENUMERATOR(STBoleroGenerateMovesWalkByWalk),                        \
+    ENUMERATOR(STBoleroInverseEnforceObserverWalk),                     \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \

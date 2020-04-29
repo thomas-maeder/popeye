@@ -18,5 +18,14 @@ forsyth r2qkbsr/ppp1pppp/3p4/8/8/1b3R1s/PPPPPPPP/RSBQKB1S
 stipulation dia5
 condition bolero
 
+next
+
+author Petko A. Petkov
+origin Julia's Fairies 2019
+pieces white kc1 rg1g3 bb5h4 sh2h3 pb3d3f4g5 black ke3 be1 pb6e5
+stipulation #2
+condition boleroinverse
+option try vari set
+
 end
 

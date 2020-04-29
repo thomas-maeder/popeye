@@ -724,8 +724,8 @@ void dispatch(slice_index si)
       make_and_take_move_castling_partner(si);
       break;
 
-    case STBoleroGenerateNonCapturesWalkByWalk:
-      bolero_generate_non_captures(si);
+    case STBoleroGenerateMovesWalkByWalk:
+      bolero_generate_moves(si);
       break;
 
     case STMarsCirceMoveToRebirthSquare:

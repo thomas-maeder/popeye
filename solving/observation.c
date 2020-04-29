@@ -3,6 +3,7 @@
 #include "conditions/backhome.h"
 #include "conditions/beamten.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -126,6 +127,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STNannaEnforceObserverWalk:
       result = nanna_enforce_observer_walk(si);
+      break;
+
+    case STBoleroInverseEnforceObserverWalk:
+      result = bolero_inverse_enforce_observer_walk(si);
       break;
 
     case STPointReflectionEnforceObserverWalk:
@@ -360,6 +365,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
     STFaceToFaceEnforceObserverWalk,
@@ -387,6 +393,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
@@ -404,6 +411,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
     STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMonochromeRemoveNonMonochromeMoves,

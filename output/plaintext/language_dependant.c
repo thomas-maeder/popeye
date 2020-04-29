@@ -946,7 +946,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*208*/ "ReflexionCentrale",
     /*209*/ "AnnanEchecs",
     /*210*/ "MasandGeneralise",
-    /*211*/ "Bolero"
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInverse"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1160,7 +1161,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*208*/ "Punktspiegelung",
     /*209*/ "Nannaschach",
     /*210*/ "MasandVerallgemeinert",
-    /*211*/ "Bolero"
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInvers"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1374,7 +1376,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*208*/ "PointReflection",
     /*209*/ "NannaChess",
     /*210*/ "MasandGeneralised",
-    /*211*/ "Bolero"
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInverse"
   }
 };
 

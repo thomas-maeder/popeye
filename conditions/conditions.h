@@ -230,8 +230,9 @@ typedef enum
   nanna,                  /* 209 */
   masand_generalised,     /* 210 */
   bolero,                 /* 211 */
+  bolero_inverse,         /* 212 */
 
-  CondCount               /* 212 */
+  CondCount               /* 213 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
