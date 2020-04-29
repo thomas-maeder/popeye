@@ -779,6 +779,38 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
   }
 }
 
+static boolean pushedIrregularGridLine(char const * const tok)
+{
+  boolean result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+  if (strlen(tok)==4)
+  {
+    char const dir_char = (char)tolower((unsigned char)tok[0]);
+    char const file_char = (char)tolower((unsigned char)tok[1]);
+    char const row_char = tok[2];
+    char const length_char = tok[3];
+
+    if ((dir_char=='h' || dir_char=='v')
+        && (file_char>='a' && file_char<='h')
+        && (row_char>='1' && row_char<='8')
+        && (length_char>='1' && length_char<='8'))
+    {
+      unsigned int const file = (unsigned int)(file_char-'a');
+      unsigned int const row = (unsigned int)(row_char-'1');
+      unsigned int const length = (unsigned int)(length_char-'0');
+      gridline_direction const dir = dir_char=='h' ? gridline_horizonal : gridline_vertical;
+
+      result = PushIrregularGridLine(file,row,length,dir);
+    }
+  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(unsigned int)result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static char *ParseGridVariant(char *tok)
 {
   TraceFunctionEntry(__func__);
@@ -883,40 +915,12 @@ static char *ParseGridVariant(char *tok)
           break;
         }
         case GridVariantExtraGridLines:
-        {
           IntialiseIrregularGridLines();
 
-          while (true)
-            if (strlen(tok)==4)
-            {
-              char const dir_char = (char)tolower((unsigned char)tok[0]);
-              char const file_char = (char)tolower((unsigned char)tok[1]);
-              char const row_char = tok[2];
-              char const length_char = tok[3];
-
-              if ((dir_char=='h' || dir_char=='v')
-                  && (file_char>='a' && file_char<='h')
-                  && (row_char>='1' && row_char<='8')
-                  && (length_char>='1' && length_char<='8'))
-              {
-                unsigned int const file = (unsigned int)(file_char-'a');
-                unsigned int const row = (unsigned int)(row_char-'1');
-                unsigned int const length = (unsigned int)(length_char-'0');
-                gridline_direction const dir = dir_char=='h' ? gridline_horizonal : gridline_vertical;
-
-                if (PushIrregularGridLine(file,row,length,dir))
-                  tok = ReadNextTokStr();
-                else
-                  break;
-              }
-              else
-                break;
-            }
-            else
-              break;
+          while (pushedIrregularGridLine(tok))
+            tok = ReadNextTokStr();
 
           break;
-        }
         default:
           output_plaintext_input_error_message(CondNotUniq);
           break;
