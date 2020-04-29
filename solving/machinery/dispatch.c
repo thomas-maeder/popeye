@@ -7,6 +7,7 @@
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
@@ -721,6 +722,10 @@ void dispatch(slice_index si)
 
     case STMakeTakeMoveCastlingPartner:
       make_and_take_move_castling_partner(si);
+      break;
+
+    case STBoleroGenerateNonCapturesWalkByWalk:
+      bolero_generate_non_captures(si);
       break;
 
     case STMarsCirceMoveToRebirthSquare:

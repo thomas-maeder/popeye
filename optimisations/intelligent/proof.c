@@ -97,7 +97,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
                 || CondFlag[lostpieces]
                 || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
-                || CondFlag[breton]);
+                || CondFlag[breton]
+                || CondFlag[bolero]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.

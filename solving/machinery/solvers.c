@@ -14,6 +14,7 @@
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
@@ -752,6 +753,9 @@ void build_solvers2(slice_index si)
     annan_initialise_solving(si);
   if (CondFlag[nanna])
     nanna_initialise_solving(si);
+
+  if (CondFlag[bolero])
+    solving_initialise_bolero(si);
 
   if (CondFlag[pointreflection])
     point_reflection_initialise_solving(si);
