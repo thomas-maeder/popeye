@@ -756,6 +756,8 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[bolero])
     solving_initialise_bolero(si);
+  if (CondFlag[bolero_inverse])
+    solving_initialise_bolero_inverse(si);
 
   if (CondFlag[pointreflection])
     point_reflection_initialise_solving(si);

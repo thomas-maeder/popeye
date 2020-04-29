@@ -13,7 +13,7 @@
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void bolero_generate_non_captures(slice_index si)
+void bolero_generate_moves(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
   piece_walk_type const regular_walk = get_walk_of_piece_on_square(sq_departure);
@@ -56,7 +56,7 @@ static void instrument_no_capture(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STBoleroGenerateNonCapturesWalkByWalk),
+        alloc_pipe(STBoleroGenerateMovesWalkByWalk),
         alloc_pipe(STMoveGeneratorRejectCaptures)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -107,6 +107,75 @@ void solving_initialise_bolero(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              STMoveForPieceGeneratorAlternativePath,
                                              &instrument_capture);
+    stip_traverse_structure(si,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void inverse_instrument_no_capture(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STMoveGeneratorRejectCaptures)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void inverse_instrument_capture(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STBoleroGenerateMovesWalkByWalk),
+        alloc_pipe(STMoveGeneratorRejectNoncaptures)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inialise thet solving machinery with Mars Circe
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_initialise_bolero_inverse(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_generator_instrument_for_alternative_paths(si,nr_sides);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STMoveForPieceGeneratorStandardPath,
+                                             &inverse_instrument_no_capture);
+    stip_structure_traversal_override_single(&st,
+                                             STMoveForPieceGeneratorAlternativePath,
+                                             &inverse_instrument_capture);
     stip_traverse_structure(si,&st);
   }
 
