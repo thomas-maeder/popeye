@@ -359,7 +359,9 @@ void dispatch(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
   TraceEnumerator(slice_type,SLICE_TYPE(si));
+  TraceEOL();
 
   switch (SLICE_TYPE(si))
   {
