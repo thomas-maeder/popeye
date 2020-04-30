@@ -7,6 +7,7 @@
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
 #include "solving/machinery/dispatch.h"
+#include "debugging/measure.h"
 #include "debugging/trace.h"
 
 /* This module provides functionality dealing with the attacking side
@@ -249,5 +250,7 @@ void remove_duplicate_moves_of_single_piece(numecoup start);
  *                  priorised
  */
 void move_generator_priorise(numecoup priorised);
+
+DECLARE_COUNTER(add_to_move_generation_stack);
 
 #endif

@@ -27,7 +27,7 @@ static trace_level level;
 
 static unsigned long move_counter;
 
-trace_level max_level = ULONG_MAX;
+static trace_level max_level = ULONG_MAX;
 static boolean pointers_suppressed = false;
 
 enum
@@ -404,8 +404,8 @@ static void trace_link(char const *prefix, slice_index si, char const *suffix)
     printf("%s%4u%s ",prefix,si,suffix);
 }
 
-char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
-char const level_shortcuts[]   = { 'T', 'S', 'N' };
+static char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
+static char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
 static void trace_common(slice_index si, stip_structure_traversal *st)
 {

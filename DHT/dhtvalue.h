@@ -56,21 +56,7 @@ typedef enum {
 	dhtValueTypeCnt
 } dhtValueType;
 
-DATA char const *dhtValueTypeToString[dhtValueTypeCnt]
-#if defined(GDATA)
-	= { "dhtSimpleValue",
-	    "dhtStringValue",
-	    "dhtCompactMemoryValue",
-	    "dhtMemoryValue",
-	    "dhtByteCountedMemoryValue",
-	    "dhtUser1Value",
-	    "dhtUser2Value",
-	    "dhtUser3Value",
-	    "dhtUser4Value"
-	    /* , "dhtNewValue" */
-	  }
-#endif
-;
+extern DATA char const *dhtValueTypeToString[dhtValueTypeCnt];
 
 typedef void *dhtValue;
 typedef void const *dhtConstValue;
@@ -100,27 +86,7 @@ extern dhtValueProcedures dhtMemoryProcs;
 extern dhtValueProcedures dhtBCMemoryProcs;
 #endif /*REGISTER_BCMEM*/
 
-DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt]
-#if defined(GDATA)
-	= {
-#if defined(REGISTER_SIMPLE)
-		&dhtSimpleProcs,
-#endif /*REGISTER_SIMPLE*/
-#if defined(REGISTER_STRING)
-		&dhtStringProcs,
-#endif /*REGISTER_STRING*/
-#if defined(REGISTER_COMPACT)
-		&dhtCompactMemoryProcs,
-#endif /*REGISTER_COMPACT*/
-#if defined(REGISTER_MEMORY)
-		&dhtMemoryProcs,
-#endif /*REGISTER_MEMORY*/
-#if defined(REGISTER_BCMEM)
-		&dhtBCMemoryProcs,
-#endif /*REGISTER_BCMEM*/
-	  }
-#endif /*GDATA*/
-;
+extern DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt];
 
 dhtStatus dhtRegisterValue(dhtValueType, char const *, dhtValueProcedures *);
 

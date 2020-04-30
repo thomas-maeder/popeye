@@ -13,7 +13,7 @@
 
 #include "stipulation/move.h"
 
-DEFINE_COUNTER(play_move);
+static DEFINE_COUNTER(play_move);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -41,15 +41,18 @@ void solving_insert_move_counters(slice_index si)
   stip_instrument_moves(si,STMoveCounter);
 }
 
+#define MEASURE_C_CONCATENATE_IMPL(a, b) a##b
+#define MEASURE_C_CONCATENATE(a, b) MEASURE_C_CONCATENATE_IMPL(a, b)
+
 /* Reset the value of a counter defined elsewhere
  */
 #define RESET_COUNTER(name)                       \
-    counter##name = 0;                            \
+    MEASURE_C_CONCATENATE(COUNTER_PREFIX, name) = 0;                     \
 
 /* Write the value of a counter defined elsewhere
  */
 #define WRITE_COUNTER(name)                       \
-    protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
+    protocol_fprintf(stdout,"%30s:%12lu\n",#name,MEASURE_C_CONCATENATE(COUNTER_PREFIX, name));   \
 
 extern unsigned int total_invisible_number;
 extern unsigned long record_decision_counter;

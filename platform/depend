@@ -1,11 +1,15 @@
 platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
- utilities/boolean.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum optimisations/hash.h \
- DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h solving/pipe.h
+  utilities/boolean.h stipulation/stipulation.h \
+  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+  stipulation/slice_type.h stipulation/slice_type.enum.h \
+  stipulation/slice_type.enum position/side.h position/side.enum.h \
+  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+  output/mode.enum optimisations/hash.h DHT/dhtbcmem.h \
+  solving/machinery/solve.h solving/machinery/dispatch.h \
+  debugging/trace.h position/position.h position/color.h \
+  position/color.enum.h position/color.enum position/pieceid.h \
+  pieces/walks/vectors.h position/castling_rights.h solving/ply.h \
+  solving/pipe.h
 
 platform/maxmem.h:
 
@@ -49,11 +53,25 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
 solving/ply.h:
 
 solving/pipe.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h
+  platform/maxtime.h utilities/boolean.h
 
 platform/maxtime_impl.h:
 
@@ -61,7 +79,7 @@ platform/maxtime.h:
 
 utilities/boolean.h:
 platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h utilities/boolean.h \
- platform/beep_impl.h
+  platform/beep_impl.h
 
 platform/beep.h:
 
@@ -69,12 +87,15 @@ utilities/boolean.h:
 
 platform/beep_impl.h:
 platform/platform$(OBJ_SUFFIX): platform/platform.c platform/platform.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+  debugging/trace.h position/position.h position/color.h \
+  position/color.enum.h position/color.enum position/pieceid.h \
+  pieces/walks/vectors.h position/castling_rights.h solving/ply.h
 
 platform/platform.h:
 
@@ -115,13 +136,32 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
 platform/timer$(OBJ_SUFFIX): platform/timer.c platform/timer.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
+  debugging/trace.h position/position.h position/color.h \
+  position/color.enum.h position/color.enum position/pieceid.h \
+  pieces/walks/vectors.h position/castling_rights.h solving/ply.h
 
 platform/timer.h:
 
@@ -162,3 +202,19 @@ solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:

@@ -1,5 +1,13 @@
 DHT/dht$(OBJ_SUFFIX): DHT/dht.c debugging/assert.h utilities/boolean.h \
- DHT/dhtvalue.h DHT/fxf.h DHT/dht.h debugging/trace.h
+  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h debugging/trace.h pieces/pieces.h \
+  position/position.h position/board.h utilities/bitmask.h \
+  position/side.h position/side.enum.h position/side.enum \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h stipulation/stipulation.h stipulation/goals/goals.h \
+  stipulation/slice_type.h stipulation/slice_type.enum.h \
+  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
+  output/mode.enum
 
 debugging/assert.h:
 
@@ -12,8 +20,52 @@ DHT/fxf.h:
 DHT/dht.h:
 
 debugging/trace.h:
+
+pieces/pieces.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
 DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
- DHT/dht.h
+  DHT/dht.h
 
 DHT/dhtvalue.h:
 
@@ -23,7 +75,7 @@ DHT/dhtcmem.h:
 
 DHT/dht.h:
 DHT/dhtmem$(OBJ_SUFFIX): DHT/dhtmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtmem.h \
- DHT/dht.h
+  DHT/dht.h
 
 DHT/dhtvalue.h:
 
@@ -52,7 +104,7 @@ DHT/fxf.h:
 
 DHT/dht.h:
 DHT/dhtbcmem$(OBJ_SUFFIX): DHT/dhtbcmem.c debugging/assert.h DHT/dhtvalue.h \
- DHT/fxf.h DHT/dhtbcmem.h DHT/dht.h
+  DHT/fxf.h DHT/dhtbcmem.h DHT/dht.h
 
 debugging/assert.h:
 

@@ -3,7 +3,7 @@
 #include "input/plaintext/language.h"
 #include "debugging/assert.h"
 
-char const *MessageTabs[LanguageCount][MsgCount] =
+static char const *MessageTabs[LanguageCount][MsgCount] =
 {
   /*0*/ {
     /* 0*/  "erreur fatale:\n",

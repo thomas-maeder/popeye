@@ -19,7 +19,7 @@
 
 /* number of current move at root level
  */
-unsigned int MoveNbr[maxply+1];
+static unsigned int MoveNbr[maxply+1];
 
 /* number of first move at root level to be considered
  */

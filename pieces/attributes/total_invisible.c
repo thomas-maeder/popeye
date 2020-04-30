@@ -48,7 +48,7 @@ slice_index tester_slice;
 
 play_phase_type play_phase = play_regular;
 
-ply flesh_out_move_highwater = ply_retro_move;
+static ply flesh_out_move_highwater = ply_retro_move;
 
 void report_deadend(char const *s, unsigned int lineno)
 {

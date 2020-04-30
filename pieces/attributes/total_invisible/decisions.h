@@ -158,4 +158,9 @@ void decision_make_relevant(decision_level_type level);
 
 boolean has_decision_failed_capture(void);
 
+// TODO get rid of these
+// declared in decisions.c
+extern Side side_in_check_to_be_intercepted;
+extern vec_index_type check_vector_to_be_intercepted;
+
 #endif

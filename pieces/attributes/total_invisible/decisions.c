@@ -460,10 +460,8 @@ has_solution_type get_decision_result(void)
   return result;
 }
 
-// TOOD get rid of these
-// defined in random_move_by_invisible.c
-extern Side side_in_check_to_be_intercepted;
-extern vec_index_type check_vector_to_be_intercepted;
+Side side_in_check_to_be_intercepted;
+vec_index_type check_vector_to_be_intercepted;
 
 void pop_decision(void)
 {

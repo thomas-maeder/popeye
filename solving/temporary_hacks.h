@@ -50,6 +50,7 @@ extern slice_index temporary_hack_move_generator[nr_sides];
 /* fork slice into branch that tests square observation */
 extern slice_index temporary_hack_is_square_observed[nr_sides];
 extern slice_index temporary_hack_is_square_observed_specific[nr_sides];
+extern slice_index temporary_hack_is_square_observed_by_non_king[nr_sides];
 
 /* fork slice into check validation */
 extern slice_index temporary_hack_check_validator[nr_sides];

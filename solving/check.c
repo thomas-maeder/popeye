@@ -115,7 +115,6 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
    return result;
 }
 
-
 DEFINE_COUNTER(is_white_king_square_attacked);
 DEFINE_COUNTER(is_black_king_square_attacked);
 

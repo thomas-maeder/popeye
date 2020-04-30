@@ -33,7 +33,7 @@
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
-char const *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
+static char const *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static char const CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

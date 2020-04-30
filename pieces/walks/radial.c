@@ -4,6 +4,7 @@
 #include "position/position.h"
 #include "debugging/trace.h"
 
+static
 struct
 {
     vec_index_type start;
@@ -31,6 +32,7 @@ enum
   nr_queen_radial_ranges = sizeof queen_radial_ranges / sizeof queen_radial_ranges[0]
 };
 
+static
 struct
 {
     vec_index_type start;

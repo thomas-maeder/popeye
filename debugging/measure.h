@@ -18,15 +18,15 @@
 
 /* Define a counter. To be put into the global namespace.
  */
-#define DEFINE_COUNTER(name) COUNTER_TYPE counter##name
+#define DEFINE_COUNTER(name) COUNTER_TYPE COUNTER_##name
 
 /* Declare a counter.
  */
-#define DECLARE_COUNTER(name) extern COUNTER_TYPE counter##name
+#define DECLARE_COUNTER(name) extern COUNTER_TYPE COUNTER_##name
 
 /* Increment a counter defined elsewhere
  */
-#define INCREMENT_COUNTER(name) ++counter##name
+#define INCREMENT_COUNTER(name) ++COUNTER_##name
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

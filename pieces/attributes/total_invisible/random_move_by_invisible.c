@@ -675,10 +675,6 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
   TraceFunctionResultEnd();
 }
 
-// TOOD get rid of these
-Side side_in_check_to_be_intercepted;
-vec_index_type check_vector_to_be_intercepted;
-
 static void consider_forward_random_move_by_invisible_rider_to(square sq_arrival,
                                                                piece_walk_type walk_moving)
 {

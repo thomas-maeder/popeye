@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-boolean is_variable_output_suppressed = false;
+static boolean is_variable_output_suppressed = false;
 
 #if defined(DEBUG)
 #       define  DBG(x) fprintf x

@@ -28,8 +28,8 @@ motivation_type const motivation_null = {
     { purpose_none }
 };
 
-PieceIdType top_visible_piece_id;
-PieceIdType top_invisible_piece_id;
+static PieceIdType top_visible_piece_id;
+static PieceIdType top_invisible_piece_id;
 
 void initialise_invisible_piece_ids(PieceIdType last_visible_piece_id)
 {
