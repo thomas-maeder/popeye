@@ -219,16 +219,13 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 
 static void WriteTwinLetter(unsigned int twin_number, boolean continued)
 {
-  unsigned int numLabels;
-
   if (continued)
     protocol_fputc('+',stdout);
 
-  numLabels = numTwinLabels();
-  if ((twin_number-twin_a)<numLabels)
+  if ((twin_number-twin_a)<nr_twin_labels)
     protocol_fprintf(stdout,"%c) ", (int)getTwinLabel(twin_number-twin_a));
   else
-    protocol_fprintf(stdout,"z%u) ", (unsigned int)((twin_number-twin_a)-(numLabels-1)));
+    protocol_fprintf(stdout,"z%u) ", (unsigned int)((twin_number-twin_a)-(nr_twin_labels-1)));
 }
 
 static void WriteTwinning(boolean continued)

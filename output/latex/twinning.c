@@ -88,11 +88,10 @@ void LaTeXShutdownTwinning(void)
 
 static void BeginTwinning(unsigned int twin_number)
 {
-  const unsigned int numLabels = numTwinLabels();
-  if ((twin_number-twin_a)<numLabels)
+  if ((twin_number-twin_a)<nr_twin_labels)
     twinning_pos += (unsigned int)fprintf(twinning, "%c) ", (int)getTwinLabel(twin_number-twin_a));
   else
-    twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)((twin_number-twin_a)-(numLabels-1)));
+    twinning_pos += (unsigned int)fprintf(twinning, "z%u) ", (unsigned int)((twin_number-twin_a)-(nr_twin_labels-1)));
 }
 
 static void EndTwinning(void)
@@ -325,11 +324,10 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 
 static void WriteTwinLetterToSolution(unsigned int twin_number, FILE *file)
 {
-  const unsigned int numLabels = numTwinLabels();
-  if ((twin_number-twin_a)<numLabels)
+  if ((twin_number-twin_a)<nr_twin_labels)
     fprintf(file, "%c)", (int)getTwinLabel(twin_number-twin_a));
   else
-    fprintf(file, "z%u)", (unsigned int)((twin_number-twin_a)-(numLabels-1)));
+    fprintf(file, "z%u)", (unsigned int)((twin_number-twin_a)-(nr_twin_labels-1)));
 }
 
 static void WriteTwinning(unsigned int twin_number, boolean continued)
