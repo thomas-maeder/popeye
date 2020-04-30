@@ -2,19 +2,18 @@
 
 #include "debugging/assert.h"
 
-/* Declaration of the symbols we'll use to identify files on the board; these must all be distinct
+/* NOTE: Code in input/plaintext/condition.c (at least) assumes that
+         getBoardFileLabel(unsigned int) and getBoardRowLabel(unsigned int)
+         return distinct outputs of tolower(int) (declared in ctype.h). */
+
+/* Declaration of the symbols we'll use to identify files on the board
  */
 static board_label_type const BOARD_FILE_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                                                  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+                                                     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-/* Declaration of the symbols we'll use to identify rows on the board; these must all be distinct
+/* Declaration of the symbols we'll use to identify rows on the board
  */
 static board_label_type const BOARD_ROW_LABELS[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-/* NOTE: Code in input/plaintext/condition.c (at least) assumes that
-         BOARD_FILE_LABELS and BOARD_ROW_LABELS contain elements that
-         are distinct under the action of tolower(int) in ctype.h. */
-
 
 board_label_type getBoardFileLabel(unsigned int const index) /* index should be in [0, nr_files_on_board-1] */
 {
