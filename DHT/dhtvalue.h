@@ -24,7 +24,7 @@
 #endif
 
 #if defined(GDATA)
-#define DATA
+#define DATA  /* TODO: Maybe we can/should put "static" here. */
 #else
 #define DATA	extern
 #endif
