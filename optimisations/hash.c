@@ -167,6 +167,28 @@ static void dump_hash_buffer(void)
 #if defined(__unix)
 #include <unistd.h>
 static void *OldBreak;
+#if !defined(HAVE_SBRK)
+#if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
+#if (__GLIBC__ < 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ < 12))
+#define HAVE_SBRK (_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500)
+#elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ < 19)
+#define HAVE_SBRK (_BSD_SOURCE || _SVID_SOURCE || \
+                    (_XOPEN_SOURCE >= 500) && \
+                    ! (_POSIX_C_SOURCE >= 200112L))
+#elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ == 19) /* TODO: "man sbrk" is ambiguous, providing two tests for glibc version 2.19.
+                                                           Below is their union; is this correct? */
+#define HAVE_SBRK ((_DEFAULT_SOURCE || _BSD_SOURCE || _SVID_SOURCE) || \
+                    (_XOPEN_SOURCE >= 500) && \
+                    ! (_POSIX_C_SOURCE >= 200112L))
+#else
+#define HAVE_SBRK (_DEFAULT_SOURCE || \
+                    (_XOPEN_SOURCE >= 500) && \
+                    ! (_POSIX_C_SOURCE >= 200112L))
+#endif /*GLIBC version*/
+#else
+#define HAVE_SBRK 0 /* TODO: Can we test for any other libraries? */
+#endif /*__GLIBC__,__GLIBC_MINOR__*/
+#endif /*HAVE_SBRK*/
 #endif /*__unix*/
 #else
 #define ifTESTHASH(x)
@@ -175,6 +197,18 @@ static void *OldBreak;
 #if defined(HASHRATE)
 #define ifHASHRATE(x)   x
 static unsigned long use_pos, use_all;
+#if !defined(Message)
+#define Message(name, var) printf("%s -- %s: %s=%u\n", __func__, #name, #var, (unsigned int)(var))
+/* TODO: Message isn't defined in our codebase.  Is this even close to the correct/intended definition?  Is a macro even appropriate? */
+#endif /*Message*/
+#if !defined(Message2)
+#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%d\n", __func__, #var1, (unsigned int)(var1), #var2, (int)(var2))
+/* TODO: Message2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
+#endif /*Message2*/
+#if !defined(StdString2)
+#define StdString2(fp, s) fprintf(fp, "%s: %s=%s\n", __func__, #s, (s))
+/* TODO: StdString2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
+#endif /*StdString2*/
 #else
 #define ifHASHRATE(x)
 #endif /*HASHRATE*/
@@ -1027,7 +1061,7 @@ void IncHashRateLevel(void)
 {
   ++HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(IncrementHashRateLevel,HashRateLevel); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
+  Message(IncrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1036,7 +1070,7 @@ void DecHashRateLevel(void)
   if (HashRateLevel>0)
     --HashRateLevel;
   output_plaintext_print_time("  ","");
-  Message(DecrementHashRateLevel,HashRateLevel); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
+  Message(DecrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1061,7 +1095,7 @@ void HashStats(unsigned int level, char const *trailer)
   {
     int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
-    Message2(stdout,HashedPositions,pos); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
+    Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
     {
       if (use_all < 10000)
@@ -1082,7 +1116,7 @@ void HashStats(unsigned int level, char const *trailer)
         printf(", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
-      StdString2(stdout,trailer); /* TODO: This function doesn't exist in our codebase.  Is there something we can/should replace it with? */
+      StdString2(stdout,trailer);
   }
 #endif /*HASHRATE*/
 }
@@ -1740,7 +1774,11 @@ static void inithash(slice_index si)
   ifTESTHASH(puts("calling inithash"));
 
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(0); /* TODO: sbrk may not be available.  Should we (somehow) check for it?  Should we do something else? */
+#if HAVE_SBRK
+  OldBreak= sbrk(0);
+#else
+  OldBreak = NULL; /* TODO: Is there something better we can do here? */
+#endif /*HAVE_SBRK*/
 #endif /*__unix,TESTHASH*/
 
   minimalElementValueAfterCompression = 2;
@@ -1863,7 +1901,11 @@ static void closehash(void)
 #if defined(FXF)
     unsigned long const HashMem = fxfTotal();
 #else
-    unsigned long const HashMem = sbrk(0)-OldBreak; /* TODO: sbrk may not be available.  Should we (somehow) check for it?  Should we do something else? */
+#if HAVE_SBRK
+    unsigned long const HashMem = sbrk(0)-OldBreak;
+#else
+    unsigned long const HashMem = 0; /* TODO: Is there something better we can do here? */
+#endif /*HAVE_SBRK*/
 #endif /*FXF*/
     unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
     if (HashCount>0)
