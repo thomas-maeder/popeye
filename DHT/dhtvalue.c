@@ -12,44 +12,6 @@
 #undef	GDATA
 #include "dht.h"
 
-DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt]
-#if defined(GDATA)
-	= {
-#if defined(REGISTER_SIMPLE)
-		&dhtSimpleProcs,
-#endif /*REGISTER_SIMPLE*/
-#if defined(REGISTER_STRING)
-		&dhtStringProcs,
-#endif /*REGISTER_STRING*/
-#if defined(REGISTER_COMPACT)
-		&dhtCompactMemoryProcs,
-#endif /*REGISTER_COMPACT*/
-#if defined(REGISTER_MEMORY)
-		&dhtMemoryProcs,
-#endif /*REGISTER_MEMORY*/
-#if defined(REGISTER_BCMEM)
-		&dhtBCMemoryProcs,
-#endif /*REGISTER_BCMEM*/
-	  }
-#endif /*GDATA*/
-;
-
-DATA char const *dhtValueTypeToString[dhtValueTypeCnt]
-#if defined(GDATA)
-	= { "dhtSimpleValue",
-	    "dhtStringValue",
-	    "dhtCompactMemoryValue",
-	    "dhtMemoryValue",
-	    "dhtByteCountedMemoryValue",
-	    "dhtUser1Value",
-	    "dhtUser2Value",
-	    "dhtUser3Value",
-	    "dhtUser4Value"
-	    /* , "dhtNewValue" */
-	  }
-#endif
-;
-
 dhtStatus dhtRegisterValue(dhtValueType t, char const *ts, dhtValueProcedures *proc) {
     if (t >= dhtValueTypeCnt) {
     	sprintf(dhtError,
