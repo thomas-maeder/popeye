@@ -7,10 +7,42 @@
  * comment with the above copyright notice is keept intact
  * and in place.
  */
-#define GDATA
 #include "dhtvalue.h"
-#undef	GDATA
 #include "dht.h"
+
+char const *dhtValueTypeToString[dhtValueTypeCnt]
+	= { "dhtSimpleValue",
+	    "dhtStringValue",
+	    "dhtCompactMemoryValue",
+	    "dhtMemoryValue",
+	    "dhtByteCountedMemoryValue",
+	    "dhtUser1Value",
+	    "dhtUser2Value",
+	    "dhtUser3Value",
+	    "dhtUser4Value"
+	    /* , "dhtNewValue" */
+	  }
+;
+
+dhtValueProcedures *dhtProcedures[dhtValueTypeCnt]
+	= {
+#if defined(REGISTER_SIMPLE)
+		&dhtSimpleProcs,
+#endif /*REGISTER_SIMPLE*/
+#if defined(REGISTER_STRING)
+		&dhtStringProcs,
+#endif /*REGISTER_STRING*/
+#if defined(REGISTER_COMPACT)
+		&dhtCompactMemoryProcs,
+#endif /*REGISTER_COMPACT*/
+#if defined(REGISTER_MEMORY)
+		&dhtMemoryProcs,
+#endif /*REGISTER_MEMORY*/
+#if defined(REGISTER_BCMEM)
+		&dhtBCMemoryProcs,
+#endif /*REGISTER_BCMEM*/
+	  }
+;
 
 dhtStatus dhtRegisterValue(dhtValueType t, char const *ts, dhtValueProcedures *proc) {
     if (t >= dhtValueTypeCnt) {
