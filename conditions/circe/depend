@@ -304,10 +304,11 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/rebirth_avoider.h \
  solving/observation.h solving/temporary_hacks.h solving/fork.h \
- solving/check.h position/effects/piece_removal.h \
- solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h stipulation/fork.h solving/pipe.h debugging/assert.h
+ solving/check.h debugging/measure.h output/plaintext/protocol.h \
+ position/effects/piece_removal.h solving/move_generator.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/pipe.h stipulation/fork.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/circe/assassin.h:
 
@@ -416,6 +417,10 @@ solving/temporary_hacks.h:
 solving/fork.h:
 
 solving/check.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 position/effects/piece_removal.h:
 
@@ -848,8 +853,8 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/pipe.h stipulation/branch.h stipulation/fork.h \
  solving/temporary_hacks.h solving/single_piece_move_generator.h \
  solving/post_move_iteration.h solving/observation.h solving/fork.h \
- solving/move_generator.h solving/conditional_pipe.h solving/pipe.h \
- debugging/assert.h
+ solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
+ solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
 conditions/circe/cage.h:
 
@@ -978,6 +983,10 @@ solving/observation.h:
 solving/fork.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/conditional_pipe.h:
 
@@ -1141,8 +1150,8 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/fork.h solving/binary.h \
  position/effects/piece_removal.h position/effects/piece_movement.h \
- solving/move_generator.h solving/pipe.h \
- position/effects/piece_creation.h debugging/assert.h
+ solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
+ solving/pipe.h position/effects/piece_creation.h debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -1262,6 +1271,10 @@ position/effects/piece_movement.h:
 
 solving/move_generator.h:
 
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
 solving/pipe.h:
 
 position/effects/piece_creation.h:
@@ -1295,7 +1308,8 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  position/color.enum pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/pipe.h position/effects/flags_change.h \
- position/effects/side_change.h solving/move_generator.h solving/pipe.h \
+ position/effects/side_change.h solving/move_generator.h \
+ debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
  debugging/assert.h
 
 conditions/circe/volage.h:
@@ -1411,6 +1425,10 @@ position/effects/flags_change.h:
 position/effects/side_change.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/pipe.h:
 
@@ -2516,6 +2534,7 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  stipulation/move.h solving/temporary_hacks.h \
  solving/post_move_iteration.h solving/observation.h solving/fork.h \
  solving/single_piece_move_generator.h solving/move_generator.h \
+ debugging/measure.h output/plaintext/protocol.h \
  solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
 conditions/circe/takemake.h:
@@ -2643,6 +2662,10 @@ solving/fork.h:
 solving/single_piece_move_generator.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/conditional_pipe.h:
 
@@ -4141,10 +4164,10 @@ conditions/circe/parachute$(OBJ_SUFFIX): conditions/circe/parachute.c \
  conditions/circe/relevant_side.h conditions/circe/rebirth_avoider.h \
  conditions/haunted_chess.h position/underworld.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/check.h \
- solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- stipulation/pipe.h stipulation/fork.h stipulation/move.h solving/pipe.h \
- debugging/assert.h
+ debugging/measure.h output/plaintext/protocol.h solving/move_generator.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum stipulation/pipe.h stipulation/fork.h \
+ stipulation/move.h solving/pipe.h debugging/assert.h
 
 conditions/circe/parachute.h:
 
@@ -4261,6 +4284,10 @@ solving/temporary_hacks.h:
 solving/fork.h:
 
 solving/check.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/move_generator.h:
 
