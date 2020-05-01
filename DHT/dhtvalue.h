@@ -56,7 +56,7 @@ typedef enum {
 	dhtValueTypeCnt
 } dhtValueType;
 
-extern DATA char const *dhtValueTypeToString[dhtValueTypeCnt];
+DATA char const *dhtValueTypeToString[dhtValueTypeCnt];
 
 typedef void *dhtValue;
 typedef void const *dhtConstValue;
@@ -86,7 +86,7 @@ extern dhtValueProcedures dhtMemoryProcs;
 extern dhtValueProcedures dhtBCMemoryProcs;
 #endif /*REGISTER_BCMEM*/
 
-extern DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt];
+DATA dhtValueProcedures *dhtProcedures[dhtValueTypeCnt];
 
 dhtStatus dhtRegisterValue(dhtValueType, char const *, dhtValueProcedures *);
 

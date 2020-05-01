@@ -302,29 +302,27 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
-  if (p==0 /* vide */) /* TODO: Is 0 the correct value here? */
+  if (p==Empty) /* TODO: Is Empty the correct value here? */
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "vide");
-  else if (p==1 /* obs */) /* TODO: Is 1 the correct value here? */
+  else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "obs");
   else
   {
-    int const pnam = abs((int) p);
-
-    if (pnam<Hunter0 || pnam >= (Hunter0 + max_nr_hunter_walks))
-      remember_regular_piece((piece_walk_type) pnam);
+    if ((p<Hunter0) || (p>=nr_piece_walks))
+      remember_regular_piece(p);
     else
     {
-      unsigned int const i = pnam-Hunter0;
+      unsigned int const i = (unsigned int)p-(unsigned int)Hunter0;
       assert(i<max_nr_hunter_walks);
-      remember_regular_piece((piece_walk_type) abs(huntertypes[i].away));
+      remember_regular_piece(huntertypes[i].away);
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "/");
-      remember_regular_piece((piece_walk_type) abs(huntertypes[i].home));
+      remember_regular_piece(huntertypes[i].home);
     }
   }
 #endif
