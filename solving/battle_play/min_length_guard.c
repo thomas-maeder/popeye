@@ -85,19 +85,24 @@ static void remember_defense_length(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",SLICE_U(si).branch.length);
+  TraceValue("%u",SLICE_U(si).branch.min_length);
+  TraceEOL();
+
+  assert(abs(delta)<=1);
 
   // TODO there is an integer underflow in some structured stipulations
   // for some reason, it doesn't seem to harm, but we should
   // eventually get rid of it and activate these assertions:
 
 //  // TODO does this overflow work on all implementations?
-//  assert(abs(delta)<=1);
 //  assert(SLICE_U(si).branch.length>0 || delta>=0);
   state->defense_length = SLICE_U(si).branch.length+(unsigned int)delta;
 
 //  // TODO does this overflow work on all implementations?
-//  assert(abs(delta)<=1);
 //  assert(SLICE_U(si).branch.min_length>0 || delta>=0);
   state->defense_min_length = SLICE_U(si).branch.min_length+(unsigned int)delta;
 

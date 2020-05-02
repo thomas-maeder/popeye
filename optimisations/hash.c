@@ -2445,6 +2445,9 @@ void help_hashed_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",solve_nr_remaining);
+  TraceEOL();
+
   assert(solve_nr_remaining>=next_move_has_solution);
 
   if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
