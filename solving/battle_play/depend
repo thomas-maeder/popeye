@@ -129,10 +129,10 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
  stipulation/move_played.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/slice_insertion.h \
- solving/avoid_unsolvable.h solving/check.h solving/fork.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/testing_pipe.h solving/pipe.h solving/selfcheck_guard.h \
- debugging/assert.h
+ solving/avoid_unsolvable.h solving/check.h debugging/measure.h \
+ output/plaintext/protocol.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/testing_pipe.h \
+ solving/pipe.h solving/selfcheck_guard.h debugging/assert.h
 
 solving/battle_play/threat.h:
 
@@ -221,6 +221,10 @@ stipulation/slice_insertion.h:
 solving/avoid_unsolvable.h:
 
 solving/check.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/fork.h:
 
