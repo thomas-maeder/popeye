@@ -170,20 +170,21 @@ static void *OldBreak;
 #if !defined(HAVE_SBRK)
 #if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
 #if (__GLIBC__ < 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ < 12))
-#define HAVE_SBRK (_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500)
+#define HAVE_SBRK (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)))
 #elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ < 19)
-#define HAVE_SBRK (_BSD_SOURCE || _SVID_SOURCE || \
-                    (_XOPEN_SOURCE >= 500) && \
-                    ! (_POSIX_C_SOURCE >= 200112L))
+#define HAVE_SBRK (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
+                    (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+                    !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
 #elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ == 19) /* TODO: "man sbrk" is ambiguous, providing two tests for glibc version 2.19.
                                                            Below is their union; is this correct? */
-#define HAVE_SBRK ((_DEFAULT_SOURCE || _BSD_SOURCE || _SVID_SOURCE) || \
-                    (_XOPEN_SOURCE >= 500) && \
-                    ! (_POSIX_C_SOURCE >= 200112L))
+#define HAVE_SBRK (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
+                   defined(_DEFAULT_SOURCE) || \
+                    (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+                    !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
 #else
-#define HAVE_SBRK (_DEFAULT_SOURCE || \
-                    (_XOPEN_SOURCE >= 500) && \
-                    ! (_POSIX_C_SOURCE >= 200112L))
+#define HAVE_SBRK (defined(_DEFAULT_SOURCE) || \
+                    (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+                    !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
 #endif /*GLIBC version*/
 #else
 #define HAVE_SBRK 0 /* TODO: Can we test for any other libraries? */
