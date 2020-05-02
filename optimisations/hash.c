@@ -1778,7 +1778,7 @@ static void inithash(slice_index si)
 #if HAVE_SBRK
   OldBreak= sbrk(0);
 #else
-  OldBreak = NULL; /* TODO: Is there something better we can do here? */
+  OldBreak= NULL; /* TODO: Is there something better we can do here? */
 #endif /*HAVE_SBRK*/
 #endif /*__unix,TESTHASH*/
 
