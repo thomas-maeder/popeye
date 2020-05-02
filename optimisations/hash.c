@@ -166,7 +166,6 @@ static void dump_hash_buffer(void)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
 #include <unistd.h>
-static void *OldBreak;
 #if !defined(HAVE_SBRK)
 #  if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
 #    if (__GLIBC__ < 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ < 12))
@@ -193,17 +192,22 @@ static void *OldBreak;
 #      else
 #        define HAVE_SBRK 0
 #      endif /* glibc == 2.19 check (maybe) */
-#    elif (defined(_DEFAULT_SOURCE) || \
+#    else /* glibc > 2.19 */
+#      if (defined(_DEFAULT_SOURCE) || \
            (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
            !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
-#      define HAVE_SBRK 1
-#    else
-#      define HAVE_SBRK 0
-#    endif /* glibc > 2.19 check */
+#        define HAVE_SBRK 1
+#      else
+#        define HAVE_SBRK 0
+#      endif /* glibc > 2.19 check */
+#    endif /* checking glibc version */
 #  endif /*__GLIBC__,__GLIBC_MINOR__*/
 #else
 #  define HAVE_SBRK 0 /* TODO: Can we test for any other libraries? */
 #endif /*HAVE_SBRK*/
+#if !defined(FXF) && HAVE_SBRK
+static void *OldBreak;
+#endif
 #endif /*__unix*/
 #else
 #define ifTESTHASH(x)
@@ -1788,13 +1792,9 @@ static void inithash(slice_index si)
 
   ifTESTHASH(puts("calling inithash"));
 
-#if defined(__unix) && defined(TESTHASH)
-#if HAVE_SBRK
+#if defined(__unix) && defined(TESTHASH) && !defined(FXF) && HAVE_SBRK
   OldBreak= sbrk(0);
-#else
-  OldBreak= NULL; /* TODO: Is there something better we can do here? */
-#endif /*HAVE_SBRK*/
-#endif /*__unix,TESTHASH*/
+#endif /*__unix,TESTHASH,HAVE_SBRK*/
 
   minimalElementValueAfterCompression = 2;
 
@@ -1913,14 +1913,11 @@ static void closehash(void)
 #endif
 #if defined(__unix)
   {
+#if defined(FXF) || HAVE_SBRK
 #if defined(FXF)
     unsigned long const HashMem = fxfTotal();
-#else
-#if HAVE_SBRK
+#else /* must HAVE_SBRK */
     unsigned long const HashMem = sbrk(0)-OldBreak;
-#else
-    unsigned long const HashMem = 0; /* TODO: Is there something better we can do here? */
-#endif /*HAVE_SBRK*/
 #endif /*FXF*/
     unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
     if (HashCount>0)
@@ -1932,6 +1929,7 @@ static void closehash(void)
     }
     else
       puts("Nothing in hashtable");
+#endif /*FXF,HAVE_SBRK*/
   }
 #endif /*__unix*/
 #endif /*TESTHASH*/
