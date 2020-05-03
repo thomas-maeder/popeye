@@ -726,15 +726,11 @@ static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  // TODO this min_length fiddling is a mess
-
-  min_length += 1;
-
-  if (min_length>=max_length)
+  if (level==0)
   {
-    if (level==0 && max_length==1)
+    if (min_length==0)
       min_length = 1;
-    else
+    else if (min_length>=max_length && max_length>0)
       min_length = max_length-1;
   }
 
