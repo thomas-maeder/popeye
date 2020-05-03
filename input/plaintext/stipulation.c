@@ -232,9 +232,14 @@ static char *ParseBattle(char *tok,
       ++length;
     if (result!=0)
     {
-      stip_length_type const min_length = (play_length==play_length_minimum
-                                           ? 1
-                                           : length-1);
+      stip_length_type min_length;
+      if (play_length==play_length_minimum)
+        min_length = 1;
+      else if (length<=1)
+        /* exact- is moot since the length is minimal */
+        min_length = 1;
+      else
+        min_length = length-1;
       link_to_branch(proxy,alloc_battle_branch(length,min_length));
       solving_impose_starter(proxy,White);
     }

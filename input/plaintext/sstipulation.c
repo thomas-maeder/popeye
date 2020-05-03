@@ -246,6 +246,10 @@ static char *ParseStructuredStip_branch_length(char *tok,
     }
   }
 
+  TraceValue("%u",*min_length);
+  TraceValue("%u",*max_length);
+  TraceEOL();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -711,19 +715,24 @@ static char *ParseStructuredStip_branch_s(char *tok,
  * @return identifier of branch entry slice
  */
 static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length,
-                                                     stip_length_type max_length)
+                                                     stip_length_type max_length,
+                                                     unsigned int level)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  min_length += 1;
-
-  if (min_length>=max_length)
-    min_length = max_length-1;
+  if (level==0)
+  {
+    if (min_length==0)
+      min_length = 1;
+    else if (min_length>=max_length && max_length>0)
+      min_length = max_length-1;
+  }
 
   result = alloc_battle_branch(max_length,min_length);
 
@@ -762,7 +771,8 @@ static char *ParseStructuredStip_branch_a(char *tok,
   {
     boolean parry = false;
     slice_index const branch = ParseStructuredStip_make_branch_a(min_length,
-                                                                 max_length);
+                                                                 max_length,
+                                                                 level);
     link_to_branch(proxy,branch);
 
     tok = ParseStructuredStip_branch_a_operand(tok,start,proxy,level);

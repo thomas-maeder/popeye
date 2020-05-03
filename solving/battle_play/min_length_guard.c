@@ -85,20 +85,19 @@ static void remember_defense_length(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  // TODO there is an integer underflow in some structured stipulations
-  // for some reason, it doesn't seem to harm, but we should
-  // eventually get rid of it and activate these assertions:
+  TraceValue("%u",SLICE_U(si).branch.length);
+  TraceValue("%u",SLICE_U(si).branch.min_length);
+  TraceEOL();
 
-//  // TODO does this overflow work on all implementations?
-//  assert(abs(delta)<=1);
-//  assert(SLICE_U(si).branch.length>0 || delta>=0);
+  assert(abs(delta)<=1);
+
+  assert(SLICE_U(si).branch.length>0 || delta>=0);
   state->defense_length = SLICE_U(si).branch.length+(unsigned int)delta;
 
-//  // TODO does this overflow work on all implementations?
-//  assert(abs(delta)<=1);
-//  assert(SLICE_U(si).branch.min_length>0 || delta>=0);
+  assert(SLICE_U(si).branch.min_length>0 || delta>=0);
   state->defense_min_length = SLICE_U(si).branch.min_length+(unsigned int)delta;
 
   stip_traverse_structure_children_pipe(si,st);
@@ -132,14 +131,16 @@ static void insert_intro_min_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  remember_defense_length(si,st,-1);
-
   if (min_length>slack_length+1)
   {
+    remember_defense_length(si,st,-1);
+
     slice_index const prototype = alloc_min_length_optimiser_slice(length,
                                                                    min_length);
     slice_insertion_insert(si,&prototype,1);
   }
+  else
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

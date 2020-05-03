@@ -1291,6 +1291,7 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/madrasi.h conditions/magic_square.h \
  conditions/marscirce/marscirce.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
+ debugging/measure.h output/plaintext/protocol.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
  conditions/messigny.h conditions/oscillating_kings.h \
  conditions/protean.h conditions/republican.h conditions/sat.h \
@@ -1483,6 +1484,10 @@ solving/fork.h:
 
 solving/move_generator.h:
 
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
 conditions/marscirce/anti.h:
 
 conditions/marscirce/phantom.h:
@@ -1550,8 +1555,9 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  output/plaintext/message.h output/message.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
- solving/castling.h solving/battle_play/try.h utilities/table.h \
- solving/duplex.h solving/pipe.h stipulation/pipe.h stipulation/branch.h \
+ debugging/measure.h output/plaintext/protocol.h solving/castling.h \
+ solving/battle_play/try.h utilities/table.h solving/duplex.h \
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h \
  stipulation/modifier.h platform/beep.h
 
 input/plaintext/option.h:
@@ -1710,6 +1716,10 @@ solving/fork.h:
 
 solving/move_generator.h:
 
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
 solving/castling.h:
 
 solving/battle_play/try.h:
@@ -1759,9 +1769,9 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- solving/move_generator.h solving/pipe.h solving/incomplete.h \
- stipulation/pipe.h stipulation/branch.h stipulation/modifier.h \
- position/effects/king_square.h debugging/assert.h
+ solving/move_generator.h debugging/measure.h solving/pipe.h \
+ solving/incomplete.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/modifier.h position/effects/king_square.h debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1886,6 +1896,8 @@ conditions/circe/relevant_side.h:
 conditions/sentinelles.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
 
 solving/pipe.h:
 
