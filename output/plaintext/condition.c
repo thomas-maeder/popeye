@@ -397,16 +397,16 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(file,CondLine,!rank);
-    rank = true;
+    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    rank = condition_subsequent;
   }
 
   if (ExtraCondFlag[ultraschachzwang])
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(file,CondLine,!rank);
-    rank = true;
+    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    rank = condition_subsequent;
   }
 
   for (cond = 0; cond<CondCount; ++cond)

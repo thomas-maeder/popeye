@@ -43,7 +43,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
   if (!(TSTFLAG(sp,Chameleon)) || total_invisible_number==0)
   {
     piece_flag_type spname;
-    for (spname = nr_sides; spname<nr_piece_flags; ++spname)
+    for (spname = (piece_flag_type)((unsigned int)nr_sides); spname<nr_piece_flags; ++spname)
       if ((spname!=Volage || !CondFlag[volage])
           && (spname!=Patrol || !CondFlag[patrouille])
           && (spname!=Beamtet || !CondFlag[beamten])

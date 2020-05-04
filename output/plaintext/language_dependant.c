@@ -1966,7 +1966,7 @@ static int comparePieceNames(void const * param1, void const * param2)
 
 static void enforce_piecename_uniqueness_one_language(Language language)
 {
-  piece_walk_type name_index;
+  unsigned int name_index;
   PieTable piece_names_sorted;
   unsigned int nr_names = sizeof piece_names_sorted / sizeof piece_names_sorted[0];
 
