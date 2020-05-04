@@ -178,7 +178,7 @@ void observation_branch_insert_slices(slice_index si,
  * @param type type of slice to insert
  */
 void is_square_observed_insert_slice(slice_index testing,
-                                     slice_type type);
+                                     slice_index type);
 
 /* Instrument square observation validation with a slice type
  * @param identifies where to start instrumentation
