@@ -115,7 +115,7 @@ static void start_insertion(slice_index si, stip_structure_traversal *st)
 void circe_insert_rebirth_avoider(slice_index si,
                                   slice_type interval_start,
                                   slice_type hook_type,
-                                  slice_type prototype,
+                                  slice_index prototype,
                                   slice_type avoided_type,
                                   slice_type joint_type)
 {
