@@ -106,19 +106,22 @@ char *ParseLaTeXPieces(void)
 
       tok = ReadNextTokStr();
       LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      for (i = 0; tok[i]; ++i) {
-        /* to avoid compiler warnings below made "better readable" */
-        /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]); /* previously (char)(tolower(tok[i]) + 'A' - 'a') which --
-                                                                           like the current version -- isn't strictly equivalent to the above */
+      if (LaTeXPiecesAbbr[walk]!=0) { /* TODO: What should we do if LaTeXPiecesAbbr[walk]==0? */
+        for (i = 0; tok[i]; ++i) {
+          /* to avoid compiler warnings below made "better readable" */
+          /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
+          LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]); /* previously (char)(tolower(tok[i]) + 'A' - 'a') which --
+                                                                             like the current version -- isn't strictly equivalent to the above */
+        }
+        LaTeXPiecesAbbr[walk][i]= '\0';
       }
-      LaTeXPiecesAbbr[walk][i]= '\0';
 
       if (ReadToEndOfLine())
       {
         tok = InputLine;
         LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-        strcpy(LaTeXPiecesFull[walk], tok);
+        if (LaTeXPiecesFull[walk]!=0) /* TODO: What should we do if LaTeXPiecesFull[walk]==0? */
+          strcpy(LaTeXPiecesFull[walk], tok);
       }
 
       tok = ReadNextTokStr();
