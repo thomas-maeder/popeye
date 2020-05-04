@@ -126,7 +126,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
     assert(*endptr>=inptr);
 
     if (len>11)
-      return BGL_infinity;
+      return (long int) BGL_infinity;
     else
     {
       char buf[12];
@@ -134,7 +134,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
       buf[len]= '\0';
 
       if (len==1 && buf[0]=='-')
-        return BGL_infinity;
+        return (long int) BGL_infinity;
       else
       {
         char* dpp;
@@ -152,7 +152,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
           if (dp==0)
           {
             tmp = strtol(buf, NULL, 10);
-            return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : BGL_infinity);
+            return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : (long int) BGL_infinity);
           }
           else
           {
@@ -164,20 +164,20 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
 
             for (dpp = buf; *dpp; dpp++)
               if (*dpp=='.')
-                return BGL_infinity;  /* 2 d.p. characters */
+                return (long int) BGL_infinity;  /* 2 d.p. characters */
 
             switch (dp) /* N.B> d.p. is part of count */
             {
               case 1 :
                 tmp = strtol(buf, NULL, 10);
-                return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : BGL_infinity);
+                return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : (long int) BGL_infinity);
               case 2 :
                 tmp = strtol(buf, NULL, 10);
-                return (((tmp >= (LONG_MIN / 10)) && (tmp <= (LONG_MAX / 10))) ? (10 * tmp) : BGL_infinity);
+                return (((tmp >= (LONG_MIN / 10)) && (tmp <= (LONG_MAX / 10))) ? (10 * tmp) : (long int) BGL_infinity);
               case 3 :
                 return strtol(buf, NULL, 10);
               default :
-                return BGL_infinity;
+                return (long int) BGL_infinity;
             }
           }
         }
