@@ -1150,15 +1150,15 @@ static char *ParseStructuredStip_expression(char *tok,
               {
                 case STAnd:
                 {
-                  slice_index const and = alloc_and_slice(operand1,operand2);
-                  pipe_link(proxy,and);
+                  slice_index const and_index = alloc_and_slice(operand1,operand2);
+                  pipe_link(proxy,and_index);
                   break;
                 }
 
                 case STOr:
                 {
-                  slice_index const or = alloc_or_slice(operand1,operand2);
-                  pipe_link(proxy,or);
+                  slice_index const or_index = alloc_or_slice(operand1,operand2);
+                  pipe_link(proxy,or_index);
                   break;
                 }
 

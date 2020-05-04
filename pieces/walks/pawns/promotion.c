@@ -23,7 +23,7 @@ move_effect_journal_index_type promotion_horizon[maxply+1];
 
 /* Order in which the slice types for promotion execution appear
  */
-static slice_type const promotion_slice_rank_order[] =
+static slice_index const promotion_slice_rank_order[] =
 {
     STBeforePawnPromotion,
     STPawnToImitatorPromoter,

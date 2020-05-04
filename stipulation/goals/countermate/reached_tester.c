@@ -27,13 +27,13 @@ slice_index alloc_goal_countermate_reached_tester_system(void)
     slice_index const countermate_tester = alloc_pipe(STGoalCounterMateReachedTester);
     slice_index const proxy_starter = alloc_proxy_slice();
     slice_index const proxy_other = alloc_proxy_slice();
-    slice_index const and = alloc_and_slice(proxy_other,proxy_starter);
+    slice_index const and_index = alloc_and_slice(proxy_other,proxy_starter);
     slice_index const check_tester_starter = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
     slice_index const check_tester_other = alloc_goal_check_reached_tester_slice(goal_applies_to_adversary);
     slice_index const immobile_tester_starter = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
     slice_index const immobile_tester_other = alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary);
 
-    pipe_link(countermate_tester,and);
+    pipe_link(countermate_tester,and_index);
 
     pipe_link(proxy_starter,check_tester_starter);
     pipe_link(check_tester_starter,immobile_tester_starter);

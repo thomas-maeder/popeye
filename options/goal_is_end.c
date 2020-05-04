@@ -89,10 +89,10 @@ static slice_index make_goal_is_end_tester(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const not = alloc_not_slice();
+    slice_index const not_index = alloc_not_slice();
     result = alloc_proxy_slice();
-    pipe_link(result,not);
-    pipe_link(not,stip_deep_copy(si));
+    pipe_link(result,not_index);
+    pipe_link(not_index,stip_deep_copy(si));
   }
 
   TraceFunctionExit(__func__);

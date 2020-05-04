@@ -26,7 +26,7 @@
 
 /* Order in which the slice types for Circe execution appear
  */
-static slice_type const circe_slice_rank_order[] =
+static slice_index const circe_slice_rank_order[] =
 {
     STCirceConsideringRebirth,
     STAnticirceConsideringRebirth,
@@ -198,9 +198,9 @@ circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
 
 static circe_variant_type const circe_variant_default = {
-    .rebirth_reason = move_effect_reason_rebirth_no_choice,
     .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed,
     .do_place_reborn = true,
+    .rebirth_reason = move_effect_reason_rebirth_no_choice,
     .anticirce_type = anticirce_type_count
 };
 

@@ -223,7 +223,7 @@ typedef struct
         } half_neutral_phase_change;
         struct
         {
-            square square;
+            square blocked_square;
         } square_block;
         struct
         {
@@ -246,7 +246,7 @@ typedef struct
         } castling_rights_adjustment;
         struct
         {
-            square square;
+            square capture_square;
         } ep_capture_potential;
         struct
         {

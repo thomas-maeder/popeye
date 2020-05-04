@@ -112,7 +112,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
 
   fputs("  { /* numbers of pieces */\n",dest);
   fputs("    { /* White */\n      ",dest);
-  for (p = 0; p<nr_piece_walks-1; ++p)
+  for (p = Empty; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[White][p]);
     ++column;
@@ -126,7 +126,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
   fputs("    },\n",dest);
   column = 0;
   fputs("    { /* Black */\n      ",dest);
-  for (p = 0; p<nr_piece_walks-1; ++p)
+  for (p = Empty; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[Black][p]);
     ++column;

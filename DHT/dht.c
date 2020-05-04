@@ -720,34 +720,34 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 
     /* relocate records */
     {
-      InternHsElement **new = (InternHsElement **)accessAdr(&ht->DirTab,
-                                                            newp);
-      InternHsElement **old = (InternHsElement **)accessAdr(&ht->DirTab,
-                                                            oldp);
+      InternHsElement **newPointer = (InternHsElement **)accessAdr(&ht->DirTab,
+                                                                   newp);
+      InternHsElement **oldPointer = (InternHsElement **)accessAdr(&ht->DirTab,
+                                                                   oldp);
 
       TraceValue("%lu ",oldp);
-      TraceValue("%p",(void *)old);
+      TraceValue("%p",(void *)oldPointer);
       TraceEOL();
       TraceValue("%lu ",newp);
-      TraceValue("%p",(void *)new);
+      TraceValue("%p",(void *)newPointer);
       TraceEOL();
-      while (*old)
+      while (*oldPointer)
       {
-        InternHsElement const *oldElmt = *old;
-        TraceValue("%p ",(void *)*old);
+        InternHsElement const *oldElmt = *oldPointer;
+        TraceValue("%p ",(void *)*oldPointer);
         {
           dhtHashValue const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
           TraceValue("%lu",hashVal);
           TraceEOL();
           if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
           {
-            *new = *old;
-            *old = (*old)->Next;
-            new = &(*new)->Next;
-            *new = NilInternHsElement;
+            *newPointer = *oldPointer;
+            *oldPointer = (*oldPointer)->Next;
+            newPointer = &(*newPointer)->Next;
+            *newPointer = NilInternHsElement;
           }
           else
-            old= &(*old)->Next;
+            oldPointer= &(*oldPointer)->Next;
         }
       }
     }
@@ -765,7 +765,7 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 
 LOCAL void ShrinkHashTable(HashTable *ht)
 {
-  InternHsElement   **old, **new;
+  InternHsElement   **oldPointer, **newPointer;
   uLong     oldp;
 
   if (ht->maxp == PTR_PER_DIR && ht->p == 0)
@@ -778,16 +778,16 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   ht->p--;
 
   TMDBG(puts("ShrinkHashTable()"));
-  new= (InternHsElement**)accessAdr(&ht->DirTab, ht->p);
+  newPointer= (InternHsElement**)accessAdr(&ht->DirTab, ht->p);
   oldp= ht->p + ht->maxp;
-  old= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
+  oldPointer= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
 
-  if (*old)
+  if (*oldPointer)
   {
-    while (*new)
-      new= &(*new)->Next;
-    *new= *old;
-    *old= NilInternHsElement;
+    while (*newPointer)
+      newPointer= &(*newPointer)->Next;
+    *newPointer= *oldPointer;
+    *oldPointer= NilInternHsElement;
   }
   ht->CurrentSize--;
   shrinkDirTable(&ht->DirTab);

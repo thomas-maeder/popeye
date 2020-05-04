@@ -11,7 +11,7 @@
 
 /* Order in which the slice types for move execution appear
  */
-static slice_type const move_slice_rank_order[] =
+static slice_index const move_slice_rank_order[] =
 {
     STMove,
     STDummyMove,
@@ -197,11 +197,11 @@ static void insert_visit_move(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal st_nested;
     branch_slice_insertion_state_type state_nested;
     slice_insertion_prepare_factored_order(si,
-                                                     st,
-                                                     &st_nested,&state_nested,
-                                                     move_slice_rank_order,
-                                                     nr_move_slice_rank_order_elmts,
-                                                     nr_move_exit_slice_types);
+                                           st,
+                                           &st_nested,&state_nested,
+                                           move_slice_rank_order,
+                                           nr_move_slice_rank_order_elmts,
+                                           nr_move_exit_slice_types);
     stip_traverse_structure_children_pipe(si,&st_nested);
   }
 

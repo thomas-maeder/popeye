@@ -14,18 +14,18 @@
  * @param on position of the piece to be changed
  */
 static void move_effect_journal_do_square_block(move_effect_reason_type reason,
-                                                square square)
+                                                square blocked_square)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_square_block,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
-  TraceSquare(square);
+  TraceSquare(blocked_square);
   TraceFunctionParamListEnd();
 
-  entry->u.square_block.square = square;
+  entry->u.square_block.blocked_square = blocked_square;
 
-  block_square(square);
+  block_square(blocked_square);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -33,7 +33,7 @@ static void move_effect_journal_do_square_block(move_effect_reason_type reason,
 
 static void undo_square_block(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.square_block.square;
+  square const on = entry->u.square_block.blocked_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -46,7 +46,7 @@ static void undo_square_block(move_effect_journal_entry_type const *entry)
 
 static void redo_square_block(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.square_block.square;
+  square const on = entry->u.square_block.blocked_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

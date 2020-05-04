@@ -170,7 +170,7 @@ void move_effect_journal_do_remember_ep(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  entry->u.ep_capture_potential.square = s;
+  entry->u.ep_capture_potential.capture_square = s;
 
   ++en_passant_top[nbply];
   en_passant_multistep_over[en_passant_top[nbply]] = s;
@@ -197,7 +197,7 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
  */
 void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry)
 {
-  square const s = entry->u.ep_capture_potential.square;
+  square const s = entry->u.ep_capture_potential.capture_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
