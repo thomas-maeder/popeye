@@ -42,7 +42,7 @@ FILE *platform_open_tmpfile(void)
 
     if (!elmt)
     {
-      perror("error allocating space for tmpfiles_list");
+      perror("error allocating space for tmpfiles list element");
       return 0;
     }
 
