@@ -143,7 +143,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
 
 static void dump_castling_rights_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"  0x%x /* castling_rights */\n",pos->castling_rights);
+  fprintf(dest,"  0x%x /* castling_rights */\n",(unsigned int)pos->castling_rights);
 }
 
 /* Write position initialiser to output file
