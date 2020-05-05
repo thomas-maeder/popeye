@@ -12,7 +12,7 @@
 
 #define TSTFLAGMASK(bits,mask)  ((bits)&(mask))
 #define TSTFULLFLAGMASK(bits,mask)  (((bits)&(mask))==(mask))
-#define CLRFLAGMASK(bits,mask)  ((bits) &= ~((unsigned int) (mask)))
+#define CLRFLAGMASK(bits,mask)  ((bits) &= ~((unsigned long int) (mask)))
 #define SETFLAGMASK(bits,mask)  ((bits) |= (mask))
 
 #endif
