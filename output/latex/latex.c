@@ -754,8 +754,8 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
       {
         piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
 
-        piece_flag_type sp;
-        for (sp= (piece_flag_type)((unsigned int)nr_sides); sp<nr_piece_flags; ++sp)
+        unsigned int sp;
+        for (sp= nr_sides; sp<nr_piece_flags; ++sp)
           if (TSTFLAG(being_solved.spec[*bnp], sp) && !(sp==Royal && is_king(p)))
           {
             AppendSquare(ListSpec[sp-nr_sides],*bnp);
@@ -765,8 +765,8 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
   }
 
   {
-    piece_flag_type sp;
-    for (sp= (piece_flag_type)((unsigned int)nr_sides); sp<nr_piece_flags; ++sp)
+    unsigned int sp;
+    for (sp= nr_sides; sp<nr_piece_flags; ++sp)
       if (SpecCount[sp-nr_sides]>0
           && !(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
