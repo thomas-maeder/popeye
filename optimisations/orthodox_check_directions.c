@@ -33,12 +33,12 @@ static void InitCheckDir(void)
     };
   }
 
-  for (i = -(square_h8-square_a1); i<=square_h8-square_a1; i++)
+  for (i = 0; i<=2*(square_h8-square_a1); i++)
   {
-    ortho_opt[Queen-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Rook-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Bishop-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Knight-Queen][(square_h8-square_a1)+i] = 0;
+    ortho_opt[Queen-Queen][i] = 0;
+    ortho_opt[Rook-Queen][i] = 0;
+    ortho_opt[Bishop-Queen][i] = 0;
+    ortho_opt[Knight-Queen][i] = 0;
   }
 
   for (i = vec_knight_start; i <= vec_knight_end; i++)

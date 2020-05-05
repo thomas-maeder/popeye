@@ -192,7 +192,8 @@ typedef enum
   Wormhole,           /* 13 */
   Grid,               /* 14 */
 
-  nrSquareFlags
+  nrSquareFlags,
+  allSquareFlagsSet = (1<<nrSquareFlags)-1
 } SquareFlags;
 
 enum
