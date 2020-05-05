@@ -196,17 +196,6 @@ typedef enum
   allSquareFlagsSet = (1U<<nrSquareFlags)-1
 } SquareFlags;
 
-#if defined(__cplusplus)
-inline SquareFlags & operator+=(SquareFlags &x, int y) {
-  x = static_cast<SquareFlags>(static_cast<int>(x) + y);
-  return x;
-}
-inline SquareFlags & operator+=(SquareFlags &x, unsigned int y) {
-  x = static_cast<SquareFlags>(static_cast<unsigned int>(x) + y);
-  return x;
-}
-#endif
-
 enum
 {
   /* the following values are used instead of departure or capture square
