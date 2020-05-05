@@ -37,7 +37,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
   fputs("  { /* board */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
-    fprintf(dest,"(piece_walk_type) %2u,",(unsigned int)board[i]);
+    fprintf(dest,"(piece_walk_type)%2u,",(unsigned int)board[i]);
     ++column;
     if (column==onerow)
     {
@@ -45,7 +45,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
       column = 0;
     }
   }
-  fprintf(dest,"(piece_walk_type) %2u\n",(unsigned int)board[i]);
+  fprintf(dest,"(piece_walk_type)%2u\n",(unsigned int)board[i]);
   fputs("  }",dest);
 }
 
@@ -143,7 +143,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
 
 static void dump_castling_rights_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"  (castling_rights_type) 0x%x /* castling_rights */\n",(unsigned int)pos->castling_rights);
+  fprintf(dest,"  (castling_rights_type)0x%x /* castling_rights */\n",(unsigned int)pos->castling_rights);
 }
 
 /* Write position initialiser to output file
