@@ -23,7 +23,9 @@ typedef enum
 
   blk_castling = whk_castling<<black_castling_rights_offset,
   blq_castling = whq_castling<<black_castling_rights_offset,
-  bl_castlings = wh_castlings<<black_castling_rights_offset
+  bl_castlings = wh_castlings<<black_castling_rights_offset,
+
+  wh_bl_castlings = wh_castlings|bl_castlings
 } castling_rights_type;
 /* NOTE: k_cancastle must be larger than the respective
  * r[ah]_cancastle or evaluations of the form
