@@ -44,8 +44,8 @@ typedef struct
 } immobilisation_state_type;
 
 
-static immobilisation_state_type const null_state;
-static trouble_maker_type const null_trouble_maker;
+static immobilisation_state_type const null_state = {{0}};
+static trouble_maker_type const null_trouble_maker = {0};
 static immobilisation_state_type * current_state;
 
 static
