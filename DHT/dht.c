@@ -345,7 +345,7 @@ static void freeDirTable(dirTable *dt)
   while (dt->count > 1)
   {
     dt->ld[0].valid= 1;
-    dt->count=  ((dt->count-1) & ~DIR_IDX_MASK) + 1;
+    dt->count=  ((dt->count-1) & ~((dht_index_t)DIR_IDX_MASK)) + 1;
     shrinkDirTable(dt);
   }
   TraceText("being freed:");
