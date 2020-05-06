@@ -20,6 +20,11 @@ void protocol_overwrite(void);
  */
 FILE *protocol_open(char const *filename);
 
+/* Close the current protocol file, if one is opened; NOP otherwise
+ * @return the return value of fclose if a file were opened, 0 otherwise
+ */
+int protocol_close(void);
+
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well
  * @return the result of writing to *regular
