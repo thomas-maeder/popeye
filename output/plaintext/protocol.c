@@ -33,6 +33,15 @@ FILE *protocol_open(char const *filename)
   return TraceFile;
 }
 
+/* Get the current protocol file
+ * @return the opened file
+ *         0 if no file opened
+ */
+FILE *protocol_get(void)
+{
+  return TraceFile;
+}
+
 /* Close the current protocol file, if one is opened; NOP otherwise
  * @return the return value of fclose if a file were opened, 0 otherwise
  */
