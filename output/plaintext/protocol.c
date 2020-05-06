@@ -47,7 +47,13 @@ FILE *protocol_get(void)
  */
 int protocol_close(void)
 {
-  return (TraceFile ? fclose(TraceFile) : 0);
+  int ret = 0;
+  if (TraceFile)
+  {
+    ret = fclose(TraceFile);
+    TraceFile = NULL;
+  }
+  return ret;
 }
 
 /* like putchar().
