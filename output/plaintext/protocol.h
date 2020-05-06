@@ -16,6 +16,7 @@ void protocol_overwrite(void);
  * @return the opened file (for writing some intro text)
  *         0 if it couln't be opened
  * @note the previous protocol file (if any) is closed
+ * TODO: Who's responsible for fclosing the protocol file?
  */
 FILE *protocol_open(char const *filename);
 
