@@ -456,9 +456,11 @@ void fxfFree(void *ptr, size_t size)
 
 void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   void *nptr= fxfAlloc(NewSize);
-  if (nptr) {
-    memcpy(nptr, ptr, OldSize);
-    fxfFree(ptr, OldSize);
+  if (ptr) {
+    if (nptr)
+      memcpy(nptr, ptr, ((OldSize < NewSize) ? OldSize : NewSize));
+    if (nptr || !NewSize)
+      fxfFree(ptr, OldSize);
   }
   return nptr;
 }
