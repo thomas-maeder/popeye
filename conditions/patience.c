@@ -90,7 +90,7 @@ play_move
 
 if (PatienceB) {
   ply nply;
-  being_solved.board[sq_departure]= obs;
+  being_solved.board[sq_departure]= /* obs */ Invalid; /* TODO: Is Invalid the correct value here? */
   for (nply= nbply - 1 ; nply > 1 ; nply--) {
     if (trait[nply] == trait_ply) {
       being_solved.board[sqdep[nply]]= /* vide */ Empty; /* TODO: Is Empty the correct value here? */
