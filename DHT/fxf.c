@@ -215,13 +215,13 @@ int fxfInit(size_t Size) {
   static char const * const myname= "fxfInit";
 #endif
 #if defined(SEGMENTED)
-  size_t asize= Size+ARENA_SEG_SIZE;
+  size_t asize= Size+(ARENA_SEG_SIZE-1);
   while (ArenaSegCnt > 0) {
     ArenaSegCnt--;
     free(Arena[ArenaSegCnt]);
     Arena[ArenaSegCnt] = Nil(char);
   }
-  while (asize > ARENA_SEG_SIZE) {
+  while (asize >= ARENA_SEG_SIZE) {
     if (ArenaSegCnt >= ARENA_SEG_COUNT) {
       while (ArenaSegCnt > 0) {
         free(Arena[--ArenaSegCnt]);
