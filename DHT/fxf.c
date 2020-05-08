@@ -219,11 +219,15 @@ int fxfInit(size_t Size) {
   while (ArenaSegCnt > 0) {
     ArenaSegCnt--;
     free(Arena[ArenaSegCnt]);
+    Arena[ArenaSegCnt] = Nil(char);
   }
   while (asize > ARENA_SEG_SIZE) {
     if ((Arena[ArenaSegCnt++]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
       break;
     if (ArenaSegCnt >= ARENA_SEG_COUNT) {
+      do {
+        free(Arena[--ArenaSegCnt]);
+      } while (ArenaSegCnt > 0);
       ERROR_LOG3("%s: whats going on here?\nCannot believe in more than %s on %s\n",
                  myname, OSMAXMEM, OSNAME);
       exit(2);
