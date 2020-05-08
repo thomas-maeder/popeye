@@ -215,25 +215,18 @@ int fxfInit(size_t Size) {
   static char const * const myname= "fxfInit";
 #endif
 #if defined(SEGMENTED)
-  size_t asize= Size+(ARENA_SEG_SIZE-1);
+  size_t maxSegCnt= (Size ? (1 + ((Size - 1) / ARENA_SEG_SIZE)) : 0);
+  if (maxSegCnt > ARENA_SEG_COUNT)
+    maxSegCnt= ARENA_SEG_COUNT;
   while (ArenaSegCnt > 0) {
     ArenaSegCnt--;
     free(Arena[ArenaSegCnt]);
-    Arena[ArenaSegCnt] = Nil(char);
+    Arena[ArenaSegCnt]= Nil(char);
   }
-  while (asize >= ARENA_SEG_SIZE) {
-    if (ArenaSegCnt >= ARENA_SEG_COUNT) {
-      while (ArenaSegCnt > 0) {
-        free(Arena[--ArenaSegCnt]);
-      }
-      ERROR_LOG3("%s: whats going on here?\nCannot believe in more than %s on %s\n",
-                 myname, OSMAXMEM, OSNAME);
-      exit(2);
-    }
-    if ((Arena[ArenaSegCnt]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
+  while (ArenaSegCnt < maxSegCnt) {
+    if ((Arena[ArenaSegCnt]= nNew(ARENA_SEG_SIZE, char)) == Nil(char))
       break;
     ++ArenaSegCnt;
-    asize-= ARENA_SEG_SIZE;
   }
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
