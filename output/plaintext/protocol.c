@@ -42,8 +42,8 @@ FILE *protocol_get(void)
   return TraceFile;
 }
 
-/* Close the current protocol file, if one is opened; NOP otherwise
- * @return the return value of fclose if a file were opened, 0 otherwise
+/* If a protocol file is open, close it.
+ * @return the return value of fclose if a protocol file was closed, 0 otherwise
  */
 int protocol_close(void)
 {
