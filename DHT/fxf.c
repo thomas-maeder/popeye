@@ -230,7 +230,7 @@ int fxfInit(size_t Size) {
   }
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
-  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
+  TopFreePtr= ArenaSegCnt ? (Arena[CurrentSeg]+ARENA_SEG_SIZE) : Nil(char);
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
   if (Arena)
@@ -239,6 +239,7 @@ int fxfInit(size_t Size) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
                myname, (size_t_printf_type) Size);
     BotFreePtr= Arena;
+    TopFreePtr= Arena;
     GlobalSize= 0;
     return -1;
   }
