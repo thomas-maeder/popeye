@@ -15,4 +15,7 @@ size_t fxfTotal(void);
  * after the latest call to fxfInit() */
 void fxfReset(void);
 
+/* Free all the associated memory. */
+void fxfTeardown(void);
+
 #endif

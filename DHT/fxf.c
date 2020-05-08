@@ -222,16 +222,17 @@ int fxfInit(size_t Size) {
     Arena[ArenaSegCnt] = Nil(char);
   }
   while (asize > ARENA_SEG_SIZE) {
-    if ((Arena[ArenaSegCnt++]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
-      break;
     if (ArenaSegCnt >= ARENA_SEG_COUNT) {
-      do {
+      while (ArenaSegCnt > 0) {
         free(Arena[--ArenaSegCnt]);
-      } while (ArenaSegCnt > 0);
+      }
       ERROR_LOG3("%s: whats going on here?\nCannot believe in more than %s on %s\n",
                  myname, OSMAXMEM, OSNAME);
       exit(2);
     }
+    if ((Arena[ArenaSegCnt]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
+      break;
+    ++ArenaSegCnt;
     asize-= ARENA_SEG_SIZE;
   }
   CurrentSeg= 0;
@@ -251,9 +252,8 @@ int fxfInit(size_t Size) {
   BotFreePtr= Arena;
   TopFreePtr= Arena+Size;
   GlobalSize= Size;
-#endif /*SEGMENTED*/
 
-#if defined(FREEMAP) && !defined(SEGMENTED)
+#if defined(FREEMAP)
   if (FreeMap)
   {
     free(FreeMap);
@@ -274,11 +274,39 @@ int fxfInit(size_t Size) {
   {
     memset(FreeMap, '\0', Size*sizeof(unsigned int));
   }
-#endif /*FREEMAP, !SEGMENTED*/
+#endif /*FREEMAP*/
+#endif /*SEGMENTED*/
 
   memset(SizeData, '\0', sizeof(SizeData));
 
   return 0;
+}
+
+void fxfTeardown(void)
+{
+#if defined(LOG)
+  static char const * const myname= "fxfTeardown";
+#endif /*LOG*/
+#if defined(SEGMENTED)
+  while (ArenaSegCnt > 0)
+  {
+    ArenaSegCnt--;
+    free(Arena[ArenaSegCnt]);
+    Arena[ArenaSegCnt] = Nil(char);
+  }
+  CurrentSeg= 0;
+#else
+#if defined(FREEMAP)
+  free(FreeMap);
+  FreeMap= Nil(unsigned int);
+#endif /*FREEMAP*/
+  free(Arena);
+  Arena= Nil(char);
+#endif /*SEGMENTED*/
+  memset(SizeData, '\0', sizeof(SizeData));
+  GlobalSize= 0;
+  TopFreePtr= Nil(char);
+  BotFreePtr= Nil(char);
 }
 
 int fxfInitialised(void)
