@@ -218,7 +218,7 @@ size_t fxfInit(size_t Size) {
   size_t maxSegCnt= (Size ? (1 + ((Size - 1) / ARENA_SEG_SIZE)) : 0);
   if (maxSegCnt > ARENA_SEG_COUNT)
     maxSegCnt= ARENA_SEG_COUNT;
-  while (ArenaSegCnt > 0) {
+  while (ArenaSegCnt > maxSegCnt) {
     ArenaSegCnt--;
     free(Arena[ArenaSegCnt]);
     Arena[ArenaSegCnt]= Nil(char);
