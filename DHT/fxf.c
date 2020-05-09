@@ -210,7 +210,7 @@ void PrintFreeMap(FILE *f) {
 #  define  ClrRange(x,l)
 #endif /*FREEMAP, !SEGMENTED*/
 
-int fxfInit(size_t Size) {
+size_t fxfInit(size_t Size) {
 #if defined(LOG)
   static char const * const myname= "fxfInit";
 #endif
@@ -241,7 +241,7 @@ int fxfInit(size_t Size) {
     BotFreePtr= Arena;
     TopFreePtr= Arena;
     GlobalSize= 0;
-    return -1;
+    return GlobalSize;
   }
   BotFreePtr= Arena;
   TopFreePtr= Arena+Size;
@@ -273,7 +273,7 @@ int fxfInit(size_t Size) {
 
   memset(SizeData, '\0', sizeof(SizeData));
 
-  return 0;
+  return GlobalSize;
 }
 
 void fxfTeardown(void)

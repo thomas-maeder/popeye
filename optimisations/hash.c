@@ -1721,7 +1721,7 @@ unsigned long allochash(unsigned long nr_kilos)
 {
 #if defined(FXF)
   size_t const one_kilo = 1<<10;
-  while (fxfInit(nr_kilos*one_kilo)==-1)
+  while (!fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
   ifTESTHASH(fxfInfo(stdout));

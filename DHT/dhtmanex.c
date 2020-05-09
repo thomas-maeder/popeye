@@ -85,5 +85,9 @@ int main( )
     /* now destroy the whole table */
     dhtDestroy(OurTable);
 
+#if defined(FXF)
+    fxfTeardown();
+#endif /*FXF*/
+
     return 0;
 }

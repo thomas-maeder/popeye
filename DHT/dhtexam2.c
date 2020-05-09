@@ -91,4 +91,8 @@ int main(int argc, char *argv[]) {
 		printf("Dumping %d Entries:\n", cnt);
 		dhtDump(ht, stderr);
 	}
+#if defined(FXF)
+	fxfTeardown();
+#endif
+	return 0;
 }

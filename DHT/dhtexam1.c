@@ -304,5 +304,9 @@ int main(int argc, char *argv[]) {
 	fputs("MallocInfo after emptying the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
-	exit(0);
+
+#if defined(FXF)
+	fxfTeardown();
+#endif
+	return 0;
 }
