@@ -129,6 +129,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STEndOfBranchGoalTester,
   STGoalReachedTester,
+  STCheckZigzagLanding,
   STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,
@@ -152,8 +153,7 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXGoalWriter,
   STTrue,
   STIntelligentImmobilisationCounter,
-  STFlightsquaresCounter,
-  STCheckZigzagLanding
+  STFlightsquaresCounter
 };
 
 enum
