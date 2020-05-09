@@ -219,7 +219,7 @@ size_t fxfInit(size_t Size) {
   if (maxSegCnt > ARENA_SEG_COUNT)
     maxSegCnt= ARENA_SEG_COUNT;
   while (ArenaSegCnt > maxSegCnt) {
-    ArenaSegCnt--;
+    --ArenaSegCnt;
     free(Arena[ArenaSegCnt]);
     Arena[ArenaSegCnt]= Nil(char);
   }
@@ -230,7 +230,9 @@ size_t fxfInit(size_t Size) {
   }
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
-  TopFreePtr= ArenaSegCnt ? (Arena[CurrentSeg]+ARENA_SEG_SIZE) : Nil(char);
+  TopFreePtr= Arena[CurrentSeg];
+  if (TopFreePtr)
+    TopFreePtr+= ARENA_SEG_SIZE;
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
   if (Arena)
@@ -284,7 +286,7 @@ void fxfTeardown(void)
 #if defined(SEGMENTED)
   while (ArenaSegCnt > 0)
   {
-    ArenaSegCnt--;
+    --ArenaSegCnt;
     free(Arena[ArenaSegCnt]);
     Arena[ArenaSegCnt] = Nil(char);
   }
@@ -317,13 +319,18 @@ void fxfReset(void)
 #if defined(SEGMENTED)
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
-  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
+  TopFreePtr= Arena[CurrentSeg];
+  if (TopFreePtr)
+    TopFreePtr+= ARENA_SEG_SIZE;
 #else
   BotFreePtr= Arena;
-  TopFreePtr= Arena+GlobalSize;
+  TopFreePtr= Arena;
+  if (TopFreePtr)
+    TopFreePtr+= GlobalSize;
 
 #if defined(FREEMAP)
-  memset(FreeMap, 0, GlobalSize>>3);
+  if (FreeMap)
+    memset(FreeMap, '\0', GlobalSize>>3);
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
 
@@ -384,7 +391,9 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
     TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+#endif
   }
   else {
     /* we have to allocate a new piece */
@@ -401,14 +410,16 @@ void *fxfAlloc(size_t size) {
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
       TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+#endif
     }
     else
     {
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
         TMDBG(fputs(" next seg", stdout));
-        CurrentSeg+= 1;
+        ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
         TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
         ptr= fxfAlloc(size);
@@ -430,7 +441,9 @@ void fxfFree(void *ptr, size_t size)
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
+#endif
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
@@ -448,14 +461,14 @@ void fxfFree(void *ptr, size_t size)
     if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
-      sh->MallocCount-= 1;
+      --sh->MallocCount;
     }
     else {
       SetRange((char *)ptr-Arena,size);
       *(char **)ALIGN(ptr)= sh->FreeHead;
       sh->FreeHead= ptr;
-      sh->FreeCount+= 1;
-      sh->MallocCount-= 1;
+      ++sh->FreeCount;
+      --sh->MallocCount;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
     }
   }
@@ -465,14 +478,14 @@ void fxfFree(void *ptr, size_t size)
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
       TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
-      sh->MallocCount-= 1;
+      --sh->MallocCount;
     }
     else {
       SetRange((char *)ptr-Arena,size);
       *(char **)ptr= sh->FreeHead;
       sh->FreeHead= ptr;
-      sh->FreeCount+= 1;
-      sh->MallocCount-= 1;
+      ++sh->FreeCount;
+      --sh->MallocCount;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
     }
   }
