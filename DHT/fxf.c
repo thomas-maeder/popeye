@@ -158,7 +158,7 @@ static FreeMapType *FreeMap;
     }                                                 \
   } while (0)
 #define  MAC_ClrRange(x,l)  do {                      \
-    size_t z= (x), z+(l);                             \
+    size_t z= (x), y= z+(l);                          \
     if (FreeMap) {                                    \
       size_t xi= z>>5, yi= y>>5;                      \
       if (xi==yi)                                     \
