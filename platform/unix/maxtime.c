@@ -158,11 +158,12 @@ void platform_init(void)
   act.sa_mask = 0;
   act.sa_flags = 0;
   for (i=0; i<nrSignals; ++i)
-    sigaction(SignalToCatch[i],&act,NULL);
+    if (sigaction(SignalToCatch[i],&act,NULL))
 #else
   for (i=0; i<nrSignals; ++i)
-    signal(SignalToCatch[i],&ReportSignalAndBailOut);
+    if (signal(SignalToCatch[i],&ReportSignalAndBailOut)==SIG_ERR)
 #endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
+      perror(__func__);
 
   /* override default handler with specific handlers.
    * this code would be much more robust, if some information about
@@ -174,21 +175,29 @@ void platform_init(void)
 #if defined(__GLIBC__) && defined(__GLIBC_MINOR__) && defined(_POSIX_C_SOURCE)
 #if defined(HASHRATE)
   act.sa_handler = &sigUsr1Handler; 
-  sigaction(SIGUSR1, &act, NULL);
+  if (sigaction(SIGUSR1, &act, NULL))
+    perror(__func__);
   act.sa_handler = &sigUsr2Handler; 
-  sigaction(SIGUSR2, &act, NULL);
+  if (sigaction(SIGUSR2, &act, NULL))
+    perror(__func__);
 #endif /*HASHRATE*/
   act.sa_handler = &solvingTimeOver; 
-  sigaction(SIGALRM, &act, NULL);
+  if (sigaction(SIGALRM, &act, NULL))
+    perror(__func__);
   act.sa_handler = &ReDrawBoard; 
-  sigaction(SIGHUP,  &act, NULL);
+  if (sigaction(SIGHUP,  &act, NULL))
+    perror(__func__);
 #else
 #if defined(HASHRATE)
-  signal(SIGUSR1, &sigUsr1Handler);
-  signal(SIGUSR2, &sigUsr2Handler);
+  if (signal(SIGUSR1, &sigUsr1Handler) == SIG_ERR)
+    perror(__func__);
+  if (signal(SIGUSR2, &sigUsr2Handler) == SIG_ERR)
+    perror(__func__);
 #endif /*HASHRATE*/
-  signal(SIGALRM, &solvingTimeOver);
-  signal(SIGHUP,  &ReDrawBoard);
+  if (signal(SIGALRM, &solvingTimeOver) == SIG_ERR)
+    perror(__func__);
+  if (signal(SIGHUP,  &ReDrawBoard) == SIG_ERR)
+    perror(__func__);
 #endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
 }
 
