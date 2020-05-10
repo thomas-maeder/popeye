@@ -31,13 +31,17 @@ static void ReportSignalAndBailOut(int sig)
 static void sigUsr1Handler(int sig)
 {
   IncHashRateLevel();
+#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
   signal(sig, &sigUsr1Handler);
+#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
 }
 
 static void sigUsr2Handler(int sig)
 {
   DecHashRateLevel();
+#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
   signal(sig, &sigUsr2Handler);
+#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
 }
 #endif
 
@@ -114,7 +118,7 @@ static void ReDrawBoard(int sig)
   /* I did this, to see more accurately what position popeye is
      working on.  ElB
   */
-  /* If a position can be reached by 1000's of move sequences than the
+  /* If a position can be reached by 1000's of move sequences then the
      position is of almost no value. The history is more important.
      TLi
   */
@@ -127,7 +131,9 @@ static void ReDrawBoard(int sig)
   ReDrawPly(nbply);
   putchar('\n');
 
+#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
   signal(sig,&ReDrawBoard);
+#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
 }
 
 static void solvingTimeOver(int sig)
@@ -137,15 +143,26 @@ static void solvingTimeOver(int sig)
    */
   periods_counter = nr_periods;
 
+#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
   signal(sig,&solvingTimeOver);
+#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
 }
 
 void platform_init(void)
 {
   /* register default handler for all supported signals */
   int i;
+#if defined(__GLIBC__) && defined(__GLIBC_MINOR__) && defined(_POSIX_C_SOURCE)
+  struct sigaction act;
+  act.sa_handler = &ReportSignalAndBailOut;
+  act.sa_mask = 0;
+  act.sa_flags = 0;
+  for (i=0; i<nrSignals; ++i)
+    sigaction(SignalToCatch[i],&act,NULL);
+#else
   for (i=0; i<nrSignals; ++i)
     signal(SignalToCatch[i],&ReportSignalAndBailOut);
+#endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
 
   /* override default handler with specific handlers.
    * this code would be much more robust, if some information about
@@ -154,12 +171,25 @@ void platform_init(void)
    * At least the maximum signal-number should be defined and for what
    * signals the handling can be redefined
    */
+#if defined(__GLIBC__) && defined(__GLIBC_MINOR__) && defined(_POSIX_C_SOURCE)
+#if defined(HASHRATE)
+  act.sa_handler = &sigUsr1Handler; 
+  sigaction(SIGUSR1, &act, NULL);
+  act.sa_handler = &sigUsr2Handler; 
+  sigaction(SIGUSR2, &act, NULL);
+#endif /*HASHRATE*/
+  act.sa_handler = &solvingTimeOver; 
+  sigaction(SIGALRM, &act, NULL);
+  act.sa_handler = &ReDrawBoard; 
+  sigaction(SIGHUP,  &act, NULL);
+#else
 #if defined(HASHRATE)
   signal(SIGUSR1, &sigUsr1Handler);
   signal(SIGUSR2, &sigUsr2Handler);
 #endif /*HASHRATE*/
   signal(SIGALRM, &solvingTimeOver);
   signal(SIGHUP,  &ReDrawBoard);
+#endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
 }
 
 boolean platform_set_maxtime_timer(maxtime_type seconds)
