@@ -326,7 +326,7 @@ solution finished.
                      play_move:          75
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          76
-solving interrupted.
+Partial solution
 
 
 
@@ -363,7 +363,7 @@ solving interrupted.
                      play_move:         513
  is_white_king_square_attacked:         135
  is_black_king_square_attacked:         446
-solving interrupted.
+Partial solution
 
 
 

@@ -1970,7 +1970,7 @@ consider previous cage after advancing type of promotee
                      play_move:         855
  is_white_king_square_attacked:         786
  is_black_king_square_attacked:          34
-solving interrupted.
+Partial solution
 
 
 
@@ -2115,7 +2115,7 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
                      play_move:        6607
  is_white_king_square_attacked:        2159
  is_black_king_square_attacked:        6180
-solving interrupted.
+Partial solution
 
 
 

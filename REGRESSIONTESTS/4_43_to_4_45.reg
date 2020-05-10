@@ -221,6 +221,6 @@ Test for StopOnShortSolutions in proof games and a=>b
                      play_move:       11004
  is_white_king_square_attacked:        6306
  is_black_king_square_attacked:        5426
-solving interrupted.
+Partial solution
 
 
