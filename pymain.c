@@ -48,10 +48,10 @@ int main(int argc, char *argv[])
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",argc);
-  for (int i(0); i < argc, ++i)
+  for (int i = 0; i < argc; ++i)
   {
     TraceValue("%d",i);
-    TraceFunctionParam("%d",argv[i]);
+    TraceFunctionParam("%s",argv[i]);
   }
   TraceFunctionParamListEnd();
 
