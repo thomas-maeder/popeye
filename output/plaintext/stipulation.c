@@ -116,7 +116,13 @@ static boolean is_intro_series(slice_index si)
       if (ready1!=no_slice)
       {
         slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-        result = ready1==ready2;
+        if (ready1==ready2)
+          result = true;
+        else
+        {
+          // TODO this is a hack to correctly deal with pser intro series
+          result = branch_find_slice(STIfThenElse,ready2,stip_traversal_context_help)!=no_slice;
+        }
       }
     }
   }
