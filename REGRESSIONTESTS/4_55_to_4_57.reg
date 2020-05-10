@@ -1212,7 +1212,7 @@ solution finished.
   1.g6-g5   2.g5-g4 d6-d7 #
   add_to_move_generation_stack:          75
                      play_move:          68
- is_white_king_square_attacked:          14
+ is_white_king_square_attacked:          13
  is_black_king_square_attacked:          69
 
 solution finished.
@@ -1248,7 +1248,7 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          16
+ is_black_king_square_attacked:          15
 
 solution finished.
 
@@ -1283,7 +1283,7 @@ solution finished.
   add_to_move_generation_stack:         326
                      play_move:         254
  is_white_king_square_attacked:         239
- is_black_king_square_attacked:         118
+ is_black_king_square_attacked:         116
 
 solution finished.
 
