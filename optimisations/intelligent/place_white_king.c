@@ -22,13 +22,13 @@ static boolean check_from_direction(int dir)
   square curr = being_solved.king_square[White]-dir;
   boolean result = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParamListEnd();
+
   if (is_on_board(curr))
   {
     boolean const is_diagonal = SquareCol(curr)==SquareCol(being_solved.king_square[White]);
-
-    TraceFunctionEntry(__func__);
-    TraceFunctionParam("%d",dir);
-    TraceFunctionParamListEnd();
 
     while (is_square_empty(curr))
       curr -= dir;
