@@ -50,9 +50,9 @@ static slice_index const slice_rank_order[] =
   STDeadEnd,
   STEndOfIntro,
 
+  STIfThenElse,
   STReadyForHelpMove,
   STHelpHashed,
-  STIfThenElse,
   STTestingPrerequisites,
   STDoubleMateFilter,
   STCounterMateFilter,
