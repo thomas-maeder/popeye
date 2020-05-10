@@ -133,81 +133,91 @@ static char *TopFreePtr;
 
 
 #if defined(FREEMAP) && !defined(SEGMENTED)
-static unsigned int *FreeMap;
-#define  Bit(x)    (1<<((x)&31))
+#if UINT_MAX < 0xFFFFFFFFU
+typedef unsigned long int FreeMapType;
+#else
+typedef unsigned int FreeMapType;
+#endif /*UINT_MAX < 0xFFFFFFFFU*/
+static FreeMapType *FreeMap;
+#define  Bit(x)    (((FreeMapType)1)<<((x)&31))
 #define  LeftMask(x)  (-Bit(x))
-#define  SetFreeBit(x)  FreeMap[(x)>>5]|= Bit(x)
-#define ClrFreeBit(x)  FreeMap[(x)>>5]&= ~Bit(x)
-#define  MAC_SetRange(x,l)  do {                    \
-    int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
-    if (xi==yi)                                     \
-      FreeMap[xi]|= LeftMask(x) & (~LeftMask(y));   \
-    else {                                          \
-      int i;                                        \
-      FreeMap[xi]|= LeftMask(x);                    \
-      FreeMap[yi]|= ~LeftMask(y);                   \
-      yi--;                                         \
-      for (i=xi+1; i<yi; i++)                       \
-        FreeMap[i]= -1;                             \
-    }                                               \
+#define  SetFreeBit(x)  (FreeMap[(x)>>5]|= Bit(x))
+#define  ClrFreeBit(x)  (FreeMap[(x)>>5]&= ~Bit(x))
+#define  MAC_SetRange(x,l)  do {                      \
+    size_t z= (x), y= z+(l);                          \
+    if (FreeMap) {                                    \
+      size_t xi= z>>5, yi= y>>5;                      \
+      if (xi==yi)                                     \
+        FreeMap[xi]|= (LeftMask(z) & ~LeftMask(y));   \
+      else {                                          \
+        FreeMap[xi]|= LeftMask(z);                    \
+        FreeMap[yi]|= ~LeftMask(y);                   \
+        while (yi > ++xi)                             \
+          FreeMap[xi]= -1;                            \
+      }                                               \
+    }                                                 \
   } while (0)
-#define  MAC_ClrRange(x,l)  do {                    \
-    int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
-    if (xi==yi)                                     \
-      FreeMap[xi]&= (~LeftMask(x)) | LeftMask(y);   \
-    else {                                          \
-      int i;                                        \
-      FreeMap[xi]&= ~LeftMask(x);                   \
-      FreeMap[yi]&= LeftMask(y);                    \
-      yi--;                                         \
-      for (i=xi+1; i<yi; i++)                       \
-        FreeMap[i]= 0;                              \
-    }                                               \
+#define  MAC_ClrRange(x,l)  do {                      \
+    size_t z= (x), z+(l);                             \
+    if (FreeMap) {                                    \
+      size_t xi= z>>5, yi= y>>5;                      \
+      if (xi==yi)                                     \
+        FreeMap[xi]&= (LeftMask(y) | ~LeftMask(z));   \
+      else {                                          \
+        FreeMap[xi]&= ~LeftMask(z);                   \
+        FreeMap[yi]&= LeftMask(y);                    \
+        while (yi > ++xi)                             \
+          FreeMap[xi]= 0;                             \
+      }                                               \
+    }                                                 \
   } while (0)
 
-void  SetRange(int x, int l)  {
-  int xi= (x)>>5, y= x+l, yi= (y)>>5;
-  if (xi==yi)
-    FreeMap[xi]|= LeftMask(x) & (~LeftMask(y));
-  else {
-    int i;
-    FreeMap[xi]|= LeftMask(x);
-    FreeMap[yi]|= ~LeftMask(y);
-    yi--;
-    for (i=xi+1; i<yi; i++)
-      FreeMap[i]= -1;
+void SetRange(size_t x, size_t l)  {
+  if (FreeMap) {
+    size_t xi= x>>5, y= x+l, yi= y>>5;
+    if (xi==yi)
+      FreeMap[xi]|= (LeftMask(x) & ~LeftMask(y));
+    else {
+      FreeMap[xi]|= LeftMask(x);
+      FreeMap[yi]|= ~LeftMask(y);
+      while (yi > ++xi)
+        FreeMap[xi]= -1;
+    }
   }
 }
 
-void ClrRange(int x, int l)  {
-  int xi= (x)>>5, y= x+l, yi= (y)>>5;
-  if (xi==yi)
-    FreeMap[xi]&= (~LeftMask(x)) | LeftMask(y);
-  else {
-    int i;
-    FreeMap[xi]&= ~LeftMask(x);
-    FreeMap[yi]&= LeftMask(y);
-    yi--;
-    for (i=xi+1; i<yi; i++)
-      FreeMap[i]= 0;
+void ClrRange(size_t x, size_t l)  {
+  if (FreeMap) {
+    size_t xi= x>>5, y= x+l, yi= y>>5;
+    if (xi==yi)
+      FreeMap[xi]&= (LeftMask(y) | ~LeftMask(x));
+    else {
+      FreeMap[xi]&= ~LeftMask(x);
+      FreeMap[yi]&= LeftMask(y);
+      while (yi > ++xi)
+        FreeMap[xi]= 0;
+    }
   }
 }
 
 void PrintFreeMap(FILE *f) {
-  int i;
-  for (i=0; i<GlobalSize; i++) {
-    if (i % 80 == 0)
+  size_t i;
+  for (i=0; i<GlobalSize; ++i) {
+    if ((i % 80) == 0)
       fputc('\n', f);
-    if (FreeMap[i>>5]&Bit(i)) {
-      fputc('.', f);
-    }
-    else
-      fputc(' ', f);
+    if (FreeMap) {
+      if (FreeMap[i>>5]&Bit(i)) {
+        fputc('.', f);
+      }
+      else
+        fputc(' ', f);
+    } else
+      fputc('?', f);
   }
 }
 #else
-#  define  SetRange(x,l)
-#  define  ClrRange(x,l)
+#  define  SetRange(x,l) ((void)(x, l))
+#  define  ClrRange(x,l) ((void)(x, l))
 #endif /*FREEMAP, !SEGMENTED*/
 
 size_t fxfInit(size_t Size) {
@@ -265,10 +275,10 @@ size_t fxfInit(size_t Size) {
     Size = ((Size+31)>>5); 
   }
 
-  FreeMap= nNew(Size, unsigned int); /* TODO: Can/Should we replace this allocation+memset with a call to calloc? */
+  FreeMap= nNew(Size, FreeMapType); /* TODO: Can/Should we replace this allocation+memset with a call to calloc? */
   if (FreeMap)
   {
-    memset(FreeMap, '\0', Size*sizeof(unsigned int));
+    memset(FreeMap, '\0', Size*(sizeof *FreeMap));
   }
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
