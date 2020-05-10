@@ -46,6 +46,15 @@ static void checkGlobalAssumptions(void)
 
 int main(int argc, char *argv[])
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",argc);
+  for (int i(0); i < argc, ++i)
+  {
+    TraceValue("%d",i);
+    TraceFunctionParam("%d",argv[i]);
+  }
+  TraceFunctionParamListEnd();
+
   checkGlobalAssumptions();
 
   platform_set_nice_priority();
@@ -99,5 +108,8 @@ int main(int argc, char *argv[])
     assert_no_leaked_slices();
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",0);
+  TraceFunctionResultEnd();
   return 0;
 }
