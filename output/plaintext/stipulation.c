@@ -20,8 +20,18 @@ typedef struct
 
 static boolean is_pser(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const ifelse = branch_find_slice(STIfThenElse,si,st->context);
-  return ifelse!=no_slice;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STIfThenElse,si,st->context)!=no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void write_attack(slice_index si, stip_structure_traversal *st)
@@ -74,31 +84,57 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
 
 static boolean is_series(slice_index si)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si,stip_traversal_context_help);
   slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-  return ready1==ready2;
+  result = ready1==ready2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_intro_series(slice_index si)
 {
-  slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
-  if (end!=no_slice)
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
-    slice_index const ready1 = branch_find_slice(STReadyForHelpMove,SLICE_NEXT2(end),stip_traversal_context_intro);
-    if (ready1!=no_slice)
+    slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
+    if (end!=no_slice)
     {
-      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-      return ready1==ready2;
+      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,SLICE_NEXT2(end),stip_traversal_context_intro);
+      if (ready1!=no_slice)
+      {
+        slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
+        result = ready1==ready2;
+      }
     }
   }
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_help_play_implicit(slice_index si, stip_structure_traversal *st)
 {
   boolean result = false;
   state_type const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if(state->branch_level==structure_traversal_level_top)
   {
@@ -118,24 +154,44 @@ static boolean is_help_play_implicit(slice_index si, stip_structure_traversal *s
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
 static boolean is_help_reci(slice_index si)
 {
-  slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
-  if (end!=no_slice)
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
-    slice_index const and_slice = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
-    return and_slice!=no_slice;
+    slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
+    if (end!=no_slice)
+    {
+      slice_index const and_slice = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
+      result = and_slice!=no_slice;
+    }
+    else
+      result = false;
   }
-  else
-    return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void write_help(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (state->reci_goal.type!=no_goal)
     stip_traverse_structure_children(si,st);
@@ -184,11 +240,18 @@ static void write_help(slice_index si, stip_structure_traversal *st)
       /* h part of a ser-h - no need to write length */
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_series(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (st->level==structure_traversal_level_top
       && state->length>slack_length+2
@@ -220,6 +283,9 @@ static void write_series(slice_index si, stip_structure_traversal *st)
     else if (state->length>1)
       state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_help_adapter(slice_index si, stip_structure_traversal *st)
@@ -227,6 +293,10 @@ static void write_help_adapter(slice_index si, stip_structure_traversal *st)
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
   structure_traversal_level_type const save_level = state->branch_level;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -238,6 +308,9 @@ static void write_help_adapter(slice_index si, stip_structure_traversal *st)
 
   state->length = save_length;
   state->branch_level = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean skip_quodlibet_direct(slice_index si, stip_structure_traversal *st)
