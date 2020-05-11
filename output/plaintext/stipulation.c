@@ -235,7 +235,8 @@ static void write_help(slice_index si, stip_structure_traversal *st)
 
     stip_traverse_structure_children(si,st);
 
-    if (st->level==structure_traversal_level_top)
+    if (st->level==structure_traversal_level_top
+        || is_pser(si,st)) // TODO this is a hack to correctly deal with pser stipulations
     {
       state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
       if (state->length%2==1)
