@@ -121,6 +121,7 @@ static void store_solution(void)
 
   if (!alloc_room_for_solution())
   {
+    intelligent_duplicate_avoider_cleanup();
     fputs("Cannot (re)allocate enough memory\n",stderr);
     exit(EXIT_FAILURE);
   }
