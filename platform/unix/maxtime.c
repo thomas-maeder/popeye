@@ -19,6 +19,18 @@
 #include "pieces/pieces.h"
 #include "debugging/assert.h"
 
+#if !defined(HAVE_SIGACTION)
+#if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
+#if defined(_POSIX_C_SOURCE)
+#define HAVE_SIGACTION 1
+#else /* TODO: Can we detect sigaction in other libraries? */
+#define HAVE_SIGACTION 0
+#endif /*_POSIX_C_SOURCE*/
+#else
+#define HAVE_SIGACTION 0
+#endif /*__GLIBC__,__GLIBC_MINOR__*/
+#endif /*HAVE_SIGACTION*/
+
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
 {
@@ -31,17 +43,17 @@ static void ReportSignalAndBailOut(int sig)
 static void sigUsr1Handler(int sig)
 {
   IncHashRateLevel();
-#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
+#if !HAVE_SIGACTION
   signal(sig, &sigUsr1Handler);
-#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
+#endif /*!HAVE_SIGACTION*/
 }
 
 static void sigUsr2Handler(int sig)
 {
   DecHashRateLevel();
-#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
+#if !HAVE_SIGACTION
   signal(sig, &sigUsr2Handler);
-#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
+#endif /*!HAVE_SIGACTION*/
 }
 #endif
 
@@ -131,9 +143,9 @@ static void ReDrawBoard(int sig)
   ReDrawPly(nbply);
   putchar('\n');
 
-#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
+#if !HAVE_SIGACTION
   signal(sig,&ReDrawBoard);
-#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
+#endif /*!HAVE_SIGACTION*/
 }
 
 static void solvingTimeOver(int sig)
@@ -143,16 +155,16 @@ static void solvingTimeOver(int sig)
    */
   periods_counter = nr_periods;
 
-#if !defined(__GLIBC__) || !defined(__GLIBC_MINOR__) || !defined(_POSIX_C_SOURCE)
+#if !HAVE_SIGACTION
   signal(sig,&solvingTimeOver);
-#endif /*!__GLIBC__,!__GLIBC_MINOR__,!_POSIX_C_SOURCE*/
+#endif /*!HAVE_SIGACTION*/
 }
 
 void platform_init(void)
 {
   /* register default handler for all supported signals */
   int i;
-#if defined(__GLIBC__) && defined(__GLIBC_MINOR__) && defined(_POSIX_C_SOURCE)
+#if HAVE_SIGACTION
   struct sigaction act;
   act.sa_handler = &ReportSignalAndBailOut;
   act.sa_mask = 0;
@@ -162,7 +174,7 @@ void platform_init(void)
 #else
   for (i=0; i<nrSignals; ++i)
     if (signal(SignalToCatch[i],&ReportSignalAndBailOut)==SIG_ERR)
-#endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
+#endif /*HAVE_SIGACTION*/
       perror(__func__);
 
   /* override default handler with specific handlers.
@@ -172,7 +184,7 @@ void platform_init(void)
    * At least the maximum signal-number should be defined and for what
    * signals the handling can be redefined
    */
-#if defined(__GLIBC__) && defined(__GLIBC_MINOR__) && defined(_POSIX_C_SOURCE)
+#if HAVE_SIGACTION
 #if defined(HASHRATE)
   act.sa_handler = &sigUsr1Handler; 
   if (sigaction(SIGUSR1, &act, NULL))
@@ -198,7 +210,7 @@ void platform_init(void)
     perror(__func__);
   if (signal(SIGHUP,  &ReDrawBoard) == SIG_ERR)
     perror(__func__);
-#endif /*__GLIBC__,__GLIBC_MINOR__,_POSIX_C_SOURCE*/
+#endif /*HAVE_SIGACTION*/
 }
 
 boolean platform_set_maxtime_timer(maxtime_type seconds)
