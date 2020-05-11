@@ -116,7 +116,13 @@ static boolean is_intro_series(slice_index si)
       if (ready1!=no_slice)
       {
         slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-        result = ready1==ready2;
+        if (ready1==ready2)
+          result = true;
+        else
+        {
+          // TODO this is a hack to correctly deal with pser intro series
+          result = branch_find_slice(STIfThenElse,ready2,stip_traversal_context_help)!=no_slice;
+        }
       }
     }
   }
@@ -229,7 +235,8 @@ static void write_help(slice_index si, stip_structure_traversal *st)
 
     stip_traverse_structure_children(si,st);
 
-    if (st->level==structure_traversal_level_top)
+    if (st->level==structure_traversal_level_top
+        || is_pser(si,st)) // TODO this is a hack to correctly deal with pser stipulations
     {
       state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
       if (state->length%2==1)
