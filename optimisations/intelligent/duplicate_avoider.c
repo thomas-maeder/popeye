@@ -121,6 +121,7 @@ static void store_solution(void)
 
   if (!alloc_room_for_solution())
   {
+    intelligent_duplicate_avoider_cleanup();
     fputs("Cannot (re)allocate enough memory\n",stderr);
     exit(EXIT_FAILURE);
   }
@@ -149,25 +150,25 @@ static void store_solution(void)
 static boolean is_duplicate_solution(void)
 {
   boolean found = false;
-  simplified_move_type ** sol;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (sol = stored_solutions;
-       sol!=stored_solutions+nr_stored_solutions && !found;
-       ++sol)
+  for (unsigned int sol_index = 0;
+       sol_index<nr_stored_solutions && !found;
+       ++sol_index)
   {
     found = true;
 
+    for (ply cp = nbply; cp>ply_retro_move; cp = parent_ply[cp])
     {
-      ply cp;
-      for (cp = nbply; cp>ply_retro_move && found; cp = parent_ply[cp])
+      const simplified_move_type * const elmt = stored_solutions[sol_index] + cp;
+      if (elmt->from!=move_generation_stack[CURRMOVE_OF_PLY(cp)].departure
+               || elmt->to!=move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival
+               || elmt->prom!=get_promotion_walk(cp))
       {
-        simplified_move_type * const elmt = *sol + cp;
-        found = (elmt->from==move_generation_stack[CURRMOVE_OF_PLY(cp)].departure
-                 && elmt->to==move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival
-                 && elmt->prom==get_promotion_walk(cp));
+        found = false;
+        break;
       }
     }
   }
