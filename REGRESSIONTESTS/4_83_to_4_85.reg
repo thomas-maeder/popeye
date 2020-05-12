@@ -372,3 +372,41 @@ In Popeye 4.83, the number of "slices" would exhaust, causing weird things to be
 solution finished.
 
 
+
+              Walter L
+https://github.com/thomas-maeder/popeye/issues/282
+Check detection has never worked correctly in Make&Take + Disparate since Make&Take was added
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          1 + 1
+              Disparate
+           Make&TakeChess
+
+   1.Ka4-b3 # !
+
+  add_to_move_generation_stack:         389
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

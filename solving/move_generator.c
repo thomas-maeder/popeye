@@ -400,7 +400,7 @@ boolean observing_move_generator_is_in_check(slice_index si,
   TraceEnumerator(Side,side_observed);
   TraceFunctionParamListEnd();
 
-  nextply(trait[nbply]);
+  siblingply(trait[nbply]);
 
   genmove();
 

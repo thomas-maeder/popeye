@@ -84,5 +84,13 @@ pieces white Kc8 pb6 black Ka8 pa7
 stipulation h007
 condition Circe AntiCirce blackmaximummer ChecklessChess
 
-end
+next
 
+title Check detection has never worked correctly in Make&Take + Disparate since Make&Take was added
+author Walter L
+origin https://github.com/thomas-maeder/popeye/issues/282
+pieces white ka4 black kd1
+condition Make&TakeChess Disparate
+stipulation #1
+
+end
