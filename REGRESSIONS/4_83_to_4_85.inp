@@ -93,4 +93,31 @@ pieces white ka4 black kd1
 condition Make&TakeChess Disparate
 stipulation #1
 
-end
+next
+
+author Walter L
+origin https://github.com/thomas-maeder/popeye/issues/282
+condition Make&Take Disparate
+stipulation #1
+pieces white Ka2 Rd8 Pb6 black Ka5 Pb5d5
+
+next
+
+author Walter L
+origin https://github.com/thomas-maeder/popeye/issues/282
+condition Make&Take Disparate
+stipulation #1
+pieces white Ka2 Pd6 black Ka5 Ra8 Pb5d5
+Opti dupl
+
+next
+
+author Walter L
+origin https://github.com/thomas-maeder/popeye/issues/282
+condition Make&Take Disparate
+stipulation #2
+pieces white Kh1 Bf3 Sf7 black Ka8 Bb7
+Opti Vari
+
+End
+

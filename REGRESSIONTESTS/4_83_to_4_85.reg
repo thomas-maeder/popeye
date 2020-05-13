@@ -410,3 +410,120 @@ Check detection has never worked correctly in Make&Take + Disparate since Make&T
 solution finished.
 
 
+
+              Walter L
+https://github.com/thomas-maeder/popeye/issues/282
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   R   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5  -K  -P   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          3 + 3
+              Disparate
+           Make&TakeChess
+
+  add_to_move_generation_stack:        2851
+                     play_move:          31
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+              Walter L
+https://github.com/thomas-maeder/popeye/issues/282
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5  -K  -P   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 4
+              Disparate
+           Make&TakeChess
+               Duplex
+
+  add_to_move_generation_stack:         714
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+   1.Ka5-b4 # !
+
+   1.Ka5-a4 # !
+
+  add_to_move_generation_stack:        2539
+                     play_move:          25
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+              Walter L
+https://github.com/thomas-maeder/popeye/issues/282
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 2
+              Disparate
+           Make&TakeChess
+
+   1.Bf3*b7 # !
+
+  add_to_move_generation_stack:       31060
+                     play_move:         263
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
