@@ -53,6 +53,8 @@ void counters_writer_solve(slice_index si);
 
 #define DEFINE_COUNTER(name)
 
+#define DECLARE_COUNTER(name)
+
 #define INCREMENT_COUNTER(name)
 
 #endif
