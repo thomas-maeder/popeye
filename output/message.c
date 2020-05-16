@@ -128,7 +128,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*119*/ "Information retro inconsistent\n",
     /*120*/ "Options duplex inconsistentes\n",
     /*121*/ "Inconsistent buts pcpj\n",
-    /*122*/ "Regles inconsitentents concernant les CoupsVides\n"
+    /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
+    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -253,7 +254,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*119*/ "Inkonsistente Retro-Information\n",
     /*120*/ "Inkonsistente Duplex-Optionen\n",
     /*121*/ "Inkonsistente Beweispartie-Ziele\n",
-    /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n"
+    /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
+    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -378,7 +380,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*119*/ "Inconsistent retro information\n",
     /*120*/ "Inconsistent duplex options\n",
     /*121*/ "Inconsistent proof game targets\n",
-    /*122*/ "Inconsistent rules regarding NullMoves\n"
+    /*122*/ "Inconsistent rules regarding NullMoves\n",
+    /*123*/ "Incompatible fairy elements changing piece types\n"
   }
 };
 
