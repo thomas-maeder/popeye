@@ -39,7 +39,8 @@ void influencer_walk_changer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   for (curr = movement; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    if (move_effect_journal[curr].type==move_effect_piece_movement
+        && !TSTFLAG(move_effect_journal[curr].u.piece_movement.movingspec,Royal))
     {
       square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
       piece_walk_type const walk_moving = move_effect_journal[curr].u.piece_movement.moving;
