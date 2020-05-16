@@ -17,6 +17,13 @@ option nobk
 
 next
 
+title 1.000 is illegal because the wK would be in check after moving to d1
+pieces white ke1 ra1 black due2
+stip zc11
+condition influencer
+
+next
+
 pieces white kc4 bc8e5 sb5 black kc6 rb6b7 bc7
 stipulation #2
 condition influencer
