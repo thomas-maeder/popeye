@@ -263,10 +263,10 @@ solution finished.
       1...Kd5*e6 !
       1...Kd5-c5 !
 
-  add_to_move_generation_stack:      226122
-                     play_move:       86604
- is_white_king_square_attacked:       34272
- is_black_king_square_attacked:       69097
+  add_to_move_generation_stack:      226546
+                     play_move:       86396
+ is_white_king_square_attacked:       34255
+ is_black_king_square_attacked:       68889
 
 solution finished.
 
@@ -355,10 +355,10 @@ solution finished.
                                       5...a6-a5
                                           6.Sb3-c5 #
 
-  add_to_move_generation_stack:      843141
-                     play_move:      636627
- is_white_king_square_attacked:      542004
- is_black_king_square_attacked:      102028
+  add_to_move_generation_stack:      846931
+                     play_move:      639748
+ is_white_king_square_attacked:      544317
+ is_black_king_square_attacked:      103201
 
 solution finished.
 
@@ -389,9 +389,70 @@ solution finished.
 
   1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] 0-0-0 #
   add_to_move_generation_stack:       49758
-                     play_move:       25096
+                     play_move:       25097
  is_white_king_square_attacked:        5480
- is_black_king_square_attacked:       24688
+ is_black_king_square_attacked:       24689
+
+solution finished.
+
+
+c3 already occupied - old piece goes to the underworld.
+f6 already occupied - old piece goes to the underworld.
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   S   .   7
+|                                   |
+6   .   .   .   .   .  -R  =B   .   6
+|                                   |
+5   .   .   .   .   .   .  -S   .   5
+|                                   |
+4   .   S  -S   .   .   .   .   .   4
+|                                   |
+3   .  =S   R   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zf61                   3 + 3 + 2n
+            MessignyChess
+             Influencer
+               Duplex
+
+a) 
+
+   1.Rc3<->Rf6[c4=P][b3=nP][g6=nP][g5=P] z !
+
+  add_to_move_generation_stack:          43
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+  add_to_move_generation_stack:          51
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) nRc3  nRf6  
+
+   1.Rc3<->Rf6[c4=P][b3=nP][g6=nP][g5=P] z !
+
+  add_to_move_generation_stack:          57
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+   1.Rc3<->Rf6[b3=nP][b4=P][g6=nP][g7=P] z !
+
+  add_to_move_generation_stack:          60
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
 solution finished.
 
