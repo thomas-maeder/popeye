@@ -201,20 +201,11 @@ solution finished.
 |                                   |
 2   .   P   .   .   P   .   .   .   2
 |                                   |
-1   R   B   .   .   K   .   .   .   1
+1   S   B   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          8 + 2
              Influencer
-
-   1.Ra1*a8 ! threat:
-          2.Bb1-a2 #
-      1...Kd5-c4
-          2.Bb1-d3 +
-              2...Kc4-b3
-                  3.Qe7-a3 #
-              2...Kc4-d5
-                  3.Ra8-d8 #
 
    1.Bb1-e4 + ?
     but
@@ -226,12 +217,19 @@ solution finished.
               2...Kd5-c4
                   3.Qe7-c5 #
     but
-      1...Ra8*a2 !
+      1...Ra8*a2[a1=R] !
 
-   1.e3-e4 + ?
-    but
-      1...Kd5-c4 !
-      1...Kd5-d4 !
+   1.e3-e4 + !
+      1...Kd5-c4
+          2.Bb1-d3 +
+              2...Kc4-d4
+                  3.Sa1-c2 #
+      1...Kd5-d4
+          2.Qe7-d6 +
+              2...Kd4-e3
+                  3.Qd6-d2 #
+              2...Kd4-c4
+                  3.Bb1-d3 #
 
    1.Qe7-c5 + ?
     but
@@ -239,8 +237,9 @@ solution finished.
       1...Kd5*c5 !
 
    1.Qe7-d6 + ?
+      1...Kd5-c4
+          2.Bb1-d3 #
     but
-      1...Kd5-c4 !
       1...Kd5*d6 !
 
    1.Qe7-g5 + ?
@@ -255,13 +254,8 @@ solution finished.
       1...Kd5-d6 !
 
    1.Qe7-e5 + ?
-      1...Kd5-c4
-          2.Bb1-d3 +
-              2...Kc4-b3
-                  3.Qe5-c3 #
-              2...Kc4-b4
-                  3.Qe5-c3 #
     but
+      1...Kd5-c4 !
       1...Kd5*e5 !
 
    1.Qe7-e6 + ?
@@ -269,10 +263,10 @@ solution finished.
       1...Kd5*e6 !
       1...Kd5-c5 !
 
-  add_to_move_generation_stack:      318034
-                     play_move:      117038
- is_white_king_square_attacked:       47887
- is_black_king_square_attacked:       94284
+  add_to_move_generation_stack:      226122
+                     play_move:       86604
+ is_white_king_square_attacked:       34272
+ is_black_king_square_attacked:       69097
 
 solution finished.
 
