@@ -753,7 +753,9 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[imitators])
+  // TODO there should be a more explicit mechanism that determines whether we have to execute
+  // the full move to the intermediate square
+  if (CondFlag[imitators] || CondFlag[influencer])
   {
     siblingply(trait[nbply]);
 

@@ -66,8 +66,8 @@ solution finished.
              Influencer
 
   1.Ra8-a2[a1=R] 0-0-0
-  add_to_move_generation_stack:          59
-                     play_move:          22
+  add_to_move_generation_stack:          61
+                     play_move:          24
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
 
@@ -212,8 +212,8 @@ solution finished.
       1...Kd5-e6[e5=P] !
       1...Kd5*e5 !
 
-  add_to_move_generation_stack:      278618
-                     play_move:       91645
+  add_to_move_generation_stack:      279508
+                     play_move:       92535
  is_white_king_square_attacked:       44675
  is_black_king_square_attacked:       68178
 
@@ -282,10 +282,10 @@ solution finished.
 
   1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] 0-0-0 #
   1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] Ra1-d1 #
-  add_to_move_generation_stack:       48378
-                     play_move:       25083
- is_white_king_square_attacked:        5374
- is_black_king_square_attacked:       24711
+  add_to_move_generation_stack:       48407
+                     play_move:       25112
+ is_white_king_square_attacked:        5368
+ is_black_king_square_attacked:       24705
 
 solution finished.
 
