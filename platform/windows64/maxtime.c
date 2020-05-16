@@ -1,9 +1,33 @@
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) && \
+    !(defined(__cplusplus) && (__cplusplus >= 201103L))
+#  if !defined(__STDC_LIMIT_MACROS)
+#    define __STDC_LIMIT_MACROS
+#  endif
+#endif
+
 #include "platform/maxtime_impl.h"
 #include <windows.h>
 #include "utilities/boolean.h"
 
 #include "debugging/assert.h"
-#include <limits.h>
+
+#if !defined(SIG_ATOMIC_MAX)
+#  if defined(__cplusplus) && (__cplusplus >= 201103L)
+#    include <cstdint>
+#  else
+#    if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+#      include <stdint.h>
+#    endif
+#    if !defined(SIG_ATOMIC_MAX)
+#      if defined(__cplusplus)
+#        include <climits>
+#      else
+#        include <limits.h>
+#      endif
+#      define SIG_ATOMIC_MAX INT_MAX /* What else?  At worst, this should be an underestimate. */
+#    endif
+#  endif
+#endif
 
 /* Implementation of option maxtime using Windows Multimedia timers
  */
@@ -70,7 +94,7 @@ static void CALLBACK tick(unsigned int timer_id,
    * handler ...
    */
 
-  if (periods_counter < INT_MAX)
+  if (periods_counter < SIG_ATOMIC_MAX)
     ++periods_counter;
 }
 

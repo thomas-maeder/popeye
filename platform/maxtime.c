@@ -1,6 +1,29 @@
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) && \
+    !(defined(__cplusplus) && (__cplusplus >= 201103L))
+#  if !defined(__STDC_LIMIT_MACROS)
+#    define __STDC_LIMIT_MACROS
+#  endif
+#endif
+
 #include "maxtime_impl.h"
 
-#include <limits.h>
+#if !defined(SIG_ATOMIC_MAX)
+#  if defined(__cplusplus) && (__cplusplus >= 201103L)
+#    include <cstdint>
+#  else
+#    if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+#      include <stdint.h>
+#    endif
+#    if !defined(SIG_ATOMIC_MAX)
+#      if defined(__cplusplus)
+#        include <climits>
+#      else
+#        include <limits.h>
+#      endif
+#      define SIG_ATOMIC_MAX INT_MAX /* What else?  At worst, this should be an underestimate. */
+#    endif
+#  endif
+#endif
 
 static maxtime_type maxTimeCommandLine = no_time_set;
 
@@ -10,7 +33,7 @@ static maxtime_type maxTimeOption = no_time_set;
 sig_atomic_t volatile periods_counter = 0;
 
 /* number of seconds after which solving is aborted */
-sig_atomic_t volatile nr_periods = INT_MAX;
+sig_atomic_t volatile nr_periods = SIG_ATOMIC_MAX;
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
