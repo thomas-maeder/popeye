@@ -41,16 +41,18 @@ void influencer_walk_changer_solve(slice_index si)
   for (k = vec_queen_start; k<=vec_queen_end; ++k)
   {
     square const sq_candidate = sq_arrival+vec[k];
-    if (TSTFLAG(being_solved.spec[sq_candidate],side_influenced))
+    if (TSTFLAG(being_solved.spec[sq_candidate],side_influenced)
+        && !TSTFLAG(being_solved.spec[sq_candidate],Royal))
     {
       boolean const prom_or_base = (TSTFLAG(sq_spec(sq_candidate),sq_prom)
                                     || TSTFLAG(sq_spec(sq_candidate),sq_base));
       piece_walk_type const walk_substitute = (prom_or_base
                                                ? walk_playing
                                                : Pawn);
-      move_effect_journal_do_walk_change(move_effect_reason_influencer,
-                                         sq_candidate,
-                                         walk_substitute);
+      if (walk_substitute!=get_walk_of_piece_on_square(sq_candidate))
+        move_effect_journal_do_walk_change(move_effect_reason_influencer,
+                                           sq_candidate,
+                                           walk_substitute);
     }
   }
 

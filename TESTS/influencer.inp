@@ -2,7 +2,7 @@ begin
 
 prot influencer.tst
 
-pieces white ba1 pb3 black rb1 pc3
+pieces white ba1 sb3 black rb1 sc3
 condition influencer
 stipulation zb21
 option nowk nobk duplex
@@ -14,6 +14,40 @@ pieces white ke1 ba1 black ra8b8
 condition influencer
 stipulation h001
 option nobk
+
+next
+
+pieces white kc4 bc8e5 sb5 black kc6 rb6b7 bc7
+stipulation #2
+condition influencer
+option vari
+
+next
+
+pieces white kh6 rd5 ba5 black kh8 bg8 pd6e7
+stipulation #2
+condition influencer
+option vari
+
+next
+
+pieces white ke1 qe7 ra1 bb1 pb2b5e2e3 black kd5 ra8
+stipulation #3
+condition influencer
+option vari try defence 3
+
+next
+
+pieces white kc6 sb3 pa2 black ka4 ba6 pa3b4b5c7
+stipulation #2
+condition influencer
+option vari nothr
+
+next
+
+pieces white ke1 ba3f3 sa1 pb3f2 black kd3 ra8 sg1
+stipulation h#2
+condition influencer
 
 end
 
