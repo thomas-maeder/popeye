@@ -446,6 +446,7 @@ static void write_walk_change(output_plaintext_move_context_type *context,
       break;
 
     case move_effect_reason_snek:
+    case move_effect_reason_influencer:
     {
       square const on = move_effect_journal[curr].u.piece_walk_change.on;
       piece_walk_type const to = move_effect_journal[curr].u.piece_walk_change.to;

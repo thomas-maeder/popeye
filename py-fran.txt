@@ -257,6 +257,7 @@ simples:
 	ReflexionCentrale
 	Bolero
 	BoleroInverse
+	Influenceur
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

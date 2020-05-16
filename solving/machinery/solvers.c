@@ -24,6 +24,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
+#include "conditions/influencer.h"
 #include "conditions/extinction.h"
 #include "conditions/madrasi.h"
 #include "conditions/partial_paralysis.h"
@@ -340,6 +341,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[masand])
     solving_insert_masand(si);
+
+  if (CondFlag[influencer])
+    solving_insert_influencer(si);
 
   if (CondFlag[masand_generalised])
     solving_insert_masand_generalised(si);

@@ -947,7 +947,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*209*/ "AnnanEchecs",
     /*210*/ "MasandGeneralise",
     /*211*/ "Bolero",
-    /*212*/ "BoleroInverse"
+    /*212*/ "BoleroInverse",
+    /*213*/ "Influenceur"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1162,7 +1163,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*209*/ "Nannaschach",
     /*210*/ "MasandVerallgemeinert",
     /*211*/ "Bolero",
-    /*212*/ "BoleroInvers"
+    /*212*/ "BoleroInvers",
+    /*213*/ "Influencer"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1377,7 +1379,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*209*/ "NannaChess",
     /*210*/ "MasandGeneralised",
     /*211*/ "Bolero",
-    /*212*/ "BoleroInverse"
+    /*212*/ "BoleroInverse",
+    /*213*/ "Influencer"
   }
 };
 
