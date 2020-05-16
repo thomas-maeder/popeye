@@ -41,7 +41,7 @@ solution finished.
 
 
 
-1.Rb8-b2[a1=R] 0-0-0 doesn't solve because of self-check by newborn bPb2
+no self-check after 1.Rb8-b2[a1=R] 0-0-0 - royal pieces don't influence
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -66,16 +66,16 @@ solution finished.
              Influencer
 
   1.Ra8-a2[a1=R] 0-0-0
+  1.Rb8-b2[a1=R] 0-0-0
   add_to_move_generation_stack:          61
                      play_move:          24
- is_white_king_square_attacked:           8
+ is_white_king_square_attacked:           9
  is_black_king_square_attacked:           0
 
 solution finished.
 
 
 
-in a), 1.000 is illegal because the wK would be in check after moving to d1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -99,22 +99,11 @@ in a), 1.000 is illegal because the wK would be in check after moving to d1
   zc11                        2 + 1
              Influencer
 
-a) 
-
-   1.Ra1-c1 z !
-
-  add_to_move_generation_stack:          16
-                     play_move:           2
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           0
-
-b) +wpBf1  
-
    1.Ra1-c1 z !
 
    1.0-0-0[e2=P] z !
 
-  add_to_move_generation_stack:          19
+  add_to_move_generation_stack:          17
                      play_move:           3
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
@@ -151,9 +140,9 @@ solution finished.
           2.a7*b8=S #
 
   add_to_move_generation_stack:         829
-                     play_move:         328
+                     play_move:         324
  is_white_king_square_attacked:          95
- is_black_king_square_attacked:         331
+ is_black_king_square_attacked:         327
 
 solution finished.
 
@@ -218,29 +207,41 @@ solution finished.
   #3                          8 + 2
              Influencer
 
-   1.Ra1*a8 ? zugzwang.
-    but
-      1...Kd5-c4 !
-      1...Kd5-e6[e7=P] !
-      1...Kd5-d6[e7=P] !
+   1.Ra1*a8 ! threat:
+          2.Bb1-a2 #
+      1...Kd5-c4
+          2.Bb1-d3 +
+              2...Kc4-b3
+                  3.Qe7-a3 #
+              2...Kc4-d5
+                  3.Ra8-d8 #
 
    1.Bb1-e4 + ?
     but
       1...Kd5-c4 !
-      1...Kd5-e6[e7=P] !
-      1...Kd5-d6[e7=P] !
 
    1.Bb1-a2 + ?
+      1...Ra8-a3[a2=P]
+          2.b2-b4[a3=P] zugzwang.
+              2...Kd5-c4
+                  3.Qe7-c5 #
     but
-      1...Kd5-d6[e7=P] !
       1...Ra8*a2 !
-      1...Ra8-a3[a2=P] !
+
+   1.e3-e4 + ?
+    but
+      1...Kd5-c4 !
+      1...Kd5-d4 !
 
    1.Qe7-c5 + ?
     but
-      1...Kd5-c4[c5=P] !
       1...Kd5-e6 !
       1...Kd5*c5 !
+
+   1.Qe7-d6 + ?
+    but
+      1...Kd5-c4 !
+      1...Kd5*d6 !
 
    1.Qe7-g5 + ?
     but
@@ -252,18 +253,26 @@ solution finished.
     but
       1...Kd5-c5 !
       1...Kd5-d6 !
-      1...Kd5-e5[e4=P] !
 
    1.Qe7-e5 + ?
+      1...Kd5-c4
+          2.Bb1-d3 +
+              2...Kc4-b3
+                  3.Qe5-c3 #
+              2...Kc4-b4
+                  3.Qe5-c3 #
     but
-      1...Kd5-c4 !
-      1...Kd5-e6[e5=P] !
       1...Kd5*e5 !
 
-  add_to_move_generation_stack:      279508
-                     play_move:       92535
- is_white_king_square_attacked:       44675
- is_black_king_square_attacked:       68178
+   1.Qe7-e6 + ?
+    but
+      1...Kd5*e6 !
+      1...Kd5-c5 !
+
+  add_to_move_generation_stack:      318034
+                     play_move:      117038
+ is_white_king_square_attacked:       47887
+ is_black_king_square_attacked:       94284
 
 solution finished.
 
@@ -299,8 +308,8 @@ solution finished.
       1...Bd8-f6
           2.Sd3-c5 #
 
-   1.Kb2-a2[a3=P] ! threat:
-          2.Sd3-b2 #
+   1.Kb2-a2 ! threat:
+          2.Sd3-b2[a3=P] #
       1...Bd8-g5
           2.Sd3-c5 #
 
@@ -308,10 +317,10 @@ solution finished.
     but
       1...Bd8-b6[c5=P] !
 
-  add_to_move_generation_stack:         835
-                     play_move:         602
- is_white_king_square_attacked:          95
- is_black_king_square_attacked:         589
+  add_to_move_generation_stack:         890
+                     play_move:         652
+ is_white_king_square_attacked:          97
+ is_black_king_square_attacked:         639
 
 solution finished.
 
@@ -337,17 +346,25 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  #2                          3 + 6
+  #6                          3 + 6
              Influencer
 
    1.Sb3-c5 + !
       1...Ka4-a5
-          2.Sc5-b3 #
+          2.Sc5-b7[a6=P] +
+              2...Ka5-a4
+                  3.Sb7-c5 +
+                      3...Ka4-a5
+                          4.Sc5-b3 +
+                              4...Ka5-a4
+                                  5.Kc6*c7
+                                      5...a6-a5
+                                          6.Sb3-c5 #
 
-  add_to_move_generation_stack:         125
-                     play_move:          88
- is_white_king_square_attacked:          29
- is_black_king_square_attacked:          90
+  add_to_move_generation_stack:      843141
+                     play_move:      636627
+ is_white_king_square_attacked:      542004
+ is_black_king_square_attacked:      102028
 
 solution finished.
 
@@ -377,11 +394,10 @@ solution finished.
              Influencer
 
   1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] 0-0-0 #
-  1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] Ra1-d1 #
-  add_to_move_generation_stack:       48407
-                     play_move:       25112
- is_white_king_square_attacked:        5368
- is_black_king_square_attacked:       24705
+  add_to_move_generation_stack:       49758
+                     play_move:       25096
+ is_white_king_square_attacked:        5480
+ is_black_king_square_attacked:       24688
 
 solution finished.
 
