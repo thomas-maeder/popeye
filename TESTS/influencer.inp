@@ -9,7 +9,7 @@ option nowk nobk duplex
 
 next
 
-title 1.Rb8-b2[a1=R] 0-0-0 doesn't solve because of self-check by newborn bPb2
+title no self-check after 1.Rb8-b2[a1=R] 0-0-0 - royal pieces don't influence
 pieces white ke1 ba1 black ra8b8
 condition influencer
 stipulation h001
@@ -17,12 +17,10 @@ option nobk
 
 next
 
-title in a), 1.000 is illegal because the wK would be in check after moving to d1
 pieces white ke1 ra1 black due2
 stip zc11
 condition influencer
 option nobk
-twin add white paralysing bf1
 
 next
 
@@ -55,9 +53,9 @@ option set vari try
 next
 
 pieces white kc6 sb3 pa2 black ka4 ba6 pa3b4b5c7
-stipulation #2
+stipulation #6
 condition influencer
-option vari nothr
+option try vari nothr
 
 next
 
