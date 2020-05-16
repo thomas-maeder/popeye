@@ -2,6 +2,7 @@
 #include "position/effects/walk_change.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "position/effects/utils.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
 
@@ -42,7 +43,11 @@ void influencer_walk_changer_solve(slice_index si)
     if (move_effect_journal[curr].type==move_effect_piece_movement
         && !TSTFLAG(move_effect_journal[curr].u.piece_movement.movingspec,Royal))
     {
-      square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
+      PieceIdType const moving_id = GetPieceId(move_effect_journal[curr].u.piece_movement.movingspec);
+      square const sq_to = move_effect_journal[curr].u.piece_movement.to;
+      square const sq_arrival = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                       moving_id,
+                                                                                       sq_to);
       piece_walk_type const walk_moving = move_effect_journal[curr].u.piece_movement.moving;
       vec_index_type k;
 
