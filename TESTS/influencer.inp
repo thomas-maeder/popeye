@@ -1,0 +1,19 @@
+begin
+
+prot influencer.tst
+
+pieces white ba1 pb3 black rb1 pc3
+condition influencer
+stipulation zb21
+option nowk nobk duplex
+
+next
+
+title 1.Rb8-b2[a1=R] 0-0-0 doesn't solve because of self-check by newborn bPb2
+pieces white ke1 ba1 black ra8b8
+condition influencer
+stipulation h001
+option nobk
+
+end
+
