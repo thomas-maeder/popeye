@@ -272,6 +272,54 @@ solution finished.
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
+8   .   .   .  -B   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4  -K  -P   .  -P   .   .   .   .   4
+|                                   |
+3  -S   S   .   S   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 6
+             Influencer
+
+      1...Bd8-h4
+          2.Sd3-c5 #
+      1...Bd8-g5
+          2.Sd3-c5 #
+      1...Bd8-f6
+          2.Sd3-c5 #
+
+   1.Kb2-a2[a3=P] ! threat:
+          2.Sd3-b2 #
+      1...Bd8-g5
+          2.Sd3-c5 #
+
+   1.Sd3-c5 + ?
+    but
+      1...Bd8-b6[c5=P] !
+
+  add_to_move_generation_stack:         835
+                     play_move:         602
+ is_white_king_square_attacked:          95
+ is_black_king_square_attacked:         589
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
 7   .   .  -P   .   .   .   .   .   7

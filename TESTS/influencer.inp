@@ -47,6 +47,13 @@ option vari try defence 3
 
 next
 
+pieces white kb2 sb3d3 black ka4 bd8 sa3 pb4b5d4
+stipulation #2
+condition influencer
+option set vari try
+
+next
+
 pieces white kc6 sb3 pa2 black ka4 ba6 pa3b4b5c7
 stipulation #2
 condition influencer
