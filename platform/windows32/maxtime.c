@@ -70,7 +70,8 @@ static void CALLBACK tick(unsigned int timer_id,
    * handler ...
    */
 
-  ++periods_counter;
+  if (periods_counter < INT_MAX)
+    ++periods_counter;
 }
 
 /* Attempt to set up a new timer for timing out solving after a number
