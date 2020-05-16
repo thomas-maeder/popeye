@@ -38,7 +38,7 @@ option vari
 
 next
 
-pieces white ke1 qe7 ra1 bb1 pb2b5e2e3 black kd5 ra8
+pieces white ke1 qe7 sa1 bb1 pb2b5e2e3 black kd5 ra8
 stipulation #3
 condition influencer
 option vari try defence 3
