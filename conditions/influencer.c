@@ -25,36 +25,46 @@
 void influencer_walk_changer_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  piece_walk_type const walk_playing = move_effect_journal[movement].u.piece_movement.moving;
+  move_effect_journal_index_type curr;
+
   Side const side_playing = trait[nbply];
   Side const side_influenced = advers(side_playing);
   SquareFlags const sq_prom = side_influenced==White ? WhPromSq : BlPromSq;
   SquareFlags const sq_base = side_influenced==White ? WhBaseSq : BlBaseSq;
-  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (k = vec_queen_start; k<=vec_queen_end; ++k)
-  {
-    square const sq_candidate = sq_arrival+vec[k];
-    if (TSTFLAG(being_solved.spec[sq_candidate],side_influenced)
-        && !TSTFLAG(being_solved.spec[sq_candidate],Royal))
+  for (curr = movement; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
-      boolean const prom_or_base = (TSTFLAG(sq_spec(sq_candidate),sq_prom)
-                                    || TSTFLAG(sq_spec(sq_candidate),sq_base));
-      piece_walk_type const walk_substitute = (prom_or_base
-                                               ? walk_playing
-                                               : Pawn);
-      if (walk_substitute!=get_walk_of_piece_on_square(sq_candidate))
-        move_effect_journal_do_walk_change(move_effect_reason_influencer,
-                                           sq_candidate,
-                                           walk_substitute);
+      square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
+      piece_walk_type const walk_moving = move_effect_journal[curr].u.piece_movement.moving;
+      vec_index_type k;
+
+      for (k = vec_queen_start; k<=vec_queen_end; ++k)
+      {
+        square const sq_candidate = sq_arrival+vec[k];
+
+        if (TSTFLAG(being_solved.spec[sq_candidate],side_influenced)
+            && !TSTFLAG(being_solved.spec[sq_candidate],Royal))
+        {
+          boolean const prom_or_base = (TSTFLAG(sq_spec(sq_candidate),sq_prom)
+                                        || TSTFLAG(sq_spec(sq_candidate),sq_base));
+          piece_walk_type const walk_substitute = (prom_or_base
+                                                   ? walk_moving
+                                                   : Pawn);
+
+          if (walk_substitute!=get_walk_of_piece_on_square(sq_candidate))
+            move_effect_journal_do_walk_change(move_effect_reason_influencer,
+                                               sq_candidate,
+                                               walk_substitute);
+        }
+      }
     }
-  }
 
   pipe_solve_delegate(si);
 

@@ -75,6 +75,54 @@ solution finished.
 
 
 
+in a), 1.000 is illegal because the wK would be in check after moving to d1
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   . -DU   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zc11                        2 + 1
+             Influencer
+
+a) 
+
+   1.Ra1-c1 z !
+
+  add_to_move_generation_stack:          16
+                     play_move:           2
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           0
+
+b) +wpBf1  
+
+   1.Ra1-c1 z !
+
+   1.0-0-0[e2=P] z !
+
+  add_to_move_generation_stack:          19
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
