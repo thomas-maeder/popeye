@@ -63,5 +63,13 @@ pieces white ke1 ba3f3 sa1 pb3f2 black kd3 ra8 sg1
 stipulation h#2
 condition influencer
 
+next
+
+pieces neutral rc3 sb3 rf6 bg6 white rc3 sb4g7 black rf6 sc4g5
+stipulation zf61
+condition messigny influencer
+option nowk nobk duplex
+twin add neutral rc3 rf6
+
 end
 
