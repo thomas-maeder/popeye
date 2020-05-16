@@ -102,6 +102,7 @@ static slice_index const move_slice_rank_order[] =
     STStrictSATUpdater,
     STMasandRecolorer,
     STMasandGeneralisedRecolorer,
+    STInfluencerWalkChanger,
     STLostPiecesRemover,
     STLandingAfterMovePlay,
     STMoveCounter,

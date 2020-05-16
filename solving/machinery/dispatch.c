@@ -42,6 +42,7 @@
 #include "conditions/circe/relevant_piece.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/influencer.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
@@ -1024,6 +1025,10 @@ void dispatch(slice_index si)
 
     case STMasandGeneralisedRecolorer:
       masand_generalised_recolorer_solve(si);
+      break;
+
+    case STInfluencerWalkChanger:
+      influencer_walk_changer_solve(si);
       break;
 
     case STActuatedRevolvingCentre:

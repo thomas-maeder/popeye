@@ -231,8 +231,9 @@ typedef enum
   masand_generalised,     /* 210 */
   bolero,                 /* 211 */
   bolero_inverse,         /* 212 */
+  influencer,             /* 213 */
 
-  CondCount               /* 213 */
+  CondCount               /* 214 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

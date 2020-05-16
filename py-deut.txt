@@ -260,6 +260,7 @@ Kommandos:
 	Punktspiegelung
 	Bolero
 	BoleroInvers
+	Influencer
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
