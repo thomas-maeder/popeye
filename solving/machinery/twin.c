@@ -1642,20 +1642,16 @@ void verify_position(slice_index si)
   }
 
   {
-    Cond const walk_changing_conditions[] =
+    Cond const moving_piece_walk_changing_conditions[] =
     {
-        singlebox,
-        kobulkings,
         vault_king,
+        trans_king,
         degradierung,
         football,
         norsk,
-        protean,
-        snekchess,
-        snekcirclechess,
-        influencer
+        protean
     };
-    enum { nr_walk_changing_conditions = sizeof walk_changing_conditions / sizeof walk_changing_conditions[0] };
+    enum { nr_walk_changing_conditions = sizeof moving_piece_walk_changing_conditions / sizeof moving_piece_walk_changing_conditions[0] };
 
     piece_flag_type const walk_changing_piece_flags[] =
     {
@@ -1667,11 +1663,36 @@ void verify_position(slice_index si)
     unsigned int i;
 
     for (i = 0; i!=nr_walk_changing_conditions; ++i)
-      if (CondFlag[walk_changing_conditions[i]])
+      if (CondFlag[moving_piece_walk_changing_conditions[i]])
         ++nr_walk_changing_elements;
 
     for (i = 0; i!=nr_walk_changing_piece_flags; ++i)
       if (TSTFLAG(all_pieces_flags,CondFlag[walk_changing_piece_flags[i]]))
+        ++nr_walk_changing_elements;
+
+    if (nr_walk_changing_elements>1)
+    {
+      output_plaintext_verifie_message(IncompatibleWalkChangingElements);
+      return;
+    }
+  }
+
+  {
+    Cond const other_piece_walk_changing_conditions[] =
+    {
+        singlebox,
+        kobulkings,
+        snekchess,
+        snekcirclechess,
+        influencer
+    };
+    enum { nr_walk_changing_conditions = sizeof other_piece_walk_changing_conditions / sizeof other_piece_walk_changing_conditions[0] };
+
+    unsigned int nr_walk_changing_elements = 0;
+    unsigned int i;
+
+    for (i = 0; i!=nr_walk_changing_conditions; ++i)
+      if (CondFlag[other_piece_walk_changing_conditions[i]])
         ++nr_walk_changing_elements;
 
     if (nr_walk_changing_elements>1)
