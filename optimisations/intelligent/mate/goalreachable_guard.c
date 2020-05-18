@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "solving/move_generator.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
@@ -81,79 +82,87 @@ static boolean mate_isGoalReachable(void)
     }
     else
     {
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-      square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-      PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
       MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];
       OpeningsRequired[nbply] = OpeningsRequired[parent_ply[nbply]];
 
-      if (nr_reasons_for_staying_empty[sq_departure]>0)
+      if (is_null_move(CURRMOVE_OF_PLY(nbply)))
       {
-        assert(OpeningsRequired[nbply]>0);
-        --OpeningsRequired[nbply];
+        /* no adjustment */
       }
-      if (move_effect_journal[capture].type==move_effect_piece_removal
-          && nr_reasons_for_staying_empty[sq_capture]>0)
+      else
       {
-        assert(OpeningsRequired[nbply]>0);
-        --OpeningsRequired[nbply];
-      }
-      if (nr_reasons_for_staying_empty[sq_arrival]>0)
-        ++OpeningsRequired[nbply];
+        move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+        square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+        square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+        PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
-      if (target_position[id].diagram_square!=initsquare)
-      {
-        unsigned int time_before;
-        unsigned int time_now;
-        piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
-        piece_walk_type const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
-        Side const side_arrived = TSTFLAG(being_solved.spec[sq_arrival],White) ? White : Black;
-        if (trait[nbply]==White
-            && white[PieceId2index[id]].usage==piece_gives_check)
+        if (nr_reasons_for_staying_empty[sq_departure]>0)
         {
-          square const save_king_square = being_solved.king_square[Black];
-          PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
-          being_solved.king_square[Black] = target_position[id_king].diagram_square;
-          time_before = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
-                                                                       pi_departing,
-                                                                       sq_departure,
-                                                                       target_position[id].type,
-                                                                       target_position[id].diagram_square);
-          being_solved.king_square[Black] = save_king_square;
+          assert(OpeningsRequired[nbply]>0);
+          --OpeningsRequired[nbply];
         }
-        else
-          time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
-                                                                       pi_departing,
-                                                                       sq_departure,
-                                                                       target_position[id].type,
-                                                                       target_position[id].diagram_square);
-
-        if (trait[nbply]==White
-            && white[PieceId2index[id]].usage==piece_gives_check
-            && MovesLeft[White]>0)
+        if (move_effect_journal[capture].type==move_effect_piece_removal
+            && nr_reasons_for_staying_empty[sq_capture]>0)
         {
-          square const save_king_square = being_solved.king_square[Black];
-          PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
-          being_solved.king_square[Black] = target_position[id_king].diagram_square;
-          time_now = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
-                                                                    pi_arrived,
-                                                                    sq_arrival,
-                                                                    target_position[id].type,
-                                                                    target_position[id].diagram_square);
-          being_solved.king_square[Black] = save_king_square;
+          assert(OpeningsRequired[nbply]>0);
+          --OpeningsRequired[nbply];
         }
-        else
-          time_now = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
-                                                                    pi_arrived,
-                                                                    sq_arrival,
-                                                                    target_position[id].type,
-                                                                    target_position[id].diagram_square);
+        if (nr_reasons_for_staying_empty[sq_arrival]>0)
+          ++OpeningsRequired[nbply];
 
-        assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
-        MovesRequired[trait[nbply]][nbply] += time_now-time_before;
+        if (target_position[id].diagram_square!=initsquare)
+        {
+          unsigned int time_before;
+          unsigned int time_now;
+          piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+          piece_walk_type const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
+          Side const side_arrived = TSTFLAG(being_solved.spec[sq_arrival],White) ? White : Black;
+          if (trait[nbply]==White
+              && white[PieceId2index[id]].usage==piece_gives_check)
+          {
+            square const save_king_square = being_solved.king_square[Black];
+            PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
+            being_solved.king_square[Black] = target_position[id_king].diagram_square;
+            time_before = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
+                                                                         pi_departing,
+                                                                         sq_departure,
+                                                                         target_position[id].type,
+                                                                         target_position[id].diagram_square);
+            being_solved.king_square[Black] = save_king_square;
+          }
+          else
+            time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                         pi_departing,
+                                                                         sq_departure,
+                                                                         target_position[id].type,
+                                                                         target_position[id].diagram_square);
+
+          if (trait[nbply]==White
+              && white[PieceId2index[id]].usage==piece_gives_check
+              && MovesLeft[White]>0)
+          {
+            square const save_king_square = being_solved.king_square[Black];
+            PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
+            being_solved.king_square[Black] = target_position[id_king].diagram_square;
+            time_now = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
+                                                                      pi_arrived,
+                                                                      sq_arrival,
+                                                                      target_position[id].type,
+                                                                      target_position[id].diagram_square);
+            being_solved.king_square[Black] = save_king_square;
+          }
+          else
+            time_now = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                      pi_arrived,
+                                                                      sq_arrival,
+                                                                      target_position[id].type,
+                                                                      target_position[id].diagram_square);
+
+          assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
+          MovesRequired[trait[nbply]][nbply] += time_now-time_before;
+        }
       }
     }
 
