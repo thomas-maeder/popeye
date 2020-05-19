@@ -22,11 +22,15 @@
 #endif
 #include <stdlib.h>
 
-/* protocol_close() returns an int, but we
-   need a function returning void for atexit. */
-static void close_protocol_file(void)
+/* release whatever resources may have been acquired;
+ * these functions must be safe to call regardless of
+ * what has happened! */
+static void release_all_resources(void)
 {
   protocol_close();
+#if defined(FXF)
+  fxfTeardown();
+#endif
 }
 
 /* Check assumptions made throughout the program. Abort if one of them
@@ -58,12 +62,6 @@ static void checkGlobalAssumptions(void)
 
 int main(int argc, char *argv[])
 {
-  /* Ensure that various resources are released at program exit. */
-#if defined(FXF)
-  atexit(&fxfTeardown);
-#endif
-  atexit(&close_protocol_file);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",argc);
   for (int i = 0; i < argc; ++i)
@@ -72,6 +70,9 @@ int main(int argc, char *argv[])
     TraceFunctionParam("%s",argv[i]);
   }
   TraceFunctionParamListEnd();
+
+  /* Ensure that various resources are released at program exit. */
+  atexit(&release_all_resources);
 
   checkGlobalAssumptions();
 
