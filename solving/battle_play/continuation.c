@@ -6,7 +6,7 @@
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
-
+#include "solving/incomplete.h"
 #include "debugging/assert.h"
 
 /* Allocate a STContinuationSolver defender slice.
@@ -59,11 +59,11 @@ void continuation_solver_solve(slice_index si)
       solve_nr_remaining = solve_result;
     pipe_solve_delegate(si);
 
-    if (problem_solving_completeness(interruption)==solving_complete) /* TODO: This conditional was added when it was pointed out (in Issue #284)     */
-      assert(solve_result==test_result);                              /* that running out of time could cause the assert to fail.  Is this the right  */
-    else                                                              /* check for that situation?  Should a new check be created?  Are there other   */
-      solve_result = test_result;                                     /* effects of running out of time that should be dealt with?  Is the assignment */
-                                                                      /* in the else branch necessary?                                                */
+    if (problem_solving_completeness(si /* TODO: What should REALLY go here? */)==solving_complete) /* TODO: This conditional was added when it was pointed out (in Issue #284)     */
+      assert(solve_result==test_result);                                                            /* that running out of time could cause the assert to fail.  Is this the right  */
+    else                                                                                            /* check for that situation?  Should a new check be created?  Are there other   */
+      solve_result = test_result;                                                                   /* effects of running out of time that should be dealt with?  Is the assignment */
+                                                                                                    /* in the else branch necessary?                                                */
     solve_nr_remaining = save_solve_nr_remaining;
   }
 
