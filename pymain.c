@@ -1,5 +1,6 @@
 #include "optimisations/hash.h"
 #include "solving/moves_traversal.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "platform/priority.h"
@@ -16,6 +17,17 @@
 #include "input/plaintext/token.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
+#if defined(FXF)
+#include "DHT/fxf.h"
+#endif
+#include <stdlib.h>
+
+/* protocol_close() returns an int, but we
+   need a function returning void for atexit. */
+static void close_protocol_file(void)
+{
+  protocol_close();
+}
 
 /* Check assumptions made throughout the program. Abort if one of them
  * isn't met. */
@@ -46,6 +58,12 @@ static void checkGlobalAssumptions(void)
 
 int main(int argc, char *argv[])
 {
+  /* Ensure that various resources are released at program exit. */
+#if defined(FXF)
+  atexit(&fxfTeardown);
+#endif
+  atexit(&close_protocol_file);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",argc);
   for (int i = 0; i < argc; ++i)
