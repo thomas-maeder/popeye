@@ -290,9 +290,6 @@ size_t fxfInit(size_t Size) {
 
 void fxfTeardown(void)
 {
-#if defined(LOG)
-  static char const * const myname= "fxfTeardown";
-#endif /*LOG*/
 #if defined(SEGMENTED)
   while (ArenaSegCnt > 0)
   {
