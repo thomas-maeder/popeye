@@ -457,3 +457,39 @@ b) nRc3  nRf6
 solution finished.
 
 
+
+Kh3 becomes royal and is in check from (non-royal) Kh4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zb51                        2 + 2
+            RoyalDynasty
+             Influencer
+
+   1.Ka4-b5[c5=P] + z !
+
+  add_to_move_generation_stack:          10
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
