@@ -3,6 +3,7 @@
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/machinery/slack_length.h"
+#include "platform/maxtime.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
@@ -59,11 +60,9 @@ void continuation_solver_solve(slice_index si)
       solve_nr_remaining = solve_result;
     pipe_solve_delegate(si);
 
-    if (problem_solving_completeness(si /* TODO: What should REALLY go here? */)==solving_complete) /* TODO: This conditional was added when it was pointed out (in Issue #284)     */
-      assert(solve_result==test_result);                                                            /* that running out of time could cause the assert to fail.  Is this the right  */
-    else                                                                                            /* check for that situation?  Should a new check be created?  Are there other   */
-      solve_result = test_result;                                                                   /* effects of running out of time that should be dealt with?  Is the assignment */
-                                                                                                    /* in the else branch necessary?                                                */
+    assert(solve_result==test_result
+           || platform_has_maxtime_elapsed());
+
     solve_nr_remaining = save_solve_nr_remaining;
   }
 
