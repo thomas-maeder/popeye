@@ -71,5 +71,12 @@ condition messigny influencer
 option nowk nobk duplex
 twin add neutral rc3 rf6
 
+next
+
+title Kh3 becomes royal and is in check from (non-royal) Kh4
+pieces white ka4h4 black kc5h3
+stipulation zb51
+condition royaldynasty influencer
+
 end
 
