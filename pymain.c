@@ -20,6 +20,7 @@
 #if defined(FXF)
 #include "DHT/fxf.h"
 #endif
+#include <stdio.h>
 #include <stdlib.h>
 
 /* release whatever resources may have been acquired;
@@ -27,7 +28,8 @@
  * what has happened! */
 static void release_all_resources(void)
 {
-  protocol_close();
+  if (protocol_close())
+    perror(__func__);
 #if defined(FXF)
   fxfTeardown();
 #endif
