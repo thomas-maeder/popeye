@@ -7,7 +7,6 @@
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
-#include "solving/incomplete.h"
 #include "debugging/assert.h"
 
 /* Allocate a STContinuationSolver defender slice.

@@ -20,7 +20,7 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/battle_play/branch.h solving/machinery/slack_length.h \
  platform/maxtime.h solving/pipe.h solving/fork.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/incomplete.h debugging/assert.h
+ debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -107,8 +107,6 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
-
-solving/incomplete.h:
 
 debugging/assert.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
