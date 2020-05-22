@@ -18,7 +18,7 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/battle_play/branch.h solving/machinery/slack_length.h \
- solving/pipe.h solving/fork.h solving/observation.h \
+ platform/maxtime.h solving/pipe.h solving/fork.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
  debugging/assert.h
 
@@ -93,6 +93,8 @@ stipulation/pipe.h:
 stipulation/battle_play/branch.h:
 
 solving/machinery/slack_length.h:
+
+platform/maxtime.h:
 
 solving/pipe.h:
 
