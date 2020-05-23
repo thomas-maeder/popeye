@@ -55,7 +55,7 @@ void move_numbers_write_history(ply top_ply)
 void reset_restart_number(void)
 {
   ply ply;
-  for (ply = ply_retro_move+1; ply<=maxply; ++ply)
+  for (ply = ply_retro_move; ply<=maxply; ++ply)
   {
     RestartNbr[ply] = 0;
     MoveNbr[ply] = 1;
@@ -66,7 +66,7 @@ void reset_restart_number(void)
 
 unsigned int get_restart_number(void)
 {
-  return RestartNbr[ply_retro_move+1];
+  return RestartNbr[ply_retro_move];
 }
 
 /* Interpret maxmem command line parameter value
@@ -76,7 +76,7 @@ boolean read_restart_number(char const *optionValue)
 {
   boolean result = false;
 
-  ply ply = ply_retro_move+1;
+  ply ply = ply_retro_move;
   char *end;
 
   while (1)
@@ -103,7 +103,7 @@ boolean read_restart_number(char const *optionValue)
 
 static void WriteMoveNbr(slice_index si)
 {
-  if (MoveNbr[nbply]>=RestartNbr[nbply])
+  if (MoveNbr[nbply]>=RestartNbr[parent_ply[nbply]])
   {
     protocol_fprintf(stdout,"\n%3u  (", MoveNbr[nbply]);
     output_plaintext_write_move(&output_plaintext_engine,
@@ -146,7 +146,7 @@ void restart_guard_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
+  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]]);
 
   MoveNbr[nbply+1] = 0;
 
@@ -180,7 +180,7 @@ void restart_guard_nested_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
+  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]]);
 
   MoveNbr[nbply+1] = 0;
 
