@@ -84,6 +84,7 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(pos);
   entry->u.handle_ghost.ghost.flags = being_solved.spec[pos];
 
+  TraceValue("%u",nbply);
   TraceSquare(entry->u.handle_ghost.ghost.on);
   TraceWalk(entry->u.handle_ghost.ghost.walk);
   TraceValue("%u",GetPieceId(entry->u.handle_ghost.ghost.flags));
@@ -366,6 +367,18 @@ void circe_parachute_initialise_solving(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Initialise the move effect (un|re)doers for Circe Volcanic
+ */
+void circe_volcanic_initialise_effect_doers(void)
+{
+  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_remember,
+                                       &move_effect_journal_redo_circe_volcanic_remember);
+  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_swap,
+                                       &move_effect_journal_redo_circe_volcanic_swap);
+}
+
 /* Initialise the solving machinery with Circe Volcanic
  * @param si identifies root slice of stipulation
  * @param interval_start start of the slices interval to be initialised
@@ -380,12 +393,7 @@ void circe_volcanic_initialise_solving(slice_index si,
 
   haunted_chess_initialise_move_doers();
 
-  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
-                                       &move_effect_journal_undo_circe_volcanic_remember,
-                                       &move_effect_journal_redo_circe_volcanic_remember);
-  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
-                                       &move_effect_journal_undo_circe_volcanic_swap,
-                                       &move_effect_journal_redo_circe_volcanic_swap);
+  circe_volcanic_initialise_effect_doers();
 
   circe_insert_rebirth_avoider(si,
                                interval_start,

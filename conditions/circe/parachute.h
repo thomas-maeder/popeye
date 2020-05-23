@@ -81,6 +81,10 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
 void circe_parachute_initialise_solving(slice_index si,
                                         slice_type interval_start);
 
+/* Initialise the move effect (un|re)doers for Circe Volcanic
+ */
+void circe_volcanic_initialise_effect_doers(void);
+
 /* Initialise the solving machinery with Circe Volcanic
  * @param si identifies root slice of stipulation
  * @param interval_start start of the slices interval to be initialised

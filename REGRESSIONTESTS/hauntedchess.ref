@@ -292,3 +292,39 @@ b1 already occupied - old piece goes to the underworld.
 solution finished.
 
 
+
+           Zbigniew Szcep
+Sake, Portoroz 2002, 2eme Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   .   B   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2  -S  -P   .   .   .   .   .  -P   2
+|                                   |
+1   .  -B  -K   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         3 + 6
+            Uncapturable
+            HauntedChess
+
+  1.h2-h1=Q + Be4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Bh1-a8[+bQh1]   4.Qh1*a8 Ke2-d2   5.Qa8-a3[+wBa8] Ba8-d5 #
+  add_to_move_generation_stack:   161657522
+                     play_move:   135645085
+ is_white_king_square_attacked:    34961698
+ is_black_king_square_attacked:   110996752
+
+solution finished.
+
+
