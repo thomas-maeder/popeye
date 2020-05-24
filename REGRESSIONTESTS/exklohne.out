@@ -4903,3 +4903,268 @@ Ohneschach-Anomalie !
 Loesung beendet.
 
 
+
+            Franz Palatz
+        Funkschach, 24.1.1926
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   L   7
+|                                   |
+6   .   .   .   .   .  -S   .   B   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 5
+             OhneSchach
+
+  1  (Sh1-g3 )
+  2  (Sh1-f2 )
+  3  (c3-c2 )
+  4  (Kd5-c4 )
+  5  (Kd5-e4 )
+  6  (Kd5-e6 )
+  7  (Kd5-c6 )
+  8  (Kd5-d4 )
+  9  (Kd5-c5 )
+ 10  (Kd5-d6 )
+ 11  (Kd5-e5 )
+ 12  (Sf6-e4 )
+ 13  (Sf6-g4 )
+ 14  (Sf6-h5 )
+ 15  (Sf6*h7 )
+ 16  (Sf6-g8 )
+  1.Sf6-g8 Lh7-b1   2.c3-c2 h6-h7   3.c2*b1=L h7*g8=S   4.Lb1-e4 Sg8-e7 kann nicht entscheiden, ob dieser Zug legal ist.
+
+ 17  (Sf6-e8 )
+ 18  (Sf6-d7 )
+  add_to_move_generation_stack:    53082848
+                     play_move:    37512330
+ is_white_king_square_attacked:     8470516
+ is_black_king_square_attacked:    37478882
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+   4181, Problemkiste 107, 10/1996
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   B   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .  -B   .   .  -B  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         2 + 4
+             OhneSchach
+
+  1.b2-b1=T a5-a6   2.Tb1-b6 Ka7*b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
+  1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
+  add_to_move_generation_stack:   991034893
+                     play_move:   107447539
+ is_white_king_square_attacked:   107114678
+ is_black_king_square_attacked:    97305088
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+    29), Problemkiste 79, 2/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .   B   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4                         3 + 3
+             OhneSchach
+
+  1  (b2-b1=D )
+  2  (b2-b1=S )
+  3  (b2-b1=T )
+  1.b2-b1=T f7-f8=S   2.Tb1-b7 c6*b7   3.c2-c1=L b7-b8=D   4.Lc1-f4 Db8*f4 =
+  4  (b2-b1=L )
+  5  (c2-c1=D )
+  6  (c2-c1=S )
+  7  (c2-c1=T )
+  8  (c2-c1=L )
+  9  (Kh5-g4 )
+ 10  (Kh5-g6 )
+ 11  (Kh5-h4 )
+ 12  (Kh5-g5 )
+ 13  (Kh5-h6 )
+  add_to_move_generation_stack:  1028586519
+                     play_move:   101884047
+ is_white_king_square_attacked:   101165287
+ is_black_king_square_attacked:    99051040
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+    14), Problemkiste 79, 2/1992
+              14. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .  -B   .   .  -B   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         2 + 4
+             OhneSchach
+
+  1  (Ka1-b2 )
+  2  (Ka1-a2 )
+  3  (Ka1-b1 )
+  4  (c2-c1=D )
+  5  (c2-c1=S )
+  6  (c2-c1=T )
+  1.c2-c1=T b4-b5   2.Tc1-c6 b5*c6   3.e2-e1=S c6-c7   4.Se1-g2 c7-c8=D   5.h2-h1=L Dc8-c2 =
+  7  (c2-c1=L )
+  8  (e2-e1=D )
+  9  (e2-e1=S )
+ 10  (e2-e1=T )
+ 11  (e2-e1=L )
+ 12  (h2-h1=D + )
+ 13  (h2-h1=S )
+ 14  (h2-h1=T )
+ 15  (h2-h1=L + )
+  add_to_move_generation_stack:   838407004
+                     play_move:    97085290
+ is_white_king_square_attacked:    95595614
+ is_black_king_square_attacked:    86642318
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+    15), Problemkiste 79, 2/1992
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .  -B   .   .  -B   .   2
+|                                   |
+1   .  -K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=5                         2 + 4
+                Circe
+             OhneSchach
+
+  1  (Kb1-c2 )
+  2  (Kb1-a1 )
+  3  (Kb1-b2 )
+  4  (Kb1-c1 )
+  5  (a2-a1=D )
+  6  (a2-a1=S )
+  7  (a2-a1=T )
+  8  (a2-a1=L )
+  9  (d2-d1=D )
+ 10  (d2-d1=S )
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S Kg8-h8   2.g2-g1=T f5-f6   3.Tg1-g7 f6*g7   4.Sd1-b2 g7-g8=D   5.a2-a1=L Dg8-c4 =
+ 11  (d2-d1=T )
+ 12  (d2-d1=L )
+ 13  (g2-g1=D + )
+ 14  (g2-g1=S )
+ 15  (g2-g1=T + )
+ 16  (g2-g1=L )
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  add_to_move_generation_stack:  2034867482
+                     play_move:   203839793
+ is_white_king_square_attacked:   198902324
+ is_black_king_square_attacked:   189866067
+
+Loesung beendet.
+
+

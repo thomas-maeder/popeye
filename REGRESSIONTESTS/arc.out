@@ -1,109 +1,211 @@
 
-      I.Richardson, R.Turnbull
-      Variant Chess Autumn 1999
+          Manfred Rittirsch
+      #2667, PK-74/75, 5/1991 
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
-8   .   .   .   .   .   .   .   .   8
+8   .  -K   .   .   .   .   .   .   8
 |                                   |
-7   .   .   .   .  -B   .   .   .   7
-|                                   |
-6   .   L   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .  -B   .   .   .   .   D   .   4
-|                                   |
-3   .   .   .  -K   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   K   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  #2                          3 + 3
-       ActuatedRevolvingCentre
-
-   1.Dg4-f3 + ?
-    Aber
-      1...Kd3-c4 !
-
-   1.Dg4-e6 ? Drohung:
-          2.De6-b3 #
-    Aber
-      1...Kd3-c3 !
-
-   1.Dg4*b4 ? Drohung:
-          2.Db4-b3 #
-    Aber
-      1...Kd3-d4 !
-
-   1.Dg4-c4 + ?
-    Aber
-      1...Kd3*c4 !
-
-   1.Dg4-e4 + ?
-    Aber
-      1...Kd3*d4 !
-
-   1.Lb6-d4 ! Drohung:
-          2.Dg4-f3 #
-          2.Dg4-e4 #
-      1...Kd3-c3
-          2.Dg4-d4 #
-      1...Kd3-d4
-          2.Dg4-d4 #
-      1...Kd3-e3
-          2.Dg4-f3 #
-      1...e7-e5
-          2.Dg4-e2 #
-
-  add_to_move_generation_stack:        8249
-                     play_move:        4481
- is_white_king_square_attacked:         775
- is_black_king_square_attacked:        4442
-
-Loesung beendet.
-
-
-
-              C.Lytton
-      Variant Chess Autumn 1999
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .  -B  -B  -S   L   .   7
+7   .   .   .   .   .   .   .   .   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   .   .   .   .  -K   .   .   5
+5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   .   .   .   .   .   .   4
+4   .   K   .   .   .   .   .   .   4
 |                                   |
-3   .   .   B   .   .   .   .   .   3
+3   .   .   .   .   .   .   .   .   3
 |                                   |
 2   .   .   .   .   .   .   .   .   2
 |                                   |
-1   .   .   .   .   .   K   .   .   1
+1   .   T  -D   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-h#6                     3 + 4
-       ActuatedRevolvingCentre
+  h#2                         2 + 2
+            HaanerSchach
 
-  1.Sf7-e5   2.e7-e5   3.d7-d5   4.d4-d3   5.Se5-c4   6.Kf5-e5 Lg7-e5 #
-  add_to_move_generation_stack:      970372
-                     play_move:      811718
- is_white_king_square_attacked:      110722
- is_black_king_square_attacked:      811718
+a) 
+
+  1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 #
+  add_to_move_generation_stack:        9975
+                     play_move:        8666
+ is_white_king_square_attacked:         865
+ is_black_king_square_attacked:        8391
+
+b) wLb1  
+
+  1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 #
+  add_to_move_generation_stack:       10070
+                     play_move:        7897
+ is_white_king_square_attacked:        1238
+ is_black_king_square_attacked:        7535
 
 Loesung beendet.
 
 
 
-              P.Fayers
-        HM Variant Chess 1TT
+   Hilmar Ebert & Heinz Winterberg
+           feenschach 1980
+            130, fmo 2/2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=4.5                       1 + 1
+            HaanerSchach
+
+  1...  ...  2.Ke5-f6 g2-g3   3.Kf6-g7 g3-g4   4.Kg7-g8 g4-g5   5.Kg8-h8 g5-g6 =
+
+  1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S =
+  add_to_move_generation_stack:       64276
+                     play_move:       28814
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:       27374
+
+Loesung beendet.
+
+
+
+          Heinz Winterberg
+          f-39, VII-X/1977 
+             78, fmo-3/2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         2 + 2
+            HaanerSchach
+
+  1.a7-a5 b6-b7 #
+  1.a7-a6 b6-b7 #
+  add_to_move_generation_stack:          13
+                     play_move:          13
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          13
+
+Loesung beendet.
+
+
+
+   Thomas Brand, G"unther B"using,
+  Hans Gruber & Bernd Schwarzkopf 
+    1499, Jugendschach-58, X/308
+            146, fmo-3/2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         2 + 2
+            HaanerSchach
+       SchwarzerLaengstzueger
+
+a) 
+
+  1.a7-a5 b6-b7 #
+  add_to_move_generation_stack:          14
+                     play_move:          14
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          14
+
+b) HaanerSchach
+   SchwarzerKuerzestzueger  
+
+  1.a7-a6 b6-b7 #
+  add_to_move_generation_stack:          14
+                     play_move:          14
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          14
+
+Loesung beendet.
+
+
+
+Beispiel fuer Rochadeschach + Haaner Schach
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   K   5
+|                                   |
+4  -B   .   .   .   .   .       .   4
+|                                   |
+3   .   .   .   .   .   .       .   3
+|                                   |
+2   .   .   .   .   .   .       B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s=1                         2 + 1
+            HaanerSchach
+            RochadeSchach
+
+   1.Kh5-h3/wBh2-h4 !
+      1...a4-a3 =
+
+  add_to_move_generation_stack:          41
+                     play_move:          21
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:           0
+
+Loesung beendet.
+
+
+
+Beispiel fuer Rochade in Haaner Schach
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -115,26 +217,91 @@ Loesung beendet.
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .       .       2
+|                                   |
+1   .   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s=1                         2 + 1
+            HaanerSchach
+
+   1.0-0 !
+      1...h4-h3 =
+
+  add_to_move_generation_stack:          44
+                     play_move:          24
+ is_white_king_square_attacked:          26
+ is_black_king_square_attacked:           0
+
+Loesung beendet.
+
+
+
+      Nils Bakke & Henry Tanner
+NG24, 1. NG-ST, Problemkiste 109, 2/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  16   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
 4   .   .   .   .   .   .   .   .   4
 |                                   |
 3   .   .   .   .   .   .   .   .   3
 |                                   |
-2   S   .   .  -S   .   .   .   .   2
+2   .   .   .   .   .   .   .   .   2
 |                                   |
-1   .   .   .   .   .   .   .   .   1
+1  -K   .   K   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  h=2                         1 + 1
-          Koeniglich a2 d2
-       ActuatedRevolvingCentre
+  ser-#11                     2 + 1
+            HaanerSchach
 
-  1...kSa2-c3   2.kSd2-e4 kSc3-e4 =
+a) 
 
-  1.kSd2-b3 kSa2-c3   2.kSb3-a1 kSc3-e4 =
-  add_to_move_generation_stack:        3206
-                     play_move:        1134
- is_white_king_square_attacked:         518
- is_black_king_square_attacked:        1064
+  1  (Kc1-d2 )
+  2  (Kc1-b2 + )
+  3  (Kc1-b1 + )
+  4  (Kc1-c2 )
+  5  (Kc1-d1 )
+  6  (16g7-a6 )
+  1.16g7-a6   2.16a6-g5   3.16g5-a4   4.16a4-g3   5.16g3-a2   6.16a2-b8   7.16b8-c2   8.16c2-d8   9.16d8-e2  10.16e2-f8  11.16f8-g2 #
+  7  (16g7-f1 )
+  8  (16g7-h1 )
+  9  (16g7-a8 )
+  add_to_move_generation_stack:   104550963
+                     play_move:   104550963
+ is_white_king_square_attacked:    25397113
+ is_black_king_square_attacked:   104345821
+
+b) wKc1-->b3  
+
+ 10  (Kb3-a2 + )
+ 11  (Kb3-c2 )
+ 12  (Kb3-c4 )
+ 13  (Kb3-a4 )
+ 14  (Kb3-b2 + )
+ 15  (Kb3-a3 )
+ 16  (Kb3-b4 )
+ 17  (Kb3-c3 )
+ 18  (16g7-a6 )
+ 19  (16g7-f1 )
+  1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 #
+ 20  (16g7-h1 )
+ 21  (16g7-a8 )
+  add_to_move_generation_stack:   207443792
+                     play_move:   207443792
+ is_white_king_square_attacked:    47015191
+ is_black_king_square_attacked:   207159440
 
 Loesung beendet.
 

@@ -22,6 +22,9 @@
 static unsigned int MoveNbr[maxply+1];
 
 /* number of first move at root level to be considered
+ * we use the parent ply as index because the ply number of the parent ply of the
+ * root branch is always known, while the ply of the root branch isn't known ahead
+ * of playing it in all cases.
  */
 static unsigned int RestartNbr[maxply+1];
 

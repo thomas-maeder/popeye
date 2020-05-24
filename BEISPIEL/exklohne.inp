@@ -943,4 +943,60 @@ stei
 weis kd7 td8h8 la1h1
 schw ke5 nc3f3
 
+weiteresproblem
+
+auto Franz Palatz
+quel Funkschach, 24.1.1926
+ford h#4
+bedi Ohneschach
+opti zugn
+stei
+weis ka8 lh7 bh6
+schw kd5 sf6h1 bc3f7
+
+weiteresproblem
+
+auto Theodor Steudel
+quel 4181, Problemkiste 107, 10/1996
+ford h=5
+bedi ohneschach
+stei
+weis ka7 ba5
+schw kh2 bb2d2g2
+
+weiteresproblem
+
+auto Theodor Steudel
+quel 29), Problemkiste 79, 2/1992
+ford h=4
+bedi ohneschach
+opti zugn
+stei
+weis kc8 bc6f7
+schw kh5 bb2c2
+
+weiteresproblem
+
+auto Theodor Steudel
+quel 14), Problemkiste 79, 2/1992
+tite 14. Platz
+ford h=5
+bedi ohneschach
+opti zugn
+stei
+weis kb7 bb4
+schw ka1 bc2e2h2
+
+weiteresproblem
+
+auto Theodor Steudel
+quel 15), Problemkiste 79, 2/1992
+ford h=5
+bedi ohneschach circe
+opti zugn
+stei
+weis kg8 bf5
+schw kb1 ba2d2g2
+
 endeproblem
+

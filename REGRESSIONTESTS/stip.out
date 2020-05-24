@@ -737,6 +737,41 @@ Loesung beendet.
 
 
 
+           Henning Mueller
+         feenschach 89, 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -B   .   .   .   .   4
+|                                   |
+3  -D   .   .   .   .  -K  -T   .   3
+|                                   |
+2   .  -B  -B   .   .   .  -B   .   2
+|                                   |
+1   T   .   .   .   K   .  -L   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h005                    3 + 9
+
+  1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0
+  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0
+  add_to_move_generation_stack:    52830392
+                     play_move:    11644417
+ is_white_king_square_attacked:     3539020
+ is_black_king_square_attacked:    11568335
+
+Loesung beendet.
+
+
+
             Erich Bartel
    4604, feenschach 75, 9-10/1985
 

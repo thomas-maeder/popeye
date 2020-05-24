@@ -77,4 +77,16 @@ forderung s=1
 bedingung haan loch f2h2
 option vari ohnesk
 
+weiter
+
+autor           Nils Bakke & Henry Tanner
+quelle          NG24, 1. NG-ST, Problemkiste 109, 2/1997
+forderung       ser-#11
+bedingung       HaanerSchach
+option          Zugnummer
+steine  weiss   kc1 16g7
+        schwarz ka1
+zwilling versetze c1 b3
+
 endeproblem
+
