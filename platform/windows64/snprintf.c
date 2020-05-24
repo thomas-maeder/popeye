@@ -3,10 +3,11 @@
  * http://stackoverflow.com/questions/2915672/snprintf-and-visual-studio-2010
  */
 
-#ifdef _MSC_VER
-
+/* these #includes are placed here rather than below the #ifdef because empty translation units are not allowed */
 #include <stdarg.h>
 #include <stdio.h>
+
+#ifdef _MSC_VER
 
 static int c99_vsnprintf(char* str, size_t size, const char* format, va_list ap)
 {
