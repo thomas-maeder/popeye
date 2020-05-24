@@ -1103,3 +1103,53 @@ Kombination von MarsCirce und AntiMarsCirce
 Loesung beendet.
 
 
+
+          Bernhard Geismann
+             Hans Gruber
+           Stefan Hoening
+          Hans-Peter Reich
+    2929, Problemkiste 80, 4/1992
+Motto: Viele Koeche verderben den Brei
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -K   B   .   B   2
+|                                   |
+1   .   .   .   .  -S   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         5 + 3
+              MarsCirce
+
+  1  (Se1-g2 )
+  2  (Se1-f3 )
+  3  (Se1-d3 )
+  4  (Se1-c2 )
+  5  (Ke2-d1 )
+  6  (Ke2-f3 )
+  7  (Ke2-d3 )
+  8  (Ke2-d2 )
+  9  (Ke2-e3 )
+ 10  (d7-d5 )
+  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S #
+ 11  (d7-d6 )
+  add_to_move_generation_stack:    89545466
+                     play_move:    47711396
+ is_white_king_square_attacked:     3348158
+ is_black_king_square_attacked:    44938672
+
+Loesung beendet.
+
+
