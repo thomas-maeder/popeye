@@ -527,3 +527,46 @@ https://github.com/thomas-maeder/popeye/issues/282
 solution finished.
 
 
+
+            Volker Guelke
+            Winus Mueller
+            Peter Schmidt
+Option StartMoveNumber didn't work in Take&Make since 4.67, issue #286
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -R   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -S   P   .   .   .   4
+|                                   |
+3   .   .   .   .   S   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+           Take&MakeChess
+
+ 22  (Rc5-d5 )
+  1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 #
+ 23  (Kf8-e7 )
+ 24  (Kf8-g7 + )
+ 25  (Kf8-f7 )
+ 26  (Kf8-e8 )
+ 27  (Kf8-g8 + )
+  add_to_move_generation_stack:       27075
+                     play_move:       20363
+ is_white_king_square_attacked:        2633
+ is_black_king_square_attacked:       20274
+
+solution finished.
+
+

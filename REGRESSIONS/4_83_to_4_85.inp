@@ -119,5 +119,16 @@ stipulation #2
 pieces white Kh1 Bf3 Sf7 black Ka8 Bb7
 Opti Vari
 
-End
+next
+
+title Option StartMoveNumber didn't work in Take&Make since 4.67, issue #286
+autho Volker Guelke
+autho Winus Mueller
+autho Peter Schmidt
+fors 5k1K/16/2r5/3sP3/4S3/16
+stip h#2
+cond take&make
+option movenum start 22
+
+end
 
