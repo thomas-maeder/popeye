@@ -13,7 +13,7 @@
 
 #include "stipulation/move.h"
 
-static DEFINE_COUNTER(play_move);
+static DEFINE_COUNTER(play_move)
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -30,7 +30,7 @@ static DEFINE_COUNTER(play_move);
  */
 void move_counter_solve(slice_index si)
 {
-  INCREMENT_COUNTER(play_move);
+  INCREMENT_COUNTER(play_move)
   pipe_solve_delegate(si);
 }
 
@@ -47,33 +47,33 @@ void solving_insert_move_counters(slice_index si)
 /* Reset the value of a counter defined elsewhere
  */
 #define RESET_COUNTER(name)                       \
-    MEASURE_C_CONCATENATE(COUNTER_PREFIX, name) = 0;                     \
+    MEASURE_C_CONCATENATE(COUNTER_PREFIX, name) = 0;
 
 /* Write the value of a counter defined elsewhere
  */
 #define WRITE_COUNTER(name)                       \
-    protocol_fprintf(stdout,"%30s:%12lu\n",#name,MEASURE_C_CONCATENATE(COUNTER_PREFIX, name));   \
+    protocol_fprintf(stdout,"%30s:%12lu\n",#name,MEASURE_C_CONCATENATE(COUNTER_PREFIX, name));
 
 extern unsigned int total_invisible_number;
 extern unsigned long record_decision_counter;
 
-DECLARE_COUNTER(add_to_move_generation_stack);
-DECLARE_COUNTER(is_white_king_square_attacked);
-DECLARE_COUNTER(is_black_king_square_attacked);
+DECLARE_COUNTER(add_to_move_generation_stack)
+DECLARE_COUNTER(is_white_king_square_attacked)
+DECLARE_COUNTER(is_black_king_square_attacked)
 
 void counters_writer_solve(slice_index si)
 {
-  RESET_COUNTER(add_to_move_generation_stack);
-  RESET_COUNTER(play_move);
-  RESET_COUNTER(is_white_king_square_attacked);
-  RESET_COUNTER(is_black_king_square_attacked);
+  RESET_COUNTER(add_to_move_generation_stack)
+  RESET_COUNTER(play_move)
+  RESET_COUNTER(is_white_king_square_attacked)
+  RESET_COUNTER(is_black_king_square_attacked)
 
   pipe_solve_delegate(si);
 
-  WRITE_COUNTER(add_to_move_generation_stack);
-  WRITE_COUNTER(play_move);
-  WRITE_COUNTER(is_white_king_square_attacked);
-  WRITE_COUNTER(is_black_king_square_attacked);
+  WRITE_COUNTER(add_to_move_generation_stack)
+  WRITE_COUNTER(play_move)
+  WRITE_COUNTER(is_white_king_square_attacked)
+  WRITE_COUNTER(is_black_king_square_attacked)
   if (total_invisible_number>0)
   {
     protocol_fprintf(stdout,"%30s:%12lu\n","TI decisions",record_decision_counter);

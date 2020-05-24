@@ -45,7 +45,7 @@ void optimise_is_in_check(slice_index si);
  */
 void solving_test_check_playing_moves(slice_index si);
 
-DECLARE_COUNTER(is_white_king_square_attacked);
-DECLARE_COUNTER(is_black_king_square_attacked);
+DECLARE_COUNTER(is_white_king_square_attacked)
+DECLARE_COUNTER(is_black_king_square_attacked)
 
 #endif
