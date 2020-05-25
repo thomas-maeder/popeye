@@ -116,8 +116,8 @@ static void CALLBACK tick(unsigned int timer_id,
    * handler ...
    */
 
-  if (periods_counter < SIG_ATOMIC_MAX)
-    ++periods_counter;
+  if (periods_counter < SIG_ATOMIC_MAX) /* TODO: These (together) aren't guaranteed to */
+    ++periods_counter;                  /*       be atomic.  Should we be concerned?   */
 }
 
 /* Attempt to set up a new timer for timing out solving after a number
