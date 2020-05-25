@@ -1182,9 +1182,9 @@ static void ProofSmallEncodePiece(byte **bp,
   Side const side =  TSTFLAG(flags,White) ? White : Black;
   byte encoded = p;
   assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
   if (side==Black)
     encoded |= 1 << black_bit;
-  assert(p < 1 << black_bit);
   if (*even)
   {
     **bp += encoded<<(CHAR_BIT/2);
