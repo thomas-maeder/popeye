@@ -221,7 +221,7 @@ static unsigned long use_pos, use_all;
 /* TODO: Message isn't defined in our codebase.  Is this even close to the correct/intended definition?  Is a macro even appropriate? */
 #endif /*Message*/
 #if !defined(Message2)
-#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%d\n", __func__, #var1, (unsigned int)(var1), #var2, (int)(var2))
+#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%lu\n", __func__, #var1, (unsigned int)(var1), #var2, (unsigned long int)(var2))
 /* TODO: Message2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
 #endif /*Message2*/
 #if !defined(StdString2)
@@ -1112,7 +1112,7 @@ void HashStats(unsigned int level, char const *trailer)
 #if defined(HASHRATE)
   if (level<=HashRateLevel)
   {
-    int pos= dhtKeyCount(pyhash);
+    unsigned long int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
     Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
