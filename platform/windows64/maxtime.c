@@ -24,7 +24,7 @@
 #      else
 #        include <limits.h>
 #      endif
-#      define SIG_ATOMIC_MAX INT_MAX /* What else?  At worst, this should be an underestimate. */
+#      define SIG_ATOMIC_MAX ((((sig_atomic_t) -1) > 0) ? ((sig_atomic_t) -1) : INT_MAX  /* What else?  Hopefully this is at worst an underestimate. */)
 #    endif
 #  endif
 #endif
