@@ -25,27 +25,27 @@
 #        include <limits.h>
 #      endif
 #      if defined(LLONG_MAX)
-#        define SIG_ATOMIC_MAX ((sig_atomic_t) ((((sig_atomic_t)-1)>0) ? \
-                                                ((sig_atomic_t)-1) : \
-                                                ((sizeof(sig_atomic_t)>=sizeof(long long)) ? \
-                                                 LLONG_MAX : \
-                                                 ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
-                                                  LONG_MAX : \
-                                                  ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
-                                                   INT_MAX : \
-                                                   ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
-                                                    SHRT_MAX : \
-                                                    SCHAR_MAX))))))
+#        define SIG_ATOMIC_MAX ((((sig_atomic_t)-1)>0) ? \
+                                ((sig_atomic_t)-1) : \
+                                ((sizeof(sig_atomic_t)>=sizeof(long long)) ? \
+                                 ((sig_atomic_t)LLONG_MAX) : \
+                                 ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
+                                  ((sig_atomic_t)LONG_MAX) : \
+                                  ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
+                                   ((sig_atomic_t)INT_MAX) : \
+                                   ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
+                                    ((sig_atomic_t)SHRT_MAX) : \
+                                    ((sig_atomic_t)SCHAR_MAX))))))
 #      else
-#        define SIG_ATOMIC_MAX ((sig_atomic_t) ((((sig_atomic_t)-1)>0) ? \
-                                                ((sig_atomic_t)-1) : \
-                                                ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
-                                                 LONG_MAX : \
-                                                 ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
-                                                  INT_MAX : \
-                                                  ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
-                                                   SHRT_MAX : \
-                                                   SCHAR_MAX)))))
+#        define SIG_ATOMIC_MAX ((((sig_atomic_t)-1)>0) ? \
+                                ((sig_atomic_t)-1) : \
+                                ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
+                                 ((sig_atomic_t)LONG_MAX) : \
+                                 ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
+                                  ((sig_atomic_t)INT_MAX) : \
+                                  ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
+                                   ((sig_atomic_t)SHRT_MAX) : \
+                                   ((sig_atomic_t)SCHAR_MAX)))))
 #      endif
 #    endif
 #  endif
