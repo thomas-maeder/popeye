@@ -1,0 +1,20 @@
+
+a) 
+
+  1.Qa1-a8 + Rd7-a7[a8=R]   2.0-0-0 Ra7-a8 #
+  add_to_move_generation_stack:       27195
+                     play_move:       18430
+ is_white_king_square_attacked:        4197
+ is_black_king_square_attacked:       17977
+
+b) bRa1  
+
+  1.Ra1-a8 Rd7-a7[a8=R]   2.0-0-0 Ra7-a8 #
+  add_to_move_generation_stack:       23651
+                     play_move:       14947
+ is_white_king_square_attacked:        3615
+ is_black_king_square_attacked:       14635
+
+solution finished.
+
+

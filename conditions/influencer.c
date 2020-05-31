@@ -41,10 +41,9 @@ static void apply_influence(PieceIdType id_influencer, square sq_to)
                                                  ? walk_influencer
                                                  : Pawn);
 
-        if (walk_substitute!=get_walk_of_piece_on_square(sq_candidate))
-          move_effect_journal_do_walk_change(move_effect_reason_influencer,
-                                             sq_candidate,
-                                             walk_substitute);
+        move_effect_journal_do_walk_change(move_effect_reason_influencer,
+                                           sq_candidate,
+                                           walk_substitute);
       }
     }
   }

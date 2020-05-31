@@ -1,0 +1,15 @@
+BeginProblem
+
+protocol 4_85_to_4_87.reg
+
+title enable castling even if there was already a rook
+Stipulation h#2
+Option Variation NoBoard
+Condition Influencer
+Pieces
+   white  Kc6 Rd7
+   black  Qa1 Ke8
+Twin add black ra1
+
+EndProblem
+
