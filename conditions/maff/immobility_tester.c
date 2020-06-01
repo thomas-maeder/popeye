@@ -13,7 +13,7 @@
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
-#include "debugging/print_backtrace.h"
+
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
  */
