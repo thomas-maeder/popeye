@@ -125,7 +125,7 @@ void maff_immobility_tester_king_solve(slice_index si)
       solve_result = previous_move_has_solved;
       break;
     default:
-      solve_result = next_move_has_no_solution;
+      solve_result = previous_move_has_not_solved;
   }
 
   legal_move_count_fini();
