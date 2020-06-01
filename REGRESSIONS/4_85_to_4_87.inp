@@ -11,5 +11,11 @@ Pieces
    black  Qa1 Ke8
 Twin add black ra1
 
-EndProblem
+NextProblem
 
+author Eric Huber
+origin https://github.com/thomas-maeder/popeye/issues/290
+Pieces TotalInvisible 1 White Kb2 Black Ka4 Neutral Rb8
+Stipulation h#1
+
+EndProblem

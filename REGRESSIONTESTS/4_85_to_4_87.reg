@@ -18,3 +18,38 @@ b) bRa1
 solution finished.
 
 
+
+             Eric Huber
+https://github.com/thomas-maeder/popeye/issues/290
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  =R   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                  1 + 1 + 1 TI
+
+  1.nRb8-b5 TI~-~[b4=wR] #
+  add_to_move_generation_stack:         493
+                     play_move:         943
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:         348
+                  TI decisions:        1434
+
+solution finished.
+
+
