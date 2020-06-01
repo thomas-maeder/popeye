@@ -13,7 +13,7 @@
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
-
+#include "debugging/print_backtrace.h"
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
  */
@@ -116,9 +116,17 @@ void maff_immobility_tester_king_solve(slice_index si)
   pipe_solve_delegate(si);
 
   /* apply the MAFF rule */
-  solve_result = (legal_move_counter_count[nbply]==1
-                  ? previous_move_has_solved
-                  : next_move_has_no_solution);
+  switch (legal_move_counter_count[nbply])
+  {
+    case 0:
+      solve_result = previous_move_is_illegal;
+      break;
+    case 1:
+      solve_result = previous_move_has_solved;
+      break;
+    default:
+      solve_result = next_move_has_no_solution;
+  }
 
   legal_move_count_fini();
 
