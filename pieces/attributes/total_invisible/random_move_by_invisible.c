@@ -754,14 +754,24 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
         break;
       }
 
+      TraceEnumerator(Side,side_in_check_to_be_intercepted);
+      TraceValue("%u",check_vector_to_be_intercepted);
+      TraceEOL();
       if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
         break;
     }
 
+    TraceEnumerator(Side,side_in_check_to_be_intercepted);
+    TraceValue("%u",check_vector_to_be_intercepted);
+    TraceEOL();
     if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
       break;
   }
 
+  TraceEnumerator(Side,side_in_check_to_be_intercepted);
+  TraceValue("%u",check_vector_to_be_intercepted);
+  TraceSquare(being_solved.king_square[side_in_check_to_be_intercepted]);
+  TraceEOL();
   if (side_in_check_to_be_intercepted!=no_side
       && check_vector_to_be_intercepted!=0
       && being_solved.king_square[side_in_check_to_be_intercepted]!=initsquare)
@@ -769,20 +779,22 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
     int const dir = vec[check_vector_to_be_intercepted];
     square sq_arrival = being_solved.king_square[side_in_check_to_be_intercepted]+dir;
 
-    if (is_square_empty(sq_arrival))
-    {
-      do
-      {
-        if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
-          consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
-        sq_arrival += dir;
-      } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
+    TraceValue("%d",dir);
+    TraceSquare(sq_arrival);
+    TraceValue("%u",is_square_empty(sq_arrival));
+    TraceEOL();
 
-      if (is_on_board(sq_arrival)
-          && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
-          && can_decision_level_be_continued())
+    do
+    {
+      if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
         consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
-    }
+      sq_arrival += dir;
+    } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
+
+    if (is_on_board(sq_arrival)
+        && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
+        && can_decision_level_be_continued())
+      consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
   }
 
   TraceFunctionExit(__func__);
