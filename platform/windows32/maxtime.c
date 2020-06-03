@@ -1,55 +1,8 @@
-#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) && \
-    !(defined(__cplusplus) && (__cplusplus >= 201103L))
-#  if !defined(__STDC_LIMIT_MACROS)
-#    define __STDC_LIMIT_MACROS
-#  endif
-#endif
-
 #include "platform/maxtime_impl.h"
 #include <windows.h>
 #include "utilities/boolean.h"
 
 #include "debugging/assert.h"
-
-#if !defined(SIG_ATOMIC_MAX)
-#  if defined(__cplusplus) && (__cplusplus >= 201103L)
-#    include <cstdint>
-#  else
-#    if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-#      include <stdint.h>
-#    endif
-#    if !defined(SIG_ATOMIC_MAX)
-#      if defined(__cplusplus)
-#        include <climits>
-#      else
-#        include <limits.h>
-#      endif
-#      if defined(LLONG_MAX)
-#        define SIG_ATOMIC_MAX ((((sig_atomic_t)-1)>0) ? \
-                                ((sig_atomic_t)-1) : \
-                                ((sizeof(sig_atomic_t)>=sizeof(long long)) ? \
-                                 ((sig_atomic_t)LLONG_MAX) : \
-                                 ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
-                                  ((sig_atomic_t)LONG_MAX) : \
-                                  ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
-                                   ((sig_atomic_t)INT_MAX) : \
-                                   ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
-                                    ((sig_atomic_t)SHRT_MAX) : \
-                                    ((sig_atomic_t)SCHAR_MAX))))))
-#      else
-#        define SIG_ATOMIC_MAX ((((sig_atomic_t)-1)>0) ? \
-                                ((sig_atomic_t)-1) : \
-                                ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
-                                 ((sig_atomic_t)LONG_MAX) : \
-                                 ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
-                                  ((sig_atomic_t)INT_MAX) : \
-                                  ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
-                                   ((sig_atomic_t)SHRT_MAX) : \
-                                   ((sig_atomic_t)SCHAR_MAX)))))
-#      endif
-#    endif
-#  endif
-#endif
 
 /* Implementation of option maxtime using Windows Multimedia timers
  */
@@ -116,8 +69,8 @@ static void CALLBACK tick(unsigned int timer_id,
    * handler ...
    */
 
-  if (periods_counter < SIG_ATOMIC_MAX) /* TODO: These (together) aren't guaranteed to */
-    ++periods_counter;                  /*       be atomic.  Should we be concerned?   */
+  if (periods_counter < max_nr_periods()) /* TODO: These (together) aren't guaranteed to */
+    ++periods_counter;                    /*       be atomic.  Should we be concerned?   */
 }
 
 /* Attempt to set up a new timer for timing out solving after a number
