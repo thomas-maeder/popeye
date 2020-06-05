@@ -14,7 +14,7 @@ extern sig_atomic_t volatile periods_counter;
 extern sig_atomic_t volatile nr_periods;
 
 /* maximum allowed value of nr_periods */
-extern sig_atomic_t max_nr_periods(void);
+extern sig_atomic_t const max_nr_periods;
 
 enum
 {
