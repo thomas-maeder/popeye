@@ -1050,7 +1050,7 @@ static void compresshash (void)
 #if defined(HASHRATE)
   printf(" usage: %lu", use_pos);
   printf(" / %lu", use_all);
-  printf(" = %.1f%%", (100.0 * use_pos) / use_all);
+  printf(" = %.Lf%%", (100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
@@ -1909,7 +1909,7 @@ static void closehash(void)
 #if defined(HASHRATE)
   printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
-    printf("Makes %.1f%%\n",(100.0 * use_pos) / use_all);
+    printf("Makes %.Lf%%\n",(100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(__unix)
   {
