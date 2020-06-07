@@ -1,6 +1,5 @@
 #include "optimisations/hash.h"
 #include "solving/moves_traversal.h"
-#include "output/plaintext/protocol.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "platform/priority.h"
@@ -17,23 +16,8 @@
 #include "input/plaintext/token.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-#if defined(FXF)
-#include "DHT/fxf.h"
-#endif
 #include <stdio.h>
 #include <stdlib.h>
-
-/* release whatever resources may have been acquired;
- * these functions must be safe to call regardless of
- * what has happened! */
-static void release_all_resources(void)
-{
-  if (protocol_close())
-    perror(__func__);
-#if defined(FXF)
-  fxfTeardown();
-#endif
-}
 
 /* Check assumptions made throughout the program. Abort if one of them
  * isn't met. */
@@ -72,9 +56,6 @@ int main(int argc, char *argv[])
     TraceFunctionParam("%s",argv[i]);
   }
   TraceFunctionParamListEnd();
-
-  /* Ensure that various resources are released at program exit. */
-  atexit(&release_all_resources);
 
   checkGlobalAssumptions();
 

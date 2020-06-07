@@ -245,6 +245,13 @@ size_t fxfInit(size_t Size) {
     TopFreePtr+= ARENA_SEG_SIZE;
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
+#if defined(FREEMAP)
+  if (FreeMap)
+  {
+    free(FreeMap);
+    FreeMap = Nil(FreeMapType);
+  }
+#endif
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
@@ -260,11 +267,6 @@ size_t fxfInit(size_t Size) {
   GlobalSize= Size;
 
 #if defined(FREEMAP)
-  if (FreeMap)
-  {
-    free(FreeMap);
-  }
-
   /* We aren't using Size again, so we can change it to the value we need here. */
   if (Size > (((size_t)-1)-31))
   {

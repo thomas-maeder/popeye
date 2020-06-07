@@ -1720,10 +1720,18 @@ static unsigned long hashtable_kilos;
 unsigned long allochash(unsigned long nr_kilos)
 {
 #if defined(FXF)
+  static boolean need_to_schedule_fxfTeardown = true;
   size_t const one_kilo = 1<<10;
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
+  if (need_to_schedule_fxfTeardown)
+  {
+    if (atexit(&fxfTeardown))
+      perror(__func__);
+    else
+      need_to_schedule_fxfTeardown = false;
+  }
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
 

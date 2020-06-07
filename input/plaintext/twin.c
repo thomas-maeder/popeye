@@ -52,6 +52,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 static void TwinResetPosition(void)
 {
@@ -758,8 +759,15 @@ static char *ReadRemark(void)
   return ReadNextTokStr();
 }
 
+/* protocol_close returns an int, but we need a function returning void for atexit */
+static void protocol_close_wrapper(void)
+{
+  protocol_close();
+}
+
 static char *ReadTrace(void)
 {
+  static boolean need_to_schedule_protocol_close = true;
   if (ReadToEndOfLine())
   {
     {
@@ -767,7 +775,16 @@ static char *ReadTrace(void)
       if (protocol==0)
         output_plaintext_input_error_message(WrOpenError);
       else
+      {
+        if (need_to_schedule_protocol_close)
+        {
+          if (atexit(&protocol_close_wrapper))
+            perror(__func__);
+          else
+            need_to_schedule_protocol_close = false;
+        }
         output_plaintext_print_version_info(protocol);
+      }
     }
   }
 
