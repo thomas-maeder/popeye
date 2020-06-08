@@ -1725,7 +1725,7 @@ unsigned long allochash(unsigned long nr_kilos)
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
-  if (need_to_schedule_fxfTeardown)
+  if (nr_kilos && need_to_schedule_fxfTeardown)
   {
     if (atexit(&fxfTeardown))
       perror(__func__);
