@@ -1722,6 +1722,8 @@ unsigned long allochash(unsigned long nr_kilos)
 #if defined(FXF)
   static boolean need_to_schedule_fxfTeardown = true;
   size_t const one_kilo = 1<<10;
+  if (nr_kilos > (((size_t) -1)/one_kilo))
+    nr_kilos = (((size_t) -1)/one_kilo);
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
