@@ -4,8 +4,8 @@
 
 #include <limits.h>
 
-maxmem_kilos_type const one_mega = 1<<10;
-maxmem_kilos_type const one_giga = 1<<20;
+maxmem_kilos_type const one_mega = ((maxmem_kilos_type)1)<<10;
+maxmem_kilos_type const one_giga = ((maxmem_kilos_type)1)<<20;
 
 /* Singular value indiciating that the user made no request for a
  * maximal amount of memory to be allocated for the hash table.

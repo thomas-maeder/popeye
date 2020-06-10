@@ -5,7 +5,7 @@
  */
 unsigned long platform_guess_reasonable_maxmemory(void)
 {
-  unsigned long const one_giga = 1024*1024;
+  unsigned long const one_giga = 1024ul*1024ul;
   
   return one_giga;
 }
