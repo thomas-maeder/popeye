@@ -1,26 +1,54 @@
-#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) && \
-    !(defined(__cplusplus) && (__cplusplus >= 201103L))
-#  if !defined(__STDC_LIMIT_MACROS)
-#    define __STDC_LIMIT_MACROS
+#if !defined(MAX_NR_PERIODS)
+#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) && \
+      !(defined(__cplusplus) && (__cplusplus >= 201103L))
+#    if !defined(__STDC_LIMIT_MACROS)
+#      define __STDC_LIMIT_MACROS
+#    endif
 #  endif
 #endif
 
 #include "maxtime_impl.h"
 
-#if !defined(SIG_ATOMIC_MAX)
-#  if defined(__cplusplus) && (__cplusplus >= 201103L)
-#    include <cstdint>
-#  else
-#    if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-#      include <stdint.h>
-#    endif
-#    if !defined(SIG_ATOMIC_MAX)
-#      if defined(__cplusplus)
-#        include <climits>
-#      else
-#        include <limits.h>
+#if !defined(MAX_NR_PERIODS)
+#  if !defined(SIG_ATOMIC_MAX)
+#    if defined(__cplusplus) && (__cplusplus >= 201103L)
+#      include <cstdint>
+#    else
+#      if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+#        include <stdint.h>
 #      endif
-#      define SIG_ATOMIC_MAX INT_MAX /* What else?  At worst, this should be an underestimate. */
+#    endif
+#  endif
+#  if defined(SIG_ATOMIC_MAX)
+#    define MAX_NR_PERIODS SIG_ATOMIC_MAX
+#  else
+#    if defined(__cplusplus)
+#      include <climits>
+#    else
+#      include <limits.h>
+#    endif
+#    if defined(LLONG_MAX)
+#      define MAX_NR_PERIODS ((((sig_atomic_t)-1)>0) ? \
+                              ((sig_atomic_t)-1) : \
+                              ((sizeof(sig_atomic_t)>=sizeof(long long)) ? \
+                               ((sig_atomic_t)LLONG_MAX) : \
+                               ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
+                                ((sig_atomic_t)LONG_MAX) : \
+                                ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
+                                 ((sig_atomic_t)INT_MAX) : \
+                                 ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
+                                  ((sig_atomic_t)SHRT_MAX) : \
+                                  ((sig_atomic_t)SCHAR_MAX))))))
+#    else
+#      define MAX_NR_PERIODS ((((sig_atomic_t)-1)>0) ? \
+                              ((sig_atomic_t)-1) : \
+                              ((sizeof(sig_atomic_t)>=sizeof(long)) ? \
+                               ((sig_atomic_t)LONG_MAX) : \
+                               ((sizeof(sig_atomic_t)>=sizeof(int)) ? \
+                                ((sig_atomic_t)INT_MAX) : \
+                                ((sizeof(sig_atomic_t)>=sizeof(short)) ? \
+                                 ((sig_atomic_t)SHRT_MAX) : \
+                                 ((sig_atomic_t)SCHAR_MAX)))))
 #    endif
 #  endif
 #endif
@@ -32,8 +60,11 @@ static maxtime_type maxTimeOption = no_time_set;
 /* number of seconds passed since timer started */
 sig_atomic_t volatile periods_counter = 0;
 
+/* maximum allowed value of nr_periods */
+sig_atomic_t const max_nr_periods = MAX_NR_PERIODS;
+
 /* number of seconds after which solving is aborted */
-sig_atomic_t volatile nr_periods = SIG_ATOMIC_MAX;
+sig_atomic_t volatile nr_periods = max_nr_periods;
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter

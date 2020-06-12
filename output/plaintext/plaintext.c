@@ -268,9 +268,9 @@ static void write_complete_piece(output_plaintext_move_context_type *context,
   WriteSquare(context->engine,context->file,on);
 }
 
-static Flags find_piece_walk(output_plaintext_move_context_type const *context,
-                             move_effect_journal_index_type curr,
-                             square on)
+static piece_walk_type find_piece_walk(output_plaintext_move_context_type const *context,
+                                       move_effect_journal_index_type curr,
+                                       square on)
 {
   move_effect_journal_index_type m;
 
@@ -304,9 +304,9 @@ static void write_flags_change(output_plaintext_move_context_type *context,
     case move_effect_reason_pawn_promotion:
       (*context->engine->fputc)('=',context->file);
       WriteSpec(context->engine,context->file,
-                 move_effect_journal[curr].u.flags_change.to,
-                 find_piece_walk(context,curr,move_effect_journal[curr].u.flags_change.on),
-                 false);
+                move_effect_journal[curr].u.flags_change.to,
+                find_piece_walk(context,curr,move_effect_journal[curr].u.flags_change.on),
+                false);
       break;
 
     case move_effect_reason_kobul_king:

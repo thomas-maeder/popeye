@@ -221,7 +221,7 @@ static unsigned long use_pos, use_all;
 /* TODO: Message isn't defined in our codebase.  Is this even close to the correct/intended definition?  Is a macro even appropriate? */
 #endif /*Message*/
 #if !defined(Message2)
-#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%d\n", __func__, #var1, (unsigned int)(var1), #var2, (int)(var2))
+#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%lu\n", __func__, #var1, (unsigned int)(var1), #var2, (unsigned long int)(var2))
 /* TODO: Message2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
 #endif /*Message2*/
 #if !defined(StdString2)
@@ -1050,7 +1050,7 @@ static void compresshash (void)
 #if defined(HASHRATE)
   printf(" usage: %lu", use_pos);
   printf(" / %lu", use_all);
-  printf(" = %.1f%%", (100.0 * use_pos) / use_all);
+  printf(" = %.Lf%%", (100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
@@ -1112,7 +1112,7 @@ void HashStats(unsigned int level, char const *trailer)
 #if defined(HASHRATE)
   if (level<=HashRateLevel)
   {
-    int pos= dhtKeyCount(pyhash);
+    unsigned long int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
     Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
@@ -1182,9 +1182,9 @@ static void ProofSmallEncodePiece(byte **bp,
   Side const side =  TSTFLAG(flags,White) ? White : Black;
   byte encoded = p;
   assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
   if (side==Black)
     encoded |= 1 << black_bit;
-  assert(p < 1 << black_bit);
   if (*even)
   {
     **bp += encoded<<(CHAR_BIT/2);
@@ -1919,7 +1919,7 @@ static void closehash(void)
 #if defined(HASHRATE)
   printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
-    printf("Makes %.1f%%\n",(100.0 * use_pos) / use_all);
+    printf("Makes %.Lf%%\n",(100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(__unix)
   {
