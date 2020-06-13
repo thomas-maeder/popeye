@@ -762,7 +762,8 @@ static char *ReadRemark(void)
 /* protocol_close returns an int, but we need a function returning void for atexit */
 static void protocol_close_wrapper(void)
 {
-  protocol_close();
+  if (protocol_close())
+    perror(__func__);
 }
 
 static char *ReadTrace(void)
