@@ -738,9 +738,9 @@ static char *ParseOrthogonalGridLines(char *tok,
   {
     board_label_type const c = (board_label_type)tolower((unsigned char)*tok);
     unsigned int i;
-    /* TODO: The below logic assumes that the row labels and file labels are distinct
-             (or at least that the former possibility takes precedence) outputs of
-             tolower (declared in ctype.h).  Can/Should we try to remove this restriction? */
+    /* TODO: The below logic assumes that the row labels and file labels are outputs of
+             tolower (declared in ctype.h) and are distinct (or at least that the former
+             possibility takes precedence).  Can/Should we try to remove this restriction? */
     if ((i = getBoardRowIndex(c)) < nr_rows_on_board)
       for (++i; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
