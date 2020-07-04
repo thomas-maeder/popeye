@@ -729,33 +729,25 @@ static char *ParseOrthogonalGridLines(char *tok,
 {
   assert(*tok!=0); /* we are at the start of a token */
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_files_on_board; i++)
-      file_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_files_on_board; i++)
+    file_numbers[i] = 0;
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_rows_on_board; i++)
-      row_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_rows_on_board; i++)
+    row_numbers[i] = 0;
 
   do
   {
-    char const c = (char)tolower((unsigned char)*tok);
-    if (c>='1' && c<='8')
-    {
-      unsigned int i;
-      for (i = (unsigned int)(c-'1')+1; i<nr_rows_on_board; ++i)
+    board_label_type const c = (board_label_type)tolower((unsigned char)*tok);
+    unsigned int i;
+    /* TODO: The below logic assumes that the row labels and file labels are outputs of
+             tolower (declared in ctype.h) and are distinct (or at least that the former
+             possibility takes precedence).  Can/Should we try to remove this restriction? */
+    if ((i = getBoardRowIndex(c)) < nr_rows_on_board)
+      for (++i; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
-    }
-    else if (c>='a' && c<='h')
-    {
-      unsigned int i;
-      for (i = (unsigned int)(c-'a')+1; i<nr_files_on_board; ++i)
+    else if ((i = getBoardFileIndex(c)) < nr_files_on_board)
+      for (++i; i<nr_files_on_board; ++i)
         ++file_numbers[i];
-    }
     else
       /* return position within token to indicate failure */
       break;
@@ -787,27 +779,40 @@ static boolean pushedIrregularGridLine(char const * const tok)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
+  /* TODO: The below logic can only handle lengths in the range 1-9.
+           Can/Should we try to remove this restriction? */
   if (strlen(tok)==4)
   {
     char const dir_char = (char)tolower((unsigned char)tok[0]);
-    char const file_char = (char)tolower((unsigned char)tok[1]);
-    char const row_char = tok[2];
+    board_label_type const file_char = (board_label_type)tolower((unsigned char)tok[1]);
+    board_label_type const row_char = (board_label_type)tok[2];
     char const length_char = tok[3];
-
-    if ((dir_char=='h' || dir_char=='v')
-        && (file_char>='a' && file_char<='h')
-        && (row_char>='1' && row_char<='8')
-        && (length_char>='1' && length_char<='8'))
+    unsigned int file;
+    unsigned int row;
+    if (((dir_char=='h') || (dir_char=='v'))
+        && ((file = getBoardFileIndex(file_char)) < nr_files_on_board)
+        && ((row = getBoardRowIndex(row_char)) < nr_rows_on_board)
+        && ((length_char>='1') && (length_char<='9')))
     {
-      unsigned int const file = (unsigned int)(file_char-'a');
-      unsigned int const row = (unsigned int)(row_char-'1');
       unsigned int const length = (unsigned int)(length_char-'0');
-      gridline_direction const dir = dir_char=='h' ? gridline_horizonal : gridline_vertical;
-
+      gridline_direction dir;
+      if (dir_char == 'h')
+      {
+        if (length > nr_files_on_board)
+          goto DONE_PUSHING;
+        dir = gridline_horizonal;
+      }
+      else
+      {
+        if (length > nr_rows_on_board)
+          goto DONE_PUSHING;
+        dir = gridline_vertical;
+      }
       result = PushIrregularGridLine(file,row,length,dir);
     }
   }
 
+DONE_PUSHING:
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",(unsigned int)result);
   TraceFunctionResultEnd();

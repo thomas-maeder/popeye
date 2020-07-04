@@ -263,17 +263,17 @@ void TraceSquareImpl(char const *prefix, square s)
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "%c",
-                                      'a' - nr_files_on_board + s%onerow);
+                                      (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
     if (isBoardReflected)
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "%c",
-                                        '8' + nr_rows_on_board - s/onerow);
+                                        (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
     else
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "%c",
-                                        '1' - nr_rows_on_board + s/onerow);
+                                        (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
   }
 #endif
 }

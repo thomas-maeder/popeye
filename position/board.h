@@ -251,4 +251,11 @@ square transformSquare(square sq, SquareTransformation transformation);
  */
 extern square const boardnum[65];
 
+typedef unsigned char board_label_type;
+
+extern board_label_type getBoardFileLabel(unsigned int index); /* index should be in [0, nr_files_on_board-1] */
+extern board_label_type getBoardRowLabel(unsigned int index); /* index should be in [0, nr_rows_on_board-1] */
+extern unsigned int getBoardFileIndex(board_label_type label); /* returns nr_files_on_board if label is invalid */
+extern unsigned int getBoardRowIndex(board_label_type label); /* returns nr_rows_on_board if label is invalid */
+
 #endif

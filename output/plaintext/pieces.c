@@ -90,11 +90,11 @@ void WriteSquare(output_engine_type const * engine, FILE *file, square i)
     (*engine->fputc)('~',file);
   else
   {
-    (*engine->fputc)('a' - nr_files_on_board + i%onerow,file);
+    (*engine->fputc)(getBoardFileLabel((i%onerow) - nr_files_on_board),file);
     if (isBoardReflected)
-      (*engine->fputc)('8' + nr_rows_on_board - i/onerow,file);
+      (*engine->fputc)(getBoardRowLabel(((2*nr_rows_on_board)-1) - (i/onerow)),file);
     else
-      (*engine->fputc)('1' - nr_rows_on_board + i/onerow,file);
+      (*engine->fputc)(getBoardRowLabel((i/onerow) - nr_rows_on_board),file);
   }
 }
 
@@ -103,8 +103,8 @@ void AppendSquare(char *List, square s)
   char    add[4];
 
   add[0]= ' ';
-  add[1]= (char)('a' - nr_files_on_board + s%onerow);
-  add[2]= (char)('1' - nr_rows_on_board + s/onerow);
+  add[1]= (char)getBoardFileLabel((s%onerow) - nr_files_on_board);
+  add[2]= (char)getBoardRowLabel((s/onerow) - nr_rows_on_board);
   add[3]= '\0';
   strcat(List, add);
 }
