@@ -69,7 +69,8 @@ static slice_index alloc_slice(void)
   TraceFunctionParamListEnd();
 
   for (result = 0; result!=max_nr_slices; ++result)
-    if (!is_slice_index_allocated[result]) {
+    if (!is_slice_index_allocated[result])
+    {
       is_slice_index_allocated[result] = true;
       break;
     }
