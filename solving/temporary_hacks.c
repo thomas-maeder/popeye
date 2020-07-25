@@ -28,6 +28,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_lost_piece_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
@@ -313,6 +316,11 @@ static slice_index make_move_generator(Side side)
   slice_index const generating = alloc_pipe(STGeneratingMovesForPiece);
   slice_index const ortho = alloc_pipe(STMovesForPieceBasedOnWalkGenerator);
   slice_index const generated = create_slice(STGeneratedMovesForPiece);
+  if (generated==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(1); /* TODO: Do we have to exit here? */
+  }
   pipe_append(proxy,generating);
   pipe_append(generating,ortho);
   pipe_link(ortho,generated);
@@ -328,6 +336,11 @@ static slice_index make_check_tester(void)
   slice_index const initialiser = alloc_pipe(STKingSquareObservationTesterPlyInitialiser);
   slice_index const king_square_observation_tester = alloc_pipe(STKingSquareObservationTester);
   slice_index const tested = create_slice(STTestedCheck);
+  if (tested==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(1); /* TODO: Do we have to exit here? */
+  }
   link_to_branch(proxy,testing);
   pipe_append(testing,initialiser);
   pipe_append(initialiser,king_square_observation_tester);

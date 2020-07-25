@@ -15,6 +15,9 @@
 
 #include <limits.h>
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Order in which the slice types dealing with help moves appear
  */
 static slice_index const slice_rank_order[] =
@@ -320,6 +323,11 @@ void help_branch_shorten(slice_index adapter)
   {
     /* find the new spot for adapter by inserting a copy */
     slice_index const prototype = copy_slice(adapter);
+    if (prototype==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
     help_branch_insert_slices(next,&prototype,1);
   }
 
@@ -781,6 +789,11 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
+    if (state->spun_off[si]==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 

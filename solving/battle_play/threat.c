@@ -16,6 +16,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Table where threats of the various move levels are collected
  */
 table threats[maxply+1];
@@ -234,6 +237,11 @@ static void move_and_stop_copying(slice_index si, stip_structure_traversal *st)
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
+  if ((*copies)[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   pipe_substitute(si,alloc_proxy_slice());
   link_to_branch((*copies)[si],si);
 
@@ -255,6 +263,11 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
+  if ((*copies)[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children_pipe(si,st);
 

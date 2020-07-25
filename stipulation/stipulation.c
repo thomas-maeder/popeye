@@ -24,8 +24,8 @@
 
 #include "debugging/assert.h"
 
-#include <stdio.h>  /* TODO: These are added to enable output and exiting in create_slice(slice_type). */
-#include <stdlib.h> /*       It would be better to push that decision up to the caller(s).             */
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
 
 Slice slices[max_nr_slices];
 
@@ -99,7 +99,7 @@ void dealloc_slice(slice_index si)
 
 /* Create a slice
  * @param type which type
- * @return index of created slice
+ * @return index of created slice, or no_slice on error
  */
 slice_index create_slice(slice_type type)
 {
@@ -122,8 +122,7 @@ slice_index create_slice(slice_type type)
   }
   else
   {
-    fputs("Unable to allocate a new slice in create_slice(slice_type) in:\n    " __FILE__ "\n", stderr); /* TODO: Push this decision   */
-    exit(1);                                                                                             /*       up to the caller(s). */
+    result = no_slice;
   }
 
   TraceFunctionExit(__func__);
@@ -134,7 +133,7 @@ slice_index create_slice(slice_type type)
 
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
- * @return index of allocated slice
+ * @return index of allocated slice, or no_slice on error
  */
 slice_index copy_slice(slice_index original)
 {
@@ -146,12 +145,15 @@ slice_index copy_slice(slice_index original)
 
   result = create_slice(SLICE_TYPE(original));
 
-  SLICE(result) = SLICE(original);
-  slice_set_predecessor(result,no_slice);
+  if (result!=no_slice)
+  {
+    SLICE(result) = SLICE(original);
+    slice_set_predecessor(result,no_slice);
 
-  TraceEnumerator(Side,SLICE_STARTER(original));
-  TraceEnumerator(Side,SLICE_STARTER(result));
-  TraceEOL();
+    TraceEnumerator(Side,SLICE_STARTER(original));
+    TraceEnumerator(Side,SLICE_STARTER(result));
+    TraceEOL();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -354,18 +356,26 @@ Goal find_unique_goal(slice_index si)
   return result.unique_goal;
 }
 
-static void copy_and_remember(slice_index si, stip_deep_copies_type *copies)
+static boolean copy_and_remember(slice_index si, stip_deep_copies_type *copies)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
-  SLICE_STARTER((*copies)[si]) = no_side;
+  if ((*copies)[si]!=no_slice)
+  {
+    SLICE_STARTER((*copies)[si]) = no_side;
+    result = true;
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(unsigned int)result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void deep_copy_leaf(slice_index si, stip_structure_traversal *st)
@@ -376,7 +386,11 @@ static void deep_copy_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -390,7 +404,11 @@ static void deep_copy_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -409,7 +427,11 @@ static void deep_copy_fork(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children(si,st);
 
@@ -431,7 +453,11 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children(si,st);
 
@@ -606,7 +632,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   pipe_append(proxy,alloc_move_inverter_setplay_slice());
 
   TraceFunctionExit(__func__);
-  TraceFunctionParamListEnd();
+  TraceFunctionResultEnd();
 }
 
 /* Attempt to add set play to the stipulation
@@ -647,8 +673,8 @@ boolean solving_apply_setplay(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
+  TraceFunctionResult("%u",(unsigned int)result);
+  TraceFunctionResultEnd();
   return result;
 }
 

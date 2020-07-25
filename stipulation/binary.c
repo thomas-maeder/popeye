@@ -4,6 +4,9 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Allocate a binary slice.
  * @param op1 proxy to 1st operand
  * @param op2 proxy to 2nd operand
@@ -24,6 +27,11 @@ slice_index alloc_binary_slice(slice_type type,
   assert(op2==no_slice || SLICE_TYPE(op2)==STProxy);
 
   result = create_slice(type);
+  if (result==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(1); /* TODO: Do we have to exit here? */
+  }
   SLICE_NEXT1(result) = op1;
   SLICE_NEXT2(result) = op2;
 
@@ -63,7 +71,14 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
     pipe_unlink(SLICE_PREV(si));
   }
   else
+  {
     state->spun_off[si] = copy_slice(si);
+    if (state->spun_off[si]==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
+  }
 
   SLICE_NEXT1(state->spun_off[si]) = root_op1;
   SLICE_NEXT2(state->spun_off[si]) = root_op2;
@@ -116,6 +131,11 @@ void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   SLICE_TESTER(si) = copy_slice(si);
+  if (SLICE_TESTER(si)==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   stip_traverse_structure_children(si,st);
   assert(SLICE_TESTER(SLICE_NEXT1(si))!=no_slice);
   assert(SLICE_TESTER(SLICE_NEXT2(si))!=no_slice);
