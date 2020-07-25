@@ -24,6 +24,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* TODO: These are added to enable output and exiting in create_slice(slice_type). */
+#include <stdlib.h> /*       It would be better to push that decision up to the caller(s).             */
+
 Slice slices[max_nr_slices];
 
 static boolean are_pieceids_required;
@@ -56,7 +59,7 @@ void assert_no_leaked_slices(void)
 }
 
 /* Allocate a slice index
- * @return a so far unused slice index
+ * @return a so far unused slice index; return max_nr_slices if all are used
  */
 static slice_index alloc_slice(void)
 {
@@ -66,12 +69,10 @@ static slice_index alloc_slice(void)
   TraceFunctionParamListEnd();
 
   for (result = 0; result!=max_nr_slices; ++result)
-    if (!is_slice_index_allocated[result])
+    if (!is_slice_index_allocated[result]) {
+      is_slice_index_allocated[result] = true;
       break;
-
-  assert(result<max_nr_slices);
-
-  is_slice_index_allocated[result] = true;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,12 +110,20 @@ slice_index create_slice(slice_type type)
 
   result = alloc_slice();
 
-  SLICE_TYPE(result) = type;
-  SLICE_STARTER(result) = no_side;
-  SLICE_PREV(result) = no_slice;
-  SLICE_NEXT1(result) = no_slice;
-  SLICE_NEXT2(result) = no_slice;
-  SLICE_TESTER(result) = no_slice;
+  if (result<max_nr_slices)
+  {
+    SLICE_TYPE(result) = type;
+    SLICE_STARTER(result) = no_side;
+    SLICE_PREV(result) = no_slice;
+    SLICE_NEXT1(result) = no_slice;
+    SLICE_NEXT2(result) = no_slice;
+    SLICE_TESTER(result) = no_slice;
+  }
+  else
+  {
+    fputs("Unable to allocate a new slice in create_slice(slice_type) in:\n    " __FILE__ "\n", stderr); /* TODO: Push this decision   */
+    exit(1);                                                                                             /*       up to the caller(s). */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
