@@ -216,8 +216,8 @@ void PrintFreeMap(FILE *f) {
   }
 }
 #else
-#  define  SetRange(x,l) ((void)(x, l))
-#  define  ClrRange(x,l) ((void)(x, l))
+void SetRange(size_t x, size_t l) { (void) x; (void) l; }
+void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
 #endif /*FREEMAP, !SEGMENTED*/
 
 size_t fxfInit(size_t Size) {

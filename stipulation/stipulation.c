@@ -33,8 +33,8 @@ static boolean are_pieceids_required;
 
 /* Keep track of allocated slice indices
  */
-static boolean is_slice_index_allocated[max_nr_slices];
-
+static boolean is_slice_index_allocated[max_nr_slices + 1]; /* one extra so alloc_slice doesn't have to
+                                                               check for the upper limit at every iteration */
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
@@ -59,21 +59,21 @@ void assert_no_leaked_slices(void)
 }
 
 /* Allocate a slice index
- * @return a so far unused slice index; return max_nr_slices if all are used
+ * @return a so far unused slice index; return no_slice if all are used
  */
 static slice_index alloc_slice(void)
 {
-  slice_index result;
+  slice_index result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (result = 0; result!=max_nr_slices; ++result)
-    if (!is_slice_index_allocated[result])
-    {
-      is_slice_index_allocated[result] = true;
-      break;
-    }
+  while (is_slice_index_allocated[result])
+    ++result;
+  if (result==max_nr_slices)
+    result = no_slice;
+  else
+    is_slice_index_allocated[result] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -111,7 +111,7 @@ slice_index create_slice(slice_type type)
 
   result = alloc_slice();
 
-  if (result<max_nr_slices)
+  if (result!=no_slice)
   {
     SLICE_TYPE(result) = type;
     SLICE_STARTER(result) = no_side;
@@ -119,10 +119,6 @@ slice_index create_slice(slice_type type)
     SLICE_NEXT1(result) = no_slice;
     SLICE_NEXT2(result) = no_slice;
     SLICE_TESTER(result) = no_slice;
-  }
-  else
-  {
-    result = no_slice;
   }
 
   TraceFunctionExit(__func__);
