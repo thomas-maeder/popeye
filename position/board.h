@@ -237,8 +237,8 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define is_no_capture(sq_capture) ((sq_capture)>=pawn_multistep)
 
 #define is_on_board(sq) \
-   (left_file<=(sq)%onerow && (sq)%onerow<=right_file \
-    && bottom_row<=(sq)/onerow && (sq)/onerow<=top_row)
+   ((square_a1<=(sq)) && ((sq)<=square_h8) && \
+    (left_file<=((sq)%onerow)) && (((sq)%onerow)<=right_file))
 
 /* Calculate a square transformation
  * @param sq square to be reflected
