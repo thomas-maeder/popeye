@@ -493,10 +493,10 @@ static slice_index help_branch_locate_played(slice_index si, unsigned int parity
 
   {
     slice_index const ready = branch_find_slice(STReadyForHelpMove,si,stip_traversal_context_help);
-    slice_index const played1 = branch_find_slice(STHelpMovePlayed,ready,stip_traversal_context_help);
-    slice_index const played2 = branch_find_slice(STHelpMovePlayed,played1,stip_traversal_context_help);
     assert(ready!=no_slice);
+    slice_index const played1 = branch_find_slice(STHelpMovePlayed,ready,stip_traversal_context_help);
     assert(played1!=no_slice);
+    slice_index const played2 = branch_find_slice(STHelpMovePlayed,played1,stip_traversal_context_help);
     assert(played2!=no_slice);
 
     if (SLICE_U(ready).branch.length%2==parity%2)

@@ -91,6 +91,7 @@ static boolean is_series(slice_index si)
   TraceFunctionParamListEnd();
 
   slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si,stip_traversal_context_help);
+  assert(ready1!=no_slice);
   slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
   result = ready1==ready2;
 

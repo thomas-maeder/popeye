@@ -1095,6 +1095,7 @@ static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
     slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
                                               entry->u.remove_stipulation.start,
                                               stip_traversal_context_intro);
+    assert(end!=no_slice);
     pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
     pipe_link(entry->u.remove_stipulation.last_removed,end);
   }
@@ -1122,6 +1123,7 @@ void move_effect_journal_do_remove_stipulation(slice_index start)
 
   entry->u.remove_stipulation.start = start;
   entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+  assert(entry->u.remove_stipulation.first_removed!=no_slice);
 
   entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
   while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)

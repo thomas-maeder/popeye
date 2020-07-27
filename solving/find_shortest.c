@@ -97,17 +97,17 @@ static void insert_find_shortest_battle_adapter(slice_index si,
   if (length>=min_length+2)
   {
     slice_index const defense = branch_find_slice(STReadyForDefense,si,st->context);
+    assert(defense!=no_slice);
     slice_index const attack = branch_find_slice(STReadyForAttack,
                                                  defense,
                                                  stip_traversal_context_defense);
+    assert(attack!=no_slice);
     slice_index const prototypes[] =
     {
         alloc_find_shortest_slice(length,min_length),
         alloc_learn_unsolvable_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    assert(defense!=no_slice);
-    assert(attack!=no_slice);
     attack_branch_insert_slices(attack,prototypes,nr_prototypes);
   }
 
@@ -123,6 +123,7 @@ static slice_index find_ready_for_move_in_loop(slice_index ready_root)
     result = branch_find_slice(STReadyForHelpMove,
                                result,
                                stip_traversal_context_help);
+    assert(result!=no_slice);
   } while ((SLICE_U(result).branch.length-slack_length)%2
            !=(SLICE_U(ready_root).branch.length-slack_length)%2);
   return result;
@@ -163,6 +164,7 @@ static void insert_find_shortest_help_adapter(slice_index si,
           slice_index const ready_root = branch_find_slice(STReadyForHelpMove,
                                                            si,
                                                            st->context);
+          assert(ready_root!=no_slice);
           slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
           slice_index const proxy_root = alloc_proxy_slice();
           slice_index const proxy_loop = alloc_proxy_slice();

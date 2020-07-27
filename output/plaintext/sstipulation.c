@@ -128,6 +128,8 @@ static void write_help(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
 
+  assert(si!=no_slice);
+
   if (state->branch_position==write_state_begin)
   {
     play_type const save_play = state->play;

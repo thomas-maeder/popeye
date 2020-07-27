@@ -99,6 +99,7 @@ void input_plaintext_problem_handle(slice_index si)
       slice_index const first = branch_find_slice(type_first_proto,
                                                   si,
                                                   stip_traversal_context_intro);
+      assert(first!=no_slice);
       SLICE_NEXT1(SLICE_PREV(first)) = no_slice;
       dealloc_slices(first);
     }

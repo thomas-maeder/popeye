@@ -1124,6 +1124,8 @@ void build_atob_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(start_of_machinery!=no_slice);
+
   input_instrument_proof(start_of_machinery);
 
   pipe_solve_delegate(si);
@@ -1141,6 +1143,8 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(start_of_machinery!=no_slice);
 
   input_instrument_proof(start_of_machinery);
 
