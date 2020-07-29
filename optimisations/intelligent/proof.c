@@ -413,40 +413,26 @@ static void PromPieceMovesFromTo(Side side,
                                  stip_length_type *captures,
                                  stip_length_type captallowed)
 {
-  stip_length_type i;
   stip_length_type mov1;
   stip_length_type mov2;
   stip_length_type cap1;
   unsigned int const from_file = from%nr_files_on_board;
-  square const promsq_a = side==White ? square_a8 : square_a1;
-  square const cenpromsq = promsq_a+from_file;
+  unsigned int const min_to_file = ((captallowed<(from_file-file_a)) ? (from_file-captallowed) : file_a);
+  unsigned int const max_to_file = ((captallowed<(file_h-from_file)) ? (from_file+captallowed) : file_h);
+  square const promsq_a = ((side==White) ? square_a8 : square_a1);
+  square promsq = promsq_a+min_to_file;
+  square const promsq_max = promsq_a+max_to_file;
+  stip_length_type min_moves= current_length;
 
-  *moves= current_length;
-
-  PawnMovesFromTo(side,from, cenpromsq, &mov1, &cap1, captallowed);
-  OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq, to, &mov2);
-  if (mov1+mov2 < *moves)
-    *moves= mov1+mov2;
-
-  for (i = 1; i<=captallowed; ++i)
+  do
   {
-    if (from_file+i <= file_h)
-    {
-      /* got out of range sometimes ! */
-      PawnMovesFromTo(side,from, cenpromsq+i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq+i, to, &mov2);
-      if (mov1+mov2 < *moves)
-        *moves= mov1+mov2;
-    }
-    if (from_file>=file_a+i)
-    {
-      /* got out of range sometimes ! */
-      PawnMovesFromTo(side,from, cenpromsq-i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq-i, to, &mov2);
-      if (mov1+mov2 < *moves)
-        *moves= mov1+mov2;
-    }
-  }
+    PawnMovesFromTo(side,from, promsq, &mov1, &cap1, captallowed);
+    OfficerMovesFromTo(proofgames_target_position.board[to], promsq, to, &mov2);
+    if ((mov1+mov2)<min_moves)
+      min_moves= mov1+mov2;
+  } while (promsq_max >= ++promsq);
+
+  *moves= min_moves;
 
   /* We cannot say for sure how many captures we really need.
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
