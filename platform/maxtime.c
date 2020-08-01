@@ -64,7 +64,7 @@ sig_atomic_t volatile periods_counter = 0;
 sig_atomic_t const max_nr_periods = MAX_NR_PERIODS;
 
 /* number of seconds after which solving is aborted */
-sig_atomic_t volatile nr_periods = max_nr_periods;
+sig_atomic_t volatile nr_periods = MAX_NR_PERIODS;
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
