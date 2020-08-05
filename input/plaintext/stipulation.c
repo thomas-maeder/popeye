@@ -139,19 +139,21 @@ static char *ParseReciEnd(char *tok, slice_index start, slice_index proxy)
 
 static char *ParseLength(char *tok, stip_length_type *length)
 {
-  char *end;
-  unsigned int tmp_length;
+  char *end=0;
+  unsigned long int tmp_length=0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%s",tok?tok:"<NULL>");
   TraceFunctionParamListEnd();
 
-  if (tok!=0 && *tok==0)
-    /* allow white space before length, e.g. "dia 4" */
-    tok = ReadNextTokStr();
-
-  tmp_length = (unsigned int)strtoul(tok,&end,10);
-  TraceValue("%ld",tmp_length);
+  if (tok!=0)
+  {
+    if (*tok==0)
+      /* allow white space before length, e.g. "dia 4" */
+      tok = ReadNextTokStr();
+    tmp_length = strtoul(tok,&end,10);
+  }
+  TraceValue("%lu",tmp_length);
   TraceEOL();
 
   if (tok==end || tmp_length>UINT_MAX)
@@ -161,12 +163,12 @@ static char *ParseLength(char *tok, stip_length_type *length)
   }
   else
   {
-    *length = tmp_length;
+    *length = (stip_length_type)tmp_length;
     tok = end;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
+  TraceFunctionResult("%s",tok?tok:"<NULL>");
   TraceFunctionResultEnd();
   return tok;
 }

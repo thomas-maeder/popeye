@@ -375,6 +375,7 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
     if (di==0)
       enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
                                                enumeration->index);
+    assert(enumeration->current!=0);
     enumeration->index++;
     TraceValue("%p",(void *)enumeration->current);
     TraceValue("%p",(void *)*enumeration->current);

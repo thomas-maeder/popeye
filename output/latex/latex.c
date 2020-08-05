@@ -527,8 +527,14 @@ static void WriteSource(FILE *file)
     **            day.-day. month. year
     */
     /* year */
-    eol = date= strchr(source, '\n');
-    *eol = '\0';
+    eol= strchr(source, '\n');
+    if (eol)
+    {
+      *eol = '\0';
+      date= eol;
+    }
+    else
+      date= strchr(source, '\0');
 
     while (strchr("0123456789-", *(date-1)))
       date--;
@@ -607,7 +613,8 @@ static void WriteSource(FILE *file)
     }
     fputs("}%\n",file);
 
-    *eol= '\n';
+    if (eol)
+      *eol= '\n';
   }
 
   TraceFunctionExit(__func__);
@@ -623,7 +630,8 @@ static void WriteAward(FILE *file)
   {
     char *tour = strchr(ActAward, ',');
     char *eol = strchr(ActAward, '\n');
-    *eol = '\0';
+    if (eol)
+      *eol = '\0';
     if (tour)
     {
       WriteUserInputSubElement(file,"award",(unsigned int)(tour-ActAward),ActAward);
@@ -634,7 +642,8 @@ static void WriteAward(FILE *file)
       WriteUserInputElement(file,"tournament",tour);
     } else
       WriteUserInputElement(file,"award",ActAward);
-    *eol = '\n';
+    if (eol)
+      *eol = '\n';
   }
 
   TraceFunctionExit(__func__);
