@@ -245,7 +245,12 @@ void TraceSquareImpl(char const *prefix, square s)
     if (s==initsquare)
       fputs("initsquare",stdout);
     else
-      WriteSquare(&output_plaintext_engine,stdout,s);
+    {
+      if (is_on_board(s))
+        WriteSquare(&output_plaintext_engine,stdout,s);
+      else
+        output_plaintext_engine.fprintf(stdout, "[square %d]", s);
+    }
     fflush(stdout);
   }
 
