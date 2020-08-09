@@ -265,20 +265,28 @@ void TraceSquareImpl(char const *prefix, square s)
                                       "initsquare");
   else
   {
-    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                      entry_length-entry_cursor[level-1],
-                                      "%c",
-                                      (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
-    if (isBoardReflected)
+    if (is_on_board(s))
+    {
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "%c",
-                                        (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
+                                        (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+      if (isBoardReflected)
+        entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                          entry_length-entry_cursor[level-1],
+                                          "%c",
+                                          (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
+      else
+        entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                          entry_length-entry_cursor[level-1],
+                                          "%c",
+                                          (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+    }
     else
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
-                                        "%c",
-                                        (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+                                        "[square %d]",
+                                        s);
   }
 #endif
 }
@@ -390,7 +398,10 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
         WriteWalk(&output_plaintext_engine,
                   stdout,
                   get_walk_of_piece_on_square(*bnp));
-        WriteSquare(&output_plaintext_engine,stdout,*bnp);
+        if (is_on_board(*bnp))
+          WriteSquare(&output_plaintext_engine,stdout,*bnp);
+        else
+          output_plaintext_engine.fprintf(stdout, "[square %d]", *bnp);
         putchar(' ');
       }
 
