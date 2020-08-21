@@ -225,13 +225,15 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
       Flags const sp = being_solved.spec[*bnp];
       PieceIdType const id = GetPieceId(sp);
       PIECE const * const target = &position[id];
-      if (target->square!=vide)
+      if (target->diagram_square!=/* vide */ Empty /* TODO: Is Empty the correct value here? */)
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(being_solved.board[*bnp],
+        Side const cur_side = TSTFLAG(being_solved.spec[*bnp],White) ? White : Black;
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(cur_side,
+                                                                     being_solved.board[*bnp],
                                                                      *bnp,
                                                                      target->type,
-                                                                     target->square);
-        moves_per_side[TSTFLAG(being_solved.spec[*bnp],White) ? White : Black] += time;
+                                                                     target->diagram_square);
+        moves_per_side[cur_side] += time;
         TraceWalk(being_solved.board[*bnp]);
         TraceSquare(*bnp);
         TraceWalk(target->type);
