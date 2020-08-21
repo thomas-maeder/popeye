@@ -237,7 +237,7 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
         TraceWalk(being_solved.board[*bnp]);
         TraceSquare(*bnp);
         TraceWalk(target->type);
-        TraceSquare(target->square);
+        TraceSquare(target->diagram_square);
         TraceEnumerator(piece_usage,target->usage);
         TraceValue("%u",time);
         TraceEOL();
