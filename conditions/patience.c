@@ -104,7 +104,7 @@ retract_move
     ply nply;
     for (nply= nbply - 1 ; nply > 1 ; nply--) {
       if (trait[nply] == trait[nbply]) {
-        being_solved.board[sqdep[nply]]= obs;
+        being_solved.board[sqdep[nply]]= /* obs */ Invalid /* TODO: Is Invalid the correct value here? */;
       }
     }
   }

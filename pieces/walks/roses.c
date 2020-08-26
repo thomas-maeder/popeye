@@ -215,7 +215,7 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
     /* temporarily remove the moving piece to prevent it from blocking
      * itself */
     piece save_piece = being_solved.board[curr_generation->departure];
-    being_solved.board[curr_generation->departure] = vide;
+    being_solved.board[curr_generation->departure] = /* vide */ Empty /* TODO: Is Empty the correct value here? */;
     /* could be going for another 8 steps
     let's make sure we don't run out of S vectors */
     if (delta_k > 0)
