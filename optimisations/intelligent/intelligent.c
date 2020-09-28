@@ -229,12 +229,12 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
       {
         Side const cur_side = TSTFLAG(being_solved.spec[*bnp],White) ? White : Black;
         unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(cur_side,
-                                                                     being_solved.board[*bnp],
+                                                                     get_walk_of_piece_on_square(*bnp),
                                                                      *bnp,
                                                                      target->type,
                                                                      target->diagram_square);
         moves_per_side[cur_side] += time;
-        TraceWalk(being_solved.board[*bnp]);
+        TraceWalk(get_walk_of_piece_on_square(*bnp));
         TraceSquare(*bnp);
         TraceWalk(target->type);
         TraceSquare(target->diagram_square);

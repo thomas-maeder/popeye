@@ -760,9 +760,9 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceWalk(being_solved.board[sq_observer]);
+  TraceWalk(get_walk_of_piece_on_square(sq_observer));
   TraceEOL();
-  switch (being_solved.board[sq_observer])
+  switch (get_walk_of_piece_on_square(sq_observer))
   {
     case King:
     case ErlKing:

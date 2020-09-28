@@ -174,7 +174,7 @@ void total_invisible_generate_special_moves(slice_index si)
   TraceFunctionParamListEnd();
 
   if (play_phase==play_regular)
-    switch (being_solved.board[sq_departure])
+    switch (get_walk_of_piece_on_square(sq_departure))
     {
       case Pawn:
       {

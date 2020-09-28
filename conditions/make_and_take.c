@@ -152,7 +152,7 @@ static void generate_take_candidates(slice_index si,
                                      square sq_make_departure,
                                      ply generating_for)
 {
-  piece_walk_type const walk = being_solved.board[sq_make_departure];
+  piece_walk_type const walk = get_walk_of_piece_on_square(sq_make_departure);
   Flags const flags = being_solved.spec[sq_make_departure];
   numecoup const base_make = CURRMOVE_OF_PLY(nbply-2);
   numecoup const top_make = CURRMOVE_OF_PLY(nbply-1);

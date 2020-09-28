@@ -214,8 +214,8 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
     /* cf. issue 1747928 */
     /* temporarily remove the moving piece to prevent it from blocking
      * itself */
-    piece save_piece = being_solved.board[curr_generation->departure];
-    being_solved.board[curr_generation->departure] = /* vide */ Empty /* TODO: Is Empty the correct value here? */;
+    piece save_piece = get_walk_of_piece_on_square(curr_generation->departure);
+    set_walk_of_piece_on_square(curr_generation->departure, /* vide */ Empty); /* TODO: Is Empty the correct value here? */;
     /* could be going for another 8 steps
     let's make sure we don't run out of S vectors */
     if (delta_k > 0)
@@ -233,7 +233,7 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
                                                                 &idx_curr_dir,
                                                                 sense);
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
-    being_solved.board[curr_generation->departure] = save_piece;
+    set_walk_of_piece_on_square(curr_generation->departure, save_piece);
 #endif
     if (curr_generation->arrival!=curr_generation->departure
         && piece_belongs_to_opponent(curr_generation->arrival))
@@ -286,7 +286,7 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
 
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
       /* cf. issue 1747928 */
-      if (sq_departure==sq_target && being_solved.board[sq_hurdle]==observing_walk[nbply]) {
+      if (sq_departure==sq_target && get_walk_of_piece_on_square(sq_hurdle)==observing_walk[nbply]) {
         /* special case: king and rose lion are the only pieces on the
          * line -> king is hurdle, and what we thought to be the hurdle
          * is in fact the rose lion! */

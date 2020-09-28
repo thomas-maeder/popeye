@@ -319,7 +319,7 @@ static void write_flags_change(output_plaintext_move_context_type *context,
         (*context->engine->fputc)('=',context->file);
         WriteSpec(context->engine,context->file,
                   move_effect_journal[curr].u.flags_change.to,
-                  being_solved.board[move_effect_journal[curr].u.flags_change.on],
+                  get_walk_of_piece_on_square(move_effect_journal[curr].u.flags_change.on),
                   false);
       }
       break;

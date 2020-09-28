@@ -213,16 +213,16 @@ static void do_shift(square from, square to)
     if (!is_square_empty(*bnp))
     {
       square const to = *bnp + vector;
-      board[to] = being_solved.board[*bnp];
+      board[to] = get_walk_of_piece_on_square(*bnp);
       spec[to] = being_solved.spec[*bnp];
-      being_solved.board[*bnp] = Empty;
+      set_walk_of_piece_on_square(*bnp, Empty);
       CLEARFL(being_solved.spec[*bnp]);
     }
 
   for (bnp = boardnum; *bnp; bnp++)
     if (board[*bnp]!=Empty)
     {
-      being_solved.board[*bnp] = board[*bnp];
+      set_walk_of_piece_on_square(*bnp, board[*bnp]);
       being_solved.spec[*bnp] = spec[*bnp];
     }
 }

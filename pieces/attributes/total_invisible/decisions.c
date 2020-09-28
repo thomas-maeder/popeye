@@ -382,11 +382,11 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
   WriteSpec(&output_plaintext_engine,
             stdout,
             being_solved.spec[pos],
-            being_solved.board[pos],
+            get_walk_of_piece_on_square(pos),
             true);
   WriteWalk(&output_plaintext_engine,
             stdout,
-            being_solved.board[pos]);
+            get_walk_of_piece_on_square(pos));
   WriteSquare(&output_plaintext_engine,
               stdout,
               pos);

@@ -394,7 +394,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
       {
         WriteSpec(&output_plaintext_engine,
                   stdout,being_solved.spec[*bnp],
-                  being_solved.board[*bnp],true);
+                  get_walk_of_piece_on_square(*bnp),true);
         WriteWalk(&output_plaintext_engine,
                   stdout,
                   get_walk_of_piece_on_square(*bnp));

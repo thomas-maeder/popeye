@@ -94,7 +94,7 @@ static void done_validating_king_placements(void)
 //      {
 //        WriteSpec(&output_plaintext_engine,
 //                  stdout,being_solved.spec[*bnp],
-//                  being_solved.board[*bnp],true);
+//                  get_walk_of_piece_on_square(*bnp),true);
 //        WriteWalk(&output_plaintext_engine,
 //                  stdout,
 //                  get_walk_of_piece_on_square(*bnp));
@@ -153,14 +153,14 @@ static void nominate_king_invisible_by_invisible(void)
         CLRFLAG(being_solved.spec[*s],side_mating);
         SETFLAG(being_solved.spec[*s],Royal);
         ++being_solved.number_of_pieces[side_to_be_mated][King];
-        being_solved.board[*s] = King;
+        set_walk_of_piece_on_square(*s, King);
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
         push_decision_king_nomination(id_king,*s);
         restart_from_scratch();
         pop_decision();
         decision_levels[id_king].walk = save_decision_walk;
-        being_solved.board[*s] = Dummy;
+        set_walk_of_piece_on_square(*s, Dummy);
         --being_solved.number_of_pieces[side_to_be_mated][King];
         being_solved.spec[*s] = save_flags;
       }

@@ -90,10 +90,10 @@ play_move
 
 if (PatienceB) {
   ply nply;
-  being_solved.board[sq_departure]= /* obs */ Invalid; /* TODO: Is Invalid the correct value here? */
+  set_walk_of_piece_on_square(sq_departure, /* obs */ Invalid); /* TODO: Is Invalid the correct value here? */
   for (nply= nbply - 1 ; nply > 1 ; nply--) {
     if (trait[nply] == trait_ply) {
-      being_solved.board[sqdep[nply]]= /* vide */ Empty; /* TODO: Is Empty the correct value here? */
+      set_walk_of_piece_on_square(sqdep[nply], /* vide */ Empty); /* TODO: Is Empty the correct value here? */
     }
   }
 }
@@ -104,7 +104,7 @@ retract_move
     ply nply;
     for (nply= nbply - 1 ; nply > 1 ; nply--) {
       if (trait[nply] == trait[nbply]) {
-        being_solved.board[sqdep[nply]]= /* obs */ Invalid /* TODO: Is Invalid the correct value here? */;
+        set_walk_of_piece_on_square(sqdep[nply], /* obs */ Invalid); /* TODO: Is Invalid the correct value here? */;
       }
     }
   }
