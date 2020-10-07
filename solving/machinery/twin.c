@@ -1839,6 +1839,11 @@ void verify_position(slice_index si)
         output_plaintext_message(IntelligentRestricted);
         return;
       }
+    if (TSTFLAG(some_pieces_flags, Kamikaze))
+    {
+      output_plaintext_message(IntelligentRestricted);
+      return;
+    }
   }
 
   pipe_solve_delegate(si);
