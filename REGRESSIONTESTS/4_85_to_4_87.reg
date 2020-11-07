@@ -53,3 +53,39 @@ https://github.com/thomas-maeder/popeye/issues/290
 solution finished.
 
 
+
+           Andrew Buchanan
+Popeye 4.85 printed dummies as total invisibles in the solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   . -DU   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+             PromOnly DU
+
+   1.c7-c8=DU !
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+

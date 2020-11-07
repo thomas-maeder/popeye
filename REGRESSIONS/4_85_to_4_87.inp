@@ -18,4 +18,16 @@ origin https://github.com/thomas-maeder/popeye/issues/290
 Pieces TotalInvisible 1 White Kb2 Black Ka4 Neutral Rb8
 Stipulation h#1
 
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+Stipulation ~1
+Condition PromOnly DU
+Pieces
+  black  duf2 Kg1
+  white  pc7
+option nowk
+
 EndProblem
+
