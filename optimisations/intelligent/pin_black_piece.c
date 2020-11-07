@@ -125,6 +125,9 @@ static void pin_using_specific_piece_on(slice_index si,
       pin_by_promoted_pawn(si,pinner_index,pin_from,is_pin_on_diagonal,go_on);
       break;
 
+    case Dummy:
+      break;
+
     default:
       assert(0);
       break;

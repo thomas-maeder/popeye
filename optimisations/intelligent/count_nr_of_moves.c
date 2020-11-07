@@ -268,6 +268,9 @@ static unsigned int officer(piece_walk_type piece, square from_square, square to
       result = knight(from_square,to_square);
       break;
 
+    case Dummy:
+      break;
+
     default:
       assert(0);
       result = UINT_MAX;
@@ -395,6 +398,9 @@ static unsigned int from_to_different(Side side,
         else
           result = black_pawn_promotion(from_square,to_piece,to_square);
       }
+      break;
+
+    case Dummy:
       break;
 
     default:

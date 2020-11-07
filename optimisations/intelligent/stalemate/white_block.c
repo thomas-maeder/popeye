@@ -66,6 +66,9 @@ void intelligent_stalemate_white_block(slice_index si, square to_be_blocked)
                                                     &intelligent_stalemate_test_target_position);
             break;
 
+          case Dummy:
+            break;
+
           default:
             assert(0);
             break;

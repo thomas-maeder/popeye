@@ -649,6 +649,9 @@ static void promoted_pawn(slice_index si, square guard_from)
           promoted_knight(si,guard_from);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;
@@ -847,6 +850,9 @@ static void guard_next_flight(slice_index si)
         case Pawn:
           unpromoted_pawn(si,*bnp);
           promoted_pawn(si,*bnp);
+          break;
+
+        case Dummy:
           break;
 
         default:
