@@ -1832,13 +1832,34 @@ void verify_position(slice_index si)
 
   if (OptFlag[intelligent])
   {
-    Cond cond;
-    for (cond = 0; cond!=CondCount; ++cond)
-      if (CondFlag[cond] && !does_condition_allow_intelligent(cond))
+    {
+      Cond cond;
+      for (cond = 0; cond!=CondCount; ++cond)
+        if (CondFlag[cond] && !does_condition_allow_intelligent(cond))
+        {
+          output_plaintext_message(IntelligentRestricted);
+          return;
+        }
+    }
+
+    {
+      piece_walk_type curr_promotee_walk;
+
+      for (curr_promotee_walk = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty];
+           curr_promotee_walk!=Empty;
+           curr_promotee_walk = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][curr_promotee_walk])
       {
-        output_plaintext_message(IntelligentRestricted);
-        return;
+        if (curr_promotee_walk!=Queen
+            && curr_promotee_walk!=Knight
+            && curr_promotee_walk!=Rook
+            && curr_promotee_walk!=Bishop
+            && curr_promotee_walk!=Dummy)
+        {
+          output_plaintext_message(IntelligentRestricted);
+          return;
+        }
       }
+    }
   }
 
   pipe_solve_delegate(si);
