@@ -89,3 +89,44 @@ Popeye 4.85 printed dummies as total invisibles in the solution
 solution finished.
 
 
+
+           Andrew Buchanan
+Popeye 4.85 printed dummies as total invisibles in the solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  DU   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   P   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         4 + 3
+         PromOnly Q S R B DU
+
+0 potential positions in 1+1
+0 potential positions in 2+2
+0 potential positions in 3+3
+4 potential positions in 4+4
+47 potential positions in 5+5
+  1.c2-c1=DU Bg7-h6   2.d4-d3 Kg1-f1   3.d3-d2 Kf1-e2   4.d2-d1=B + Ke2-d2   5.Bd1-b3 Kd2*c1   6.Bb3-a2 Bh6-g7 #
+289 potential positions in 6+6
+  add_to_move_generation_stack:     4715090
+                     play_move:     4790971
+ is_white_king_square_attacked:      443150
+ is_black_king_square_attacked:      595213
+
+solution finished.
+
+

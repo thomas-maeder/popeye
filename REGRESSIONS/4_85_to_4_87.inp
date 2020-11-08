@@ -29,5 +29,14 @@ Pieces
   white  pc7
 option nowk
 
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+pieces white kg1 bg7 pf2 duf8 black ka1 pc2d4
+Stipulation h#6
+Option Intelligent 2 movenum
+Condition PromOnly Q R S B DU
+
 EndProblem
 
