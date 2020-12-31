@@ -67,7 +67,6 @@ static struct
     ply ply_failure;
     Side side_failure;
     PieceIdType id_failure;
-    vec_index_type check_idx;
 } backtracking[decision_level_dir_capacity];
 
 unsigned long record_decision_counter;
@@ -138,11 +137,9 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   printf(" - %s:#%u",basename(file),line);
   printf(" - D:%lu",record_decision_counter);
   printf(" - %lu",record_decision_counter-prev_record_decision_counter);
-  prev_record_decision_counter = record_decision_counter;
   ++record_decision_counter;
   move_numbers_write_history(top_ply_of_regular_play+1);
   fflush(stdout);
-
   prev_record_decision_counter = record_decision_counter;
 #endif
 
@@ -165,6 +162,18 @@ void record_decision_for_inserted_invisible(PieceIdType id)
   TraceFunctionResultEnd();
 }
 
+static void TraceBacktracking(void)
+{
+  TraceValue("%u",decision_top);
+  TraceValue("%u",backtracking[decision_top].result);
+  TraceValue("%u",backtracking[decision_top].type);
+  TraceValue("%u",backtracking[decision_top].nr_check_vectors);
+  TraceValue("%u",backtracking[decision_top].ply_failure);
+  TraceEnumerator(Side,backtracking[decision_top].side_failure);
+  TraceValue("%u",backtracking[decision_top].id_failure);
+  TraceEOL();
+}
+
 static decision_level_type push_decision_common(char const *file, unsigned int line)
 {
   assert(decision_top<decision_level_dir_capacity);
@@ -180,13 +189,14 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   backtracking[decision_top].ply_failure = ply_nil;
   backtracking[decision_top].side_failure = no_side;
   backtracking[decision_top].id_failure = NullPieceId;
-  backtracking[decision_top].check_idx = 0;
 
   ++record_decision_counter;
 
 #if defined(REPORT_DECISIONS)
   report_endline(file,line);
 #endif
+
+  TraceBacktracking();
 
   return decision_top;
 }
@@ -460,9 +470,6 @@ has_solution_type get_decision_result(void)
   return result;
 }
 
-Side side_in_check_to_be_intercepted;
-vec_index_type check_vector_to_be_intercepted;
-
 void pop_decision(void)
 {
   TraceFunctionEntry(__func__);
@@ -472,27 +479,26 @@ void pop_decision(void)
   decision_level_properties[decision_top+1].side = no_side;
   decision_level_properties[decision_top+1].relevance = relevance_unknown;
 
+  TraceBacktracking();
+
   assert(decision_top>0);
   --decision_top;
 
-  TraceValue("%u",decision_top);
-  TraceValue("%u",backtracking[decision_top+1].result);
-  TraceValue("%u",backtracking[decision_top+1].type);
-  TraceValue("%u",backtracking[decision_top+1].nr_check_vectors);
-  TraceValue("%u",backtracking[decision_top+1].ply_failure);
-  TraceValue("%u",backtracking[decision_top].result);
-  TraceValue("%u",backtracking[decision_top].type);
-  TraceValue("%u",backtracking[decision_top].nr_check_vectors);
-  TraceValue("%u",backtracking[decision_top].ply_failure);
-  TraceEOL();
+  TraceValue("decremented to %u",decision_top);TraceEOL();
 
+  TraceBacktracking();
+
+  // TODO what does it mean if backtracking[decision_top].ply_failure==0? should we adopt?
   if ((backtracking[decision_top+1].result
        >backtracking[decision_top].result)
       || ((backtracking[decision_top+1].result
            ==backtracking[decision_top].result)
           && (backtracking[decision_top+1].ply_failure
               >=backtracking[decision_top].ply_failure)))
+  {
+    TraceText("adopting backtracking from nested decision\n");
     backtracking[decision_top] = backtracking[decision_top+1];
+  }
 
   TraceValue("%u",decision_level_properties[decision_top+1].ply);
   TraceValue("%u",decision_level_properties[decision_top+1].purpose);
@@ -693,11 +699,6 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
 
 !          <11 - r:1 t:3 m:11 n:2 i:14
              */
-          }
-          if (backtracking[decision_top].nr_check_vectors==1)
-          {
-            side_in_check_to_be_intercepted = backtracking[decision_top].side_failure;
-            check_vector_to_be_intercepted = backtracking[decision_top].check_idx;
           }
           break;
 
@@ -1690,7 +1691,6 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
   backtracking[decision_top].nr_check_vectors = nr_check_vectors;
   backtracking[decision_top].ply_failure = nbply;
   backtracking[decision_top].side_failure = side_in_check;
-  backtracking[decision_top].check_idx = check_idx;
   backtracking[decision_top].max_level = decision_level_latest;
 
   try_to_avoid_insertion[Black] = false;
