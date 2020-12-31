@@ -888,7 +888,9 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
     square sq_arrival = being_solved.king_square[side_in_check_to_be_intercepted]+dir;
 
     TraceSquare(sq_departure);
+    TraceEnumerator(Side,side_in_check_to_be_intercepted);
     TraceSquare(being_solved.king_square[side_in_check_to_be_intercepted]);
+    TraceValue("%d",vec[check_vector_to_be_intercepted]);
     TraceEOL();
     do
     {

@@ -465,6 +465,8 @@ vec_index_type check_vector_to_be_intercepted;
 
 void pop_decision(void)
 {
+  boolean backtracking_adopted = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -480,19 +482,24 @@ void pop_decision(void)
   TraceValue("%u",backtracking[decision_top+1].type);
   TraceValue("%u",backtracking[decision_top+1].nr_check_vectors);
   TraceValue("%u",backtracking[decision_top+1].ply_failure);
+
   TraceValue("%u",backtracking[decision_top].result);
   TraceValue("%u",backtracking[decision_top].type);
   TraceValue("%u",backtracking[decision_top].nr_check_vectors);
   TraceValue("%u",backtracking[decision_top].ply_failure);
   TraceEOL();
 
+  // TODO what does it mean if backtracking[decision_top].ply_failure==0? should we adopt?
   if ((backtracking[decision_top+1].result
        >backtracking[decision_top].result)
       || ((backtracking[decision_top+1].result
            ==backtracking[decision_top].result)
           && (backtracking[decision_top+1].ply_failure
               >=backtracking[decision_top].ply_failure)))
+  {
+    backtracking_adopted = true;
     backtracking[decision_top] = backtracking[decision_top+1];
+  }
 
   TraceValue("%u",decision_level_properties[decision_top+1].ply);
   TraceValue("%u",decision_level_properties[decision_top+1].purpose);
@@ -694,7 +701,7 @@ HERE - NO NEED TO TRY OTHER MOVES BY THIS KNIGHT
 !          <11 - r:1 t:3 m:11 n:2 i:14
              */
           }
-          if (backtracking[decision_top].nr_check_vectors==1)
+          if (!backtracking_adopted && backtracking[decision_top].nr_check_vectors==1)
           {
             side_in_check_to_be_intercepted = backtracking[decision_top].side_failure;
             check_vector_to_be_intercepted = backtracking[decision_top].check_idx;
