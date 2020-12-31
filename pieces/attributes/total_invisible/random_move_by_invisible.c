@@ -675,32 +675,6 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
   TraceFunctionResultEnd();
 }
 
-static void consider_forward_random_move_by_invisible_rider_to(square sq_arrival,
-                                                               piece_walk_type walk_moving)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  int const diff = sq_arrival-move_effect_journal[movement].u.piece_movement.from;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TraceWalk(walk_moving);
-  TraceFunctionParamListEnd();
-
-  if (CheckDir(move_effect_journal[movement].u.piece_movement.moving)[diff]!=0)
-  {
-    move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-    if (!will_be_taboo(sq_arrival,trait[nbply]))
-      forward_random_move_by_invisible_rider_to(sq_arrival,
-                                                move_effect_journal[movement].u.piece_movement.from,
-                                                move_effect_journal[movement].u.piece_movement.moving,
-                                                walk_moving);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
                                                         vec_index_type kend,
                                                         piece_walk_type walk_moving)
@@ -715,9 +689,6 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  side_in_check_to_be_intercepted = no_side;
-  check_vector_to_be_intercepted = 0;
-
   assert(kstart<=kend);
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
@@ -725,18 +696,12 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
 
     TraceValue("%u",k);TraceValue("%d",vec[k]);TraceEOL();
 
-    side_in_check_to_be_intercepted = no_side;
-    check_vector_to_be_intercepted = 0;
-
     for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
          is_on_board(sq_arrival) && can_decision_level_be_continued();
          sq_arrival += vec[k])
     {
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-
-      side_in_check_to_be_intercepted = no_side;
-      check_vector_to_be_intercepted = 0;
 
       /* "factoring out" the invokations of is_taboo() is tempting, but we
        * want to break the loop if sq_arrival is not empty whether or not
@@ -753,79 +718,7 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
           forward_accidental_capture_by_invisible(walk_moving);
         break;
       }
-
-      TraceEnumerator(Side,side_in_check_to_be_intercepted);
-      TraceValue("%u",check_vector_to_be_intercepted);
-      TraceEOL();
-      if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
-        break;
     }
-
-    TraceEnumerator(Side,side_in_check_to_be_intercepted);
-    TraceValue("%u",check_vector_to_be_intercepted);
-    TraceEOL();
-    if (side_in_check_to_be_intercepted!=no_side && check_vector_to_be_intercepted!=0)
-      break;
-  }
-
-  TraceEnumerator(Side,side_in_check_to_be_intercepted);
-  TraceValue("%u",check_vector_to_be_intercepted);
-  TraceSquare(being_solved.king_square[side_in_check_to_be_intercepted]);
-  TraceEOL();
-  if (side_in_check_to_be_intercepted!=no_side
-      && check_vector_to_be_intercepted!=0
-      && being_solved.king_square[side_in_check_to_be_intercepted]!=initsquare)
-  {
-    int const dir = vec[check_vector_to_be_intercepted];
-    square sq_arrival = being_solved.king_square[side_in_check_to_be_intercepted]+dir;
-
-    TraceValue("%d",dir);
-    TraceSquare(sq_arrival);
-    TraceValue("%u",is_square_empty(sq_arrival));
-    TraceEOL();
-
-    do
-    {
-      if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
-        consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
-      sq_arrival += dir;
-    } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
-
-    if (is_on_board(sq_arrival)
-        && TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
-        && can_decision_level_be_continued())
-      consider_forward_random_move_by_invisible_rider_to(sq_arrival,walk_moving);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void consider_forward_random_move_by_invisible_leaper_to(square sq_arrival,
-                                                                piece_walk_type walk_moving)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  int const diff = sq_arrival-move_effect_journal[movement].u.piece_movement.from;
-  piece_walk_type const check_dir_index = (move_effect_journal[movement].u.piece_movement.moving==King
-                                           ? Queen
-                                           : move_effect_journal[movement].u.piece_movement.moving);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TraceWalk(walk_moving);
-  TraceFunctionParamListEnd();
-
-  assert(is_on_board(sq_arrival));
-
-  if (CheckDir(check_dir_index)[diff]==diff)
-  {
-    move_effect_journal[movement].u.piece_movement.to = sq_arrival;
-    if (!will_be_taboo(sq_arrival,trait[nbply]))
-      forward_random_move_by_invisible_leaper_to(sq_arrival,
-                                                 move_effect_journal[movement].u.piece_movement.from,
-                                                 move_effect_journal[movement].u.piece_movement.moving,
-                                                 walk_moving);
   }
 
   TraceFunctionExit(__func__);
@@ -850,9 +743,6 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
 
   TraceWalk(get_walk_of_piece_on_square(sq_departure));TraceEOL();
 
-  side_in_check_to_be_intercepted = no_side;
-  check_vector_to_be_intercepted = 0;
-
   assert(kstart<=kend);
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
@@ -864,44 +754,11 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
       /* just in case: */
       move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
 
-      side_in_check_to_be_intercepted = no_side;
-      check_vector_to_be_intercepted = 0;
-
       if (is_square_empty(sq_arrival))
         done_forward_random_move_by_invisible(walk_moving);
       else
         forward_accidental_capture_by_invisible(walk_moving);
-
-      if (side_in_check_to_be_intercepted!=no_side
-          && check_vector_to_be_intercepted!=0
-          && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
-        break;
     }
-  }
-
-  if (side_in_check_to_be_intercepted!=no_side
-      && check_vector_to_be_intercepted!=0
-      && being_solved.king_square[side_in_check_to_be_intercepted]!=initsquare
-      && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
-  {
-    int const dir = vec[check_vector_to_be_intercepted];
-    square sq_arrival = being_solved.king_square[side_in_check_to_be_intercepted]+dir;
-
-    TraceSquare(sq_departure);
-    TraceEnumerator(Side,side_in_check_to_be_intercepted);
-    TraceSquare(being_solved.king_square[side_in_check_to_be_intercepted]);
-    TraceValue("%d",vec[check_vector_to_be_intercepted]);
-    TraceEOL();
-    do
-    {
-      if (sq_arrival!=move_effect_journal[movement].u.piece_movement.from)
-        consider_forward_random_move_by_invisible_leaper_to(sq_arrival,walk_moving);
-      sq_arrival += dir;
-    } while (is_square_empty(sq_arrival) && can_decision_level_be_continued());
-
-    if (TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply]))
-        && can_decision_level_be_continued())
-      consider_forward_random_move_by_invisible_leaper_to(sq_arrival,walk_moving);
   }
 
   TraceFunctionExit(__func__);
