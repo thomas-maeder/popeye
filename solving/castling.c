@@ -804,6 +804,14 @@ void generate_castling(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(Side,side);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_castling)==k_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,q_castling)==q_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_cancastle)==k_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,rh_cancastle)==rh_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,ra_cancastle)==ra_cancastle);
+  TraceEOL();
+
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
     castling_rights_type allowed_castlings = 0;
