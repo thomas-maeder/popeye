@@ -1136,7 +1136,6 @@ static boolean is_viable_capturer(PieceIdType id)
   TraceFunctionParam("%u",id);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",id);TraceEOL();
   TraceAction(&motivation[id].first);TraceEOL();
   TraceAction(&motivation[id].last);TraceEOL();
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
@@ -1144,37 +1143,38 @@ static boolean is_viable_capturer(PieceIdType id)
 
   if (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
   {
-    /* piece was captured or merged into a capturer from regular play */
+    TraceText("piece was captured or merged into a capturer from regular play\n");
     result = false;
   }
   else if (motivation[id].last.acts_when==nbply
            && motivation[id].last.purpose!=purpose_interceptor)
   {
-    /* piece is active for another purpose */
+    TraceText("piece is active for a different purpose\n");
     result = false;
   }
   else if (motivation[id].last.acts_when>nbply)
   {
-    /* piece will be active after the capture */
+    TraceText("piece will be active after the capture\n");
     result = false;
   }
   else if (id!=GetPieceId(being_solved.spec[motivation[id].last.on]))
   {
+    TraceText("piece on square has different id\n");
     result = false;
   }
   else if (motivation[id].first.on==initsquare)
   {
-    /* revealed piece - to be replaced by an "actual" piece */
+    TraceText("revealed piece - to be replaced by an 'actual' piece\n");
     result = false;
   }
   else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],trait[nbply]))
   {
-    /* candidate belongs to wrong side */
+    TraceText("candidate belongs to wrong side\n");
     result = false;
   }
   else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],Chameleon))
   {
-    /* candidate has been revealed */
+    TraceText("candidate has been revealed\n");
     result = false;
   }
   else
@@ -1242,6 +1242,9 @@ static unsigned int capture_by_inserted_invisible(void)
 
     current_consumption = save_consumption;
 
+    TraceEnumerator(Side,trait[nbply]);
+    TraceSquare(being_solved.king_square[trait[nbply]]);
+    TraceEOL();
     if (being_solved.king_square[trait[nbply]]==initsquare
         && current_consumption.claimed[trait[nbply]])
     {
