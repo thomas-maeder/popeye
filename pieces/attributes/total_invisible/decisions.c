@@ -876,10 +876,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            /* try harder.
-             * a future decision may select
-             * - a walk that allows us to eventually intercept the check
-             */
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
           }
           else
             skip = true;
@@ -889,10 +886,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - select a piece that can intercept the check
-             */
+            TraceText("try harder - a future decision may select a piece that can intercept the check\n");
              /* e.g.
              Michel Caillaud
   Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
@@ -939,10 +933,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           }
           else
           {
-            /* try harder.
-             * a future decision may
-             * - select a departure square where this piece intercepted the check before moving
-             */
+            TraceText("try harder - a future decision may select a departure square where this piece intercepted the check before moving\n");
           }
           break;
 
@@ -968,10 +959,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
             if (decision_level_properties[curr_level].ply
                 <backtracking[curr_level-1].ply_failure-2)
             {
-              /* try harder.
-               * a future decision may select
-               * - a walk that allows us to eventually intercept the check
-               */
+              TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
               /* e.g.
 
   begin
@@ -1030,16 +1018,16 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           else
           {
-            /* try harder.
-             * a future decision may select
-             * - a walk that doesn't deliver check
-             *   - from the departure square (if the capture was after ply_failure)
-             *   - from the arrival square (if the capture was before ply_failure)
-             */
+            TraceText("try harder - a future decision may select a walk that doesn't deliver check\n");
+            TraceText(" from the departure square (if the capture was after ply_failure)\n");
+            TraceText(" from the arrival square (if the capture was before ply_failure)\n");
           }
           break;
 
@@ -1050,10 +1038,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
             if (decision_level_properties[curr_level].side
                 ==backtracking[curr_level-1].side_failure)
             {
-              /* try harder.
-               * a future decision may select
-               * - a square where we aren't in check
-               */
+              TraceText("try harder - a future decision may select a square where we aren't in check\n");
                /* e.g.
 
                Ofer Comay
@@ -1116,14 +1101,14 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
             }
             else
             {
-              /* try harder.
-               * a future decision may select
-               * - a square from where we don't deliver check
-               */
+              TraceText("try harder - a square from where we don't deliver check\n");
             }
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_move_vector:
@@ -1131,10 +1116,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
                >backtracking[curr_level-1].ply_failure)
               && (decision_level_properties[curr_level].side!=backtracking[curr_level-1].side_failure))
           {
-            /* try harder.
-             * a future decision may select
-             * - a move vector from where we don't deliver check
-             */
+            TraceText("try harder - a future decision may select a move vector from where we don't deliver check\n");
              /* e.g.
   begin
   author Michel Caillaud
@@ -1198,7 +1180,10 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
                */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         default:
@@ -1223,9 +1208,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
                                                        backtracking[curr_level-1].ply_failure,
                                                        backtracking[curr_level-1].side_failure))
             {
-              /* try harder
-               * a random move by invisible according to the selected walk may help us out
-               */
+              TraceText("try harder - a random move by invisible according to the selected walk may help us out\n");
               /* e.g.
 begin
 author Michel Caillaud
@@ -1311,6 +1294,7 @@ WE HAVE TO TRY OTHER WALKS - E.G. BISHOP TO ALLOW BG6-F5 IN PLY 7
             }
             else
             {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
               /* e.g.
 begin
@@ -1393,7 +1377,10 @@ HERE - no need to try other walks on b2
           {
             if (decision_level_properties[curr_level].ply
                 >backtracking[curr_level-1].ply_failure)
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
             else
             {
               /* try harder.
@@ -1404,11 +1391,9 @@ HERE - no need to try other walks on b2
           }
           else
           {
-            /* try harder.
-             * a future decision may select
-             * - a walk that allows us to eventually intercept the check
-             * - a walk that doesn't deliver the check
-             */
+            TraceText("try harder - a future decision may select a walk that\n");
+            TraceText(" allows us to eventually intercept the check");
+            TraceText(" doesn't deliver the check");
             /*
              * e.g. (walk that doesn't deliver the check)
 begin
@@ -1473,10 +1458,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            /* try harder.
-             * a future decision may
-             * - select a piece that can intercept the check
-             */
+            TraceText("try harder - a future decision may select a piece that can intercept the check\n");
              /* e.g.
              Michel Caillaud
   Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
@@ -1523,10 +1505,7 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           }
           else
           {
-            /* try harder.
-             * a future decision may
-             * - select a departure square where this piece intercepted the check before moving
-             */
+            TraceText("try harder - a future decision may select a departure square where this piece intercepted the check before moving\n");
           }
           break;
 
@@ -1534,13 +1513,13 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            /* try harder.
-             * a future decision may select
-             * - an arrival square from where the check can be intercepted
-             */
+            TraceText("try harder - a future decision may select an arrival square from where the check can be intercepted\n");
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         default:
@@ -1557,19 +1536,20 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            /* try harder.
-             * a future decision may select
-             * - a walk that allows us to eventually intercept the check
-             */
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
             /* e.g.
   begin
