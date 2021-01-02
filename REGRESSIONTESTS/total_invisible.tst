@@ -60,7 +60,7 @@ solution finished.
                      play_move:       17789
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5461
-                  TI decisions:        8515
+                  TI decisions:        8544
 
 solution finished.
 
@@ -162,18 +162,18 @@ no castling if the invisible rook would have delivered check
 
 a) 
 
-  add_to_move_generation_stack:        2966
-                     play_move:        5929
- is_white_king_square_attacked:         377
+  add_to_move_generation_stack:        2973
+                     play_move:        5936
+ is_white_king_square_attacked:         252
  is_black_king_square_attacked:        1527
                   TI decisions:        1013
 
 b)   
 
   1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
-  add_to_move_generation_stack:        3076
-                     play_move:        5363
- is_white_king_square_attacked:         488
+  add_to_move_generation_stack:        3083
+                     play_move:        5370
+ is_white_king_square_attacked:         380
  is_black_king_square_attacked:        1387
                   TI decisions:         896
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       10907
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5860
-                  TI decisions:       11405
+                  TI decisions:       11452
 
 solution finished.
 
