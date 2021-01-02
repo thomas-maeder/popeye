@@ -1074,6 +1074,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
+      TraceValue("%u",__LINE__);TraceEOL();
       push_decision_random_move(decision_purpose_random_mover_forward);
       recurse_into_child_ply();
       pop_decision();
@@ -1666,6 +1667,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
     if (nr_total_invisbles_consumed()<=total_invisible_number)
     {
       TraceText("stick to random move by unplaced invisible\n");
+      TraceValue("%u",__LINE__);TraceEOL();
       push_decision_random_move(decision_purpose_random_mover_backward);
       restart_from_scratch();
       pop_decision();
