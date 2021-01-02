@@ -119,6 +119,16 @@ static void prepare_king_side_castling_generation(slice_index si)
       && is_square_empty(square_h)
       && !was_taboo_forever(square_h,side))
   {
+    square const save_king_square = being_solved.king_square[trait[nbply]];
+
+    /* deactivate regular testing for check - a king castling out of (or
+     * through) an apparent check proves the existence of a TI
+     */
+    /* don't do this earlier because being_solved.king_square
+     * influences nr_total_invisbles_consumed()
+     */
+    being_solved.king_square[trait[nbply]] = initsquare;
+
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_h,Rook,BIT(side)|BIT(Chameleon));
     SETCASTLINGFLAGMASK(side,rh_cancastle);
@@ -126,9 +136,18 @@ static void prepare_king_side_castling_generation(slice_index si)
     CLRCASTLINGFLAGMASK(side,rh_cancastle);
     empty_square(square_h);
     --being_solved.number_of_pieces[side][Rook];
+
+    being_solved.king_square[trait[nbply]] = save_king_square;
   }
   else
+  {
+    square const save_king_square = being_solved.king_square[trait[nbply]];
+
+    /* cf. above */
+    being_solved.king_square[trait[nbply]] = initsquare;
     pipe_move_generation_delegate(si);
+    being_solved.king_square[trait[nbply]] = save_king_square;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -142,6 +161,12 @@ static void prepare_queen_side_castling_generation(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",nr_total_invisbles_consumed());
+  TraceValue("%u",total_invisible_number);
+  TraceEOL();
+
+  TraceConsumption();TraceEOL();
 
   if ((nr_total_invisbles_consumed()<total_invisible_number)
       && is_square_empty(square_a)
