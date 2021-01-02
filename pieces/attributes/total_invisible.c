@@ -48,8 +48,6 @@ slice_index tester_slice;
 
 play_phase_type play_phase = play_regular;
 
-static ply flesh_out_move_highwater = ply_retro_move;
-
 void report_deadend(char const *s, unsigned int lineno)
 {
   printf("%s;%u;%u\n",s,lineno,(unsigned int)play_phase);
@@ -1127,6 +1125,8 @@ void solving_instrument_total_invisible(slice_index si)
   move_effect_journal_set_effect_doers(move_effect_revelation_of_placed_invisible,
                                        &undo_revelation_of_placed_invisible,
                                        &redo_revelation_of_placed_invisible);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionResultEnd();
   TraceFunctionExit(__func__);
