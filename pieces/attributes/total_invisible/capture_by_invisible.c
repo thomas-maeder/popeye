@@ -105,12 +105,14 @@ HERE
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
-    else if (walk_capturing==King
-             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
-    {
-      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
-      REPORT_DEADEND;
-    }
+//    else if (walk_capturing==King
+//             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
+//    {
+//      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+// WRONG - such a check is legal if it has just been delivered!
+// TODO can we detect checks that have not just been delivered? should we?
+//      REPORT_DEADEND;
+//    }
     else
     {
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -1210,6 +1212,27 @@ static unsigned int capture_by_existing_invisible(void)
   return result;
 }
 
+static boolean insert_capturing_king(Side side)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  /* this helps us over the allocation */
+  being_solved.king_square[side] = square_a1;
+
+  result = allocate_flesh_out_unplaced(side);
+
+  being_solved.king_square[side] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static unsigned int capture_by_inserted_invisible(void)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
@@ -1245,15 +1268,9 @@ static unsigned int capture_by_inserted_invisible(void)
     TraceEnumerator(Side,trait[nbply]);
     TraceSquare(being_solved.king_square[trait[nbply]]);
     TraceEOL();
-    if (being_solved.king_square[trait[nbply]]==initsquare
-        && current_consumption.claimed[trait[nbply]])
+    if (being_solved.king_square[trait[nbply]]==initsquare)
     {
-      /* no problem - we can simply insert a capturing king */
-
-      /* this helps us over the allocation - it will be overwritten with the actual square later */
-      being_solved.king_square[trait[nbply]] = square_a1;
-
-      if (allocate_flesh_out_unplaced(trait[nbply]))
+      if (insert_capturing_king(trait[nbply]))
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const save_from = move_effect_journal[movement].u.piece_movement.from;
@@ -1276,8 +1293,7 @@ static unsigned int capture_by_inserted_invisible(void)
       }
       else
       {
-        TraceText("allocating the king to be placed should always be possible");
-        assert(0);
+        TraceText("the king has already been placed implicitly (e.g. while intercepting a check)\n");
       }
 
       current_consumption = save_consumption;
