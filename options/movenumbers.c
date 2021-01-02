@@ -183,7 +183,21 @@ void restart_guard_nested_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]]);
+
+  if (MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]])
+  {
+    /* we haven't reached the restart number yet */
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+  }
+  else
+  {
+    /* we have reached the restart number */
+
+    /* prevent the restart number from restricting the remainder of the play*/
+    RestartNbr[parent_ply[nbply]] = 0;
+
+    solve(SLICE_NEXT1(si));
+  }
 
   MoveNbr[nbply+1] = 0;
 
