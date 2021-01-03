@@ -408,7 +408,7 @@ static void adapt_pre_capture_effect(void)
             REPORT_DEADEND;
           }
         }
-        else
+        else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
         {
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
@@ -419,6 +419,11 @@ static void adapt_pre_capture_effect(void)
           deal_with_illegal_checks();
           motivation[id].last.purpose = save_purpose;
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        }
+        else
+        {
+          record_decision_outcome("%s","arrival square occupied by piece of the wrong side");
+          REPORT_DEADEND;
         }
       }
       else
