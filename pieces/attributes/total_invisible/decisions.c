@@ -1106,8 +1106,8 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           }
           else
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            // TODO can we skip if the interceptor is not a king?
+            TraceText("try harder - a square where we are not in check\n");
           }
           break;
 
@@ -1702,13 +1702,20 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -1733,10 +1740,16 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_arrival:
@@ -1750,13 +1763,19 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
              */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_random_move:
           if (decision_level_properties[curr_level].side
               ==backtracking[curr_level-1].side_failure)
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           else
           {
             if (decision_level_properties[curr_level].ply
@@ -1768,7 +1787,10 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           break;
 
@@ -1796,7 +1818,10 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           else
           {
@@ -1878,7 +1903,10 @@ HERE - TRY ROOK AND QUEEN AS WELL
                */
             }
             else
+            {
+              TraceValue("skip on line:%u\n",__LINE__);
               skip = true;
+            }
           }
           break;
 
@@ -1898,10 +1926,14 @@ HERE - TRY ROOK AND QUEEN AS WELL
             }
           }
           else
-            skip = true;
+          {
+            // TODO can we skip if the interceptor is not a king?
+            TraceText("try harder - a departure square where we are not in check\n");
+          }
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -1918,7 +1950,10 @@ HERE - TRY ROOK AND QUEEN AS WELL
                ==backtracking[curr_level-1].ply_failure)
               && (being_solved.king_square[advers(backtracking[curr_level-1].side_failure)]
                   !=initsquare))
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           /* the test being_solved.king_square[advers(side_failure)]!=initsquare is relevant!
            * E.g.
 begin
@@ -1999,6 +2034,7 @@ HERE
              * to capture ...
              * ... but we still have to make sure that this side is examined too!
              */
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
           }
           break;
