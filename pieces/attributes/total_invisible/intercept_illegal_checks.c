@@ -591,7 +591,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
   assert(is_on_board(s));
 
-  if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
+  if (!(is_taboo(s,side) || was_taboo(s,side)))
   {
     remember_taboo_on_square(s,side,nbply);
 
