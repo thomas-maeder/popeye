@@ -60,7 +60,7 @@ solution finished.
                      play_move:       17789
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5461
-                  TI decisions:        8544
+                  TI decisions:        8554
 
 solution finished.
 
@@ -131,7 +131,7 @@ solution finished.
                      play_move:       13666
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4877
-                  TI decisions:        7022
+                  TI decisions:        7035
 
 solution finished.
 
@@ -166,7 +166,7 @@ a)
                      play_move:        5936
  is_white_king_square_attacked:         252
  is_black_king_square_attacked:        1527
-                  TI decisions:        1013
+                  TI decisions:        1021
 
 b)   
 
@@ -175,7 +175,7 @@ b)
                      play_move:        5370
  is_white_king_square_attacked:         380
  is_black_king_square_attacked:        1387
-                  TI decisions:         896
+                  TI decisions:         904
 
 solution finished.
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       10907
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5860
-                  TI decisions:       11452
+                  TI decisions:       12443
 
 solution finished.
 
