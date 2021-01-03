@@ -167,6 +167,10 @@ static void adapt_capture_effect(void)
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
       recurse_into_child_ply();
     }
+    else if (TSTFLAG(being_solved.spec[to],Royal))
+    {
+      TraceText("we don't capture the king\n");
+    }
     else
     {
       PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
@@ -176,7 +180,6 @@ static void adapt_capture_effect(void)
 
       assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
-      assert(!TSTFLAG(being_solved.spec[to],Royal));
 
       motivation[id_captured].last.purpose = purpose_none;
 
