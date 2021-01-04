@@ -72,7 +72,7 @@ void write_history_recursive(ply ply)
 
 void total_invisible_write_flesh_out_history(void)
 {
-  if (total_invisible_number>0 && nbply!=ply_nil)
+  if (total_invisible_number>0 && nbply>ply_retro_move)
   {
     fputs(" -", stdout);
     write_history_recursive(top_ply_of_regular_play);
