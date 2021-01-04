@@ -89,11 +89,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                3 + 2 + 2 TI
 
-  add_to_move_generation_stack:        8129
-                     play_move:       22113
+  add_to_move_generation_stack:        8093
+                     play_move:       22017
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6858
-                  TI decisions:      164975
+ is_black_king_square_attacked:        6798
+                  TI decisions:      155818
 
 solution finished.
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       10907
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5860
-                  TI decisions:       12443
+                  TI decisions:       12444
 
 solution finished.
 
@@ -244,7 +244,7 @@ capture by invisible pawn results in promotion
                      play_move:      576280
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      146330
-                  TI decisions:      666165
+                  TI decisions:      667300
 
 solution finished.
 
@@ -278,7 +278,7 @@ random move by invisible pawn results in promotion
                      play_move:        7591
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1093
-                  TI decisions:       10407
+                  TI decisions:       10498
 
 solution finished.
 
