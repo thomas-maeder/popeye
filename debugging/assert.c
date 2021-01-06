@@ -7,9 +7,18 @@
 
 void assert_impl(char const *assertion, const char *file, int line)
 {
-  move_generator_write_history();
-  total_invisible_write_flesh_out_history();
-  move_numbers_write_history(nbply);
+  static boolean recursion_guard = false;
+
+  if (!recursion_guard)
+  {
+    recursion_guard = true;
+
+    move_generator_write_history();
+    total_invisible_write_flesh_out_history();
+    move_numbers_write_history(nbply);
+
+    recursion_guard = false;
+  }
 
 #ifndef EMSCRIPTEN
 
