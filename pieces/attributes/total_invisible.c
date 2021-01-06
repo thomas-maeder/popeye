@@ -590,6 +590,7 @@ void rewind_effects(void)
 
   while (nbply!=ply_retro_move)
   {
+    TraceConsumption();
     assert(nr_total_invisbles_consumed()<=total_invisible_number);
     undo_move_effects();
     --nbply;
@@ -715,15 +716,28 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  */
 void total_invisible_reserve_king_movement(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* reserve a spot in the move effect journal for the case that a move by an invisible
-   * turns out to move a side's king square
-   */
-  move_effect_journal_do_null_effect();
-  pipe_solve_delegate(si);
+  TraceValue("%u",move_effect_journal[capture].type);
+  TraceEOL();
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Royal))
+  {
+    /* out of here */
+  }
+  else
+  {
+    /* reserve a spot in the move effect journal for the case that a move by an invisible
+     * turns out to move a side's king square
+     */
+    move_effect_journal_do_null_effect();
+    pipe_solve_delegate(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
