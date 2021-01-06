@@ -7,7 +7,7 @@ typedef struct
 {
     unsigned int pawn_victims[nr_sides];
     boolean king[nr_sides];
-    boolean move_after_victing[nr_sides];
+    boolean move_after_victim[nr_sides];
 } static_consumption_type;
 
 extern static_consumption_type static_consumption;

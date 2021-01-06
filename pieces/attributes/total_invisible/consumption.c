@@ -36,9 +36,9 @@ unsigned int nr_total_invisbles_consumed_for_side(Side side)
       >result)
     result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
 
-  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side])
+  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side])
       >result)
-    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side]);
+    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side]);
 
   return result;
 }
