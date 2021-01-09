@@ -428,6 +428,8 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
   }
 
   current_consumption = save_consumption;
+  being_solved.king_square[side] = initsquare;
+
   TraceConsumption();TraceEOL();
 
   being_solved.king_square[side] = initsquare;
