@@ -105,6 +105,25 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionResultEnd();
 }
 
+static boolean can_allocate_castling_partner(Side side)
+{
+  boolean result;
+  dynamic_consumption_type const save_consumption = current_consumption;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  result = allocate_flesh_out_unclaimed(side);
+
+  current_consumption = save_consumption;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void prepare_king_side_castling_generation(slice_index si)
 {
   Side const side = trait[nbply];
@@ -115,7 +134,7 @@ static void prepare_king_side_castling_generation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if ((nr_total_invisbles_consumed()<total_invisible_number)
+  if (can_allocate_castling_partner(trait[nbply])
       && is_square_empty(square_h)
       && !was_taboo_forever(square_h,side))
   {
@@ -125,7 +144,7 @@ static void prepare_king_side_castling_generation(slice_index si)
      * through) an apparent check proves the existence of a TI
      */
     /* don't do this earlier because being_solved.king_square
-     * influences nr_total_invisbles_consumed()
+     * influences can_allocate_castling_partner()
      */
     being_solved.king_square[trait[nbply]] = initsquare;
 
@@ -168,7 +187,7 @@ static void prepare_queen_side_castling_generation(slice_index si)
 
   TraceConsumption();TraceEOL();
 
-  if ((nr_total_invisbles_consumed()<total_invisible_number)
+  if (can_allocate_castling_partner(trait[nbply])
       && is_square_empty(square_a)
       && !was_taboo_forever(square_a,side))
   {

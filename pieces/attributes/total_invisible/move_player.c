@@ -29,13 +29,21 @@ static void play_castling_with_invisible_partner(slice_index si,
 
   if (is_square_empty(sq_departure_partner))
   {
+    boolean const save_move_after_victim = static_consumption.move_after_victim[trait[nbply]];
     dynamic_consumption_type const save_consumption = current_consumption;
+
+    TraceConsumption();
+
+    static_consumption.move_after_victim[trait[nbply]] = true;
+
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
       PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,
                                                            purpose_castling_partner,sq_arrival_partner);
       Flags spec = BIT(side)|BIT(Chameleon);
       ply ply_taboo;
+
+      TraceConsumption();
 
       SetPieceId(spec,id_partner);
       move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
@@ -57,14 +65,11 @@ static void play_castling_with_invisible_partner(slice_index si,
 
       uninitialise_motivation(id_partner);
     }
-    else
-    {
-      /* we have checked acts_when we generated the castling */
-      assert(0);
-    }
 
-    current_consumption = save_consumption;
-    TraceConsumption();TraceEOL();
+    --current_consumption.fleshed_out[side];
+
+    static_consumption.move_after_victim[trait[nbply]] = save_move_after_victim;
+    TraceConsumption();
   }
   else
   {
