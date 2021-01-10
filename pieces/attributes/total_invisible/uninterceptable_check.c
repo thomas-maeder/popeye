@@ -263,16 +263,7 @@ void total_invisible_uninterceptable_selfcheck_guard_solve(slice_index si)
            +nr_revealed_unplaced_invisibles[White]
            +nr_revealed_unplaced_invisibles[Black])
           <=total_invisible_number)
-      {
-        boolean const save_is_king_unplaced = current_consumption.is_king_unplaced[Black];
-        move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-
         evaluate_revelations(si,nr_potential_revelations);
-        current_consumption.is_king_unplaced[Black] = save_is_king_unplaced;
-
-        while (move_effect_journal_base[nbply+1]>top)
-          move_effect_journal_pop_effect();
-      }
     }
 
     forget_taboos_for_current_move();
