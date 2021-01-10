@@ -366,7 +366,12 @@ void dispatch(slice_index si)
   TraceEOL();
 
   TraceConsumption();
+
   assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+
+  assert(total_invisible_number==0
+         || nbply<=ply_retro_move
+         || nr_total_invisbles_consumed()<=total_invisible_number);
 
   switch (SLICE_TYPE(si))
   {
@@ -2493,7 +2498,12 @@ void dispatch(slice_index si)
   }
 
   TraceConsumption();
+
   assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+
+  assert(total_invisible_number==0
+         || nbply<=ply_retro_move
+         || nr_total_invisbles_consumed()<=total_invisible_number);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
