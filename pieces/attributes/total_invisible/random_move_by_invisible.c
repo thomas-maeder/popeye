@@ -887,10 +887,9 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
-    if (!(king_pos!=initsquare
-          && is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_bishop_start,vec_bishop_end,
-                                            Bishop)))
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_bishop_start,vec_bishop_end,
+                                        Bishop))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Bishop];
 
@@ -903,10 +902,9 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
-    if (!(king_pos!=initsquare
-          && is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_rook_start,vec_rook_end,
-                                            Rook)))
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_rook_start,vec_rook_end,
+                                        Rook))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Rook];
 
@@ -919,10 +917,9 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
-    if (!(king_pos!=initsquare
-          && is_rider_check_uninterceptable(side_playing,king_pos,
-                                            vec_queen_start,vec_queen_end,
-                                            Queen)))
+    if (is_rider_check_uninterceptable(side_playing,king_pos,
+                                       vec_queen_start,vec_queen_end,
+                                       Queen))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Queen];
 

@@ -63,6 +63,7 @@ vec_index_type is_rider_check_uninterceptable(Side side_checking, square king_po
   TraceWalk(rider_walk);
   TraceFunctionParamListEnd();
 
+  if (king_pos!=initsquare)
   {
     vec_index_type k;
     for (k = kanf; !result && k<=kend; k++)

@@ -2135,9 +2135,7 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h stipulation/move.h debugging/assert.h \
- pieces/attributes/total_invisible.h \
- pieces/attributes/total_invisible/goal_validation.h
+ stipulation/pipe.h stipulation/move.h debugging/assert.h
 
 solving/king_capture_avoider.h:
 
@@ -2220,10 +2218,6 @@ stipulation/pipe.h:
 stipulation/move.h:
 
 debugging/assert.h:
-
-pieces/attributes/total_invisible.h:
-
-pieces/attributes/total_invisible/goal_validation.h:
 solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  solving/recursion_stopper.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
