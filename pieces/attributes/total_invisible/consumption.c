@@ -9,19 +9,20 @@ dynamic_consumption_type current_consumption = { 0 };
 
 void TraceConsumption(void)
 {
-  TraceValue("%u",current_consumption.fleshed_out[White]);
-  TraceValue("%u",current_consumption.fleshed_out[Black]);
-  TraceValue("%u",current_consumption.placed[White]);
-  TraceValue("%u",current_consumption.placed[Black]);
-  TraceValue("%u",current_consumption.claimed[White]);
-  TraceValue("%u",current_consumption.claimed[Black]);
-  TraceValue("%u",current_consumption.is_king_unplaced[White]);
-  TraceValue("%u",current_consumption.is_king_unplaced[Black]);
-  TraceValue("%u",static_consumption.pawn_victims[White]);
-  TraceValue("%u",static_consumption.pawn_victims[Black]);
-  TraceValue("%u",static_consumption.king[White]);
-  TraceValue("%u",static_consumption.king[Black]);
-  TraceEOL();
+  TraceValue("%u\n",current_consumption.fleshed_out[White]);
+  TraceValue("%u\n",current_consumption.fleshed_out[Black]);
+  TraceValue("%u\n",current_consumption.placed[White]);
+  TraceValue("%u\n",current_consumption.placed[Black]);
+  TraceValue("%u\n",current_consumption.claimed[White]);
+  TraceValue("%u\n",current_consumption.claimed[Black]);
+  TraceValue("%u\n",current_consumption.is_king_unplaced[White]);
+  TraceValue("%u\n",current_consumption.is_king_unplaced[Black]);
+  TraceValue("%u\n",static_consumption.pawn_victims[White]);
+  TraceValue("%u\n",static_consumption.pawn_victims[Black]);
+  TraceValue("%u\n",static_consumption.king[White]);
+  TraceValue("%u\n",static_consumption.king[Black]);
+  TraceValue("%u\n",nr_total_invisbles_consumed_for_side(White));
+  TraceValue("%u\n",nr_total_invisbles_consumed_for_side(Black));
 }
 
 unsigned int nr_total_invisbles_consumed_for_side(Side side)

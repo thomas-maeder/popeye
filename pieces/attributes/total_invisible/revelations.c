@@ -1006,8 +1006,8 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
 
   if (is_square_empty(s))
   {
-    TraceValue("%u",nbply);
-    TraceConsumption();TraceEOL();
+    TraceValue("%u",nbply);TraceEOL();
+    TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     {
