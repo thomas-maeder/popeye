@@ -1265,12 +1265,12 @@ static void evaluate_revelations_recursive(slice_index si,
 void evaluate_revelations(slice_index si,
                           unsigned int nr_potential_revelations)
 {
-  boolean const save_is_king_unplaced = current_consumption.is_king_unplaced[Black];
+  dynamic_consumption_type const save_consumption = current_consumption;
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
 
   evaluate_revelations_recursive(si,nr_potential_revelations);
 
-  current_consumption.is_king_unplaced[Black] = save_is_king_unplaced;
+  current_consumption = save_consumption;
 
   /* we have to undo 'our' effects immediately to make sure that the following
    * invariant is kept:

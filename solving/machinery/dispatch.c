@@ -368,6 +368,7 @@ void dispatch(slice_index si)
   TraceConsumption();
 
   assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+  assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
 
   assert(total_invisible_number==0
          || nbply<=ply_retro_move
@@ -2500,6 +2501,7 @@ void dispatch(slice_index si)
   TraceConsumption();
 
   assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+  assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
 
   assert(total_invisible_number==0
          || nbply<=ply_retro_move
