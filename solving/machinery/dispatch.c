@@ -355,6 +355,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+#include "pieces/attributes/total_invisible/consumption.h"
 void dispatch(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -363,6 +364,14 @@ void dispatch(slice_index si)
 
   TraceEnumerator(slice_type,SLICE_TYPE(si));
   TraceEOL();
+
+  TraceConsumption();
+
+  assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+
+  assert(total_invisible_number==0
+         || nbply<=ply_retro_move
+         || nr_total_invisbles_consumed()<=total_invisible_number);
 
   switch (SLICE_TYPE(si))
   {
@@ -2487,6 +2496,14 @@ void dispatch(slice_index si)
       assert(0);
       break;
   }
+
+  TraceConsumption();
+
+  assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+
+  assert(total_invisible_number==0
+         || nbply<=ply_retro_move
+         || nr_total_invisbles_consumed()<=total_invisible_number);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

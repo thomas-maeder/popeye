@@ -191,6 +191,37 @@ void undo_move_effects(void)
   TraceFunctionResultEnd();
 }
 
+void move_effect_journal_pop_effect(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_entry_type const *top_entry = &move_effect_journal[top-1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+
+  assert(move_effect_journal_base[nbply]>0);
+  TraceValue("%u",top);
+  TraceEOL();
+  assert(top>=move_effect_journal_base[nbply]);
+
+#if defined(DOTRACE)
+  TraceValue("%u",top_entry->type);
+  TraceEOL();
+  TraceValue("%lu",top_entry->id);
+  TraceEOL();
+#endif
+
+  assert(move_effect_doers[top_entry->type].undoer!=0);
+  (*move_effect_doers[top_entry->type].undoer)(top_entry);
+
+  --move_effect_journal_base[nbply+1];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
