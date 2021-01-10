@@ -73,7 +73,6 @@ void TraceEOL(void)
   }
 }
 
-#include "pieces/attributes/total_invisible/consumption.h"
 void TraceFunctionEntry(char const *name)
 {
   ++level;
@@ -81,8 +80,6 @@ void TraceFunctionEntry(char const *name)
   if (level<=max_level)
   {
     printf("> #%lu %s ",level,name);
-    TraceSquare(being_solved.king_square[Black]);
-    TraceValue("%u",current_consumption.is_king_unplaced[Black]);
     fflush(stdout);
   }
 
@@ -120,8 +117,6 @@ void TraceFunctionExit(char const *name)
   if (level<=max_level)
   {
     printf("< #%lu %s",level,name);
-    TraceSquare(being_solved.king_square[Black]);
-    TraceValue("%u",current_consumption.is_king_unplaced[Black]);
     fflush(stdout);
   }
 
