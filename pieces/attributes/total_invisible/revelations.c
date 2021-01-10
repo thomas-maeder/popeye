@@ -1014,6 +1014,13 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
       result = initialise_motivation_from_revelation(status);
 
       SetPieceId(spec,result);
+
+      if (status->walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        current_consumption.is_king_unplaced[side] = false;
+      }
+
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                      s,status->walk,spec);
     }
@@ -1036,6 +1043,13 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
     {
       TraceText("revelation of a placed invisible\n");
       SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+
+      if (status->walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        current_consumption.is_king_unplaced[side] = false;
+      }
+
       do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                         s,status->walk,spec);
     }
@@ -1655,7 +1669,16 @@ void total_invisible_reveal_after_mating_move(slice_index si)
   if (revelation_status_is_uninitialised)
     pipe_solve_delegate(si);
   else
+  {
+    boolean const save_is_king_unplaced = current_consumption.is_king_unplaced[Black];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+
     evaluate_revelations(si,nr_potential_revelations);
+    current_consumption.is_king_unplaced[Black] = save_is_king_unplaced;
+
+    while (move_effect_journal_base[nbply+1]>top)
+      move_effect_journal_pop_effect();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

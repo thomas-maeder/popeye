@@ -15,10 +15,13 @@ void TraceConsumption(void)
   TraceValue("%u",current_consumption.placed[Black]);
   TraceValue("%u",current_consumption.claimed[White]);
   TraceValue("%u",current_consumption.claimed[Black]);
+  TraceValue("%u",current_consumption.is_king_unplaced[White]);
+  TraceValue("%u",current_consumption.is_king_unplaced[Black]);
   TraceValue("%u",static_consumption.pawn_victims[White]);
   TraceValue("%u",static_consumption.pawn_victims[Black]);
   TraceValue("%u",static_consumption.king[White]);
   TraceValue("%u",static_consumption.king[Black]);
+  TraceEOL();
 }
 
 unsigned int nr_total_invisbles_consumed_for_side(Side side)

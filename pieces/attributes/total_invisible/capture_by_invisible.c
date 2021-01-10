@@ -452,7 +452,9 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
     if (is_square_empty(sq_departure))
     {
+      assert(current_consumption.is_king_unplaced[trait[nbply]]);
       being_solved.king_square[trait[nbply]] = sq_departure;
+      current_consumption.is_king_unplaced[trait[nbply]] = false;
 
       move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
       move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
@@ -466,6 +468,7 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
+      current_consumption.is_king_unplaced[trait[nbply]] = true;
       being_solved.king_square[trait[nbply]] = initsquare;
 
       move_effect_journal[king_square_movement].type = move_effect_none;
@@ -606,7 +609,7 @@ static unsigned int capture_by_inserted_invisible_all_walks(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  if (being_solved.king_square[trait[nbply]]==initsquare)
+  if (current_consumption.is_king_unplaced[trait[nbply]])
     result += capture_by_inserted_invisible_king();
 
   result += capture_by_invisible_pawn_inserted();
@@ -648,12 +651,14 @@ static void flesh_out_dummy_for_capture_king(square sq_departure,
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
   being_solved.king_square[trait[nbply]] = sq_departure;
+  current_consumption.is_king_unplaced[trait[nbply]] = false;
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
   SETFLAG(being_solved.spec[sq_departure],Royal);
   flesh_out_dummy_for_capture_as(King,sq_departure);
   CLRFLAG(being_solved.spec[sq_departure],Royal);
 
+  current_consumption.is_king_unplaced[trait[nbply]] = true;
   being_solved.king_square[trait[nbply]] = initsquare;
 
   move_effect_journal[king_square_movement].type = move_effect_none;
@@ -967,7 +972,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         if (CheckDir(Queen)[move_square_diff]!=0
             || CheckDir(Knight)[move_square_diff]==move_square_diff)
         {
-          if (being_solved.king_square[trait[nbply]]==initsquare)
+          if (current_consumption.is_king_unplaced[trait[nbply]])
             flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
           else
             flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
@@ -1268,8 +1273,10 @@ static unsigned int capture_by_inserted_invisible(void)
     TraceEnumerator(Side,trait[nbply]);
     TraceSquare(being_solved.king_square[trait[nbply]]);
     TraceEOL();
-    if (being_solved.king_square[trait[nbply]]==initsquare)
+    if (current_consumption.is_king_unplaced[trait[nbply]])
     {
+      assert(being_solved.king_square[trait[nbply]]==initsquare);
+
       if (insert_capturing_king(trait[nbply]))
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
