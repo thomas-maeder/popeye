@@ -181,8 +181,6 @@ static void adapt_capture_effect(void)
       assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
 
-      motivation[id_captured].last.purpose = purpose_none;
-
       move_effect_journal[capture].type = move_effect_piece_removal;
       move_effect_journal[capture].reason = move_effect_reason_regular_capture;
       move_effect_journal[capture].u.piece_removal.on = to;
@@ -943,6 +941,9 @@ void total_invisible_instrumenter_solve(slice_index si)
   current_consumption.is_king_unplaced[Black] = being_solved.king_square[Black]==initsquare;
 
   pipe_solve_delegate(si);
+
+  current_consumption.is_king_unplaced[White] = false;
+  current_consumption.is_king_unplaced[Black] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
