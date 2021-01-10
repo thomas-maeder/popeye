@@ -1273,7 +1273,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
  solving/pipe.h solving/machinery/solvers.h solving/zeroposition.h \
  debugging/assert.h platform/platform.h platform/maxmem.h \
- platform/timer.h
+ platform/timer.h pieces/attributes/total_invisible/consumption.h
 
 solving/machinery/dispatch.h:
 
@@ -2052,6 +2052,8 @@ platform/platform.h:
 platform/maxmem.h:
 
 platform/timer.h:
+
+pieces/attributes/total_invisible/consumption.h:
 solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  solving/machinery/slack_length.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

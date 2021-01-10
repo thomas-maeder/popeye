@@ -537,6 +537,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
             boolean are_allocations_exhausted;
 
             being_solved.king_square[side_playing] = sq_departure;
+            current_consumption.is_king_unplaced[side_playing] = false;
 
             are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
 
@@ -554,6 +555,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
 
             CLRFLAG(being_solved.spec[sq_departure],Royal);
             --being_solved.number_of_pieces[side_playing][King];
+            current_consumption.is_king_unplaced[side_playing] = true;
             being_solved.king_square[side_playing] = initsquare;
 
             if (can_decision_level_be_continued()
@@ -956,11 +958,12 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
 
     allocate_flesh_out_placed(side_playing);
 
-    if (being_solved.king_square[side_playing]==initsquare)
+    if (current_consumption.is_king_unplaced[side_playing])
     {
       boolean are_allocations_exhausted;
 
       being_solved.king_square[side_playing] = sq_departure;
+      current_consumption.is_king_unplaced[side_playing] = false;
 
       are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
 
@@ -976,6 +979,7 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
       }
       CLRFLAG(being_solved.spec[sq_departure],Royal);
       --being_solved.number_of_pieces[side_playing][King];
+      current_consumption.is_king_unplaced[side_playing] = true;
       being_solved.king_square[side_playing] = initsquare;
 
       if (can_decision_level_be_continued()
@@ -1517,6 +1521,7 @@ static void backward_random_move_by_specific_invisible_to(square sq_arrival)
         boolean are_allocations_exhausted;
 
         being_solved.king_square[side_playing] = sq_arrival;
+        current_consumption.is_king_unplaced[side_playing] = false;
 
         are_allocations_exhausted  = nr_total_invisbles_consumed()==total_invisible_number;
 
@@ -1532,6 +1537,7 @@ static void backward_random_move_by_specific_invisible_to(square sq_arrival)
         }
         CLRFLAG(being_solved.spec[sq_arrival],Royal);
         --being_solved.number_of_pieces[side_playing][King];
+        current_consumption.is_king_unplaced[side_playing] = true;
         being_solved.king_square[side_playing] = initsquare;
 
         if (can_decision_level_be_continued()
