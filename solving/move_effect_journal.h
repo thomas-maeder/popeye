@@ -355,6 +355,8 @@ void undo_move_effects(void);
  */
 void redo_move_effects(void);
 
+void move_effect_journal_pop_effect(void);
+
 typedef void (*move_effect_doer)(move_effect_journal_entry_type const *);
 
 void move_effect_journal_init_move_effect_doers(void);
