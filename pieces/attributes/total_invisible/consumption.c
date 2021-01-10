@@ -32,7 +32,7 @@ unsigned int nr_total_invisbles_consumed_for_side(Side side)
 
   if (!current_consumption.claimed[side]
       && current_consumption.placed[side]==0
-      && being_solved.king_square[side]==initsquare)
+      && current_consumption.is_king_unplaced[side])
     ++result;
 
   if ((static_consumption.pawn_victims[side]+static_consumption.king[side])
