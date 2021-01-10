@@ -30,7 +30,6 @@ static void play_castling_with_invisible_partner(slice_index si,
   if (is_square_empty(sq_departure_partner))
   {
     boolean const save_move_after_victim = static_consumption.move_after_victim[trait[nbply]];
-    dynamic_consumption_type const save_consumption = current_consumption;
 
     TraceConsumption();
 
