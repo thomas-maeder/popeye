@@ -430,9 +430,6 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
     CLRFLAG(being_solved.spec[pos],Royal);
   }
 
-  current_consumption.is_king_unplaced[side] = true;
-  being_solved.king_square[side] = initsquare;
-
   current_consumption = save_consumption;
   being_solved.king_square[side] = initsquare;
 

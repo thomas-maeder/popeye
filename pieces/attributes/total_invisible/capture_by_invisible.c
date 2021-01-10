@@ -1252,6 +1252,8 @@ static unsigned int capture_by_inserted_invisible(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceConsumption();
+
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {
     /* no problem - we can simply insert a capturer */
