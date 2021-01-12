@@ -452,7 +452,8 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
     if (is_square_empty(sq_departure))
     {
-      assert(current_consumption.is_king_unplaced[trait[nbply]]);
+      boolean const save_unplaced = current_consumption.is_king_unplaced[trait[nbply]];
+
       being_solved.king_square[trait[nbply]] = sq_departure;
       current_consumption.is_king_unplaced[trait[nbply]] = false;
 
@@ -468,7 +469,7 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-      current_consumption.is_king_unplaced[trait[nbply]] = true;
+      current_consumption.is_king_unplaced[trait[nbply]] = save_unplaced;
       being_solved.king_square[trait[nbply]] = initsquare;
 
       move_effect_journal[king_square_movement].type = move_effect_none;
@@ -609,7 +610,7 @@ static unsigned int capture_by_inserted_invisible_all_walks(void)
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-  if (current_consumption.is_king_unplaced[trait[nbply]])
+  if (being_solved.king_square[trait[nbply]]==initsquare)
     result += capture_by_inserted_invisible_king();
 
   result += capture_by_invisible_pawn_inserted();
@@ -1225,11 +1226,15 @@ static boolean insert_capturing_king(Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
+  assert(current_consumption.is_king_unplaced[side]);
+
   /* this helps us over the allocation */
   being_solved.king_square[side] = square_a1;
+  current_consumption.is_king_unplaced[side] = false;
 
   result = allocate_flesh_out_unplaced(side);
 
+  current_consumption.is_king_unplaced[side] = true;
   being_solved.king_square[side] = initsquare;
 
   TraceFunctionExit(__func__);
