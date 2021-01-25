@@ -130,3 +130,35 @@ Popeye 4.85 printed dummies as total invisibles in the solution
 solution finished.
 
 
+
+This would crash in many Popeye versions
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#1                    1 + 1
+             HalfDuplex
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+

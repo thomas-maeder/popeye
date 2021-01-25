@@ -38,5 +38,12 @@ Stipulation h#6
 Option Intelligent 2 movenum
 Condition PromOnly Q R S B DU
 
+NextProblem
+
+title This would crash in many Popeye versions
+stipulation ser-reci-h#1
+pieces white kg3 black ke4
+option movenumber halfduplex
+
 EndProblem
 
