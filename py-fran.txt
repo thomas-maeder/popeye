@@ -530,11 +530,12 @@ simples:
 				   consideration qui ne laissent aux noirs 
 				   qu'un coup ne menant pas a un s#1).
 
-	Intelligent     Verification intelligente (tres rapide) des mats
+	Intelligent     Verification intelligente (tres rapide) des mats ou pats
 			aides multicoups.
 			Apres l'option intelligent on peut entrer un chiffre.
 			Il s'agit du numero maximum des solutions par
-			position de mat.
+			position de mat ou pat.
+			A noter: ne trouve pas de pats sans roi!
 	MaxTemps        Cette option dois etre suivie par un chiffre.
 			La verification d'un probleme est terminee
 			apres le nombre de secondes indique.
