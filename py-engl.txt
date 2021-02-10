@@ -741,7 +741,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	The three partial expressions as well as the | expressions
+	The three partial expressions as well as the & expressions
 	belong to the attack group.
 
 

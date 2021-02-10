@@ -770,7 +770,7 @@ Kommandos:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
+	Alle drei Teilausdruecke und somit auch die &-Ausdruecke
 	gehoeren zur Gruppe Angriff.
 
 

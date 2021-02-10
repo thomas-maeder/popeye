@@ -757,7 +757,7 @@ simples:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Les trois expressions partielles ainsi que les expressions |
+	Les trois expressions partielles ainsi que les expressions &
 	appartiennent au groupe attaque.
 
 
