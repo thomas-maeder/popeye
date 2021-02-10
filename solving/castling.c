@@ -303,9 +303,9 @@ void enable_castling_rights(move_effect_reason_type reason,
   }
   else if (p==standard_walks[King])
   {
-    if (TSTFLAG(specs,White) && sq_arrival==square_e1)
+    if (TSTFLAG(specs,White) && sq_arrival==square_e1 && being_solved.king_square[White]==square_e1)
       enable_castling_right(reason,White,k_cancastle);
-    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8)
+    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8 && being_solved.king_square[Black]==square_e8)
       enable_castling_right(reason,Black,k_cancastle);
   }
 

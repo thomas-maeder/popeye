@@ -126,10 +126,9 @@ Thomas Maeder, Popeye test problem for correct initialization of castling possib
   h001                        3 + 1
            KoenigsDynastie
 
-  1.Sh2*f1 0-0-0
-  add_to_move_generation_stack:          19
-                     play_move:           4
- is_white_king_square_attacked:           4
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 Loesung beendet.
@@ -359,7 +358,6 @@ Marko Klasinc, 206 Sahovska misel 6/2005
   7  (Le6-g4 )
   8  (Le6-f5 + )
   9  (Kd7-e8 )
-  1.Kd7-e8 Se5*f7   2.0-0 Sf7-h6 #
  10  (Kd7-c8 )
  11  (Kd7-d6 )
  12  (Kd7-c7 )
@@ -368,7 +366,6 @@ Marko Klasinc, 206 Sahovska misel 6/2005
  15  (Kf7-g6 )
  16  (Kf7-g8 )
  17  (Kf7-e8 )
-  1.Kf7-e8 Se5*d7   2.0-0-0 Dc3*c6 #
  18  (Kf7-f6 )
  19  (Kf7-e7 )
  20  (Kf7-f8 )
@@ -395,10 +392,10 @@ Marko Klasinc, 206 Sahovska misel 6/2005
  41  (Th8-e8 )
  42  (Th8-f8 )
  43  (Th8-g8 )
-  add_to_move_generation_stack:      980902
-                     play_move:      919300
- is_white_king_square_attacked:       17702
- is_black_king_square_attacked:      101649
+  add_to_move_generation_stack:      978913
+                     play_move:      917732
+ is_white_king_square_attacked:       17577
+ is_black_king_square_attacked:       99754
 
 Loesung beendet.
 
