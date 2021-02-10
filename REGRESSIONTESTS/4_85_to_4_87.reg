@@ -162,3 +162,38 @@ This would crash in many Popeye versions
 solution finished.
 
 
+
+minimum and maximum length were output in swapped order
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K  -B   .   .  -P   .   5
+|                                   |
+4   .   .  -P  -Q   .  -P   .   .   4
+|                                   |
+3   .   .  -P  -R  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  Black 10:12hh[#]            2 + 9
+
+1 potential positions in 5+5
+  1.Bd5-e4 + Kh7-h6   2.Qd4-d6 + Kh6*g5   3.Rd3-d5 + Kg5-h4   4.Kc5-d4 Kh4-g4   5.Qd6-c5 Kg4*f4   6.Be4-d3 f2*e3 #
+121 potential positions in 6+6
+  add_to_move_generation_stack:      162909
+                     play_move:      163391
+ is_white_king_square_attacked:        4549
+ is_black_king_square_attacked:       13105
+
+solution finished.
+
+

@@ -45,5 +45,13 @@ stipulation ser-reci-h#1
 pieces white kg3 black ke4
 option movenumber halfduplex
 
+NextProblem
+
+title minimum and maximum length were output in swapped order
+sstipulation    black 10:12hh[#]
+pieces  white   kh7 pf2
+        black   kc5 qd4 rd3 bd5 pc3c4e3f4g5
+option          intelligent movenumbers
+
 EndProblem
 
