@@ -1859,6 +1859,12 @@ void verify_position(slice_index si)
           return;
         }
       }
+
+      if (TSTFLAG(some_pieces_flags, Kamikaze))
+      {
+        output_plaintext_message(IntelligentRestricted);
+        return;
+      }
     }
   }
 
