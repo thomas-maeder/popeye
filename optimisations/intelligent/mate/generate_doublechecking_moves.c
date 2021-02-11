@@ -319,33 +319,34 @@ static void front_check_by_pawn_promotion_with_capture(slice_index si,
   {
     piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
-    {
-      int const dir = CheckDir(pp)[being_solved.king_square[Black]-check_from];
-      if (dir!=0)
-        switch (pp)
-        {
-          case Queen:
-          case Rook:
-            if (is_line_empty(check_from,being_solved.king_square[Black],dir))
-            {
+      if (pp>=Queen && pp<=Bishop)
+      {
+        int const dir = CheckDir(pp)[being_solved.king_square[Black]-check_from];
+        if (dir!=0)
+          switch (pp)
+          {
+            case Queen:
+            case Rook:
+              if (is_line_empty(check_from,being_solved.king_square[Black],dir))
+              {
+                occupy_square(check_from,pp,white[index_of_checker].flags);
+                remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
+                pipe_solve_delegate(si);
+                remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
+              }
+              break;
+
+            case Bishop:
+            case Knight:
               occupy_square(check_from,pp,white[index_of_checker].flags);
-              remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
               pipe_solve_delegate(si);
-              remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
-            }
-            break;
+              break;
 
-          case Bishop:
-          case Knight:
-            occupy_square(check_from,pp,white[index_of_checker].flags);
-            pipe_solve_delegate(si);
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
-    }
+            default:
+              assert(0);
+              break;
+          }
+      }
 
     empty_square(check_from);
     intelligent_unreserve();

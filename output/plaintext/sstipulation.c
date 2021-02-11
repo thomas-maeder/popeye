@@ -45,13 +45,13 @@ static void write_attack(slice_index si, stip_structure_traversal *st)
 
   if (state->branch_position==write_state_begin)
   {
+    if (SLICE_U(si).branch.min_length>1)
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       "%u:",
+                                                       SLICE_U(si).branch.min_length+1);
     state->nr_chars_written += (unsigned int)fprintf(state->file,
                                                      "%u",
                                                      SLICE_U(si).branch.length);
-    if (SLICE_U(si).branch.min_length>1)
-      state->nr_chars_written += (unsigned int)fprintf(state->file,
-                                                       ":%u",
-                                                       SLICE_U(si).branch.min_length+1);
   }
 
   state->play = play_attack;
@@ -89,13 +89,13 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
   {
     if (branch_find_slice(STPlaySuppressor,si,st->context)!=no_slice)
       state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","/");
+    if (SLICE_U(si).branch.min_length>1)
+      state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                       "%u:",
+                                                       SLICE_U(si).branch.min_length);
     state->nr_chars_written += (unsigned int)fprintf(state->file,
                                                      "%u",
                                                      SLICE_U(si).branch.length);
-    if (SLICE_U(si).branch.min_length>1)
-      state->nr_chars_written += (unsigned int)fprintf(state->file,
-                                                       ":%u",
-                                                       SLICE_U(si).branch.min_length);
   }
 
   state->play = play_defense;
@@ -136,24 +136,24 @@ static void write_help(slice_index si, stip_structure_traversal *st)
     slice_index const leg2 = branch_find_slice(STReadyForHelpMove,si,st->context);
     if (leg2==si)
     {
+      if (SLICE_U(si).branch.min_length>1)
+        state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                         "%u:",
+                                                         (SLICE_U(si).branch.min_length+1)/2);
       state->nr_chars_written += (unsigned int)fprintf(state->file,
                                                        "%u",
                                                        (SLICE_U(si).branch.length+1)/2);
-      if (SLICE_U(si).branch.min_length>1)
-        state->nr_chars_written += (unsigned int)fprintf(state->file,
-                                                         ":%u",
-                                                         (SLICE_U(si).branch.min_length+1)/2);
       state->play = play_series;
     }
     else
     {
+      if (SLICE_U(si).branch.min_length>1)
+        state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                         "%u:",
+                                                         SLICE_U(si).branch.min_length);
       state->nr_chars_written += (unsigned int)fprintf(state->file,
                                                        "%u",
                                                        SLICE_U(si).branch.length);
-      if (SLICE_U(si).branch.min_length>1)
-        state->nr_chars_written += (unsigned int)fprintf(state->file,
-                                                         ":%u",
-                                                         SLICE_U(si).branch.min_length);
       state->play = play_help;
     }
 

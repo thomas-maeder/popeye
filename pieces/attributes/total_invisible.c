@@ -48,8 +48,6 @@ slice_index tester_slice;
 
 play_phase_type play_phase = play_regular;
 
-static ply flesh_out_move_highwater = ply_retro_move;
-
 void report_deadend(char const *s, unsigned int lineno)
 {
   printf("%s;%u;%u\n",s,lineno,(unsigned int)play_phase);
@@ -74,7 +72,7 @@ void write_history_recursive(ply ply)
 
 void total_invisible_write_flesh_out_history(void)
 {
-  if (total_invisible_number>0 && nbply!=ply_nil)
+  if (total_invisible_number>0 && nbply>ply_retro_move)
   {
     fputs(" -", stdout);
     write_history_recursive(top_ply_of_regular_play);
@@ -169,6 +167,10 @@ static void adapt_capture_effect(void)
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
       recurse_into_child_ply();
     }
+    else if (TSTFLAG(being_solved.spec[to],Royal))
+    {
+      TraceText("we don't capture the king\n");
+    }
     else
     {
       PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
@@ -178,9 +180,6 @@ static void adapt_capture_effect(void)
 
       assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
       assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
-      assert(!TSTFLAG(being_solved.spec[to],Royal));
-
-      motivation[id_captured].last.purpose = purpose_none;
 
       move_effect_journal[capture].type = move_effect_piece_removal;
       move_effect_journal[capture].reason = move_effect_reason_regular_capture;
@@ -407,7 +406,7 @@ static void adapt_pre_capture_effect(void)
             REPORT_DEADEND;
           }
         }
-        else
+        else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
         {
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
@@ -418,6 +417,11 @@ static void adapt_pre_capture_effect(void)
           deal_with_illegal_checks();
           motivation[id].last.purpose = save_purpose;
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
+        }
+        else
+        {
+          record_decision_outcome("%s","arrival square occupied by piece of the wrong side");
+          REPORT_DEADEND;
         }
       }
       else
@@ -584,6 +588,7 @@ void rewind_effects(void)
 
   while (nbply!=ply_retro_move)
   {
+    TraceConsumption();
     assert(nr_total_invisbles_consumed()<=total_invisible_number);
     undo_move_effects();
     --nbply;
@@ -709,15 +714,28 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  */
 void total_invisible_reserve_king_movement(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* reserve a spot in the move effect journal for the case that a move by an invisible
-   * turns out to move a side's king square
-   */
-  move_effect_journal_do_null_effect();
-  pipe_solve_delegate(si);
+  TraceValue("%u",move_effect_journal[capture].type);
+  TraceEOL();
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Royal))
+  {
+    /* out of here */
+  }
+  else
+  {
+    /* reserve a spot in the move effect journal for the case that a move by an invisible
+     * turns out to move a side's king square
+     */
+    move_effect_journal_do_null_effect();
+    pipe_solve_delegate(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -933,7 +951,13 @@ void total_invisible_instrumenter_solve(slice_index si)
     slice_insertion_insert(si,&prototype,1);
   }
 
+  current_consumption.is_king_unplaced[White] = being_solved.king_square[White]==initsquare;
+  current_consumption.is_king_unplaced[Black] = being_solved.king_square[Black]==initsquare;
+
   pipe_solve_delegate(si);
+
+  current_consumption.is_king_unplaced[White] = false;
+  current_consumption.is_king_unplaced[Black] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1127,6 +1151,8 @@ void solving_instrument_total_invisible(slice_index si)
   move_effect_journal_set_effect_doers(move_effect_revelation_of_placed_invisible,
                                        &undo_revelation_of_placed_invisible,
                                        &redo_revelation_of_placed_invisible);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionResultEnd();
   TraceFunctionExit(__func__);

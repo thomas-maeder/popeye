@@ -257,6 +257,9 @@ static void by_promoted_pawn(slice_index si,
           by_promoted_knight(si,index_of_checker,check_from);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;
@@ -387,6 +390,9 @@ void intelligent_mate_generate_checking_moves(slice_index si)
             case Pawn:
               by_unpromoted_pawn(si,index,*bnp);
               by_promoted_pawn(si,index,*bnp);
+              break;
+
+            case Dummy:
               break;
 
             default:

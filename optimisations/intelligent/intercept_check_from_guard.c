@@ -112,6 +112,9 @@ static void promoted_pawn(slice_index si,
           place_promotee(si,Knight,to_be_intercepted,index_of_intercepting_piece);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;
@@ -243,6 +246,9 @@ void intercept_check_on_guarded_square(slice_index si,
             promoted_pawn(si,to_be_intercepted,intercepter_index,is_diagonal);
             break;
 
+          case Dummy:
+            break;
+
           default:
             assert(0);
             break;
@@ -293,6 +299,9 @@ static void place_promoted_black_pawn(slice_index si,
                                                          placed_index,
                                                          placed_on,
                                                          &intelligent_continue_guarding_flights);
+          break;
+
+        case Dummy:
           break;
 
         default:
@@ -347,6 +356,9 @@ void intelligent_intercept_check_by_pin(slice_index si, square placed_on)
                                                            placed_on,
                                                            &intelligent_continue_guarding_flights);
             place_promoted_black_pawn(si,placed_on,placed_index);
+            break;
+
+          case Dummy:
             break;
 
           default:

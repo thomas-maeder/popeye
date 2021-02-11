@@ -521,9 +521,11 @@ commands expect further parameters. Lets start with the simpler commands:
 			1. This is the most restrictive option.  White
 			forced to play moves that leave black with
 			only one move not met by a s#1.
-	Intelligent     intelligent (quick) solving of helpmate-moremovers.
+	Intelligent     intelligent (quick) solving of help(stale)mate
+			moremovers.
 			After the intelligent option, the maximum number of 
-			solutions per mating position can be given.
+			solutions per (stale)mate position can be given.
+			Note: doesn't find stalemates without king!
 	MaxTime         This option must be followed by an integer. Popeye
 			stops calculating if this number of seconds  
 			solving time are reached.
@@ -741,7 +743,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	The three partial expressions as well as the | expressions
+	The three partial expressions as well as the & expressions
 	belong to the attack group.
 
 

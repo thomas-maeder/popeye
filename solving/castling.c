@@ -303,9 +303,9 @@ void enable_castling_rights(move_effect_reason_type reason,
   }
   else if (p==standard_walks[King])
   {
-    if (TSTFLAG(specs,White) && sq_arrival==square_e1)
+    if (TSTFLAG(specs,White) && sq_arrival==square_e1 && being_solved.king_square[White]==square_e1)
       enable_castling_right(reason,White,k_cancastle);
-    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8)
+    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8 && being_solved.king_square[Black]==square_e8)
       enable_castling_right(reason,Black,k_cancastle);
   }
 
@@ -803,6 +803,14 @@ void generate_castling(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_castling)==k_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,q_castling)==q_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_cancastle)==k_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,rh_cancastle)==rh_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,ra_cancastle)==ra_cancastle);
+  TraceEOL();
 
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {

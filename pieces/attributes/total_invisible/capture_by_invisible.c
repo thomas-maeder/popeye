@@ -105,12 +105,14 @@ HERE
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
-    else if (walk_capturing==King
-             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
-    {
-      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
-      REPORT_DEADEND;
-    }
+//    else if (walk_capturing==King
+//             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
+//    {
+//      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
+// WRONG - such a check is legal if it has just been delivered!
+// TODO can we detect checks that have not just been delivered? should we?
+//      REPORT_DEADEND;
+//    }
     else
     {
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -450,7 +452,10 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
     if (is_square_empty(sq_departure))
     {
+      boolean const save_unplaced = current_consumption.is_king_unplaced[trait[nbply]];
+
       being_solved.king_square[trait[nbply]] = sq_departure;
+      current_consumption.is_king_unplaced[trait[nbply]] = false;
 
       move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
       move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
@@ -464,6 +469,7 @@ static unsigned int capture_by_inserted_invisible_king(void)
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
+      current_consumption.is_king_unplaced[trait[nbply]] = save_unplaced;
       being_solved.king_square[trait[nbply]] = initsquare;
 
       move_effect_journal[king_square_movement].type = move_effect_none;
@@ -646,12 +652,14 @@ static void flesh_out_dummy_for_capture_king(square sq_departure,
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
   being_solved.king_square[trait[nbply]] = sq_departure;
+  current_consumption.is_king_unplaced[trait[nbply]] = false;
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
   SETFLAG(being_solved.spec[sq_departure],Royal);
   flesh_out_dummy_for_capture_as(King,sq_departure);
   CLRFLAG(being_solved.spec[sq_departure],Royal);
 
+  current_consumption.is_king_unplaced[trait[nbply]] = true;
   being_solved.king_square[trait[nbply]] = initsquare;
 
   move_effect_journal[king_square_movement].type = move_effect_none;
@@ -965,7 +973,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         if (CheckDir(Queen)[move_square_diff]!=0
             || CheckDir(Knight)[move_square_diff]==move_square_diff)
         {
-          if (being_solved.king_square[trait[nbply]]==initsquare)
+          if (current_consumption.is_king_unplaced[trait[nbply]])
             flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
           else
             flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
@@ -1136,7 +1144,6 @@ static boolean is_viable_capturer(PieceIdType id)
   TraceFunctionParam("%u",id);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",id);TraceEOL();
   TraceAction(&motivation[id].first);TraceEOL();
   TraceAction(&motivation[id].last);TraceEOL();
   TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
@@ -1144,37 +1151,38 @@ static boolean is_viable_capturer(PieceIdType id)
 
   if (motivation[id].last.acts_when<=nbply && motivation[id].last.purpose==purpose_none)
   {
-    /* piece was captured or merged into a capturer from regular play */
+    TraceText("piece was captured or merged into a capturer from regular play\n");
     result = false;
   }
   else if (motivation[id].last.acts_when==nbply
            && motivation[id].last.purpose!=purpose_interceptor)
   {
-    /* piece is active for another purpose */
+    TraceText("piece is active for a different purpose\n");
     result = false;
   }
   else if (motivation[id].last.acts_when>nbply)
   {
-    /* piece will be active after the capture */
+    TraceText("piece will be active after the capture\n");
     result = false;
   }
   else if (id!=GetPieceId(being_solved.spec[motivation[id].last.on]))
   {
+    TraceText("piece on square has different id\n");
     result = false;
   }
   else if (motivation[id].first.on==initsquare)
   {
-    /* revealed piece - to be replaced by an "actual" piece */
+    TraceText("revealed piece - to be replaced by an 'actual' piece\n");
     result = false;
   }
   else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],trait[nbply]))
   {
-    /* candidate belongs to wrong side */
+    TraceText("candidate belongs to wrong side\n");
     result = false;
   }
   else if (!TSTFLAG(being_solved.spec[motivation[id].last.on],Chameleon))
   {
-    /* candidate has been revealed */
+    TraceText("candidate has been revealed\n");
     result = false;
   }
   else
@@ -1210,6 +1218,31 @@ static unsigned int capture_by_existing_invisible(void)
   return result;
 }
 
+static boolean insert_capturing_king(Side side)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  assert(current_consumption.is_king_unplaced[side]);
+
+  /* this helps us over the allocation */
+  being_solved.king_square[side] = square_a1;
+  current_consumption.is_king_unplaced[side] = false;
+
+  result = allocate_flesh_out_unplaced(side);
+
+  current_consumption.is_king_unplaced[side] = true;
+  being_solved.king_square[side] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static unsigned int capture_by_inserted_invisible(void)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
@@ -1223,6 +1256,8 @@ static unsigned int capture_by_inserted_invisible(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceConsumption();
 
   if (allocate_flesh_out_unplaced(trait[nbply]))
   {
@@ -1242,15 +1277,14 @@ static unsigned int capture_by_inserted_invisible(void)
 
     current_consumption = save_consumption;
 
-    if (being_solved.king_square[trait[nbply]]==initsquare
-        && current_consumption.claimed[trait[nbply]])
+    TraceEnumerator(Side,trait[nbply]);
+    TraceSquare(being_solved.king_square[trait[nbply]]);
+    TraceEOL();
+    if (current_consumption.is_king_unplaced[trait[nbply]])
     {
-      /* no problem - we can simply insert a capturing king */
+      assert(being_solved.king_square[trait[nbply]]==initsquare);
 
-      /* this helps us over the allocation - it will be overwritten with the actual square later */
-      being_solved.king_square[trait[nbply]] = square_a1;
-
-      if (allocate_flesh_out_unplaced(trait[nbply]))
+      if (insert_capturing_king(trait[nbply]))
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
         square const save_from = move_effect_journal[movement].u.piece_movement.from;
@@ -1273,8 +1307,7 @@ static unsigned int capture_by_inserted_invisible(void)
       }
       else
       {
-        TraceText("allocating the king to be placed should always be possible");
-        assert(0);
+        TraceText("the king has already been placed implicitly (e.g. while intercepting a check)\n");
       }
 
       current_consumption = save_consumption;

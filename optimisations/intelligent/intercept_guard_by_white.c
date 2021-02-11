@@ -204,6 +204,9 @@ static void white_piece_on(slice_index si,
                                                   go_on);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;

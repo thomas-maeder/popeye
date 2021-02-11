@@ -39,7 +39,7 @@ static void write_history_recursive(ply ply)
 
 void move_generator_write_history(void)
 {
-  if (nbply!=ply_nil)
+  if (nbply>ply_retro_move)
   {
 //    putchar('\n');
     write_history_recursive(nbply);

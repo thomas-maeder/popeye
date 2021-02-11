@@ -18,4 +18,40 @@ origin https://github.com/thomas-maeder/popeye/issues/290
 Pieces TotalInvisible 1 White Kb2 Black Ka4 Neutral Rb8
 Stipulation h#1
 
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+Stipulation ~1
+Condition PromOnly DU
+Pieces
+  black  duf2 Kg1
+  white  pc7
+option nowk
+
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+pieces white kg1 bg7 pf2 duf8 black ka1 pc2d4
+Stipulation h#6
+Option Intelligent 2 movenum
+Condition PromOnly Q R S B DU
+
+NextProblem
+
+title This would crash in many Popeye versions
+stipulation ser-reci-h#1
+pieces white kg3 black ke4
+option movenumber halfduplex
+
+NextProblem
+
+title minimum and maximum length were output in swapped order
+sstipulation    black 10:12hh[#]
+pieces  white   kh7 pf2
+        black   kc5 qd4 rd3 bd5 pc3c4e3f4g5
+option          intelligent movenumbers
+
 EndProblem
+

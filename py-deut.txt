@@ -545,8 +545,9 @@ Kommandos:
 	Intelligent     Intelligente (schnelle) Pruefung von (Serienzug-)
 	                Hilfsmatt/patt-Mehrzuegern.
 			Nach der Intelligent Option kann wahlweise noch die
-			maximale Anzahl von Loesungen je Mattbild angegeben
+			maximale Anzahl von Loesungen je Matt-/Pattbild angegeben
 			werden.
+			Beachte: Findet keine Pattstellungen ohne Koenig!
 	MaxZeit         Dieser Option muss eine Zahl folgen. Nach 
 			erreichen von  Zahl  Sekunden bricht Popeye ab.
 	KeineRochade    Figuren, welche auf den anschliessend angegeben Feldern
@@ -770,7 +771,7 @@ Kommandos:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
+	Alle drei Teilausdruecke und somit auch die &-Ausdruecke
 	gehoeren zur Gruppe Angriff.
 
 

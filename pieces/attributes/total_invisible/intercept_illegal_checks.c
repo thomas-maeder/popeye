@@ -122,6 +122,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
         allocate_flesh_out_placed(side);
 
         being_solved.king_square[side] = s;
+        current_consumption.is_king_unplaced[side] = false;
         replace_walk(s,King);
         ++being_solved.number_of_pieces[side][King];
         SETFLAG(being_solved.spec[s],Royal);
@@ -139,6 +140,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
         CLRFLAG(being_solved.spec[s],Royal);
         --being_solved.number_of_pieces[side][King];
         replace_walk(s,Dummy);
+        current_consumption.is_king_unplaced[side] = true;
         being_solved.king_square[side] = initsquare;
       }
       else
@@ -390,6 +392,7 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
 
   /* this removes the implicit allocation for the invisible king ...*/
   being_solved.king_square[side] = pos;
+  current_consumption.is_king_unplaced[side] = false;
 
   /* ... and thus allows this to succeed: */
   if (allocate_flesh_out_unplaced(side))
@@ -428,9 +431,9 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
   }
 
   current_consumption = save_consumption;
-  TraceConsumption();TraceEOL();
-
   being_solved.king_square[side] = initsquare;
+
+  TraceConsumption();TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -591,7 +594,7 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
 
   assert(is_on_board(s));
 
-  if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
+  if (!(is_taboo(s,side) || was_taboo(s,side)))
   {
     remember_taboo_on_square(s,side,nbply);
 

@@ -66,8 +66,8 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
 
 void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 {
-  if (p==Dummy || (total_invisible_number>0 && p==Empty))
-     (*engine->fprintf)(file,"%s",TITab[0]);
+  if (total_invisible_number>0 && (p==Dummy || p==Empty))
+    (*engine->fprintf)(file,"%s",TITab[0]);
   else if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];

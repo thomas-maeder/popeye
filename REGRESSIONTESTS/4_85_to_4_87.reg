@@ -48,7 +48,151 @@ https://github.com/thomas-maeder/popeye/issues/290
                      play_move:         943
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         348
-                  TI decisions:        1434
+                  TI decisions:        1568
+
+solution finished.
+
+
+
+           Andrew Buchanan
+Popeye 4.85 printed dummies as total invisibles in the solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   . -DU   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+             PromOnly DU
+
+   1.c7-c8=DU !
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+
+
+           Andrew Buchanan
+Popeye 4.85 printed dummies as total invisibles in the solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  DU   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   P   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         4 + 3
+         PromOnly Q S R B DU
+
+0 potential positions in 1+1
+0 potential positions in 2+2
+0 potential positions in 3+3
+4 potential positions in 4+4
+47 potential positions in 5+5
+  1.c2-c1=DU Bg7-h6   2.d4-d3 Kg1-f1   3.d3-d2 Kf1-e2   4.d2-d1=B + Ke2-d2   5.Bd1-b3 Kd2*c1   6.Bb3-a2 Bh6-g7 #
+289 potential positions in 6+6
+  add_to_move_generation_stack:     4715090
+                     play_move:     4790971
+ is_white_king_square_attacked:      443150
+ is_black_king_square_attacked:      595213
+
+solution finished.
+
+
+
+This would crash in many Popeye versions
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#1                    1 + 1
+             HalfDuplex
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
+
+minimum and maximum length were output in swapped order
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K  -B   .   .  -P   .   5
+|                                   |
+4   .   .  -P  -Q   .  -P   .   .   4
+|                                   |
+3   .   .  -P  -R  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  Black 10:12hh[#]            2 + 9
+
+1 potential positions in 5+5
+  1.Bd5-e4 + Kh7-h6   2.Qd4-d6 + Kh6*g5   3.Rd3-d5 + Kg5-h4   4.Kc5-d4 Kh4-g4   5.Qd6-c5 Kg4*f4   6.Be4-d3 f2*e3 #
+121 potential positions in 6+6
+  add_to_move_generation_stack:      162909
+                     play_move:      163391
+ is_white_king_square_attacked:        4549
+ is_black_king_square_attacked:       13105
 
 solution finished.
 

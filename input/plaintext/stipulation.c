@@ -574,14 +574,25 @@ static char *ParsePlay(char *tok,
     {
       stip_length_type length;
       stip_length_type min_length;
+
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_series_branch(length-1,min_length+1);
-        help_branch_set_end(branch,proxy_next,1);
-        link_to_branch(proxy,branch);
+        if (length==1)
+        {
+          /* ser-reci-hX1 is the same thing reci-hX1! */
+          pipe_link(proxy,SLICE_NEXT1(proxy_next));
+          dealloc_slice(proxy_next);
+        }
+        else
+        {
+          slice_index const branch = alloc_series_branch(length-1,min_length+1);
 
-        solving_impose_starter(proxy_next,Black);
+          help_branch_set_end(branch,proxy_next,1);
+          link_to_branch(proxy,branch);
+        }
+
+        solving_impose_starter(proxy,Black);
         select_output_mode(proxy,output_mode_line);
       }
     }

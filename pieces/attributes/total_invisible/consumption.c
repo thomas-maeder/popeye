@@ -9,16 +9,26 @@ dynamic_consumption_type current_consumption = { 0 };
 
 void TraceConsumption(void)
 {
-  TraceValue("%u",current_consumption.fleshed_out[White]);
-  TraceValue("%u",current_consumption.fleshed_out[Black]);
-  TraceValue("%u",current_consumption.placed[White]);
-  TraceValue("%u",current_consumption.placed[Black]);
-  TraceValue("%u",current_consumption.claimed[White]);
-  TraceValue("%u",current_consumption.claimed[Black]);
-  TraceValue("%u",static_consumption.pawn_victims[White]);
-  TraceValue("%u",static_consumption.pawn_victims[Black]);
-  TraceValue("%u",static_consumption.king[White]);
-  TraceValue("%u",static_consumption.king[Black]);
+  TraceValue("%u\n",current_consumption.fleshed_out[White]);
+  TraceValue("%u\n",current_consumption.fleshed_out[Black]);
+  TraceValue("%u\n",current_consumption.placed[White]);
+  TraceValue("%u\n",current_consumption.placed[Black]);
+  TraceValue("%u\n",current_consumption.claimed[White]);
+  TraceValue("%u\n",current_consumption.claimed[Black]);
+  TraceValue("%u\n",current_consumption.is_king_unplaced[White]);
+  TraceValue("%u\n",current_consumption.is_king_unplaced[Black]);
+  TraceValue("%u\n",static_consumption.pawn_victims[White]);
+  TraceValue("%u\n",static_consumption.pawn_victims[Black]);
+  TraceValue("%u\n",static_consumption.king[White]);
+  TraceValue("%u\n",static_consumption.king[Black]);
+  TraceValue("%u\n",static_consumption.move_after_victim[White]);
+  TraceValue("%u\n",static_consumption.move_after_victim[Black]);
+  TraceSquare(being_solved.king_square[White]);TraceEOL();
+  TraceSquare(being_solved.king_square[Black]);TraceEOL();
+  TraceValue("%u\n",nr_total_invisbles_consumed_for_side(White));
+  TraceValue("%u\n",nr_total_invisbles_consumed_for_side(Black));
+  TraceValue("%u\n",total_invisible_number);
+  TraceEOL();
 }
 
 unsigned int nr_total_invisbles_consumed_for_side(Side side)
@@ -29,16 +39,16 @@ unsigned int nr_total_invisbles_consumed_for_side(Side side)
 
   if (!current_consumption.claimed[side]
       && current_consumption.placed[side]==0
-      && being_solved.king_square[side]==initsquare)
+      && current_consumption.is_king_unplaced[side])
     ++result;
 
   if ((static_consumption.pawn_victims[side]+static_consumption.king[side])
       >result)
     result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
 
-  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side])
+  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side])
       >result)
-    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victing[side]);
+    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side]);
 
   return result;
 }
