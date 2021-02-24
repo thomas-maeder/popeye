@@ -860,6 +860,7 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   TraceValue("%u",decision_level_properties[curr_level].id);
   TraceEnumerator(Side,decision_level_properties[curr_level].side);
   TraceValue("%u",backtracking[curr_level-1].ply_failure);
+  TraceEnumerator(Side,backtracking[curr_level-1].side_failure);
   TraceValue("%u",try_to_avoid_insertion[White]);
   TraceValue("%u",try_to_avoid_insertion[Black]);
   TraceEOL();
@@ -1112,12 +1113,8 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           break;
 
         case decision_object_move_vector:
-          if ((decision_level_properties[curr_level].ply
-               >backtracking[curr_level-1].ply_failure)
-              && (decision_level_properties[curr_level].side!=backtracking[curr_level-1].side_failure))
-          {
-            TraceText("try harder - a future decision may select a move vector from where we don't deliver check\n");
-             /* e.g.
+          TraceText("try harder - a future decision may select a move vector from where we don't deliver check or from where we intercept check\n");
+           /* e.g.
   begin
   author Michel Caillaud
   origin Sake tourney 2018, 2nd HM, cooked
@@ -1178,12 +1175,6 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
   !     5 X 9 e1 (K:0+0 x:0+1 !:0+0 ?:0+0 F:1+1) - capture_by_invisible.c:#49 - D:58
   !      6 10 Replaying moves for validation - king_placement.c:#29
                */
-          }
-          else
-          {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
-          }
           break;
 
         default:
