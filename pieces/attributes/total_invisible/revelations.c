@@ -254,6 +254,7 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       break;
 
     case play_initialising_replay:
+    case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
       break;
@@ -262,7 +263,6 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
     case play_testing_mate:
     case play_attacking_mating_piece:
     case play_unwinding:
-    case play_finalising_replay:
     default:
       assert(0);
       break;
@@ -316,6 +316,7 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
+    case play_initialising_replay:
     case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -325,7 +326,6 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
     case play_testing_mate:
     case play_attacking_mating_piece:
     case play_rewinding:
-    case play_initialising_replay:
     default:
       assert(0);
       break;
