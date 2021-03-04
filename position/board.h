@@ -214,6 +214,8 @@ enum
 
   move_by_invisible,
 
+  move_erben,
+
   no_capture /* This needs to be the last value. */
 };
 

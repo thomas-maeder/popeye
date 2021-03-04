@@ -63,6 +63,7 @@ void initialise_game_array(position *pos)
   pos->board[queenside_castling] = Empty;
   pos->board[retro_capture_departure] = Empty;
   pos->board[move_by_invisible] = Empty;
+  pos->board[move_erben] = Empty;
 
   for (bnp = boardnum; *bnp; bnp++)
   {

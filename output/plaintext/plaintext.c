@@ -233,6 +233,7 @@ static void write_regular_move(output_plaintext_move_context_type *context)
   {
     assert(movement_type==move_effect_piece_movement
            || movement_type==move_effect_piece_exchange
+           || movement_type==move_effect_board_transformation
            || movement_type==move_effect_none);
     if (movement_type==move_effect_piece_movement)
     {
@@ -252,6 +253,9 @@ static void write_regular_move(output_plaintext_move_context_type *context)
              || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
       write_exchange(context,movement);
     }
+    else if (movement_type==move_effect_board_transformation)
+      /* Erben rotation */
+      (*context->engine->fprintf)(context->file,"%s"," erben");
     else
       /* null move */
       (*context->engine->fprintf)(context->file,"%s"," ...");

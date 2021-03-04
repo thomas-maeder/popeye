@@ -285,7 +285,7 @@ static void WriteTwinning(boolean continued)
         protocol_fprintf(stdout,"%s","  ");
         break;
 
-      case move_effect_twinning_polish:
+      case move_effect_total_side_exchange:
         WritePolish(curr);
         break;
 

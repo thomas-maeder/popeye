@@ -188,6 +188,9 @@ void total_invisible_special_moves_player_solve(slice_index si)
           break;
         }
 
+        case move_erben:
+          break;
+
         case no_capture:
           move_effect_journal_do_null_effect();
           pipe_solve_delegate(si);

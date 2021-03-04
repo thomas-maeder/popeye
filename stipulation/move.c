@@ -27,6 +27,7 @@ static slice_index const move_slice_rank_order[] =
     STOpponentMovesCounter,
     STPostMoveIterationInitialiser,
     STNullMovePlayer,
+    STErbenMovePlayer,
     STTotalInvisibleSpecialMovesPlayer,
     STMummerBookkeeper,
     STUltraMummerMeasurerDeadend,
