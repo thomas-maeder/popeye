@@ -493,3 +493,45 @@ Kh3 becomes royal and is in check from (non-royal) Kh4
 solution finished.
 
 
+
+Bg1 becomes a pawn on its promotion rank and is promoted
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P  -P   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 3
+              AntiCirce
+             Influencer
+
+   1.e5*f6[wPf6->f2][g1=P][g1=Q] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=S] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=R] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=B] !
+
+  add_to_move_generation_stack:           1
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

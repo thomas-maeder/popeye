@@ -246,6 +246,15 @@ void find_potential_promotion_square(move_effect_journal_index_type base,
         curr = base;
         break;
 
+      case move_effect_walk_change:
+        if (move_effect_journal[curr].reason==move_effect_reason_influencer)
+        {
+          *candidate = move_effect_journal[curr].u.piece_walk_change.on;
+          *as_side = advers(trait[nbply]);
+          curr = base;
+        }
+        break;
+
       default:
         break;
     }

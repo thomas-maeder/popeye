@@ -378,6 +378,12 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
         else
           break;
 
+      case move_effect_walk_change:
+        if (move_effect_journal[m].u.piece_walk_change.on==on)
+          return being_solved.spec[on];
+        else
+          break;
+
       default:
         break;
     }
@@ -395,7 +401,7 @@ static void write_singlebox_promotion(output_plaintext_move_context_type *contex
 }
 
 static void write_walk_change(output_plaintext_move_context_type *context,
-                               move_effect_journal_index_type curr)
+                              move_effect_journal_index_type curr)
 {
   switch (move_effect_journal[curr].reason)
   {
@@ -412,6 +418,13 @@ static void write_walk_change(output_plaintext_move_context_type *context,
       {
         square const on = move_effect_journal[curr].u.piece_walk_change.on;
         Flags const flags = find_piece_flags(context,curr,on);
+
+        if (move_effect_journal[context->start].reason==move_effect_reason_influencer)
+        {
+          next_context(context,curr,"[","]");
+          WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.on);
+        }
+
         (*context->engine->fputc)('=',context->file);
         WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_walk_change.to,false);
         WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_walk_change.to);

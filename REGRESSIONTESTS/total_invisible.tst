@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       10907
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5860
-                  TI decisions:       12444
+                  TI decisions:       18056
 
 solution finished.
 
