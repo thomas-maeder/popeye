@@ -519,13 +519,13 @@ Bg1 becomes a pawn on its promotion rank and is promoted
               AntiCirce
              Influencer
 
-   1.e5*f6[wPf6->f2][g1=P=Q] !
+   1.e5*f6[wPf6->f2][g1=P][g1=Q] !
 
-   1.e5*f6[wPf6->f2][g1=P=S] !
+   1.e5*f6[wPf6->f2][g1=P][g1=S] !
 
-   1.e5*f6[wPf6->f2][g1=P=R] !
+   1.e5*f6[wPf6->f2][g1=P][g1=R] !
 
-   1.e5*f6[wPf6->f2][g1=P=B] !
+   1.e5*f6[wPf6->f2][g1=P][g1=B] !
 
   add_to_move_generation_stack:           1
                      play_move:           4
