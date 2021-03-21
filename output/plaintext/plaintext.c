@@ -378,6 +378,12 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
         else
           break;
 
+      case move_effect_walk_change:
+        if (move_effect_journal[m].u.piece_walk_change.on==on)
+          return being_solved.spec[on];
+        else
+          break;
+
       default:
         break;
     }

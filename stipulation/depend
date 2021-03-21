@@ -1691,8 +1691,8 @@ stipulation/slice_insertion$(OBJ_SUFFIX): stipulation/slice_insertion.c \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h solving/ply.h stipulation/move.h \
  stipulation/pipe.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h solving/observation.h \
- solving/temporary_hacks.h solving/fork.h debugging/assert.h
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ debugging/assert.h
 
 stipulation/slice_insertion.h:
 
@@ -1785,8 +1785,6 @@ stipulation/pipe.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 solving/observation.h:
 

@@ -102,6 +102,8 @@ static slice_index const move_slice_rank_order[] =
     STMasandRecolorer,
     STMasandGeneralisedRecolorer,
     STInfluencerWalkChanger,
+    STBeforePawnPromotion, /* pawn created by influence */
+    STLandingAfterPawnPromotion,
     STDynastyKingSquareUpdater,
     STLostPiecesRemover,
     STLandingAfterMovePlay,

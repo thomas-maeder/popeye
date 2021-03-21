@@ -2,6 +2,7 @@
 #include "position/effects/walk_change.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "position/effects/utils.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
@@ -115,6 +116,8 @@ void solving_insert_influencer(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STInfluencerWalkChanger);
+
+  promotion_insert_slice_sequence(si,STInfluencerWalkChanger,&move_insert_slices);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
