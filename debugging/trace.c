@@ -24,11 +24,12 @@
 #endif
 static boolean do_trace = false;
 static trace_level level;
-void set_trace(boolean b) {do_trace = b;}
-boolean get_trace(void) {return do_trace;}
 static unsigned long move_counter;
 static trace_level max_level = ULONG_MAX;
 static boolean pointers_suppressed = false;
+
+void set_trace(boolean b) {do_trace = b;}
+boolean get_trace(void) {return do_trace;}
 
 enum
 {
@@ -42,6 +43,7 @@ static char const *entryNames[max_nesting_level];
 static boolean do_trace_call_stack = false;
 static char entries[max_nesting_level][entry_length];
 static unsigned int entry_cursor[max_nesting_level];
+
 void set_trace_call_stack(boolean b) {do_trace_call_stack = b;}
 boolean get_trace_call_stack(void) {return do_trace_call_stack;}
 
