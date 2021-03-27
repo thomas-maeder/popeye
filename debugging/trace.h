@@ -44,7 +44,7 @@ void TraceEOL(void);
 
 #if defined(DOTRACECALLSTACK)
 void set_trace_call_stack(boolean b);
-boolean get_trace_stack(void);
+boolean get_trace_call_stack(void);
 #endif
 
 /* Trace function entry
