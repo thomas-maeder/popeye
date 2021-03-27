@@ -112,10 +112,10 @@ void TraceFunctionParamListEnd(void)
     putchar('\n');
 
 #if defined(DOTRACECALLSTACK)
-    entry_cursor[level-1] += do_trace_call_stack ? snprintf(entries[level-1]+entry_cursor[level-1],
-                                                            entry_length-entry_cursor[level-1],
-                                                            "\n")
-                                                 : 0;
+    if (do_trace_call_stack)
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "\n");
 #endif
 }
 
