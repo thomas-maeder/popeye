@@ -22,11 +22,11 @@
 #include "output/plaintext/language_dependant.h"
 #include "pieces/walks/hunters.h"
 #endif
-
+static boolean do_trace = false;
 static trace_level level;
-
+void set_trace(boolean b) {do_trace = b;}
+boolean get_trace(void) {return do_trace;}
 static unsigned long move_counter;
-
 static trace_level max_level = ULONG_MAX;
 static boolean pointers_suppressed = false;
 
@@ -39,18 +39,24 @@ enum
 static char const *entryNames[max_nesting_level];
 
 #if defined(DOTRACECALLSTACK)
+static boolean do_trace_call_stack = false;
 static char entries[max_nesting_level][entry_length];
 static unsigned int entry_cursor[max_nesting_level];
+void set_trace_call_stack(boolean b) {do_trace_call_stack = b;}
+boolean get_trace_call_stack(void) {return do_trace_call_stack;}
 
 /* Write the call stack
  * @param file where to write the call stack
  */
 void TraceCallStack(FILE *file)
 {
-  unsigned int i;
-  for (i = 0; i<level; ++i)
-    fputs(entries[i],file);
-  fflush(file);
+  if (do_trace_call_stack)
+  {
+    unsigned int i;
+    for (i = 0; i<level; ++i)
+      fputs(entries[i],file);
+    fflush(file);
+  }
 }
 #endif
 
@@ -66,29 +72,33 @@ void TraceSuppressPointerValues(void)
 
 void TraceEOL(void)
 {
-  if (level<=max_level)
-  {
-    putchar('\n');
-    fflush(stdout);
-  }
+  if (do_trace)
+    if (level<=max_level)
+    {
+      putchar('\n');
+      fflush(stdout);
+    }
 }
 
 void TraceFunctionEntry(char const *name)
 {
   ++level;
 
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     printf("> #%lu %s ",level,name);
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] = snprintf(entries[level-1],
-                                   entry_length,
-                                   "> #%lu %s ",
-                                   level,
-                                   name);
+  if (do_trace_call_stack)
+    entry_cursor[level-1] = snprintf(entries[level-1],
+                                     entry_length,
+                                     "> #%lu %s ",
+                                     level,
+                                     name);
+  else
+    entry_cursor[level-1] = 0;
 #endif
 
   entryNames[level] = name;
@@ -96,36 +106,38 @@ void TraceFunctionEntry(char const *name)
 
 void TraceFunctionParamListEnd(void)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
     putchar('\n');
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "\n");
+    entry_cursor[level-1] += do_trace_call_stack ? snprintf(entries[level-1]+entry_cursor[level-1],
+                                                            entry_length-entry_cursor[level-1],
+                                                            "\n")
+                                                 : 0;
 #endif
 }
 
 void TraceFunctionExit(char const *name)
 {
-  if (strcmp(name,entryNames[level])!=0)
+  if (do_trace && (strcmp(name,entryNames[level])!=0))
     fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
             level,entryNames[level],name);
 
   assert(strcmp(name,entryNames[level])==0);
 
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     printf("< #%lu %s",level,name);
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "< #%lu %s",
-                                    level,
-                                    name);
+  if (do_trace_call_stack)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "< #%lu %s",
+                                      level,
+                                      name);
 #endif
 
   --level;
@@ -134,7 +146,7 @@ void TraceFunctionExit(char const *name)
 void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
 {
   va_list ap;
-  if (level+1<=max_level)
+  if (do_trace && (level<max_level))
   {
     fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
@@ -149,34 +161,38 @@ void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
   }
 
 #if defined(DOTRACECALLSTACK)
-  va_start(ap, format);
-  entry_cursor[level] += vsnprintf(entries[level]+entry_cursor[level],
-                                   entry_length-entry_cursor[level],
-                                   format,
-                                   ap);
-  va_end(ap);
+  if (do_trace_call_stack)
+  {
+    va_start(ap, format);
+    entry_cursor[level] += vsnprintf(entries[level]+entry_cursor[level],
+                                     entry_length-entry_cursor[level],
+                                     format,
+                                     ap);
+    va_end(ap);
+  }
 #endif
 }
 
 void TraceFunctionResultEnd(void)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     putchar('\n');
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
-                                  entry_length-entry_cursor[level],
-                                  "\n");
+  if (do_trace_call_stack)
+    entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
+                                    entry_length-entry_cursor[level],
+                                    "\n");
 #endif
 }
 
 void TraceValueImpl(char const *prefix, char const *format, ...)
 {
   va_list ap;
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
@@ -191,29 +207,33 @@ void TraceValueImpl(char const *prefix, char const *format, ...)
   }
 
 #if defined(DOTRACECALLSTACK)
-  va_start(ap,format);
-  entry_cursor[level-1] += vsnprintf(entries[level-1]+entry_cursor[level-1],
-                                     entry_length-entry_cursor[level-1],
-                                     format,
-                                     ap);
-  va_end(ap);
+  if (do_trace_call_stack)
+  {
+    va_start(ap,format);
+    entry_cursor[level-1] += vsnprintf(entries[level-1]+entry_cursor[level-1],
+                                       entry_length-entry_cursor[level-1],
+                                       format,
+                                       ap);
+    va_end(ap);
+  }
 #endif
 }
 
 void TraceText(char const *text)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     printf("  #%lu %s",level,text);
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "  #%lu %s",
-                                    level,
-                                    text);
+  if (do_trace_call_stack)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "  #%lu %s",
+                                      level,
+                                      text);
 #endif
 }
 
@@ -221,24 +241,25 @@ void TraceEnumeratorImpl(char const *format,
                          char const *enumerator_name,
                          unsigned int value)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     printf(format,enumerator_name,value);
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    format,
-                                    enumerator_name,
-                                    value);
+  if (do_trace_call_stack)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      format,
+                                      enumerator_name,
+                                      value);
 #endif
 }
 
 void TraceSquareImpl(char const *prefix, square s)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     fputs(prefix,stdout);
 
@@ -255,38 +276,41 @@ void TraceSquareImpl(char const *prefix, square s)
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "%s",
-                                    prefix);
-  if (s==initsquare)
+  if (do_trace_call_stack)
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
-                                      "initsquare");
-  else
-  {
-    if (is_on_board(s))
-    {
+                                      "%s",
+                                      prefix);
+    if (s==initsquare)
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
-                                        "%c",
-                                        (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
-      if (isBoardReflected)
+                                        "initsquare");
+    else
+    {
+      if (is_on_board(s))
+      {
         entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                           entry_length-entry_cursor[level-1],
                                           "%c",
-                                          (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
+                                          (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+        if (isBoardReflected)
+          entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                            entry_length-entry_cursor[level-1],
+                                            "%c",
+                                            (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
+        else
+          entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                            entry_length-entry_cursor[level-1],
+                                            "%c",
+                                            (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+      }
       else
         entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                           entry_length-entry_cursor[level-1],
-                                          "%c",
-                                          (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+                                          "[square %d]",
+                                          s);
     }
-    else
-      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                        entry_length-entry_cursor[level-1],
-                                        "[square %d]",
-                                        s);
   }
 #endif
 }
@@ -294,53 +318,59 @@ void TraceSquareImpl(char const *prefix, square s)
 #if defined(DOTRACECALLSTACK)
 static void remember_regular_piece(piece_walk_type pnam)
 {
-  char const p1 = PieceTab[pnam][1];
+  if (do_trace_call_stack)
+  {
+    char const p1 = PieceTab[pnam][1];
 
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "%c",
-                                    toupper((unsigned char)PieceTab[pnam][0]));
-  if (p1!=' ')
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "%c",
-                                      toupper((unsigned char)p1));
+                                      toupper((unsigned char)PieceTab[pnam][0]));
+    if (p1!=' ')
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "%c",
+                                        toupper((unsigned char)p1));
+  }
 }
 #endif
 
 void TraceWalkImpl(char const *prefix, piece_walk_type p)
 {
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    "%s",
-                                    prefix);
-  if (p==Empty) /* TODO: Is Empty the correct value here? */
-    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                      entry_length-entry_cursor[level-1],
-                                      "vide");
-  else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
-    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                      entry_length-entry_cursor[level-1],
-                                      "obs");
-  else
+  if (do_trace_call_stack)
   {
-    if ((p<Hunter0) || (p>=nr_piece_walks))
-      remember_regular_piece(p);
-    else
-    {
-      unsigned int const i = (unsigned int)p-(unsigned int)Hunter0;
-      assert(i<max_nr_hunter_walks);
-      remember_regular_piece(huntertypes[i].away);
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "%s",
+                                      prefix);
+    if (p==Empty) /* TODO: Is Empty the correct value here? */
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
-                                        "/");
-      remember_regular_piece(huntertypes[i].home);
+                                        "vide");
+    else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "obs");
+    else
+    {
+      if ((p<Hunter0) || (p>=nr_piece_walks))
+        remember_regular_piece(p);
+      else
+      {
+        unsigned int const i = (unsigned int)p-(unsigned int)Hunter0;
+        assert(i<max_nr_hunter_walks);
+        remember_regular_piece(huntertypes[i].away);
+        entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                          entry_length-entry_cursor[level-1],
+                                          "/");
+        remember_regular_piece(huntertypes[i].home);
+      }
     }
   }
 #endif
 
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     fputs(prefix,stdout);
     if (p==Empty)
@@ -356,7 +386,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
 #include "position/underworld.h"
 static void TraceCurrentMove(void)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     printf(" #%lu %lu ",level,move_counter++);
     output_plaintext_write_move(&output_plaintext_engine,
@@ -371,7 +401,7 @@ static void TraceCurrentMove(void)
 
 void TraceCurrentHashBuffer(void)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     HashBuffer const *hb = &hashBuffers[nbply];
     unsigned int i;
@@ -386,7 +416,7 @@ void TraceCurrentHashBuffer(void)
 
 void TracePosition(echiquier e, Flags flags[maxsquare+4])
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
@@ -412,10 +442,13 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 
 static void trace_link(char const *prefix, slice_index si, char const *suffix)
 {
-  if (si==no_slice)
-    printf("%s----%s ",prefix,suffix);
-  else
-    printf("%s%4u%s ",prefix,si,suffix);
+  if (do_trace)
+  {
+    if (si==no_slice)
+      printf("%s----%s ",prefix,suffix);
+    else
+      printf("%s%4u%s ",prefix,si,suffix);
+  }
 }
 
 static char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
@@ -423,130 +456,172 @@ static char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
 static void trace_common(slice_index si, stip_structure_traversal *st)
 {
-  printf("[%4u] ",si);
-  printf("%-34s ",slice_type_names[SLICE_TYPE(si)]);
-  printf("%c%c%c%c ",
-         Side_names[SLICE_STARTER(si)][0],
-         level_shortcuts[st->level],
-         context_shortcuts[st->context],
-         st->activity==stip_traversal_activity_solving ? 'S' : 'T');
-  trace_link("",SLICE_PREV(si),"<");
-  trace_link(">",SLICE_NEXT1(si),"");
-  trace_link("(",SLICE_TESTER(si),")");
+  if (do_trace)
+  {
+    printf("[%4u] ",si);
+    printf("%-34s ",slice_type_names[SLICE_TYPE(si)]);
+    printf("%c%c%c%c ",
+           Side_names[SLICE_STARTER(si)][0],
+           level_shortcuts[st->level],
+           context_shortcuts[st->context],
+           st->activity==stip_traversal_activity_solving ? 'S' : 'T');
+    trace_link("",SLICE_PREV(si),"<");
+    trace_link(">",SLICE_NEXT1(si),"");
+    trace_link("(",SLICE_TESTER(si),")");
+  }
 }
 
 static void trace_branch(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  printf("%2u/",SLICE_U(si).branch.length);
-  printf("%2u ",SLICE_U(si).branch.min_length);
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    printf("%2u/",SLICE_U(si).branch.length);
+    printf("%2u ",SLICE_U(si).branch.min_length);
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_pipe(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_fork(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("fork:",SLICE_NEXT2(si),"");
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("fork:",SLICE_NEXT2(si),"");
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_leaf(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    putchar('\n');
+  }
 }
 
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("base:",SLICE_U(si).derived_pipe.base,"");
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("base:",SLICE_U(si).derived_pipe.base,"");
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("fork:",SLICE_NEXT2(si),"");
-  printf("goal:%u ",(unsigned int)SLICE_U(si).goal_handler.goal.type);
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("fork:",SLICE_NEXT2(si),"");
+    printf("goal:%u ",(unsigned int)SLICE_U(si).goal_handler.goal.type);
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  printf("goal:%u\n",(unsigned int)SLICE_U(si).goal_handler.goal.type);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    printf("goal:%u\n",(unsigned int)SLICE_U(si).goal_handler.goal.type);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("fork:",SLICE_NEXT2(si),"");
-  printf("threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("fork:",SLICE_NEXT2(si),"");
+    printf("threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  printf("mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    printf("mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  printf(" mode:%s(%u)\n",
-         output_mode_names[SLICE_U(si).output_mode_selector.mode],
-         (unsigned int)SLICE_U(si).output_mode_selector.mode);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    printf(" mode:%s(%u)\n",
+           output_mode_names[SLICE_U(si).output_mode_selector.mode],
+           (unsigned int)SLICE_U(si).output_mode_selector.mode);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("?",SLICE_NEXT2(si),"");
-  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("?",SLICE_NEXT2(si),"");
+    printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
 {
-  trace_common(si,st);
-  trace_link("next2:",SLICE_NEXT2(si),"");
-  trace_link("condition:",SLICE_U(si).if_then_else.condition,"");
-  putchar('\n');
+  if (do_trace)
+  {
+    trace_common(si,st);
+    trace_link("next2:",SLICE_NEXT2(si),"");
+    trace_link("condition:",SLICE_U(si).if_then_else.condition,"");
+    putchar('\n');
 
-  stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children(si,st);
+  }
 }
 
 static structure_traversers_visitor tracers[] =
@@ -574,7 +649,7 @@ enum
 
 void TraceStipulation(slice_index si)
 {
-  if (level<=max_level)
+  if (do_trace && (level<=max_level))
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
