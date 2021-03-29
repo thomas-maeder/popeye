@@ -113,11 +113,14 @@ void TraceFunctionParamListEnd(void)
 
 void TraceFunctionExit(char const *name)
 {
-  if (strcmp(name,entryNames[level])!=0)
-    fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
-            level,entryNames[level],name);
+  if (level<max_nesting_level)
+  {
+    if (strcmp(name,entryNames[level])!=0)
+      fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
+              level,entryNames[level],name);
 
-  assert(strcmp(name,entryNames[level])==0);
+    assert(strcmp(name,entryNames[level])==0);
+  }
 
   if (level<=max_level)
   {
