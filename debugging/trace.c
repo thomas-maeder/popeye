@@ -110,7 +110,7 @@ void TraceFunctionEntry(char const *name)
   }
 #endif
 
-  if (do_trace && (level<max_nesting_level))
+  if (level<max_nesting_level)
     entryNames[level] = name;
 }
 
