@@ -100,7 +100,10 @@ void TraceFunctionEntry(char const *name)
                                      level,
                                      name);
   else
+  {
+    entries[level-1][0] = '\0';
     entry_cursor[level-1] = 0;
+  }
 #endif
 
   entryNames[level] = name;
