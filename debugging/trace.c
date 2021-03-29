@@ -74,12 +74,11 @@ void TraceSuppressPointerValues(void)
 
 void TraceEOL(void)
 {
-  if (do_trace)
-    if (level<=max_level)
-    {
-      putchar('\n');
-      fflush(stdout);
-    }
+  if (do_trace && (level<=max_level))
+  {
+    putchar('\n');
+    fflush(stdout);
+  }
 }
 
 void TraceFunctionEntry(char const *name)
@@ -120,14 +119,14 @@ void TraceFunctionParamListEnd(void)
     putchar('\n');
 
 #if defined(DOTRACECALLSTACK)
-    if (do_trace_call_stack)
-    {
-      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                        entry_length-entry_cursor[level-1],
-                                        "\n");
-      if (entry_cursor[level-1] >= entry_length)
-        entry_cursor[level-1] = entry_length-1;
-    }
+  if (do_trace_call_stack)
+  {
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "\n");
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
 #endif
 }
 
