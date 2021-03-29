@@ -351,7 +351,7 @@ void TraceSquareImpl(char const *prefix, square s)
                                           s);
     }
     if (entry_cursor[level-1] >= entry_length)
-      entry_cursor[level-1] = entry_length-1; 
+      entry_cursor[level-1] = entry_length-1;
   }
 #endif
 }
@@ -368,7 +368,7 @@ static void remember_regular_piece(piece_walk_type pnam)
                                       "%c",
                                       toupper((unsigned char)PieceTab[pnam][0]));
     if (entry_cursor[level-1] >= entry_length)
-      entry_cursor[level-1] = entry_length-1; 
+      entry_cursor[level-1] = entry_length-1;
     if (p1!=' ')
     {
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -392,14 +392,14 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                       "%s",
                                       prefix);
     if (entry_cursor[level-1] >= entry_length)
-      entry_cursor[level-1] = entry_length-1; 
+      entry_cursor[level-1] = entry_length-1;
     if (p==Empty) /* TODO: Is Empty the correct value here? */
     {
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "vide");
       if (entry_cursor[level-1] >= entry_length)
-        entry_cursor[level-1] = entry_length-1; 
+        entry_cursor[level-1] = entry_length-1;
     }
     else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
     {
@@ -407,7 +407,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                         entry_length-entry_cursor[level-1],
                                         "obs");
       if (entry_cursor[level-1] >= entry_length)
-        entry_cursor[level-1] = entry_length-1; 
+        entry_cursor[level-1] = entry_length-1;
     }
     else
     {
@@ -422,7 +422,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                           entry_length-entry_cursor[level-1],
                                           "/");
         if (entry_cursor[level-1] >= entry_length)
-          entry_cursor[level-1] = entry_length-1; 
+          entry_cursor[level-1] = entry_length-1;
         remember_regular_piece(huntertypes[i].home);
       }
     }
