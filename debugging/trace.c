@@ -89,6 +89,8 @@ void TraceFunctionEntry(char const *name)
                                    "> #%lu %s ",
                                    level,
                                    name);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 
   entryNames[level] = name;
@@ -103,6 +105,8 @@ void TraceFunctionParamListEnd(void)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "\n");
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -126,6 +130,8 @@ void TraceFunctionExit(char const *name)
                                     "< #%lu %s",
                                     level,
                                     name);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 
   --level;
@@ -155,6 +161,8 @@ void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
                                    format,
                                    ap);
   va_end(ap);
+  if (entry_cursor[level] >= entry_length)
+    entry_cursor[level] = entry_length-1;
 #endif
 }
 
@@ -170,6 +178,8 @@ void TraceFunctionResultEnd(void)
   entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
                                   entry_length-entry_cursor[level],
                                   "\n");
+  if (entry_cursor[level] >= entry_length)
+    entry_cursor[level] = entry_length-1;
 #endif
 }
 
@@ -197,6 +207,8 @@ void TraceValueImpl(char const *prefix, char const *format, ...)
                                      format,
                                      ap);
   va_end(ap);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -214,6 +226,8 @@ void TraceText(char const *text)
                                     "  #%lu %s",
                                     level,
                                     text);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -233,6 +247,8 @@ void TraceEnumeratorImpl(char const *format,
                                     format,
                                     enumerator_name,
                                     value);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -259,6 +275,8 @@ void TraceSquareImpl(char const *prefix, square s)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
   if (s==initsquare)
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
@@ -271,6 +289,8 @@ void TraceSquareImpl(char const *prefix, square s)
                                         entry_length-entry_cursor[level-1],
                                         "%c",
                                         (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+      if (entry_cursor[level-1] >= entry_length)
+        entry_cursor[level-1] = entry_length-1;
       if (isBoardReflected)
         entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                           entry_length-entry_cursor[level-1],
@@ -288,6 +308,8 @@ void TraceSquareImpl(char const *prefix, square s)
                                         "[square %d]",
                                         s);
   }
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -300,11 +322,17 @@ static void remember_regular_piece(piece_walk_type pnam)
                                     entry_length-entry_cursor[level-1],
                                     "%c",
                                     toupper((unsigned char)PieceTab[pnam][0]));
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
   if (p1!=' ')
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "%c",
                                       toupper((unsigned char)p1));
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
 }
 #endif
 
@@ -315,14 +343,24 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
   if (p==Empty) /* TODO: Is Empty the correct value here? */
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "vide");
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
   else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
-                                      "obs");
+                                     "obs");
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
   else
   {
     if ((p<Hunter0) || (p>=nr_piece_walks))
@@ -335,6 +373,8 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "/");
+      if (entry_cursor[level-1] >= entry_length)
+        entry_cursor[level-1] = entry_length-1;
       remember_regular_piece(huntertypes[i].home);
     }
   }
