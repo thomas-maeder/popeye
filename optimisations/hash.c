@@ -669,7 +669,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -699,7 +699,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -728,7 +728,7 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("pre:0x%08x ",e->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
@@ -751,7 +751,7 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -771,7 +771,7 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -792,7 +792,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("0x%08x",e->data);
   TraceEOL();
 
