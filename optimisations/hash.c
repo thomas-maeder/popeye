@@ -1691,7 +1691,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
       fxfReset();
 #endif
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-      assert(pyhash!=0);
+      if (pyhash == dhtNilHashTable)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
       break;
     }
@@ -1898,7 +1902,11 @@ static void openhash(void)
 
   assert(pyhash==0);
   pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  assert(pyhash!=0);
+  if (pyhash == dhtNilHashTable)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
