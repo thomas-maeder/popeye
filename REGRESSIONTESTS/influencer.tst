@@ -535,3 +535,38 @@ Bg1 becomes a pawn on its promotion rank and is promoted
 solution finished.
 
 
+
+promotion of two knights after their transformation to pawns
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   K   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       4 + 2
+              AntiCirce
+             Influencer
+
+  1...Sb6-a8   2.a4*b3[bPb3->b7][b8=P][a8=P][b8=R][a8=Q] Rb8*b7[wRb7->h1] #
+  add_to_move_generation_stack:        4094
+                     play_move:        3891
+ is_white_king_square_attacked:         374
+ is_black_king_square_attacked:        3313
+
+solution finished.
+
+

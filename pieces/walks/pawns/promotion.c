@@ -215,49 +215,55 @@ void promotion_insert_slice_sequence(slice_index si,
  * @param candidate to hold the square; initsquare if there isn't any
  * @param as_side for whom did the pawn reach *candidate?
  */
-void find_potential_promotion_square(move_effect_journal_index_type base,
-                                     square *candidate,
+void find_potential_promotion_square(square *candidate,
                                      Side *as_side)
 {
-  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u",top);
+  TraceValue("%u",promotion_horizon[nbply]);
 
   *candidate = initsquare;
   *as_side = no_side;
 
-  while (curr>base)
+  while (promotion_horizon[nbply]<top && *candidate==initsquare)
   {
-    --curr;
+    TraceValue("%u",promotion_horizon[nbply]);
+    TraceValue("%u",move_effect_journal[promotion_horizon[nbply]].type);
+    TraceEOL();
 
-    switch (move_effect_journal[curr].type)
+    switch (move_effect_journal[promotion_horizon[nbply]].type)
     {
       case move_effect_piece_movement:
-        *candidate = move_effect_journal[curr].u.piece_movement.to;
-        *as_side = trait[nbply];
-        curr = base;
+        if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_moving_piece_movement)
+        {
+          *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+          *as_side = trait[nbply];
+        }
         break;
 
       case move_effect_piece_readdition:
-        *candidate = move_effect_journal[curr].u.piece_addition.added.on;
-        *as_side = move_effect_journal[curr].u.piece_addition.for_side;
-        curr = base;
+        *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_addition.added.on;
+        *as_side = move_effect_journal[promotion_horizon[nbply]].u.piece_addition.for_side;
         break;
 
       case move_effect_walk_change:
-        if (move_effect_journal[curr].reason==move_effect_reason_influencer)
+        if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_influencer)
         {
-          *candidate = move_effect_journal[curr].u.piece_walk_change.on;
+          TraceSquare(move_effect_journal[promotion_horizon[nbply]].u.piece_walk_change.on);
+          *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_walk_change.on;
           *as_side = advers(trait[nbply]);
-          curr = base;
         }
         break;
 
       default:
         break;
     }
+
+    ++promotion_horizon[nbply];
   }
 
   TraceSquare(*candidate);
@@ -291,8 +297,7 @@ void pawn_promoter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  find_potential_promotion_square(promotion_horizon[nbply],
-                                  &sq_potential_promotion,
+  find_potential_promotion_square(&sq_potential_promotion,
                                   &as_side);
 
   TraceSquare(sq_potential_promotion);
@@ -303,8 +308,6 @@ void pawn_promoter_solve(slice_index si)
     pipe_solve_delegate(si);
   else
   {
-    promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
-
     if (!post_move_am_i_iterating())
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
                                            as_side,
@@ -313,7 +316,7 @@ void pawn_promoter_solve(slice_index si)
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;
-      post_move_iteration_solve_delegate(si);
+      post_move_iteration_solve_recurse(si);
       --stack_pointer;
       if (!post_move_iteration_is_locked())
         post_move_iteration_end();
@@ -325,7 +328,7 @@ void pawn_promoter_solve(slice_index si)
                                          promotion_stack[stack_pointer].promotee);
 
       ++stack_pointer;
-      post_move_iteration_solve_delegate(si);
+      post_move_iteration_solve_recurse(si);
       --stack_pointer;
 
       if (!post_move_iteration_is_locked())
@@ -335,9 +338,9 @@ void pawn_promoter_solve(slice_index si)
           post_move_iteration_end();
       }
     }
-
-    promotion_horizon[nbply] = save_horizon;
   }
+
+  promotion_horizon[nbply] = save_horizon;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
