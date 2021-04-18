@@ -1,7 +1,11 @@
 #if !defined(UTILITIES_BOOLEAN_H)
 #define UTILITIES_BOOLEAN_H
 
-#if defined(__cplusplus)
+#if defined(__cplusplus) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+
+#if !defined(__cplusplus)
+#include <stdbool.h>
+#endif
 
 typedef bool boolean;
 
