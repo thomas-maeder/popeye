@@ -269,6 +269,7 @@ static unsigned int officer(piece_walk_type piece, square from_square, square to
       break;
 
     case Dummy:
+      result = ((from_square == to_square) ? 0 : UINT_MAX);
       break;
 
     default:
@@ -401,6 +402,7 @@ static unsigned int from_to_different(Side side,
       break;
 
     case Dummy:
+      result = ((from_square == to_square) ? 0 : UINT_MAX);
       break;
 
     default:
