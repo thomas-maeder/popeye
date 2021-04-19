@@ -685,7 +685,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][kingside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
@@ -696,7 +696,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][queenside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
