@@ -121,7 +121,9 @@ char *ParseLaTeXPieces(void)
         tok = InputLine;
         LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
         if (LaTeXPiecesFull[walk]!=0) /* TODO: What should we do if LaTeXPiecesFull[walk]==0? */
+        {
           strcpy(LaTeXPiecesFull[walk], tok);
+        }
       }
 
       tok = ReadNextTokStr();
@@ -1197,10 +1199,15 @@ void LaTeXSStipulation(FILE *file, slice_index si)
 
   {
     FILE *tmp = platform_open_tmpfile();
-    unsigned int const length = WriteSStipulation(tmp,si);
-    rewind(tmp);
-    LaTeXCopyFile(tmp,file,length);
-    platform_close_tmpfile(tmp);
+    if (tmp)
+    {
+      unsigned int const length = WriteSStipulation(tmp,si);
+      rewind(tmp);
+      LaTeXCopyFile(tmp,file,length);
+      platform_close_tmpfile(tmp);
+    }
+    else
+      fprintf(stderr, "error opening tmpfile in %s\n", __func__);
   }
 
   CloseElement(file);
