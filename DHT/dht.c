@@ -732,6 +732,7 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
       TraceValue("%lu ",newp);
       TraceValue("%p",(void *)newPointer);
       TraceEOL();
+      assert(oldPointer!=0);
       while (*oldPointer)
       {
         InternHsElement const *oldElmt = *oldPointer;
@@ -783,6 +784,7 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   oldp= ht->p + ht->maxp;
   oldPointer= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
 
+  assert(oldPointer!=0);
   if (*oldPointer)
   {
     while (*newPointer)
@@ -808,6 +810,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
   TMDBG(printf("h:%lu\n",h));
 
+  assert(phe!=0)
   while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
     {
