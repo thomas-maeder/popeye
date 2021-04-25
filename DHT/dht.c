@@ -810,7 +810,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
   TMDBG(printf("h:%lu\n",h));
 
-  assert(phe!=0)
+  assert(phe!=0);
   while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
     {
