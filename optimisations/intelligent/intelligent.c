@@ -562,6 +562,9 @@ static goal_type determine_goal_to_be_reached(slice_index si)
                                            STGoalReachedTester,
                                            &goal_to_be_reached_goal);
   stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand2);
+  stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
@@ -699,6 +702,9 @@ static void insert_goalreachable_guards(slice_index si, goal_type goal)
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand2);
   stip_structure_traversal_override(&st,
                                     goalreachable_guards_inserters,
                                     nr_goalreachable_guards_inserters);
@@ -1060,6 +1066,9 @@ static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
   stip_structure_traversal_override(&st,
                                     intelligent_mode_support_detectors,
                                     nr_intelligent_mode_support_detectors);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand2);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
