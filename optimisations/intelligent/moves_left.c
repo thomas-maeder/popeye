@@ -139,7 +139,7 @@ static Side goaled_side(slice_index si)
                                                   &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,
                                            STAnd,
-                                           &stip_traverse_structure_children_pipe);
+                                           &stip_traverse_structure_binary_operand1);
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTester,
                                            &remember_goaled_side);
