@@ -78,5 +78,20 @@ pieces white ka4h4 black kc5h3
 stipulation zb51
 condition royaldynasty influencer
 
+next
+
+title Bg1 becomes a pawn on its promotion rank and is promoted
+pieces white pe5 black pe6f6 bg1
+stipulation ~1
+condition anticirce influencer
+option nowk nobk
+
+next
+
+title promotion of two knights after their transformation to pawns
+pieces white kf4 sb6b8 pb3 black kh2 pa4
+stipulation h#1.5
+condition influencer anticirce
+
 end
 

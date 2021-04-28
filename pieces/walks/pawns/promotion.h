@@ -24,8 +24,7 @@ extern move_effect_journal_index_type promotion_horizon[maxply+1];
  * @param candidate to hold the square; initsquare if there isn't any
  * @param as_side for whom did the pawn reach *candidate?
  */
-void find_potential_promotion_square(move_effect_journal_index_type base,
-                                     square *candidate,
+void find_potential_promotion_square(square *candidate,
                                      Side *as_side);
 
 /* Try to solve in solve_nr_remaining half-moves.

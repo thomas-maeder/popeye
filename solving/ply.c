@@ -55,7 +55,7 @@ void nextply(Side side)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 
@@ -93,7 +93,7 @@ void siblingply(Side side)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 
@@ -126,7 +126,7 @@ void copyply(void)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 

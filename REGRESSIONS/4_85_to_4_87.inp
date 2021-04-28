@@ -53,5 +53,13 @@ pieces  white   kh7 pf2
         black   kc5 qd4 rd3 bd5 pc3c4e3f4g5
 option          intelligent movenumbers
 
+NextProblem
+
+author Viktoras Paliuliulionis
+origin github.com issue #307
+pieces white Ka8 Sf3 black Rb7b1 Kh1
+stipulation h#7
+option intelligent
+
 EndProblem
 

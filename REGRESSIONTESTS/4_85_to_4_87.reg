@@ -197,3 +197,38 @@ minimum and maximum length were output in swapped order
 solution finished.
 
 
+
+       Viktoras Paliuliulionis
+        github.com issue #307
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -R   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   S   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -R   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#7                         2 + 3
+
+  1.Rb7-f7 Sf3-h4   2.Rf7-f1 Ka8-a7   3.Rb1-a1 + Ka7-b6   4.Kh1-g1 Kb6-c5   5.Kg1-f2 Kc5-d4   6.Kf2-e1 Kd4-e3   7.Ra1-d1 Sh4-g2 #
+  1.Rb1-f1 Sf3-h4   2.Rb7-b1 Ka8-a7   3.Rb1-a1 + Ka7-b6   4.Kh1-g1 Kb6-c5   5.Kg1-f2 Kc5-d4   6.Kf2-e1 Kd4-e3   7.Ra1-d1 Sh4-g2 #
+  add_to_move_generation_stack:       43028
+                     play_move:       43028
+ is_white_king_square_attacked:        3639
+ is_black_king_square_attacked:        3769
+
+solution finished.
+
+

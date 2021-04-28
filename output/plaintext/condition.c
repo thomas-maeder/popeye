@@ -44,6 +44,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
@@ -91,7 +92,22 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-#define append_to_CondLine(line,pos,format,value) (unsigned int)snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
+static unsigned int append_to_CondLine(char (*line)[256], unsigned int pos, char const * format, ...)
+{
+  unsigned int num_chars_printed;
+  va_list ap;
+
+  assert(pos < sizeof *line);
+
+  va_start(ap, format);
+  num_chars_printed = (unsigned int)vsnprintf((*line)+pos, (sizeof *line)-pos, format, ap);
+  va_end(ap);
+  
+  if (num_chars_printed >= ((sizeof *line) - pos))
+    num_chars_printed = (((sizeof *line) - pos) - 1);
+
+  return num_chars_printed;
+}
 
 static unsigned int append_to_CondLine_walk(char (*line)[256], unsigned int pos, piece_walk_type walk)
 {
@@ -126,10 +142,18 @@ static unsigned int append_to_CondLine_square(char (*line)[256],
                                               unsigned int pos,
                                               square s)
 {
-  return (unsigned int)snprintf(*line+pos, sizeof *line - pos,
-                                " %c%c",
-                                (int)getBoardFileLabel((s%onerow) - nr_files_on_board),
-                                (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+  unsigned int num_chars_printed;
+
+  assert(pos < sizeof *line);
+
+  num_chars_printed = (unsigned int)snprintf((*line)+pos, (sizeof *line) - pos,
+                                             " %c%c",
+                                             (int)getBoardFileLabel((s%onerow) - nr_files_on_board),
+                                             (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+  if (num_chars_printed >= ((sizeof *line) - pos))
+    num_chars_printed = (((sizeof *line) - pos) - 1);
+
+  return num_chars_printed;
 }
 
 static unsigned int append_to_CondLine_chameleon_sequence(char (*line)[256],
@@ -397,7 +421,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
     rank = condition_subsequent;
   }
 
@@ -405,7 +429,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
     rank = condition_subsequent;
   }
 

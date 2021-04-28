@@ -9103,8 +9103,9 @@ conditions/influencer$(OBJ_SUFFIX): conditions/influencer.c conditions/influence
  position/effects/walk_change.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h position/effects/utils.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/color.enum pieces/walks/vectors.h \
+ pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -9114,7 +9115,8 @@ conditions/influencer$(OBJ_SUFFIX): conditions/influencer.c conditions/influence
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/pipe.h debugging/assert.h
+ position/effects/utils.h stipulation/move.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/influencer.h:
 
@@ -9174,9 +9176,9 @@ position/color.enum:
 
 pieces/walks/vectors.h:
 
-position/effects/utils.h:
+pieces/walks/pawns/promotion.h:
 
-stipulation/move.h:
+stipulation/slice_insertion.h:
 
 stipulation/structure_traversal.h:
 
@@ -9201,6 +9203,10 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+position/effects/utils.h:
+
+stipulation/move.h:
 
 solving/pipe.h:
 
