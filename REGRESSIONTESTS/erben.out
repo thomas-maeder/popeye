@@ -1,0 +1,119 @@
+
+            Wolfang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          1 + 2
+                Erben
+
+   1. erben ! Zugzwang.
+      1...Kg1-h1
+          2.Tf4-f1 #
+
+  add_to_move_generation_stack:         121
+                     play_move:          85
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          88
+
+Loesung beendet.
+
+
+
+            Wolfang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   D   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          2 + 2
+                Erben
+
+   1.Df1-a6 + !
+      1...Kb6*a6
+          2. erben Zugzwang.
+              2...Kg1-h1
+                  3.Tf4-f1 #
+
+  add_to_move_generation_stack:       18347
+                     play_move:       14340
+ is_white_king_square_attacked:        9792
+ is_black_king_square_attacked:        5480
+
+Loesung beendet.
+
+
+
+            Wolfang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   D   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          2 + 2
+                Erben
+
+   1.Dh4-a4 + !
+      1...Tc5-a5
+          2.Da4-c6 #
+      1...Ka6-b6
+          2.Da4-a6 +
+              2...Kb6*a6
+                  3. erben Zugzwang.
+                      3...Kg1-h1
+                          4.Tf4-f1 #
+
+  add_to_move_generation_stack:      125125
+                     play_move:       88636
+ is_white_king_square_attacked:       55575
+ is_black_king_square_attacked:       39510
+
+Loesung beendet.
+
+

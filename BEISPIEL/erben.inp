@@ -1,0 +1,28 @@
+anfang
+
+protokoll erben.out
+
+autor Wolfang Erben
+steine weiss kb8 schwar kb6 tc5
+bedingung erben
+forderung #2
+option vari
+
+weiter
+
+autor Wolfang Erben
+steine weiss kb8 df1 schwarz kb6 tc5
+forderung #3
+bedingung erben
+option varianten
+
+weiter
+
+autor Wolfang Erben
+steine weiss kb8 dh4 schwar ka6 tc5
+forderung #4
+bedingung erben
+option varianten
+
+end
+
