@@ -1,0 +1,35 @@
+anfang
+
+protokoll intelligent_lengthy.out
+
+auto    TLi
+quel    8951, Phenix 312, 11/2020
+ford    reci-h#12
+stei
+weis    kb5 bg2
+schw    kc1 bb7g7
+opti    intel zugn
+
+weiter
+
+auto    TLi
+quel    8952, Phenix 312, 11/2020
+ford    reci-h#13
+stei
+weis    kb3 bh2
+schw    kd8 bf7h7
+opti    intel zugn
+
+weiter
+
+beme    takes way too long
+auto    TLi
+quel    18421, Die Schwalbe 306-1, 12/2020
+ford    reci-h#14.5
+stei
+weis    kb6 bd2 te3
+schw    kd4 lb4
+opti    intel zugn
+
+ende
+

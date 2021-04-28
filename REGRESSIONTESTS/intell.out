@@ -4404,3 +4404,445 @@ l) sBd7-->d5
 Loesung beendet.
 
 
+
+                 TLi
+  2559, Probleemblad 52/3, 5-6/1994
+                7. eE
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   T  -S  -K   .   6
+|                                   |
+5   .   .   .  -B   .  -S   .   .   5
+|                                   |
+4   .   B   .   B   L   .   .   .   4
+|                                   |
+3   .   .   K   .   B   .  -D   .   3
+|                                   |
+2   .   .   .   B   .  -B   .   .   2
+|                                   |
+1   .   .   D   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#3                    8 + 7
+
+a) 
+
+0 moegliche Stellungen in 1+1
+657 moegliche Stellungen in 2+2
+  1.Kg6-h6 Le4-b1   2.Sf5*e3 Dc1-c2   3.Dg3-g5 Dc2-h7 #
+  1.Kg6-h6 Le4-b1   2.Sf5*e3 Dc1-c2   3.Se3-d1 #
+26439 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:    50050774
+                     play_move:    47702156
+ is_white_king_square_attacked:     4019317
+ is_black_king_square_attacked:     4322999
+
+b) wKc3-->b7  
+
+0 moegliche Stellungen in 1+1
+486 moegliche Stellungen in 2+2
+  1.Kg6-h7 Te6-a6   2.Sf6-d7 Dc1-c6   3.Dg3-g8 Dc6-h6 #
+  1.Kg6-h7 Te6-a6   2.Sf6-d7 Dc1-c6   3.Dg3-b8 #
+21744 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:    64142497
+                     play_move:    58624017
+ is_white_king_square_attacked:     5480908
+ is_black_king_square_attacked:     4733554
+
+Loesung beendet.
+
+
+
+          TLi Pachl Manhart
+     994, Europa-Rochade 8/1992
+                1. eE
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B  -L   .   .   .   .   .   6
+|                                   |
+5  -T   .  -B   .   .   .  -L   K   5
+|                                   |
+4  -B   .  -K   .   .   .   .   .   4
+|                                   |
+3   T  -T   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#3                    4 + 9
+
+NullStellung
+
+
+a) wKh5-->f1  
+
+0 moegliche Stellungen in 1+1
+19 moegliche Stellungen in 2+2
+  1.Lc6-f3 La8-e4   2.Tb3-b4 Le4-b1   3.Lf3-d5 Lb1-d3 #
+  1.Lc6-f3 La8-e4   2.Tb3-b4 Le4-b1   3.Tb4*b1 #
+553 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:      586767
+                     play_move:      539080
+ is_white_king_square_attacked:       63809
+ is_black_king_square_attacked:       53070
+
+b) wBe3-->c2  
+
+0 moegliche Stellungen in 1+1
+39 moegliche Stellungen in 2+2
+  1.Tb3-g3 Ta3-e3   2.Lc6-b5 Te3-e8   3.Tg3-c3 Te8-e4 #
+  1.Tb3-g3 Ta3-e3   2.Lc6-b5 Te3-e8   3.Lb5*e8 #
+1012 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:     1485368
+                     play_move:     1352998
+ is_white_king_square_attacked:      178399
+ is_black_king_square_attacked:      139071
+
+Loesung beendet.
+
+
+
+                 TLi
+    2113, Gaudium 235, 24.12.2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   K   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -D   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   L   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#7                    2 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+4 moegliche Stellungen in 6+6
+  1.Df6-a6 Lf3-c6   2.Kc5-d4 Kc7-d6   3.Kd4-e3 Kd6-d5   4.Ke3-f3 Kd5-e5 +   5.Kf3-g4 Lc6-e4   6.Kg4-h5 Ke5-f5   7.Da6-h6 Le4-f3 #
+  1.Df6-a6 Lf3-c6   2.Kc5-d4 Kc7-d6   3.Kd4-e3 Kd6-d5   4.Ke3-f3 Kd5-e5 +   5.Kf3-g4 Lc6-e4   6.Kg4-h5 Ke5-f5   7.Da6-f6 #
+26 moegliche Stellungen in 7+7
+  add_to_move_generation_stack:     2173228
+                     play_move:     2168671
+ is_white_king_square_attacked:      308818
+ is_black_king_square_attacked:      163558
+
+Loesung beendet.
+
+
+
+                 TLi
+  FA1937, StrateGems 92, 10-12/2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   L   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -S   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   .   .  -T  -D   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#8                    2 + 4
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+4 moegliche Stellungen in 6+6
+7 moegliche Stellungen in 7+7
+  1.Td2-a2 Kh1-g1   2.De2-b2 Kg1-f1   3.Kd3-c2 Kf1-e2   4.Kc2-c1 + Ke2-d3   5.Db2-e2 + Kd3-c3   6.Ta2-d2 Kc3-b3   7.Sa3-c2 Kb3-a2   8.De2-d1 Le5-b2 #
+  1.Td2-a2 Kh1-g1   2.De2-b2 Kg1-f1   3.Kd3-c2 Kf1-e2   4.Kc2-c1 + Ke2-d3   5.Db2-e2 + Kd3-c3   6.Ta2-d2 Kc3-b3   7.Sa3-c2 Kb3-a2   8.De2-c4 #
+16 moegliche Stellungen in 8+8
+  add_to_move_generation_stack:    47932476
+                     play_move:    47882997
+ is_white_king_square_attacked:     7317716
+ is_black_king_square_attacked:     4883626
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+     t1, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h(=)#3                 2 + 2
+
+0 moegliche Stellungen in 1+1
+4 moegliche Stellungen in 2+2
+  1.e3-e2 g7-g8=D   2.e2-e1=D Dg8-g3   3.De1-e2 Dg3-g1 #
+  1.e3-e2 g7-g8=D   2.e2-e1=D Dg8-g3   3.De1*g3 =
+20 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:       17123
+                     play_move:       11411
+ is_white_king_square_attacked:        8612
+ is_black_king_square_attacked:        3344
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+     t2, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h(=)#3                 2 + 2
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+  1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1-e1 Da2-g2 #
+  1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1*a2 =
+6 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:        9350
+                     play_move:        6159
+ is_white_king_square_attacked:        4921
+ is_black_king_square_attacked:        1950
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+     t4, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h(#)=2                 2 + 2
+
+0 moegliche Stellungen in 1+1
+  1.e2-e1=D e7-e8=D   2.De1-e3 De8*e3 =
+  1.e2-e1=D e7-e8=D   2.De1-h4 #
+4 moegliche Stellungen in 2+2
+  add_to_move_generation_stack:        2068
+                     play_move:        1725
+ is_white_king_square_attacked:         134
+ is_black_king_square_attacked:         866
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+     t5, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -B   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h(#)=3                 2 + 2
+
+0 moegliche Stellungen in 1+1
+15 moegliche Stellungen in 2+2
+  1.d3-d2 e7-e8=T   2.d2-d1=D + Te8-e1   3.Dd1-e2 + Te1*e2 =
+  1.d3-d2 e7-e8=T   2.d2-d1=D + Te8-e1   3.Dd1-f3 #
+49 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:       33955
+                     play_move:       27497
+ is_white_king_square_attacked:        7692
+ is_black_king_square_attacked:       10195
+
+Loesung beendet.
+
+
+
+           Theodor Steudel
+     t6, Problemkiste 92, 4/1994
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -B   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h(#)=3                 2 + 2
+
+2 moegliche Stellungen in 1+1
+15 moegliche Stellungen in 2+2
+  1.d3-d2 h7-h8=T   2.d2-d1=D Th8-h4   3.Dd1-g4 + Th4*g4 =
+  1.d3-d2 h7-h8=T   2.d2-d1=D Th8-h4   3.Dd1-f3 #
+35 moegliche Stellungen in 3+3
+  add_to_move_generation_stack:       51417
+                     play_move:       39264
+ is_white_king_square_attacked:       13170
+ is_black_king_square_attacked:       18297
+
+Loesung beendet.
+
+
+
+            Louis Azemard
+           Manuel Mu\~noz
+    spez. ehr. Erw., RIFACE 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   D   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-reci-h(=)#7             2 + 2
+
+a) 
+
+0 moegliche Stellungen in 1+2
+0 moegliche Stellungen in 1+3
+0 moegliche Stellungen in 1+4
+0 moegliche Stellungen in 1+5
+2 moegliche Stellungen in 1+6
+  1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7-d8 Dh7-b7 #
+  1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7*h7 =
+2 moegliche Stellungen in 1+7
+  add_to_move_generation_stack:        2559
+                     play_move:        1756
+ is_white_king_square_attacked:        1109
+ is_black_king_square_attacked:         533
+
+b) sBh5-->d7  ser-reci-h(#)=7  
+
+1 moegliche Stellungen in 1+2
+1 moegliche Stellungen in 1+3
+1 moegliche Stellungen in 1+4
+3 moegliche Stellungen in 1+5
+3 moegliche Stellungen in 1+6
+  1.d7-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=D   6.Dd1-d6   7.Dd6-e7 Dh7*e7 =
+  1.d7-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=D   6.Dd1-d6   7.Dd6-b8 #
+4 moegliche Stellungen in 1+7
+  add_to_move_generation_stack:       10697
+                     play_move:        8838
+ is_white_king_square_attacked:        2240
+ is_black_king_square_attacked:        5131
+
+Loesung beendet.
+
+

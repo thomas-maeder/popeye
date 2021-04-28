@@ -1469,4 +1469,106 @@ zwilling        verse   e5 d6
 zwilling        verse   d7 d6
 zwilling        verse   d7 d5
 
-endeproblem
+weiteresproblem
+
+auto	TLi
+quel    2559, Probleemblad 52/3, 5-6/1994
+ausz	7. eE
+ford	reci-h#3
+stei
+weis	kc3 dc1 te6 le4 bb4d2d4e3
+schw	kg6 dg3 sf5f6 bd5f2f7
+opti	intel zugn
+zwil	verse c3 b7
+
+weiter
+
+auto	TLi Pachl Manhart
+quel    994, Europa-Rochade 8/1992
+ausz	1. eE
+ford	reci-h#3
+stei
+weis	kh5 ta3 la8 be3
+schw	kc4 ta5b3 lc6g5 sh1 ba4b6c5
+opti	intel zugn
+nullstellung	verse h5 f1
+zwil	verse e3 c2
+
+weiter
+
+auto	TLi
+quel    2113, Gaudium 235, 24.12.2020
+ford	reci-h#7
+stei
+weis	kc7 lf3
+schw	kc5 bh4g7 df6
+opti	intel zugn
+
+weiter
+
+auto	TLi
+quel    FA1937, StrateGems 92, 10-12/2020
+ford	reci-h#8
+stei
+weis	kh1 le5
+schw	kd3 de2 sa3 td2
+opti	intel zugn
+
+weiter
+
+autor           Theodor Steudel
+quelle          t1, Problemkiste 92, 4/1994
+forderung       reci-h(=)#3
+steine  weiss   kh1 bg7
+        schwarz kf1 be3
+opti intel zugn
+
+weiteresproblem
+
+autor           Theodor Steudel
+quelle          t2, Problemkiste 92, 4/1994
+forderung       reci-h(=)#3
+steine  weiss   kh1 ba7
+        schwarz kf1 bb3
+opti intel zugn
+
+weiteresproblem
+
+autor          Theodor Steudel
+quelle          t4, Problemkiste 92, 4/1994
+forderung       reci-h(#)=2
+steine  weiss   kh1 be7
+        schwarz kf1 be2
+opti intel zugn
+
+weiteresproblem
+
+autor           Theodor Steudel
+quelle          t5, Problemkiste 92, 4/1994
+forderung       reci-h(#)=3
+steine  weiss   kf1 be7
+        schwarz kh1 bd3
+opti intel zugn
+
+weiteresproblem
+
+autor           Theodor Steudel
+quelle          t6, Problemkiste 92, 4/1994
+forderung       reci-h(#)=3
+steine  weiss   kh3 bh7
+        schwarz kh1 bd3
+opti intel zugn
+
+weiteresproblem
+
+autor           Louis Azemard
+autor           Manuel Mu\~noz
+quelle          spez. ehr. Erw., RIFACE 1991
+forderung       ser-reci-h(=)#7
+steine  weiss   ka8 dh7
+        schwarz kc8 bh5
+opti intel zugn
+zwill   versetze h5 d7   ford    ser-reci-h(#)=7
+
+ende
+
