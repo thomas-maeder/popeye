@@ -232,3 +232,36 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .  -S   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                       4 + 2
+              SnekChess
+
+  1...Kf5*e4[d3=rS] #
+  add_to_move_generation_stack:          51
+                     play_move:          39
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          40
+
+solution finished.
+
+

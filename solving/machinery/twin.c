@@ -1042,6 +1042,9 @@ void verify_position(slice_index si)
     return;
   }
 
+  if (CondFlag[snekchess])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[snekchess] && CondFlag[snekcirclechess])
   {
     output_plaintext_verifie_message(NonsenseCombination);
