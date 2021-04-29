@@ -265,3 +265,39 @@ solution finished.
 solution finished.
 
 
+
+        Narayanan Shankar Ram
+https://github.com/thomas-maeder/popeye/issues/309
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -B   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          3 + 3
+            CheekToCheek
+
+   1.g5-g6 # !
+
+  add_to_move_generation_stack:          27
+                     play_move:          21
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          22
+
+solution finished.
+
+

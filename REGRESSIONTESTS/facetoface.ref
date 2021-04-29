@@ -277,7 +277,7 @@ solution finished.
             CheekToCheek
 
   1.e7-e5 Sd5*e6 ep.
-  add_to_move_generation_stack:          14
+  add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
