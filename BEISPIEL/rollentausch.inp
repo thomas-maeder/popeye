@@ -1,10 +1,10 @@
 anfang
 
-protokoll erben.out
+protokoll rollentausch.out
 
 autor Wolfang Erben
 steine weiss kb8 schwar kb6 tc5
-bedingung erben
+bedingung rollentausch
 forderung #2
 option vari
 
@@ -13,7 +13,7 @@ weiter
 autor Wolfang Erben
 steine weiss kb8 df1 schwarz kb6 tc5
 forderung #3
-bedingung erben
+bedingung rollentausch
 option varianten
 
 weiter
@@ -21,7 +21,7 @@ weiter
 autor Wolfang Erben
 steine weiss kb8 dh4 schwar ka6 tc5
 forderung #4
-bedingung erben
+bedingung rollentausch
 option varianten
 
 end

@@ -188,7 +188,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
           break;
         }
 
-        case move_erben:
+        case move_role_exchange:
           break;
 
         case no_capture:

@@ -21,9 +21,9 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          1 + 2
-                Erben
+            Rollentausch
 
-   1. erben ! Zugzwang.
+   1. Rollentausch ! Zugzwang.
       1...Kg1-h1
           2.Tf4-f1 #
 
@@ -58,11 +58,11 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          2 + 2
-                Erben
+            Rollentausch
 
    1.Df1-a6 + !
       1...Kb6*a6
-          2. erben Zugzwang.
+          2. Rollentausch Zugzwang.
               2...Kg1-h1
                   3.Tf4-f1 #
 
@@ -97,7 +97,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                          2 + 2
-                Erben
+            Rollentausch
 
    1.Dh4-a4 + !
       1...Tc5-a5
@@ -105,7 +105,7 @@ Loesung beendet.
       1...Ka6-b6
           2.Da4-a6 +
               2...Kb6*a6
-                  3. erben Zugzwang.
+                  3. Rollentausch Zugzwang.
                       3...Kg1-h1
                           4.Tf4-f1 #
 

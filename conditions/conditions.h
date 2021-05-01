@@ -232,7 +232,7 @@ typedef enum
   bolero,                 /* 211 */
   bolero_inverse,         /* 212 */
   influencer,             /* 213 */
-  erben,                  /* 214 */
+  role_exchange,          /* 214 */
 
   CondCount               /* 215 */
 } Cond;

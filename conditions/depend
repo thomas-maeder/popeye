@@ -9211,10 +9211,10 @@ stipulation/move.h:
 solving/pipe.h:
 
 debugging/assert.h:
-conditions/erben$(OBJ_SUFFIX): conditions/erben.c conditions/erben.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
+conditions/role_exchange$(OBJ_SUFFIX): conditions/role_exchange.c \
+ conditions/role_exchange.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
@@ -9239,7 +9239,7 @@ conditions/erben$(OBJ_SUFFIX): conditions/erben.c conditions/erben.h \
  stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
  debugging/assert.h
 
-conditions/erben.h:
+conditions/role_exchange.h:
 
 solving/machinery/solve.h:
 

@@ -108,7 +108,7 @@
     ENUMERATOR(STBeforePawnPromotion),                                 \
     ENUMERATOR(STLandingAfterPawnPromotion),                           \
     ENUMERATOR(STNullMovePlayer),                                      \
-    ENUMERATOR(STErbenMovePlayer),                                     \
+    ENUMERATOR(STRoleExchangeMovePlayer),                                     \
     ENUMERATOR(STLandingAfterMovingPieceMovement),                     \
     ENUMERATOR(STLandingAfterMovePlay),                                \
     ENUMERATOR(STAttackPlayed),                                        \
@@ -564,7 +564,7 @@
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \
     ENUMERATOR(STImitatorDetectIllegalMoves),                           \
     ENUMERATOR(STNullMoveGenerator),                                    \
-    ENUMERATOR(STErbenMoveGenerator),                                   \
+    ENUMERATOR(STRoleExchangeMoveGenerator),                                   \
     ENUMERATOR(STTotalInvisibleMoveSequenceTester),                     \
     ENUMERATOR(STTotalInvisibleMoveSequenceMoveRepeater),               \
     ENUMERATOR(STTotalInvisibleInstrumenter),                           \

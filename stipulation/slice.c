@@ -80,7 +80,7 @@ static slice_type const fork_slice_types[] =
     STCheckTesterFork,
     STTrivialEndFilter,
     STNullMovePlayer,
-    STErbenMovePlayer,
+    STRoleExchangeMovePlayer,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,
@@ -234,7 +234,7 @@ static slice_type const move_generator_slice_types[] =
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,
     STNullMoveGenerator,
-    STErbenMoveGenerator
+    STRoleExchangeMoveGenerator
 };
 
 static slice_type const move_reordering_optimiser_slice_types[] =
@@ -265,7 +265,7 @@ static slice_type const binary_slice_types[] =
     STRefutationsSolver,
     STThreatSolver,
     STNullMovePlayer,
-    STErbenMovePlayer,
+    STRoleExchangeMovePlayer,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,

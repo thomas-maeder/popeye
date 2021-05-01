@@ -30,7 +30,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h conditions/annan.h \
  conditions/bgl.h conditions/bolero.h conditions/breton.h \
- conditions/erben.h conditions/facetoface.h \
+ conditions/role_exchange.h conditions/facetoface.h \
  conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
  conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
  utilities/table.h conditions/republican.h conditions/blackchecks.h \
@@ -255,7 +255,7 @@ conditions/bolero.h:
 
 conditions/breton.h:
 
-conditions/erben.h:
+conditions/role_exchange.h:
 
 conditions/facetoface.h:
 
@@ -1077,7 +1077,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/bgl.h solving/move_effect_journal.h \
  position/castling_rights.h position/pieceid.h conditions/blackchecks.h \
  conditions/mummer.h conditions/bolero.h conditions/breton.h \
- conditions/erben.h conditions/koeko/koeko.h \
+ conditions/role_exchange.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
  conditions/circe/chameleon.h conditions/circe/circe.h \
@@ -1345,7 +1345,7 @@ conditions/bolero.h:
 
 conditions/breton.h:
 
-conditions/erben.h:
+conditions/role_exchange.h:
 
 conditions/koeko/koeko.h:
 

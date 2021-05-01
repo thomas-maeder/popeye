@@ -1,15 +1,15 @@
-#if !defined(OPTIONS_ERBEN_H)
-#define OPTIONS_ERBEN_H
+#if !defined(CONDITIONS_ROLE_EXCHANGE_H)
+#define CONDITIONS_ROLE_EXCHANGE_H
 
-/* This module implements the option erben */
+/* This module implements the condition Role Exchange */
 
 #include "solving/machinery/solve.h"
 
-/* Allocate a STErbenMovePlayer slice.
+/* Allocate a STRoleExchangeMovePlayer slice.
  * @param after_move identifies landing slice after move playing
  * @return index of allocated slice
  */
-slice_index alloc_erben_player_slice(slice_index after_move);
+slice_index alloc_role_exchange_player_slice(slice_index after_move);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -24,7 +24,7 @@ slice_index alloc_erben_player_slice(slice_index after_move);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void erben_player_solve(slice_index si);
+void role_exchange_player_solve(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -39,12 +39,12 @@ void erben_player_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void erben_generator_solve(slice_index si);
+void role_exchange_generator_solve(slice_index si);
 
-/* Instrument the solving machinery for erben
+/* Instrument the solving machinery for Role Exchange
  * @param si identifies root slice of stipulation
- * @param side which side may play null moves? pass no_side for both_sides
+ * @param side which side may exchange roles? pass no_side for both_sides
  */
-void erben_initialise_solving(slice_index si, Side side);
+void role_exchange_initialise_solving(slice_index si, Side side);
 
 #endif

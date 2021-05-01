@@ -254,8 +254,7 @@ static void write_regular_move(output_plaintext_move_context_type *context)
       write_exchange(context,movement);
     }
     else if (movement_type==move_effect_board_transformation)
-      /* Erben rotation */
-      (*context->engine->fprintf)(context->file,"%s"," erben");
+      (*context->engine->fprintf)(context->file," %s",CondTab[role_exchange]);
     else
       /* null move */
       (*context->engine->fprintf)(context->file,"%s"," ...");

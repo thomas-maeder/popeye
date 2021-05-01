@@ -261,6 +261,7 @@ Kommandos:
 	Bolero
 	BoleroInvers
 	Influencer
+	Rollentausch
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

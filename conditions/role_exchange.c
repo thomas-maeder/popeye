@@ -1,4 +1,4 @@
-#include "conditions/erben.h"
+#include "conditions/role_exchange.h"
 #include "position/effects/piece_removal.h"
 #include "position/effects/board_transformation.h"
 #include "position/effects/total_side_exchange.h"
@@ -15,11 +15,11 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* Allocate a STErbenMovePlayer slice.
+/* Allocate a STRoleExchangeMovePlayer slice.
  * @param after_move identifies landing slice after move playing
  * @return index of allocated slice
  */
-slice_index alloc_erben_player_slice(slice_index after_move)
+slice_index alloc_role_exchange_player_slice(slice_index after_move)
 {
   slice_index result;
 
@@ -27,7 +27,7 @@ slice_index alloc_erben_player_slice(slice_index after_move)
   TraceFunctionParam("%u",after_move);
   TraceFunctionParamListEnd();
 
-  result = alloc_fork_slice(STErbenMovePlayer,after_move);
+  result = alloc_fork_slice(STRoleExchangeMovePlayer,after_move);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,17 +48,17 @@ slice_index alloc_erben_player_slice(slice_index after_move)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void erben_player_solve(slice_index si)
+void role_exchange_player_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==move_erben)
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==move_role_exchange)
   {
     move_effect_journal_do_no_piece_removal();
-    move_effect_journal_do_board_transformation(move_effect_reason_erben,rot180);
-    move_effect_journal_do_total_side_exchange(move_effect_reason_erben);
+    move_effect_journal_do_board_transformation(move_effect_reason_role_exchange,rot180);
+    move_effect_journal_do_total_side_exchange(move_effect_reason_role_exchange);
 
     fork_solve_delegate(si);
   }
@@ -69,7 +69,7 @@ void erben_player_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void push_erben_move(void)
+static void push_role_exchange_move(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -78,9 +78,9 @@ static void push_erben_move(void)
 
   assert(current_move[nbply]<toppile);
 
-  curr_generation->departure = move_erben;
-  curr_generation->arrival = move_erben;
-  curr_generation->capture = move_erben;
+  curr_generation->departure = move_role_exchange;
+  curr_generation->arrival = move_role_exchange;
+  curr_generation->capture = move_role_exchange;
 
   ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
@@ -107,14 +107,14 @@ static void push_erben_move(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void erben_generator_solve(slice_index si)
+void role_exchange_generator_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (SLICE_STARTER(si)==White)
-    push_erben_move();
+    push_role_exchange_move();
 
   pipe_solve_delegate(si);
 
@@ -128,11 +128,11 @@ typedef struct
     Side side;
 } init_struct;
 
-static void insert_erben_handler(slice_index si, stip_structure_traversal *st)
+static void insert_role_exchange_handler(slice_index si, stip_structure_traversal *st)
 {
   init_struct * const initialiser = st->param;
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const prototype = alloc_erben_player_slice(proxy);
+  slice_index const prototype = alloc_role_exchange_player_slice(proxy);
 
   assert(initialiser->landing!=no_slice);
   link_to_branch(proxy,initialiser->landing);
@@ -151,7 +151,7 @@ static void instrument_move_generator(slice_index si,
 
   if (initialiser->side==no_side || initialiser->side==SLICE_STARTER(si))
   {
-    slice_index const prototype = alloc_pipe(STErbenMoveGenerator);
+    slice_index const prototype = alloc_pipe(STRoleExchangeMoveGenerator);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -185,7 +185,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
     stip_traverse_structure_children(si,st);
 
-    insert_erben_handler(si,st);
+    insert_role_exchange_handler(si,st);
     initialiser->landing = save_landing;
   }
   else
@@ -212,11 +212,11 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery for erben
+/* Instrument the solving machinery for Role Exchange
  * @param si identifies root slice of stipulation
- * @param side which side may play erben moves? pass no_side for both_sides
+ * @param side which side may exchange roles? pass no_side for both_sides
  */
-void erben_initialise_solving(slice_index si, Side side)
+void role_exchange_initialise_solving(slice_index si, Side side)
 {
   stip_structure_traversal st;
   init_struct initialiser = {
