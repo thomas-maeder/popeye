@@ -119,4 +119,11 @@ stip #4
 condition snekcircle
 option vari
 
-end
+next
+
+stip H#2
+condition snekchess
+pieces white Kf5 rb5 bb6 pd6 black Kd4 Sc5
+
+End
+

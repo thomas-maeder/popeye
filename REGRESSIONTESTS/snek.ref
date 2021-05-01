@@ -220,10 +220,10 @@ solution finished.
   1.Sd6*e4[g6=R] Sc3-e2   2.Se4-g5 Rg6-h6 #
   1.Rc7*c3[a3=rS] + rSa3-b1   2.Rc3-h3 Re4*g4 #
   1.Bh7*g6[c3=B] Re4-e3   2.Bg6-h5 Bc3-f6 #
-  add_to_move_generation_stack:       82577
-                     play_move:       48038
+  add_to_move_generation_stack:      315762
+                     play_move:      281223
  is_white_king_square_attacked:       12774
- is_black_king_square_attacked:       47343
+ is_black_king_square_attacked:      280528
 
 solution finished.
 
@@ -527,24 +527,24 @@ solution finished.
               SnekChess
 
       1...Qg1-h2
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
       1...Qg1-e3
           2.Bd1-b3 #
       1...Qg1-f2
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
       1...Qg1-g5
           2.Sc6-b4 #
       1...Qg1-g4
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
       1...Qg1-g3
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
       1...Qg1-g2
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
       1...g6-g5
           2.Rf6-f5 #
 
@@ -560,8 +560,8 @@ solution finished.
           2.d7-d8=Q #
           2.d7-d8=R #
       1...Qg1-g4
-          2.Sc6-b4 #
           2.Bd1-b3 #
+          2.Sc6-b4 #
     but
       1...Bf3-g4 !
 
@@ -577,10 +577,10 @@ solution finished.
       1...Qg1-g5
           2.Bd1-b3 #
 
-  add_to_move_generation_stack:       12007
-                     play_move:       10041
- is_white_king_square_attacked:         596
- is_black_king_square_attacked:        9934
+  add_to_move_generation_stack:       18405
+                     play_move:       12504
+ is_white_king_square_attacked:         681
+ is_black_king_square_attacked:       12397
 
 solution finished.
 
@@ -776,6 +776,40 @@ solution finished.
                      play_move:     1359028
  is_white_king_square_attacked:     1233561
  is_black_king_square_attacked:      164142
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   P   .   .   .   .   6
+|                                   |
+5   .   R  -S   .   .   K   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 2
+              SnekChess
+
+  1.Kd4-c3 Bb6*c5[c3=rS]   2.rSc3-d5 Bc5-d4 #
+  1.Kd4-d3 Rb5-b1   2.Sc5-e4 Kf5*e4[d3=rS] #
+  add_to_move_generation_stack:       27857
+                     play_move:       19445
+ is_white_king_square_attacked:        2034
+ is_black_king_square_attacked:       19347
 
 solution finished.
 

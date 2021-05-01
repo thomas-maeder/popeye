@@ -61,5 +61,24 @@ pieces white Ka8 Sf3 black Rb7b1 Kh1
 stipulation h#7
 option intelligent
 
-EndProblem
+NextProblem
 
+stipulation H#0.5
+condition Snekchess
+pieces White Kf5 rb1 bb6 pd6 black Kd3 Se4
+
+NextProblem
+
+author Narayanan Shankar Ram
+origin https://github.com/thomas-maeder/popeye/issues/309
+pieces white kc8 ba3 pg5 black ke8 bf6 pf5
+stipulation #1
+condition cheektocheek
+
+NextProblem
+
+author Bjorn Enemark
+stipulation 1->ser-H#3
+pieces white Kc2 Sb5 black Ka1 Rb3 Sd3
+
+End
