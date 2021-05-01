@@ -75,5 +75,10 @@ pieces white kc8 ba3 pg5 black ke8 bf6 pf5
 stipulation #1
 condition cheektocheek
 
-end
+NextProblem
 
+author Bjorn Enemark
+stipulation 1->ser-H#3
+pieces white Kc2 Sb5 black Ka1 Rb3 Sd3
+
+End

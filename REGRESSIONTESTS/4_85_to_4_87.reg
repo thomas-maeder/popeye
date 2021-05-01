@@ -301,3 +301,38 @@ https://github.com/thomas-maeder/popeye/issues/309
 solution finished.
 
 
+
+            Bjorn Enemark
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -R   .  -S   .   .   .   .   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  1->ser-h#3                  2 + 3
+
+  1.Sb5-d4   1.Sd3-c1   2.Sc1-a2 Sd4*b3 #
+  1.Sb5-d4   1.Rb3-a3   2.Sd3-b2   3.Ra3-a2 Sd4-b3 #
+  1.Sb5-d4   1.Sd3-b2   2.Rb3-a3   3.Ra3-a2 Sd4-b3 #
+  add_to_move_generation_stack:       37466
+                     play_move:       34937
+ is_white_king_square_attacked:        4372
+ is_black_king_square_attacked:       34927
+
+solution finished.
+
+
