@@ -38,6 +38,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "conditions/role_exchange.h"
 #include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
@@ -45,6 +46,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <limits.h>
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
@@ -863,6 +865,15 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           if (bolero_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
+
+        case role_exchange:
+        {
+          unsigned int const limit = role_exchange_get_limit();
+
+          if (limit<UINT_MAX)
+            written += append_to_CondLine(&CondLine,written," %u",limit);
+          break;
+        }
 
         default:
           break;

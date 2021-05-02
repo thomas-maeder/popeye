@@ -15,6 +15,31 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <limits.h>
+
+static unsigned int the_limit;
+
+/* White can exchange roles without limits */
+void role_exchange_set_umlimited(void)
+{
+  the_limit = UINT_MAX;
+}
+
+/* White can exchange roles without no more than limit times */
+void role_exchange_set_limit(unsigned int limit)
+{
+  the_limit = limit;
+}
+
+/* How many times is White entitled to exchange roles?
+ * @return UINT_MAX: the number of times is unlimited
+ *         otherwise: as many times as this function returns
+ */
+unsigned int role_exchange_get_limit(void)
+{
+  return the_limit;
+}
+
 /* Allocate a STRoleExchangeMovePlayer slice.
  * @param after_move identifies landing slice after move playing
  * @return index of allocated slice
@@ -112,10 +137,15 @@ void role_exchange_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (SLICE_STARTER(si)==White)
+  if (SLICE_STARTER(si)==White && the_limit>0)
+  {
+    --the_limit;
     push_role_exchange_move();
-
-  pipe_solve_delegate(si);
+    pipe_solve_delegate(si);
+    ++the_limit;
+  }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

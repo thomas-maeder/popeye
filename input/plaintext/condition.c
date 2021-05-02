@@ -46,6 +46,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "conditions/role_exchange.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -1876,6 +1877,28 @@ char *ParseCond(char *tok)
         case bolero_inverse:
           tok = ParseRexIncl(tok,&bolero_is_rex_inclusive,CirceVariantRexInclusive);
           break;
+
+        case role_exchange:
+        {
+          char *ptr;
+          unsigned long int value = strtoul(tok,&ptr,10);
+          if (tok == ptr)
+            role_exchange_set_umlimited();
+          else
+          {
+            if (value<=UINT_MAX)
+            {
+              tok = ReadNextTokStr();
+              role_exchange_set_limit((unsigned int)value);
+            }
+            else
+            {
+              output_plaintext_input_error_message(WrongInt);
+              role_exchange_set_umlimited();
+            }
+          }
+          break;
+        }
 
         default:
           break;

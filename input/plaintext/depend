@@ -1299,8 +1299,8 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/protean.h conditions/republican.h conditions/sat.h \
  conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- pieces/walks/pawns/en_passant.h solving/castling.h solving/pipe.h \
- debugging/assert.h
+ conditions/role_exchange.h pieces/walks/pawns/en_passant.h \
+ solving/castling.h solving/pipe.h debugging/assert.h
 
 input/plaintext/condition.h:
 
@@ -1509,6 +1509,8 @@ conditions/singlebox/type1.h:
 conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/woozles.h:
+
+conditions/role_exchange.h:
 
 pieces/walks/pawns/en_passant.h:
 

@@ -5,6 +5,18 @@
 
 #include "solving/machinery/solve.h"
 
+/* White can exchange roles without limits */
+void role_exchange_set_umlimited(void);
+
+/* How many times is White entitled to exchange roles?
+ * @return UINT_MAX: the number of times is unlimited
+ *         otherwise: as many times as this function returns
+ */
+unsigned int role_exchange_get_limit(void);
+
+/* White can exchange roles without no more than limit times */
+void role_exchange_set_limit(unsigned int limit);
+
 /* Allocate a STRoleExchangeMovePlayer slice.
  * @param after_move identifies landing slice after move playing
  * @return index of allocated slice
