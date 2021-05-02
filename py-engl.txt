@@ -356,6 +356,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	After the MustCapture, Maximummer and Minimummer conditions,
 	the keyword "Ultra" indicates that the respective Ultra
 	condition is intended.
+
+	After RoleExchange, the maximum number of RoleExchanges can be indicated.
+	Without this indication, the number is unlimited.
 	
 	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
 	PhantomChess and GenevaChess, a number of options can be indicated; the
