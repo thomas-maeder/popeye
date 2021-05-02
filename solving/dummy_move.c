@@ -30,7 +30,7 @@ void dummy_move_solve(slice_index si)
 
   /* insert an empty ply for the dummy defense */
   nextply(advers(trait[nbply]));
-  move_effect_journal_do_null_move();
+  move_effect_journal_do_null_move(move_effect_no_reason);
   pipe_solve_delegate(si);
   finply();
 

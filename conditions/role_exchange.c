@@ -1,7 +1,7 @@
 #include "conditions/role_exchange.h"
 #include "position/effects/piece_removal.h"
-#include "position/effects/board_transformation.h"
 #include "position/effects/total_side_exchange.h"
+#include "position/effects/null_move.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
@@ -56,8 +56,7 @@ void role_exchange_player_solve(slice_index si)
 
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==move_role_exchange)
   {
-    move_effect_journal_do_no_piece_removal();
-    move_effect_journal_do_board_transformation(move_effect_reason_role_exchange,rot180);
+    move_effect_journal_do_null_move(move_effect_reason_role_exchange);
     move_effect_journal_do_total_side_exchange(move_effect_reason_role_exchange);
 
     fork_solve_delegate(si);

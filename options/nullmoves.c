@@ -54,7 +54,7 @@ void null_move_player_solve(slice_index si)
 
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==nullsquare)
   {
-    move_effect_journal_do_null_move();
+    move_effect_journal_do_null_move(move_effect_no_reason);
     fork_solve_delegate(si);
   }
   else

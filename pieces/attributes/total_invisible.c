@@ -733,7 +733,7 @@ void total_invisible_reserve_king_movement(slice_index si)
     /* reserve a spot in the move effect journal for the case that a move by an invisible
      * turns out to move a side's king square
      */
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
     pipe_solve_delegate(si);
   }
 

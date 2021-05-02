@@ -24,13 +24,13 @@
             Rollentausch
 
    1. Rollentausch ! Zugzwang.
-      1...Kg1-h1
-          2.Tf4-f1 #
+      1...Kb8-a8
+          2.Tc5-c8 #
 
-  add_to_move_generation_stack:         121
-                     play_move:          85
- is_white_king_square_attacked:          20
- is_black_king_square_attacked:          88
+  add_to_move_generation_stack:         124
+                     play_move:          90
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:          93
 
 Loesung beendet.
 
@@ -63,13 +63,13 @@ Loesung beendet.
    1.Df1-a6 + !
       1...Kb6*a6
           2. Rollentausch Zugzwang.
-              2...Kg1-h1
-                  3.Tf4-f1 #
+              2...Kb8-a8
+                  3.Tc5-c8 #
 
-  add_to_move_generation_stack:       18347
-                     play_move:       14340
- is_white_king_square_attacked:        9792
- is_black_king_square_attacked:        5480
+  add_to_move_generation_stack:       18262
+                     play_move:       14559
+ is_white_king_square_attacked:        9791
+ is_black_king_square_attacked:        5687
 
 Loesung beendet.
 
@@ -106,13 +106,13 @@ Loesung beendet.
           2.Da4-a6 +
               2...Kb6*a6
                   3. Rollentausch Zugzwang.
-                      3...Kg1-h1
-                          4.Tf4-f1 #
+                      3...Kb8-a8
+                          4.Tc5-c8 #
 
-  add_to_move_generation_stack:      125125
-                     play_move:       88636
- is_white_king_square_attacked:       55575
- is_black_king_square_attacked:       39510
+  add_to_move_generation_stack:      124952
+                     play_move:       89359
+ is_white_king_square_attacked:       55546
+ is_black_king_square_attacked:       40222
 
 Loesung beendet.
 

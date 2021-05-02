@@ -72,7 +72,7 @@ static void play_castling_with_invisible_partner(slice_index si,
   }
   else
   {
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
     pipe_solve_delegate(si);
   }
 
@@ -156,12 +156,12 @@ void total_invisible_special_moves_player_solve(slice_index si)
       switch (sq_capture)
       {
         case pawn_multistep:
-          move_effect_journal_do_null_effect();
+          move_effect_journal_do_null_effect(move_effect_no_reason);
           pipe_solve_delegate(si);
           break;
 
         case messigny_exchange:
-          move_effect_journal_do_null_effect();
+          move_effect_journal_do_null_effect(move_effect_no_reason);
           pipe_solve_delegate(si);
           break;
 
@@ -192,7 +192,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
           break;
 
         case no_capture:
-          move_effect_journal_do_null_effect();
+          move_effect_journal_do_null_effect(move_effect_no_reason);
           pipe_solve_delegate(si);
           break;
 
@@ -231,7 +231,7 @@ void total_invisible_special_moves_player_solve(slice_index si)
           }
           else
           {
-            move_effect_journal_do_null_effect();
+            move_effect_journal_do_null_effect(move_effect_no_reason);
             pipe_solve_delegate(si);
           }
           break;
