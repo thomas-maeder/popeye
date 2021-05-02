@@ -24,13 +24,13 @@
             Rollentausch
 
    1. Rollentausch ! Zugzwang.
-      1...Kb8-a8
-          2.Tc5-c8 #
+      1...Kg1-h1
+          2.Tf4-f1 #
 
-  add_to_move_generation_stack:         124
-                     play_move:          90
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:          93
+  add_to_move_generation_stack:         121
+                     play_move:          85
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          88
 
 Loesung beendet.
 
@@ -63,13 +63,13 @@ Loesung beendet.
    1.Df1-a6 + !
       1...Kb6*a6
           2. Rollentausch Zugzwang.
-              2...Kb8-a8
-                  3.Tc5-c8 #
+              2...Kg1-h1
+                  3.Tf4-f1 #
 
-  add_to_move_generation_stack:       18262
-                     play_move:       14559
- is_white_king_square_attacked:        9791
- is_black_king_square_attacked:        5687
+  add_to_move_generation_stack:       18347
+                     play_move:       14340
+ is_white_king_square_attacked:        9792
+ is_black_king_square_attacked:        5480
 
 Loesung beendet.
 
@@ -106,13 +106,154 @@ Loesung beendet.
           2.Da4-a6 +
               2...Kb6*a6
                   3. Rollentausch Zugzwang.
-                      3...Kb8-a8
-                          4.Tc5-c8 #
+                      3...Kg1-h1
+                          4.Tf4-f1 #
 
-  add_to_move_generation_stack:      124952
-                     play_move:       89359
- is_white_king_square_attacked:       55546
- is_black_king_square_attacked:       40222
+  add_to_move_generation_stack:      125125
+                     play_move:       88636
+ is_white_king_square_attacked:       55575
+ is_black_king_square_attacked:       39510
+
+Loesung beendet.
+
+
+keine loesung, weil nur 1 rollentausch erlaubt ist
+
+           Wolfgang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .  -B   .   7
+|                                   |
+6   .   .   .   B   .   .   B   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #8                          4 + 3
+           Rollentausch 1
+
+  add_to_move_generation_stack:      369191
+                     play_move:      333144
+ is_white_king_square_attacked:      262837
+ is_black_king_square_attacked:       72335
+
+Loesung beendet.
+
+
+
+           Wolfgang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .  -B   .   7
+|                                   |
+6   .   .   .   B   .   .   B   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #8                          4 + 3
+           Rollentausch 2
+
+   1. Rollentausch ! Drohung:
+          2.Kf1-e1 Drohung:
+                  3.Ke1-d1 Drohung:
+                          4.Kd1-c1 Drohung:
+                                  5. Rollentausch Drohung:
+                                          6.b5-b6 Drohung:
+                                                  7.b6-b7 Drohung:
+                                                          8.b7-b8=D #
+                                                          8.b7-b8=T #
+
+  add_to_move_generation_stack:      514391
+                     play_move:      459706
+ is_white_king_square_attacked:      355193
+ is_black_king_square_attacked:      107329
+
+Loesung beendet.
+
+
+
+           Wolfgang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .  -B   .   .  -B   .   7
+|                                   |
+6   .   .   .   B   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   B   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #9                          4 + 3
+            Rollentausch
+
+   1. Rollentausch ! Drohung:
+          2.Ke1-d1 Drohung:
+                  3.Kd1-c1 Drohung:
+                          4.Kc1-b1 Drohung:
+                                  5. Rollentausch Drohung:
+                                          6.b4-b5 Drohung:
+                                                  7.b5-b6 Drohung:
+                                                          8.b6-b7 Drohung:
+                                                                  9.b7-b8=D #
+                                                                  9.b7-b8=T #
+
+   1.b4-b5 ! Drohung:
+          2. Rollentausch Drohung:
+                  3.Ke1-d1 Drohung:
+                          4.Kd1-c1 Drohung:
+                                  5. Rollentausch Drohung:
+                                          6.b5-b6 Drohung:
+                                                  7.b6-b7 Drohung:
+                                                          8.b7-b8=D #
+                                                          8.b7-b8=T #
+      1...Kd8-c8
+          2. Rollentausch Drohung:
+                  3.Kf1-e1 Drohung:
+                          4.Ke1-d1 Drohung:
+                                  5.Kd1-c1 Drohung:
+                                          6. Rollentausch Drohung:
+                                                  7.b5-b6 Drohung:
+                                                          8.b6-b7 Drohung:
+                                                                  9.b7-b8=D #
+                                                                  9.b7-b8=T #
+
+  add_to_move_generation_stack:     1116084
+                     play_move:     1014753
+ is_white_king_square_attacked:      787808
+ is_black_king_square_attacked:      233902
 
 Loesung beendet.
 

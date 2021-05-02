@@ -9222,11 +9222,11 @@ conditions/role_exchange$(OBJ_SUFFIX): conditions/role_exchange.c \
  position/effects/piece_removal.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/effects/total_side_exchange.h position/effects/null_move.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/effects/board_transformation.h solving/move_generator.h \
+ debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -9290,6 +9290,8 @@ position/pieceid.h:
 position/effects/total_side_exchange.h:
 
 position/effects/null_move.h:
+
+position/effects/board_transformation.h:
 
 solving/move_generator.h:
 

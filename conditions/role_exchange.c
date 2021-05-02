@@ -2,6 +2,7 @@
 #include "position/effects/piece_removal.h"
 #include "position/effects/total_side_exchange.h"
 #include "position/effects/null_move.h"
+#include "position/effects/board_transformation.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
@@ -81,10 +82,16 @@ void role_exchange_player_solve(slice_index si)
 
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==move_role_exchange)
   {
+    assert(the_limit>0);
+    --the_limit;
+
     move_effect_journal_do_null_move(move_effect_reason_role_exchange);
+    move_effect_journal_do_board_transformation(move_effect_reason_role_exchange,rot180);
     move_effect_journal_do_total_side_exchange(move_effect_reason_role_exchange);
 
     fork_solve_delegate(si);
+
+    ++the_limit;
   }
   else
     pipe_solve_delegate(si);
@@ -139,10 +146,8 @@ void role_exchange_generator_solve(slice_index si)
 
   if (SLICE_STARTER(si)==White && the_limit>0)
   {
-    --the_limit;
     push_role_exchange_move();
     pipe_solve_delegate(si);
-    ++the_limit;
   }
   else
     pipe_solve_delegate(si);
