@@ -172,7 +172,7 @@ static FreeMapType *FreeMap;
     }                                                 \
   } while (0)
 
-void SetRange(size_t x, size_t l)  {
+static void SetRange(size_t x, size_t l)  {
   if (FreeMap) {
     size_t xi= x>>5, y= x+l, yi= y>>5;
     if (xi==yi)
@@ -186,7 +186,7 @@ void SetRange(size_t x, size_t l)  {
   }
 }
 
-void ClrRange(size_t x, size_t l)  {
+static void ClrRange(size_t x, size_t l)  {
   if (FreeMap) {
     size_t xi= x>>5, y= x+l, yi= y>>5;
     if (xi==yi)
@@ -216,8 +216,8 @@ void PrintFreeMap(FILE *f) {
   }
 }
 #else
-void SetRange(size_t x, size_t l) { (void) x; (void) l; }
-void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
+static void SetRange(size_t x, size_t l) { (void) x; (void) l; }
+static void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
 #endif /*FREEMAP, !SEGMENTED*/
 
 size_t fxfInit(size_t Size) {
