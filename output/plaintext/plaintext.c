@@ -233,6 +233,7 @@ static void write_regular_move(output_plaintext_move_context_type *context)
   {
     assert(movement_type==move_effect_piece_movement
            || movement_type==move_effect_piece_exchange
+           || movement_type==move_effect_board_transformation
            || movement_type==move_effect_none);
     if (movement_type==move_effect_piece_movement)
     {
@@ -252,9 +253,16 @@ static void write_regular_move(output_plaintext_move_context_type *context)
              || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
       write_exchange(context,movement);
     }
-    else
-      /* null move */
-      (*context->engine->fprintf)(context->file,"%s"," ...");
+    else if (movement_type==move_effect_none)
+    {
+      move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
+
+      if (movement_reason==move_effect_reason_role_exchange)
+        (*context->engine->fprintf)(context->file," %s",CondTab[role_exchange]);
+      else
+        /* your regular kitchen sink null move */
+        (*context->engine->fprintf)(context->file,"%s"," ...");
+    }
   }
 }
 

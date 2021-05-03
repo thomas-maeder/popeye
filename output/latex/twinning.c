@@ -403,7 +403,7 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
               written_on_last_entry = true;
               break;
 
-            case move_effect_twinning_polish:
+            case move_effect_total_side_exchange:
               WritePolish(curr);
               written_on_last_entry = true;
               break;

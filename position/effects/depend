@@ -859,3 +859,74 @@ position/effects/piece_exchange.h:
 position/effects/board_transformation.h:
 
 debugging/assert.h:
+position/effects/total_side_exchange$(OBJ_SUFFIX): \
+ position/effects/total_side_exchange.c \
+ position/effects/total_side_exchange.h solving/move_effect_journal.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h debugging/assert.h
+
+position/effects/total_side_exchange.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+debugging/assert.h:

@@ -267,7 +267,7 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
       /* marscirce_rebirth_square isn't set when castlings are generated */
       || (min_castling<=sq_capture && sq_capture<=max_castling))
   {
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
     pipe_solve_delegate(si);
   }
   else

@@ -25,7 +25,7 @@ void retro_play_null_move(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_null_move();
+  move_effect_journal_do_null_move(move_effect_no_reason);
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -94,7 +94,7 @@ void retro_start_retro_move_ply(slice_index si)
     /* TODO let Mars Circe or SingleBox Type 3 add slices here that do this */
     unsigned int i;
     for (i = 0; i!=move_effect_journal_index_offset_capture; ++i)
-      move_effect_journal_do_null_effect();
+      move_effect_journal_do_null_effect(move_effect_no_reason);
   }
 
   pipe_solve_delegate(si);

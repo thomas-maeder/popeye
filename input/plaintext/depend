@@ -487,8 +487,8 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  position/underworld.h position/effects/piece_creation.h \
  position/effects/board_transformation.h position/effects/piece_removal.h \
  position/effects/piece_movement.h position/effects/walk_change.h \
- position/effects/piece_exchange.h stipulation/pipe.h \
- stipulation/branch.h stipulation/help_play/branch.h \
+ position/effects/piece_exchange.h position/effects/total_side_exchange.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/help_play/branch.h \
  stipulation/battle_play/branch.h stipulation/proxy.h \
  stipulation/modifier.h solving/goals/prerequisite_guards.h \
  solving/pipe.h solving/duplex.h solving/proofgames.h \
@@ -674,6 +674,8 @@ position/effects/piece_movement.h:
 position/effects/walk_change.h:
 
 position/effects/piece_exchange.h:
+
+position/effects/total_side_exchange.h:
 
 stipulation/pipe.h:
 
@@ -1297,8 +1299,8 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/protean.h conditions/republican.h conditions/sat.h \
  conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- pieces/walks/pawns/en_passant.h solving/castling.h solving/pipe.h \
- debugging/assert.h
+ conditions/role_exchange.h pieces/walks/pawns/en_passant.h \
+ solving/castling.h solving/pipe.h debugging/assert.h
 
 input/plaintext/condition.h:
 
@@ -1507,6 +1509,8 @@ conditions/singlebox/type1.h:
 conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/woozles.h:
+
+conditions/role_exchange.h:
 
 pieces/walks/pawns/en_passant.h:
 

@@ -46,6 +46,7 @@ static void InitBoard(void)
   empty_square(kingside_castling);
   empty_square(queenside_castling);
   empty_square(move_by_invisible);
+  empty_square(move_role_exchange);
   empty_square(no_capture);
 
   for (bnp = boardnum; *bnp; bnp++)

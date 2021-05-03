@@ -9,6 +9,7 @@
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
@@ -697,6 +698,10 @@ void dispatch(slice_index si)
 
     case STNullMovePlayer:
       null_move_player_solve(si);
+      break;
+
+    case STRoleExchangeMovePlayer:
+      role_exchange_player_solve(si);
       break;
 
     case STPostMoveIterationInitialiser:
@@ -2270,6 +2275,10 @@ void dispatch(slice_index si)
 
     case STNullMoveGenerator:
       null_move_generator_solve(si);
+      break;
+
+    case STRoleExchangeMoveGenerator:
+      role_exchange_generator_solve(si);
       break;
 
     case STTrue:

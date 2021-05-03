@@ -82,7 +82,7 @@ void singlebox_type3_pawn_promoter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (promotion[move_generation_stack[curr].id].what==Empty)
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
   else
     move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
                                         promotion[move_generation_stack[curr].id].where,
