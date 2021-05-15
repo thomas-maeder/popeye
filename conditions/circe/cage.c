@@ -9,6 +9,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/fork.h"
 #include "solving/temporary_hacks.h"
+#include "solving/check.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_generator.h"
@@ -86,6 +87,8 @@ void circe_solving_instrument_cage(slice_index si,
                                  alloc_fork_slice(STCirceCageNoCageFork,no_slice),
                                  STCirceRebirthAvoided,
                                  STCirceDoneWithRebirth);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

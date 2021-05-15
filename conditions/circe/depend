@@ -880,10 +880,11 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  conditions/circe/rex_inclusive.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/pipe.h stipulation/branch.h stipulation/fork.h \
- solving/temporary_hacks.h solving/single_piece_move_generator.h \
+ solving/temporary_hacks.h solving/check.h debugging/measure.h \
+ output/plaintext/protocol.h solving/single_piece_move_generator.h \
  solving/post_move_iteration.h solving/observation.h solving/fork.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/conditional_pipe.h solving/pipe.h debugging/assert.h
+ solving/move_generator.h solving/conditional_pipe.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/circe/cage.h:
 
@@ -1003,6 +1004,12 @@ stipulation/fork.h:
 
 solving/temporary_hacks.h:
 
+solving/check.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
 solving/single_piece_move_generator.h:
 
 solving/post_move_iteration.h:
@@ -1012,10 +1019,6 @@ solving/observation.h:
 solving/fork.h:
 
 solving/move_generator.h:
-
-debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 solving/conditional_pipe.h:
 
