@@ -336,3 +336,55 @@ solution finished.
 solution finished.
 
 
+
+             Eric Huber
+https://github.com/thomas-maeder/popeye/issues/253
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         2 + 0
+           PointReflection
+
+a) 
+
+   1.0-0 !
+
+  add_to_move_generation_stack:          15
+                     play_move:           1
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           0
+
+b) +bSa8  
+
+  add_to_move_generation_stack:           7
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) +bSd8  
+
+  add_to_move_generation_stack:          13
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

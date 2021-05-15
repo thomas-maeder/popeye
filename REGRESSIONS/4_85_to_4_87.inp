@@ -81,4 +81,16 @@ author Bjorn Enemark
 stipulation 1->ser-H#3
 pieces white Kc2 Sb5 black Ka1 Rb3 Sd3
 
-End
+NextProblem
+
+author Eric Huber
+origin https://github.com/thomas-maeder/popeye/issues/253
+Pieces White Ke1 Rh1
+Stipulation 001
+Condition pointreflection
+option nobk
+twin add black sa8
+twin add black sd8
+
+EndProblem
+
