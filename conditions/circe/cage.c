@@ -192,13 +192,23 @@ void circe_cage_cage_tester_solve(slice_index si)
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
+      /* no rebirth */
       pipe_dispatch_delegate(si);
-    else if (find_non_capturing_move(rebirth,advers(SLICE_STARTER(si))))
-      solve_result = this_move_is_illegal;
     else
     {
-      cage_search_status[nbply] = cage_found;
-      pipe_dispatch_delegate(si);
+      boolean non_capturing_move_found;
+
+      ++circe_rebirth_context_stack_pointer;
+      non_capturing_move_found = find_non_capturing_move(rebirth,advers(SLICE_STARTER(si)));
+      --circe_rebirth_context_stack_pointer;
+
+      if (non_capturing_move_found)
+        solve_result = this_move_is_illegal;
+      else
+      {
+        cage_search_status[nbply] = cage_found;
+        pipe_dispatch_delegate(si);
+      }
     }
   }
 
