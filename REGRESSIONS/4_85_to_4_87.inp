@@ -92,5 +92,15 @@ option nobk
 twin add black sa8
 twin add black sd8
 
+NextProblem
+
+Author Vlaicu Crisan
+origin https://github.com/thomas-maeder/popeye/issues/254
+Pieces
+White Pa7 Pe7 Kf1
+Black Ka8 Pg3 Pg2
+Stipulation H#2
+Condition AntiCirce Cage
+
 EndProblem
 

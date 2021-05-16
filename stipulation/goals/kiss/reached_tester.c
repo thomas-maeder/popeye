@@ -50,7 +50,14 @@ static void remember_id(slice_index si, stip_structure_traversal *st)
 void goal_kiss_init_piece_id(slice_index si)
 {
   stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STGoalReachedTester,&remember_id);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
