@@ -196,10 +196,11 @@ void circe_cage_cage_tester_solve(slice_index si)
       pipe_dispatch_delegate(si);
     else
     {
+      circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
       boolean non_capturing_move_found;
 
       ++circe_rebirth_context_stack_pointer;
-      non_capturing_move_found = find_non_capturing_move(rebirth,advers(SLICE_STARTER(si)));
+      non_capturing_move_found = find_non_capturing_move(rebirth,context->rebirth_as);
       --circe_rebirth_context_stack_pointer;
 
       if (non_capturing_move_found)
