@@ -102,5 +102,13 @@ Black Ka8 Pg3 Pg2
 Stipulation H#2
 Condition AntiCirce Cage
 
-EndProblem
+NextProblem
+
+author PDB (P0574726): Gerson Berlinger, 32'er 11-12 1989
+pieces white Ka3 Pb4 black Kc4 Bc3 Sd1 Pa2a4e2
+option enPassant b2b3b4 intelligent duplex StopOnShortSolutions
+stipulation h=6
+
+end
+
 

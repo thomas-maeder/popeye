@@ -423,3 +423,42 @@ https://github.com/thomas-maeder/popeye/issues/254
 solution finished.
 
 
+
+PDB (P0574726): Gerson Berlinger, 32'er 11-12 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   P  -K   .   .   .   .   .   4
+|                                   |
+3   K   .  -B   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=6                         2 + 6
+               Duplex
+
+  1.a4*b3 ep. Ka3-a4   2.Kc4-d3 Ka4-b5   3.Kd3-c2 Kb5-c4   4.Kc2-b1 Kc4-d3   5.Bc3-a1 Kd3*e2   6.b3-b2 Ke2*d1 =
+  add_to_move_generation_stack:    12177338
+                     play_move:    12857728
+ is_white_king_square_attacked:      510274
+ is_black_king_square_attacked:     3327092
+
+  1.Ka3*a4 Bc3*b4 =
+  add_to_move_generation_stack:          69
+                     play_move:          81
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:          19
+Partial solution
+
+
