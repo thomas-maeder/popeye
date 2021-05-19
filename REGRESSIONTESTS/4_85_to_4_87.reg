@@ -462,3 +462,56 @@ PDB (P0574726): Gerson Berlinger, 32'er 11-12 1989
 Partial solution
 
 
+
+               WalterL
+https://github.com/thomas-maeder/popeye/issues/291
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   S   .   .  -R   8
+|                                   |
+7   .   .   .   .  -K  -P   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   P   P   .   .   .   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         6 + 4
+    Circe Antipodes RexInclusive
+           Make&TakeChess
+
+a) 
+
+  1.f7-f6 0-0*e7[+bKa3] #
+  add_to_move_generation_stack:       79273
+                     play_move:        2898
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) +bLf5  
+
+  add_to_move_generation_stack:       71266
+                     play_move:        2640
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) +bLe4  
+
+  1.f7-f6 0-0*e7[+bKa3] #
+  add_to_move_generation_stack:       78389
+                     play_move:        2853
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -736,6 +736,10 @@ void dispatch(slice_index si)
       pawn_promoter_solve(si);
       break;
 
+    case STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration:
+      make_and_take_reset_move_ids_castling_as_make_in_move_generation(si);
+      break;
+
     case STMakeTakeGenerateCapturesWalkByWalk:
       make_and_take_generate_captures_by_walk_solve(si);
       break;

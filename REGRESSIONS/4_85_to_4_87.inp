@@ -109,6 +109,15 @@ pieces white Ka3 Pb4 black Kc4 Bc3 Sd1 Pa2a4e2
 option enPassant b2b3b4 intelligent duplex StopOnShortSolutions
 stipulation h=6
 
-end
+NextProblem
 
+author WalterL
+origin https://github.com/thomas-maeder/popeye/issues/291
+condition Make&Take Circe antipod RexInclusive
+stipulation H#1
+pieces white Ke1 Rc1 Se8 Pa4b3b4 black Ke7 Rh8 Pe6f7
+twin add black Lf5
+twin add black Le4
+
+Ende
 

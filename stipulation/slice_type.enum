@@ -518,6 +518,8 @@
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),                   \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest),                  \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
     ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
     ENUMERATOR(STMakeTakeMoveCastlingPartner),                          \
