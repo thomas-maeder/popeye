@@ -882,25 +882,27 @@ static boolean FairyImpossible(void)
     }
   }
 
-  /* find a solution ... */
-  TraceText("testing if there are enough remaining moves");TraceEOL();
-  MovesAvailable *= 2;
-
-  for (bnp = boardnum; *bnp; bnp++)
+  if (!CondFlag[arc])
   {
-    piece_walk_type const p = proofgames_target_position.board[*bnp];
-    if (p!=Empty)
+    TraceText("testing if there are enough remaining moves");TraceEOL();
+    MovesAvailable *= 2;
+
+    for (bnp = boardnum; *bnp; bnp++)
     {
-      if (p!=get_walk_of_piece_on_square(*bnp)
-          || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
+      piece_walk_type const p = proofgames_target_position.board[*bnp];
+      if (p!=Empty)
       {
-        if (MovesAvailable==0)
+        if (p!=get_walk_of_piece_on_square(*bnp)
+            || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
         {
-          TraceText("available moves exhausted");TraceEOL();
-          return true;
+          if (MovesAvailable==0)
+          {
+            TraceText("available moves exhausted");TraceEOL();
+            return true;
+          }
+          else
+            --MovesAvailable;
         }
-        else
-          --MovesAvailable;
       }
     }
   }

@@ -515,3 +515,62 @@ c) +bLe4
 solution finished.
 
 
+
+            Michael Barth
+The target position was considered unreachable from the diagram position
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -B   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   P  -B   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     16 + 16
+       ActuatedRevolvingCentre
+
+  1.d2-d4 e7-e5 a=>b
+  add_to_move_generation_stack:         962
+                     play_move:         962
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:           3
+
+solution finished.
+
+

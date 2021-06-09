@@ -119,5 +119,15 @@ pieces white Ke1 Rc1 Se8 Pa4b3b4 black Ke7 Rh8 Pe6f7
 twin add black Lf5
 twin add black Le4
 
-Ende
+NextProblem
+
+author Michael Barth
+title The target position was considered unreachable from the diagram position
+pieces white Ke1 Qd1 Ra1h1 Bc1f1 Sb1g1 Pa2b2c2d2f2g2h2d6 black Ke8 Qd8 Ra8h8 Bf5f8 Sb8g8 Pe4a7b7c7e7f7g7h7
+stipulation a=>b1
+option WhiteToPlay
+pieces white Ke1 Qd1 Ra1h1 Bc1f1 Sb1g1 Pa2b2c2f2g2h2e5d6 black Ke8 Qd8 Ra8h8 Bf5f8 Sb8g8 Pe4d5a7b7c7f7g7h7
+condition ActuatedRevolvingCentre
+
+end
 
