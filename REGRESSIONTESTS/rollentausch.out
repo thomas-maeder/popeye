@@ -387,3 +387,47 @@ Rollentausch in Mattstellung
 Loesung beendet.
 
 
+
+           Wolfgang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   B   B   B  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B  -B  -B   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 6
+            Rollentausch
+
+   1. Rollentausch !
+      1...f3-f2
+          2.a6-a7 #
+          2.c6-c7 #
+      1...g3-g2 +
+          2.a6-a7 #
+          2.c6-c7 #
+      1...h3-h2
+          2.a6-a7 #
+          2.c6-c7 #
+
+  add_to_move_generation_stack:         202
+                     play_move:         201
+ is_white_king_square_attacked:          47
+ is_black_king_square_attacked:         187
+
+Loesung beendet.
+
+

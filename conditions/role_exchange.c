@@ -275,6 +275,9 @@ void role_exchange_initialise_solving(slice_index si, Side side)
   stip_structure_traversal_override_single(&st,
                                            STEndOfBranchGoalImmobile,
                                            &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalImmobileReachedTester,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   position_total_side_exchange_initialise();
