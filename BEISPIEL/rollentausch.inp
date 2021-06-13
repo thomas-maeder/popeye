@@ -79,10 +79,20 @@ option vari
 weiter
 
 autor Wolfgang Erben
+bemerkung Schwarz verteidigt durch Matt des weissen Koenigs
 steine weiss kg1 ba6b6c6 schwar ka8 bf3g2g3h3d6
 bedingung rollentausch
 forderung #2
 option vari ohnedroh zielistende
+
+weiter
+
+autor Wolfgang Erben
+bemerkung ... auch gegen Drohung
+steine weiss kg1 ba6b6c7 schwar ka8 bf3g2g3h3d6
+bedingung rollentausch
+forderung #2
+option nachschlu zielistende
 
 end
 

@@ -387,6 +387,7 @@ Rollentausch in Mattstellung
 Loesung beendet.
 
 
+Schwarz verteidigt durch Matt des weissen Koenigs
 
            Wolfgang Erben
 
@@ -427,6 +428,47 @@ Loesung beendet.
                      play_move:         201
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         187
+
+Loesung beendet.
+
+
+auch gegen Drohung
+
+           Wolfgang Erben
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   B   B   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B  -B  -B   3
+|                                   |
+2   .   .   .   .   .   .  -B   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 6
+            Rollentausch
+
+ Drohung:
+          2.c7-c8=D #
+          2.c7-c8=T #
+      1...f3-f2 +
+        Widerlegt.
+      1...h3-h2 +
+        Widerlegt.
+  add_to_move_generation_stack:          86
+                     play_move:         101
+ is_white_king_square_attacked:          55
+ is_black_king_square_attacked:          61
 
 Loesung beendet.
 

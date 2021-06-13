@@ -52,10 +52,10 @@ static slice_index const slice_rank_order[] =
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
   STAttackHashedTester,
-  STGoalConstraintTester,
   STOutputPlainTextZugzwangWriter,
   STOutputLaTeXZugzwangWriter,
   STThreatStart,
+  STGoalConstraintTester,
   STResetUnsolvable,
   STConstraintSolver,
   STConstraintTester,
