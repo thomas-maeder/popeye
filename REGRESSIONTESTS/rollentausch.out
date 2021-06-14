@@ -413,21 +413,10 @@ Schwarz verteidigt durch Matt des weissen Koenigs
   #2                          4 + 6
             Rollentausch
 
-   1. Rollentausch !
-      1...f3-f2
-          2.a6-a7 #
-          2.c6-c7 #
-      1...g3-g2 +
-          2.a6-a7 #
-          2.c6-c7 #
-      1...h3-h2
-          2.a6-a7 #
-          2.c6-c7 #
-
-  add_to_move_generation_stack:         202
-                     play_move:         201
- is_white_king_square_attacked:          47
- is_black_king_square_attacked:         187
+  add_to_move_generation_stack:          99
+                     play_move:          81
+ is_white_king_square_attacked:          45
+ is_black_king_square_attacked:          67
 
 Loesung beendet.
 
@@ -467,7 +456,7 @@ auch gegen Drohung
         Widerlegt.
   add_to_move_generation_stack:          86
                      play_move:         101
- is_white_king_square_attacked:          55
+ is_white_king_square_attacked:          61
  is_black_king_square_attacked:          61
 
 Loesung beendet.

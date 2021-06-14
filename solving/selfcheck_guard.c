@@ -204,8 +204,6 @@ static void instrument_negated_tester(slice_index si,
     pipe_link(proxy_not,si);
     pipe_link(proxy_selfcheck,guard);
     pipe_link(guard,leaf_selfcheck);
-
-    state->is_branch_instrumented = true;
   }
   else
     stip_traverse_structure_children_pipe(si,st);
