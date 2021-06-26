@@ -69,7 +69,7 @@ static void front_check_by_rider_via(slice_index si,
                                                         checker_type,
                                                         *bnp))
       {
-        TraceSquare(*bnp);TraceWalk(being_solved.board[*bnp]);TraceEOL();
+        TraceSquare(*bnp);TraceWalk(get_walk_of_piece_on_square(*bnp));TraceEOL();
         occupy_square(*bnp,checker_type,checker_flags);
         remember_to_keep_checking_line_open(*bnp,being_solved.king_square[Black],checker_type,+1);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
@@ -106,7 +106,7 @@ static void front_check_by_knight_via(slice_index si,
                                                       Knight,
                                                       *bnp))
     {
-      TraceSquare(*bnp);TraceWalk(being_solved.board[*bnp]);TraceEOL();
+      TraceSquare(*bnp);TraceWalk(get_walk_of_piece_on_square(*bnp));TraceEOL();
       occupy_square(*bnp,Knight,checker_flags);
       pipe_solve_delegate(si);
       empty_square(*bnp);
@@ -145,7 +145,7 @@ static void front_check_by_promotee_rider(slice_index si,
       {
         if (is_line_empty(to_square,being_solved.king_square[Black],check_dir))
         {
-          TraceSquare(to_square);TraceWalk(being_solved.board[to_square]);TraceEOL();
+          TraceSquare(to_square);TraceWalk(get_walk_of_piece_on_square(to_square));TraceEOL();
           occupy_square(to_square,promotee_type,checker_flags);
           remember_to_keep_checking_line_open(to_square,being_solved.king_square[Black],promotee_type,+1);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
@@ -181,7 +181,7 @@ static void front_check_by_promotee_knight(slice_index si,
     if (is_square_empty(to_square)
         && CheckDir(Knight)[being_solved.king_square[Black]-to_square]!=0)
     {
-      TraceSquare(to_square);TraceWalk(being_solved.board[to_square]);TraceEOL();
+      TraceSquare(to_square);TraceWalk(get_walk_of_piece_on_square(to_square));TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
       pipe_solve_delegate(si);
       empty_square(to_square);
@@ -319,33 +319,34 @@ static void front_check_by_pawn_promotion_with_capture(slice_index si,
   {
     piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
-    {
-      int const dir = CheckDir(pp)[being_solved.king_square[Black]-check_from];
-      if (dir!=0)
-        switch (pp)
-        {
-          case Queen:
-          case Rook:
-            if (is_line_empty(check_from,being_solved.king_square[Black],dir))
-            {
+      if (pp>=Queen && pp<=Bishop)
+      {
+        int const dir = CheckDir(pp)[being_solved.king_square[Black]-check_from];
+        if (dir!=0)
+          switch (pp)
+          {
+            case Queen:
+            case Rook:
+              if (is_line_empty(check_from,being_solved.king_square[Black],dir))
+              {
+                occupy_square(check_from,pp,white[index_of_checker].flags);
+                remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
+                pipe_solve_delegate(si);
+                remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
+              }
+              break;
+
+            case Bishop:
+            case Knight:
               occupy_square(check_from,pp,white[index_of_checker].flags);
-              remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,+1);
               pipe_solve_delegate(si);
-              remember_to_keep_checking_line_open(check_from,being_solved.king_square[Black],pp,-1);
-            }
-            break;
+              break;
 
-          case Bishop:
-          case Knight:
-            occupy_square(check_from,pp,white[index_of_checker].flags);
-            pipe_solve_delegate(si);
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
-    }
+            default:
+              assert(0);
+              break;
+          }
+      }
 
     empty_square(check_from);
     intelligent_unreserve();
@@ -561,7 +562,7 @@ static void rear_check_by_rider(slice_index si,
                                                       checker_type,
                                                       rear_pos))
         {
-          TraceSquare(rear_pos);TraceWalk(being_solved.board[rear_pos]);TraceEOL();
+          TraceSquare(rear_pos);TraceWalk(get_walk_of_piece_on_square(rear_pos));TraceEOL();
           occupy_square(rear_pos,checker_type,checker_flags);
           remember_to_keep_rider_line_open(rear_pos,being_solved.king_square[Black],-dir,+1);
           generate_front_check(si,rear_pos);
@@ -887,7 +888,7 @@ static void en_passant_select_capturee(slice_index si,
   TraceFunctionParam("%u",capturer_index);
   TraceFunctionParamListEnd();
 
-  TraceWalk(being_solved.board[via_capturee]);
+  TraceWalk(get_walk_of_piece_on_square(via_capturee));
   TraceEOL();
   if (is_square_empty(via_capturee))
   {

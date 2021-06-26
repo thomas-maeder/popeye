@@ -24,6 +24,9 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Order in which the slice types for Circe execution appear
  */
 static slice_index const circe_slice_rank_order[] =
@@ -563,6 +566,11 @@ static void instrument(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const copy = copy_slice(state->prototype);
+    if (copy==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
     circe_insert_slices(si,st->context,&copy,1);
   }
 

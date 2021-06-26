@@ -258,6 +258,7 @@ simples:
 	Bolero
 	BoleroInverse
 	Influenceur
+	EchangeRole
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -360,6 +361,9 @@ simples:
 	Les conditions PriseForce, Maximum et Minimum peuvent etre
 	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
 	la condition ultra respective.
+
+	After EchangeRole, le nomber maximal d'EchnangeRoles peut etre
+	indique. Sans cette indication, le nombre n'est pas limite.
 	
 	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre
@@ -530,11 +534,12 @@ simples:
 				   consideration qui ne laissent aux noirs 
 				   qu'un coup ne menant pas a un s#1).
 
-	Intelligent     Verification intelligente (tres rapide) des mats
+	Intelligent     Verification intelligente (tres rapide) des mats ou pats
 			aides multicoups.
 			Apres l'option intelligent on peut entrer un chiffre.
 			Il s'agit du numero maximum des solutions par
-			position de mat.
+			position de mat ou pat.
+			A noter: ne trouve pas de pats sans roi!
 	MaxTemps        Cette option dois etre suivie par un chiffre.
 			La verification d'un probleme est terminee
 			apres le nombre de secondes indique.
@@ -757,7 +762,7 @@ simples:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Les trois expressions partielles ainsi que les expressions |
+	Les trois expressions partielles ainsi que les expressions &
 	appartiennent au groupe attaque.
 
 

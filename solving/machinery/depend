@@ -30,19 +30,20 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h conditions/annan.h \
  conditions/bgl.h conditions/bolero.h conditions/breton.h \
- conditions/facetoface.h conditions/koeko/contact_grid.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
- conditions/exclusive.h utilities/table.h conditions/republican.h \
- conditions/blackchecks.h conditions/mummer.h conditions/influencer.h \
- conditions/extinction.h conditions/madrasi.h \
- conditions/partial_paralysis.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/ohneschach.h \
- conditions/pointreflection.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
- conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
- conditions/masand.h conditions/disparate.h conditions/dynasty.h \
- conditions/eiffel.h conditions/ultraschachzwang/legality_tester.h \
- conditions/sat.h conditions/oscillating_kings.h conditions/messigny.h \
+ conditions/role_exchange.h conditions/facetoface.h \
+ conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
+ utilities/table.h conditions/republican.h conditions/blackchecks.h \
+ conditions/mummer.h conditions/influencer.h conditions/extinction.h \
+ conditions/madrasi.h conditions/partial_paralysis.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/ohneschach.h conditions/pointreflection.h \
+ conditions/singlebox/type1.h conditions/singlebox/type2.h \
+ pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
+ conditions/patience.h conditions/isardam.h conditions/masand.h \
+ conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
+ conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/circe.h \
  conditions/circe/rebirth_square_occupied.h \
@@ -253,6 +254,8 @@ conditions/bgl.h:
 conditions/bolero.h:
 
 conditions/breton.h:
+
+conditions/role_exchange.h:
 
 conditions/facetoface.h:
 
@@ -1074,11 +1077,12 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/bgl.h solving/move_effect_journal.h \
  position/castling_rights.h position/pieceid.h conditions/blackchecks.h \
  conditions/mummer.h conditions/bolero.h conditions/breton.h \
- conditions/koeko/koeko.h conditions/koeko/contact_grid.h \
- conditions/koeko/anti.h conditions/koeko/new.h \
- conditions/circe/antipodes.h conditions/circe/chameleon.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ conditions/role_exchange.h conditions/koeko/koeko.h \
+ conditions/koeko/contact_grid.h conditions/koeko/anti.h \
+ conditions/koeko/new.h conditions/circe/antipodes.h \
+ conditions/circe/chameleon.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -1273,7 +1277,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
  solving/pipe.h solving/machinery/solvers.h solving/zeroposition.h \
  debugging/assert.h platform/platform.h platform/maxmem.h \
- platform/timer.h
+ platform/timer.h pieces/attributes/total_invisible/consumption.h
 
 solving/machinery/dispatch.h:
 
@@ -1340,6 +1344,8 @@ conditions/mummer.h:
 conditions/bolero.h:
 
 conditions/breton.h:
+
+conditions/role_exchange.h:
 
 conditions/koeko/koeko.h:
 
@@ -2052,6 +2058,8 @@ platform/platform.h:
 platform/maxmem.h:
 
 platform/timer.h:
+
+pieces/attributes/total_invisible/consumption.h:
 solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  solving/machinery/slack_length.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

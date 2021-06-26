@@ -225,17 +225,19 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
       Flags const sp = being_solved.spec[*bnp];
       PieceIdType const id = GetPieceId(sp);
       PIECE const * const target = &position[id];
-      if (target->square!=vide)
+      if (target->diagram_square!=/* vide */ Empty /* TODO: Is Empty the correct value here? */)
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(being_solved.board[*bnp],
+        Side const cur_side = TSTFLAG(being_solved.spec[*bnp],White) ? White : Black;
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(cur_side,
+                                                                     get_walk_of_piece_on_square(*bnp),
                                                                      *bnp,
                                                                      target->type,
-                                                                     target->square);
-        moves_per_side[TSTFLAG(being_solved.spec[*bnp],White) ? White : Black] += time;
-        TraceWalk(being_solved.board[*bnp]);
+                                                                     target->diagram_square);
+        moves_per_side[cur_side] += time;
+        TraceWalk(get_walk_of_piece_on_square(*bnp));
         TraceSquare(*bnp);
         TraceWalk(target->type);
-        TraceSquare(target->square);
+        TraceSquare(target->diagram_square);
         TraceEnumerator(piece_usage,target->usage);
         TraceValue("%u",time);
         TraceEOL();
@@ -562,6 +564,9 @@ static goal_type determine_goal_to_be_reached(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand1);
   stip_traverse_structure(si,&st);
 
   TraceValue("%u",goal_to_be_reached);
@@ -697,6 +702,9 @@ static void insert_goalreachable_guards(slice_index si, goal_type goal)
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand1);
   stip_structure_traversal_override(&st,
                                     goalreachable_guards_inserters,
                                     nr_goalreachable_guards_inserters);
@@ -1058,6 +1066,9 @@ static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
   stip_structure_traversal_override(&st,
                                     intelligent_mode_support_detectors,
                                     nr_intelligent_mode_support_detectors);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand1);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

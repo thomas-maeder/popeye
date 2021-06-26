@@ -20,7 +20,7 @@ static void play_move(void)
 
   while (move_effect_journal_base[nbply+1]-move_effect_journal_base[nbply]
          <move_effect_journal_index_offset_capture)
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
 
   if (en_passant_is_ep_capture(sq_capture))
     move_effect_journal_do_piece_removal(move_effect_reason_ep_capture,

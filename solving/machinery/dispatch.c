@@ -9,6 +9,7 @@
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
@@ -355,6 +356,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+#include "pieces/attributes/total_invisible/consumption.h"
 void dispatch(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -363,6 +365,17 @@ void dispatch(slice_index si)
 
   TraceEnumerator(slice_type,SLICE_TYPE(si));
   TraceEOL();
+
+  if (total_invisible_number>0)
+  {
+    TraceConsumption();
+
+    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+
+    assert(nbply<=ply_retro_move
+           || nr_total_invisbles_consumed()<=total_invisible_number);
+  }
 
   switch (SLICE_TYPE(si))
   {
@@ -687,6 +700,10 @@ void dispatch(slice_index si)
       null_move_player_solve(si);
       break;
 
+    case STRoleExchangeMovePlayer:
+      role_exchange_player_solve(si);
+      break;
+
     case STPostMoveIterationInitialiser:
       move_execution_post_move_iterator_solve(si);
       break;
@@ -717,6 +734,10 @@ void dispatch(slice_index si)
 
     case STPawnPromoter:
       pawn_promoter_solve(si);
+      break;
+
+    case STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration:
+      make_and_take_reset_move_ids_castling_as_make_in_move_generation(si);
       break;
 
     case STMakeTakeGenerateCapturesWalkByWalk:
@@ -2260,6 +2281,10 @@ void dispatch(slice_index si)
       null_move_generator_solve(si);
       break;
 
+    case STRoleExchangeMoveGenerator:
+      role_exchange_generator_solve(si);
+      break;
+
     case STTrue:
       solve_result = previous_move_has_solved;
       break;
@@ -2486,6 +2511,17 @@ void dispatch(slice_index si)
     default:
       assert(0);
       break;
+  }
+
+  if (total_invisible_number>0)
+  {
+    TraceConsumption();
+
+    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+
+    assert(nbply<=ply_retro_move
+           || nr_total_invisbles_consumed()<=total_invisible_number);
   }
 
   TraceFunctionExit(__func__);

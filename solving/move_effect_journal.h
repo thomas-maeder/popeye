@@ -57,7 +57,7 @@ typedef enum
   move_effect_input_stipulation,
   move_effect_remove_stipulation,
   move_effect_input_sstipulation,
-  move_effect_twinning_polish,
+  move_effect_total_side_exchange,
   move_effect_twinning_substitute,
   move_effect_twinning_shift,
 
@@ -128,6 +128,7 @@ typedef enum
   move_effect_reason_breton,
   move_effect_reason_removal_of_invisible,
   move_effect_reason_revelation_of_invisible,
+  move_effect_reason_role_exchange,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning
@@ -354,6 +355,8 @@ void undo_move_effects(void);
 /* Redo the effects of the current move in ply nbply
  */
 void redo_move_effects(void);
+
+void move_effect_journal_pop_effect(void);
 
 typedef void (*move_effect_doer)(move_effect_journal_entry_type const *);
 

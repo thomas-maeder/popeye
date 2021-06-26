@@ -254,6 +254,7 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       break;
 
     case play_initialising_replay:
+    case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
       break;
@@ -262,7 +263,6 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
     case play_testing_mate:
     case play_attacking_mating_piece:
     case play_unwinding:
-    case play_finalising_replay:
     default:
       assert(0);
       break;
@@ -316,6 +316,7 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       CLRFLAG(being_solved.spec[on],Chameleon);
       break;
 
+    case play_initialising_replay:
     case play_finalising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -325,7 +326,6 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
     case play_testing_mate:
     case play_attacking_mating_piece:
     case play_rewinding:
-    case play_initialising_replay:
     default:
       assert(0);
       break;
@@ -1006,14 +1006,21 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
 
   if (is_square_empty(s))
   {
-    TraceValue("%u",nbply);
-    TraceConsumption();TraceEOL();
+    TraceValue("%u",nbply);TraceEOL();
+    TraceConsumption();
     TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
 
     {
       result = initialise_motivation_from_revelation(status);
 
       SetPieceId(spec,result);
+
+      if (status->walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        current_consumption.is_king_unplaced[side] = false;
+      }
+
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                      s,status->walk,spec);
     }
@@ -1036,6 +1043,13 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
     {
       TraceText("revelation of a placed invisible\n");
       SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+
+      if (status->walk==King)
+      {
+        Side const side = TSTFLAG(spec,White) ? White : Black;
+        current_consumption.is_king_unplaced[side] = false;
+      }
+
       do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
                                         s,status->walk,spec);
     }
@@ -1211,8 +1225,8 @@ void update_revelations(void)
   TraceFunctionResultEnd();
 }
 
-void evaluate_revelations(slice_index si,
-                          unsigned int nr_potential_revelations)
+static void evaluate_revelations_recursive(slice_index si,
+                                           unsigned int nr_potential_revelations)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1232,12 +1246,12 @@ void evaluate_revelations(slice_index si,
     TraceAction(&revelation_status[i].last);TraceEOL();
 
     if (revelation_status[i].walk==Empty)
-      evaluate_revelations(si,i);
+      evaluate_revelations_recursive(si,i);
     else
     {
       PieceIdType const id_new = add_revelation_effect(s,&revelation_status[i]);
 
-      evaluate_revelations(si,i);
+      evaluate_revelations_recursive(si,i);
 
       if (id_new!=NullPieceId)
         uninitialise_motivation(id_new);
@@ -1246,6 +1260,25 @@ void evaluate_revelations(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void evaluate_revelations(slice_index si,
+                          unsigned int nr_potential_revelations)
+{
+  dynamic_consumption_type const save_consumption = current_consumption;
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+
+  evaluate_revelations_recursive(si,nr_potential_revelations);
+
+  current_consumption = save_consumption;
+
+  /* we have to undo 'our' effects immediately to make sure that the following
+   * invariant is kept:
+   * !current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare
+   * or (in pseudo code)
+   * if current_consumption.is_king_unplaced[Black] then being_solved.king_square[Black]==initsquare */
+  while (move_effect_journal_base[nbply+1]>top)
+    move_effect_journal_pop_effect();
 }
 
 void make_revelations(void)
@@ -1582,22 +1615,29 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           square const on = entry->u.revelation_of_placed_piece.on;
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
 
-          reveal_placed(entry);
+          if (id_revealed==id_on_board)
+          {
+            reveal_placed(entry);
 
-          assert(id_revealed==id_on_board);
+            assert(id_revealed==id_on_board);
 
-          /* the following distinction isn't strictly necessary, but it clarifies nicely
-           * that the two ids may be, but aren't necessarily equal */
-          if (id_revealed==id_original)
-            test_and_execute_revelations(curr+1);
+            /* the following distinction isn't strictly necessary, but it clarifies nicely
+             * that the two ids may be, but aren't necessarily equal */
+            if (id_revealed==id_original)
+              test_and_execute_revelations(curr+1);
+            else
+            {
+              motivation[id_original].last.purpose = purpose_none;
+              test_and_execute_revelations(curr+1);
+              motivation[id_original].last.purpose = purpose_original;
+            }
+
+            unreveal_placed(entry);
+          }
           else
           {
-            motivation[id_original].last.purpose = purpose_none;
-            test_and_execute_revelations(curr+1);
-            motivation[id_original].last.purpose = purpose_original;
+            TraceText("it is unclear what happend here\n");
           }
-
-          unreveal_placed(entry);
         }
         else
         {

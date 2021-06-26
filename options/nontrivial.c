@@ -14,6 +14,8 @@
 #include "debugging/assert.h"
 #include <stdlib.h>
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+
 static stip_length_type min_length_nontrivial;
 unsigned int max_nr_nontrivial;
 
@@ -280,6 +282,11 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
+  if ((*copies)[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   pipe_substitute(si,alloc_proxy_slice());
   link_to_branch((*copies)[si],si);
 

@@ -2,6 +2,7 @@
 #include "position/effects/walk_change.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "position/effects/utils.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
@@ -41,10 +42,9 @@ static void apply_influence(PieceIdType id_influencer, square sq_to)
                                                  ? walk_influencer
                                                  : Pawn);
 
-        if (walk_substitute!=get_walk_of_piece_on_square(sq_candidate))
-          move_effect_journal_do_walk_change(move_effect_reason_influencer,
-                                             sq_candidate,
-                                             walk_substitute);
+        move_effect_journal_do_walk_change(move_effect_reason_influencer,
+                                           sq_candidate,
+                                           walk_substitute);
       }
     }
   }
@@ -116,6 +116,8 @@ void solving_insert_influencer(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STInfluencerWalkChanger);
+
+  promotion_insert_slice_sequence(si,STInfluencerWalkChanger,&move_insert_slices);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

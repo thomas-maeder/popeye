@@ -6,6 +6,9 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Order in which the slice types dealing with goals appear
  */
 static slice_index const goal_slice_rank_order[] =
@@ -134,6 +137,11 @@ static void goal_branch_insert_slices_nested(slice_index si,
           else if (rank_next>prototype_rank)
           {
             slice_index const copy = copy_slice(prototypes[0]);
+            if (copy==no_slice)
+            {
+              fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+              exit(2); /* TODO: Do we have to exit here? */
+            }
             pipe_append(si,copy);
             if (nr_prototypes>1)
               goal_branch_insert_slices_nested(copy,prototypes+1,nr_prototypes-1);

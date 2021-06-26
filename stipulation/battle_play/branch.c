@@ -21,6 +21,9 @@
 
 #include <limits.h>
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Order in which the slice types appear in battle branches
  * some types are not mentioned because they have variable ranks.
  */
@@ -49,10 +52,10 @@ static slice_index const slice_rank_order[] =
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
   STAttackHashedTester,
-  STGoalConstraintTester,
   STOutputPlainTextZugzwangWriter,
   STOutputLaTeXZugzwangWriter,
   STThreatStart,
+  STGoalConstraintTester,
   STResetUnsolvable,
   STConstraintSolver,
   STConstraintTester,
@@ -74,10 +77,12 @@ static slice_index const slice_rank_order[] =
   STExecutingKingCapture,
   STExclusiveChessExclusivityDetector,
   STExclusiveChessNestedExclusivityDetector,
+  STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration,
   STMoveGenerator,
   STNullMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STOrthodoxMatingKingContactGenerator,
+  STRoleExchangeMoveGenerator,
   STSkipMoveGeneration,
   STDoneGeneratingMoves,
   STSuperTransmutingKingMoveGenerationFilter,
@@ -190,10 +195,12 @@ static slice_index const slice_rank_order[] =
   STKillerMoveFinalDefenseMove,
   STExclusiveChessExclusivityDetector,
   STExclusiveChessNestedExclusivityDetector,
+  STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration,
   STMoveGenerator,
   STNullMoveGenerator,
   STKingMoveGenerator,
   STSinglePieceMoveGenerator,
+  STRoleExchangeMoveGenerator,
   STSkipMoveGeneration,
   STDoneGeneratingMoves,
   STSuperTransmutingKingMoveGenerationFilter,
@@ -720,6 +727,11 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceEOL();
 
   state->spun_off[si] = copy_slice(si);
+  if (state->spun_off[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   TraceValue("%u",state->spun_off[si]);
   TraceEOL();
@@ -962,6 +974,11 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
+    if (state->spun_off[si]==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
     link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
   TraceValue("%u",state->spun_off[si]);

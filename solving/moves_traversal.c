@@ -154,7 +154,8 @@ static void stip_traverse_moves_help_adapter(slice_index si,
     st->remaining = st->full_length;
     st->context = stip_traversal_context_help;
 
-    stip_traverse_moves_pipe(si,st);
+    if (st->remaining>0)
+      stip_traverse_moves_pipe(si,st);
 
     st->context = stip_traversal_context_intro;
     st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;

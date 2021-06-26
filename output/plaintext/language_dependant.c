@@ -948,7 +948,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*210*/ "MasandGeneralise",
     /*211*/ "Bolero",
     /*212*/ "BoleroInverse",
-    /*213*/ "Influenceur"
+    /*213*/ "Influenceur",
+    /*214*/ "EchangeRole"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1164,7 +1165,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*210*/ "MasandVerallgemeinert",
     /*211*/ "Bolero",
     /*212*/ "BoleroInvers",
-    /*213*/ "Influencer"
+    /*213*/ "Influencer",
+    /*214*/ "Rollentausch"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1380,7 +1382,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*210*/ "MasandGeneralised",
     /*211*/ "Bolero",
     /*212*/ "BoleroInverse",
-    /*213*/ "Influencer"
+    /*213*/ "Influencer",
+    /*214*/ "RoleExchange"
   }
 };
 

@@ -1,0 +1,133 @@
+BeginProblem
+
+protocol 4_85_to_4_87.reg
+
+title enable castling even if there was already a rook
+Stipulation h#2
+Option Variation NoBoard
+Condition Influencer
+Pieces
+   white  Kc6 Rd7
+   black  Qa1 Ke8
+Twin add black ra1
+
+NextProblem
+
+author Eric Huber
+origin https://github.com/thomas-maeder/popeye/issues/290
+Pieces TotalInvisible 1 White Kb2 Black Ka4 Neutral Rb8
+Stipulation h#1
+
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+Stipulation ~1
+Condition PromOnly DU
+Pieces
+  black  duf2 Kg1
+  white  pc7
+option nowk
+
+NextProblem
+
+title Popeye 4.85 printed dummies as total invisibles in the solution
+author Andrew Buchanan
+pieces white kg1 bg7 pf2 duf8 black ka1 pc2d4
+Stipulation h#6
+Option Intelligent 2 movenum
+Condition PromOnly Q R S B DU
+
+NextProblem
+
+title This would crash in many Popeye versions
+stipulation ser-reci-h#1
+pieces white kg3 black ke4
+option movenumber halfduplex
+
+NextProblem
+
+title minimum and maximum length were output in swapped order
+sstipulation    black 10:12hh[#]
+pieces  white   kh7 pf2
+        black   kc5 qd4 rd3 bd5 pc3c4e3f4g5
+option          intelligent movenumbers
+
+NextProblem
+
+author Viktoras Paliuliulionis
+origin github.com issue #307
+pieces white Ka8 Sf3 black Rb7b1 Kh1
+stipulation h#7
+option intelligent
+
+NextProblem
+
+stipulation H#0.5
+condition Snekchess
+pieces White Kf5 rb1 bb6 pd6 black Kd3 Se4
+
+NextProblem
+
+author Narayanan Shankar Ram
+origin https://github.com/thomas-maeder/popeye/issues/309
+pieces white kc8 ba3 pg5 black ke8 bf6 pf5
+stipulation #1
+condition cheektocheek
+
+NextProblem
+
+author Bjorn Enemark
+stipulation 1->ser-H#3
+pieces white Kc2 Sb5 black Ka1 Rb3 Sd3
+
+NextProblem
+
+author Eric Huber
+origin https://github.com/thomas-maeder/popeye/issues/253
+Pieces White Ke1 Rh1
+Stipulation 001
+Condition pointreflection
+option nobk
+twin add black sa8
+twin add black sd8
+
+NextProblem
+
+Author Vlaicu Crisan
+origin https://github.com/thomas-maeder/popeye/issues/254
+Pieces
+White Pa7 Pe7 Kf1
+Black Ka8 Pg3 Pg2
+Stipulation H#2
+Condition AntiCirce Cage
+
+NextProblem
+
+author PDB (P0574726): Gerson Berlinger, 32'er 11-12 1989
+pieces white Ka3 Pb4 black Kc4 Bc3 Sd1 Pa2a4e2
+option enPassant b2b3b4 intelligent duplex StopOnShortSolutions
+stipulation h=6
+
+NextProblem
+
+author WalterL
+origin https://github.com/thomas-maeder/popeye/issues/291
+condition Make&Take Circe antipod RexInclusive
+stipulation H#1
+pieces white Ke1 Rc1 Se8 Pa4b3b4 black Ke7 Rh8 Pe6f7
+twin add black Lf5
+twin add black Le4
+
+NextProblem
+
+author Michael Barth
+title The target position was considered unreachable from the diagram position
+pieces white Ke1 Qd1 Ra1h1 Bc1f1 Sb1g1 Pa2b2c2d2f2g2h2d6 black Ke8 Qd8 Ra8h8 Bf5f8 Sb8g8 Pe4a7b7c7e7f7g7h7
+stipulation a=>b1
+option WhiteToPlay
+pieces white Ke1 Qd1 Ra1h1 Bc1f1 Sb1g1 Pa2b2c2f2g2h2e5d6 black Ke8 Qd8 Ra8h8 Bf5f8 Sb8g8 Pe4d5a7b7c7f7g7h7
+condition ActuatedRevolvingCentre
+
+end
+

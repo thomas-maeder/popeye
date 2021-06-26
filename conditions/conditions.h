@@ -232,8 +232,9 @@ typedef enum
   bolero,                 /* 211 */
   bolero_inverse,         /* 212 */
   influencer,             /* 213 */
+  role_exchange,          /* 214 */
 
-  CondCount               /* 214 */
+  CondCount               /* 215 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

@@ -214,6 +214,8 @@ enum
 
   move_by_invisible,
 
+  move_role_exchange,
+
   no_capture /* This needs to be the last value. */
 };
 
@@ -237,8 +239,8 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define is_no_capture(sq_capture) ((sq_capture)>=pawn_multistep)
 
 #define is_on_board(sq) \
-   (left_file<=(sq)%onerow && (sq)%onerow<=right_file \
-    && bottom_row<=(sq)/onerow && (sq)/onerow<=top_row)
+   ((square_a1<=(sq)) && ((sq)<=square_h8) && \
+    (left_file<=((sq)%onerow)) && (((sq)%onerow)<=right_file))
 
 /* Calculate a square transformation
  * @param sq square to be reflected
@@ -250,5 +252,12 @@ square transformSquare(square sq, SquareTransformation transformation);
 /* 0 terminated sequence of the effective squares of the board
  */
 extern square const boardnum[65];
+
+typedef unsigned char board_label_type;
+
+extern board_label_type getBoardFileLabel(unsigned int index); /* index should be in [0, nr_files_on_board-1] */
+extern board_label_type getBoardRowLabel(unsigned int index); /* index should be in [0, nr_rows_on_board-1] */
+extern unsigned int getBoardFileIndex(board_label_type label); /* returns nr_files_on_board if label is invalid */
+extern unsigned int getBoardRowIndex(board_label_type label); /* returns nr_rows_on_board if label is invalid */
 
 #endif

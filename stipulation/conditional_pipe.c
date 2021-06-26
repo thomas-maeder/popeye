@@ -6,6 +6,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 
 /* Allocate a conditional pipe slice.
  * @param type which slice type
@@ -43,6 +46,11 @@ void stip_spin_off_testers_conditional_pipe(slice_index si,
   TraceFunctionParamListEnd();
 
   SLICE_TESTER(si) = copy_slice(si);
+  if (SLICE_TESTER(si)==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   stip_traverse_structure_children_pipe(si,st);
   link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
 
@@ -64,6 +72,11 @@ void conditional_pipe_spin_off_copy(slice_index si,
   TraceFunctionParamListEnd();
 
   state->spun_off[si] = copy_slice(si);
+  if (state->spun_off[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children_pipe(si,st);
 

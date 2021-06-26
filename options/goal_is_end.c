@@ -227,6 +227,7 @@ static boolean insert_testers(slice_index root_slice)
   solving_impose_starter(root_slice,SLICE_STARTER(root_slice));
 
   find_ending_goal(root_slice,&state);
+  assert(state.tester!=no_slice);
 
   if (state.nr_unique_goals_found>1
       || SLICE_U(state.tester).goal_handler.goal.type==no_goal)

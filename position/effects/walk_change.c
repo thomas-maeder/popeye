@@ -11,12 +11,12 @@ static void do_walk_change(square on, piece_walk_type from, piece_walk_type to)
     --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
 
   TraceSquare(on);
-  TraceWalk(being_solved.board[on]);
+  TraceWalk(get_walk_of_piece_on_square(on));
   TraceWalk(from);
   TraceWalk(to);
   TraceEOL();
 
-  assert(being_solved.board[on]==from);
+  assert(get_walk_of_piece_on_square(on)==from);
 
   replace_walk(on,to);
 

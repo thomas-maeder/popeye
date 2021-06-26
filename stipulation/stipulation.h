@@ -185,13 +185,13 @@ void assert_no_leaked_slices(void);
 
 /* Create a slice
  * @param type which type
- * @return index of created slice
+ * @return index of created slice, or no_slice on error
  */
 slice_index create_slice(slice_type type);
 
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
- * @return index of allocated slice
+ * @return index of allocated slice, or no_slice on error
  */
 slice_index copy_slice(slice_index original);
 

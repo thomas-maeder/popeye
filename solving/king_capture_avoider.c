@@ -76,7 +76,6 @@ static void remember_goal_with_potential_king_capture(slice_index si,
   TraceFunctionResultEnd();
 }
 
-#include "pieces/attributes/total_invisible.h"
 /* Instrument the solving machinery with king capture avoiders
  * @param si identifies root slice of the solving machinery
  */
@@ -88,9 +87,6 @@ void solving_insert_king_capture_avoiders(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  if (total_invisible_number>0)
-    state.opponent_king_capture_possible = twin_id;
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,

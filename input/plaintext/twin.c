@@ -30,6 +30,7 @@
 #include "position/effects/piece_movement.h"
 #include "position/effects/walk_change.h"
 #include "position/effects/piece_exchange.h"
+#include "position/effects/total_side_exchange.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"
@@ -52,6 +53,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 static void TwinResetPosition(void)
 {
@@ -212,16 +214,16 @@ static void do_shift(square from, square to)
     if (!is_square_empty(*bnp))
     {
       square const to = *bnp + vector;
-      board[to] = being_solved.board[*bnp];
+      board[to] = get_walk_of_piece_on_square(*bnp);
       spec[to] = being_solved.spec[*bnp];
-      being_solved.board[*bnp] = Empty;
+      set_walk_of_piece_on_square(*bnp, Empty);
       CLEARFL(being_solved.spec[*bnp]);
     }
 
   for (bnp = boardnum; *bnp; bnp++)
     if (board[*bnp]!=Empty)
     {
-      being_solved.board[*bnp] = board[*bnp];
+      set_walk_of_piece_on_square(*bnp, board[*bnp]);
       being_solved.spec[*bnp] = spec[*bnp];
     }
 }
@@ -319,64 +321,10 @@ static char *ParseTwinningRemove(void)
   return ReadNextTokStr();
 }
 
-static void do_polish(void)
-{
-  {
-    square const king_square_white = being_solved.king_square[White];
-    being_solved.king_square[White] = being_solved.king_square[Black];
-    being_solved.king_square[Black] = king_square_white;
-  }
-
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (!is_square_empty(*bnp))
-      {
-        Side const to = TSTFLAG(being_solved.spec[*bnp],White) ? Black : White;
-        if (!TSTFLAG(being_solved.spec[*bnp],to))
-        {
-          --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(*bnp)];
-          piece_change_side(&being_solved.spec[*bnp]);
-          occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),being_solved.spec[*bnp]);
-          ++being_solved.number_of_pieces[to][get_walk_of_piece_on_square(*bnp)];
-        }
-      }
-  }
-}
-
-/* Execute a Polish type twinning
- */
-static void move_effect_journal_do_twinning_polish(void)
-{
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_allocate_entry(move_effect_twinning_polish,move_effect_reason_twinning);
-  do_polish();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void undo_twinning_polish(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  do_polish();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static char *ParseTwinningPolish(void)
 {
-  /* we don't redo substitute twinnings */
-  move_effect_journal_set_effect_doers(move_effect_twinning_polish,
-                                       &undo_twinning_polish,
-                                       0);
-  move_effect_journal_do_twinning_polish();
+  position_total_side_exchange_initialise();
+  move_effect_journal_do_total_side_exchange(move_effect_reason_twinning);
   return ReadNextTokStr();
 }
 
@@ -758,8 +706,16 @@ static char *ReadRemark(void)
   return ReadNextTokStr();
 }
 
+/* protocol_close returns an int, but we need a function returning void for atexit */
+static void protocol_close_wrapper(void)
+{
+  if (protocol_close())
+    perror(__func__);
+}
+
 static char *ReadTrace(void)
 {
+  static boolean need_to_schedule_protocol_close = true;
   if (ReadToEndOfLine())
   {
     {
@@ -767,7 +723,16 @@ static char *ReadTrace(void)
       if (protocol==0)
         output_plaintext_input_error_message(WrOpenError);
       else
+      {
+        if (need_to_schedule_protocol_close)
+        {
+          if (atexit(&protocol_close_wrapper))
+            perror(__func__);
+          else
+            need_to_schedule_protocol_close = false;
+        }
         output_plaintext_print_version_info(protocol);
+      }
     }
   }
 
@@ -1106,6 +1071,8 @@ void build_atob_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(start_of_machinery!=no_slice);
+
   input_instrument_proof(start_of_machinery);
 
   pipe_solve_delegate(si);
@@ -1123,6 +1090,8 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(start_of_machinery!=no_slice);
 
   input_instrument_proof(start_of_machinery);
 

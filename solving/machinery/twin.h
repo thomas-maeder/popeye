@@ -73,5 +73,12 @@ void initialise_piece_flags_solve(slice_index si);
 
 void pieces_counter_solve(slice_index si);
 
+enum {
+  nr_twin_labels = 26
+};
+
+typedef unsigned char twin_label_type;
+
+twin_label_type getTwinLabel(unsigned int index); /* index should be in [0, nr_twin_labels-1] */
 
 #endif

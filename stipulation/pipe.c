@@ -5,9 +5,12 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Allocate a new pipe and make an existing pipe its successor
  * @param type which slice type
- * @return newly allocated slice
+ * @return newly allocated slice, or no_slice on error
  */
 slice_index alloc_pipe(slice_type type)
 {
@@ -18,6 +21,11 @@ slice_index alloc_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = create_slice(type);
+  if (result==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(1); /* TODO: Do we have to exit here? */
+  }
   SLICE_NEXT1(result) = no_slice;
 
   TraceFunctionExit(__func__);
@@ -39,6 +47,11 @@ void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->spun_off[si] = copy_slice(si);
+  if (state->spun_off[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   if (SLICE_NEXT1(si)!=no_slice)
   {
@@ -244,6 +257,11 @@ void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   SLICE_TESTER(si) = copy_slice(si);
+  if (SLICE_TESTER(si)==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   if (SLICE_NEXT1(si)!=no_slice)
   {

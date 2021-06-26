@@ -20,10 +20,10 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  stipulation/conditional_pipe.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/castling.h solving/move_effect_journal.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum position/pieceid.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h solving/castling.h \
- solving/move_effect_journal.h solving/conditional_pipe.h \
+ position/color.enum pieces/walks/vectors.h solving/conditional_pipe.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
@@ -109,6 +109,16 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/castling.h:
+
+solving/move_effect_journal.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
 position/position.h:
 
 position/color.h:
@@ -117,17 +127,7 @@ position/color.enum.h:
 
 position/color.enum:
 
-position/pieceid.h:
-
 pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
-solving/castling.h:
-
-solving/move_effect_journal.h:
 
 solving/conditional_pipe.h:
 
@@ -347,15 +347,15 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- solving/ply.h solving/move_effect_journal.h solving/observation.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/observation.h pieces/walks/vectors.h \
  solving/temporary_hacks.h solving/fork.h solving/castling.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h \
- optimisations/intelligent/intelligent.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h solving/move_generator.h debugging/measure.h \
+ output/plaintext/protocol.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -402,6 +402,24 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/move_effect_journal.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
+solving/fork.h:
+
+solving/castling.h:
+
 position/position.h:
 
 position/color.h:
@@ -409,24 +427,6 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
-
-position/pieceid.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/observation.h:
-
-solving/temporary_hacks.h:
-
-solving/fork.h:
-
-solving/castling.h:
 
 solving/has_solution_type.h:
 

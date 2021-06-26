@@ -261,6 +261,7 @@ Kommandos:
 	Bolero
 	BoleroInvers
 	Influencer
+	Rollentausch
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -371,6 +372,9 @@ Kommandos:
 	Kuerzestzueger-Schluesselwoertern kann mit dem Schluesselwort
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
+
+	Nach Rollentausch kann die maximale Anzahl Rollentausche angegeben werden.
+	Ohne diese Angabe ist die Anzahl unlimitiert.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
@@ -545,8 +549,9 @@ Kommandos:
 	Intelligent     Intelligente (schnelle) Pruefung von (Serienzug-)
 	                Hilfsmatt/patt-Mehrzuegern.
 			Nach der Intelligent Option kann wahlweise noch die
-			maximale Anzahl von Loesungen je Mattbild angegeben
+			maximale Anzahl von Loesungen je Matt-/Pattbild angegeben
 			werden.
+			Beachte: Findet keine Pattstellungen ohne Koenig!
 	MaxZeit         Dieser Option muss eine Zahl folgen. Nach 
 			erreichen von  Zahl  Sekunden bricht Popeye ab.
 	KeineRochade    Figuren, welche auf den anschliessend angegeben Feldern
@@ -770,7 +775,7 @@ Kommandos:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
+	Alle drei Teilausdruecke und somit auch die &-Ausdruecke
 	gehoeren zur Gruppe Angriff.
 
 

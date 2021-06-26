@@ -105,6 +105,25 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionResultEnd();
 }
 
+static boolean can_allocate_castling_partner(Side side)
+{
+  boolean result;
+  dynamic_consumption_type const save_consumption = current_consumption;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
+  result = allocate_flesh_out_unclaimed(side);
+
+  current_consumption = save_consumption;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void prepare_king_side_castling_generation(slice_index si)
 {
   Side const side = trait[nbply];
@@ -115,10 +134,20 @@ static void prepare_king_side_castling_generation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if ((nr_total_invisbles_consumed()<total_invisible_number)
+  if (can_allocate_castling_partner(trait[nbply])
       && is_square_empty(square_h)
       && !was_taboo_forever(square_h,side))
   {
+    square const save_king_square = being_solved.king_square[trait[nbply]];
+
+    /* deactivate regular testing for check - a king castling out of (or
+     * through) an apparent check proves the existence of a TI
+     */
+    /* don't do this earlier because being_solved.king_square
+     * influences can_allocate_castling_partner()
+     */
+    being_solved.king_square[trait[nbply]] = initsquare;
+
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_h,Rook,BIT(side)|BIT(Chameleon));
     SETCASTLINGFLAGMASK(side,rh_cancastle);
@@ -126,9 +155,18 @@ static void prepare_king_side_castling_generation(slice_index si)
     CLRCASTLINGFLAGMASK(side,rh_cancastle);
     empty_square(square_h);
     --being_solved.number_of_pieces[side][Rook];
+
+    being_solved.king_square[trait[nbply]] = save_king_square;
   }
   else
+  {
+    square const save_king_square = being_solved.king_square[trait[nbply]];
+
+    /* cf. above */
+    being_solved.king_square[trait[nbply]] = initsquare;
     pipe_move_generation_delegate(si);
+    being_solved.king_square[trait[nbply]] = save_king_square;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -143,7 +181,13 @@ static void prepare_queen_side_castling_generation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if ((nr_total_invisbles_consumed()<total_invisible_number)
+  TraceValue("%u",nr_total_invisbles_consumed());
+  TraceValue("%u",total_invisible_number);
+  TraceEOL();
+
+  TraceConsumption();TraceEOL();
+
+  if (can_allocate_castling_partner(trait[nbply])
       && is_square_empty(square_a)
       && !was_taboo_forever(square_a,side))
   {
@@ -174,7 +218,7 @@ void total_invisible_generate_special_moves(slice_index si)
   TraceFunctionParamListEnd();
 
   if (play_phase==play_regular)
-    switch (being_solved.board[sq_departure])
+    switch (get_walk_of_piece_on_square(sq_departure))
     {
       case Pawn:
       {

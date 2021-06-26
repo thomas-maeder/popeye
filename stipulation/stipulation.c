@@ -24,14 +24,17 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 Slice slices[max_nr_slices];
 
 static boolean are_pieceids_required;
 
 /* Keep track of allocated slice indices
  */
-static boolean is_slice_index_allocated[max_nr_slices];
-
+static boolean is_slice_index_allocated[max_nr_slices + 1]; /* one extra so alloc_slice doesn't have to
+                                                               check for the upper limit at every iteration */
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
@@ -56,22 +59,21 @@ void assert_no_leaked_slices(void)
 }
 
 /* Allocate a slice index
- * @return a so far unused slice index
+ * @return a so far unused slice index; return no_slice if all are used
  */
 static slice_index alloc_slice(void)
 {
-  slice_index result;
+  slice_index result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (result = 0; result!=max_nr_slices; ++result)
-    if (!is_slice_index_allocated[result])
-      break;
-
-  assert(result<max_nr_slices);
-
-  is_slice_index_allocated[result] = true;
+  while (is_slice_index_allocated[result])
+    ++result;
+  if (result==max_nr_slices)
+    result = no_slice;
+  else
+    is_slice_index_allocated[result] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -97,7 +99,7 @@ void dealloc_slice(slice_index si)
 
 /* Create a slice
  * @param type which type
- * @return index of created slice
+ * @return index of created slice, or no_slice on error
  */
 slice_index create_slice(slice_type type)
 {
@@ -109,12 +111,15 @@ slice_index create_slice(slice_type type)
 
   result = alloc_slice();
 
-  SLICE_TYPE(result) = type;
-  SLICE_STARTER(result) = no_side;
-  SLICE_PREV(result) = no_slice;
-  SLICE_NEXT1(result) = no_slice;
-  SLICE_NEXT2(result) = no_slice;
-  SLICE_TESTER(result) = no_slice;
+  if (result!=no_slice)
+  {
+    SLICE_TYPE(result) = type;
+    SLICE_STARTER(result) = no_side;
+    SLICE_PREV(result) = no_slice;
+    SLICE_NEXT1(result) = no_slice;
+    SLICE_NEXT2(result) = no_slice;
+    SLICE_TESTER(result) = no_slice;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -124,7 +129,7 @@ slice_index create_slice(slice_type type)
 
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
- * @return index of allocated slice
+ * @return index of allocated slice, or no_slice on error
  */
 slice_index copy_slice(slice_index original)
 {
@@ -136,12 +141,15 @@ slice_index copy_slice(slice_index original)
 
   result = create_slice(SLICE_TYPE(original));
 
-  SLICE(result) = SLICE(original);
-  slice_set_predecessor(result,no_slice);
+  if (result!=no_slice)
+  {
+    SLICE(result) = SLICE(original);
+    slice_set_predecessor(result,no_slice);
 
-  TraceEnumerator(Side,SLICE_STARTER(original));
-  TraceEnumerator(Side,SLICE_STARTER(result));
-  TraceEOL();
+    TraceEnumerator(Side,SLICE_STARTER(original));
+    TraceEnumerator(Side,SLICE_STARTER(result));
+    TraceEOL();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -344,18 +352,26 @@ Goal find_unique_goal(slice_index si)
   return result.unique_goal;
 }
 
-static void copy_and_remember(slice_index si, stip_deep_copies_type *copies)
+static boolean copy_and_remember(slice_index si, stip_deep_copies_type *copies)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
-  SLICE_STARTER((*copies)[si]) = no_side;
+  if ((*copies)[si]!=no_slice)
+  {
+    SLICE_STARTER((*copies)[si]) = no_side;
+    result = true;
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(unsigned int)result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void deep_copy_leaf(slice_index si, stip_structure_traversal *st)
@@ -366,7 +382,11 @@ static void deep_copy_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -380,7 +400,11 @@ static void deep_copy_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -399,7 +423,11 @@ static void deep_copy_fork(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children(si,st);
 
@@ -421,7 +449,11 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy_and_remember(si,copies);
+  if (!copy_and_remember(si,copies))
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy and remember slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(3); /* TODO: Do we have to exit here? */
+  }
 
   stip_traverse_structure_children(si,st);
 
@@ -596,7 +628,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   pipe_append(proxy,alloc_move_inverter_setplay_slice());
 
   TraceFunctionExit(__func__);
-  TraceFunctionParamListEnd();
+  TraceFunctionResultEnd();
 }
 
 /* Attempt to add set play to the stipulation
@@ -637,8 +669,8 @@ boolean solving_apply_setplay(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
+  TraceFunctionResult("%u",(unsigned int)result);
+  TraceFunctionResultEnd();
   return result;
 }
 

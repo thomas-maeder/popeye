@@ -303,9 +303,9 @@ void enable_castling_rights(move_effect_reason_type reason,
   }
   else if (p==standard_walks[King])
   {
-    if (TSTFLAG(specs,White) && sq_arrival==square_e1)
+    if (TSTFLAG(specs,White) && sq_arrival==square_e1 && being_solved.king_square[White]==square_e1)
       enable_castling_right(reason,White,k_cancastle);
-    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8)
+    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8 && being_solved.king_square[Black]==square_e8)
       enable_castling_right(reason,Black,k_cancastle);
   }
 
@@ -685,7 +685,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][kingside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
@@ -696,7 +696,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][queenside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
@@ -803,6 +803,14 @@ void generate_castling(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_castling)==k_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,q_castling)==q_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_cancastle)==k_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,rh_cancastle)==rh_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,ra_cancastle)==ra_cancastle);
+  TraceEOL();
 
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {

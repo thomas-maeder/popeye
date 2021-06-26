@@ -222,10 +222,10 @@ static void WriteTwinLetter(unsigned int twin_number, boolean continued)
   if (continued)
     protocol_fputc('+',stdout);
 
-  if (twin_number-twin_a<='z'-'a')
-    protocol_fprintf(stdout,"%c) ", 'a'+twin_number-twin_a);
+  if ((twin_number-twin_a)<nr_twin_labels)
+    protocol_fprintf(stdout,"%c) ", (int)getTwinLabel(twin_number-twin_a));
   else
-    protocol_fprintf(stdout,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    protocol_fprintf(stdout,"z%u) ", (unsigned int)((twin_number-twin_a)-(nr_twin_labels-1)));
 }
 
 static void WriteTwinning(boolean continued)
@@ -285,7 +285,7 @@ static void WriteTwinning(boolean continued)
         protocol_fprintf(stdout,"%s","  ");
         break;
 
-      case move_effect_twinning_polish:
+      case move_effect_total_side_exchange:
         WritePolish(curr);
         break;
 

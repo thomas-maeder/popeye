@@ -139,19 +139,21 @@ static char *ParseReciEnd(char *tok, slice_index start, slice_index proxy)
 
 static char *ParseLength(char *tok, stip_length_type *length)
 {
-  char *end;
-  unsigned int tmp_length;
+  char *end=0;
+  unsigned long int tmp_length=0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%s",tok?tok:"<NULL>");
   TraceFunctionParamListEnd();
 
-  if (tok!=0 && *tok==0)
-    /* allow white space before length, e.g. "dia 4" */
-    tok = ReadNextTokStr();
-
-  tmp_length = (unsigned int)strtoul(tok,&end,10);
-  TraceValue("%ld",tmp_length);
+  if (tok!=0)
+  {
+    if (*tok==0)
+      /* allow white space before length, e.g. "dia 4" */
+      tok = ReadNextTokStr();
+    tmp_length = strtoul(tok,&end,10);
+  }
+  TraceValue("%lu",tmp_length);
   TraceEOL();
 
   if (tok==end || tmp_length>UINT_MAX)
@@ -161,12 +163,12 @@ static char *ParseLength(char *tok, stip_length_type *length)
   }
   else
   {
-    *length = tmp_length;
+    *length = (stip_length_type)tmp_length;
     tok = end;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
+  TraceFunctionResult("%s",tok?tok:"<NULL>");
   TraceFunctionResultEnd();
   return tok;
 }
@@ -572,14 +574,25 @@ static char *ParsePlay(char *tok,
     {
       stip_length_type length;
       stip_length_type min_length;
+
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_series_branch(length-1,min_length+1);
-        help_branch_set_end(branch,proxy_next,1);
-        link_to_branch(proxy,branch);
+        if (length==1)
+        {
+          /* ser-reci-hX1 is the same thing reci-hX1! */
+          pipe_link(proxy,SLICE_NEXT1(proxy_next));
+          dealloc_slice(proxy_next);
+        }
+        else
+        {
+          slice_index const branch = alloc_series_branch(length-1,min_length+1);
 
-        solving_impose_starter(proxy_next,Black);
+          help_branch_set_end(branch,proxy_next,1);
+          link_to_branch(proxy,branch);
+        }
+
+        solving_impose_starter(proxy,Black);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -1095,6 +1108,7 @@ static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
     slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
                                               entry->u.remove_stipulation.start,
                                               stip_traversal_context_intro);
+    assert(end!=no_slice);
     pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
     pipe_link(entry->u.remove_stipulation.last_removed,end);
   }
@@ -1122,6 +1136,7 @@ void move_effect_journal_do_remove_stipulation(slice_index start)
 
   entry->u.remove_stipulation.start = start;
   entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+  assert(entry->u.remove_stipulation.first_removed!=no_slice);
 
   entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
   while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)

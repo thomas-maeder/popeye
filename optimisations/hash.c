@@ -221,7 +221,7 @@ static unsigned long use_pos, use_all;
 /* TODO: Message isn't defined in our codebase.  Is this even close to the correct/intended definition?  Is a macro even appropriate? */
 #endif /*Message*/
 #if !defined(Message2)
-#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%d\n", __func__, #var1, (unsigned int)(var1), #var2, (int)(var2))
+#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%lu\n", __func__, #var1, (unsigned int)(var1), #var2, (unsigned long int)(var2))
 /* TODO: Message2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
 #endif /*Message2*/
 #if !defined(StdString2)
@@ -669,7 +669,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -699,7 +699,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -728,7 +728,7 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("pre:0x%08x ",e->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
@@ -751,7 +751,7 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -771,7 +771,7 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -792,7 +792,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("0x%08x",e->data);
   TraceEOL();
 
@@ -1050,7 +1050,7 @@ static void compresshash (void)
 #if defined(HASHRATE)
   printf(" usage: %lu", use_pos);
   printf(" / %lu", use_all);
-  printf(" = %.1f%%", (100.0 * use_pos) / use_all);
+  printf(" = %.Lf%%", (100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
@@ -1112,7 +1112,7 @@ void HashStats(unsigned int level, char const *trailer)
 #if defined(HASHRATE)
   if (level<=HashRateLevel)
   {
-    int pos= dhtKeyCount(pyhash);
+    unsigned long int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
     Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
@@ -1182,9 +1182,9 @@ static void ProofSmallEncodePiece(byte **bp,
   Side const side =  TSTFLAG(flags,White) ? White : Black;
   byte encoded = p;
   assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
   if (side==Black)
     encoded |= 1 << black_bit;
-  assert(p < 1 << black_bit);
   if (*even)
   {
     **bp += encoded<<(CHAR_BIT/2);
@@ -1691,7 +1691,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
       fxfReset();
 #endif
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-      assert(pyhash!=0);
+      if (pyhash == dhtNilHashTable)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
       break;
     }
@@ -1720,10 +1724,20 @@ static unsigned long hashtable_kilos;
 unsigned long allochash(unsigned long nr_kilos)
 {
 #if defined(FXF)
+  static boolean need_to_schedule_fxfTeardown = true;
   size_t const one_kilo = 1<<10;
+  if (nr_kilos > (((size_t) -1)/one_kilo))
+    nr_kilos = (((size_t) -1)/one_kilo);
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
+  if (nr_kilos && need_to_schedule_fxfTeardown)
+  {
+    if (atexit(&fxfTeardown))
+      perror(__func__);
+    else
+      need_to_schedule_fxfTeardown = false;
+  }
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
 
@@ -1811,6 +1825,14 @@ static void inithash(slice_index si)
   ifHASHRATE(use_pos = use_all = 0);
 
   /* check whether a piece can be coded in a single byte */
+  if (OptFlag[intelligent])
+  {
+    /* in intelligent mode, we have to calculate the pieces' identities
+     * into hash codes */
+    one_byte_hash = false;
+    bytes_per_spec = 4;
+  }
+  else
   {
     byte j = 0;
 
@@ -1825,15 +1847,15 @@ static void inithash(slice_index si)
       piece_nbr[Invalid]= j++;
 
     one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
+
+    bytes_per_spec= 1;
+    if ((some_pieces_flags >> CHAR_BIT) != 0)
+      bytes_per_spec++;
+    if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
+      bytes_per_spec++;
   }
 
-  bytes_per_spec= 1;
-  if ((some_pieces_flags >> CHAR_BIT) != 0)
-    bytes_per_spec++;
-  if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
-    bytes_per_spec++;
-
-  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
+  bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 
   if (is_proofgame(si))
   {
@@ -1888,7 +1910,11 @@ static void openhash(void)
 
   assert(pyhash==0);
   pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  assert(pyhash!=0);
+  if (pyhash == dhtNilHashTable)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1909,7 +1935,7 @@ static void closehash(void)
 #if defined(HASHRATE)
   printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
-    printf("Makes %.1f%%\n",(100.0 * use_pos) / use_all);
+    printf("Makes %.Lf%%\n",(100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(__unix)
   {
@@ -2465,6 +2491,9 @@ void help_hashed_solve(slice_index si)
       else
         pipe_solve_delegate(si);
 
+      TraceValue("%u",solve_result);
+      TraceValue("%u",MOVE_HAS_NOT_SOLVED_LENGTH());
+      TraceEOL();
       if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
         addtohash_help(si);
     }

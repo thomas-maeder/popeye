@@ -16,6 +16,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
@@ -335,6 +336,9 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[nullmoves])
     nullmoves_initialise_solving(si,no_side);
+
+  if (CondFlag[role_exchange])
+    role_exchange_initialise_solving(si,no_side);
 
   if (CondFlag[schwarzschacher])
     blackchecks_initialise_solving(si);

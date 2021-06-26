@@ -136,7 +136,7 @@ void redo_move_effects(void)
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
   {
 #if defined(DOTRACE)
-    TraceValue("%u",entry-&move_effect_journal[0]);
+    TraceValue("%u",(unsigned int)(entry-&move_effect_journal[0]));
     TraceValue("%u",entry->type);
     TraceValue("%lu",entry->id);
     TraceEOL();
@@ -186,6 +186,37 @@ void undo_move_effects(void)
     assert(move_effect_doers[entry->type].undoer!=0);
     (*move_effect_doers[entry->type].undoer)(entry);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_pop_effect(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_entry_type const *top_entry = &move_effect_journal[top-1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);
+
+  assert(move_effect_journal_base[nbply]>0);
+  TraceValue("%u",top);
+  TraceEOL();
+  assert(top>=move_effect_journal_base[nbply]);
+
+#if defined(DOTRACE)
+  TraceValue("%u",top_entry->type);
+  TraceEOL();
+  TraceValue("%lu",top_entry->id);
+  TraceEOL();
+#endif
+
+  assert(move_effect_doers[top_entry->type].undoer!=0);
+  (*move_effect_doers[top_entry->type].undoer)(top_entry);
+
+  --move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

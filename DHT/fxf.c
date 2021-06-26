@@ -172,7 +172,7 @@ static FreeMapType *FreeMap;
     }                                                 \
   } while (0)
 
-void SetRange(size_t x, size_t l)  {
+static void SetRange(size_t x, size_t l)  {
   if (FreeMap) {
     size_t xi= x>>5, y= x+l, yi= y>>5;
     if (xi==yi)
@@ -186,7 +186,7 @@ void SetRange(size_t x, size_t l)  {
   }
 }
 
-void ClrRange(size_t x, size_t l)  {
+static void ClrRange(size_t x, size_t l)  {
   if (FreeMap) {
     size_t xi= x>>5, y= x+l, yi= y>>5;
     if (xi==yi)
@@ -216,8 +216,8 @@ void PrintFreeMap(FILE *f) {
   }
 }
 #else
-#  define  SetRange(x,l) ((void)(x, l))
-#  define  ClrRange(x,l) ((void)(x, l))
+static void SetRange(size_t x, size_t l) { (void) x; (void) l; }
+static void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
 #endif /*FREEMAP, !SEGMENTED*/
 
 size_t fxfInit(size_t Size) {
@@ -245,6 +245,13 @@ size_t fxfInit(size_t Size) {
     TopFreePtr+= ARENA_SEG_SIZE;
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
+#if defined(FREEMAP)
+  if (FreeMap)
+  {
+    free(FreeMap);
+    FreeMap = Nil(FreeMapType);
+  }
+#endif
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
@@ -260,11 +267,6 @@ size_t fxfInit(size_t Size) {
   GlobalSize= Size;
 
 #if defined(FREEMAP)
-  if (FreeMap)
-  {
-    free(FreeMap);
-  }
-
   /* We aren't using Size again, so we can change it to the value we need here. */
   if (Size > (((size_t)-1)-31))
   {

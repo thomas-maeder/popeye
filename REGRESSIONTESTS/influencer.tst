@@ -136,8 +136,8 @@ solution finished.
              Influencer
 
    1.Sb5-a7[b7=P][b6=P] + !
-      1...Bc7-b8[a7=P]
-          2.a7*b8=S #
+      1...Bc7-b8[c8=B][a7=P]
+          2.a7*b8=S[b7=P] #
 
   add_to_move_generation_stack:         829
                      play_move:         324
@@ -173,7 +173,7 @@ solution finished.
 
    1.Ba5-c3 + !
       1...e7-e5[d5=P]
-          2.d5*e6 ep. #
+          2.d5*e6 ep.[d6=P] #
 
   add_to_move_generation_stack:         304
                      play_move:         114
@@ -212,12 +212,12 @@ solution finished.
       1...Kd5-c4 !
 
    1.Bb1-a2 + ?
-      1...Ra8-a3[a2=P]
+      1...Ra8-a3[a2=P][b2=P]
           2.b2-b4[a3=P] zugzwang.
               2...Kd5-c4
                   3.Qe7-c5 #
     but
-      1...Ra8*a2[a1=R] !
+      1...Ra8*a2[b2=P][a1=R] !
 
    1.e3-e4 + !
       1...Kd5-c4
@@ -296,18 +296,18 @@ solution finished.
              Influencer
 
       1...Bd8-h4
-          2.Sd3-c5 #
+          2.Sd3-c5[b5=P][d4=P][b4=P] #
       1...Bd8-g5
-          2.Sd3-c5 #
+          2.Sd3-c5[b5=P][d4=P][b4=P] #
       1...Bd8-f6
-          2.Sd3-c5 #
+          2.Sd3-c5[b5=P][d4=P][b4=P] #
 
    1.Kb2-a2 ! threat:
           2.Sd3-b2[a3=P] #
       1...Bd8-g5
-          2.Sd3-c5 #
+          2.Sd3-c5[b5=P][d4=P][b4=P] #
 
-   1.Sd3-c5 + ?
+   1.Sd3-c5[b5=P][d4=P][b4=P] + ?
     but
       1...Bd8-b6[c5=P] !
 
@@ -343,17 +343,17 @@ solution finished.
   #6                          3 + 6
              Influencer
 
-   1.Sb3-c5 + !
+   1.Sb3-c5[b5=P][b4=P] + !
       1...Ka4-a5
-          2.Sc5-b7[a6=P] +
+          2.Sc5-b7[c7=P][a6=P] +
               2...Ka5-a4
-                  3.Sb7-c5 +
+                  3.Sb7-c5[b5=P][b4=P] +
                       3...Ka4-a5
-                          4.Sc5-b3 +
+                          4.Sc5-b3[b4=P][a3=P] +
                               4...Ka5-a4
                                   5.Kc6*c7
                                       5...a6-a5
-                                          6.Sb3-c5 #
+                                          6.Sb3-c5[b5=P][b4=P] #
 
   add_to_move_generation_stack:      846931
                      play_move:      639748
@@ -387,7 +387,7 @@ solution finished.
   h#2                         6 + 3
              Influencer
 
-  1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R] 0-0-0 #
+  1.Sg1-h3 Ba3-b2   2.Ra8-a2[b2=P][a1=R][b3=P] 0-0-0 #
   add_to_move_generation_stack:       49758
                      play_move:       25097
  is_white_king_square_attacked:        5480
@@ -489,6 +489,83 @@ Kh3 becomes royal and is in check from (non-royal) Kh4
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
+
+solution finished.
+
+
+
+Bg1 becomes a pawn on its promotion rank and is promoted
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P  -P   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 3
+              AntiCirce
+             Influencer
+
+   1.e5*f6[wPf6->f2][g1=P][g1=Q] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=S] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=R] !
+
+   1.e5*f6[wPf6->f2][g1=P][g1=B] !
+
+  add_to_move_generation_stack:           1
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+promotion of two knights after their transformation to pawns
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   K   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       4 + 2
+              AntiCirce
+             Influencer
+
+  1...Sb6-a8   2.a4*b3[bPb3->b7][b8=P][a8=P][b8=R][a8=Q] Rb8*b7[wRb7->h1] #
+  add_to_move_generation_stack:        4094
+                     play_move:        3891
+ is_white_king_square_attacked:         374
+ is_black_king_square_attacked:        3313
 
 solution finished.
 

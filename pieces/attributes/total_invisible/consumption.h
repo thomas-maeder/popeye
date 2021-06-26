@@ -7,7 +7,7 @@ typedef struct
 {
     unsigned int pawn_victims[nr_sides];
     boolean king[nr_sides];
-    boolean move_after_victing[nr_sides];
+    boolean move_after_victim[nr_sides];
 } static_consumption_type;
 
 extern static_consumption_type static_consumption;
@@ -17,6 +17,7 @@ typedef struct
     unsigned int fleshed_out[nr_sides];
     unsigned int placed[nr_sides];
     boolean claimed[nr_sides];
+    boolean is_king_unplaced[nr_sides];
 } dynamic_consumption_type;
 
 void TraceConsumption(void);

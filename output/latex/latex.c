@@ -121,7 +121,9 @@ char *ParseLaTeXPieces(void)
         tok = InputLine;
         LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
         if (LaTeXPiecesFull[walk]!=0) /* TODO: What should we do if LaTeXPiecesFull[walk]==0? */
+        {
           strcpy(LaTeXPiecesFull[walk], tok);
+        }
       }
 
       tok = ReadNextTokStr();
@@ -527,8 +529,14 @@ static void WriteSource(FILE *file)
     **            day.-day. month. year
     */
     /* year */
-    eol = date= strchr(source, '\n');
-    *eol = '\0';
+    eol= strchr(source, '\n');
+    if (eol)
+    {
+      *eol = '\0';
+      date= eol;
+    }
+    else
+      date= strchr(source, '\0');
 
     while (strchr("0123456789-", *(date-1)))
       date--;
@@ -607,7 +615,8 @@ static void WriteSource(FILE *file)
     }
     fputs("}%\n",file);
 
-    *eol= '\n';
+    if (eol)
+      *eol= '\n';
   }
 
   TraceFunctionExit(__func__);
@@ -623,7 +632,8 @@ static void WriteAward(FILE *file)
   {
     char *tour = strchr(ActAward, ',');
     char *eol = strchr(ActAward, '\n');
-    *eol = '\0';
+    if (eol)
+      *eol = '\0';
     if (tour)
     {
       WriteUserInputSubElement(file,"award",(unsigned int)(tour-ActAward),ActAward);
@@ -634,7 +644,8 @@ static void WriteAward(FILE *file)
       WriteUserInputElement(file,"tournament",tour);
     } else
       WriteUserInputElement(file,"award",ActAward);
-    *eol = '\n';
+    if (eol)
+      *eol = '\n';
   }
 
   TraceFunctionExit(__func__);
@@ -677,8 +688,8 @@ static void WritePieces(FILE *file)
       fprintf(file,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXWalk(p),
-              *bnp%onerow-200%onerow+'a',
-              *bnp/onerow-200/onerow+'1');
+              (int)getBoardFileLabel((*bnp%onerow)-(200%onerow)),
+              (int)getBoardRowLabel((*bnp/onerow)-(200/onerow)));
     }
   }
 
@@ -1188,10 +1199,15 @@ void LaTeXSStipulation(FILE *file, slice_index si)
 
   {
     FILE *tmp = platform_open_tmpfile();
-    unsigned int const length = WriteSStipulation(tmp,si);
-    rewind(tmp);
-    LaTeXCopyFile(tmp,file,length);
-    platform_close_tmpfile(tmp);
+    if (tmp)
+    {
+      unsigned int const length = WriteSStipulation(tmp,si);
+      rewind(tmp);
+      LaTeXCopyFile(tmp,file,length);
+      platform_close_tmpfile(tmp);
+    }
+    else
+      fprintf(stderr, "error opening tmpfile in %s\n", __func__);
   }
 
   CloseElement(file);

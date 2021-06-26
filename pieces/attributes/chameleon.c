@@ -123,7 +123,7 @@ static square decide_about_change(void)
   {
     square const sq_promotion = find_promotion(horizon);
     if (sq_promotion!=initsquare
-        && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
+        && is_walk_in_chameleon_sequence(get_walk_of_piece_on_square(sq_promotion))
         && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
       result = sq_promotion;
     else

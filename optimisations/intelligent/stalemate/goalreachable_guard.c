@@ -110,7 +110,7 @@ static boolean stalemate_isGoalReachable(void)
 
         TraceWalk(pi_departing);
         TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-        TraceWalk(being_solved.board[move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival]);
+        TraceWalk(get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival));
         TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival);
         TraceWalk(target_position[id].type);
         TraceSquare(target_position[id].diagram_square);

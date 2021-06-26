@@ -34,6 +34,10 @@ typedef struct {
     move_ids_with_castling_as_make_one_side_type queen_side;
 } move_ids_with_castling_as_make_type;
 
+
+/* we remember the move ids in the element for the parent ply of the ply where we play moves
+ * or attempt king captures because we have to reset the ids before creating children plies
+ */
 static move_ids_with_castling_as_make_type move_ids_with_castling_as_make[maxply+1];
 
 static void remember_move_ids_of_castlings_as_makes(square sq_capture,
@@ -41,6 +45,8 @@ static void remember_move_ids_of_castlings_as_makes(square sq_capture,
                                                     numecoup max_move_id,
                                                     ply generating_for)
 {
+  ply const parent = parent_ply[generating_for];
+
   TraceFunctionEntry(__func__);
   TraceSquare(sq_capture);
   TraceFunctionParam("%u",min_move_id);
@@ -54,18 +60,18 @@ static void remember_move_ids_of_castlings_as_makes(square sq_capture,
 
   if (sq_capture==kingside_castling)
   {
-    assert(move_ids_with_castling_as_make[generating_for].king_side.min_move_id==0);
-    assert(move_ids_with_castling_as_make[generating_for].king_side.max_move_id==0);
-    move_ids_with_castling_as_make[generating_for].king_side.min_move_id = min_move_id;
-    move_ids_with_castling_as_make[generating_for].king_side.max_move_id = max_move_id;
+    assert(move_ids_with_castling_as_make[parent].king_side.min_move_id==0);
+    assert(move_ids_with_castling_as_make[parent].king_side.max_move_id==0);
+    move_ids_with_castling_as_make[parent].king_side.min_move_id = min_move_id;
+    move_ids_with_castling_as_make[parent].king_side.max_move_id = max_move_id;
   }
 
   if (sq_capture==queenside_castling)
   {
-    assert(move_ids_with_castling_as_make[generating_for].queen_side.min_move_id==0);
-    assert(move_ids_with_castling_as_make[generating_for].queen_side.max_move_id==0);
-    move_ids_with_castling_as_make[generating_for].queen_side.min_move_id = min_move_id;
-    move_ids_with_castling_as_make[generating_for].queen_side.max_move_id = max_move_id;
+    assert(move_ids_with_castling_as_make[parent].queen_side.min_move_id==0);
+    assert(move_ids_with_castling_as_make[parent].queen_side.max_move_id==0);
+    move_ids_with_castling_as_make[parent].queen_side.min_move_id = min_move_id;
+    move_ids_with_castling_as_make[parent].queen_side.max_move_id = max_move_id;
   }
 
   TraceFunctionExit(__func__);
@@ -152,7 +158,7 @@ static void generate_take_candidates(slice_index si,
                                      square sq_make_departure,
                                      ply generating_for)
 {
-  piece_walk_type const walk = being_solved.board[sq_make_departure];
+  piece_walk_type const walk = get_walk_of_piece_on_square(sq_make_departure);
   Flags const flags = being_solved.spec[sq_make_departure];
   numecoup const base_make = CURRMOVE_OF_PLY(nbply-2);
   numecoup const top_make = CURRMOVE_OF_PLY(nbply-1);
@@ -279,7 +285,49 @@ static void add_take(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void reset_move_ids_castling_as_make(void)
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean make_and_take_reset_move_ids_castling_as_make_in_check_test(slice_index si,
+                                                                    Side side_observed)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  move_ids_with_castling_as_make[nbply].king_side.min_move_id = 0;
+  move_ids_with_castling_as_make[nbply].king_side.max_move_id = 0;
+
+  move_ids_with_castling_as_make[nbply].queen_side.min_move_id = 0;
+  move_ids_with_castling_as_make[nbply].queen_side.max_move_id = 0;
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void make_and_take_reset_move_ids_castling_as_make_in_move_generation(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -291,6 +339,8 @@ static void reset_move_ids_castling_as_make(void)
 
   move_ids_with_castling_as_make[nbply].queen_side.min_move_id = 0;
   move_ids_with_castling_as_make[nbply].queen_side.max_move_id = 0;
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -320,20 +370,6 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  if (TSTFLAG(game_array.spec[sq_opposite_king_castling_departure],trait[nbply]))
-  {
-    /* castling as make move-ids will be reset when we generate moves for the
-     * piece on sq_opposite_king_castling_departure.
-     */
-  }
-  else
-  {
-    /* we are doing this too often, but this seems to be the only way to do it
-     * wihtout violating encapsulation.
-     */
-    reset_move_ids_castling_as_make();
-  }
 
   siblingply(side_victim);
   current_move_id[nbply] = current_move_id[generating_for];
@@ -434,20 +470,21 @@ void make_and_take_move_castling_partner(slice_index si)
  * @param move_id the id of the move
  * @return kingside_castling, queenside_castling or initsquare
  */
-square make_and_take_has_move_castling_as_make(ply ply, numecoup move_id)
+square make_and_take_has_move_castling_as_make(ply the_ply, numecoup move_id)
 {
   square result;
+  ply const parent = parent_ply[the_ply];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
+  TraceFunctionParam("%u",the_ply);
   TraceFunctionParam("%u",move_id);
   TraceFunctionParamListEnd();
 
-  if (move_ids_with_castling_as_make[ply].king_side.min_move_id<=move_id
-      && move_id<move_ids_with_castling_as_make[ply].king_side.max_move_id)
+  if (move_ids_with_castling_as_make[parent].king_side.min_move_id<=move_id
+      && move_id<move_ids_with_castling_as_make[parent].king_side.max_move_id)
     result = kingside_castling;
-  else if (move_ids_with_castling_as_make[ply].queen_side.min_move_id<=move_id
-           && move_id<move_ids_with_castling_as_make[ply].queen_side.max_move_id)
+  else if (move_ids_with_castling_as_make[parent].queen_side.min_move_id<=move_id
+           && move_id<move_ids_with_castling_as_make[parent].queen_side.max_move_id)
     result = queenside_castling;
   else
     result = initsquare;
@@ -499,6 +536,23 @@ static void instrument_capture(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_resetter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
@@ -511,6 +565,19 @@ void solving_insert_make_and_take(slice_index si)
   TraceStipulation(si);
 
   move_generator_instrument_for_alternative_paths(si,nr_sides);
+
+  {
+    stip_structure_traversal st;
+
+    structure_traversers_visitor const solver_inserters[] =
+    {
+      { STGeneratingMoves, &insert_resetter }
+    };
+
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override(&st,solver_inserters,1);
+    stip_traverse_structure(si,&st);
+  }
 
   {
     stip_structure_traversal st;
@@ -531,6 +598,7 @@ void solving_insert_make_and_take(slice_index si)
   solving_test_check_playing_moves(si);
   solving_instrument_check_testing(si,STNoKingCheckTester);
   solving_instrument_check_testing(si,STMakeTakeLimitMoveGenerationMakeWalk);
+  solving_instrument_check_testing(si,STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

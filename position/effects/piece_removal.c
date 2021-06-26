@@ -13,7 +13,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
 
   TraceValue("%u",nbply);
   TraceSquare(from);
-  TraceWalk(being_solved.board[from]);
+  TraceWalk(get_walk_of_piece_on_square(from));
   TraceValue("%x",being_solved.spec[from]);
   TraceEOL();
 
@@ -99,13 +99,13 @@ void redo_piece_removal(move_effect_journal_entry_type const *entry)
 
   TraceValue("%u",nbply);
   TraceSquare(from);
-  TraceWalk(being_solved.board[from]);
+  TraceWalk(get_walk_of_piece_on_square(from));
   TraceWalk(entry->u.piece_removal.walk);
   TraceValue("%x",being_solved.spec[from]);
   TraceValue("%x",entry->u.piece_removal.flags);
   TraceEOL();
 
-  assert(being_solved.board[from]==entry->u.piece_removal.walk);
+  assert(get_walk_of_piece_on_square(from)==entry->u.piece_removal.walk);
   assert((being_solved.spec[from]&PieSpMask)==(entry->u.piece_removal.flags&PieSpMask));
 
   do_removal(from);

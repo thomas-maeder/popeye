@@ -63,6 +63,7 @@ void initialise_game_array(position *pos)
   pos->board[queenside_castling] = Empty;
   pos->board[retro_capture_departure] = Empty;
   pos->board[move_by_invisible] = Empty;
+  pos->board[move_role_exchange] = Empty;
 
   for (bnp = boardnum; *bnp; bnp++)
   {
@@ -142,13 +143,13 @@ void reflect_position(void)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    piece_walk_type const p = being_solved.board[sq_reflected];
+    piece_walk_type const p = get_walk_of_piece_on_square(sq_reflected);
     Flags const sp = being_solved.spec[sq_reflected];
 
-    being_solved.board[sq_reflected] = being_solved.board[*bnp];
+    set_walk_of_piece_on_square(sq_reflected, get_walk_of_piece_on_square(*bnp));
     being_solved.spec[sq_reflected] = being_solved.spec[*bnp];
 
-    being_solved.board[*bnp] = p;
+    set_walk_of_piece_on_square(*bnp, p);
     being_solved.spec[*bnp] = sp;
   }
 
@@ -167,7 +168,7 @@ void piece_change_side(Flags *spec)
 
 void empty_square(square s)
 {
-  being_solved.board[s] = Empty;
+  set_walk_of_piece_on_square(s, Empty);
   being_solved.spec[s] = EmptySpec;
 }
 
@@ -176,9 +177,9 @@ void occupy_square(square s, piece_walk_type walk, Flags flags)
   assert(walk!=Empty);
   assert(walk!=Invalid);
   // TODO why don't these hold?
-//  assert(being_solved.board[s]==Empty);
+//  assert(get_walk_of_piece_on_square(s)==Empty);
 //  assert(being_solved.spec[s]==EmptySpec);
-  being_solved.board[s] = walk;
+  set_walk_of_piece_on_square(s, walk);
   being_solved.spec[s] = flags;
 }
 
@@ -186,13 +187,13 @@ void replace_walk(square s, piece_walk_type walk)
 {
   assert(walk!=Empty);
   assert(walk!=Invalid);
-  being_solved.board[s] = walk;
+  set_walk_of_piece_on_square(s, walk);
 }
 
 void block_square(square s)
 {
   assert(is_square_empty(s) || is_square_blocked(s));
-  being_solved.board[s] = Invalid;
+  set_walk_of_piece_on_square(s, Invalid);
   being_solved.spec[s] = BorderSpec;
 }
 

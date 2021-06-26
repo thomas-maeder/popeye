@@ -1,6 +1,8 @@
 #include "conditions/pointreflection.h"
 #include "position/position.h"
+#include "pieces/walks/classification.h"
 #include "solving/observation.h"
+#include "solving/castling.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/pipe.h"
@@ -27,7 +29,39 @@ void point_reflection_generate_moves_for_piece(slice_index si)
   TraceEOL();
 
   if (walk_reflected==Empty)
-    pipe_move_generation_delegate(si);
+  {
+    Side const side = trait[nbply];
+
+    if (is_king(move_generation_current_walk)
+        && TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
+    {
+      castling_rights_type const save_castling_rights = being_solved.castling_rights;
+
+      square const square_a = side==White ? square_a1 : square_a8;
+      square const square_h = square_a+file_h;
+      square const square_a_reflected = transformSquare(square_a,rot180);
+      square const square_h_reflected = transformSquare(square_h,rot180);
+
+      if (!is_square_empty(square_a_reflected)
+          && game_array.board[square_a_reflected]!=being_solved.board[square_a_reflected])
+        CLRCASTLINGFLAGMASK(side,q_castling);
+
+      if (!is_square_empty(square_h_reflected)
+          && game_array.board[square_h_reflected]!=being_solved.board[square_h_reflected])
+        CLRCASTLINGFLAGMASK(side,k_castling);
+
+      /* no need to inspect the king's square here:
+       * * reflection of the king belongs to the other branch (i.e. walk_reflected!=Empty)
+       * * the castling machinery tests again if the piece on the king's square walks like a king
+       */
+
+      pipe_move_generation_delegate(si);
+
+      being_solved.castling_rights = save_castling_rights;
+    }
+    else
+      pipe_move_generation_delegate(si);
+  }
   else
     pipe_move_generation_different_walk_delegate(si,walk_reflected);
 

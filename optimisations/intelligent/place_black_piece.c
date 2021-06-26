@@ -449,6 +449,9 @@ void intelligent_place_promoted_black_pawn(slice_index si,
                                                   go_on);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;
@@ -705,6 +708,9 @@ void intelligent_place_black_piece(slice_index si,
     case Pawn:
       intelligent_place_promoted_black_pawn(si,placed_index,placed_on,go_on);
       intelligent_place_unpromoted_black_pawn(si,placed_index,placed_on,go_on);
+      break;
+
+    case Dummy:
       break;
 
     default:
