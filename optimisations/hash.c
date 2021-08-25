@@ -84,19 +84,19 @@
 #if (defined __STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #  include <stdint.h>
 #  ifdef UINTPTR_MAX
-typedef uintptr_t uint_pointer_t;
+typedef uintptr_t uint_pointer_type;
 #  else
-typedef uintmax_t uint_pointer_t;
+typedef uintmax_t uint_pointer_type;
 #  endif
 #elif (defined __cplusplus) && (__cplusplus >= 201103L)
 #  include <cstdint>
 #  ifdef UINTPTR_MAX
-typedef std::uintptr_t uint_pointer_t;
+typedef std::uintptr_t uint_pointer_type;
 #  else
-typedef std::uintmax_t uint_pointer_t;
+typedef std::uintmax_t uint_pointer_type;
 #  endif
 #else
-typedef unsigned long uint_pointer_t;
+typedef unsigned long uint_pointer_type;
 #endif
 
 #include <memory.h>
@@ -671,11 +671,11 @@ static void set_value_attack_nosuccess(dhtElement *hue,
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)(uint_pointer_t)hue->Data;
+  tmp = (data_type)(uint_pointer_type)hue->Data;
   tmp &= ~mask;
   tmp |= bits;
-  hue->Data = (dhtConstValue)(uint_pointer_t)tmp;
-  TraceValue("post:%08x",(unsigned int)(uint_pointer_t)hue->Data);
+  hue->Data = (dhtConstValue)(uint_pointer_type)tmp;
+  TraceValue("post:%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -703,11 +703,11 @@ static void set_value_attack_success(dhtElement *hue,
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)(uint_pointer_t)hue->Data;
+  tmp = (data_type)(uint_pointer_type)hue->Data;
   tmp &= ~mask;
   tmp |= bits;
-  hue->Data = (dhtConstValue)(uint_pointer_t)tmp;
-  TraceValue("post:%08x",(unsigned int)(uint_pointer_t)hue->Data);
+  hue->Data = (dhtConstValue)(uint_pointer_type)tmp;
+  TraceValue("post:%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -734,10 +734,10 @@ static void set_value_help(dhtElement *hue,
   TraceValue("0x%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)(uint_pointer_t)hue->Data;
+  tmp = (data_type)(uint_pointer_type)hue->Data;
   tmp &= ~mask;
   tmp |= bits;
-  hue->Data = (dhtConstValue)(uint_pointer_t)tmp;
+  hue->Data = (dhtConstValue)(uint_pointer_type)tmp;
   TraceValue("post:0x%08x",(unsigned int)hue->Data);
   TraceEOL();
   TraceFunctionExit(__func__);
@@ -749,12 +749,12 @@ static hash_value_type get_value_attack_success(dhtElement const *hue,
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  data_type const result = (mask & (data_type)(uint_pointer_t)hue->Data) >> offset;
+  data_type const result = (mask & (data_type)(uint_pointer_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%p",(void *)&hue->Data);
-  TraceValue("%08x",(unsigned int)(uint_pointer_t)hue->Data);
+  TraceValue("%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -768,12 +768,12 @@ static hash_value_type get_value_attack_nosuccess(dhtElement const *hue,
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  data_type const result = (mask & (data_type)(uint_pointer_t)hue->Data) >> offset;
+  data_type const result = (mask & (data_type)(uint_pointer_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
   TraceValue("%p",(void *)&hue->Data);
-  TraceValue("%08x",(unsigned int)(uint_pointer_t)hue->Data);
+  TraceValue("%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -787,13 +787,13 @@ static hash_value_type get_value_help(dhtElement const *hue,
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const  mask = slice_properties[si].u.h.maskNoSucc;
-  data_type const result = (mask & (data_type)(uint_pointer_t)hue->Data) >> offset;
+  data_type const result = (mask & (data_type)(uint_pointer_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
   TraceValue("%p ",(void *)&hue->Data);
-  TraceValue("0x%08x",(unsigned int)(uint_pointer_t)hue->Data);
+  TraceValue("0x%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
