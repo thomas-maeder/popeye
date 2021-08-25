@@ -246,26 +246,6 @@ static void (*encode)(stip_length_type min_length,
 
 typedef unsigned int data_type;
 
-/* hash table element type defining the data member as we use it in
- * this module
- */
-typedef struct
-{
-    dhtValue Key;
-    data_type data;
-} element_t;
-
-/* Grand union of "element" type and the generic one used by the hash
- * table implementation.
- * Using this union type rather than casting frm dhtElement * to
- * element_t * avoids aliasing issues.
- */
-typedef union
-{
-    dhtElement d;
-    element_t e;
-} hashElement_union_t;
-
 /* Hashing properties of stipulation slices
  */
 typedef struct
@@ -651,17 +631,17 @@ static void init_slice_properties(slice_index si)
 /* Pseudo hash table element - template for fast initialization of
  * newly created actual table elements
  */
-static hashElement_union_t template_element;
+static dhtElement template_element;
 
 
-static void set_value_attack_nosuccess(hashElement_union_t *hue,
+static void set_value_attack_nosuccess(dhtElement *hue,
                                        slice_index si,
                                        hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",val);
@@ -669,27 +649,29 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("pre:%08x ",e->data);
+  TraceValue("%p",(void *)&hue->Data);
+  TraceValue("pre:%08x ",(unsigned int)hue->Data);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x",e->data);
+  tmp = (data_type)hue->Data;
+  tmp &= ~mask;
+  tmp |= bits;
+  hue->Data = (dhtConstValue)tmp;
+  TraceValue("post:%08x",(unsigned int)hue->Data);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void set_value_attack_success(hashElement_union_t *hue,
+static void set_value_attack_success(dhtElement *hue,
                                      slice_index si,
                                      hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -699,28 +681,30 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("pre:%08x ",e->data);
+  TraceValue("%p",(void *)&hue->Data);
+  TraceValue("pre:%08x ",(unsigned int)hue->Data);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x",e->data);
+  tmp = (data_type)hue->Data;
+  tmp &= ~mask;
+  tmp |= bits;
+  hue->Data = (dhtConstValue)tmp;
+  TraceValue("post:%08x",(unsigned int)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void set_value_help(hashElement_union_t *hue,
+static void set_value_help(dhtElement *hue,
                            slice_index si,
                            hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const bits = val << offset;
   unsigned int const mask = slice_properties[si].u.h.maskNoSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",val);
@@ -728,31 +712,32 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void *)&e->data);
-  TraceValue("pre:0x%08x ",e->data);
+  TraceValue("%p ",(void *)&hue->Data);
+  TraceValue("pre:0x%08x ",(unsigned int)hue->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:0x%08x",e->data);
+  tmp = (data_type)hue->Data;
+  tmp &= ~mask;
+  tmp |= bits;
+  hue->Data = (dhtConstValue)tmp;
+  TraceValue("post:0x%08x",(unsigned int)hue->Data);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_success(dhtElement const *hue,
                                                 slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (mask & (data_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("%08x",e->data);
+  TraceValue("%p",(void *)&hue->Data);
+  TraceValue("%08x",(unsigned int)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -761,18 +746,17 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   return result;
 }
 
-static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_nosuccess(dhtElement const *hue,
                                                   slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (mask & (data_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("%08x",e->data);
+  TraceValue("%p",(void *)&hue->Data);
+  TraceValue("%08x",(unsigned int)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -781,19 +765,18 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   return result;
 }
 
-static hash_value_type get_value_help(hashElement_union_t const *hue,
+static hash_value_type get_value_help(dhtElement const *hue,
                                       slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const  mask = slice_properties[si].u.h.maskNoSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (mask & (data_type)hue->Data) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void *)&e->data);
-  TraceValue("0x%08x",e->data);
+  TraceValue("%p ",(void *)&hue->Data);
+  TraceValue("0x%08x",(unsigned int)hue->Data);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -808,7 +791,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
  * @param si slice index of slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_solve(dhtElement const *hue,
                                                 slice_index si)
 {
   stip_length_type const length = SLICE_U(si).branch.length;
@@ -842,7 +825,7 @@ static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
  * @param si slice index of help slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_help(dhtElement const *hue,
                                               slice_index si)
 {
   unsigned int const parity = slice_properties[si].u.h.parity;
@@ -869,7 +852,7 @@ static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
  * @param si slice index
  * @return value of contribuation of the slice to *he's value
  */
-static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
+static hash_value_type value_of_data_from_slice(dhtElement const *hue,
                                                 slice_index si)
 {
   hash_value_type result;
@@ -912,7 +895,7 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
  * @param he address of hash table element to determine value of
  * @return value of *he
  */
-static hash_value_type value_of_data(hashElement_union_t const *hue)
+static hash_value_type value_of_data(dhtElement const *hue)
 {
   hash_value_type result = 0;
   unsigned int i;
@@ -973,7 +956,7 @@ static void compresshash (void)
          he!=0;
          he = dhtGetNextElement(pyhash))
     {
-      hashElement_union_t hue;
+      dhtElement hue;
       hue.d = *he;
       printf("%u\n",value_of_data(&hue));
     }
@@ -983,8 +966,8 @@ static void compresshash (void)
          he!=0;
          he = dhtGetNextElement(pyhash))
     {
-      hashElement_union_t hue;
-      hue.d = *he;
+      dhtElement hue;
+      hue = *he;
       if (value_of_data(&hue)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
@@ -992,7 +975,7 @@ static void compresshash (void)
         ++nrElementsRemovedInAllCompressions;
 #endif  /* TESTHASH */
 
-        dhtRemoveElement(pyhash, hue.d.Key);
+        dhtRemoveElement(pyhash, hue.Key);
 
 #if defined(TESTHASH)
         if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
@@ -1636,7 +1619,7 @@ static void SmallEncode(stip_length_type min_length,
  * element's data field with null values
  * @param he address of hash table element
  */
-static void init_elements(hashElement_union_t *hue)
+static void init_elements(dhtElement *hue)
 {
   unsigned int i;
 
@@ -1679,7 +1662,7 @@ static void init_elements(hashElement_union_t *hue)
  */
 static dhtElement *allocDHTelement(dhtConstValue hb)
 {
-  dhtElement *result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+  dhtElement *result = dhtEnterElement(pyhash,hb,template_element.Data);
   while (result==dhtNilElement)
   {
     unsigned long const nrKeysBeforeCompression = dhtKeyCount(pyhash);
@@ -1696,11 +1679,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
         fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
         exit(2); /* TODO: Do we have to exit here? */
       }
-      result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
       break;
     }
     else
-      result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
   }
 
   if (result==dhtNilElement)
@@ -1814,7 +1797,7 @@ static void inithash(slice_index si)
 
   init_slice_properties(si);
 
-  template_element.d.Data = 0;
+  template_element.Data = 0;
   init_elements(&template_element);
 
   is_table_uncompressed = true;     /* V3.60  TLi */
@@ -2214,12 +2197,12 @@ static void addtohash_battle_nosuccess(slice_index si,
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
-    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
+    dhtElement * const hue = (dhtElement *)allocDHTelement(hb);
     set_value_attack_nosuccess(hue,si,val);
   }
   else
   {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
+    dhtElement * const hue = (dhtElement *)he;
     if (get_value_attack_nosuccess(hue,si)<val)
       set_value_attack_nosuccess(hue,si,val);
   }
@@ -2254,13 +2237,13 @@ static void addtohash_battle_success(slice_index si,
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
-    hashElement_union_t * const
-        hue = (hashElement_union_t *)allocDHTelement(hb);
+    dhtElement * const
+        hue = (dhtElement *)allocDHTelement(hb);
     set_value_attack_success(hue,si,val);
   }
   else
   {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
+    dhtElement * const hue = (dhtElement *)he;
     if (get_value_attack_success(hue,si)>val)
       set_value_attack_success(hue,si,val);
   }
@@ -2339,7 +2322,7 @@ void attack_hashed_tester_solve(slice_index si)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else
   {
-    hashElement_union_t const * const hue = (hashElement_union_t const *)he;
+    dhtElement const * const hue = (dhtElement const *)he;
     stip_length_type const parity = (solve_nr_remaining-min_length_adjusted)%2;
 
     /* It is more likely that a position has no solution. */
@@ -2407,7 +2390,7 @@ static boolean inhash_help(slice_index si)
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
-  else if (get_value_help((hashElement_union_t const *)he,si)==1)
+  else if (get_value_help((dhtElement const *)he,si)==1)
   {
     ifHASHRATE(use_pos++);
     result = true;
@@ -2429,7 +2412,7 @@ static void addtohash_help(slice_index si)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
-  hashElement_union_t * hue;
+  dhtElement * hue;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2437,9 +2420,9 @@ static void addtohash_help(slice_index si)
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
-    hue = (hashElement_union_t *)allocDHTelement(hb);
+    hue = (dhtElement *)allocDHTelement(hb);
   else
-    hue = (hashElement_union_t *)he;
+    hue = (dhtElement *)he;
 
   set_value_help(hue,si,1);
 
