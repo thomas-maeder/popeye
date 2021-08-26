@@ -46,7 +46,7 @@ both sides need a king
 
    1.Be5-d6 !
 
-  add_to_move_generation_stack:         539
+  add_to_move_generation_stack:         548
                      play_move:          73
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

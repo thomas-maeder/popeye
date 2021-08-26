@@ -356,6 +356,8 @@ void TraceSquareImpl(char const *prefix, square s)
     if (entry_cursor[level-1] >= entry_length)
       entry_cursor[level-1] = entry_length-1;
   }
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 

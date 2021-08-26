@@ -1042,6 +1042,9 @@ void verify_position(slice_index si)
     return;
   }
 
+  if (CondFlag[snekchess])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[snekchess] && CondFlag[snekcirclechess])
   {
     output_plaintext_verifie_message(NonsenseCombination);
@@ -1435,7 +1438,8 @@ void verify_position(slice_index si)
       || CondFlag[heffalumps] || CondFlag[biheffalumps]
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
       || CondFlag[football]
-      || CondFlag[wormholes])
+      || CondFlag[wormholes]
+      || CondFlag[lesemajeste])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[superguards])

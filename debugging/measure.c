@@ -38,7 +38,13 @@ void move_counter_solve(slice_index si)
  */
 void solving_insert_move_counters(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   stip_instrument_moves(si,STMoveCounter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 #define MEASURE_C_CONCATENATE_IMPL(a, b) a##b

@@ -276,7 +276,7 @@ void increase_nr_found_solutions(slice_index si)
   TraceEOL();
 
   if (max_nr_solutions_found_in_phase())
-    phase_solving_remember_incompleteness(si,solving_interrupted);
+    phase_solving_remember_incompleteness(si,solving_partial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

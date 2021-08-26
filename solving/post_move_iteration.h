@@ -20,6 +20,11 @@ void post_move_iteration_end(void);
 void post_move_iteration_solve_delegate(slice_index si);
 void post_move_iteration_solve_fork(slice_index si);
 
+/* Recurse into the same pipe while post move iterating
+ * @param si identifies the iterating slice
+ */
+void post_move_iteration_solve_recurse(slice_index si);
+
 /* Cancel post move iteration while taking back a move.
  * Useful in rare situations where e.g. promotion to queen is enough.
  */

@@ -1,0 +1,80 @@
+anfang
+
+protokoll rollentausch.out
+
+autor Wolfang Erben
+steine weiss kb8 schwar kb6 tc5
+bedingung rollentausch
+forderung #2
+option vari
+
+weiter
+
+autor Wolfang Erben
+steine weiss kb8 df1 schwarz kb6 tc5
+forderung #3
+bedingung rollentausch
+option varianten
+
+weiter
+
+autor Wolfang Erben
+steine weiss kb8 dh4 schwarz ka6 tc5
+forderung #4
+bedingung rollentausch
+option varianten
+
+weiter
+
+autor Wolfgang Erben
+bemerkung keine loesung, weil nur 1 rollentausch erlaubt ist
+steine weiss kh1 bb5d6g6 schwarz kc8 bd7g7
+bedingung rollentausch 1
+forderung #8
+option varianten ohnekurzvarianten
+
+weiter
+
+autor Wolfgang Erben
+steine weiss kh1 bb5d6g6 schwarz kc8 bd7g7
+bedingung rollentausch 2
+forderung #8
+option varianten ohnekurzvarianten
+
+weiter
+
+autor Wolfgang Erben
+steine weiss kh1 bb4d6g6 schwarz kd8 bd7g7
+bedingung rollentausch
+forderung #9
+option varianten ohnekurzvarianten
+
+weiter
+
+autor Wolfgang Erben
+steine weiss kg1 ba6b6c6 schwar ka8 bf3g2g3h3
+bemerkung Rollentausch in Mattstellung
+bedingung rollentausch
+forderung #2
+option vari
+
+weiter 
+
+autor Wolfgang Erben
+steine weiss kh1 ba6b6c6 schwar ka8 bf3g2g3h3
+bemerkung Rollentausch mit Koenig im Schach
+bedingung rollentausch
+forderung #2
+option vari
+
+weiter 
+
+autor Wolfgang Erben
+steine weiss kg1 ba6b6c6 schwar ka8 bf3g2g3h3d6
+bemerkung Rollentausch in Mattstellung
+bedingung rollentausch
+forderung #2
+option vari
+
+end
+

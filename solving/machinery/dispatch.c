@@ -9,6 +9,7 @@
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
@@ -699,6 +700,10 @@ void dispatch(slice_index si)
       null_move_player_solve(si);
       break;
 
+    case STRoleExchangeMovePlayer:
+      role_exchange_player_solve(si);
+      break;
+
     case STPostMoveIterationInitialiser:
       move_execution_post_move_iterator_solve(si);
       break;
@@ -729,6 +734,10 @@ void dispatch(slice_index si)
 
     case STPawnPromoter:
       pawn_promoter_solve(si);
+      break;
+
+    case STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration:
+      make_and_take_reset_move_ids_castling_as_make_in_move_generation(si);
       break;
 
     case STMakeTakeGenerateCapturesWalkByWalk:
@@ -2270,6 +2279,10 @@ void dispatch(slice_index si)
 
     case STNullMoveGenerator:
       null_move_generator_solve(si);
+      break;
+
+    case STRoleExchangeMoveGenerator:
+      role_exchange_generator_solve(si);
       break;
 
     case STTrue:

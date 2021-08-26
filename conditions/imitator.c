@@ -1170,22 +1170,19 @@ void imitator_pawn_promoter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
+    move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
     square sq_arrival;
     Side as_side;
 
-    find_potential_promotion_square(promotion_horizon[nbply],&sq_arrival,&as_side);
+    find_potential_promotion_square(&sq_arrival,&as_side);
 
     assert(stack_pointer<stack_size);
 
     if (!post_move_am_i_iterating())
-      promotion_into_imitator_happening[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
+      promotion_into_imitator_happening[stack_pointer] = sq_arrival!=initsquare && is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 
     if (promotion_into_imitator_happening[stack_pointer])
     {
-      move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
-
-      promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
-
       move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
                                            sq_arrival);
       move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
@@ -1195,13 +1192,16 @@ void imitator_pawn_promoter_solve(slice_index si)
       post_move_iteration_solve_fork(si);
       --stack_pointer;
 
-      promotion_horizon[nbply] = save_horizon;
-
       if (!post_move_iteration_is_locked())
         promotion_into_imitator_happening[stack_pointer] = false;
+
+      promotion_horizon[nbply] = save_horizon;
     }
     else
     {
+      /* restore the horizon to allow the regular promoter to act on the same effects that have acted on */
+      promotion_horizon[nbply] = save_horizon;
+
       ++stack_pointer;
       post_move_iteration_solve_delegate(si);
       --stack_pointer;

@@ -250,6 +250,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = attack_target_is_in_check(si,side_in_check);
       break;
 
+    case STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest:
+      result = make_and_take_reset_move_ids_castling_as_make_in_check_test(si,side_in_check);
+      break;
+
     case STMakeTakeLimitMoveGenerationMakeWalk:
       result = make_and_take_limit_move_generation_make_walk_is_in_check(si,side_in_check);
       break;
@@ -293,6 +297,7 @@ static slice_index const slice_rank_order[] =
     STSATCheckTester,
     STSATxyCheckTester,
     STStrictSATCheckTester,
+    STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest,
     STKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
     STKingCapturedObservationGuard,

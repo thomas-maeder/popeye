@@ -9,6 +9,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/fork.h"
 #include "solving/temporary_hacks.h"
+#include "solving/check.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_generator.h"
@@ -86,6 +87,8 @@ void circe_solving_instrument_cage(slice_index si,
                                  alloc_fork_slice(STCirceCageNoCageFork,no_slice),
                                  STCirceRebirthAvoided,
                                  STCirceDoneWithRebirth);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -189,13 +192,24 @@ void circe_cage_cage_tester_solve(slice_index si)
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
+      /* no rebirth */
       pipe_dispatch_delegate(si);
-    else if (find_non_capturing_move(rebirth,advers(SLICE_STARTER(si))))
-      solve_result = this_move_is_illegal;
     else
     {
-      cage_search_status[nbply] = cage_found;
-      pipe_dispatch_delegate(si);
+      circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+      boolean non_capturing_move_found;
+
+      ++circe_rebirth_context_stack_pointer;
+      non_capturing_move_found = find_non_capturing_move(rebirth,context->rebirth_as);
+      --circe_rebirth_context_stack_pointer;
+
+      if (non_capturing_move_found)
+        solve_result = this_move_is_illegal;
+      else
+      {
+        cage_search_status[nbply] = cage_found;
+        pipe_dispatch_delegate(si);
+      }
     }
   }
 

@@ -261,6 +261,7 @@ Kommandos:
 	Bolero
 	BoleroInvers
 	Influencer
+	Rollentausch
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -371,6 +372,9 @@ Kommandos:
 	Kuerzestzueger-Schluesselwoertern kann mit dem Schluesselwort
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
+
+	Nach Rollentausch kann die maximale Anzahl Rollentausche angegeben werden.
+	Ohne diese Angabe ist die Anzahl unlimitiert.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben

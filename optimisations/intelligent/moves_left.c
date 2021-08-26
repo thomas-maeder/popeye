@@ -74,6 +74,7 @@ static void init_moves_left(slice_index si,
   st.context = stip_traversal_context_help;
   stip_moves_traversal_set_remaining(&st,n,full_length);
   stip_moves_traversal_override_single(&st,STForEachAttack,&moves_left_move);
+  stip_moves_traversal_override_single(&st,STAnd,&stip_traverse_moves_binary_operand1);
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -136,6 +137,9 @@ static Side goaled_side(slice_index si)
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STAnd,
+                                           &stip_traverse_structure_binary_operand1);
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTester,
                                            &remember_goaled_side);

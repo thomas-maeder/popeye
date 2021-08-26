@@ -38,6 +38,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "conditions/role_exchange.h"
 #include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
@@ -45,6 +46,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <limits.h>
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
@@ -421,7 +423,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
     rank = condition_subsequent;
   }
 
@@ -429,7 +431,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(file,CondLine,(rank?condition_first:condition_subsequent));
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
     rank = condition_subsequent;
   }
 
@@ -863,6 +865,15 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           if (bolero_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
+
+        case role_exchange:
+        {
+          unsigned int const limit = role_exchange_get_limit();
+
+          if (limit<UINT_MAX)
+            written += append_to_CondLine(&CondLine,written," %u",limit);
+          break;
+        }
 
         default:
           break;

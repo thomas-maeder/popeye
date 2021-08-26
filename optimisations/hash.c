@@ -669,7 +669,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -699,7 +699,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -728,7 +728,7 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("pre:0x%08x ",e->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
@@ -751,7 +751,7 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -771,7 +771,7 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -792,7 +792,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("0x%08x",e->data);
   TraceEOL();
 
@@ -1691,7 +1691,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
       fxfReset();
 #endif
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-      assert(pyhash!=0);
+      if (pyhash == dhtNilHashTable)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
       break;
     }
@@ -1821,6 +1825,14 @@ static void inithash(slice_index si)
   ifHASHRATE(use_pos = use_all = 0);
 
   /* check whether a piece can be coded in a single byte */
+  if (OptFlag[intelligent])
+  {
+    /* in intelligent mode, we have to calculate the pieces' identities
+     * into hash codes */
+    one_byte_hash = false;
+    bytes_per_spec = 4;
+  }
+  else
   {
     byte j = 0;
 
@@ -1835,15 +1847,15 @@ static void inithash(slice_index si)
       piece_nbr[Invalid]= j++;
 
     one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
+
+    bytes_per_spec= 1;
+    if ((some_pieces_flags >> CHAR_BIT) != 0)
+      bytes_per_spec++;
+    if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
+      bytes_per_spec++;
   }
 
-  bytes_per_spec= 1;
-  if ((some_pieces_flags >> CHAR_BIT) != 0)
-    bytes_per_spec++;
-  if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
-    bytes_per_spec++;
-
-  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
+  bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 
   if (is_proofgame(si))
   {
@@ -1898,7 +1910,11 @@ static void openhash(void)
 
   assert(pyhash==0);
   pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  assert(pyhash!=0);
+  if (pyhash == dhtNilHashTable)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2475,6 +2491,9 @@ void help_hashed_solve(slice_index si)
       else
         pipe_solve_delegate(si);
 
+      TraceValue("%u",solve_result);
+      TraceValue("%u",MOVE_HAS_NOT_SOLVED_LENGTH());
+      TraceEOL();
       if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
         addtohash_help(si);
     }

@@ -147,8 +147,26 @@ static void insert_find_shortest_help_adapter(slice_index si,
     {
       if (st->context==stip_traversal_context_intro)
       {
-        slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-        slice_insertion_insert(si,&prototype,1);
+        switch (st->activity)
+        {
+          case stip_traversal_activity_solving:
+          {
+            slice_index const prototype = alloc_find_by_increasing_length_slice(length,min_length);
+            slice_insertion_insert(si,&prototype,1);
+            break;
+          }
+
+          case stip_traversal_activity_testing:
+          {
+            slice_index const prototype = alloc_find_shortest_slice(length,min_length);
+            slice_insertion_insert(si,&prototype,1);
+            break;
+          }
+
+          default:
+            assert(0);
+            break;
+        }
       }
     }
     else /* root or set play */
