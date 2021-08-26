@@ -22,7 +22,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "pieces/walks/hunters.h"
 #endif
-static boolean do_trace = false;
+static boolean do_trace = true; /* We'll enable tracing by default to match previous behavior. */
 static trace_level level;
 static unsigned long move_counter;
 static trace_level max_level = ULONG_MAX;
