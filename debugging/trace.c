@@ -40,7 +40,7 @@ enum
 static char const *entryNames[max_nesting_level];
 
 #if defined(DOTRACECALLSTACK)
-static boolean do_trace_call_stack = false;
+static boolean do_trace_call_stack = true; /* We'll enable call stack tracing by default to match previous behavior. */
 static char entries[max_nesting_level][entry_length];
 static unsigned int entry_cursor[max_nesting_level];
 
