@@ -42,7 +42,7 @@ static boolean find_first_snekked(piece_walk_type walk_captured)
 
   current_snekked_pos[nbply] = boardnum;
   find_next_snekked(walk_captured);
-  result = *current_snekked_pos[nbply];
+  result = !!*current_snekked_pos[nbply];
 
   return result;
 }
@@ -158,7 +158,7 @@ static boolean find_first_snekked_circle(piece_walk_type walk_snekked)
 
   current_snekked_pos[nbply] = boardnum;
   find_next_snekked_circle(walk_snekked);
-  result = *current_snekked_pos[nbply];
+  result = !!*current_snekked_pos[nbply];
 
   return result;
 }
