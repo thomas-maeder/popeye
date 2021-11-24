@@ -1,0 +1,32 @@
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -S   .   .   .   .   .   8
+|                                   |
+7  -P   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5  -P   .   .   .   .  -P   .   .   5
+|                                   |
+4   P   .   .   .  -K   P  -P   .   4
+|                                   |
+3   P  -P  -P   .   .   .   .   .   3
+|                                   |
+2   P  -P   .   .   .   .   P   .   2
+|                                   |
+1  -B   K   .   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                        6 + 13
+
+  1.g4*f3 ep. g2-g4   2.Ke4-d5 g4*f5   3.Kd5-c6 f5*e6   4.Kc6-b7 e6*d7   5.Kb7-a8 d7*c8=Q #
+  add_to_move_generation_stack:      109397
+                     play_move:      106317
+ is_white_king_square_attacked:        3864
+ is_black_king_square_attacked:       20686
+
+solution finished.
+
+
