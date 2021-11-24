@@ -1,0 +1,12 @@
+begin
+
+protocol 4_87_to_4_89.reg
+
+Stipulation h#5
+Option EnPassant f2f3f4 intelligent
+Pieces
+black Pa5b3g4b2c3f5d7a7 Se1c8 Ba1e6 Ke4
+white Pf4g2a2a3a4 Kb1
+
+end
+

@@ -31,7 +31,9 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/orthodox_square_observation.h debugging/assert.h
+ optimisations/orthodox_square_observation.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h debugging/assert.h
 
 optimisations/intelligent/mate/finish.h:
 
@@ -146,6 +148,14 @@ optimisations/intelligent/place_black_piece.h:
 optimisations/intelligent/place_white_king.h:
 
 optimisations/orthodox_square_observation.h:
+
+pieces/walks/pawns/en_passant.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
