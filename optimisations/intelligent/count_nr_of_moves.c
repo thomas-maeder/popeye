@@ -125,15 +125,21 @@ static unsigned int black_pawn_no_promotion(square from_square, square to_square
   int const diffrow = from_square/onerow - to_square/onerow;
 
   if (diffrow<diffcol)
-    /* if diffrow<=0 then this test is true, since diffcol is always
+    /* if diffrow<0 then this test is true, since diffcol is always
      * non-negative
      */
     result = maxply+1;
 
   else if (TSTFLAG(sq_spec(from_square),BlPawnDoublestepSq) && diffrow-2 >= diffcol)
+  {
+    assert(diffrow>=1);
     result = diffrow-1;
+  }
   else
+  {
+    assert(diffrow>=0);
     result = diffrow;
+  }
 
   return result;
 }
@@ -643,8 +649,8 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
         else if (get_walk_of_piece_on_square(from_square+2*dir_up)==Pawn && TSTFLAG(being_solved.spec[from_square+2*dir_up],Black)
                  && (get_walk_of_piece_on_square(from_square+dir_up+dir_left)==King || !TSTFLAG(being_solved.spec[from_square+dir_up+dir_left],White))
                  && (get_walk_of_piece_on_square(from_square+dir_up+dir_right)==King || !TSTFLAG(being_solved.spec[from_square+dir_up+dir_right],White))
-                 && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
-                 && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right))
+                 && !en_passant_is_capture_possible_to(Black,from_square+dir_up+dir_left)
+                 && !en_passant_is_capture_possible_to(Black,from_square+dir_up+dir_right))
           /* Black can't immediately get rid of block on 4th row
            * -> no immediate double step possible */
           ++result;
