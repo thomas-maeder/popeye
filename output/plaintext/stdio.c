@@ -123,7 +123,7 @@ void fputs_c_multi(FILE *file, int width, char const *lines)
     {
       char const * const next_start_of_line = end_of_line+1;
       fprintf_c(file,width,"%.*s",
-                next_start_of_line-start_of_line,start_of_line);
+                (int)(next_start_of_line-start_of_line),start_of_line);
       start_of_line = next_start_of_line;
     }
   }
