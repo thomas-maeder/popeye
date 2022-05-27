@@ -16,6 +16,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/blackchecks.h"
 #include "conditions/circe/circe.h"
+#include "conditions/dister.h"
 #include "conditions/duellists.h"
 #include "conditions/exclusive.h"
 #include "conditions/follow_my_leader.h"
@@ -1037,6 +1038,31 @@ void verify_position(slice_index si)
 
   if (CondFlag[schwarzschacher]
       && !mummer_set_length_measurer(Black,&blackchecks_measure_length))
+  {
+    output_plaintext_verifie_message(TwoMummerCond);
+    return;
+  }
+
+  if (CondFlag[blmaxdister]
+      && !mummer_set_length_measurer(Black,&maxdister_measure_length))
+  {
+    output_plaintext_verifie_message(TwoMummerCond);
+    return;
+  }
+  if (CondFlag[blmindister]
+      && !mummer_set_length_measurer(Black,&mindister_measure_length))
+  {
+    output_plaintext_verifie_message(TwoMummerCond);
+    return;
+  }
+  if (CondFlag[whmaxdister]
+      && !mummer_set_length_measurer(White,&maxdister_measure_length))
+  {
+    output_plaintext_verifie_message(TwoMummerCond);
+    return;
+  }
+  if (CondFlag[whmindister]
+      && !mummer_set_length_measurer(White,&mindister_measure_length))
   {
     output_plaintext_verifie_message(TwoMummerCond);
     return;

@@ -16,6 +16,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/dister.h"
 #include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
@@ -638,6 +639,9 @@ void build_solvers1(slice_index si)
   solving_spin_off_testers(si);
 
   mummer_initialise_solving(si);
+
+  if (CondFlag[blmaxdister] || CondFlag[blmindister] || CondFlag[whmaxdister] || CondFlag[whmindister])
+    dister_initialise_solving(si);
 
   if (CondFlag[ohneschach])
   {

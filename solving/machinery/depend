@@ -30,11 +30,11 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h conditions/annan.h \
  conditions/bgl.h conditions/bolero.h conditions/breton.h \
- conditions/role_exchange.h conditions/facetoface.h \
- conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
- conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
- utilities/table.h conditions/republican.h conditions/blackchecks.h \
- conditions/mummer.h conditions/influencer.h conditions/extinction.h \
+ conditions/dister.h conditions/mummer.h conditions/role_exchange.h \
+ conditions/facetoface.h conditions/koeko/contact_grid.h \
+ conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
+ conditions/exclusive.h utilities/table.h conditions/republican.h \
+ conditions/blackchecks.h conditions/influencer.h conditions/extinction.h \
  conditions/madrasi.h conditions/partial_paralysis.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/pointreflection.h \
@@ -255,6 +255,10 @@ conditions/bolero.h:
 
 conditions/breton.h:
 
+conditions/dister.h:
+
+conditions/mummer.h:
+
 conditions/role_exchange.h:
 
 conditions/facetoface.h:
@@ -274,8 +278,6 @@ utilities/table.h:
 conditions/republican.h:
 
 conditions/blackchecks.h:
-
-conditions/mummer.h:
 
 conditions/influencer.h:
 
@@ -717,8 +719,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/blackchecks.h \
- conditions/duellists.h conditions/exclusive.h utilities/table.h \
- conditions/follow_my_leader.h conditions/football.h \
+ conditions/dister.h conditions/duellists.h conditions/exclusive.h \
+ utilities/table.h conditions/follow_my_leader.h conditions/football.h \
  conditions/forced_squares.h conditions/geneva.h conditions/imitator.h \
  conditions/immune.h conditions/isardam.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
@@ -876,6 +878,8 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/blackchecks.h:
+
+conditions/dister.h:
 
 conditions/duellists.h:
 

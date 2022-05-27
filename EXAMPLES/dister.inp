@@ -1,0 +1,45 @@
+begin
+
+protocol dister.ref
+
+title AT1
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition blackmindister e5b8
+option vari nothreat
+
+next
+
+title AT2
+pieces white kd4 pa7 black ke7 pb4
+stipulation s#6
+condition blackmindister d4e7
+option vari nothreat
+
+next
+
+title AT3 - not supported
+pieces white ke5 qe4 pe6 black ke8 ra8h8
+stipulation r=3
+condition blackmaxdister e5e8
+option vari nothreat
+
+next
+
+title AT4
+pieces white ka1 qb2 pe7 black ke6
+stipulation #3
+option postkeyplay nothreat
+condition blackmaxdister a1e6
+twin condition blackmindister a1e6
+
+next 
+
+title AT5 - not supported
+pieces white kh1 qe2 pa7 black kg3 rd7 sc7 pg4
+stipulation s#3
+condition circe blackmindister a7g3
+option vari nothreat
+
+end
+
