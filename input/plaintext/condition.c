@@ -23,6 +23,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/parrain.h"
+#include "conditions/dister.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
@@ -559,6 +560,16 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
 static void HandleHole(square sq, void *dummy)
 {
   block_square(sq);
+}
+
+static void HandleDisterReferenceSquare(square sq, void *v)
+{
+  unsigned int *nr_reference_squares_read = (unsigned int *)v;
+
+  if (*nr_reference_squares_read<2)
+    dister_reference_square[*nr_reference_squares_read] = sq;
+
+  ++*nr_reference_squares_read;
 }
 
 static char *ParseRoyalSquare(char *tok, Side side)
@@ -1248,6 +1259,31 @@ char *ParseCond(char *tok)
             output_plaintext_input_error_message(MissngSquareList);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
+
+          tok = ReadNextTokStr();
+          break;
+        }
+        case blmaxdister:
+        case blmindister:
+        case whmaxdister:
+        case whmindister:
+        {
+          char * const squares_tok = tok;
+
+          unsigned int nr_reference_squares_read = 0;
+          tok = ParseSquareList(squares_tok,&HandleDisterReferenceSquare,&nr_reference_squares_read);
+          if (tok==squares_tok || nr_reference_squares_read<2)
+          {
+            output_plaintext_input_error_message(MissngSquareList);
+            CondFlag[cond] = false;
+          }
+          else if (*tok!=0 || nr_reference_squares_read>2 || dister_reference_square[0]==dister_reference_square[1])
+          {
+            output_plaintext_error_message(WrongSquareList);
+            CondFlag[cond] = false;
+          }
+          else
+            mummer_strictness[cond==whmaxdister || cond==whmindister ? White : Black] = mummer_strictness_regular;
 
           tok = ReadNextTokStr();
           break;

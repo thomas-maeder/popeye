@@ -233,8 +233,12 @@ typedef enum
   bolero_inverse,         /* 212 */
   influencer,             /* 213 */
   role_exchange,          /* 214 */
+  blmaxdister,            /* 215 */
+  blmindister,            /* 216 */
+  whmaxdister,            /* 217 */
+  whmindister,            /* 218 */
 
-  CondCount               /* 215 */
+  CondCount               /* 219 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

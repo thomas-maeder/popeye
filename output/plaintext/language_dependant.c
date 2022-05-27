@@ -949,7 +949,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*211*/ "Bolero",
     /*212*/ "BoleroInverse",
     /*213*/ "Influenceur",
-    /*214*/ "EchangeRole"
+    /*214*/ "EchangeRole",
+    /*215*/ "NoirMaxDister",
+    /*216*/ "NoirMinDister",
+    /*217*/ "BlancMaxDister",
+    /*218*/ "BlancMinDister"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1166,7 +1170,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*211*/ "Bolero",
     /*212*/ "BoleroInvers",
     /*213*/ "Influencer",
-    /*214*/ "Rollentausch"
+    /*214*/ "Rollentausch",
+    /*215*/ "SchwarzerMaxDister",
+    /*216*/ "SchwarzerMinDister",
+    /*217*/ "WeisserMaxDister",
+    /*218*/ "WeisserMinDister"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1383,7 +1391,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*211*/ "Bolero",
     /*212*/ "BoleroInverse",
     /*213*/ "Influencer",
-    /*214*/ "RoleExchange"
+    /*214*/ "RoleExchange",
+    /*215*/ "BlackMaxDister",
+    /*216*/ "BlackMinDister",
+    /*217*/ "WhiteMaxDister",
+    /*218*/ "WhiteMinDister"
   }
 };
 

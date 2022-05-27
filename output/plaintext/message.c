@@ -207,7 +207,7 @@ void output_plaintext_print_version_info(FILE *file)
 {
   if (!is_variable_output_suppressed)
   {
-    fprintf(file,"Popeye %s-%uBit v%.2f",
+    fprintf(file,"Popeye %s-%uBit vAndernach-2022-%.2f",
             OSTYPE,platform_guess_bitness(),VERSION);
     format_allocated_memory(file,platform_get_allocated_memory());
     fputc('\n',file);
