@@ -259,6 +259,10 @@ simples:
 	BoleroInverse
 	Influenceur
 	EchangeRole
+	NoirMaxDister
+	NoirMinDister
+	BlancMaxDister
+	BlancMinDister
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

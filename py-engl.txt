@@ -257,6 +257,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	BoleroInverse
 	Influencer
 	RoleExchange
+	BlackMaxDister
+	BlackMinDister
+	WhiteMaxDister
+	WhiteMinDister
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
