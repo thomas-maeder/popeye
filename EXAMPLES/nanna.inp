@@ -1,0 +1,15 @@
+begin
+
+protocol nanna.ref
+
+author Nicolas Dupont
+origin Julia's Fairies 2020
+remark last 11 half moves of a proof game
+forsyth rsbqkbsr/ppppp1pp/8/4S3/4P1P1/5p2/PPPPP2P/RSBQKB1R
+stipulation a=>b5.5
+option white
+forsyth rsbq1bsr/pppp3p/3p4/6pk/8/5p2/PPPPPP1P/RSBQKBSR
+condition nanna
+
+end
+

@@ -89,10 +89,10 @@ static slice_index make_goal_is_end_tester(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const not = alloc_not_slice();
+    slice_index const not_index = alloc_not_slice();
     result = alloc_proxy_slice();
-    pipe_link(result,not);
-    pipe_link(not,stip_deep_copy(si));
+    pipe_link(result,not_index);
+    pipe_link(not_index,stip_deep_copy(si));
   }
 
   TraceFunctionExit(__func__);
@@ -227,6 +227,7 @@ static boolean insert_testers(slice_index root_slice)
   solving_impose_starter(root_slice,SLICE_STARTER(root_slice));
 
   find_ending_goal(root_slice,&state);
+  assert(state.tester!=no_slice);
 
   if (state.nr_unique_goals_found>1
       || SLICE_U(state.tester).goal_handler.goal.type==no_goal)

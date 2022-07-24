@@ -40,9 +40,9 @@ position proofgames_target_position;
 /* an array to store the position */
 static struct
 {
-    piece_walk_type type;
     Flags spec;
     square pos;
+    piece_walk_type type;
 } target_pieces[nr_squares_on_board];
 
 static unsigned int ProofNbrAllPieces;
@@ -73,17 +73,6 @@ void ProofRestoreStartPosition(void)
   TraceFunctionParamListEnd();
 
   being_solved = proofgames_start_position;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void ProofRestoreTargetPosition(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  being_solved = proofgames_target_position;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -222,7 +211,7 @@ static void move_effect_journal_do_snapshot_proofgame_target_position(move_effec
  * @param entry address of move effect journal entry that represents taking the
  *              restored snapshot
  */
-void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -338,6 +327,10 @@ void proof_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* we don't redo saving the target position */
+  move_effect_journal_set_effect_doers(move_effect_snapshot_proofgame_target_position,
+                                       &move_effect_journal_undo_snapshot_proofgame_target_position,
+                                       0);
   move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
 
   being_solved = proofgames_start_position;
@@ -381,7 +374,7 @@ void input_instrument_proof(slice_index start)
   TraceFunctionParamListEnd();
 
   if (input_is_instrumented_with_proof(start))
-    output_plaintext_input_error_message(InconsistentProofTarget,0);
+    output_plaintext_input_error_message(InconsistentProofTarget);
   else
   {
     slice_index const prototypes[] = {

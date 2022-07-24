@@ -3,7 +3,7 @@
 #include "input/plaintext/language.h"
 #include "debugging/assert.h"
 
-char const *MessageTabs[LanguageCount][MsgCount] =
+static char const *MessageTabs[LanguageCount][MsgCount] =
 {
   /*0*/ {
     /* 0*/  "erreur fatale:\n",
@@ -91,7 +91,7 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*82*/  "Isardam et Madrasi/Eiffel interdit",
     /*83*/  " on ne peut pas determiner si ce coup est legal.\n",
     /*84*/  " deja occupee - piece ancienne va dans l'au-dela.\n",
-    /*85*/  "MarsCirce, EchecsPlus ou EchecsPhantom incompatible avec certains genres feeriques et avec des pieces feeriques.\n",
+    /*85*/  "MarsCirce, EchecsPlus, EchecsPhantom ou Make&Take incompatibles avec certains genres feeriques et avec des pieces feeriques.\n",
     /*86*/  "%lu positions possibles dans %u+%u",
     /*87*/  "Melange interdit",
     /*88*/  "On ne peut pas melanger EchecsVogtlander avec Isardam ou EchecsBrunner\n",
@@ -127,7 +127,9 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*118*/ "Capture de roi detectee - elements feeriques probablement incompatibles\n",
     /*119*/ "Information retro inconsistent\n",
     /*120*/ "Options duplex inconsistentes\n",
-    /*121*/ "Inconsistent buts pcpj\n"
+    /*121*/ "Inconsistent buts pcpj\n",
+    /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
+    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -215,7 +217,7 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*82*/  "Isardam und Madrasi/Eiffelschach nicht erlaubt",
     /*83*/  " kann nicht entscheiden, ob dieser Zug legal ist.\n",
     /*84*/  " ist bereits besetzt - alter Stein geht in die Unterwelt.\n",
-    /*85*/  "MarsCirce, PlusSchach oder PhantomSchach unvereinbar mit verschiedenen Maerchenbedingungen und -steinen.\n",
+    /*85*/  "MarsCirce, PlusSchach, PhantomSchach oder Make&Take unvereinbar mit verschiedenen Maerchenbedingungen und -steinen.\n",
     /*86*/  "%lu moegliche Stellungen in %u+%u",
     /*87*/  "Unsinnige Kombination",
     /*88*/  "VogtlanderSchach nicht erlaubt in Verbindung mit Isardam oder BrunnerSchach\n",
@@ -251,7 +253,9 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*118*/ "Schlag eines Koenigs detektiert - Maerchenelemente scheinen unvereinbar\n",
     /*119*/ "Inkonsistente Retro-Information\n",
     /*120*/ "Inkonsistente Duplex-Optionen\n",
-    /*121*/ "Inkonsistente Beweispartie-Ziele\n"
+    /*121*/ "Inkonsistente Beweispartie-Ziele\n",
+    /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
+    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -339,7 +343,7 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*82*/  "Isardam and Madrasi/Eiffel not allowed",
     /*83*/  " cannot decide if this move is legal or not.\n",
     /*84*/  " already occupied - old piece goes to the underworld.\n",
-    /*85*/  "MarsCirce, PlusChess or PhantomChess is incompatible with several fairy conditions and fairy pieces.\n",
+    /*85*/  "MarsCirce, PlusChess, PhantomChess or Make&Take are incompatible with several fairy conditions and fairy pieces.\n",
     /*86*/  "%lu potential positions in %u+%u",
     /*87*/  "nonsense combination",
     /*88*/  "VogtlanderChess not allowed in combination with Isardam or BrunnerChess\n",
@@ -375,7 +379,9 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*118*/ "King capture detected - fairy elements seem incompatible",
     /*119*/ "Inconsistent retro information\n",
     /*120*/ "Inconsistent duplex options\n",
-    /*121*/ "Inconsistent proof game targets\n"
+    /*121*/ "Inconsistent proof game targets\n",
+    /*122*/ "Inconsistent rules regarding NullMoves\n",
+    /*123*/ "Incompatible fairy elements changing piece types\n"
   }
 };
 

@@ -44,7 +44,7 @@ static unsigned int depth(ply p)
 static void write_refuting_varation(FILE *file, unsigned move_depth)
 {
   output_latex_message(file,NewLine);
-  fprintf(file,"%*c",4*move_depth,' ');
+  fprintf(file,"%*c",(int)(4*move_depth),' ');
   output_latex_message(file,Refutation);
 }
 

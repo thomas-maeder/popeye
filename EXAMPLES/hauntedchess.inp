@@ -58,5 +58,14 @@ stip ~1
 option nowk nobk
 cond hauntedchess
 
+nextproblem
+
+author Zbigniew Szcep
+origin Sake, Portoroz 2002, 2eme Mention d'Honneur
+pieces white Kf1 Be4 Pb3
+       black Kc1 Bb1 Sa2 Pb4b2h2
+stipulation h#5
+condition hauntedchess
+
 endproblem
 

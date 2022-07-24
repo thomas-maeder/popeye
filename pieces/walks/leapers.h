@@ -34,7 +34,6 @@ boolean leap24_check(validator_id evaluate);
 boolean leap25_check(validator_id evaluate);
 boolean leap35_check(validator_id evaluate);
 boolean leap36_check(validator_id evaluate);
-boolean leap36_check(validator_id evaluate);
 boolean leap37_check(validator_id evaluate);
 boolean rccinq_check(validator_id evaluate);
 boolean squirrel_check(validator_id evaluate);

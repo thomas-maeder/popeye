@@ -19,12 +19,42 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/piece_removal.h"
 #include "conditions/conditions.h"
 
 #include "debugging/assert.h"
 
 castling_rights_type castling_mutual_exclusive[nr_sides][2];
 castling_rights_type castling_flags_no_castling;
+
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean suspend_castling_is_in_check(slice_index si, Side side_observed)
+{
+  boolean result;
+  Side const side_observing = advers(side_observed);
+  castling_rights_type const save_castling_rights = being_solved.castling_rights;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  CLRCASTLINGFLAGMASK(side_observing,k_cancastle);
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
+  being_solved.castling_rights = save_castling_rights;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static void castle(square sq_departure, square sq_arrival,
                    square sq_partner_departure, square sq_partner_arrival)
@@ -41,7 +71,7 @@ static void castle(square sq_departure, square sq_arrival,
   move_effect_journal_do_no_piece_removal();
   move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                         sq_departure,sq_arrival);
-  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                         sq_partner_departure,sq_partner_arrival);
 
   TraceFunctionExit(__func__);
@@ -192,7 +222,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -209,7 +239,7 @@ void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
   castling_rights_type const right = entry->u.castling_rights_adjustment.right;
@@ -273,9 +303,9 @@ void enable_castling_rights(move_effect_reason_type reason,
   }
   else if (p==standard_walks[King])
   {
-    if (TSTFLAG(specs,White) && sq_arrival==square_e1)
+    if (TSTFLAG(specs,White) && sq_arrival==square_e1 && being_solved.king_square[White]==square_e1)
       enable_castling_right(reason,White,k_cancastle);
-    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8)
+    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8 && being_solved.king_square[Black]==square_e8)
       enable_castling_right(reason,Black,k_cancastle);
   }
 
@@ -367,11 +397,11 @@ static void adjust_castling_rights(Side trait_ply)
                                move_effect_journal[curr].u.side_change.on);
         break;
 
-      case move_effect_piece_change:
+      case move_effect_walk_change:
         disable_castling_rights(move_effect_journal[curr].reason,
-                                move_effect_journal[curr].u.piece_change.on);
+                                move_effect_journal[curr].u.piece_walk_change.on);
         enable_castling_rights(move_effect_journal[curr].reason,
-                               move_effect_journal[curr].u.piece_change.on);
+                               move_effect_journal[curr].u.piece_walk_change.on);
         break;
 
       default:
@@ -521,6 +551,12 @@ void solving_initialise_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_set_effect_doers(move_effect_disable_castling_right,
+                                       &move_effect_journal_undo_disabling_castling_right,
+                                       &move_effect_journal_redo_disabling_castling_right);
+  move_effect_journal_set_effect_doers(move_effect_enable_castling_right,
+                                       &move_effect_journal_undo_enabling_castling_right,
+                                       &move_effect_journal_redo_enabling_castling_right);
   solving_instrument_move_generation(si,nr_sides,STCastlingGenerator);
 
   /* TODO both not necessary behind STCastlingIntermediateMoveLegalityTester */
@@ -649,7 +685,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][kingside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
@@ -660,7 +696,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
     {
       castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
                                                                           castling_mutual_exclusive[SLICE_STARTER(si)][queenside_castling-min_castling]);
-      if (effectively_disabled)
+      if (effectively_disabled != no_cancastle)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
                                   advers(SLICE_STARTER(si)),
                                   effectively_disabled);
@@ -717,12 +753,14 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[imitators])
+  // TODO there should be a more explicit mechanism that determines whether we have to execute
+  // the full move to the intermediate square
+  if (CondFlag[imitators] || CondFlag[influencer])
   {
     siblingply(trait[nbply]);
 
     curr_generation->arrival = to;
-    push_move();
+    push_move_no_capture();
 
     result = (conditional_pipe_solve_delegate(temporary_hack_castling_intermediate_move_legality_tester[side])
               ==previous_move_has_solved);
@@ -749,6 +787,8 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
 
     occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
     empty_square(to);
+
+    curr_generation->departure = from;
   }
 
   TraceFunctionExit(__func__);
@@ -764,9 +804,16 @@ void generate_castling(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(Side,side);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_castling)==k_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,q_castling)==q_castling);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,k_cancastle)==k_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,rh_cancastle)==rh_cancastle);
+  TraceValue("%u",TSTCASTLINGFLAGMASK(side,ra_cancastle)==ra_cancastle);
+  TraceEOL();
+
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
-    square const save_departure = curr_generation->departure;
     castling_rights_type allowed_castlings = 0;
 
     square const square_a = side==White ? square_a1 : square_a8;
@@ -777,32 +824,34 @@ void generate_castling(void)
     square const square_g = square_a+file_g;
     square const square_h = square_a+file_h;
 
-    /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
-        && are_squares_empty(square_e,square_h,dir_right))
-       allowed_castlings |= rh_cancastle;
-
-    /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
-        && are_squares_empty(square_e,square_a,dir_left))
-      allowed_castlings |= ra_cancastle;
-
-    if (allowed_castlings!=0 && !is_in_check(side))
+    /* avoid castling with the wrong king in conditions like Royal dynasty */
+    if (curr_generation->departure==square_e)
     {
-      if ((allowed_castlings&rh_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_f))
-      {
-        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
-        curr_generation->arrival = square_g;
-        push_special_move(kingside_castling);
-      }
+      /* 0-0 */
+      if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
+          && are_squares_empty(square_e,square_h,dir_right))
+         allowed_castlings |= rh_cancastle;
 
-      if ((allowed_castlings&ra_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_d))
+      /* 0-0-0 */
+      if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
+          && are_squares_empty(square_e,square_a,dir_left))
+        allowed_castlings |= ra_cancastle;
+
+      if (allowed_castlings!=0 && !is_in_check(side))
       {
-        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
-        curr_generation->arrival = square_c;
-        push_special_move(queenside_castling);
+        if ((allowed_castlings&rh_cancastle)
+            && castling_is_intermediate_king_move_legal(side,square_f))
+        {
+          curr_generation->arrival = square_g;
+          push_special_move(kingside_castling);
+        }
+
+        if ((allowed_castlings&ra_cancastle)
+            && castling_is_intermediate_king_move_legal(side,square_d))
+        {
+          curr_generation->arrival = square_c;
+          push_special_move(queenside_castling);
+        }
       }
     }
   }

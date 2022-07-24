@@ -23,6 +23,7 @@ extern hoppper_moves_auxiliary_type hoppper_moves_auxiliary[toppile+1];
  * @param sq_hurdle hurdle for the move being pushed
  */
 void hoppers_push_move(vec_index_type idx_dir, square sq_hurdle);
+void hoppers_push_capture(vec_index_type idx_dir, square sq_hurdle);
 
 /* Clear hurdle information in the moves from the current move of ply nbply
  * down to (but not including) some base move.

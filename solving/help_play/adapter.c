@@ -135,7 +135,7 @@ void help_adapter_solve(slice_index si)
   pipe_solve_delegate(si);
   solve_nr_remaining = length_unspecified;
 
-  if (solve_result==immobility_on_next_move)
+  if (solve_result<=immobility_on_next_move)
     /* oops - unwanted stalemate or illegal move */;
   else
     pipe_this_move_solves_exactly_if(solve_result<=full_length);

@@ -94,7 +94,7 @@ static void is_square_observed_from_rebirth_square(slice_index si,
   observation_result = false;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
-      || CheckDir[observing_walk[nbply]][sq_target-sq_rebirth]!=0)
+      || CheckDir(observing_walk[nbply])[sq_target-sq_rebirth]!=0)
   {
     empty_square(observer_origin);
 

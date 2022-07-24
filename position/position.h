@@ -16,7 +16,7 @@
 /* Array containing an element for each square plus many slack square
  * for making move generation easier
  */
-typedef piece_walk_type echiquier[maxsquare+5];
+typedef piece_walk_type echiquier[1 + (int) no_capture];
 
 /* Some useful symbols for dealing with these flags
  */
@@ -43,7 +43,7 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 typedef struct position
 {
     echiquier board;                     /* placement of the pieces */
-    Flags spec[maxsquare+5];      /* spec[s] contains flags for piece board[i]*/
+    Flags spec[1 + (int) no_capture];    /* spec[s] contains flags for piece board[i]*/
     square king_square[nr_sides];        /* placement of the kings */
     unsigned int number_of_imitators;    /* number of iterators */
     imarr isquare;                       /* placement of iterators */
@@ -83,6 +83,7 @@ void replace_walk(square s, piece_walk_type walk);
 #define is_square_empty(s) (being_solved.board[(s)]==Empty)
 #define is_square_blocked(s) (being_solved.board[(s)]==Invalid)
 #define get_walk_of_piece_on_square(s) (being_solved.board[(s)])
+#define set_walk_of_piece_on_square(s, w) (being_solved.board[(s)]=(w))
 square find_end_of_line(square from, numvec dir);
 #define piece_belongs_to_opponent(sq)    TSTFLAG(being_solved.spec[(sq)],advers(trait[nbply]))
 

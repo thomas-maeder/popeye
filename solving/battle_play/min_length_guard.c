@@ -10,8 +10,9 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
+#include <stdlib.h>
 
 /* Allocate a STMinLengthGuard slice
  * @param length maximum number of half-moves of slice (+ slack)
@@ -84,10 +85,20 @@ static void remember_defense_length(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  state->defense_length = SLICE_U(si).branch.length+delta;
-  state->defense_min_length = SLICE_U(si).branch.min_length+delta;
+  TraceValue("%u",SLICE_U(si).branch.length);
+  TraceValue("%u",SLICE_U(si).branch.min_length);
+  TraceEOL();
+
+  assert(abs(delta)<=1);
+
+  assert(SLICE_U(si).branch.length>0 || delta>=0);
+  state->defense_length = SLICE_U(si).branch.length+(unsigned int)delta;
+
+  assert(SLICE_U(si).branch.min_length>0 || delta>=0);
+  state->defense_min_length = SLICE_U(si).branch.min_length+(unsigned int)delta;
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -120,14 +131,16 @@ static void insert_intro_min_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  remember_defense_length(si,st,-1);
-
   if (min_length>slack_length+1)
   {
+    remember_defense_length(si,st,-1);
+
     slice_index const prototype = alloc_min_length_optimiser_slice(length,
                                                                    min_length);
     slice_insertion_insert(si,&prototype,1);
   }
+  else
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -185,6 +198,18 @@ void solving_insert_min_length(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMove,
                                            &insert_nested_min_length);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchForced,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchTester,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STConstraintTester,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STConstraintSolver,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

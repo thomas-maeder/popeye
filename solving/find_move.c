@@ -52,7 +52,7 @@ void find_attack_solve(slice_index si)
   while (encore() && result_intermediate>MOVE_HAS_SOLVED_LENGTH())
   {
     pipe_solve_delegate(si);
-    assert(slack_length<=solve_result || solve_result==this_move_is_illegal);
+    assert(slack_length<=solve_result || solve_result<=immobility_on_next_move);
     if (slack_length<solve_result && solve_result<result_intermediate)
       result_intermediate = solve_result;
   }
@@ -64,6 +64,35 @@ void find_attack_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean find_attack_is_in_check(slice_index si, Side side_observed)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  while (encore())
+    if (pipe_is_in_check_recursive_delegate(si,side_observed))
+    {
+      result = true;
+      break;
+    }
+    else
+      --CURRMOVE_OF_PLY(nbply);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate a STFindDefense slice.

@@ -45,7 +45,7 @@ static void marine_leaper_generate_moves(vec_index_type kanf, vec_index_type ken
     numvec const dir = vec[k];
     curr_generation->arrival = curr_generation->departure+dir;
     if (is_square_empty(curr_generation->arrival))
-      push_move();
+      push_move_no_capture();
     else
       generate_locust_capture(curr_generation->arrival,dir);
   }

@@ -33,6 +33,7 @@ typedef enum
   goal_mate_or_stale,
   goal_chess81,
   goal_kiss,
+  goal_automate,
 
   goal_negated,
 

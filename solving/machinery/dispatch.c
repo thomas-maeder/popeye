@@ -7,6 +7,9 @@
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/bolero.h"
+#include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
@@ -40,6 +43,7 @@
 #include "conditions/circe/relevant_piece.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/influencer.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
@@ -110,11 +114,13 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
 #include "conditions/annan.h"
+#include "conditions/pointreflection.h"
 #include "conditions/beamten.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -186,6 +192,7 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "options/quodlibet.h"
 #include "options/goal_is_end.h"
+#include "options/nullmoves.h"
 #include "input/commandline.h"
 #include "input/plaintext/plaintext.h"
 #include "input/plaintext/problem.h"
@@ -240,11 +247,19 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
+#include "pieces/attributes/total_invisible.h"
+#include "pieces/attributes/total_invisible/move_generation.h"
+#include "pieces/attributes/total_invisible/revelations.h"
+#include "pieces/attributes/total_invisible/goal_validation.h"
+#include "pieces/attributes/total_invisible/move_player.h"
+#include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "pieces/attributes/total_invisible/replay_fleshed_out.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "position/effects/king_square.h"
 #include "retro/retro.h"
 #include "stipulation/proxy.h"
 #include "stipulation/whitetoplay.h"
@@ -341,10 +356,26 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+#include "pieces/attributes/total_invisible/consumption.h"
 void dispatch(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   TraceEnumerator(slice_type,SLICE_TYPE(si));
   TraceEOL();
+
+  if (total_invisible_number>0)
+  {
+    TraceConsumption();
+
+    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+
+    assert(nbply<=ply_retro_move
+           || nr_total_invisbles_consumed()<=total_invisible_number);
+  }
 
   switch (SLICE_TYPE(si))
   {
@@ -510,25 +541,16 @@ void dispatch(slice_index si)
       break;
 
     case STPiecesCounter:
-    {
-      void pieces_counter_solve(slice_index si);
       pieces_counter_solve(si);
       break;
-    }
 
     case STPiecesFlagsInitialiser:
-    {
-      void initialise_piece_flags_solve(slice_index si);
       initialise_piece_flags_solve(si);
       break;
-    }
 
     case STRoyalsLocator:
-    {
-      void royals_locator_solve(slice_index si);
       royals_locator_solve(si);
       break;
-    }
 
     case STProofgameVerifyUniqueGoal:
       proof_verify_unique_goal_solve(si);
@@ -543,11 +565,8 @@ void dispatch(slice_index si)
       break;
 
     case STInputVerification:
-    {
-      void verify_position(slice_index si);
       verify_position(si);
       break;
-    }
 
     case STMoveEffectsJournalReset:
       move_effect_journal_reset(si);
@@ -681,6 +700,10 @@ void dispatch(slice_index si)
       null_move_player_solve(si);
       break;
 
+    case STRoleExchangeMovePlayer:
+      role_exchange_player_solve(si);
+      break;
+
     case STPostMoveIterationInitialiser:
       move_execution_post_move_iterator_solve(si);
       break;
@@ -711,6 +734,22 @@ void dispatch(slice_index si)
 
     case STPawnPromoter:
       pawn_promoter_solve(si);
+      break;
+
+    case STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration:
+      make_and_take_reset_move_ids_castling_as_make_in_move_generation(si);
+      break;
+
+    case STMakeTakeGenerateCapturesWalkByWalk:
+      make_and_take_generate_captures_by_walk_solve(si);
+      break;
+
+    case STMakeTakeMoveCastlingPartner:
+      make_and_take_move_castling_partner(si);
+      break;
+
+    case STBoleroGenerateMovesWalkByWalk:
+      bolero_generate_moves(si);
       break;
 
     case STMarsCirceMoveToRebirthSquare:
@@ -1005,6 +1044,14 @@ void dispatch(slice_index si)
       masand_recolorer_solve(si);
       break;
 
+    case STMasandGeneralisedRecolorer:
+      masand_generalised_recolorer_solve(si);
+      break;
+
+    case STInfluencerWalkChanger:
+      influencer_walk_changer_solve(si);
+      break;
+
     case STActuatedRevolvingCentre:
       actuated_revolving_centre_solve(si);
       break;
@@ -1019,6 +1066,10 @@ void dispatch(slice_index si)
 
     case STRepublicanType1DeadEnd:
       republican_type1_dead_end_solve(si);
+      break;
+
+    case STBretonApplier:
+      breton_applier_solve(si);
       break;
 
     case STCirceCaptureFork:
@@ -2050,6 +2101,50 @@ void dispatch(slice_index si)
       killer_attack_collector_solve(si);
       break;
 
+    case STTotalInvisibleMoveSequenceTester:
+      total_invisible_move_sequence_tester_solve(si);
+      break;
+
+    case STTotalInvisibleInstrumenter:
+      total_invisible_instrumenter_solve(si);
+      break;
+
+    case STTotalInvisibleInvisiblesAllocator:
+      total_invisible_invisibles_allocator_solve(si);
+      break;
+
+    case STTotalInvisibleMoveSequenceMoveRepeater:
+      total_invisible_move_repeater_solve(si);
+      break;
+
+    case STTotalInvisibleUninterceptableSelfCheckGuard:
+      total_invisible_uninterceptable_selfcheck_guard_solve(si);
+      break;
+
+    case STTotalInvisibleGoalGuard:
+      total_invisible_goal_guard_solve(si);
+      break;
+
+    case STTotalInvisibleSpecialMoveGenerator:
+      total_invisible_generate_special_moves(si);
+      break;
+
+    case STTotalInvisibleSpecialMovesPlayer:
+      total_invisible_special_moves_player_solve(si);
+      break;
+
+    case STTotalInvisibleReserveKingMovement:
+      total_invisible_reserve_king_movement(si);
+      break;
+
+    case STTotalInvisibleMovesByInvisibleGenerator:
+      total_invisible_generate_moves_by_invisible(si);
+      break;
+
+    case STTotalInvisibleRevealAfterFinalMove:
+      total_invisible_reveal_after_mating_move(si);
+      break;
+
     case STMummerOrchestrator:
       mummer_orchestrator_solve(si);
       break;
@@ -2182,8 +2277,12 @@ void dispatch(slice_index si)
       castling_generate_test_departure(si);
       break;
 
-    case STBlackChecksNullMoveGenerator:
-      black_checks_null_move_generator_solve(si);
+    case STNullMoveGenerator:
+      null_move_generator_solve(si);
+      break;
+
+    case STRoleExchangeMoveGenerator:
+      role_exchange_generator_solve(si);
       break;
 
     case STTrue:
@@ -2287,6 +2386,10 @@ void dispatch(slice_index si)
       reflective_kings_generate_moves_for_piece(si);
       break;
 
+    case STRokagogoMovesForPieceGeneratorFilter:
+      rokagogo_filter_moves_for_piece(si);
+      break;
+
     case STCastlingChessMovesForPieceGenerator:
       castlingchess_generate_moves_for_piece(si);
       break;
@@ -2305,6 +2408,14 @@ void dispatch(slice_index si)
 
     case STAnnanMovesForPieceGenerator:
       annan_generate_moves_for_piece(si);
+      break;
+
+    case STNannaMovesForPieceGenerator:
+      nanna_generate_moves_for_piece(si);
+      break;
+
+    case STPointReflectionMovesForPieceGenerator:
+      point_reflection_generate_moves_for_piece(si);
       break;
 
     case STFaceToFaceMovesForPieceGenerator:
@@ -2401,4 +2512,18 @@ void dispatch(slice_index si)
       assert(0);
       break;
   }
+
+  if (total_invisible_number>0)
+  {
+    TraceConsumption();
+
+    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
+    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+
+    assert(nbply<=ply_retro_move
+           || nr_total_invisbles_consumed()<=total_invisible_number);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

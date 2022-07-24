@@ -11,6 +11,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 typedef struct
 {
   slice_type interval_start;
@@ -26,6 +29,11 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   insertion_state_type const * const state = st->param;
   slice_index const proxy = alloc_proxy_slice();
   slice_index const prototype = copy_slice(state->prototype);
+  if (prototype==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   slice_index const avoided = alloc_pipe(state->avoided_type);
 
   SLICE_NEXT2(prototype) = proxy;
@@ -115,7 +123,7 @@ static void start_insertion(slice_index si, stip_structure_traversal *st)
 void circe_insert_rebirth_avoider(slice_index si,
                                   slice_type interval_start,
                                   slice_type hook_type,
-                                  slice_type prototype,
+                                  slice_index prototype,
                                   slice_type avoided_type,
                                   slice_type joint_type)
 {

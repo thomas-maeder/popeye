@@ -152,3 +152,11 @@ ms SR mariner Springer
 po KR Poseidon
 mb BR mariner Bauer
 mc TR marines Schiff
+st KU Stachel (Koenig + koeniglicher Grashuepfer)
+ah SL Moahuepfer
+oh SR Moahupfer
+se DL Senora (argentinische Dame)
+fa TL Faro (argentinischer Turm)
+lo LL Loco (argentinischer Laeufer)
+sa SL Saltador (argentinischer Springer)
+hc HC ContraHamster

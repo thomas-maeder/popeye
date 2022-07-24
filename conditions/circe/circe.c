@@ -15,18 +15,21 @@
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/attributes/chameleon.h"
+#include "position/effects/piece_readdition.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Order in which the slice types for Circe execution appear
  */
-static slice_type const circe_slice_rank_order[] =
+static slice_index const circe_slice_rank_order[] =
 {
     STCirceConsideringRebirth,
     STAnticirceConsideringRebirth,
@@ -198,9 +201,9 @@ circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
 
 static circe_variant_type const circe_variant_default = {
-    .rebirth_reason = move_effect_reason_rebirth_no_choice,
     .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed,
     .do_place_reborn = true,
+    .rebirth_reason = move_effect_reason_rebirth_no_choice,
     .anticirce_type = anticirce_type_count
 };
 
@@ -538,9 +541,9 @@ void circe_initialise_solving(slice_index si,
   if (variant->relevant_capture!=circe_relevant_capture_nocapture)
     circe_solving_instrument_nocapture_bypass(si,interval_start);
 
-  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
-    chameleon_init_sequence_implicit(&variant->chameleon_is_walk_squence_explicit,
-                                     &variant->chameleon_walk_sequence);
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon
+      && !variant->is_chameleon_sequence_explicit)
+    chameleon_init_sequence_implicit(&variant->chameleon_walk_sequence);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -563,6 +566,11 @@ static void instrument(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const copy = copy_slice(state->prototype);
+    if (copy==no_slice)
+    {
+      fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+      exit(2); /* TODO: Do we have to exit here? */
+    }
     circe_insert_slices(si,st->context,&copy,1);
   }
 

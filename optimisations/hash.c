@@ -88,6 +88,7 @@
 #include "solving/proofgames.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
+#include "DHT/fxf.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/circe.h"
@@ -113,6 +114,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
+#include "position/effects/piece_movement.h"
 
 #if defined(HASHRATE)
 #include "platform/timer.h"
@@ -124,7 +126,7 @@ typedef unsigned int hash_value_type;
 
 static struct dht *pyhash;
 
-static char    piece_nbr[nr_piece_walks];
+static byte piece_nbr[nr_piece_walks];
 static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
@@ -155,8 +157,8 @@ static void dump_hash_buffer(void)
   unsigned int const length = hashBuffers[nbply].cmv.Leng;
   unsigned int i;
   for (i = 0; i!=length; ++i)
-    fprintf(stdout,"%u ",(unsigned int)hashBuffers[nbply].cmv.Data[i]);
-  fputs("\n",stdout);
+    printf("%u ",(unsigned int)hashBuffers[nbply].cmv.Data[i]);
+  putchar('\n');
 }
 #endif
 
@@ -164,8 +166,48 @@ static void dump_hash_buffer(void)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
 #include <unistd.h>
+#if !defined(HAVE_SBRK)
+#  if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
+#    if (__GLIBC__ < 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ < 12))
+#      if (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)))
+#        define HAVE_SBRK 1
+#      else
+#        define HAVE_SBRK 0
+#      endif /* glibc < 2.12 check */
+#    elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ < 19)
+#      if (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
+           (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+            !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
+#        define HAVE_SBRK 1
+#      else
+#        define HAVE_SBRK 0
+#      endif /* 2.12 <= glibc < 2.19 check */
+#    elif (__GLIBC__ == 2) && (__GLIBC_MINOR__ == 19) /* TODO: "man sbrk" is ambiguous, providing two tests for glibc version 2.19.
+                                                               Below is their union; is this correct? */
+#      if (defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
+           defined(_DEFAULT_SOURCE) || \
+           (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+           !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
+#        define HAVE_SBRK 1
+#      else
+#        define HAVE_SBRK 0
+#      endif /* glibc == 2.19 check (maybe) */
+#    else /* glibc > 2.19 */
+#      if (defined(_DEFAULT_SOURCE) || \
+           (defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)) && \
+           !(defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200112L)))
+#        define HAVE_SBRK 1
+#      else
+#        define HAVE_SBRK 0
+#      endif /* glibc > 2.19 check */
+#    endif /* checking glibc version */
+#  endif /*__GLIBC__,__GLIBC_MINOR__*/
+#else
+#  define HAVE_SBRK 0 /* TODO: Can we test for any other libraries? */
+#endif /*HAVE_SBRK*/
+#if !defined(FXF) && HAVE_SBRK
 static void *OldBreak;
-extern int dhtDebug;
+#endif
 #endif /*__unix*/
 #else
 #define ifTESTHASH(x)
@@ -174,6 +216,18 @@ extern int dhtDebug;
 #if defined(HASHRATE)
 #define ifHASHRATE(x)   x
 static unsigned long use_pos, use_all;
+#if !defined(Message)
+#define Message(name, var) printf("%s -- %s: %s=%u\n", __func__, #name, #var, (unsigned int)(var))
+/* TODO: Message isn't defined in our codebase.  Is this even close to the correct/intended definition?  Is a macro even appropriate? */
+#endif /*Message*/
+#if !defined(Message2)
+#define Message2(fp, var1, var2) fprintf(fp, "%s: %s=%u, %s=%lu\n", __func__, #var1, (unsigned int)(var1), #var2, (unsigned long int)(var2))
+/* TODO: Message2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
+#endif /*Message2*/
+#if !defined(StdString2)
+#define StdString2(fp, s) fprintf(fp, "%s: %s=%s\n", __func__, #s, (s))
+/* TODO: StdString2 isn't defined in our codebase.  Is this even close to the correct/intended definition? Is a macro even appropriate? */
+#endif /*StdString2*/
 #else
 #define ifHASHRATE(x)
 #endif /*HASHRATE*/
@@ -197,7 +251,7 @@ typedef unsigned int data_type;
  */
 typedef struct
 {
-	dhtValue Key;
+    dhtValue Key;
     data_type data;
 } element_t;
 
@@ -393,7 +447,7 @@ static void init_slice_properties_attack_hashed(slice_index si,
   stip_length_type const length = SLICE_U(si).branch.length;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2);
-  data_type const mask = (1<<size)-1;
+  data_type const mask = (1u<<size)-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -417,12 +471,12 @@ static void init_slice_properties_attack_hashed(slice_index si,
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
   slice_properties[si].u.d.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskNoSucc = mask << sis->nrBitsLeft;
+  slice_properties[si].u.d.maskNoSucc = ((sis->nrBitsLeft < (CHAR_BIT * (sizeof mask))) ? (mask << sis->nrBitsLeft) : 0);
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
   slice_properties[si].u.d.offsetSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
+  slice_properties[si].u.d.maskSucc = ((sis->nrBitsLeft < (CHAR_BIT * (sizeof mask))) ? (mask << sis->nrBitsLeft) : 0);
 
   hash_slices[nr_hash_slices++] = si;
   stip_traverse_structure_children_pipe(si,st);
@@ -442,7 +496,7 @@ static void init_slice_property_help(slice_index si,
   stip_length_type const length = SLICE_U(si).branch.length;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2+1);
-  data_type const mask = (1<<size)-1;
+  data_type const mask = (1u<<size)-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -605,7 +659,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
                                        hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
-  unsigned int const bits = val << offset;
+  unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
   element_t * const e = &hue->e;
   TraceFunctionEntry(__func__);
@@ -615,7 +669,7 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -633,7 +687,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
                                      hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
-  unsigned int const bits = val << offset;
+  unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
   element_t * const e = &hue->e;
 
@@ -645,7 +699,7 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("pre:%08x ",e->data);
   TraceValue("%08x",bits);
   TraceEOL();
@@ -674,7 +728,7 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("pre:0x%08x ",e->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
@@ -697,7 +751,7 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -717,7 +771,7 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",&e->data);
+  TraceValue("%p",(void *)&e->data);
   TraceValue("%08x",e->data);
   TraceEOL();
 
@@ -738,7 +792,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("0x%08x ",&e->data);
+  TraceValue("%p ",(void *)&e->data);
   TraceValue("0x%08x",e->data);
   TraceEOL();
 
@@ -909,47 +963,51 @@ static void compresshash (void)
 
 #if defined(TESTHASH)
     unsigned long nrElementsVisitedInIteration = 0;
-    fprintf(stdout,"starting iteration: minimalElementValueAfterCompression: %u\n",
+    printf("starting iteration: minimalElementValueAfterCompression: %u\n",
            minimalElementValueAfterCompression);
     fflush(stdout);
 #endif  /* TESTHASH */
 
-#if defined(TESTHASH)
+#if defined(TESTHASH)    
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      fprintf(stdout,"%u\n",value_of_data(he));
+    {
+      hashElement_union_t hue;
+      hue.d = *he;
+      printf("%u\n",value_of_data(&hue));
+    }
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
     {
-      hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-      if (value_of_data(hue)<minimalElementValueAfterCompression)
+      hashElement_union_t hue;
+      hue.d = *he;
+      if (value_of_data(&hue)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
         ++nrElementsRemovedInCompression;
         ++nrElementsRemovedInAllCompressions;
 #endif  /* TESTHASH */
 
-        dhtRemoveElement(pyhash, hue->d.Key);
+        dhtRemoveElement(pyhash, hue.d.Key);
 
 #if defined(TESTHASH)
         if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
         {
-          fprintf(stdout,
-                  "dhtRemove failed on %lu-th element of iteration %lu. "
-                  "This was the %lu-th call to dhtRemoveElement.\n"
-                  "nrElementsRemovedInCompression=%lu "
-                  "dhtKeyCount=%lu "
-                  "nrElementsAtStartOfCompression=%lu\n",
-                  nrElementsVisitedInIteration,
-                  nrIterationsInCompression,
-                  nrElementsRemovedInAllCompressions,
-                  nrElementsRemovedInCompression,
-                  dhtKeyCount(pyhash),
-                  nrElementsAtStartOfCompression);
+          printf("dhtRemove failed on %lu-th element of iteration %lu. "
+                 "This was the %lu-th call to dhtRemoveElement.\n"
+                 "nrElementsRemovedInCompression=%lu "
+                 "dhtKeyCount=%lu "
+                 "nrElementsAtStartOfCompression=%lu\n",
+                 nrElementsVisitedInIteration,
+                 nrIterationsInCompression,
+                 nrElementsRemovedInAllCompressions,
+                 nrElementsRemovedInCompression,
+                 dhtKeyCount(pyhash),
+                 nrElementsAtStartOfCompression);
           exit(1);
         }
 #endif  /* TESTHASH */
@@ -962,7 +1020,7 @@ static void compresshash (void)
 #if defined(TESTHASH)
     ++nrIterationsInCompression;
     assert(nrElementsAtStartOfCompression>=nrElementsVisitedInIteration);
-    fprintf(stdout,"iteration=%lu, nrElementsRemovedInCompression:%lu, missed:%lu\n",
+    printf("iteration=%lu, nrElementsRemovedInCompression:%lu, missed:%lu\n",
            nrIterationsInCompression,
            nrElementsRemovedInCompression,
            nrElementsAtStartOfCompression-nrElementsVisitedInIteration);
@@ -972,12 +1030,12 @@ static void compresshash (void)
       unsigned long const KeyCount = dhtKeyCount(pyhash);
       dhtBucketStat(pyhash,counter,16);
       for (i=0; i<16; ++i)
-        fprintf(stdout, "%lu %u %u\n", KeyCount, i+1, counter[i]);
-      fputs("\n",stdout);
+        printf("%lu %u %u\n", KeyCount, i+1, counter[i]);
+      putchar('\n');
       if (nrIterationsInCompression>9)
-        fprintf(stdout,"nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
+        printf("nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
                nrElementsRemovedInAllCompressions);
-      dhtDebug = nrIterationsInCompression==9;
+      set_dhtDebug(nrIterationsInCompression==9);
     }
     fflush(stdout);
 #endif  /* TESTHASH */
@@ -988,18 +1046,18 @@ static void compresshash (void)
       ++minimalElementValueAfterCompression;
   }
 #if defined(TESTHASH)
-  fprintf(stdout,"%lu;",dhtKeyCount(pyhash));
+  printf("%lu;",dhtKeyCount(pyhash));
 #if defined(HASHRATE)
-  fprintf(stdout," usage: %lu", use_pos);
-  fprintf(stdout," / %lu", use_all);
-  fprintf(stdout," = %.1f%%", (100.0 * use_pos) / use_all);
+  printf(" usage: %lu", use_pos);
+  printf(" / %lu", use_all);
+  printf(" = %.Lf%%", (100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
 #endif /*FREEMAP*/
-  fputs("\n",stdout);
+  putchar('\n');
 #if defined(FXF)
-  fputs("\n after compression:\n",stdout);
+  puts("\n after compression:");
   fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
@@ -1049,24 +1107,22 @@ void DecHashRateLevel(void)
 
 #endif
 
-void HashStats(unsigned int level, char *trailer)
+void HashStats(unsigned int level, char const *trailer)
 {
 #if defined(HASHRATE)
-  int pos=dhtKeyCount(pyhash);
-
   if (level<=HashRateLevel)
   {
+    unsigned long int pos= dhtKeyCount(pyhash);
     fputs("  ",stdout);
-    pos= dhtKeyCount(pyhash);
     Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
     {
       if (use_all < 10000)
-        fprintf(stdout,), " %ld/%ld = %ld%%",
-                use_pos, use_all, (use_pos*100) / use_all);
+        printf(", %lu/%lu = %lu%%",
+               use_pos, use_all, (use_pos*100) / use_all);
       else
-        fprintf(stdout,, " %ld/%ld = %ld%%",
-                use_pos, use_all, use_pos / (use_all/100));
+        printf(", %lu/%lu = %lu%%",
+               use_pos, use_all, use_pos / (use_all/100));
     }
     else
       fputs(" -",stdout);
@@ -1076,7 +1132,7 @@ void HashStats(unsigned int level, char *trailer)
       unsigned long Seconds;
       StopTimer(&Seconds,&msec);
       if (Seconds > 0)
-        fprintf(stdout, ", %lu pos/s", use_all/Seconds);
+        printf(", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
       StdString2(stdout,trailer);
@@ -1126,9 +1182,9 @@ static void ProofSmallEncodePiece(byte **bp,
   Side const side =  TSTFLAG(flags,White) ? White : Black;
   byte encoded = p;
   assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
   if (side==Black)
     encoded |= 1 << black_bit;
-  assert(p < 1 << black_bit);
   if (*even)
   {
     **bp += encoded<<(CHAR_BIT/2);
@@ -1140,7 +1196,7 @@ static void ProofSmallEncodePiece(byte **bp,
 }
 
 static void ProofLargeEncodePiece(byte **bp,
-                                  int row, int col,
+                                  unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
   **bp = p;
@@ -1280,7 +1336,7 @@ static unsigned int TellLargeEncodePosLeng(void)
     }
 
   if (CondFlag[BGL])
-    len += sizeof BGL_values[White] + sizeof BGL_values[Black];
+    len += (unsigned int)(sizeof BGL_values[White] + sizeof BGL_values[Black]);
 
   len += nr_ghosts*bytes_per_piece;
 
@@ -1369,7 +1425,7 @@ byte *CommonEncode(byte *bp,
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       enum { nr_squares = nr_rows_on_board*nr_files_on_board };
-      *bp++= (byte)(sq_num[sq_departure]-sq_num[sq_arrival]+nr_squares);
+      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
     }
   }
 
@@ -1401,7 +1457,7 @@ byte *CommonEncode(byte *bp,
 
       *bp++ = (byte)(from-square_a1);
       if (one_byte_hash)
-        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[removed]) << (CHAR_BIT/2));
+        *bp++ = (byte)(removedspec) + (piece_nbr[removed] << (CHAR_BIT/2));
       else
       {
         *bp++ = removed;
@@ -1449,7 +1505,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
                               piece_walk_type pienam, Flags pspec)
 {
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
@@ -1518,7 +1574,7 @@ byte *SmallEncodePiece(byte *bp,
 {
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
@@ -1635,7 +1691,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
       fxfReset();
 #endif
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-      assert(pyhash!=0);
+      if (pyhash == dhtNilHashTable)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
       break;
     }
@@ -1645,9 +1705,8 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
 
   if (result==dhtNilElement)
   {
-    fprintf(stderr,
-            "Sorry, cannot enter more hashelements "
-            "despite compression\n");
+    fputs("Sorry, cannot enter more hashelements "
+          "despite compression\n", stderr);
     exit(-2);
   }
 
@@ -1665,10 +1724,20 @@ static unsigned long hashtable_kilos;
 unsigned long allochash(unsigned long nr_kilos)
 {
 #if defined(FXF)
+  static boolean need_to_schedule_fxfTeardown = true;
   size_t const one_kilo = 1<<10;
-  while (fxfInit(nr_kilos*one_kilo)==-1)
+  if (nr_kilos > (((size_t) -1)/one_kilo))
+    nr_kilos = (((size_t) -1)/one_kilo);
+  while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     /* we didn't get hashmemory ... */
     nr_kilos /= 2;
+  if (nr_kilos && need_to_schedule_fxfTeardown)
+  {
+    if (atexit(&fxfTeardown))
+      perror(__func__);
+    else
+      need_to_schedule_fxfTeardown = false;
+  }
   ifTESTHASH(fxfInfo(stdout));
 #endif /*FXF*/
 
@@ -1729,19 +1798,17 @@ boolean is_hashtable_allocated(void)
  */
 static void inithash(slice_index si)
 {
-  int j;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(pyhash==0);
 
-  ifTESTHASH(fprintf(stdout,"calling inithash\n"));
+  ifTESTHASH(puts("calling inithash"));
 
-#if defined(__unix) && defined(TESTHASH)
+#if defined(__unix) && defined(TESTHASH) && !defined(FXF) && HAVE_SBRK
   OldBreak= sbrk(0);
-#endif /*__unix,TESTHASH*/
+#endif /*__unix,TESTHASH,HAVE_SBRK*/
 
   minimalElementValueAfterCompression = 2;
 
@@ -1758,27 +1825,37 @@ static void inithash(slice_index si)
   ifHASHRATE(use_pos = use_all = 0);
 
   /* check whether a piece can be coded in a single byte */
-  j = 0;
-
+  if (OptFlag[intelligent])
   {
-    piece_walk_type i;
-    for (i = nr_piece_walks; i>Empty; --i)
+    /* in intelligent mode, we have to calculate the pieces' identities
+     * into hash codes */
+    one_byte_hash = false;
+    bytes_per_spec = 4;
+  }
+  else
+  {
+    byte j = 0;
+
+    for (piece_walk_type i = nr_piece_walks; i != Empty;)
+    {
+      --i;
       if (piece_walk_may_exist[i])
         piece_nbr[i] = j++;
+    }
+
+    if (CondFlag[haanerchess])
+      piece_nbr[Invalid]= j++;
+
+    one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
+
+    bytes_per_spec= 1;
+    if ((some_pieces_flags >> CHAR_BIT) != 0)
+      bytes_per_spec++;
+    if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
+      bytes_per_spec++;
   }
 
-  if (CondFlag[haanerchess])
-    piece_nbr[Invalid]= j++;
-
-  one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
-
-  bytes_per_spec= 1;
-  if ((some_pieces_flags >> CHAR_BIT) != 0)
-    bytes_per_spec++;
-  if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
-    bytes_per_spec++;
-
-  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
+  bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 
   if (is_proofgame(si))
   {
@@ -1811,7 +1888,7 @@ static void inithash(slice_index si)
                     (unsigned int)(hashtable_kilos/1024)));
 #else
   ifTESTHASH(
-      fprintf(stdout,"room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
+      printf("room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
 #endif /*FXF*/
 
 #if defined(TESTHASH) && defined(FXF)
@@ -1833,7 +1910,11 @@ static void openhash(void)
 
   assert(pyhash==0);
   pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  assert(pyhash!=0);
+  if (pyhash == dhtNilHashTable)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1849,31 +1930,32 @@ static void closehash(void)
   assert(pyhash!=0);
 
 #if defined(TESTHASH)
-  fputs("calling closehash\n",stdout);
+  puts("calling closehash");
 
 #if defined(HASHRATE)
-  fprintf(stdout, "%ld enquiries out of %ld successful. ",use_pos,use_all);
+  printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
   if (use_all)
-    fprintf(stdout,"Makes %.1f%%\n",(100.0 * use_pos) / use_all);
+    printf("Makes %.Lf%%\n",(100.0L * (long double) use_pos) / (long double) use_all);
 #endif
 #if defined(__unix)
   {
+#if defined(FXF) || HAVE_SBRK
 #if defined(FXF)
     unsigned long const HashMem = fxfTotal();
-#else
+#else /* must HAVE_SBRK */
     unsigned long const HashMem = sbrk(0)-OldBreak;
 #endif /*FXF*/
     unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
     if (HashCount>0)
     {
       unsigned long const BytePerPos = (HashMem*100)/HashCount;
-      fprintf(stdout,
-              "Memory for hash-table: %ld, "
-              "gives %ld.%02ld bytes per position\n",
-              HashMem, BytePerPos/100, BytePerPos%100);
+      printf("Memory for hash-table: %lu, "
+             "gives %lu.%02lu bytes per position\n",
+             HashMem, BytePerPos/100, BytePerPos%100);
     }
     else
-      fputs("Nothing in hashtable\n",stdout);
+      puts("Nothing in hashtable");
+#endif /*FXF,HAVE_SBRK*/
   }
 #endif /*__unix*/
 #endif /*TESTHASH*/
@@ -2389,6 +2471,9 @@ void help_hashed_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",solve_nr_remaining);
+  TraceEOL();
+
   assert(solve_nr_remaining>=next_move_has_solution);
 
   if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
@@ -2406,6 +2491,9 @@ void help_hashed_solve(slice_index si)
       else
         pipe_solve_delegate(si);
 
+      TraceValue("%u",solve_result);
+      TraceValue("%u",MOVE_HAS_NOT_SOLVED_LENGTH());
+      TraceEOL();
       if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
         addtohash_help(si);
     }
@@ -2500,13 +2588,18 @@ void hash_opener_solve(slice_index si)
  */
 void check_hash_assumptions(void)
 {
-  /* SmallEncode uses 1 byte for both row and file of a square */
-  assert(nr_rows_on_board<1<<(CHAR_BIT/2));
-  assert(nr_files_on_board<1<<(CHAR_BIT/2));
+  {
+    enum
+    {
+      /* SmallEncode uses 1 byte for both row and file of a square */
+      ensure_nr_rows_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_rows_on_board<(1<<(CHAR_BIT/2))),
+      ensure_nr_files_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_files_on_board<(1<<(CHAR_BIT/2))),
 
-  /* LargeEncode() uses 1 bit per square */
-  assert(nr_files_on_board<=CHAR_BIT);
+      /* LargeEncode() uses 1 bit per square */
+      ensure_nr_files_on_board_le_CHAR_BIT = 1/(nr_files_on_board<=CHAR_BIT),
 
-  /* the encoding functions encode Flags as 2 bytes */
-  assert(nr_piece_flags<=2*CHAR_BIT);
+      /* the encoding functions encode Flags as 2 bytes */
+      ensure_nr_piece_flags_le_two_times_CHAR_BIT = 1/(nr_piece_flags<=(2*CHAR_BIT))
+    };
+  }
 }

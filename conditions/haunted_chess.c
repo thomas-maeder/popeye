@@ -1,11 +1,11 @@
 #include "conditions/haunted_chess.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
+#include "position/effects/piece_readdition.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -28,7 +28,7 @@ void move_effect_journal_do_forget_ghost(underworld_index_type const summoned)
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const *entry)
 {
   underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
@@ -43,7 +43,7 @@ void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const 
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_forget_ghost(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_forget_ghost(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -133,7 +133,7 @@ void move_effect_journal_do_remember_ghost(void)
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type const *entry)
 {
   underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
@@ -146,7 +146,7 @@ void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type cons
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_remember_ghost(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_remember_ghost(move_effect_journal_entry_type const *entry)
 {
   underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
@@ -200,6 +200,20 @@ void haunted_chess_ghost_rememberer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Make sure the effects of remembering and forgetting ghosts are properly
+ * undone and redone
+ */
+void haunted_chess_initialise_move_doers(void)
+{
+  move_effect_journal_set_effect_doers(move_effect_forget_ghost,
+                                       &move_effect_journal_undo_forget_ghost,
+                                       &move_effect_journal_redo_forget_ghost);
+
+  move_effect_journal_set_effect_doers(move_effect_remember_ghost,
+                                       &move_effect_journal_undo_remember_ghost,
+                                       &move_effect_journal_redo_remember_ghost);
+}
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -208,6 +222,8 @@ void solving_insert_haunted_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  haunted_chess_initialise_move_doers();
 
   stip_instrument_moves(si,STHauntedChessGhostRememberer);
   stip_instrument_moves(si,STHauntedChessGhostSummoner);

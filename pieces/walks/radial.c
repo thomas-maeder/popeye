@@ -4,6 +4,7 @@
 #include "position/position.h"
 #include "debugging/trace.h"
 
+static
 struct
 {
     vec_index_type start;
@@ -31,6 +32,7 @@ enum
   nr_queen_radial_ranges = sizeof queen_radial_ranges / sizeof queen_radial_ranges[0]
 };
 
+static
 struct
 {
     vec_index_type start;
@@ -80,9 +82,10 @@ enum
 static void generate(square sq_arrival)
 {
   curr_generation->arrival = sq_arrival;
-  if (is_square_empty(curr_generation->arrival)
-      || piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+  if (is_square_empty(curr_generation->arrival))
+    push_move_no_capture();
+  else if (piece_belongs_to_opponent(curr_generation->arrival))
+    push_move_regular_capture();
 }
 
 static void radialknight_generate(vec_index_type kanf, vec_index_type kend)

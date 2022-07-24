@@ -23,8 +23,8 @@
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STConditionsResetter),                                     \
   ENUMERATOR(STOptionsResetter),                                        \
-  ENUMERATOR(STProblemSolvingIncomplete),                              \
-  ENUMERATOR(STPhaseSolvingIncomplete),                                \
+  ENUMERATOR(STProblemSolvingIncomplete),                               \
+  ENUMERATOR(STPhaseSolvingIncomplete),                                 \
   ENUMERATOR(STCommandLineOptionsParser),                               \
   ENUMERATOR(STInputPlainTextOpener),                                   \
   ENUMERATOR(STPlatformInitialiser),                                    \
@@ -34,7 +34,7 @@
   ENUMERATOR(STZeropositionSolvingStopper),                             \
   ENUMERATOR(STCheckDirInitialiser),                                    \
   ENUMERATOR(STOutputLaTeXCloser),                                      \
-  ENUMERATOR(STOutputPlainTextWriter),                      \
+  ENUMERATOR(STOutputPlainTextWriter),                                  \
   ENUMERATOR(STInputPlainTextUserLanguageDetector),                     \
   ENUMERATOR(STInputPlainTextProblemsIterator),                         \
   ENUMERATOR(STInputPlainTextProblemHandler),                           \
@@ -57,7 +57,7 @@
   ENUMERATOR(STSolversBuilder2),                                        \
   ENUMERATOR(STProxyResolver),                                          \
   ENUMERATOR(STSlackLengthAdjuster),                                    \
-  /* battle play structural slices */                                 \
+  /* battle play structural slices */                                   \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
@@ -68,7 +68,7 @@
     /* help play structural slices */                                  \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
-    /* other structural slices */                                      \
+    /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STRetroStartRetractionPly),                              \
     ENUMERATOR(STRetroRetractLastCapture),                              \
@@ -92,7 +92,7 @@
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                                \
-    ENUMERATOR(STForEachAttack), /* iterate over each attack */          \
+    ENUMERATOR(STForEachAttack), /* iterate over each attack */        \
     ENUMERATOR(STForEachDefense), /* iterate over each defense */      \
     ENUMERATOR(STFindAttack), /* find an attack */                     \
     ENUMERATOR(STFindDefense), /* find a defense*/                     \
@@ -108,6 +108,7 @@
     ENUMERATOR(STBeforePawnPromotion),                                 \
     ENUMERATOR(STLandingAfterPawnPromotion),                           \
     ENUMERATOR(STNullMovePlayer),                                      \
+    ENUMERATOR(STRoleExchangeMovePlayer),                                     \
     ENUMERATOR(STLandingAfterMovingPieceMovement),                     \
     ENUMERATOR(STLandingAfterMovePlay),                                \
     ENUMERATOR(STAttackPlayed),                                        \
@@ -148,6 +149,7 @@
     ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
     ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
+    ENUMERATOR(STGoalAutoMateReachedTester), /* tests whether an auto-mate goal has been reached */ \
     ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
     ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
     ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a circuit by rebirth goal has been reached */ \
@@ -168,7 +170,7 @@
     ENUMERATOR(STAnd),      /* logical AND */                           \
     ENUMERATOR(STOr),       /* logical OR */                            \
     ENUMERATOR(STNot),             /* logical NOT */                    \
-    /* auxiliary slices */                                             \
+    /* auxiliary slices */                                              \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side has exposed its king */ \
     ENUMERATOR(STOhneschachStopIfCheck),  /* stop when a side has attacked the opponent's king */ \
     ENUMERATOR(STOhneschachStopIfCheckAndNotMate),  /* stop when a side has attacked the opponent's king */ \
@@ -178,7 +180,7 @@
     ENUMERATOR(STMoveInverterSetPlay), /* ditto, to solve set play */   \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
-    /* solver slices */                                                \
+    /* solver slices */                                                 \
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s), */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
@@ -357,7 +359,7 @@
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \
     ENUMERATOR(STPawnToImitatorPromoter),                             \
-    /* other slices related to fairy chess */                        \
+    /* other slices related to fairy chess */                         \
     ENUMERATOR(STExclusiveChessExclusivityDetector),                  \
     ENUMERATOR(STExclusiveChessNestedExclusivityDetector),            \
     ENUMERATOR(STExclusiveChessLegalityTester),                       \
@@ -397,10 +399,16 @@
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingCapturedObservationGuard),                         \
     ENUMERATOR(STKingSquareObservationTester),                          \
+    ENUMERATOR(STCastlingSuspender),                                    \
+    ENUMERATOR(STObservingMovesGenerator),                              \
+    ENUMERATOR(STAttackTarget),                                         \
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMasandEnforceObserver),                                \
+    ENUMERATOR(STMasandGeneralisedRecolorer),                           \
+    ENUMERATOR(STMasandGeneralisedEnforceObserver),                     \
+    ENUMERATOR(STInfluencerWalkChanger),                                \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \
@@ -486,6 +494,7 @@
     ENUMERATOR(STSnekCircleSubstitutor),                                \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
+    ENUMERATOR(STBretonApplier),                                        \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \
@@ -509,6 +518,13 @@
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),                   \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest),                  \
+    ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
+    ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
+    ENUMERATOR(STMakeTakeMoveCastlingPartner),                          \
+    ENUMERATOR(STBoleroGenerateMovesWalkByWalk),                        \
+    ENUMERATOR(STBoleroInverseEnforceObserverWalk),                     \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \
@@ -533,10 +549,13 @@
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \
     ENUMERATOR(STSuperTransmutingKingsMovesForPieceGenerator),          \
+    ENUMERATOR(STRokagogoMovesForPieceGeneratorFilter),                 \
     ENUMERATOR(STCastlingChessMovesForPieceGenerator),                  \
     ENUMERATOR(STPlatzwechselRochadeMovesForPieceGenerator),            \
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \
     ENUMERATOR(STAnnanMovesForPieceGenerator),                          \
+    ENUMERATOR(STNannaMovesForPieceGenerator),                          \
+    ENUMERATOR(STPointReflectionMovesForPieceGenerator),                \
     ENUMERATOR(STFaceToFaceMovesForPieceGenerator),                     \
     ENUMERATOR(STBackToBackMovesForPieceGenerator),                     \
     ENUMERATOR(STCheekToCheekMovesForPieceGenerator),                   \
@@ -546,7 +565,19 @@
     ENUMERATOR(STImitatorMover),                                        \
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \
     ENUMERATOR(STImitatorDetectIllegalMoves),                           \
-    ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
+    ENUMERATOR(STNullMoveGenerator),                                    \
+    ENUMERATOR(STRoleExchangeMoveGenerator),                                   \
+    ENUMERATOR(STTotalInvisibleMoveSequenceTester),                     \
+    ENUMERATOR(STTotalInvisibleMoveSequenceMoveRepeater),               \
+    ENUMERATOR(STTotalInvisibleInstrumenter),                           \
+    ENUMERATOR(STTotalInvisibleInvisiblesAllocator),                    \
+    ENUMERATOR(STTotalInvisibleUninterceptableSelfCheckGuard),          \
+    ENUMERATOR(STTotalInvisibleGoalGuard),                              \
+    ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
+    ENUMERATOR(STTotalInvisibleMovesByInvisibleGenerator),              \
+    ENUMERATOR(STTotalInvisibleSpecialMovesPlayer),                     \
+    ENUMERATOR(STTotalInvisibleReserveKingMovement),                    \
+    ENUMERATOR(STTotalInvisibleRevealAfterFinalMove),                   \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextMetaWriter),                            \
@@ -622,6 +653,8 @@
     ENUMERATOR(STTransmutingKingDetectNonTransmutation),                \
     ENUMERATOR(STReflectiveKingsEnforceObserverWalk),                   \
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \
+    ENUMERATOR(STNannaEnforceObserverWalk),                             \
+    ENUMERATOR(STPointReflectionEnforceObserverWalk),                   \
     ENUMERATOR(STFaceToFaceEnforceObserverWalk),                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk),                        \
     ENUMERATOR(STCheekToCheekEnforceObserverWalk),                      \

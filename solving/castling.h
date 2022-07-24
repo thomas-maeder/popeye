@@ -17,25 +17,8 @@ extern castling_rights_type castling_flags_no_castling;
 #define SETCASTLINGFLAGMASK(side,mask) SETFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
 #define CLRCASTLINGFLAGMASK(side,mask) CLRFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
 
-/* Undo removing a castling right
- * @param curr identifies the adjustment effect
- */
 void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Redo removing a castling right
- * @param curr identifies the adjustment effect
- */
 void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Undo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry);
-
-/* Redo removing a castling right
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry);
 
 /* Enable castling rights for the piece that just arrived (for whatever reason)
  * on a square
@@ -52,6 +35,13 @@ void enable_castling_rights(move_effect_reason_type reason,
  */
 void disable_castling_rights(move_effect_reason_type reason,
                              square sq_departure);
+
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean suspend_castling_is_in_check(slice_index si, Side side_observed);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

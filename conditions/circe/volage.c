@@ -4,11 +4,12 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/flags_change.h"
+#include "position/effects/side_change.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 /* Instrument the solving machinery with Circe Volage

@@ -19,7 +19,7 @@ static ply ply_watermark;
 static ply ply_stack[maxply+1];
 static ply ply_stack_pointer;
 
-/* resset the ply module */
+/* reset the ply module */
 void ply_reset(void)
 {
   SET_CURRMOVE(nbply,nil_coup);
@@ -45,13 +45,17 @@ void nextply(Side side)
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
+  TraceValue("%u",parent);
+  TraceValue("%u",nbply);
+  TraceEOL();
+
   parent_ply[nbply] = parent;
 
   trait[nbply] = side;
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 
@@ -78,17 +82,18 @@ void siblingply(Side side)
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
+  parent_ply[nbply] = parent_ply[elder];
+
   TraceValue("%u",elder);
+  TraceValue("%u",parent_ply[nbply]);
   TraceValue("%u",nbply);
   TraceEOL();
-
-  parent_ply[nbply] = parent_ply[elder];
 
   trait[nbply] = side;
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 
@@ -121,7 +126,7 @@ void copyply(void)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
-  promotion_horizon[nbply] = move_effect_journal_base[nbply];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
 

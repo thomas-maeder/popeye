@@ -1,5 +1,7 @@
 #include "conditions/circe/parachute.h"
 #include "position/position.h"
+#include "position/effects/piece_readdition.h"
+#include "position/effects/piece_removal.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/haunted_chess.h"
@@ -41,7 +43,7 @@ static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_t
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -52,7 +54,7 @@ void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -65,8 +67,12 @@ void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry
   TraceFunctionResultEnd();
 }
 
+/* Remember the piece on a square as volcanic for a reason
+ * @param reason the reason
+ * @param pos the square
+ */
 void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason,
-                                                    square sq_rebirth)
+                                                    square pos)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remember_volcanic,reason);
 
@@ -74,10 +80,11 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
 
-  entry->u.handle_ghost.ghost.on = sq_rebirth;
-  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  entry->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
+  entry->u.handle_ghost.ghost.on = pos;
+  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(pos);
+  entry->u.handle_ghost.ghost.flags = being_solved.spec[pos];
 
+  TraceValue("%u",nbply);
   TraceSquare(entry->u.handle_ghost.ghost.on);
   TraceWalk(entry->u.handle_ghost.ghost.walk);
   TraceValue("%u",GetPieceId(entry->u.handle_ghost.ghost.flags));
@@ -91,7 +98,7 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -102,7 +109,7 @@ void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -115,14 +122,16 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
-                                                square on)
+static void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
+                                                       square on)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_swap_volcanic,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
+
+  assert(nr_ghosts>0);
 
   entry->u.handle_ghost.ghost.on = underworld[nr_ghosts-1].on;
   entry->u.handle_ghost.ghost.walk = underworld[nr_ghosts-1].walk;
@@ -137,22 +146,24 @@ void move_effect_journal_do_circe_volcanic_swap(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(nr_ghosts>0);
   underworld[nr_ghosts-1] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_circe_volcanic_swap(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(nr_ghosts>0);
   underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(underworld[nr_ghosts-1].on);
   underworld[nr_ghosts-1].flags = being_solved.spec[underworld[nr_ghosts-1].on];
 
@@ -324,6 +335,18 @@ void circe_parachute_initialise_solving(slice_index si,
   TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
 
+  haunted_chess_initialise_move_doers();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_parachuted,
+                                       &move_effect_journal_undo_circe_parachute_remember,
+                                       &move_effect_journal_redo_circe_parachute_remember);
+  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_remember,
+                                       &move_effect_journal_redo_circe_volcanic_remember);
+  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_swap,
+                                       &move_effect_journal_redo_circe_volcanic_swap);
+
   circe_insert_rebirth_avoider(si,
                                interval_start,
                                STCirceDeterminedRebirth,
@@ -344,6 +367,18 @@ void circe_parachute_initialise_solving(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Initialise the move effect (un|re)doers for Circe Volcanic
+ */
+void circe_volcanic_initialise_effect_doers(void)
+{
+  move_effect_journal_set_effect_doers(move_effect_remember_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_remember,
+                                       &move_effect_journal_redo_circe_volcanic_remember);
+  move_effect_journal_set_effect_doers(move_effect_swap_volcanic,
+                                       &move_effect_journal_undo_circe_volcanic_swap,
+                                       &move_effect_journal_redo_circe_volcanic_swap);
+}
+
 /* Initialise the solving machinery with Circe Volcanic
  * @param si identifies root slice of stipulation
  * @param interval_start start of the slices interval to be initialised
@@ -355,6 +390,10 @@ void circe_volcanic_initialise_solving(slice_index si,
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_type,interval_start);
   TraceFunctionParamListEnd();
+
+  haunted_chess_initialise_move_doers();
+
+  circe_volcanic_initialise_effect_doers();
 
   circe_insert_rebirth_avoider(si,
                                interval_start,

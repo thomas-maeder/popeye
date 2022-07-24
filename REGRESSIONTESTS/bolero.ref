@@ -1,0 +1,284 @@
+
+          Claude Beaubestre
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  =P  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  =P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 1 + 2n
+               Bolero
+             HalfDuplex
+
+  1...nPf2-f1=nQ   2.nPd7-d8=nR nRd8-b6 +   3.Kb7-a7 nQf1-a6 #
+  1...nPf2-f1=nR   2.Kb7-a6 nRf1-b5   3.nPd7-d8=nQ + nQd8-a5 #
+  add_to_move_generation_stack:      956447
+                     play_move:      357535
+ is_white_king_square_attacked:      354902
+ is_black_king_square_attacked:       40421
+
+solution finished.
+
+
+first 5 moves of a proof game in 7.5 moves
+
+           Pierre Tritten
+             Phenix 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   R   .  -S   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      16 + 16
+               Bolero
+
+  1.Sg1-h3 d7-d6   2.Sh3-g3 Bc8-h3   3.Rh1-g1 Sb8-d7   4.Sg3-h1 Bh3-b3   5.Rg1-f3 Sd7-h3 dia
+  add_to_move_generation_stack:   353338806
+                     play_move:   179162048
+ is_white_king_square_attacked:     6195061
+ is_black_king_square_attacked:     8447343
+
+solution finished.
+
+
+
+           Petko A. Petkov
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .  -P   .   P   .   5
+|                                   |
+4   .   .   .   .   .   P   .   B   4
+|                                   |
+3   .   P   .   P  -K   .   R   S   3
+|                                   |
+2   .   .   .   .   .   .   .   S   2
+|                                   |
+1   .   .   K   .  -B   .   R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 4
+            BoleroInverse
+
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...Ke3*d3
+          2.Rg3-e3 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+
+   1.Kc1-c2 ? zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Sh3-f2 #
+      1...Be1-c3
+          2.Sh3-f2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...e5*f4
+          2.Sh2-g4 #
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...Be1-b4 + !
+
+   1.Rg1-f1 ? zugzwang.
+      1...Be1*f1
+          2.Rg3*f1 #
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Rg3-g1 #
+      1...Be1-b4
+          2.Rg3-g1 #
+      1...Be1-c3
+          2.Rg3-g1 #
+      1...Ke3-f3
+          2.Rg3-g1 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...Be1-d2 + !
+
+   1.Sh2-g4 + ?
+      1...Ke3*d3
+          2.Rg3-e3 #
+    but
+      1...Ke3*f4 !
+
+   1.Rg3-g2 + ?
+    but
+      1...Ke3-f2 !
+
+   1.Rg3-g4 + ?
+    but
+      1...Ke3*f4 !
+
+   1.Sh3-f2 + ?
+      1...Ke3*d3
+          2.Sf2-e4 #
+          2.Rg3-e3 #
+    but
+      1...Be1*f2 !
+
+   1.Bb5-d7 ? zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Sh3-f2 #
+      1...Be1-b4
+          2.Sh3-f2 #
+      1...Be1-c3
+          2.Sh3-f2 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...e5*f4
+          2.Sh2-g4 #
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+    but
+      1...b6-b5 !
+
+   1.g5-g6 ! zugzwang.
+      1...Be1-f2
+          2.Rg3-g2 #
+      1...Be1-a5
+          2.Rg3-g5 #
+      1...Be1-b4
+          2.Rg3-g5 #
+      1...Be1-c3
+          2.Rg3-g5 #
+      1...Be1-d2 +
+          2.Sh2*d2 #
+      1...Ke3*d3
+          2.Rg3-e3 #
+      1...e5*f4
+          2.Rg3-g4 #
+      1...e5-e4
+          2.Rg3*e4 #
+
+  add_to_move_generation_stack:       21890
+                     play_move:        6582
+ is_white_king_square_attacked:         861
+ is_black_king_square_attacked:        6487
+
+solution finished.
+
+
+
+           Petko A. Petkov
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .  =R   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .  =Q   .   .   2
+|                                   |
+1   .   .  -S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 2 + 2n
+               Bolero
+
+  1.Sc1-h6 nQf2-d4   2.Sh6-h7 nQd4-h8 #
+  1.Sc1-a3 nQf2-b6   2.Sa3-a7 nQb6-a8 #
+  add_to_move_generation_stack:      319792
+                     play_move:      105499
+ is_white_king_square_attacked:       14927
+ is_black_king_square_attacked:      104799
+
+solution finished.
+
+
+
+          Claude Beaubestre
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   P   .   B   7
+|                                   |
+6   .   .  -P   P   .   .   .  -K   6
+|                                   |
+5   .   .   S   .   .   P   .   P   5
+|                                   |
+4   .   P   .   .   .   K   .   .   4
+|                                   |
+3   .   .   R   P   .   .   .   S   3
+|                                   |
+2   .   .   .   P   .   .   R   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#14                   14 + 3
+     BoleroInverse RexInclusive
+
+  1.Kh6*h7   2.Kh7*f7   3.Kf7-e8   4.Ke8-d8   5.Kd8-c8   6.Kc8-b7   7.Kb7-a6   8.Ka6-b5   9.Kb5-a4  10.Ka4-b3  11.Kb3-c2  12.Kc2-d1  13.Kd1-e2  14.Ke2-f1 Rg2-e2 #
+  add_to_move_generation_stack:        4136
+                     play_move:        1910
+ is_white_king_square_attacked:         412
+ is_black_king_square_attacked:        1910
+
+solution finished.
+
+

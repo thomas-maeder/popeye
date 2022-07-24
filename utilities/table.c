@@ -66,7 +66,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
-    case move_effect_piece_change:
+    case move_effect_walk_change:
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_football_chess_substitution:
@@ -112,6 +112,10 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
         case move_effect_reason_ep_capture:
         case move_effect_reason_transfer_choice:
           result = CondFlag[takemake];
+          break;
+
+        case move_effect_reason_breton:
+          result = true;
           break;
 
         default:
@@ -181,9 +185,9 @@ static boolean moves_equal(table_elmt_type const *snapshot)
               return false;
             break;
 
-          case move_effect_piece_change:
-            if (move_effect_journal[curr].u.piece_change.on!=snapshot->relevant_effects[id_relevant].u.piece_change.on
-                || move_effect_journal[curr].u.piece_change.to!=snapshot->relevant_effects[id_relevant].u.piece_change.to)
+          case move_effect_walk_change:
+            if (move_effect_journal[curr].u.piece_walk_change.on!=snapshot->relevant_effects[id_relevant].u.piece_walk_change.on
+                || move_effect_journal[curr].u.piece_walk_change.to!=snapshot->relevant_effects[id_relevant].u.piece_walk_change.to)
               return false;
             break;
 

@@ -1,4 +1,5 @@
 #include "platform/maxtime_impl.h"
+#include "platform/platform.h"
 #include "utilities/boolean.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +19,18 @@
 #include "pieces/pieces.h"
 #include "debugging/assert.h"
 
+#if !defined(HAVE_SIGACTION)
+#if defined(__GLIBC__) && defined(__GLIBC_MINOR__)
+#if defined(_POSIX_C_SOURCE)
+#define HAVE_SIGACTION 1
+#else /* TODO: Can we detect sigaction in other libraries? */
+#define HAVE_SIGACTION 0
+#endif /*_POSIX_C_SOURCE*/
+#else
+#define HAVE_SIGACTION 0
+#endif /*__GLIBC__,__GLIBC_MINOR__*/
+#endif /*HAVE_SIGACTION*/
+
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
 {
@@ -30,13 +43,17 @@ static void ReportSignalAndBailOut(int sig)
 static void sigUsr1Handler(int sig)
 {
   IncHashRateLevel();
+#if !HAVE_SIGACTION
   signal(sig, &sigUsr1Handler);
+#endif /*!HAVE_SIGACTION*/
 }
 
 static void sigUsr2Handler(int sig)
 {
   DecHashRateLevel();
+#if !HAVE_SIGACTION
   signal(sig, &sigUsr2Handler);
+#endif /*!HAVE_SIGACTION*/
 }
 #endif
 
@@ -73,10 +90,10 @@ static piece_walk_type find_promotion(ply ply, square sq_arrival)
   piece_walk_type result = Empty;
 
   for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_change
-        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    if (move_effect_journal[curr].type==move_effect_walk_change
+        && move_effect_journal[curr].u.piece_walk_change.on==sq_arrival)
     {
-      result = move_effect_journal[curr].u.piece_change.to;
+      result = move_effect_journal[curr].u.piece_walk_change.to;
       break;
     }
 
@@ -113,7 +130,7 @@ static void ReDrawBoard(int sig)
   /* I did this, to see more accurately what position popeye is
      working on.  ElB
   */
-  /* If a position can be reached by 1000's of move sequences than the
+  /* If a position can be reached by 1000's of move sequences then the
      position is of almost no value. The history is more important.
      TLi
   */
@@ -124,9 +141,11 @@ static void ReDrawBoard(int sig)
      lead to this position.
   */
   ReDrawPly(nbply);
-  fputc('\n',stdout);
+  putchar('\n');
 
+#if !HAVE_SIGACTION
   signal(sig,&ReDrawBoard);
+#endif /*!HAVE_SIGACTION*/
 }
 
 static void solvingTimeOver(int sig)
@@ -136,15 +155,27 @@ static void solvingTimeOver(int sig)
    */
   periods_counter = nr_periods;
 
+#if !HAVE_SIGACTION
   signal(sig,&solvingTimeOver);
+#endif /*!HAVE_SIGACTION*/
 }
 
 void platform_init(void)
 {
   /* register default handler for all supported signals */
   int i;
+#if HAVE_SIGACTION
+  struct sigaction act;
+  act.sa_handler = &ReportSignalAndBailOut;
+  act.sa_mask = 0;
+  act.sa_flags = 0;
   for (i=0; i<nrSignals; ++i)
-    signal(SignalToCatch[i],&ReportSignalAndBailOut);
+    if (sigaction(SignalToCatch[i],&act,NULL))
+#else
+  for (i=0; i<nrSignals; ++i)
+    if (signal(SignalToCatch[i],&ReportSignalAndBailOut)==SIG_ERR)
+#endif /*HAVE_SIGACTION*/
+      perror(__func__);
 
   /* override default handler with specific handlers.
    * this code would be much more robust, if some information about
@@ -153,12 +184,33 @@ void platform_init(void)
    * At least the maximum signal-number should be defined and for what
    * signals the handling can be redefined
    */
+#if HAVE_SIGACTION
 #if defined(HASHRATE)
-  signal(SIGUSR1, &sigUsr1Handler);
-  signal(SIGUSR2, &sigUsr2Handler);
+  act.sa_handler = &sigUsr1Handler; 
+  if (sigaction(SIGUSR1, &act, NULL))
+    perror(__func__);
+  act.sa_handler = &sigUsr2Handler; 
+  if (sigaction(SIGUSR2, &act, NULL))
+    perror(__func__);
 #endif /*HASHRATE*/
-  signal(SIGALRM, &solvingTimeOver);
-  signal(SIGHUP,  &ReDrawBoard);
+  act.sa_handler = &solvingTimeOver; 
+  if (sigaction(SIGALRM, &act, NULL))
+    perror(__func__);
+  act.sa_handler = &ReDrawBoard; 
+  if (sigaction(SIGHUP,  &act, NULL))
+    perror(__func__);
+#else
+#if defined(HASHRATE)
+  if (signal(SIGUSR1, &sigUsr1Handler) == SIG_ERR)
+    perror(__func__);
+  if (signal(SIGUSR2, &sigUsr2Handler) == SIG_ERR)
+    perror(__func__);
+#endif /*HASHRATE*/
+  if (signal(SIGALRM, &solvingTimeOver) == SIG_ERR)
+    perror(__func__);
+  if (signal(SIGHUP,  &ReDrawBoard) == SIG_ERR)
+    perror(__func__);
+#endif /*HAVE_SIGACTION*/
 }
 
 boolean platform_set_maxtime_timer(maxtime_type seconds)

@@ -89,10 +89,10 @@ double check by en passant capture from above
   h#1.5                       4 + 4
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. #
-  add_to_move_generation_stack:         278
-                     play_move:         269
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          42
+  add_to_move_generation_stack:         232
+                     play_move:         223
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          37
 
 solution finished.
 
@@ -122,10 +122,10 @@ double check by en passant capture from below
   h#1.5                       4 + 4
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. #
-  add_to_move_generation_stack:         720
-                     play_move:         647
- is_white_king_square_attacked:          40
- is_black_king_square_attacked:         121
+  add_to_move_generation_stack:         706
+                     play_move:         633
+ is_white_king_square_attacked:          39
+ is_black_king_square_attacked:         119
 
 solution finished.
 

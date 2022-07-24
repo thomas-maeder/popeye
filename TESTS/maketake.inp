@@ -1,0 +1,51 @@
+begin
+
+protocol maketake.tst
+
+pieces white sc1 black pa2 rc3
+condition make&take
+stipulation ~1
+option nowk nobk
+
+next
+
+title black is in check from se8!
+pieces black ka7 ra8 white se8
+stipulation zg71
+condition make&take
+option nowk
+
+next
+
+title en passant capture
+pieces black pg7 white pf6h7
+stip hx1
+condition make&take blackmaxi
+option nowk nobk
+
+next
+
+title Ke2 would be self-check because of castling
+pieces white kd1 black se1 rh1
+stipulation ze21
+condition make&take
+option nobk
+
+next
+
+title no make&take of pawn via base line
+pieces white ph3 black pg3
+stipulation x1
+condition make&take
+option nowk nobk
+twin shift a8 a7
+
+next
+
+title castling as make
+pieces white qe8 black ke6 ra8h8
+stipulation ze61
+condition make&take circe rexincl
+option movenum nowk
+
+end

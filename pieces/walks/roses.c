@@ -3,7 +3,10 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
+
+#include <stdlib.h>
 
 static square generate_moves_on_circle_segment(square sq_base,
                                                vec_index_type *idx_curr_dir,
@@ -18,14 +21,20 @@ static square generate_moves_on_circle_segment(square sq_base,
   curr_generation->arrival = sq_base;
 
   curr_generation->arrival += vec[*idx_curr_dir];
-  *idx_curr_dir += sense;
+  // TODO does this overflow work on all implementations?
+  assert(abs(sense)==1);
+  assert(*idx_curr_dir>0 || sense>0);
+  *idx_curr_dir += (unsigned int)sense;
 
   while (curr_generation->arrival!=sq_base
          && is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += vec[*idx_curr_dir];
-    *idx_curr_dir += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(*idx_curr_dir>0 || sense>0);
+    *idx_curr_dir += (unsigned int)sense;
   }
 
   TraceFunctionExit(__func__);
@@ -50,7 +59,10 @@ static square find_end_of_circle_line(square sq_departure,
   do
   {
     sq_result += vec[*idx_curr_dir];
-    *idx_curr_dir += sense;
+    // TODO does this overflow work on all implementations?
+    assert(abs(sense)==1);
+    assert(*idx_curr_dir>0 || sense>0);
+    *idx_curr_dir += (unsigned int)sense;
   } while (is_square_empty(sq_result));
 
   return sq_result;
@@ -69,7 +81,7 @@ static void rose_generate_circle(vec_index_type idx_curr_dir,
                                                               sense);
   if (curr_generation->arrival!=curr_generation->departure
       && piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -166,7 +178,7 @@ static void rao_generate_circle(vec_index_type idx_curr_dir,
                                                        sense);
     if (curr_generation->arrival!=curr_generation->departure
         && piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -202,8 +214,8 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
     /* cf. issue 1747928 */
     /* temporarily remove the moving piece to prevent it from blocking
      * itself */
-    piece save_piece = being_solved.board[curr_generation->departure];
-    being_solved.board[curr_generation->departure] = vide;
+    piece save_piece = get_walk_of_piece_on_square(curr_generation->departure);
+    set_walk_of_piece_on_square(curr_generation->departure, /* vide */ Empty); /* TODO: Is Empty the correct value here? */;
     /* could be going for another 8 steps
     let's make sure we don't run out of S vectors */
     if (delta_k > 0)
@@ -221,11 +233,11 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
                                                                 &idx_curr_dir,
                                                                 sense);
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
-    being_solved.board[curr_generation->departure] = save_piece;
+    set_walk_of_piece_on_square(curr_generation->departure, save_piece);
 #endif
     if (curr_generation->arrival!=curr_generation->departure
         && piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -274,11 +286,11 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
 
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
       /* cf. issue 1747928 */
-      if (sq_departure==sq_target && being_solved.board[sq_hurdle]==observing_walk[nbply]) {
+      if (sq_departure==sq_target && get_walk_of_piece_on_square(sq_hurdle)==observing_walk[nbply]) {
         /* special case: king and rose lion are the only pieces on the
          * line -> king is hurdle, and what we thought to be the hurdle
          * is in fact the rose lion! */
-        if (EVALUATE_OBSERVATION(evaluate,sq_hurdle,sq_target,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_hurdle,sq_target))
           return true;
       }
 #endif
@@ -327,10 +339,11 @@ static void rosehopper_genrerate_circle(vec_index_type rotation,
   if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
     curr_generation->arrival = sq_hurdle+vec[rotation];
-    if (is_square_empty(curr_generation->arrival)
-        || (curr_generation->arrival!=curr_generation->departure
-            && piece_belongs_to_opponent(curr_generation->arrival)))
-      push_move();
+    if (is_square_empty(curr_generation->arrival))
+      push_move_no_capture();
+    else if  (curr_generation->arrival!=curr_generation->departure
+              && piece_belongs_to_opponent(curr_generation->arrival))
+      push_move_regular_capture();
   }
 }
 

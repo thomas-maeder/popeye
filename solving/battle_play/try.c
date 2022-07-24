@@ -51,7 +51,7 @@ boolean read_max_nr_refutations(char const *tok)
   }
   else
   {
-    user_set_max_nr_refutations = ul;
+    user_set_max_nr_refutations = (unsigned int)ul;
     result = true;
   }
 

@@ -20,23 +20,25 @@ static void (*go_on_after)(slice_index si);
 static boolean check_from_direction(int dir)
 {
   square curr = being_solved.king_square[White]-dir;
-  boolean const is_diagonal = SquareCol(curr)==SquareCol(being_solved.king_square[White]);
-  boolean result;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  while (is_square_empty(curr))
-    curr -= dir;
-
-  if (TSTFLAG(being_solved.spec[curr],Black))
+  if (is_on_board(curr))
   {
-    piece_walk_type const checker = get_walk_of_piece_on_square(curr);
-    result = checker==Queen || checker==(is_diagonal ? Bishop : Rook);
+    boolean const is_diagonal = SquareCol(curr)==SquareCol(being_solved.king_square[White]);
+
+    while (is_square_empty(curr))
+      curr -= dir;
+
+    if (TSTFLAG(being_solved.spec[curr],Black))
+    {
+      piece_walk_type const checker = get_walk_of_piece_on_square(curr);
+      result = checker==Queen || checker==(is_diagonal ? Bishop : Rook);
+    }
   }
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

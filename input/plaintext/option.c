@@ -130,11 +130,6 @@ char *ParseOpt(slice_index start)
     TraceValue("%u",indexx);
     TraceEOL();
 
-    if (indexx>OptCount)
-    {
-      output_plaintext_input_error_message(OptNotUniq,0);
-      continue;
-    }
     OptFlag[indexx]= true;
     OptCnt++;
 
@@ -159,7 +154,7 @@ char *ParseOpt(slice_index start)
         if (*end!=0 || value==0 || value>UINT_MAX)
         {
           OptFlag[maxtime]= false;
-          output_plaintext_input_error_message(WrongInt, 0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         else
@@ -174,7 +169,7 @@ char *ParseOpt(slice_index start)
         tok = ParseSquareList(squares_tok,&HandleEpSquare,0);
         if (tok==squares_tok)
         {
-          output_plaintext_input_error_message(MissngSquareList,0);
+          output_plaintext_input_error_message(MissngSquareList);
           indexx = OptCount+1;
         }
         else if (*tok!=0)
@@ -192,7 +187,7 @@ char *ParseOpt(slice_index start)
             maxsolutions_instrument_problem(start,(unsigned int)value);
           else
           {
-            output_plaintext_input_error_message(WrongInt,0);
+            output_plaintext_input_error_message(WrongInt);
             indexx = OptCount;
           }
         }
@@ -221,7 +216,7 @@ char *ParseOpt(slice_index start)
         if (!read_restart_number(tok))
         {
           OptFlag[restart] = false;
-          output_plaintext_input_error_message(WrongInt,0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         OptFlag[movenbr]= true;
@@ -237,7 +232,7 @@ char *ParseOpt(slice_index start)
         else
         {
           OptFlag[solmenaces] = false;
-          output_plaintext_input_error_message(WrongInt,0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         break;
@@ -247,7 +242,7 @@ char *ParseOpt(slice_index start)
         if (!read_max_flights(tok))
         {
           OptFlag[solflights] = false;
-          output_plaintext_input_error_message(WrongInt,0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         break;
@@ -257,7 +252,7 @@ char *ParseOpt(slice_index start)
         if (!read_max_nr_refutations(tok))
         {
           OptFlag[soltout] = false;
-          output_plaintext_input_error_message(WrongInt,0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         break;
@@ -281,14 +276,14 @@ char *ParseOpt(slice_index start)
           else
           {
             OptFlag[nontrivial] = false;
-            output_plaintext_input_error_message(WrongInt, 0);
+            output_plaintext_input_error_message(WrongInt);
             indexx = OptCount;
           }
         }
         else
         {
           OptFlag[nontrivial] = false;
-          output_plaintext_input_error_message(WrongInt, 0);
+          output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         break;
@@ -309,7 +304,7 @@ char *ParseOpt(slice_index start)
 
         tok = ParseSquareList(squares_tok,&HandleNoCastlingSquare,0);
         if (tok==squares_tok)
-          output_plaintext_input_error_message(MissngSquareList,0);
+          output_plaintext_input_error_message(MissngSquareList);
         else if (*tok!=0)
           output_plaintext_error_message(WrongSquareList);
 
@@ -322,7 +317,7 @@ char *ParseOpt(slice_index start)
 
       case duplex:
         if (input_is_instrumented_with_duplex(start))
-          output_plaintext_input_error_message(InconsistentDuplexOption,0);
+          output_plaintext_input_error_message(InconsistentDuplexOption);
         else
         {
           input_instrument_duplex(start,STDuplexSolver);
@@ -332,7 +327,7 @@ char *ParseOpt(slice_index start)
 
       case halfduplex:
         if (input_is_instrumented_with_duplex(start))
-          output_plaintext_input_error_message(InconsistentDuplexOption,0);
+          output_plaintext_input_error_message(InconsistentDuplexOption);
         else
         {
           input_instrument_duplex(start,STHalfDuplexSolver);
@@ -384,12 +379,17 @@ char *ParseOpt(slice_index start)
         break;
     }
 
-    if (indexx<=OptCount)
+    if (indexx==OptCount)
+      break;
+    else
       tok = ReadNextTokStr();
   }
 
+  if (indexx>OptCount)
+    output_plaintext_input_error_message(OptNotUniq);
+
   if (OptCnt==0)
-    output_plaintext_input_error_message(UnrecOption,0);
+    output_plaintext_input_error_message(UnrecOption);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

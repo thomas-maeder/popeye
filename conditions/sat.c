@@ -3,6 +3,7 @@
 #include "pieces/walks/vectors.h"
 #include "pieces/walks/generate_moves.h"
 #include "position/position.h"
+#include "position/effects/king_square.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
@@ -201,7 +202,7 @@ static void do_strict_sat_adjustment(Side side)
 /* Undo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.strict_sat_adjustment.side;
 
@@ -217,7 +218,7 @@ void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_entry_ty
 /* Redo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.strict_sat_adjustment.side;
 
@@ -303,6 +304,10 @@ void strictsat_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_strict_sat_adjustment,
+                                       &move_effect_journal_undo_strict_sat_adjustment,
+                                       &move_effect_journal_redo_strict_sat_adjustment);
 
   {
     stip_structure_traversal st;

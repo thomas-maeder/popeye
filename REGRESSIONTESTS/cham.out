@@ -665,6 +665,44 @@ Loesung beendet.
 
 
 
+           Pierre Tritten
+      Chameleon 50JT 2012, Lob
+Beispiel fuer vergessenses letztes Glied in ChamaeleonSequenz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -L   .   D   .   .   .   .   K   5
+|                                   |
+4   .   .   .   .  -T   .   .   .   4
+|                                   |
+3   .  -B   .  -K   .   .   .   .   3
+|                                   |
+2  -S   D   .   .   .  -B  -T   .   2
+|                                   |
+1   .   .   .   .   .  -D  -D   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                      3 + 10
+      Chamaeleon a5 c5 e4 b2 g1
+   Chamaeleonsequenz D->T->L->S->D
+
+  1...cDb2*f2=cT   2.cLa5-d2=cS cTf2-f6=cL   3.Tg2-e2 cLf6-b2=cS #
+  1...cDc5*f2=cT   2.cTe4-c4=cL cTf2-f8=cL   3.cDg1-e3=cT cLf8-c5=cS #
+  add_to_move_generation_stack:    16814154
+                     play_move:    11415647
+ is_white_king_square_attacked:     1418355
+ is_black_king_square_attacked:    11377643
+
+Loesung beendet.
+
+
+
 Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
         Bauerns in Chamaelons
 

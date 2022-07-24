@@ -4,8 +4,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
+#include "position/effects/utils.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 square duellists[nr_sides];
@@ -14,7 +14,7 @@ square duellists[nr_sides];
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int duellists_measure_length(void)
+mummer_length_type duellists_measure_length(void)
 {
   return move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==duellists[trait[nbply]];
 }
@@ -42,7 +42,7 @@ static void remember_duellist(Side side, square to)
 
 /* Undo remembering a duellist
  */
-void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.duellist.side;
   square const from = entry->u.duellist.from;
@@ -58,7 +58,7 @@ void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type c
 
 /* Redo remembering a duellist
  */
-void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.duellist.side;
   square const to = entry->u.duellist.to;
@@ -115,6 +115,10 @@ void solving_insert_duellists(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_duellist,
+                                       &move_effect_journal_undo_remember_duellist,
+                                       &move_effect_journal_redo_remember_duellist);
 
   stip_instrument_moves(si,STDuellistsRememberDuellist);
 

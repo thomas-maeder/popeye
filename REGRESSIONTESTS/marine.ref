@@ -501,7 +501,7 @@ a)
    1.d7-d8=B !
 
   add_to_move_generation_stack:           1
-                     play_move:           6
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -519,7 +519,7 @@ b) LosingChess
    1.d7-d8=MS !
 
   add_to_move_generation_stack:           1
-                     play_move:           6
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -537,7 +537,7 @@ c) LosingChess
    1.d7-d8=PO !
 
   add_to_move_generation_stack:           1
-                     play_move:           6
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

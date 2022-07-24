@@ -210,13 +210,16 @@ simples:
 	SAT
 	StrictSAT
 	Take&MakeEchecs
+	Make&TakeEchecs
 	NoirSynchronCoup
 	BlancSynchronCoup
 	NoirAntiSynchronCoup
 	BlancAntiSynchronCoup
 	Masand
+	MasandGeneralise
 	BGL
 	AnnanEchecs
+	NannaEchecs
 	PionNormale
 	NoirEchecs
 	EchecsGeneve
@@ -248,6 +251,14 @@ simples:
 	EchecksArgentins
 	PiecesPerdues
 	ParalysePartielle
+	LeseMajeste
+	Rokagogo
+	Breton
+	ReflexionCentrale
+	Bolero
+	BoleroInverse
+	Influenceur
+	EchangeRole
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -350,6 +361,9 @@ simples:
 	Les conditions PriseForce, Maximum et Minimum peuvent etre
 	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
 	la condition ultra respective.
+
+	After EchangeRole, le nomber maximal d'EchnangeRoles peut etre
+	indique. Sans cette indication, le nombre n'est pas limite.
 	
 	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre
@@ -448,6 +462,8 @@ simples:
 		ImmunAntipoden		Immun Antipodes
 		ImmunEquipollents	Immun Equipollents
 
+	Apres Breton, Adverse peut etre indique.
+
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
 
@@ -456,6 +472,8 @@ simples:
 			refutations considerees (cas special: defense 1
 			les essais sont ecrits comme d'habitude).
 	Apparent        Le jeux apparent sera affiche
+	CoupsVides	Permet le camp qui a le trait a y renoncer.
+			Sert a trouver les essais tempo.
 	ApparentSeul    Les blancs jouent aux mats aides (0.1.1...)
 	Menace          Pour le mode multi-coups: Cette option doit
 			etre suivie par un chiffre. L'adversaire est
@@ -516,11 +534,12 @@ simples:
 				   consideration qui ne laissent aux noirs 
 				   qu'un coup ne menant pas a un s#1).
 
-	Intelligent     Verification intelligente (tres rapide) des mats
+	Intelligent     Verification intelligente (tres rapide) des mats ou pats
 			aides multicoups.
 			Apres l'option intelligent on peut entrer un chiffre.
 			Il s'agit du numero maximum des solutions par
-			position de mat.
+			position de mat ou pat.
+			A noter: ne trouve pas de pats sans roi!
 	MaxTemps        Cette option dois etre suivie par un chiffre.
 			La verification d'un probleme est terminee
 			apres le nombre de secondes indique.
@@ -554,6 +573,7 @@ simples:
 	
 						{#= }	    {#=  }
 						{!= }	    {!=  }
+						{!# }       {!#  }
 						{00 }	    {00  }
 						{%  }	    {%	 }
 						{~  }	    {~	 }
@@ -742,7 +762,7 @@ simples:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Les trois expressions partielles ainsi que les expressions |
+	Les trois expressions partielles ainsi que les expressions &
 	appartiennent au groupe attaque.
 
 
@@ -1005,7 +1025,7 @@ suivante est un peu plus compliquee:
 	et      elan tour
 	f       fou
 	fa	faro				tour argentine
-	fc      fou/tour chasseur
+	fc      fou/tour chasseur		chasseur F/T absolu
 	fe      fers
 	fl      fou-lion
 	fr      fou rebondissant
@@ -1016,6 +1036,7 @@ suivante est un peu plus compliquee:
 	gn      gnou noctambule
 	gt      girl-scout
 	ha      ("hamster")
+	hc      ContraHamster
 	im      imperatrice   
 	ka      kangourou
 	kl      kangourou lion
@@ -1092,7 +1113,7 @@ suivante est un peu plus compliquee:
 	sv      sauteur cavalier
 	sz      zebre sauteur
 	t       tour
-	tc      tour/fou chasseur
+	tc      tour/fou chasseur		chasseur T/F absolu
 	tl      tour-lion
 	tr      triton
 	uu      UbiUbi   
@@ -1107,6 +1128,9 @@ suivante est un peu plus compliquee:
                                                s'eloigne de la ligne de base comme un X
                                                et s'approche d'elle comme un Y;
                                                les coups horizontaux ne sont pas possibles
+
+	La "couleur pseudo" TotalInvisible suivie d'un chiffre positif peut
+	etre utilisee pour indiquer le nombre de pieces TotalInvisibles.
 
  - Jumeau: Verification de positions resultant de modifications "simples" 
 	de la position de depart. Les modifications suivantes seront acceptees:
@@ -1130,6 +1154,9 @@ suivante est un peu plus compliquee:
 	presentes sur ces cases seront remplacees. 
 	Exemple: jumau ajoute noir para sna6: un noctambule sauteur 
 		 paralysant est ajoute sur a6 (voir la commande piece).
+	La "couleur pseudo" TotalInvisible suivie d'un chiffre positif peut
+	utilisee pour indiquer un jumelage par modification du nombre de
+	pieces TotalInvisibles.
     Rotation n: Rotation de la position de n degrees (n=90, 180, 270). 
 	Exemple: jumeau rotation 180.
     Miroir a1<-->h1: axe verticale

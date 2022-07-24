@@ -34,16 +34,18 @@ static void angle_hoppers_generate_moves(vec_index_type kanf, vec_index_type ken
 
       {
         curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
+        if (is_square_empty(curr_generation->arrival))
           hoppers_push_move(k,sq_hurdle);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          hoppers_push_capture(k,sq_hurdle);
       }
 
       {
         curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1-1];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
+        if (is_square_empty(curr_generation->arrival))
           hoppers_push_move(k,sq_hurdle);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          hoppers_push_capture(k,sq_hurdle);
       }
     }
   }
@@ -185,7 +187,10 @@ boolean eagle_check(validator_id evaluate)
  */
 void rook_eagle_generate_moves(void)
 {
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
+  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean rookeagle_check(validator_id evaluate)
@@ -197,7 +202,10 @@ boolean rookeagle_check(validator_id evaluate)
  */
 void bishop_eagle_generate_moves(void)
 {
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
+  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean bishopeagle_check(validator_id evaluate)

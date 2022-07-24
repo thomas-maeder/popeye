@@ -49,7 +49,7 @@ void pipe_move_generation_delegate(slice_index si);
  * @param si identifies the pipe
  * @param w walk to generate for
  */
-void pipe_move_generation_differnt_walk_delegate(slice_index si,
+void pipe_move_generation_different_walk_delegate(slice_index si,
                                                  piece_walk_type w);
 
 /* Delegate validating to next1

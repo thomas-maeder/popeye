@@ -83,11 +83,11 @@ static char *ParseReciGoal(char *tok,
           }
         }
         else
-          output_plaintext_input_error_message(UnrecStip, 0);
+          output_plaintext_input_error_message(UnrecStip);
       }
     }
     else
-      output_plaintext_input_error_message(UnrecStip, 0);
+      output_plaintext_input_error_message(UnrecStip);
   }
   else
   {
@@ -139,34 +139,36 @@ static char *ParseReciEnd(char *tok, slice_index start, slice_index proxy)
 
 static char *ParseLength(char *tok, stip_length_type *length)
 {
-  char *end;
-  unsigned long tmp_length;
+  char *end=0;
+  unsigned long int tmp_length=0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%s",tok?tok:"<NULL>");
   TraceFunctionParamListEnd();
 
-  if (tok!=0 && *tok==0)
-    /* allow white space before length, e.g. "dia 4" */
-    tok = ReadNextTokStr();
-
-  tmp_length = strtoul(tok,&end,10);
-  TraceValue("%ld",tmp_length);
+  if (tok!=0)
+  {
+    if (*tok==0)
+      /* allow white space before length, e.g. "dia 4" */
+      tok = ReadNextTokStr();
+    tmp_length = strtoul(tok,&end,10);
+  }
+  TraceValue("%lu",tmp_length);
   TraceEOL();
 
   if (tok==end || tmp_length>UINT_MAX)
   {
-    output_plaintext_input_error_message(WrongInt,0);
+    output_plaintext_input_error_message(WrongInt);
     tok = 0;
   }
   else
   {
-    *length = tmp_length;
+    *length = (stip_length_type)tmp_length;
     tok = end;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
+  TraceFunctionResult("%s",tok?tok:"<NULL>");
   TraceFunctionResultEnd();
   return tok;
 }
@@ -182,7 +184,7 @@ static char *ParseBattleLength(char *tok, stip_length_type *length)
   {
     if (*length==0)
     {
-      output_plaintext_input_error_message(WrongInt,0);
+      output_plaintext_input_error_message(WrongInt);
       tok = 0;
     }
     else
@@ -232,9 +234,14 @@ static char *ParseBattle(char *tok,
       ++length;
     if (result!=0)
     {
-      stip_length_type const min_length = (play_length==play_length_minimum
-                                           ? 1
-                                           : length-1);
+      stip_length_type min_length;
+      if (play_length==play_length_minimum)
+        min_length = 1;
+      else if (length<=1)
+        /* exact- is moot since the length is minimal */
+        min_length = 1;
+      else
+        min_length = length-1;
       link_to_branch(proxy,alloc_battle_branch(length,min_length));
       solving_impose_starter(proxy,White);
     }
@@ -399,7 +406,7 @@ static char *ParseSeriesLength(char *tok,
   {
     if (*length==0)
     {
-      output_plaintext_input_error_message(WrongInt,0);
+      output_plaintext_input_error_message(WrongInt);
       tok = 0;
     }
     else
@@ -542,9 +549,9 @@ static char *ParsePlay(char *tok,
   if (arrowpos!=0)
   {
     char *end;
-    unsigned long const intro_len= strtoul(tok,&end,10);
+    unsigned int const intro_len = (unsigned int)strtoul(tok,&end,10);
     if (intro_len<1 || tok==end || end!=arrowpos)
-      output_plaintext_input_error_message(WrongInt, 0);
+      output_plaintext_input_error_message(WrongInt);
     else
     {
       result = ParsePlay(arrowpos+2,start,proxy_next,play_length);
@@ -567,14 +574,25 @@ static char *ParsePlay(char *tok,
     {
       stip_length_type length;
       stip_length_type min_length;
+
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_series_branch(length-1,min_length+1);
-        help_branch_set_end(branch,proxy_next,1);
-        link_to_branch(proxy,branch);
+        if (length==1)
+        {
+          /* ser-reci-hX1 is the same thing reci-hX1! */
+          pipe_link(proxy,SLICE_NEXT1(proxy_next));
+          dealloc_slice(proxy_next);
+        }
+        else
+        {
+          slice_index const branch = alloc_series_branch(length-1,min_length+1);
 
-        solving_impose_starter(proxy_next,Black);
+          help_branch_set_end(branch,proxy_next,1);
+          link_to_branch(proxy,branch);
+        }
+
+        solving_impose_starter(proxy,Black);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -825,16 +843,15 @@ static char *ParsePlay(char *tok,
       stip_length_type min_length;
       result = ParseHelpLength(tok2,&length,&min_length,play_length);
 
-      if (length==1)
-      {
-        /* at least 2 half moves requried for a reciprocal stipulation */
-        output_plaintext_input_error_message(StipNotSupported,0);
-        result = 0;
-      }
-
       if (result!=0)
       {
-        if (length==2)
+        if (length==1)
+        {
+          /* at least 2 half moves requried for a reciprocal stipulation */
+          output_plaintext_input_error_message(StipNotSupported);
+          result = 0;
+        }
+        else if (length==2)
         {
           pipe_link(proxy,SLICE_NEXT1(proxy_next));
           dealloc_slice(proxy_next);
@@ -1007,4 +1024,127 @@ char *ParseStip(char *tok, slice_index start)
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
   return tok;
+}
+
+/* Instrument a slice sub-tree with a stipulatoin
+ * @param start where to insert
+ * @param stipulation template sub-tree to copy into slice structure at start
+ */
+void slice_instrument_with_stipulation(slice_index start,
+                                       slice_index stipulation)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STStipulationCopier);
+    SLICE_NEXT2(prototype) = stipulation;
+    slice_insertion_insert(start,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Reinstall the orginal stipulation while undoing a twnning */
+void move_effect_journal_undo_insert_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const start = entry->u.input_stipulation.start_index;
+    slice_index si = branch_find_slice(STStipulationCopier,
+                                       start,
+                                       stip_traversal_context_intro);
+    assert(si!=no_slice);
+    dealloc_slices(SLICE_NEXT2(si));
+    while (SLICE_TYPE(si)!=STEndOfStipulationSpecific)
+    {
+      slice_index const next = SLICE_NEXT1(si);
+      pipe_remove(si);
+      si = next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ * @param stipulation identifies the entry slice into the stipulation
+ */
+void move_effect_journal_do_insert_stipulation(slice_index start,
+                                               slice_index stipulation)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_input_stipulation,
+                                       &move_effect_journal_undo_insert_stipulation,
+                                       0);
+  slice_instrument_with_stipulation(start,stipulation);
+
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.stipulation = stipulation;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_remove_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const end = branch_find_slice(STEndOfStipulationSpecific,
+                                              entry->u.remove_stipulation.start,
+                                              stip_traversal_context_intro);
+    assert(end!=no_slice);
+    pipe_link(SLICE_PREV(end),entry->u.remove_stipulation.first_removed);
+    pipe_link(entry->u.remove_stipulation.last_removed,end);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remove the current stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remove_stipulation(slice_index start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remove_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  /* we don't redo stipulation removals */
+  move_effect_journal_set_effect_doers(move_effect_remove_stipulation,
+                                       &undo_remove_stipulation,
+                                       0);
+
+  entry->u.remove_stipulation.start = start;
+  entry->u.remove_stipulation.first_removed = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+  assert(entry->u.remove_stipulation.first_removed!=no_slice);
+
+  entry->u.remove_stipulation.last_removed = entry->u.remove_stipulation.first_removed;
+  while (SLICE_TYPE(SLICE_NEXT1(entry->u.remove_stipulation.last_removed))!=STEndOfStipulationSpecific)
+    entry->u.remove_stipulation.last_removed = SLICE_NEXT1(entry->u.remove_stipulation.last_removed);
+
+  pipe_link(SLICE_PREV(entry->u.remove_stipulation.first_removed),
+            SLICE_NEXT1(entry->u.remove_stipulation.last_removed));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

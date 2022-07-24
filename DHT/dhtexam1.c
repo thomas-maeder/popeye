@@ -31,7 +31,6 @@ static char *host_aliases[MAXALIASES];
 static char hostbuf[BUFSIZ+1];
 static FILE *hostf = NULL;
 static long hostaddr[MAXADDRS];
-char *strpbrk();
 
 
 typedef unsigned long uLong;
@@ -50,16 +49,16 @@ uLong inet_addr(char *cp) {
 	/* converts an inet-adr in dot-notation to long */
 	uLong addr;
 
-	addr=atoi(cp);
+	addr=(strtoul(cp,&cp,10) & 0xFFU);
 	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
-	if (!(cp=strchr(cp+1, '.')))
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
+	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
-	if (!(cp=strchr(cp+1, '.')))
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
+	if (!(cp=strchr(cp, '.')))
 		return 0L;
-	addr= (addr<<8)+atoi(cp+1);
+	addr= (addr<<8)+(strtoul(cp+1,&cp,10) & 0xFFU);
 	return addr;
 }
 
@@ -174,7 +173,7 @@ int main(int argc, char *argv[]) {
 	fxfInfo(stderr);
 #endif /*FXF*/
 
-#define BYT(x)	(uChar)(x&0xff)
+#define BYT(x)	(uChar)((x)&0xff)
 	while ((host=gethent(hostsfile))) {
 		unsigned long InetAddr;
 		char *h;
@@ -210,10 +209,10 @@ int main(int argc, char *argv[]) {
 #endif /*FXF*/
 
 	/* Dump both Tables */
-	printf("Dumping the hashtables ..."); fflush(stdout);
+	fputs("Dumping the hashtables ...", stdout); fflush(stdout);
 	dhtDump(NameToInet,stderr);
 	dhtDump(InetToName,stderr);
-	printf(" done\n");
+	puts(" done");
 
 	/*
 	fputs("MallocInfo after filling the HashTables\n",stderr);
@@ -256,18 +255,18 @@ int main(int argc, char *argv[]) {
 
 		dhtRemoveElement(NameToInet, he->Key);
 		dhtRemoveElement(InetToName, he->Data);
-		printf("   Deleting and checking consistency (Load=%ld... ", dhtActualLoad(NameToInet));
+		printf("   Deleting and checking consistency (Load=%lu... ", dhtKeyCount(NameToInet));
 		i=0;
 		hhe= dhtGetFirstElement(NameToInet);
-		printf("    "); fflush(stdout);
+		fputs("    ", stdout); fflush(stdout);
 		while (hhe) {
 			dhtElement *he1= dhtLookupElement(InetToName, hhe->Data);
 			if (strcmp((char *)he1->Data, (char *)hhe->Key) != 0) {
-				fputs("\nSorry, Mismatch\n",stdout);
+				puts("\nSorry, Mismatch");
 				exit(1);
 			}
 			if (he1->Key != hhe->Data) {
-				fputs("\nSorry, Mismatch\n",stdout);
+				puts("\nSorry, Mismatch");
 				exit(2);
 			}
 			i=i+1;
@@ -276,7 +275,7 @@ int main(int argc, char *argv[]) {
 			*/
 			hhe= dhtGetNextElement(NameToInet);
 		}
-		printf(" done\n");
+		puts(" done");
 		he= dhtGetFirstElement(NameToInet);
 		/*he= GetNextHashElement(NameToInet);*/
 	}
@@ -284,7 +283,7 @@ int main(int argc, char *argv[]) {
 	fputs("fxf-Info after emptying the hash tables\n",stderr);
 	fxfInfo(stderr);
 #endif /*FXF*/
-	printf("Dumping the hashtables after removing ..."); fflush(stdout);
+	fputs("Dumping the hashtables after removing ...", stdout); fflush(stdout);
 	dhtDump(NameToInet,stderr);
 	dhtDump(InetToName,stderr);
 	/*
@@ -305,5 +304,9 @@ int main(int argc, char *argv[]) {
 	fputs("MallocInfo after emptying the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
-	exit(0);
+
+#if defined(FXF)
+	fxfTeardown();
+#endif
+	return 0;
 }

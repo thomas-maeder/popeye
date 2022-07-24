@@ -2,12 +2,15 @@
 #include "pieces/pieces.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/orphan.h"
 #include "position/underworld.h"
+#include "position/effects/king_square.h"
+#include "position/effects/flags_change.h"
 #include "conditions/conditions.h"
 #include "conditions/alphabetic.h"
 #include "conditions/anticirce/anticirce.h"
@@ -257,7 +260,7 @@ static boolean locate_royals(void)
   return result;
 }
 
-/* Initialise piece flags from conditions, the pieces themselve etc.
+/* Initialise piece flags from conditions, the pieces themselves etc.
  */
 static void initialise_piece_flags(void)
 {
@@ -596,6 +599,56 @@ static Side findRestrictedSide(slice_index si)
   return result;
 }
 
+static boolean does_condition_allow_intelligent(Cond cond)
+{
+  static Cond const conditions_allowing_intelligent[] = {
+      bichro,
+      monochro,
+      gridchess,
+      blackedge,
+      whiteedge,
+      nocapture,
+      haanerchess,
+      blmax,
+      blmin,
+      whmax,
+      whmin,
+      holes,
+      blcapt,
+      whcapt,
+      blfollow,
+      whfollow,
+      whforsqu,
+      whconforsqu,
+      blforsqu,
+      blconforsqu,
+      promotiononly,
+      whprom_sq,
+      blprom_sq,
+      nowhiteprom,
+      noblackprom,
+      blackultraschachzwang,
+      whiteultraschachzwang,
+      nowhcapture,
+      noblcapture,
+      alphabetic,
+      losingchess,
+      whitealphabetic,
+      blackalphabetic,
+      lastcapture,
+      noiprom
+  };
+  enum { nr_conditions_allowing_intelligent
+        = sizeof conditions_allowing_intelligent / sizeof conditions_allowing_intelligent[0] };
+
+  unsigned int i;
+  for (i = 0; i!=nr_conditions_allowing_intelligent; ++i)
+    if (conditions_allowing_intelligent[i]==cond)
+      return true;
+
+  return false;
+}
+
 /* Verify the user input and our interpretation of it
  * @param si identifies the root slice of the representation of the
  *           stipulation
@@ -621,12 +674,12 @@ void verify_position(slice_index si)
     square i;
     if (!CondFlag[whprom_sq])
       for (i = 0; i<nr_files_on_board; ++i)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
+        SETFLAG(sq_spec(CondFlag[glasgow] ? square_h7-i : square_h8-i),
                 WhPromSq);
 
     if (!CondFlag[blprom_sq])
       for (i = 0; i<nr_files_on_board; ++i)
-        SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
+        SETFLAG(sq_spec(CondFlag[glasgow] ? square_a2+i : square_a1+i),
                 BlPromSq);
   }
 
@@ -634,24 +687,24 @@ void verify_position(slice_index si)
     unsigned int i;
     for (i = 0; i<nr_files_on_board; i++)
     {
-      SETFLAG(sq_spec[square_a1+i*dir_right],WhBaseSq);
-      SETFLAG(sq_spec[square_a2+i*dir_right],WhPawnDoublestepSq);
-      SETFLAG(sq_spec[square_a7+i*dir_right],BlPawnDoublestepSq);
-      SETFLAG(sq_spec[square_a8+i*dir_right],BlBaseSq);
+      SETFLAG(sq_spec(square_a1+i*dir_right),WhBaseSq);
+      SETFLAG(sq_spec(square_a2+i*dir_right),WhPawnDoublestepSq);
+      SETFLAG(sq_spec(square_a7+i*dir_right),BlPawnDoublestepSq);
+      SETFLAG(sq_spec(square_a8+i*dir_right),BlBaseSq);
 
-      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByWhPawnSq);
-      SETFLAG(sq_spec[square_a8+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a3+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a4+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a5+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a6+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a7+i*dir_right),CapturableByWhPawnSq);
+      SETFLAG(sq_spec(square_a8+i*dir_right),CapturableByWhPawnSq);
 
-      SETFLAG(sq_spec[square_a1+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByBlPawnSq);
-      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a1+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a2+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a3+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a4+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a5+i*dir_right),CapturableByBlPawnSq);
+      SETFLAG(sq_spec(square_a6+i*dir_right),CapturableByBlPawnSq);
 
       if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
           || CondFlag[normalp]
@@ -659,8 +712,8 @@ void verify_position(slice_index si)
           || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
           || CondFlag[wormholes])
       {
-        SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByWhPawnSq);
-        SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByBlPawnSq);
+        SETFLAG(sq_spec(square_a2+i*dir_right),CapturableByWhPawnSq);
+        SETFLAG(sq_spec(square_a7+i*dir_right),CapturableByBlPawnSq);
       }
     }
   }
@@ -694,6 +747,15 @@ void verify_position(slice_index si)
   {
     output_plaintext_verifie_message(IncompatibleRoyalSettings);
     return;
+  }
+
+  if (OptFlag[nullmoves])
+  {
+    if (OptFlag[solapparent] || CondFlag[schwarzschacher])
+    {
+      output_plaintext_verifie_message(InconsistentNullMoves);
+      return;
+    }
   }
 
   if (CondFlag[takemake])
@@ -762,7 +824,8 @@ void verify_position(slice_index si)
     if (flagveryfairy
         || flagsymmetricfairy
         || TSTFLAG(some_pieces_flags, Jigger)
-        || CondFlag[annan]
+        || CondFlag[annan] || CondFlag[nanna] || CondFlag[bolero_inverse]
+        || CondFlag[pointreflection]
         || CondFlag[newkoeko]
         || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
         || CondFlag[blackedge] || CondFlag[whiteedge]
@@ -979,6 +1042,9 @@ void verify_position(slice_index si)
     return;
   }
 
+  if (CondFlag[snekchess])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[snekchess] && CondFlag[snekcirclechess])
   {
     output_plaintext_verifie_message(NonsenseCombination);
@@ -1018,6 +1084,13 @@ void verify_position(slice_index si)
 
   if (OptFlag[sansrn] && being_solved.king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
+
+  if (total_invisible_number>0)
+  {
+    disable_orthodox_mating_move_optimisation(nr_sides);
+    OptFlag[sansrn] = true;
+    OptFlag[sansrb] = true;
+  }
 
   if (being_solved.king_square[White]==initsquare && being_solved.number_of_pieces[White][King]==0 && !OptFlag[sansrb])
   {
@@ -1146,7 +1219,7 @@ void verify_position(slice_index si)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom])
+  if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom] || CondFlag[maketake])
   {
     if ((CondFlag[mars]||CondFlag[antimars])+CondFlag[plus]+CondFlag[phantom]>1)
     {
@@ -1322,7 +1395,8 @@ void verify_position(slice_index si)
       || CondFlag[antikings]
       || CondFlag[SAT]
       || CondFlag[strictSAT]
-      || CondFlag[shieldedkings])
+      || CondFlag[shieldedkings]
+      || CondFlag[lesemajeste])
     king_capture_avoiders_avoid_opponent();
 
   if (TSTFLAG(some_pieces_flags, Jigger)
@@ -1364,7 +1438,8 @@ void verify_position(slice_index si)
       || CondFlag[heffalumps] || CondFlag[biheffalumps]
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
       || CondFlag[football]
-      || CondFlag[wormholes])
+      || CondFlag[wormholes]
+      || CondFlag[lesemajeste])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[superguards])
@@ -1392,7 +1467,7 @@ void verify_position(slice_index si)
         {
           /* only fairy pieces until now ! */
           disable_orthodox_mating_move_optimisation(nr_sides);
-          if (p!=Hamster)
+          if (true||p!=Hamster)
           {
             checkpieces[check_piece_index] = p;
             is_check_piece[p] = true;
@@ -1525,14 +1600,22 @@ void verify_position(slice_index si)
     return;
   }
 
+
+  if (CondFlag[annan]+CondFlag[nanna]+CondFlag[facetoface]+CondFlag[backtoback]+CondFlag[cheektocheek]+CondFlag[pointreflection]>1)
+  {
+    output_plaintext_verifie_message(NonsenseCombination);
+    return;
+  }
+
   if (TSTFLAG(some_pieces_flags, ColourChange))
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[sentinelles])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[annan]
-      || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek])
+  if (CondFlag[annan] || CondFlag[nanna] || CondFlag[bolero] || CondFlag[bolero_inverse]
+      || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+      || CondFlag[pointreflection])
   {
     if (CondFlag[masand] || TSTFLAG(some_pieces_flags, Magic))
     {
@@ -1558,6 +1641,67 @@ void verify_position(slice_index si)
           && mummer_set_length_measurer(White,&must_capture_measure_length)))
     {
       output_plaintext_verifie_message(TwoMummerCond);
+      return;
+    }
+  }
+
+  {
+    Cond const moving_piece_walk_changing_conditions[] =
+    {
+        vault_king,
+        trans_king,
+        degradierung,
+        football,
+        norsk,
+        protean
+    };
+    enum { nr_walk_changing_conditions = sizeof moving_piece_walk_changing_conditions / sizeof moving_piece_walk_changing_conditions[0] };
+
+    piece_flag_type const walk_changing_piece_flags[] =
+    {
+        Chameleon
+    };
+    enum { nr_walk_changing_piece_flags = sizeof walk_changing_piece_flags / sizeof walk_changing_piece_flags[0] };
+
+    unsigned int nr_walk_changing_elements = 0;
+    unsigned int i;
+
+    for (i = 0; i!=nr_walk_changing_conditions; ++i)
+      if (CondFlag[moving_piece_walk_changing_conditions[i]])
+        ++nr_walk_changing_elements;
+
+    for (i = 0; i!=nr_walk_changing_piece_flags; ++i)
+      if (TSTFLAG(all_pieces_flags,CondFlag[walk_changing_piece_flags[i]]))
+        ++nr_walk_changing_elements;
+
+    if (nr_walk_changing_elements>1)
+    {
+      output_plaintext_verifie_message(IncompatibleWalkChangingElements);
+      return;
+    }
+  }
+
+  {
+    Cond const other_piece_walk_changing_conditions[] =
+    {
+        singlebox,
+        kobulkings,
+        snekchess,
+        snekcirclechess,
+        influencer
+    };
+    enum { nr_walk_changing_conditions = sizeof other_piece_walk_changing_conditions / sizeof other_piece_walk_changing_conditions[0] };
+
+    unsigned int nr_walk_changing_elements = 0;
+    unsigned int i;
+
+    for (i = 0; i!=nr_walk_changing_conditions; ++i)
+      if (CondFlag[other_piece_walk_changing_conditions[i]])
+        ++nr_walk_changing_elements;
+
+    if (nr_walk_changing_elements>1)
+    {
+      output_plaintext_verifie_message(IncompatibleWalkChangingElements);
       return;
     }
   }
@@ -1622,6 +1766,7 @@ void verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
+      || CondFlag[maketake]
       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
@@ -1644,6 +1789,7 @@ void verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
+      || CondFlag[maketake]
       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
@@ -1655,10 +1801,14 @@ void verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(Black);
 
-  if (CondFlag[takemake])
+  if (CondFlag[takemake] || CondFlag[maketake])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
+  if (CondFlag[castlingchess] || CondFlag[rokagogo]
+      || CondFlag[platzwechselrochade])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[breton])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none
@@ -1683,6 +1833,44 @@ void verify_position(slice_index si)
       || CondFlag[ohneschach]
       || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
+
+  if (OptFlag[intelligent])
+  {
+    {
+      Cond cond;
+      for (cond = 0; cond!=CondCount; ++cond)
+        if (CondFlag[cond] && !does_condition_allow_intelligent(cond))
+        {
+          output_plaintext_message(IntelligentRestricted);
+          return;
+        }
+    }
+
+    {
+      piece_walk_type curr_promotee_walk;
+
+      for (curr_promotee_walk = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty];
+           curr_promotee_walk!=Empty;
+           curr_promotee_walk = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][curr_promotee_walk])
+      {
+        if (curr_promotee_walk!=Queen
+            && curr_promotee_walk!=Knight
+            && curr_promotee_walk!=Rook
+            && curr_promotee_walk!=Bishop
+            && curr_promotee_walk!=Dummy)
+        {
+          output_plaintext_message(IntelligentRestricted);
+          return;
+        }
+      }
+
+      if (TSTFLAG(some_pieces_flags, Kamikaze))
+      {
+        output_plaintext_message(IntelligentRestricted);
+        return;
+      }
+    }
+  }
 
   pipe_solve_delegate(si);
 }
@@ -1778,4 +1966,26 @@ slice_index input_find_stipulation(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static twin_label_type const TWIN_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+twin_label_type getTwinLabel(unsigned int const index) /* index should be in [0, numTwinLabels()-1] */
+{
+  {
+    enum
+    {
+      ensure_we_have_enough_twin_labels = 1/(nr_twin_labels <= ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS)))
+    };
+  }
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index);
+  TraceFunctionParamListEnd();
+  assert(index < nr_twin_labels);
+  twin_label_type const label = TWIN_LABELS[index];
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%c",(int)label);
+  TraceFunctionResultEnd();
+  return label;
 }

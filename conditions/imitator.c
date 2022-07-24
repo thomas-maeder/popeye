@@ -13,7 +13,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/piece_removal.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
@@ -367,6 +367,10 @@ static boolean castlingimok(square sq_departure, square sq_arrival)
              && are_all_imitator_arrivals_empty(sq_departure, sq_departure+dir_right));
       empty_square(sq_departure+2*dir_left);
       occupy_square(sq_departure,p,flags);
+      break;
+
+    default:
+      assert(0);
       break;
   }
   return ret;
@@ -756,9 +760,9 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceWalk(being_solved.board[sq_observer]);
+  TraceWalk(get_walk_of_piece_on_square(sq_observer));
   TraceEOL();
-  switch (being_solved.board[sq_observer])
+  switch (get_walk_of_piece_on_square(sq_observer))
   {
     case King:
     case ErlKing:
@@ -1008,7 +1012,7 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_movement(move_effect_journal_entry_type const *entry)
+static void undo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
   int const delta = entry->u.imitator_movement.delta;
 
@@ -1021,7 +1025,7 @@ void undo_imitator_movement(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_movement(move_effect_journal_entry_type const *entry)
+static void redo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
   int const delta = entry->u.imitator_movement.delta;
 
@@ -1059,7 +1063,7 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_addition(move_effect_journal_entry_type const *entry)
+static void undo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1071,7 +1075,7 @@ void undo_imitator_addition(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_addition(move_effect_journal_entry_type const *entry)
+static void redo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
   square const to = entry->u.imitator_addition.to;
 
@@ -1103,7 +1107,7 @@ static int imitator_diff(void)
       {
         case move_effect_reason_moving_piece_movement:
         case move_effect_reason_castling_king_movement:
-        case move_effect_reason_castling_partner_movement:
+        case move_effect_reason_castling_partner:
           result += move_effect_journal[curr].u.piece_movement.to-move_effect_journal[curr].u.piece_movement.from;
           break;
 
@@ -1166,22 +1170,19 @@ void imitator_pawn_promoter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
+    move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
     square sq_arrival;
     Side as_side;
 
-    find_potential_promotion_square(promotion_horizon[nbply],&sq_arrival,&as_side);
+    find_potential_promotion_square(&sq_arrival,&as_side);
 
     assert(stack_pointer<stack_size);
 
     if (!post_move_am_i_iterating())
-      promotion_into_imitator_happening[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
+      promotion_into_imitator_happening[stack_pointer] = sq_arrival!=initsquare && is_square_occupied_by_promotable_pawn(sq_arrival,as_side);
 
     if (promotion_into_imitator_happening[stack_pointer])
     {
-      move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
-
-      promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
-
       move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
                                            sq_arrival);
       move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
@@ -1191,13 +1192,16 @@ void imitator_pawn_promoter_solve(slice_index si)
       post_move_iteration_solve_fork(si);
       --stack_pointer;
 
-      promotion_horizon[nbply] = save_horizon;
-
       if (!post_move_iteration_is_locked())
         promotion_into_imitator_happening[stack_pointer] = false;
+
+      promotion_horizon[nbply] = save_horizon;
     }
     else
     {
+      /* restore the horizon to allow the regular promoter to act on the same effects that have acted on */
+      promotion_horizon[nbply] = save_horizon;
+
       ++stack_pointer;
       post_move_iteration_solve_delegate(si);
       --stack_pointer;
@@ -1304,6 +1308,13 @@ void solving_insert_imitator(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_imitator_addition,
+                                       &undo_imitator_addition,
+                                       &redo_imitator_addition);
+  move_effect_journal_set_effect_doers(move_effect_imitator_movement,
+                                       &undo_imitator_movement,
+                                       &redo_imitator_movement);
 
   {
     stip_structure_traversal st;

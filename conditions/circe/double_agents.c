@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/position.h"
+#include "position/effects/side_change.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

@@ -19,14 +19,6 @@ enum
  */
 boolean bgl_validate_observation(slice_index si);
 
-/* Undo a BGL adjustment
- */
-void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type const *entry);
-
-/* Redo a BGL adjustment
- */
-void move_effect_journal_redo_bgl_adjustment(move_effect_journal_entry_type const *entry);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

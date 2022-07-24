@@ -1,0 +1,125 @@
+begin
+
+protocol breton.ref
+
+author Pierre Tritten
+origin FIDE Olympic Tourney 2018 Batumi, 4th Prize
+pieces white kf1 rd6h3 ba7g4 pe6 black ke3 rb2d4 be1f3 pd3e4
+stipulation h#2
+condition Breton
+
+next
+
+author Pierre Tritten & Jacques Rotenberg
+origin Julia's Fairies 2018 No. 1334.2
+pieces White Kb8 Rf6 Rh3 Ba6 Bg3 Se7 Sh5 Black Kd8 Rb5 Rf4 Bh4 Bf1 Pb7 Pg7 Pb6 Pf5 Pg4 Pe3
+stipulation h#2
+condition Breton Adverse
+
+next
+
+author Jean-Marc Loustau
+origin Julia's Fairies 2018
+pieces white kb6 qd1 rc4 ba8c7 sc5e5 pc6d3d7 black kd5 qe4 rf3 bf6 sg5 ph3
+stipulation #2
+condition breton
+option set vari
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kf1 rh8 bh3 sh5 pg2g3 black kh1 qh2 bh6 sh4 ph7
+stipulation h#1
+condition breton
+twin exchange h4 h6
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kc5 re7 bg7 sf3 black kd3 pb3d2e2f2f4
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kf8 ra7 bg4 se5 pd2 black ke4 qb5 rc6e7 bf4 sd5f2 pd4
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kg8 bf8 sb8 pb7e4f7 black ke6 bd8g6 sc8g7 pc7
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kh3 re5 bf2 sh4 pb7e4 black kf4 ra7f5 bb3g3 sc7g6 pg5
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten
+origin Ph\'enix 2018
+pieces white kb3 rd1 bc8 sh7 pc3 black kd5 rf6g5 bd3e1 sb7d7 pc5
+stipulation h#2
+condition breton
+
+next
+
+author Pierre Tritten & Jacques Rotenberg
+origin Ph\'enix 2018
+pieces white kd2 bc5 pc3c4e7g2g3 black ke4 ba8 pc6c7e5g4h2h5h6h7
+stipulation h#2
+condition breton chromatic
+
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white ka2 qf7 rc5f1 bc8h2 sd2e6 pa4d4h3 black kf5 qa7 rf4 bf6 sf2g3 pe5
+stipulation #2
+condition breton
+option try vari
+
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white kd1 rc4e1 bc8f6 sa5b7 pe5 black kd5 rh5 bh2 pc6
+stipulation #2
+condition breton
+option try vari
+
+next
+
+author Jean-Marc Loustau
+origin Ph\'enix 2018
+remark dedicated to Pierre Tritten
+pieces white kc8 qd1 rb6 bc5g8 sb4b7e2 pd6 ne8 black kc4 qe6 rc3d2 bc2 sb2 pb3d7 nc1
+stipulation #2
+condition breton
+option vari
+
+next
+
+author Michel Caillaud
+origin Ph\'enix 2018
+pieces white ka4 qh3 rf3 be2 sg4h2 pc5g6 rla5f5g8h1 blb1b5d1 black kh5 ra1 pa3f2h4 rlh8 bld8
+stipulation #2
+condition breton
+option vari
+
+end
+

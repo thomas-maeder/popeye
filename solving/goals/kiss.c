@@ -1,6 +1,7 @@
 #include "solving/goals/kiss.h"
 #include "position/position.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "stipulation/goals/kiss/reached_tester.h"
@@ -8,7 +9,7 @@
 #include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
- * whether an chess81 goal has just been reached
+ * whether a kiss goal has just been reached
  */
 
 static boolean is_naked(square candidate, square pos_kisser)

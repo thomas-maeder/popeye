@@ -8,10 +8,13 @@
  */
 
 /* number of periods passed since timer started */
-sig_atomic_t volatile periods_counter;
+extern sig_atomic_t volatile periods_counter;
 
 /* number of periods after which solving is aborted */
-sig_atomic_t volatile nr_periods;
+extern sig_atomic_t volatile nr_periods;
+
+/* maximum allowed value of nr_periods */
+extern sig_atomic_t const max_nr_periods;
 
 enum
 {

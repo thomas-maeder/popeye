@@ -609,9 +609,9 @@ Loesung beendet.
   1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6-b2*a3 ==
   1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 ==
   add_to_move_generation_stack:       98153
-                     play_move:       24136
- is_white_king_square_attacked:       17660
- is_black_king_square_attacked:        8819
+                     play_move:       20790
+ is_white_king_square_attacked:       14903
+ is_black_king_square_attacked:        8230
 
   1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 ==
   1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7-a7*b6 ==
@@ -619,9 +619,9 @@ Loesung beendet.
   1.Kc8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a6   6.Ka6-b7 a7-a7*b6 ==
   1.Kc8-b8   2.Kb8-b7   3.Kb7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 a7-a7*b6 ==
   add_to_move_generation_stack:     1185867
-                     play_move:      316031
- is_white_king_square_attacked:       71489
- is_black_king_square_attacked:      251302
+                     play_move:      263831
+ is_white_king_square_attacked:       65403
+ is_black_king_square_attacked:      205188
 
 Loesung beendet.
 
@@ -1099,6 +1099,56 @@ Kombination von MarsCirce und AntiMarsCirce
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+
+Loesung beendet.
+
+
+
+          Bernhard Geismann
+             Hans Gruber
+           Stefan Hoening
+          Hans-Peter Reich
+    2929, Problemkiste 80, 4/1992
+Motto: Viele Koeche verderben den Brei
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -K   B   .   B   2
+|                                   |
+1   .   .   .   .  -S   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#5                         5 + 3
+              MarsCirce
+
+  1  (Se1-g2 )
+  2  (Se1-f3 )
+  3  (Se1-d3 )
+  4  (Se1-c2 )
+  5  (Ke2-d1 )
+  6  (Ke2-f3 )
+  7  (Ke2-d3 )
+  8  (Ke2-d2 )
+  9  (Ke2-e3 )
+ 10  (d7-d5 )
+  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S #
+ 11  (d7-d6 )
+  add_to_move_generation_stack:    89545466
+                     play_move:    47711396
+ is_white_king_square_attacked:     3348158
+ is_black_king_square_attacked:    44938672
 
 Loesung beendet.
 

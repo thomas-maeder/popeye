@@ -21,7 +21,7 @@
 typedef enum
 {
   move_effect_none,
-  move_effect_piece_change,
+  move_effect_walk_change,
   move_effect_piece_movement,
   move_effect_piece_creation,
   move_effect_no_piece_removal,
@@ -49,12 +49,15 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
   move_effect_swap_volcanic,
+  move_effect_revelation_of_castling_partner,
+  move_effect_revelation_of_placed_invisible,
+  move_effect_revelation_of_new_invisible,
 
   move_effect_input_condition,
   move_effect_input_stipulation,
   move_effect_remove_stipulation,
   move_effect_input_sstipulation,
-  move_effect_twinning_polish,
+  move_effect_total_side_exchange,
   move_effect_twinning_substitute,
   move_effect_twinning_shift,
 
@@ -74,7 +77,7 @@ typedef enum
   move_effect_reason_regular_capture,
   move_effect_reason_ep_capture,
   move_effect_reason_castling_king_movement,
-  move_effect_reason_castling_partner_movement,
+  move_effect_reason_castling_partner,
   move_effect_reason_pawn_promotion,
   move_effect_reason_messigny_exchange,
   move_effect_reason_exchange_castling_exchange,
@@ -99,6 +102,7 @@ typedef enum
   move_effect_reason_magic_piece,
   move_effect_reason_magic_square,
   move_effect_reason_masand,
+  move_effect_reason_influencer,
   move_effect_reason_einstein_chess,
   move_effect_reason_kobul_king,
   move_effect_reason_summon_ghost,
@@ -121,6 +125,10 @@ typedef enum
   move_effect_reason_sat_adjustment,
   move_effect_reason_zeroed_in,
   move_effect_reason_snek,
+  move_effect_reason_breton,
+  move_effect_reason_removal_of_invisible,
+  move_effect_reason_revelation_of_invisible,
+  move_effect_reason_role_exchange,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning
@@ -152,7 +160,7 @@ typedef struct
             square on;
             piece_walk_type from;
             piece_walk_type to;
-        } piece_change;
+        } piece_walk_change;
         struct
         {
             piece_walk_type moving;
@@ -166,6 +174,13 @@ typedef struct
             Side for_side;
         } piece_addition;
         piece_type piece_removal;
+        struct {
+            square on;
+            piece_walk_type walk_original;
+            Flags flags_original;
+            piece_walk_type walk_revealed;
+            Flags flags_revealed;
+        } revelation_of_placed_piece;
         struct
         {
             square from;
@@ -210,7 +225,7 @@ typedef struct
         } half_neutral_phase_change;
         struct
         {
-            square square;
+            square blocked_square;
         } square_block;
         struct
         {
@@ -233,7 +248,7 @@ typedef struct
         } castling_rights_adjustment;
         struct
         {
-            square square;
+            square capture_square;
         } ep_capture_potential;
         struct
         {
@@ -318,177 +333,6 @@ void move_effect_journal_reset(slice_index si);
 move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_type type,
                                                                    move_effect_reason_type reason);
 
-/* Add moving a piece to the current move of the current ply
- * @param reason reason for moving the piece
- * @param from current position of the piece
- * @param to where to move the piece
- */
-void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
-                                           square from,
-                                           square to);
-
-/* Readd an already existing piece to the current move of the current ply
- * @param reason reason for adding the piece
- * @param on where to insert the piece
- * @param added nature of added piece
- * @param addedspec specs of added piece
- * @param for_side for which side is the (potientally neutral) piece re-added
- */
-void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
-                                             square on,
-                                             piece_walk_type added,
-                                             Flags addedspec,
-                                             Side for_side);
-
-/* Add an newly created piece to the current move of the current ply
- * @param reason reason for creating the piece
- * @param on where to insert the piece
- * @param created nature of created piece
- * @param createdspec specs of created piece
- * @param for which side is the (potentially neutral) piece created
- */
-void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
-                                           square on,
-                                           piece_walk_type created,
-                                           Flags createdspec,
-                                           Side for_side);
-
-/* Fill the capture gap at the head of each move by no capture
- */
-void move_effect_journal_do_no_piece_removal(void);
-
-/* Add removing a piece to the current move of the current ply
- * @param reason reason for removing the piece
- * @param from current position of the piece
- * @note use move_effect_journal_do_capture_move(), not
- * move_effect_journal_do_piece_removal() for regular captures
- */
-void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
-                                          square from);
-
-/* Add changing the walk of a piece to the current move of the current ply
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- * @param to new nature of piece
- */
-void move_effect_journal_do_walk_change(move_effect_reason_type reason,
-                                        square on,
-                                        piece_walk_type to);
-
-/* Add exchanging two pieces to the current move of the current ply
- * @param reason reason for exchanging the two pieces
- * @param from position of primary piece
- * @param to position of partner piece
- */
-void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
-                                           square from,
-                                           square to);
-
-/* Add changing the side of a piece to the current move of the current ply
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_side_change(move_effect_reason_type reason,
-                                        square on);
-
-/* Add king square piece_movement to the current move of the current ply
- * @param reason reason for moving the king square
- * @param side whose king square to move
- * @param to where to move the king square
- */
-void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
-                                                 Side side,
-                                                 square to);
-
-/* Add changing the flags of a piece to the current move of the current ply
- * @param reason reason for moving the king square
- * @param on position of pieces whose flags to piece_change
- * @param to changed flags
- */
-void move_effect_journal_do_flags_change(move_effect_reason_type reason,
-                                         square on,
-                                         Flags to);
-
-/* Add transforming the board to the current move of the current ply
- * @param reason reason for moving the king square
- * @param transformation how to transform the board
- */
-void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
-                                                 SquareTransformation transformation);
-
-/* Complete blocking of a square
- * @param reason reason for changing the piece's nature
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_square_block(move_effect_reason_type reason,
-                                         square square);
-
-/* Add the effects of a capture move to the current move of the current ply
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture position of the captured piece
- * @param removal_reason reason for the capture (ep or regular?)
- */
-void move_effect_journal_do_capture_move(square sq_departure,
-                                         square sq_arrival,
-                                         square sq_capture,
-                                         move_effect_reason_type removal_reason);
-
-/* Add a null effect to the current move of the current ply
- */
-void move_effect_journal_do_null_effect(void);
-
-/* Add the effects of a null move to the current move of the current ply
- */
-void move_effect_journal_do_null_move(void);
-
-/* Execute a Polish type twinning
- */
-void move_effect_journal_do_twinning_polish(void);
-
-/* Execute a twinning that substitutes a walk for another
- */
-void move_effect_journal_do_twinning_substitute(piece_walk_type from,
-                                                piece_walk_type to);
-
-/* Remember the original condition for restoration after the condition has been
- * modified by a twinning
- * @param start input position at start of parsing the condition
- */
-void move_effect_journal_do_remember_condition(fpos_t start);
-
-/* Remove the current stipulation for restoration after the stipulation has
- * been modified by a twinning
- * @param start input position at start of parsing the stipulation
- */
-void move_effect_journal_do_remove_stipulation(slice_index start);
-
-/* Remember the original stipulation for restoration after the stipulation has
- * been modified by a twinning
- * @param start input position at start of parsing the stipulation
- * @param start_pos position in input file where the stipulation starts
- * @param stipulation identifies the entry slice into the stipulation
- */
-void move_effect_journal_do_insert_stipulation(slice_index start,
-                                               slice_index stipulation);
-void move_effect_journal_do_insert_sstipulation(slice_index start_index,
-                                                slice_index stipulation);
-
-/* Execute a twinning that shifts the entire position
- */
-void move_effect_journal_do_twinning_shift(square from, square to);
-
-/* Follow the captured or a moved piece through the "other" effects of a move
- * @param ply ply in which the move was played
- * @param followed_id id of the piece to be followed
- * @param pos position of the piece after the inital capture removal and piece movement have taken place
- * @return the position of the piece with the "other" effect applied
- *         initsquare if the piece is not on the board after the "other" effects
- */
-square move_effect_journal_follow_piece_through_other_effects(ply ply,
-                                                              PieceIdType followed_id,
-                                                              square pos);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -512,35 +356,17 @@ void undo_move_effects(void);
  */
 void redo_move_effects(void);
 
+void move_effect_journal_pop_effect(void);
+
+typedef void (*move_effect_doer)(move_effect_journal_entry_type const *);
+
+void move_effect_journal_init_move_effect_doers(void);
+
+void move_effect_journal_set_effect_doers(move_effect_type type,
+                                          move_effect_doer undoer,
+                                          move_effect_doer redoer);
+
 
 extern move_effect_journal_index_type king_square_horizon;
-
-/* Update the king squares according to the effects since king_square_horizon
- * @note Updates king_square_horizon; solvers invoking this function should
- *       reset king_square_horizon to its previous value before returning
- */
-void update_king_squares(void);
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void king_square_updater_solve(slice_index si);
-
-/* Determine the departure square of a moveplayed
- * Assumes that the move has a single moving piece (i.e. is not a castling).
- * @param ply identifies the ply where the move is being or was played
- * @return the departure square; initsquare if the last move didn't have a movement
- */
-square move_effect_journal_get_departure_square(ply ply);
 
 #endif

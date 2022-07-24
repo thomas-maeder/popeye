@@ -153,3 +153,11 @@ cm SR cavalier marin
 po KR pos\'eidon
 pm BR pion marin
 bm TR bateau marin
+ep KU Epine (Roi + Sauterelle royale)
+ah SL Mao sauteur
+oh SR Moa sauteur
+se DL Senora (Dame argentine)
+fa TL Faro (Tour argentine)
+lo LL Loco (Fou argentin)
+sa SL Saltador (Cavalier argentin)
+hc HC ContraHamster

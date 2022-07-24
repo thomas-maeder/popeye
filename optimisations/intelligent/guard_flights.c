@@ -230,7 +230,7 @@ static boolean white_king_guards_flight(square from)
 static void remember_to_keep_guard_line_open(square from, square to,
                                              int delta)
 {
-  int const dir = CheckDir[Queen][to-from];
+  int const dir = CheckDir(Queen)[to-from];
   square s;
 
   TraceFunctionEntry(__func__);
@@ -357,12 +357,12 @@ static void place_rider(slice_index si,
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
         TraceSquare(guarded);
         TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
-        TraceWalk(being_solved.board[guarded]);
+        TraceWalk(get_walk_of_piece_on_square(guarded));
         TraceEOL();
         if (!TSTFLAG(being_solved.spec[guarded],Black))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
-          if (CheckDir[rider_type][being_solved.king_square[Black]-guard_from]!=0
+          if (CheckDir(rider_type)[being_solved.king_square[Black]-guard_from]!=0
               && is_square_empty(guarded))
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
@@ -386,7 +386,7 @@ static void place_rider(slice_index si,
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
-          if (CheckDir[rider_type][being_solved.king_square[Black]-guard_from]!=0)
+          if (CheckDir(rider_type)[being_solved.king_square[Black]-guard_from]!=0)
           {
             if (is_square_empty(guarded))
             {
@@ -452,7 +452,7 @@ static void unpromoted_pawn(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[guard_from],BIT(WhBaseSq)|BIT(WhPromSq))
+  if (!TSTFLAGMASK(sq_spec(guard_from),BIT(WhBaseSq)|BIT(WhPromSq))
       && GuardDir[Pawn-Pawn][guard_from].dir==guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
@@ -604,7 +604,7 @@ static void promoted_knight(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Knight][being_solved.king_square[Black]-guard_from]==0
+  if (CheckDir(Knight)[being_solved.king_square[Black]-guard_from]==0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                 Knight,
                                                                 guard_from))
@@ -647,6 +647,9 @@ static void promoted_pawn(slice_index si, square guard_from)
 
         case Knight:
           promoted_knight(si,guard_from);
+          break;
+
+        case Dummy:
           break;
 
         default:
@@ -802,7 +805,7 @@ static void knight(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Knight][being_solved.king_square[Black]-guard_from]==0
+  if (CheckDir(Knight)[being_solved.king_square[Black]-guard_from]==0
       && intelligent_reserve_officer_moves_from_to(White,
                                                    white[index_of_guarding_piece].diagram_square,
                                                    Knight,
@@ -847,6 +850,9 @@ static void guard_next_flight(slice_index si)
         case Pawn:
           unpromoted_pawn(si,*bnp);
           promoted_pawn(si,*bnp);
+          break;
+
+        case Dummy:
           break;
 
         default:

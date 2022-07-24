@@ -27,6 +27,8 @@ void circe_prevent_king_rebirth_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",TSTFLAG(context->reborn_spec,Royal));TraceEOL();
+
   binary_solve_if_then_else(si,TSTFLAG(context->reborn_spec,Royal));
 
   TraceFunctionExit(__func__);

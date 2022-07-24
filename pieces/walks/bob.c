@@ -27,7 +27,7 @@ void bob_generate_moves(void)
           {
             curr_generation->arrival = generate_moves_on_line_segment(sq_arrival,k);
             if (piece_belongs_to_opponent(curr_generation->arrival))
-              push_move();
+              push_move_regular_capture();
           }
         }
       }

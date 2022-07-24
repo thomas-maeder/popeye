@@ -12,6 +12,14 @@ enum
   true
 };
 
+#elif defined(__cplusplus) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+
+#if !defined(__cplusplus)
+#include <stdbool.h>
+#endif
+
+typedef bool boolean;
+
 #else
 
 typedef enum

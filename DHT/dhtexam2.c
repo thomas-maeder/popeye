@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "dhtvalue.h"
 #include "dht.h"
 #include "dhtmem.h"
@@ -21,6 +22,7 @@
 int main(int argc, char *argv[]) {
 
 	int cnt, EntryCnt= 0;
+	long int tmp;
 
 	struct dummy {
 		long l1;
@@ -45,7 +47,8 @@ int main(int argc, char *argv[]) {
 	while (ac < argc) {
 		if (strcmp(*av, "-c") == 0) {
 			ac++; av++;
-			EntryCnt= atoi(*av);
+			tmp = strtol(*av, NULL, 10);
+			EntryCnt= ((tmp > INT_MAX) ? INT_MAX : ((tmp < INT_MIN) ? INT_MIN : ((int) tmp)));
 			ac++; av++;
 			continue;
 		}
@@ -79,7 +82,7 @@ int main(int argc, char *argv[]) {
 	for (cnt=0; cnt<EntryCnt; cnt++) {
 		dm.l1= cnt;
 		dm.l2= -cnt;
-		if (dhtEnterElement(ht, (dhtValue)&mv, (dhtValue)cnt) == dhtNilElement) {
+		if (dhtEnterElement(ht, (dhtValue)&mv, (dhtValue)&dm) == dhtNilElement) {
 			fprintf(stderr, "%s: Sorry, failed to enter %d-th element\n", argv[0], cnt);
 			exit(5);
 		}
@@ -88,4 +91,8 @@ int main(int argc, char *argv[]) {
 		printf("Dumping %d Entries:\n", cnt);
 		dhtDump(ht, stderr);
 	}
+#if defined(FXF)
+	fxfTeardown();
+#endif
+	return 0;
 }

@@ -21,7 +21,7 @@ extern slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 extern slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
 
 /* fork slice into validating movees */
-slice_index temporary_hack_move_legality_tester[nr_sides];
+extern slice_index temporary_hack_move_legality_tester[nr_sides];
 
 /* fork slice into validating king captures */
 extern slice_index temporary_hack_king_capture_legality_tester[nr_sides];
@@ -50,9 +50,10 @@ extern slice_index temporary_hack_move_generator[nr_sides];
 /* fork slice into branch that tests square observation */
 extern slice_index temporary_hack_is_square_observed[nr_sides];
 extern slice_index temporary_hack_is_square_observed_specific[nr_sides];
+extern slice_index temporary_hack_is_square_observed_by_non_king[nr_sides];
 
 /* fork slice into check validation */
-slice_index temporary_hack_check_validator[nr_sides];
+extern slice_index temporary_hack_check_validator[nr_sides];
 
 /* fork slice into square observation validation */
 extern slice_index temporary_hack_observation_validator[nr_sides];

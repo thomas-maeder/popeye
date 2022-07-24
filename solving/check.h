@@ -6,6 +6,7 @@
 #include "utilities/boolean.h"
 #include "position/side.h"
 #include "stipulation/stipulation.h"
+#include "debugging/measure.h"
 
 /* Continue determining whether a side is in check
  * @param si identifies the check tester
@@ -37,5 +38,14 @@ void check_even_if_no_king(void);
  * @param si identifies the root slice of the solving machinery
  */
 void optimise_is_in_check(slice_index si);
+
+/* Instrument the solving machinery so as to test for check playing moves
+ * forward rather than tracking back from the king square
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_test_check_playing_moves(slice_index si);
+
+DECLARE_COUNTER(is_white_king_square_attacked)
+DECLARE_COUNTER(is_black_king_square_attacked)
 
 #endif

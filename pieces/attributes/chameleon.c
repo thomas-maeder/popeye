@@ -3,14 +3,15 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/flags_change.h"
+#include "position/effects/utils.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 enum
@@ -26,7 +27,7 @@ static move_effect_journal_index_type horizon;
 
 piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 
-twin_id_type chameleon_is_squence_explicit;
+twin_id_type explicit_chameleon_squence_set_in_twin;
 
 static void reset_sequence(chameleon_sequence_type* sequence)
 {
@@ -40,7 +41,7 @@ static void reset_sequence(chameleon_sequence_type* sequence)
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
 void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
-                                           chameleon_sequence_type* sequence,
+                                           chameleon_sequence_type *sequence,
                                            piece_walk_type from, piece_walk_type to)
 {
   if (*is_explicit != twin_id)
@@ -54,24 +55,18 @@ void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
 
 /* Initialise the reborn pieces if they haven't been already initialised
  * from the explicit indication
- * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(twin_id_type *is_explicit,
-                                      chameleon_sequence_type* sequence)
+void chameleon_init_sequence_implicit(chameleon_sequence_type *sequence)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*is_explicit==twin_id);
   TraceFunctionParamListEnd();
 
-  if (*is_explicit!=twin_id)
-  {
-    reset_sequence(sequence);
+  reset_sequence(sequence);
 
-    (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
-    (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
-    (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
-    (*sequence)[standard_walks[Queen]] = standard_walks[Knight];
-  }
+  (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
+  (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
+  (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
+  (*sequence)[standard_walks[Queen]] = standard_walks[Knight];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -90,10 +85,10 @@ static square find_promotion(move_effect_journal_index_type base)
   {
     --curr;
 
-    if (move_effect_journal[curr].type==move_effect_piece_change
+    if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
-      result = move_effect_journal[curr].u.piece_change.on;
+      result = move_effect_journal[curr].u.piece_walk_change.on;
       break;
     }
   }
@@ -128,7 +123,7 @@ static square decide_about_change(void)
   {
     square const sq_promotion = find_promotion(horizon);
     if (sq_promotion!=initsquare
-        && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
+        && is_walk_in_chameleon_sequence(get_walk_of_piece_on_square(sq_promotion))
         && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon))
       result = sq_promotion;
     else
@@ -309,9 +304,16 @@ void chameleon_chess_arriving_adjuster_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
-                                        pos,
-                                        champiece(get_walk_of_piece_on_square(pos)));
+    piece_walk_type const from_walk = get_walk_of_piece_on_square(pos);
+    piece_walk_type const to_walk = champiece(from_walk);
+
+    /* this check primarily prevents a King moving to e1/e8 from getting the right to castle
+     * because of his "transformation" to King
+     */
+    if (from_walk!=to_walk)
+      move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
+                                         pos,
+                                         to_walk);
   }
 
   pipe_solve_delegate(si);

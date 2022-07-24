@@ -31,19 +31,19 @@ static void write_history_recursive(ply ply)
   if (parent_ply[ply]>ply_retro_move)
     write_history_recursive(parent_ply[ply]);
 
-  fprintf(stdout," %u:",ply);
+  printf(" %u:",ply);
   WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
-  fputs("-",stdout);
+  putchar('-');
   WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
 }
 
 void move_generator_write_history(void)
 {
-  if (nbply!=ply_nil)
+  if (nbply>ply_retro_move)
   {
-    fputs("\n",stdout);
-    write_history_recursive(nbply-1);
-    fputs("\n",stdout);
+//    putchar('\n');
+    write_history_recursive(nbply);
+//    putchar('\n');
   }
 }
 
@@ -59,8 +59,11 @@ static slice_index const slice_rank_order[] =
     STUltraPatrolMovesForPieceGenerator,
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
+    STTotalInvisibleSpecialMoveGenerator,
+    STPointReflectionMovesForPieceGenerator,
     STCastlingGenerator,
     STAnnanMovesForPieceGenerator,
+    STNannaMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
     STBackToBackMovesForPieceGenerator,
     STCheekToCheekMovesForPieceGenerator,
@@ -68,6 +71,7 @@ static slice_index const slice_rank_order[] =
     STTransmutingKingsMovesForPieceGenerator,
     STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
+    STRokagogoMovesForPieceGeneratorFilter,
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
@@ -75,6 +79,8 @@ static slice_index const slice_rank_order[] =
     STMoveForPieceGeneratorStandardPath,
     STMoveForPieceGeneratorAlternativePath,
     STMarsCirceMoveGeneratorEnforceRexInclusive,
+    STMakeTakeGenerateCapturesWalkByWalk,
+    STBoleroGenerateMovesWalkByWalk,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,
@@ -378,6 +384,38 @@ static void genmove(void)
   TraceFunctionResultEnd();
 }
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean observing_move_generator_is_in_check(slice_index si,
+                                             Side side_observed)
+{
+  boolean result;
+  square const save_generation_departure = curr_generation->departure;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_observed);
+  TraceFunctionParamListEnd();
+
+  siblingply(trait[nbply]);
+
+  genmove();
+
+  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+
+  finply();
+
+  curr_generation->departure = save_generation_departure;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -519,7 +557,8 @@ void move_generator_filter_captures(numecoup start,
   TraceFunctionParamListEnd();
 
   for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
-    if (is_square_empty(move_generation_stack[i].capture) || (*criterion)(i))
+    if (is_no_capture(move_generation_stack[i].capture)
+        || (*criterion)(i))
     {
       ++new_top;
       move_generation_stack[new_top] = move_generation_stack[i];
@@ -546,7 +585,8 @@ void move_generator_filter_noncaptures(numecoup start,
   TraceFunctionParamListEnd();
 
   for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
-    if (!is_square_empty(move_generation_stack[i].capture) || (*criterion)(i))
+    if (!is_no_capture(move_generation_stack[i].capture)
+        || (*criterion)(i))
     {
       ++new_top;
       move_generation_stack[new_top] = move_generation_stack[i];
@@ -586,7 +626,34 @@ void pop_move(void)
 
 DEFINE_COUNTER(add_to_move_generation_stack)
 
-void push_move(void)
+void push_move_no_capture(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
+  assert(current_move[nbply]<toppile);
+
+  TraceSquare(curr_generation->departure);
+  TraceSquare(curr_generation->arrival);
+  TraceEOL();
+
+  assert(is_square_empty(curr_generation->arrival));
+  curr_generation->capture = no_capture;
+  ++current_move[nbply];
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
+  ++current_move_id[nbply];
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void push_move_regular_capture(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -600,11 +667,14 @@ void push_move(void)
   TraceEOL();
 
   curr_generation->capture = curr_generation->arrival;
+  assert(!is_square_empty(curr_generation->capture));
+  assert(TSTFLAG(being_solved.spec[curr_generation->capture],advers(trait[nbply])));
   ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
   TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -631,6 +701,7 @@ void push_move_capture_extra(square sq_capture)
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
   TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -657,6 +728,50 @@ void push_special_move(square sq_special)
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
   ++current_move_id[nbply];
   TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+boolean is_null_move(numecoup curr)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+  result = (move_generation_stack[curr].departure==nullsquare
+            && move_generation_stack[curr].arrival==nullsquare
+            && move_generation_stack[curr].capture==no_capture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+void push_null_move(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
+  assert(current_move[nbply]<toppile);
+
+  curr_generation->departure = nullsquare;
+  curr_generation->arrival = nullsquare;
+  curr_generation->capture = no_capture;
+
+  ++current_move[nbply];
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)] = *curr_generation;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
+  ++current_move_id[nbply];
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
   TraceEOL();
 
   TraceFunctionExit(__func__);

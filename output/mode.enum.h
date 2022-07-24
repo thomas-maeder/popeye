@@ -1,3 +1,6 @@
+#if !defined(OUTPUT_MODE_ENUM_H)
+#define OUTPUT_MODE_ENUM_H
+
 typedef enum
 {
  output_mode_tree, output_mode_line, output_mode_none
@@ -7,3 +10,5 @@ extern char const *output_mode_names[];
 #include "mode.enum"
 #undef ENUMERATION_TYPENAME
 #undef ENUMERATORS
+
+#endif

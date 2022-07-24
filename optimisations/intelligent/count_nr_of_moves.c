@@ -25,29 +25,29 @@ static reserve_elmt_type reserve[nr_squares_on_board];
 
 static unsigned int curr_reserve;
 
-int const minimum_number_knight_moves[square_h8-square_a1+1]=
+unsigned int const minimum_number_knight_moves[square_h8-square_a1+1]=
 {
   /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
-  /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies  8- 16 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
-  /* dummies 32- 40 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies 32- 40 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  41- 55 */     5,  4,  3,  2,  3,  4,  1,  2,  1, 4, 3, 2, 3, 4, 5,
-  /* dummies 56- 64 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /* dummies 56- 64 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,
   /*  65- 79*/      4,  3,  4,  3,  2,  3,  2,  3,  2, 3, 2, 3, 4, 3, 4,
-  /* dummies 80- 88 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies 80- 88 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /*  89-103 */     5,  4,  3,  4,  3,  2,  3,  2,  3, 2, 3, 4, 3, 4, 5,
-  /* dummies104-112 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies104-112 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 113-127 */     4,  5,  4,  3,  4,  3,  4,  3,  4, 3, 4, 3, 4, 5, 4,
-  /* dummies128-136 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies128-136 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 137-151 */     5,  4,  5,  4,  3,  4,  3,  4,  3, 4, 3, 4, 5, 4, 5,
-  /* dummies152-160 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* dummies152-160 */ UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX,UINT_MAX,
   /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
 };
 
 static unsigned int king_no_castling(square from, square to)
 {
-  unsigned int const diffcol = abs(from%onerow - to%onerow);
-  unsigned int const diffrow = abs(from/onerow - to/onerow);
+  unsigned int const diffcol = (unsigned int)abs(from%onerow - to%onerow);
+  unsigned int const diffrow = (unsigned int)abs(from/onerow - to/onerow);
 
   return diffcol>diffrow ? diffcol : diffrow;
 }
@@ -130,7 +130,7 @@ static unsigned int black_pawn_no_promotion(square from_square, square to_square
      */
     result = maxply+1;
 
-  else if (TSTFLAG(sq_spec[from_square],BlPawnDoublestepSq) && diffrow-2 >= diffcol)
+  else if (TSTFLAG(sq_spec(from_square),BlPawnDoublestepSq) && diffrow-2 >= diffcol)
     result = diffrow-1;
   else
     result = diffrow;
@@ -154,7 +154,7 @@ static unsigned int white_pawn_no_promotion(square from_square,
   if (-diffrow<diffcol)
     result = maxply+1;
 
-  else  if (TSTFLAG(sq_spec[from_square],WhPawnDoublestepSq) && -diffrow-2 >= diffcol)
+  else  if (TSTFLAG(sq_spec(from_square),WhPawnDoublestepSq) && -diffrow-2 >= diffcol)
     /* double step */
     result = -diffrow-1;
 
@@ -176,7 +176,7 @@ static unsigned int queen(square from_square, square to_square)
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  result = CheckDir[Queen][from_square-to_square]==0 ? 2 : 1;
+  result = CheckDir(Queen)[from_square-to_square]==0 ? 2 : 1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -193,7 +193,7 @@ static unsigned int rook(square from_square, square to_square)
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  result = CheckDir[Rook][from_square-to_square]==0 ? 2 : 1;
+  result = CheckDir(Rook)[from_square-to_square]==0 ? 2 : 1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -211,7 +211,7 @@ static unsigned int bishop(square from_square, square to_square)
   TraceFunctionParamListEnd();
 
   if (SquareCol(from_square)==SquareCol(to_square))
-    result = CheckDir[Bishop][from_square-to_square]==0 ? 2 : 1;
+    result = CheckDir(Bishop)[from_square-to_square]==0 ? 2 : 1;
   else
     result = maxply+1;
 
@@ -231,6 +231,7 @@ static unsigned int knight(square from_square, square to_square)
   TraceFunctionParamListEnd();
 
   result = minimum_number_knight_moves[abs(from_square-to_square)];
+  assert(result!=UINT_MAX);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -265,6 +266,10 @@ static unsigned int officer(piece_walk_type piece, square from_square, square to
 
     case Knight:
       result = knight(from_square,to_square);
+      break;
+
+    case Dummy:
+      result = ((from_square == to_square) ? 0 : (maxply+1));
       break;
 
     default:
@@ -396,6 +401,10 @@ static unsigned int from_to_different(Side side,
       }
       break;
 
+    case Dummy:
+      result = ((from_square == to_square) ? 0 : (maxply+1));
+      break;
+
     default:
       assert(0);
       result = UINT_MAX;
@@ -449,12 +458,12 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
     /* A rough check whether it is worth thinking about promotions */
     unsigned int moves = pawn_comes_from/onerow - nr_of_slack_rows_below_board;
 
-	  if (TSTFLAG(sq_spec[pawn_comes_from],BlPawnDoublestepSq))
-  	  --moves;
+    if (TSTFLAG(sq_spec(pawn_comes_from),BlPawnDoublestepSq))
+      --moves;
 
     assert(moves<=5);
 
-    if (!TSTFLAG(sq_spec[to_be_blocked],BlPromSq))
+    if (!TSTFLAG(sq_spec(to_be_blocked),BlPromSq))
       /* not promotion square -- 1 move necessary to get there */
       ++moves;
 
@@ -501,7 +510,7 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
         piece_walk_type const type = black[i].type;
         if (type==Pawn)
         {
-          if (!TSTFLAG(sq_spec[to_square],BlPromSq))
+          if (!TSTFLAG(sq_spec(to_square),BlPromSq))
           {
             unsigned int const time = black_pawn_no_promotion(from_square,
                                                               to_square);
@@ -665,7 +674,7 @@ boolean intelligent_can_promoted_white_pawn_theoretically_move_to(unsigned int i
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(sq_spec[to_square],WhPromSq))
+  if (!TSTFLAG(sq_spec(to_square),WhPromSq))
     ++min_nr_moves_by_p;
 
   result = reserve[curr_reserve].nr_remaining_moves[White]>=min_nr_moves_by_p;
@@ -693,7 +702,7 @@ boolean intelligent_can_promoted_black_pawn_theoretically_move_to(unsigned int i
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[placed_from],BlPawnDoublestepSq))
+  if (TSTFLAG(sq_spec(placed_from),BlPawnDoublestepSq))
     --min_nr_moves_by_p;
 
   assert(min_nr_moves_by_p<=5);
@@ -927,7 +936,7 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
 {
   boolean result;
   unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
   unsigned int nr_capturable_white_masses = reserve[curr_reserve].nr_unused_masses[White];
 
   TraceFunctionEntry(__func__);
@@ -972,7 +981,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
 {
   boolean result;
   unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1064,7 +1073,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
 
   if (from_square!=to_square)
   {
-    unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+    unsigned int const diffcol = (unsigned int)abs(from_square%onerow - to_square%onerow);
     if (diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
     {
       unsigned int const nr_of_moves = white_pawn_no_promotion(from_square,
@@ -1187,7 +1196,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1233,7 +1242,7 @@ boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_squar
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1421,7 +1430,7 @@ boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
                                                              square to_square)
 {
   boolean result = false;
-  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1469,7 +1478,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
                                                                 square via)
 {
   boolean result = false;
-  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+  unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -1532,7 +1541,7 @@ boolean intelligent_reserve_front_check_by_promotee(square from_square,
 
     if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - prom_square%onerow);
       if (diffcol<min_diffcol)
         min_diffcol = diffcol;
     }
@@ -1570,7 +1579,7 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
                                  : white_pawn_no_promotion(from_square,via));
     if (to_via+1<=reserve[curr_reserve].nr_remaining_moves[White])
     {
-      unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+      unsigned int const diffcol = (unsigned int)abs(from_square%onerow - via%onerow);
       if (diffcol+1<=reserve[curr_reserve].nr_unused_masses[Black])
       {
         push_reserve();
@@ -1598,10 +1607,10 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
 void intelligent_dump_reservations(void)
 {
   unsigned int i = 0;
-  fputs("reservations:\n",stdout);
+  puts("reservations:");
   for (i = 0; i<=curr_reserve; ++i)
   {
-    fprintf(stdout,"%u  remaining moves:w:%u/b:%u  unused masses:w:%u/b:%u  mass usage:%s\n",
+    printf("%u  remaining moves:w:%u/b:%u  unused masses:w:%u/b:%u  mass usage:%s\n",
            i,
            reserve[i].nr_remaining_moves[White],
            reserve[i].nr_remaining_moves[Black],

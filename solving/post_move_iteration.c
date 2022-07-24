@@ -84,6 +84,7 @@ void post_move_iteration_solve_delegate(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 void post_move_iteration_solve_fork(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -100,6 +101,33 @@ void post_move_iteration_solve_fork(slice_index si)
   }
 
   fork_solve_delegate(si);
+
+  --current_level;
+  TraceValue("%u",current_level);TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recurse into the same pipe while post move iterating
+ * @param si identifies the iterating slice
+ */
+void post_move_iteration_solve_recurse(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++current_level;
+  TraceValue("%u",current_level);TraceEOL();
+
+  if (current_level>iteration_level)
+  {
+    iteration_level = current_level;
+    TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
+  }
+
+  solve(si);
 
   --current_level;
   TraceValue("%u",current_level);TraceEOL();

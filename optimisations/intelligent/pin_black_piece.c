@@ -125,6 +125,9 @@ static void pin_using_specific_piece_on(slice_index si,
       pin_by_promoted_pawn(si,pinner_index,pin_from,is_pin_on_diagonal,go_on);
       break;
 
+    case Dummy:
+      break;
+
     default:
       assert(0);
       break;
@@ -142,7 +145,7 @@ static void pin_using_specific_piece_on(slice_index si,
 int intelligent_is_black_piece_pinnable(square piece_pos)
 {
   int const diff = piece_pos-being_solved.king_square[Black];
-  int result = CheckDir[Queen][diff];
+  int result = CheckDir(Queen)[diff];
 
   TraceFunctionEntry(__func__);
   TraceSquare(piece_pos);
@@ -178,37 +181,42 @@ void intelligent_pin_pinnable_black_piece(slice_index si,
 
   if (intelligent_reserve_pinner())
   {
-    boolean const is_pin_on_diagonal = SquareCol(piece_pos+pin_dir)==SquareCol(piece_pos);
+    square pin_on = piece_pos+pin_dir;
 
-    square pin_on;
-
-    remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,+1);
-
-    for (pin_on = piece_pos+pin_dir; is_square_empty(pin_on); pin_on += pin_dir)
+    if (is_square_empty(pin_on))
     {
-      if (nr_reasons_for_staying_empty[pin_on]==0)
+      remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,+1);
+
+      boolean const is_pin_on_diagonal = (SquareCol(pin_on)==SquareCol(piece_pos));
+
+      do
       {
-        unsigned int pinner_index;
-        for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
+        if (nr_reasons_for_staying_empty[pin_on]==0)
         {
-          if (white[pinner_index].usage==piece_is_unused)
+          unsigned int pinner_index;
+          for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
           {
-            white[pinner_index].usage = piece_pins;
-            pin_using_specific_piece_on(si,pinner_index,pin_on,is_pin_on_diagonal,go_on);
-            white[pinner_index].usage = piece_is_unused;
+            if (white[pinner_index].usage==piece_is_unused)
+            {
+              white[pinner_index].usage = piece_pins;
+              pin_using_specific_piece_on(si,pinner_index,pin_on,is_pin_on_diagonal,go_on);
+              white[pinner_index].usage = piece_is_unused;
+            }
           }
+
+          empty_square(pin_on);
         }
 
-        empty_square(pin_on);
-      }
+        ++nr_reasons_for_staying_empty[pin_on];
 
-      ++nr_reasons_for_staying_empty[pin_on];
+        pin_on += pin_dir;
+      } while (is_square_empty(pin_on));
+
+      for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
+        --nr_reasons_for_staying_empty[pin_on];
+
+      remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,-1);
     }
-
-    for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
-      --nr_reasons_for_staying_empty[pin_on];
-
-    remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,-1);
 
     intelligent_unreserve();
   }

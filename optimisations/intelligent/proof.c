@@ -16,6 +16,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
+#include "position/effects/piece_movement.h"
 
 #include "debugging/assert.h"
 #include "debugging/trace.h"
@@ -24,7 +25,13 @@
 
 static boolean ProofFairy;
 
-static int KingMoves[nr_sides][maxsquare];
+static unsigned int KingMoves[nr_sides][maxsquare];
+
+enum
+{
+  KingMoveBlocked = UINT_MAX,
+  KingMoveGuarded = UINT_MAX-1
+};
 
 static stip_length_type current_length;
 
@@ -74,21 +81,26 @@ slice_type proof_make_goal_reachable_type(void)
                 || TSTFLAG(some_pieces_flags,ColourChange)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
-                || CondFlag[annan]
+                || CondFlag[annan] || CondFlag[nanna]
+                || CondFlag[pointreflection]
                 || CondFlag[glasgow]
-                || CondFlag[takemake]
+                || CondFlag[takemake] || CondFlag[maketake]
                 || CondFlag[messigny]
                 || CondFlag[mars]
                 || CondFlag[castlingchess]
+                || CondFlag[rokagogo]
                 || CondFlag[platzwechselrochade]
                 || CondFlag[football]
                 || CondFlag[kobulkings]
                 || CondFlag[wormholes]
                 || CondFlag[dynasty]
                 || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
-                || CondFlag[lostpieces]);
+                || CondFlag[lostpieces]
+                || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+                || CondFlag[breton]
+                || CondFlag[bolero] || CondFlag[bolero_inverse]);
 
-  /* TODO these can't possibly be the only elements that doesn't
+  /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
    */
   if (piece_walk_may_exist_fairy
@@ -130,10 +142,10 @@ slice_index alloc_intelligent_proof(void)
   return result;
 }
 
-static int KingMovesNeeded(Side side)
+static unsigned int KingMovesNeeded(Side side)
 {
-  int   needed;
-  int   cast;
+  unsigned int needed;
+  unsigned int cast;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
@@ -154,6 +166,9 @@ static int KingMovesNeeded(Side side)
     {
       square const square_base = side==White ? square_a1 : square_a8;
 
+      assert(needed!=KingMoveBlocked);
+      assert(needed!=KingMoveGuarded);
+
       if (TSTCASTLINGFLAGMASK(side,ra_cancastle))
       {
         /* wh long castling */
@@ -162,8 +177,10 @@ static int KingMovesNeeded(Side side)
            might save a rook move.
         */
         cast = KingMoves[side][square_base+file_c];
+        assert(cast!=KingMoveBlocked);
+        assert(cast!=KingMoveGuarded);
         if (cast<needed)
-          needed= cast;
+          needed = cast;
       }
       if (TSTCASTLINGFLAGMASK(side,rh_cancastle))
       {
@@ -173,8 +190,10 @@ static int KingMovesNeeded(Side side)
            might save a rook move
         */
         cast = KingMoves[side][square_base+file_g];
+        assert(cast!=KingMoveBlocked);
+        assert(cast!=KingMoveGuarded);
         if (cast<needed)
-          needed= cast;
+          needed = cast;
       }
     }
   }
@@ -202,17 +221,17 @@ static void PawnMovesFromTo(Side side,
   }
 
   /* calculate number of captures */
-  *captures= abs(to%onerow-from%onerow);
+  *captures = (unsigned int)abs(to%onerow-from%onerow);
 
   /* calculate number of moves */
   if (rank_to<rank_from)
     *moves = current_length;
   else
   {
-    *moves = rank_to-rank_from;
+    *moves = (unsigned int)(rank_to-rank_from);
     if (*moves<*captures || *captures>captallowed)
       *moves = current_length;
-    else if (TSTFLAG(sq_spec[from],pawn_doublestep_square) && *captures<*moves-1)
+    else if (TSTFLAG(sq_spec(from),pawn_doublestep_square) && *captures<*moves-1)
       /* double step possible */
       --*moves;
   }
@@ -230,7 +249,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
       && !(proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side)))
     return 0;
 
-  else if (TSTFLAG(sq_spec[sq],double_step))
+  else if (TSTFLAG(sq_spec(sq),double_step))
     /* there is no pawn at all that can enter this square */
     return current_length;
 
@@ -242,7 +261,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 
     /* double step */
     square const sq_double_step_departure = sq+2*dir_backward;
-    if (TSTFLAG(sq_spec[sq_double_step_departure],double_step)
+    if (TSTFLAG(sq_spec(sq_double_step_departure),double_step)
         && (get_walk_of_piece_on_square(sq_double_step_departure)==Pawn && TSTFLAG(being_solved.spec[sq_double_step_departure],side))
         && !(proofgames_target_position.board[sq_double_step_departure]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_double_step_departure],side)))
       return 1;
@@ -302,7 +321,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
   switch (p)
   {
     case Knight:
-      *moves= minimum_number_knight_moves[abs(sqdiff)];
+      *moves = minimum_number_knight_moves[abs(sqdiff)];
+      assert(*moves!=UINT_MAX);
       if (*moves > 1)
       {
         square    sqi, sqj;
@@ -320,7 +340,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
               sqj= to+vec[j];
               if (!blocked_by_pawn(sqj) && !is_square_blocked(sqj))
               {
-                testmov= minimum_number_knight_moves[abs(sqi-sqj)]+2;
+                testmov = minimum_number_knight_moves[abs(sqi-sqj)]+2;
+                assert(testmov!=UINT_MAX);
                 if (testmov == *moves)
                   return;
                 if (testmov < testmin)
@@ -338,7 +359,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
         *moves= current_length;
       else
       {
-        dir= CheckDir[Bishop][sqdiff];
+        dir= CheckDir(Bishop)[sqdiff];
         if (dir)
         {
           do {
@@ -352,7 +373,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     case Rook:
-      dir= CheckDir[Rook][sqdiff];
+      dir= CheckDir(Rook)[sqdiff];
       if (dir)
       {
         do {
@@ -365,7 +386,7 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     case Queen:
-      dir= CheckDir[Queen][sqdiff];
+      dir= CheckDir(Queen)[sqdiff];
       if (dir)
       {
         do {
@@ -380,7 +401,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
     default:
       fprintf(stderr,"error in %s - piece:",__func__);
       WriteWalk(&output_plaintext_engine,stderr,p);
-      fputs("\n",stderr);
+      fputc('\n',stderr);
+      *moves= current_length; /* TODO: This value will be used by the caller.  We should maybe do something more extreme here (like fail an assertion). */
       break;
   }
 }
@@ -391,40 +413,26 @@ static void PromPieceMovesFromTo(Side side,
                                  stip_length_type *captures,
                                  stip_length_type captallowed)
 {
-  stip_length_type i;
   stip_length_type mov1;
   stip_length_type mov2;
   stip_length_type cap1;
   unsigned int const from_file = from%nr_files_on_board;
-  square const promsq_a = side==White ? square_a8 : square_a1;
-  square const cenpromsq = promsq_a+from_file;
+  unsigned int const min_to_file = ((captallowed<(from_file-file_a)) ? (from_file-captallowed) : file_a);
+  unsigned int const max_to_file = ((captallowed<(file_h-from_file)) ? (from_file+captallowed) : file_h);
+  square const promsq_a = ((side==White) ? square_a8 : square_a1);
+  square promsq = promsq_a+min_to_file;
+  square const promsq_max = promsq_a+max_to_file;
+  stip_length_type min_moves= current_length;
 
-  *moves= current_length;
-
-  PawnMovesFromTo(side,from, cenpromsq, &mov1, &cap1, captallowed);
-  OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq, to, &mov2);
-  if (mov1+mov2 < *moves)
-    *moves= mov1+mov2;
-
-  for (i = 1; i<=captallowed; ++i)
+  do
   {
-    if (from_file+i <= file_h)
-    {
-      /* got out of range sometimes ! */
-      PawnMovesFromTo(side,from, cenpromsq+i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq+i, to, &mov2);
-      if (mov1+mov2 < *moves)
-        *moves= mov1+mov2;
-    }
-    if (from_file>=file_a+i)
-    {
-      /* got out of range sometimes ! */
-      PawnMovesFromTo(side,from, cenpromsq-i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq-i, to, &mov2);
-      if (mov1+mov2 < *moves)
-        *moves= mov1+mov2;
-    }
-  }
+    PawnMovesFromTo(side,from, promsq, &mov1, &cap1, captallowed);
+    OfficerMovesFromTo(proofgames_target_position.board[to], promsq, to, &mov2);
+    if ((mov1+mov2)<min_moves)
+      min_moves= mov1+mov2;
+  } while (promsq_max >= ++promsq);
+
+  *moves= min_moves;
 
   /* We cannot say for sure how many captures we really need.
   ** We may need 3 moves and 1 capture or 2 moves and 2 captures.
@@ -437,7 +445,7 @@ static void PieceMovesFromTo(Side side,
                              stip_length_type *moves,
                              stip_length_type *captures,
                              stip_length_type captallowed,
-                             int captrequ)
+                             stip_length_type captrequ)
 {
   piece_walk_type const pfrom = get_walk_of_piece_on_square(from);
   piece_walk_type const pto = proofgames_target_position.board[to];
@@ -447,13 +455,14 @@ static void PieceMovesFromTo(Side side,
   TraceSquare(from);
   TraceSquare(to);
   TraceFunctionParam("%u",captallowed);
-  TraceFunctionParam("%d",captrequ);
+  TraceFunctionParam("%u",captrequ);
   TraceFunctionParamListEnd();
 
   assert(TSTFLAG(being_solved.spec[from],side));
   assert(TSTFLAG(proofgames_target_position.spec[to],side));
 
   *moves= current_length;
+  *captures= 0;
 
   switch (pto)
   {
@@ -466,7 +475,6 @@ static void PieceMovesFromTo(Side side,
       if (pfrom==pto)
       {
         OfficerMovesFromTo(pfrom, from, to, moves);
-        *captures= 0;
       }
       else if (pfrom==Pawn)
         PromPieceMovesFromTo(side,
@@ -484,39 +492,56 @@ static void PieceMovesFromTo(Side side,
   TraceFunctionResultEnd();
 }
 
-static stip_length_type ArrangeListedPieces(
-  PieceList2    *pl,
-  int       nto,
-  int       nfrom,
-  boolean   *taken,
-  stip_length_type CapturesAllowed)
+static stip_length_type ArrangeListedPieces(PieceList2 *pl,
+                                            int nto,
+                                            int nfrom,
+                                            boolean *taken,
+                                            stip_length_type CapturesAllowed)
 {
-  stip_length_type Diff, Diff2;
-  int i, id;
+  stip_length_type result;
 
-  Diff= current_length;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",nto);
+  TraceFunctionParam("%d",nfrom);
+  TraceFunctionParam("%u",CapturesAllowed);
+  TraceFunctionParamListEnd();
 
-  if (nto == 0)
-    return 0;
-
-  for (i= 0; i < pl[0].Nbr; ++i)
+  if (nto==0)
+    result = 0;
+  else
   {
-    id= pl[0].id[i];
-    if (taken[id] || pl[0].captures[i]>CapturesAllowed)
-      continue;
+    int i;
+    result = current_length;
+    for (i = 0; i<pl[0].Nbr; ++i)
+    {
+      stip_length_type Diff2;
+      int const id = pl[0].id[i];
+      if (taken[id] || pl[0].captures[i]>CapturesAllowed)
+      {
+        /* nothing */
+      }
+      else
+      {
+        taken[id] = true;
+        Diff2 = (pl[0].moves[i]
+                 + ArrangeListedPieces(pl+1,
+                                       nto-1,
+                                       nfrom,
+                                       taken,
+                                       CapturesAllowed-pl[0].captures[i]));
 
-    taken[id]= true;
-    Diff2= pl[0].moves[i]
-      + ArrangeListedPieces(pl+1, nto-1, nfrom,
-                            taken, CapturesAllowed-pl[0].captures[i]);
+        if (Diff2<result)
+          result = Diff2;
 
-    if (Diff2 < Diff)
-      Diff= Diff2;
-
-    taken[id]= false;
+        taken[id]= false;
+      }
+    }
   }
 
-  return Diff;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
@@ -532,38 +557,46 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
   TraceFunctionParam("%u",CapturesRequired);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",ProofOfficers[camp].Nbr);TraceEOL();
+
   if (to->Nbr == 0)
     result = 0;
   else
   {
     PieceList * const from = &PiecesToBeArranged[camp];
     PieceList2 pl[16];
-    boolean   taken[16];
+    boolean taken[16];
     int ito;
     int ifrom;
 
-    for (ito = 0; ito<to->Nbr; ito++)
+    TraceValue("%u",PiecesToBeArranged[camp].Nbr);TraceEOL();
+
+    for (ito = 0; ito<to->Nbr; ++ito)
     {
       pl[ito].Nbr = 0;
-      for (ifrom = 0; ifrom<from->Nbr; ifrom++)
+      for (ifrom = 0; ifrom<from->Nbr; ++ifrom)
       {
-        stip_length_type moves, captures;
+        stip_length_type moves;
+        stip_length_type captures;
         PieceMovesFromTo(camp,
                          from->sq[ifrom],
-                         to->sq[ito], &moves, &captures,
-                         CapturesAllowed, CapturesRequired);
+                         to->sq[ito],
+                         &moves,
+                         &captures,
+                         CapturesAllowed,
+                         CapturesRequired);
         if (moves<current_length)
         {
-          pl[ito].moves[pl[ito].Nbr]= moves;
-          pl[ito].captures[pl[ito].Nbr]= captures;
-          pl[ito].id[pl[ito].Nbr]= ifrom;
-          pl[ito].Nbr++;
+          pl[ito].moves[pl[ito].Nbr] = moves;
+          pl[ito].captures[pl[ito].Nbr] = captures;
+          pl[ito].id[pl[ito].Nbr] = ifrom;
+          ++pl[ito].Nbr;
         }
       }
     }
 
-    for (ifrom = 0; ifrom<from->Nbr; ifrom++)
-      taken[ifrom]= false;
+    for (ifrom = 0; ifrom<from->Nbr; ++ifrom)
+      taken[ifrom] = false;
 
     /* determine minimal number of moves required */
     result = ArrangeListedPieces(pl,to->Nbr,from->Nbr,taken,CapturesAllowed);
@@ -706,15 +739,26 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand] && !CondFlag[lostpieces])
+    if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton])
     {
       /* not enough time to capture the remaining pieces */
+      TraceValue("%u",Nbr[White]);
+      TraceValue("%u",Nbr[Black]);
+      TraceValue("%u",MovesLeft[Black]);
+      TraceValue("%u",ProofNbrPieces[White]);
+      TraceValue("%u",MovesLeft[White]);
+      TraceValue("%u",ProofNbrPieces[Black]);
+      TraceEOL();
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
           || Nbr[Black] > MovesLeft[White]+ProofNbrPieces[Black])
+      {
+        TraceText("true\n");
         return true;
+      }
     }
 
-    if (!CondFlag[sentinelles])
+    if (!CondFlag[sentinelles]
+        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone)
     {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
@@ -734,13 +778,27 @@ static boolean FairyImpossible(void)
         }
       }
 
+      TraceValue("%u",proofgames_target_position.number_of_pieces[White][Pawn]);
+      TraceValue("%u",being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]);
+      TraceValue("%u",proofgames_target_position.number_of_pieces[Black][Pawn]);
+      TraceValue("%u",being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black]);
+      TraceEOL();
+
       if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
           || proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
+      {
+        TraceText("true\n");
         return true;
+      }
     }
 
+    TraceValue("%u",CondFlag[anticirce]);
+    TraceValue("%u",anticirce_variant.determine_rebirth_square);
+    TraceValue("%u",circe_determine_rebirth_square_from_pas);
+    TraceEOL();
     if (CondFlag[anticirce]
-        && anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_from_pas)
+        && anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_from_pas
+        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone)
     {
       /* note, that we are in the !change_moving_piece section */
       unsigned int count= 0;
@@ -778,6 +836,10 @@ static boolean FairyImpossible(void)
       if (count%2 == 1)
         ++count;
 
+      TraceValue("%u",count);
+      TraceValue("%u",ProofNbrPieces[Black]);
+      TraceEOL();
+
       if (16-count < ProofNbrPieces[Black])
         return true;
 
@@ -810,30 +872,37 @@ static boolean FairyImpossible(void)
 
       if (count%2 == 1)
         ++count;
+
+      TraceValue("%u",count);
+      TraceValue("%u",ProofNbrPieces[White]);
+      TraceEOL();
+
       if (16-count < ProofNbrPieces[White])
         return true;
     }
   }
 
-  /* find a solution ... */
-  TraceText("testing if there are enough remaining moves");TraceEOL();
-  MovesAvailable *= 2;
-
-  for (bnp = boardnum; *bnp; bnp++)
+  if (!CondFlag[arc])
   {
-    piece_walk_type const p = proofgames_target_position.board[*bnp];
-    if (p!=Empty)
+    TraceText("testing if there are enough remaining moves");TraceEOL();
+    MovesAvailable *= 2;
+
+    for (bnp = boardnum; *bnp; bnp++)
     {
-      if (p!=get_walk_of_piece_on_square(*bnp)
-          || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
+      piece_walk_type const p = proofgames_target_position.board[*bnp];
+      if (p!=Empty)
       {
-        if (MovesAvailable==0)
+        if (p!=get_walk_of_piece_on_square(*bnp)
+            || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
         {
-          TraceText("available moves exhausted");TraceEOL();
-          return true;
+          if (MovesAvailable==0)
+          {
+            TraceText("available moves exhausted");TraceEOL();
+            return true;
+          }
+          else
+            --MovesAvailable;
         }
-        else
-          --MovesAvailable;
       }
     }
   }
@@ -950,19 +1019,29 @@ static boolean Impossible(void)
       return true;
 
   {
-    stip_length_type const white_king_moves_needed = KingMovesNeeded(White);
-    if (moves_left[White]<white_king_moves_needed)
+    unsigned int const white_king_moves_needed = KingMovesNeeded(White);
+    if (white_king_moves_needed>=KingMoveGuarded)
+    {
+      TraceText("king movement impossible\n");
+      return true;
+    }
+    else if (moves_left[White]<white_king_moves_needed)
     {
       TraceText(" white_moves_left<white_king_moves_needed\n");
       return true;
     }
     else
-      moves_left[White] -= KingMovesNeeded(White);
+      moves_left[White] -= white_king_moves_needed;
   }
 
   {
-    stip_length_type const black_king_moves_needed = KingMovesNeeded(Black);
-    if (moves_left[Black]<black_king_moves_needed)
+    unsigned int const black_king_moves_needed = KingMovesNeeded(Black);
+    if (black_king_moves_needed>=KingMoveGuarded)
+    {
+      TraceText("king movement impossible\n");
+      return true;
+    }
+    else if (moves_left[Black]<black_king_moves_needed)
     {
       TraceText("black_moves_left<black_king_moves_needed\n");
       return true;
@@ -987,7 +1066,7 @@ static boolean Impossible(void)
   PawnsToBeArranged[Black].Nbr = 0;
   PiecesToBeArranged[Black].Nbr= 0;
 
-  for (bnp= boardnum; *bnp; bnp++)
+  for (bnp = boardnum; *bnp; bnp++)
   {
     piece_walk_type const p1 = proofgames_target_position.board[*bnp];
     piece_walk_type const p2 = get_walk_of_piece_on_square(*bnp);
@@ -996,6 +1075,13 @@ static boolean Impossible(void)
 
     if (p1!=p2 || side_target!=side_current)
     {
+      TraceSquare(*bnp);
+      TraceWalk(proofgames_target_position.board[*bnp]);
+      TraceEnumerator(Side,side_target);
+      TraceWalk(get_walk_of_piece_on_square(*bnp));
+      TraceEnumerator(Side,side_current);
+      TraceEOL();
+
       switch (p1)
       {
         case Empty:
@@ -1022,27 +1108,67 @@ static boolean Impossible(void)
           break;
 
         case Pawn:
-          PawnsToBeArranged[side_current].sq[PawnsToBeArranged[side_current].Nbr++] = *bnp;
-          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+          PawnsToBeArranged[side_current].sq[PawnsToBeArranged[side_current].Nbr] = *bnp;
+          ++PawnsToBeArranged[side_current].Nbr;
+
+          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+          ++PiecesToBeArranged[side_current].Nbr;
           break;
 
-        default:
+        case Bishop:
+          TraceValue("%u",CapturedQueenBishop[side_current]);
+          TraceValue("%u",CapturedKingBishop[side_current]);
+          TraceEOL();
           if (side_current==White)
           {
-            if (!(CapturedQueenBishop[White] && *bnp == square_c1 && p2 == Bishop)
-                && !(CapturedKingBishop[White] && *bnp == square_f1 && p2 == Bishop)
-                && !(CapturedQueen[White] && *bnp == square_d1 && p2 == Queen))
-              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+            if (!(CapturedQueenBishop[White] && *bnp == square_c1)
+                && !(CapturedKingBishop[White] && *bnp == square_f1))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
           }
           else
           {
-            if (!(CapturedQueenBishop[Black] && *bnp == square_c8 && p2 == Bishop)
-                && !(CapturedKingBishop[Black] && *bnp == square_f8 && p2 == Bishop)
-                && !(CapturedQueen[Black] && *bnp == square_d8 && p2 == Queen))
-              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr++] = *bnp;
+            if (!(CapturedQueenBishop[Black] && *bnp == square_c8)
+                && !(CapturedKingBishop[Black] && *bnp == square_f8))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
           }
           break;
+
+        case Queen:
+          TraceValue("%u",CapturedQueen[side_current]);
+          TraceEOL();
+          if (side_current==White)
+          {
+            if (!(CapturedQueen[White] && *bnp==square_d1))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
+          }
+          else
+          {
+            if (!(CapturedQueen[Black] && *bnp==square_d8))
+            {
+              PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+              ++PiecesToBeArranged[side_current].Nbr;
+            }
+          }
+          break;
+
+        default:
+          PiecesToBeArranged[side_current].sq[PiecesToBeArranged[side_current].Nbr] = *bnp;
+          ++PiecesToBeArranged[side_current].Nbr;
+          break;
       }
+
+      TraceValue("%u",PawnsToBeArranged[side_current].Nbr);
+      TraceValue("%u",PiecesToBeArranged[side_current].Nbr);
+      TraceEOL();
     }
   }
 
@@ -1062,14 +1188,18 @@ static boolean Impossible(void)
     return true;
   }
 
-  if (ArrangePieces(to_be_captured[Black],White,captures_required[Black])>moves_left[White])
+  if (ArrangePieces(to_be_captured[Black],
+                    White,
+                    captures_required[Black])>moves_left[White])
   {
     TraceText("(ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)"
               ">white_moves_left\n");
     return true;
   }
 
-  if (ArrangePieces(to_be_captured[White],Black,captures_required[White])>moves_left[Black])
+  if (ArrangePieces(to_be_captured[White],
+                    Black,
+                    captures_required[White])>moves_left[Black])
   {
     TraceText("ArrangePieces(WhPieToBeCapt,Black,WhCapturesRequired)"
               ">black_moves_left\n");
@@ -1166,7 +1296,7 @@ static void InitialiseKingMoves(Side side)
 {
   square const *bnp;
   square sq;
-  int   MoveNbr;
+  unsigned int MoveNbr;
   boolean   GoOn;
   square const square_base = side==White ? square_a1 : square_a8;
   square const square_opponent_base = side==White ? square_a8 : square_a1;
@@ -1197,62 +1327,72 @@ static void InitialiseKingMoves(Side side)
 
     for (sq = square_pawn_base; sq<square_pawn_base+nr_files_on_board; ++sq)
       if (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side))
-        KingMoves[side][sq] = -1; /* blocked */
+        KingMoves[side][sq] = KingMoveBlocked;
 
     for (sq = square_opponent_pawn_base; sq<square_opponent_pawn_base+nr_files_on_board; ++sq)
       if (proofgames_target_position.board[sq]==Pawn
           && TSTFLAG(proofgames_target_position.spec[sq],advers(side)))
       {
-        KingMoves[side][sq]= -1;    /* blocked */
+        KingMoves[side][sq]= KingMoveBlocked;
         if (trivial_validation)
         {
-          KingMoves[side][sq+dir_backward+dir_left] = -2;
-          KingMoves[side][sq+dir_backward+dir_right] = -2; /* guarded */
+          KingMoves[side][sq+dir_backward+dir_left] = KingMoveGuarded;
+          KingMoves[side][sq+dir_backward+dir_right] = KingMoveGuarded;
         }
       }
 
     /* cornered bishops */
     if (BlockedQueenBishop[side])
-      KingMoves[side][square_base+file_c]= -1;
+      KingMoves[side][square_base+file_c] = KingMoveBlocked;
     if (BlockedKingBishop[side])
-      KingMoves[side][square_base+file_f]= -1;
+      KingMoves[side][square_base+file_f] = KingMoveBlocked;
     if (BlockedQueenBishop[advers(side)])
-      KingMoves[side][square_opponent_base+file_c]= -1;
+      KingMoves[side][square_opponent_base+file_c] = KingMoveBlocked;
     if (BlockedKingBishop[advers(side)])
-      KingMoves[side][square_opponent_base+file_f]= -1;
+      KingMoves[side][square_opponent_base+file_f] = KingMoveBlocked;
 
     /* initialise wh king */
-    KingMoves[side][proofgames_target_position.king_square[side]]= 0;
-    MoveNbr= 0;
+    KingMoves[side][proofgames_target_position.king_square[side]] = 0;
+    MoveNbr = 0;
     do
     {
       GoOn= false;
       for (bnp= boardnum; *bnp; bnp++)
       {
-        if (KingMoves[side][*bnp] == MoveNbr)
+        if (KingMoves[side][*bnp]==MoveNbr)
         {
           vec_index_type k;
           for (k= vec_queen_end; k>=vec_queen_start; k--)
           {
-            sq= *bnp+vec[k];
-            if (KingMoves[side][sq] > MoveNbr)
+            sq = *bnp+vec[k];
+            if (KingMoves[side][sq]>=KingMoveGuarded)
             {
-              KingMoves[side][sq]= MoveNbr+1;
-              GoOn= true;
+
             }
-            if (CondFlag[trans_king]
-                || CondFlag[supertrans_king]
-                || (CondFlag[vault_king] && vaulting_kings_transmuting[side]))
+            else
             {
-              sq= *bnp+vec[k];
-              while (!is_square_blocked(sq) && KingMoves[side][sq]!=-1)
+              if (KingMoves[side][sq]>MoveNbr)
               {
-                if (KingMoves[side][sq] > MoveNbr)
+                assert(KingMoves[side][sq]!=KingMoveBlocked);
+                assert(KingMoves[side][sq]!=KingMoveGuarded);
+                KingMoves[side][sq] = MoveNbr+1;
+                GoOn= true;
+              }
+              if (CondFlag[trans_king]
+                  || CondFlag[supertrans_king]
+                  || (CondFlag[vault_king] && vaulting_kings_transmuting[side]))
+              {
+                sq= *bnp+vec[k];
+                while (!is_square_blocked(sq) && KingMoves[side][sq]!=KingMoveBlocked)
                 {
-                  KingMoves[side][sq]= MoveNbr+1;
-                  GoOn= true;
+                  assert(KingMoves[side][sq]!=KingMoveGuarded);
+                  if (KingMoves[side][sq]>MoveNbr)
+                  {
+                    KingMoves[side][sq] = MoveNbr+1;
+                    GoOn= true;
+                  }
+                  sq += vec[k];
                 }
-                sq += vec[k];
               }
             }
           }
@@ -1263,10 +1403,11 @@ static void InitialiseKingMoves(Side side)
             vec_index_type k;
             for (k= vec_knight_end; k>=vec_knight_start; k--)
             {
-              sq= *bnp+vec[k];
-              if (!is_square_blocked(sq) && KingMoves[side][sq]>MoveNbr)
+              sq = *bnp+vec[k];
+              if (!is_square_blocked(sq) && KingMoves[side][sq]>MoveNbr && KingMoves[side][sq]!=KingMoveBlocked)
               {
-                KingMoves[side][sq]= MoveNbr+1;
+                assert(KingMoves[side][sq]!=KingMoveGuarded);
+                KingMoves[side][sq] = MoveNbr+1;
                 GoOn= true;
               }
             }
@@ -1308,7 +1449,9 @@ static void InitialiseIntelligentSide(Side side)
     square const sq_king_bishop_block_left = sq_king_bishop+dir_forward+dir_left;
     square const sq_king_bishop_block_right = sq_king_bishop+dir_forward+dir_right;
     square const sq_queen_block_left = sq_queen+dir_forward+dir_left;
-    square const sq_queen_block_right = sq_queen+dir_forward+dir_right;
+    /* 2*dir_right is correct
+     * together with the bishops, this causes queen and king to be trapped */
+    square const sq_queen_block_right = sq_queen+dir_forward+2*dir_right;
 
     /* determine pieces blocked */
     BlockedQueenBishop[side] = (proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
@@ -1339,6 +1482,14 @@ static void InitialiseIntelligentSide(Side side)
         && !(proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
         && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
         && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
+
+    TraceEnumerator(Side,side);
+    TraceValue("%u",BlockedQueenBishop[side]);
+    TraceValue("%u",BlockedKingBishop[side]);
+    TraceSquare(sq_queen);
+    TraceWalk(proofgames_target_position.board[sq_queen]);
+    TraceValue("%u",CapturedQueen[side]);
+    TraceEOL();
 
     /* update castling possibilities */
     if (BlockedQueenBishop[side])

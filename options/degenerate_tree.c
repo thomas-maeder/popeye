@@ -10,13 +10,6 @@
 
 static stip_length_type max_length_short_solutions;
 
-/* Reset the max threats setting to off
- */
-void reset_max_nr_nontrivial_length(void)
-{
-  max_length_short_solutions = no_stip_length;
-}
-
 /* Read the requested max threat length setting from a text token
  * entered by the user
  * @param textToken text token from which to read

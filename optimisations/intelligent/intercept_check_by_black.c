@@ -113,6 +113,9 @@ static void promoted_black_pawn(slice_index si,
                                                   go_on);
           break;
 
+        case Dummy:
+          break;
+
         default:
           assert(0);
           break;
@@ -152,7 +155,7 @@ static void black_piece_on(slice_index si,
                               intercepter_index,where_to_intercept,
                               is_diagonal,
                               go_on);
-          if (!TSTFLAGMASK(sq_spec[where_to_intercept],BIT(BlBaseSq)|BIT(BlPromSq)))
+          if (!TSTFLAGMASK(sq_spec(where_to_intercept),BIT(BlBaseSq)|BIT(BlPromSq)))
             intelligent_place_unpromoted_black_pawn(si,
                                                     intercepter_index,
                                                     where_to_intercept,
@@ -183,6 +186,9 @@ static void black_piece_on(slice_index si,
                                          intercepter_index,
                                          where_to_intercept,
                                          go_on);
+          break;
+
+        case Dummy:
           break;
 
         default:

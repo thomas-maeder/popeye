@@ -3,7 +3,7 @@
 #include "solving/ply.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/null_move.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -30,7 +30,7 @@ void dummy_move_solve(slice_index si)
 
   /* insert an empty ply for the dummy defense */
   nextply(advers(trait[nbply]));
-  move_effect_journal_do_null_move();
+  move_effect_journal_do_null_move(move_effect_no_reason);
   pipe_solve_delegate(si);
   finply();
 

@@ -9,9 +9,19 @@
  * the value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int must_capture_measure_length(void)
+mummer_length_type must_capture_measure_length(void)
 {
-  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  boolean result;
 
-  return !is_square_empty(sq_capture);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);TraceEOL();
+
+  result = !is_no_capture(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

@@ -6,6 +6,9 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* **************** Initialisation ***************
  */
 
@@ -74,6 +77,11 @@ void stip_spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   SLICE_TESTER(si) = copy_slice(si);
+  if (SLICE_TESTER(si)==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
   stip_traverse_structure_children(si,st);
   link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
   SLICE_NEXT2(SLICE_TESTER(si)) = SLICE_TESTER(SLICE_NEXT2(si));

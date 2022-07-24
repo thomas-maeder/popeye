@@ -24,8 +24,8 @@ typedef unsigned char uChar;
 
 static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
 {
-  uLong leng= ((CompactMemVal *)m)->Leng;
-  uChar *s= ((CompactMemVal *)m)->Data;
+  uLong leng= ((CompactMemVal const *)m)->Leng;
+  uChar const *s= ((CompactMemVal const *)m)->Data;
   dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
@@ -41,21 +41,21 @@ static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
 
 static int EqualCompactMemoryValue(dhtConstValue v1, dhtConstValue v2)
 {
-  if (((CompactMemVal *)v1)->Leng != ((CompactMemVal *)v2)->Leng)
+  if (((CompactMemVal const *)v1)->Leng != ((CompactMemVal const *)v2)->Leng)
     return 0;
-  if (memcmp(((CompactMemVal *)v1)->Data,
-             ((CompactMemVal *)v2)->Data, ((CompactMemVal *)v1)->Leng))
+  if (memcmp(((CompactMemVal const *)v1)->Data,
+             ((CompactMemVal const *)v2)->Data, ((CompactMemVal const *)v1)->Leng))
     return 0;
   else
     return 1;
 }
 
-static dhtValue DupCompactMemoryValue(dhtConstValue v)
+static dhtConstValue DupCompactMemoryValue(dhtConstValue v)
 {
-  CompactMemVal *cm= NewCompactMemVal(((CompactMemVal *)v)->Leng);
+  CompactMemVal *cm= NewCompactMemVal(((CompactMemVal const *)v)->Leng);
   if (cm) {
-    cm->Leng= ((CompactMemVal *)v)->Leng;
-    memcpy(cm->Data, ((CompactMemVal *)v)->Data, cm->Leng);
+    cm->Leng= ((CompactMemVal const *)v)->Leng;
+    memcpy(cm->Data, ((CompactMemVal const *)v)->Data, cm->Leng);
     return (dhtValue)cm;
   }
   return (dhtValue)cm;
@@ -64,16 +64,14 @@ static dhtValue DupCompactMemoryValue(dhtConstValue v)
 static void FreeCompactMemoryValue(dhtValue v)
 {
   FreeCompactMemVal(v);
-  return;
 }
 
 static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
 {
   uLong i;
-  fprintf(f, "(%lu)", ((CompactMemVal *)v)->Leng);
-  for (i=0; i<((CompactMemVal*)v)->Leng; i++)
-    fprintf(f, "%02x", ((CompactMemVal*)v)->Data[i] & 0xff);
-  return;
+  fprintf(f, "(%lu)", ((CompactMemVal const *)v)->Leng);
+  for (i=0; i<((CompactMemVal const *)v)->Leng; i++)
+    fprintf(f, "%02x", ((CompactMemVal const *)v)->Data[i] & 0xff);
 }
 
 dhtValueProcedures dhtCompactMemoryProcs = {

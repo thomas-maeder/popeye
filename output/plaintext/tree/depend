@@ -993,8 +993,8 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/check.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ debugging/measure.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -1045,6 +1045,8 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/check.h:
+
+debugging/measure.h:
 
 stipulation/pipe.h:
 

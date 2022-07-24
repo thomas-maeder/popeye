@@ -61,4 +61,24 @@ void create_builder_setup_ply_solve(slice_index si);
  */
 slice_index input_find_stipulation(slice_index start);
 
+/* Verify the user input and our interpretation of it
+ * @param si identifies the root slice of the representation of the
+ *           stipulation
+ */
+void verify_position(slice_index si);
+
+void royals_locator_solve(slice_index si);
+
+void initialise_piece_flags_solve(slice_index si);
+
+void pieces_counter_solve(slice_index si);
+
+enum {
+  nr_twin_labels = 26
+};
+
+typedef unsigned char twin_label_type;
+
+twin_label_type getTwinLabel(unsigned int index); /* index should be in [0, nr_twin_labels-1] */
+
 #endif

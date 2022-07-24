@@ -21,7 +21,7 @@ stip_length_type max_unsolvable;
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_avoid_unsolvable_slice(slice_index proxy_op1,
+static slice_index alloc_avoid_unsolvable_slice(slice_index proxy_op1,
                                          slice_index proxy_op2)
 {
   slice_index result;

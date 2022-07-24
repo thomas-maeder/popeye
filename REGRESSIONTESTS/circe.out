@@ -638,10 +638,10 @@ Loesung beendet.
   1.Ke4*f3[+wTh1]   2.Kf3*g2[+wTh1]   3.Kg2*h1[+wTh1]   1.Th1-g1[+sKh1] #
   1.Ke4*f3[+wTh1]   2.Kf3*g2[+wTh1]   3.Kg2*h1[+wTh1]   1.Th1-h2[+sKh1] #
   1.Ke4*f3[+wTh1]   2.Kf3*g2[+wTh1]   3.Kg2-g3   1.Th1-f1[+wTh1]   2.Th1-g1[+wKh1] #
-  add_to_move_generation_stack:      150990
-                     play_move:       90426
+  add_to_move_generation_stack:      150999
+                     play_move:       90435
  is_white_king_square_attacked:        7618
- is_black_king_square_attacked:       90168
+ is_black_king_square_attacked:       90177
 
 Loesung beendet.
 

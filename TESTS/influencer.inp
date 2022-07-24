@@ -1,0 +1,97 @@
+begin
+
+prot influencer.tst
+
+pieces white ba1 sb3 black rb1 sc3
+condition influencer
+stipulation zb21
+option nowk nobk duplex
+
+next
+
+title no self-check after 1.Rb8-b2[a1=R] 0-0-0 - royal pieces don't influence
+pieces white ke1 ba1 black ra8b8
+condition influencer
+stipulation h001
+option nobk
+
+next
+
+pieces white ke1 ra1 black due2
+stip zc11
+condition influencer
+option nobk
+
+next
+
+pieces white kc4 bc8e5 sb5 black kc6 rb6b7 bc7
+stipulation #2
+condition influencer
+option vari
+
+next
+
+pieces white kh6 rd5 ba5 black kh8 bg8 pd6e7
+stipulation #2
+condition influencer
+option vari
+
+next
+
+pieces white ke1 qe7 sa1 bb1 pb2b5e2e3 black kd5 ra8
+stipulation #3
+condition influencer
+option vari try defence 3
+
+next
+
+pieces white kb2 sb3d3 black ka4 bd8 sa3 pb4b5d4
+stipulation #2
+condition influencer
+option set vari try
+
+next
+
+pieces white kc6 sb3 pa2 black ka4 ba6 pa3b4b5c7
+stipulation #6
+condition influencer
+option try vari nothr
+
+next
+
+pieces white ke1 ba3f3 sa1 pb3f2 black kd3 ra8 sg1
+stipulation h#2
+condition influencer
+
+next
+
+pieces neutral rc3 sb3 rf6 bg6 white rc3 sb4g7 black rf6 sc4g5
+stipulation zf61
+condition messigny influencer
+option nowk nobk duplex
+twin add neutral rc3 rf6
+
+next
+
+title Kh3 becomes royal and is in check from (non-royal) Kh4
+pieces white ka4h4 black kc5h3
+stipulation zb51
+condition royaldynasty influencer
+
+next
+
+title Bg1 becomes a pawn on its promotion rank and is promoted
+pieces white pe5 black pe6f6 bg1
+stipulation ~1
+condition anticirce influencer
+option nowk nobk
+
+next
+
+title promotion of two knights after their transformation to pawns
+pieces white kf4 sb6b8 pb3 black kh2 pa4
+stipulation h#1.5
+condition influencer anticirce
+
+end
+

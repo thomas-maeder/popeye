@@ -21,6 +21,7 @@
 #include "stipulation/goals/countermate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/autostalemate/reached_tester.h"
+#include "stipulation/goals/automate/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
@@ -69,7 +70,8 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
     , { "dia",  goal_proofgame           }
     , { "a=>b", goal_atob                }
     , { "c81",  goal_chess81             }
-   , { "k",    goal_kiss                }
+    , { "k",    goal_kiss                }
+    , { "!#",   goal_automate            }
 };
 
 char const *get_goal_symbol(goal_type type)
@@ -141,7 +143,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
         if (goal.target==initsquare)
         {
-          output_plaintext_input_error_message(MissngSquareList, 0);
+          output_plaintext_input_error_message(MissngSquareList);
           tok = 0;
         }
         else
@@ -205,6 +207,10 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         pipe_link(proxy,alloc_goal_autostalemate_reached_tester_system());
         break;
 
+      case goal_automate:
+        pipe_link(proxy,alloc_goal_automate_reached_tester_system());
+        break;
+
       case goal_circuit:
         pipe_link(proxy,alloc_goal_circuit_reached_tester_system());
         stipulation_remember_pieceids_required();
@@ -258,6 +264,10 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 
+        /* we don't redo the position reset */
+        move_effect_journal_set_effect_doers(move_effect_atob_reset_position_for_target,
+                                             &move_effect_journal_undo_atob_reset_position_for_target,
+                                             0);
         move_effect_journal_do_atob_reset_position_for_target(move_effect_reason_diagram_setup);
 
         break;
@@ -273,7 +283,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
           if (goal.target==initsquare)
           {
-            output_plaintext_input_error_message(MissngSquareList, 0);
+            output_plaintext_input_error_message(MissngSquareList);
             tok = 0;
           }
           else

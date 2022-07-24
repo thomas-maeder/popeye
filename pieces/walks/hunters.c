@@ -17,6 +17,11 @@ typedef boolean (*direction_validator_type)(numecoup n);
 
 static direction_validator_type direction_validator[maxply+1];
 
+/* Look up an existing hunter type combining two specific walks
+ * @param away away walk type of the hunter type we look for
+ * @param home away walk type of the hunter type we look for
+ * @return hunter type; nr_piece_walks if non exists
+ */
 piece_walk_type hunter_find_type(piece_walk_type away, piece_walk_type home)
 {
   unsigned int i;
@@ -24,9 +29,14 @@ piece_walk_type hunter_find_type(piece_walk_type away, piece_walk_type home)
     if (huntertypes[i].away==away && huntertypes[i].home==home)
       return Hunter0+i;
 
-  return Invalid;
+  return nr_piece_walks;
 }
 
+/* Create a hunter type combining two specific walks
+ * @param away away walk type of the new hunter type
+ * @param home away walk type of the new hunter type
+ * @return hunter type; nr_piece_walks none could be created
+ */
 piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
 {
   if (nrhuntertypes<max_nr_hunter_walks)
@@ -46,10 +56,10 @@ piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
     return result;
   }
   else
-    return Invalid;
+    return nr_piece_walks;
 }
 
-void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry)
+static void move_effect_journal_undo_hunter_type_definition(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -243,6 +253,11 @@ void solving_initialise_hunters(slice_index root)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
+
+  /* we don't redo hunter type defnitions */
+  move_effect_journal_set_effect_doers(move_effect_hunter_type_definition,
+                                       &move_effect_journal_undo_hunter_type_definition,
+                                       0);
 
   if (nrhuntertypes>0 || piece_walk_exists[RookHunter] || piece_walk_exists[BishopHunter])
   {

@@ -8,7 +8,8 @@
 #include "solving/castling.h"
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/piece_removal.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
@@ -50,7 +51,7 @@ void castling_chess_move_player_solve(slice_index si)
     move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                           sq_departure,sq_arrival);
-    move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+    move_effect_journal_do_piece_movement(move_effect_reason_castling_partner,
                                           sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 
@@ -90,14 +91,44 @@ void castlingchess_generate_moves_for_piece(slice_index si)
   }
 }
 
-/* Instrument slices with move tracers
+static boolean castling_only_with_rook(numecoup n)
+{
+  square const special_capture = move_generation_stack[n].capture;
+
+  if (special_capture>offset_platzwechsel_rochade)
+  {
+    square const sq_partner = special_capture-offset_platzwechsel_rochade;
+    return get_walk_of_piece_on_square(sq_partner)==Rook;
+  }
+  else
+    return true;
+}
+
+/* Filter out castlings that are allowed in CastlingChess but not in Rokagogo
+ * @param identifies generator slice
  */
-void solving_insert_castling_chess(slice_index si)
+void rokagogo_filter_moves_for_piece(slice_index si)
+{
+  numecoup const save_numecoup = CURRMOVE_OF_PLY(nbply);
+
+  pipe_move_generation_delegate(si);
+
+  move_generator_filter_moves(save_numecoup,&castling_only_with_rook);
+}
+
+/* Instrument slices with Castling Chess slices
+ * @param is_rokagogo true iff we are instrumenting for Rokagogo
+ */
+void solving_insert_castling_chess(slice_index si, boolean is_rokagogo)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (is_rokagogo)
+    solving_instrument_move_generation(si,nr_sides,STRokagogoMovesForPieceGeneratorFilter);
+
   solving_instrument_move_generation(si,nr_sides,STCastlingChessMovesForPieceGenerator);
+
   insert_alternative_move_players(si,STCastlingChessMovePlayer);
   solving_disable_castling(si);
 

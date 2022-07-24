@@ -20,7 +20,7 @@ enum
 typedef disturbance_by_rider_elmt_type disturbance_by_rider_type[maxsquare+4];
 
 /* disturbances by rider types */
-disturbance_by_rider_type DisturbMateDirRider[4];
+extern disturbance_by_rider_type DisturbMateDirRider[4];
 
 typedef struct
 {

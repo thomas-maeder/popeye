@@ -13,7 +13,7 @@ static boolean pawnedpiececheck(validator_id evaluate)
   boolean result = false;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
-  if (TSTFLAG(sq_spec[sq_target],capturable))
+  if (TSTFLAG(sq_spec(sq_target),capturable))
   {
     numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
     numvec const dir_forward_right = dir_forward+dir_right;

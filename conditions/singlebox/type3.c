@@ -4,9 +4,10 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/null_move.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
-#include "solving/move_effect_journal.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
@@ -81,7 +82,7 @@ void singlebox_type3_pawn_promoter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (promotion[move_generation_stack[curr].id].what==Empty)
-    move_effect_journal_do_null_effect();
+    move_effect_journal_do_null_effect(move_effect_no_reason);
   else
     move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
                                         promotion[move_generation_stack[curr].id].where,
@@ -135,7 +136,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_pawn(get_walk_of_piece_on_square(sq_dep))
-      && TSTFLAG(sq_spec[sq_dep],flag))
+      && TSTFLAG(sq_spec(sq_dep),flag))
   {
     if (being_solved.number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
     {
@@ -226,7 +227,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       ++nr_latent_promotions;
       replace_walk(where,sequence.promotee);
       if (where==curr_generation->departure)
-        pipe_move_generation_differnt_walk_delegate(si,sequence.promotee);
+        pipe_move_generation_different_walk_delegate(si,sequence.promotee);
       else
         pipe_move_generation_delegate(si);
 

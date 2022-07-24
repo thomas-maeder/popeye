@@ -23,7 +23,7 @@ static unsigned long ConvertString(dhtConstValue v)
      *	  - independant from word sizes
      *	  - needs no initialisation
      */
-    unsigned char *s= (unsigned char *)v;
+    unsigned char const *s= (unsigned char const *)v;
     unsigned long hash= 0;
     while (*s) {
 	hash+= *s++;
@@ -38,29 +38,27 @@ static unsigned long ConvertString(dhtConstValue v)
 
 static int EqualString(dhtConstValue v1, dhtConstValue v2)
 {
-	if (strcmp((char *)v1, (char *)v2))
+	if (strcmp((char const *)v1, (char const *)v2))
 		return 0;
 	else
 		return 1;
 }
 
-static dhtValue	DupString(dhtConstValue v)
+static dhtConstValue	DupString(dhtConstValue v)
 {
 	char *nv;
-	nv= (char *)fxfAlloc(strlen((char *)v)+1);
+	nv= (char *)fxfAlloc(strlen((char const *)v)+1);
 	if (nv!=0)
-      strcpy(nv, (char *)v);
-	return (dhtValue)nv;
+		strcpy(nv, (char const *)v);
+	return (dhtConstValue)nv;
 }
 static void	FreeString(dhtValue v)
 {
-	fxfFree(v, strlen((char *)v)+1);
-	return;
+	fxfFree(v, strlen((char const *)v)+1);
 }
 static void	DumpString(dhtConstValue v, FILE *f)
 {
-	fputs((char *)v,f);
-	return;
+	fputs((char const *)v,f);
 }
 
 dhtValueProcedures dhtStringProcs = {

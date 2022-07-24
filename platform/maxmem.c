@@ -4,8 +4,8 @@
 
 #include <limits.h>
 
-maxmem_kilos_type const one_mega = 1<<10;
-maxmem_kilos_type const one_giga = 1<<20;
+maxmem_kilos_type const one_mega = ((maxmem_kilos_type)1)<<10;
+maxmem_kilos_type const one_giga = ((maxmem_kilos_type)1)<<20;
 
 /* Singular value indiciating that the user made no request for a
  * maximal amount of memory to be allocated for the hash table.
@@ -42,7 +42,7 @@ static boolean dimensionHashtable(void)
 
   if (amountMemoryRequested==nothing_requested)
   {
-    unsigned int const amountMemoryGuessed = platform_guess_reasonable_maxmemory();
+    maxmem_kilos_type amountMemoryGuessed = platform_guess_reasonable_maxmemory();
     amountMemoryAllocated = allochash(amountMemoryGuessed);
   }
   else
@@ -59,7 +59,7 @@ void hashtable_dimensioner_solve(slice_index si)
   if (dimensionHashtable())
     pipe_solve_delegate(si);
   else
-    fputs("Couldn't allocate the requested amount of memory\n",stdout);
+    puts("Couldn't allocate the requested amount of memory");
 }
 
 /* Retrieve amount of memory actually allocated

@@ -3,11 +3,11 @@
 Bemerkungen zur Verteilung von Popeye:
 
 Popeye ist freie Software. Der Quellcode ist frei erhaeltlich. Wir
-stehen auf dem Standpunkt, dass diese Software oeffentlich sein soll,
+stehen auf dem Standpunkt, dass diese Software oeffentlich sein soll
 und nicht unser ureigenstes Eigentum darstellt, auch wenn wir
 inzwischen einiges an Arbeit investiert haben. Diese Arbeit ist
 sowieso nicht zu bezahlen, und wir investieren unsere Zeit nicht
-deswegen um damit Geld zu verdienen.
+deswegen, um damit Geld zu verdienen.
 
 Die einzige Einschraenkung besteht darin, dass Popeye vollstaendig
 weitergeben wird.
@@ -15,7 +15,7 @@ weitergeben wird.
 
 Rueckmeldungen:
 
-Fuer Fehlermeldungen und Erweiterungsvorschluege verwenden Sie bitte die
+Fuer Fehlermeldungen und Erweiterungsvorschlaege verwenden Sie bitte die
 dafuer vorgesehenen Werkzeuge auf github.com .
 
 Oeffnen Sie in Ihrem Browser
@@ -75,7 +75,7 @@ entgegennehmen. Folgende Kommandos stehen zur Auswahl:
 	Bemerkung, Autor, Quelle, Titel, Protokoll,
 	Bedingung, Option, Forderung, SForderung, Forsyth, Steine, Zwilling
 
-Die Reihenfolge der Kommandos spielt keine Rolle, und koennen auch mehrfach
+Die Reihenfolge der meisten Kommandos spielt keine Rolle, und sie koennen auch mehrfach
 gegeben werden. Bei den Kommandos in der zweiten Zeile wird immer das letzte
 Kommando ausgefuehrt.
 Jedes Kommando erwartet weitere Parameter. Beginnen wir mit den einfacheren
@@ -99,8 +99,8 @@ Kommandos:
 	Datei bereits, so wird an deren Ende weitergeschrieben. Die Datei wird
 	vorher nicht geloescht.
 
- - Bedingung: Nach diesem Schluesselwort sind alle die Bedingungen die das
-	Problem erfordert anzugeben. Getrennt durch Zwischenraeume oder
+ - Bedingung: Nach diesem Schluesselwort sind alle die Bedingungen, die das
+	Problem erfordert, anzugeben. Getrennt durch Zwischenraeume oder
 	Zeilenwechsel.
         Folgendes ist momentan moeglich:
 
@@ -135,7 +135,7 @@ Kommandos:
 	MagischeFelder
 	TibetSchach
 	DoppelTibetSchach
-	Loch                            (= nicht betretbares Feld)
+	Loch
 	SchwarzerSchlagzwang
 	WeisserSchlagzwang
 	TransmutierendeKoenige
@@ -178,20 +178,20 @@ Kommandos:
 	PlusSchach
 	BrunnerSchach
 	ZentralSchach
-        AusrottungsSchach
+	AusrottungsSchach
 	RepublikanerSchach
-????    ActuatedRevolvingBoard
-        MessignySchach
-        Woozles
-        BiWoozles
-        Heffalumps
-        BiHeffalumps
+	ActuatedRevolvingBoard
+	MessignySchach
+	Woozles
+	BiWoozles
+	Heffalumps
+	BiHeffalumps
 	UWFeldWeiss
 	UWFeldSchwarz
 	OhneWeissUW
 	OhneSchwarzUW
 	EiffelSchach
-????    ActuatedRevolvingCentre
+	ActuatedRevolvingCentre
 	Schutzkoenige
 	WeisserOhneschlag
 	SchwarzerOhneschlag
@@ -213,14 +213,17 @@ Kommandos:
 	SAT
 	StrictSAT
 	Take&MakeSchach
+	Make&TakeSchach
 	SchwarzerSynchronZueger
 	WeisserSynchronZueger
 	SchwarzerAntiSynchronZueger
 	WeisserAntiSynchronZueger
 	Masand
+	MasandVerallgemeinert
 	BGL
 	AnnanSchach
-        NormalBauern
+	NannaSchach
+	NormalBauern
 	SchwarzSchaecher
 	GenferSchach
 	VaultingKings
@@ -251,6 +254,14 @@ Kommandos:
 	ArgentinischesSchach
 	VerloreneSteine
 	PartielleParalyse
+	LeseMajeste
+	Rokagogo
+	Breton
+	Punktspiegelung
+	Bolero
+	BoleroInvers
+	Influencer
+	Rollentausch
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -258,7 +269,8 @@ Kommandos:
 	Imitatoren in der Diagrammstellung stehen bzw. wo die
 	magischen Felder oder Loecher sind, bzw. welche Figuren
 	Umwandlungsfiguren bei FrischaufCirce sind, bzw. welche Felder
-	weisse oder schwarze Umwandlungsfelder sind.
+	weisse oder schwarze Umwandlungsfelder sind. Die Angabe erfolgt
+	ohne Leerzeichen, also z.B. a3a6h3h6
 
 	Dem Schluesselwort UWnur muss eine Liste von durch Leerzeichen
 	getrennten Figurenarten folgen. Es darf nur in die angegebenen
@@ -266,7 +278,7 @@ Kommandos:
 
 	Der Bedingung ChamaeleonCirce kann eine Liste von durch
 	Leerzeichen getrennten Figuren folgen. Diese definiert die
-	Reihenfolge der Umwandlungen vor der Wiedergeburt. (Z. B.:
+	Reihenfolge der Umwandlungen vor der Wiedergeburt. (z. B.:
 		"ChamaeleonCirce S L T D S" ergibt das normale
 		ChamaeleonCirce
 		"ChamaeleonCirce S D T L S" ist reverses ChamaeleonCirce.)
@@ -290,7 +302,7 @@ Kommandos:
 	Nach der Liste der magischen Felder wahlweise "Typ1" oder
 	"Typ2" angegeben werden. Typ1 ist die Vorgabe.
 
-	Nach der Sentinelles Bedingung kann wahlweise noch
+	Nach der Bedingung Sentinelles kann wahlweise noch
 	"PionAdvers", "PionNeutre", "ParaSentinelles" oder "Berolina"
 	angegeben werden, sowie "MaximumWeiss", "MaximumSchwarz" oder
 	"MaximumTotal" gefolgt von einer Zahl.
@@ -302,8 +314,8 @@ Kommandos:
 	WeisseOszillierendeKoenige kann wahlweise noch "TypB" oder
 	"TypC" angegeben werden.
 
-        Nach Gitterschach koennen eine Reihe von Varianten angegeben
-        werden.
+	Nach Gitterschach koennen eine Reihe von Varianten angegeben
+	werden.
 	VertikalVerschieben, HorizontalVerschieben und
 	DiagonalVerschieben verschieben Gitter um eine Reihe und/oder
 	Linie. Z.B. besteht die Zelle mit dem Feld a1 aus den Feldern:
@@ -347,19 +359,22 @@ Kommandos:
 	nicht notwendig, dass er eine Gitterlinie schneidet
 	(z.B. erlaubt Ve11 Zuege von d1 nach e2).
 
-	Nach den ValtingKings-Bedingungen kann eine durch Leerzeichen
-	getrennte Liste von Figurenarten angegeben werden. Ein
-	VaultingKing im Schach zieht zusaetzlich wie ein Stein einer
-	der angegebenen Arten. Wenn die Option Transmutierend
-	angegeben ist, zieht der Koenig ausschliesslich wie ein Stein
-	einer der Arten aus der Liste (aber nicht als Koenig). Wenn
-	keine Figurenart angegeben ist, ziehen VaultingKings im Schach
+	Nach den ValtingKings-Bedingungen kann der Zusatz Transmutierend
+	und eine durch Leerzeichen getrennte Liste von Figurenarten
+	angegeben werden.
+	Im Schach zieht ein transmutierender VaultingKing ausschliesslich,
+	ein nicht-transmutierender VaultingKing zusaetzlich wie ein Stein
+	einer der angegebenen Arten.
+	Wenn keine Figurenart angegeben ist, ziehen VaultingKings im Schach
 	(zusaetzlich) wie Equihopper.
 
 	Nach den Schlagzwang-, Laengst- und
 	Kuerzestzueger-Schluesselwoertern kann mit dem Schluesselwort
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
+
+	Nach Rollentausch kann die maximale Anzahl Rollentausche angegeben werden.
+	Ohne diese Angabe ist die Anzahl unlimitiert.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
@@ -461,15 +476,19 @@ Kommandos:
 		AntipodenImmunSchach	ImmunSchach Antipoden
 		EquipollentsImmunSchach	Immunschach Equipollents
 
- - Option: Alles was zur Wirkung kommen soll ist einfach durch Zwischenraum
+	Nach Breton kann optional Advers angegben werden.
+
+ - Option: Alles, was zur Wirkung kommen soll, ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
 
 	Verfuehrung     Verfuehrungen berechnen
 	Widerlegung     Dieser Option muss eine Zahl folgen - die Anzahl der
-			maximal zu beruecksichtigenden Widerlegungen. (z. B.
+			maximal zu beruecksichtigenden Widerlegungen (z. B.
 			Widerlegung 1 = es werden alle Verfuehrungen im 
-			herkoemmlichen Sinn berechnet.
+			herkoemmlichen Sinn berechnet).
 	Satzspiel       Satzspiel berechnen
+	NullZuege	Erlaubt der Seite am Zug, darauf zu verzichten.
+			Dient zur Ermittlung von Tempo-Versuchen.
 	Drohung         Fuer Mehrzuegermodus: Dieser Option muss eine
 			Zahl folgen. Die gegnerische Partei hat sich
 			verteidigt, falls es keine Drohung gibt, die
@@ -478,8 +497,8 @@ Kommandos:
 	Varianten       Drohungen und Varianten berechnen
 	Zugnummern      Es werden die Zugnummern, Zuege und die Rechenzeit
 			bis dahin ausgegeben.
-	StartZugnummer  Dieser Option muss die Nummer folgen,
-			bei der abgebrochen wurde.
+	StartZugnummer  Dieser Option muss die Nummer des Erstzugs folgen,
+			bei der die Loesung begonnen werden soll.
 	OhneWk          Ohne weissen Koenig
 	OhneSk          Ohne schwarzen Koenig
 	Duplex          Die Forderung fuer beide Seiten berechnen
@@ -503,7 +522,7 @@ Kommandos:
 			Partieausgangsstellung auf den angegebenen
 			Feldern stehen, schliessen sich gegenseitig
 			aus.
-                        Beispiel: RochadenGegenseitigAusschliessend a1h8
+	                Beispiel: RochadenGegenseitigAusschliessend a1h8
 			Fuer die Eingabe von mehreren Kombinationen
 			sich ausschliessender Rochaden kann die Option
 			mehrfach angegeben werden.
@@ -512,14 +531,14 @@ Kommandos:
 	HalbDuplex      Die Forderung nur fuer die Gegenseite berechnen
 	NachSchluessel  Die eingegebene Stellung wird als Stellung nach einem
 			fiktiven Schluessel aufgefasst und als solche
-			analysiert, also nur das Loesungsspiel berechnet.
+			analysiert; sie ist nur bei Kampfforderungen sinnvoll.
 	NichtTrivial m n  Eine spezielle Option zum Loesen/Kochen/Pruefen von
 			langen Selbst- und (Semi-)Reflexaufgaben. Die zweite
-			Zahl n gibt an, welche schwarzen Zuege als trivial
-			betrachtet werden: ein Zug, der durch ein s#n
-			(oder r=n etc) beantwortet werden kann. Bei langen
+			Zahl n gibt an, dass Verteidigungszuege als trivial
+			betrachtet werden, wenn sie durch ein s#n
+			(oder r=n usw.) beantwortet werden koennen. Bei langen
 			Aufgaben (in mehr als n Zuegen) hat Schwarz zu jedem
-			Zeitpunkt mindestens einen nicht trivialen Zug, d. h.
+			Zeitpunkt mindestens einen nicht trivialen Zug, d.h.
 			einen Zug, der nicht durch s#n beantwortet werden
 			kann. Die Zahl m gibt an, wieviele zusaetzliche nicht
 			triviale Zuege Schwarz im gesamten Loesungsverlauf
@@ -528,14 +547,16 @@ Kommandos:
 			dass Schwarz immer nur einen Zug hat, der nicht
 			sofort (s#1) von Weiss erledigt werden kann.
 	Intelligent     Intelligente (schnelle) Pruefung von (Serienzug-)
-                        Hilfsmatt/patt-Mehrzuegern.
+	                Hilfsmatt/patt-Mehrzuegern.
 			Nach der Intelligent Option kann wahlweise noch die
-			maximale Anzahl von Loesungen je Mattbild angegeben
+			maximale Anzahl von Loesungen je Matt-/Pattbild angegeben
 			werden.
+			Beachte: Findet keine Pattstellungen ohne Koenig!
 	MaxZeit         Dieser Option muss eine Zahl folgen. Nach 
 			erreichen von  Zahl  Sekunden bricht Popeye ab.
-	KeineRochade    Es muessen die Felder der Figuren angegeben werden,
-			die in der Diagrammstellung nicht mehr rochieren koennen.
+	KeineRochade    Figuren, welche auf den anschliessend angegeben Feldern
+			stehen, koennen in der Diagrammstellung nicht mehr
+			rochieren.
 	QuodLibet       Im s# oder r# gilt auch direktes Mattsetzen als
 			Loesung.
 	StopNachKurzLoesungen   Ende der Berechnung nach Finden von
@@ -564,6 +585,7 @@ Kommandos:
 
 						{#= }	    {#=  }
 						{!= }	    {!=  }
+						{!# }	    {!#  }
 						{00 }	    {00  }
 						{%  }	    {%	 }
 						{~  }	    {~	 }
@@ -597,13 +619,12 @@ Kommandos:
 	sKa75		Selbst-Kuss des Steins auf a7 in 5 Zuegen
 	S+2             Selbstschach in 2 Zuegen
 	R==3            Reflexdoppelpatt in 3 Zuegen
-	HS#3            Hilfsselbstmatt in 3 Zuegen      (= Hilfszwingmatt)
+	HS#3            Hilfsselbstmatt in 3 Zuegen
 	SER-+7          Serienzugschach in 7 Zuegen
 	SEMI-R+4        Semireflexschach in 4 Zuegen
 	x3              Schlag in 3 Zuegen
-	RECI-H#2        Reziprokes Hilfsmatt in 2 Zuegen (= Grazer Hilfsmatt)
-        RECI-H(=)#2     Reziprokes Hilfs(patt)matt in 2 Zuegen (Schwarz
-                        setzt patt oder erlaubt Matt)
+	RECI-H#2        Reziprokes Hilfsmatt in 2 Zuegen
+	RECI-H(=)#2     Reziprokes Hilfs(patt)matt in 2 Zuegen
 	SER-%4          Serienzugsteingewinn in 4 Zuegen
 	H##!4           Hilfsgegenmatt in 4 Zuegen
 	SER-H##3        Serienzughilfsbeidmatt in 3 Zuegen
@@ -612,7 +633,7 @@ Kommandos:
 	dia6.5          Kuerzeste Beweispartie in 13 Halbzuegen
 			(nach dem 7. Zug von Weiss)
 	ser-dia9        Serienzug-Beweispartie in 9 Zuegen
-	reci-h(=)#4     Hilfsalternativpatt/matt in 4 Zuegen
+	reci-h(=)#4     Hilfs(patt oder matt) in 4 Zuegen
 	ser-!=7         Serienzug-Eigenpatt in 7 Zuegen
 	ser-ct10        Serienzug-Rueckkehr in 10 Zuegen
 	h<>3            Hilfsplatzwechsel in 3 Zuegen
@@ -626,7 +647,8 @@ Kommandos:
 			den Platzwechsel zweier schwarze Figuren per
 			Widergeburt zu vervollstaendigen)
 	#=2             Matt oder Patt in 2 Zuegen
-	h~1		Alle moeglichen Hilfs-Zuege 
+	h~1		Alle moeglichen Sequenzen von einem schwarzen gefolgt
+			von einem weissen Zug 
 	HR#3            Hilfsreflexmatt in 3 Zuegen
 	pser-h#6	Paraden-Serienzughilfsmatt in 6
 	phser-s#6	Paraden-Serienzugselbstmatt in 6 (Paraden sind
@@ -637,7 +659,7 @@ Kommandos:
  - SForderung: Die Forderung kann auch in "strukturierter" Form
 	angegeben werden. In dieser Form lassen sich alle Forderungen
 	angeben, welche sich auch in traditioneller Form mit dem Befehl
-	"Forderung" angeben lassen, aber darueberhinaus viele mehr.
+	"Forderung" angeben lassen, aber darueber hinaus viele mehr.
 	(Ausnahme: pser-Forderungen werden zurzeit nicht unterstuetzt)
 
 	Eine mit SForderung angegebene Forderung ist wie ein Baum
@@ -660,7 +682,7 @@ Kommandos:
 	aus 5 *S*erienzuegen; im Blatt wird lediglich geprueft, ob
 	eine Mattstellung erreicht worden ist.
 
-	Die Definition eines besteht normalerweise aus:
+	Die Definition eines Astes besteht normalerweise aus:
 	- der maximalen Laenge in Halbzuegen (im Beispiel 5)
 	- dem Typ des Asts                   (s fuer Serie)
 	- Blaetter                           (#)
@@ -683,7 +705,7 @@ Kommandos:
 	Ast-Typen
 	---------
 
-	Typ            Notation   Beispiele       Synonyme als forderung
+	Typ            Notation   Beispiele       Synonyme als Forderung
 	Serie          s          5s[#]           ser-#5
 	"Kampfspiel"   ad         3a[+]d, 4ad[x]  +2, sx2
 	               da         3d[==]a         s==2 option nachschluessel
@@ -694,7 +716,7 @@ Kommandos:
 	fuer einen Halbzug.
 
 	Eine a, h or s nachgestelle Gabelung legt fest, was mit dem
-	betreffenden Zug zu erreichen ist, eine d nachgstellte
+	betreffenden Zug zu erreichen ist, eine d nachgestellte
 	Gabelung, wogegen der Zug verteidigt.
 
 	Beachte: Ein da-Ast ist loesbar, falls die Seite am Zug KEINE
@@ -706,8 +728,8 @@ Kommandos:
 
 	Eine Gabelung fuehrt zu einem verschachtelten Ast.
 
-	Beispiel        Synonyme als forderung
-        3a[1a[#]d]d     semi-r#2
+	Beispiel        Synonyme als Forderung
+	3a[1a[#]d]d     semi-r#2
 	4hh[1a[#]d]     nicht unterstuetzt (Hilfs-Semireflexmatt in 2.5)
 	6s[1d[#]a]      ser-s#6
 
@@ -720,7 +742,7 @@ Kommandos:
 
 	Beispiele       Synonyme als forderung
 	4a[#=]d[#=]     s#=2 option quodlibet
-        3a[#][1a[#]d]d  semi-r#2 option quodlibet
+	3a[#][1a[#]d]d  semi-r#2 option quodlibet
 
 
 	Logische Ausdruecke
@@ -731,7 +753,7 @@ Kommandos:
 
 	Operator  Bedeutung
 	!         Negation
-        |         ODER
+	|         ODER
 	&         UND
 
 	Beispiele        Bedeutung
@@ -753,7 +775,7 @@ Kommandos:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
+	Alle drei Teilausdruecke und somit auch die &-Ausdruecke
 	gehoeren zur Gruppe Angriff.
 
 
@@ -772,7 +794,7 @@ Kommandos:
 	Klammern ({}) umgeben.
 
 	Beispiel               Synonym als forderung
-        3a[1a[#]d]d{!1a[#]d}   r#2
+	3a[1a[#]d]d{!1a[#]d}   r#2
 
 	Beachte: auch wenn die Einschraenkung auf das d folgt, wird
 	sie VOR jedem Angriffszug ueberprueft, auch vor dem ersten! 
@@ -782,8 +804,8 @@ Kommandos:
 
 	Die beiden Hauptunterschiede zwischen einem verschachtelten
 	Ast bzw. Blatt und einer Einschraenkung sind:
-        - der/das verschachtelte Ast/Blatt muss nur am Ende des Spiels
-	  erfuellt sein, die Einschraenkung hingegen jedesmal bevor der
+	- der/das verschachtelte Ast/Blatt muss nur am Ende des Spiels
+	  erfuellt sein, die Einschraenkung hingegen jedesmal, bevor der
 	  betreffende Zug gespielt wird
 	- die bei der Ueberpruefung einer Einschraenkung gespielten
 	  Zuege tauchen mit zwei Ausnahmen in der Ausgabe nicht auf:
@@ -930,7 +952,7 @@ Kommandos:
 Soweit sind alle Kommandos (ausser SForderung) sehr einfach. Etwas
 aufwendiger ist das Kommando
 
- - Steine: Dieses Kommando spezifiziert alle Steine die zum Problem gehoeren.
+ - Steine: Dieses Kommando spezifiziert alle Steine, die zum Problem gehoeren.
 	Nach dem Schluesselwort muss die Farbe des oder der folgenden
 	Steine(s) angegeben werden:
 
@@ -958,11 +980,11 @@ aufwendiger ist das Kommando
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
 	wie man sie gewoehnlich notiert:
 	Kuerzel der Gangart, gefolgt von einer Liste von Feldern, auf denen eine
-	solche Figur plaziert werden soll. Zu jeder Zeit ist es moeglich,
+	solche Figur plaziert werden soll. An jeder Stelle ist es moeglich,
 	Figuren einer anderen Farbe anzugeben, einfach durch das Angeben des
 	entsprechenden Schluesselwortes.
 	
-	Wenn ein Stein auf einem besetzen Feld plaziert wird, wird der vorherige
+	Wenn ein Stein auf einem besetzten Feld plaziert wird, wird der vorherige
 	Stein unter dem Feld zuoberst in die Unterwelt versetzt. In den
 	Maerchenbedingungen Circe Vulkan, Circe Fallschirm, Geisterschach und
 	Spukschach werden Steine aus der Unterwelt durch Abzug vom Feld in die
@@ -971,9 +993,9 @@ aufwendiger ist das Kommando
 
 	Popeye unterstuetzt folgende Gangarten:
 
-	15      1,5-Springer
+	15      1,5-Springer			Ibis
 	16      1,6-Springer                    Flamingo
-	24      2,4-Springer
+	24      2,4-Springer			Lancer
 	25      2,5-Springer                    Korsar
 	35      3,5-Springer
 	36      3,6-Springer
@@ -1018,7 +1040,8 @@ aufwendiger ist das Kommando
 	f       Freund
 	fa	Faro				Argentinischer Turm
 	fe      Fers                            1,1 Springer
-	fr      Fersreiter                      wie Laeufer, aber anderes Wiedergeburtsfeld
+	fr      Fersreiter                      wie Laeufer, aber anderes
+						Wiedergeburtsfeld
 	g       Grashuepfer                     0,1+1,1 Huepfer
 	g2      Grashuepfer-2
 	g3      Grashuepfer-3
@@ -1031,7 +1054,8 @@ aufwendiger ist das Kommando
 	gu	Grosser Baumhuepfer
 	h       Heuschrecke   
 	ha      Hamster                         0,1+1,1 180 Grad Huepfer
-	he	Hase                            Lion Variante des Kanguruhs
+	hc      ContraHamster
+	he	Hase                            Lion Variante des Kaenguruhs
 	hl      Laeuferheuschrecke   
 	hn      Nachtreiterheuschrecke
 	ht      Turmheuschrecke   
@@ -1052,7 +1076,7 @@ aufwendiger ist das Kommando
 	le      Leo                             Zieht wie Dame, schlaegt wie Lion
 	lh      Laeuferhuepfer
 	li      Lion                            0,1+1,1 beliebig weit Huepfer
-	lj      Laeufer/Turm-Jaeger
+	lj      Laeufer/Turm-Jaeger		absoluter L/T-Jaeger
 	lk      Kaenguruh-Lion
 	ll      Laeufer-Lion
 	lo	Loco				Argentinischer Laeufer
@@ -1061,7 +1085,7 @@ aufwendiger ist das Kommando
 	ma      Mao                             (Wie Springer) Gerade-Diagonal
 	mb      Mariner Bauer
 	mc      marines Schiff
-	mg      Marguerite                      g+sp+ad+el+ha
+	mg      Margerite			g+sp+ad+el+ha
 	ml      Maoreiterlion
 	mm      Moareiterlion
 	mo      Moa                             (Wie Springer) Diagonal-Gerade
@@ -1086,7 +1110,7 @@ aufwendiger ist das Kommando
 	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
 	qe      Equistopper                     kann unterbrochen werden
 	qf      Nonstop-Equistopper             kann nicht unterbrochen werden
-        qn      Quintessence = (3,1)-Zigzag Nachtreiter (e.g. a1-b3-d2-e4-g3...)
+	qn      Quintessence = (3,1)-Zigzag Nachtreiter (e.g. a1-b3-d2-e4-g3...)
 	ra      Rao                             chinesische Rose
 	rb      ReversBauer   zieht umgekehrt wie ein "normaler" Bauer; wandelt auf entgegengesetzter Reihe um
 	rd      Randschwein
@@ -1097,10 +1121,10 @@ aufwendiger ist das Kommando
 	rp	RadialsPringer
 	rs      Reflektierender Springer
 	s       Springer                        1,2 Springer
-        s1      (1,1)-Zigzag Nachtreiter (e.g. b1-a3-c2-b4-d3...)
-        s2      (2,0)-Zigzag Nachtreiter (e.g. a1-b3-c1-d3-e1...)
-        s3      (3,3)-Zigzag Nachtreiter (e.g. a1-b3-d4-e6-g7...)
-        s4      (4,0)-Zigzag Nachtreiter (e.g. a1-c2-e1-g2...)
+	s1      (1,1)-Zigzag Nachtreiter (e.g. b1-a3-c2-b4-d3...)
+	s2      (2,0)-Zigzag Nachtreiter (e.g. a1-b3-c1-d3-e1...)
+	s3      (3,3)-Zigzag Nachtreiter (e.g. a1-b3-d4-e6-g7...)
+	s4      (4,0)-Zigzag Nachtreiter (e.g. a1-c2-e1-g2...)
 	sa	Saltador			Argentinischer Springer
 	sb      Superbauer
 	sc      Schiff
@@ -1116,13 +1140,13 @@ aufwendiger ist das Kommando
 	ta      Turmadler                       0,1 90 Grad Huepfer
 	tc      Turmelch                        0,1 45 Grad Huepfer
 	th      Turmhuepfer
-	tj      Turm/Laeufer-Jaeger
+	tj      Turm/Laeufer-Jaeger		absoluter T/L-Jaeger
 	tl      Turm-Lion
 	tr      Triton
 	ts      Turmspatz                       0,1 135 Grad Huepfer
 	uh	Baumhuepfer
 	uu      UbiUbi                          beliebig viele 1,2 Spruenge
-	va      Vao                             Zieht wie Laeufer, wirkt Laeufer-Lion
+	va      Vao                             Zieht wie Laeufer, wirkt wie Laeufer-Lion
 	wa      Waran                           0,1+1,2 Reiter
 	we      Wesir                           0,1 Springer
 	wr      Wesirreiter                     wie Turm, aber anderes Wiedergeburtsfeld
@@ -1131,19 +1155,23 @@ aufwendiger ist das Kommando
 	ze      Zebu                            1,3+1,4-Springer
 	zh      Zebrareiterhuepfer
 	zr      Zebrareiter                     2,3 Reiter
-        X/Y     X/Y-Jaeger                      allgemeiner Jaeger:
-                                                von der jeweiligen
-                                                Grundreihe weg wie ein
-                                                X, in Richtung
-                                                Grundreihe wie ein Y;
-                                                horizontale Zuege
-                                                nicht erlaubt
+	X/Y     X/Y-Jaeger                      allgemeiner Jaeger:
+	                                        von der jeweiligen
+	                                        Grundreihe weg wie ein
+	                                        X, in Richtung
+	                                        Grundreihe wie ein Y;
+	                                        horizontale Zuege
+	                                        nicht erlaubt
+
+	Die "Pseudo-Farbe" TotalUnsichbar gefolgt von einer positiven Zahl
+	kann verwendet werden, um die Anzahl TotalUnsichbarer Steine
+	anzugeben.
 
  - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
 	Veraenderungen aus der Ausgangsstellung ergeben. Folgende Angaben
 	sind moeglich:
-    Forderung ...: Die Forderung wird geaendert. Vergleiche das entsprechende
-	Grundkommando.
+    Forderung ...: Die Forderung wird geaendert. Angabe wie beim
+	Grundkommando Forderung.
     Bedingung ...: Aenderung der Maerchenbedingungen. Alle alten Bedingungen
 	werden ungueltig und die neu eingegebenen wirksam.
     Versetze <Feld1> <Feld2>: Versetzung der Figur von Feld1 nach Feld2; eine
@@ -1162,7 +1190,10 @@ aufwendiger ist das Kommando
 	Hinzufuegen von Steinen, ggf. werden Steine
 	ueberschrieben. Beispiel: zwilling hinzufuegen schw para NHa6
 	- ein schwarzer paralysierender Nachtreiterhuepfer wird auf a6
-	ergaenzt. Siehe auch das Steine-Kommando.
+	ergaenzt. Siehe auch das Kommando Steine.
+	Die "Pseudo-Farbe" TotalUnsichtbar gefolgt von einer positiven Zahl
+	kann verwendet werden fuer Zwillingsbildung durch Aenderung der
+	Anzahl TotalUnsichbarer Steine.
     Drehung n: Drehung um n Grad nach links (n=90, 180, 270). Beispiel:
 	zwilling drehung 180.
     Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,
@@ -1173,12 +1204,12 @@ aufwendiger ist das Kommando
 	Feld das Feld a1 (bzw. h1) uebergeht.
     Verschiebung <Feld1> <Feld2>: Verschiebung der gesamten Stellung, wobei
 	die Verschiebungsrichtung durch die beiden angegebenen Felder bestimmt
-	wird: Feld1 geht in Feld2 ueber. Beispiel: zwilling verschiebe a1 a2 -
+	wird: Feld1 geht in Feld2 ueber. Beispiel: zwilling verschiebung a1 a2 -
 	die Stellung wird 1 Feld nach oben verschoben.
     Farbwechsel: schwarze Steine werden weiss und umgekehrt.
 
 	Es koennen pro Zwilling auch mehrere Aenderungen angegeben werden,
-	z. B. zwill entf e7 hinzu weiss de8. Wie man sieht koennen auch die
+	z. B. zwill entf e7 hinzu weiss de8. Wie man sieht, koennen auch die
 	Kommandos fuer die Zwillingsbildung abgekuerzt werden.
 	Die Stellungsaenderungen beziehen sich standardmaessig auf die Grund-
 	stellung. Sollen sich alternativ die Veraenderungen auf den jeweils
@@ -1195,7 +1226,7 @@ aufwendiger ist das Kommando
 
 Dass alle Daten eingegeben sind, die das Problem beschreiben, wird
 Popeye durch das Kommando `Endeproblem' mitgeteilt.
-Sofort danach startet Popeye mit der Verarbeitung der Eingabe, und versucht
+Sofort danach startet Popeye mit der Verarbeitung der Eingabe und versucht
 das Problem zu loesen, wenn keine Eingabefehler festgestellt worden sind.
 
 Hier eine Beispiel-Eingabe:
@@ -1231,7 +1262,7 @@ sind, ist das keine Gewaehr fuer die Zukunft.
 
 Wenn man mehrere Probleme in einem Rutsch loesen will, so kann man anstatt
 des letzten `EndeProblem' das Schluesselwort `WeiteresProblem' angeben.
-Dann erwartet Popeye nachdem er das gerade eingegebene Problem geloest hat
+Dann erwartet Popeye, nachdem er das gerade eingegebene Problem geloest hat,
 die Eingabe eines weiteren Problems.
 
 

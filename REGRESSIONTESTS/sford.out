@@ -407,7 +407,7 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 
   add_to_move_generation_stack:         722
                      play_move:         722
- is_white_king_square_attacked:          44
+ is_white_king_square_attacked:          76
  is_black_king_square_attacked:         713
 
 Loesung beendet.
@@ -442,7 +442,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         281
                      play_move:         276
- is_white_king_square_attacked:          17
+ is_white_king_square_attacked:          31
  is_black_king_square_attacked:         275
 
 Loesung beendet.
@@ -496,7 +496,7 @@ Weiss zieht und setzt in 2 Z\"ugen nicht matt
 
   add_to_move_generation_stack:        1125
                      play_move:        1130
- is_white_king_square_attacked:         151
+ is_white_king_square_attacked:         163
  is_black_king_square_attacked:         850
 
 Loesung beendet.

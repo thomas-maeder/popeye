@@ -40,9 +40,30 @@ FILE *platform_open_tmpfile(void)
   {
     tmpfiles_list_type * const elmt = malloc(sizeof(*elmt));
 
+    if (!elmt)
+    {
+      perror("error allocating space for tmpfiles list element");
+      return 0;
+    }
+
     elmt->file = fopen(result_name,"w+b");
 
+    if (!elmt->file)
+    {
+      perror("error opening temporary file");
+      free(elmt);
+      return 0;
+    }
+
     elmt->name = malloc(strlen(result_name)+1);
+    if (!elmt->name)
+    {
+      perror("error allocating space for temporary filename");
+      if (fclose(elmt->file))
+        perror("error closing file");
+      free(elmt);
+      return 0;
+    }
     strcpy(elmt->name,result_name);
 
     elmt->next = tmpfiles_list;

@@ -7,12 +7,16 @@
 #include "solving/selfcheck_guard.h"
 #include "solving/has_solution_type.h"
 #include "solving/check.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/proxy.h"
 #include "solving/observation.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
+#include "conditions/breton.h"
+#include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
@@ -21,12 +25,14 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
+#include "conditions/influencer.h"
 #include "conditions/extinction.h"
 #include "conditions/madrasi.h"
 #include "conditions/partial_paralysis.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach.h"
+#include "conditions/pointreflection.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -96,6 +102,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
 #include "conditions/central.h"
 #include "conditions/beamten.h"
@@ -144,6 +151,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
+#include "solving/machinery/intro.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "solving/post_move_iteration.h"
@@ -176,6 +184,7 @@
 #include "options/maxflightsquares.h"
 #include "options/nontrivial.h"
 #include "options/movenumbers.h"
+#include "options/nullmoves.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -212,6 +221,9 @@ void build_solvers1(slice_index si)
     solving_insert_circe_goal_filters(si);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
     solving_insert_kamikaze(si);
+
+  if (total_invisible_number>0)
+    solving_instrument_total_invisible(si);
 
   /* must come before solving_apply_setplay() */
   solving_insert_root_slices(si);
@@ -322,11 +334,23 @@ void build_solvers1(slice_index si)
   else if (CondFlag[SAT])
     sat_initialise_solving(si);
 
+  if (OptFlag[nullmoves])
+    nullmoves_initialise_solving(si,no_side);
+
+  if (CondFlag[role_exchange])
+    role_exchange_initialise_solving(si,no_side);
+
   if (CondFlag[schwarzschacher])
     blackchecks_initialise_solving(si);
 
   if (CondFlag[masand])
     solving_insert_masand(si);
+
+  if (CondFlag[influencer])
+    solving_insert_influencer(si);
+
+  if (CondFlag[masand_generalised])
+    solving_insert_masand_generalised(si);
 
   if (CondFlag[dynasty])
     dynasty_initialise_solving(si);
@@ -389,6 +413,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
+
+  if (CondFlag[breton])
+    solving_insert_breton(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);
@@ -467,6 +494,9 @@ void build_solvers1(slice_index si)
       solving_initialise_marscirce(si);
   }
 
+  if (CondFlag[maketake])
+    solving_insert_make_and_take(si);
+
   if (CondFlag[linechamchess])
     solving_insert_line_chameleon_chess(si);
 
@@ -482,9 +512,9 @@ void build_solvers1(slice_index si)
   if (TSTFLAG(some_pieces_flags,Chameleon))
     chameleon_initialise_solving(si);
 
-  if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_init_sequence_implicit(&chameleon_is_squence_explicit,
-                                     &chameleon_walk_sequence);
+  if ((CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
+      && !CondFlag[chameleonsequence])
+    chameleon_init_sequence_implicit(&chameleon_walk_sequence);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
     solving_insert_hurdle_colour_changers(si);
@@ -492,8 +522,8 @@ void build_solvers1(slice_index si)
   if (CondFlag[haanerchess])
     solving_insert_haan_chess(si);
 
-  if (CondFlag[castlingchess])
-    solving_insert_castling_chess(si);
+  if (CondFlag[castlingchess] || CondFlag[rokagogo])
+    solving_insert_castling_chess(si,CondFlag[rokagogo]);
 
   if (CondFlag[amu])
     solving_insert_amu_attack_counter(si);
@@ -593,9 +623,11 @@ void build_solvers1(slice_index si)
 
   solving_insert_find_shortest_solvers(si);
 
-  solving_optimise_with_orthodox_mating_move_generators(si);
-
-  solving_optimise_with_goal_non_reacher_removers(si);
+  if (total_invisible_number==0)
+  {
+    solving_optimise_with_orthodox_mating_move_generators(si);
+    solving_optimise_with_goal_non_reacher_removers(si);
+  }
 
   if (!OptFlag[solvariantes])
     solving_insert_play_suppressors(si);
@@ -614,8 +646,11 @@ void build_solvers1(slice_index si)
     ohneschach_optimise_immobility_testers(si);
   }
 
-  if (is_hashtable_allocated())
-    solving_insert_hashing(si);
+  if (total_invisible_number==0)
+  {
+    if (is_hashtable_allocated())
+      solving_insert_hashing(si);
+  }
 
   solving_instrument_help_ends_of_branches(si);
 
@@ -724,6 +759,16 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[annan])
     annan_initialise_solving(si);
+  if (CondFlag[nanna])
+    nanna_initialise_solving(si);
+
+  if (CondFlag[bolero])
+    solving_initialise_bolero(si);
+  if (CondFlag[bolero_inverse])
+    solving_initialise_bolero_inverse(si);
+
+  if (CondFlag[pointreflection])
+    point_reflection_initialise_solving(si);
 
 #if defined(DOTRACE)
   solving_insert_move_tracers(si);

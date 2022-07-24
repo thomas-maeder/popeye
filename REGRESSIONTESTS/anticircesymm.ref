@@ -1,0 +1,47 @@
+<<< rsbqkbsr/pppp1ppp/8/4p3/8/8/PPP1PPPP/RSBQKBSR/ Null  
+>>>
+
+          Stephen Emmerson
+              Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2                      15 + 16
+         AntiCirce Symmetry
+
+a) 
+
+  1.d2-d3 e7-e5   2.d3-d4 e5*d4[bPd4->e5] dia
+  add_to_move_generation_stack:       25292
+                     play_move:       25292
+ is_white_king_square_attacked:         713
+ is_black_king_square_attacked:         404
+
+b) AntiCirce VerticalSymmetry  
+
+  1.d2-d4 e7-e6   2.d4-d5 e6*d5[bPd5->e5] dia
+  add_to_move_generation_stack:       25292
+                     play_move:       25280
+ is_white_king_square_attacked:         713
+ is_black_king_square_attacked:         404
+
+solution finished.
+
+

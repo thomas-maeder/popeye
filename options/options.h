@@ -42,6 +42,7 @@ typedef enum
   mutuallyexclusivecastling,     /* 32 */
   goal_is_end,     /* 33 */
   degeneratetree,  /* 34 */
+  nullmoves,       /* 35 */
 
   OptCount         /* 35 */
 } Opt;

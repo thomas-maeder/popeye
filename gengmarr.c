@@ -37,7 +37,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
   fputs("  { /* board */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
-    fprintf(dest,"%2d,",board[i]);
+    fprintf(dest,"(piece_walk_type)%2u,",(unsigned int)board[i]);
     ++column;
     if (column==onerow)
     {
@@ -45,7 +45,7 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
       column = 0;
     }
   }
-  fprintf(dest,"%2d\n",board[i]);
+  fprintf(dest,"(piece_walk_type)%2u\n",(unsigned int)board[i]);
   fputs("  }",dest);
 }
 
@@ -81,7 +81,7 @@ static void dump_spec_initialiser_to_stream(FILE *dest, Flags const spec[])
  */
 static void dump_royal_initialisers_to_stream(FILE *dest, square rb, square rn)
 {
-  fprintf(dest,"  { %u,%u } /* king positions */",rb,rn);
+  fprintf(dest,"  { %d,%d } /* king positions */",rb,rn);
 }
 
 /* Write imitator initialiser to output file
@@ -97,8 +97,8 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
   fprintf(dest,"  %u, ",inum);
   fputs("{ ",dest);
   for (i = 0; i+1<maxinum; ++i)
-    fprintf(dest,"%u,",isquare[i]);
-  fprintf(dest,"%u } /* imitators */",isquare[i]);
+    fprintf(dest,"%d,",isquare[i]);
+  fprintf(dest,"%d } /* imitators */",isquare[i]);
 }
 
 /* Write piece count initialiser to output file
@@ -107,7 +107,7 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
  */
 static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos)
 {
-  piece_walk_type p;
+  unsigned int p;
   unsigned int column = 0;
 
   fputs("  { /* numbers of pieces */\n",dest);
@@ -143,7 +143,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
 
 static void dump_castling_rights_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"  0x%x /* castling_rights */\n",pos->castling_rights);
+  fprintf(dest,"  (castling_rights_type)0x%x /* castling_rights */\n",(unsigned int)pos->castling_rights);
 }
 
 /* Write position initialiser to output file
@@ -152,7 +152,7 @@ static void dump_castling_rights_initialiser_to_stream(FILE *dest, position cons
  */
 static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"#include \"position/position.h\"\n");
+  fputs("#include \"position/position.h\"\n",dest);
   fputs("position const game_array =\n",dest);
   fputs("{\n",dest);
   dump_board_initialiser_to_stream(dest,pos->board);

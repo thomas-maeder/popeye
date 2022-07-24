@@ -1,4 +1,5 @@
 beg
+
 prot masand.ref
 
 auth Petko Petkov 
@@ -61,4 +62,14 @@ stip #2
 opt try var
 fors 1S1K3s/1Sp2p2/1p3P2/q2k4/p1rp2p1/2p5/1s2Q3/1B
 cond masand
+
+next
+
+author Sebastien Luce
+origin Julia's Fairies 2020
+pieces white kd4 ph3 black kb5 qd6 bb6d5 sb4c5 pc7h7
+stipulation h=3
+condition masandgeneralised
+
 end
+

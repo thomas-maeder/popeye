@@ -1,7 +1,9 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/walks/classification.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
@@ -17,7 +19,7 @@ square en_passant_multistep_over[maxply+1];
 
 unsigned int en_passant_top[maxply+1];
 
-unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+square en_passant_retro_squares[en_passant_retro_capacity];
 unsigned int en_passant_nr_retro_squares;
 
 /* Determine whether the retro information concernng en passant is consistent
@@ -168,7 +170,7 @@ void move_effect_journal_do_remember_ep(square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  entry->u.ep_capture_potential.square = s;
+  entry->u.ep_capture_potential.capture_square = s;
 
   ++en_passant_top[nbply];
   en_passant_multistep_over[en_passant_top[nbply]] = s;
@@ -195,7 +197,7 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
  */
 void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry)
 {
-  square const s = entry->u.ep_capture_potential.square;
+  square const s = entry->u.ep_capture_potential.capture_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -242,7 +244,10 @@ square en_passant_find_capturee(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = move_effect_journal_follow_piece_through_other_effects(ply_parent,capturee_id,sq_arrival);
+  if (capturee_id==NullPieceId)
+    result = initsquare;
+  else
+    result = move_effect_journal_follow_piece_through_other_effects(ply_parent,capturee_id,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceSquare(result);
@@ -321,6 +326,7 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",ply_parent);
   TraceEnumerator(Side,trait[ply_parent]);
   TraceEOL();
 
@@ -372,7 +378,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_forward
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
@@ -385,7 +391,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       numvec const v = sq_arrival-sq_multistep_departure;
       if ((v==2*dir_forward+2*dir_left || v==2*dir_forward+2*dir_right)
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
@@ -397,7 +403,7 @@ square en_passant_find_potential(square sq_multistep_departure)
                                        ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_backward
-          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
+          && TSTFLAGMASK(sq_spec(sq_multistep_departure),double_step))
         result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
@@ -472,6 +478,10 @@ void en_passant_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_remember_ep_capture_potential,
+                                       &move_effect_journal_undo_remember_ep,
+                                       &move_effect_journal_redo_remember_ep);
 
   stip_instrument_moves(si,STEnPassantAdjuster);
 

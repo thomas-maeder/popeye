@@ -16,6 +16,7 @@
 #include "conditions/grid.h"
 #include "conditions/imitator.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
 #include "position/position.h"
@@ -113,16 +114,15 @@ static void WriteGrid(void)
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
        row++, square_a += dir_down) {
-    char const *digits="87654321";
-    sprintf(HLine, HorizL, digits[row], digits[row]);
+    sprintf(HLine, HorizL, (int) getBoardRowLabel((nr_rows_on_board-1)-row), (int) getBoardRowLabel((nr_rows_on_board-1)-row));
 
     for (column=0, square= square_a;
          column<nr_files_on_board;
          column++, square += dir_right)
     {
-      char g = (GridNum(square))%100;
-      HLine[fileWidth*column+3]= g>9 ? (g/10)+'0' : ' ';
-      HLine[fileWidth*column+4]= (g%10)+'0';
+      unsigned char g = (unsigned char)((GridNum(square))%100);
+      HLine[fileWidth*column+3]= (char)(g>9 ? (g/10)+'0' : ' ');
+      HLine[fileWidth*column+4]= (char)((g%10)+'0');
     }
 
     protocol_fprintf(stdout,"%s",HLine);
@@ -207,9 +207,11 @@ static void DoPieceCounts(position const *pos,
         ++piece_per_colour[colour_white];
     }
   }
+
+  piece_per_colour[pseudocolour_totalinvisible] = total_invisible_number;
 }
 
-static int indentation = 0;
+static unsigned int indentation = 0;
 
 static void WritePieceCounts(position const *pos, unsigned int indentation)
 {
@@ -217,13 +219,24 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
 
   DoPieceCounts(pos,piece_per_colour);
 
+  if (piece_per_colour[pseudocolour_totalinvisible]==0)
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn\n" : "%d + %d\n";
-    int const width = nr_files_on_board*fileWidth+4-indentation;
-    protocol_fprintf_r(stdout,width,format,
+    unsigned int const width = nr_files_on_board*fileWidth+4-indentation;
+    protocol_fprintf_r(stdout,(int)width,format,
                        piece_per_colour[colour_white],
                        piece_per_colour[colour_black],
                        piece_per_colour[colour_neutral]);
+  }
+  else
+  {
+    char const *format = "%d + %d + %d %s\n";
+    unsigned int const width = nr_files_on_board*fileWidth+4-indentation;
+    protocol_fprintf_r(stdout,(int)width,format,
+                       piece_per_colour[colour_white],
+                       piece_per_colour[colour_black],
+                       piece_per_colour[pseudocolour_totalinvisible],
+                       TITab[0]);
   }
 }
 
@@ -256,11 +269,11 @@ static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
   pos[0] = PieceTab[walk][1];
   if (pos[0]!=' ')
   {
-    pos[0] = toupper(pos[0]);
+    pos[0] = (char)toupper((unsigned char)pos[0]);
     --pos;
   }
 
-  pos[0] = toupper(PieceTab[walk][0]);
+  pos[0] = (char)toupper((unsigned char)PieceTab[walk][0]);
   --pos;
 
   return pos;
@@ -357,16 +370,13 @@ static void WriteBaseCells(position const *pos, square square_a)
 static void WriteBorder(void)
 {
   unsigned int column;
-  char letter;
-
-  assert(nr_files_on_board <= 'z'-'a');
 
   protocol_fprintf(stdout,"%s","+--");
 
-  for (column = 0, letter = 'a'; column!=nr_files_on_board; ++column, ++letter)
+  for (column = 0; column<nr_files_on_board; ++column)
   {
     char cell[fileWidth+1];
-    snprintf(cell, sizeof cell, "-%c--", letter);
+    snprintf(cell, sizeof cell, "-%c--", (int)getBoardFileLabel(column));
     protocol_fprintf(stdout,"%s",cell);
   }
 
@@ -390,8 +400,6 @@ void WriteBoard(position const *pos)
 {
   unsigned int row;
   square square_a;
-
-  assert(nr_rows_on_board<10);
 
   protocol_fputc('\n',stdout);
   WriteBorder();
@@ -565,7 +573,9 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  indentation += protocol_fprintf(stdout,"%s","  ");
+  // TODO these printf functions may fail
+
+  indentation += (unsigned int)protocol_fprintf(stdout,"%s","  ");
   {
     move_effect_journal_index_type const base = move_effect_journal_base[ply_diagram_setup];
     move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
@@ -574,17 +584,17 @@ void output_plaintext_write_stipulation(slice_index si)
     for (i = base; i<top; ++i)
       if (move_effect_journal[i].type==move_effect_input_stipulation)
       {
-        indentation += protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += (unsigned int)protocol_write_stipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
       else if (move_effect_journal[i].type==move_effect_input_sstipulation)
       {
-        indentation += protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
+        indentation += (unsigned int)protocol_write_sstipulation(stdout,move_effect_journal[i].u.input_stipulation.stipulation);
         break;
       }
   }
 
-  indentation += WriteOptions(&being_solved);
+  indentation += (unsigned int)WriteOptions(&being_solved);
 
   pipe_solve_delegate(si);
 

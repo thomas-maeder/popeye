@@ -246,6 +246,10 @@ static char *ParseStructuredStip_branch_length(char *tok,
     }
   }
 
+  TraceValue("%u",*min_length);
+  TraceValue("%u",*max_length);
+  TraceEOL();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -711,19 +715,24 @@ static char *ParseStructuredStip_branch_s(char *tok,
  * @return identifier of branch entry slice
  */
 static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length,
-                                                     stip_length_type max_length)
+                                                     stip_length_type max_length,
+                                                     unsigned int level)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
+  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  min_length += 1;
-
-  if (min_length>=max_length)
-    min_length = max_length-1;
+  if (level==0)
+  {
+    if (min_length==0)
+      min_length = 1;
+    else if (min_length>=max_length && max_length>0)
+      min_length = max_length-1;
+  }
 
   result = alloc_battle_branch(max_length,min_length);
 
@@ -762,7 +771,8 @@ static char *ParseStructuredStip_branch_a(char *tok,
   {
     boolean parry = false;
     slice_index const branch = ParseStructuredStip_make_branch_a(min_length,
-                                                                 max_length);
+                                                                 max_length,
+                                                                 level);
     link_to_branch(proxy,branch);
 
     tok = ParseStructuredStip_branch_a_operand(tok,start,proxy,level);
@@ -981,34 +991,36 @@ static char *ParseStructuredStip_branch(char *tok,
 
   tok = ParseStructuredStip_branch_length(tok,&min_length,&max_length);
 
-  switch (tolower(tok[0]))
-  {
-    case 'd':
-      *type = expression_type_defense;
-      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,start,proxy,level);
-      break;
+  if (tok!=0)
+    switch (tolower((unsigned char)tok[0]))
+    {
+      case 'd':
+        *type = expression_type_defense;
+        tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 's':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 's':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 'a':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 'a':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    case 'h':
-      *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,start,proxy,level);
-      break;
+      case 'h':
+        *type = expression_type_attack;
+        tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,start,proxy,level);
+        break;
 
-    default:
-      break;
-  }
+      default:
+        tok = 0; /* TODO: Should we do something here besides just signaling an error to the caller? */
+        break;
+    }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
+  TraceFunctionResult("%s",((tok==0)?"":tok));
   TraceFunctionResultEnd();
   return tok;
 }
@@ -1044,7 +1056,7 @@ static char *ParseStructuredStip_operand(char *tok,
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
     tok = ParseStructuredStip_move_inversion(tok,start,proxy,type,level);
-  else if (isdigit(tok[0]) && tok[0]!='0')
+  else if (isdigit((unsigned char)tok[0]) && tok[0]!='0')
     /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
     tok = ParseStructuredStip_branch(tok,start,proxy,type,level);
   else
@@ -1138,15 +1150,15 @@ static char *ParseStructuredStip_expression(char *tok,
               {
                 case STAnd:
                 {
-                  slice_index const and = alloc_and_slice(operand1,operand2);
-                  pipe_link(proxy,and);
+                  slice_index const and_index = alloc_and_slice(operand1,operand2);
+                  pipe_link(proxy,and_index);
                   break;
                 }
 
                 case STOr:
                 {
-                  slice_index const or = alloc_or_slice(operand1,operand2);
-                  pipe_link(proxy,or);
+                  slice_index const or_index = alloc_or_slice(operand1,operand2);
+                  pipe_link(proxy,or_index);
                   break;
                 }
 
@@ -1194,7 +1206,7 @@ static Side ParseStructuredStip_starter(char *tok)
    * are initialised in terms of nr_sides */
   ps = GetUniqIndex(nr_sides,ColourTab,tok);
   if (ps>nr_sides)
-    output_plaintext_input_error_message(PieSpecNotUniq,0);
+    output_plaintext_input_error_message(PieSpecNotUniq);
   else if (ps<nr_sides)
     result = ps;
 
@@ -1242,4 +1254,31 @@ char *ParseStructuredStip(char *tok, slice_index start)
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
   return tok;
+}
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ * @param stipulation identifies the entry slice into the stipulation
+ */
+void move_effect_journal_do_insert_sstipulation(slice_index start,
+                                                  slice_index stipulation)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_set_effect_doers(move_effect_input_sstipulation,
+                                       &move_effect_journal_undo_insert_stipulation,
+                                       0);
+  slice_instrument_with_stipulation(start,stipulation);
+
+  entry->u.input_stipulation.start_index = start;
+  entry->u.input_stipulation.stipulation = stipulation;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

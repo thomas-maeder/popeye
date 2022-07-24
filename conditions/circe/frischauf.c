@@ -4,7 +4,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/flags_change.h"
 #include "position/position.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -60,10 +60,10 @@ static void mark_promotees(void)
   assert(move_effect_journal_base[parent_ply[nbply]+1]<=top);
 
   for (curr = move_effect_journal_base[parent_ply[nbply]+1]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_change
+    if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
-      square const on = move_effect_journal[curr].u.piece_change.on;
+      square const on = move_effect_journal[curr].u.piece_walk_change.on;
       Flags flags = being_solved.spec[on];
       SETFLAG(flags,FrischAuf);
       move_effect_journal_do_flags_change(move_effect_reason_frischauf_mark_promotee,

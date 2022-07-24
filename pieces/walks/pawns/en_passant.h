@@ -18,7 +18,7 @@ enum
   en_passant_retro_min_squares = 3,
   en_passant_retro_capacity = 4
 };
-extern unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+extern square en_passant_retro_squares[en_passant_retro_capacity];
 extern unsigned int en_passant_nr_retro_squares;
 
 /* Determine whether the retro information concernng en passant is consistent
@@ -70,16 +70,6 @@ void en_passant_forget_multistep(void);
  * @param diff adjustment
  */
 void move_effect_journal_do_remember_ep(square s);
-
-/* Undo remembering a possible en passant capture
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry);
-
-/* Redo remembering a possible en passant capture
- * @param curr identifies the adjustment effect
- */
-void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry);
 
 /* Was a pawn multistep move played in a certain ply?
  * @param ply the ply
@@ -135,6 +125,9 @@ square en_passant_find_potential(square sq_multistep_departure);
  *         en passant capture
  */
 boolean en_passant_is_ep_capture(square sq_capture);
+
+void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry);
+void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

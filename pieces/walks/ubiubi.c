@@ -3,11 +3,12 @@
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/fork.h"
+#include "debugging/assert.h"
 
 typedef enum
 {
   ubiubi_empty,
-  ubiubi_opposibe,
+  ubiubi_opposite,
   ubiubi_taboo
 } ubiubi_square_state_type;
 
@@ -25,17 +26,21 @@ static void utiubi_generate_moves_recursive(square step_departure,
       switch (traversal_state[curr_generation->arrival])
       {
         case ubiubi_empty:
-          push_move();
+          push_move_no_capture();
           traversal_state[curr_generation->arrival] = ubiubi_taboo;
           utiubi_generate_moves_recursive(curr_generation->arrival,traversal_state);
           break;
 
-        case ubiubi_opposibe:
-          push_move();
+        case ubiubi_opposite:
+          push_move_regular_capture();
           traversal_state[curr_generation->arrival] = ubiubi_taboo;
           break;
 
         case ubiubi_taboo:
+          break;
+
+        default:
+          assert(0);
           break;
       }
   }
@@ -51,7 +56,7 @@ void ubiubi_generate_moves(void)
     if (is_square_empty(*bnp))
       board_state[*bnp] = ubiubi_empty;
     else if (TSTFLAG(being_solved.spec[*bnp],opposite))
-      board_state[*bnp] = ubiubi_opposibe;
+      board_state[*bnp] = ubiubi_opposite;
     else
       board_state[*bnp] = ubiubi_taboo;
 

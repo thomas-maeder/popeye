@@ -52,5 +52,6 @@ char const *goal_end_marker[nr_goals] =
   , "#="
   , "c81"
   , ""
+  , "!#"
   , ""
 };

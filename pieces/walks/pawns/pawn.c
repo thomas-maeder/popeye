@@ -22,7 +22,7 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[sq_departure],base_square))
+  if (TSTFLAG(sq_spec(sq_departure),base_square))
   {
     if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
       result = 3;
@@ -30,12 +30,12 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
              || CondFlag[normalp]
              || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
              || get_walk_of_piece_on_square(sq_departure)==Orphan /* we are generating for a pawned Orphan! */
-             || TSTFLAG(sq_spec[sq_departure],Wormhole))
+             || TSTFLAG(sq_spec(sq_departure),Wormhole))
       result = 1;
     else
       result = 0;
   }
-  else if (TSTFLAG(sq_spec[sq_departure],doublestep_square))
+  else if (TSTFLAG(sq_spec(sq_departure),doublestep_square))
     result = 2;
   else
     result = 1;
@@ -105,7 +105,7 @@ boolean pawn_check(validator_id evaluate)
   TraceSquare(sq_target);
   TraceEOL();
 
-  if (TSTFLAG(sq_spec[sq_target],capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
+  if (TSTFLAG(sq_spec(sq_target),capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
   {
     numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
     numvec const dir_forward_right = dir_forward+dir_right;

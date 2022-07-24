@@ -22,7 +22,15 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/total_invisible.h"
 #include "position/underworld.h"
+#include "position/effects/piece_creation.h"
+#include "position/effects/board_transformation.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/piece_exchange.h"
+#include "position/effects/total_side_exchange.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/stipulation.h"
@@ -45,6 +53,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 static void TwinResetPosition(void)
 {
@@ -145,7 +154,7 @@ static char *ParseTwinningRotate(void)
   SquareTransformation const rotation = detect_rotation(tok);
 
   if (rotation==nr_square_transformation)
-    output_plaintext_input_error_message(UnrecRotMirr,0);
+    output_plaintext_input_error_message(UnrecRotMirr);
   else
     move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                 rotation);
@@ -159,7 +168,7 @@ static char *ParseTwinningMirror(void)
   TwinningMirrorType indexx = GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
   if (indexx>TwinningMirrorCount)
-    output_plaintext_input_error_message(OptNotUniq,0);
+    output_plaintext_input_error_message(OptNotUniq);
   else
   {
     switch (indexx)
@@ -185,12 +194,67 @@ static char *ParseTwinningMirror(void)
         break;
 
       default:
-        output_plaintext_input_error_message(UnrecRotMirr,0);
+        output_plaintext_input_error_message(UnrecRotMirr);
         break;
     }
   }
 
   return ReadNextTokStr();
+}
+
+static void do_shift(square from, square to)
+{
+  echiquier board = { 0 };
+  Flags spec[maxsquare+5] = { 0 };
+  int const vector = to-from;
+
+  square const *bnp;
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (!is_square_empty(*bnp))
+    {
+      square const to = *bnp + vector;
+      board[to] = get_walk_of_piece_on_square(*bnp);
+      spec[to] = being_solved.spec[*bnp];
+      set_walk_of_piece_on_square(*bnp, Empty);
+      CLEARFL(being_solved.spec[*bnp]);
+    }
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (board[*bnp]!=Empty)
+    {
+      set_walk_of_piece_on_square(*bnp, board[*bnp]);
+      being_solved.spec[*bnp] = spec[*bnp];
+    }
+}
+
+/* Execute a twinning that shifts the entire position
+ */
+static void move_effect_journal_do_twinning_shift(square from, square to)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_twinning_shift,move_effect_reason_twinning);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.twinning_shift.from = from;
+  entry->u.twinning_shift.to = to;
+
+  do_shift(from,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  do_shift(entry->u.twinning_shift.to,entry->u.twinning_shift.from);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static char *ParseTwinningShift(void)
@@ -218,7 +282,14 @@ static char *ParseTwinningShift(void)
     else
     {
       if (twin_twinning_shift_validate(sq1,sq2))
+      {
+        /* we don't redo shift twinnings */
+        move_effect_journal_set_effect_doers(move_effect_twinning_shift,
+                                             &undo_twinning_shift,
+                                             0);
+
         move_effect_journal_do_twinning_shift(sq1,sq2);
+      }
       else
         output_plaintext_error_message(PieceOutside);
 
@@ -243,7 +314,7 @@ static char *ParseTwinningRemove(void)
   char * const squares_tok = ReadNextTokStr();
   char *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
   if (tok==squares_tok)
-    output_plaintext_input_error_message(MissngSquareList,0);
+    output_plaintext_input_error_message(MissngSquareList);
   else if (*tok!=0)
     output_plaintext_error_message(WrongSquareList);
 
@@ -252,8 +323,59 @@ static char *ParseTwinningRemove(void)
 
 static char *ParseTwinningPolish(void)
 {
-  move_effect_journal_do_twinning_polish();
+  position_total_side_exchange_initialise();
+  move_effect_journal_do_total_side_exchange(move_effect_reason_twinning);
   return ReadNextTokStr();
+}
+
+static void do_substitute_all(piece_walk_type from, piece_walk_type to)
+{
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(from);
+  TraceWalk(to);
+  TraceFunctionParamListEnd();
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (get_walk_of_piece_on_square(*bnp)==from)
+      move_effect_journal_do_walk_change(move_effect_reason_twinning,*bnp,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Execute a twinning that substitutes a walk for another
+ */
+static void move_effect_journal_do_twinning_substitute(piece_walk_type from,
+                                                       piece_walk_type to)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_twinning_substitute,move_effect_reason_twinning);
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(from);
+  TraceWalk(to);
+  TraceFunctionParamListEnd();
+
+  entry->u.piece_walk_change.from = from;
+  entry->u.piece_walk_change.to = to;
+  entry->u.piece_walk_change.on = initsquare;
+
+  do_substitute_all(from,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_substitute(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* nothing */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static char *ParseTwinningSubstitute(void)
@@ -261,22 +383,86 @@ static char *ParseTwinningSubstitute(void)
   char *tok = ReadNextTokStr();
 
   piece_walk_type p_old;
-  tok = ParseSingleWalk(tok,&p_old);
+  tok = ParsePieceWalkToken(tok,&p_old);
 
   if (p_old==nr_piece_walks)
-    output_plaintext_input_error_message(WrongPieceName,0);
+    output_plaintext_input_error_message(WrongPieceName);
   else
   {
     piece_walk_type p_new;
-    tok = ParseSingleWalk(tok,&p_new);
+    tok = ParsePieceWalkToken(tok,&p_new);
 
     if (p_new==nr_piece_walks)
-      output_plaintext_input_error_message(WrongPieceName,0);
+      output_plaintext_input_error_message(WrongPieceName);
     else
+    {
+      /* we don't redo substitute twinnings */
+      move_effect_journal_set_effect_doers(move_effect_twinning_substitute,
+                                           &undo_twinning_substitute,
+                                           0);
       move_effect_journal_do_twinning_substitute(p_old,p_new);
+    }
   }
 
   return tok;
+}
+
+static move_effect_journal_index_type find_original_condition(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+  move_effect_journal_index_type curr;
+
+  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_input_condition)
+      return curr;
+
+  return move_effect_journal_index_null;
+}
+
+/* Remember the original condition for restoration after the condition has been
+ * modified by a twinning
+ * @param start input position at start of parsing the condition
+ */
+static void move_effect_journal_do_remember_condition(fpos_t start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_condition,
+                                                                                    move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.input_complex.start = start;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_input_condition(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(nbply==ply_twinning || nbply==ply_diagram_setup);
+
+  InitCond();
+
+  /* restore the original condition (if any) if we are undoing a
+   * condition twinning
+   */
+  if (nbply==ply_twinning)
+  {
+    move_effect_journal_index_type const idx_cond = find_original_condition();
+    if (idx_cond!=move_effect_journal_index_null)
+    {
+      move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
+      InputStartReplay(cond->u.input_complex.start);
+      ParseCond(ReadNextTokStr());
+      InputEndReplay();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static char *ParseTwinning(char *tok,
@@ -308,7 +494,7 @@ static char *ParseTwinning(char *tok,
 
     if (twinning>TwinningCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (twinning==TwinningCount)
@@ -344,7 +530,7 @@ static char *ParseTwinning(char *tok,
             slice_index const stipulation_root_hook = input_find_stipulation(start);
             if (stipulation_root_hook==no_slice)
             {
-              output_plaintext_input_error_message(NoStipulation,0);
+              output_plaintext_input_error_message(NoStipulation);
               tok = 0;
             }
             else
@@ -362,7 +548,7 @@ static char *ParseTwinning(char *tok,
             slice_index const stipulation_root_hook = input_find_stipulation(start);
             if (stipulation_root_hook==no_slice)
             {
-              output_plaintext_input_error_message(NoStipulation,0);
+              output_plaintext_input_error_message(NoStipulation);
               tok = 0;
             }
             else
@@ -380,6 +566,10 @@ static char *ParseTwinning(char *tok,
           InitCond();
           tok = ReadNextTokStr();
           tok = ParseCond(tok);
+          /* we don't redo a condition twinning */
+          move_effect_journal_set_effect_doers(move_effect_input_condition,
+                                               &undo_input_condition,
+                                               0);
           move_effect_journal_do_remember_condition(beforeCond);
           break;
         }
@@ -418,42 +608,28 @@ static square NextSquare(square sq)
 }
 
 static char *ParseForsythPiece(char *tok,
+                               unsigned int nr_chars,
                                Flags *colour_flags,
                                square *pos)
 {
-  boolean ok = false;
+  if (*colour_flags==0)
+    *colour_flags = BIT(islower((unsigned char)*tok) ? Black : White);
 
-  boolean extended = *tok == '.';
-
-  if (extended) 
   {
-    tok++;
-  }
-
-  if (((*colour_flags)&NeutralMask) == 0 && isalpha((int)*tok))
-  {
-    *colour_flags |= BIT(islower((int)*tok) ? Black : White);
-  }
-
-  if (((*colour_flags)&NeutralMask) != 0)
-  {
-    char const char1 = tolower((int)*tok++);
-    char const char2 = extended ? tolower((int)*tok++) : ' ';
+    char const char1 = (char)tolower((unsigned char)*tok++);
+    char const char2 = nr_chars==1 ? ' ' : (char)tolower((unsigned char)*tok++);
 
     piece_walk_type const walk = GetPieNamIndex(char1,char2);
-    if (walk>=King)
+    if (walk!=nr_piece_walks)
     {
       move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
                                             *pos,walk,
                                             *colour_flags,
                                             no_side);
       *pos = NextSquare(*pos);
-       ok = true;
     }
-  }
-
-  if (!ok) {
-    *colour_flags = 0;
+    else
+      ++tok;           /* error */
   }
 
   return tok;
@@ -480,14 +656,16 @@ static char *ParseForsythColour(char *tok, Flags *colour_flags)
   return tok;
 }
 
-static char *ParseForsythPieceAndColor(char *tok,
-                                       square *pos)
+static char *ParseForsythPieceAndColor(char *tok, square *pos)
 {
 
   Flags colour_flags = 0;
 
   tok = ParseForsythColour(tok,&colour_flags);
-  tok = ParseForsythPiece(tok,&colour_flags,pos);
+  if (*tok=='.')
+    tok = ParseForsythPiece(tok+1,2,&colour_flags,pos);
+  else
+    tok = ParseForsythPiece(tok,1,&colour_flags,pos);
       
   if (colour_flags==0)
       ++tok;  
@@ -502,16 +680,18 @@ static void ParseForsyth(void)
   square sq = square_a8;
 
   while (sq && *tok)
-     if (isdigit((int)*tok))
-     {
-       int num = *tok++ - '0';
-       if (isdigit((int)*tok))
-         num = 10*num + *tok++ - '0';
-       for (; num && sq; num--)
-         sq = NextSquare(sq);
-     }
-     else
-       tok = ParseForsythPieceAndColor(tok,&sq);
+    if (isdigit((unsigned char)*tok))
+    {
+      int num = *tok++ - '0';
+      if (isdigit((unsigned char)*tok))
+        num = 10*num + *tok++ - '0';
+      for (; num && sq; num--)
+        sq = NextSquare(sq);
+    }
+    else if (*tok=='/')
+      ++tok;
+    else
+      tok = ParseForsythPieceAndColor(tok,&sq);
 }
 
 static char *ReadRemark(void)
@@ -526,16 +706,33 @@ static char *ReadRemark(void)
   return ReadNextTokStr();
 }
 
+/* protocol_close returns an int, but we need a function returning void for atexit */
+static void protocol_close_wrapper(void)
+{
+  if (protocol_close())
+    perror(__func__);
+}
+
 static char *ReadTrace(void)
 {
+  static boolean need_to_schedule_protocol_close = true;
   if (ReadToEndOfLine())
   {
     {
       FILE * const protocol = protocol_open(InputLine);
       if (protocol==0)
-        output_plaintext_input_error_message(WrOpenError,0);
+        output_plaintext_input_error_message(WrOpenError);
       else
+      {
+        if (need_to_schedule_protocol_close)
+        {
+          if (atexit(&protocol_close_wrapper))
+            perror(__func__);
+          else
+            need_to_schedule_protocol_close = false;
+        }
         output_plaintext_print_version_info(protocol);
+      }
     }
   }
 
@@ -625,16 +822,19 @@ static void ReadInitialTwin(slice_index start)
     result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>InitialTwinTokenCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (result==InitialTwinTokenCount)
     {
       if (GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok)==ProblemTokenCount
           && GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok)==EndTwinTokenCount)
-        output_plaintext_input_error_message(OffendingItem,0);
-
-      break;
+      {
+        output_plaintext_input_error_message(OffendingItem,tok);
+        tok = ReadNextTokStr();
+      }
+      else
+        break;
     }
     else
       switch (result)
@@ -646,7 +846,7 @@ static void ReadInitialTwin(slice_index start)
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
-              output_plaintext_input_error_message(UnrecStip,0);
+              output_plaintext_input_error_message(UnrecStip);
           }
           break;
         }
@@ -658,7 +858,7 @@ static void ReadInitialTwin(slice_index start)
           {
             slice_index const root_slice_hook = input_find_stipulation(start);
             if (root_slice_hook==no_slice)
-              output_plaintext_input_error_message(UnrecStip,0);
+              output_plaintext_input_error_message(UnrecStip);
           }
           break;
         }
@@ -682,6 +882,8 @@ static void ReadInitialTwin(slice_index start)
         case PieceToken:
         {
           unsigned int ghost_idx = nr_ghosts;
+
+          total_invisible_number = 0;
 
           tok = ReadNextTokStr();
           tok = ParsePieces(tok);
@@ -742,6 +944,7 @@ static void ReadInitialTwin(slice_index start)
           break;
 
         case Forsyth:
+          total_invisible_number = 0;
           ParseForsyth();
           tok = ReadNextTokStr();
           break;
@@ -771,7 +974,7 @@ static char *ReadSubsequentTwin(char *tok, slice_index start, unsigned int twin_
     InitialTwinToken const result = GetUniqIndex(SubsequentTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>SubsequentTwinTokenCount)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
     else if (result==SubsequentTwinTokenCount)
@@ -816,11 +1019,16 @@ void solving_machinery_intro_builder_solve(slice_index si)
         alloc_pipe(STSolversBuilder1),
         alloc_pipe(STSolversBuilder2),
         alloc_pipe(STSlackLengthAdjuster),
-        alloc_pipe(STProxyResolver),
-        alloc_illegal_selfcheck_writer_slice()
+        alloc_pipe(STProxyResolver)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
+
+    if (!CondFlag[lesemajeste])
+    {
+      slice_index const prototype = alloc_illegal_selfcheck_writer_slice();
+      slice_insertion_insert(si,&prototype,1);
+    }
   }
 
   solving_impose_starter(si,SLICE_STARTER(si));
@@ -863,6 +1071,8 @@ void build_atob_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(start_of_machinery!=no_slice);
+
   input_instrument_proof(start_of_machinery);
 
   pipe_solve_delegate(si);
@@ -880,6 +1090,8 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(start_of_machinery!=no_slice);
 
   input_instrument_proof(start_of_machinery);
 
@@ -982,7 +1194,7 @@ static char *twins_handle(char *tok, slice_index si)
       EndTwinToken const endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
       if (endToken>EndTwinTokenCount)
-        output_plaintext_input_error_message(ComNotUniq,0);
+        output_plaintext_input_error_message(ComNotUniq);
       else
       {
         pipe_solve_delegate(si);
@@ -1061,7 +1273,7 @@ void input_plaintext_twins_handle(slice_index si)
       break;
 
     default:
-      output_plaintext_input_error_message(ComNotUniq,0);
+      output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
       break;
   }
@@ -1084,7 +1296,7 @@ void input_plaintext_initial_twin_reader_solve(slice_index si)
   {
     slice_index const stipulation_root_hook = input_find_stipulation(si);
     if (stipulation_root_hook==no_slice)
-      output_plaintext_input_error_message(NoStipulation,0);
+      output_plaintext_input_error_message(NoStipulation);
     else
     {
       stipulation_modifiers_notify(si,stipulation_root_hook);

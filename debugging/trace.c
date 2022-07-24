@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #if defined(DOTRACE)
 #include "output/plaintext/pieces.h"
@@ -17,12 +18,16 @@
 #include "stipulation/move.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
+#if defined(DOTRACECALLSTACK)
+#include "output/plaintext/language_dependant.h"
+#include "pieces/walks/hunters.h"
+#endif
 
 static trace_level level;
 
 static unsigned long move_counter;
 
-trace_level max_level = ULONG_MAX;
+static trace_level max_level = ULONG_MAX;
 static boolean pointers_suppressed = false;
 
 enum
@@ -63,7 +68,7 @@ void TraceEOL(void)
 {
   if (level<=max_level)
   {
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -74,7 +79,7 @@ void TraceFunctionEntry(char const *name)
 
   if (level<=max_level)
   {
-    fprintf(stdout,"> #%lu %s ",level,name);
+    printf("> #%lu %s ",level,name);
     fflush(stdout);
   }
 
@@ -84,34 +89,42 @@ void TraceFunctionEntry(char const *name)
                                    "> #%lu %s ",
                                    level,
                                    name);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 
-  entryNames[level] = name;
+  if (level<max_nesting_level)
+    entryNames[level] = name;
 }
 
 void TraceFunctionParamListEnd(void)
 {
   if (level<=max_level)
-    fputs("\n",stdout);
+    putchar('\n');
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "\n");
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
 void TraceFunctionExit(char const *name)
 {
-  if (strcmp(name,entryNames[level])!=0)
-    fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
-            level,entryNames[level],name);
+  if (level<max_nesting_level)
+  {
+    if (strcmp(name,entryNames[level])!=0)
+      fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
+              level,entryNames[level],name);
 
-  assert(strcmp(name,entryNames[level])==0);
+    assert(strcmp(name,entryNames[level])==0);
+  }
 
   if (level<=max_level)
   {
-    fprintf(stdout,"< #%lu %s",level,name);
+    printf("< #%lu %s",level,name);
     fflush(stdout);
   }
 
@@ -121,28 +134,39 @@ void TraceFunctionExit(char const *name)
                                     "< #%lu %s",
                                     level,
                                     name);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 
   --level;
 }
 
-void TraceFunctionResultImpl(char const *prefix, char const *format, size_t value)
+void TraceFunctionResultImpl(char const *prefix, char const *format, ...)
 {
+  va_list ap;
   if (level+1<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
-      fprintf(stdout,"...");
+      fputs("...",stdout);
     else
-      fprintf(stdout,format,value);
+    {
+      va_start(ap, format);
+      vprintf(format,ap);
+      va_end(ap);
+    }
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
-                                  entry_length-entry_cursor[level],
-                                  format,
-                                  value);
+  va_start(ap, format);
+  entry_cursor[level] += vsnprintf(entries[level]+entry_cursor[level],
+                                   entry_length-entry_cursor[level],
+                                   format,
+                                   ap);
+  va_end(ap);
+  if (entry_cursor[level] >= entry_length)
+    entry_cursor[level] = entry_length-1;
 #endif
 }
 
@@ -150,7 +174,7 @@ void TraceFunctionResultEnd(void)
 {
   if (level<=max_level)
   {
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 
@@ -158,26 +182,37 @@ void TraceFunctionResultEnd(void)
   entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
                                   entry_length-entry_cursor[level],
                                   "\n");
+  if (entry_cursor[level] >= entry_length)
+    entry_cursor[level] = entry_length-1;
 #endif
 }
 
-void TraceValueImpl(char const *prefix, char const *format, size_t value)
+void TraceValueImpl(char const *prefix, char const *format, ...)
 {
+  va_list ap;
   if (level<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
     if (strcmp(format,"%p")==0 && pointers_suppressed)
-      fprintf(stdout,"...");
+      fputs("...",stdout);
     else
-      fprintf(stdout,format,value);
+    {
+      va_start(ap,format);
+      vprintf(format,ap);
+      va_end(ap);
+    }
     fflush(stdout);
   }
 
 #if defined(DOTRACECALLSTACK)
-  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                    entry_length-entry_cursor[level-1],
-                                    format,
-                                    value);
+  va_start(ap,format);
+  entry_cursor[level-1] += vsnprintf(entries[level-1]+entry_cursor[level-1],
+                                     entry_length-entry_cursor[level-1],
+                                     format,
+                                     ap);
+  va_end(ap);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -185,7 +220,7 @@ void TraceText(char const *text)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,"  #%lu %s",level,text);
+    printf("  #%lu %s",level,text);
     fflush(stdout);
   }
 
@@ -195,6 +230,8 @@ void TraceText(char const *text)
                                     "  #%lu %s",
                                     level,
                                     text);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -204,7 +241,7 @@ void TraceEnumeratorImpl(char const *format,
 {
   if (level<=max_level)
   {
-    fprintf(stdout,format,enumerator_name,value);
+    printf(format,enumerator_name,value);
     fflush(stdout);
   }
 
@@ -214,6 +251,8 @@ void TraceEnumeratorImpl(char const *format,
                                     format,
                                     enumerator_name,
                                     value);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -226,7 +265,12 @@ void TraceSquareImpl(char const *prefix, square s)
     if (s==initsquare)
       fputs("initsquare",stdout);
     else
-      WriteSquare(&output_plaintext_engine,stdout,s);
+    {
+      if (is_on_board(s))
+        WriteSquare(&output_plaintext_engine,stdout,s);
+      else
+        output_plaintext_engine.fprintf(stdout, "[square %d]", s);
+    }
     fflush(stdout);
   }
 
@@ -235,27 +279,41 @@ void TraceSquareImpl(char const *prefix, square s)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
   if (s==initsquare)
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "initsquare");
   else
   {
-    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
-                                      entry_length-entry_cursor[level-1],
-                                      "%c",
-                                      'a' - nr_files_on_board + s%onerow);
-    if (isBoardReflected)
+    if (is_on_board(s))
+    {
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "%c",
-                                        '8' + nr_rows_on_board - s/onerow);
+                                        (int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+      if (entry_cursor[level-1] >= entry_length)
+        entry_cursor[level-1] = entry_length-1;
+      if (isBoardReflected)
+        entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                          entry_length-entry_cursor[level-1],
+                                          "%c",
+                                          (int)getBoardRowLabel(((2*nr_rows_on_board)-1) - (s/onerow)));
+      else
+        entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                          entry_length-entry_cursor[level-1],
+                                          "%c",
+                                          (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+    }
     else
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
-                                        "%c",
-                                        '1' - nr_rows_on_board + s/onerow);
+                                        "[square %d]",
+                                        s);
   }
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
 #endif
 }
 
@@ -267,12 +325,18 @@ static void remember_regular_piece(piece_walk_type pnam)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "%c",
-                                    toupper(PieceTab[pnam][0]));
+                                    toupper((unsigned char)PieceTab[pnam][0]));
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
   if (p1!=' ')
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "%c",
-                                      toupper(p1));
+                                      toupper((unsigned char)p1));
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
 }
 #endif
 
@@ -283,29 +347,39 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
                                     entry_length-entry_cursor[level-1],
                                     "%s",
                                     prefix);
-  if (p==vide)
+  if (entry_cursor[level-1] >= entry_length)
+    entry_cursor[level-1] = entry_length-1;
+  if (p==Empty) /* TODO: Is Empty the correct value here? */
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
                                       "vide");
-  else if (p==obs)
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
+  else if (p==Invalid) /* TODO: Is Invalid the correct value here? */
+  {
     entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                       entry_length-entry_cursor[level-1],
-                                      "obs");
+                                     "obs");
+    if (entry_cursor[level-1] >= entry_length)
+      entry_cursor[level-1] = entry_length-1;
+  }
   else
   {
-    PieNam const pnam = abs(p);
-
-    if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes))
-      remember_regular_piece(pnam);
+    if ((p<Hunter0) || (p>=nr_piece_walks))
+      remember_regular_piece(p);
     else
     {
-      unsigned int const i = pnam-Hunter0;
-      assert(i<maxnrhuntertypes);
-      remember_regular_piece(abs(huntertypes[i].away));
+      unsigned int const i = (unsigned int)p-(unsigned int)Hunter0;
+      assert(i<max_nr_hunter_walks);
+      remember_regular_piece(huntertypes[i].away);
       entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                         entry_length-entry_cursor[level-1],
                                         "/");
-      remember_regular_piece(abs(huntertypes[i].home));
+      if (entry_cursor[level-1] >= entry_length)
+        entry_cursor[level-1] = entry_length-1;
+      remember_regular_piece(huntertypes[i].home);
     }
   }
 #endif
@@ -323,16 +397,18 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
   }
 }
 
+#include "position/underworld.h"
 static void TraceCurrentMove(void)
 {
   if (level<=max_level)
   {
-    fprintf(stdout," #%lu %lu ",level,move_counter++);
+    printf(" #%lu %lu ",level,move_counter++);
     output_plaintext_write_move(&output_plaintext_engine,
                                 stdout,
                                 &output_plaintext_symbol_table);
-    fprintf(stdout," CURRMOVE_OF_PLY(nbply):%d",CURRMOVE_OF_PLY(nbply));
-    fprintf(stdout," current_ply:%d\n",nbply);
+    printf(" CURRMOVE_OF_PLY(nbply):%u",CURRMOVE_OF_PLY(nbply));
+    printf(" nr_ghosts:%u",nr_ghosts);
+    printf(" current_ply:%u\n",nbply);
     fflush(stdout);
   }
 }
@@ -344,10 +420,10 @@ void TraceCurrentHashBuffer(void)
     HashBuffer const *hb = &hashBuffers[nbply];
     unsigned int i;
 
-    fprintf(stdout," #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
+    printf(" #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
     for (i = 0; i<hb->cmv.Leng; ++i)
-      fprintf(stdout,"%02x ",(unsigned int)hb->cmv.Data[i]);
-    fputs("\n",stdout);
+      printf("%02x ",(unsigned int)hb->cmv.Data[i]);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -362,15 +438,18 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
       {
         WriteSpec(&output_plaintext_engine,
                   stdout,being_solved.spec[*bnp],
-                  being_solved.board[*bnp],true);
+                  get_walk_of_piece_on_square(*bnp),true);
         WriteWalk(&output_plaintext_engine,
                   stdout,
                   get_walk_of_piece_on_square(*bnp));
-        WriteSquare(&output_plaintext_engine,stdout,*bnp);
-        fputs(" ",stdout);
+        if (is_on_board(*bnp))
+          WriteSquare(&output_plaintext_engine,stdout,*bnp);
+        else
+          output_plaintext_engine.fprintf(stdout, "[square %d]", *bnp);
+        putchar(' ');
       }
 
-    fputs("\n",stdout);
+    putchar('\n');
     fflush(stdout);
   }
 }
@@ -378,24 +457,23 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 static void trace_link(char const *prefix, slice_index si, char const *suffix)
 {
   if (si==no_slice)
-    fprintf(stdout,"%s----%s ",prefix,suffix);
+    printf("%s----%s ",prefix,suffix);
   else
-    fprintf(stdout,"%s%4u%s ",prefix,si,suffix);
+    printf("%s%4u%s ",prefix,si,suffix);
 }
 
-char const context_shortcuts[] = { 'I', 'A', 'D', 'H' };
-char const level_shortcuts[]   = { 'T', 'S', 'N' };
+static char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
+static char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
 static void trace_common(slice_index si, stip_structure_traversal *st)
 {
-  fprintf(stdout,"[%4u] ",si);
-  fprintf(stdout,"%-34s ",slice_type_names[SLICE_TYPE(si)]);
-  fprintf(stdout,
-          "%c%c%c%c ",
-          Side_names[SLICE_STARTER(si)][0],
-          level_shortcuts[st->level],
-          context_shortcuts[st->context],
-          st->activity==stip_traversal_activity_solving ? 'S' : 'T');
+  printf("[%4u] ",si);
+  printf("%-34s ",slice_type_names[SLICE_TYPE(si)]);
+  printf("%c%c%c%c ",
+         Side_names[SLICE_STARTER(si)][0],
+         level_shortcuts[st->level],
+         context_shortcuts[st->context],
+         st->activity==stip_traversal_activity_solving ? 'S' : 'T');
   trace_link("",SLICE_PREV(si),"<");
   trace_link(">",SLICE_NEXT1(si),"");
   trace_link("(",SLICE_TESTER(si),")");
@@ -404,9 +482,9 @@ static void trace_common(slice_index si, stip_structure_traversal *st)
 static void trace_branch(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%2u/",SLICE_U(si).branch.length);
-  fprintf(stdout,"%2u ",SLICE_U(si).branch.min_length);
-  fputs("\n",stdout);
+  printf("%2u/",SLICE_U(si).branch.length);
+  printf("%2u ",SLICE_U(si).branch.min_length);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -414,7 +492,7 @@ static void trace_branch(slice_index si, stip_structure_traversal *st)
 static void trace_pipe(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -423,7 +501,7 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -431,14 +509,14 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 static void trace_leaf(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fputs("\n",stdout);
+  putchar('\n');
 }
 
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("base:",SLICE_U(si).derived_pipe.base,"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -447,8 +525,8 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fprintf(stdout,"goal:%u ",SLICE_U(si).goal_handler.goal.type);
-  fputs("\n",stdout);
+  printf("goal:%u ",(unsigned int)SLICE_U(si).goal_handler.goal.type);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -456,7 +534,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"goal:%u\n",SLICE_U(si).goal_handler.goal.type);
+  printf("goal:%u\n",(unsigned int)SLICE_U(si).goal_handler.goal.type);
 
   stip_traverse_structure_children(si,st);
 }
@@ -465,7 +543,7 @@ static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st
 {
   trace_common(si,st);
   trace_link("fork:",SLICE_NEXT2(si),"");
-  fprintf(stdout,"threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
+  printf("threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
 
   stip_traverse_structure_children(si,st);
 }
@@ -473,7 +551,7 @@ static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st
 static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
+  printf("mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
 
   stip_traverse_structure_children(si,st);
 }
@@ -481,10 +559,9 @@ static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *s
 static void trace_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,
-          " mode:%s(%u)\n",
-          output_mode_names[SLICE_U(si).output_mode_selector.mode],
-          SLICE_U(si).output_mode_selector.mode);
+  printf(" mode:%s(%u)\n",
+         output_mode_names[SLICE_U(si).output_mode_selector.mode],
+         (unsigned int)SLICE_U(si).output_mode_selector.mode);
 
   stip_traverse_structure_children(si,st);
 }
@@ -492,7 +569,7 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
 static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
+  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -501,7 +578,7 @@ static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_tr
 {
   trace_common(si,st);
   trace_link("?",SLICE_NEXT2(si),"");
-  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
+  printf("%u\n",(unsigned int)SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -511,7 +588,7 @@ static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
   trace_common(si,st);
   trace_link("next2:",SLICE_NEXT2(si),"");
   trace_link("condition:",SLICE_U(si).if_then_else.condition,"");
-  fputs("\n",stdout);
+  putchar('\n');
 
   stip_traverse_structure_children(si,st);
 }
@@ -554,7 +631,7 @@ void TraceStipulation(slice_index si)
     {
       trace_level const save_max_level = max_level;
       max_level = 0; /* avoid tracing during traversal */
-      fputs("stipulation structure:\n",stdout);
+      puts("stipulation structure:");
       stip_traverse_structure(si,&st);
       max_level = save_max_level;
     }
@@ -564,8 +641,6 @@ void TraceStipulation(slice_index si)
 #include "pieces/pieces.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
-#include "debugging/assert.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

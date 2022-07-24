@@ -5,6 +5,7 @@
 
 #include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
+#include "conditions/mummer.h"
 
 extern square duellists[nr_sides];
 
@@ -12,15 +13,7 @@ extern square duellists[nr_sides];
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int duellists_measure_length(void);
-
-/* Undo remembering a duellist
- */
-void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry);
-
-/* Redo remembering a duellist
- */
-void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry);
+mummer_length_type duellists_measure_length(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

@@ -23,8 +23,8 @@
 
 #else
 
-void assert_impl(char const *assertion, char const *file, int line);
-
 #define assert(expr) ((expr) ? (void)0 : assert_impl(#expr,__FILE__,__LINE__))
 
 #endif
+
+void assert_impl(char const *assertion, char const *file, int line);

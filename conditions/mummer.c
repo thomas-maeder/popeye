@@ -26,7 +26,7 @@
 #include <stdlib.h>
 
 /* mum length found so far */
-static int mum_length[maxply+1];
+static mummer_length_type mum_length[maxply+1];
 
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
@@ -41,7 +41,7 @@ mummer_strictness_type mummer_strictness_default_side;
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int maximummer_measure_length(void)
+mummer_length_type maximummer_measure_length(void)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
@@ -85,9 +85,9 @@ int maximummer_measure_length(void)
  * value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int minimummer_measure_length(void)
+mummer_length_type minimummer_measure_length(void)
 {
-  return -maximummer_measure_length();
+  return UINT_MAX-maximummer_measure_length();
 }
 
 /* Forget previous mummer activations and definition of length measurers */
@@ -185,7 +185,7 @@ void mummer_orchestrator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  mum_length[parent_ply[nbply]] = INT_MIN;
+  mum_length[parent_ply[nbply]] = mummer_strictness[SLICE_STARTER(si)]==mummer_strictness_ultra ? 1 : 0;
   reset_accepted_moves(nbply);
 
   copyply();
@@ -217,15 +217,15 @@ void mummer_orchestrator_solve(slice_index si)
  */
 void mummer_bookkeeper_solve(slice_index si)
 {
-  int current_length;
+  mummer_length_type current_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   current_length = (*mummer_measure_length[SLICE_STARTER(si)])();
-  TraceValue("%d",current_length);
-  TraceValue("%d",mum_length[parent_ply[nbply]]);
+  TraceValue("%u",current_length);
+  TraceValue("%u",mum_length[parent_ply[nbply]]);
   TraceEOL();
 
   if (current_length<mum_length[parent_ply[nbply]])

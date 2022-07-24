@@ -9,7 +9,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/piece_removal.h"
 #include "solving/temporary_hacks.h"
 #include "debugging/trace.h"
 

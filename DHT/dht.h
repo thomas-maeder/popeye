@@ -15,28 +15,28 @@ typedef enum {
 
 /* Now finally this is the HashElement */
 typedef struct {
-	dhtValue	Key;
-	dhtValue	Data;
+  dhtConstValue	Key;
+  dhtConstValue	Data;
 } dhtElement;
-#define dhtNilElement	(dhtElement *)0
+#define dhtNilElement	((dhtElement *)0)
 
 struct dht;
-#define dhtNilHashTable			(struct dht *)0
+#define dhtNilHashTable			((struct dht *)0)
 
 /* procedures */
 struct dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
                       dhtValueType DtaType, dhtValuePolicy DataPolicy);
-dhtElement *dhtEnterElement(struct dht *, dhtConstValue key, dhtValue data);
-int	      dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
+dhtElement *dhtEnterElement(struct dht *, dhtConstValue key, dhtConstValue data);
+unsigned int dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
 void	      dhtDestroy	(struct dht *);
 void	      dhtDump		(struct dht *, FILE *);
 void	      dhtDumpIndented	(int i, struct dht *, FILE *);
-void	      dhtRemoveElement	(struct dht *, dhtValue key);
+void	      dhtRemoveElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
 unsigned long dhtKeyCount	(struct dht *);
-char const   *dhtErrorMsg	();
+char const   *dhtErrorMsg	(void);
 
 extern char dhtError[];
 
@@ -53,4 +53,8 @@ extern char dhtError[];
 #define	fDumpHashTable		dhtDump
 #endif /*OLD_NAMES*/
 
+#if defined(DEBUG_DHT) || defined(TESTHASH)
+int get_dhtDebug(void);
+void set_dhtDebug(int d);
+#endif
 #endif /*DHT_INCLUDED*/

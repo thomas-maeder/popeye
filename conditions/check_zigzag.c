@@ -26,9 +26,11 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     slice_index const ready = branch_find_slice(STReadyForDefense,
                                                 adapter,
                                                 stip_traversal_context_intro);
+    assert(ready!=no_slice);
     slice_index const deadend = branch_find_slice(STDeadEnd,
                                                   ready,
                                                   stip_traversal_context_defense);
+    assert(deadend!=no_slice);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_pipe(STDummyMove);
@@ -37,8 +39,6 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     slice_index const jump = alloc_if_then_else_slice(proxy1,proxy2,condition);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
-    assert(ready!=no_slice);
-    assert(deadend!=no_slice);
     pipe_link(condition,alloc_true_slice());
     defense_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy2,SLICE_NEXT1(deadend));
@@ -116,9 +116,9 @@ void help_branch_insert_check_zigzag(slice_index adapter)
     assert(ready!=no_slice);
     pipe_link(condition,alloc_true_slice());
     help_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy2,SLICE_NEXT1(ready));
+    pipe_link(SLICE_PREV(ready),jump);
+    pipe_link(proxy2,ready);
     pipe_link(proxy1,played);
-    pipe_link(ready,jump);
 
     {
       slice_index const landing = branch_find_slice(STCheckZigzagLanding,

@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_TEMPLATE_H)
 #define STIPULATION_TEMPLATE_H
 
-#include "stipulation7stipulation.h"
+#include "stipulation/stipulation.h"
 
 /* This module serves as template for pipe slices */
 

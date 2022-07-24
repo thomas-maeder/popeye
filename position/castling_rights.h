@@ -3,17 +3,18 @@
 
 enum
 {
-  black_castling_rights_offset = 4
+  black_castling_rights_offset = 4u
 };
 
 /* symbols for bits and their combinations in castling rights */
 typedef enum
 {
+  no_cancastle = 0x00,
   rh_cancastle = 0x01,
   ra_cancastle = 0x02,
   k_cancastle = 0x04,
 
-  k_castling = k_cancastle|rh_cancastle,
+  k_castling = (k_cancastle|rh_cancastle)/((k_cancastle > rh_cancastle) && (k_cancastle > ra_cancastle)),
   q_castling = k_cancastle|ra_cancastle,
   castlings = k_cancastle|ra_cancastle|rh_cancastle,
 
@@ -23,11 +24,15 @@ typedef enum
 
   blk_castling = whk_castling<<black_castling_rights_offset,
   blq_castling = whq_castling<<black_castling_rights_offset,
-  bl_castlings = wh_castlings<<black_castling_rights_offset
+  bl_castlings = wh_castlings<<black_castling_rights_offset,
+
+  wh_bl_castlings = wh_castlings|bl_castlings
 } castling_rights_type;
 /* NOTE: k_cancastle must be larger than the respective
  * r[ah]_cancastle or evaluations of the form
  * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
- * stop working. */
+ * stop working.  The division on k_castling ensures
+ * that breaking this property will cause a compile-time
+ * failure. */
 
 #endif

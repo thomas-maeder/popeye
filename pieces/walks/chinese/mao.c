@@ -29,9 +29,10 @@ static void maooa_generate_move(numvec to_passed, numvec to_arrival)
   {
     curr_generation->arrival = sq_departure+to_arrival;
 
-    if (is_square_empty(curr_generation->arrival)
-        || piece_belongs_to_opponent(curr_generation->arrival))
+    if (is_square_empty(curr_generation->arrival))
       hoppers_push_move(0,sq_passed);
+    else if (piece_belongs_to_opponent(curr_generation->arrival))
+      hoppers_push_capture(0,sq_passed);
   }
 }
 
@@ -121,14 +122,14 @@ static void maooa_rider_generate_moves(numvec to_passed, numvec to_arrival)
 
   while (is_square_empty(sq_passed) && is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     sq_passed += to_arrival;
     curr_generation->arrival += to_arrival;
   }
 
   if (is_square_empty(sq_passed)
       && piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
 }
 
 /* Generate moves for a Mao Rider
@@ -239,17 +240,21 @@ static void maooa_rider_lion_generate_moves(numvec to_passed, numvec to_arrival)
 
   if (!is_square_blocked(sq_passed) && !is_square_blocked(curr_generation->arrival))
   {
-    if (!is_square_empty(sq_passed)
-        && (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival)))
-      push_move();
+    if (!is_square_empty(sq_passed))
+    {
+      if  (is_square_empty(curr_generation->arrival))
+        push_move_no_capture();
+      else if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_move_regular_capture();
+    }
+
     if (is_square_empty(sq_passed) || is_square_empty(curr_generation->arrival))
     {
       sq_passed += to_arrival;
       curr_generation->arrival += to_arrival;
       while (is_square_empty(sq_passed) && is_square_empty(curr_generation->arrival))
       {
-        push_move();
+        push_move_no_capture();
         sq_passed += to_arrival;
         curr_generation->arrival += to_arrival;
       }
@@ -257,7 +262,7 @@ static void maooa_rider_lion_generate_moves(numvec to_passed, numvec to_arrival)
 
     if (is_square_empty(sq_passed)
         && piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -385,9 +390,10 @@ static void maooahopper_generate_moves(vec_index_type k,
   if (!is_square_empty(sq_hurdle))
   {
     curr_generation->arrival = sq_departure+to_arrival;
-    if (is_square_empty(curr_generation->arrival)
-        || piece_belongs_to_opponent(curr_generation->arrival))
+    if (is_square_empty(curr_generation->arrival))
       hoppers_push_move(k,sq_hurdle);
+    else if (piece_belongs_to_opponent(curr_generation->arrival))
+      hoppers_push_capture(k,sq_hurdle);
   }
 }
 

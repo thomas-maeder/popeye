@@ -16,9 +16,9 @@
 /* remember if the prerequistes for the relvant goals are met */
 unsigned int goal_preprequisites_met[maxply];
 
-boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
-                                                     goal_type goal,
-                                                     stip_traversal_context_type context)
+static boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
+                                                            goal_type goal,
+                                                            stip_traversal_context_type context)
 {
   boolean result;
 
@@ -63,7 +63,7 @@ boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
   return result;
 }
 
-boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
+static boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
 {
   boolean result;
 
@@ -83,42 +83,6 @@ boolean insert_goal_prerequisite_guard_help(slice_index si, goal_type goal)
       pipe_append(si,alloc_countermate_filter_slice());
       result = true;
       break;
-
-    default:
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_doublemate:
-    {
-      pipe_append(si,alloc_doublemate_filter_slice());
-      result = true;
-      break;
-    }
-
-    case goal_countermate:
-    {
-      pipe_append(si,alloc_countermate_filter_slice());
-      result = true;
-      break;
-    }
 
     default:
       result = false;

@@ -1,5 +1,7 @@
 beg
+
 prot blackchk.ref
+
 stip S#31
 auth C.Poisson
 orig The Problemist 2001
@@ -7,4 +9,16 @@ rem takes 13 min on Athlon 2400 / 200MB
 fors 4k3/K3p2p/48
 cond blackchecks
 opt try var nothr
+
+next
+
+stip S#31
+auth C.Poisson
+orig The Problemist 2001
+rema dauert 13 min mit Athlon 2400 / 200MB
+fors 4k3/K3p2p/48
+cond blackchecks
+opti try vari nothreat
+
 end
+

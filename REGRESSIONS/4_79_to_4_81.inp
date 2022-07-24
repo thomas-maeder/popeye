@@ -45,5 +45,38 @@ stipulation 001
 condition Bichrom
 twin condition Monochrom
 
+next
+
+title WhiteMustCapture Ultra seems to have been ignored since 4.37 (or earlier)
+author Gy\"orgy Bakcsi
+origin Gaudium 2018
+pieces white kf3 rd1 sa1h1 pa3a5c2c4c6e7f5g3 black kh3 pb2
+condition BlackMustCapture Ultra WhiteMustCapture Ultra
+stipulation ser-h#10
+
+next
+
+title Since 4.63, Popeye has generated duplicate moves for rook- and bishop-eagles
+stipulation ~1
+pieces black Pd4e3f7h7
+pieces white red3 beg8
+
+next
+
+title issue #170
+remark this problem should not have a solution
+cond blackmustcapture ultra
+pieces white pa2 black pb6
+stip sx2
+option nowk nobk vari
+
+next
+
+title issue #71
+option intelligent
+stip h#2
+pieces white ke1 black kg5
+condition Antisupercirce Cheylan
+
 end
 

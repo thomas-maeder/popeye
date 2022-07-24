@@ -19,6 +19,13 @@ void circe_kamikaze_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   anticirce_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed;
+  anticirce_variant.relevant_side_overrider = circe_variant.relevant_side_overrider;
+  anticirce_variant.rebirth_square_adapter = circe_variant.rebirth_square_adapter;
+  anticirce_variant.reborn_walk_adapter = circe_variant.reborn_walk_adapter;
+  anticirce_variant.is_turncoat = circe_variant.is_turncoat;
+  anticirce_variant.determine_rebirth_square = circe_variant.determine_rebirth_square;
+  anticirce_variant.is_promotion_possible = circe_variant.is_promotion_possible;
+
   circe_initialise_solving(si,&anticirce_variant,STMove,&move_insert_slices,STAnticirceConsideringRebirth);
   circe_instrument_solving(si,
                            STAnticirceConsideringRebirth,

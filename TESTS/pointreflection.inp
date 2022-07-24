@@ -1,0 +1,21 @@
+begin
+
+protocol pointreflection.tst
+
+title castling only with real king and rook
+pieces black kd8 rh8 white kg2 sa1 se1
+stipulation 001
+condition PointReflection
+twin move g2 e1
+twin cont add white ra1
+
+next
+
+title en passant capture only by real pawn
+pieces white sd5 pd2 black se7 pe4
+stipulation hep1
+condition PointReflection
+twin add black pe7
+twin cont add white pd5
+
+end

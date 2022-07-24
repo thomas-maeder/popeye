@@ -36,7 +36,7 @@ extern unsigned int CapturesLeft[maxply+1];
 
 extern boolean solutions_found;
 
-goal_type goal_to_be_reached;
+extern goal_type goal_to_be_reached;
 
 extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 

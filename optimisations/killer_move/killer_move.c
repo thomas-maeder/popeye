@@ -110,7 +110,7 @@ static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   state->are_we_at_root_level = false;
@@ -127,7 +127,7 @@ static void remember_generating(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   state->are_we_generating = true;
@@ -146,7 +146,7 @@ static void remember_not_generating(slice_index si, stip_structure_traversal *st
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   state->are_we_generating = false;
@@ -269,7 +269,7 @@ static void remember_optimiser(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   /* if the optimiser is of a fork type, we don't want to traverse next2! */
@@ -287,7 +287,7 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
+  TraceFunctionParam("%p",(void *)st);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);

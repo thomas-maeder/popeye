@@ -29,10 +29,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
-char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
+static char const *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static char const CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -52,7 +53,7 @@ output_symbol_table_type const output_latex_symbol_table =
     "{\\00}"
 };
 
-char *LaTeXWalk(piece_walk_type walk)
+char const *LaTeXWalk(piece_walk_type walk)
 {
   if (walk > Bishop)
   {
@@ -92,9 +93,9 @@ char *ParseLaTeXPieces(void)
   if (strlen(tok) < 3)
     while (true)
     {
-      walk = GetPieNamIndex(tolower(tok[0]), strlen(tok) == 1 ? ' ' : tolower(tok[1]));
+      walk = GetPieNamIndex((char)tolower((unsigned char)tok[0]), ((strlen(tok) == 1) ? ' ' : (char)tolower((unsigned char)tok[1])));
 
-      if (walk<King)
+      if (walk==nr_piece_walks)
         return tok;
 
       if (LaTeXPiecesAbbr[walk])
@@ -105,20 +106,24 @@ char *ParseLaTeXPieces(void)
 
       tok = ReadNextTokStr();
       LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      i= 0;
-      while (tok[i]) {
-        /* to avoid compiler warnings below made "better readable" */
-        /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[walk][i]= tolower(tok[i]) + 'A' - 'a';
-        i++;
+      if (LaTeXPiecesAbbr[walk]!=0) { /* TODO: What should we do if LaTeXPiecesAbbr[walk]==0? */
+        for (i = 0; tok[i]; ++i) {
+          /* to avoid compiler warnings below made "better readable" */
+          /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
+          LaTeXPiecesAbbr[walk][i]= (char)toupper((unsigned char)tok[i]); /* previously (char)(tolower(tok[i]) + 'A' - 'a') which --
+                                                                             like the current version -- isn't strictly equivalent to the above */
+        }
+        LaTeXPiecesAbbr[walk][i]= '\0';
       }
-      LaTeXPiecesAbbr[walk][i]= tolower(tok[i]);
 
       if (ReadToEndOfLine())
       {
         tok = InputLine;
         LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-        strcpy(LaTeXPiecesFull[walk], tok);
+        if (LaTeXPiecesFull[walk]!=0) /* TODO: What should we do if LaTeXPiecesFull[walk]==0? */
+        {
+          strcpy(LaTeXPiecesFull[walk], tok);
+        }
       }
 
       tok = ReadNextTokStr();
@@ -131,7 +136,7 @@ static void WriteFixElement(FILE *file,
                             char const *name, char const *value,
                             unsigned int indentation)
 {
-  fprintf(file,"%*c%s{%s}%%\n",indentation+1,'\\',name,value);
+  fprintf(file,"%*c%s{%s}%%\n",(int)(indentation+1),'\\',name,value);
 }
 
 void WriteUserInputElement(FILE *file, char const *name, char const *value)
@@ -145,7 +150,7 @@ static void WriteUserInputSubElement(FILE *file,
                                      char const *name,
                                      unsigned value_length, char const *value)
 {
-  fprintf(file," \\%s{%.*s}%%\n",name,value_length,value);
+  fprintf(file," \\%s{%.*s}%%\n",name,(int)value_length,value);
 }
 
 static void WriteGeneratedElement(FILE *file,
@@ -161,7 +166,7 @@ static void OpenGeneratedElementOneLine(FILE *file, char const *name)
 
 static void CloseElementOneLine(FILE *file)
 {
-  fputs("}",file);
+  fputc('}',file);
 }
 
 static void CloseElement(FILE *file)
@@ -222,14 +227,18 @@ void LaTeXStr(FILE *file, char const *line)
   }
 }
 
-void LaTeXCopyFile(FILE *src, FILE *dest, int size)
+void LaTeXCopyFile(FILE *src, FILE *dest, unsigned int size)
 {
-  char * const buffer = malloc(size+1);
-  if (buffer!=0)
+  char * buffer;
+  if (size < INT_MAX)
   {
-    if (fgets(buffer,size+1,src))
-      LaTeXStr(dest,buffer);
-    free(buffer);
+    buffer = (char *) malloc(size+1);
+    if (buffer!=0)
+    {
+      if (fgets(buffer,(int)(size+1),src))
+        LaTeXStr(dest,buffer);
+      free(buffer);
+    }
   }
 }
 
@@ -242,7 +251,7 @@ static void WriteIntro(FILE *file)
   WriteFixElement(file,"usepackage","diagram",0);
   if (UserLanguage==German)
     WriteFixElement(file,"usepackage","german",0);
-  fputs("\n",file);
+  fputc('\n',file);
   WriteFixElement(file,"begin","document",0);
 
   TraceFunctionExit(__func__);
@@ -258,13 +267,13 @@ void LaTeXSetup(slice_index start)
     slice_index const writer = branch_find_slice(STOutputLaTeXProblemWriter,
                                                  start,
                                                  stip_traversal_context_intro);
-    slice_index const file_owner = SLICE_NEXT2(writer);
-
     assert(writer!=no_slice);
+
+    slice_index const file_owner = SLICE_NEXT2(writer);
 
     SLICE_U(file_owner).writer.file = fopen(InputLine,"w");
     if (SLICE_U(file_owner).writer.file==NULL)
-      output_plaintext_input_error_message(WrOpenError,0);
+      output_plaintext_input_error_message(WrOpenError);
     else
       WriteIntro(SLICE_U(file_owner).writer.file);
   }
@@ -346,7 +355,7 @@ void LaTeXCo(slice_index si, FILE *file)
     {
       fputs(" \\Co+%",file);
       output_plaintext_print_version_info(file);
-      fputs("\n",file);
+      fputc('\n',file);
     }
   }
 
@@ -395,6 +404,10 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
 
     case condition_end:
       CloseElement(file);
+      break;
+
+    default:
+      assert(0);
       break;
   }
 
@@ -516,8 +529,14 @@ static void WriteSource(FILE *file)
     **            day.-day. month. year
     */
     /* year */
-    eol = date= strchr(source, '\n');
-    *eol = '\0';
+    eol= strchr(source, '\n');
+    if (eol)
+    {
+      *eol = '\0';
+      date= eol;
+    }
+    else
+      date= strchr(source, '\0');
 
     while (strchr("0123456789-", *(date-1)))
       date--;
@@ -531,38 +550,42 @@ static void WriteSource(FILE *file)
       /* while (*(date-1) == ' ') date--; */
       switch (*(date-1))
       {
-      case '/':
-        /* format is either month/year or month-month/year */
-        --date;
-        while (*(date-1) == ' ')
-          date--;
-        tmp = date;
-        while (strchr("0123456789-", *(date-1)))
-          date--;
+        case '/':
+          /* format is either month/year or month-month/year */
+          --date;
+          while (*(date-1) == ' ')
+            date--;
+          tmp = date;
+          while (strchr("0123456789-", *(date-1)))
+            date--;
 
-        if (strchr(date,'-'))
-          fprintf(file, " \\months{%.*s}%%\n",(int)(tmp-date), date);
-        else
-          fprintf(file, " \\month{%.*s}%%\n",(int)(tmp-date), date);
+          if (strchr(date,'-'))
+            fprintf(file, " \\months{%.*s}%%\n",(int)(tmp-date), date);
+          else
+            fprintf(file, " \\month{%.*s}%%\n",(int)(tmp-date), date);
 
-        break;
+          break;
 
-      case '.':
-        /* format is either
-           day. month. year or day.-day. month. year
-        */
-        date--;
-        tmp= date;
-        while (strchr("0123456789", *(date-1)))
+        case '.':
+          /* format is either
+             day. month. year or day.-day. month. year
+          */
           date--;
-        fprintf(file, " \\month{%.*s}%%\n", (int)(tmp-date), date);
-        /* now parse day(s) */
-        while (*(--date) == ' ');
-        tmp= date;
-        while (strchr("0123456789-.", *(date-1)))
-          date--;
-        fprintf(file, " \\day{%.*s}%%\n", (int)(tmp-date), date);
-        break;
+          tmp= date;
+          while (strchr("0123456789", *(date-1)))
+            date--;
+          fprintf(file, " \\month{%.*s}%%\n", (int)(tmp-date), date);
+          /* now parse day(s) */
+          while (*(--date) == ' ');
+          tmp= date;
+          while (strchr("0123456789-.", *(date-1)))
+            date--;
+          fprintf(file, " \\day{%.*s}%%\n", (int)(tmp-date), date);
+          break;
+
+        default:
+          /* nothing */
+          break;
       }
     } /* month(s), day(s) */
 
@@ -592,7 +615,8 @@ static void WriteSource(FILE *file)
     }
     fputs("}%\n",file);
 
-    *eol= '\n';
+    if (eol)
+      *eol= '\n';
   }
 
   TraceFunctionExit(__func__);
@@ -608,10 +632,11 @@ static void WriteAward(FILE *file)
   {
     char *tour = strchr(ActAward, ',');
     char *eol = strchr(ActAward, '\n');
-    *eol = '\0';
+    if (eol)
+      *eol = '\0';
     if (tour)
     {
-      WriteUserInputSubElement(file,"award",tour-ActAward,ActAward);
+      WriteUserInputSubElement(file,"award",(unsigned int)(tour-ActAward),ActAward);
       do
       {
         ++tour;
@@ -619,7 +644,8 @@ static void WriteAward(FILE *file)
       WriteUserInputElement(file,"tournament",tour);
     } else
       WriteUserInputElement(file,"award",ActAward);
-    *eol = '\n';
+    if (eol)
+      *eol = '\n';
   }
 
   TraceFunctionExit(__func__);
@@ -662,8 +688,8 @@ static void WritePieces(FILE *file)
       fprintf(file,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXWalk(p),
-              *bnp%onerow-200%onerow+'a',
-              *bnp/onerow-200/onerow+'1');
+              (int)getBoardFileLabel((*bnp%onerow)-(200%onerow)),
+              (int)getBoardRowLabel((*bnp/onerow)-(200/onerow)));
     }
   }
 
@@ -727,7 +753,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
   TraceFunctionParamListEnd();
 
   {
-    piece_flag_type sp;
+    unsigned int sp;
     for (sp= nr_sides; sp<nr_piece_flags; ++sp)
       strcpy(ListSpec[sp-nr_sides],PieSpTab[sp-nr_sides]);
   }
@@ -739,7 +765,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
       {
         piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
 
-        piece_flag_type sp;
+        unsigned int sp;
         for (sp= nr_sides; sp<nr_piece_flags; ++sp)
           if (TSTFLAG(being_solved.spec[*bnp], sp) && !(sp==Royal && is_king(p)))
           {
@@ -750,7 +776,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
   }
 
   {
-    piece_flag_type sp;
+    unsigned int sp;
     for (sp= nr_sides; sp<nr_piece_flags; ++sp)
       if (SpecCount[sp-nr_sides]>0
           && !(sp==Patrol && CondFlag[patrouille])
@@ -794,7 +820,7 @@ static boolean FindHoles(char HolesSqList[4*nr_files_on_board*nr_rows_on_board])
 
 static void WriteFairyWalk(FILE *file, Colour colour, piece_walk_type w)
 {
-  char const colour_short[] = { 'w', 'b', 'n' };
+  char const colour_short[] = { 'w', 'b', 'n', 'i' };
   fprintf(file,
           "\\%c%s =%s",
           colour_short[colour],
@@ -851,7 +877,7 @@ static void WritePiecesWithSpecs(FILE *file,
                                  unsigned int const SpecCount[nr_piece_flags-nr_sides],
                                  char ListSpec[nr_piece_flags-nr_sides][4*nr_files_on_board*nr_rows_on_board])
 {
-  piece_flag_type sp;
+  unsigned int sp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -988,7 +1014,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," v%d%d1",column,row);
+      fprintf(file," v%u%u1",column,row);
     }
 
     if (row>0 && GridLegal(*bnp+dir_down,*bnp))
@@ -1000,7 +1026,7 @@ static void WriteGridIrregular(FILE *file)
         OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(file," h%d%d1",column,row);
+      fprintf(file," h%u%u1",column,row);
     }
   }
 
@@ -1043,13 +1069,17 @@ static void WriteGrid(FILE *file)
       case grid_irregular:
         WriteGridIrregular(file);
         break;
+
+      default:
+        assert(0);
+        break;
     }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void WriteSquareFrames(FILE *file)
+static void WriteSquareFrames(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1061,7 +1091,7 @@ void WriteSquareFrames(FILE *file)
 
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (TSTFLAG(sq_spec[*bnp], MagicSq))
+      if (TSTFLAG(sq_spec(*bnp), MagicSq))
       {
         if (magic_piece_found)
           strcat(MagicSqList, ", ");
@@ -1137,11 +1167,11 @@ void LaTeXStipulation(FILE *file, slice_index si)
     if (tmp==0)
     {
       perror("error opening tmpfile for initial LaTeX stipulation");
-      fprintf(file,"%s","??");
+      fputs("??",file);
     }
     else
     {
-      int const length = WriteStipulation(tmp,si);
+      unsigned int const length = WriteStipulation(tmp,si);
       rewind(tmp);
       LaTeXCopyFile(tmp,file,length);
       platform_close_tmpfile(tmp);
@@ -1149,10 +1179,10 @@ void LaTeXStipulation(FILE *file, slice_index si)
   }
 
   if (OptFlag[solapparent])
-    fputs("*",file);
+    fputc('*',file);
 
   if (OptFlag[whitetoplay])
-    fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));
+    fprintf(file," %c{\\ra}", tolower((unsigned char)*PieSpTab[White]));
 
   CloseElement(file);
 
@@ -1169,10 +1199,15 @@ void LaTeXSStipulation(FILE *file, slice_index si)
 
   {
     FILE *tmp = platform_open_tmpfile();
-    int const length = WriteSStipulation(tmp,si);
-    rewind(tmp);
-    LaTeXCopyFile(tmp,file,length);
-    platform_close_tmpfile(tmp);
+    if (tmp)
+    {
+      unsigned int const length = WriteSStipulation(tmp,si);
+      rewind(tmp);
+      LaTeXCopyFile(tmp,file,length);
+      platform_close_tmpfile(tmp);
+    }
+    else
+      fprintf(stderr, "error opening tmpfile in %s\n", __func__);
   }
 
   CloseElement(file);

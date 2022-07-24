@@ -8,25 +8,29 @@
     chars_per_square = 2
   };
 
-  /* Parse a square from two characters
- * @return the parsed quare
- *         initsquare if a square can't be parsed form the characters */
+/* Parse a square from two characters
+ * @param tok where to start parsing
+ * @param s where to store the square
+ * @return first unparsed element in the token
+ */
 char *ParseSquare(char *tok, square *s)
 {
   char *result = tok;
-  char const char_file = tolower(tok[0]);
+  board_label_type const char_file = (board_label_type)tolower((unsigned char)tok[0]);
 
   *s = initsquare;
 
-  if ('a'<=char_file && char_file<='h')
+  unsigned int const fileIndex = getBoardFileIndex(char_file);
+  if (fileIndex < nr_files_on_board)
   {
     /* only know that we know that tok[0] is not the end of the string, or
      * we might read past the end of a buffer!
      */
-    char const char_row = tok[1];
-    if ('1'<=char_row && char_row<='8')
+    board_label_type const char_row = (board_label_type)tok[1];
+    unsigned int const rowIndex = getBoardRowIndex(char_row);
+    if (rowIndex < nr_rows_on_board)
     {
-      *s = square_a1 + (char_file-'a')*dir_right +(char_row-'1')*dir_up;
+      *s = square_a1 + (int)fileIndex*dir_right +(int)rowIndex*dir_up;
       result += chars_per_square;
     }
   }
@@ -34,6 +38,12 @@ char *ParseSquare(char *tok, square *s)
   return result;
 }
 
+/* Parse a list of squares from an input token
+ * @param tok the input token
+ * @param handleSquare callback function invoked for each square parsed
+ * @param param parameter passed to handleSquare
+ * @return first unparsed element in the token
+ */
 char *ParseSquareList(char *tok,
                       parsed_square_handler handleSquare,
                       void *param)

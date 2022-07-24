@@ -21,7 +21,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(being_solved.spec[confronter_pos],advers(trait[nbply])))
-    pipe_move_generation_differnt_walk_delegate(si,get_walk_of_piece_on_square(confronter_pos));
+    pipe_move_generation_different_walk_delegate(si,get_walk_of_piece_on_square(confronter_pos));
   else
     pipe_move_generation_delegate(si);
 
@@ -225,16 +225,28 @@ void backtoback_initialise_solving(slice_index si)
  */
 void cheektocheek_generate_moves_for_piece(slice_index si)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
+  boolean is_cheeked = false;
+  square const pos_left = curr_generation->departure+dir_left;
+  square const pos_right = curr_generation->departure+dir_right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,dir_left);
-  generate_moves_for_possibly_confronted_piece(si,dir_right);
+  if (TSTFLAG(being_solved.spec[pos_left],advers(trait[nbply])))
+  {
+    is_cheeked = true;
+    pipe_move_generation_different_walk_delegate(si,get_walk_of_piece_on_square(pos_left));
+  }
 
-  remove_duplicate_moves_of_single_piece(save_current_move);
+  if (TSTFLAG(being_solved.spec[pos_right],advers(trait[nbply])))
+  {
+    is_cheeked = true;
+    pipe_move_generation_different_walk_delegate(si,get_walk_of_piece_on_square(pos_right));
+  }
+
+  if (!is_cheeked)
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

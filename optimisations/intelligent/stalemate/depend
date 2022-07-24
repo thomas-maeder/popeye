@@ -143,11 +143,13 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h solving/castling.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- pieces/walks/vectors.h solving/pipe.h solving/conditional_pipe.h \
+ position/pieceid.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h solving/fork.h solving/castling.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum solving/pipe.h solving/conditional_pipe.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
@@ -159,7 +161,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/pin_black_piece.h \
  optimisations/orthodox_check_directions.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/temporary_hacks.h debugging/assert.h
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
@@ -193,6 +195,8 @@ output/mode.enum.h:
 
 output/mode.enum:
 
+pieces/walks/pawns/en_passant.h:
+
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
@@ -207,6 +211,14 @@ solving/ply.h:
 
 position/pieceid.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
+solving/fork.h:
+
 solving/castling.h:
 
 position/position.h:
@@ -216,8 +228,6 @@ position/color.h:
 position/color.enum.h:
 
 position/color.enum:
-
-pieces/walks/vectors.h:
 
 solving/pipe.h:
 
@@ -248,8 +258,6 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
-
-solving/temporary_hacks.h:
 
 debugging/assert.h:
 optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
@@ -771,9 +779,9 @@ optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h position/position.h position/color.h \
  position/color.enum.h position/color.enum pieces/walks/vectors.h \
- solving/move_generator.h solving/pipe.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- optimisations/intelligent/intelligent.h \
+ solving/move_generator.h debugging/measure.h solving/pipe.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -839,6 +847,8 @@ position/color.enum:
 pieces/walks/vectors.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
 
 solving/pipe.h:
 

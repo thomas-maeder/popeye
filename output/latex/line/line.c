@@ -50,7 +50,7 @@ static void instrument_goal_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     Goal const goal = SLICE_U(si).goal_handler.goal;

@@ -1,6 +1,8 @@
 #include "conditions/republican.h"
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
+#include "position/effects/king_square.h"
+#include "position/effects/piece_creation.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
 #include "input/plaintext/language.h"
@@ -10,7 +12,6 @@
 #include "solving/conditional_pipe.h"
 #include "solving/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
 #include "output/plaintext/message.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/detect_retraction.h"
@@ -59,7 +60,7 @@ static boolean is_mate_square(Side other_side)
 
       post_move_iteration_solve_fork(temporary_hack_mate_tester[other_side]);
       if (solve_result==previous_move_has_solved)
-        result = true;;
+        result = true;
 
       solve_nr_remaining = save_solve_nr_remaining;
       solve_result = save_solve_result;

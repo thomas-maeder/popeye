@@ -20,8 +20,9 @@ static void remember_goal_immobile(slice_index si, stip_structure_traversal *st)
     slice_index const tester = branch_find_slice(STGoalReachedTester,
                                                  SLICE_NEXT2(si),
                                                  st->context);
-    goal_type const goal = SLICE_U(tester).goal_handler.goal.type;
+    goal_type goal;
     assert(tester!=no_slice);
+    goal = SLICE_U(tester).goal_handler.goal.type;
     *instrumenting_goal_immobile = (goal==goal_mate
                                     || goal==goal_stale
                                     || goal==goal_mate_or_stale);

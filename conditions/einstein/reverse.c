@@ -6,7 +6,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/walk_change.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -27,7 +27,7 @@ static void adjust(void)
       if (move_effect_journal[curr].type==move_effect_piece_movement
           && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
               || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement
-              || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
+              || move_effect_journal[curr].reason==move_effect_reason_castling_partner))
       {
         square const from = move_effect_journal[curr].u.piece_movement.from;
         square const to = move_effect_journal[curr].u.piece_movement.to;

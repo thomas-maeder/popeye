@@ -90,7 +90,8 @@ void help_move_played_solve(slice_index si)
   pipe_solve_delegate(si);
   ++solve_nr_remaining;
 
-  ++solve_result;
+  if (solve_result>=previous_move_has_solved)
+    ++solve_result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

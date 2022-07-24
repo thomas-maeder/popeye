@@ -467,3 +467,38 @@ solution finished.
 solution finished.
 
 
+
+           Sebastien Luce
+        Julia's Fairies 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   .   .  -P   7
+|                                   |
+6   .  -B   .  -Q   .   .   .   .   6
+|                                   |
+5   .  -K  -S  -B   .   .   .   .   5
+|                                   |
+4   .  -S   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 8
+          MasandGeneralised
+
+  1.Bd5-f3[c5=w][b6=w][c7=w] + Kd4-c3   2.Sb4-c2 c7-c8=S   3.Qd6-d3[c2=w][f3=w][h7=w] + Kc3*d3 =
+  add_to_move_generation_stack:    45488498
+                     play_move:    19594935
+ is_white_king_square_attacked:    19594939
+ is_black_king_square_attacked:    25292589
+
+solution finished.
+
+

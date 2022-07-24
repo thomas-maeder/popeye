@@ -3,6 +3,7 @@
 #include "conditions/backhome.h"
 #include "conditions/beamten.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -25,6 +26,7 @@
 #include "conditions/grid.h"
 #include "conditions/edgemover.h"
 #include "conditions/annan.h"
+#include "conditions/pointreflection.h"
 #include "conditions/facetoface.h"
 #include "conditions/circe/circe.h"
 #include "conditions/marscirce/phantom.h"
@@ -121,6 +123,18 @@ boolean validate_observation_recursive(slice_index si)
 
     case STAnnanEnforceObserverWalk:
       result = annan_enforce_observer_walk(si);
+      break;
+
+    case STNannaEnforceObserverWalk:
+      result = nanna_enforce_observer_walk(si);
+      break;
+
+    case STBoleroInverseEnforceObserverWalk:
+      result = bolero_inverse_enforce_observer_walk(si);
+      break;
+
+    case STPointReflectionEnforceObserverWalk:
+      result = point_reflection_enforce_observer_walk(si);
       break;
 
     case STFaceToFaceEnforceObserverWalk:
@@ -350,6 +364,9 @@ static slice_index const observation_validation_slice_rank_order[] =
     STReflectiveKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
     STFaceToFaceEnforceObserverWalk,
     STBackToBackEnforceObserverWalk,
@@ -375,6 +392,9 @@ static slice_index const observation_validation_slice_rank_order[] =
     STUndoOptimiseObservationsByQueen,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
     STPartialParalysisMovesForPieceGenerator,
@@ -390,6 +410,9 @@ static slice_index const observation_validation_slice_rank_order[] =
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
+    STNannaEnforceObserverWalk,
+    STBoleroInverseEnforceObserverWalk,
+    STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMonochromeRemoveNonMonochromeMoves,
     STBichromeRemoveNonBichromeMoves,

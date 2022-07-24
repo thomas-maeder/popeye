@@ -220,10 +220,21 @@ typedef enum
   circehorizontalsymmetry,/* 199 */
   antiverticalsymmetrie,  /* 200 */
   antihorizontalsymmetrie,/* 201 */
-  immunverticalsymmetry, /* 202 */
+  immunverticalsymmetry,  /* 202 */
   immunhorizontalsymmetry, /* 203 */
+  lesemajeste,            /* 204 */
+  rokagogo,               /* 205 */
+  breton,                 /* 206 */
+  maketake,               /* 207 */
+  pointreflection,        /* 208 */
+  nanna,                  /* 209 */
+  masand_generalised,     /* 210 */
+  bolero,                 /* 211 */
+  bolero_inverse,         /* 212 */
+  influencer,             /* 213 */
+  role_exchange,          /* 214 */
 
-  CondCount               /* 204 */
+  CondCount               /* 215 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

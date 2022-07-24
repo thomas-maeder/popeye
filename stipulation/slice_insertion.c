@@ -9,6 +9,9 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
                                            unsigned int nr_prototypes)
 {
@@ -176,6 +179,11 @@ static boolean insert_before(slice_index si,
     else if (rank>prototype_rank)
     {
       slice_index const copy = copy_slice(prototype);
+      if (copy==no_slice)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       pipe_append(state->prev,copy);
       next_insertion(copy,prototype_rank,st);
       result = true;
@@ -231,6 +239,11 @@ static void insert_beyond(slice_index si, stip_structure_traversal *st)
     for (i = 0; i!=state->nr_prototypes; ++i)
     {
       slice_index const copy = copy_slice(state->prototypes[i]);
+      if (copy==no_slice)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       pipe_link(curr,copy);
       curr = copy;
     }
@@ -460,6 +473,11 @@ static void insert_return_from_factored_order(slice_index si, stip_structure_tra
     if (rank>prototype_rank)
     {
       slice_index const copy = copy_slice(prototype);
+      if (copy==no_slice)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       pipe_append(state->prev,copy);
       next_insertion(copy,prototype_rank,st);
     }
@@ -496,6 +514,11 @@ static void end_insertion(slice_index si, stip_structure_traversal *st)
     if (rank>prototype_rank)
     {
       slice_index const copy = copy_slice(prototype);
+      if (copy==no_slice)
+      {
+        fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+        exit(2); /* TODO: Do we have to exit here? */
+      }
       pipe_append(state->prev,copy);
       next_insertion(copy,prototype_rank,st);
     }
@@ -721,6 +744,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextInstrumentSolvers,
   STOutputLaTeXInstrumentSolvers,
   STSolversBuilder2,
+  STTotalInvisibleInstrumenter,
   STHashOpener,
   STMaxSolutionsSolvingInstrumenter,
   STStopOnShortSolutionsSolvingInstrumenter,
@@ -733,6 +757,7 @@ static slice_index const slice_rank_order[] =
   STHurdleColourChangeInitialiser,
   STSetplayFork,
   STMoveInverter,
+  STTotalInvisibleMoveSequenceTester,
   STOutputPlaintextMoveInversionCounter,
   STMoveInverterSetPlay,
   STOutputPlaintextMoveInversionCounterSetPlay,
@@ -743,8 +768,10 @@ static slice_index const slice_rank_order[] =
   STRetroPlayNullMove,
   STRetroRedoLastCapture,
   STRetroRedoLastPawnMultistep,
+  STTotalInvisibleInvisiblesAllocator,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
+  STTotalInvisibleUninterceptableSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsWasShortSolutionFound,
   STMagicViewsInitialiser,

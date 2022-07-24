@@ -26,7 +26,7 @@ void lions_generate_moves(vec_index_type kbeg, vec_index_type kend)
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        hoppers_push_move(k,sq_hurdle);
+        hoppers_push_capture(k,sq_hurdle);
     }
   }
 }

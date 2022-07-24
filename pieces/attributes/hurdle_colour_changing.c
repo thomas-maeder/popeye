@@ -8,7 +8,8 @@
 #include "stipulation/pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/flags_change.h"
+#include "position/effects/side_change.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -95,7 +96,7 @@ static move_effect_journal_index_type find_promotion(move_effect_journal_index_t
   {
     --curr;
 
-    if (move_effect_journal[curr].type==move_effect_piece_change
+    if (move_effect_journal[curr].type==move_effect_walk_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
       result = curr;
@@ -144,7 +145,7 @@ static void solve_nested(slice_index si)
  */
 static void do_change(move_effect_journal_index_type idx_promotion)
 {
-  square const sq_prom = move_effect_journal[idx_promotion].u.piece_change.on;
+  square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
   Flags changed = being_solved.spec[sq_prom];
   SETFLAG(changed,ColourChange);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
@@ -205,7 +206,7 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
       solve_nested(si);
     else
     {
-      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_change.to;
+      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_walk_change.to;
       switch (promote_walk_into[walk_promotee])
       {
         case none:
@@ -220,6 +221,10 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
 
         case both:
           promote_to_both_non_changing_and_changing(si,idx_promotion);
+          break;
+
+        default:
+          assert(0);
           break;
       }
     }

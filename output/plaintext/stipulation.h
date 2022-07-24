@@ -10,6 +10,6 @@
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-int WriteStipulation(FILE *file, slice_index si);
+unsigned int WriteStipulation(FILE *file, slice_index si);
 
 #endif

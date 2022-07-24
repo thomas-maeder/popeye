@@ -208,7 +208,7 @@ strange "cages" were selected for neutral pieces
                      play_move:         107
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:          99
-solving interrupted.
+Partial solution
 
 
 
@@ -781,9 +781,9 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
   1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q #
   1.h3-h2 Kh1-g2 +   2.e2-e1=S + Kg2-e3=S #
   add_to_move_generation_stack:         335
-                     play_move:         300
- is_white_king_square_attacked:          95
- is_black_king_square_attacked:         211
+                     play_move:         258
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:         244
 
 solution finished.
 
@@ -1019,7 +1019,7 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
                      play_move:       33926
  is_white_king_square_attacked:       33564
  is_black_king_square_attacked:       12786
-solving interrupted.
+Partial solution
 
 
 
@@ -1052,7 +1052,7 @@ solving interrupted.
                      play_move:          59
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:           0
-solving interrupted.
+Partial solution
 
 
 
@@ -1432,7 +1432,7 @@ c) wBa8
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solving interrupted.
+Partial solution
 
 
 

@@ -37,7 +37,7 @@ static void insert_optimiser(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy_nonchecking = alloc_proxy_slice();
     slice_index const proxy_any = alloc_proxy_slice();
-    slice_index const and = alloc_and_slice(proxy_nonchecking,proxy_any);
+    slice_index const and_index = alloc_and_slice(proxy_nonchecking,proxy_any);
 
     stip_structure_traversal st_nested;
     stip_deep_copies_type copies;
@@ -47,7 +47,7 @@ static void insert_optimiser(slice_index si, stip_structure_traversal *st)
                                              &optimise_guard);
     stip_traverse_structure(si,&st_nested);
 
-    pipe_link(SLICE_PREV(si),and);
+    pipe_link(SLICE_PREV(si),and_index);
     pipe_link(proxy_nonchecking,copies[si]);
     pipe_link(proxy_any,si);
 

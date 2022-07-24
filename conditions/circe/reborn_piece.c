@@ -1,6 +1,7 @@
 #include "conditions/circe/reborn_piece.h"
 #include "conditions/circe/circe.h"
 #include "position/position.h"
+#include "position/effects/utils.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -179,6 +180,13 @@ void circe_initialise_reborn_from_capturee_solve(slice_index si)
   context->relevant_side = trait[context->relevant_ply];
   context->rebirth_as = advers(trait[context->relevant_ply]);
 
+  TraceWalk(context->reborn_walk);
+  TraceValue("%u",context->reborn_spec);
+  TraceSquare(context->relevant_square);
+  TraceEnumerator(Side,context->relevant_side);
+  TraceEnumerator(Side,context->rebirth_as);
+  TraceEOL();
+
   pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -223,6 +231,12 @@ void circe_initialise_reborn_from_capturer_solve(slice_index si)
   context->relevant_side = advers(trait[context->relevant_ply]);
 
   context->rebirth_as = trait[context->relevant_ply];
+
+  TraceSquare(context->rebirth_from);
+  TraceWalk(context->reborn_walk);
+  TraceSquare(context->relevant_square);
+  TraceEnumerator(Side,context->relevant_side);
+  TraceEOL();
 
   pipe_dispatch_delegate(si);
 

@@ -1,4 +1,11 @@
-output/mode$(OBJ_SUFFIX): output/mode.c output/mode.enum utilities/enumeration.h
+output/mode$(OBJ_SUFFIX): output/mode.c output/mode.h output/mode.enum.h \
+ output/mode.enum output/mode.enum utilities/enumeration.h
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
 
 output/mode.enum:
 

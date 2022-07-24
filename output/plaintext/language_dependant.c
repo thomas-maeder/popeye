@@ -279,7 +279,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','l'},   /* Saltador */
     /*158*/ {'a','s'},   /* MaoSauteur */
-    /*159*/ {'o','s'}    /* MoaSauteur */
+    /*159*/ {'o','s'},   /* MoaSauteur */
+    /*160*/ {'h','c'}    /* ContraHamster */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -440,7 +441,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
-    /*159*/ {'o','h'}    /* MoaHopper */
+    /*159*/ {'o','h'},   /* MoaSauteur */
+    /*160*/ {'h','c'}    /* ContraHamster */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -601,7 +603,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
-    /*159*/ {'o','h'}    /* MoaHopper */
+    /*159*/ {'o','h'},   /* MoaSauteur */
+    /*160*/ {'h','c'}    /* ContraHamster */
   }
 };
 
@@ -648,7 +651,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "AjouteGrille",
   /*32*/  "RoquesMutuellementExclusifs",
   /*33*/  "ButEstFin",
-  /*34*/  "optionnonpubliee"
+  /*34*/  "optionnonpubliee",
+  /*35*/  "CoupsVides"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -685,7 +689,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "ZeichneGitter",
   /*32*/  "RochadenGegenseitigAusschliessend",
   /*33*/  "ZielIstEnde",
-  /*34*/  "nichtpublizierteoption"
+  /*34*/  "nichtpublizierteoption",
+  /*35*/  "NullZuege"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -722,7 +727,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*31*/  "WriteGrid",
   /*32*/  "CastlingMutuallyExclusive",
   /*33*/  "GoalIsEnd",
-  /*34*/  "unpublishedoption"
+  /*34*/  "unpublishedoption",
+  /*35*/  "NullMoves"
   }
 };
 
@@ -935,7 +941,18 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*200*/ "AntiCirceSymetriqueVerticale",
     /*201*/ "AntiCirceSymetriqueHorizontale",
     /*202*/ "ImmuneSymetriqueVerticale",
-    /*203*/ "ImmuneSymetriqueHorizontale"
+    /*203*/ "ImmuneSymetriqueHorizontale",
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo",
+    /*206*/ "Breton",
+    /*207*/ "Make&TakeEchecs",
+    /*208*/ "ReflexionCentrale",
+    /*209*/ "AnnanEchecs",
+    /*210*/ "MasandGeneralise",
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInverse",
+    /*213*/ "Influenceur",
+    /*214*/ "EchangeRole"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1141,7 +1158,18 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*200*/ "VertikaleAntiSymmetrieCirce",
     /*201*/ "HorizontaleAntiSymmetrieCirce",
     /*202*/ "ImmuneVertikaleSymmetrie",
-    /*203*/ "ImmuneHorizontaleSymmetrie"
+    /*203*/ "ImmuneHorizontaleSymmetrie",
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo",
+    /*206*/ "Breton",
+    /*207*/ "Make&TakeSchach",
+    /*208*/ "Punktspiegelung",
+    /*209*/ "Nannaschach",
+    /*210*/ "MasandVerallgemeinert",
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInvers",
+    /*213*/ "Influencer",
+    /*214*/ "Rollentausch"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1347,7 +1375,18 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*200*/ "VerticalSymmetryAntiCirce",
     /*201*/ "HorizontalSymmetryAntiCirce",
     /*202*/ "ImmuneVerticalSymmetry",
-    /*203*/ "ImmuneHorizontalSymmetry"
+    /*203*/ "ImmuneHorizontalSymmetry",
+    /*204*/ "LeseMajeste",
+    /*205*/ "Rokagogo",
+    /*206*/ "Breton",
+    /*207*/ "Make&TakeChess",
+    /*208*/ "PointReflection",
+    /*209*/ "NannaChess",
+    /*210*/ "MasandGeneralised",
+    /*211*/ "Bolero",
+    /*212*/ "BoleroInverse",
+    /*213*/ "Influencer",
+    /*214*/ "RoleExchange"
   }
 };
 
@@ -1359,19 +1398,40 @@ static char const * const ColourString[LanguageCount][nr_colours] =
      /* French */
     "Blanc",
     "Noir",
-    "Neutre"
+    "Neutre",
+    "TotalInvisible"
   },
   {
     /* German */
     "Weiss",
     "Schwarz",
-    "Neutral"
+    "Neutral",
+    "TotalUnsichtbar"
   },
   {
     /* English */
     "White",
     "Black",
-    "Neutral"
+    "Neutral",
+    "TotalInvisible"
+  }
+};
+
+char const * const *TITab;
+
+static char const * const TIString[LanguageCount][1] =
+{
+  {
+    /* French */
+    "TI"
+  },
+  {
+    /* German */
+    "TU"
+  },
+  {
+    /* English */
+    "TI"
   }
 };
 
@@ -1857,6 +1917,25 @@ static char const * const mummer_strictness_string[LanguageCount][nr_mummer_stri
   }
 };
 
+char const * const *BretonVariantTypeTab;
+
+static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCount] =
+{
+  {
+    /* French */
+    "Adverse",
+    "Chromatique"
+  },{
+    /* German */
+    "Advers",
+    "Chromatisch"
+  },{
+    /* English */
+    "Adverse",
+    "Chromatic"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -1877,9 +1956,11 @@ void output_plaintext_select_language(Language lang)
   CirceVariantTypeTab = &CirceVariantTypeString[lang][0];
   ExtraCondTab= &ExtraCondString[lang][0];
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
+  BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];
+  TITab= TIString[lang];
 }
 
 static int comparePieceNames(void const * param1, void const * param2)
@@ -1894,7 +1975,7 @@ static int comparePieceNames(void const * param1, void const * param2)
 
 static void enforce_piecename_uniqueness_one_language(Language language)
 {
-  piece_walk_type name_index;
+  unsigned int name_index;
   PieTable piece_names_sorted;
   unsigned int nr_names = sizeof piece_names_sorted / sizeof piece_names_sorted[0];
 

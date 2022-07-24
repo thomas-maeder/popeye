@@ -7,6 +7,7 @@
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
 #include "solving/machinery/dispatch.h"
+#include "debugging/measure.h"
 #include "debugging/trace.h"
 
 /* This module provides functionality dealing with the attacking side
@@ -48,7 +49,7 @@ extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
 
 #define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1])
-#define SET_MOVEBASE_OF_PLY(ply,n) (current_move[(ply)-1] = n)
+#define SET_MOVEBASE_OF_PLY(ply,n) (current_move[(ply)-1] = (n))
 
 #define CURRMOVE_OF_PLY(ply) (current_move[(ply)])
 #define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm))
@@ -123,6 +124,14 @@ void generate_moves_for_piece(square sq_departure);
  */
 slice_index alloc_move_generator_slice(void);
 
+/* Continue determining whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean observing_move_generator_is_in_check(slice_index si,
+                                             Side side_observed);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -189,11 +198,12 @@ extern move_generation_elmt *curr_generation;
 void pop_move(void);
 
 /* Push the move described in *curr_generation onto the stack */
-void push_move(void);
+void push_move_no_capture(void);
+void push_move_regular_capture(void);
 
 /* Push the capture move described in *curr_generation onto the stack.
  * @param sq_capture place of capture
- * @note use push_move() if sq_capture is equal to the arrival square
+ * @note use push_move_regular_capture() if sq_capture is equal to the arrival square
  */
 void push_move_capture_extra(square sq_capture);
 
@@ -201,6 +211,10 @@ void push_move_capture_extra(square sq_capture);
  * @param sq_special special square value describing the speciality of the move
  */
 void push_special_move(square sq_special);
+
+boolean is_null_move(numecoup curr);
+
+void push_null_move(void);
 
 /* Push the copy of a move from a different move generation
  * @param original identifies the original of which to push a copy
@@ -236,5 +250,7 @@ void remove_duplicate_moves_of_single_piece(numecoup start);
  *                  priorised
  */
 void move_generator_priorise(numecoup priorised);
+
+DECLARE_COUNTER(add_to_move_generation_stack)
 
 #endif

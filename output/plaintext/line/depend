@@ -182,8 +182,9 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/check.h solving/move_generator.h \
- platform/beep.h solving/pipe.h options/options.h debugging/assert.h
+ position/pieceid.h solving/check.h debugging/measure.h \
+ solving/move_generator.h platform/beep.h solving/pipe.h \
+ options/options.h debugging/assert.h
 
 output/plaintext/line/line_writer.h:
 
@@ -280,6 +281,8 @@ position/castling_rights.h:
 position/pieceid.h:
 
 solving/check.h:
+
+debugging/measure.h:
 
 solving/move_generator.h:
 

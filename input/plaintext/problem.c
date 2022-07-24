@@ -9,6 +9,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/modifier.h"
+#include "position/effects/king_square.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
@@ -29,6 +30,9 @@ static void InitBoard(void)
   square i;
   square const *bnp;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (i= maxsquare-1; i>=0; i--)
   {
     empty_square(i);
@@ -36,19 +40,24 @@ static void InitBoard(void)
   }
 
   /* dummy squares for various purposes -- must be empty */
+  empty_square(retro_capture_departure);
   empty_square(pawn_multistep);
   empty_square(messigny_exchange);
   empty_square(kingside_castling);
   empty_square(queenside_castling);
-  empty_square(retro_capture_departure);
+  empty_square(move_by_invisible);
+  empty_square(move_role_exchange);
+  empty_square(no_capture);
 
   for (bnp = boardnum; *bnp; bnp++)
     empty_square(*bnp);
 
-  being_solved.king_square[White] = initsquare;
-  being_solved.king_square[Black] = initsquare;
+  king_square_initialise();
 
   being_solved.currPieceId = NullPieceId;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Handle (read, solve, write) the current problem
@@ -91,6 +100,7 @@ void input_plaintext_problem_handle(slice_index si)
       slice_index const first = branch_find_slice(type_first_proto,
                                                   si,
                                                   stip_traversal_context_intro);
+      assert(first!=no_slice);
       SLICE_NEXT1(SLICE_PREV(first)) = no_slice;
       dealloc_slices(first);
     }

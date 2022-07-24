@@ -4,7 +4,7 @@
 #include "position/board.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/walk_change.h"
 #include "solving/post_move_iteration.h"
 
 #include "debugging/trace.h"

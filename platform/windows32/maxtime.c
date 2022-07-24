@@ -1,9 +1,8 @@
 #include "platform/maxtime_impl.h"
-#include "windows.h"
+#include <windows.h>
 #include "utilities/boolean.h"
 
 #include "debugging/assert.h"
-#include <limits.h>
 
 /* Implementation of option maxtime using Windows Multimedia timers
  */
@@ -70,7 +69,8 @@ static void CALLBACK tick(unsigned int timer_id,
    * handler ...
    */
 
-  ++periods_counter;
+  if (periods_counter < max_nr_periods) /* TODO: These (together) aren't guaranteed to */
+    ++periods_counter;                  /*       be atomic.  Should we be concerned?   */
 }
 
 /* Attempt to set up a new timer for timing out solving after a number

@@ -4,7 +4,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/walk_change.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
@@ -40,7 +40,7 @@ void degradierung_degrader_solve(slice_index si)
 
   if (!is_pawn(pi_played)
       && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal)
-      && TSTFLAG(sq_spec[sq_arrival],double_step))
+      && TSTFLAG(sq_spec(sq_arrival),double_step))
     move_effect_journal_do_walk_change(move_effect_reason_degradierung,
                                         sq_arrival,
                                         Pawn);

@@ -37,7 +37,7 @@ static int parseCommandlineOptions(int argc, char *argv[])
       char *end;
       maxtime_type value;
       idx++;
-      value = strtoul(argv[idx], &end, 10);
+      value = (unsigned int)strtoul(argv[idx], &end, 10);
       if (argv[idx]==end)
         ; /* conversion failure -> assume no max time */
       else

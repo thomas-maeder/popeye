@@ -8,6 +8,8 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
+#include "conditions/breton.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
@@ -36,11 +38,15 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "conditions/role_exchange.h"
+#include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <limits.h>
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
@@ -50,10 +56,27 @@ static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigne
   for (i = 0; i!=nr_walks; ++i)
   {
     piece_walk_type const walk = walks[i];
-    if (PieceTab[walk][1]==' ')
-      result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
+
+    if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
+    {
+      if (PieceTab[walk][1]==' ')
+        result += (unsigned int)sprintf(pos+result, " %c",toupper((unsigned char)PieceTab[walk][0]));
+      else
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper((unsigned char)PieceTab[walk][0]),toupper((unsigned char)PieceTab[walk][1]));
+    }
     else
-      result += sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
+    {
+      unsigned int const i = walk-Hunter0;
+      if (PieceTab[huntertypes[i].away][1]==' ')
+        result += (unsigned int)sprintf(pos+result, " %c",toupper((unsigned char)PieceTab[huntertypes[i].away][0]));
+      else
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper((unsigned char)PieceTab[huntertypes[i].away][0]),toupper((unsigned char)PieceTab[huntertypes[i].away][1]));
+      result += (unsigned int)sprintf(pos+result,"%s","/");
+      if (PieceTab[huntertypes[i].home][1]==' ')
+        result += (unsigned int)sprintf(pos+result, " %c",toupper((unsigned char)PieceTab[huntertypes[i].home][0]));
+      else
+        result += (unsigned int)sprintf(pos+result," %c%c",toupper((unsigned char)PieceTab[huntertypes[i].home][0]),toupper((unsigned char)PieceTab[huntertypes[i].home][1]));
+    }
   }
 
   return result;
@@ -62,7 +85,7 @@ static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigne
 void WriteBGLNumber(char* buf, long int num)
 {
   if (num == BGL_infinity)
-    sprintf(buf, "-");
+    strcpy(buf, "-");
   else if (num % 100 == 0)
     sprintf(buf, "%i", (int) (num / 100));
   else if (num % 10 == 0)
@@ -71,33 +94,77 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-#define append_to_CondLine(line,pos,format,value) snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
-
-static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
+static unsigned int append_to_CondLine(char (*line)[256], unsigned int pos, char const * format, ...)
 {
-  int result = append_to_CondLine(line,pos,"%c",(char)toupper(PieceTab[walk][0]));
+  unsigned int num_chars_printed;
+  va_list ap;
 
-  if (PieceTab[walk][1]!=' ')
-    result += append_to_CondLine(line,pos+result,"%c",(char)toupper(PieceTab[walk][1]));
+  assert(pos < sizeof *line);
+
+  va_start(ap, format);
+  num_chars_printed = (unsigned int)vsnprintf((*line)+pos, (sizeof *line)-pos, format, ap);
+  va_end(ap);
+  
+  if (num_chars_printed >= ((sizeof *line) - pos))
+    num_chars_printed = (((sizeof *line) - pos) - 1);
+
+  return num_chars_printed;
+}
+
+static unsigned int append_to_CondLine_walk(char (*line)[256], unsigned int pos, piece_walk_type walk)
+{
+  unsigned int result = 0;
+
+  if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
+  {
+    result = append_to_CondLine(line,pos+result,"%c",toupper((unsigned char)PieceTab[walk][0]));
+
+    if (PieceTab[walk][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",toupper((unsigned char)PieceTab[walk][1]));
+  }
+  else
+  {
+    unsigned int const i = walk-Hunter0;
+
+    result += append_to_CondLine(line,pos+result, " %c",toupper((unsigned char)PieceTab[huntertypes[i].away][0]));
+    if (PieceTab[huntertypes[i].away][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",toupper((unsigned char)PieceTab[huntertypes[i].away][1]));
+
+    result += append_to_CondLine(line,pos+result,"%s","/");
+
+    result += append_to_CondLine(line,pos+result, " %c",toupper((unsigned char)PieceTab[huntertypes[i].home][0]));
+    if (PieceTab[huntertypes[i].home][1]!=' ')
+      result += append_to_CondLine(line,pos+result,"%c",toupper((unsigned char)PieceTab[huntertypes[i].home][1]));
+  }
 
   return result;
 }
 
-static int append_to_CondLine_square(char (*line)[256], int pos, square s)
+static unsigned int append_to_CondLine_square(char (*line)[256],
+                                              unsigned int pos,
+                                              square s)
 {
-  return snprintf(*line+pos, sizeof *line - pos,
-                  " %c%c",
-                  'a' - nr_files_on_board + s%onerow,
-                  '1' - nr_rows_on_board + s/onerow);
+  unsigned int num_chars_printed;
+
+  assert(pos < sizeof *line);
+
+  num_chars_printed = (unsigned int)snprintf((*line)+pos, (sizeof *line) - pos,
+                                             " %c%c",
+                                             (int)getBoardFileLabel((s%onerow) - nr_files_on_board),
+                                             (int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
+  if (num_chars_printed >= ((sizeof *line) - pos))
+    num_chars_printed = (((sizeof *line) - pos) - 1);
+
+  return num_chars_printed;
 }
 
-static int append_to_CondLine_chameleon_sequence(char (*line)[256],
-                                                 int pos,
-                                                 chameleon_sequence_type const sequence)
+static unsigned int append_to_CondLine_chameleon_sequence(char (*line)[256],
+                                                          unsigned int pos,
+                                                          chameleon_sequence_type const sequence)
 {
   boolean already_written[nr_piece_walks] = { false };
   piece_walk_type p;
-  int result = 0;
+  unsigned int result = 0;
 
   result += append_to_CondLine(line,pos+result,"%s"," ");
 
@@ -197,7 +264,7 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
-    if (variant->chameleon_is_walk_squence_explicit==twin_id)
+    if (variant->explicit_chameleon_squence_set_in_twin==twin_id)
       written += append_to_CondLine_chameleon_sequence(CondLine,written,
                                                        variant->chameleon_walk_sequence);
   }
@@ -356,16 +423,16 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(file,CondLine,!rank);
-    rank = true;
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
+    rank = condition_subsequent;
   }
 
   if (ExtraCondFlag[ultraschachzwang])
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(file,CondLine,!rank);
-    rank = true;
+    (*WriteCondition)(file,CondLine,((rank==condition_first)?condition_subsequent:condition_first));
+    rank = condition_subsequent;
   }
 
   for (cond = 0; cond<CondCount; ++cond)
@@ -425,6 +492,13 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written," //%u", sentinelles_max_nr_pawns_total);
           break;
 
+        case breton:
+          if (breton_mode==breton_adverse)
+            written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonAdverse]);
+          if (breton_chromaticity==breton_chromatic)
+            written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonChromatique]);
+          break;
+
         case koeko:
         case antikoeko:
         {
@@ -463,7 +537,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case BGL:
         {
-          char buf[12];
+          char buf[16];
 
           WriteBGLNumber(buf, BGL_values[White]);
           written += append_to_CondLine(&CondLine,written," %s", buf);
@@ -564,7 +638,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeTab[ConditionType2]);
 
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], MagicSq))
+            if (TSTFLAG(sq_spec(i), MagicSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;
@@ -575,7 +649,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square  i;
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], WhForcedSq))
+            if (TSTFLAG(sq_spec(i), WhForcedSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;
@@ -585,7 +659,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square  i;
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], BlForcedSq))
+            if (TSTFLAG(sq_spec(i), BlForcedSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;
@@ -595,7 +669,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square  i;
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], WhPromSq))
+            if (TSTFLAG(sq_spec(i), WhPromSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;
@@ -604,7 +678,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square  i;
           for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec[i], BlPromSq))
+            if (TSTFLAG(sq_spec(i), BlPromSq))
               written += append_to_CondLine_square(&CondLine,written,i);
           }
           break;
@@ -621,7 +695,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square i;
           for (i = square_a1; i<=square_h8; ++i)
-            if (TSTFLAG(sq_spec[i],Wormhole))
+            if (TSTFLAG(sq_spec(i),Wormhole))
               written += append_to_CondLine_square(&CondLine,written,i);
           break;
         }
@@ -682,12 +756,13 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case chameleonsequence:
         case chamchess:
-          if (chameleon_is_squence_explicit==twin_id)
+          if (explicit_chameleon_squence_set_in_twin==twin_id)
             written += append_to_CondLine_chameleon_sequence(&CondLine,written,
                                                              chameleon_walk_sequence);
           break;
 
         case annan:
+        case nanna:
           switch (annan_type)
           {
             case ConditionTypeA:
@@ -731,6 +806,10 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
               case grid_irregular:
                 written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantIrregular]);
                 /* to do - write squares */
+                break;
+
+              default:
+                assert(0);
                 break;
             }
           break;
@@ -780,6 +859,21 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         case anticirce:
           written = append_circe_variants(&anticirce_variant,&CondLine,written,CirceVariantRexInclusive);
           break;
+
+        case bolero:
+        case bolero_inverse:
+          if (bolero_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
+          break;
+
+        case role_exchange:
+        {
+          unsigned int const limit = role_exchange_get_limit();
+
+          if (limit<UINT_MAX)
+            written += append_to_CondLine(&CondLine,written," %u",limit);
+          break;
+        }
 
         default:
           break;

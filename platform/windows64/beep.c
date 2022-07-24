@@ -8,7 +8,7 @@ void platform_produce_beep(void)
 {
   while (nr_beeps>0)
   {
-	fputs("\a",stderr);
+	fputc('\a',stderr);
 	--nr_beeps;
   }
 

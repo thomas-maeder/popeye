@@ -9,6 +9,54 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+/* Complete blocking of a square
+ * @param reason reason for changing the piece's nature
+ * @param on position of the piece to be changed
+ */
+static void move_effect_journal_do_square_block(move_effect_reason_type reason,
+                                                square blocked_square)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_square_block,reason);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceSquare(blocked_square);
+  TraceFunctionParamListEnd();
+
+  entry->u.square_block.blocked_square = blocked_square;
+
+  block_square(blocked_square);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_square_block(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.square_block.blocked_square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  empty_square(on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_square_block(move_effect_journal_entry_type const *entry)
+{
+  square const on = entry->u.square_block.blocked_square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  block_square(on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -70,6 +118,9 @@ void solving_insert_haan_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_set_effect_doers(move_effect_square_block,
+                                       &undo_square_block,
+                                       &redo_square_block);
   stip_instrument_moves(si,STHaanChessHoleInserter);
 
   TraceFunctionExit(__func__);

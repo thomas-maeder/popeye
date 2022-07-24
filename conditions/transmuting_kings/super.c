@@ -1,7 +1,6 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/observation.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/check.h"
@@ -13,10 +12,13 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/flags_change.h"
+#include "position/effects/utils.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 
@@ -27,7 +29,7 @@ static boolean exists_transmutation[maxply+1];
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
-int len_supertransmuting_kings(void)
+mummer_length_type len_supertransmuting_kings(void)
 {
   return MAX_OTHER_LEN * (supertransmutation[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id]!=Empty ? 1 : 0);
 }
@@ -122,7 +124,7 @@ static void generate_moves_of_supertransmuting_king(slice_index si)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       numecoup curr_id = current_move_id[nbply];
-      pipe_move_generation_differnt_walk_delegate(si,*ptrans);
+      pipe_move_generation_different_walk_delegate(si,*ptrans);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
       exists_transmutation[nbply] = true;

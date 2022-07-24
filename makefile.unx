@@ -207,7 +207,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate stipulation/goals/any \
+    stipulation/goals/autostalemate stipulation/goals/automate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \
@@ -220,11 +220,12 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/immobile stipulation/goals/notcheck \
     solving solving/battle_play solving/help_play solving/boolean solving/machinery solving/goals \
     retro \
-    position \
+    position position/effects \
     pieces pieces/walks pieces/walks/pawns pieces/walks/angle \
     pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
+    pieces/attributes/total_invisible \
     optimisations/orthodox_mating_moves \
     optimisations/intelligent \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
@@ -268,12 +269,13 @@ NESTEDLIBDIRS = \
     pieces/walks/chinese pieces/walks/argentinian \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
+    pieces/attributes/total_invisible \
     DHT \
     stipulation/battle_play stipulation/help_play \
     stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate stipulation/goals/any \
+    stipulation/goals/autostalemate stipulation/goals/automate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \
@@ -293,7 +295,7 @@ NESTEDLIBDIRS = \
     output \
     output/latex output/latex/line output/latex/tree output/latex \
     output/plaintext output/plaintext/tree output/plaintext/line \
-    position \
+    position position/effects \
     platform platform/$(PLATFORM) \
     utilities debugging \
     .

@@ -35,7 +35,7 @@ void pawns_generate_capture_move(numvec dir)
   curr_generation->arrival = curr_generation->departure+dir;
 
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    push_move();
+    push_move_regular_capture();
   else
     pawns_generate_ep_capture_move(curr_generation->arrival);
 
@@ -46,18 +46,18 @@ void pawns_generate_capture_move(numvec dir)
 /* generates moves of a pawn in direction dir where steps single steps are
  * possible.
  */
-void pawns_generate_nocapture_moves(numvec dir, int steps)
+void pawns_generate_nocapture_moves(numvec dir, unsigned int steps)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
-  TraceFunctionParam("%d",steps);
+  TraceFunctionParam("%u",steps);
   TraceFunctionParamListEnd();
 
   curr_generation->arrival = curr_generation->departure+dir;
 
   if (is_square_empty(curr_generation->arrival))
   {
-    push_move();
+    push_move_no_capture();
     curr_generation->arrival += dir;
 
     while (--steps>0)

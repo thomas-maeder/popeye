@@ -1,6 +1,7 @@
 #include "conditions/koeko/koeko.h"
 #include "position/position.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
 #include "stipulation/move.h"
@@ -23,20 +24,64 @@ nocontactfunc_t koeko_nocontact;
  */
 void koeko_legality_tester_solve(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+  move_effect_journal_index_type curr;
+
+  boolean nocontact_found = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-    pipe_this_move_illegal_if(si,(*koeko_nocontact)(pos));
-  }
+  for (curr = movement; !nocontact_found && curr<top; ++curr)
+    switch (move_effect_journal[curr].type)
+    {
+      case move_effect_piece_movement:
+      {
+        square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
+        PieceIdType const moving_id = GetPieceId(move_effect_journal[curr].u.piece_movement.movingspec);
+        square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                  moving_id,
+                                                                                  sq_arrival);
+
+        if (pos!=initsquare && (*koeko_nocontact)(pos))
+          nocontact_found = true;
+
+        break;
+      }
+
+      case move_effect_piece_exchange:
+      {
+        square const sq_from = move_effect_journal[curr].u.piece_exchange.from;
+        PieceIdType const from_id = GetPieceId(move_effect_journal[curr].u.piece_exchange.toflags);
+        square const pos_from = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                       from_id,
+                                                                                       sq_from);
+
+        if (pos_from!=initsquare && (*koeko_nocontact)(pos_from))
+          nocontact_found = true;
+        else
+        {
+          square const sq_to = move_effect_journal[curr].u.piece_exchange.to;
+          PieceIdType const to_id = GetPieceId(move_effect_journal[curr].u.piece_exchange.fromflags);
+          square const pos_to = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                       to_id,
+                                                                                       sq_to);
+          if (pos_to!=initsquare && (*koeko_nocontact)(pos_to))
+            nocontact_found = true;
+        }
+
+        break;
+      }
+
+      default:
+        break;
+    }
+
+  pipe_this_move_illegal_if(si,nocontact_found);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

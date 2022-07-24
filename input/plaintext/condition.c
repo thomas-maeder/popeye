@@ -12,6 +12,8 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/bgl.h"
+#include "conditions/bolero.h"
+#include "conditions/breton.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/reborn_piece.h"
@@ -44,6 +46,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "conditions/role_exchange.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -54,6 +57,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 static char *ParseSquareLastCapture(char *tok)
 {
@@ -68,7 +72,7 @@ static char *ParsePieceWalkAndSquareLastCapture(char *tok)
 {
   tok = ParsePieceWalk(tok,&retro_capture.walk);
 
-  if (retro_capture.walk>=King)
+  if (retro_capture.walk!=nr_piece_walks)
   {
     if (tok[0]==0)
       tok = ReadNextTokStr();
@@ -76,7 +80,7 @@ static char *ParsePieceWalkAndSquareLastCapture(char *tok)
   }
   else
   {
-    output_plaintext_input_error_message(WrongPieceName,0);
+    output_plaintext_input_error_message(WrongPieceName);
     tok = ReadNextTokStr();
   }
 
@@ -112,45 +116,74 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
 {
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
      in - and all other cases return infinity (no limit) */
-  char buf[12];
-  int res= BGL_infinity;
-  size_t len, dp;
-  char* dpp;
-  *endptr= inptr;
+
+  *endptr = inptr;
   while (**endptr && strchr("0123456789.,-", **endptr))
-    /* isdigit(**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
+    /* isdigit((unsigned char)**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
     (*endptr)++;
-  len= (*endptr-inptr);
-  if (len > 11)
-    return res;
-  strncpy(buf, inptr, len);
-  buf[len]= '\0';
-  if (len == 1 && buf[0] == '-')
-    return res;
-  for (dpp=buf; *dpp; dpp++)
-    if (*dpp == ',')  /* allow 3,45 notation */
-      *dpp= '.';
-  for (dpp=buf; *dpp && *dpp != '.'; dpp++);
-  dp= len-(dpp-buf);
-  if (!dp)
-    return 100*(long int)atoi(buf);
-  while ((size_t)(dpp-buf) < len) {
-    *dpp=*(dpp+1);
-    dpp++;
-  }
-  for (dpp=buf; *dpp; dpp++)
-    if (*dpp == '.')
-      return res;  /* 2 d.p. characters */
-  switch (dp) /* N.B> d.p. is part of count */
+
   {
-  case 1 :
-    return 100*(long int)atoi(buf);
-  case 2 :
-    return 10*(long int)atoi(buf);
-  case 3 :
-    return (long int)atoi(buf);
-  default :
-    return res;
+    size_t const len = (size_t)(*endptr-inptr);
+    assert(*endptr>=inptr);
+
+    if (len>11)
+      return (long int) BGL_infinity;
+    else
+    {
+      char buf[12];
+      strncpy(buf,inptr,len);
+      buf[len]= '\0';
+
+      if (len==1 && buf[0]=='-')
+        return (long int) BGL_infinity;
+      else
+      {
+        char* dpp;
+        for (dpp = buf; *dpp; dpp++)
+          if (*dpp==',')  /* allow 3,45 notation */
+            *dpp = '.';
+
+        for (dpp = buf; *dpp && *dpp!='.'; dpp++)
+        {
+        }
+
+        {
+          size_t const dp = len-(size_t)(dpp-buf);
+          long int tmp;
+          if (dp==0)
+          {
+            tmp = strtol(buf, NULL, 10);
+            return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : (long int) BGL_infinity);
+          }
+          else
+          {
+            while ((size_t)(dpp-buf)<len)
+            {
+              *dpp=*(dpp+1);
+              dpp++;
+            }
+
+            for (dpp = buf; *dpp; dpp++)
+              if (*dpp=='.')
+                return (long int) BGL_infinity;  /* 2 d.p. characters */
+
+            switch (dp) /* N.B> d.p. is part of count */
+            {
+              case 1 :
+                tmp = strtol(buf, NULL, 10);
+                return (((tmp >= (LONG_MIN / 100)) && (tmp <= (LONG_MAX / 100))) ? (100 * tmp) : (long int) BGL_infinity);
+              case 2 :
+                tmp = strtol(buf, NULL, 10);
+                return (((tmp >= (LONG_MIN / 10)) && (tmp <= (LONG_MAX / 10))) ? (10 * tmp) : (long int) BGL_infinity);
+              case 3 :
+                return strtol(buf, NULL, 10);
+              default :
+                return (long int) BGL_infinity;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -180,7 +213,7 @@ static char *ReadWalks(char *tok,
   while (true)
   {
     piece_walk_type walk;
-    tok = ParseSingleWalk(tok,&walk);
+    tok = ParsePieceWalkToken(tok,&walk);
 
     TraceWalk(walk);TraceValue("%s",tok);TraceEOL();
 
@@ -196,45 +229,35 @@ static char *ReadWalks(char *tok,
   return tok;
 }
 
-static boolean handle_chameleon_reborn_piece(twin_id_type *is_explicit,
-                                             chameleon_sequence_type* sequence,
-                                             piece_walk_type from, piece_walk_type to,
-                                             char const *tok)
-{
-  boolean result;
-
-  if (to==Empty)
-  {
-    output_plaintext_input_error_message(WrongPieceName,0);
-    result = false;
-  }
-  else
-  {
-    if (from!=Empty)
-      chameleon_set_successor_walk_explicit(is_explicit,sequence,from,to);
-    result = true;
-  }
-
-  return result;
-}
-
 static char *ReadChameleonSequence(char *tok,
                                    twin_id_type *is_explicit,
-                                   chameleon_sequence_type* sequence)
+                                   chameleon_sequence_type *sequence)
 {
-  piece_walk_type from = Empty;
+  piece_walk_type first_from;
+  tok = ParsePieceWalkToken(tok,&first_from);
 
-  while (true)
+  if (first_from!=nr_piece_walks)
   {
-    piece_walk_type to;
-    tok = ParseSingleWalk(tok,&to);
+    piece_walk_type from = first_from;
 
-    if (to==nr_piece_walks)
-      break;
-    else if (handle_chameleon_reborn_piece(is_explicit,sequence,from,to,tok))
-      from = to;
-    else
-      break;
+    while (true)
+    {
+      piece_walk_type to;
+      tok = ParsePieceWalkToken(tok,&to);
+
+      if (to==nr_piece_walks)
+      {
+        if (from!=first_from)
+          /* user input forgot to close sequence */
+          chameleon_set_successor_walk_explicit(is_explicit,sequence,from,first_from);
+        break;
+      }
+      else
+      {
+        chameleon_set_successor_walk_explicit(is_explicit,sequence,from,to);
+        from = to;
+      }
+    }
   }
 
   return tok;
@@ -250,7 +273,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
       break;
     else if (index>CirceVariantCount)
     {
-      output_plaintext_input_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq);
       break;
     }
     else
@@ -269,17 +292,17 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
 
         case CirceVariantMirror:
           if (!circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_mirror))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantDiametral:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_diametral))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantVerticalMirror:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_verticalmirror))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantAssassin:
@@ -288,26 +311,29 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
 
         case CirceVariantClone:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantEinstein:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_einstein))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantReverseEinstein:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_reversaleinstein))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantChameleon:
           if (circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_chameleon))
+          {
             tok = ReadChameleonSequence(tok,
-                                        &variant->chameleon_is_walk_squence_explicit,
+                                        &variant->explicit_chameleon_squence_set_in_twin,
                                         &variant->chameleon_walk_sequence);
+            variant->is_chameleon_sequence_explicit = variant->explicit_chameleon_squence_set_in_twin==twin_id;
+          }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantTurncoats:
@@ -327,7 +353,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantParrain:
@@ -337,7 +363,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             variant->is_promotion_possible = true;
           }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantContraParrain:
@@ -348,7 +374,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             variant->is_promotion_possible = true;
           }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantCage:
@@ -358,59 +384,59 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantRank:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_rank)
               || !circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_rank)
               || !circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_rank))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantFile:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_file))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantVerticalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantHorizontalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_horizontal_symmetry))
             variant->is_promotion_possible = false;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantDiagramm:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantPWC:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantAntipodes:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantSuper:
@@ -420,7 +446,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantTakeAndMake:
@@ -430,7 +456,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantApril:
@@ -438,7 +464,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           unsigned int nr_walks_read;
           tok = ReadWalks(tok,&variant->is_walk_affected,&nr_walks_read);
           if (nr_walks_read==0)
-            output_plaintext_input_error_message(WrongPieceName,0);
+            output_plaintext_input_error_message(WrongPieceName);
           else
           {
             variant->is_restricted_to_walks = true;
@@ -450,7 +476,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
 
         case CirceVariantFrischauf:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_frischauf))
-            output_plaintext_input_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination);
           break;
 
         case CirceVariantCalvet:
@@ -476,6 +502,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
         case CirceVariantParachute:
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
           break;
+
+        default:
+          assert(0);
+          break;
       }
     }
   }
@@ -495,13 +525,13 @@ static void HandleGridCell(square cell, void *param)
   unsigned int * const currentgridnum = param;
 
   ClearGridNum(cell);
-  sq_spec[cell] += *currentgridnum << Grid;
+  sq_spec(cell) += *currentgridnum << Grid;
 }
 
 static void HandleSquaresWithFlag(square sq, void *param)
 {
   SquareFlags * const flag = param;
-  SETFLAG(sq_spec[sq],*flag);
+  SETFLAG(sq_spec(sq),*flag);
 }
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
@@ -514,7 +544,7 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
 
   tok = ParseSquareList(squares_tok,&HandleSquaresWithFlag,&flag);
   if (tok==squares_tok)
-    output_plaintext_input_error_message(MissngSquareList,0);
+    output_plaintext_input_error_message(MissngSquareList);
   else if (*tok!=0)
     output_plaintext_error_message(WrongSquareList);
 
@@ -541,7 +571,7 @@ static char *ParseRoyalSquare(char *tok, Side side)
 
   tok = ParseSquare(tok,&sq);
   if (sq==initsquare || tok[0]!=0)
-    output_plaintext_input_error_message(WrongSquareList, 0);
+    output_plaintext_input_error_message(WrongSquareList);
   else
     royal_square[side] = sq;
 
@@ -560,7 +590,7 @@ static char *ParseKobulSides(char *tok, boolean (*variant)[nr_sides])
     KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
 
     if (type>KobulVariantCount)
-      output_plaintext_input_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq);
     else if (type==KobulWhiteOnly)
       (*variant)[Black] = false;
     else if (type==KobulBlackOnly)
@@ -587,7 +617,7 @@ static char *ParseMaximumPawn(unsigned int *result,
 
   {
     char *end;
-    unsigned long tmp = strtoul(tok,&end,10);
+    unsigned int tmp = (unsigned int)strtoul(tok,&end,10);
     if (tok==end || tmp>boundary)
       *result = defaultVal;
     else
@@ -616,7 +646,7 @@ static char *ParseSentinellesVariants(char *tok)
     SentinellesVariantType const type = GetUniqIndex(SentinellesVariantCount,SentinellesVariantTypeTab,tok);
 
     if (type>SentinellesVariantCount)
-      output_plaintext_input_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq);
     else if (type==SentinellesVariantPionAdverse)
     {
       sentinelles_pawn_mode = sentinelles_pawn_adverse;
@@ -653,6 +683,41 @@ static char *ParseSentinellesVariants(char *tok)
   return tok;
 }
 
+static char *ParseBretonVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  breton_mode = breton_propre;
+  breton_chromaticity = breton_nonchromatic;
+
+  do
+  {
+    BretonVariantType const type = GetUniqIndex(BretonVariantCount,BretonVariantTypeTab,tok);
+
+    if (type>BretonVariantCount)
+      output_plaintext_input_error_message(CondNotUniq);
+    else if (type==BretonAdverse)
+    {
+      breton_mode = breton_adverse;
+      tok = ReadNextTokStr();
+    }
+    else if (type==BretonChromatique)
+    {
+      breton_chromaticity = breton_chromatic;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
 /* parse the orthogonal grid lines from the current token
  * @param tok current token
  * @param file_numbers where to store file numbers
@@ -665,33 +730,25 @@ static char *ParseOrthogonalGridLines(char *tok,
 {
   assert(*tok!=0); /* we are at the start of a token */
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_files_on_board; i++)
-      file_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_files_on_board; i++)
+    file_numbers[i] = 0;
 
-  {
-    unsigned int i;
-    for (i = 0; i<nr_rows_on_board; i++)
-      row_numbers[i] = 0;
-  }
+  for (unsigned int i = 0; i<nr_rows_on_board; i++)
+    row_numbers[i] = 0;
 
   do
   {
-    char const c = tolower(*tok);
-    if (c>='1' && c<='8')
-    {
-      unsigned int i;
-      for (i = (c-'1')+1; i<nr_rows_on_board; ++i)
+    board_label_type const c = (board_label_type)tolower((unsigned char)*tok);
+    unsigned int i;
+    /* TODO: The below logic assumes that the row labels and file labels are outputs of
+             tolower (declared in ctype.h) and are distinct (or at least that the former
+             possibility takes precedence).  Can/Should we try to remove this restriction? */
+    if ((i = getBoardRowIndex(c)) < nr_rows_on_board)
+      for (++i; i<nr_rows_on_board; ++i)
         ++row_numbers[i];
-    }
-    else if (c>='a' && c<='h')
-    {
-      unsigned int i;
-      for (i = (c-'a')+1; i<nr_files_on_board; ++i)
+    else if ((i = getBoardFileIndex(c)) < nr_files_on_board)
+      for (++i; i<nr_files_on_board; ++i)
         ++file_numbers[i];
-    }
     else
       /* return position within token to indicate failure */
       break;
@@ -708,11 +765,59 @@ static void InitOrthogonalGridLines(unsigned int const file_numbers[],
   square const *bnp;
   for (bnp = boardnum; *bnp; bnp++)
   {
-    unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-    unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+    unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+    unsigned int const rank = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
     ClearGridNum(*bnp);
-    sq_spec[*bnp] += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
+    sq_spec(*bnp) += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
   }
+}
+
+static boolean pushedIrregularGridLine(char const * const tok)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  /* TODO: The below logic can only handle lengths in the range 1-9.
+           Can/Should we try to remove this restriction? */
+  if (strlen(tok)==4)
+  {
+    char const dir_char = (char)tolower((unsigned char)tok[0]);
+    board_label_type const file_char = (board_label_type)tolower((unsigned char)tok[1]);
+    board_label_type const row_char = (board_label_type)tok[2];
+    char const length_char = tok[3];
+    unsigned int file;
+    unsigned int row;
+    if (((dir_char=='h') || (dir_char=='v'))
+        && ((file = getBoardFileIndex(file_char)) < nr_files_on_board)
+        && ((row = getBoardRowIndex(row_char)) < nr_rows_on_board)
+        && ((length_char>='1') && (length_char<='9')))
+    {
+      unsigned int const length = (unsigned int)(length_char-'0');
+      gridline_direction dir;
+      if (dir_char == 'h')
+      {
+        if (length > nr_files_on_board)
+          goto DONE_PUSHING;
+        dir = gridline_horizonal;
+      }
+      else
+      {
+        if (length > nr_rows_on_board)
+          goto DONE_PUSHING;
+        dir = gridline_vertical;
+      }
+      result = PushIrregularGridLine(file,row,length,dir);
+    }
+  }
+
+DONE_PUSHING:
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(unsigned int)result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static char *ParseGridVariant(char *tok)
@@ -740,11 +845,11 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const row = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
+            sq_spec(*bnp) += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
           }
           grid_type = grid_vertical_shift;
           break;
@@ -754,11 +859,11 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const row = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
+            sq_spec(*bnp) += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
           }
           grid_type = grid_horizontal_shift;
           break;
@@ -768,11 +873,11 @@ static char *ParseGridVariant(char *tok)
           square const *bnp;
           for (bnp = boardnum; *bnp; bnp++)
           {
-            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
-            unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const file = (unsigned int)(*bnp%onerow-nr_of_slack_files_left_of_board);
+            unsigned int const rank = (unsigned int)(*bnp/onerow-nr_of_slack_rows_below_board);
             unsigned int const rows_worth = nr_rows_on_board/2 + 1;
             ClearGridNum(*bnp);
-            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
+            sq_spec(*bnp) += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
           }
           grid_type = grid_diagonal_shift;
           break;
@@ -789,7 +894,7 @@ static char *ParseGridVariant(char *tok)
             tok = ReadNextTokStr();
           }
           else
-            output_plaintext_input_error_message(CondNotUniq, 0);
+            output_plaintext_input_error_message(CondNotUniq);
 
           break;
         }
@@ -819,48 +924,14 @@ static char *ParseGridVariant(char *tok)
           break;
         }
         case GridVariantExtraGridLines:
-        {
-          grid_type = grid_irregular;
+          IntialiseIrregularGridLines();
 
-          numgridlines = 0;
-
-          while (numgridlines<100)
-            if (strlen(tok)==4)
-            {
-              char const dir_char = tolower(tok[0]);
-              char const file_char = tolower(tok[1]);
-              char const row_char = tok[2];
-              char const length_char = tok[3];
-
-              if ((dir_char=='h' || dir_char=='v')
-                  && (file_char>='a' && file_char<='h')
-                  && (row_char>='1' && row_char<='8')
-                  && (length_char>='1' && length_char<='8'))
-              {
-                unsigned int const file = file_char-'a';
-                unsigned int const row = row_char-'1';
-                unsigned int const length = length_char-'0';
-
-                gridlines[numgridlines][0] = 2*file;
-                gridlines[numgridlines][1] = 2*row;
-                gridlines[numgridlines][2] = 2*file;
-                gridlines[numgridlines][3] = 2*row;
-                gridlines[numgridlines][dir_char=='h' ? 2 : 3] += 2*length;
-
-                ++numgridlines;
-
-                tok = ReadNextTokStr();
-              }
-              else
-                break;
-            }
-            else
-              break;
+          while (pushedIrregularGridLine(tok))
+            tok = ReadNextTokStr();
 
           break;
-        }
         default:
-          output_plaintext_input_error_message(CondNotUniq,0);
+          output_plaintext_input_error_message(CondNotUniq);
           break;
       }
     }
@@ -883,11 +954,11 @@ static char *ParseKoekoVariant(char *tok)
     /* nothing */
   }
   else if (type>1)
-    output_plaintext_input_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq);
   else
   {
     piece_walk_type tmp_piece;
-    tok = ParseSingleWalk(ReadNextTokStr(),&tmp_piece);
+    tok = ParsePieceWalkToken(ReadNextTokStr(),&tmp_piece);
 
     switch (tmp_piece)
     {
@@ -921,7 +992,7 @@ static char *ParseKoekoVariant(char *tok)
         *nocontactfunc_parsed= noantelopecontact;
         break;
       default:
-        output_plaintext_input_error_message(WrongPieceName,0);
+        output_plaintext_input_error_message(WrongPieceName);
         break;
     }
   }
@@ -942,7 +1013,7 @@ static char *ParseLetteredType(char *tok,
    /* nothing */
   }
   else if (type_read>ConditionLetteredVariantTypeCount)
-    output_plaintext_input_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq);
   else
   {
     ConditionLetteredVariantType type;
@@ -971,7 +1042,7 @@ static char *ParseNumberedType(char *tok,
     /* nothing */
   }
   else if (type_read>ConditionNumberedVariantTypeCount)
-    output_plaintext_input_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq);
   else
   {
     ConditionNumberedVariantType type;
@@ -996,7 +1067,7 @@ static char *ParseAnticirceVariant(char *tok, anticirce_type_type *variant)
     return tok;
   else if (type>anticirce_type_count)
   {
-    output_plaintext_input_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq);
     return tok;
   }
   else if (type==anticirce_type_cheylan || type==anticirce_type_calvet)
@@ -1038,7 +1109,7 @@ static char *ParseVaultingPieces(char *tok, Side side)
   while (true)
   {
     piece_walk_type p;
-    tok = ParseSingleWalk(tok,&p);
+    tok = ParsePieceWalkToken(tok,&p);
 
     if (p==nr_piece_walks)
     {
@@ -1081,7 +1152,7 @@ char *ParseCond(char *tok)
       ExtraCond const extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
       if (extra>ExtraCondCount)
       {
-        output_plaintext_input_error_message(CondNotUniq,0);
+        output_plaintext_input_error_message(CondNotUniq);
         tok = ReadNextTokStr();
         break;
       }
@@ -1112,7 +1183,7 @@ char *ParseCond(char *tok)
     }
     else if (cond>CondCount)
     {
-      output_plaintext_input_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq);
       tok = ReadNextTokStr();
     }
     else
@@ -1144,7 +1215,7 @@ char *ParseCond(char *tok)
                                 &HandleImitatorPosition,
                                 &being_solved.number_of_imitators);
           if (tok==squares_tok)
-            output_plaintext_input_error_message(MissngSquareList,0);
+            output_plaintext_input_error_message(MissngSquareList);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
 
@@ -1174,7 +1245,7 @@ char *ParseCond(char *tok)
 
           tok = ParseSquareList(squares_tok,&HandleHole,0);
           if (tok==squares_tok)
-            output_plaintext_input_error_message(MissngSquareList,0);
+            output_plaintext_input_error_message(MissngSquareList);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
 
@@ -1314,8 +1385,9 @@ char *ParseCond(char *tok)
           CondFlag[circe] = true;
           circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_chameleon;
           tok = ReadChameleonSequence(tok,
-                                      &circe_variant.chameleon_is_walk_squence_explicit,
+                                      &circe_variant.explicit_chameleon_squence_set_in_twin,
                                       &circe_variant.chameleon_walk_sequence);
+          circe_variant.is_chameleon_sequence_explicit = circe_variant.explicit_chameleon_squence_set_in_twin==twin_id;
           break;
         case circeturncoats:
           CondFlag[circe] = true;
@@ -1462,7 +1534,7 @@ char *ParseCond(char *tok)
           if (nr_walks_read==0)
           {
             CondFlag[april] = false;
-            output_plaintext_input_error_message(WrongPieceName,0);
+            output_plaintext_input_error_message(WrongPieceName);
           }
           else
           {
@@ -1637,10 +1709,16 @@ char *ParseCond(char *tok)
           tok = ParseRexIncl(tok,&woozles_rex_inclusive, CirceVariantRexExclusive);
           break;
 
-        case chameleonsequence:
         case chamchess:
           tok = ReadChameleonSequence(tok,
-                                      &chameleon_is_squence_explicit,
+                                      &explicit_chameleon_squence_set_in_twin,
+                                      &chameleon_walk_sequence);
+          CondFlag[chameleonsequence] = explicit_chameleon_squence_set_in_twin==twin_id;
+          break;
+
+        case chameleonsequence:
+          tok = ReadChameleonSequence(tok,
+                                      &explicit_chameleon_squence_set_in_twin,
                                       &chameleon_walk_sequence);
           break;
 
@@ -1661,6 +1739,7 @@ char *ParseCond(char *tok)
           break;
 
         case annan:
+        case nanna:
           tok = ParseLetteredType(tok,&annan_type,ConditionTypeD);
           break;
 
@@ -1672,6 +1751,10 @@ char *ParseCond(char *tok)
 
         case sentinelles:
           tok = ParseSentinellesVariants(tok);
+          break;
+
+        case breton:
+          tok = ParseBretonVariants(tok);
           break;
 
         case dynasty:
@@ -1695,7 +1778,7 @@ char *ParseCond(char *tok)
           if (nr_walks_read==0)
           {
             CondFlag[promotiononly] = false;
-            output_plaintext_input_error_message(WrongPieceName,0);
+            output_plaintext_input_error_message(WrongPieceName);
           }
           break;
         }
@@ -1739,14 +1822,14 @@ char *ParseCond(char *tok)
         case strictSAT:
         {
           char *ptr;
-          SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
+          SAT_max_nr_allowed_flights[White] = (unsigned int)strtoul(tok,&ptr,10) + 1;
           if (tok == ptr) {
             SAT_max_nr_allowed_flights[White]= 1;
             SAT_max_nr_allowed_flights[Black]= 1;
             break;
           }
           tok = ReadNextTokStr();
-          SAT_max_nr_allowed_flights[Black] = strtoul(tok,&ptr,10) + 1;
+          SAT_max_nr_allowed_flights[Black] = (unsigned int)strtoul(tok,&ptr,10) + 1;
           if (tok == ptr)
             SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
           break;
@@ -1790,6 +1873,33 @@ char *ParseCond(char *tok)
         case lostpieces:
           break;
 
+        case bolero:
+        case bolero_inverse:
+          tok = ParseRexIncl(tok,&bolero_is_rex_inclusive,CirceVariantRexInclusive);
+          break;
+
+        case role_exchange:
+        {
+          char *ptr;
+          unsigned long int value = strtoul(tok,&ptr,10);
+          if (tok == ptr)
+            role_exchange_set_umlimited();
+          else
+          {
+            if (value<=UINT_MAX)
+            {
+              tok = ReadNextTokStr();
+              role_exchange_set_limit((unsigned int)value);
+            }
+            else
+            {
+              output_plaintext_input_error_message(WrongInt);
+              role_exchange_set_umlimited();
+            }
+          }
+          break;
+        }
+
         default:
           break;
       }
@@ -1798,7 +1908,7 @@ char *ParseCond(char *tok)
   while (true);
 
   if (CondCnt==0)
-    output_plaintext_input_error_message(UnrecCondition,0);
+    output_plaintext_input_error_message(UnrecCondition);
 
   if (CondFlag[black_oscillatingKs] && OscillatingKings[Black]==ConditionTypeC
       && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)
@@ -1835,6 +1945,7 @@ void InitCond(void)
   messigny_rex_inclusive = true;
   woozles_rex_inclusive = true;
   protean_is_rex_inclusive = true;
+  bolero_is_rex_inclusive = false;
 
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
@@ -1842,7 +1953,6 @@ void InitCond(void)
   sentinelle_walk = Pawn;
 
   grid_type = grid_normal;
-  numgridlines = 0;
 
   {
     PieceIdType id;
@@ -1854,24 +1964,24 @@ void InitCond(void)
     int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
     int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
-    CLEARFL(sq_spec[*bnp]);
-    sq_num[*bnp]= (int)(bnp-boardnum);
+    CLEARFL(sq_spec(*bnp));
+    sq_num(*bnp)= (int)(bnp-boardnum);
 
     /* initialise sq_spec and set grid number */
-    sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
+    sq_spec(*bnp) += ((file/2)+4*(row/2)) << Grid;
     if (file!=0 && file!=nr_files_on_board-1
         && row!=0 && row!=nr_rows_on_board-1)
-      SETFLAG(sq_spec[*bnp], NoEdgeSq);
+      SETFLAG(sq_spec(*bnp), NoEdgeSq);
   }
 
   for (i= square_a1; i < square_h8; i+= onerow)
   {
     if (i > square_a1)
-      if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
-        SETFLAG(sq_spec[i], SqColor);
+      if (!TSTFLAG(sq_spec(i+dir_down), SqColor))
+        SETFLAG(sq_spec(i), SqColor);
     for (j= i+1; j < i+nr_files_on_board; j++)
-      if (!TSTFLAG(sq_spec[j+dir_left], SqColor))
-        SETFLAG(sq_spec[j], SqColor);
+      if (!TSTFLAG(sq_spec(j+dir_left), SqColor))
+        SETFLAG(sq_spec(j), SqColor);
   }
 
   for (i= 0; i < CondCount; ++i)

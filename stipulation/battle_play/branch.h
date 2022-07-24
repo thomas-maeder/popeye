@@ -230,9 +230,4 @@ void battle_branch_insert_defense_constraint(slice_index si,
 void battle_branch_insert_defense_goal_constraint(slice_index si,
                                                   slice_index constraint);
 
-/* Apply the option postkeyplay to a newly created stipulation
- * @param si identifies the postkeyplay applier slice
- */
-void post_key_play_stipulation_modifier_solve(slice_index si);
-
 #endif

@@ -3,10 +3,10 @@
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/machinery/slack_length.h"
+#include "platform/maxtime.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Allocate a STContinuationSolver defender slice.
@@ -58,9 +58,11 @@ void continuation_solver_solve(slice_index si)
     if (solve_nr_remaining>solve_result)
       solve_nr_remaining = solve_result;
     pipe_solve_delegate(si);
-    solve_nr_remaining = save_solve_nr_remaining;
 
-    assert(solve_result==test_result);
+    assert(solve_result==test_result
+           || platform_has_maxtime_elapsed());
+
+    solve_nr_remaining = save_solve_nr_remaining;
   }
 
   TraceFunctionExit(__func__);

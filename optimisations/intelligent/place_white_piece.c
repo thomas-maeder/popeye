@@ -22,7 +22,7 @@ void intelligent_place_unpromoted_white_pawn(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(WhBaseSq)|BIT(WhPromSq))
+  if (!TSTFLAGMASK(sq_spec(placed_on),BIT(WhBaseSq)|BIT(WhPromSq))
       && GuardDir[Pawn-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
@@ -134,6 +134,9 @@ void intelligent_place_promoted_white_pawn(slice_index si,
                                                   placed_index,
                                                   placed_on,
                                                   go_on);
+          break;
+
+        case Dummy:
           break;
 
         default:
@@ -365,6 +368,9 @@ void intelligent_place_white_piece(slice_index si,
     case Pawn:
       intelligent_place_unpromoted_white_pawn(si,placed_index,placed_on,go_on);
       intelligent_place_promoted_white_pawn(si,placed_index,placed_on,go_on);
+      break;
+
+    case Dummy:
       break;
 
     default:

@@ -6,31 +6,31 @@ This file is generated using the program ./gengmarr -- DON'T CHANGE.
 position const game_array =
 {
   { /* board */
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 6, 5, 7, 4, 2, 7, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 6, 5, 7, 4, 2, 7, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-     0, 0, 0, 0
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 6,(piece_walk_type) 5,(piece_walk_type) 7,(piece_walk_type) 4,(piece_walk_type) 2,(piece_walk_type) 7,(piece_walk_type) 5,(piece_walk_type) 6,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 3,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 6,(piece_walk_type) 5,(piece_walk_type) 7,(piece_walk_type) 4,(piece_walk_type) 2,(piece_walk_type) 7,(piece_walk_type) 5,(piece_walk_type) 6,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,(piece_walk_type) 1,
+    (piece_walk_type) 1,(piece_walk_type) 0,(piece_walk_type) 0,(piece_walk_type) 0
   },
   { /* spec */
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -71,10 +71,10 @@ position const game_array =
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-      0,0,0,0,0,0,0,0,0,0
+      0,0,0,0,0,0,0,0,0,0,0
     },
     { /* Black */
-      0,0,1,8,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,1,8,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -82,9 +82,9 @@ position const game_array =
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-      0,0,0,0,0,0,0,0,0,0
+      0,0,0,0,0,0,0,0,0,119,32
     }
   },
-  0x77 /* castling_rights */
+  (castling_rights_type)0x0 /* castling_rights */
   , 0 /* currPieceId */
 };

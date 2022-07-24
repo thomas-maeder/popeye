@@ -53,7 +53,7 @@ void input_plaintext_iterate_problems(slice_index si)
         break;
 
       default:
-        output_plaintext_input_error_message(ComNotUniq,0);
+        output_plaintext_input_error_message(ComNotUniq);
         break;
     }
   } while (!halt);
@@ -67,7 +67,7 @@ void input_plaintext_detect_user_language(slice_index si)
   UserLanguage = detect_user_language(ReadNextTokStr());
 
   if (UserLanguage==LanguageCount)
-    output_plaintext_input_error_message(NoBegOfProblem, 0);
+    output_plaintext_input_error_message(NoBegOfProblem);
   else
   {
     output_plaintext_select_language(UserLanguage);

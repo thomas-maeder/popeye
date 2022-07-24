@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
 #include "solving/castling.h"
@@ -44,8 +45,8 @@ typedef struct
 } immobilisation_state_type;
 
 
-static immobilisation_state_type const null_state;
-static trouble_maker_type const null_trouble_maker;
+static immobilisation_state_type const null_state = {{0}};
+static trouble_maker_type const null_trouble_maker = {0};
 static immobilisation_state_type * current_state;
 
 static
@@ -126,6 +127,7 @@ boolean intelligent_stalemate_immobilise_black(slice_index si)
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
   castling_rights_type const save_castling_flag = being_solved.castling_rights;
+  unsigned int const save_en_passant_top = en_passant_top[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -139,9 +141,14 @@ boolean intelligent_stalemate_immobilise_black(slice_index si)
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
 
+  /* we temporarily disable en passant captures for similar reasons */
+  en_passant_top[nbply] = en_passant_top[nbply-1];
+
   conditional_pipe_solve_delegate(si);
 
   next_trouble_maker();
+
+  en_passant_top[nbply] = save_en_passant_top;
   current_state = 0;
   being_solved.castling_rights = save_castling_flag;
 
@@ -196,7 +203,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   int const diff = sq_arrival-sq_departure;
-  int const dir = CheckDir[Queen][diff];
+  int const dir = CheckDir(Queen)[diff];
   if (diff==dir)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];

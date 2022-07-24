@@ -1,5 +1,5 @@
 #include "conditions/synchronous.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/piece_movement.h"
 #include "solving/move_generator.h"
 #include "pieces/walks/vectors.h"
 #include "debugging/trace.h"
@@ -10,9 +10,9 @@
  * the value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int synchronous_measure_length(void)
+mummer_length_type synchronous_measure_length(void)
 {
-  int result;
+  mummer_length_type result;
   ply const parent = parent_ply[nbply];
   square const sq_parent_departure = move_effect_journal_get_departure_square(parent);
 
@@ -45,9 +45,9 @@ int synchronous_measure_length(void)
  * the value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move
  */
-int antisynchronous_measure_length(void)
+mummer_length_type antisynchronous_measure_length(void)
 {
-  int result;
+  mummer_length_type result;
   ply const parent = parent_ply[nbply];
   square const sq_parent_departure = move_effect_journal_get_departure_square(parent);
 

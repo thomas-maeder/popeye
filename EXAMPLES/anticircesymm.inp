@@ -1,4 +1,7 @@
 beginproblem
+
+protocol anticircesymm.ref
+
 author      Stephen Emmerson
 origin      Original
 stipulation dia2
@@ -7,4 +10,5 @@ rem <<< rsbqkbsr/pppp1ppp/8/4p3/8/8/PPP1PPPP/RSBQKBSR/ Null
 forsyth     rsbqkbsr/pppp1ppp/8/4p3/8/8/PPP1PPPP/RSBQKBSR/
 rem >>>
 twin        cond anticirce verticalsymm
+
 endproblem

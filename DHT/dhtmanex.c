@@ -29,7 +29,7 @@ int main( )
     char	string_to_enter[128];
     char	name_to_find[128];
     struct info *info_to_enter;
-    int 	i, Age, Room;
+    int 	Age, Room;
     struct dht	*OurTable;
     dhtElement	*he;
 
@@ -42,10 +42,20 @@ int main( )
     /* create table */
     OurTable= dhtCreate(dhtStringValue, dhtCopy,
 				dhtSimpleValue, dhtNoCopy);
-    i= 0;
-    while (scanf("%s%d%d", string_to_enter, &Age, &Room) != EOF) {
+
+    while (scanf("%127s%d%d", string_to_enter, &Age, &Room) != EOF) {
     	/* put info in structure */
     	info_to_enter= (struct info*)malloc(sizeof(struct info));
+        if (!info_to_enter) {
+            (void)fprintf(stderr,
+                         "no memory to store key = %s, "
+                         "age = %d, "
+                         "room = %d; giving up\n",
+                         string_to_enter,
+                         Age,
+                         Room);
+            break;
+        }
     	info_to_enter->age= Age;
     	info_to_enter->room= Room;
     	/* the string will be duplicated the info not */
@@ -54,7 +64,7 @@ int main( )
     }
 
     /* access table */
-    while (scanf("%s", name_to_find) != EOF) {
+    while (scanf("%127s", name_to_find) != EOF) {
 	he= dhtLookupElement(OurTable, (dhtValue)name_to_find);
 	if (he != dhtNilElement) {
 	    /* if item is in the table */
@@ -69,11 +79,15 @@ int main( )
     /* now delete all struct info in the table */
     he= dhtGetFirstElement(OurTable);
     while (he) {
-    	free(he->Data);
+    	free((dhtValue)he->Data);
 	he= dhtGetNextElement(OurTable);
     }
     /* now destroy the whole table */
     dhtDestroy(OurTable);
+
+#if defined(FXF)
+    fxfTeardown();
+#endif /*FXF*/
 
     return 0;
 }

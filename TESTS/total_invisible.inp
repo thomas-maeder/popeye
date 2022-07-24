@@ -1,0 +1,52 @@
+begin
+
+protocol total_invisible.tst
+
+pieces white kb2 rb1 black kd1 sc1d2 pe2
+stipulation h#0.5
+
+next
+
+pieces TotalInvisible 1 white kc4 ra1b1 pa5 black ka6
+stipulation h#1.5
+
+next
+
+origin 1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
+pieces TotalInvisible 2 white ka5 rh1 bh8 black ka1 pa2
+stipulation h#1.5
+
+next
+
+origin 1...Rb1-b8   2..~-~ [+bTIb6]a5*b6 # is not a solution because a bTI can not have moved to b6
+pieces TotalInvisible 1 white kc5 ra1b1 pa5 black ka6
+stipulation h#1.5
+condition hole c4d5d6c7a8c8
+
+next
+
+origin no castling if the invisible rook would have delivered check
+pieces TotalInvisible 1 white ke1 se3 black kh3 ph5
+stipulation h#1.5
+twin condition hole h2
+
+next
+
+origin this doesn't work if we overdo it with optimisations
+pieces TotalInvisible 2 white kh6 black kh8 rg8h1 bh5 pd6
+stipulation h#1.5
+
+next
+
+origin capture by invisible pawn results in promotion
+pieces total 1 white kd6 sd8 black kb6 bb8a6 rb1h7 pa5a7
+stipulation h#2
+
+next
+
+origin random move by invisible pawn results in promotion
+pieces total 1 white kf3 bf2h5 sf4 pe2e3 black kf1 bh1 
+stipulation h#2
+
+end
+

@@ -40,6 +40,6 @@ extern stip_length_type solve_result;
 boolean move_has_solved(void);
 
 #define MOVE_HAS_SOLVED_LENGTH() solve_nr_remaining
-#define MOVE_HAS_NOT_SOLVED_LENGTH() solve_nr_remaining+2
+#define MOVE_HAS_NOT_SOLVED_LENGTH() (solve_nr_remaining+2)
 
 #endif

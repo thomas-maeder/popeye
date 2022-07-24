@@ -208,13 +208,16 @@ commands expect further parameters. Lets start with the simpler commands:
 	SAT
 	StrictSAT
 	Take&MakeChess
+	Make&TakeChess
 	BlackSynchronMover
 	WhiteSynchronMover
 	BlackAntiSynchronMover
 	WhiteAntiSynchronMover
 	Masand
+	MasandGeneralised
 	BGL
 	AnnanChess
+	NannaChess
 	NormalPawn
 	BlackChecks
 	GenevaChess
@@ -246,6 +249,14 @@ commands expect further parameters. Lets start with the simpler commands:
 	ArgentinianChess
 	LostPieces
 	PartialParalysis
+	LeseMajeste
+	Rokagogo
+	Breton
+	PointReflection
+	Bolero
+	BoleroInverse
+	Influencer
+	RoleExchange
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -345,6 +356,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	After the MustCapture, Maximummer and Minimummer conditions,
 	the keyword "Ultra" indicates that the respective Ultra
 	condition is intended.
+
+	After RoleExchange, the maximum number of RoleExchanges can be indicated.
+	Without this indication, the number is unlimited.
 	
 	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
 	PhantomChess and GenevaChess, a number of options can be indicated; the
@@ -443,6 +457,8 @@ commands expect further parameters. Lets start with the simpler commands:
 		AntipodeanImmunChess	ImmunChess Antipodes
 		EquipollentsImmunChess	ImmunChess Equipollents
 
+	After Breton, Adverse can be indicated.
+
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
 
@@ -452,6 +468,8 @@ commands expect further parameters. Lets start with the simpler commands:
 			into consideration. For instance Defence 1 all
 			real tries are calculated.
 	SetPlay         calculate setplay.
+	NullMoves	Allows the moving side to play a null move.
+			Servers for finding tempo tries.
 	Threat          for moremovers: This option must be followed
 			by an integer. The opposit party has defended
 			when there is no threat in less or equal this
@@ -507,9 +525,11 @@ commands expect further parameters. Lets start with the simpler commands:
 			1. This is the most restrictive option.  White
 			forced to play moves that leave black with
 			only one move not met by a s#1.
-	Intelligent     intelligent (quick) solving of helpmate-moremovers.
+	Intelligent     intelligent (quick) solving of help(stale)mate
+			moremovers.
 			After the intelligent option, the maximum number of 
-			solutions per mating position can be given.
+			solutions per (stale)mate position can be given.
+			Note: doesn't find stalemates without king!
 	MaxTime         This option must be followed by an integer. Popeye
 			stops calculating if this number of seconds  
 			solving time are reached.
@@ -544,6 +564,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	
 						{#= }	    {#=  }
 						{!= }	    {!=  }
+						{!# }       {!#  }
 						{00 }	    {00  }
 						{%  }	    {%	 }
 						{~  }	    {~	 }
@@ -726,7 +747,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	3a[#]d & 4hh[#] & 4ad[#]
 
-	The three partial expressions as well as the | expressions
+	The three partial expressions as well as the & expressions
 	belong to the attack group.
 
 
@@ -958,7 +979,7 @@ sstipulation). A little bit more elaborate are the commands
         bn      bouncy nightrider (continues ride by bouncing in any direction from board edge)
 	bo	bob
 	bp      berolina pawn   
-	br      bishop/rook hunter
+	br      bishop/rook hunter		absolute B/R hunter
 	bs      berolina superpawn
 	bt      boyscout
 	bu      root-25-leaper (bucephale)   
@@ -1001,6 +1022,7 @@ sstipulation). A little bit more elaborate are the commands
 	gr      gnurider
 	gt      girlscout
 	ha      hamster
+	hc      ContraHamster
 	k       king
 	ka      kangaroo
 	kh      kinghopper
@@ -1058,7 +1080,7 @@ sstipulation). A little bit more elaborate are the commands
 	rn      rose-lion
 	rp      rose-hopper
 	ro      rose   
-	rr      rook/bishop hunter
+	rr      rook/bishop hunter		absolute R/B hunter
 	rt	rabbit
 	rw      rook sparrow
 	s       knight   
@@ -1093,6 +1115,9 @@ sstipulation). A little bit more elaborate are the commands
                                       in direction of the homebase like an Y;
                                       horizontal moves not allowed
 
+	The "pseudo color" TotalInvisible followed by a positive number
+	may be used to indicate the number of TotalInvisible pieces.
+
 
  - Twin: Solving/testing of positions obtained by small changes of the
 	initial position. The following specifications are supported:
@@ -1111,9 +1136,13 @@ sstipulation). A little bit more elaborate are the commands
 	by pieces of type <piece2>. Colour and further piece specifications
 	(like paralysing etc.) are not affected. Example: twin
 	substitute R B.  All rooks are replaced by bishops.
-    Add <colour> <piecespecs> <type><squarelist>: Add pieces. Example:
-	twin add black para NHa6 - a black paralysing NightriderHopper is
+    Add <colour> <piecespecs> <type><squarelist>: Add pieces - present pieces
+	are replaced.
+	Example: twin add black para NHa6 - a black paralysing NightriderHopper is
 	added on a6. See the basic command "pieces".
+	The "pseudo color" TotalInvisible followed by a positive number can
+	be used to indicate twinning by modification of the number of TotalInvisible
+	pieces.
     Rotate n: Turns the board by n degrees to the left (n=90, 180, 270).
 	Example: twin rotate 180.
     Mirror a1<-->h1: Mirrors the position on the vertical middle line.

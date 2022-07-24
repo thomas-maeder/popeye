@@ -1,5 +1,6 @@
 #include "solving/goals/chess81.h"
 #include "solving/move_effect_journal.h"
+#include "position/effects/utils.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -28,8 +29,10 @@ void goal_chess81_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(CURRMOVE_OF_PLY(nbply)!=nil_coup);
-
+  if (CURRMOVE_OF_PLY(nbply)==nil_coup)
+    /* e.g. dummy move at beginning of threat */
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+  else
   {
     Side const just_moved = advers(SLICE_STARTER(si));
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];

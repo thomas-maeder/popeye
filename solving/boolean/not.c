@@ -7,24 +7,6 @@
 
 #include "debugging/assert.h"
 
-/* Allocate a not slice.
- * @return index of allocated slice
- */
-slice_index alloc_not_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STNot);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

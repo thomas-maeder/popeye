@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-boolean is_variable_output_suppressed = false;
+static boolean is_variable_output_suppressed = false;
 
 #if defined(DEBUG)
 #       define  DBG(x) fprintf x
@@ -49,6 +49,21 @@ void output_plaintext_message(message_id_t id, ...)
     output_plaintext_message(InternalError,id);
 }
 
+static void output_plaintext_error_message_va_list(message_id_t id, va_list args)
+{
+  DBG((stderr, "ErrorMsg(%d) = %s\n", id, output_message_get(id)));
+#if !defined(QUIET)
+  if (id<MsgCount)
+  {
+    protocol_vfprintf(stderr,output_message_get(id),args);
+  }
+  else
+    output_plaintext_error_message(InternalError,id);
+
+  protocol_fflush(stderr);
+#endif
+}
+
 /* Report an error
  * @param id identifies the diagnostic message
  * @param ... additional parameters according the printf() like conversion
@@ -56,20 +71,10 @@ void output_plaintext_message(message_id_t id, ...)
  */
 void output_plaintext_error_message(message_id_t id, ...)
 {
-  DBG((stderr, "ErrorMsg(%d) = %s\n", id, output_message_get(id)));
-#if !defined(QUIET)
-  if (id<MsgCount)
-  {
-    va_list args;
-    va_start(args,id);
-    protocol_vfprintf(stderr,output_message_get(id),args);
-    va_end(args);
-  }
-  else
-    output_plaintext_error_message(InternalError,id);
-
-  protocol_fflush(stderr);
-#endif
+  va_list args;
+  va_start(args,id);
+  output_plaintext_error_message_va_list(id,args);
+  va_end(args);
 }
 
 /* Issue a fatal message
@@ -98,15 +103,18 @@ void output_plaintext_verifie_message(message_id_t id)
 
 /* Issue an input error message
  * @param id identifies the diagnostic message
- * @param val additional parameter according to the printf() conversion
+ * @param ... additional parameters according to the printf() conversion
  *            specifier in message id
  */
-void output_plaintext_input_error_message(message_id_t n, int val)
+void output_plaintext_input_error_message(message_id_t n, ...)
 {
 #if !defined(QUIET)
+  va_list args;
   protocol_fflush(stdout);
-  output_plaintext_error_message(InputError,val);
-  output_plaintext_error_message(n);
+  output_plaintext_error_message(InputError);
+  va_start(args,n);
+  output_plaintext_error_message_va_list(n,args);
+  va_end(args);
   protocol_fputc('\n',stderr);
   output_plaintext_error_message(OffendingItem,InputLine);
   protocol_fputc('\n',stderr);

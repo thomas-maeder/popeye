@@ -80,6 +80,7 @@ static slice_type const fork_slice_types[] =
     STCheckTesterFork,
     STTrivialEndFilter,
     STNullMovePlayer,
+    STRoleExchangeMovePlayer,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,
@@ -172,6 +173,7 @@ static slice_type const proxy_slice_types[] =
     STGoalStalemateReachedTester,
     STGoalDoubleStalemateReachedTester,
     STGoalAutoStalemateReachedTester,
+    STGoalAutoMateReachedTester,
     STImmobilityTester,
     STGeneratingMoves,
     STExecutingKingCapture,
@@ -231,7 +233,8 @@ static slice_type const move_generator_slice_types[] =
     STOrthodoxMatingMoveGenerator,
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,
-    STBlackChecksNullMoveGenerator
+    STNullMoveGenerator,
+    STRoleExchangeMoveGenerator
 };
 
 static slice_type const move_reordering_optimiser_slice_types[] =
@@ -262,6 +265,7 @@ static slice_type const binary_slice_types[] =
     STRefutationsSolver,
     STThreatSolver,
     STNullMovePlayer,
+    STRoleExchangeMovePlayer,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,

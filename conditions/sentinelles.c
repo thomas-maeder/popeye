@@ -4,10 +4,11 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/has_solution_type.h"
-#include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/effects/piece_creation.h"
+#include "position/effects/piece_movement.h"
 
 #include "debugging/assert.h"
 
@@ -30,7 +31,7 @@ static void insert_sentinelle(Side trait_ply)
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
-  if (!TSTFLAGMASK(sq_spec[sq_departure],prom_square)
+  if (!TSTFLAGMASK(sq_spec(sq_departure),prom_square)
       && !is_pawn(pi_departing)
       && is_square_empty(sq_departure))
   {

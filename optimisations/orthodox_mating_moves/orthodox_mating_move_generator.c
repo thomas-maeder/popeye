@@ -59,7 +59,7 @@ static boolean IsABattery(square KingSquare,
 
 static numvec detect_directed_battery(square sq_king, Side side, piece_walk_type rider)
 {
-  numvec const dir_battery = CheckDir[rider][sq_king-curr_generation->departure];
+  numvec const dir_battery = CheckDir(rider)[sq_king-curr_generation->departure];
   numvec result;
 
   TraceFunctionEntry(__func__);
@@ -121,13 +121,13 @@ static void pawn_no_capture(numvec dir_battery, square sq_king, Side side)
         || curr_generation->arrival+dir_forward+dir_left == sq_king
         || curr_generation->arrival+dir_forward+dir_right == sq_king
         || (ForwardPromSq(side,curr_generation->arrival)
-            && (CheckDir[Queen][sq_king-curr_generation->arrival]
-                || CheckDir[Knight][sq_king-curr_generation->arrival])))
-      push_move();
+            && (CheckDir(Queen)[sq_king-curr_generation->arrival]
+                || CheckDir(Knight)[sq_king-curr_generation->arrival])))
+      push_move_no_capture();
 
     {
       SquareFlags const double_step = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
-      if (TSTFLAG(sq_spec[sq_departure],double_step))
+      if (TSTFLAG(sq_spec(sq_departure),double_step))
       {
         curr_generation->arrival += dir_forward;
         if (is_square_empty(curr_generation->arrival)
@@ -151,16 +151,16 @@ static void pawn_capture(Side side, numvec dir_battery, square sq_king, numvec l
         || curr_generation->arrival+dir_forward+dir_left == sq_king
         || curr_generation->arrival+dir_forward+dir_right == sq_king
         || (ForwardPromSq(side,curr_generation->arrival)
-            && (CheckDir[Queen][sq_king-curr_generation->arrival]
-                || CheckDir[Knight][sq_king-curr_generation->arrival])))
-      push_move();
+            && (CheckDir(Queen)[sq_king-curr_generation->arrival]
+                || CheckDir(Knight)[sq_king-curr_generation->arrival])))
+      push_move_regular_capture();
 }
 
 static void pawn(square sq_king, Side side)
 {
   SquareFlags const base_square = side==White ? WhBaseSq : BlBaseSq;
 
-  if (!TSTFLAG(sq_spec[curr_generation->departure],base_square))
+  if (!TSTFLAG(sq_spec(curr_generation->departure),base_square))
   {
     numvec const abs_dir_battery = detect_battery(sq_king,side);
 
@@ -182,7 +182,7 @@ static void king_neutral(Side side)
     curr_generation->arrival = curr_generation->departure+vec[vec_index];
     /* must capture to mate the opponent */
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -205,10 +205,13 @@ static void king_nonneutral(square sq_king, Side side)
       if (abs(dir)!=abs_dir_battery)
       {
         curr_generation->arrival = curr_generation->departure+dir;
-        if ((is_square_empty(curr_generation->arrival)
-             || piece_belongs_to_opponent(curr_generation->arrival))
-            && move_diff_code[abs(sq_king-curr_generation->arrival)]>1+1) /* no contact */
-          push_move();
+        if (move_diff_code[abs(sq_king-curr_generation->arrival)]>1+1)
+        {
+          if (is_square_empty(curr_generation->arrival))
+            push_move_no_capture();
+          else if (piece_belongs_to_opponent(curr_generation->arrival))
+            push_move_regular_capture();
+        }
       }
     }
   }
@@ -257,10 +260,13 @@ static void knight(square sq_king, Side side)
       for (vec_index = vec_knight_start; vec_index<=vec_knight_end; ++vec_index)
       {
         curr_generation->arrival = sq_departure+vec[vec_index];
-        if (is_square_empty(curr_generation->arrival)
-            || piece_belongs_to_opponent(curr_generation->arrival))
-          if (abs_dir_battery!=0 || CheckDir[Knight][curr_generation->arrival-sq_king]!=0)
-            push_move();
+        if (abs_dir_battery!=0 || CheckDir(Knight)[curr_generation->arrival-sq_king]!=0)
+        {
+          if (is_square_empty(curr_generation->arrival))
+            push_move_no_capture();
+          else if (piece_belongs_to_opponent(curr_generation->arrival))
+            push_move_regular_capture();
+        }
       }
     }
   }
@@ -280,7 +286,24 @@ static void rider_try_moving_to(square sq_king, numvec dir_to_king)
 
   sq_target = find_end_of_line(curr_generation->arrival,dir_to_king);
   if (sq_target==sq_king)
-    push_move();
+    push_move_no_capture();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void rider_try_capturing_on(square sq_king, numvec dir_to_king)
+{
+  square sq_target;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TraceValue("%d",dir_to_king);
+  TraceFunctionParamListEnd();
+
+  sq_target = find_end_of_line(curr_generation->arrival,dir_to_king);
+  if (sq_target==sq_king)
+    push_move_regular_capture();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -288,7 +311,7 @@ static void rider_try_moving_to(square sq_king, numvec dir_to_king)
 
 static void queen_try_moving_to(square sq_king)
 {
-  numvec const dir_to_king = CheckDir[Queen][sq_king-curr_generation->arrival];
+  numvec const dir_to_king = CheckDir(Queen)[sq_king-curr_generation->arrival];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
@@ -296,6 +319,21 @@ static void queen_try_moving_to(square sq_king)
 
   if (dir_to_king!=0)
     rider_try_moving_to(sq_king,dir_to_king);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void queen_try_capturing_on(square sq_king)
+{
+  numvec const dir_to_king = CheckDir(Queen)[sq_king-curr_generation->arrival];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TraceFunctionParamListEnd();
+
+  if (dir_to_king!=0)
+    rider_try_capturing_on(sq_king,dir_to_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -319,7 +357,7 @@ static void queen(square sq_king, Side side)
       queen_try_moving_to(sq_king);
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      queen_try_moving_to(sq_king);
+      queen_try_capturing_on(sq_king);
   }
 
   TraceFunctionExit(__func__);
@@ -338,10 +376,10 @@ static void simple_rider_fire_battery(Side side,
     for (curr_generation->arrival = curr_generation->departure+dir;
          is_square_empty(curr_generation->arrival);
          curr_generation->arrival += dir)
-      push_move();
+      push_move_no_capture();
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_move_regular_capture();
   }
 }
 
@@ -351,7 +389,7 @@ static void simple_rider_directly_approach_king(square sq_king,
 {
   curr_generation->arrival = find_end_of_line(curr_generation->departure,dir_to_king);
   if (piece_belongs_to_opponent(curr_generation->arrival))
-    rider_try_moving_to(sq_king,dir_to_king);
+    rider_try_capturing_on(sq_king,dir_to_king);
 }
 
 static void simple_rider_indirectly_approach_king(square sq_king,
@@ -371,18 +409,21 @@ static void simple_rider_indirectly_approach_king(square sq_king,
         && move_diff_code[abs(curr_generation->arrival-sq_king)]<OriginalDistance)
     {
       /* The rider must move closer to the king! */
-      numvec dir_to_king = CheckDir[rider_walk][sq_king-curr_generation->arrival];
+      numvec dir_to_king = CheckDir(rider_walk)[sq_king-curr_generation->arrival];
       while (dir_to_king==0 && is_square_empty(curr_generation->arrival))
       {
         curr_generation->arrival += dir;
-        dir_to_king = CheckDir[rider_walk][sq_king-curr_generation->arrival];
+        dir_to_king = CheckDir(rider_walk)[sq_king-curr_generation->arrival];
       }
 
       /* We are at the end of the line or in checking distance */
-      if (dir_to_king!=0
-          && (is_square_empty(curr_generation->arrival)
-              || piece_belongs_to_opponent(curr_generation->arrival)))
-        rider_try_moving_to(sq_king,dir_to_king);
+      if (dir_to_king!=0)
+      {
+        if (is_square_empty(curr_generation->arrival))
+          rider_try_moving_to(sq_king,dir_to_king);
+        else if (piece_belongs_to_opponent(curr_generation->arrival))
+          rider_try_capturing_on(sq_king,dir_to_king);
+      }
     }
   }
 }
@@ -395,7 +436,7 @@ static void rook(square sq_king, Side side)
     simple_rider_fire_battery(side,vec_rook_start,vec_rook_end);
   else
   {
-    numvec const dir_to_king = CheckDir[Rook][sq_king-curr_generation->departure];
+    numvec const dir_to_king = CheckDir(Rook)[sq_king-curr_generation->departure];
     if (dir_to_king==0)
       simple_rider_indirectly_approach_king(sq_king,side,
                                             vec_rook_start,vec_rook_end,
@@ -414,7 +455,7 @@ static void bishop(square sq_king, Side side)
     simple_rider_fire_battery(side,vec_bishop_start,vec_bishop_end);
   else if (SquareCol(sq_departure)==SquareCol(sq_king))
   {
-    numvec const dir_to_king = CheckDir[Bishop][sq_king-sq_departure];
+    numvec const dir_to_king = CheckDir(Bishop)[sq_king-sq_departure];
     if (dir_to_king==0)
       simple_rider_indirectly_approach_king(sq_king,side,
                                             vec_bishop_start,vec_bishop_end,
@@ -424,7 +465,7 @@ static void bishop(square sq_king, Side side)
   }
 }
 
-static void generate_move_reaching_goal()
+static void generate_move_reaching_goal(void)
 {
   square square_a = square_a1;
   Side const side_at_move = trait[nbply];

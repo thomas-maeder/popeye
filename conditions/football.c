@@ -5,7 +5,8 @@
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
+#include "position/effects/walk_change.h"
+#include "position/effects/utils.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -33,7 +34,7 @@ void init_football_substitutes(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
- if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+  if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
     first_candidate = King;
   else if ((CondFlag[singlebox] && SingleBoxType!=ConditionType1) || CondFlag[football])
     first_candidate = Pawn;

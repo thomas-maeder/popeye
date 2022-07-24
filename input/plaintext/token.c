@@ -113,7 +113,7 @@ static void NextChar(void)
       LastChar = ' ';
     else
     {
-      LastChar = ch;
+      LastChar = (char)ch;
       if (InputMirror!=Input)
         fputc(ch,InputMirror);
     }
@@ -155,7 +155,7 @@ char *ReadNextTokStr(void)
     do {
       *p++ = LastChar;
       *t++ = LastChar;
-      /* *t++= (isupper(ch)?tolower(ch):ch);  */
+      /* *t++= tolower((unsigned char)ch);  */
       /* EBCDIC support ! HD */
       NextChar();
     } while (strchr(TokenChar,LastChar));
@@ -194,7 +194,7 @@ char *ReadNextTokStr(void)
 boolean token_starts_with(char const *start, char const *token)
 {
   while (*start)
-    if (tolower(*start++)!=tolower(*token++))
+    if (tolower((unsigned char)*start++)!=tolower((unsigned char)*token++))
       return false;
 
   return true;
@@ -210,7 +210,7 @@ static boolean token_matches_start_of_keyword(char const *keyword,
                                               char const *token)
 {
   while (*token)
-    if (tolower(*keyword++)!=tolower(*token++))
+    if (tolower((unsigned char)*keyword++)!=tolower((unsigned char)*token++))
       return false;
 
   return true;

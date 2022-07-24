@@ -4,12 +4,14 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
+#include "position/effects/piece_readdition.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -42,8 +44,8 @@ static boolean find_promotion_in_wormhole(square sq_arrival)
   boolean result = false;
 
   for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_change
-        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    if (move_effect_journal[curr].type==move_effect_walk_change
+        && move_effect_journal[curr].u.piece_walk_change.on==sq_arrival)
     {
       result = true;
       break;
@@ -146,12 +148,12 @@ void wormhole_transferer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);
-  TraceValue("%u",TSTFLAG(sq_spec[sq_arrival],Wormhole));
+  TraceValue("%u",TSTFLAG(sq_spec(sq_arrival),Wormhole));
   TraceEOL();
 
   if (!post_move_am_i_iterating())
   {
-    if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
+    if (TSTFLAG(sq_spec(sq_arrival),Wormhole))
     {
       wormhole_next_transfer[nbply] = 0;
       advance_wormhole(sq_departure,sq_arrival);
@@ -187,9 +189,9 @@ static boolean is_move_allowed(numecoup n)
    * - they are hard to detect without having played them
    */
 
-  if (TSTFLAG(sq_spec[sq_departure],Wormhole))
+  if (TSTFLAG(sq_spec(sq_departure),Wormhole))
     result = true;
-  else if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
+  else if (TSTFLAG(sq_spec(sq_arrival),Wormhole))
   {
     unsigned int i;
     for (i = 0; i!=nr_wormholes; ++i)
@@ -306,7 +308,7 @@ void wormhole_initialse_solving(slice_index si)
   {
     square s;
     for (s = square_a1; s<=square_h8; ++s)
-      if (TSTFLAG(sq_spec[s],Wormhole))
+      if (TSTFLAG(sq_spec(s),Wormhole))
       {
         wormhole_positions[nr_wormholes] = s;
         ++nr_wormholes;

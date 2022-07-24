@@ -12,7 +12,7 @@
 typedef struct
 {
     FILE *file;
-    int nr_chars_written;
+    unsigned int nr_chars_written;
     stip_length_type length;
     structure_traversal_level_type branch_level;
     Goal reci_goal;
@@ -20,15 +20,25 @@ typedef struct
 
 static boolean is_pser(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const ifelse = branch_find_slice(STIfThenElse,si,st->context);
-  return ifelse!=no_slice;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STIfThenElse,si,st->context)!=no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void write_attack(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -36,17 +46,17 @@ static void write_attack(slice_index si, stip_structure_traversal *st)
   if (st->level==structure_traversal_level_top
       && state->length>slack_length+2
       && SLICE_U(si).branch.min_length==state->length-1)
-    state->nr_chars_written += fprintf(state->file,"%s","exact-");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","exact-");
 
   if (is_pser(si,st))
-    state->nr_chars_written += fprintf(state->file,"%s","pser-");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","pser-");
 
   stip_traverse_structure_children(si,st);
 
   if (st->level==structure_traversal_level_top)
-    state->nr_chars_written += fprintf(state->file,
-                                                "%u",
-                                                (SLICE_U(si).branch.length+1)/2);
+    state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                     "%u",
+                                                     (SLICE_U(si).branch.length+1)/2);
 
   state->length = save_length;
   state->branch_level = save_level;
@@ -56,7 +66,7 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
-  structure_traversal_level_type const save_level = state->branch_level;;
+  structure_traversal_level_type const save_level = state->branch_level;
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -64,9 +74,9 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   if (st->level==structure_traversal_level_top)
-    state->nr_chars_written += fprintf(state->file,
-                                                "%u",
-                                                SLICE_U(si).branch.length/2+1);
+    state->nr_chars_written += (unsigned int)fprintf(state->file,
+                                                     "%u",
+                                                     SLICE_U(si).branch.length/2+1);
 
   state->length = save_length;
   state->branch_level = save_level;
@@ -74,31 +84,64 @@ static void write_defense(slice_index si, stip_structure_traversal *st)
 
 static boolean is_series(slice_index si)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si,stip_traversal_context_help);
+  assert(ready1!=no_slice);
   slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-  return ready1==ready2;
+  result = ready1==ready2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_intro_series(slice_index si)
 {
-  slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
-  if (end!=no_slice)
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
-    slice_index const ready1 = branch_find_slice(STReadyForHelpMove,SLICE_NEXT2(end),stip_traversal_context_intro);
-    if (ready1!=no_slice)
+    slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
+    if (end!=no_slice)
     {
-      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
-      return ready1==ready2;
+      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,SLICE_NEXT2(end),stip_traversal_context_intro);
+      if (ready1!=no_slice)
+      {
+        slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1,stip_traversal_context_help);
+        if (ready1==ready2)
+          result = true;
+        else
+        {
+          // TODO this is a hack to correctly deal with pser intro series
+          result = branch_find_slice(STIfThenElse,ready2,stip_traversal_context_help)!=no_slice;
+        }
+      }
     }
   }
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_help_play_implicit(slice_index si, stip_structure_traversal *st)
 {
   boolean result = false;
   state_type const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if(state->branch_level==structure_traversal_level_top)
   {
@@ -118,24 +161,44 @@ static boolean is_help_play_implicit(slice_index si, stip_structure_traversal *s
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
 static boolean is_help_reci(slice_index si)
 {
-  slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
-  if (end!=no_slice)
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
-    slice_index const and = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
-    return and!=no_slice;
+    slice_index const end = branch_find_slice(STEndOfBranch,si,stip_traversal_context_help);
+    if (end!=no_slice)
+    {
+      slice_index const and_slice = branch_find_slice(STAnd,SLICE_NEXT2(end),stip_traversal_context_intro);
+      result = and_slice!=no_slice;
+    }
+    else
+      result = false;
   }
-  else
-    return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void write_help(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (state->reci_goal.type!=no_goal)
     stip_traverse_structure_children(si,st);
@@ -144,11 +207,11 @@ static void write_help(slice_index si, stip_structure_traversal *st)
     if (st->level==structure_traversal_level_top
         && state->length>slack_length+2
         && SLICE_U(si).branch.min_length>=state->length-1)
-      state->nr_chars_written += fprintf(state->file,"%s","exact-");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","exact-");
 
     if (is_help_reci(si))
     {
-      state->nr_chars_written += fprintf(state->file,"%s", "reci-");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s", "reci-");
       state->length += 2;
     }
 
@@ -157,69 +220,80 @@ static void write_help(slice_index si, stip_structure_traversal *st)
       if (branch_find_slice(STEndOfBranchGoal,si,stip_traversal_context_help)!=no_slice
           || branch_find_slice(STEndOfBranchGoalImmobile,si,stip_traversal_context_help)!=no_slice)
       {
-        state->nr_chars_written += fprintf(state->file,"%s","phser-");
+        state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","phser-");
         ++state->length;
       }
       else if (branch_find_slice(STEndOfBranchForced,si,stip_traversal_context_help)!=no_slice)
-        state->nr_chars_written += fprintf(state->file,"%s","phser-");
+        state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","phser-");
       else
       {
-        state->nr_chars_written += fprintf(state->file,"%s","pser-");
+        state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","pser-");
         ++state->length;
       }
     }
     else if (!is_help_play_implicit(si,st))
-      state->nr_chars_written += fprintf(state->file,"%s", "h");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s", "h");
 
     stip_traverse_structure_children(si,st);
 
-    if (st->level==structure_traversal_level_top)
+    if (st->level==structure_traversal_level_top
+        || is_pser(si,st)) // TODO this is a hack to correctly deal with pser stipulations
     {
-      state->nr_chars_written += fprintf(state->file,"%u",state->length/2);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
       if (state->length%2==1)
-        state->nr_chars_written += fprintf(state->file,"%s",".5");
+        state->nr_chars_written += (unsigned int)fprintf(state->file,"%s",".5");
     }
     else
     {
       /* h part of a ser-h - no need to write length */
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_series(slice_index si, stip_structure_traversal *st)
 {
   state_type * const state = st->param;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   if (st->level==structure_traversal_level_top
       && state->length>slack_length+2
       && SLICE_U(si).branch.min_length>=state->length-1)
-    state->nr_chars_written += fprintf(state->file,"%s","exact-");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","exact-");
 
   if (is_intro_series(si))
   {
     if (state->length%2==1)
-      state->nr_chars_written += fprintf(state->file,"%u",(state->length+1)/2);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",(state->length+1)/2);
     else if (state->length>1)
-      state->nr_chars_written += fprintf(state->file,"%u",state->length/2);
-    state->nr_chars_written += fprintf(state->file,"%s","->");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","->");
     stip_traverse_structure_children(si,st);
   }
   else
   {
-    state->nr_chars_written += fprintf(state->file,"%s", "ser-");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s", "ser-");
 
     if (is_help_reci(si))
     {
-      state->nr_chars_written += fprintf(state->file,"%s", "reci-h");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s", "reci-h");
       state->length += 2;
     }
 
     stip_traverse_structure_children(si,st);
     if (state->length%2==1)
-      state->nr_chars_written += fprintf(state->file,"%u",(state->length+1)/2);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",(state->length+1)/2);
     else if (state->length>1)
-      state->nr_chars_written += fprintf(state->file,"%u",state->length/2);
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",state->length/2);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_help_adapter(slice_index si, stip_structure_traversal *st)
@@ -227,6 +301,10 @@ static void write_help_adapter(slice_index si, stip_structure_traversal *st)
   state_type * const state = st->param;
   stip_length_type const save_length = state->length;
   structure_traversal_level_type const save_level = state->branch_level;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   state->branch_level = st->level;
   state->length = SLICE_U(si).branch.length;
@@ -238,6 +316,9 @@ static void write_help_adapter(slice_index si, stip_structure_traversal *st)
 
   state->length = save_length;
   state->branch_level = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean skip_quodlibet_direct(slice_index si, stip_structure_traversal *st)
@@ -259,7 +340,7 @@ static void write_end_goal(slice_index si, stip_structure_traversal *st)
   {
     if (st->context==stip_traversal_context_attack)
     {
-      state->nr_chars_written += fprintf(state->file,"%s","s");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","s");
       ++state->length;
     }
 
@@ -305,36 +386,36 @@ static void write_end_forced(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense)
   {
     if (!is_attack_constrained(si,st) && state->length>slack_length)
-      state->nr_chars_written += fprintf(state->file,"%s","semi-");
-    state->nr_chars_written += fprintf(state->file,"%s","r");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","semi-");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","r");
   }
   else if (st->context==stip_traversal_context_help)
   {
     boolean const is_self = branch_find_slice(STDefenseAdapter,SLICE_NEXT2(si),stip_traversal_context_intro)!=no_slice;
     if (!is_self)
-      state->nr_chars_written += fprintf(state->file,"%s","r");
+      state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","r");
     ++state->length;
   }
 
   stip_traverse_structure_children(si,st);
 }
 
-static int WriteSquare(FILE *file, square s)
+static unsigned int WriteSquare(FILE *file, square s)
 {
-  int result = 0;
+  unsigned int result = 0;
 
   /* TODO avoid duplication with WriteSquare() */
-  result += fprintf(file,"%c",('a' - nr_files_on_board + s%onerow));
-  result += fprintf(file,"%c",('1' - nr_rows_on_board + s/onerow));
+  result += (unsigned int)fprintf(file,"%c",(int)getBoardFileLabel((s%onerow) - nr_files_on_board));
+  result += (unsigned int)fprintf(file,"%c",(int)getBoardRowLabel((s/onerow) - nr_rows_on_board));
 
   return result;
 }
 
-static int WriteGoal(FILE *file, Goal goal)
+static unsigned int WriteGoal(FILE *file, Goal goal)
 {
-  int result = 0;
+  unsigned int result = 0;
 
-  result += fprintf(file,"%s",get_goal_symbol(goal.type));
+  result += (unsigned int)fprintf(file,"%s",get_goal_symbol(goal.type));
   if (goal.type==goal_target || goal.type==goal_kiss)
     result += WriteSquare(file,goal.target);
 
@@ -350,9 +431,9 @@ static void write_goal_reached(slice_index si, stip_structure_traversal *st)
       && (state->reci_goal.type!=goal.type
           || (goal.type==goal_target && state->reci_goal.target!=goal.target)))
   {
-    state->nr_chars_written += fprintf(state->file,"%s","(");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","(");
     state->nr_chars_written += WriteGoal(state->file,state->reci_goal);
-    state->nr_chars_written += fprintf(state->file,"%s",")");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s",")");
   }
 
   state->nr_chars_written += WriteGoal(state->file,goal);
@@ -383,9 +464,9 @@ static void write_and(slice_index si, stip_structure_traversal *st)
 
   if (st->level==structure_traversal_level_top)
   {
-    state->nr_chars_written += fprintf(state->file,"%s","reci-h");
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%s","reci-h");
     write_reci_goal(si,st);
-    state->nr_chars_written += fprintf(state->file,"%u",1);
+    state->nr_chars_written += (unsigned int)fprintf(state->file,"%u",1u);
   }
   else
     write_reci_goal(si,st);
@@ -409,7 +490,7 @@ enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-int WriteStipulation(FILE *file, slice_index stipulation)
+unsigned int WriteStipulation(FILE *file, slice_index stipulation)
 {
   state_type state = { file, 0, UINT_MAX, structure_traversal_level_top, { no_goal, initsquare } };
 

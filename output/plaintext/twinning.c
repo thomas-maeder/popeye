@@ -61,6 +61,10 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
 
     case condition_end:
       break;
+
+    default:
+      assert(0);
+      break;
   }
 }
 
@@ -207,9 +211,9 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.from);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_walk_change.from);
   protocol_fprintf(stdout,"%s"," ==> ");
-  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.to);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_walk_change.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 
@@ -218,10 +222,10 @@ static void WriteTwinLetter(unsigned int twin_number, boolean continued)
   if (continued)
     protocol_fputc('+',stdout);
 
-  if (twin_number-twin_a<='z'-'a')
-    protocol_fprintf(stdout,"%c) ", 'a'+twin_number-twin_a);
+  if ((twin_number-twin_a)<nr_twin_labels)
+    protocol_fprintf(stdout,"%c) ", (int)getTwinLabel(twin_number-twin_a));
   else
-    protocol_fprintf(stdout,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    protocol_fprintf(stdout,"z%u) ", (unsigned int)((twin_number-twin_a)-(nr_twin_labels-1)));
 }
 
 static void WriteTwinning(boolean continued)
@@ -281,7 +285,7 @@ static void WriteTwinning(boolean continued)
         protocol_fprintf(stdout,"%s","  ");
         break;
 
-      case move_effect_twinning_polish:
+      case move_effect_total_side_exchange:
         WritePolish(curr);
         break;
 
@@ -289,7 +293,7 @@ static void WriteTwinning(boolean continued)
         WriteSubstitute(curr);
         break;
 
-      case move_effect_piece_change:
+      case move_effect_walk_change:
         /* no need for output - this only occurs as part of move_effect_twinning_substitute */
         break;
 
@@ -301,6 +305,7 @@ static void WriteTwinning(boolean continued)
       case move_effect_snapshot_proofgame_target_position:
       case move_effect_atob_reset_position_for_target:
       case move_effect_remove_stipulation:
+      case move_effect_hunter_type_definition:
         break;
 
       default:
@@ -451,7 +456,7 @@ slice_index output_plaintext_alloc_twin_intro_writer_builder(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder),
+  result = alloc_pipe(STOutputPlaintextTwinIntroWriterBuilder);
   SLICE_U(result).twinning_event_handler.handler = &handle_twinning_event;
 
   TraceFunctionExit(__func__);

@@ -37,20 +37,21 @@ output/mode.enum.h:
 
 output/mode.enum:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h optimisations/hash.h \
- DHT/dhtbcmem.h pieces/pieces.h solving/machinery/solve.h \
+ platform/maxtime.h utilities/boolean.h platform/platform.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum optimisations/hash.h \
+ DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
  debugging/trace.h solving/ply.h solving/move_effect_journal.h \
  position/castling_rights.h position/pieceid.h solving/move_generator.h \
- output/plaintext/plaintext.h output/output.h output/plaintext/position.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h output/plaintext/pieces.h \
- output/plaintext/protocol.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h
+ debugging/measure.h output/plaintext/plaintext.h output/output.h \
+ output/plaintext/position.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum pieces/walks/vectors.h \
+ output/plaintext/pieces.h output/plaintext/protocol.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 platform/maxtime_impl.h:
 
@@ -58,13 +59,7 @@ platform/maxtime.h:
 
 utilities/boolean.h:
 
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
-
-pieces/pieces.h:
-
-solving/machinery/solve.h:
+platform/platform.h:
 
 stipulation/stipulation.h:
 
@@ -86,11 +81,19 @@ position/side.enum.h:
 
 position/side.enum:
 
+pieces/pieces.h:
+
 output/mode.h:
 
 output/mode.enum.h:
 
 output/mode.enum:
+
+optimisations/hash.h:
+
+DHT/dhtbcmem.h:
+
+solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
@@ -105,6 +108,8 @@ position/castling_rights.h:
 position/pieceid.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
 
 output/plaintext/plaintext.h:
 

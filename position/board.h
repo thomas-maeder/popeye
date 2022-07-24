@@ -192,38 +192,55 @@ typedef enum
   Wormhole,           /* 13 */
   Grid,               /* 14 */
 
-  nrSquareFlags
+  nrSquareFlags,
+  allSquareFlagsSet = (1U<<nrSquareFlags)-1
 } SquareFlags;
 
 enum
 {
-  /* the following values are used instead of capture square
+  /* the following values are used instead of departure or capture square
    * to indicate special moves */
-  messigny_exchange = maxsquare+1,
 
-  min_castling = maxsquare+2,
-  kingside_castling = min_castling,
-  queenside_castling = maxsquare+3,
-  max_castling = queenside_castling,
+  capture_by_invisible = maxsquare,
 
-  retro_capture_departure = maxsquare+4,
-  pawn_multistep = maxsquare  /* must refer to a square that is always empty */
+  retro_capture_departure,
+
+  pawn_multistep,
+
+  messigny_exchange,
+
+  kingside_castling,
+  queenside_castling,
+
+  move_by_invisible,
+
+  move_role_exchange,
+
+  no_capture /* This needs to be the last value. */
+};
+
+enum
+{
+  min_castling = kingside_castling,
+  max_castling = queenside_castling
 };
 
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
-#define sq_spec         (zzzan - square_a1)
+#define sq_spec(n)      (zzzan[(n) - square_a1])
 
 extern int         zzzao[square_h8 - square_a1 + 1];
-#define sq_num          (zzzao - square_a1)
+#define sq_num(n)       (zzzao[(n) - square_a1])
 
-#define NoEdge(i)       TSTFLAG(sq_spec[(i)], NoEdgeSq)
-#define SquareCol(i)    TSTFLAG(sq_spec[(i)], SqColor)
-#define GridNum(s)      (sq_spec[(s)] >> Grid)
-#define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
+#define NoEdge(i)       TSTFLAG(sq_spec(i), NoEdgeSq)
+#define SquareCol(i)    TSTFLAG(sq_spec(i), SqColor)
+#define GridNum(s)      (sq_spec(s) >> Grid)
+#define ClearGridNum(s) (sq_spec(s) &= ((1<<Grid)-1))
+
+#define is_no_capture(sq_capture) ((sq_capture)>=pawn_multistep)
 
 #define is_on_board(sq) \
-   (left_file<=(sq)%onerow && (sq)%onerow<=right_file \
-    && bottom_row<=(sq)/onerow && (sq)/onerow<=top_row)
+   ((square_a1<=(sq)) && ((sq)<=square_h8) && \
+    (left_file<=((sq)%onerow)) && (((sq)%onerow)<=right_file))
 
 /* Calculate a square transformation
  * @param sq square to be reflected
@@ -235,5 +252,12 @@ square transformSquare(square sq, SquareTransformation transformation);
 /* 0 terminated sequence of the effective squares of the board
  */
 extern square const boardnum[65];
+
+typedef unsigned char board_label_type;
+
+extern board_label_type getBoardFileLabel(unsigned int index); /* index should be in [0, nr_files_on_board-1] */
+extern board_label_type getBoardRowLabel(unsigned int index); /* index should be in [0, nr_rows_on_board-1] */
+extern unsigned int getBoardFileIndex(board_label_type label); /* returns nr_files_on_board if label is invalid */
+extern unsigned int getBoardRowIndex(board_label_type label); /* returns nr_rows_on_board if label is invalid */
 
 #endif

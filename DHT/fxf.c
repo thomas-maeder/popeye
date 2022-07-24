@@ -10,16 +10,38 @@
 #else
 #  include <memory.h>
 #  if defined(DBMALLOC)
-#    include "dbmalloc.h"
+#    include <dbmalloc.h>
 #  endif /*DBMALLOC*/
 #endif /*__TURBOC__*/
 
 #include "fxf.h"
 
-#if !defined(Nil) && !defined(New) && !defined(nNew)
-#  define Nil(type)      (type *)0
-#  define New(type)      (type *)malloc(sizeof(type))
-#  define nNew(n, type)  (type *)malloc((n)*sizeof(type))
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
+    (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
+#  include <stddef.h>
+   typedef ptrdiff_t ptrdiff_t_printf_type;
+   typedef size_t size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "td"
+#  define SIZE_T_PRINTF_SPECIFIER "zu"
+#elif defined(LLONG_MAX) /* We have long long integer types. */
+   typedef long long int ptrdiff_t_printf_type;
+   typedef unsigned long long int size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "lld"
+#  define SIZE_T_PRINTF_SPECIFIER "llu"
+#else /* We don't have long long integer types. */
+   typedef long int ptrdiff_t_printf_type;
+   typedef unsigned long int size_t_printf_type;
+#  define PTRDIFF_T_PRINTF_SPECIFIER "ld"
+#  define SIZE_T_PRINTF_SPECIFIER "lu"
+#endif
+
+#if !defined(Nil) && !defined(New) && !defined(nNew) /* TODO: Is this the correct check for all of the below lines? */
+#  define Nil(type)      ((type *)0)
+#  define New(type)      ((type *)malloc(sizeof(type)))
+#  define nNew(n, type)  ((type *)nNewImpl(n,sizeof(type)))
+static inline void * nNewImpl(size_t const nmemb, size_t const size) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : malloc(nmemb*size));
+}
 #endif /*Nil*/
 
 /*#define DEBUG*/
@@ -49,9 +71,9 @@
  * allocation/delallocation of fixed sized blocks of memory. For
  * each size of memory we keep a head pointer and all freed chunks
  * of memory is threaded on this list. If memory of this size
- * is requested, we drag it from the list, otherwise we carf it
+ * is requested, we drag it from the list, otherwise we carve it
  * from larger preallocated (via malloc) chunks of memory. If
- * the sizes between allocation and deallocation vary to often,
+ * the sizes between allocation and deallocation vary too often,
  * this package is lost in fragmented memory.
  */
 
@@ -80,9 +102,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  (size_t)1024
+#define fxfMAXSIZE  ((size_t)1024)
 #else
-#define fxfMAXSIZE  (size_t)2048  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  ((size_t)2048)  /* this is needed only when sizeof(void*)==8 */
 #endif
 
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -111,133 +133,185 @@ static char *TopFreePtr;
 
 
 #if defined(FREEMAP) && !defined(SEGMENTED)
-static unsigned int *FreeMap;
-#define  Bit(x)    (1<<((x)&31))
-#define  LeftMask(x)  (-1<<((x)&31))
-#define  SetFreeBit(x)  FreeMap[(x)>>5]|= Bit(x)
-#define ClrFreeBit(x)  FreeMap[(x)>>5]&= ~Bit(x)
-#define  MAC_SetRange(x,l)  {                       \
-    int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
-    if (xi==yi)                                     \
-      FreeMap[xi]|= LeftMask(x) & (~LeftMask(y));   \
-    else {                                          \
-      int i;                                        \
-      FreeMap[xi]|= LeftMask(x);                    \
-      FreeMap[yi]|= ~LeftMask(y);                   \
-      yi--;                                         \
-      for (i=xi+1; i<yi; i++)                       \
-        FreeMap[i]= -1;                             \
-    }                                               \
-  }
-#define  MAC_ClrRange(x,l)  {                       \
-    int xi= (x)>>5, y= x+l, yi= (y)>>5;             \
-    if (xi==yi)                                     \
-      FreeMap[xi]&= (~LeftMask(x)) | LeftMask(y);   \
-    else {                                          \
-      int i;                                        \
-      FreeMap[xi]&= ~LeftMask(x);                   \
-      FreeMap[yi]&= LeftMask(y);                    \
-      yi--;                                         \
-      for (i=xi+1; i<yi; i++)                       \
-        FreeMap[i]= 0;                              \
-    }                                               \
-  }
+#if UINT_MAX < 0xFFFFFFFFU
+typedef unsigned long int FreeMapType;
+#else
+typedef unsigned int FreeMapType;
+#endif /*UINT_MAX < 0xFFFFFFFFU*/
+static FreeMapType *FreeMap;
+#define  Bit(x)    (((FreeMapType)1)<<((x)&31))
+#define  LeftMask(x)  (-Bit(x))
+#define  SetFreeBit(x)  (FreeMap[(x)>>5]|= Bit(x))
+#define  ClrFreeBit(x)  (FreeMap[(x)>>5]&= ~Bit(x))
+#define  MAC_SetRange(x,l)  do {                      \
+    size_t z= (x), y= z+(l);                          \
+    if (FreeMap) {                                    \
+      size_t xi= z>>5, yi= y>>5;                      \
+      if (xi==yi)                                     \
+        FreeMap[xi]|= (LeftMask(z) & ~LeftMask(y));   \
+      else {                                          \
+        FreeMap[xi]|= LeftMask(z);                    \
+        FreeMap[yi]|= ~LeftMask(y);                   \
+        while (yi > ++xi)                             \
+          FreeMap[xi]= -1;                            \
+      }                                               \
+    }                                                 \
+  } while (0)
+#define  MAC_ClrRange(x,l)  do {                      \
+    size_t z= (x), y= z+(l);                          \
+    if (FreeMap) {                                    \
+      size_t xi= z>>5, yi= y>>5;                      \
+      if (xi==yi)                                     \
+        FreeMap[xi]&= (LeftMask(y) | ~LeftMask(z));   \
+      else {                                          \
+        FreeMap[xi]&= ~LeftMask(z);                   \
+        FreeMap[yi]&= LeftMask(y);                    \
+        while (yi > ++xi)                             \
+          FreeMap[xi]= 0;                             \
+      }                                               \
+    }                                                 \
+  } while (0)
 
-void  SetRange(int x, int l)  {
-  int xi= (x)>>5, y= x+l, yi= (y)>>5;
-  if (xi==yi)
-    FreeMap[xi]|= LeftMask(x) & (~LeftMask(y));
-  else {
-    int i;
-    FreeMap[xi]|= LeftMask(x);
-    FreeMap[yi]|= ~LeftMask(y);
-    yi--;
-    for (i=xi+1; i<yi; i++)
-      FreeMap[i]= -1;
+static void SetRange(size_t x, size_t l)  {
+  if (FreeMap) {
+    size_t xi= x>>5, y= x+l, yi= y>>5;
+    if (xi==yi)
+      FreeMap[xi]|= (LeftMask(x) & ~LeftMask(y));
+    else {
+      FreeMap[xi]|= LeftMask(x);
+      FreeMap[yi]|= ~LeftMask(y);
+      while (yi > ++xi)
+        FreeMap[xi]= -1;
+    }
   }
 }
 
-void ClrRange(int x, int l)  {
-  int xi= (x)>>5, y= x+l, yi= (y)>>5;
-  if (xi==yi)
-    FreeMap[xi]&= (~LeftMask(x)) | LeftMask(y);
-  else {
-    int i;
-    FreeMap[xi]&= ~LeftMask(x);
-    FreeMap[yi]&= LeftMask(y);
-    yi--;
-    for (i=xi+1; i<yi; i++)
-      FreeMap[i]= 0;
+static void ClrRange(size_t x, size_t l)  {
+  if (FreeMap) {
+    size_t xi= x>>5, y= x+l, yi= y>>5;
+    if (xi==yi)
+      FreeMap[xi]&= (LeftMask(y) | ~LeftMask(x));
+    else {
+      FreeMap[xi]&= ~LeftMask(x);
+      FreeMap[yi]&= LeftMask(y);
+      while (yi > ++xi)
+        FreeMap[xi]= 0;
+    }
   }
 }
 
 void PrintFreeMap(FILE *f) {
-  int i;
-  for (i=0; i<GlobalSize; i++) {
-    if (i % 80 == 0)
+  size_t i;
+  for (i=0; i<GlobalSize; ++i) {
+    if ((i % 80) == 0)
       fputc('\n', f);
-    if (FreeMap[i>>5]&Bit(i)) {
-      fputc('.', f);
-    }
-    else
-      fputc(' ', f);
+    if (FreeMap) {
+      if (FreeMap[i>>5]&Bit(i)) {
+        fputc('.', f);
+      }
+      else
+        fputc(' ', f);
+    } else
+      fputc('?', f);
   }
 }
 #else
-#  define  SetRange(x,l)
-#  define  ClrRange(x,l)
+static void SetRange(size_t x, size_t l) { (void) x; (void) l; }
+static void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
 #endif /*FREEMAP, !SEGMENTED*/
 
-int fxfInit(size_t Size) {
+size_t fxfInit(size_t Size) {
 #if defined(LOG)
   static char const * const myname= "fxfInit";
 #endif
 #if defined(SEGMENTED)
-  size_t asize= Size+ARENA_SEG_SIZE;
-  while (ArenaSegCnt > 0) {
-    ArenaSegCnt--;
+  size_t maxSegCnt= (Size ? (1 + ((Size - 1) / ARENA_SEG_SIZE)) : 0);
+  if (maxSegCnt > ARENA_SEG_COUNT)
+    maxSegCnt= ARENA_SEG_COUNT;
+  while (ArenaSegCnt > maxSegCnt) {
+    --ArenaSegCnt;
     free(Arena[ArenaSegCnt]);
+    Arena[ArenaSegCnt]= Nil(char);
   }
-  while (asize > ARENA_SEG_SIZE) {
-    if ((Arena[ArenaSegCnt++]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
+  while (ArenaSegCnt < maxSegCnt) {
+    if ((Arena[ArenaSegCnt]= nNew(ARENA_SEG_SIZE, char)) == Nil(char))
       break;
-    if (ArenaSegCnt >= ARENA_SEG_COUNT) {
-      ERROR_LOG3("%s: whats going on here?\nCannot believe in more than %s on %s\n",
-                 myname, OSMAXMEM, OSNAME);
-      exit(2);
-    }
-    asize-= ARENA_SEG_SIZE;
+    ++ArenaSegCnt;
   }
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
-  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
+  TopFreePtr= Arena[CurrentSeg];
+  if (TopFreePtr)
+    TopFreePtr+= ARENA_SEG_SIZE;
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
+#if defined(FREEMAP)
+  if (FreeMap)
+  {
+    free(FreeMap);
+    FreeMap = Nil(FreeMapType);
+  }
+#endif
   if (Arena)
     free(Arena);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
-    ERROR_LOG2("%s: Sorry, cannot allocate arena of %lu bytes\n",
-               myname, Size);
+    ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
+               myname, (size_t_printf_type) Size);
     BotFreePtr= Arena;
+    TopFreePtr= Arena;
     GlobalSize= 0;
-    return -1;
+    return GlobalSize;
   }
   BotFreePtr= Arena;
   TopFreePtr= Arena+Size;
   GlobalSize= Size;
-#endif /*SEGMENTED*/
 
-#if defined(FREEMAP) && !defined(SEGMENTED)
-  if (FreeMap) {
-    free(FreeMap);
+#if defined(FREEMAP)
+  /* We aren't using Size again, so we can change it to the value we need here. */
+  if (Size > (((size_t)-1)-31))
+  {
+    Size = (1+(((size_t)-1)>>5));
   }
-  FreeMap= nNew((Size+31)>>5, unsigned int);
-  memset(FreeMap, 0, Size>>3);
-#endif /*FREEMAP, !SEGMENTED*/
+  else
+  {
+    Size = ((Size+31)>>5); 
+  }
+
+  FreeMap= nNew(Size, FreeMapType); /* TODO: Can/Should we replace this allocation+memset with a call to calloc? */
+  if (FreeMap)
+  {
+    memset(FreeMap, '\0', Size*(sizeof *FreeMap));
+  }
+#endif /*FREEMAP*/
+#endif /*SEGMENTED*/
 
   memset(SizeData, '\0', sizeof(SizeData));
 
-  return 0;
+  return GlobalSize;
+}
+
+void fxfTeardown(void)
+{
+#if defined(SEGMENTED)
+  while (ArenaSegCnt > 0)
+  {
+    --ArenaSegCnt;
+    free(Arena[ArenaSegCnt]);
+    Arena[ArenaSegCnt] = Nil(char);
+  }
+  CurrentSeg= 0;
+#else
+#if defined(FREEMAP)
+  free(FreeMap);
+  FreeMap= Nil(unsigned int);
+#endif /*FREEMAP*/
+  free(Arena);
+  Arena= Nil(char);
+#endif /*SEGMENTED*/
+  memset(SizeData, '\0', sizeof(SizeData));
+  GlobalSize= 0;
+  TopFreePtr= Nil(char);
+  BotFreePtr= Nil(char);
 }
 
 int fxfInitialised(void)
@@ -254,13 +328,18 @@ void fxfReset(void)
 #if defined(SEGMENTED)
   CurrentSeg= 0;
   BotFreePtr= Arena[CurrentSeg];
-  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
+  TopFreePtr= Arena[CurrentSeg];
+  if (TopFreePtr)
+    TopFreePtr+= ARENA_SEG_SIZE;
 #else
   BotFreePtr= Arena;
-  TopFreePtr= Arena+GlobalSize;
+  TopFreePtr= Arena;
+  if (TopFreePtr)
+    TopFreePtr+= GlobalSize;
 
 #if defined(FREEMAP)
-  memset(FreeMap, 0, GlobalSize>>3);
+  if (FreeMap)
+    memset(FreeMap, '\0', GlobalSize>>3);
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
 
@@ -285,10 +364,10 @@ void fxfReset(void)
 #define ALIGNED_MINSIZE    (sizeof(char *)+PTRMASK)
 #define ALIGN(ptr)         (((size_t)ptr+PTRMASK) & (~PTRMASK))
 
-#define  GetNextPtr(ptr)       *(char **)ALIGN(ptr)
+#define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
 
-#define TMDBG(x) {}
+#define TMDBG(x) if (0) x
 
 void *fxfAlloc(size_t size) {
 #if defined(LOG) || defined(DEBUG)
@@ -297,18 +376,18 @@ void *fxfAlloc(size_t size) {
   SizeHead *sh;
   char *ptr;
 
-  TMDBG(printf("fxfAlloc - size:%lu",size));
-  DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
+  TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
+  DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
 
   if (size<fxfMINSIZE)
     size = fxfMINSIZE;
 
   if (size>fxfMAXSIZE)
   {
-    ERROR_LOG3("%s: size=%u > %u\n",
+    ERROR_LOG3("%s: size=%" SIZE_T_PRINTF_SPECIFIER " > %" SIZE_T_PRINTF_SPECIFIER "\n",
                myname,
-               (unsigned int)size,
-               (unsigned int)fxfMAXSIZE);
+               (size_t_printf_type) size,
+               (size_t_printf_type) fxfMAXSIZE);
     return Nil(char);
   }
   if ( (size&PTRMASK) && size<ALIGNED_MINSIZE)
@@ -321,12 +400,14 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
     ClrRange((char *)ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%ld MallocCount:%lu\n",sh->FreeCount,(char*)ptr-Arena,sh->MallocCount));
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+#endif
   }
   else {
     /* we have to allocate a new piece */
-    size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
-    TMDBG(printf(" sizeCurrentSeg:%lu",sizeCurrentSeg));
+    size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
+    TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
@@ -338,14 +419,16 @@ void *fxfAlloc(size_t size) {
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
-      TMDBG(printf(" current seg ptr-Arena:%ld MallocCount:%lu\n",(char*)ptr-Arena,sh->MallocCount));
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
+      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+#endif
     }
     else
     {
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
-        TMDBG(printf(" next seg"));
-        CurrentSeg+= 1;
+        TMDBG(fputs(" next seg", stdout));
+        ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
         TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
         ptr= fxfAlloc(size);
@@ -355,22 +438,25 @@ void *fxfAlloc(size_t size) {
 #else /*SEGMENTED*/
       ptr= Nil(char);
 #endif /*!SEGMENTED*/
-      TMDBG(printf(" ptr:%p\n",ptr));
+      TMDBG(printf(" ptr:%p\n",(void *)ptr));
     }
   }
-  DBG((df, "%p\n", ptr));
+  DBG((df, "%p\n", (void *) ptr));
   return ptr;
 }
 
-void fxfFree(void *ptr, size_t size) {
+void fxfFree(void *ptr, size_t size)
+{
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(char*)ptr-Arena,size));
-  DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
+#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
+  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
+#endif
+  DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size > fxfMAXSIZE) {
-    fprintf(stderr, "%s: size=%u >= %u\n",
-            myname, (unsigned int)size, (unsigned int)fxfMAXSIZE);
+    fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
+            myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
   if (size < fxfMINSIZE)
@@ -380,50 +466,58 @@ void fxfFree(void *ptr, size_t size) {
   sh= &SizeData[size];
   if (size&PTRMASK) {
     /* unaligned size */
-    TMDBG(printf(" BotFreePtr-ptr:%ld",BotFreePtr-(char *)ptr));
+    TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
     if ((char *)ptr+size == BotFreePtr) {
       BotFreePtr-= size;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
-      sh->MallocCount-= 1;
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
+      --sh->MallocCount;
     }
     else {
       SetRange((char *)ptr-Arena,size);
       *(char **)ALIGN(ptr)= sh->FreeHead;
       sh->FreeHead= ptr;
-      sh->FreeCount+= 1;
-      sh->MallocCount-= 1;
+      ++sh->FreeCount;
+      --sh->MallocCount;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
     }
   }
   else {
     /* aligned size */
-    TMDBG(printf(" ptr-TopFreePtr:%ld",(char *)ptr-TopFreePtr));
+    TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-TopFreePtr)));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%lu",TopFreePtr-BotFreePtr));
-      sh->MallocCount-= 1;
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
+      --sh->MallocCount;
     }
     else {
       SetRange((char *)ptr-Arena,size);
       *(char **)ptr= sh->FreeHead;
       sh->FreeHead= ptr;
-      sh->FreeCount+= 1;
-      sh->MallocCount-= 1;
+      ++sh->FreeCount;
+      --sh->MallocCount;
       TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
     }
   }
   TMDBG(printf(" MallocCount:%lu",sh->MallocCount));
-  TMDBG(printf("\n"));
+  TMDBG(putchar('\n'));
 }
 
 void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
-  void *nptr= fxfAlloc(NewSize);
-  memcpy(nptr, ptr, OldSize);
-  fxfFree(ptr, OldSize);
+  void *nptr;
+  if (!ptr)
+    return fxfAlloc(NewSize);
+  if (!NewSize)
+    fxfFree(ptr, OldSize);
+  nptr= fxfAlloc(NewSize);
+  if (NewSize && nptr)
+  {
+    memcpy(nptr, ptr, ((NewSize < OldSize) ? NewSize : OldSize));
+    fxfFree(ptr, OldSize);
+  }
   return nptr;
 }
 
-size_t fxfTotal() {
+size_t fxfTotal(void) {
   SizeHead const *hd = SizeData;
   size_t UsedBytes = 0;
   size_t FreeBytes = 0;
@@ -441,7 +535,7 @@ size_t fxfTotal() {
 
 void fxfInfo(FILE *f) {
   size_t const one_kilo = 1<<10;
-  size_t const sizeCurrentSeg = (TopFreePtr-BotFreePtr);
+  size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
   size_t const sizeArenaUsed =
           GlobalSize-sizeCurrentSeg
 #if defined(SEGMENTED)
@@ -449,12 +543,12 @@ void fxfInfo(FILE *f) {
 #endif /*SEGMENTED*/
       ;
   assert(GlobalSize/one_kilo<=ULONG_MAX);
-  fprintf(f, "fxfArenaSize = %lu kB\n",
-          (unsigned long)(GlobalSize/one_kilo));
+  fprintf(f, "fxfArenaSize = %" SIZE_T_PRINTF_SPECIFIER " kB\n",
+          (size_t_printf_type) (GlobalSize/one_kilo));
   assert(sizeArenaUsed/one_kilo<=ULONG_MAX);
-  fprintf(f, "fxfArenaUsed = %lu kB\n",
-          (unsigned long)(sizeArenaUsed/one_kilo));
-  fprintf(f, "fxfMAXSIZE   = %u B\n", (unsigned int)fxfMAXSIZE);
+  fprintf(f, "fxfArenaUsed = %" SIZE_T_PRINTF_SPECIFIER " kB\n",
+          (size_t_printf_type) (sizeArenaUsed/one_kilo));
+  fprintf(f, "fxfMAXSIZE   = %" SIZE_T_PRINTF_SPECIFIER " B\n", (size_t_printf_type) fxfMAXSIZE);
 
   {
     SizeHead const *hd = SizeData;
@@ -477,9 +571,9 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
     assert(UsedBytes/one_kilo<=ULONG_MAX);
     assert(FreeBytes/one_kilo<=ULONG_MAX);
-    fprintf(f, "%12s  %10lu%10lu\n", "Total kB:",
-            (unsigned long)(UsedBytes/one_kilo),
-            (unsigned long)(FreeBytes/one_kilo));
+    fprintf(f, "%12s  %10" SIZE_T_PRINTF_SPECIFIER "%10" SIZE_T_PRINTF_SPECIFIER "\n", "Total kB:",
+            (size_t_printf_type) (UsedBytes/one_kilo),
+            (size_t_printf_type) (FreeBytes/one_kilo));
   }
 }
 

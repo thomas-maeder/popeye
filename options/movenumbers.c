@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
-#include "solving/ply.h"
 #include "solving/pipe.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/output.h"
@@ -20,9 +19,12 @@
 
 /* number of current move at root level
  */
-unsigned int MoveNbr[maxply+1];
+static unsigned int MoveNbr[maxply+1];
 
 /* number of first move at root level to be considered
+ * we use the parent ply as index because the ply number of the parent ply of the
+ * root branch is always known, while the ply of the root branch isn't known ahead
+ * of playing it in all cases.
  */
 static unsigned int RestartNbr[maxply+1];
 
@@ -33,22 +35,22 @@ static void write_history_recursive(ply ply)
   if (ply>ply_retro_move+1)
   {
     write_history_recursive(parent_ply[ply]);
-    fputs(":",stdout);
+    putchar(':');
   }
 
-  fprintf(stdout,"%u",MoveNbr[ply]-1);
+  printf("%u",MoveNbr[ply]-1);
 }
 
-void move_numbers_write_history(void)
+void move_numbers_write_history(ply top_ply)
 {
   if (restart_deep)
   {
     fputs("\nuse option start ",stdout);
-    write_history_recursive(nbply-1);
-    fputs(" to replay\n",stdout);
+    write_history_recursive(top_ply-1);
+    puts(" to replay");
   }
   else
-    fputs("\nuse option start 1:1 to get replay information\n",stdout);
+    puts("\nuse option start 1:1 to get replay information");
 }
 
 /* Reset the restart number setting.
@@ -56,7 +58,7 @@ void move_numbers_write_history(void)
 void reset_restart_number(void)
 {
   ply ply;
-  for (ply = ply_retro_move+1; ply<=maxply; ++ply)
+  for (ply = ply_retro_move; ply<=maxply; ++ply)
   {
     RestartNbr[ply] = 0;
     MoveNbr[ply] = 1;
@@ -67,7 +69,7 @@ void reset_restart_number(void)
 
 unsigned int get_restart_number(void)
 {
-  return RestartNbr[ply_retro_move+1];
+  return RestartNbr[ply_retro_move];
 }
 
 /* Interpret maxmem command line parameter value
@@ -77,7 +79,7 @@ boolean read_restart_number(char const *optionValue)
 {
   boolean result = false;
 
-  ply ply = ply_retro_move+1;
+  ply ply = ply_retro_move;
   char *end;
 
   while (1)
@@ -104,13 +106,14 @@ boolean read_restart_number(char const *optionValue)
 
 static void WriteMoveNbr(slice_index si)
 {
-  if (MoveNbr[nbply]>=RestartNbr[nbply])
+  if (MoveNbr[nbply]>=RestartNbr[parent_ply[nbply]])
   {
     protocol_fprintf(stdout,"\n%3u  (", MoveNbr[nbply]);
     output_plaintext_write_move(&output_plaintext_engine,
                                 stdout,
                                 &output_plaintext_symbol_table);
-    if (is_in_check(SLICE_STARTER(si)))
+    if (!output_plaintext_check_indication_disabled
+        && is_in_check(SLICE_STARTER(si)))
       protocol_fprintf(stdout,"%s"," +");
     protocol_fputc(' ',stdout);
     output_plaintext_print_time("   ","");
@@ -146,7 +149,7 @@ void restart_guard_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
+  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]]);
 
   MoveNbr[nbply+1] = 0;
 
@@ -180,7 +183,21 @@ void restart_guard_nested_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
+
+  if (MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]])
+  {
+    /* we haven't reached the restart number yet */
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+  }
+  else
+  {
+    /* we have reached the restart number */
+
+    /* prevent the restart number from restricting the remainder of the play*/
+    RestartNbr[parent_ply[nbply]] = 0;
+
+    solve(SLICE_NEXT1(si));
+  }
 
   MoveNbr[nbply+1] = 0;
 

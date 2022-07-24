@@ -139,3 +139,134 @@ Loesung beendet.
 Loesung beendet.
 
 
+
+             Yuri Arefev
+  3175, Probleemblad 55/2, 3-3/1997
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   .   .   8
+|                                   |
+7  -K  -T   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -T   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3  -L   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 6
+                Circe
+       ActuatedRevolvingBoard
+
+a) 
+
+  1  (La3*c1[+wSg1] )
+  2  (La3-b2 )
+  3  (La3-b4 )
+  4  (f3-f2 )
+  5  (Tc5*c1[+wSg1] )
+  6  (Tc5-c2 )
+  7  (Tc5-c3 )
+  8  (Tc5-c4 + )
+  9  (Tc5-a5 )
+ 10  (Tc5-b5 )
+ 11  (Tc5-c8 )
+ 12  (Tc5-c7 )
+ 13  (Tc5-c6 )
+ 14  (Tc5-h5 )
+ 15  (Tc5-g5 )
+ 16  (Tc5-f5 )
+ 17  (Tc5-e5 + )
+ 18  (Tc5-d5 )
+  1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] #
+ 19  (Ka7-b6 )
+ 20  (Ka7-b8 )
+ 21  (Ka7-a6 )
+ 22  (Ka7-a8 )
+ 23  (Tb7-b1 )
+ 24  (Tb7-b2 )
+ 25  (Tb7-b3 )
+ 26  (Tb7-b4 + )
+ 27  (Tb7-b5 )
+ 28  (Tb7-b6 )
+ 29  (Tb7-b8 )
+ 30  (Tb7-h7 )
+ 31  (Tb7-g7 )
+ 32  (Tb7-f7 )
+ 33  (Tb7-e7 + )
+ 34  (Tb7-d7 )
+ 35  (Tb7-c7 )
+ 36  (Le8-a4 )
+ 37  (Le8-b5 )
+ 38  (Le8-c6 + )
+ 39  (Le8-d7 )
+ 40  (Le8-h5 )
+ 41  (Le8-g6 + )
+ 42  (Le8-f7 )
+  add_to_move_generation_stack:     9606263
+                     play_move:     9448611
+ is_white_king_square_attacked:      143489
+ is_black_king_square_attacked:     9380029
+
+b) sKa7-->b1  
+
+ 43  (Kb1-c2 )
+ 44  (Kb1-a2 )
+ 45  (Kb1-a1 )
+ 46  (Kb1-b2 )
+ 47  (Kb1*c1[+wSg1] )
+ 48  (La3*c1[+wSg1] )
+  1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] #
+ 49  (La3-b2 )
+ 50  (La3-b4 )
+ 51  (f3-f2 )
+ 52  (Tc5*c1[+wSg1] )
+ 53  (Tc5-c2 )
+ 54  (Tc5-c3 )
+ 55  (Tc5-c4 + )
+ 56  (Tc5-a5 )
+ 57  (Tc5-b5 )
+ 58  (Tc5-c8 )
+ 59  (Tc5-c7 )
+ 60  (Tc5-c6 )
+ 61  (Tc5-h5 )
+ 62  (Tc5-g5 )
+ 63  (Tc5-f5 )
+ 64  (Tc5-e5 + )
+ 65  (Tc5-d5 )
+ 66  (Tb7-b2 )
+ 67  (Tb7-b3 )
+ 68  (Tb7-b4 + )
+ 69  (Tb7-b5 )
+ 70  (Tb7-b6 )
+ 71  (Tb7-a7 )
+ 72  (Tb7-b8 )
+ 73  (Tb7-h7 )
+ 74  (Tb7-g7 )
+ 75  (Tb7-f7 )
+ 76  (Tb7-e7 + )
+ 77  (Tb7-d7 )
+ 78  (Tb7-c7 )
+ 79  (Le8-a4 )
+ 80  (Le8-b5 )
+ 81  (Le8-c6 + )
+ 82  (Le8-d7 )
+ 83  (Le8-h5 )
+ 84  (Le8-g6 + )
+ 85  (Le8-f7 )
+  add_to_move_generation_stack:    10257208
+                     play_move:     9582611
+ is_white_king_square_attacked:      439335
+ is_black_king_square_attacked:     9513633
+
+Loesung beendet.
+
+

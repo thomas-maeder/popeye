@@ -5,9 +5,12 @@
 
 #include "debugging/assert.h"
 
+#include <stdio.h>  /* included for fprintf(FILE *, char const *, ...) */
+#include <stdlib.h> /* included for exit(int) */
+
 /* Allocate a new pipe and make an existing pipe its successor
  * @param type which slice type
- * @return newly allocated slice
+ * @return newly allocated slice, or no_slice on error
  */
 slice_index alloc_pipe(slice_type type)
 {
@@ -18,6 +21,11 @@ slice_index alloc_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = create_slice(type);
+  if (result==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to create slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(1); /* TODO: Do we have to exit here? */
+  }
   SLICE_NEXT1(result) = no_slice;
 
   TraceFunctionExit(__func__);
@@ -39,6 +47,11 @@ void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->spun_off[si] = copy_slice(si);
+  if (state->spun_off[si]==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   if (SLICE_NEXT1(si)!=no_slice)
   {
@@ -121,13 +134,15 @@ void pipe_link(slice_index pipe, slice_index succ)
  */
 void pipe_unlink(slice_index pipe)
 {
-  slice_index * const succ = &SLICE_NEXT1(pipe);
+  slice_index * succ;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
   assert(pipe!=no_slice);
+
+  succ = &SLICE_NEXT1(pipe);
 
   if (SLICE_PREV(*succ)==pipe)
     SLICE_PREV(*succ) = no_slice;
@@ -170,7 +185,6 @@ void pipe_substitute(slice_index replaced, slice_index substitute)
 void pipe_append(slice_index pos, slice_index appended)
 {
   slice_index const next = SLICE_NEXT1(pos);
-  slice_index const next_prev = SLICE_PREV(next);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pos);
@@ -178,7 +192,7 @@ void pipe_append(slice_index pos, slice_index appended)
   TraceFunctionParamListEnd();
 
   pipe_link(pos,appended);
-  if (next_prev==pos)
+  if ((next != no_slice) && (SLICE_PREV(next)==pos))
     slice_set_predecessor(next,appended);
   pipe_set_successor(appended,next);
 
@@ -192,14 +206,16 @@ void pipe_append(slice_index pos, slice_index appended)
  */
 void pipe_remove(slice_index si)
 {
+  slice_index const next = SLICE_NEXT1(si);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (SLICE_PREV(SLICE_NEXT1(si))==si)
-    pipe_link(SLICE_PREV(si),SLICE_NEXT1(si));
+  if ((next != no_slice) && (SLICE_PREV(next)==si))
+    pipe_link(SLICE_PREV(si),next);
   else
-    pipe_set_successor(SLICE_PREV(si),SLICE_NEXT1(si));
+    pipe_set_successor(SLICE_PREV(si),next);
 
   dealloc_slice(si);
 
@@ -241,6 +257,11 @@ void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   SLICE_TESTER(si) = copy_slice(si);
+  if (SLICE_TESTER(si)==no_slice)
+  {
+    fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
+    exit(2); /* TODO: Do we have to exit here? */
+  }
 
   if (SLICE_NEXT1(si)!=no_slice)
   {

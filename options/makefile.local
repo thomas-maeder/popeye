@@ -2,10 +2,10 @@
 #
 SRC_CFILES = maxtime.c goal_is_end.c degenerate_tree.c nontrivial.c \
              maxthreatlength.c movenumbers.c maxflightsquares.c quodlibet.c \
-             options.c
+             options.c  nullmoves.c
 
 INCLUDES = maxtime.h goal_is_end.h degenerate_tree.h nontrivial.h \
            maxthreatlength.h movenumbers.h maxflightsquares.h quodlibet.h \
-           options.h
+           options.h nullmoves.h
 
 include makefile.rules $(CURRPWD)depend
