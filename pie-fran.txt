@@ -160,3 +160,4 @@ se DL Senora (Dame argentine)
 fa TL Faro (Tour argentine)
 lo LL Loco (Fou argentin)
 sa SL Saltador (Cavalier argentin)
+hc HC ContraHamster

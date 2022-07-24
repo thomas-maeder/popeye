@@ -178,8 +178,9 @@ output/latex/line/line_writer$(OBJ_SUFFIX): output/latex/line/line_writer.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/move_effect_journal.h solving/check.h solving/move_generator.h \
- platform/beep.h solving/pipe.h options/options.h debugging/assert.h
+ solving/move_effect_journal.h solving/check.h debugging/measure.h \
+ solving/move_generator.h platform/beep.h solving/pipe.h \
+ options/options.h debugging/assert.h
 
 output/latex/line/line_writer.h:
 
@@ -286,6 +287,8 @@ stipulation/traversal.h:
 solving/move_effect_journal.h:
 
 solving/check.h:
+
+debugging/measure.h:
 
 solving/move_generator.h:
 

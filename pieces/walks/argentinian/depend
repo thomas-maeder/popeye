@@ -10,7 +10,7 @@ pieces/walks/argentinian/riders$(OBJ_SUFFIX): pieces/walks/argentinian/riders.c 
  output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
  solving/ply.h debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h pieces/walks/riders.h pieces/walks/lions.h \
- pieces/walks/hoppers.h solving/move_generator.h
+ pieces/walks/hoppers.h solving/move_generator.h debugging/measure.h
 
 pieces/walks/argentinian/riders.h:
 
@@ -79,6 +79,8 @@ pieces/walks/lions.h:
 pieces/walks/hoppers.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
 pieces/walks/argentinian/saltador$(OBJ_SUFFIX): pieces/walks/argentinian/saltador.c \
  pieces/walks/argentinian/saltador.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/stipulation.h \
@@ -89,7 +91,7 @@ pieces/walks/argentinian/saltador$(OBJ_SUFFIX): pieces/walks/argentinian/saltado
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h pieces/walks/chinese/mao.h \
- solving/move_generator.h
+ solving/move_generator.h debugging/measure.h
 
 pieces/walks/argentinian/saltador.h:
 
@@ -142,3 +144,5 @@ solving/machinery/solve.h:
 pieces/walks/chinese/mao.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:

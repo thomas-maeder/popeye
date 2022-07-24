@@ -13,7 +13,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  pieces/walks/vectors.h retro/retro.h solving/selfcheck_guard.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/check.h debugging/measure.h \
- output/plaintext/protocol.h pieces/attributes/total_invisible.h \
+ pieces/attributes/total_invisible.h \
  pieces/attributes/total_invisible/goal_validation.h \
  pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -196,8 +196,6 @@ solving/has_solution_type.enum:
 solving/check.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 pieces/attributes/total_invisible.h:
 
@@ -630,7 +628,7 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- debugging/measure.h output/plaintext/protocol.h debugging/assert.h
+ debugging/measure.h debugging/assert.h
 
 solving/machinery/solve.h:
 
@@ -678,8 +676,6 @@ solving/has_solution_type.enum:
 
 debugging/measure.h:
 
-output/plaintext/protocol.h:
-
 debugging/assert.h:
 solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  solving/machinery/twin.h stipulation/stipulation.h \
@@ -722,11 +718,11 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  conditions/forced_squares.h conditions/geneva.h conditions/imitator.h \
  conditions/immune.h conditions/isardam.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h \
- conditions/marscirce/anti.h conditions/marscirce/phantom.h \
- conditions/must_capture.h conditions/republican.h \
- conditions/sentinelles.h conditions/singlebox/type1.h \
- conditions/synchronous.h conditions/transmuting_kings/super.h \
+ debugging/measure.h conditions/marscirce/anti.h \
+ conditions/marscirce/phantom.h conditions/must_capture.h \
+ conditions/republican.h conditions/sentinelles.h \
+ conditions/singlebox/type1.h conditions/synchronous.h \
+ conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/vaulting_kings.h options/options.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
@@ -903,8 +899,6 @@ solving/move_generator.h:
 
 debugging/measure.h:
 
-output/plaintext/protocol.h:
-
 conditions/marscirce/anti.h:
 
 conditions/marscirce/phantom.h:
@@ -986,7 +980,7 @@ solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/battle_play/attack_adapter.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/battle_play/defense_adapter.h solving/help_play/adapter.h \
- debugging/assert.h debugging/measure.h output/plaintext/protocol.h
+ debugging/assert.h debugging/measure.h
 
 solving/machinery/intro.h:
 
@@ -1061,8 +1055,6 @@ solving/help_play/adapter.h:
 debugging/assert.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/machinery/dispatch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1114,8 +1106,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
  conditions/monochrome.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h conditions/bichrome.h \
- conditions/ultraschachzwang/legality_tester.h \
+ conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
@@ -1480,8 +1471,6 @@ conditions/monochrome.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 conditions/bichrome.h:
 

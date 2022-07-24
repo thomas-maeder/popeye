@@ -158,3 +158,4 @@
 /*157*/|TL|fa|Faro                                |fa|Faro                                        |fa|Faro
 /*158*/|LL|lo|Loco                                |lo|Loco                                        |lo|Loco
 /*159*/|SL|sa|Saltador                            |sl|Saltador                                    |sa|Saltador
+/*160*/|HC|hc|ContraHamster                       |hc|ContraHamster                               |hc|ContraHamster

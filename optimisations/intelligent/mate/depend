@@ -355,7 +355,7 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  position/color.enum solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/pipe.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
  optimisations/intelligent/piece_usage.enum \
@@ -439,8 +439,6 @@ solving/pipe.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 optimisations/intelligent/intelligent.h:
 

@@ -1036,6 +1036,7 @@ suivante est un peu plus compliquee:
 	gn      gnou noctambule
 	gt      girl-scout
 	ha      ("hamster")
+	hc      ContraHamster
 	im      imperatrice   
 	ka      kangourou
 	kl      kangourou lion
