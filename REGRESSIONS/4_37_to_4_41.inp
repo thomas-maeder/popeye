@@ -7,7 +7,7 @@ title Incorrect: 1.Rh5#
 title Correct: No sol
 title Fixed in 4.41
 stip #1
-cond isar blackmax
+cond isar blackmaxi
 fors 7k/8/6Q1/R7/16/K7/r7/
 
 next
@@ -60,7 +60,7 @@ title moves in Maximummer+Imitator problems
 author Alberto Armeni & Norbert Geissler
 origin F2622V, The Problemist, 3/2008 
 pieces white ka5 pa6d5 black ke8 ra8 pa7e7
-cond imitator c5 blackmax
+cond imitator c5 blackmaxi
 stipulation s#6
 option nothreat vari set
 
