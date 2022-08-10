@@ -61,7 +61,7 @@ next
 
 stip s#4
 opt var
-cond lortap blackmax
+cond lortap blackmaxi
 pie wh Ka6 Pb7b6
 blac Ke7 Rc1 Bf5
 

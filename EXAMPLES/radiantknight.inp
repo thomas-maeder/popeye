@@ -34,7 +34,7 @@ pie wh pg2
 pie bl rkb4
 pie bl royal rkf1 
 opt nowk 
-cond blackmax
+cond blackmaxi
 
 next 
 

@@ -1,0 +1,225 @@
+
+                 AT1
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         2 + 2
+        BlackMinDister e5 b8
+
+   1.Se5-c4 !
+      1...Rb8-b4
+          2.Sc4-e3
+              2...Rb4-e4
+                  3.Se3-f1
+                      3...Re4-e1 #
+
+   1.Se5-d3 !
+      1...Rb8-b4
+          2.Ka1-b1
+              2...Rb4-d4
+                  3.Sd3-e1
+                      3...Rd4-d1 #
+          2.Sd3-f2
+              2...Rb4-f4
+                  3.Sf2-h1
+                      3...Rf4-f1 #
+
+   1.Se5-f3 !
+      1...Rb8-b4
+          2.Ka1-b1
+              2...Rb4-f4
+                  3.Sf3-g1
+                      3...Rf4-f1 #
+
+  add_to_move_generation_stack:       15581
+                     play_move:        4684
+ is_white_king_square_attacked:        2103
+ is_black_king_square_attacked:        3618
+
+solution finished.
+
+
+
+                 AT2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#6                         2 + 2
+        BlackMinDister d4 e7
+
+   1.a7-a8=B !
+      1...Ke7-d6
+          2.Ba8-e4
+              2...b4-b3
+                  3.Kd4-c3
+                      3...Kd6-c5
+                          4.Kc3-b2
+                              4...Kc5-b4
+                                  5.Kb2-a1
+                                      5...Kb4-a3
+                                          6.Be4-b1
+                                              6...b3-b2 #
+
+  add_to_move_generation_stack:     8426571
+                     play_move:     5038269
+ is_white_king_square_attacked:     1605271
+ is_black_king_square_attacked:     4211552
+
+solution finished.
+
+
+
+         AT3 - not supported
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   Q   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r=3                         3 + 3
+        BlackMaxDister e5 e8
+
+  add_to_move_generation_stack:      398460
+                     play_move:      137666
+ is_white_king_square_attacked:       93379
+ is_black_king_square_attacked:       89470
+
+solution finished.
+
+
+
+                 AT4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   Q   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          3 + 1
+        BlackMaxDister a1 e6
+
+a) 
+
+      1...Ke6-f7
+          2.Qb2-b7
+              2...Kf7-g8
+                  3.e7-e8=Q #
+                  3.e7-e8=R #
+          2.e7-e8=S
+              2...Kf7-g8
+                  3.Qb2-g7 #
+  add_to_move_generation_stack:        2159
+                     play_move:        1340
+ is_white_king_square_attacked:         237
+ is_black_king_square_attacked:        1315
+
+b) BlackMinDister a1 e6  
+
+      1...Ke6-d5
+          2.e7-e8=Q
+              2...Kd5-c4
+                  3.Qe8-b5 #
+  add_to_move_generation_stack:        3234
+                     play_move:        1587
+ is_white_king_square_attacked:         303
+ is_black_king_square_attacked:        1561
+
+solution finished.
+
+
+
+         AT5 - not supported
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .  -S  -R   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -P   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   Q   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         3 + 4
+                Circe
+        BlackMinDister a7 g3
+
+  add_to_move_generation_stack:      375078
+                     play_move:      144382
+ is_white_king_square_attacked:       32141
+ is_black_king_square_attacked:      129474
+
+solution finished.
+
+

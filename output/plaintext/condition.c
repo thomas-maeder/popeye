@@ -14,6 +14,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/chameleon.h"
+#include "conditions/dister.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
@@ -466,6 +467,16 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         case whcapt:
           written = append_mummer_strictness(mummer_strictness[White],&CondLine,written);
           break;
+
+        case blmaxdister:
+        case blmindister:
+        case whmaxdister:
+        case whmindister:
+        {
+          written += append_to_CondLine_square(&CondLine,written,dister_reference_square[0]);
+          written += append_to_CondLine_square(&CondLine,written,dister_reference_square[1]);
+          break;
+        }
 
         case blackultraschachzwang:
         case whiteultraschachzwang:

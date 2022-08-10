@@ -166,7 +166,7 @@ title checks weren't indicated on the move reaching a goal
 pieces white ba2 pe4
        black kg8 pc7d5
 stipulation ep2
-condition blackmax
+condition blackmaxi
 option vari nowk
 
 next
