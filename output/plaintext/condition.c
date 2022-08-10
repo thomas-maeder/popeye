@@ -508,6 +508,8 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonAdverse]);
           if (breton_chromaticity==breton_chromatic)
             written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonChromatique]);
+          if (breton_implementation_quirk==breton_Popeye)
+            written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonPopeye]);
           break;
 
         case koeko:

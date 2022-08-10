@@ -14,6 +14,7 @@
 
 breton_mode_type breton_mode;
 breton_chromaticity_type breton_chromaticity;
+breton_implementation_quirks breton_implementation_quirk;
 
 static square const *breton_state[maxply+1];
 
@@ -33,7 +34,9 @@ static boolean advance_breton_victim_position(slice_index si,
 
   while (*breton_state[nbply]
          && !(get_walk_of_piece_on_square(*breton_state[nbply])==walk_capturee
-              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_bretonnee)))
+              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_bretonnee)
+              && (breton_implementation_quirk==breton_Popeye
+                  || !TSTFLAG(being_solved.spec[*breton_state[nbply]],advers(side_bretonnee)))))
     ++breton_state[nbply];
 
   if (*breton_state[nbply]==0)

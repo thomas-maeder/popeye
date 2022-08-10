@@ -8,5 +8,13 @@ Pieces
 black Pa5b3g4b2c3f5d7a7 Se1c8 Ba1e6 Ke4
 white Pf4g2a2a3a4 Kb1
 
+next
+
+title neutral pieces are not affected according to the original Breton definition
+pieces white ba1 black sb2 neutral sh6
+stipulation x1
+condition breton
+twin condition breton Popeye
+
 end
 
