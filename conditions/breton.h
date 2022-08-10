@@ -19,8 +19,14 @@ typedef enum
   breton_chromatic
 } breton_chromaticity_type;
 
+typedef enum {
+  breton_WinChloe,
+  breton_Popeye
+} breton_implementation_quirks;
+
 extern breton_mode_type breton_mode;
 extern breton_chromaticity_type breton_chromaticity;
+extern breton_implementation_quirks breton_implementation_quirk;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
