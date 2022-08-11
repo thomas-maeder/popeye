@@ -52,6 +52,7 @@ static slice_index const move_slice_rank_order[] =
     STChameleonArrivingAdjuster,
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
+    STBretonApplier,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,
     STHauntedChessGhostSummoner,
@@ -78,7 +79,7 @@ static slice_index const move_slice_rank_order[] =
     STMagicSquareType2SideChanger,
     STAnticirceConsideringRebirth,
     STCirceDoneWithRebirth,
-    STBretonApplier,
+    STBretonPopeyeApplier,
     STTibetSideChanger,
     STDoubleTibetSideChanger,
     STAndernachSideChanger,

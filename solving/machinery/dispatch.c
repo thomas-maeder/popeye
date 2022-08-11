@@ -1069,6 +1069,7 @@ void dispatch(slice_index si)
       break;
 
     case STBretonApplier:
+    case STBretonPopeyeApplier:
       breton_applier_solve(si);
       break;
 

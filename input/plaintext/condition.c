@@ -702,6 +702,7 @@ static char *ParseBretonVariants(char *tok)
 
   breton_mode = breton_propre;
   breton_chromaticity = breton_nonchromatic;
+  breton_implementation_quirk = breton_WinChloe;
 
   do
   {
