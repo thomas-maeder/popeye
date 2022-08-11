@@ -56,7 +56,6 @@ neutral pieces are not affected according to the original Breton definition
                Breton
 
 a) 
-both sides need a king
 
    1.Ba1*b2 x !
 
@@ -66,12 +65,79 @@ both sides need a king
  is_black_king_square_attacked:           0
 
 b) Breton Popeye  
-both sides need a king
 
    1.Ba1*b2[-nSh6] x !
 
   add_to_move_generation_stack:           5
                      play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+capturing pawn's fate is determined before promotion in the original Breton definition
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .  -P   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 2
+            Breton Popeye
+
+a) 
+
+   1.b7*c8=Q x !
+
+   1.b7*c8=S x !
+
+   1.b7*c8=R x !
+
+   1.b7*c8=B x !
+
+   1.b7*a8=Q x !
+
+   1.b7*a8=S[-wSa8] x !
+
+   1.b7*a8=R x !
+
+   1.b7*a8=B x !
+
+  add_to_move_generation_stack:           3
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) Breton  
+
+   1.b7*c8[-wPc8] x !
+
+   1.b7*a8=Q x !
+
+   1.b7*a8=S x !
+
+   1.b7*a8=R x !
+
+   1.b7*a8=B x !
+
+  add_to_move_generation_stack:           3
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -14,7 +14,17 @@ title neutral pieces are not affected according to the original Breton definitio
 pieces white ba1 black sb2 neutral sh6
 stipulation x1
 condition breton
+option nowk nobk
 twin condition breton Popeye
+
+next
+
+title capturing pawn's fate is determined before promotion in the original Breton definition
+pieces white pb7 black sa8 pc8
+stipulation x1
+condition breton popeye
+option nowk nobk
+twin condition breton
 
 end
 
