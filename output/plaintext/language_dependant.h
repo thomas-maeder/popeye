@@ -179,6 +179,7 @@ typedef enum
 {
   BretonAdverse,
   BretonChromatique,
+  BretonPopeye,
 
   BretonVariantCount
 } BretonVariantType;

@@ -8,5 +8,23 @@ Pieces
 black Pa5b3g4b2c3f5d7a7 Se1c8 Ba1e6 Ke4
 white Pf4g2a2a3a4 Kb1
 
+next
+
+title neutral pieces are not affected according to the original Breton definition
+pieces white ba1 black sb2 neutral sh6
+stipulation x1
+condition breton
+option nowk nobk
+twin condition breton Popeye
+
+next
+
+title capturing pawn's fate is determined before promotion in the original Breton definition
+pieces white pb7 black sa8 pc8
+stipulation x1
+condition breton popeye
+option nowk nobk
+twin condition breton
+
 end
 

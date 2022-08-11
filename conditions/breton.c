@@ -14,6 +14,7 @@
 
 breton_mode_type breton_mode;
 breton_chromaticity_type breton_chromaticity;
+breton_implementation_quirks breton_implementation_quirk;
 
 static square const *breton_state[maxply+1];
 
@@ -33,7 +34,9 @@ static boolean advance_breton_victim_position(slice_index si,
 
   while (*breton_state[nbply]
          && !(get_walk_of_piece_on_square(*breton_state[nbply])==walk_capturee
-              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_bretonnee)))
+              && TSTFLAG(being_solved.spec[*breton_state[nbply]],side_bretonnee)
+              && (breton_implementation_quirk==breton_Popeye
+                  || !TSTFLAG(being_solved.spec[*breton_state[nbply]],advers(side_bretonnee)))))
     ++breton_state[nbply];
 
   if (*breton_state[nbply]==0)
@@ -84,16 +87,22 @@ static void try_next_breton_action(slice_index si)
     }
     else if (post_move_have_i_lock())
     {
-      /* try to advance the current iteration */
-      ++breton_state[nbply];
-      if (advance_breton_victim_position(si,capture,side_bretonnee))
-        /* we got a winner! */
-        delegate_with_breton_action(si);
+      if (*breton_state[nbply]==initsquare)
+        /* no Breton removal for this regular removal */
+        pipe_solve_delegate(si);
       else
       {
-        /* end the current iteration */
-        solve_result = this_move_is_illegal;
-        post_move_iteration_end();
+        /* try to advance the current iteration */
+        ++breton_state[nbply];
+        if (advance_breton_victim_position(si,capture,side_bretonnee))
+          /* we got a winner! */
+          delegate_with_breton_action(si);
+        else
+        {
+          /* end the current iteration */
+          solve_result = this_move_is_illegal;
+          post_move_iteration_end();
+        }
       }
     }
     else
@@ -139,7 +148,10 @@ void solving_insert_breton(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STBretonApplier);
+  stip_instrument_moves(si,
+                        breton_implementation_quirk==breton_WinChloe
+                        ? STBretonApplier
+                        : STBretonPopeyeApplier);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

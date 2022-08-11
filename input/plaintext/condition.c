@@ -702,6 +702,7 @@ static char *ParseBretonVariants(char *tok)
 
   breton_mode = breton_propre;
   breton_chromaticity = breton_nonchromatic;
+  breton_implementation_quirk = breton_WinChloe;
 
   do
   {
@@ -717,6 +718,11 @@ static char *ParseBretonVariants(char *tok)
     else if (type==BretonChromatique)
     {
       breton_chromaticity = breton_chromatic;
+      tok = ReadNextTokStr();
+    }
+    else if (type==BretonPopeye)
+    {
+      breton_implementation_quirk = breton_Popeye;
       tok = ReadNextTokStr();
     }
     else

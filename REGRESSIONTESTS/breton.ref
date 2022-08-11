@@ -27,9 +27,9 @@ FIDE Olympic Tourney 2018 Batumi, 4th Prize
   1.Be1-h4 Rh3*h4[-wBg4]   2.Rb2-d2 Rd6*d4[-wRd4] #
   1.Rb2-b8 Ba7*b8[-wRd6]   2.Be1-d2 Bg4*f3[-wBf3] #
   add_to_move_generation_stack:      422658
-                     play_move:      346766
+                     play_move:      346763
  is_white_king_square_attacked:       49505
- is_black_king_square_attacked:      345960
+ is_black_king_square_attacked:      345957
 
 solution finished.
 
@@ -204,10 +204,10 @@ solution finished.
 
   1.e2-e1=R Re7-e5   2.Kd3-c3 Sf3*e1[-wRe5] #
   1.e2-e1=B Bg7-e5   2.Kd3-e3 Sf3*e1[-wBe5] #
-  add_to_move_generation_stack:      300606
-                     play_move:      225273
- is_white_king_square_attacked:       25578
- is_black_king_square_attacked:      224768
+  add_to_move_generation_stack:      300767
+                     play_move:      225384
+ is_white_king_square_attacked:       25590
+ is_black_king_square_attacked:      224879
 
 solution finished.
 
@@ -276,10 +276,10 @@ solution finished.
 
   1.Bg6-f5 e4*f5[-wBf8] +   2.Ke6-e7 f7-f8=Q #
   1.Sg7-f5 e4*f5[-wSb8] +   2.Ke6-d7 b7-b8=S #
-  add_to_move_generation_stack:      133392
-                     play_move:      115526
- is_white_king_square_attacked:       11106
- is_black_king_square_attacked:      115188
+  add_to_move_generation_stack:      129304
+                     play_move:      109958
+ is_white_king_square_attacked:       10858
+ is_black_king_square_attacked:      109637
 
 solution finished.
 
@@ -313,10 +313,10 @@ solution finished.
   1.Bb3-d1 b7-b8=S   2.Bd1-f3 Sh4*g6[-wSb8] #
   1.Ra7-a4 b7-b8=R   2.Ra4*e4[-bPg5] Re5*f5[-wRb8] #
   1.Sc7-d5 b7-b8=B   2.Sd5-e3 Bf2*g3[-wBb8] #
-  add_to_move_generation_stack:      961156
-                     play_move:      831801
- is_white_king_square_attacked:      105533
- is_black_king_square_attacked:      830580
+  add_to_move_generation_stack:      958505
+                     play_move:      828453
+ is_white_king_square_attacked:      105226
+ is_black_king_square_attacked:      827234
 
 solution finished.
 
@@ -388,10 +388,10 @@ solution finished.
   1.h2-h1=S e7-e8=S   2.Sh1-f2 Se8-d6 #
   1.h2-h1=R e7-e8=R   2.Rh1-e1 Re8*e5[c4=b] #
   1.h2-h1=B e7-e8=B   2.Bh1*g2[g4=w] Be8*c6[c4=b] #
-  add_to_move_generation_stack:       37579
-                     play_move:       42754
- is_white_king_square_attacked:        3988
- is_black_king_square_attacked:       42613
+  add_to_move_generation_stack:       37530
+                     play_move:       42689
+ is_white_king_square_attacked:        3984
+ is_black_king_square_attacked:       42548
 
 solution finished.
 
@@ -699,9 +699,9 @@ solution finished.
           2.RLf5*f1[-wBLb5] #
 
   add_to_move_generation_stack:        6565
-                     play_move:        5896
+                     play_move:        5877
  is_white_king_square_attacked:         670
- is_black_king_square_attacked:        5899
+ is_black_king_square_attacked:        5880
 
 solution finished.
 

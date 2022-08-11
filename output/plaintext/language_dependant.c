@@ -1933,15 +1933,18 @@ static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCo
   {
     /* French */
     "Adverse",
-    "Chromatique"
+    "Chromatique",
+    "Popeye"
   },{
     /* German */
     "Advers",
-    "Chromatisch"
+    "Chromatisch",
+    "Popeye"
   },{
     /* English */
     "Adverse",
-    "Chromatic"
+    "Chromatic",
+    "Popeye"
   }
 };
 
