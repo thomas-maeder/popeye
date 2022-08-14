@@ -362,6 +362,7 @@ static slice_type const writer_slice_types[] =
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
     STOutputPlaintextGoalWriter,
+    STOutputPlaintextConstraintWriter,
     STOutputLaTeXLineLineWriter,
     STOutputLaTeXGoalWriter
 };

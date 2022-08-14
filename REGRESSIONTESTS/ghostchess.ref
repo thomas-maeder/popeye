@@ -993,7 +993,7 @@ solution finished.
    1.Qa4*d4 + ?
     but
       1...Ke3*d4 !
-          2.Sd2-f3 #
+          2.Sd2-f3 # ?!?
 
   add_to_move_generation_stack:       87349
                      play_move:       56813

@@ -1241,7 +1241,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         2 + 4
 
-   1.Bg7-f8 #
+   1.Bg7-f8 # ?!?
   add_to_move_generation_stack:           7
                      play_move:           7
  is_white_king_square_attacked:           2
@@ -1454,7 +1454,7 @@ r#2, but White must deliver mate immediately
 +---a---b---c---d---e---f---g---h---+
   r#2                         2 + 4
 
-   1.Bg7-f8 #
+   1.Bg7-f8 # ?!?
   add_to_move_generation_stack:           7
                      play_move:           7
  is_white_king_square_attacked:           2
@@ -1580,7 +1580,7 @@ r#3, but White must deliver mate immediately
 +---a---b---c---d---e---f---g---h---+
   r#3                         2 + 4
 
-   1.Bg7-f8 #
+   1.Bg7-f8 # ?!?
   add_to_move_generation_stack:           7
                      play_move:           7
  is_white_king_square_attacked:           2
@@ -1898,7 +1898,7 @@ solution finished.
    1.Qa4*d4 + ?
     but
       1...Ke3*d4 !
-          2.Sd2-f3 #
+          2.Sd2-f3 # ?!?
 
   add_to_move_generation_stack:       39941
                      play_move:       22184

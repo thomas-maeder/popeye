@@ -21,6 +21,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  solving/trivial_end_filter.h solving/ply.h output/plaintext/plaintext.h \
  output/output.h output/plaintext/protocol.h \
  output/plaintext/move_inversion_counter.h output/plaintext/goal_writer.h \
+ output/plaintext/constraint_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h \
@@ -123,6 +124,8 @@ output/plaintext/protocol.h:
 output/plaintext/move_inversion_counter.h:
 
 output/plaintext/goal_writer.h:
+
+output/plaintext/constraint_writer.h:
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -993,7 +996,8 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  solving/machinery/dispatch.h debugging/trace.h solving/check.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ debugging/measure.h output/plaintext/protocol.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -1003,8 +1007,8 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- output/plaintext/protocol.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h solving/pipe.h
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ solving/pipe.h
 
 output/plaintext/tree/check_writer.h:
 
@@ -1046,6 +1050,10 @@ debugging/trace.h:
 
 solving/check.h:
 
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -1071,8 +1079,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
-
-output/plaintext/protocol.h:
 
 output/plaintext/message.h:
 
