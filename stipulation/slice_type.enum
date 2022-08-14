@@ -635,6 +635,7 @@
     ENUMERATOR(STOutputLaTeXTwinningWriter),                            \
     ENUMERATOR(STOutputLaTeXLineLineWriter), /* LaTeX output, line mode: write a line */  \
     ENUMERATOR(STOutputLaTeXGoalWriter), /* LaTeX output: write the reached goal */  \
+    ENUMERATOR(STOutputLaTeXConstraintWriter), /* LaTeX output: emphasize that we are solving a constraint */  \
     /* square observation tester slices */                              \
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \

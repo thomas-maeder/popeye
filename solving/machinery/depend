@@ -1221,9 +1221,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  output/plaintext/message.h output/message.h output/plaintext/twinning.h \
  output/plaintext/problem.h output/latex/latex.h output/latex/problem.h \
  output/latex/twinning.h output/latex/line/line_writer.h \
- output/latex/goal_writer.h output/latex/tree/check_writer.h \
- output/latex/tree/key_writer.h output/latex/tree/move_writer.h \
- output/latex/tree/refutation_writer.h \
+ output/latex/goal_writer.h output/latex/constraint_writer.h \
+ output/latex/tree/check_writer.h output/latex/tree/key_writer.h \
+ output/latex/tree/move_writer.h output/latex/tree/refutation_writer.h \
  output/latex/tree/refuting_variation_writer.h \
  output/latex/tree/threat_writer.h output/latex/tree/try_writer.h \
  output/latex/tree/zugzwang_writer.h \
@@ -1844,6 +1844,8 @@ output/latex/twinning.h:
 output/latex/line/line_writer.h:
 
 output/latex/goal_writer.h:
+
+output/latex/constraint_writer.h:
 
 output/latex/tree/check_writer.h:
 
