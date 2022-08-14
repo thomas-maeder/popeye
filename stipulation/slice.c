@@ -364,7 +364,8 @@ static slice_type const writer_slice_types[] =
     STOutputPlaintextGoalWriter,
     STOutputPlaintextConstraintWriter,
     STOutputLaTeXLineLineWriter,
-    STOutputLaTeXGoalWriter
+    STOutputLaTeXGoalWriter,
+    STOutputLaTeXConstraintWriter
 };
 
 static slice_type const output_plaintext_position_writer_slice_types[] =

@@ -231,6 +231,7 @@
 #include "output/latex/twinning.h"
 #include "output/latex/line/line_writer.h"
 #include "output/latex/goal_writer.h"
+#include "output/latex/constraint_writer.h"
 #include "output/latex/tree/check_writer.h"
 #include "output/latex/tree/key_writer.h"
 #include "output/latex/tree/move_writer.h"
@@ -983,6 +984,10 @@ void dispatch(slice_index si)
 
     case STOutputLaTeXGoalWriter:
       output_latex_goal_writer_solve(si);
+      break;
+
+    case STOutputLaTeXConstraintWriter:
+      output_latex_constraint_writer_solve(si);
       break;
 
     case STOutputLaTeXLineLineWriter:

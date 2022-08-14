@@ -1,16 +1,19 @@
-#if !defined(OUTPUT_PLAINTEXT_CONSTRAINT_WRITER_H)
-#define OUTPUT_PLAINTEXT_CONSTRAINT_WRITER_H
+#if !defined(OUTPUT_LATEX_CONSTRAINTL_WRITER_H)
+#define OUTPUT_LATEX_CONSTRAINT_WRITER_H
 
 #include "solving/machinery/solve.h"
 
-/* This module provides the STOutputPlaintextGoalWriter slice type.
+#include <stdio.h>
+
+/* This module provides the STOutputLaTeXConstraintWriter slice type.
  * Slices of this type write a marker that the preceding play was forced by a reflex stipulation
  */
 
-/* Allocate a STOutputPlaintextConstraintWriter slice.
+/* Allocate a STOutputLaTeXConstraintWriter slice.
+ * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_output_plaintext_constraint_writer_slice(void);
+slice_index alloc_output_latex_constraint_writer_slice(FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -25,6 +28,6 @@ slice_index alloc_output_plaintext_constraint_writer_slice(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_constraint_writer_solve(slice_index si);
+void output_latex_constraint_writer_solve(slice_index si);
 
 #endif

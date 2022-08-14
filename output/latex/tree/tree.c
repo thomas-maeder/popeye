@@ -8,6 +8,7 @@
 #include "solving/trivial_end_filter.h"
 #include "output/latex/latex.h"
 #include "output/latex/goal_writer.h"
+#include "output/latex/constraint_writer.h"
 #include "output/latex/tree/check_writer.h"
 #include "output/latex/tree/threat_writer.h"
 #include "output/latex/tree/move_writer.h"
@@ -21,6 +22,12 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
+typedef struct
+{
+    FILE * const file;
+    boolean solving_constraint;
+} insert_state_type;
+
 static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -30,13 +37,13 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    FILE * const file = st->param;
+    insert_state_type const * const insert_state = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_zugzwang_by_dummy_move_check_writer_slice(file),
-      alloc_output_latex_tree_zugzwang_writer_slice(file),
-      alloc_output_latex_tree_threat_writer_slice(file),
-      alloc_output_latex_tree_move_writer_slice(file)
+      alloc_output_latex_tree_zugzwang_by_dummy_move_check_writer_slice(insert_state->file),
+      alloc_output_latex_tree_zugzwang_writer_slice(insert_state->file),
+      alloc_output_latex_tree_threat_writer_slice(insert_state->file),
+      alloc_output_latex_tree_move_writer_slice(insert_state->file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,nr_prototypes,si);
@@ -55,11 +62,11 @@ static void insert_writer_for_move_in_parent(slice_index si,
 
   if (st->level==structure_traversal_level_nested)
   {
-    FILE * const file = st->param;
+    insert_state_type const * const insert_state = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_move_writer_slice(file),
-      alloc_output_latex_tree_check_writer_slice(file)
+      alloc_output_latex_tree_move_writer_slice(insert_state->file),
+      alloc_output_latex_tree_check_writer_slice(insert_state->file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -80,11 +87,11 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense
       || st->context==stip_traversal_context_attack)
   {
-    FILE * const file = st->param;
+    insert_state_type const * const insert_state = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_move_writer_slice(file),
-      alloc_output_latex_tree_check_writer_slice(file)
+      alloc_output_latex_tree_move_writer_slice(insert_state->file),
+      alloc_output_latex_tree_check_writer_slice(insert_state->file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
@@ -98,15 +105,22 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 
 static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 {
+  insert_state_type const * const insert_state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (SLICE_U(si).goal_handler.goal.type!=no_goal)
   {
-    FILE *file = st->param;
     slice_index const prototype = alloc_output_latex_goal_writer_slice(SLICE_U(si).goal_handler.goal,
-                                                                       file);
+                                                                       insert_state->file);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  if (insert_state->solving_constraint)
+  {
+    slice_index const prototype = alloc_output_latex_constraint_writer_slice(insert_state->file);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -116,14 +130,35 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_writer_remember_constraint(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  insert_state_type * const insert_state = st->param;
+  boolean const save_solving_constraint = insert_state->solving_constraint;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  insert_state->solving_constraint = true;
+  stip_traverse_structure_end_of_branch_next_branch(si,st);
+  insert_state->solving_constraint = save_solving_constraint;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const regular_writer_inserters[] =
 {
-  { STDefenseAdapter,    &insert_writer_for_move_in_parent },
-  { STHelpAdapter,       &stip_structure_visitor_noop      },
-  { STThreatSolver,      &insert_zugzwang_writer           },
-  { STPlaySuppressor,    &stip_structure_visitor_noop      },
-  { STMove,              &insert_move_writer               },
-  { STGoalReachedTester, &insert_goal_writer               }
+  { STDefenseAdapter,    &insert_writer_for_move_in_parent  },
+  { STHelpAdapter,       &stip_structure_visitor_noop       },
+  { STThreatSolver,      &insert_zugzwang_writer            },
+  { STPlaySuppressor,    &stip_structure_visitor_noop       },
+  { STConstraintSolver,  &insert_writer_remember_constraint },
+  { STMove,              &insert_move_writer                },
+  { STGoalReachedTester, &insert_goal_writer                }
 };
 
 enum
@@ -138,12 +173,13 @@ enum
 static void insert_regular_writer_slices(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
+  insert_state_type insert_state = { file, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,file);
+  stip_structure_traversal_init(&st,&insert_state);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);
