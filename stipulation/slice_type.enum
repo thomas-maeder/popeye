@@ -625,6 +625,7 @@
     ENUMERATOR(STOutputLaTeXTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextGoalWriter), /* plain text output: write the reached goal */  \
+    ENUMERATOR(STOutputPlaintextConstraintWriter), /* plain text output: emphasize that we are solving a constraint */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounterSetPlay), \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \

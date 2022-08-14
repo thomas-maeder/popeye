@@ -12,6 +12,7 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/goal_writer.h"
+#include "output/plaintext/constraint_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
@@ -29,6 +30,12 @@
 #include "conditions/conditions.h"
 
 #include "debugging/assert.h"
+
+typedef struct
+{
+    boolean attack_played;
+    boolean solving_constraint;
+} insert_regular_writer_slices_state_type;
 
 static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
 {
@@ -57,14 +64,14 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
 static void insert_writer_for_move_in_parent(slice_index si,
                                              stip_structure_traversal *st)
 {
-  boolean const * const attack_played = st->param;
+  insert_regular_writer_slices_state_type const * const insert_regular_writer_slices_state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (st->level==structure_traversal_level_nested
-      && *attack_played)
+      && insert_regular_writer_slices_state->attack_played)
   {
     slice_index const prototypes[] =
     {
@@ -130,19 +137,19 @@ static void do_insert_move_writer_defense(slice_index si,
 
 static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const attack_played = st->param;
+  insert_regular_writer_slices_state_type * const insert_regular_writer_slices_state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==stip_traversal_context_defense && *attack_played)
+  if (st->context==stip_traversal_context_defense && insert_regular_writer_slices_state->attack_played)
   {
     do_insert_move_writer_defense(si,st);
 
-    *attack_played = false;
+    insert_regular_writer_slices_state->attack_played = false;
     stip_traverse_structure_children_pipe(si,st);
-    *attack_played = true;
+    insert_regular_writer_slices_state->attack_played = true;
   }
   else if (st->context==stip_traversal_context_attack)
   {
@@ -158,6 +165,8 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 
 static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 {
+  insert_regular_writer_slices_state_type const * const insert_regular_writer_slices_state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -165,6 +174,12 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   if (SLICE_U(si).goal_handler.goal.type!=no_goal)
   {
     slice_index const prototype = alloc_output_plaintext_goal_writer_slice(SLICE_U(si).goal_handler.goal);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  if (insert_regular_writer_slices_state->solving_constraint)
+  {
+    slice_index const prototype = alloc_output_plaintext_constraint_writer_slice();
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -221,16 +236,36 @@ static void insert_move_inversion_counter_setplay(slice_index si,
 static void insert_writer_remember_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
-  boolean * const attack_played = st->param;
-  boolean const save_attack_played = *attack_played;
+  insert_regular_writer_slices_state_type * const insert_regular_writer_slices_state = st->param;
+  boolean const save_attack_played = insert_regular_writer_slices_state->attack_played;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *attack_played = true;
+  insert_regular_writer_slices_state->attack_played = true;
   stip_traverse_structure_children_pipe(si,st);
-  *attack_played = save_attack_played;
+  insert_regular_writer_slices_state->attack_played = save_attack_played;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_writer_remember_constraint(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  insert_regular_writer_slices_state_type * const insert_regular_writer_slices_state = st->param;
+  boolean const save_solving_constraint = insert_regular_writer_slices_state->solving_constraint;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  insert_regular_writer_slices_state->solving_constraint = true;
+  stip_traverse_structure_end_of_branch_next_branch(si,st);
+  insert_regular_writer_slices_state->solving_constraint = save_solving_constraint;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -238,11 +273,12 @@ static void insert_writer_remember_attack(slice_index si,
 
 static structure_traversers_visitor const regular_writer_inserters[] =
 {
-  { STReadyForAttack,      &insert_writer_remember_attack },
+  { STReadyForAttack,      &insert_writer_remember_attack         },
   { STDefenseAdapter,      &insert_writer_for_move_in_parent      },
   { STHelpAdapter,         &stip_structure_visitor_noop           },
   { STThreatSolver,        &insert_zugzwang_writer                },
   { STPlaySuppressor,      &stip_structure_visitor_noop           },
+  { STConstraintSolver,    &insert_writer_remember_constraint     },
   { STMove,                &insert_move_writer                    },
   { STGoalReachedTester,   &insert_goal_writer                    }
 };
@@ -259,13 +295,13 @@ enum
 static void insert_regular_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
-  boolean attack_played = false;
+  insert_regular_writer_slices_state_type insert_regular_writer_slices_state = { false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&attack_played);
+  stip_structure_traversal_init(&st,&insert_regular_writer_slices_state);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);

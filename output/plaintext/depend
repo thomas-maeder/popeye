@@ -2279,3 +2279,103 @@ output/message.h:
 stipulation/branch.h:
 
 debugging/assert.h:
+output/plaintext/constraint_writer$(OBJ_SUFFIX): \
+ output/plaintext/constraint_writer.c \
+ output/plaintext/constraint_writer.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ output/plaintext/protocol.h output/plaintext/tree/tree.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ solving/pipe.h debugging/assert.h
+
+output/plaintext/constraint_writer.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/side.enum:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+output/mode.enum:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
+output/plaintext/protocol.h:
+
+output/plaintext/tree/tree.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
+
+solving/pipe.h:
+
+debugging/assert.h:

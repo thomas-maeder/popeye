@@ -155,6 +155,7 @@ static slice_index const slice_rank_order[] =
   STOhneschachDetectUndecidableGoal,
   STOutputPlaintextGoalWriter,
   STOutputLaTeXGoalWriter,
+  STOutputPlaintextConstraintWriter,
   STTrue,
   STIntelligentImmobilisationCounter,
   STFlightsquaresCounter,
