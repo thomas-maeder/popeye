@@ -16,6 +16,7 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/goal_writer.h"
+#include "output/plaintext/constraint_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/line/exclusive.h"
 #include "output/plaintext/line/line_writer.h"
@@ -25,6 +26,11 @@
 
 #include "debugging/assert.h"
 #include <limits.h>
+
+typedef struct
+{
+    boolean solving_constraint;
+} insert_regular_writer_slices_state_type;
 
 static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 {
@@ -46,6 +52,8 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 static void instrument_goal_reached_tester(slice_index si,
                                            stip_structure_traversal *st)
 {
+  insert_regular_writer_slices_state_type const * const insert_regular_writer_slices_state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -60,6 +68,12 @@ static void instrument_goal_reached_tester(slice_index si,
 
   {
     slice_index const prototype = alloc_output_plaintext_goal_writer_slice(SLICE_U(si).goal_handler.goal);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  if (insert_regular_writer_slices_state->solving_constraint)
+  {
+    slice_index const prototype = alloc_output_plaintext_constraint_writer_slice();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -205,9 +219,29 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void remember_constraint(slice_index si, stip_structure_traversal *st)
+{
+  insert_regular_writer_slices_state_type * const insert_regular_writer_slices_state = st->param;
+  boolean const save_solving_constraint = insert_regular_writer_slices_state->solving_constraint;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  insert_regular_writer_slices_state->solving_constraint = true;
+  stip_traverse_structure_end_of_branch_next_branch(si,st);
+  insert_regular_writer_slices_state->solving_constraint = save_solving_constraint;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor regular_inserters[] =
 {
   { STPlaySuppressor,      &instrument_suppressor          },
+  { STConstraintSolver,    &remember_constraint     },
   { STGoalReachedTester,   &instrument_goal_reached_tester },
   { STMove,                &instrument_move                }
 };
@@ -223,12 +257,13 @@ enum
 static void insert_regular_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
+  insert_regular_writer_slices_state_type insert_regular_writer_slices_state = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&insert_regular_writer_slices_state);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);
