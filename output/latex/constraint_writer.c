@@ -46,9 +46,9 @@ void output_latex_constraint_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !?!", SLICE_U(si).goal_writer.file);
-
   pipe_solve_delegate(si);
+
+  fputs(" !?!", SLICE_U(si).goal_writer.file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -17,11 +17,18 @@
 #include "output/plaintext/line/exclusive.h"
 #include "output/latex/line/line_writer.h"
 #include "output/latex/goal_writer.h"
+#include "output/latex/constraint_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 #include <limits.h>
+
+typedef struct
+{
+    FILE * const file;
+    boolean solving_constraint;
+} insert_state_type;
 
 static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 {
@@ -31,9 +38,9 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 
 
   {
-    FILE *file = st->param;
+    insert_state_type const * const insert_state = st->param;
     Goal const goal = { no_goal, initsquare };
-    slice_index const proto = alloc_output_latex_line_writer_slice(goal,file);
+    slice_index const proto = alloc_output_latex_line_writer_slice(goal,insert_state->file);
     slice_insertion_insert(SLICE_PREV(si),&proto,1);
   }
 
@@ -44,7 +51,7 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 static void instrument_goal_reached_tester(slice_index si,
                                            stip_structure_traversal *st)
 {
-  FILE *file = st->param;
+  insert_state_type const * const insert_state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,14 +61,20 @@ static void instrument_goal_reached_tester(slice_index si,
 
   {
     Goal const goal = SLICE_U(si).goal_handler.goal;
-    slice_index const prototype = alloc_output_latex_line_writer_slice(goal,file);
+    slice_index const prototype = alloc_output_latex_line_writer_slice(goal,insert_state->file);
     help_branch_insert_slices(si,&prototype,1);
   }
 
   {
     slice_index const prototype = alloc_output_latex_goal_writer_slice(SLICE_U(si).goal_handler.goal,
-                                                                       file);
+                                                                       insert_state->file);
     help_branch_insert_slices(si,&prototype,1);
+  }
+
+  if (insert_state->solving_constraint)
+  {
+    slice_index const prototype = alloc_output_latex_constraint_writer_slice(insert_state->file);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   if (CondFlag[ohneschach])
@@ -244,11 +257,32 @@ static void insert_move_inversion_counter_setplay(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_writer_remember_constraint(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  insert_state_type * const insert_state = st->param;
+  boolean const save_solving_constraint = insert_state->solving_constraint;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  insert_state->solving_constraint = true;
+  stip_traverse_structure_end_of_branch_next_branch(si,st);
+  insert_state->solving_constraint = save_solving_constraint;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor regular_inserters[] =
 {
   { STMoveInverter,        &insert_move_inversion_counter         },
   { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
   { STPlaySuppressor,      &instrument_suppressor                 },
+  { STConstraintSolver,    &insert_writer_remember_constraint },
   { STGoalReachedTester,   &instrument_goal_reached_tester        },
   { STMove,                &instrument_move                       }
 };
@@ -265,13 +299,14 @@ enum
 void solving_insert_output_latex_line_slices(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
+  insert_state_type insert_state = { file, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,file);
+  stip_structure_traversal_init(&st,&insert_state);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);
