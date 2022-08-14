@@ -18,7 +18,7 @@ _cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
 #_cmd="WINEPREFIX=~/.wine64 wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
-PMAX=6
+PMAX=4
 
 #DEBUG=1
 

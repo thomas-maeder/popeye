@@ -352,7 +352,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hr#1                        2 + 3
 
-  1.Qf6-d8 #
+  1.Qf6-d8 # ?!?
   add_to_move_generation_stack:          76
                      play_move:          63
  is_white_king_square_attacked:           8

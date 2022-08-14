@@ -1021,7 +1021,7 @@ unloesbar, weil Schwarz schlagen muss
 +---a---b---c---d---e---f---g---h---+
   Weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
 
-  1.g3*f4 x
+  1.g3*f4 x ?!?
   add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0

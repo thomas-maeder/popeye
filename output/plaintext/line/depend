@@ -28,8 +28,9 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
- output/plaintext/goal_writer.h output/plaintext/end_of_phase_writer.h \
- output/plaintext/line/exclusive.h output/plaintext/line/line_writer.h \
+ output/plaintext/goal_writer.h output/plaintext/constraint_writer.h \
+ output/plaintext/end_of_phase_writer.h output/plaintext/line/exclusive.h \
+ output/plaintext/line/line_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h solving/ply.h \
  output/plaintext/line/refuting_variation_writer.h debugging/assert.h
 
@@ -145,6 +146,8 @@ output/plaintext/ohneschach_detect_undecidable_goal.h:
 
 output/plaintext/goal_writer.h:
 
+output/plaintext/constraint_writer.h:
+
 output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/line/exclusive.h:
@@ -182,8 +185,9 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/check.h solving/move_generator.h \
- platform/beep.h solving/pipe.h options/options.h debugging/assert.h
+ position/pieceid.h solving/check.h debugging/measure.h \
+ solving/move_generator.h platform/beep.h solving/pipe.h \
+ options/options.h debugging/assert.h
 
 output/plaintext/line/line_writer.h:
 
@@ -280,6 +284,8 @@ position/castling_rights.h:
 position/pieceid.h:
 
 solving/check.h:
+
+debugging/measure.h:
 
 solving/move_generator.h:
 
