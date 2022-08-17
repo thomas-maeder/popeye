@@ -143,7 +143,7 @@ static PieTable PieNamString[LanguageCount] =
   /* 20*/ {'v','i'},  /* vizir */
   /* 21*/ {'a','l'},  /* alfil */
   /* 22*/ {'f','e'},  /* fers */
-  /* 23*/ {'d','a'},  /* dabbabba */
+  /* 23*/ {'d','a'},  /* dabbaba */
   /* 24*/ {'l','i'},  /* lion */
   /* 25*/ {'e','q'},  /* equisauteur (non-stop) */
   /* 26*/ {'l',' '},  /* locuste */
@@ -314,7 +314,7 @@ static PieTable PieNamString[LanguageCount] =
   /* 30*/ {'p','r'},  /* Prinzessin (Laeufer + Springer) */
   /* 31*/ {'g','n'},  /* Gnu        (Springer + Kamel) */
   /* 32*/ {'a','n'},  /* Antilope    3,4 S */
-  /* 33*/ {'e','i'},  /* Eichhoernchen      (Springer + Alfil + Dabbabba) */
+  /* 33*/ {'e','i'},  /* Eichhoernchen      (Springer + Alfil + Dabbaba) */
   /* 34*/ {'w','a'},  /* Waran      (Turm + Nachtreiter) */
   /* 35*/ {'d','r'},  /* Drache     (Springer + Bauer) */
   /* 36*/ {'k','a'},  /* Kaenguruh */
@@ -465,7 +465,7 @@ static PieTable PieNamString[LanguageCount] =
   /* 20*/ {'w','e'},  /* wazir */
   /* 21*/ {'a','l'},  /* alfil */
   /* 22*/ {'f','e'},  /* fers */
-  /* 23*/ {'d','a'},  /* dabbabba */
+  /* 23*/ {'d','a'},  /* dabbaba */
   /* 24*/ {'l','i'},  /* lion */
   /* 25*/ {'n','e'},  /* nonstop equihopper */
   /* 26*/ {'l',' '},  /* locust */

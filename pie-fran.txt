@@ -22,7 +22,7 @@ bu LU bucephale
 vi TU vizir
 al LR alfil
 fe LL fers
-da TR dabbabba
+da TR dabbaba
 li DL lion
 eq DR equisauteur (non-stop)
 l  DR locuste

@@ -2,7 +2,7 @@
 #include "position/board.h"
 
 /* This are the vectors for the CAT (a special concatenation of knight and
- * dabbabba-rider)
+ * dabbaba-rider)
  */
 numvec const cat_vectors[17] =
 { 0,
