@@ -104,6 +104,26 @@ static boolean castling_only_with_rook(numecoup n)
     return true;
 }
 
+static boolean castling_only_with_orthogonal(numecoup n)
+{
+  square const special_capture = move_generation_stack[n].capture;
+
+  if (special_capture>offset_platzwechsel_rochade)
+  {
+    square const sq_partner = special_capture-offset_platzwechsel_rochade;
+    unsigned int const row_partner = sq_partner/onerow;
+    unsigned int const file_partner = sq_partner%onerow;
+
+    square const sq_moving = move_generation_stack[n].departure;
+    unsigned int const row_moving = sq_moving/onerow;
+    unsigned int const file_moving = sq_moving%onerow;
+
+    return row_partner==row_moving || file_partner==file_moving;
+  }
+  else
+    return true;
+}
+
 /* Filter out castlings that are allowed in CastlingChess but not in Rokagogo
  * @param identifies generator slice
  */
@@ -114,6 +134,7 @@ void rokagogo_filter_moves_for_piece(slice_index si)
   pipe_move_generation_delegate(si);
 
   move_generator_filter_moves(save_numecoup,&castling_only_with_rook);
+  move_generator_filter_moves(save_numecoup,&castling_only_with_orthogonal);
 }
 
 /* Instrument slices with Castling Chess slices

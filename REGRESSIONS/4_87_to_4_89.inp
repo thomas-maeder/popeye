@@ -37,5 +37,13 @@ Pieces
 white Pe5e2g2f2c2h2b2d2a2 Rh1a1 Qd1 Ke1 Bf1c1 Sb1
 black Pd5b7c7h7g7a7f7 Qd8 Ra8h8 Ke8 Sb8g8 Bf8c8
 option white
-EndProblem
 
+next
+
+title Rokagogo only allows orthogonal castlings
+pieces white ka1 rh8
+stip zc31
+condition rokagogo
+option nobk
+
+end
