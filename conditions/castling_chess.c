@@ -91,34 +91,26 @@ void castlingchess_generate_moves_for_piece(slice_index si)
   }
 }
 
-static boolean castling_only_with_rook(numecoup n)
+static boolean castling_only_orthogonal_with_rook(numecoup n)
 {
   square const special_capture = move_generation_stack[n].capture;
 
   if (special_capture>offset_platzwechsel_rochade)
   {
     square const sq_partner = special_capture-offset_platzwechsel_rochade;
-    return get_walk_of_piece_on_square(sq_partner)==Rook;
-  }
-  else
-    return true;
-}
+    if (get_walk_of_piece_on_square(sq_partner)==Rook)
+    {
+      unsigned int const row_partner = sq_partner/onerow;
+      unsigned int const file_partner = sq_partner%onerow;
 
-static boolean castling_only_with_orthogonal(numecoup n)
-{
-  square const special_capture = move_generation_stack[n].capture;
+      square const sq_moving = move_generation_stack[n].departure;
+      unsigned int const row_moving = sq_moving/onerow;
+      unsigned int const file_moving = sq_moving%onerow;
 
-  if (special_capture>offset_platzwechsel_rochade)
-  {
-    square const sq_partner = special_capture-offset_platzwechsel_rochade;
-    unsigned int const row_partner = sq_partner/onerow;
-    unsigned int const file_partner = sq_partner%onerow;
-
-    square const sq_moving = move_generation_stack[n].departure;
-    unsigned int const row_moving = sq_moving/onerow;
-    unsigned int const file_moving = sq_moving%onerow;
-
-    return row_partner==row_moving || file_partner==file_moving;
+      return row_partner==row_moving || file_partner==file_moving;
+    }
+    else
+      return false;
   }
   else
     return true;
@@ -133,8 +125,7 @@ void rokagogo_filter_moves_for_piece(slice_index si)
 
   pipe_move_generation_delegate(si);
 
-  move_generator_filter_moves(save_numecoup,&castling_only_with_rook);
-  move_generator_filter_moves(save_numecoup,&castling_only_with_orthogonal);
+  move_generator_filter_moves(save_numecoup,&castling_only_orthogonal_with_rook);
 }
 
 /* Instrument slices with Castling Chess slices
