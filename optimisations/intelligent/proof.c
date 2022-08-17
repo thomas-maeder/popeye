@@ -98,7 +98,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[lostpieces]
                 || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
                 || CondFlag[breton]
-                || CondFlag[bolero] || CondFlag[bolero_inverse]);
+                || CondFlag[bolero] || CondFlag[bolero_inverse]
+                || CondFlag[influencer]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
@@ -752,13 +753,14 @@ static boolean FairyImpossible(void)
       if (Nbr[White] > MovesLeft[Black]+ProofNbrPieces[White]
           || Nbr[Black] > MovesLeft[White]+ProofNbrPieces[Black])
       {
-        TraceText("true\n");
+        TraceValue("%u",__LINE__);TraceText("true\n");
         return true;
       }
     }
 
     if (!CondFlag[sentinelles]
-        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone)
+        && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone
+        && !CondFlag[influencer])
     {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
@@ -787,7 +789,7 @@ static boolean FairyImpossible(void)
       if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
           || proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
       {
-        TraceText("true\n");
+        TraceValue("%u",__LINE__);TraceText("true\n");
         return true;
       }
     }
