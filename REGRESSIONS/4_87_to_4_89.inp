@@ -26,5 +26,16 @@ condition breton popeye
 option nowk nobk
 twin condition breton
 
-end
+next
+
+title the usual "optimization" bug for proof games
+pieces white ke1 qd1 ra1h1 bc1f1 sf3b1 pa2b2c2d2e2f2g2h2
+black ke8 qd8 ra8h8 bc8f8 sg8b8 pa7b7c7d7e5f7g7h7
+Stipulation a=>b1
+Condition Influencer
+Pieces
+white Pe5e2g2f2c2h2b2d2a2 Rh1a1 Qd1 Ke1 Bf1c1 Sb1
+black Pd5b7c7h7g7a7f7 Qd8 Ra8h8 Ke8 Sb8g8 Bf8c8
+option white
+EndProblem
 

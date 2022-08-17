@@ -144,3 +144,61 @@ b) Breton
 solution finished.
 
 
+
+the usual "optimization" bug for proof games
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   S   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     16 + 15
+             Influencer
+
+  1.Sf3*e5 d7-d5[e5=P] a=>b
+  add_to_move_generation_stack:          51
+                     play_move:          51
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           3
+
+solution finished.
+
+
