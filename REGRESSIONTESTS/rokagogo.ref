@@ -26,10 +26,10 @@ also correct with CastlingChess
               Rokagogo
 
   1.Sb1-c3 e7-e6   2.Sc3-d5 Qd8-f6   3.Sd5-e7 Ke8-d8   4.Se7*g8 Bf8-d6   5.Sg8-h6 Kd8-f8/bRh8-e8 dia
-  add_to_move_generation_stack:    68947409
-                     play_move:    68560555
- is_white_king_square_attacked:     4064456
- is_black_king_square_attacked:     4445082
+  add_to_move_generation_stack:    68946376
+                     play_move:    68559078
+ is_white_king_square_attacked:     4064415
+ is_black_king_square_attacked:     4445039
 
 solution finished.
 
@@ -62,10 +62,10 @@ also correct with CastlingChess
               Rokagogo
 
   1.d2-d3 d7-d5   2.Bc1-f4 Bc8-e6   3.Bf4*c7 Qd8-d7   4.Bc7*b8 Ra8*b8   5.d3-d4 Ke8-c8/bRb8-d8 dia
-  add_to_move_generation_stack:   114628832
-                     play_move:   113873401
- is_white_king_square_attacked:     5941627
- is_black_king_square_attacked:     7547785
+  add_to_move_generation_stack:   114626206
+                     play_move:   113869660
+ is_white_king_square_attacked:     5941492
+ is_black_king_square_attacked:     7547677
 
 solution finished.
 
@@ -123,10 +123,10 @@ last 4.5 moves of a proof game in 8.0
               Rokagogo
 
   1.Kd7-d6 Ke1-g1/wRh1-f1   2.Kd6-b6/bRa6-c6 Sf3-e5   3.Rc6*c2 Qd1-f3   4.Rc2*b2 Rf1-d1   5.Kb6-b4/bRb2-b5 a=>b
-  add_to_move_generation_stack:    96998150
-                     play_move:    95837767
- is_white_king_square_attacked:     5281763
- is_black_king_square_attacked:     7270409
+  add_to_move_generation_stack:    96747345
+                     play_move:    95508533
+ is_white_king_square_attacked:     5266340
+ is_black_king_square_attacked:     7258501
 
 solution finished.
 
@@ -185,10 +185,10 @@ f6 already occupied - old piece goes to the underworld.
               Rokagogo
 
   1.Rh8*g8 Ke6-c6/bRa6-d6   2.Rg8-h8 Rd6*d2   3.Rh8-h1 Rd2*c2   4.Sg1-h3 Kc6-c4/bRc2-c5   5.Ke1-g1/wRh1-f1 a=>b
-  add_to_move_generation_stack:    63041167
-                     play_move:    60956119
- is_white_king_square_attacked:     4790541
- is_black_king_square_attacked:     6548720
+  add_to_move_generation_stack:    61586387
+                     play_move:    59444140
+ is_white_king_square_attacked:     4704830
+ is_black_king_square_attacked:     6441296
 
 solution finished.
 
@@ -247,10 +247,10 @@ last 5 moves of a proof game in 18.5
               Rokagogo
 
   1.Ra8-a3 Ke1-g1/wRh1-f1   2.Ra3-b3 a2*b3   3.d4-d3 Ra1-a5   4.d5-d4 Ra5-g5   5.Sh6-f7 Kg1-g3/wRg5-g2 a=>b
-  add_to_move_generation_stack:   281243142
-                     play_move:   277414410
- is_white_king_square_attacked:    15653958
- is_black_king_square_attacked:    19452368
+  add_to_move_generation_stack:   280822173
+                     play_move:   276732420
+ is_white_king_square_attacked:    15638562
+ is_black_king_square_attacked:    19420786
 
 solution finished.
 
@@ -308,10 +308,10 @@ last 5 moves of a proof game in 14.0
               Rokagogo
 
   1.d7-d6 Rh8-h6   2.Bc8-d7 Rh6-f6   3.Bd7-a4 Rf6-f4   4.Sb8-d7 Rf4-g4   5.Qd8-b8 Kg1-g3/wRg4-g2 a=>b
-  add_to_move_generation_stack:    92676973
-                     play_move:    90428999
- is_white_king_square_attacked:     6392470
- is_black_king_square_attacked:     6413648
+  add_to_move_generation_stack:    92060859
+                     play_move:    89680440
+ is_white_king_square_attacked:     6357577
+ is_black_king_square_attacked:     6377435
 
 solution finished.
 
@@ -369,10 +369,10 @@ last 5 moves of a proof game in 15.0
               Rokagogo
 
   1.Re7*g7 Bf8-e7   2.Kg1-g3/wRg7-g2 Kf6-g5   3.Rg2-g1 Sg8-f6   4.Rg1-h1 Rh8-g8   5.Qd1-g1 Kg5-g7/bRg8-g6 + a=>b
-  add_to_move_generation_stack:   278000099
-                     play_move:   269620373
- is_white_king_square_attacked:    19226591
- is_black_king_square_attacked:    23661682
+  add_to_move_generation_stack:   277512947
+                     play_move:   269040862
+ is_white_king_square_attacked:    19198342
+ is_black_king_square_attacked:    23626433
 
 solution finished.
 
@@ -404,7 +404,7 @@ solution finished.
 
   1.e2-e3 d7-d6   2.Ke1-e2 Bc8-g4 +   3.Ke2-d3 e7-e6   4.Kd3-e4 dia
   add_to_move_generation_stack:      611932
-                     play_move:      608526
+                     play_move:      608525
  is_white_king_square_attacked:       30664
  is_black_king_square_attacked:       30886
 
