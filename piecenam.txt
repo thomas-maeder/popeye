@@ -21,7 +21,7 @@
 /* 20*/|TU|vi|vizir                               |we|Wesir                                       |we|wazir                          
 /* 21*/|LR|al|alfil                               |al|Alfil                                       |al|alfil                          
 /* 22*/|LL|fe|fers                                |fe|Fers                                        |fe|fers                           
-/* 23*/|TR|da|dabbabba                            |da|Dabbaba                                     |da|dabbabba                       
+/* 23*/|TR|da|dabbaba                             |da|Dabbaba                                     |da|dabbaba                       
 /* 24*/|DL|li|lion                                |li|Lion                                        |li|lion                           
 /* 25*/|DR|eq|equisauteur (non-stop)              |ne|Non-stop Equihopper                         |ne|nonstop equihopper             
 /* 26*/|DR|l |locuste                             |h |Heuschrecke                                 |l |locust                         

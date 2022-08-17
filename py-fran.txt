@@ -1011,7 +1011,7 @@ suivante est un peu plus compliquee:
 	ct      CAT                             cavalier de troie
 	cy      charybdis
 	d       dame
-	da      dabbabba
+	da      dabbaba
 	df      double fou-sauterelle 
 	dg	senora				Dame arGentinienne
 	dn      dauphin                         sauterelle + kangourou

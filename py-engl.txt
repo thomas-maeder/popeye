@@ -996,7 +996,7 @@ sstipulation). A little bit more elaborate are the commands
 	cr      camelrider
 	ct      CAT (cavalier trojan)
 	cy      charybdis
-	da      dabbabba
+	da      dabbaba
 	db      doublebishopper
 	dg      doublegrasshopper
 	dk      doublerookhopper
