@@ -235,3 +235,41 @@ Rokagogo only allows orthogonal castlings
 solution finished.
 
 
+
+Popeye 4.59 to 4.87 produced 'interesting' output
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#2.5                      1 + 2
+
+  1  (Kg8-f7 )
+  2  (Kg8-h7 )
+  3  (Kg8-g7 )
+  4  (Kg8-f8 )
+  5  (Sh8-f7 )
+  6  (Sh8-g6 )
+  add_to_move_generation_stack:         924
+                     play_move:         782
+ is_white_king_square_attacked:         621
+ is_black_king_square_attacked:         194
+
+solution finished.
+
+
