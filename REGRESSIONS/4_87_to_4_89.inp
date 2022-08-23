@@ -46,4 +46,12 @@ stip zc31
 condition rokagogo
 option nobk
 
+next
+
+title Popeye 4.59 to 4.87 produced 'interesting' output
+pieces white ka1 black kg8 sh8
+stip hr#2.5
+option movenumbers
+
 end
+
