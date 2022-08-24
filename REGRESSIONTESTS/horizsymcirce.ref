@@ -1,0 +1,47 @@
+<<< rs1qkbsr/ppp1pppp/8/8/4p3/5b2/PPPPPPPP/RSBQKBSR/ Null  
+>>>
+
+          Stephen Emmerson
+   Julia's Fairies September 2018
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4.5                    16 + 16
+      Circe HorizontalSymmetry
+
+a) 
+
+  1.Sb1-c3 d7-d5   2.Sc3-e4 d5*e4[+wSe5]   3.Se5-c4 Bc8-g4   4.Sc4-a3 Bg4-f3   5.Sa3-b1 dia
+  add_to_move_generation_stack:   138552155
+                     play_move:   138554405
+ is_white_king_square_attacked:     3384602
+ is_black_king_square_attacked:     7718427
+
+b) bBf3-->h6  
+
+  1.Sg1-f3 d7-d6   2.Sf3-e5 d6*e5[+wSe4]   3.Se4-g5 Bc8-h3   4.Sg5*h3[+bBh6] e5-e4   5.Sh3-g1 dia
+  add_to_move_generation_stack:   139833965
+                     play_move:   139836041
+ is_white_king_square_attacked:     3386934
+ is_black_king_square_attacked:     7819997
+
+solution finished.
+
+

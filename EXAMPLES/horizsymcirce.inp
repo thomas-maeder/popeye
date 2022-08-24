@@ -1,6 +1,7 @@
 beginproblem
+prot        horizsymcirce.ref
 author      Stephen Emmerson
-origin      julia's fairies September 2018
+origin      Julia's Fairies September 2018
 stipulation dia4.5
 condition   horizontalsymmetrycir
 rem <<< rs1qkbsr/ppp1pppp/8/8/4p3/5b2/PPPPPPPP/RSBQKBSR/ Null  
