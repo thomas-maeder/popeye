@@ -20,33 +20,61 @@ switch -re $inputfile {
 }
 
 namespace eval german {
-    set introEmptyLine {\n}
-    set introTextLine { +[^\n]+\n}
-    set intro "$introEmptyLine+(?:$introTextLine)*"
+    namespace eval intro {
+	set emptyLine {\n}
+	set textLine { +[^\n]+\n}
+	set combined "$emptyLine+(?:$textLine)*"
+    }
 
-    set boardEmptyLine {\n}
-    set boardColumns {[+]---a---b---c---d---e---f---g---h---[+]\n}
-    set boardSpaceLine {[|]                                   [|]\n}
-    set boardLineNo {[1-8]}
-    set boardSquareEmpty {  [.]}
-    set boardPiece1Letter { [ =-][A-Z]}
-    set boardPiece2Letters {[ =-][A-Z]{2}}
-    set boardPieceSpec "(?:(?:$boardSquareEmpty|$boardPiece1Letter|$boardPiece2Letters) )"
-    set boardPiecesLine "$boardLineNo $boardPieceSpec{8}  $boardLineNo\n"
-    set boardCaptionLine {  \#[0-9]+ +[0-9]+ [+] [0-9]+\n}
-    set board "$boardEmptyLine${boardColumns}(?:$boardSpaceLine$boardPiecesLine){8}$boardSpaceLine$boardColumns$boardCaptionLine"
+    namespace eval board {
+        set nrRows 8
+        set nrColumns 8
+    
+	set emptyLine {\n}
 
-    set conditionLine { +[^\n]+\n}
-    set conditions "(?:$conditionLine)*"
+	set cornerSign {[+]}
+	set verticalBorderSign {[|]}
+	set horizontalBorderSign "-"
+	
+	set columnName {[a-h]}
+	set columnSpec "$horizontalBorderSign$horizontalBorderSign$columnName$horizontalBorderSign"
+	set columns "$cornerSign${horizontalBorderSign}(?:$columnSpec){$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign\n"
 
-    set solutionEmptyLine {\n}
-    set solution "$solutionEmptyLine"
+	set spaceLine "$verticalBorderSign (?:    ){$nrColumns}  $verticalBorderSign\n"
+
+	set rowNo {[1-8]}
+	set squareEmpty {  [.]}
+	set color {[ =-]}
+	set pieceLetter {[[:upper:]]}
+	set piece1Letter " $color$pieceLetter"
+	set piece2Letters "$color$pieceLetter{2}"
+	set pieceSpec "(?:$squareEmpty|$piece1Letter|$piece2Letters)"
+	set piecesLine "$rowNo (?:$pieceSpec ){$nrColumns}  $rowNo\n"
+
+	set stipulation {\#[[:digit:]]+}
+	set piecesOfColor {[[:digit:]]+}
+	set plus {[+]}
+	set pieceControl "$piecesOfColor $plus $piecesOfColor"
+	set captionLine "  $stipulation +$pieceControl\n"
+	
+	set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns$captionLine"
+    }
+
+    namespace eval conditions {
+	set line { +[^\n]+\n}
+	set combined "(?:$line)*"
+    }
+
+    namespace eval solution {
+	set emptyLine {\n}
+	set combined "$emptyLine"
+    }
 
     set bodyRest {.+?}
     
     set endlines {Loesung beendet[.]\n+?}
     
-    set problem "($intro$board$conditions$solution)${bodyRest}($endlines)"
+    set problem "($intro::combined$board::combined$conditions::combined$solution::combined)${bodyRest}($endlines)"
 
     set problems "(?:$problem)+?"
 }
