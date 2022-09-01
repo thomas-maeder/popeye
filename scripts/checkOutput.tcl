@@ -25,8 +25,18 @@ namespace eval german {
 
 namespace eval intro {
     set emptyLine {\n}
-    set textLine { +[^\n]+\n}
-    set combined "$emptyLine+(?:$textLine)*"
+    set leadingBlanks { *}
+
+    set author {[^\n]+}
+    set authorLine "$leadingBlanks$author\n"
+
+    set origin {[^\n]+}
+    set originLine "$leadingBlanks$origin\n"
+
+    set title {[^\n]+}
+    set titleLine "$leadingBlanks$title\n"
+
+    set combined "$emptyLine+(?:$authorLine)?(?:$originLine)?(?:$titleLine)?"
 }
 
 namespace eval board {
