@@ -122,7 +122,7 @@ namespace eval solution {
 
 set bodyRest {.+?}
 
-set problem "($intro::combined$board::combined$conditions::combined$solution::combined)${bodyRest}([set ${language}::endlines])"
+set problem "($intro::combined$board::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
 
 set problems "(?:$problem)+?"
 
