@@ -76,7 +76,7 @@ namespace eval board {
     set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
     set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
-    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81)}
+    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=)}
     set exact {(?:exact-)}
     set intro {(?:[[:digit:]]+->)}
     set series "(?:$intro?ser-)"
