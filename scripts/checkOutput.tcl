@@ -20,7 +20,9 @@ switch -re $inputfile {
 }
 
 namespace eval german {
-    set endlines {Loesung beendet[.]\n+?}
+    set endlines {(?:Loesung beendet[.]|Partielle Loesung)\n+?}
+    set white {Weiss}
+    set black {Schwarz}
 }
 
 namespace eval intro {
@@ -33,10 +35,13 @@ namespace eval intro {
     set origin {[^\n]+}
     set originLine "$leadingBlanks$origin\n"
 
+    set award {[^\n]+}
+    set awardLine "$leadingBlanks$award\n"
+
     set title {[^\n]+}
     set titleLine "$leadingBlanks$title\n"
 
-    set combined "$emptyLine+(?:$authorLine)?(?:$originLine)?(?:$titleLine)?"
+    set combined "$emptyLine+(?:$authorLine)?(?:$originLine)?(?:$awardLine)?(?:$titleLine)?"
 }
 
 namespace eval board {
@@ -58,23 +63,49 @@ namespace eval board {
     set rowNo {[1-8]}
     set squareEmpty {  [.]}
     set color {[ =-]}
-    set pieceLetter {[[:upper:]]}
-    set piece1Letter " $color$pieceLetter"
-    set piece2Letters "$color$pieceLetter{2}"
-    set pieceSpec "(?:$squareEmpty|$piece1Letter|$piece2Letters)"
+    set piece1stLetter {[[:upper:]]}
+    set piece2ndChar {[[:alnum:]]}
+    set piece1Char " $color$piece1stLetter"
+    set piece2Chars "$color$piece1stLetter$piece2ndChar"
+    set pieceSpec "(?:$squareEmpty|$piece1Char|$piece2Chars)"
     set piecesLine "$rowNo (?:$pieceSpec ){$nrColumns}  $rowNo\n"
 
-    set stipulation {\#[[:digit:]]+}
+    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81)}
+    set exact {(?:exact-)}
+    set intro {(?:[[:digit:]]+->)}
+    set series "(?:$intro?ser-)"
+    set help "h"
+    set paren_open {[(]}
+    set paren_close {[)]}
+    set recigoal "(?:$paren_open$goal$paren_close)"
+    set recihelp "(?:reci-h$recigoal?)"
+    set self "s"
+    set reflex {(?:(?:semi-)?r)}
+    set play "(?:(?:$series)?(?:$help|$recihelp|$self|h$self|$reflex|h$reflex)?)"
+    set length {(?:[[:digit:]]+(?:[.]5)?)}
+    set stipulation_traditional "(?:$exact?$play$goal$length)"
+
+    set side "(?:[set ${language}::white]|[set ${language}::black])"
+    set stipulation_structured [subst -nocommands {(?:$side [^ ]+)}]; # TODO
+
+    set maxthreat {(?:/[[:digit:]]*)}
+    set maxflight {(?:/[[:digit:]]+)}
+    set nontrivial {(?:;[[:digit:]]+,[[:digit:]]+)}
+
+    set stipulation "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
+    
     set piecesOfColor {[[:digit:]]+}
     set plus {[+]}
-    set pieceControl "$piecesOfColor $plus $piecesOfColor"
-    set captionLine "  $stipulation +$pieceControl\n"
-    
+    set pieceControl "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?"
+    set captionLine " *$stipulation *$pieceControl\n"
+
+#    puts $captionLine; exit 0
+
     set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns$captionLine"
 }
 
 namespace eval conditions {
-    set line { +[^\n]+\n}
+    set line { *[^\n]+\n}
     set combined "(?:$line)*"
 }
 
