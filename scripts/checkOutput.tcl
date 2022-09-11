@@ -64,10 +64,9 @@ namespace eval board {
     set squareEmpty {  [.]}
     set hole {   }
     set color {[ =-]}
-    set piece1stLetter {[[:upper:]]}
-    set piece2ndChar {[[:alnum:]]}
-    set piece1Char " $color$piece1stLetter"
-    set piece2Chars "$color$piece1stLetter$piece2ndChar"
+    set pieceChar {[[:upper:][:digit:]]}
+    set piece1Char " $color$pieceChar"
+    set piece2Chars "$color$pieceChar{2}"
     set pieceSpec "(?:$squareEmpty|$hole|$piece1Char|$piece2Chars)"
     set piecesLine "$rowNo (?:$pieceSpec ){$nrColumns}  $rowNo\n"
 
