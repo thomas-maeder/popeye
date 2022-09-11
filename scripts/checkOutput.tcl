@@ -41,7 +41,7 @@ namespace eval intro {
     set title {[^\n]+}
     set titleLine "$leadingBlanks$title\n"
 
-    set combined "$emptyLine+(?:$authorLine)?(?:$originLine)?(?:$awardLine)?(?:$titleLine)?"
+    set combined "$emptyLine+(?:$authorLine)*(?:$originLine)*(?:$awardLine)?(?:$titleLine)?"
 }
 
 namespace eval board {
@@ -63,7 +63,7 @@ namespace eval board {
     set gridHorizontal " ---"
     set noPiece {[.]}
     set squareEmpty "(?: |$gridVertical) $noPiece"
-    set hole {(?: |$gridVertical)  }
+    set hole "(?: |$gridVertical)  "
     set color {[ =-]}
     set pieceChar {[[:upper:][:digit:]]}
     set piece1Char "(?: |$gridVertical)$color$pieceChar"
