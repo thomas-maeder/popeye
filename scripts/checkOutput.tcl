@@ -59,19 +59,22 @@ namespace eval board {
     set columns "$cornerSign${horizontalBorderSign}(?:$columnSpec){$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign\n"
 
     set rowNo {[1-8]}
-    set squareEmpty {  [.]}
-    set hole {   }
+    set gridVertical {[|]}
+    set gridHorizontal " ---"
+    set noPiece {[.]}
+    set squareEmpty "(?: |$gridVertical) $noPiece"
+    set hole {(?: |$gridVertical)  }
     set color {[ =-]}
     set pieceChar {[[:upper:][:digit:]]}
-    set piece1Char " $color$pieceChar"
-    set piece2Chars "$color$pieceChar{2}"
+    set piece1Char "(?: |$gridVertical)$color$pieceChar"
+    set piece2Chars "(?:$color|$gridVertical)$pieceChar{2}"
     set pieceSpecSeparator " "
     set hunterPartsSeparator "/"
     set pieceSpec "(?:$squareEmpty|$hole|$piece1Char|$piece2Chars)(?:$pieceSpecSeparator|$hunterPartsSeparator)"
-    set piecesLine "$rowNo (?:$pieceSpec){$nrColumns}  $rowNo\n"
+    set piecesLine "${rowNo} (?:$pieceSpec){$nrColumns}  $rowNo\n"
 
     set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
-    set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator){$nrColumns}  $verticalBorderSign\n"
+    set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
     set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81)}
     set exact {(?:exact-)}
