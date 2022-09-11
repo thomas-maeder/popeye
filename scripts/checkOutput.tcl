@@ -62,12 +62,13 @@ namespace eval board {
 
     set rowNo {[1-8]}
     set squareEmpty {  [.]}
+    set hole {   }
     set color {[ =-]}
     set piece1stLetter {[[:upper:]]}
     set piece2ndChar {[[:alnum:]]}
     set piece1Char " $color$piece1stLetter"
     set piece2Chars "$color$piece1stLetter$piece2ndChar"
-    set pieceSpec "(?:$squareEmpty|$piece1Char|$piece2Chars)"
+    set pieceSpec "(?:$squareEmpty|$hole|$piece1Char|$piece2Chars)"
     set piecesLine "$rowNo (?:$pieceSpec ){$nrColumns}  $rowNo\n"
 
     set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81)}
