@@ -76,6 +76,10 @@ namespace eval board {
     set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
     set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
+    set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns"
+}
+
+namespace eval stipulation {
     set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=)}
     set exact {(?:exact-)}
     set intro {(?:[[:digit:]]+->)}
@@ -98,14 +102,17 @@ namespace eval board {
     set maxflight {(?:/[[:digit:]]+)}
     set nontrivial {(?:;[[:digit:]]+,[[:digit:]]+)}
 
-    set stipulation "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
+    set combined "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
+}
     
+namespace eval pieceControl {
     set piecesOfColor {[[:digit:]]+}
     set plus {[+]}
-    set pieceControl "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?"
-    set captionLine " *$stipulation *$pieceControl\n"
+    set combined "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?"
+}
 
-    set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns$captionLine"
+namespace eval caption {
+    set combined " *$stipulation::combined *$pieceControl::combined\n"
 }
 
 namespace eval conditions {
@@ -120,7 +127,7 @@ namespace eval solution {
 
 set bodyRest {.+?}
 
-set problem "($intro::combined$board::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
+set problem "($intro::combined$board::combined$caption::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
 
 set problems "(?:$problem)+?"
 
