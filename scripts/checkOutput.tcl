@@ -105,8 +105,6 @@ namespace eval board {
     set pieceControl "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?"
     set captionLine " *$stipulation *$pieceControl\n"
 
-#    puts $captionLine; exit 0
-
     set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns$captionLine"
 }
 
