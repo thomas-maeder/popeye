@@ -25,6 +25,12 @@ namespace eval german {
     set black {Schwarz}
 }
 
+namespace eval english {
+    set endlines {(?:solution finished[.]|Partial solution)\n+?}
+    set white {white}
+    set black {black}
+}
+
 namespace eval intro {
     set emptyLine {\n}
     set leadingBlanks { *}
@@ -80,10 +86,10 @@ namespace eval board {
 }
 
 namespace eval stipulation {
-    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=)}
+    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
     set exact {(?:exact-)}
     set intro {(?:[[:digit:]]+->)}
-    set series "(?:$intro?ser-)"
+    set series "(?:$intro?(?:ph?)?ser-)"
     set help "h"
     set paren_open {[(]}
     set paren_close {[)]}
@@ -108,7 +114,7 @@ namespace eval stipulation {
 namespace eval pieceControl {
     set piecesOfColor {[[:digit:]]+}
     set plus {[+]}
-    set combined "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?"
+    set combined "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?(?: $plus ${piecesOfColor} TI)?"
 }
 
 namespace eval caption {
@@ -142,7 +148,7 @@ set f [open $inputfile "r"]
 set input [read $f]
 close $f
 
-set matches [regexp -all -inline $problems $input]
+set matches [regexp -all -inline -nocase $problems $input]
 
 foreach { whole top bottom } $matches {
     puts -nonewline $top
