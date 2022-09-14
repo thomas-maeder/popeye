@@ -115,6 +115,13 @@ namespace eval caption {
     set combined " *$stipulation::combined *$pieceControl::combined\n"
 }
 
+namespace eval boardA {
+    # the caption of board A doesn't indicate the stipulation
+    set caption " *$pieceControl::combined\n"
+    set tomove "$stipulation::paren_open$stipulation::side ->$stipulation::paren_close"
+    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n\n)?"
+}
+
 namespace eval conditions {
     set line { *[^\n]+\n}
     set combined "(?:$line)*"
@@ -127,7 +134,7 @@ namespace eval solution {
 
 set bodyRest {.+?}
 
-set problem "($intro::combined$board::combined$caption::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
+set problem "($intro::combined$boardA::combined$board::combined$caption::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
 
 set problems "(?:$problem)+?"
 
