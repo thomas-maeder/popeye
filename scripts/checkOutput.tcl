@@ -151,6 +151,8 @@ namespace eval solution {
     set moveDecoration {(?: [+#])?}
     set move "${movement}(?:$promotion|$changeOfColor)?$moveDecoration"
 
+    set twinning {[a-z][)].*?\n}; # TODO be more explicit
+
     namespace eval tree {
 	set attackNumber {[1-9][0-9]*[.]}
 	set defenseNumber {[1-9][0-9]*[.]{3}}
@@ -167,10 +169,10 @@ namespace eval solution {
 	set butLine "    [set ${language}::but]\n"
 	set refutationLine "$defense !\n"
 
-	set combined "${solution::emptyLine}(?:${keyLine}(?:$threatLine)?(?:${defenseLine}(?:$attackLine)+)*(?:$butLine$refutationLine)?$solution::emptyLine)*"
+	set combined "(?:${solution::emptyLine}(?:${keyLine}(?:$threatLine)?(?:${defenseLine}(?:$attackLine)+)*(?:$butLine$refutationLine)?$solution::emptyLine)*)"
     }
 
-    set combined "$tree::combined"
+    set combined "(?:(?:$emptyLine$twinning)?$tree::combined*)"
 }
 
 set bodyRest {.+?}
