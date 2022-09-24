@@ -147,8 +147,9 @@ namespace eval solution {
     set captureOrNot {[-*]}
     set movement "$piece$square$captureOrNot$square"
     set promotion "=$piece"
+    set changeOfColor {=[wbn]}
     set moveDecoration {(?: [+#])?}
-    set move "${movement}(?:$promotion)?$moveDecoration"
+    set move "${movement}(?:$promotion|$changeOfColor)?$moveDecoration"
 
     namespace eval tree {
 	set attackNumber {[1-9][0-9]*[.]}
