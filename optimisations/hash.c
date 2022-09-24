@@ -667,7 +667,7 @@ static void set_value_attack_nosuccess(dhtElement *hue,
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("%p",(void *)&hue->Data);
-  TraceValue("pre:%08x ",(unsigned int)hue->Data);
+  TraceValue("pre:%08x ",(unsigned int)(uint_pointer_type)hue->Data);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
@@ -699,7 +699,7 @@ static void set_value_attack_success(dhtElement *hue,
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
   TraceValue("%p",(void *)&hue->Data);
-  TraceValue("pre:%08x ",(unsigned int)hue->Data);
+  TraceValue("pre:%08x ",(unsigned int)(uint_pointer_type)hue->Data);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
@@ -730,7 +730,7 @@ static void set_value_help(dhtElement *hue,
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
   TraceValue("%p ",(void *)&hue->Data);
-  TraceValue("pre:0x%08x ",(unsigned int)hue->data);
+  TraceValue("pre:0x%08x ",(unsigned int)(uint_pointer_type)hue->data);
   TraceValue("0x%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
@@ -738,7 +738,7 @@ static void set_value_help(dhtElement *hue,
   tmp &= ~mask;
   tmp |= bits;
   hue->Data = (dhtConstValue)(uint_pointer_type)tmp;
-  TraceValue("post:0x%08x",(unsigned int)hue->Data);
+  TraceValue("post:0x%08x",(unsigned int)(uint_pointer_type)hue->Data);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
