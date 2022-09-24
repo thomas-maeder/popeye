@@ -146,10 +146,10 @@ namespace eval solution {
     set square {[a-h][1-8]}
     set captureOrNot {[-*]}
     set movement "$piece$square$captureOrNot$square"
-    set promotion "=$piece"
-    set changeOfColor {=[wbn]}
+    set promotion "(?:=$piece)"
+    set changeOfColor {(?:=[wbn])}
     set moveDecoration {(?: [+#])?}
-    set move "${movement}(?:$promotion|$changeOfColor)?$moveDecoration"
+    set move "${movement}$promotion?$changeOfColor?$moveDecoration"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
