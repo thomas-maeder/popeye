@@ -172,7 +172,12 @@ namespace eval solution {
 	set combined "(?:${solution::emptyLine}(?:${keyLine}(?:$threatLine)?(?:${defenseLine}(?:$attackLine)+)*(?:$butLine$refutationLine)?$solution::emptyLine)*)"
     }
 
-    set combined "(?:(?:$emptyLine$twinning)?$tree::combined*)"
+    namespace eval line {
+       set line {  [1][.].*?\n}; # TODO be more explicit
+       set combined "(?:${solution::emptyLine}(?:$line)*)"
+    }
+
+    set combined "(?:(?:$emptyLine$twinning)?$tree::combined*|$line::combined*)"
 }
 
 set bodyRest {.+?}
