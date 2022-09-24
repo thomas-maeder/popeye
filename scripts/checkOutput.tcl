@@ -131,7 +131,7 @@ namespace eval boardA {
     # the caption of board A doesn't indicate the stipulation
     set caption " *$pieceControl::combined\n"
     set tomove "$stipulation::paren_open$stipulation::side ->$stipulation::paren_close"
-    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n\n)?"
+    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n\n)"
 }
 
 namespace eval conditions {
@@ -183,16 +183,19 @@ namespace eval solution {
 
     namespace eval line {
 	set number {[1-9][0-9]*[.]}
-	set line " +(?:$number$solution::move $solution::move )+\n"
+	set line "(?: +$number$solution::move +$solution::move)+\n"
 	set combined "(?:${solution::emptyLine}(?:$line)*)"
     }
 
-    set combined "(?:(?:$emptyLine$twinning)?$tree::combined*|$line::combined*)"
+    set combined "(?:(?:$emptyLine$twinning)?(?:$tree::combined*|$line::combined))"
 }
 
-set bodyRest {.+?}
+namespace eval measurements {
+    set line {(?: *[a-z_]+: *[0-9]+\n)}
+    set combined "$line{4}"
+}
 
-set problem "($intro::combined$boardA::combined$board::combined$caption::combined$conditions::combined$solution::combined)${bodyRest}([set ${language}::endlines])"
+set problem "($intro::combined$boardA::combined?$board::combined$caption::combined$conditions::combined$solution::combined$measurements::combined?)(\n[set ${language}::endlines])"
 
 set problems "(?:$problem)+?"
 

@@ -1,0 +1,38 @@
+            Torsten Lin"s
+           Markus Manhart
+             Franz Pachl
+          Manfred Rittirsch
+    1. ea. Preis, Andernach 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   D   .   .   .   .   8
+|                                   |
+7   .  -B  -S  -B   .   .   .   .   7
+|                                   |
+6  -L  -L   .  -D  -T   .  -S   .   6
+|                                   |
+5   .   .  -B  -K   S  -B  -B   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   L   .   .   .   .  -T   3
+|                                   |
+2   .   .   .   .   T   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 15
+           AndernachSchach
+
+  1.Th3*c3=w Dd8*d7=s   2.Dd7-b5 Tc3-d3 #
+  1.La6*e2=w Dd8*g5=s   2.Dg5-g3 Le2-f3 #
+  add_to_move_generation_stack:      295092
+                     play_move:      182683
+ is_white_king_square_attacked:       34857
+ is_black_king_square_attacked:      181576
+
+Loesung beendet.
+
+
