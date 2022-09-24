@@ -147,9 +147,10 @@ namespace eval solution {
     set captureOrNot {[-*]}
     set movement "$piece$square$captureOrNot$square"
     set promotion "(?:=$piece)"
+    set enPassant {(?: ep[.])}
     set changeOfColor {(?:=[wbn])}
-    set moveDecoration {(?: [+#])?}
-    set move "${movement}$promotion?$changeOfColor?$moveDecoration"
+    set goal {(?: (?:[+#]|dia))}
+    set move "$movement$enPassant?$promotion?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
@@ -181,8 +182,9 @@ namespace eval solution {
     }
 
     namespace eval line {
-       set line {  [1][.].*?\n}; # TODO be more explicit
-       set combined "(?:${solution::emptyLine}(?:$line)*)"
+	set number {[1-9][0-9]*[.]}
+	set line " +(?:$number$solution::move $solution::move )+\n"
+	set combined "(?:${solution::emptyLine}(?:$line)*)"
     }
 
     set combined "(?:(?:$emptyLine$twinning)?$tree::combined*|$line::combined*)"
