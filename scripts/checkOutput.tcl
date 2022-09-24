@@ -157,10 +157,10 @@ namespace eval solution {
 	set attackNumber {[1-9][0-9]*[.]}
 	set defenseNumber {[1-9][0-9]*[.]{3}}
 
-	set keySuccess {[?!]}
+	set keySuccess { [?!]}
 	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
 
-	set keyLine "   $attackNumber$solution::move $keySuccess$zugzwangOrThreat\n"
+	set keyLine "   $attackNumber$solution::move$keySuccess$zugzwangOrThreat\n"
 	set attackLine " +$attackNumber$solution::move$zugzwangOrThreat\n"
 	set threatLine $attackLine
 
