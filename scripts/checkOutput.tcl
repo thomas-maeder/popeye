@@ -166,10 +166,18 @@ namespace eval solution {
 
 	set defense " +$defenseNumber$solution::move"
 	set defenseLine "$defense\n"
+
+        set postKeyPlayBlock "(?:(?:$defenseLine|$attackLine)*)"
+
 	set butLine "    [set ${language}::but]\n"
 	set refutationLine "$defense !\n"
+	set refutationBlock "(?:$butLine$refutationLine)"
 
-	set combined "(?:${solution::emptyLine}(?:${keyLine}(?:$threatLine)?(?:${defenseLine}(?:$attackLine)+)*(?:$butLine$refutationLine)?$solution::emptyLine)*)"
+	set fullPhaseBlock "(?:$keyLine$postKeyPlayBlock$refutationBlock?$solution::emptyLine)"
+
+	set setPlayBlock $postKeyPlayBlock
+
+	set combined "(?:$solution::emptyLine$setPlayBlock?$fullPhaseBlock*)"
     }
 
     namespace eval line {
