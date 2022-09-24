@@ -23,12 +23,18 @@ namespace eval german {
     set endlines {(?:Loesung beendet[.]|Partielle Loesung)\n+?}
     set white {Weiss}
     set black {Schwarz}
+    set zugzwang {Zugzwang[.]}
+    set threat "Drohung:"
+    set but {Aber}
 }
 
 namespace eval english {
     set endlines {(?:solution finished[.]|Partial solution)\n+?}
     set white {white}
     set black {black}
+    set zugzwang {Zugzwang[.]}
+    set threat "Threat:"
+    set but {But}
 }
 
 namespace eval intro {
@@ -135,12 +141,40 @@ namespace eval conditions {
 
 namespace eval solution {
     set emptyLine {\n}
-    set combined "$emptyLine"
+    set pieceChar {[[:upper:][:digit:]]}
+    set piece "$pieceChar{0,2}"
+    set square {[a-h][1-8]}
+    set captureOrNot {[-*]}
+    set movement "$piece$square$captureOrNot$square"
+    set promotion "=$piece"
+    set moveDecoration {(?: [+#])?}
+    set move "${movement}(?:$promotion)?$moveDecoration"
+
+    namespace eval tree {
+	set attackNumber {[1-9][0-9]*[.]}
+	set defenseNumber {[1-9][0-9]*[.]{3}}
+
+	set keySuccess {[?!]}
+	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
+
+	set keyLine "   $attackNumber$solution::move $keySuccess$zugzwangOrThreat\n"
+	set attackLine " +$attackNumber$solution::move$zugzwangOrThreat\n"
+	set threatLine $attackLine
+
+	set defense " +$defenseNumber$solution::move"
+	set defenseLine "$defense\n"
+	set butLine "    [set ${language}::but]\n"
+	set refutationLine "$defense !\n"
+
+	set combined "${solution::emptyLine}(?:${keyLine}(?:$threatLine)?(?:${defenseLine}(?:$attackLine)+)*(?:$butLine$refutationLine)?$solution::emptyLine)*"
+    }
+
+    set combined "$tree::combined"
 }
 
 set bodyRest {.+?}
 
-set problem "($intro::combined$boardA::combined$board::combined$caption::combined$conditions::combined)${bodyRest}([set ${language}::endlines])"
+set problem "($intro::combined$boardA::combined$board::combined$caption::combined$conditions::combined$solution::combined)${bodyRest}([set ${language}::endlines])"
 
 set problems "(?:$problem)+?"
 
