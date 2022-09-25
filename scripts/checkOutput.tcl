@@ -209,7 +209,7 @@ namespace eval measurements {
     set combined "(?:$line{4})"
 }
 
-set problem "($intro::combined$boardA::combined?$board::combined$caption::combined$conditions::combined$solution::combined$measurements::combined?)(\n[set ${language}::endlines])"
+set problem "($intro::combined$boardA::combined?$board::combined$caption::combined$conditions::combined$solution::combined$measurements::combined?\n*[set ${language}::endlines]\n\n)"
 
 set problems "(?:$problem)+?"
 
@@ -219,7 +219,6 @@ close $f
 
 set matches [regexp -all -inline -nocase $problems $input]
 
-foreach { whole top bottom } $matches {
-    puts -nonewline $top
-    puts -nonewline $bottom
+foreach { whole match } $matches {
+    puts -nonewline $match
 }
