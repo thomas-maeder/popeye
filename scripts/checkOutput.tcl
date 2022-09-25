@@ -43,19 +43,22 @@ namespace eval intro {
     set emptyLine {\n}
     set leadingBlanks { *}
 
+    set remark {[^\n]+}
+    set remarkLine "(?:$remark\n)"
+
     set author {[^\n]+}
-    set authorLine "$leadingBlanks$author\n"
+    set authorLine "(?:$leadingBlanks$author\n)"
 
     set origin {[^\n]+}
-    set originLine "$leadingBlanks$origin\n"
+    set originLine "(?:$leadingBlanks$origin\n)"
 
     set award {[^\n]+}
-    set awardLine "$leadingBlanks$award\n"
+    set awardLine "(?:$leadingBlanks$award\n)"
 
     set title {[^\n]+}
-    set titleLine "$leadingBlanks$title\n"
+    set titleLine "(?:$leadingBlanks$title\n)"
 
-    set combined "$emptyLine+(?:$authorLine)*(?:$originLine)*(?:$awardLine)?(?:$titleLine)?"
+    set combined "$remarkLine*$emptyLine+$authorLine*$originLine*$awardLine?$titleLine?"
 }
 
 namespace eval board {
