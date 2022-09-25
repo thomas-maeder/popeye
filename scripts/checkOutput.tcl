@@ -26,6 +26,7 @@ namespace eval german {
     set zugzwang {Zugzwang[.]}
     set threat "Drohung:"
     set but {Aber}
+    set colorShortcut {(?:[wsn])}
 }
 
 namespace eval english {
@@ -35,6 +36,7 @@ namespace eval english {
     set zugzwang {Zugzwang[.]}
     set threat "Threat:"
     set but {But}
+    set colorShortcut {(?:[wbn])}
 }
 
 namespace eval intro {
@@ -142,15 +144,17 @@ namespace eval conditions {
 namespace eval solution {
     set emptyLine {\n}
     set pieceChar {[[:upper:][:digit:]]}
-    set piece "$pieceChar{0,2}"
+    set piecePawnImplicit "$pieceChar{0,2}"
+    set piece "$pieceChar{1,2}"
     set square {[a-h][1-8]}
     set captureOrNot {[-*]}
-    set movement "$piece$square$captureOrNot$square"
+    set movement "$piecePawnImplicit$square$captureOrNot$square"
     set promotion "(?:=$piece)"
     set enPassant {(?: ep[.])}
-    set changeOfColor {(?:=[wbn])}
+    set anticirceRebirth "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
+    set changeOfColor "(?:=[set ${language}::colorShortcut])"
     set goal {(?: (?:[+#]|dia))}
-    set move "$movement$enPassant?$promotion?$changeOfColor?$goal?"
+    set move "$movement$enPassant?$promotion?$anticirceRebirth?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
