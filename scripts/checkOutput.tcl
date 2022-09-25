@@ -151,12 +151,14 @@ namespace eval solution {
     set piece "$pieceChar{1,2}"
     set square {[a-h][1-8]}
     set captureOrNot {[-*]}
-    set movement "$piecePawnImplicit$square$captureOrNot$square"
+    set castlingQ "0-0-0"
+    set castlingK "0-0"
+    set movement "(?:$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set promotion "(?:=$piece)"
     set enPassant {(?: ep[.])}
     set anticirceRebirth "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
-    set goal {(?: (?:[+#]|dia))}
+    set goal "(?: $stipulation::goal)"
     set move "$movement$enPassant?$promotion?$anticirceRebirth?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
