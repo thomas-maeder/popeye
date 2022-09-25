@@ -183,8 +183,22 @@ namespace eval solution {
 
     namespace eval line {
 	set number {[1-9][0-9]*[.]}
-	set line "(?: +$number$solution::move +$solution::move)+\n"
-	set combined "(?:${solution::emptyLine}(?:$line)*)"
+	set ellipsis {[.][.][.]}
+
+	set firstMovePair "(?:1.$solution::move +$solution::move)"
+	set firstMoveSkipped "1$ellipsis$solution::move"
+	set subsequentMovePair "(?: +$number$solution::move +$solution::move)"
+
+	set regularPlayFirstMovePair "(?:$firstMoveSkipped|$firstMovePair)"
+	set regularPlayLine "(?: +$regularPlayFirstMovePair$subsequentMovePair*\n)"
+	set regularPlayBlock "(?:$solution::emptyLine$regularPlayLine*)"
+
+	set setPlayFirstMovePairSkipped "1$ellipsis +$ellipsis"
+	set setPlayFirstMovePair "(?:$setPlayFirstMovePairSkipped|$firstMoveSkipped|$firstMovePair)"
+	set setPlayLine "(?: +$setPlayFirstMovePair$subsequentMovePair*\n)"
+	set setPlayBlock "(?:$solution::emptyLine$setPlayLine*)"
+
+	set combined "$setPlayBlock?$regularPlayBlock"
     }
 
     set combined "(?:(?:$emptyLine$twinning)?(?:$tree::combined*|$line::combined))"
@@ -192,7 +206,7 @@ namespace eval solution {
 
 namespace eval measurements {
     set line {(?: *[a-z_]+: *[0-9]+\n)}
-    set combined "$line{4}"
+    set combined "(?:$line{4})"
 }
 
 set problem "($intro::combined$boardA::combined?$board::combined$caption::combined$conditions::combined$solution::combined$measurements::combined?)(\n[set ${language}::endlines])"
