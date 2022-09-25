@@ -198,7 +198,11 @@ namespace eval solution {
 	set setPlayLine "(?: +$setPlayFirstMovePair$subsequentMovePair*\n)"
 	set setPlayBlock "(?:$solution::emptyLine$setPlayLine*)"
 
-	set combined "$setPlayBlock?$regularPlayBlock"
+	set seriesPlayMove "(?: +$number$solution::move)"
+	set seriesPlayLine "(?:$seriesPlayMove*(?:$seriesPlayMove|$subsequentMovePair)\n)"
+	set seriesPlayBlock "(?:$solution::emptyLine$seriesPlayLine*)"
+
+	set combined "$setPlayBlock?(?:$regularPlayBlock|$seriesPlayBlock)"
     }
 
     set combined "(?:(?:$emptyLine$twinning)?(?:$tree::combined*|$line::combined))"
