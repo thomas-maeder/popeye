@@ -156,6 +156,7 @@ namespace eval solution {
     set castlingQ "0-0-0"
     set castlingK "0-0"
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
+    set takeAndMakeAndTake "(?:$captureOrNot$square)"
     set promotion "(?:=$piece)"
     set enPassant {(?: ep[.])}
     set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
@@ -163,7 +164,7 @@ namespace eval solution {
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$enPassant?$promotion?$pieceMovement?$pieceRemoval?$changeOfColor?$goal?"
+    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceRemoval?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
