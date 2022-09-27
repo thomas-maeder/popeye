@@ -27,6 +27,7 @@ namespace eval german {
     set threat "Drohung:"
     set but {Aber}
     set colorShortcut {(?:[wsn])}
+    set pieceAttributeShortcut {(?:[k])}
 }
 
 namespace eval english {
@@ -37,6 +38,7 @@ namespace eval english {
     set threat "Threat:"
     set but {But}
     set colorShortcut {(?:[wbn])}
+    set pieceAttributeShortcut {(?:[r])}
 }
 
 namespace eval intro {
@@ -153,13 +155,14 @@ namespace eval solution {
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
     set castlingK "0-0"
-    set movement "(?:$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
+    set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set promotion "(?:=$piece)"
     set enPassant {(?: ep[.])}
-    set anticirceRebirth "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
+    set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
+    set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
     set goal "(?: $stipulation::goal)"
-    set move "$movement$enPassant?$promotion?$anticirceRebirth?$changeOfColor?$goal?"
+    set move "$movement$enPassant?$promotion?$pieceMovement?$pieceRemoval?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
