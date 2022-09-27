@@ -161,7 +161,8 @@ namespace eval solution {
     set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
-    set goal "(?: $stipulation::goal)"
+    # yes, this is slightly different from stipulation::goal!
+    set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set move "$movement$enPassant?$promotion?$pieceMovement?$pieceRemoval?$changeOfColor?$goal?"
 
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
@@ -180,7 +181,7 @@ namespace eval solution {
 	set defense " +$defenseNumber$solution::move"
 	set defenseLine "$defense\n"
 
-        set postKeyPlayBlock "(?:(?:$defenseLine|$attackLine)*)"
+        set postKeyPlayBlock "(?:(?:$zugzwangOrThreat)(?:$defenseLine|$attackLine)*)"
 
 	set butLine "    [set ${language}::but]\n"
 	set refutationLine "$defense !\n"
@@ -225,7 +226,7 @@ namespace eval measurements {
     set combined "(?:$line{4})"
 }
 
-set problem "($intro::combined$boardA::combined?$board::combined$caption::combined$conditions::combined$solution::combined$measurements::combined?\n*[set ${language}::endlines]\n\n)"
+set problem "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($measurements::combined?\n*)([set ${language}::endlines]\n\n)"
 
 set problems "(?:$problem)+?"
 
@@ -235,6 +236,13 @@ close $f
 
 set matches [regexp -all -inline -nocase $problems $input]
 
-foreach { whole match } $matches {
-    puts -nonewline $match
+foreach { whole intro boardA board caption conditions solution measurements footer } $matches {
+    puts -nonewline $intro
+    puts -nonewline $boardA
+    puts -nonewline $board
+    puts -nonewline $caption
+    puts -nonewline $conditions
+    puts -nonewline $solution
+    puts -nonewline $measurements
+    puts -nonewline $footer
 }
