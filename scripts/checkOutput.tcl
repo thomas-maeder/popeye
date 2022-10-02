@@ -28,6 +28,7 @@ namespace eval german {
     set but {Aber}
     set colorShortcut {(?:[wsn])}
     set pieceAttributeShortcut {(?:[k])}
+    set zeroposition "NullStellung"
 }
 
 namespace eval english {
@@ -39,6 +40,7 @@ namespace eval english {
     set but {But}
     set colorShortcut {(?:[wbn])}
     set pieceAttributeShortcut {(?:[r])}
+    set zeroposition "zeroposition"
 }
 
 namespace eval intro {
@@ -168,6 +170,7 @@ namespace eval solution {
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$goal?"
 
+    set zeroposition "(?:[set ${language}::zeroposition]\n+)"
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
     namespace eval tree {
@@ -221,7 +224,7 @@ namespace eval solution {
 	set combined "$setPlayBlock?(?:$regularPlayBlock|$seriesPlayBlock)"
     }
 
-    set combined "(?:(?:$emptyLine$twinning)?(?:$tree::combined*|$line::combined))"
+    set combined "(?:(?:$emptyLine$zeroposition?$twinning)?(?:$tree::combined*|$line::combined))"
 }
 
 namespace eval measurements {
