@@ -174,8 +174,9 @@ namespace eval solution {
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
     namespace eval tree {
-	set attackNumber {[1-9][0-9]*[.]}
-	set defenseNumber {[1-9][0-9]*[.]{3}}
+	set ordinalNumber {[1-9][0-9]*[.]}
+	set attackNumber $ordinalNumber
+	set defenseNumber "$ordinalNumber\[.]{2}"
 
 	set keySuccess { [?!]}
 	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
@@ -201,23 +202,26 @@ namespace eval solution {
     }
 
     namespace eval line {
-	set number {[1-9][0-9]*[.]}
+	set ordinalNumber {[1-9][0-9]*[.]}
 	set ellipsis {[.][.][.]}
+
+	set moveNumber {[1-9][0-9]*}
+	set moveNumberLine "(?: +$moveNumber  \[(]$solution::move \[)]\n)"
 
 	set firstMovePair "(?:1.$solution::move +$solution::move)"
 	set firstMoveSkipped "1$ellipsis$solution::move"
-	set subsequentMovePair "(?: +$number$solution::move +$solution::move)"
+	set subsequentMovePair "(?: +$ordinalNumber$solution::move +$solution::move)"
 
 	set regularPlayFirstMovePair "(?:$firstMoveSkipped|$firstMovePair)"
 	set regularPlayLine "(?: +$regularPlayFirstMovePair$subsequentMovePair*\n)"
-	set regularPlayBlock "(?:$solution::emptyLine$regularPlayLine*)"
+	set regularPlayBlock "(?:${solution::emptyLine}(?:$regularPlayLine|$moveNumberLine)*)"
 
 	set setPlayFirstMovePairSkipped "1$ellipsis +$ellipsis"
 	set setPlayFirstMovePair "(?:$setPlayFirstMovePairSkipped|$firstMoveSkipped|$firstMovePair)"
 	set setPlayLine "(?: +$setPlayFirstMovePair$subsequentMovePair*\n)"
 	set setPlayBlock "(?:$solution::emptyLine$setPlayLine*)"
 
-	set seriesPlayMove "(?: +$number$solution::move)"
+	set seriesPlayMove "(?: +$ordinalNumber$solution::move)"
 	set seriesPlayLine "(?:$seriesPlayMove*(?:$seriesPlayMove|$subsequentMovePair)\n)"
 	set seriesPlayBlock "(?:$solution::emptyLine$seriesPlayLine*)"
 
