@@ -171,6 +171,9 @@ namespace eval solution {
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$goal?"
 
+    set moveNumber {[1-9][0-9]*}
+    set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
+
     set zeroposition "(?:[set ${language}::zeroposition]\n+)"
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
 
@@ -199,15 +202,12 @@ namespace eval solution {
 
 	set setPlayBlock $postKeyPlayBlock
 
-	set combined "(?:$solution::emptyLine$setPlayBlock?$fullPhaseBlock*)"
+	set combined "(?:$solution::emptyLine$setPlayBlock?(?:$solution::moveNumberLine|$fullPhaseBlock)*)"
     }
 
     namespace eval line {
 	set ordinalNumber {[1-9][0-9]*[.]}
 	set ellipsis {[.][.][.]}
-
-	set moveNumber {[1-9][0-9]*}
-	set moveNumberLine "(?: +$moveNumber  \[(]$solution::move \[)]\n)"
 
 	set firstMovePair "(?:1.$solution::move +$solution::move)"
 	set firstMoveSkipped "1$ellipsis$solution::move"
@@ -215,7 +215,7 @@ namespace eval solution {
 
 	set regularPlayFirstMovePair "(?:$firstMoveSkipped|$firstMovePair)"
 	set regularPlayLine "(?: +$regularPlayFirstMovePair$subsequentMovePair*\n)"
-	set regularPlayBlock "(?:${solution::emptyLine}(?:$regularPlayLine|$moveNumberLine)*)"
+	set regularPlayBlock "(?:${solution::emptyLine}(?:$regularPlayLine|$solution::moveNumberLine)*)"
 
 	set setPlayFirstMovePairSkipped "1$ellipsis +$ellipsis"
 	set setPlayFirstMovePair "(?:$setPlayFirstMovePairSkipped|$firstMoveSkipped|$firstMovePair)"
