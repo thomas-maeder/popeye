@@ -166,9 +166,10 @@ namespace eval solution {
     set pieceAddition "(?:.\[+][set ${language}::colorShortcut]$piece$square.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
+    set messignyExchange "(?:.$piece$square<->$piece$square.)"
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$goal?"
+    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$goal?"
 
     set zeroposition "(?:[set ${language}::zeroposition]\n+)"
     set twinning {[a-z][)].*?\n}; # TODO be more explicit
