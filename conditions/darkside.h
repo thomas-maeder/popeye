@@ -21,7 +21,7 @@
  */
 void darkside_side_changer_solve(slice_index si);
 
-/* Instrument slices with move tracers
+/* Instrument slices with Darkside
  */
 void solving_insert_darkside(slice_index si);
 
