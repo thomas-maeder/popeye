@@ -494,6 +494,7 @@
     ENUMERATOR(STSnekCircleSubstitutor),                                \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
+    ENUMERATOR(STDarksideSideChanger),                                  \
     ENUMERATOR(STBretonApplier),                                        \
     ENUMERATOR(STBretonPopeyeApplier),                                  \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \

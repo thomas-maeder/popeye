@@ -41,6 +41,7 @@
 #include "conditions/circe/parachute.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
+#include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/influencer.h"
@@ -1301,6 +1302,10 @@ void dispatch(slice_index si)
 
     case STAntiAndernachSideChanger:
       antiandernach_side_changer_solve(si);
+      break;
+
+    case STDarksideSideChanger:
+      darkside_side_changer_solve(si);
       break;
 
     case STChameleonPursuitSideChanger:

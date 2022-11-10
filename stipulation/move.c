@@ -84,6 +84,7 @@ static slice_index const move_slice_rank_order[] =
     STDoubleTibetSideChanger,
     STAndernachSideChanger,
     STAntiAndernachSideChanger,
+    STDarksideSideChanger,
     STChameleonPursuitSideChanger,
     STTraitorSideChanger,
     STVolageSideChanger,

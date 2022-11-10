@@ -63,6 +63,7 @@
 #include "conditions/kobul.h"
 #include "conditions/andernach.h"
 #include "conditions/antiandernach.h"
+#include "conditions/darkside.h"
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
@@ -414,6 +415,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
+
+  if (CondFlag[darkside])
+    solving_insert_darkside(si);
 
   if (CondFlag[breton])
     solving_insert_breton(si);

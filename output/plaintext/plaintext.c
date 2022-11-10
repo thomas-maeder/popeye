@@ -343,6 +343,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
   switch (move_effect_journal[curr].reason)
   {
     case move_effect_reason_andernach_chess:
+    case move_effect_reason_darkside:
     case move_effect_reason_volage_side_change:
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
