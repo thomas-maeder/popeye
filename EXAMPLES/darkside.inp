@@ -1,0 +1,13 @@
+begin
+
+protocol darkside.ref
+
+author Ofer Comay, Paz Einat, Menachem Witztum
+origin Trofeul e4-e5 section C 2020, 1st place
+forsyth 2b5/5p1p/1q4ks/1r1s3r/8/4B3/1Q6/2K5
+condition darkside
+stipulation h#2
+twin move h6 f6
+
+end
+
