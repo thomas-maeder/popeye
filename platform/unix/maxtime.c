@@ -167,8 +167,8 @@ void platform_init(void)
 #if HAVE_SIGACTION
   struct sigaction act;
   act.sa_handler = &ReportSignalAndBailOut;
-  act.sa_mask = 0;
-  act.sa_flags = 0;
+  sigemptyset(&act.sa_mask);
+  sigemptyset(&act.sa_flags);
   for (i=0; i<nrSignals; ++i)
     if (sigaction(SignalToCatch[i],&act,NULL))
 #else
