@@ -12,7 +12,9 @@
 #
 # The following tools can be used to produce executables for the host
 # and target plarform and can be found in the $PATH
-# - icc
+# Following the Intel oneAPI instructions you must have "sourced" /opt/intel/oneapi/setvars.sh 
+# in e.g. bash or zsh or equivalent to setup the environment
+# - icx
 # - ar
 # - ranlib
 # - strip
