@@ -133,7 +133,9 @@ namespace eval pieceControl {
 }
 
 namespace eval caption {
-    set combined " *$stipulation::combined *$pieceControl::combined\n"
+    set stip_pieceControl " *$stipulation::combined *$pieceControl::combined\n"
+    set duplex " *Duplex\n"
+    set combined "${stip_pieceControl}(?:$duplex)?\n"
 }
 
 namespace eval boardA {
@@ -229,7 +231,7 @@ namespace eval solution {
 	set combined "$setPlayBlock?(?:$regularPlayBlock|$seriesPlayBlock)"
     }
 
-    set combined "(?:(?:$emptyLine$zeroposition?$twinning)?(?:$tree::combined*|$line::combined))"
+    set combined "(?:(?:$zeroposition?$twinning)?(?:$tree::combined*|$line::combined))"
 }
 
 namespace eval measurements {
@@ -237,7 +239,7 @@ namespace eval measurements {
     set combined "(?:$line{4})"
 }
 
-set problem "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($measurements::combined?\n*)([set ${language}::endlines]\n\n)"
+set problem "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)(.*?)($conditions::combined)($solution::combined)($measurements::combined?\n*)([set ${language}::endlines]\n\n)"
 
 set problems "(?:$problem)+?"
 
@@ -247,11 +249,14 @@ close $f
 
 set matches [regexp -all -inline -nocase $problems $input]
 
-foreach { whole intro boardA board caption conditions solution measurements footer } $matches {
+foreach { whole intro boardA board caption captionUnmatched conditions solution measurements footer } $matches {
     puts -nonewline $intro
     puts -nonewline $boardA
     puts -nonewline $board
     puts -nonewline $caption
+    if {$captionUnmatched!=""} {
+	puts -nonewline "!$captionUnmatched"
+    }
     puts -nonewline $conditions
     puts -nonewline $solution
     puts -nonewline $measurements
