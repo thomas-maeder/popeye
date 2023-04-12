@@ -4,6 +4,12 @@
 
 set inputfile [lindex $argv 0]
 
+if {[llength $argv]>1} {
+    set section [lindex $argv 1]
+} else {
+    set section "problem"
+}
+
 switch -re $inputfile {
     ".*[.]out$" {
 	set language "german"
@@ -62,7 +68,7 @@ namespace eval intro {
     set title {[^\n]+}
     set titleLine "(?:$leadingBlanks$title\n)"
 
-    set combined "$remarkLine*$emptyLine+$authorLine*$originLine*$awardLine?$titleLine?"
+    set combined "$remarkLine*$emptyLine+$authorLine*$originLine*$awardLine?$titleLine?$emptyLine"
 }
 
 namespace eval board {
@@ -97,7 +103,7 @@ namespace eval board {
     set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
     set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
-    set combined "$emptyLine${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns"
+    set combined "${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns"
 }
 
 namespace eval stipulation {
@@ -135,7 +141,7 @@ namespace eval pieceControl {
 namespace eval caption {
     set stip_pieceControl " *$stipulation::combined *$pieceControl::combined\n"
     set duplex " *Duplex\n"
-    set combined "${stip_pieceControl}(?:$duplex)?\n"
+    set combined "${stip_pieceControl}(?:$duplex)?"
 }
 
 namespace eval boardA {
@@ -176,13 +182,18 @@ namespace eval solution {
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
 
-    set zeroposition "(?:[set ${language}::zeroposition]\n+)"
-    set twinning {[a-z][)].*?\n}; # TODO be more explicit
+    namespace eval twinning {
+	set combined "$solution::emptyLine\[a-z]\\).*?\n"; # TODO be more explicit
+    }
+
+    namespace eval zeroposition {
+	set combined "(?:$solution::emptyLine[set ${language}::zeroposition]\n\n)"
+    }
 
     namespace eval tree {
 	set ordinalNumber {[1-9][0-9]*[.]}
 	set attackNumber $ordinalNumber
-	set defenseNumber "$ordinalNumber\[.]{2}"
+	set defenseNumber "$ordinalNumber\\.{2}"
 
 	set keySuccess { [?!]}
 	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
@@ -215,50 +226,77 @@ namespace eval solution {
 	set firstMoveSkipped "1$ellipsis$solution::move"
 	set subsequentMovePair "(?: +$ordinalNumber$solution::move +$solution::move)"
 
-	set regularPlayFirstMovePair "(?:$firstMoveSkipped|$firstMovePair)"
-	set regularPlayLine "(?: +$regularPlayFirstMovePair$subsequentMovePair*\n)"
-	set regularPlayBlock "(?:${solution::emptyLine}(?:$regularPlayLine|$solution::moveNumberLine)*)"
+	namespace eval regularplay {
+	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
+	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
+	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine)+)"
+	}
 
-	set setPlayFirstMovePairSkipped "1$ellipsis +$ellipsis"
-	set setPlayFirstMovePair "(?:$setPlayFirstMovePairSkipped|$firstMoveSkipped|$firstMovePair)"
-	set setPlayLine "(?: +$setPlayFirstMovePair$subsequentMovePair*\n)"
-	set setPlayBlock "(?:$solution::emptyLine$setPlayLine*)"
+	namespace eval setplay {
+	    set firstMovePairSkipped "1$solution::line::ellipsis +$solution::line::ellipsis"
+	    set firstMovePair "(?:$firstMovePairSkipped|$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
+	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
+	    set combined "(?:$solution::emptyLine$line+)"
+	}
 
-	set seriesPlayMove "(?: +$ordinalNumber$solution::move)"
-	set seriesPlayLine "(?:$seriesPlayMove*(?:$seriesPlayMove|$subsequentMovePair)\n)"
-	set seriesPlayBlock "(?:$solution::emptyLine$seriesPlayLine*)"
+	namespace eval seriesplay {
+	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
+	    set line "(?:$numberedMove*(?:$numberedMove|$solution::line::subsequentMovePair)\n)"
+	    set combined "(?:$solution::emptyLine$line+)"
+	}
 
-	set combined "$setPlayBlock?(?:$regularPlayBlock|$seriesPlayBlock)"
+	set combined "$setplay::combined?(?:$regularplay::combined|$seriesplay::combined)"
     }
 
-    set combined "(?:(?:$zeroposition?$twinning)?(?:$tree::combined*|$line::combined))"
+    namespace eval measurements {
+	set line {(?: *[a-z_]+: *[0-9]+\n)}
+	set combined "(?:$line{4})"
+    }
+
+    set untwinnedSolution "(?:$tree::combined*|$line::combined)(?:$measurements::combined)"
+    set twinnedSolution "$zeroposition::combined?(?:$twinning::combined$untwinnedSolution)+"
+
+    # allow 2 for duplex
+    set combined "(?:$untwinnedSolution|$twinnedSolution){1,2}"
 }
 
-namespace eval measurements {
-    set line {(?: *[a-z_]+: *[0-9]+\n)}
-    set combined "(?:$line{4})"
+namespace eval footer {
+    set combined "\n[set ${language}::endlines]\n\n"
 }
 
-set problem "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)(.*?)($conditions::combined)($solution::combined)($measurements::combined?\n*)([set ${language}::endlines]\n\n)"
-
-set problems "(?:$problem)+?"
+namespace eval problem {
+    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($footer::combined)"
+}
 
 set f [open $inputfile "r"]
 set input [read $f]
 close $f
 
-set matches [regexp -all -inline -nocase $problems $input]
-
-foreach { whole intro boardA board caption captionUnmatched conditions solution measurements footer } $matches {
-    puts -nonewline $intro
-    puts -nonewline $boardA
-    puts -nonewline $board
-    puts -nonewline $caption
-    if {$captionUnmatched!=""} {
-	puts -nonewline "!$captionUnmatched"
+proc printSection {debugPrefix section} {
+    if {$::section=="debug"} {
+	foreach line [split [regsub "\n$" $section ""] "\n"] {
+	    puts "$debugPrefix:$line@"
+	}
+    } else {
+	puts -nonewline $section
     }
-    puts -nonewline $conditions
-    puts -nonewline $solution
-    puts -nonewline $measurements
-    puts -nonewline $footer
+}
+
+if {$section=="problem" || $section=="debug"} {
+    set matches [regexp -all -inline -nocase $problem::combined $input]
+
+    foreach { whole intro boardA board caption conditions solution footer } $matches {
+	printSection "i" $intro
+	printSection "bA" $boardA
+	printSection "b" $board
+	printSection "ca" $caption
+	printSection "co" $conditions
+	printSection "s" $solution
+	printSection "f" $footer
+    }
+} else {
+    foreach match [regexp -all -inline -nocase [set ${section}::combined] $input] {
+	puts -nonewline $match
+	puts "===="
+    }
 }
