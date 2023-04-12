@@ -145,10 +145,12 @@ namespace eval caption {
 }
 
 namespace eval boardA {
+    set emptyLine {\n}
     # the caption of board A doesn't indicate the stipulation
     set caption " *$pieceControl::combined\n"
     set tomove "$stipulation::paren_open$stipulation::side ->$stipulation::paren_close"
-    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n\n)"
+    set combined "(?:$board::combined$boardA::caption\n$emptyLine *=> $tomove\n)"
+    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n$emptyLine$emptyLine)"
 }
 
 namespace eval conditions {
