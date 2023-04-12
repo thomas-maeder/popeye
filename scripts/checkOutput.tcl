@@ -225,10 +225,11 @@ namespace eval solution {
 	set firstMovePair "(?:1.$solution::move +$solution::move)"
 	set firstMoveSkipped "1$ellipsis$solution::move"
 	set subsequentMovePair "(?: +$ordinalNumber$solution::move +$solution::move)"
+	set finalMove "(?: +$ordinalNumber$solution::move)"
 
 	namespace eval regularplay {
 	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
-	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
+	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*$solution::line::finalMove?\n)"
 	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine)+)"
 	}
 
