@@ -7,7 +7,7 @@ set inputfile [lindex $argv 0]
 if {[llength $argv]>1} {
     set section [lindex $argv 1]
 } else {
-    set section "problem"
+    set section ""
 }
 
 switch -re $inputfile {
@@ -26,7 +26,7 @@ switch -re $inputfile {
 }
 
 namespace eval german {
-    set endlines {(?:Loesung beendet[.]|Partielle Loesung)\n+?}
+    set endlines {(?:Loesung beendet[.]|Partielle Loesung)\n}
     set white {Weiss}
     set black {Schwarz}
     set zugzwang {Zugzwang[.]}
@@ -38,7 +38,7 @@ namespace eval german {
 }
 
 namespace eval english {
-    set endlines {(?:solution finished[.]|Partial solution)\n+?}
+    set endlines {(?:solution finished[.]|Partial solution)\n}
     set white {white}
     set black {black}
     set zugzwang {Zugzwang[.]}
@@ -283,7 +283,7 @@ proc printSection {debugPrefix section} {
     }
 }
 
-if {$section=="problem" || $section=="debug"} {
+if {$section=="" || $section=="debug"} {
     set matches [regexp -all -inline -nocase $problem::combined $input]
 
     foreach { whole intro boardA board caption conditions solution footer } $matches {
