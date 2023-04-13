@@ -255,7 +255,7 @@ namespace eval solution {
 	namespace eval seriesplay {
 	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
 	    set line "(?:$numberedMove*(?:$numberedMove|$solution::line::subsequentMovePair)\n)"
-	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLineIntelligent)+)"
+	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
 	}
 
 	set combined "$setplay::combined?(?:$regularplay::combined|$seriesplay::combined)"
