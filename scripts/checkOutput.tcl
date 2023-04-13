@@ -165,8 +165,9 @@ namespace eval conditions {
 namespace eval solution {
     set emptyLine {\n}
     set pieceChar {[[:upper:][:digit:]]}
-    set piecePawnImplicit "$pieceChar{0,2}"
-    set piece "(?:$pieceChar{1,2})"
+    set hunterSuffix "(?:/$pieceChar{1,2})"
+    set piecePawnImplicit "$pieceChar{0,2}$hunterSuffix?"
+    set piece "(?:$pieceChar{1,2}$hunterSuffix?)"
     set square {[a-h][1-8]}
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
