@@ -111,7 +111,7 @@ namespace eval board {
 }
 
 namespace eval stipulation {
-    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
+    set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
     set exact {(?:exact-)}
     set intro {(?:[[:digit:]]+->)}
     set series "(?:$intro?(?:ph?)?ser-)"
@@ -166,7 +166,7 @@ namespace eval solution {
     set emptyLine {\n}
     set pieceChar {[[:upper:][:digit:]]}
     set piecePawnImplicit "$pieceChar{0,2}"
-    set piece "$pieceChar{1,2}"
+    set piece "(?:$pieceChar{1,2})"
     set square {[a-h][1-8]}
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
@@ -177,10 +177,9 @@ namespace eval solution {
     set enPassant {(?: ep[.])}
     # TODO replace . by []
     set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
-    set pieceAddition "(?:.\[+][set ${language}::colorShortcut]$piece$square.)"
+    set pieceAddition "(?:.\[+][set ${language}::colorShortcut]$piece${square}(?:=[set ${language}::colorShortcut]?$piece?)?.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
-    set changeOfColor "(?:=[set ${language}::colorShortcut])"
-    set pieceAdditionPlusChangeOfColor "(?:.\[+][set ${language}::colorShortcut]$piece$square=[set ${language}::colorShortcut]])"
+    set changeOfColor "(?:=[set ${language}::colorShortcut]h?)"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
     set imitatorMovement "(?:.I$square.)"
     set paren_open {[(]}
@@ -190,7 +189,7 @@ namespace eval solution {
     set checkIndicator {(?: [+])}
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$pieceAdditionPlusChangeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
+    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
