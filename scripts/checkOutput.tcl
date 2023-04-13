@@ -5,9 +5,9 @@
 set inputfile [lindex $argv 0]
 
 if {[llength $argv]>1} {
-    set section [lindex $argv 1]
+    set sections [split [lindex $argv 1] ","]
 } else {
-    set section ""
+    set sections {}
 }
 
 switch -re $inputfile {
@@ -33,7 +33,7 @@ namespace eval german {
     set threat "Drohung:"
     set but {Aber}
     set colorShortcut {(?:[wsn])}
-    set pieceAttributeShortcut {(?:[k])}
+    set pieceAttributeShortcut {(?:k?[wsn]?(?:hn)?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -47,7 +47,7 @@ namespace eval english {
     set threat "Threat:"
     set but {But}
     set colorShortcut {(?:[wbn])}
-    set pieceAttributeShortcut {(?:[r])}
+    set pieceAttributeShortcut {(?:r?[wbn]?(?:hn)?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
@@ -173,11 +173,12 @@ namespace eval solution {
     set castlingK "0-0"
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
-    set promotion "(?:=n?$piece)"
+    # TODO Popeye should write hn here, not just h
+    set promotion "(?:=[set ${language}::colorShortcut]?h?$piece?)"
     set enPassant {(?: ep[.])}
     # TODO replace . by []
-    set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
-    set pieceAddition "(?:.\[+][set ${language}::colorShortcut]$piece${square}(?:=[set ${language}::colorShortcut]?$piece?)?.)"
+    set pieceMovement "(?:.[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square->$square.)"
+    set pieceAddition "(?:.\[+][set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?)?.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut]h?)"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
@@ -199,7 +200,7 @@ namespace eval solution {
     set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
 
     namespace eval twinning {
-	set combined "$solution::emptyLine\[a-z]\\).*?\n"; # TODO be more explicit
+	set combined "$solution::emptyLine\[a-z]\\)\[^\n\]*\n"; # TODO be more explicit
     }
 
     namespace eval zeroposition {
@@ -211,25 +212,36 @@ namespace eval solution {
 	set attackNumber $ordinalNumber
 	set defenseNumber "$ordinalNumber\\.{2}"
 
-	set keySuccess { [?!]}
 	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
 
-	set keyLine "   $attackNumber$solution::move$keySuccess$zugzwangOrThreat\n"
-	set attackLine " +$attackNumber$solution::move$zugzwangOrThreat\n"
-	set threatLine $attackLine
+	namespace eval keyline {
+	    set success { [?!]}
+	    set combined "   $solution::tree::attackNumber$solution::move$success$solution::tree::zugzwangOrThreat\n"
+	}
+
+        namespace eval attackline {
+	    set combined " +$solution::tree::attackNumber$solution::move$solution::tree::zugzwangOrThreat\n"
+	}
+
+	set threatLine $attackline::combined
 
 	set defense " +$defenseNumber$solution::move"
-	set defenseLine "$defense\n"
 
-        set postKeyPlayBlock "(?:(?:$zugzwangOrThreat)(?:$defenseLine|$attackLine)*)"
+        namespace eval defenseline {
+             set combined "$solution::tree::defense\n"
+	}
+
+        namespace eval postkeyplay {
+            set combined "(?:(?:$solution::tree::zugzwangOrThreat)(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)*)"
+	}
 
 	set butLine "    [set ${language}::but]\n"
 	set refutationLine "$defense !\n"
 	set refutationBlock "(?:$butLine$refutationLine)"
 
-	set fullPhaseBlock "(?:$keyLine$postKeyPlayBlock$refutationBlock?$solution::emptyLine)"
+	set fullPhaseBlock "(?:$keyline::combined$postkeyplay::combined$refutationBlock?$solution::emptyLine)"
 
-	set setPlayBlock $postKeyPlayBlock
+	set setPlayBlock $postkeyplay::combined
 
 	set combined "(?:$solution::emptyLine$setPlayBlock?(?:$solution::moveNumberLine|$fullPhaseBlock)*)"
     }
@@ -295,7 +307,7 @@ set input [read $f]
 close $f
 
 proc printSection {debugPrefix section} {
-    if {$::section=="debug"} {
+    if {[lindex $::sections 0]=="debug"} {
 	foreach line [split [regsub "\n$" $section ""] "\n"] {
 	    puts "$debugPrefix:$line@"
 	}
@@ -304,7 +316,7 @@ proc printSection {debugPrefix section} {
     }
 }
 
-if {$section=="" || $section=="debug"} {
+if {[llength $sections]==0 || [lindex $::sections 0]=="debug"} {
     set matches [regexp -all -inline -nocase $problem::combined $input]
 
     foreach { whole intro boardA board caption conditions kingmissing solution footer } $matches {
@@ -318,7 +330,11 @@ if {$section=="" || $section=="debug"} {
 	printSection "f" $footer
     }
 } else {
-    foreach match [regexp -all -inline -nocase [set ${section}::combined] $input] {
+    set expr ""
+    foreach section $sections {
+	append expr [set ${section}::combined]
+    }
+    foreach match [regexp -all -inline -nocase $expr $input] {
 	puts -nonewline $match
 	puts "===="
     }
