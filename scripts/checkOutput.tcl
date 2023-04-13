@@ -36,6 +36,7 @@ namespace eval german {
     set pieceAttributeShortcut {(?:[k])}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
+    set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
 }
 
 namespace eval english {
@@ -49,6 +50,7 @@ namespace eval english {
     set pieceAttributeShortcut {(?:[r])}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
+    set kingmissing "both sides need a king"
 }
 
 namespace eval intro {
@@ -271,12 +273,17 @@ namespace eval solution {
     set combined "(?:$untwinnedSolution|$twinnedSolution){1,2}"
 }
 
+namespace eval kingmissing {
+    set emptyLine {\n}
+    set combined "[set ${language}::kingmissing]\n$emptyLine"
+}
+
 namespace eval footer {
     set combined "\n[set ${language}::endlines]\n\n"
 }
 
 namespace eval problem {
-    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($footer::combined)"
+    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($kingmissing::combined)?($solution::combined)($footer::combined)"
 }
 
 set f [open $inputfile "r"]
@@ -296,12 +303,13 @@ proc printSection {debugPrefix section} {
 if {$section=="" || $section=="debug"} {
     set matches [regexp -all -inline -nocase $problem::combined $input]
 
-    foreach { whole intro boardA board caption conditions solution footer } $matches {
+    foreach { whole intro boardA board caption conditions kingmissing solution footer } $matches {
 	printSection "i" $intro
 	printSection "bA" $boardA
 	printSection "b" $board
 	printSection "ca" $caption
 	printSection "co" $conditions
+	printSection "k" $kingmissing
 	printSection "s" $solution
 	printSection "f" $footer
     }
