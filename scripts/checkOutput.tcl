@@ -247,13 +247,13 @@ namespace eval solution {
 	    set firstMovePairSkipped "1$solution::line::ellipsis +$solution::line::ellipsis"
 	    set firstMovePair "(?:$firstMovePairSkipped|$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
 	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
-	    set combined "(?:$solution::emptyLine$line+)"
+	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLineIntelligent)+)"
 	}
 
 	namespace eval seriesplay {
 	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
 	    set line "(?:$numberedMove*(?:$numberedMove|$solution::line::subsequentMovePair)\n)"
-	    set combined "(?:$solution::emptyLine$line+)"
+	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLineIntelligent)+)"
 	}
 
 	set combined "$setplay::combined?(?:$regularplay::combined|$seriesplay::combined)"
