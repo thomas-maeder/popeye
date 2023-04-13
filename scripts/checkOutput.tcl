@@ -173,7 +173,7 @@ namespace eval solution {
     set castlingK "0-0"
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
-    set promotion "(?:=$piece)"
+    set promotion "(?:=n?$piece)"
     set enPassant {(?: ep[.])}
     # TODO replace . by []
     set pieceMovement "(?:.[set ${language}::colorShortcut]$piece$square->$square.)"
