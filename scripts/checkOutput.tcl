@@ -180,6 +180,7 @@ namespace eval solution {
     set pieceAddition "(?:.\[+][set ${language}::colorShortcut]$piece$square.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut])"
+    set pieceAdditionPlusChangeOfColor "(?:.\[+][set ${language}::colorShortcut]$piece$square=[set ${language}::colorShortcut]])"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
     set imitatorMovement "(?:.I$square.)"
     set paren_open {[(]}
@@ -189,7 +190,7 @@ namespace eval solution {
     set checkIndicator {(?: [+])}
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
+    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$pieceAdditionPlusChangeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
