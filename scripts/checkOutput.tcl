@@ -35,6 +35,7 @@ namespace eval german {
     set colorShortcut {(?:[wsn])}
     set pieceAttributeShortcut {(?:[k])}
     set zeroposition "NullStellung"
+    set potentialPositionsIn "moegliche Stellungen in"
 }
 
 namespace eval english {
@@ -47,6 +48,7 @@ namespace eval english {
     set colorShortcut {(?:[wbn])}
     set pieceAttributeShortcut {(?:[r])}
     set zeroposition "zeroposition"
+    set potentialPositionsIn "potential positions in"
 }
 
 namespace eval intro {
@@ -186,6 +188,10 @@ namespace eval solution {
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
 
+    set nrPositions {[[:digit:]]+}
+    set nrMoves {[[:digit:]]+[+][[:digit:]]+}
+    set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
+
     namespace eval twinning {
 	set combined "$solution::emptyLine\[a-z]\\).*?\n"; # TODO be more explicit
     }
@@ -234,7 +240,7 @@ namespace eval solution {
 	namespace eval regularplay {
 	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
 	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*$solution::line::finalMove?\n)"
-	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine)+)"
+	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
 	}
 
 	namespace eval setplay {
