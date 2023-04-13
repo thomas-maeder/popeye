@@ -26,7 +26,7 @@ switch -re $inputfile {
 }
 
 namespace eval german {
-    set endlines {(?:Loesung beendet[.]|Partielle Loesung)\n}
+    set endlines {(?:\nLoesung beendet[.]|Partielle Loesung)\n}
     set white {Weiss}
     set black {Schwarz}
     set zugzwang {Zugzwang[.]}
@@ -40,7 +40,7 @@ namespace eval german {
 }
 
 namespace eval english {
-    set endlines {(?:solution finished[.]|Partial solution)\n}
+    set endlines {(?:\nsolution finished[.]|Partial solution)\n}
     set white {white}
     set black {black}
     set zugzwang {Zugzwang[.]}
@@ -279,7 +279,7 @@ namespace eval kingmissing {
 }
 
 namespace eval footer {
-    set combined "\n[set ${language}::endlines]\n\n"
+    set combined "[set ${language}::endlines]\n\n"
 }
 
 namespace eval problem {
