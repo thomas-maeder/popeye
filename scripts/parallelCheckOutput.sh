@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Run a regression test, using a configurable number of processors
+# Compare output files to the result of applying checkOuptut.sh to them
+# Print names of output files where there is a difference.
 #
 # Run from the directory that is to contain the Popeye output.
 #
-# Pass -all as only option to also test the input files that take
-# a loooooooooooong time.
+# Pass -all as only option to test all output files
 
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
@@ -13,7 +13,7 @@ POPEYEDIR=${SCRIPTDIR}/..
 . ${SCRIPTDIR}/parallelTester.lib
 
 # command to be invoked in parallel
-_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+_cmd="${POPEYEDIR}/scripts/checkDiffOutput.sh"
 
 NRCPUS=$(cat /proc/cpuinfo | grep processor | tail --lines=1 | tr '\t' ' ' | tr --squeeze-repeats ' ' | cut --delimiter=' ' --fields=3)
 
@@ -26,14 +26,16 @@ fi
 #DEBUG=1
 
 # create and dispatch jobs
-for item in ${POPEYEDIR}/TESTS/*.inp ${POPEYEDIR}/REGRESSIONS/*.inp ${POPEYEDIR}/EXAMPLES/*inp ${POPEYEDIR}/BEISPIEL/*inp; do
+for item in $*
+do
   echo "$item"
 done | dispatchWork
 
 if [ "$1" = "-all" ]
 then
-  for item in ${POPEYEDIR}/EXAMPLES/lengthy/*inp ${POPEYEDIR}/BEISPIEL/lengthy/*inp; do
-    echo "$item"
-  done | dispatchWork
+    for item in ${POPEYEDIR}/REGRESSIONTESTS//*
+    do
+	echo "$item"
+    done | dispatchWork
 fi
 
