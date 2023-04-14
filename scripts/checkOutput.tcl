@@ -178,7 +178,8 @@ namespace eval solution {
     set promotion "(?:=[set ${language}::colorShortcut]?h?$piece?)"
     set enPassant {(?: ep[.])}
     # TODO replace . by []
-    set pieceMovement "(?:.[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::colorShortcut]?[set ${language}::pieceAttributeShortcut]?$piece?$square.)"
+    # TODO why do we allow modification of arriving piece after -> and after =??
+    set pieceMovement "(?:.[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::colorShortcut]?[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece)?.)"
     set pieceAddition "(?:.\[+][set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?)?.)"
     set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set changeOfColor "(?:=[set ${language}::colorShortcut]h?)"
