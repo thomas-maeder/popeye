@@ -242,8 +242,8 @@ namespace eval solution {
 
         namespace eval fullphase {
 	    set butLine "    [set ${language}::but]\n"
-	    set refutationLine "$solution::tree::defense !\n"
-	    set refutationBlock "(?:$butLine$refutationLine)"
+	    set refutationLine "(?:$solution::tree::defense !\n)"
+	    set refutationBlock "(?:$butLine$refutationLine+)"
 	    set combined "(?:$solution::tree::keyline::combined$solution::tree::postkeyplay::combined?$refutationBlock?$solution::emptyLine)"
 	}
 
