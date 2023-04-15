@@ -59,9 +59,9 @@ namespace eval english {
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
+    set illegalSelfCheck "the side to play can capture the king"
     # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
-    set illegalSelfCheck "The moving side can capture the opposite king"
     set roleExchange "role exchange"
     set refutes "Refutes."
 }
