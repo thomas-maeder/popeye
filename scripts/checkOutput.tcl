@@ -111,7 +111,18 @@ namespace eval board {
     set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
     set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
-    set combined "${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns"
+    set combined "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
+}
+
+namespace eval gridboard {
+    set emptyLine {\n}
+
+    namespace eval cellsline {
+	set cell {[ [:digit:]][[:digit:]]}
+	set combined "${board::rowNo}(?:  $cell){$board::nrColumns}   $board::rowNo\n"
+    }
+
+    set combined "(?:$emptyLine${board::columns}(?:$board::spaceLine$cellsline::combined){$board::nrRows}$board::spaceLine$board::columns)"
 }
 
 namespace eval stipulation {
@@ -341,11 +352,11 @@ namespace eval footer {
 # applying this gives an "expression is too complex" error :-(
 # dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
-    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($footer::combined)"
+    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?)($solution::combined)($footer::combined)"
 }
 
 namespace eval beforesolution {
-    set combined "($intro::combined)($boardA::combined$board::combined)($caption::combined)($conditions::combined)"
+    set combined "($intro::combined)($boardA::combined)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?)"
 }
 
 set f [open $inputfile "r"]
@@ -379,11 +390,13 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	    set beforesol $currentproblem
 	}
 	set matches [regexp -all -inline $beforesolution::combined $beforesol]
-	foreach { whole intro board caption conditions } $matches {
+	foreach { whole intro boardA board caption conditions gridboard } $matches {
 	    printSection "i" $intro
+	    printSection "ba" $boardA
 	    printSection "b" $board
 	    printSection "ca" $caption
 	    printSection "co" $conditions
+	    printSection "g" $gridboard
 	    foreach pair $solutionIndices {
 		foreach {solutionStart solutionEnd} $pair break
 		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
