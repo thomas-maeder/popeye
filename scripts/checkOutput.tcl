@@ -47,8 +47,8 @@ namespace eval german {
 
 namespace eval english {
     set endlines {(?:\nsolution finished[.]|Partial solution)\n}
-    set white {white}
-    set black {black}
+    set white {White}
+    set black {Black}
     set zugzwang {zugzwang[.]}
     set threat "threat:"
     set but {but}
@@ -131,7 +131,7 @@ namespace eval stipulation {
     set stipulation_traditional "(?:$exact?$play$goal$length)"
 
     set side "(?:[set ${language}::white]|[set ${language}::black])"
-    set stipulation_structured [subst -nocommands {(?:$side [^ ]+)}]; # TODO
+    set stipulation_structured "(?:$side \[^ ]+)"; # TODO
 
     set maxthreat {(?:/[[:digit:]]*)}
     set maxflight {(?:/[[:digit:]]+)}
