@@ -220,7 +220,8 @@ namespace eval solution {
     set castlingPartnerMovement $movement
     set kingOscillation "(?:.$piece$square<->$piece$square.)"
     set singleBoxPromotion "(?:.$square=$piece.)"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?${movement}(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
+    set kobulChange "(?:.$square=[set ${language}::pieceAttributeShortcut]?$piece.)"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?${movement}(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
