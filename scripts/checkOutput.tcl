@@ -240,11 +240,11 @@ namespace eval solution {
 	}
 
         namespace eval zugzwangOrThreatLine {
-	    set combined " $solution::tree::zugzwangOrThreat\n"
+	    set combined "(?: $solution::tree::zugzwangOrThreat\n)"
 	}
 
         namespace eval postkeyplay {
-            set combined "(?:${solution::tree::zugzwangOrThreatLine::combined}(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
+            set combined "(?:$solution::tree::zugzwangOrThreatLine::combined?(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
         namespace eval fullphase {
