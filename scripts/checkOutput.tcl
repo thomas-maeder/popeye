@@ -50,7 +50,7 @@ namespace eval english {
     set black {black}
     set zugzwang {Zugzwang[.]}
     set threat "Threat:"
-    set but {But}
+    set but {but}
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
     # TODO is hcc correct for hurdle colour changing?
@@ -167,6 +167,7 @@ namespace eval conditions {
 
 namespace eval solution {
     set emptyLine {\n}
+    set ellipsis {[.][.][.]}
     set pieceChar {[[:upper:][:digit:]]}
     set hunterSuffix "(?:/$pieceChar{1,2})"
     set piecePawnImplicit "$pieceChar{0,2}$hunterSuffix?"
@@ -203,7 +204,7 @@ namespace eval solution {
     set castlingPartnerMovement $movement
     set kingOscillation "(?:.$piece$square<->$piece$square.)"
     set singleBoxPromotion "(?:.$square=$piece.)"
-    set move "(?: [set ${language}::roleExchange]|(?:$singleBoxPromotion?$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
@@ -257,12 +258,18 @@ namespace eval solution {
 	    set combined "(?: +$solution::tree::attackNumber$solution::move $indicator\n)"
 	}
 
+        namespace eval refutationline {
+            set combined "(?:$solution::tree::defense !\n(?:$solution::tree::forcedreflexmove::combined)?)"
+        }
+
+        namespace eval refutationblock {
+	    set butLine " +[set ${language}::but]\n"
+            set combined "(?:$butLine$solution::tree::refutationline::combined+)"
+        }
+
         namespace eval fullphase {
-	    set butLine "    [set ${language}::but]\n"
-	    set refutationLine "(?:$solution::tree::defense !\n(?:$solution::tree::forcedreflexmove::combined)?)"
-	    set refutationBlock "(?:$butLine$refutationLine+)"
             set playAfterKey "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
-	    set combined "(?:$solution::tree::keyline::combined$playAfterKey?$refutationBlock?$solution::emptyLine)"
+	    set combined "(?:$solution::tree::keyline::combined$playAfterKey?$solution::tree::refutationblock::combined?$solution::emptyLine)"
 	}
 
         namespace eval setplay {
@@ -274,11 +281,10 @@ namespace eval solution {
 
     namespace eval line {
 	set ordinalNumber {[1-9][0-9]*[.]}
-	set ellipsis {[.][.][.]}
 	set undec " [set ${language}::legailtyUndecidable]"
 
 	set firstMovePair "(?:1.${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
-	set firstMoveSkipped "1$ellipsis${solution::move}(?:$undec\n)?"
+	set firstMoveSkipped "1$solution::ellipsis${solution::move}(?:$undec\n)?"
 	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
 	set finalMove "(?: +$ordinalNumber${solution::move}(?:$undec\n)?)"
 
@@ -289,7 +295,7 @@ namespace eval solution {
 	}
 
 	namespace eval setplay {
-	    set firstMovePairSkipped "1$solution::line::ellipsis +$solution::line::ellipsis"
+	    set firstMovePairSkipped "1$solution::ellipsis +$solution::ellipsis"
 	    set firstMovePair "(?:$firstMovePairSkipped|$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
 	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
 	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLineIntelligent)+)"
