@@ -34,7 +34,7 @@ namespace eval german {
     set but {Aber}
     set colorShortcut {(?:[wsn])}
     # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?)}
+    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -54,7 +54,7 @@ namespace eval english {
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
     # TODO is hcc correct for hurdle colour changing?
-    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?)}
+    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?k?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
