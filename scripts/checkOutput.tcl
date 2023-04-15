@@ -252,11 +252,14 @@ namespace eval solution {
             set combined "(?:$solution::tree::zugzwangOrThreatLine::combined?(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined| +[set ${language}::refutes]\n)+)"
 	}
 
+        namespace eval forcedreflexmove {
+	    set indicator {[?]![?]}
+	    set combined "(?: +$solution::tree::attackNumber$solution::move $indicator\n)"
+	}
+
         namespace eval fullphase {
 	    set butLine "    [set ${language}::but]\n"
-	    set forcedReflexMoveIndicator {[?]![?]}
-	    set forcedReflexMove " +$solution::tree::attackNumber$solution::move $forcedReflexMoveIndicator"
-	    set refutationLine "(?:$solution::tree::defense !\n(?:$forcedReflexMove\n)?)"
+	    set refutationLine "(?:$solution::tree::defense !\n(?:$solution::tree::forcedreflexmove::combined)?)"
 	    set refutationBlock "(?:$butLine$refutationLine+)"
             set playAfterKey "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	    set combined "(?:$solution::tree::keyline::combined$playAfterKey?$refutationBlock?$solution::emptyLine)"
@@ -266,7 +269,7 @@ namespace eval solution {
             set combined "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
-        set combined "(?:${solution::emptyLine}(?:$solution::tree::postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
+        set combined "(?:${solution::emptyLine}(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
     }
 
     namespace eval line {
