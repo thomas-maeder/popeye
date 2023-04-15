@@ -40,6 +40,8 @@ namespace eval german {
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
     set legailtyUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
+    set roleExchange "Rollentausch"
+    set refutes "Widerlegt."
 }
 
 namespace eval english {
@@ -59,6 +61,8 @@ namespace eval english {
     # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
     set illegalSelfCheck "The moving side can capture the opposite king"
+    set roleExchange "role exchange"
+    set refutes "Refutes."
 }
 
 namespace eval intro {
@@ -198,7 +202,7 @@ namespace eval solution {
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set castlingPartnerMovement $movement
     set kingOscillation "(?:.$piece$square<->$piece$square.)"
-    set move "(?:$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$bglBalance?$checkIndicator?$goal?"
+    set move "(?: [set ${language}::roleExchange]|(?:$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
@@ -244,7 +248,7 @@ namespace eval solution {
 	}
 
         namespace eval postkeyplay {
-            set combined "(?:$solution::tree::zugzwangOrThreatLine::combined?(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
+            set combined "(?:$solution::tree::zugzwangOrThreatLine::combined?(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined| +[set ${language}::refutes]\n)+)"
 	}
 
         namespace eval fullphase {
