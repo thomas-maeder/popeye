@@ -1,0 +1,35 @@
+
+            J. A. Verdejo
+   4606, feenschach 74, 9-10/1985
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   L   .   .   .   .   .   .   8
+|                                   |
+7   I  -B   .   .   .   .  -B   K   7
+|                                   |
+6   T   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   L   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#26                    5 + 3
+             Imitator a7
+
+  1.Kc2-c3[Ia8]   2.g7-g6[Ia7]   3.Kc3-c4[Ia8]   4.g6-g5[Ia7]   5.Kc4-c5[Ia8]   6.g5-g4[Ia7]   7.Kc5-c6[Ia8]   8.g4-g3[Ia7]   9.Kc6-c7[Ia8]  10.g3-g2[Ia7]  11.Kc7-c8[Ia8]  12.g2-g1[Ia7]=T  13.Tg1-g2[Ia8]  14.Kc8-c7[Ia7]  15.Tg2-g3[Ia8]  16.Kc7-c6[Ia7]  17.Tg3-g4[Ia8]  18.Kc6-c5[Ia7]  19.Tg4-g5[Ia8]  20.Kc5-c4[Ia7]  21.Tg5-g6[Ia8]  22.Kc4-c3[Ia7]  23.Tg6-g7[Ia8]  24.Kc3-c2[Ia7]  25.Tg7-g8[Ia8]  26.Kc2-c1[Ia7] Ta6-a1[Ia2] #
+  add_to_move_generation_stack:        9593
+                     play_move:        1192
+ is_white_king_square_attacked:         839
+ is_black_king_square_attacked:        1192
+
+Loesung beendet.
+
+

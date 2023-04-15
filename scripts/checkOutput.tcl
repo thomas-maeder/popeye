@@ -183,7 +183,7 @@ namespace eval solution {
     set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?.)"
     set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
-    set imitatorMovement "(?:.I$square.)"
+    set imitatorMovement "(?:.I${square}(?:,$square)*.)"
     set paren_open {[(]}
     set paren_close {[)]}
     set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
@@ -192,7 +192,7 @@ namespace eval solution {
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set castlingPartnerMovement $movement
-    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$messignyExchange?$imitatorMovement?$changeOfColorOtherPiece?$bglBalance?$checkIndicator?$goal?"
+    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$messignyExchange?$changeOfColorOtherPiece?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
