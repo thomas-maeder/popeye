@@ -1,0 +1,200 @@
+
+       Ofer Comay & Paz Einat
+WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -T   T   .   .   S  -T   8
+|                                   |
+7   .   .   .   L   B   .   B   .   7
+|                                   |
+6   .   .  -B   K   .   .   .   .   6
+|                                   |
+5   .   .   T   .   .   .   .   .   5
+|                                   |
+4   .   B  -B  -B   .   .   .  -K   4
+|                                   |
+3   .   .   .   .  -D   .   .   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .  -L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        9 + 8
+           Circe Take&Make
+
+a) 
+
+  1  (Se2-c1 )
+  2  (Se2-g1 )
+  3  (Se2-g3 )
+  4  (Se2-f4 )
+  5  (Se2*d4[+sBd3] )
+  6  (Se2-c3 )
+  7  (b4-b5 )
+  8  (Tc5*c4[+sBc3] )
+  9  (Tc5-a5 )
+ 10  (Tc5-b5 )
+ 11  (Tc5*c6[+sBc5] )
+ 12  (Tc5-h5 + )
+ 13  (Tc5-g5 )
+ 14  (Tc5-f5 )
+ 15  (Tc5-e5 )
+ 16  (Tc5-d5 )
+ 17  (Kd6-e5 )
+ 18  (Kd6-c7 )
+ 19  (Kd6-d5 )
+ 20  (Kd6-e6 )
+ 21  (Ld7-h3 )
+ 22  (Ld7-g4 )
+ 23  (Ld7-f5 )
+  1.Ld7-f5 Kh4-g5   2.g7*h8=S[+sTh4] Le1*b4[+wBb5]   3.Lf5-d7 + De3-e5 #
+ 24  (Ld7-e6 )
+ 25  (Ld7-e8 )
+ 26  (Ld7*c8[+sTb8] )
+ 27  (Ld7*c8[+sTa8] )
+ 28  (Ld7*c8[+sTc7] )
+ 29  (e7-e8=D )
+ 30  (e7-e8=S )
+ 31  (e7-e8=T )
+ 32  (e7-e8=L )
+ 33  (g7*h8=D[+sTh7] )
+ 34  (g7*h8=D[+sTh6] )
+ 35  (g7*h8=D[+sTh5] )
+ 36  (g7*h8=S[+sTh7] )
+ 37  (g7*h8=S[+sTh6] )
+ 38  (g7*h8=S[+sTh5] )
+ 39  (g7*h8=T[+sTh7] )
+ 40  (g7*h8=T[+sTh6] )
+ 41  (g7*h8=T[+sTh5] )
+ 42  (g7*h8=L[+sTh7] )
+ 43  (g7*h8=L[+sTh6] )
+ 44  (g7*h8=L[+sTh5] )
+ 45  (Td8*c8[+sTd8] )
+ 46  (Td8*c8[+sTe8] )
+ 47  (Td8*c8[+sTf8] )
+ 48  (Td8*c8[+sTb8] )
+ 49  (Td8*c8[+sTa8] )
+ 50  (Td8*c8[+sTc7] )
+ 51  (Td8-f8 )
+ 52  (Td8-e8 )
+ 53  (Sg8-f6 )
+ 54  (Sg8-h6 )
+  add_to_move_generation_stack:  1049556342
+                     play_move:   404852179
+ is_white_king_square_attacked:   401519541
+ is_black_king_square_attacked:   193402452
+
+b) wSg8-->c2  
+
+ 55  (Sc2-a1 )
+ 56  (Sc2*e1[+sLd2] )
+ 57  (Sc2*e1[+sLc3] )
+ 58  (Sc2*e1[+sLf2] )
+ 59  (Sc2*e1[+sLg3] )
+ 60  (Sc2*e3[+sDf3] )
+ 61  (Sc2*e3[+sDg3] )
+ 62  (Sc2*e3[+sDh3] )
+ 63  (Sc2*e3[+sDe4] )
+ 64  (Sc2*e3[+sDe5] )
+ 65  (Sc2*e3[+sDe6] )
+ 66  (Sc2*e3[+sDd3] )
+ 67  (Sc2*e3[+sDc3] )
+ 68  (Sc2*e3[+sDb3] )
+ 69  (Sc2*e3[+sDa3] )
+ 70  (Sc2*e3[+sDf4] )
+ 71  (Sc2*e3[+sDg5] )
+ 72  (Sc2*e3[+sDh6] )
+ 73  (Sc2*e3[+sDf2] )
+ 74  (Sc2*e3[+sDg1] )
+ 75  (Sc2*e3[+sDd2] )
+ 76  (Sc2*e3[+sDc1] )
+ 77  (Sc2*d4[+sBd3] )
+ 78  (Sc2-a3 )
+ 79  (Se2-c1 )
+ 80  (Se2-g1 )
+ 81  (Se2-g3 )
+ 82  (Se2-f4 )
+ 83  (Se2*d4[+sBd3] )
+ 84  (Se2-c3 )
+ 85  (b4-b5 )
+ 86  (Tc5*c4[+sBc3] )
+ 87  (Tc5-a5 )
+ 88  (Tc5-b5 )
+ 89  (Tc5*c6[+sBc5] )
+ 90  (Tc5-h5 + )
+ 91  (Tc5-g5 )
+ 92  (Tc5-f5 )
+  1.Tc5-f5 Kh4-g4   2.Sc2*e1[+sLh4] Th8*d8[+wTe8]   3.Tf5-c5 + De3-e6 #
+ 93  (Tc5-e5 )
+ 94  (Tc5-d5 )
+ 95  (Kd6-e5 )
+ 96  (Kd6-c7 )
+ 97  (Kd6-d5 )
+ 98  (Kd6-e6 )
+ 99  (Ld7-h3 )
+100  (Ld7-g4 )
+101  (Ld7-f5 )
+102  (Ld7-e6 )
+103  (Ld7-e8 )
+104  (Ld7*c8[+sTb8] )
+105  (Ld7*c8[+sTa8] )
+106  (Ld7*c8[+sTc7] )
+107  (e7-e8=D )
+108  (e7-e8=S )
+109  (e7-e8=T )
+110  (e7-e8=L )
+111  (g7-g8=D )
+112  (g7-g8=S )
+113  (g7-g8=T )
+114  (g7-g8=L )
+115  (g7*h8=D[+sTg8] + )
+116  (g7*h8=D[+sTf8] + )
+117  (g7*h8=D[+sTe8] + )
+118  (g7*h8=D[+sTh7] )
+119  (g7*h8=D[+sTh6] )
+120  (g7*h8=D[+sTh5] )
+121  (g7*h8=S[+sTg8] )
+122  (g7*h8=S[+sTf8] )
+123  (g7*h8=S[+sTe8] )
+124  (g7*h8=S[+sTh7] )
+125  (g7*h8=S[+sTh6] )
+126  (g7*h8=S[+sTh5] )
+127  (g7*h8=T[+sTg8] + )
+128  (g7*h8=T[+sTf8] + )
+129  (g7*h8=T[+sTe8] + )
+130  (g7*h8=T[+sTh7] )
+131  (g7*h8=T[+sTh6] )
+132  (g7*h8=T[+sTh5] )
+133  (g7*h8=L[+sTg8] )
+134  (g7*h8=L[+sTf8] )
+135  (g7*h8=L[+sTe8] )
+136  (g7*h8=L[+sTh7] )
+137  (g7*h8=L[+sTh6] )
+138  (g7*h8=L[+sTh5] )
+139  (Td8*c8[+sTd8] )
+140  (Td8*c8[+sTe8] )
+141  (Td8*c8[+sTf8] )
+142  (Td8*c8[+sTg8] )
+143  (Td8*c8[+sTb8] )
+144  (Td8*c8[+sTa8] )
+145  (Td8*c8[+sTc7] )
+146  (Td8*h8[+sTg8] + )
+147  (Td8*h8[+sTf8] + )
+148  (Td8*h8[+sTe8] + )
+149  (Td8*h8[+sTd8] + )
+150  (Td8*h8[+sTh7] )
+151  (Td8*h8[+sTh6] )
+152  (Td8*h8[+sTh5] )
+153  (Td8-g8 )
+154  (Td8-f8 )
+155  (Td8-e8 )
+  add_to_move_generation_stack:  3198181082
+                     play_move:  1254879313
+ is_white_king_square_attacked:  1246034371
+ is_black_king_square_attacked:   615246218
+
+Loesung beendet.
+
+

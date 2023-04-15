@@ -206,7 +206,7 @@ namespace eval solution {
     set move "(?: [set ${language}::roleExchange]|(?:$singleBoxPromotion?$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
-    set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
+    set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
 
     set nrPositions {[[:digit:]]+}
     set nrMoves {[[:digit:]]+[+][[:digit:]]+}
