@@ -189,7 +189,8 @@ namespace eval solution {
     set checkIndicator {(?: [+])}
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
+    set castlingPartnerMovement $movement
+    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
@@ -199,7 +200,7 @@ namespace eval solution {
     set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
 
     namespace eval twinning {
-	set combined "$solution::emptyLine\[a-z]\\)\[^\n\]*\n"; # TODO be more explicit
+	set combined "$solution::emptyLine\[a-z]\\)\[^\n\]*\n(?: \[^\n\]*\n)*"; # TODO be more explicit
     }
 
     namespace eval zeroposition {
