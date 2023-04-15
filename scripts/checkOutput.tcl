@@ -37,7 +37,8 @@ namespace eval german {
     set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
-    set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
+    # TODO why does this in with a \n in German, but not in English???
+    set kingmissing "Es fehlt ein weisser oder schwarzer Koenig\n"
     set legailtyUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
@@ -316,9 +317,13 @@ namespace eval solution {
 	set combined "(?:$line{4})"
     }
 
+    namespace eval kingmissing {
+	set combined "(?:[set ${language}::kingmissing]\n)"
+    }
+
     namespace eval untwinned {
 	# allow 2 for duplex
-	set combined "(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2}"
+	set combined "(?:$solution::kingmissing::combined?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2})"
     }
 
     namespace eval twinned {
@@ -326,11 +331,6 @@ namespace eval solution {
     }
 
     set combined "(?:$untwinned::combined|$twinned::combined)"
-}
-
-namespace eval kingmissing {
-    set emptyLine "\n"
-    set combined "(?:[set ${language}::kingmissing]\n$emptyLine)?"
 }
 
 namespace eval footer {
@@ -341,11 +341,11 @@ namespace eval footer {
 # applying this gives an "expression is too complex" error :-(
 # dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
-    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($kingmissing::combined)?($solution::combined)($footer::combined)"
+    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($solution::combined)($footer::combined)"
 }
 
 namespace eval beforesolution {
-    set combined "($intro::combined)($boardA::combined$board::combined)($caption::combined)($conditions::combined)($kingmissing::combined)"
+    set combined "($intro::combined)($boardA::combined$board::combined)($caption::combined)($conditions::combined)"
 }
 
 set f [open $inputfile "r"]
@@ -379,12 +379,11 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	    set beforesol $currentproblem
 	}
 	set matches [regexp -all -inline $beforesolution::combined $beforesol]
-	foreach { whole intro board caption conditions kingmissing } $matches {
+	foreach { whole intro board caption conditions } $matches {
 	    printSection "i" $intro
 	    printSection "b" $board
 	    printSection "ca" $caption
 	    printSection "co" $conditions
-	    printSection "k" $kingmissing
 	    foreach pair $solutionIndices {
 		foreach {solutionStart solutionEnd} $pair break
 		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
