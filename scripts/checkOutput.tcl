@@ -34,7 +34,7 @@ namespace eval german {
     set but {Aber}
     set colorShortcut {(?:[wsn])}
     # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?)}
+    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -49,7 +49,8 @@ namespace eval english {
     set but {But}
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
-    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?)}
+    # TODO is hcc correct for hurdle colour changing?
+    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
@@ -168,8 +169,11 @@ namespace eval solution {
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
     # TODO Popeye should write hn here, not just h
-    # TODO order of h(n) and c
-    set promotion "(?:=[set ${language}::colorShortcut]?h?c?$piece?)"
+    # TODO Popeye should write sfw/hcc? here, not just s resp. h
+    # TODO order of h(n), c, s(fw)
+    set changeOfColor "(?:=[set ${language}::colorShortcut]h?c?s?)"
+    set changeOfColorOtherPiece "(?:.$square$changeOfColor.)"
+    set promotion "(?:=[set ${language}::colorShortcut]?h?c?s?$piece?)"
     set enPassant {(?: ep[.])}
     # TODO replace . by []
     # TODO why no brackets if on its own?? because we don't brackets if already inside brackets
@@ -178,8 +182,6 @@ namespace eval solution {
     set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?.)"
     set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?.)"
     set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
-    # TODO why h and not hn??
-    set changeOfColor "(?:=[set ${language}::colorShortcut]h?)"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
     set imitatorMovement "(?:.I$square.)"
     set paren_open {[(]}
@@ -190,7 +192,7 @@ namespace eval solution {
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set castlingPartnerMovement $movement
-    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
+    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$messignyExchange?$imitatorMovement?$changeOfColorOtherPiece?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
@@ -200,7 +202,7 @@ namespace eval solution {
     set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
 
     namespace eval twinning {
-	set combined "$solution::emptyLine\[a-z]\\)\[^\n\]*\n(?: \[^\n\]*\n)*"; # TODO be more explicit
+	set combined "$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*"; # TODO be more explicit
     }
 
     namespace eval zeroposition {
@@ -344,8 +346,12 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	    printSection "ca" $caption
 	    printSection "co" $conditions
 	    printSection "k" $kingmissing
-	    if {[regexp -indices $solution::combined $currentproblem solutionIndices]} {
-		foreach {solutionStart solutionEnd} $solutionIndices break
+	    set solutionIndices [regexp -all -inline -indices $solution::twinned::combined $currentproblem]
+	    if {[llength $solutionIndices]==0} {
+		set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $currentproblem]
+	    }
+	    foreach pair $solutionIndices {
+		foreach {solutionStart solutionEnd} $pair break
 		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
 	    }
 	    printSection "f" [string range $input $footerStart $footerEnd]
