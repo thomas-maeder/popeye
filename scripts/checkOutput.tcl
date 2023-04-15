@@ -256,7 +256,7 @@ namespace eval solution {
 	    set combined $solution::tree::postkeyplay::combined
 	}
 
-        set combined "(?:${solution::emptyLine}(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+)"
+        set combined "(?:${solution::emptyLine}(?:$setplay::combined$solution::emptyLine)?(?:$solution::tree::postkeyplay::combined|(?:$solution::moveNumberLine|$fullphase::combined)+))"
     }
 
     namespace eval line {
