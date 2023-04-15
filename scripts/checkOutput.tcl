@@ -48,8 +48,9 @@ namespace eval german {
 
 namespace eval english {
     set endlines {(?:\nsolution finished[.]|Partial solution)\n}
-    set white {White}
-    set black {Black}
+    # TODO why is this written inconsistently?
+    set white {[Ww]hite}
+    set black {[Bb]lack}
     set zugzwang {zugzwang[.]}
     set threat "threat:"
     set but {but}
