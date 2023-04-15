@@ -269,7 +269,7 @@ namespace eval solution {
             set combined "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
-        set combined "(?:${solution::emptyLine}(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
+        set combined "(?:(?:$solution::checkIndicator)?\n(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
     }
 
     namespace eval line {
@@ -361,17 +361,23 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
     foreach footerIndexPair $footerIndices {
 	foreach {footerStart footerEnd} $footerIndexPair break
 	set currentproblem [string range $input $problemStart $footerEnd]
-	set matches [regexp -all -inline $beforesolution::combined $currentproblem]
+	set solutionIndices [regexp -all -inline -indices $solution::twinned::combined $currentproblem]
+	if {[llength $solutionIndices]==0} {
+	    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $currentproblem]
+	}
+	if {[llength $solutionIndices]>0} {
+	    set firstSolutionStart [lindex [lindex $solutionIndices 0] 0]
+	    set beforesol [string range $currentproblem 0 $firstSolutionStart]
+	} else {
+	    set beforesol $currentproblem
+	}
+	set matches [regexp -all -inline $beforesolution::combined $beforesol]
 	foreach { whole intro board caption conditions kingmissing } $matches {
 	    printSection "i" $intro
 	    printSection "b" $board
 	    printSection "ca" $caption
 	    printSection "co" $conditions
 	    printSection "k" $kingmissing
-	    set solutionIndices [regexp -all -inline -indices $solution::twinned::combined $currentproblem]
-	    if {[llength $solutionIndices]==0} {
-		set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $currentproblem]
-	    }
 	    foreach pair $solutionIndices {
 		foreach {solutionStart solutionEnd} $pair break
 		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
