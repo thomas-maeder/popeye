@@ -33,7 +33,8 @@ namespace eval german {
     set threat "Drohung:"
     set but {Aber}
     set colorShortcut {(?:[wsn])}
-    set pieceAttributeShortcut {(?:k?[wsn]?(?:hn)?)}
+    # TODO order of attributes?
+    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -47,7 +48,8 @@ namespace eval english {
     set threat "Threat:"
     set but {But}
     set colorShortcut {(?:[wbn])}
-    set pieceAttributeShortcut {(?:r?[wbn]?(?:hn)?)}
+    # TODO is "f" correct for functionary piece?
+    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
@@ -60,19 +62,10 @@ namespace eval intro {
     set remark {[^\n]+}
     set remarkLine "(?:$remark\n)"
 
-    set author {[^\n]+}
-    set authorLine "(?:$leadingBlanks$author\n)"
+    set authorOriginAwardTitle {[^\n]+}
+    set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle\n)"
 
-    set origin {[^\n]+}
-    set originLine "(?:$leadingBlanks$origin\n)"
-
-    set award {[^\n]+}
-    set awardLine "(?:$leadingBlanks$award\n)"
-
-    set title {[^\n]+}
-    set titleLine "(?:$leadingBlanks$title\n)"
-
-    set combined "$remarkLine*$emptyLine+$authorLine*$originLine*$awardLine?$titleLine?$emptyLine"
+    set combined "$remarkLine*$emptyLine$authorOriginAwardTitleLine*$emptyLine"
 }
 
 namespace eval board {
@@ -154,7 +147,7 @@ namespace eval boardA {
     set caption " *$pieceControl::combined\n"
     set tomove "$stipulation::paren_open$stipulation::side ->$stipulation::paren_close"
     set combined "(?:$board::combined$boardA::caption\n$emptyLine *=> $tomove\n)"
-    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n$emptyLine$emptyLine)"
+    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n$emptyLine$emptyLine)?"
 }
 
 namespace eval conditions {
@@ -175,13 +168,17 @@ namespace eval solution {
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
     # TODO Popeye should write hn here, not just h
-    set promotion "(?:=[set ${language}::colorShortcut]?h?$piece?)"
+    # TODO order of h(n) and c
+    set promotion "(?:=[set ${language}::colorShortcut]?h?c?$piece?)"
     set enPassant {(?: ep[.])}
     # TODO replace . by []
+    # TODO why no brackets if on its own?? because we don't brackets if already inside brackets
+    set chameleonization "(?:=[set ${language}::pieceAttributeShortcut]?$piece?)"
     # TODO why do we allow modification of arriving piece after -> and after =??
-    set pieceMovement "(?:.[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::colorShortcut]?[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece)?.)"
-    set pieceAddition "(?:.\[+][set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?)?.)"
-    set pieceRemoval "(?:.-[set ${language}::colorShortcut][set ${language}::pieceAttributeShortcut]?$piece$square.)"
+    set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?.)"
+    set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?.)"
+    set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
+    # TODO why h and not hn??
     set changeOfColor "(?:=[set ${language}::colorShortcut]h?)"
     set messignyExchange "(?:.$piece$square<->$piece$square.)"
     set imitatorMovement "(?:.I$square.)"
@@ -192,7 +189,7 @@ namespace eval solution {
     set checkIndicator {(?: [+])}
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
+    set move "$movement$takeAndMakeAndTake?$enPassant?$promotion?$chameleonization?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColor?$messignyExchange?$imitatorMovement?$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
@@ -234,18 +231,21 @@ namespace eval solution {
 	}
 
         namespace eval postkeyplay {
-            set combined "(?:(?:$solution::tree::zugzwangOrThreat)(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)*)"
+            set combined "(?:(?:$solution::tree::zugzwangOrThreat)(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
-	set butLine "    [set ${language}::but]\n"
-	set refutationLine "$defense !\n"
-	set refutationBlock "(?:$butLine$refutationLine)"
+        namespace eval fullphase {
+	    set butLine "    [set ${language}::but]\n"
+	    set refutationLine "$solution::tree::defense !\n"
+	    set refutationBlock "(?:$butLine$refutationLine)"
+	    set combined "(?:$solution::tree::keyline::combined$solution::tree::postkeyplay::combined?$refutationBlock?$solution::emptyLine)"
+	}
 
-	set fullPhaseBlock "(?:$keyline::combined$postkeyplay::combined$refutationBlock?$solution::emptyLine)"
+        namespace eval setplay {
+	    set combined $solution::tree::postkeyplay::combined
+	}
 
-	set setPlayBlock $postkeyplay::combined
-
-	set combined "(?:$solution::emptyLine$setPlayBlock?(?:$solution::moveNumberLine|$fullPhaseBlock)*)"
+        set combined "(?:${solution::emptyLine}(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+)"
     }
 
     namespace eval line {
@@ -284,24 +284,36 @@ namespace eval solution {
 	set combined "(?:$line{4})"
     }
 
-    set untwinnedSolution "(?:$tree::combined*|$line::combined)(?:$measurements::combined)"
-    set twinnedSolution "$zeroposition::combined?(?:$twinning::combined$untwinnedSolution)+"
+    namespace eval untwinned {
+	set combined "(?:$solution::emptyLine|$solution::tree::combined*|$solution::line::combined)(?:$solution::measurements::combined)"
+    }
+
+    namespace eval twinned {
+	set combined "$solution::zeroposition::combined?(?:$solution::twinning::combined$solution::untwinned::combined)+"
+    }
 
     # allow 2 for duplex
-    set combined "(?:$untwinnedSolution|$twinnedSolution){1,2}"
+    set combined "(?:$untwinned::combined|$twinned::combined){1,2}"
 }
 
 namespace eval kingmissing {
-    set emptyLine {\n}
-    set combined "[set ${language}::kingmissing]\n$emptyLine"
+    set emptyLine "\n"
+    set combined "(?:[set ${language}::kingmissing]\n$emptyLine)?"
 }
 
 namespace eval footer {
-    set combined "[set ${language}::endlines]\n\n"
+    set emptyLine "\n"
+    set combined "[set ${language}::endlines]\n$emptyLine"
 }
 
+# applying this gives an "expression is too complex" error :-(
+# dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
     set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($kingmissing::combined)?($solution::combined)($footer::combined)"
+}
+
+namespace eval beforesolution {
+    set combined "($intro::combined)($boardA::combined$board::combined)($caption::combined)($conditions::combined)($kingmissing::combined)"
 }
 
 set f [open $inputfile "r"]
@@ -318,25 +330,34 @@ proc printSection {debugPrefix section} {
     }
 }
 
-if {[llength $sections]==0 || [lindex $::sections 0]=="debug"} {
-    set matches [regexp -all -inline -nocase $problem::combined $input]
+if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
+    set footerIndices [regexp -all -indices -inline $footer::combined $input]
+    set problemStart 0
+    foreach footerIndexPair $footerIndices {
+	foreach {footerStart footerEnd} $footerIndexPair break
+	set currentproblem [string range $input $problemStart $footerEnd]
+	set matches [regexp -all -inline $beforesolution::combined $currentproblem]
+	foreach { whole intro board caption conditions kingmissing } $matches {
+	    printSection "i" $intro
+	    printSection "b" $board
+	    printSection "ca" $caption
+	    printSection "co" $conditions
+	    printSection "k" $kingmissing
+	    if {[regexp -indices $solution::combined $currentproblem solutionIndices]} {
+		foreach {solutionStart solutionEnd} $solutionIndices break
+		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
+	    }
+	    printSection "f" [string range $input $footerStart $footerEnd]
+	}
 
-    foreach { whole intro boardA board caption conditions kingmissing solution footer } $matches {
-	printSection "i" $intro
-	printSection "bA" $boardA
-	printSection "b" $board
-	printSection "ca" $caption
-	printSection "co" $conditions
-	printSection "k" $kingmissing
-	printSection "s" $solution
-	printSection "f" $footer
+	set problemStart [expr {$footerEnd+1}]
     }
 } else {
     set expr ""
     foreach section $sections {
 	append expr [set ${section}::combined]
     }
-    foreach match [regexp -all -inline -nocase $expr $input] {
+    foreach match [regexp -all -inline $expr $input] {
 	puts -nonewline $match
 	puts "===="
     }
