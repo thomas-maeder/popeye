@@ -172,6 +172,7 @@ namespace eval solution {
     set castlingQ "0-0-0"
     set castlingK "0-0"
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
+    set messignyExchange "(?:$piece$square<->$piece$square)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
     # TODO Popeye should write hn here, not just h
     # TODO Popeye should write sfw/hcc? here, not just s resp. h
@@ -187,7 +188,6 @@ namespace eval solution {
     set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?.)"
     set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?.)"
     set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
-    set messignyExchange "(?:.$piece$square<->$piece$square.)"
     set imitatorMovement "(?:.I${square}(?:,$square)*.)"
     set paren_open {[(]}
     set paren_close {[)]}
@@ -197,7 +197,7 @@ namespace eval solution {
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
     set castlingPartnerMovement $movement
-    set move "${movement}(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$messignyExchange?$changeOfColorOtherPiece*$bglBalance?$checkIndicator?$goal?"
+    set move "(?:$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$bglBalance?$checkIndicator?$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: +$moveNumber  \[(]$move \[)]\n)"
