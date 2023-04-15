@@ -34,10 +34,11 @@ namespace eval german {
     set but {Aber}
     set colorShortcut {(?:[wsn])}
     # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?)}
+    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
+    set legailtyUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
 }
 
 namespace eval english {
@@ -50,10 +51,12 @@ namespace eval english {
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
     # TODO is hcc correct for hurdle colour changing?
-    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?)}
+    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
+    # TODO correct English sentence?
+    set legailtyUndecidable "can't decide whether this move is legal."
 }
 
 namespace eval intro {
@@ -217,12 +220,12 @@ namespace eval solution {
 	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
 
 	namespace eval keyline {
-	    set success { [?!]}
-	    set combined "   $solution::tree::attackNumber$solution::move$success$solution::tree::zugzwangOrThreat\n"
+	    set success {(?: [?!])}
+	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|$success$solution::tree::zugzwangOrThreat)\n"
 	}
 
         namespace eval attackline {
-	    set combined " +$solution::tree::attackNumber$solution::move$solution::tree::zugzwangOrThreat\n"
+	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|$solution::tree::zugzwangOrThreat)\n"
 	}
 
 	set threatLine $attackline::combined
@@ -230,7 +233,7 @@ namespace eval solution {
 	set defense " +$defenseNumber$solution::move"
 
         namespace eval defenseline {
-             set combined "$solution::tree::defense\n"
+	    set combined "${solution::tree::defense}(?: [set ${language}::legailtyUndecidable])?\n"
 	}
 
         namespace eval postkeyplay {
@@ -254,11 +257,12 @@ namespace eval solution {
     namespace eval line {
 	set ordinalNumber {[1-9][0-9]*[.]}
 	set ellipsis {[.][.][.]}
+	set undec " [set ${language}::legailtyUndecidable]"
 
-	set firstMovePair "(?:1.$solution::move +$solution::move)"
-	set firstMoveSkipped "1$ellipsis$solution::move"
-	set subsequentMovePair "(?: +$ordinalNumber$solution::move +$solution::move)"
-	set finalMove "(?: +$ordinalNumber$solution::move)"
+	set firstMovePair "(?:1.${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
+	set firstMoveSkipped "1$ellipsis${solution::move}(?:$undec\n)?"
+	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
+	set finalMove "(?: +$ordinalNumber${solution::move}(?:$undec\n)?)"
 
 	namespace eval regularplay {
 	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
