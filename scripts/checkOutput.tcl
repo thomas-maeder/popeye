@@ -294,7 +294,7 @@ namespace eval solution {
 
 	namespace eval seriesplay {
 	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
-	    set line "(?:$numberedMove*(?:$numberedMove|$solution::line::subsequentMovePair)\n)"
+	    set line "(?:(?:$numberedMove|$solution::line::subsequentMovePair)+\n)"
 	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
 	}
 
@@ -307,15 +307,15 @@ namespace eval solution {
     }
 
     namespace eval untwinned {
-	set combined "(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|$solution::tree::combined*|$solution::line::combined)(?:$solution::measurements::combined)"
+	# allow 2 for duplex
+	set combined "(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|$solution::tree::combined*|$solution::line::combined)$solution::measurements::combined){1,2}"
     }
 
     namespace eval twinned {
 	set combined "$solution::zeroposition::combined?(?:$solution::twinning::combined$solution::untwinned::combined)+"
     }
 
-    # allow 2 for duplex
-    set combined "(?:$untwinned::combined|$twinned::combined){1,2}"
+    set combined "(?:$untwinned::combined|$twinned::combined)"
 }
 
 namespace eval kingmissing {
