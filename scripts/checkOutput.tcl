@@ -48,8 +48,8 @@ namespace eval english {
     set endlines {(?:\nsolution finished[.]|Partial solution)\n}
     set white {white}
     set black {black}
-    set zugzwang {Zugzwang[.]}
-    set threat "Threat:"
+    set zugzwang {zugzwang[.]}
+    set threat "threat:"
     set but {but}
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
@@ -177,6 +177,7 @@ namespace eval solution {
     set castlingQ "0-0-0"
     set castlingK "0-0"
     set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
+    set antimarsMovement "-$square"
     set messignyExchange "(?:$piece$square<->$piece$square)"
     set takeAndMakeAndTake "(?:$captureOrNot$square)"
     # TODO Popeye should write hn here, not just h
@@ -204,7 +205,7 @@ namespace eval solution {
     set castlingPartnerMovement $movement
     set kingOscillation "(?:.$piece$square<->$piece$square.)"
     set singleBoxPromotion "(?:.$square=$piece.)"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$movement|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?${movement}(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
