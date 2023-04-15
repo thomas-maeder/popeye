@@ -34,7 +34,7 @@ namespace eval german {
     set but {Aber}
     set colorShortcut {(?:[wsn])}
     # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?)}
+    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?u?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     # TODO why does this in with a \n in German, but not in English???
@@ -43,6 +43,7 @@ namespace eval german {
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
     set refutes "Widerlegt."
+    set toofairy "Zu viel Maerchenschach fuer neutrale Steine\nProblem uebersprungen"
 }
 
 namespace eval english {
@@ -55,11 +56,12 @@ namespace eval english {
     set colorShortcut {(?:[wbn])}
     # TODO is "f" correct for functionary piece?
     # TODO is hcc correct for hurdle colour changing?
-    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?k?)}
+    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?k?u?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
     set illegalSelfCheck "the side to play can capture the king"
+    set toofairy "too much fairy chess for neutral pieces\nproblem ignored"
     # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
@@ -334,7 +336,7 @@ namespace eval solution {
 
     namespace eval untwinned {
 	# allow 2 for duplex
-	set combined "(?:$solution::kingmissing::combined?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2})"
+	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2})"
     }
 
     namespace eval twinned {
