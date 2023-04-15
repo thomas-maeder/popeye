@@ -220,15 +220,15 @@ namespace eval solution {
 	set attackNumber $ordinalNumber
 	set defenseNumber "$ordinalNumber\\.{2}"
 
-	set zugzwangOrThreat "(?: (?:[set ${language}::zugzwang]|[set ${language}::threat]))?"
+	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat])"
 
 	namespace eval keyline {
 	    set success {(?: [?!])}
-	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|$success$solution::tree::zugzwangOrThreat)\n"
+	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|${success}(?: $solution::tree::zugzwangOrThreat)?)\n"
 	}
 
         namespace eval attackline {
-	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|$solution::tree::zugzwangOrThreat)\n"
+	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|(?: $solution::tree::zugzwangOrThreat)?)\n"
 	}
 
 	set threatLine $attackline::combined
@@ -239,8 +239,12 @@ namespace eval solution {
 	    set combined "${solution::tree::defense}(?: [set ${language}::legailtyUndecidable])?\n"
 	}
 
+        namespace eval zugzwangOrThreatLine {
+	    set combined " $solution::tree::zugzwangOrThreat\n"
+	}
+
         namespace eval postkeyplay {
-            set combined "(?:(?:$solution::tree::zugzwangOrThreat)(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
+            set combined "(?:${solution::tree::zugzwangOrThreatLine::combined}(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
         namespace eval fullphase {
@@ -249,14 +253,15 @@ namespace eval solution {
 	    set forcedReflexMove " +$solution::tree::attackNumber$solution::move $forcedReflexMoveIndicator"
 	    set refutationLine "(?:$solution::tree::defense !\n(?:$forcedReflexMove\n)?)"
 	    set refutationBlock "(?:$butLine$refutationLine+)"
-	    set combined "(?:$solution::tree::keyline::combined$solution::tree::postkeyplay::combined?$refutationBlock?$solution::emptyLine)"
+            set playAfterKey "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
+	    set combined "(?:$solution::tree::keyline::combined$playAfterKey?$refutationBlock?$solution::emptyLine)"
 	}
 
         namespace eval setplay {
-	    set combined $solution::tree::postkeyplay::combined
+            set combined "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
 	}
 
-        set combined "(?:${solution::emptyLine}(?:$setplay::combined$solution::emptyLine)?(?:$solution::tree::postkeyplay::combined|(?:$solution::moveNumberLine|$fullphase::combined)+))"
+        set combined "(?:${solution::emptyLine}(?:$solution::tree::postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
     }
 
     namespace eval line {
