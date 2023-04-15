@@ -225,7 +225,7 @@ namespace eval solution {
 	set attackNumber $ordinalNumber
 	set defenseNumber "$ordinalNumber\\.{2}"
 
-	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat])"
+	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat](?:$solution::pieceRemoval)?)"
 
 	namespace eval keyline {
 	    set success {(?: [?!])}
