@@ -39,6 +39,7 @@ namespace eval german {
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
     set legailtyUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
+    set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
 }
 
 namespace eval english {
@@ -55,8 +56,9 @@ namespace eval english {
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
-    # TODO correct English sentence?
+    # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
+    set illegalSelfCheck "The moving side can capture the opposite king"
 }
 
 namespace eval intro {
@@ -294,7 +296,7 @@ namespace eval solution {
     }
 
     namespace eval untwinned {
-	set combined "(?:$solution::emptyLine|$solution::tree::combined*|$solution::line::combined)(?:$solution::measurements::combined)"
+	set combined "(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|$solution::tree::combined*|$solution::line::combined)(?:$solution::measurements::combined)"
     }
 
     namespace eval twinned {
