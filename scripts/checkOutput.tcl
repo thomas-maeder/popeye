@@ -401,7 +401,7 @@ proc handleTextBeforeSolution {currentproblem} {
     }
 }
 
-proc handleTextWithoutTwinning {currentproblem} {
+proc handleSolutionWithoutTwinning {currentproblem} {
     set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $currentproblem]
     set firstSimplexStart [lindex [lindex $simplexIndices 0] 0]
     handleTextBeforeSolution [string range $currentproblem 0 [expr {$firstSimplexStart-1}]]
@@ -436,7 +436,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	set nextProblemStart $footerEnd
 	set twinningIndices [regexp -all -inline -indices $solution::twinned::partial $currentproblem]
 	if {[llength $twinningIndices]==0} {
-	    handleTextWithoutTwinning $currentproblem
+	    handleSolutionWithoutTwinning $currentproblem
 	} else {
 	    set firstTwinningStart [lindex [lindex $twinningIndices 0] 0]
 	    set beforesol [string range $currentproblem 0 $firstTwinningStart]
@@ -447,11 +447,12 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 		    set nextTwinning [string range $currentproblem $twinningStart $twinningEnd]
 		    handleTwinSolution $currentproblem $prevTwinningEnd $twinningStart
 		    printSection "t" $nextTwinning
-		    set prevTwinningEnd [expr {$twinningEnd+1}]
+		    set prevTwinningEnd $twinningEnd
 		}
 		handleTwinSolution $currentproblem $prevTwinningEnd $footerStart
 	    } else {
-		handleTextWithoutTwinning $currentproblem
+		# "fake twinning", e.g. remark a) blabla
+		handleSolutionWithoutTwinning $currentproblem
 	    }
 	}
 	printSection "f" $footer
