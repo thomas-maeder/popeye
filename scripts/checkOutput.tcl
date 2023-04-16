@@ -426,6 +426,18 @@ proc handleTwinSolution {currentproblem prevTwinningEnd twinningStart} {
     }
 }
 
+proc findFirstTwinning {currentproblem twinningIndices} {
+    foreach pair $twinningIndices {
+	foreach {twinningStart twinningEnd} $pair break
+	set beforesol [string range $currentproblem 0 $twinningStart]
+	if {[handleTextBeforeSolution $beforesol]} {
+	    return $twinningStart
+	}
+    }
+
+    return -1
+}
+
 if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
     set footerIndices [regexp -all -indices -inline $footer::combined $input]
     set nextProblemStart 0
@@ -438,21 +450,22 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	if {[llength $twinningIndices]==0} {
 	    handleSolutionWithoutTwinning $currentproblem
 	} else {
-	    set firstTwinningStart [lindex [lindex $twinningIndices 0] 0]
-	    set beforesol [string range $currentproblem 0 $firstTwinningStart]
-	    if {[handleTextBeforeSolution $beforesol]} {
+	    set firstTwinningStart [findFirstTwinning $currentproblem $twinningIndices]
+	    if {$firstTwinningStart==-1} {
+		# "fake twinning", e.g. remark a) blabla
+		handleSolutionWithoutTwinning $currentproblem
+	    } else {
 		set prevTwinningEnd 0
 		foreach pair $twinningIndices {
 		    foreach {twinningStart twinningEnd} $pair break
-		    set nextTwinning [string range $currentproblem $twinningStart $twinningEnd]
-		    handleTwinSolution $currentproblem $prevTwinningEnd $twinningStart
-		    printSection "t" $nextTwinning
-		    set prevTwinningEnd $twinningEnd
+		    if {$twinningStart>=$firstTwinningStart} {
+			set nextTwinning [string range $currentproblem $twinningStart $twinningEnd]
+			handleTwinSolution $currentproblem $prevTwinningEnd $twinningStart
+			printSection "t" $nextTwinning
+			set prevTwinningEnd $twinningEnd
+		    }
 		}
 		handleTwinSolution $currentproblem $prevTwinningEnd $footerStart
-	    } else {
-		# "fake twinning", e.g. remark a) blabla
-		handleSolutionWithoutTwinning $currentproblem
 	    }
 	}
 	printSection "f" $footer
