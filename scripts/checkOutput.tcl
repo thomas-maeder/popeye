@@ -225,7 +225,7 @@ namespace eval solution {
     set totalInvisibleCapture "TI~\\*$square"
     set totalInvisibleInsertion "(?:.\\+[set ${language}::colorShortcut]$piece$square.)"
     set totalInvisibleRevelation "(?:.$square=[set ${language}::colorShortcut]$piece.)"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$totalInvisibleInsertion?(?:$movement|$totalInvisibleMove|$totalInvisibleCapture)(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$totalInvisibleRevelation*$bglBalance?$checkIndicator?)$goal?"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$totalInvisibleInsertion?(?:$movement|$totalInvisibleMove|$totalInvisibleCapture)(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition*$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$totalInvisibleRevelation*$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
