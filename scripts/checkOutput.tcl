@@ -221,7 +221,11 @@ namespace eval solution {
     set kingOscillation "(?:.$piece$square<->$piece$square.)"
     set singleBoxPromotion "(?:.$square=$piece.)"
     set kobulChange "(?:.$square=[set ${language}::pieceAttributeShortcut]?$piece.)"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?${movement}(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$bglBalance?$checkIndicator?)$goal?"
+    set totalInvisibleMove "TI~-~"
+    set totalInvisibleCapture "TI~\\*$square"
+    set totalInvisibleInsertion "(?:.\\+[set ${language}::colorShortcut]$piece$square.)"
+    set totalInvisibleRevelation "(?:.$square=[set ${language}::colorShortcut]$piece.)"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$totalInvisibleInsertion?(?:$movement|$totalInvisibleMove|$totalInvisibleCapture)(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?$chameleonization?$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition?$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion?$totalInvisibleRevelation*$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
@@ -328,8 +332,8 @@ namespace eval solution {
     }
 
     namespace eval measurements {
-	set line {(?: *[a-z_]+: *[0-9]+\n)}
-	set combined "(?:$line{4})"
+	set line {(?: *[[:alpha:]_ ]+: *[[:digit:]]+\n)}
+	set combined "(?:$line+)"
     }
 
     namespace eval kingmissing {
