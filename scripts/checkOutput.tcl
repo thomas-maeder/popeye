@@ -235,7 +235,7 @@ namespace eval solution {
     set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
 
     namespace eval twinning {
-	set combined "$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*"; # TODO be more explicit
+	set combined "(?:$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
     }
 
     namespace eval zeroposition {
@@ -341,14 +341,19 @@ namespace eval solution {
     }
 
     namespace eval untwinned {
+	set simplex "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined))"
 	# allow 2 for duplex
+	# but too complex for regexp
 	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2})"
     }
 
     namespace eval twinned {
+	# too complex for regexp
 	set combined "$solution::zeroposition::combined?(?:$solution::twinning::combined$solution::untwinned::combined)+"
+	set partial "$solution::zeroposition::combined?$solution::twinning::combined+"
     }
 
+    # too complex for regexp
     set combined "(?:$untwinned::combined|$twinned::combined)"
 }
 
@@ -360,6 +365,7 @@ namespace eval footer {
 # applying this gives an "expression is too complex" error :-(
 # dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
+    # too complex for regexp
     set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?)($solution::combined)($footer::combined)"
 }
 
@@ -381,38 +387,80 @@ proc printSection {debugPrefix section} {
     }
 }
 
+proc handleTextBeforeSolution {currentproblem} {
+    if {[regexp "${beforesolution::combined}(.*)" $currentproblem - intro boardA board caption conditions gridboard rest]} {
+	printSection "i" $intro
+	printSection "ba" $boardA
+	printSection "b" $board
+	printSection "ca" $caption
+	printSection "co" $conditions
+	printSection "g" $gridboard
+	return $rest
+    } else {
+	return ""
+    }
+}
+
+proc handleTextWithoutTwinning {currentproblem} {
+    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $currentproblem]
+    set firstSimplexStart [lindex [lindex $simplexIndices 0] 0]
+    handleTextBeforeSolution [string range $currentproblem 0 [expr {$firstSimplexStart-1}]]
+    foreach pair $simplexIndices {
+	foreach {simplexStart simplexEnd} $pair {
+	    set simplex [string range $currentproblem $simplexStart $simplexEnd]
+	    printSection "s" $simplex
+	}
+    }
+}
+
 if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
     set footerIndices [regexp -all -indices -inline $footer::combined $input]
-    set problemStart 0
+    set nextProblemStart 0
     foreach footerIndexPair $footerIndices {
 	foreach {footerStart footerEnd} $footerIndexPair break
-	set currentproblem [string range $input $problemStart $footerEnd]
-	set solutionIndices [regexp -all -inline -indices $solution::twinned::combined $currentproblem]
-	if {[llength $solutionIndices]==0} {
-	    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $currentproblem]
-	}
-	if {[llength $solutionIndices]>0} {
-	    set firstSolutionStart [lindex [lindex $solutionIndices 0] 0]
-	    set beforesol [string range $currentproblem 0 $firstSolutionStart]
+	set footer [string range $input $footerStart $footerEnd]
+	set currentproblem [string range $input $nextProblemStart $footerEnd]
+	set nextProblemStart $footerEnd
+	set twinningIndices [regexp -all -inline -indices $solution::twinned::partial $currentproblem]
+	if {[llength $twinningIndices]==0} {
+	    handleTextWithoutTwinning $currentproblem
 	} else {
-	    set beforesol $currentproblem
-	}
-	set matches [regexp -all -inline $beforesolution::combined $beforesol]
-	foreach { whole intro boardA board caption conditions gridboard } $matches {
-	    printSection "i" $intro
-	    printSection "ba" $boardA
-	    printSection "b" $board
-	    printSection "ca" $caption
-	    printSection "co" $conditions
-	    printSection "g" $gridboard
-	    foreach pair $solutionIndices {
-		foreach {solutionStart solutionEnd} $pair break
-		printSection "s" [string range $currentproblem $solutionStart $solutionEnd]
+	    set firstTwinningStart [lindex [lindex $twinningIndices 0] 0]
+	    set beforesol [string range $currentproblem 0 $firstTwinningStart]
+	    set rest [handleTextBeforeSolution $beforesol]
+	    if {$rest==""} {
+		handleTextWithoutTwinning $currentproblem
+	    } else {
+		set prevTwinningEnd 0
+		foreach pair $twinningIndices {
+		    foreach {twinningStart twinningEnd} $pair break
+		    set twinning [string range $currentproblem $twinningStart $twinningEnd]
+		    if {$prevTwinningEnd>0} {
+			set twinSolution [string range $currentproblem $prevTwinningEnd $twinningStart]
+			set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
+			foreach pair $simplexIndices {
+			    foreach {simplexStart simplexEnd} $pair {
+				set simplex [string range $twinSolution $simplexStart $simplexEnd]
+				printSection "s" $simplex
+			    }
+			}
+		    }
+		    printSection "t" $twinning
+		    set prevTwinningEnd [expr {$twinningEnd+1}]
+		}
+		if {$prevTwinningEnd>0} {
+		    set twinSolution [string range $currentproblem $prevTwinningEnd $footerStart]
+		    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
+		    foreach pair $simplexIndices {
+			foreach {simplexStart simplexEnd} $pair {
+			    set simplex [string range $twinSolution $simplexStart $simplexEnd]
+			    printSection "s" $simplex
+			}
+		    }
+		}
 	    }
-	    printSection "f" [string range $input $footerStart $footerEnd]
 	}
-
-	set problemStart [expr {$footerEnd+1}]
+	printSection "f" $footer
     }
 } else {
     set expr ""
