@@ -388,16 +388,16 @@ proc printSection {debugPrefix section} {
 }
 
 proc handleTextBeforeSolution {currentproblem} {
-    if {[regexp "${beforesolution::combined}(.*)" $currentproblem - intro boardA board caption conditions gridboard rest]} {
+    if {[regexp $beforesolution::combined $currentproblem - intro boardA board caption conditions gridboard]} {
 	printSection "i" $intro
 	printSection "ba" $boardA
 	printSection "b" $board
 	printSection "ca" $caption
 	printSection "co" $conditions
 	printSection "g" $gridboard
-	return $rest
+	return true
     } else {
-	return ""
+	return false
     }
 }
 
@@ -409,6 +409,19 @@ proc handleTextWithoutTwinning {currentproblem} {
 	foreach {simplexStart simplexEnd} $pair {
 	    set simplex [string range $currentproblem $simplexStart $simplexEnd]
 	    printSection "s" $simplex
+	}
+    }
+}
+
+proc handleTwinSolution {currentproblem prevTwinningEnd twinningStart} {
+    if {$prevTwinningEnd>0} {
+	set twinSolution [string range $currentproblem $prevTwinningEnd $twinningStart]
+	set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
+	foreach pair $simplexIndices {
+	    foreach {simplexStart simplexEnd} $pair {
+		set simplex [string range $twinSolution $simplexStart $simplexEnd]
+		printSection "s" $simplex
+	    }
 	}
     }
 }
@@ -427,37 +440,18 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	} else {
 	    set firstTwinningStart [lindex [lindex $twinningIndices 0] 0]
 	    set beforesol [string range $currentproblem 0 $firstTwinningStart]
-	    set rest [handleTextBeforeSolution $beforesol]
-	    if {$rest==""} {
-		handleTextWithoutTwinning $currentproblem
-	    } else {
+	    if {[handleTextBeforeSolution $beforesol]} {
 		set prevTwinningEnd 0
 		foreach pair $twinningIndices {
 		    foreach {twinningStart twinningEnd} $pair break
-		    set twinning [string range $currentproblem $twinningStart $twinningEnd]
-		    if {$prevTwinningEnd>0} {
-			set twinSolution [string range $currentproblem $prevTwinningEnd $twinningStart]
-			set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
-			foreach pair $simplexIndices {
-			    foreach {simplexStart simplexEnd} $pair {
-				set simplex [string range $twinSolution $simplexStart $simplexEnd]
-				printSection "s" $simplex
-			    }
-			}
-		    }
-		    printSection "t" $twinning
+		    set nextTwinning [string range $currentproblem $twinningStart $twinningEnd]
+		    handleTwinSolution $currentproblem $prevTwinningEnd $twinningStart
+		    printSection "t" $nextTwinning
 		    set prevTwinningEnd [expr {$twinningEnd+1}]
 		}
-		if {$prevTwinningEnd>0} {
-		    set twinSolution [string range $currentproblem $prevTwinningEnd $footerStart]
-		    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
-		    foreach pair $simplexIndices {
-			foreach {simplexStart simplexEnd} $pair {
-			    set simplex [string range $twinSolution $simplexStart $simplexEnd]
-			    printSection "s" $simplex
-			}
-		    }
-		}
+		handleTwinSolution $currentproblem $prevTwinningEnd $footerStart
+	    } else {
+		handleTextWithoutTwinning $currentproblem
 	    }
 	}
 	printSection "f" $footer
