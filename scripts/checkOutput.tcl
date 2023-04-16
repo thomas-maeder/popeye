@@ -69,17 +69,23 @@ namespace eval english {
     set refutes "Refutes."
 }
 
-namespace eval intro {
+namespace eval remark {
     set emptyLine {\n}
-    set leadingBlanks { *}
 
     set remark {[^\n]+}
     set remarkLine "(?:$remark\n)"
 
+    set combined "(?:$remarkLine*$emptyLine*)"
+}
+
+namespace eval authoretc {
+    set emptyLine {\n}
+    set leadingBlanks { *}
+
     set authorOriginAwardTitle {[^\n]+}
     set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle\n)"
 
-    set combined "$remarkLine*$emptyLine$authorOriginAwardTitleLine*$emptyLine"
+    set combined "$emptyLine?$authorOriginAwardTitleLine*$emptyLine"
 }
 
 namespace eval board {
@@ -171,8 +177,7 @@ namespace eval boardA {
     # the caption of board A doesn't indicate the stipulation
     set caption " *$pieceControl::combined\n"
     set tomove "$stipulation::paren_open$stipulation::side ->$stipulation::paren_close"
-    set combined "(?:$board::combined$boardA::caption\n$emptyLine *=> $tomove\n)"
-    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n$emptyLine$emptyLine)?"
+    set combined "(?:$board::combined$boardA::caption\n *=> $tomove\n$emptyLine$emptyLine)"
 }
 
 namespace eval conditions {
@@ -366,11 +371,11 @@ namespace eval footer {
 # dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
     # too complex for regexp
-    set combined "($intro::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?)($solution::combined)($footer::combined)"
+    set combined "($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?($solution::combined)($footer::combined)"
 }
 
 namespace eval beforesolution {
-    set combined "($intro::combined)($boardA::combined)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?)"
+    set combined "^($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?"
 }
 
 set f [open $inputfile "r"]
@@ -387,9 +392,11 @@ proc printSection {debugPrefix section} {
     }
 }
 
-proc handleTextBeforeSolution {currentproblem} {
-    if {[regexp $beforesolution::combined $currentproblem - intro boardA board caption conditions gridboard]} {
-	printSection "i" $intro
+proc handleTextBeforeSolution {beforesol} {
+    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard]
+	&& ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
+	printSection "r" $remark
+	printSection "a" $authoretc
 	printSection "ba" $boardA
 	printSection "b" $board
 	printSection "ca" $caption
@@ -445,7 +452,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	foreach {footerStart footerEnd} $footerIndexPair break
 	set footer [string range $input $footerStart $footerEnd]
 	set currentproblem [string range $input $nextProblemStart $footerEnd]
-	set nextProblemStart $footerEnd
+	set nextProblemStart [expr {$footerEnd+1}]
 	set twinningIndices [regexp -all -inline -indices $solution::twinned::partial $currentproblem]
 	if {[llength $twinningIndices]==0} {
 	    handleSolutionWithoutTwinning $currentproblem
