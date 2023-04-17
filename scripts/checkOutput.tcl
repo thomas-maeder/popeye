@@ -435,23 +435,20 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
     }
 }
 
-proc handleTwinSolution {currentproblem prevTwinningEnd twinningStart} {
-    if {$prevTwinningEnd>0} {
-	set twinSolution [string range $currentproblem $prevTwinningEnd $twinningStart]
-	set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
-	foreach pair $simplexIndices {
-	    foreach {simplexStart simplexEnd} $pair {
-		set simplex [string range $twinSolution $simplexStart $simplexEnd]
-		printSection "s" $simplex
-	    }
+proc handleTwinSolution {twinSolution} {
+    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
+    foreach pair $simplexIndices {
+	foreach {simplexStart simplexEnd} $pair {
+	    set simplex [string range $twinSolution $simplexStart $simplexEnd]
+	    printSection "s" $simplex
 	}
     }
 }
 
-proc findFirstTwinning {currentproblem twinningIndices} {
+proc findFirstTwinning {beforeFooter twinningIndices} {
     foreach pair $twinningIndices {
 	foreach {twinningStart twinningEnd} $pair break
-	set beforesol [string range $currentproblem 0 $twinningStart]
+	set beforesol [string range $beforeFooter 0 $twinningStart]
 	if {[handleTextBeforeSolution $beforesol]} {
 	    return $twinningStart
 	}
@@ -477,17 +474,21 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 		# "fake twinning", e.g. remark a) blabla
 		handleSolutionWithoutTwinning $beforeFooter
 	    } else {
-		set nextSolutionStart 0
+		set prevSolutionStart 0
 		foreach pair $twinningIndices {
 		    foreach {twinningStart twinningEnd} $pair break
 		    if {$twinningStart>=$firstTwinningStart} {
+			if {$prevSolutionStart>0} {
+			    set twinSolution [string range $beforeFooter $prevSolutionStart [expr {$twinningStart-1}]]
+			    handleTwinSolution $twinSolution
+			}
 			set nextTwinning [string range $beforeFooter $twinningStart $twinningEnd]
-			handleTwinSolution $beforeFooter $nextSolutionStart [expr {$twinningStart-1}]
 			printSection "t" $nextTwinning
-			set nextSolutionStart [expr {$twinningEnd+1}]
+			set prevSolutionStart [expr {$twinningEnd+1}]
 		    }
 		}
-		handleTwinSolution $beforeFooter $nextSolutionStart [expr {$footerStart-1}]
+		set twinSolution [string range $beforeFooter $prevSolutionStart "end"]
+		handleTwinSolution $twinSolution
 	    }
 	}
 	printSection "f" $footer
