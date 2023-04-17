@@ -75,7 +75,7 @@ namespace eval remark {
     set remark {[^\n]+}
     set remarkLine "(?:$remark\n)"
 
-    set combined "(?:$remarkLine*$emptyLine*)"
+    set combined "(?:$remarkLine+$emptyLine*)"
 }
 
 namespace eval authoretc {
@@ -374,8 +374,13 @@ namespace eval problem {
     set combined "($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?($solution::combined)($footer::combined)"
 }
 
+namespace eval inputerror {
+    # TODO i10n
+    set combined {(?:input-error:[^\n]+\n[^\n]+\n)}
+}
+
 namespace eval beforesolution {
-    set combined "^($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?"
+    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?"
 }
 
 set f [open $inputfile "r"]
@@ -393,8 +398,13 @@ proc printSection {debugPrefix section} {
 }
 
 proc handleTextBeforeSolution {beforesol} {
-    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard]
-	&& ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
+    set inputerrors [regexp -all -inline $inputerror::combined $beforesol]
+    if {[llength $inputerrors]>0} {
+	foreach inputerror $inputerrors {
+	    printSection "i" $inputerror
+	}
+    } elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard]
+	      && ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
 	printSection "r" $remark
 	printSection "a" $authoretc
 	printSection "ba" $boardA
@@ -410,13 +420,18 @@ proc handleTextBeforeSolution {beforesol} {
 
 proc handleSolutionWithoutTwinning {currentproblem} {
     set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $currentproblem]
-    set firstSimplexStart [lindex [lindex $simplexIndices 0] 0]
-    handleTextBeforeSolution [string range $currentproblem 0 [expr {$firstSimplexStart-1}]]
-    foreach pair $simplexIndices {
-	foreach {simplexStart simplexEnd} $pair {
-	    set simplex [string range $currentproblem $simplexStart $simplexEnd]
-	    printSection "s" $simplex
+    if {[llength $simplexIndices]>0} {
+	set firstSimplexStart [lindex [lindex $simplexIndices 0] 0]
+	handleTextBeforeSolution [string range $currentproblem 0 [expr {$firstSimplexStart-1}]]
+	foreach pair $simplexIndices {
+	    foreach {simplexStart simplexEnd} $pair {
+		set simplex [string range $currentproblem $simplexStart $simplexEnd]
+		printSection "s" $simplex
+	    }
 	}
+    } else {
+	# input error ...
+	handleTextBeforeSolution $currentproblem
     }
 }
 
