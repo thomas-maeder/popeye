@@ -243,10 +243,6 @@ namespace eval solution {
 	set combined "(?:$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
     }
 
-    namespace eval zeroposition {
-	set combined "(?:$solution::emptyLine[set ${language}::zeroposition]\n\n)"
-    }
-
     namespace eval tree {
 	set ordinalNumber {[1-9][0-9]*[.]}
 	set attackNumber $ordinalNumber
@@ -354,8 +350,8 @@ namespace eval solution {
 
     namespace eval twinned {
 	# too complex for regexp
-	set combined "$solution::zeroposition::combined?(?:$solution::twinning::combined$solution::untwinned::combined)+"
-	set separator "$solution::zeroposition::combined?$solution::twinning::combined"
+	set combined "(?:$solution::twinning::combined$solution::untwinned::combined)+"
+	set separator $solution::twinning::combined
     }
 
     # too complex for regexp
@@ -379,8 +375,13 @@ namespace eval inputerror {
     set combined {(?:input-error:[^\n]+\n[^\n]+\n)}
 }
 
+namespace eval zeroposition {
+    set emptyLine {\n}
+    set combined "(?:$emptyLine[set ${language}::zeroposition]\n\n)"
+}
+
 namespace eval beforesolution {
-    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?"
+    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?($zeroposition::combined?)"
 }
 
 set f [open $inputfile "r"]
@@ -403,7 +404,7 @@ proc handleTextBeforeSolution {beforesol} {
 	foreach inputerror $inputerrors {
 	    printSection "i" $inputerror
 	}
-    } elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard]
+    } elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
 	      && ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
 	printSection "r" $remark
 	printSection "a" $authoretc
@@ -412,6 +413,7 @@ proc handleTextBeforeSolution {beforesol} {
 	printSection "ca" $caption
 	printSection "co" $conditions
 	printSection "g" $gridboard
+	printSection "z" $zeroposition
 	return true
     } else {
 	return false
