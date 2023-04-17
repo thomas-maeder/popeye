@@ -305,9 +305,9 @@ namespace eval solution {
 	set ordinalNumber {[1-9][0-9]*[.]}
 	set undec " [set ${language}::legailtyUndecidable]"
 
-	set firstMovePair "(?:1.${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
+	set firstMovePair "(?:1.${solution::move}(?:$undec\n|(?: +$solution::move)+(?:$undec\n)?))"
 	set firstMoveSkipped "1$solution::ellipsis${solution::move}(?:$undec\n)?"
-	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n| +${solution::move}(?:$undec\n)?))"
+	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n|(?: +$solution::move)+(?:$undec\n)?))"
 	set finalMove "(?: +$ordinalNumber${solution::move}(?:$undec\n)?)"
 
 	namespace eval regularplay {
