@@ -211,7 +211,7 @@ namespace eval solution {
     # TODO why no brackets if on its own?? because we don't brackets if already inside brackets
     set chameleonization "(?:=[set ${language}::pieceAttributeShortcut]?$piece?)"
     # TODO why do we allow modification of arriving piece after -> and after =??
-    set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?.)"
+    set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?$changeOfColor?.)"
     set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?(?:->v)?.)"
     set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
     set imitatorMovement "(?:.I${square}(?:,$square)*.)"
