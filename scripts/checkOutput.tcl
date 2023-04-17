@@ -342,10 +342,8 @@ namespace eval solution {
     }
 
     namespace eval untwinned {
-	set simplex "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined))"
-	# allow 2 for duplex
-	# but too complex for regexp
-	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined){1,2})"
+        # the last + should be {1,2}, but that would make the expression too complex
+	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
@@ -421,16 +419,15 @@ proc handleTextBeforeSolution {beforesol} {
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $beforeFooter]
-    if {[llength $simplexIndices]>0} {
-	set firstSimplexStart [lindex [lindex $simplexIndices 0] 0]
-	handleTextBeforeSolution [string range $beforeFooter 0 [expr {$firstSimplexStart-1}]]
-	foreach pair $simplexIndices {
-	    foreach {simplexStart simplexEnd} $pair {
-		set simplex [string range $beforeFooter $simplexStart $simplexEnd]
-		printSection "s" $simplex
-	    }
-	}
+    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $beforeFooter]
+    if {[llength $solutionIndices]>0} {
+	# we either have 0 or 1 solutions here
+	expr {1/(1==[llength $solutionIndices])}
+	# TODO decompose further
+	foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
+	handleTextBeforeSolution [string range $beforeFooter 0 [expr {$solutionStart-1}]]
+	set solution [string range $beforeFooter $solutionStart $solutionEnd]
+	printSection "s" $solution
     } else {
 	# input error ...
 	handleTextBeforeSolution $beforeFooter
@@ -438,13 +435,13 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
 }
 
 proc handleTwinSolution {twinSolution} {
-    set simplexIndices [regexp -all -inline -indices $solution::untwinned::simplex $twinSolution]
-    foreach pair $simplexIndices {
-	foreach {simplexStart simplexEnd} $pair {
-	    set simplex [string range $twinSolution $simplexStart $simplexEnd]
-	    printSection "s" $simplex
-	}
-    }
+    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $twinSolution]
+    # we have 1 solution here
+    # TODO decompose further
+    expr {1/(1==[llength $solutionIndices])}
+    foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
+    set solution [string range $twinSolution $solutionStart $solutionEnd]
+    printSection "s" $solution
 }
 
 proc findFirstTwinning {beforeFooter twinningIndices} {
