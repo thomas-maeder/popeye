@@ -355,7 +355,7 @@ namespace eval solution {
     namespace eval twinned {
 	# too complex for regexp
 	set combined "$solution::zeroposition::combined?(?:$solution::twinning::combined$solution::untwinned::combined)+"
-	set partial "$solution::zeroposition::combined?$solution::twinning::combined+"
+	set separator "$solution::zeroposition::combined?$solution::twinning::combined"
     }
 
     # too complex for regexp
@@ -465,7 +465,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	set footer [string range $input $footerStart $footerEnd]
 	set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
 	set nextProblemStart [expr {$footerEnd+1}]
-	set twinningIndices [regexp -all -inline -indices $solution::twinned::partial $beforeFooter]
+	set twinningIndices [regexp -all -inline -indices $solution::twinned::separator $beforeFooter]
 	if {[llength $twinningIndices]==0} {
 	    handleSolutionWithoutTwinning $beforeFooter
 	} else {
