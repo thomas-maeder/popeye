@@ -319,10 +319,10 @@ namespace eval solution {
 	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n|(?: +$solution::move)+(?:$undec\n)?))"
 	set finalMove "(?: +$ordinalNumber${solution::move}(?:$undec\n)?)"
 
-	namespace eval regularplay {
+	namespace eval helpplay {
 	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
 	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*$solution::line::finalMove?\n)"
-	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
+	    set combined "(?:(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
 	}
 
 	namespace eval setplay {
@@ -335,10 +335,11 @@ namespace eval solution {
 	namespace eval seriesplay {
 	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
 	    set line "(?:(?:$numberedMove|$solution::line::subsequentMovePair)+\n)"
-	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
+	    set combined "(?:(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
 	}
 
-	set combined "$setplay::combined?(?:$regularplay::combined|$seriesplay::combined)"
+	set regularplay "(?:$helpplay::combined|$seriesplay::combined)"
+	set combined "$setplay::combined$solution::emptyLine$regularplay?|$solution::emptyLine$regularplay"
     }
 
     namespace eval measurements {
