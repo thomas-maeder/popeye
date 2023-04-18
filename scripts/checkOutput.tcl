@@ -400,29 +400,33 @@ proc printSection {debugPrefix section} {
     }
 }
 
+proc handleFieldsBeforeSolution {beforesol} {
+    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
+	&& ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
+	printSection "r" $remark
+	printSection "a" $authoretc
+	printSection "ba" $boardA
+	printSection "b" $board
+	printSection "ca" $caption
+	printSection "co" $conditions
+	printSection "g" $gridboard
+	printSection "z" $zeroposition
+    }
+}
+
 proc handleTextBeforeSolution {beforesol} {
     if {$beforesol=="\n"} {
-	return true
+	# empty solution
     } else {
-	set inputerrors [regexp -all -inline $inputerror::combined $beforesol]
-	if {[llength $inputerrors]>0} {
-	    foreach inputerror $inputerrors {
-		printSection "i" $inputerror
-	    }
-	} elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
-		  && ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
-	    printSection "r" $remark
-	    printSection "a" $authoretc
-	    printSection "ba" $boardA
-	    printSection "b" $board
-	    printSection "ca" $caption
-	    printSection "co" $conditions
-	    printSection "g" $gridboard
-	    printSection "z" $zeroposition
-	    return true
-	} else {
-	    return false
+	set inputerrorIndices [regexp -all -inline -indices $inputerror::combined $beforesol]
+	set endOfInputErrors 0
+	foreach pair $inputerrorIndices {
+	    foreach {start end} $pair break
+	    set inputerror [string range $beforesol $start $end]
+	    printSection "i" $inputerror
+	    set endOfInputErrors [expr {$end+1}]
 	}
+	handleFieldsBeforeSolution [string range $beforesol $endOfInputErrors "end"]
     }
 }
 
