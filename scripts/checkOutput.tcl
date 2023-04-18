@@ -248,6 +248,7 @@ namespace eval solution {
 	set attackNumber $ordinalNumber
 	set defenseNumber "$ordinalNumber\\.{2}"
 
+	# in condition "lost pieces", lost pieces of the attacker may be removed
 	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat](?:$solution::pieceRemoval)?)"
 
 	namespace eval keyline {
@@ -272,7 +273,10 @@ namespace eval solution {
 	}
 
         namespace eval postkeyplay {
-            set combined "(?:$solution::tree::zugzwangOrThreatLine::combined?(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined| +[set ${language}::refutes]\n)+)"
+            # TODO what about check?
+	    # this doesn't look precies: zugzwang or threat can only occur at the beginning
+	    # but more precise expression would allow empty postkeyplay
+            set combined "(?:(?:$solution::tree::zugzwangOrThreatLine::combined|$solution::tree::defenseline::combined|$solution::tree::attackline::combined| +[set ${language}::refutes]\n)+)"
 	}
 
         namespace eval forcedreflexmove {
@@ -438,33 +442,39 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
     }
 }
 
-proc handleTwinSolution {twinning twinSolution} {
-    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $twinSolution]
-    # we have 1 solution here
-    # TODO decompose further
-    expr {1/(1==[llength $solutionIndices])}
-    foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
-    if {$solutionStart==0} {
-	set solution [string range $twinSolution $solutionStart $solutionEnd]
-	printSection "t" $twinning
-	printSection "s" $solution
-	return true
-    } else {
-	# fake twinning, e.g. "b) " in title or remark
-	return false
-    }
-}
-
-proc findFirstTwinning {beforeFooter twinningIndices} {
+proc makeSegments {beforeFooter twinningIndices} {
+    set segments {}
+    set startOfNextSegment 0
     foreach pair $twinningIndices {
 	foreach {twinningStart twinningEnd} $pair break
-	set beforesol [string range $beforeFooter 0 $twinningStart]
-	if {[handleTextBeforeSolution $beforesol]} {
-	    return $twinningStart
+	lappend segments [string range $beforeFooter $startOfNextSegment [expr {$twinningStart-1}]]
+	lappend segments [string range $beforeFooter $twinningStart $twinningEnd]
+	set startOfNextSegment [expr {$twinningEnd+1}]
+    }
+    lappend segments [string range $beforeFooter $startOfNextSegment "end"]
+    return $segments
+}
+
+proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
+    set segments [makeSegments $beforeFooter $twinningIndices]
+    set firstTwin true
+    set beforeSolution [lindex $segments 0]
+    foreach {twinning solution} [lrange $segments 1 "end"] {
+	if {[regexp $solution::untwinned::combined $solution]} {
+	    if {$firstTwin} {
+		handleTextBeforeSolution $beforeSolution
+		set firstTwin false
+	    }
+	    printSection "t" $twinning
+	    printSection "s" $solution
+	} else {
+	    append beforeSolution "$twinning$solution"
 	}
     }
-
-    return -1
+    if {$firstTwin} {
+	# there was some "fake twinning" in a text field
+	handleSolutionWithoutTwinning $beforeFooter
+    }
 }
 
 if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
@@ -479,30 +489,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 	if {[llength $twinningIndices]==0} {
 	    handleSolutionWithoutTwinning $beforeFooter
 	} else {
-	    set firstTwinningStart [findFirstTwinning $beforeFooter $twinningIndices]
-	    if {$firstTwinningStart==-1} {
-		# "fake twinning", e.g. remark a) blabla
-		handleSolutionWithoutTwinning $beforeFooter
-	    } else {
-		set solutionStart 0
-		set twinning ""
-		foreach pair $twinningIndices {
-		    foreach {twinningStart twinningEnd} $pair break
-		    if {$twinningStart>=$firstTwinningStart} {
-			if {$solutionStart>0} {
-			    set twinSolution [string range $beforeFooter $solutionStart [expr {$twinningStart-1}]]
-			    handleTwinSolution $twinning $twinSolution
-			}
-			set twinning [string range $beforeFooter $twinningStart $twinningEnd]
-			set solutionStart [expr {$twinningEnd+1}]
-		    }
-		}
-		set twinSolution [string range $beforeFooter $solutionStart "end"]
-		if {![handleTwinSolution $twinning $twinSolution]} {
-		    # fake twinning
-		    handleSolutionWithoutTwinning $beforeFooter
-		}
-	    }
+	    handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices
 	}
 	printSection "f" $footer
     }
