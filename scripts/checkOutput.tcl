@@ -44,6 +44,8 @@ namespace eval german {
     set roleExchange "Rollentausch"
     set refutes "Widerlegt."
     set toofairy "Zu viel Maerchenschach fuer neutrale Steine\nProblem uebersprungen"
+    # TODO correct German sentences
+    set problemignored "Problem uebersprungen"
 }
 
 namespace eval english {
@@ -63,6 +65,7 @@ namespace eval english {
     set kingmissing "both sides need a king"
     set illegalSelfCheck "the side to play can capture the king"
     set toofairy "too much fairy chess for neutral pieces\nproblem ignored"
+    set problemignored "problem ignored"
     # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
@@ -347,7 +350,7 @@ namespace eval solution {
 
     namespace eval untwinned {
         # the last + should be {1,2}, but that would make the expression too complex
-	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
+	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:${solution::emptyLine}(?:[set ${language}::problemignored]\n|[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
@@ -431,13 +434,14 @@ proc handleTextBeforeSolution {beforesol} {
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $beforeFooter]
+    set solutionIndices [regexp -inline -indices $solution::untwinned::combined $beforeFooter]
     if {[llength $solutionIndices]>0} {
 	# we either have 0 or 1 solutions here
 	expr {1/(1==[llength $solutionIndices])}
 	# TODO decompose further
 	foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
-	handleTextBeforeSolution [string range $beforeFooter 0 [expr {$solutionStart-1}]]
+	set beforesol [string range $beforeFooter 0 [expr {$solutionStart-1}]]
+	handleTextBeforeSolution $beforesol
 	set solution [string range $beforeFooter $solutionStart $solutionEnd]
 	printSection "s" $solution
     } else {
