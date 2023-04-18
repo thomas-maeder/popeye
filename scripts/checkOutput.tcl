@@ -397,24 +397,28 @@ proc printSection {debugPrefix section} {
 }
 
 proc handleTextBeforeSolution {beforesol} {
-    set inputerrors [regexp -all -inline $inputerror::combined $beforesol]
-    if {[llength $inputerrors]>0} {
-	foreach inputerror $inputerrors {
-	    printSection "i" $inputerror
-	}
-    } elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
-	      && ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
-	printSection "r" $remark
-	printSection "a" $authoretc
-	printSection "ba" $boardA
-	printSection "b" $board
-	printSection "ca" $caption
-	printSection "co" $conditions
-	printSection "g" $gridboard
-	printSection "z" $zeroposition
+    if {$beforesol=="\n"} {
 	return true
     } else {
-	return false
+	set inputerrors [regexp -all -inline $inputerror::combined $beforesol]
+	if {[llength $inputerrors]>0} {
+	    foreach inputerror $inputerrors {
+		printSection "i" $inputerror
+	    }
+	} elseif {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
+		  && ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
+	    printSection "r" $remark
+	    printSection "a" $authoretc
+	    printSection "ba" $boardA
+	    printSection "b" $board
+	    printSection "ca" $caption
+	    printSection "co" $conditions
+	    printSection "g" $gridboard
+	    printSection "z" $zeroposition
+	    return true
+	} else {
+	    return false
+	}
     }
 }
 
@@ -434,14 +438,21 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
     }
 }
 
-proc handleTwinSolution {twinSolution} {
+proc handleTwinSolution {twinning twinSolution} {
     set solutionIndices [regexp -all -inline -indices $solution::untwinned::combined $twinSolution]
     # we have 1 solution here
     # TODO decompose further
     expr {1/(1==[llength $solutionIndices])}
     foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
-    set solution [string range $twinSolution $solutionStart $solutionEnd]
-    printSection "s" $solution
+    if {$solutionStart==0} {
+	set solution [string range $twinSolution $solutionStart $solutionEnd]
+	printSection "t" $twinning
+	printSection "s" $solution
+	return true
+    } else {
+	# fake twinning, e.g. "b) " in title or remark
+	return false
+    }
 }
 
 proc findFirstTwinning {beforeFooter twinningIndices} {
@@ -473,21 +484,24 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 		# "fake twinning", e.g. remark a) blabla
 		handleSolutionWithoutTwinning $beforeFooter
 	    } else {
-		set prevSolutionStart 0
+		set solutionStart 0
+		set twinning ""
 		foreach pair $twinningIndices {
 		    foreach {twinningStart twinningEnd} $pair break
 		    if {$twinningStart>=$firstTwinningStart} {
-			if {$prevSolutionStart>0} {
-			    set twinSolution [string range $beforeFooter $prevSolutionStart [expr {$twinningStart-1}]]
-			    handleTwinSolution $twinSolution
+			if {$solutionStart>0} {
+			    set twinSolution [string range $beforeFooter $solutionStart [expr {$twinningStart-1}]]
+			    handleTwinSolution $twinning $twinSolution
 			}
-			set nextTwinning [string range $beforeFooter $twinningStart $twinningEnd]
-			printSection "t" $nextTwinning
-			set prevSolutionStart [expr {$twinningEnd+1}]
+			set twinning [string range $beforeFooter $twinningStart $twinningEnd]
+			set solutionStart [expr {$twinningEnd+1}]
 		    }
 		}
-		set twinSolution [string range $beforeFooter $prevSolutionStart "end"]
-		handleTwinSolution $twinSolution
+		set twinSolution [string range $beforeFooter $solutionStart "end"]
+		if {![handleTwinSolution $twinning $twinSolution]} {
+		    # fake twinning
+		    handleSolutionWithoutTwinning $beforeFooter
+		}
 	    }
 	}
 	printSection "f" $footer
