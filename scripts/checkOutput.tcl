@@ -39,7 +39,7 @@ namespace eval german {
     set potentialPositionsIn "moegliche Stellungen in"
     # TODO why does this in with a \n in German, but not in English???
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig\n"
-    set legailtyUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
+    set legalityUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
     set refutes "Widerlegt."
@@ -48,6 +48,7 @@ namespace eval german {
     set problemignored "Problem uebersprungen"
     set nonsensecombination "Unsinnige Kombination"
     set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
+    set refutationUndecidable "Can't decide whether this move is refuted"
 }
 
 namespace eval english {
@@ -70,8 +71,9 @@ namespace eval english {
     set problemignored "problem ignored"
     set nonsensecombination "nonsense combination"
     set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
+    set refutationUndecidable "Can't decide whether this move is refuted"
     # TODO correct English sentences?
-    set legailtyUndecidable "can't decide whether this move is legal."
+    set legalityUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
     set refutes "Refutes."
 }
@@ -247,6 +249,8 @@ namespace eval solution {
     set nrMoves {[[:digit:]]+[+][[:digit:]]+}
     set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
 
+    set undec "(?: (?:[set ${language}::legalityUndecidable]|[set ${language}::refutationUndecidable]))"
+
     namespace eval twinning {
 	set combined "(?:$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
     }
@@ -261,11 +265,11 @@ namespace eval solution {
 
 	namespace eval keyline {
 	    set success {(?: [?!])}
-	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|${success}(?: $solution::tree::zugzwangOrThreat)?)\n"
+	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?:$solution::undec)|${success}(?: $solution::tree::zugzwangOrThreat)?)\n"
 	}
 
         namespace eval attackline {
-	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?: [set ${language}::legailtyUndecidable])|(?: $solution::tree::zugzwangOrThreat)?)\n"
+	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?:$solution::undec)|(?: $solution::tree::zugzwangOrThreat)?)\n"
 	}
 
 	set threatLine $attackline::combined
@@ -273,7 +277,7 @@ namespace eval solution {
 	set defense " +$defenseNumber$solution::move"
 
         namespace eval defenseline {
-	    set combined "${solution::tree::defense}(?: [set ${language}::legailtyUndecidable])?\n"
+	    set combined "${solution::tree::defense}(?:$solution::undec)?\n"
 	}
 
         namespace eval zugzwangOrThreatLine {
@@ -315,12 +319,11 @@ namespace eval solution {
 
     namespace eval line {
 	set ordinalNumber {[1-9][0-9]*[.]}
-	set undec " [set ${language}::legailtyUndecidable]"
 
-	set firstMovePair "(?:1.${solution::move}(?:$undec\n|(?: +$solution::move)+(?:$undec\n)?))"
-	set firstMoveSkipped "1$solution::ellipsis${solution::move}(?:$undec\n)?"
-	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$undec\n|(?: +$solution::move)+(?:$undec\n)?))"
-	set finalMove "(?: +$ordinalNumber${solution::move}(?:$undec\n)?)"
+	set firstMovePair "(?:1.${solution::move}(?:$solution::undec\n|(?: +$solution::move)+(?:$solution::undec\n)?))"
+	set firstMoveSkipped "1$solution::ellipsis${solution::move}(?:$solution::undec\n)?"
+	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$solution::undec\n|(?: +$solution::move)+(?:$solution::undec\n)?))"
+	set finalMove "(?: +$ordinalNumber${solution::move}(?:$solution::undec\n)?)"
 
 	namespace eval helpplay {
 	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
