@@ -47,6 +47,7 @@ namespace eval german {
     # TODO correct German sentences
     set problemignored "Problem uebersprungen"
     set nonsensecombination "Unsinnige Kombination"
+    set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
 }
 
 namespace eval english {
@@ -68,6 +69,7 @@ namespace eval english {
     set toofairy "too much fairy chess for neutral pieces\nproblem ignored"
     set problemignored "problem ignored"
     set nonsensecombination "nonsense combination"
+    set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
     # TODO correct English sentences?
     set legailtyUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
@@ -353,7 +355,7 @@ namespace eval solution {
 
     namespace eval untwinned {
         # the last + should be {1,2}, but that would make the expression too complex
-	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy])?(?:(?:(?:$solution::emptyLine|[set ${language}::nonsensecombination]\n)(?:[set ${language}::problemignored]\n|[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
+	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy]|[set ${language}::intelligentAndFairy])?(?:(?:(?:$solution::emptyLine|[set ${language}::nonsensecombination]\n)(?:[set ${language}::problemignored]\n|[set ${language}::illegalSelfCheck] +)?|(?:$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
