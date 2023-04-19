@@ -43,12 +43,13 @@ namespace eval german {
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
     set refutes "Widerlegt."
-    set toofairy "Zu viel Maerchenschach fuer neutrale Steine\nProblem uebersprungen"
+    set toofairy "Zu viel Maerchenschach fuer neutrale Steine"
     # TODO correct German sentences
     set problemignored "Problem uebersprungen"
     set nonsensecombination "Unsinnige Kombination"
     set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
     set refutationUndecidable "Can't decide whether this move is refuted"
+    set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
 }
 
 namespace eval english {
@@ -67,12 +68,13 @@ namespace eval english {
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
     set illegalSelfCheck "the side to play can capture the king"
-    set toofairy "too much fairy chess for neutral pieces\nproblem ignored"
+    set toofairy "too much fairy chess for neutral pieces"
     set problemignored "problem ignored"
     set nonsensecombination "nonsense combination"
     set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
     set refutationUndecidable "Can't decide whether this move is refuted"
     set refutes "refutes."
+    set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
     # TODO correct English sentences?
     set legalityUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
@@ -358,8 +360,9 @@ namespace eval solution {
     }
 
     namespace eval untwinned {
+	set problemignored "(?:(?:[set ${language}::toofairy]\n|[set ${language}::intelligentAndFairy]|[set ${language}::nonsensecombination]\n|[set ${language}::conditionSideUndecidable]\n$solution::emptyLine)[set ${language}::problemignored]\n)"
         # the last + should be {1,2}, but that would make the expression too complex
-	set combined "(?:$solution::kingmissing::combined?(?:[set ${language}::toofairy]|[set ${language}::intelligentAndFairy])?(?:(?:(?:$solution::emptyLine|[set ${language}::nonsensecombination]\n)(?:[set ${language}::problemignored]\n)?|(?:$solution::emptyLine[set ${language}::illegalSelfCheck]|$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
+	set combined "(?:$solution::kingmissing::combined?$problemignored?(?:(?:(?:$solution::emptyLine)|(?:$solution::emptyLine[set ${language}::illegalSelfCheck]|$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
