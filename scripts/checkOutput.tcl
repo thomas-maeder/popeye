@@ -72,10 +72,10 @@ namespace eval english {
     set nonsensecombination "nonsense combination"
     set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
     set refutationUndecidable "Can't decide whether this move is refuted"
+    set refutes "refutes."
     # TODO correct English sentences?
     set legalityUndecidable "can't decide whether this move is legal."
     set roleExchange "role exchange"
-    set refutes "Refutes."
 }
 
 namespace eval remark {
