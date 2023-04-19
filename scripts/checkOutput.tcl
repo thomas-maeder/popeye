@@ -198,51 +198,45 @@ namespace eval conditions {
 
 namespace eval solution {
     set emptyLine {\n}
+    set paren_open {[(]}
+	set paren_close {[)]}
+    set bracket_open {\[}
+    set bracket_close {\]}
     set ellipsis {[.][.][.]}
     set pieceChar {[[:upper:][:digit:]]}
     set hunterSuffix "(?:/$pieceChar{1,2})"
     set piecePawnImplicit "$pieceChar{0,2}$hunterSuffix?"
     set piece "(?:$pieceChar{1,2}$hunterSuffix?)"
     set square {[a-h][1-8]}
+    set capture {[*]}
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
     set castlingK "0-0"
-    set movement "(?:[set ${language}::pieceAttributeShortcut]?$piecePawnImplicit$square$captureOrNot$square|$castlingQ|$castlingK)"
-    set antimarsMovement "-$square"
+    set movement "(?:(?:[set ${language}::pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
     set messignyExchange "(?:$piece$square<->$piece$square)"
-    set takeAndMakeAndTake "(?:$captureOrNot$square)"
     # TODO Popeye should write hn here, not just h
     # TODO Popeye should write sfw/hcc? here, not just s resp. h
     # TODO order of h(n), c, s(fw)
-    set changeOfColor "(?:=[set ${language}::colorShortcut]h?c?s?)"
-    set changeOfColorOtherPiece "(?:.$square$changeOfColor.)"
-    set promotion "(?:=[set ${language}::colorShortcut]?h?c?s?$piece?)"
+    set promotion "(?:=[set ${language}::pieceAttributeShortcut]h?c?s?$piece?)"
     set enPassant {(?: ep[.])}
-    # TODO replace . by []
-    # TODO why no brackets if on its own?? because we don't brackets if already inside brackets
-    set chameleonization "(?:=[set ${language}::pieceAttributeShortcut]?$piece?)"
     set vulcanization "(?:->v)"
-    # TODO why do we allow modification of arriving piece after -> and after =??
-    set pieceMovement "(?:.[set ${language}::pieceAttributeShortcut]?$piece$square->[set ${language}::pieceAttributeShortcut]?$piece?${square}(?:=$piece$chameleonization?)?$changeOfColor?$vulcanization?.)"
-    set pieceAddition "(?:.\[+][set ${language}::pieceAttributeShortcut]?$piece${square}(?:=[set ${language}::colorShortcut]?$piece?$chameleonization?)?$vulcanization?.)"
-    set pieceRemoval "(?:.-[set ${language}::pieceAttributeShortcut]?$piece$square.)"
-    set imitatorMovement "(?:.I${square}(?:,$square)*.)"
-    set paren_open {[(]}
-    set paren_close {[)]}
+    set pieceChangement "(?:$bracket_open$square$promotion$bracket_close)"
+    set pieceSpec "[set ${language}::pieceAttributeShortcut]$piece$square"
+    set pieceMovement "(?:$bracket_open$pieceSpec->[set ${language}::pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?$bracket_close)"
+    set pieceAddition "(?:$bracket_open\[+]$pieceSpec$promotion*$vulcanization?$bracket_close)"
+    set pieceRemoval "(?:$bracket_open-$pieceSpec$bracket_close)"
+    set pieceExchange "(?:$bracket_open$pieceSpec<->$pieceSpec$bracket_close)"
+    set pieceEffect "(?:$pieceMovement|$pieceAddition|$pieceRemoval|$pieceChangement|$pieceExchange)"
+    set imitatorMovement "(?:${bracket_open}I${square}(?:,$square)*$bracket_close)"
     set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
     set bglBalance "(?: ${paren_open}(?:-|$bglNumber)(?:/$bglNumber)?$paren_close)"
     set checkIndicator {(?: [+])}
     # yes, this is slightly different from stipulation::goal!
     set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
-    set castlingPartnerMovement $movement
-    set kingOscillation "(?:.$piece$square<->$piece$square.)"
-    set singleBoxPromotion "(?:.$square=$piece.)"
-    set kobulChange "(?:.$square=[set ${language}::pieceAttributeShortcut]?$piece.)"
+    set castlingPartnerMovement "(?:/$movement)"
     set totalInvisibleMove "TI~-~"
-    set totalInvisibleCapture "TI~\\*$square"
-    set totalInvisibleInsertion "(?:.\\+[set ${language}::colorShortcut]$piece$square.)"
-    set totalInvisibleRevelation "(?:.$square=[set ${language}::colorShortcut]$piece.)"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|(?:$singleBoxPromotion?$totalInvisibleInsertion?(?:$movement|$totalInvisibleMove|$totalInvisibleCapture)(?:$antimarsMovement)?|$messignyExchange)(?:/$castlingPartnerMovement)?$takeAndMakeAndTake?$enPassant?$imitatorMovement?$promotion?(?:$chameleonization)*$changeOfColor?$kobulChange?$pieceMovement?$pieceAddition*$pieceRemoval?$changeOfColorOtherPiece*$kingOscillation?$singleBoxPromotion*$totalInvisibleRevelation*$bglBalance?$checkIndicator?)$goal?"
+    set totalInvisibleCapture "TI~$capture$square"
+    set move "(?: [set ${language}::roleExchange]| $ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
