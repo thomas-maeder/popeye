@@ -349,7 +349,7 @@ namespace eval solution {
     }
 
     namespace eval measurements {
-	set line {(?: *[[:alpha:]_ ]+: *[[:digit:]]+\n)}
+	set line {(?: *[[:alpha:]_]+: *[[:digit:]]+\n)}
 	set combined "(?:$line+)"
     }
 
