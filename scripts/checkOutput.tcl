@@ -361,8 +361,9 @@ namespace eval solution {
 
     namespace eval untwinned {
 	set problemignored "(?:(?:[set ${language}::toofairy]\n|[set ${language}::intelligentAndFairy]|[set ${language}::nonsensecombination]\n|[set ${language}::conditionSideUndecidable]\n$solution::emptyLine)[set ${language}::problemignored]\n)"
+	set simplex "(?:$solution::emptyLine|(?:$solution::emptyLine[set ${language}::illegalSelfCheck]|$solution::tree::combined*|$solution::line::combined)+)"
         # the last + should be {1,2}, but that would make the expression too complex
-	set combined "(?:$solution::kingmissing::combined?(?:$problemignored|(?:$solution::emptyLine|(?:$solution::emptyLine[set ${language}::illegalSelfCheck]|$solution::tree::combined*|$solution::line::combined)+)$solution::measurements::combined)+(?:$remark::combined)?)"
+	set combined "(?:$solution::kingmissing::combined?(?:$problemignored|(?:$simplex$solution::measurements::combined)+)(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
