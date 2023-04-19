@@ -220,13 +220,13 @@ namespace eval solution {
     set promotion "(?:=[set ${language}::pieceAttributeShortcut]h?c?s?$piece?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
-    set pieceChangement "(?:$bracket_open$square$promotion$bracket_close)"
+    set pieceChangement "(?:$square$promotion)"
     set pieceSpec "[set ${language}::pieceAttributeShortcut]$piece$square"
-    set pieceMovement "(?:$bracket_open$pieceSpec->[set ${language}::pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?$bracket_close)"
-    set pieceAddition "(?:$bracket_open\[+]$pieceSpec$promotion*$vulcanization?$bracket_close)"
-    set pieceRemoval "(?:$bracket_open-$pieceSpec$bracket_close)"
-    set pieceExchange "(?:$bracket_open$pieceSpec<->$pieceSpec$bracket_close)"
-    set pieceEffect "(?:$pieceMovement|$pieceAddition|$pieceRemoval|$pieceChangement|$pieceExchange)"
+    set pieceMovement "(?:$pieceSpec->[set ${language}::pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?)"
+    set pieceAddition "(?:\[+]$pieceSpec$promotion*$vulcanization?)"
+    set pieceRemoval "(?:-$pieceSpec)"
+    set pieceExchange "(?:$pieceSpec<->$pieceSpec)"
+    set pieceEffect "(?:${bracket_open}(?:$pieceMovement|$pieceAddition|$pieceRemoval|$pieceChangement|$pieceExchange)$bracket_close)"
     set imitatorMovement "(?:${bracket_open}I${square}(?:,$square)*$bracket_close)"
     set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
     set bglBalance "(?: ${paren_open}(?:-|$bglNumber)(?:/$bglNumber)?$paren_close)"
@@ -257,7 +257,7 @@ namespace eval solution {
 	set defenseNumber "$ordinalNumber\\.{2}"
 
 	# in condition "lost pieces", lost pieces of the attacker may be removed
-	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat](?:$solution::pieceRemoval)?)"
+	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat](?:$solution::pieceEffect)?)"
 
 	namespace eval keyline {
 	    set success {(?: [?!])}
