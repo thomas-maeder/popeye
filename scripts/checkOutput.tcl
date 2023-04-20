@@ -80,6 +80,27 @@ namespace eval english {
     set roleExchange "role exchange"
 }
 
+# syntactic sugar for looking up language dependant strings
+proc l {name} {
+    global language
+    return [set ${language}::$name]
+}
+
+# syntactic sugar for looking up variables in ancestor namespaces
+proc v {name} {
+    set scope [uplevel namespace current]
+    set initialscope $scope
+    while {![info exists ${scope}::$name]} {
+	if {$scope=="::"} {
+	    puts stderr "can't find variable $name from scope $initialscope"
+	    exit 1
+	} else {
+	    set scope [namespace parent $scope]
+	}
+    }
+    return [set ${scope}::$name]
+}
+
 namespace eval remark {
     set emptyLine {\n}
 
@@ -212,17 +233,17 @@ namespace eval solution {
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
     set castlingK "0-0"
-    set movement "(?:(?:[set ${language}::pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
+    set movement "(?:(?:[l pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
     set messignyExchange "(?:$piece$square<->$piece$square)"
     # TODO Popeye should write hn here, not just h
     # TODO Popeye should write sfw/hcc? here, not just s resp. h
     # TODO order of h(n), c, s(fw)
-    set promotion "(?:=[set ${language}::pieceAttributeShortcut]h?c?s?$piece?)"
+    set promotion "(?:=[l pieceAttributeShortcut]h?c?s?$piece?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
     set pieceChangement "(?:$square$promotion)"
-    set pieceSpec "[set ${language}::pieceAttributeShortcut]$piece$square"
-    set pieceMovement "(?:$pieceSpec->[set ${language}::pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?)"
+    set pieceSpec "[l pieceAttributeShortcut]$piece$square"
+    set pieceMovement "(?:$pieceSpec->[l pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?)"
     set pieceAddition "(?:\[+]$pieceSpec$promotion*$vulcanization?)"
     set pieceRemoval "(?:-$pieceSpec)"
     set pieceExchange "(?:$pieceSpec<->$pieceSpec)"
@@ -236,19 +257,19 @@ namespace eval solution {
     set castlingPartnerMovement "(?:/$movement)"
     set totalInvisibleMove "TI~-~"
     set totalInvisibleCapture "TI~$capture$square"
-    set move "(?: [set ${language}::roleExchange]| $ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
+    set move "(?: [l roleExchange]| $ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
     set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
 
     set nrPositions {[[:digit:]]+}
     set nrMoves {[[:digit:]]+[+][[:digit:]]+}
-    set moveNumberLineIntelligent "$nrPositions [set ${language}::potentialPositionsIn] $nrMoves\n"
+    set moveNumberLineIntelligent "$nrPositions [l potentialPositionsIn] $nrMoves\n"
 
-    set undec "(?: (?:[set ${language}::legalityUndecidable]|[set ${language}::refutationUndecidable]))"
+    set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
 
     namespace eval twinning {
-	set combined "(?:$solution::emptyLine\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
+	set combined "(?:[v emptyLine]\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
     }
 
     namespace eval tree {
@@ -257,91 +278,91 @@ namespace eval solution {
 	set defenseNumber "$ordinalNumber\\.{2}"
 
 	# in condition "lost pieces", lost pieces of the attacker may be removed
-	set zugzwangOrThreat "(?:[set ${language}::zugzwang]|[set ${language}::threat](?:$solution::pieceEffect)?)"
+	set zugzwangOrThreat "(?:[l zugzwang]|[l threat](?:[v pieceEffect])?)"
 
 	namespace eval keyline {
 	    set success {(?: [?!])}
-	    set combined "   $solution::tree::attackNumber${solution::move}(?:(?:$solution::undec)|${success}(?: $solution::tree::zugzwangOrThreat)?)\n"
+	    set combined "   [v attackNumber][v move](?:(?:[v undec])|${success}(?: [v zugzwangOrThreat])?)\n"
 	}
 
         namespace eval attackline {
-	    set combined " +$solution::tree::attackNumber${solution::move}(?:(?:$solution::undec)|(?: $solution::tree::zugzwangOrThreat)?)\n"
+	    set combined " +[v attackNumber][v move](?:(?:[v undec])|(?: [v zugzwangOrThreat])?)\n"
 	}
 
 	set threatLine $attackline::combined
 
-	set defense " +$defenseNumber$solution::move"
+	set defense " +$defenseNumber[v move]"
 
         namespace eval defenseline {
-	    set combined "${solution::tree::defense}(?:$solution::undec)?\n"
+	    set combined "[v defense](?:[v undec])?\n"
 	}
 
         namespace eval zugzwangOrThreatLine {
-	    set combined "(?: $solution::tree::zugzwangOrThreat\n)"
+	    set combined "(?: [v zugzwangOrThreat]\n)"
 	}
 
         namespace eval postkeyplay {
             # TODO what about check?
 	    # this doesn't look precies: zugzwang or threat can only occur at the beginning
 	    # but more precise expression would allow empty postkeyplay
-            set combined "(?:(?:$solution::tree::zugzwangOrThreatLine::combined|$solution::tree::defenseline::combined|$solution::tree::attackline::combined| +[set ${language}::refutes]\n)+)"
+            set combined "(?:(?:[v zugzwangOrThreatLine::combined]|[v defenseline::combined]|[v attackline::combined]| +[l refutes]\n)+)"
 	}
 
         namespace eval forcedreflexmove {
 	    set indicator {[?]![?]}
-	    set combined "(?: +$solution::tree::attackNumber$solution::move $indicator\n)"
+	    set combined "(?: +[v attackNumber][v move] $indicator\n)"
 	}
 
         namespace eval refutationline {
-            set combined "(?:$solution::tree::defense !\n(?:$solution::tree::forcedreflexmove::combined)?)"
+            set combined "(?:[v defense] !\n(?:[v forcedreflexmove::combined])?)"
         }
 
         namespace eval refutationblock {
-	    set butLine " +[set ${language}::but]\n"
-            set combined "(?:$butLine$solution::tree::refutationline::combined+)"
+	    set butLine " +[l but]\n"
+            set combined "(?:$butLine[v refutationline::combined]+)"
         }
 
         namespace eval fullphase {
-            set playAfterKey "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
-	    set combined "(?:$solution::tree::keyline::combined$playAfterKey?$solution::tree::refutationblock::combined?$solution::emptyLine)"
+            set playAfterKey "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
+	    set combined "(?:[v keyline::combined]$playAfterKey?[v refutationblock::combined]?[v emptyLine])"
 	}
 
         namespace eval setplay {
-            set combined "(?:(?:$solution::tree::defenseline::combined|$solution::tree::attackline::combined)+)"
+            set combined "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
 	}
 
-        set combined "(?:(?:$solution::checkIndicator)?\n(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined$solution::emptyLine)?(?:$solution::moveNumberLine|$fullphase::combined)+))"
+        set combined "(?:(?:[v checkIndicator])?\n(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined[v emptyLine])?(?:[v moveNumberLine]|$fullphase::combined)+))"
     }
 
     namespace eval line {
 	set ordinalNumber {[1-9][0-9]*[.]}
 
-	set firstMovePair "(?:1.${solution::move}(?:$solution::undec\n|(?: +$solution::move)+(?:$solution::undec\n)?))"
-	set firstMoveSkipped "1$solution::ellipsis${solution::move}(?:$solution::undec\n)?"
-	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:$solution::undec\n|(?: +$solution::move)+(?:$solution::undec\n)?))"
-	set finalMove "(?: +$ordinalNumber${solution::move}(?:$solution::undec\n)?)"
+	set firstMovePair "(?:1.${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
+	set firstMoveSkipped "1[v ellipsis]${solution::move}(?:[v undec]\n)?"
+	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
+	set finalMove "(?: +$ordinalNumber${solution::move}(?:[v undec]\n)?)"
 
 	namespace eval helpplay {
-	    set firstMovePair "(?:$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
-	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*$solution::line::finalMove?\n)"
-	    set combined "(?:(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
+	    set firstMovePair "(?:[v firstMoveSkipped]|[v firstMovePair])"
+	    set line "(?: +$firstMovePair[v subsequentMovePair]*[v finalMove]?\n)"
+	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
 	}
 
 	namespace eval setplay {
-	    set firstMovePairSkipped "1$solution::ellipsis +$solution::ellipsis"
-	    set firstMovePair "(?:$firstMovePairSkipped|$solution::line::firstMoveSkipped|$solution::line::firstMovePair)"
-	    set line "(?: +$firstMovePair$solution::line::subsequentMovePair*\n)"
-	    set combined "(?:${solution::emptyLine}(?:$line|$solution::moveNumberLineIntelligent)+)"
+	    set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
+	    set firstMovePair "(?:$firstMovePairSkipped|[v firstMoveSkipped]|[v firstMovePair])"
+	    set line "(?: +$firstMovePair[v subsequentMovePair]*\n)"
+	    set combined "(?:${solution::emptyLine}(?:$line|[v moveNumberLineIntelligent])+)"
 	}
 
 	namespace eval seriesplay {
-	    set numberedMove "(?: +$solution::line::ordinalNumber$solution::move)"
-	    set line "(?:(?:$numberedMove|$solution::line::subsequentMovePair)+\n)"
-	    set combined "(?:(?:$line|$solution::moveNumberLine|$solution::moveNumberLineIntelligent)+)"
+	    set numberedMove "(?: +[v ordinalNumber][v move])"
+	    set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
+	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
 	}
 
 	set regularplay "(?:$helpplay::combined|$seriesplay::combined)"
-	set combined "$setplay::combined$solution::emptyLine$regularplay?|$solution::emptyLine$regularplay"
+	set combined "$setplay::combined[v emptyLine]$regularplay?|[v emptyLine]$regularplay"
     }
 
     namespace eval measurements {
@@ -350,20 +371,20 @@ namespace eval solution {
     }
 
     namespace eval kingmissing {
-	set combined "(?:[set ${language}::kingmissing]\n)"
+	set combined "(?:[l kingmissing]\n)"
     }
 
     namespace eval untwinned {
-	set problemignored "(?:(?:[set ${language}::toofairy]\n|[set ${language}::intelligentAndFairy]|[set ${language}::nonsensecombination]\n|[set ${language}::conditionSideUndecidable]\n$solution::emptyLine)[set ${language}::problemignored]\n)"
-	set simplex "(?:$solution::emptyLine|(?:$solution::emptyLine[set ${language}::illegalSelfCheck]|$solution::tree::combined*|$solution::line::combined)+)"
+	set problemignored "(?:(?:[l toofairy]\n|[l intelligentAndFairy]|[l nonsensecombination]\n|[l conditionSideUndecidable]\n[v emptyLine])[l problemignored]\n)"
+	set simplex "(?:[v emptyLine]|(?:[v emptyLine][l illegalSelfCheck]|[v tree::combined]*|[v line::combined])+)"
         # the last + should be {1,2}, but that would make the expression too complex
-	set combined "(?:$solution::kingmissing::combined?(?:$problemignored|(?:$simplex$solution::measurements::combined)+)(?:$remark::combined)?)"
+	set combined "(?:[v kingmissing::combined]?(?:$problemignored|(?:$simplex[v measurements::combined])+)(?:$remark::combined)?)"
     }
 
     namespace eval twinned {
 	# too complex for regexp
-	set combined "(?:$solution::twinning::combined$solution::untwinned::combined)+"
-	set separator $solution::twinning::combined
+	set combined "(?:[v twinning::combined][v untwinned::combined])+"
+	set separator [v twinning::combined]
     }
 
     # too complex for regexp
@@ -372,7 +393,7 @@ namespace eval solution {
 
 namespace eval footer {
     set emptyLine "\n"
-    set combined "[set ${language}::endlines]\n$emptyLine"
+    set combined "[l endlines]\n$emptyLine"
 }
 
 # applying this gives an "expression is too complex" error :-(
@@ -389,7 +410,7 @@ namespace eval inputerror {
 
 namespace eval zeroposition {
     set emptyLine {\n}
-    set combined "(?:$emptyLine[set ${language}::zeroposition]\n\n)"
+    set combined "(?:$emptyLine[l zeroposition]\n\n)"
 }
 
 namespace eval beforesolution {
