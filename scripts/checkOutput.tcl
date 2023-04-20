@@ -350,7 +350,7 @@ namespace eval solution {
 	    set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
 	    set firstMovePair "(?:$firstMovePairSkipped|[v firstMoveSkipped]|[v firstMovePair])"
 	    set line "(?: +$firstMovePair[v subsequentMovePair]*\n)"
-	    set combined "(?:[v emptyLine](?:$line|[v moveNumberLineIntelligent])+)"
+	    set combined "(?:(?:$line|[v moveNumberLineIntelligent])+)"
 	}
 
 	namespace eval seriesplay {
@@ -360,7 +360,7 @@ namespace eval solution {
 	}
 
 	set regularplay "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
-	set combined "$setplay::combined$regularplay?|$regularplay"
+	set combined "[v emptyLine]$setplay::combined$regularplay?|$regularplay"
     }
 
     namespace eval measurements {
