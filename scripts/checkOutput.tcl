@@ -259,7 +259,7 @@ namespace eval solution {
     set move "(?: [l roleExchange]| $ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
 
     set moveNumber {[1-9][0-9]*}
-    set moveNumberLine "(?: *$moveNumber  \[(]$move \[)]\n)"
+    set moveNumberLineNonIntelligent "(?: *$moveNumber  \[(]$move \[)]\n)"
 
     set nrPositions {[[:digit:]]+}
     set nrMoves {[[:digit:]]+[+][[:digit:]]+}
@@ -327,37 +327,48 @@ namespace eval solution {
             set combined "[v fullphase::playAfterKey]"
 	}
 
-        set regularplay "(?:[v moveNumberLine]|$fullphase::combined)+"
+        set regularplay "(?:[v moveNumberLineNonIntelligent]|$fullphase::combined)+"
         set combined "(?:$postkeyplay::combined|(?:(?:[v emptyLine]$setplay::combined)?(?:[v emptyLine]$regularplay)*))"
     }
 
     namespace eval line {
-	set firstMovePair "(?:1.${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
-	set firstMoveSkipped "1[v ellipsis][v move](?:[v undec]\n)?"
 	set subsequentMovePair "(?: +[v ordinalNumber]${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
-	set finalMove "(?: +[v ordinalNumber]${solution::move}(?:[v undec]\n)?)"
+	set moveNumberLine "[v moveNumberLineNonIntelligent]|[v moveNumberLineIntelligent]"
 
 	namespace eval helpplay {
-	    set firstMovePair "(?:[v firstMoveSkipped]|[v firstMovePair])"
-	    set line "(?: +$firstMovePair[v subsequentMovePair]*[v finalMove]?\n)"
-	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
-	}
+	    set finalMove "(?: +[v ordinalNumber]${solution::move}(?:[v undec]\n)?)"
 
-	namespace eval setplay {
-	    set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
-	    set firstMovePair "(?:$firstMovePairSkipped|[v firstMoveSkipped]|[v firstMovePair])"
-	    set line "(?: +$firstMovePair[v subsequentMovePair]*\n)"
-	    set combined "(?:(?:$line|[v moveNumberLineIntelligent])+)"
+	    # set play of h#n.5
+	    namespace eval twoEllipsis {
+		set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
+		set line "(?: +$firstMovePairSkipped[v subsequentMovePair]*[v finalMove]?\n)"
+		set combined "(?:(?:$line|[v moveNumberLine])+)"
+	    }
+
+	    # set play of h#n or regular play of h#n.5
+            namespace eval oneEllipsis {
+		set firstMoveSkipped "1[v ellipsis][v move](?:[v undec]\n)?"
+		set line "(?: +$firstMoveSkipped[v subsequentMovePair]*[v finalMove]?\n)"
+		set combined "(?:(?:$line|[v moveNumberLine])+)"
+	    }
+
+	    # regular play of h#n
+            namespace eval noEllipsis {
+		set firstMovePair "(?:1.${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
+		set line "(?: +$firstMovePair[v subsequentMovePair]*[v finalMove]?\n)"
+		set combined "(?:(?:$line|[v moveNumberLine])+)"
+	    }
+
+	    set combined "(?:$twoEllipsis::combined+|$oneEllipsis::combined+|$noEllipsis::combined+)"
 	}
 
 	namespace eval seriesplay {
 	    set numberedMove "(?: +[v ordinalNumber][v move])"
 	    set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
-	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
+	    set combined "(?:(?:$line|[v moveNumberLine])+)"
 	}
 
-	set regularplay "(?:$helpplay::combined|$seriesplay::combined)"
-	set combined "(?:[v emptyLine]$setplay::combined)?[v emptyLine]$regularplay"
+	set combined "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
     }
 
     namespace eval measurements {
