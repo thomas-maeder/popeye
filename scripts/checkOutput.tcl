@@ -301,8 +301,7 @@ namespace eval solution {
 	}
 
         namespace eval postkeyplay {
-            # TODO what about check?
-	    # this doesn't look precies: zugzwang or threat can only occur at the beginning
+	    # this doesn't look precise: zugzwang or threat can only occur at the beginning
 	    # but more precise expression would allow empty postkeyplay
             set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined]|[v defenseline::combined]|[v attackline::combined]| +[l refutes]\n)+)"
 	}
@@ -360,8 +359,8 @@ namespace eval solution {
 	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
 	}
 
-	set regularplay "(?:$helpplay::combined|$seriesplay::combined)"
-	set combined "$setplay::combined[v emptyLine]$regularplay?|[v emptyLine]$regularplay"
+	set regularplay "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
+	set combined "$setplay::combined$regularplay?|$regularplay"
     }
 
     namespace eval measurements {
