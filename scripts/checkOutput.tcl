@@ -297,15 +297,16 @@ namespace eval solution {
 	    set combined "[v defense](?:[v undec])?\n"
 	}
 
-        namespace eval zugzwangOrThreatLine {
-	    set combined "(?: [v zugzwangOrThreat]\n)"
+        namespace eval checkOrZugzwangOrThreatLine {
+	    # TODO Popeye should write an empty line before the check indicator
+	    set combined "(?:(?: \[+]|[v emptyLine] [v zugzwangOrThreat])\n)"
 	}
 
         namespace eval postkeyplay {
             # TODO what about check?
 	    # this doesn't look precies: zugzwang or threat can only occur at the beginning
 	    # but more precise expression would allow empty postkeyplay
-            set combined "(?:(?:[v zugzwangOrThreatLine::combined]|[v defenseline::combined]|[v attackline::combined]| +[l refutes]\n)+)"
+            set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined]|[v defenseline::combined]|[v attackline::combined]| +[l refutes]\n)+)"
 	}
 
         namespace eval forcedreflexmove {
@@ -331,7 +332,7 @@ namespace eval solution {
             set combined "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
 	}
 
-        set combined "(?:(?:[v checkIndicator])?\n(?:$forcedreflexmove::combined+|$postkeyplay::combined|(?:$setplay::combined[v emptyLine])?(?:[v moveNumberLine]|$fullphase::combined)+))"
+        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+|$postkeyplay::combined|[v emptyLine](?:$setplay::combined[v emptyLine])?(?:[v moveNumberLine]|$fullphase::combined)+))"
     }
 
     namespace eval line {
