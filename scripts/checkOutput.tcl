@@ -44,12 +44,11 @@ namespace eval german {
     set roleExchange "Rollentausch"
     set refutes "Widerlegt."
     set toofairy "Zu viel Maerchenschach fuer neutrale Steine"
-    # TODO correct German sentences
     set problemignored "Problem uebersprungen"
     set nonsensecombination "Unsinnige Kombination"
-    set intelligentAndFairy "Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces."
-    set refutationUndecidable "Can't decide whether this move is refuted"
-    set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
+    set intelligentAndFairy "Intelligent Modus nur im h#/=, ser-#/= und ser-h#/=, wenigen Maerchenbedingungen und keinen Maerchensteinen."
+    set refutationUndecidable "Kann nicht entscheiden, ob dieser Zug widerlegt wird"
+    set conditionSideUndecidable "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt"
 }
 
 namespace eval english {
@@ -75,9 +74,8 @@ namespace eval english {
     set refutationUndecidable "Can't decide whether this move is refuted"
     set refutes "refutes."
     set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
-    # TODO correct English sentences?
-    set legalityUndecidable "can't decide whether this move is legal."
-    set roleExchange "role exchange"
+    set legalityUndecidable "cannot decide if this move is legal or not."
+    set roleExchange "RoleExchange"
 }
 
 # syntactic sugar for looking up language dependant strings
