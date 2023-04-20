@@ -330,7 +330,7 @@ namespace eval solution {
 	}
 
         set regularplay "(?:[v moveNumberLine]|$fullphase::combined)+"
-        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+|$postkeyplay::combined|(?:[v emptyLine]$setplay::combined)?[v emptyLine]$regularplay)*)"
+        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+)?(?:$postkeyplay::combined)?(?:[v emptyLine]$setplay::combined)?(?:[v emptyLine]$regularplay)*)"
     }
 
     namespace eval line {
