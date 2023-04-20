@@ -449,28 +449,16 @@ proc handleTextBeforeSolution {beforesol} {
     if {$beforesol=="\n"} {
 	# empty solution
     } else {
-	set inputerrorIndices [regexp -all -inline -indices $inputerror::combined $beforesol]
-	set endOfInputErrors 0
-	foreach pair $inputerrorIndices {
-	    foreach {start end} $pair break
-	    set inputerror [string range $beforesol $start $end]
-	    printSection "i" $inputerror
-	    set endOfInputErrors [expr {$end+1}]
+	if {[regexp -- "^($inputerror::combined+)(.*)\$" $beforesol - inputerrors beforesol]} {
+	    printSection "i" $inputerrors
 	}
-	handleFieldsBeforeSolution [string range $beforesol $endOfInputErrors "end"]
+	handleFieldsBeforeSolution $beforesol
     }
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    set solutionIndices [regexp -inline -indices $solution::untwinned::combined $beforeFooter]
-    if {[llength $solutionIndices]>0} {
-	# we either have 0 or 1 solutions here
-	expr {1/(1==[llength $solutionIndices])}
-	# TODO decompose further
-	foreach {solutionStart solutionEnd} [lindex $solutionIndices 0] break
-	set beforesol [string range $beforeFooter 0 [expr {$solutionStart-1}]]
+    if {[regexp -- "^(.*?)($solution::untwinned::combined)\$" $beforeFooter - beforesol solution]} {
 	handleTextBeforeSolution $beforesol
-	set solution [string range $beforeFooter $solutionStart $solutionEnd]
 	printSection "s" $solution
     } else {
 	# input error ...
