@@ -329,7 +329,8 @@ namespace eval solution {
             set combined "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
 	}
 
-        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+|$postkeyplay::combined|[v emptyLine](?:$setplay::combined[v emptyLine])?(?:[v moveNumberLine]|$fullphase::combined)+)*)"
+        set regularplay "(?:[v moveNumberLine]|$fullphase::combined)+"
+        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+|$postkeyplay::combined|(?:[v emptyLine]$setplay::combined)?[v emptyLine]$regularplay)*)"
     }
 
     namespace eval line {
