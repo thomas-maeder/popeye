@@ -166,7 +166,6 @@ solution finished.
 
    1.Qb2-d4 Can't decide whether this move is refuted
 
-
   add_to_move_generation_stack:        5158
                      play_move:        8785
  is_white_king_square_attacked:        2720

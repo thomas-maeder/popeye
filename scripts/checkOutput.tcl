@@ -336,7 +336,7 @@ namespace eval solution {
 	set ordinalNumber {[1-9][0-9]*[.]}
 
 	set firstMovePair "(?:1.${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
-	set firstMoveSkipped "1[v ellipsis]${solution::move}(?:[v undec]\n)?"
+	set firstMoveSkipped "1[v ellipsis][v move](?:[v undec]\n)?"
 	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
 	set finalMove "(?: +$ordinalNumber${solution::move}(?:[v undec]\n)?)"
 
@@ -359,8 +359,8 @@ namespace eval solution {
 	    set combined "(?:(?:$line|[v moveNumberLine]|[v moveNumberLineIntelligent])+)"
 	}
 
-	set regularplay "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
-	set combined "[v emptyLine]$setplay::combined$regularplay?|$regularplay"
+	set regularplay "(?:$helpplay::combined|$seriesplay::combined)"
+	set combined "(?:[v emptyLine]$setplay::combined)?[v emptyLine]$regularplay"
     }
 
     namespace eval measurements {
