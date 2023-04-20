@@ -217,6 +217,7 @@ namespace eval conditions {
 
 namespace eval solution {
     set emptyLine {\n}
+    set ordinalNumber {[1-9][0-9]*[.]}
     set paren_open {[(]}
 	set paren_close {[)]}
     set bracket_open {\[}
@@ -270,10 +271,14 @@ namespace eval solution {
 	set combined "(?:[v emptyLine]\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
     }
 
+    namespace eval forcedreflexmove {
+	set indicator {[?]![?]}
+	set combined "(?: +[v ordinalNumber][v move] $indicator\n)"
+    }
+
     namespace eval tree {
-	set ordinalNumber {[1-9][0-9]*[.]}
-	set attackNumber $ordinalNumber
-	set defenseNumber "$ordinalNumber\\.{2}"
+	set attackNumber "[v ordinalNumber]"
+	set defenseNumber "[v ordinalNumber]\\.{2}"
 
 	# in condition "lost pieces", lost pieces of the attacker may be removed
 	set zugzwangOrThreat "(?:[l zugzwang]|[l threat](?:[v pieceEffect])?)"
@@ -306,11 +311,6 @@ namespace eval solution {
             set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined]|[v defenseline::combined]|[v attackline::combined]| +[l refutes]\n)+)"
 	}
 
-        namespace eval forcedreflexmove {
-	    set indicator {[?]![?]}
-	    set combined "(?: +[v attackNumber][v move] $indicator\n)"
-	}
-
         namespace eval refutationline {
             set combined "(?:[v defense] !\n(?:[v forcedreflexmove::combined])?)"
         }
@@ -330,16 +330,14 @@ namespace eval solution {
 	}
 
         set regularplay "(?:[v moveNumberLine]|$fullphase::combined)+"
-        set combined "(?:(?:[v emptyLine]$forcedreflexmove::combined+)?(?:$postkeyplay::combined)?(?:[v emptyLine]$setplay::combined)?(?:[v emptyLine]$regularplay)*)"
+        set combined "(?:(?:$postkeyplay::combined)?(?:[v emptyLine]$setplay::combined)?(?:[v emptyLine]$regularplay)*)"
     }
 
     namespace eval line {
-	set ordinalNumber {[1-9][0-9]*[.]}
-
 	set firstMovePair "(?:1.${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
 	set firstMoveSkipped "1[v ellipsis][v move](?:[v undec]\n)?"
-	set subsequentMovePair "(?: +$ordinalNumber${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
-	set finalMove "(?: +$ordinalNumber${solution::move}(?:[v undec]\n)?)"
+	set subsequentMovePair "(?: +[v ordinalNumber]${solution::move}(?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
+	set finalMove "(?: +[v ordinalNumber]${solution::move}(?:[v undec]\n)?)"
 
 	namespace eval helpplay {
 	    set firstMovePair "(?:[v firstMoveSkipped]|[v firstMovePair])"
@@ -375,7 +373,7 @@ namespace eval solution {
 
     namespace eval untwinned {
 	set problemignored "(?:(?:[l toofairy]\n|[l intelligentAndFairy]|[l nonsensecombination]\n|[l conditionSideUndecidable]\n[v emptyLine])[l problemignored]\n)"
-	set simplex "(?:[v emptyLine]|(?:[v emptyLine][l illegalSelfCheck]|[v tree::combined]|[v line::combined])+)"
+	set simplex "(?:[v emptyLine]|(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::combined]+|(?:[v tree::combined]|[v line::combined]))+)"
         # the last + should be {1,2}, but that would make the expression too complex
 	set combined "(?:[v kingmissing::combined]?(?:$problemignored|(?:$simplex[v measurements::combined])+)(?:$remark::combined)?)"
     }
