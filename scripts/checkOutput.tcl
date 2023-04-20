@@ -306,9 +306,7 @@ namespace eval solution {
 	}
 
         namespace eval postkeyplay {
-	    # this doesn't look precise: zugzwang or threat can only occur at the beginning
-	    # but more precise expression would allow empty postkeyplay
-            set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined]|[v defenseline::combined](?: +[l refutes]\n)?|[v attackline::combined])+)"
+            set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined])?(?:[v defenseline::combined](?: +[l refutes]\n)?|[v attackline::combined])*)"
 	}
 
         namespace eval refutationline {
