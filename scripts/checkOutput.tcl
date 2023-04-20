@@ -309,13 +309,13 @@ namespace eval solution {
             set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined])?(?:[v defenseline::combined](?: +[l refutes]\n)?|[v attackline::combined])*)"
 	}
 
-        namespace eval refutationline {
+        namespace eval refutation {
             set combined "(?:[v defense] !\n(?:[v forcedreflexmove::combined])?)"
         }
 
         namespace eval refutationblock {
 	    set butLine " +[l but]\n"
-            set combined "(?:$butLine[v refutationline::combined]+)"
+            set combined "(?:$butLine[v refutation::combined]+)"
         }
 
         namespace eval fullphase {
@@ -324,7 +324,7 @@ namespace eval solution {
 	}
 
         namespace eval setplay {
-            set combined "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
+            set combined "[v fullphase::playAfterKey]"
 	}
 
         set regularplay "(?:[v moveNumberLine]|$fullphase::combined)+"
