@@ -50,6 +50,7 @@ namespace eval german {
     set refutationUndecidable "Kann nicht entscheiden, ob dieser Zug widerlegt wird"
     set conditionSideUndecidable "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt"
     set setplayNotApplicable "Satzspiel nicht anwendbar - ignoriert"
+    set tryplayNotApplicable "Verfuehrung nicht anwendbar"
 }
 
 namespace eval english {
@@ -78,6 +79,7 @@ namespace eval english {
     set legalityUndecidable "cannot decide if this move is legal or not."
     set roleExchange "RoleExchange"
     set setplayNotApplicable "SetPlay not applicable - ignored"
+    set tryplayNotApplicable "try play not applicable"
 }
 
 # syntactic sugar for looking up language dependant strings
@@ -367,7 +369,7 @@ namespace eval solution {
 	namespace eval seriesplay {
 	    set numberedMove "(?: +[v ordinalNumber][v move])"
 	    set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
-	    set combined "(?:(?:[l setplayNotApplicable]\n*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
+	    set combined "(?:(?:(?:[l setplayNotApplicable]|[l tryplayNotApplicable])\n*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
 	}
 
 	set combined "(?:[v emptyLine]$helpplay::combined|$seriesplay::combined)"
