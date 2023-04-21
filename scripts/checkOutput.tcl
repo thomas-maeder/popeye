@@ -52,6 +52,8 @@ namespace eval german {
     set tryplayNotApplicable "Verfuehrung nicht anwendbar"
     set duplex "Duplex"
     set halfduplex "HalbDuplex"
+    set inputError "Eingabe-Fehler"
+    set offendingItem "Stoerende Eingabe"
 }
 
 namespace eval english {
@@ -80,6 +82,8 @@ namespace eval english {
     set tryplayNotApplicable "try play not applicable"
     set duplex "Duplex"
     set halfduplex "HalfDuplex"
+    set inputError "input-error"
+    set offendingItem "offending item"
 }
 
 # syntactic sugar for looking up language dependant strings
@@ -415,8 +419,8 @@ namespace eval problem {
 }
 
 namespace eval inputerror {
-    # TODO i10n
-    set combined {(?:input-error:[^\n]+\n[^\n]+\n)}
+    set text {[^\n]+}
+    set combined "(?:[l inputError]:$text\n[l offendingItem]: $text\n)"
 }
 
 namespace eval zeroposition {
