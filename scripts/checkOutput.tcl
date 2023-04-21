@@ -51,6 +51,8 @@ namespace eval german {
     set conditionSideUndecidable "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt"
     set setplayNotApplicable "Satzspiel nicht anwendbar - ignoriert"
     set tryplayNotApplicable "Verfuehrung nicht anwendbar"
+    set duplex "Duplex"
+    set halfduplex "HalbDuplex"
 }
 
 namespace eval english {
@@ -80,6 +82,8 @@ namespace eval english {
     set roleExchange "RoleExchange"
     set setplayNotApplicable "SetPlay not applicable - ignored"
     set tryplayNotApplicable "try play not applicable"
+    set duplex "Duplex"
+    set halfduplex "HalfDuplex"
 }
 
 # syntactic sugar for looking up language dependant strings
@@ -202,8 +206,7 @@ namespace eval pieceControl {
 
 namespace eval caption {
     set stip_pieceControl " *$stipulation::combined *$pieceControl::combined\n"
-    set duplex " *Duplex\n"
-    set combined "${stip_pieceControl}(?:$duplex)?"
+    set combined "${stip_pieceControl}"
 }
 
 namespace eval boardA {
@@ -216,7 +219,12 @@ namespace eval boardA {
 
 namespace eval conditions {
     set line { *[^\n]+\n}
-    set combined "(?:$line)*"
+    set combined "(?:$line)*?"
+}
+
+namespace eval duplex {
+    set line " *(?:[l duplex]|[l halfduplex])\n"
+    set combined "(?:$line)?"
 }
 
 namespace eval solution {
@@ -410,7 +418,7 @@ namespace eval footer {
 # dividing the input at recognized problem footers is also much, much faster...
 namespace eval problem {
     # too complex for regexp
-    set combined "($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?($solution::combined)($footer::combined)"
+    set combined "($remark::combined)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($duplex::combined)($gridboard::combined?))?($solution::combined)($footer::combined)"
 }
 
 namespace eval inputerror {
@@ -424,7 +432,7 @@ namespace eval zeroposition {
 }
 
 namespace eval beforesolution {
-    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($gridboard::combined?))?($zeroposition::combined?)"
+    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($duplex::combined)($gridboard::combined?))?($zeroposition::combined?)"
 }
 
 set f [open $inputfile "r"]
@@ -442,7 +450,7 @@ proc printSection {debugPrefix section} {
 }
 
 proc handleFieldsBeforeSolution {beforesol} {
-    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions gridboard zeroposition]
+    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions duplex gridboard zeroposition]
 	&& ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
 	printSection "r" $remark
 	printSection "a" $authoretc
@@ -450,6 +458,7 @@ proc handleFieldsBeforeSolution {beforesol} {
 	printSection "b" $board
 	printSection "ca" $caption
 	printSection "co" $conditions
+	printSection "d" $duplex
 	printSection "g" $gridboard
 	printSection "z" $zeroposition
     }
