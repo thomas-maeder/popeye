@@ -365,7 +365,7 @@ namespace eval solution {
 	namespace eval seriesplay {
 	    set numberedMove "(?: +[v ordinalNumber][v move])"
 	    set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
-	    set combined "(?:(?:$line|[v moveNumberLine])+)"
+	    set combined "(?:(?:$line|[v moveNumberLine])*)"
 	}
 
 	set combined "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
