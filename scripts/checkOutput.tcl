@@ -38,7 +38,7 @@ namespace eval german {
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     # TODO why does this in with a \n in German, but not in English???
-    set kingmissing "Es fehlt ein weisser oder schwarzer Koenig\n"
+    set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
     set legalityUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
