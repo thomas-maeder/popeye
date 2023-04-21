@@ -231,23 +231,23 @@ namespace eval solution {
     set bracket_open {\[}
     set bracket_close {\]}
     set ellipsis {[.][.][.]}
-    set pieceChar {[[:upper:][:digit:]]}
-    set hunterSuffix "(?:/$pieceChar{1,2})"
-    set piecePawnImplicit "$pieceChar{0,2}$hunterSuffix?"
-    set piece "(?:$pieceChar{1,2}$hunterSuffix?)"
+    set walkChar {[[:upper:][:digit:]]}
+    set hunterSuffix "(?:/$walkChar{1,2})"
+    set walkPawnImplicit "$walkChar{0,2}$hunterSuffix?"
+    set walk "(?:$walkChar{1,2}$hunterSuffix?)"
     set square {[a-h][1-8]}
     set capture {[*]}
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
     set castlingK "0-0"
-    set movement "(?:(?:[l pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
-    set messignyExchange "(?:$piece$square<->$piece$square)"
-    set promotion "(?:=[l pieceAttributeShortcut]$piece?)"
+    set movement "(?:(?:[l pieceAttributeShortcut]$walkPawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
+    set messignyExchange "(?:$walk$square<->$walk$square)"
+    set promotion "(?:=[l pieceAttributeShortcut]$walk?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
     set pieceChangement "(?:$square$promotion)"
-    set pieceSpec "[l pieceAttributeShortcut]$piece$square"
-    set pieceMovement "(?:$pieceSpec->[l pieceAttributeShortcut]$piece?$square$promotion*$vulcanization?)"
+    set pieceSpec "[l pieceAttributeShortcut]$walk$square"
+    set pieceMovement "(?:$pieceSpec->[l pieceAttributeShortcut]$walk?$square$promotion*$vulcanization?)"
     set pieceAddition "(?:\[+]$pieceSpec$promotion*$vulcanization?)"
     set pieceRemoval "(?:-$pieceSpec)"
     set pieceExchange "(?:$pieceSpec<->$pieceSpec)"
