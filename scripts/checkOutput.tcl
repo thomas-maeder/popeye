@@ -382,7 +382,7 @@ namespace eval solution {
 
     namespace eval untwinned {
 	set problemignored "(?:(?:[l toofairy]\n|[l intelligentAndFairy]|[l nonsensecombination]\n|[l conditionSideUndecidable]\n[v emptyLine])[l problemignored]\n)"
-	set simplex "(?:[v emptyLine]|(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::combined]+|[v tree::combined]|[v line::combined])+)"
+	set simplex "(?:(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::combined]+|[v tree::combined]|[v line::combined])+)"
         # the last + should be {1,2}, but that would make the expression too complex
 	set combined "(?:[v kingmissing::combined]?(?:$problemignored|(?:$simplex[v measurements::combined])+)(?:$remark::combined)?)"
     }
