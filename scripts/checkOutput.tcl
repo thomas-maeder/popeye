@@ -49,6 +49,7 @@ namespace eval german {
     set intelligentAndFairy "Intelligent Modus nur im h#/=, ser-#/= und ser-h#/=, wenigen Maerchenbedingungen und keinen Maerchensteinen."
     set refutationUndecidable "Kann nicht entscheiden, ob dieser Zug widerlegt wird"
     set conditionSideUndecidable "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt"
+    set setplayNotApplicable "Satzspiel nicht anwendbar - ignoriert"
 }
 
 namespace eval english {
@@ -76,6 +77,7 @@ namespace eval english {
     set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
     set legalityUndecidable "cannot decide if this move is legal or not."
     set roleExchange "RoleExchange"
+    set setplayNotApplicable "SetPlay not applicable - ignored"
 }
 
 # syntactic sugar for looking up language dependant strings
@@ -365,10 +367,10 @@ namespace eval solution {
 	namespace eval seriesplay {
 	    set numberedMove "(?: +[v ordinalNumber][v move])"
 	    set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
-	    set combined "(?:(?:$line|[v moveNumberLine])*)"
+	    set combined "(?:(?:[l setplayNotApplicable]\n*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
 	}
 
-	set combined "[v emptyLine](?:$helpplay::combined|$seriesplay::combined)"
+	set combined "(?:[v emptyLine]$helpplay::combined|$seriesplay::combined)"
     }
 
     namespace eval measurements {
