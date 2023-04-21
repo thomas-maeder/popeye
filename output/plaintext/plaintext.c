@@ -700,13 +700,14 @@ static void write_half_neutral_deneutralisation(output_plaintext_move_context_ty
 {
   (*context->engine->fputc)('=',context->file);
   (*context->engine->fputc)(tolower((unsigned char)ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),context->file);
-  (*context->engine->fputc)('h',context->file);
+  WriteFlag(context->engine,context->file,HalfNeutral);
 }
 
 static void write_half_neutral_neutralisation(output_plaintext_move_context_type *context,
                                               move_effect_journal_index_type curr)
 {
-  (*context->engine->fprintf)(context->file,"%s","=nh");
+  (*context->engine->fprintf)(context->file,"%s","=n");
+  WriteFlag(context->engine,context->file,HalfNeutral);
 }
 
 static void write_imitator_addition(output_plaintext_move_context_type *context)

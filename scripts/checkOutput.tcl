@@ -243,9 +243,7 @@ namespace eval solution {
     set movement "(?:(?:[l pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
     set messignyExchange "(?:$piece$square<->$piece$square)"
     # TODO Popeye should write hn here, not just h
-    # TODO Popeye should write sfw/hcc? here, not just s resp. h
-    # TODO order of h(n), c, s(fw)
-    set promotion "(?:=[l pieceAttributeShortcut]h?c?s?$piece?)"
+    set promotion "(?:=[l pieceAttributeShortcut]$piece?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
     set pieceChangement "(?:$square$promotion)"

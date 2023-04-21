@@ -25,42 +25,42 @@
           HalbNeutral a2 f2
 
    1.Kg6-h6 ! Zugzwang.
-      1...hnTa2-a1=nh
-          2.nhnTa1-a8=wh #
-      1...hnTa2-a7=nh
-          2.nhnTa7-a8=wh #
-      1...hnTa2-a6=nh +
-          2.nhnTa6-a8=wh #
-      1...hnTa2-a5=nh
-          2.nhnTa5-a8=wh #
-      1...hnTa2-a4=nh
-          2.nhnTa4-a8=wh #
-      1...hnTa2-a3=nh
-          2.nhnTa3-a8=wh #
-      1...hnTa2-e2=nh
-          2.nhnTe2-e8=wh #
-      1...hnTa2-d2=nh
-          2.nhnTd2-d8=wh #
-      1...hnTa2-c2=nh
-          2.nhnTc2-c8=wh #
-      1...hnTa2-b2=nh
-          2.nhnTb2-b8=wh #
-      1...hnLf2-e1=nh
-          2.nhnLe1-c3=wh #
-      1...hnLf2-g1=nh
-          2.nhnLg1-d4=wh #
-      1...hnLf2-h4=nh
-          2.nhnLh4-f6=wh #
-      1...hnLf2-g3=nh
-          2.nhnLg3-e5=wh #
-      1...hnLf2-a7=nh
-          2.nhnLa7-d4=wh #
-      1...hnLf2-b6=nh
-          2.nhnLb6-d4=wh #
-      1...hnLf2-c5=nh
-          2.nhnLc5-d4=wh #
-      1...hnLf2-e3=nh +
-          2.nhnLe3-d4=wh #
+      1...hnTa2-a1=nhn
+          2.nhnTa1-a8=whn #
+      1...hnTa2-a7=nhn
+          2.nhnTa7-a8=whn #
+      1...hnTa2-a6=nhn +
+          2.nhnTa6-a8=whn #
+      1...hnTa2-a5=nhn
+          2.nhnTa5-a8=whn #
+      1...hnTa2-a4=nhn
+          2.nhnTa4-a8=whn #
+      1...hnTa2-a3=nhn
+          2.nhnTa3-a8=whn #
+      1...hnTa2-e2=nhn
+          2.nhnTe2-e8=whn #
+      1...hnTa2-d2=nhn
+          2.nhnTd2-d8=whn #
+      1...hnTa2-c2=nhn
+          2.nhnTc2-c8=whn #
+      1...hnTa2-b2=nhn
+          2.nhnTb2-b8=whn #
+      1...hnLf2-e1=nhn
+          2.nhnLe1-c3=whn #
+      1...hnLf2-g1=nhn
+          2.nhnLg1-d4=whn #
+      1...hnLf2-h4=nhn
+          2.nhnLh4-f6=whn #
+      1...hnLf2-g3=nhn
+          2.nhnLg3-e5=whn #
+      1...hnLf2-a7=nhn
+          2.nhnLa7-d4=whn #
+      1...hnLf2-b6=nhn
+          2.nhnLb6-d4=whn #
+      1...hnLf2-c5=nhn
+          2.nhnLc5-d4=whn #
+      1...hnLf2-e3=nhn +
+          2.nhnLe3-d4=whn #
 
   add_to_move_generation_stack:        1344
                      play_move:        1059
@@ -96,14 +96,14 @@ Loesung beendet.
   #2                          2 + 2
            HalbNeutral h2
 
-      1...hnBh2-h1=hnS=nh
+      1...hnBh2-h1=hnS=nhn
           2.Dg5-h5 #
 
    1.Dg5-f4 ! Zugzwang.
-      1...hnBh2-h1=hnS=nh
-          2.nhnSh1-f2=wh #
-      1...hnBh2-h1=hnL=nh
-          2.nhnLh1-g2=wh #
+      1...hnBh2-h1=hnS=nhn
+          2.nhnSh1-f2=whn #
+      1...hnBh2-h1=hnL=nhn
+          2.nhnLh1-g2=whn #
 
   add_to_move_generation_stack:        2618
                      play_move:        1627
@@ -139,30 +139,30 @@ Loesung beendet.
   ser-h#6                2 + 1 + 1n
            HalbNeutral d7
 
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-h5=nh nhnDh5-a5=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-f3=nh nhnDf3-b3=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-e2=nh + nhnDe2-a6=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-e2=nh + nhnDe2-c4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-b1=nh + nhnDb1-b4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-b1=nh + nhnDb1-b3=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-c1=nh nhnDc1-c4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d8=nh nhnDd8-a5=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d6=nh nhnDd6-b4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d5=nh + nhnDd5-b3=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d5=nh + nhnDd5-c4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d5=nh + nhnDd5-a5=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d3=nh nhnDd3-a6=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d3=nh nhnDd3-c4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d3=nh nhnDd3-b3=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d2=nh + nhnDd2-a5=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-d2=nh + nhnDd2-b4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-f1=nh nhnDf1-a6=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-f1=nh nhnDf1-c4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-e1=nh nhnDe1-a5=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnD=sh   6.hnDd1-e1=nh nhnDe1-b4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnT=sh   6.hnTd1-b1=nh nhnTb1-b4=wh #
-  1.nhnBd7-d5=sh   2.hnBd5-d4=nh   3.nhnBd4-d3=sh   4.hnBd3-d2=nh   5.nhnBd2-d1=nhnT=sh   6.hnTd1-d5=nh nhnTd5-a5=wh #
-  1.nhnBd7-d6=sh   2.hnBd6-d5=nh   3.nhnBd5-d4=sh   4.hnBd4-d3=nh   5.nhnBd3-d2=sh   6.hnBd2-d1=hnS=nh nhnSd1-c3=wh #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-h5=nhn nhnDh5-a5=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-f3=nhn nhnDf3-b3=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-e2=nhn + nhnDe2-a6=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-e2=nhn + nhnDe2-c4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-b1=nhn + nhnDb1-b4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-b1=nhn + nhnDb1-b3=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-c1=nhn nhnDc1-c4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d8=nhn nhnDd8-a5=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d6=nhn nhnDd6-b4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d5=nhn + nhnDd5-b3=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d5=nhn + nhnDd5-c4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d5=nhn + nhnDd5-a5=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d3=nhn nhnDd3-a6=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d3=nhn nhnDd3-c4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d3=nhn nhnDd3-b3=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d2=nhn + nhnDd2-a5=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-d2=nhn + nhnDd2-b4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-f1=nhn nhnDf1-a6=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-f1=nhn nhnDf1-c4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-e1=nhn nhnDe1-a5=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnD=shn   6.hnDd1-e1=nhn nhnDe1-b4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnT=shn   6.hnTd1-b1=nhn nhnTb1-b4=whn #
+  1.nhnBd7-d5=shn   2.hnBd5-d4=nhn   3.nhnBd4-d3=shn   4.hnBd3-d2=nhn   5.nhnBd2-d1=nhnT=shn   6.hnTd1-d5=nhn nhnTd5-a5=whn #
+  1.nhnBd7-d6=shn   2.hnBd6-d5=nhn   3.nhnBd5-d4=shn   4.hnBd4-d3=nhn   5.nhnBd3-d2=shn   6.hnBd2-d1=hnS=nhn nhnSd1-c3=whn #
   add_to_move_generation_stack:       13327
                      play_move:       11695
  is_white_king_square_attacked:        2404
@@ -197,7 +197,7 @@ Loesung beendet.
   h=2                         2 + 4
         HalbNeutral b7 g7 g2
 
-  1.hnBg2-g1=hnL=nh hnBb7-b8=hnT=nh +   2.nhnTb8-g8=sh nhnLg1-d4=wh =
+  1.hnBg2-g1=hnL=nhn hnBb7-b8=hnT=nhn +   2.nhnTb8-g8=shn nhnLg1-d4=whn =
   add_to_move_generation_stack:       52100
                      play_move:       42926
  is_white_king_square_attacked:       17270
@@ -233,28 +233,28 @@ Loesung beendet.
            HalbNeutral c5
 
    1.Kh2-g2 ! Zugzwang.
-      1...hnTc5-c1=nh
+      1...hnTc5-c1=nhn
           2.Da2-a3 #
-      1...hnTc5-c2=nh +
-          2.nhnTc2-b2=wh #
-      1...hnTc5-c3=nh
+      1...hnTc5-c2=nhn +
+          2.nhnTc2-b2=whn #
+      1...hnTc5-c3=nhn
           2.Da2-a5 #
-      1...hnTc5-c8=nh
+      1...hnTc5-c8=nhn
           2.Da2-a3 #
-      1...hnTc5-c7=nh
+      1...hnTc5-c7=nhn
           2.Da2-a3 #
-      1...hnTc5-c6=nh
+      1...hnTc5-c6=nhn
           2.Da2-a3 #
-      1...hnTc5-h5=nh
-          2.nhnTh5-h4=wh #
-      1...hnTc5-g5=nh +
-          2.nhnTg5-g4=wh #
-      1...hnTc5-f5=nh
-          2.nhnTf5-f4=wh #
-      1...hnTc5-e5=nh
-          2.nhnTe5-e4=wh #
-      1...hnTc5-d5=nh
-          2.nhnTd5-d4=wh #
+      1...hnTc5-h5=nhn
+          2.nhnTh5-h4=whn #
+      1...hnTc5-g5=nhn +
+          2.nhnTg5-g4=whn #
+      1...hnTc5-f5=nhn
+          2.nhnTf5-f4=whn #
+      1...hnTc5-e5=nhn
+          2.nhnTe5-e4=whn #
+      1...hnTc5-d5=nhn
+          2.nhnTd5-d4=whn #
 
   add_to_move_generation_stack:        5751
                      play_move:        3726
@@ -293,13 +293,13 @@ Loesung beendet.
    1.Se5-d3 ! Drohung:
           2.Dg7-d4 #
       1...b4-b3
-          2.nhnSd5-c3=wh #
-      1...nhnSd5-c3=sh
+          2.nhnSd5-c3=whn #
+      1...nhnSd5-c3=shn
           2.Th5-h4 #
-      1...nhnSd5-f6=sh
+      1...nhnSd5-f6=shn
           2.Dg7*e7 #
       1...e7-e5
-          2.nhnSd5-f6=wh #
+          2.nhnSd5-f6=whn #
       1...Sh8*g6 +
           2.Dg7*g6 #
 
@@ -388,32 +388,32 @@ Loesung beendet.
     Aber
       1...Kd5*d6 !
 
-   1.hnBa7-a8=hnS=nh ! Drohung:
-          2.nhnSa8*b6=wh #
-      1...nhnSa8-c7=sh
+   1.hnBa7-a8=hnS=nhn ! Drohung:
+          2.nhnSa8*b6=whn #
+      1...nhnSa8-c7=shn
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
-              2...hnSc7-a6=nh
-                  3.nhnSa6-b4=wh #
-              2...hnSc7*b5=nh +
-                  3.nhnSb5*c3=wh #
-              2...hnSc7-e6=nh
-                  3.nhnSe6-f4=wh #
-              2...hnSc7-e8=nh
-                  3.nhnSe8-f6=wh #
-              2...hnSc7-a8=nh
-                  3.nhnSa8*b6=wh #
+              2...hnSc7-a6=nhn
+                  3.nhnSa6-b4=whn #
+              2...hnSc7*b5=nhn +
+                  3.nhnSb5*c3=whn #
+              2...hnSc7-e6=nhn
+                  3.nhnSe6-f4=whn #
+              2...hnSc7-e8=nhn
+                  3.nhnSe8-f6=whn #
+              2...hnSc7-a8=nhn
+                  3.nhnSa8*b6=whn #
 
-   1.hnBa7-a8=hnL=nh + ?
-      1...nhnLa8-b7=sh
+   1.hnBa7-a8=hnL=nhn + ?
+      1...nhnLa8-b7=shn
           2.Tc8-c7 Zugzwang.
-              2...hnLb7-a6=nh
-                  3.nhnLa6-b7=wh #
-              2...hnLb7-c8=nh
-                  3.nhnLc8-b7=wh #
+              2...hnLb7-a6=nhn
+                  3.nhnLa6-b7=whn #
+              2...hnLb7-c8=nhn
+                  3.nhnLc8-b7=whn #
     Aber
-      1...nhnLa8-c6=sh !
+      1...nhnLa8-c6=shn !
 
    1.Te7-e4 ? Zugzwang.
     Aber
@@ -530,102 +530,102 @@ Loesung beendet.
           HalbNeutral b6 b1
 
    1.Lb8-a7 ! Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
 
    1.Lb8-h2 ? Zugzwang.
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
     Aber
-      1...hnTb1-h1=nh !
+      1...hnTb1-h1=nhn !
 
    1.Lb8-g3 ? Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
     Aber
-      1...hnTb1-g1=nh !
+      1...hnTb1-g1=nhn !
 
    1.Lb8-f4 ? Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
     Aber
-      1...hnTb1-f1=nh !
+      1...hnTb1-f1=nhn !
 
    1.Lb8-e5 ? Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
     Aber
-      1...hnTb1-e1=nh !
+      1...hnTb1-e1=nhn !
 
    1.Lb8-d6 ? Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-c1=nh
-          2.nhnTc1-c8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-c1=nhn
+          2.nhnTc1-c8=whn #
     Aber
-      1...hnTb1-d1=nh !
+      1...hnTb1-d1=nhn !
 
    1.Lb8-c7 ? Zugzwang.
-      1...hnTb1-h1=nh
-          2.nhnTh1-h8=wh #
-      1...hnTb1-g1=nh
-          2.nhnTg1-g8=wh #
-      1...hnTb1-f1=nh
-          2.nhnTf1-f8=wh #
-      1...hnTb1-e1=nh
-          2.nhnTe1-e8=wh #
-      1...hnTb1-d1=nh
-          2.nhnTd1-d8=wh #
+      1...hnTb1-h1=nhn
+          2.nhnTh1-h8=whn #
+      1...hnTb1-g1=nhn
+          2.nhnTg1-g8=whn #
+      1...hnTb1-f1=nhn
+          2.nhnTf1-f8=whn #
+      1...hnTb1-e1=nhn
+          2.nhnTe1-e8=whn #
+      1...hnTb1-d1=nhn
+          2.nhnTd1-d8=whn #
     Aber
-      1...hnTb1-c1=nh !
+      1...hnTb1-c1=nhn !
 
   add_to_move_generation_stack:       11262
                      play_move:        7490
@@ -663,7 +663,7 @@ Loesung beendet.
 
 a) 
 
-  1.hnLf1-d3=nh Ka2-b3   2.hnTd1-d2=nh nhnLd3-c4=wh #
+  1.hnLf1-d3=nhn Ka2-b3   2.hnTd1-d2=nhn nhnLd3-c4=whn #
   add_to_move_generation_stack:       64453
                      play_move:       53283
  is_white_king_square_attacked:        3617
@@ -671,7 +671,7 @@ a)
 
 b) sKd5-->a6  
 
-  1.hnTd1-d3=nh La3-c5   2.hnLf1-e2=nh nhnTd3-a3=wh #
+  1.hnTd1-d3=nhn La3-c5   2.hnLf1-e2=nhn nhnTd3-a3=whn #
   add_to_move_generation_stack:       74116
                      play_move:       66408
  is_white_king_square_attacked:        3181
@@ -709,7 +709,7 @@ Loesung beendet.
 
 a) 
 
-  1.hnTe8-e7=nh Kd5-d6   2.hnLf8*e7=nh[+nhnTa1] + nhnLe7-f6=wh #
+  1.hnTe8-e7=nhn Kd5-d6   2.hnLf8*e7=nhn[+nhnTa1] + nhnLe7-f6=whn #
   add_to_move_generation_stack:      103010
                      play_move:       89175
  is_white_king_square_attacked:        5423
@@ -717,7 +717,7 @@ a)
 
 b) sKb2-->c3  
 
-  1.hnLf8-e7=nh Kd5-e4   2.hnTe8*e7=nh[+nhnLc1] + nhnTe7-c7=wh #
+  1.hnLf8-e7=nhn Kd5-e4   2.hnTe8*e7=nhn[+nhnLc1] + nhnTe7-c7=whn #
   add_to_move_generation_stack:       80645
                      play_move:       63503
  is_white_king_square_attacked:        8666
@@ -763,46 +763,46 @@ Loesung beendet.
       1...Kd5*c4 !
 
    1.Kf6-f5 ? Zugzwang.
-      1...hnSb8-a6=nh
-          2.nhnSa6-c7=wh #
-      1...hnSb8-c6=nh
-          2.nhnSc6-e7=wh #
-      1...hnSb8-d7=nh
-          2.nhnSd7-b6=wh #
-          2.nhnSd7-f6=wh #
+      1...hnSb8-a6=nhn
+          2.nhnSa6-c7=whn #
+      1...hnSb8-c6=nhn
+          2.nhnSc6-e7=whn #
+      1...hnSb8-d7=nhn
+          2.nhnSd7-b6=whn #
+          2.nhnSd7-f6=whn #
     Aber
       1...f7-f6 !
 
    1.Ld8-a5 ! Zugzwang.
-      1...hnSb8-a6=nh
-          2.nhnSa6-c7=wh #
-      1...hnSb8-c6=nh
-          2.nhnSc6-e7=wh #
-      1...hnSb8-d7=nh +
-          2.nhnSd7-b6=wh #
+      1...hnSb8-a6=nhn
+          2.nhnSa6-c7=whn #
+      1...hnSb8-c6=nhn
+          2.nhnSc6-e7=whn #
+      1...hnSb8-d7=nhn +
+          2.nhnSd7-b6=whn #
 
    1.Ld8-b6 ? Drohung:
           2.Db4-d4 #
-      1...hnSb8-c6=nh
-          2.nhnSc6-e7=wh #
+      1...hnSb8-c6=nhn
+          2.nhnSc6-e7=whn #
     Aber
-      1...hnSb8-d7=nh + !
+      1...hnSb8-d7=nhn + !
 
    1.Ld8-c7 ? Zugzwang.
-      1...hnSb8-c6=nh
-          2.nhnSc6-e7=wh #
-      1...hnSb8-d7=nh +
-          2.nhnSd7-b6=wh #
+      1...hnSb8-c6=nhn
+          2.nhnSc6-e7=whn #
+      1...hnSb8-d7=nhn +
+          2.nhnSd7-b6=whn #
     Aber
-      1...hnSb8-a6=nh !
+      1...hnSb8-a6=nhn !
 
    1.Ld8-e7 ? Zugzwang.
-      1...hnSb8-a6=nh
-          2.nhnSa6-c7=wh #
-      1...hnSb8-d7=nh +
-          2.nhnSd7-b6=wh #
+      1...hnSb8-a6=nhn
+          2.nhnSa6-c7=whn #
+      1...hnSb8-d7=nhn +
+          2.nhnSd7-b6=whn #
     Aber
-      1...hnSb8-c6=nh !
+      1...hnSb8-c6=nhn !
 
   add_to_move_generation_stack:        8587
                      play_move:        4747
@@ -839,8 +839,8 @@ Loesung beendet.
   h#1.5                  3 + 0 + 1n
            HalbNeutral e1
 
-  1...Lf1-h3   2.nSe3-g4 0-0=nh #
-  1...Lf1-d3   2.nSe3-c4 hnKe1-d1=nh #
+  1...Lf1-h3   2.nSe3-g4 0-0=nhn #
+  1...Lf1-d3   2.nSe3-c4 hnKe1-d1=nhn #
   add_to_move_generation_stack:        6512
                      play_move:        5042
  is_white_king_square_attacked:         448
@@ -877,7 +877,7 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
           HalbNeutral c6 e4
            AntiCirce Super
 
-  1.hnLe4*h7=nh[nhnLh7->b5] Tc3-c1   2.nhnTc6*d6=wh[whnTd6->f7] + Lf1*b5[sLb5->e7] #
+  1.hnLe4*h7=nhn[nhnLh7->b5] Tc3-c1   2.nhnTc6*d6=whn[whnTd6->f7] + Lf1*b5[sLb5->e7] #
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
  is_white_king_square_attacked:    16650139

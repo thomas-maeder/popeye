@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 
+void WriteFlag(output_engine_type const * engine, FILE *file,
+               piece_flag_type spname);
 boolean WriteSpec(output_engine_type const * engine, FILE *file,
                   Flags pspec, piece_walk_type p, boolean printcolours);
 void WriteWalk(output_engine_type const * engine, FILE *file,

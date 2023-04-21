@@ -12,6 +12,18 @@
 #include <ctype.h>
 #include <string.h>
 
+void WriteFlag(output_engine_type const * engine, FILE *file,
+               piece_flag_type spname)
+{
+  char const *curr = PieSpTab[spname-nr_sides];
+  while (*curr!=0)
+  {
+	if (isupper((unsigned char)*curr))
+	  (*engine->fputc)(tolower((unsigned char)*curr),file);
+    ++curr;
+  }
+}
+
 boolean WriteSpec(output_engine_type const * engine, FILE *file,
                   Flags sp, piece_walk_type p, boolean printcolours)
 {
@@ -50,13 +62,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
           && (spname!=Royal || !is_king(p))
           && TSTFLAG(sp, spname))
       {
-        char const *curr = PieSpTab[spname-nr_sides];
-        while (*curr!=0)
-        {
-          if (isupper((unsigned char)*curr))
-            (*engine->fputc)(tolower((unsigned char)*curr),file);
-          ++curr;
-        }
+    	WriteFlag(engine,file,spname);
         result = true;
       }
   }
