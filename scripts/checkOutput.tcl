@@ -37,7 +37,6 @@ namespace eval german {
     set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?u?m?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
-    # TODO why does this in with a \n in German, but not in English???
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
     set legalityUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
@@ -58,8 +57,8 @@ namespace eval german {
 namespace eval english {
     set endlines {(?:\nsolution finished[.]|Partial solution)\n}
     # TODO why is this written inconsistently?
-    set white {[Ww]hite}
-    set black {[Bb]lack}
+    set white {White}
+    set black {Black}
     set zugzwang {zugzwang[.]}
     set threat "threat:"
     set but {but}

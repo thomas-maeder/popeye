@@ -22,7 +22,7 @@ correction by TM
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           5 + 7
+  Black 4hh[2da[#]]           5 + 7
 
   1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.e6-e5 Qf6*h4 #
   1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.g6-g5 Qf6-d4 #
@@ -59,7 +59,7 @@ solution finished.
 1   K   .   .   R   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           6 + 7
+  Black 4hh[2da[#]]           6 + 7
 
 a) 
 
@@ -109,7 +109,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           8 + 5
+  Black 4hh[2da[#]]           8 + 5
 
 a) 
 
@@ -161,7 +161,7 @@ solution finished.
 1   S   .   .   .   B   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           9 + 7
+  Black 4hh[2da[#]]           9 + 7
 
   1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-e4 Bg4-f5 #
   1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-c4 Bg4*e2 #
@@ -198,7 +198,7 @@ solution finished.
 1   .   .   .   .   K   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           6 + 4
+  Black 4hh[2da[#]]           6 + 4
 
 a) 
 
@@ -249,7 +249,7 @@ solution finished.
 1   .   .   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           7 + 4
+  Black 4hh[2da[#]]           7 + 4
 
   1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f1 + Sd2*f1 #
   1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f2 Sd2*c4 #
@@ -300,7 +300,7 @@ solution finished.
 1   S  -B   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[/2da[#]]         2 + 10
+  Black 8hh[/2da[#]]         2 + 10
 
   1.Sh2-f3 Sa1-c2   2.Sf3-d4 Sc2-e3   3.Sd4-b5 Se3-g4   4.Sb5-c7 Sg4-h6
   add_to_move_generation_stack:   340556417
@@ -334,7 +334,7 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
 1   .   .   .   .   .   .   .  -K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[/2da[#]]          2 + 8
+  Black 4hh[/2da[#]]          2 + 8
 
   1.Sf3-d4 + Kf5*f4   2.Sd4-b5 Kf4-g3
   1.Bf4-c1 Kf5-g4   2.Bc1-b2 Kg4*f3
@@ -370,7 +370,7 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 6hh[/2da[#]]          2 + 7
+  Black 6hh[/2da[#]]          2 + 7
 
   1.Bc7-f4 d4*c5   2.Bf4-h6 c5-c6   3.g7-g5 c6*d7
   1.Bd7-f5 d4-d5   2.Bf5-h7 d5-d6   3.g7-g6 d6*c7
@@ -405,7 +405,7 @@ solution finished.
 1   .   .   .   .   B   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[>1a[#]d]d{!1a[#]d}]h 14 + 7
+  Black 3h[3a[>1a[#]d]d{!1a[#]d}]h 14 + 7
               AntiCirce
 
 a) 
@@ -450,7 +450,7 @@ solution finished.
 1   .   .   K   .   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          7 + 11
+  Black 3h[3a[#]d]h          7 + 11
 
   1.Bh1-g2 Bh6-f4   2.Bg2-f1   1.Bd3-g6 + Kh5-g4   2.Qc3*f3 #
   1.f2-f1=S Qc3-c2   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Qc2-g6 #
@@ -535,7 +535,7 @@ solution finished.
 1   .   .   .  -G   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[4ad[#]]h          9 + 11
+  Black 3h[4ad[#]]h          9 + 11
 
   1.Bf5*g6 e5-e6   2.Sh6-f5   1.Gf6-d6 + Sf5*d6   2.Sd2-c4 + Sd6*c4 #
   1.Sh6-g8 Gg6-g3   2.Sg8*f6   1.Gg3-d3 + Gd1*d3 #
@@ -571,7 +571,7 @@ solution finished.
 1   .   .   .   .   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[7a[#]d]h           3 + 5
+  Black 3h[7a[#]d]h           3 + 5
 
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-a8   2.Se8-g7 #
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-b7   2.Se8-g7 #
@@ -619,7 +619,7 @@ solution finished.
 1   .   .   .  -K   .  -R   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h           5 + 9
+  Black 3h[3a[#]d]h           5 + 9
 
 a) 
 
@@ -682,7 +682,7 @@ solution finished.
 1   .   .   .   K   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 5h[3a[#]d]h           2 + 7
+  Black 5h[3a[#]d]h           2 + 7
 
   1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=Q   2.Sc5-b3 #
   1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=S   2.Sc5-b3 #
@@ -782,7 +782,7 @@ solution finished.
 1   .   .   .   .   .   .   K   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          12 + 5
+  Black 3h[3a[#]d]h          12 + 5
 
 a) 
 
@@ -920,7 +920,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[9a[#]d]h           4 + 1
+  Black 3h[9a[#]d]h           4 + 1
 
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-c1   4.Re3-d3 Kc1-b1   5.Rd3-d1 #
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-d1   4.Kb3-c3 Kd1-c1   5.Re3-e1 #
@@ -956,7 +956,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h           5 + 4
+  Black 3h[3a[#]d]h           5 + 4
 
   1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5*h4   2.Be5-f6 #
   1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5-f5   2.Rh4*h5 #
@@ -991,7 +991,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 5h[3a[#]d]h           2 + 4
+  Black 5h[3a[#]d]h           2 + 4
 
   1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-c2   2.Sa7-b5 #
   1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-b3   2.Sa7-b5 #
@@ -1026,7 +1026,7 @@ solution finished.
 1   .   .  -R  -K   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 9h[3a[#]d]h           2 + 4
+  Black 9h[3a[#]d]h           2 + 4
 
 a) 
 
@@ -1071,7 +1071,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 9h[3a[#]d]h           2 + 2
+  Black 9h[3a[#]d]h           2 + 2
 
   1.Kf3-e2 a3-a4   2.Ke2-d1 a4-a5   3.Kd1-c1 a5-a6   4.Kc1-b1 a6-a7   5.Kb1-a1   1.a7-a8=Q Ka1-b1   2.Qa8-h1 #
   add_to_move_generation_stack:   119454118
@@ -1105,7 +1105,7 @@ solution finished.
 1   K   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[3a[#]d]h           3 + 6
+  Black 7h[3a[#]d]h           3 + 6
 
   1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-f2   2.Qg8-g3 #
   1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-e3   2.Qg8-g3 #
@@ -1165,7 +1165,7 @@ solution finished.
 1   R   .   .   .   K   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          7 + 12
+  Black 3h[3a[#]d]h          7 + 12
 
 a) 
 
@@ -1224,7 +1224,7 @@ solution finished.
 1   .   .   .   .   .   .   K   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[1ad[#]]h           3 + 4
+  Black 7h[1ad[#]]h           3 + 4
            BlackMaximummer
 
   add_to_move_generation_stack:       28092
