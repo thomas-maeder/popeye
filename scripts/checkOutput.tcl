@@ -360,6 +360,7 @@ namespace eval solution {
 	    }
 
 	    set combined "(?:$twoEllipsis::combined+|$oneEllipsis::combined+|$noEllipsis::combined+)"
+	    set combined "(?:(?:$twoEllipsis::combined\n)?$oneEllipsis::combined|(?:$oneEllipsis::combined\n)?$noEllipsis::combined)"
 	}
 
 	namespace eval seriesplay {
