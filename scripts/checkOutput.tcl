@@ -242,7 +242,6 @@ namespace eval solution {
     set castlingK "0-0"
     set movement "(?:(?:[l pieceAttributeShortcut]$piecePawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
     set messignyExchange "(?:$piece$square<->$piece$square)"
-    # TODO Popeye should write hn here, not just h
     set promotion "(?:=[l pieceAttributeShortcut]$piece?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
