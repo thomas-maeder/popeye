@@ -62,8 +62,6 @@ namespace eval english {
     set threat "threat:"
     set but {but}
     set colorShortcut {(?:[wbn])}
-    # TODO is "f" correct for functionary piece?
-    # TODO is hcc correct for hurdle colour changing?
     set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?k?u?m?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
