@@ -359,8 +359,7 @@ namespace eval solution {
 		set combined "(?:(?:$line|[v moveNumberLine])+)"
 	    }
 
-	    set combined "(?:$twoEllipsis::combined+|$oneEllipsis::combined+|$noEllipsis::combined+)"
-	    set combined "(?:(?:$twoEllipsis::combined\n)?$oneEllipsis::combined|(?:$oneEllipsis::combined\n)?$noEllipsis::combined)"
+            set combined "(?:$twoEllipsis::combined?[v emptyLine]?$oneEllipsis::combined?|$oneEllipsis::combined?[v emptyLine]?$noEllipsis::combined?)"
 	}
 
 	namespace eval seriesplay {
@@ -464,7 +463,8 @@ proc handleTextBeforeSolution {beforesol} {
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    if {[regexp -- "^(.*?)($solution::untwinned::combined)\$" $beforeFooter - beforesol solution]} {
+    if {[regexp -- "^()($solution::untwinned::combined)\$" $beforeFooter -  beforesol solution]
+        || [regexp -- "^(.*?\n)($solution::untwinned::combined)\$" $beforeFooter - beforesol solution]} {
 	handleTextBeforeSolution $beforesol
 	printSection "s" $solution
     } else {
