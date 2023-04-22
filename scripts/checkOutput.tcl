@@ -172,26 +172,26 @@ namespace eval format {
         set horizontalBorderSign "-"
         
         set columnName {[a-h]}
-        set columnSpec "$horizontalBorderSign$horizontalBorderSign$columnName$horizontalBorderSign"
-        set columns "$cornerSign${horizontalBorderSign}(?:$columnSpec){$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign[v eol]"
+        set columnSpec "(?:$horizontalBorderSign$horizontalBorderSign$columnName$horizontalBorderSign)"
+        set columns "$cornerSign$horizontalBorderSign$columnSpec{$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign[v eol]"
 
         set rowNo {[1-8]}
         set gridVertical {[|]}
-        set gridHorizontal " ---"
+        set gridHorizontal "[v space]---"
         set noPiece {[.]}
-        set squareEmpty "(?: |$gridVertical) $noPiece"
-        set hole "(?: |$gridVertical)  "
+        set squareEmpty "(?:[v space]|$gridVertical)[v space]$noPiece"
+        set hole "(?:[v space]|$gridVertical)[v space][v space]"
         set color {[ =-]}
         set walkChar {[[:upper:][:digit:]]}
-        set walk1Char "(?: |$gridVertical)$color$walkChar"
+        set walk1Char "(?:[v space]|$gridVertical)$color$walkChar"
         set walk2Chars "(?:$color|$gridVertical)$walkChar{2}"
-        set pieceSpecSeparator " "
+        set pieceSpecSeparator "[v space]"
         set hunterPartsSeparator "/"
         set pieceSpec "(?:$squareEmpty|$hole|$walk1Char|$walk2Chars)(?:$pieceSpecSeparator|$hunterPartsSeparator)"
-        set piecesLine "${rowNo} (?:$pieceSpec){$nrColumns}  $rowNo[v eol]"
+        set piecesLine "$rowNo[v space](?:$pieceSpec){$nrColumns}[v space][v space]$rowNo[v eol]"
 
         set hunter2ndPart "(?:$hole|$walk1Char|$walk2Chars)"
-        set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign[v eol]"
+        set spaceLine "$verticalBorderSign[v space](?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}[v space][v space]$verticalBorderSign[v eol]"
 
         set RE "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
     }
