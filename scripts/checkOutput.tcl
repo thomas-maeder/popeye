@@ -459,7 +459,7 @@ namespace eval format {
     }
 
     namespace eval zeroposition {
-        set RE "(?:[v emptyLine][l zeroposition]\n\n)"
+        set RE "(?:[v emptyLine][l zeroposition]\n[v emptyLine])"
     }
 
     namespace eval beforesolution {
