@@ -144,6 +144,7 @@ namespace eval format {
     set eol {\n}
     set emptyLine {\n}
     set lineText {[^\n]}
+    set space { }
     set nonspace {[^ ]}
 
     namespace eval remark {
@@ -198,7 +199,7 @@ namespace eval format {
     namespace eval gridboard {
         namespace eval cellsline {
 	    set cell {[ [:digit:]][[:digit:]]}
-	    set RE "[v board::rowNo](?:  $cell){[v board::nrColumns]}   [v board::rowNo][v eol]"
+	    set RE "[v board::rowNo](?:[v space][v space]$cell){[v board::nrColumns]}[v space][v space][v space][v board::rowNo][v eol]"
         }
 
         set RE "(?:[v emptyLine][v board::columns](?:[v board::spaceLine]$cellsline::RE){[v board::nrRows]}[v board::spaceLine][v board::columns])"
@@ -233,7 +234,7 @@ namespace eval format {
     namespace eval pieceControl {
         set piecesOfColor {[[:digit:]]+}
         set plus {[+]}
-        set RE "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?(?: $plus ${piecesOfColor} TI)?"
+        set RE "$piecesOfColor[v space]$plus[v space]${piecesOfColor}(?:[v space]$plus[v space]${piecesOfColor}n)?(?:[v space]$plus[v space]${piecesOfColor}[v space]TI)?"
     }
 
     namespace eval caption {
@@ -245,7 +246,7 @@ namespace eval format {
         # the caption of board A doesn't indicate the stipulation
         set caption " *[v pieceControl::RE][v eol]"
         set tomove "[v stipulation::paren_open][v stipulation::side] ->[v stipulation::paren_close]"
-        set RE "(?:[v board::RE]$caption[v eol] *=> $tomove[v eol][v emptyLine][v emptyLine])"
+        set RE "(?:[v board::RE]$caption[v eol][v space]*=>[v space]$tomove[v eol][v emptyLine][v emptyLine])"
     }
 
     namespace eval conditions {
@@ -316,12 +317,12 @@ namespace eval format {
         set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
 
         namespace eval twinning {
-	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\) [v lineText]*[v eol](?: [v lineText]+[v eol])*)"; # TODO be more explicit
+	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\)[v space][v lineText]*[v eol](?:[v space][v lineText]+[v eol])*)"; # TODO be more explicit
         }
 
         namespace eval forcedreflexmove {
 	    set indicator {[?]![?]}
-	    set RE "(?: +[v ordinalNumber][v move] $indicator[v eol])"
+	    set RE "(?: +[v ordinalNumber][v move][v space]$indicator[v eol])"
         }
 
         namespace eval tree {
@@ -333,11 +334,11 @@ namespace eval format {
 
 	    namespace eval keyline {
 		set success {(?: [?!])}
-		set RE "   [v attackNumber][v move](?:(?:[v undec])|${success}(?: [v zugzwangOrThreat])?)[v eol]"
+		set RE "[v space][v space][v space][v attackNumber][v move](?:(?:[v undec])|${success}(?:[v space][v zugzwangOrThreat])?)[v eol]"
 	    }
 
             namespace eval attackline {
-		set RE " +[v attackNumber][v move](?:(?:[v undec])|(?: [v zugzwangOrThreat])?)[v eol]"
+		set RE "[v space]+[v attackNumber][v move](?:(?:[v undec])|(?:[v space][v zugzwangOrThreat])?)[v eol]"
 	    }
 
             set threatLine $attackline::RE
@@ -350,15 +351,15 @@ namespace eval format {
 
             namespace eval checkOrZugzwangOrThreatLine {
 		# TODO Popeye should write an empty line before the check indicator
-		set RE "(?:(?: \[+]|[v emptyLine] [v zugzwangOrThreat])[v eol])"
+		set RE "(?:(?:[v space]\[+]|[v emptyLine][v space][v zugzwangOrThreat])[v eol])"
 	    }
 
             namespace eval postkeyplay {
-                set RE "(?:(?:[v checkOrZugzwangOrThreatLine::RE])?(?:[v defenseline::RE](?: +[l refutes][v eol])?|[v attackline::RE])*)"
+                set RE "(?:(?:[v checkOrZugzwangOrThreatLine::RE])?(?:[v defenseline::RE](?:[v space]+[l refutes][v eol])?|[v attackline::RE])*)"
 	    }
 
             namespace eval refutation {
-                set RE "(?:[v defense] ![v eol](?:[v forcedreflexmove::RE])?)"
+                set RE "(?:[v defense][v space]![v eol](?:[v forcedreflexmove::RE])?)"
             }
 
             namespace eval refutationblock {
@@ -458,7 +459,7 @@ namespace eval format {
 
     namespace eval inputerror {
         set text "[v lineText]+"
-        set RE "(?:[l inputError]:$text[v eol][l offendingItem]: $text[v eol])"
+        set RE "(?:[l inputError]:$text[v eol][l offendingItem]:[v space]$text[v eol])"
     }
 
     namespace eval zeroposition {
