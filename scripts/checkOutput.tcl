@@ -32,8 +32,24 @@ namespace eval german {
     set zugzwang {Zugzwang[.]}
     set threat "Drohung:"
     set but {Aber}
-    # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?k?p?c?j?v?b?(?:hn)?(?:sfw)?p?m?u?p?f?)}
+    # yes, some shortcuts are ambiguous
+    set pieceAttributeShortcuts {
+	{[wsn]}
+	k
+	k
+	p
+	c
+	j
+	v
+	b
+	hn
+	sfw
+	p
+	m
+	u
+	p
+	f
+    }
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -62,7 +78,24 @@ namespace eval english {
     set zugzwang {zugzwang[.]}
     set threat "threat:"
     set but {but}
-    set pieceAttributeShortcut {(?:[wbn]?r?k?p?c?j?v?f?(?:hn)?(?:hcc)?p?m?u?p?f?)}
+    # yes, some shortcuts are ambiguous - not the same as in German
+    set pieceAttributeShortcuts {
+	{[wbn]}
+	r
+	k
+	p
+	c
+	j
+	v
+	f
+	hn
+	hcc
+	p
+	m
+	u
+	p
+	f
+    }
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
@@ -242,14 +275,23 @@ namespace eval solution {
     set captureOrNot {[-*]}
     set castlingQ "0-0-0"
     set castlingK "0-0"
-    set movement "(?:(?:[l pieceAttributeShortcut]$walkPawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
+    set pieceAttributeShortcut "(?:"
+    foreach p [l pieceAttributeShortcuts] {
+	if {[string length $p]==1} {
+	    append pieceAttributeShortcut "$p?"
+	} else {
+	    append pieceAttributeShortcut "(?:$p)?"
+	}
+    }
+    append pieceAttributeShortcut ")"
+    set movement "(?:(?:$pieceAttributeShortcut$walkPawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
     set messignyExchange "(?:$walk$square<->$walk$square)"
-    set promotion "(?:=[l pieceAttributeShortcut]$walk?)"
+    set promotion "(?:=$pieceAttributeShortcut$walk?)"
     set enPassant {(?: ep[.])}
     set vulcanization "(?:->v)"
     set pieceChangement "(?:$square$promotion)"
-    set pieceSpec "[l pieceAttributeShortcut]$walk$square"
-    set pieceMovement "(?:$pieceSpec->[l pieceAttributeShortcut]$walk?$square$promotion*$vulcanization?)"
+    set pieceSpec "$pieceAttributeShortcut$walk$square"
+    set pieceMovement "(?:$pieceSpec->$pieceAttributeShortcut$walk?$square$promotion*$vulcanization?)"
     set pieceAddition "(?:\[+]$pieceSpec$promotion*$vulcanization?)"
     set pieceRemoval "(?:-$pieceSpec)"
     set pieceExchange "(?:$pieceSpec<->$pieceSpec)"
