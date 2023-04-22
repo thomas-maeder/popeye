@@ -141,31 +141,28 @@ proc v {name} {
 }
 
 namespace eval format {
-    namespace eval remark {
-        set emptyLine {\n}
+    set emptyLine {\n}
 
+    namespace eval remark {
         set remark {[^\n]+}
         set remarkLine "(?:$remark\n)"
 
-        set combined "(?:$remarkLine+$emptyLine*)"
+        set combined "(?:$remarkLine+[v emptyLine]*)"
     }
 
     namespace eval authoretc {
-        set emptyLine {\n}
         set leadingBlanks { *}
 
         set authorOriginAwardTitle {[^\n]+}
         set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle\n)"
 
-        set combined "$emptyLine?$authorOriginAwardTitleLine*$emptyLine"
+        set combined "[v emptyLine]?$authorOriginAwardTitleLine*[v emptyLine]"
     }
 
     namespace eval board {
         set nrRows 8
         set nrColumns 8
         
-        set emptyLine {\n}
-
         set cornerSign {[+]}
         set verticalBorderSign {[|]}
         set horizontalBorderSign "-"
@@ -196,14 +193,12 @@ namespace eval format {
     }
 
     namespace eval gridboard {
-        set emptyLine {\n}
-
         namespace eval cellsline {
 	    set cell {[ [:digit:]][[:digit:]]}
 	    set combined "${format::board::rowNo}(?:  $cell){$format::board::nrColumns}   $format::board::rowNo\n"
         }
 
-        set combined "(?:$emptyLine${format::board::columns}(?:$format::board::spaceLine$cellsline::combined){$format::board::nrRows}$format::board::spaceLine$format::board::columns)"
+        set combined "(?:[v emptyLine]${format::board::columns}(?:$format::board::spaceLine$cellsline::combined){$format::board::nrRows}$format::board::spaceLine$format::board::columns)"
     }
 
     namespace eval stipulation {
@@ -244,11 +239,10 @@ namespace eval format {
     }
 
     namespace eval boardA {
-        set emptyLine {\n}
         # the caption of board A doesn't indicate the stipulation
         set caption " *[v pieceControl::combined]\n"
         set tomove "[v stipulation::paren_open][v stipulation::side] ->[v stipulation::paren_close]"
-        set combined "(?:[v board::combined]$caption\n *=> $tomove\n$emptyLine$emptyLine)"
+        set combined "(?:[v board::combined]$caption\n *=> $tomove\n[v emptyLine][v emptyLine])"
     }
 
     namespace eval conditions {
@@ -262,7 +256,6 @@ namespace eval format {
     }
 
     namespace eval solution {
-        set emptyLine {\n}
         set ordinalNumber {[1-9][0-9]*[.]}
         set paren_open {[(]}
     	set paren_close {[)]}
@@ -450,8 +443,7 @@ namespace eval format {
     }
 
     namespace eval footer {
-        set emptyLine "\n"
-        set combined "(?:\n[l endOfSolution]|[l partialSolution])\n$emptyLine$emptyLine"
+        set combined "(?:\n[l endOfSolution]|[l partialSolution])\n[v emptyLine][v emptyLine]"
     }
 
     # applying this gives an "expression is too complex" error :-(
@@ -467,8 +459,7 @@ namespace eval format {
     }
 
     namespace eval zeroposition {
-        set emptyLine {\n}
-        set combined "(?:$emptyLine[l zeroposition]\n\n)"
+        set combined "(?:[v emptyLine][l zeroposition]\n\n)"
     }
 
     namespace eval beforesolution {
