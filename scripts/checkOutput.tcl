@@ -180,15 +180,15 @@ namespace eval format {
         set squareEmpty "(?: |$gridVertical) $noPiece"
         set hole "(?: |$gridVertical)  "
         set color {[ =-]}
-        set pieceChar {[[:upper:][:digit:]]}
-        set piece1Char "(?: |$gridVertical)$color$pieceChar"
-        set piece2Chars "(?:$color|$gridVertical)$pieceChar{2}"
+        set walkChar {[[:upper:][:digit:]]}
+        set walk1Char "(?: |$gridVertical)$color$walkChar"
+        set walk2Chars "(?:$color|$gridVertical)$walkChar{2}"
         set pieceSpecSeparator " "
         set hunterPartsSeparator "/"
-        set pieceSpec "(?:$squareEmpty|$hole|$piece1Char|$piece2Chars)(?:$pieceSpecSeparator|$hunterPartsSeparator)"
+        set pieceSpec "(?:$squareEmpty|$hole|$walk1Char|$walk2Chars)(?:$pieceSpecSeparator|$hunterPartsSeparator)"
         set piecesLine "${rowNo} (?:$pieceSpec){$nrColumns}  $rowNo[v eol]"
 
-        set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
+        set hunter2ndPart "(?:$hole|$walk1Char|$walk2Chars)"
         set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign[v eol]"
 
         set RE "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
