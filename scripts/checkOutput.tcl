@@ -147,7 +147,7 @@ namespace eval format {
         set remark {[^\n]+}
         set remarkLine "(?:$remark\n)"
 
-        set combined "(?:$remarkLine+[v emptyLine]*)"
+        set RE "(?:$remarkLine+[v emptyLine]*)"
     }
 
     namespace eval authoretc {
@@ -156,7 +156,7 @@ namespace eval format {
         set authorOriginAwardTitle {[^\n]+}
         set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle\n)"
 
-        set combined "[v emptyLine]?$authorOriginAwardTitleLine*[v emptyLine]"
+        set RE "[v emptyLine]?$authorOriginAwardTitleLine*[v emptyLine]"
     }
 
     namespace eval board {
@@ -189,16 +189,16 @@ namespace eval format {
         set hunter2ndPart "(?:$hole|$piece1Char|$piece2Chars)"
         set spaceLine "$verticalBorderSign (?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}  $verticalBorderSign\n"
 
-        set combined "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
+        set RE "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
     }
 
     namespace eval gridboard {
         namespace eval cellsline {
 	    set cell {[ [:digit:]][[:digit:]]}
-	    set combined "[v board::rowNo](?:  $cell){[v board::nrColumns]}   [v board::rowNo]\n"
+	    set RE "[v board::rowNo](?:  $cell){[v board::nrColumns]}   [v board::rowNo]\n"
         }
 
-        set combined "(?:[v emptyLine][v board::columns](?:[v board::spaceLine]$cellsline::combined){[v board::nrRows]}[v board::spaceLine][v board::columns])"
+        set RE "(?:[v emptyLine][v board::columns](?:[v board::spaceLine]$cellsline::RE){[v board::nrRows]}[v board::spaceLine][v board::columns])"
     }
 
     namespace eval stipulation {
@@ -224,35 +224,35 @@ namespace eval format {
         set maxflight {(?:/[[:digit:]]+)}
         set nontrivial {(?:;[[:digit:]]+,[[:digit:]]+)}
 
-        set combined "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
+        set RE "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
     }
         
     namespace eval pieceControl {
         set piecesOfColor {[[:digit:]]+}
         set plus {[+]}
-        set combined "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?(?: $plus ${piecesOfColor} TI)?"
+        set RE "$piecesOfColor $plus ${piecesOfColor}(?: $plus ${piecesOfColor}n)?(?: $plus ${piecesOfColor} TI)?"
     }
 
     namespace eval caption {
-        set stip_pieceControl " *[v stipulation::combined] *[v pieceControl::combined]\n"
-        set combined "${stip_pieceControl}"
+        set stip_pieceControl " *[v stipulation::RE] *[v pieceControl::RE]\n"
+        set RE "${stip_pieceControl}"
     }
 
     namespace eval boardA {
         # the caption of board A doesn't indicate the stipulation
-        set caption " *[v pieceControl::combined]\n"
+        set caption " *[v pieceControl::RE]\n"
         set tomove "[v stipulation::paren_open][v stipulation::side] ->[v stipulation::paren_close]"
-        set combined "(?:[v board::combined]$caption\n *=> $tomove\n[v emptyLine][v emptyLine])"
+        set RE "(?:[v board::RE]$caption\n *=> $tomove\n[v emptyLine][v emptyLine])"
     }
 
     namespace eval conditions {
         set line { *[^\n]+\n}
-        set combined "(?:$line)*?"
+        set RE "(?:$line)*?"
     }
 
     namespace eval duplex {
         set line " *(?:[l duplex]|[l halfduplex])\n"
-        set combined "(?:$line)?"
+        set RE "(?:$line)?"
     }
 
     namespace eval solution {
@@ -313,12 +313,12 @@ namespace eval format {
         set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
 
         namespace eval twinning {
-	    set combined "(?:[v emptyLine]\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
+	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
         }
 
         namespace eval forcedreflexmove {
 	    set indicator {[?]![?]}
-	    set combined "(?: +[v ordinalNumber][v move] $indicator\n)"
+	    set RE "(?: +[v ordinalNumber][v move] $indicator\n)"
         }
 
         namespace eval tree {
@@ -330,50 +330,50 @@ namespace eval format {
 
 	    namespace eval keyline {
 		set success {(?: [?!])}
-		set combined "   [v attackNumber][v move](?:(?:[v undec])|${success}(?: [v zugzwangOrThreat])?)\n"
+		set RE "   [v attackNumber][v move](?:(?:[v undec])|${success}(?: [v zugzwangOrThreat])?)\n"
 	    }
 
             namespace eval attackline {
-		set combined " +[v attackNumber][v move](?:(?:[v undec])|(?: [v zugzwangOrThreat])?)\n"
+		set RE " +[v attackNumber][v move](?:(?:[v undec])|(?: [v zugzwangOrThreat])?)\n"
 	    }
 
-            set threatLine $attackline::combined
+            set threatLine $attackline::RE
 
             set defense " +$defenseNumber[v move]"
 
             namespace eval defenseline {
-		set combined "[v defense](?:[v undec])?\n"
+		set RE "[v defense](?:[v undec])?\n"
 	    }
 
             namespace eval checkOrZugzwangOrThreatLine {
 		# TODO Popeye should write an empty line before the check indicator
-		set combined "(?:(?: \[+]|[v emptyLine] [v zugzwangOrThreat])\n)"
+		set RE "(?:(?: \[+]|[v emptyLine] [v zugzwangOrThreat])\n)"
 	    }
 
             namespace eval postkeyplay {
-                set combined "(?:(?:[v checkOrZugzwangOrThreatLine::combined])?(?:[v defenseline::combined](?: +[l refutes]\n)?|[v attackline::combined])*)"
+                set RE "(?:(?:[v checkOrZugzwangOrThreatLine::RE])?(?:[v defenseline::RE](?: +[l refutes]\n)?|[v attackline::RE])*)"
 	    }
 
             namespace eval refutation {
-                set combined "(?:[v defense] !\n(?:[v forcedreflexmove::combined])?)"
+                set RE "(?:[v defense] !\n(?:[v forcedreflexmove::RE])?)"
             }
 
             namespace eval refutationblock {
 		set butLine " +[l but]\n"
-                set combined "(?:$butLine[v refutation::combined]+)"
+                set RE "(?:$butLine[v refutation::RE]+)"
             }
 
             namespace eval fullphase {
-                set playAfterKey "(?:(?:[v defenseline::combined]|[v attackline::combined])+)"
-		set combined "(?:[v keyline::combined]$playAfterKey?[v refutationblock::combined]?[v emptyLine])"
+                set playAfterKey "(?:(?:[v defenseline::RE]|[v attackline::RE])+)"
+		set RE "(?:[v keyline::RE]$playAfterKey?[v refutationblock::RE]?[v emptyLine])"
 	    }
 
             namespace eval setplay {
-                set combined "[v fullphase::playAfterKey]"
+                set RE "[v fullphase::playAfterKey]"
 	    }
 
-            set regularplay "(?:[v moveNumberLineNonIntelligent]|$fullphase::combined)+"
-            set combined "(?:$postkeyplay::combined|(?:(?:[v emptyLine]$setplay::combined)?(?:[v emptyLine]$regularplay)*))"
+            set regularplay "(?:[v moveNumberLineNonIntelligent]|$fullphase::RE)+"
+            set RE "(?:$postkeyplay::RE|(?:(?:[v emptyLine]$setplay::RE)?(?:[v emptyLine]$regularplay)*))"
         }
 
         namespace eval line {
@@ -387,83 +387,83 @@ namespace eval format {
 		namespace eval twoEllipsis {
 		    set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
 		    set line "(?: +$firstMovePairSkipped[v subsequentMovePair]*[v finalMove]?\n)"
-		    set combined "(?:(?:$line|[v moveNumberLine])+)"
+		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
                 # set play of h#n or regular play of h#n.5
                 namespace eval oneEllipsis {
 		    set firstMoveSkipped "1[v ellipsis][v move](?:[v undec]\n)?"
 		    set line "(?: +$firstMoveSkipped[v subsequentMovePair]*[v finalMove]?\n)"
-		    set combined "(?:(?:$line|[v moveNumberLine])+)"
+		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
                 # regular play of h#n
                 namespace eval noEllipsis {
 		    set firstMovePair "(?:1.[v move](?:[v undec]\n|(?: +[v move])+(?:[v undec]\n)?))"
 		    set line "(?: +$firstMovePair[v subsequentMovePair]*[v finalMove]?\n)"
-		    set combined "(?:(?:$line|[v moveNumberLine])+)"
+		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
-                set combined "(?:$twoEllipsis::combined?[v emptyLine]?$oneEllipsis::combined?|$oneEllipsis::combined?[v emptyLine]?$noEllipsis::combined?)"
+                set RE "(?:$twoEllipsis::RE?[v emptyLine]?$oneEllipsis::RE?|$oneEllipsis::RE?[v emptyLine]?$noEllipsis::RE?)"
     	    }
 
             namespace eval seriesplay {
 		set numberedMove "(?: +[v ordinalNumber][v move])"
 		set line "(?:(?:$numberedMove|[v subsequentMovePair])+\n)"
-		set combined "(?:(?:(?:[l setplayNotApplicable]|[l tryplayNotApplicable])\n*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
+		set RE "(?:(?:(?:[l setplayNotApplicable]|[l tryplayNotApplicable])\n*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
 	    }
 
-            set combined "(?:[v emptyLine]$helpplay::combined|$seriesplay::combined)"
+            set RE "(?:[v emptyLine]$helpplay::RE|$seriesplay::RE)"
         }
 
         namespace eval measurements {
 	    set line {(?: *[[:alpha:]_]+: *[[:digit:]]+\n)}
-	    set combined "(?:$line+)"
+	    set RE "(?:$line+)"
         }
 
         namespace eval kingmissing {
-	    set combined "(?:[l kingmissing]\n)"
+	    set RE "(?:[l kingmissing]\n)"
         }
 
         namespace eval untwinned {
 	    set problemignored "(?:(?:[l toofairy]\n|[l nonsensecombination]\n|[l conditionSideUndecidable]\n[v emptyLine])[l problemignored]\n)"
-	    set simplex "(?:(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::combined]+|[v tree::combined]|[v line::combined])+)"
+	    set simplex "(?:(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::RE]+|[v tree::RE]|[v line::RE])+)"
             # the last + should be {1,2}, but that would make the expression too complex
-	    set combined "(?:[v kingmissing::combined]?(?:[l intelligentAndFairy])?(?:$problemignored|(?:$simplex[v measurements::combined])+)(?:[v remark::combined])?)"
+	    set RE "(?:[v kingmissing::RE]?(?:[l intelligentAndFairy])?(?:$problemignored|(?:$simplex[v measurements::RE])+)(?:[v remark::RE])?)"
         }
 
         namespace eval twinned {
 	    # too complex for regexp
-	    set combined "(?:[v twinning::combined][v untwinned::combined])+"
-	    set separator [v twinning::combined]
+	    set RE "(?:[v twinning::RE][v untwinned::RE])+"
+	    set separator [v twinning::RE]
         }
 
         # too complex for regexp
-        set combined "(?:$untwinned::combined|$twinned::combined)"
+        set RE "(?:$untwinned::RE|$twinned::RE)"
     }
 
     namespace eval footer {
-        set combined "(?:\n[l endOfSolution]|[l partialSolution])\n[v emptyLine][v emptyLine]"
+        set RE "(?:\n[l endOfSolution]|[l partialSolution])\n[v emptyLine][v emptyLine]"
     }
 
     # applying this gives an "expression is too complex" error :-(
     # dividing the input at recognized problem footers is also much, much faster...
     namespace eval problem {
         # too complex for regexp
-        set combined "([v remark::combined](?:([v authoretc::combined])([v boardA::combined]?)([v board::combined])([v caption::combined])([v conditions::combined])([v duplex::combined])([v gridboard::combined]?))?([v solution::combined])([v footer::combined])"
+        set RE "([v remark::RE](?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v solution::RE])([v footer::RE])"
     }
 
     namespace eval inputerror {
         set text {[^\n]+}
-        set combined "(?:[l inputError]:$text\n[l offendingItem]: $text\n)"
+        set RE "(?:[l inputError]:$text\n[l offendingItem]: $text\n)"
     }
 
     namespace eval zeroposition {
-        set combined "(?:[v emptyLine][l zeroposition]\n\n)"
+        set RE "(?:[v emptyLine][l zeroposition]\n\n)"
     }
 
     namespace eval beforesolution {
-        set combined "^([v inputerror::combined]*)([v remark::combined ]?)(?:([v authoretc::combined])([v boardA::combined]?)([v board::combined])([v caption::combined])([v conditions::combined])([v duplex::combined])([v gridboard::combined]?))?([v zeroposition::combined]?)"
+        set RE "^([v inputerror::RE]*)([v remark::RE ]?)(?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v zeroposition::RE]?)"
     }
 }
 
@@ -482,7 +482,7 @@ proc printSection {debugPrefix section} {
 }
 
 proc handleTextBeforeSolution {beforesol} {
-    if {[regexp $format::beforesolution::combined $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
+    if {[regexp $format::beforesolution::RE $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
 	&& ([regexp -- {[^[:space:]]} $inputerrors]
 	    || [regexp -- {[^[:space:]]} $remark]
 	    || [regexp -- {[^[:space:]]} $board])} {
@@ -500,9 +500,9 @@ proc handleTextBeforeSolution {beforesol} {
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    set noboardExpr "^()($format::solution::untwinned::combined)\$"
+    set noboardExpr "^()($format::solution::untwinned::RE)\$"
     # make sure that the board caption, conditions or whatever comes last ends with a newline character
-    set withBoardExpr "^(.*?\n)($format::solution::untwinned::combined)\$"
+    set withBoardExpr "^(.*?\n)($format::solution::untwinned::RE)\$"
     # we have to test using the noboard expression first - the with board expression will match some
     # output created with option noboard and yield "interesting" results
     if {[regexp -- $noboardExpr $beforeFooter -  beforesol solution]
@@ -533,7 +533,7 @@ proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
     set firstTwin true
     set beforeSolution [lindex $segments 0]
     foreach {twinning solution} [lrange $segments 1 "end"] {
-	if {[regexp $format::solution::untwinned::combined $solution]} {
+	if {[regexp $format::solution::untwinned::RE $solution]} {
 	    if {$firstTwin} {
 		handleTextBeforeSolution $beforeSolution
 		set firstTwin false
@@ -551,7 +551,7 @@ proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
 }
 
 if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
-    set footerIndices [regexp -all -indices -inline $format::footer::combined $input]
+    set footerIndices [regexp -all -indices -inline $format::footer::RE $input]
     set nextProblemStart 0
     foreach footerIndexPair $footerIndices {
 	foreach {footerStart footerEnd} $footerIndexPair break
@@ -569,7 +569,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
 } else {
     set expr ""
     foreach section $sections {
-	append expr [set format::${section}::combined]
+	append expr [set format::${section}::RE]
     }
     foreach match [regexp -all -inline $expr $input] {
 	puts -nonewline $match
