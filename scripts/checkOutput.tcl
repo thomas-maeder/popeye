@@ -26,12 +26,13 @@ switch -re $inputfile {
 }
 
 namespace eval german {
-    set endlines {(?:\nLoesung beendet[.]|Partielle Loesung)\n}
-    set white {Weiss}
-    set black {Schwarz}
-    set zugzwang {Zugzwang[.]}
+    set endOfSolution "Loesung beendet."
+    set partialSolution "Partielle Loesung"
+    set white "Weiss"
+    set black "Schwarz"
+    set zugzwang "Zugzwang."
     set threat "Drohung:"
-    set but {Aber}
+    set but "Aber"
     # yes, some shortcuts are ambiguous
     set pieceAttributeShortcuts {
 	{[wsn]}
@@ -72,12 +73,13 @@ namespace eval german {
 }
 
 namespace eval english {
-    set endlines {(?:\nsolution finished[.]|Partial solution)\n}
-    set white {White}
-    set black {Black}
-    set zugzwang {zugzwang[.]}
+    set endOfSolution "solution finished."
+    set partialSolution "Partial solution"
+    set white "White"
+    set black "Black"
+    set zugzwang "zugzwang."
     set threat "threat:"
-    set but {but}
+    set but "but"
     # yes, some shortcuts are ambiguous - not the same as in German
     set pieceAttributeShortcuts {
 	{[wbn]}
@@ -448,7 +450,7 @@ namespace eval solution {
 
 namespace eval footer {
     set emptyLine "\n"
-    set combined "[l endlines]\n$emptyLine"
+    set combined "(?:\n[l endOfSolution]|[l partialSolution])\n$emptyLine$emptyLine"
 }
 
 # applying this gives an "expression is too complex" error :-(
