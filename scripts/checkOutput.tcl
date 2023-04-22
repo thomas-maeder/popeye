@@ -32,9 +32,8 @@ namespace eval german {
     set zugzwang {Zugzwang[.]}
     set threat "Drohung:"
     set but {Aber}
-    set colorShortcut {(?:[wsn])}
     # TODO order of attributes?
-    set pieceAttributeShortcut {(?:[wsn]?k?(?:hn)?c?b?p?f?(?:sfw)?j?v?k?u?m?)}
+    set pieceAttributeShortcut {(?:[wsn]?k?k?p?c?j?v?b?(?:hn)?(?:sfw)?p?m?u?p?f?)}
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
@@ -63,8 +62,7 @@ namespace eval english {
     set zugzwang {zugzwang[.]}
     set threat "threat:"
     set but {but}
-    set colorShortcut {(?:[wbn])}
-    set pieceAttributeShortcut {(?:[wbn]?r?(?:hn)?c?f?p?(?:hcc)?j?v?k?u?m?)}
+    set pieceAttributeShortcut {(?:[wbn]?r?k?p?c?j?v?f?(?:hn)?(?:hcc)?p?m?u?p?f?)}
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
