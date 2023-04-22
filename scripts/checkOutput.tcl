@@ -469,7 +469,7 @@ namespace eval zeroposition {
 }
 
 namespace eval beforesolution {
-    set combined "^($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($duplex::combined)($gridboard::combined?))?($zeroposition::combined?)"
+    set combined "^($inputerror::combined*)($remark::combined?)(?:($authoretc::combined)($boardA::combined?)($board::combined)($caption::combined)($conditions::combined)($duplex::combined)($gridboard::combined?))?($zeroposition::combined?)"
 }
 
 set f [open $inputfile "r"]
@@ -486,9 +486,12 @@ proc printSection {debugPrefix section} {
     }
 }
 
-proc handleFieldsBeforeSolution {beforesol} {
-    if {[regexp $beforesolution::combined $beforesol match remark authoretc boardA board caption conditions duplex gridboard zeroposition]
-	&& ([regexp -- {[^[:space:]]} $remark] || [regexp -- {[^[:space:]]} $board])} {
+proc handleTextBeforeSolution {beforesol} {
+    if {[regexp $beforesolution::combined $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
+	&& ([regexp -- {[^[:space:]]} $inputerrors]
+	    || [regexp -- {[^[:space:]]} $remark]
+	    || [regexp -- {[^[:space:]]} $board])} {
+	printSection "i" $inputerrors
 	printSection "r" $remark
 	printSection "a" $authoretc
 	printSection "ba" $boardA
@@ -499,13 +502,6 @@ proc handleFieldsBeforeSolution {beforesol} {
 	printSection "g" $gridboard
 	printSection "z" $zeroposition
     }
-}
-
-proc handleTextBeforeSolution {beforesol} {
-    if {[regexp -- "^($inputerror::combined+)(.*)\$" $beforesol - inputerrors beforesol]} {
-	printSection "i" $inputerrors
-    }
-    handleFieldsBeforeSolution $beforesol
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
