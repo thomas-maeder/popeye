@@ -142,9 +142,10 @@ proc v {name} {
 
 namespace eval format {
     set emptyLine {\n}
+    set lineText {[^\n]}
 
     namespace eval remark {
-        set remark {[^\n]+}
+        set remark "[v lineText]+"
         set remarkLine "(?:$remark\n)"
 
         set RE "(?:$remarkLine+[v emptyLine]*)"
@@ -153,7 +154,7 @@ namespace eval format {
     namespace eval authoretc {
         set leadingBlanks { *}
 
-        set authorOriginAwardTitle {[^\n]+}
+        set authorOriginAwardTitle "[v lineText]+"
         set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle\n)"
 
         set RE "[v emptyLine]?$authorOriginAwardTitleLine*[v emptyLine]"
@@ -246,7 +247,7 @@ namespace eval format {
     }
 
     namespace eval conditions {
-        set line { *[^\n]+\n}
+        set line " *[v lineText]+\n"
         set RE "(?:$line)*?"
     }
 
@@ -313,7 +314,7 @@ namespace eval format {
         set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
 
         namespace eval twinning {
-	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\) \[^\n\]*\n(?: \[^\n\]+\n)*)"; # TODO be more explicit
+	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\) [v lineText]*\n(?: [v lineText]+\n)*)"; # TODO be more explicit
         }
 
         namespace eval forcedreflexmove {
@@ -454,7 +455,7 @@ namespace eval format {
     }
 
     namespace eval inputerror {
-        set text {[^\n]+}
+        set text "[v lineText]+"
         set RE "(?:[l inputError]:$text\n[l offendingItem]: $text\n)"
     }
 
