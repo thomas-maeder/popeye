@@ -144,6 +144,7 @@ namespace eval format {
     set eol {\n}
     set emptyLine {\n}
     set lineText {[^\n]}
+    set nonspace {[^ ]}
 
     namespace eval remark {
         set remark "[v lineText]+"
@@ -220,7 +221,7 @@ namespace eval format {
         set stipulation_traditional "(?:$exact?$play$goal$length)"
 
         set side "(?:[set ${language}::white]|[set ${language}::black])"
-        set stipulation_structured "(?:$side \[^ ]+)"; # TODO
+        set stipulation_structured "(?:$side [v nonspace]+)"; # TODO
 
         set maxthreat {(?:/[[:digit:]]*)}
         set maxflight {(?:/[[:digit:]]+)}
