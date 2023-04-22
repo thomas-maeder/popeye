@@ -502,14 +502,10 @@ proc handleFieldsBeforeSolution {beforesol} {
 }
 
 proc handleTextBeforeSolution {beforesol} {
-    if {$beforesol=="\n"} {
-	# empty solution
-    } else {
-	if {[regexp -- "^($inputerror::combined+)(.*)\$" $beforesol - inputerrors beforesol]} {
-	    printSection "i" $inputerrors
-	}
-	handleFieldsBeforeSolution $beforesol
+    if {[regexp -- "^($inputerror::combined+)(.*)\$" $beforesol - inputerrors beforesol]} {
+	printSection "i" $inputerrors
     }
+    handleFieldsBeforeSolution $beforesol
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
