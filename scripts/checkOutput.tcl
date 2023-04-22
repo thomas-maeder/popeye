@@ -513,8 +513,13 @@ proc handleTextBeforeSolution {beforesol} {
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
-    if {[regexp -- "^()($solution::untwinned::combined)\$" $beforeFooter -  beforesol solution]
-        || [regexp -- "^(.*?\n)($solution::untwinned::combined)\$" $beforeFooter - beforesol solution]} {
+    set noboardExpr "^()($solution::untwinned::combined)\$"
+    # make sure that the board caption, conditions or whatever comes last ends with a newline character
+    set withBoardExpr "^(.*?\n)($solution::untwinned::combined)\$"
+    # we have to test using the noboard expression first - the with board expression will match some
+    # output created with option noboard and yield "interesting" results
+    if {[regexp -- $noboardExpr $beforeFooter -  beforesol solution]
+        || [regexp -- $withBoardExpr $beforeFooter - beforesol solution]} {
 	handleTextBeforeSolution $beforesol
 	printSection "s" $solution
     } else {
