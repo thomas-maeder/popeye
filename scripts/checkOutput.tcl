@@ -195,10 +195,10 @@ namespace eval format {
     namespace eval gridboard {
         namespace eval cellsline {
 	    set cell {[ [:digit:]][[:digit:]]}
-	    set combined "${format::board::rowNo}(?:  $cell){$format::board::nrColumns}   $format::board::rowNo\n"
+	    set combined "[v board::rowNo](?:  $cell){[v board::nrColumns]}   [v board::rowNo]\n"
         }
 
-        set combined "(?:[v emptyLine]${format::board::columns}(?:$format::board::spaceLine$cellsline::combined){$format::board::nrRows}$format::board::spaceLine$format::board::columns)"
+        set combined "(?:[v emptyLine][v board::columns](?:[v board::spaceLine]$cellsline::combined){[v board::nrRows]}[v board::spaceLine][v board::columns])"
     }
 
     namespace eval stipulation {
