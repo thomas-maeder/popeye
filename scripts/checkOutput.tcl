@@ -155,7 +155,7 @@ namespace eval format {
     }
 
     namespace eval authoretc {
-        set leadingBlanks { *}
+        set leadingBlanks "[v space]*"
 
         set authorOriginAwardTitle "[v lineText]+"
         set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle[v eol])"
@@ -221,8 +221,8 @@ namespace eval format {
         set length {(?:[[:digit:]]+(?:[.]5)?)}
         set stipulation_traditional "(?:$exact?$play$goal$length)"
 
-        set side "(?:[set ${language}::white]|[set ${language}::black])"
-        set stipulation_structured "(?:$side [v nonspace]+)"; # TODO
+        set side "(?:[l white]|[l black])"
+        set stipulation_structured "(?:$side[v space][v nonspace]+)"; # TODO
 
         set maxthreat {(?:/[[:digit:]]*)}
         set maxflight {(?:/[[:digit:]]+)}
@@ -238,14 +238,14 @@ namespace eval format {
     }
 
     namespace eval caption {
-        set stip_pieceControl " *[v stipulation::RE] *[v pieceControl::RE][v eol]"
+        set stip_pieceControl "[v space]*[v stipulation::RE][v space]*[v pieceControl::RE][v eol]"
         set RE "${stip_pieceControl}"
     }
 
     namespace eval boardA {
         # the caption of board A doesn't indicate the stipulation
         set caption " *[v pieceControl::RE][v eol]"
-        set tomove "[v stipulation::paren_open][v stipulation::side] ->[v stipulation::paren_close]"
+        set tomove "[v stipulation::paren_open][v stipulation::side][v space]->[v stipulation::paren_close]"
         set RE "(?:[v board::RE]$caption[v eol][v space]*=>[v space]$tomove[v eol][v emptyLine][v emptyLine])"
     }
 
@@ -287,7 +287,7 @@ namespace eval format {
         set movement "(?:(?:$pieceAttributeShortcut$walkPawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
         set messignyExchange "(?:$walk$square<->$walk$square)"
         set promotion "(?:=$pieceAttributeShortcut$walk?)"
-        set enPassant {(?: ep[.])}
+        set enPassant "(?:[v space]ep\[.])"
         set vulcanization "(?:->v)"
         set pieceChangement "(?:$square$promotion)"
         set pieceSpec "$pieceAttributeShortcut$walk$square"
@@ -298,23 +298,23 @@ namespace eval format {
         set pieceEffect "(?:${bracket_open}(?:$pieceMovement|$pieceAddition|$pieceRemoval|$pieceChangement|$pieceExchange)$bracket_close)"
         set imitatorMovement "(?:${bracket_open}I${square}(?:,$square)*$bracket_close)"
         set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
-        set bglBalance "(?: ${paren_open}(?:-|$bglNumber)(?:/$bglNumber)?$paren_close)"
-        set checkIndicator {(?: [+])}
+        set bglBalance "(?:[v space]${paren_open}(?:-|$bglNumber)(?:/$bglNumber)?$paren_close)"
+        set checkIndicator "(?:[v space]\[+])"
         # yes, this is slightly different from stipulation::goal!
-        set goal {(?: (?:\#|=|dia|a=>b|z|ct|<>|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]))}
+        set goal "(?:[v space](?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
         set castlingPartnerMovement "(?:/$movement)"
         set totalInvisibleMove "TI~-~"
         set totalInvisibleCapture "TI~$capture$square"
-        set move "(?: [l roleExchange]| $ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
+        set move "(?:[v space][l roleExchange]|[v space]$ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
 
         set moveNumber {[1-9][0-9]*}
-        set moveNumberLineNonIntelligent "(?: *$moveNumber  \[(]$move \[)][v eol])"
+        set moveNumberLineNonIntelligent "(?:[v space]*$moveNumber[v space][v space]\[(]$move[v space]\[)][v eol])"
 
         set nrPositions {[[:digit:]]+}
         set nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        set moveNumberLineIntelligent "$nrPositions [l potentialPositionsIn] $nrMoves[v eol]"
+        set moveNumberLineIntelligent "$nrPositions[v space][l potentialPositionsIn][v space]$nrMoves[v eol]"
 
-        set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
+        set undec "(?:[v space](?:[l legalityUndecidable]|[l refutationUndecidable]))"
 
         namespace eval twinning {
 	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\)[v space][v lineText]*[v eol](?:[v space][v lineText]+[v eol])*)"; # TODO be more explicit
@@ -322,7 +322,7 @@ namespace eval format {
 
         namespace eval forcedreflexmove {
 	    set indicator {[?]![?]}
-	    set RE "(?: +[v ordinalNumber][v move][v space]$indicator[v eol])"
+	    set RE "(?:[v space]+[v ordinalNumber][v move][v space]$indicator[v eol])"
         }
 
         namespace eval tree {
@@ -333,7 +333,7 @@ namespace eval format {
 	    set zugzwangOrThreat "(?:[l zugzwang]|[l threat](?:[v pieceEffect])?)"
 
 	    namespace eval keyline {
-		set success {(?: [?!])}
+		set success "(?:[v space]\[?!])"
 		set RE "[v space][v space][v space][v attackNumber][v move](?:(?:[v undec])|${success}(?:[v space][v zugzwangOrThreat])?)[v eol]"
 	    }
 
@@ -381,30 +381,30 @@ namespace eval format {
         }
 
         namespace eval line {
-	    set subsequentMovePair "(?: +[v ordinalNumber][v move](?:[v undec][v eol]|(?: +[v move])+(?:[v undec][v eol])?))"
+	    set subsequentMovePair "(?:[v space]+[v ordinalNumber][v move](?:[v undec][v eol]|(?:[v space]+[v move])+(?:[v undec][v eol])?))"
 	    set moveNumberLine "[v moveNumberLineNonIntelligent]|[v moveNumberLineIntelligent]"
 
 	    namespace eval helpplay {
-		set finalMove "(?: +[v ordinalNumber][v move](?:[v undec][v eol])?)"
+		set finalMove "(?:[v space]+[v ordinalNumber][v move](?:[v undec][v eol])?)"
 
 		# set play of h#n.5
 		namespace eval twoEllipsis {
-		    set firstMovePairSkipped "1[v ellipsis] +[v ellipsis]"
-		    set line "(?: +$firstMovePairSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
+		    set firstMovePairSkipped "1[v ellipsis][v space]+[v ellipsis]"
+		    set line "(?:[v space]+$firstMovePairSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
 		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
                 # set play of h#n or regular play of h#n.5
                 namespace eval oneEllipsis {
 		    set firstMoveSkipped "1[v ellipsis][v move](?:[v undec][v eol])?"
-		    set line "(?: +$firstMoveSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
+		    set line "(?:[v space]+$firstMoveSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
 		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-		    set firstMovePair "(?:1.[v move](?:[v undec][v eol]|(?: +[v move])+(?:[v undec][v eol])?))"
-		    set line "(?: +$firstMovePair[v subsequentMovePair]*[v finalMove]?[v eol])"
+		    set firstMovePair "(?:1.[v move](?:[v undec][v eol]|(?:[v space]+[v move])+(?:[v undec][v eol])?))"
+		    set line "(?:[v space]+$firstMovePair[v subsequentMovePair]*[v finalMove]?[v eol])"
 		    set RE "(?:(?:$line|[v moveNumberLine])+)"
 		}
 
@@ -412,7 +412,7 @@ namespace eval format {
     	    }
 
             namespace eval seriesplay {
-		set numberedMove "(?: +[v ordinalNumber][v move])"
+		set numberedMove "(?:[v space]+[v ordinalNumber][v move])"
 		set line "(?:(?:$numberedMove|[v subsequentMovePair])+[v eol])"
 		set RE "(?:(?:(?:[l setplayNotApplicable]|[l tryplayNotApplicable])[v eol]*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
 	    }
@@ -421,7 +421,7 @@ namespace eval format {
         }
 
         namespace eval measurements {
-	    set line {(?: *[[:alpha:]_]+: *[[:digit:]]+)}
+	    set line "(?:[v space]*\[\[:alpha:]_]+:[v space]*\[\[:digit:]]+)"
 	    set RE "(?:(?:$line[v eol])+)"
         }
 
@@ -467,7 +467,7 @@ namespace eval format {
     }
 
     namespace eval beforesolution {
-        set RE "^([v inputerror::RE]*)([v remark::RE ]?)(?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v zeroposition::RE]?)"
+        set RE "^([v inputerror::RE]*)([v remark::RE]?)(?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v zeroposition::RE]?)"
     }
 }
 
